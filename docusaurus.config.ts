@@ -30,7 +30,6 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // ⛔️ Edit links removed
           routeBasePath: '/',
           editUrl: undefined,
           showLastUpdateAuthor: false,
@@ -43,7 +42,6 @@ const config: Config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          // ⛔️ Edit links removed
           editUrl: undefined,
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -79,7 +77,6 @@ const config: Config = {
         { label: 'Changelog', to: '/changelog', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
         { href: 'https://sealmetrics.com', label: 'Website', position: 'right' },
-        // ⛔️ GitHub link removed
       ],
     },
 
@@ -104,7 +101,6 @@ const config: Config = {
           title: 'More',
           items: [
             { label: 'Changelog', to: '/changelog' },
-            // ⛔️ GitHub removed
           ],
         },
       ],
@@ -114,6 +110,16 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+    },
+
+    // -------------------------
+    // 🚀 ALGOLIA DOCSEARCH
+    // -------------------------
+    algolia: {
+      appId: 'CGIHF419IR',
+      apiKey: '379d9732cb8663ed4de3e2d0d59ce1b0',
+      indexName: 'docs_sealmetrics_com_cgihf419ir_pages',
+      contextualSearch: true,
     },
   } satisfies Preset.ThemeConfig,
 };
