@@ -1,0 +1,49 @@
+# Country Determination Without Using IP Addresses
+
+## Timezone-Based Geo Estimation
+
+SealMetrics determines the country of origin for each event ("hit") using the **timezone configured in the user's browser**. This method provides an approximate geographic estimation without processing IP addresses or collecting personal identifiers.
+
+### 1. Retrieving the Timezone
+
+The browser exposes the timezone value through standard APIs such as:
+
+``` js
+Intl.DateTimeFormat().resolvedOptions().timeZone
+```
+
+Examples of possible values include:\
+- `Europe/Madrid`\
+- `America/Santiago`\
+- `Asia/Tokyo`
+
+This information is provided directly by the user's device and **does not contain identifiable data**, nor does it allow individual tracking.
+
+### 2. Mapping Timezone to Country
+
+Each timezone is matched against an internal table connecting **IANA
+timezones** to the countries that use them.
+
+-   For unique timezones (e.g., `Asia/Tokyo`), the country is determined
+    with high confidence.\
+-   For shared timezones (e.g., `Europe/Paris`), the system selects the
+    most likely country based on majority usage or internal statistical
+    criteria.
+
+The resulting estimation is accurate enough for aggregated analytics and
+attribution metrics, although it cannot guarantee absolute precision in
+every case.
+
+### 3. Privacy & Compliance
+
+This approach fully adheres to privacy and data-minimization principles:
+
+-   No IP addresses are processed at any point.\
+-   No unique device identifiers are stored.\
+-   Timezone information does not identify the user.\
+-   Country calculation relies solely on non-personal technical data
+    provided by the browser.
+
+Thanks to this method, SealMetrics can offer meaningful geographic
+insights while preserving user privacy and operating without requiring
+consent for tracking.
