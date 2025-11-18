@@ -1,29 +1,54 @@
 ---
 title: Release Notes - November 2025
-description: Performance improvements and Facebook Ads attribution updates
-date: 2025-11-17
-tags: [changelog, performance, facebook-ads, breaking-changes]
+description: Performance improvements and Facebook traffic attribution updates
+date: 2025-11-18
+tags: [changelog, performance, facebook-ads, attribution, privacy]
 ---
 
 # Release Notes - November 2025
 
-## Performance Improvements
+## 🔧 Facebook Traffic Classification Fix (NEW – Nov 14, 19:00 UTC)
+
+We've improved how SealMetrics classifies Facebook traffic to ensure higher accuracy between **organic** and **paid** sources.
+
+### ✅ What Was Happening Before
+A minor issue caused some visits containing the **`fbclid`** parameter (but *without* UTM tags) to be incorrectly categorized as **facebook-ads**.
+
+This affected a small portion of traffic, but could distort organic vs. paid Facebook reporting.
+
+### 🚀 What Changed
+As of **Wednesday, November 17 at 19:00 UTC**:
+
+- Traffic containing **only `fbclid`** and **no UTM parameters**  
+  → is now classified as **Facebook Organic** (correct behavior)
+
+- Only traffic containing proper **UTM campaign parameters**  
+  → is classified as **Facebook Ads**
+
+### 📊 Impact on Your Reports
+- Improved accuracy in distinguishing paid vs. organic Facebook traffic  
+- Expect a slight increase in organic Facebook traffic from this timestamp onward  
+- Historical data remains unchanged to preserve consistency
+
+---
+
+## Performance Improvements (Nov 10, 22:00 UTC)
+
 
 ### ⚡ 2.5x Faster Data Processing
 
 We've significantly optimized our processing infrastructure by increasing core capacity. Your data now processes **2.5 times faster**, meaning real-time dashboard updates and instant report generation.
 
 **Benefits:**
-- Faster dashboard loading times
-- Real-time data updates
-- Instant report generation
+- Faster dashboard loading times  
+- Real-time data updates  
+- Instant report generation  
 - Improved overall platform responsiveness
 
 ---
 
-## Breaking Changes & Updates
+## 🔄 Facebook Ads Attribution Update ( Nov 13, 19:00 UTC)
 
-### 🔄 Facebook Ads Attribution Update
 
 :::warning Breaking Change
 As of this release, the `fbclid` parameter is no longer used to identify Facebook Ads traffic due to its lack of reliability and consistency.
@@ -31,14 +56,17 @@ As of this release, the `fbclid` parameter is no longer used to identify Faceboo
 
 **What this means for you:**
 
-- Facebook Ads traffic now **requires properly configured UTM tags** for accurate attribution
-- Ensure your campaigns include the parameters: `utm_source=facebook`, `utm_medium=paid` (or similar)
-- This improvement ensures more accurate attribution and full control over your data
+- Facebook Ads traffic now **requires properly configured UTM tags** for accurate attribution  
+- Ensure your campaigns include parameters such as:  
+  - `utm_source=facebook`  
+  - `utm_medium=paid`  
+  - (or equivalent)  
+- This ensures consistent, accurate attribution and full control over your data
 
-**Recommendation:** Review and update your Facebook Ads campaigns with appropriate UTMs to maintain complete visibility of your traffic.
+**Recommendation:** Review and update your Facebook Ads campaigns with correct UTMs to maintain full visibility.
 
 :::tip
-Need help configuring UTMs? Check out our [Facebook Ads Tracking Guide](/metrics-insights/how-to-track-social-ads-campaigns/#how-to-track-facebook-ads-campaigns-without-cookies)
+Need help configuring UTMs? Check our [Facebook Ads Tracking Guide](/metrics-insights/how-to-track-social-ads-campaigns/#how-to-track-facebook-ads-campaigns-without-cookies)
 :::
 
 ---
@@ -47,9 +75,9 @@ Need help configuring UTMs? Check out our [Facebook Ads Tracking Guide](/metrics
 
 If you're currently relying on `fbclid` for Facebook Ads attribution, follow these steps:
 
-1. **Audit your campaigns:** Review all active Facebook Ads campaigns
-2. **Add UTM parameters:** Configure UTMs in your Facebook Ads Manager
-3. **Test:** Verify that traffic is being properly attributed in Sealmetrics
-4. **Monitor:** Check your reports to ensure continuity in your data
+1. **Audit your campaigns:** Check all active Facebook Ads campaigns  
+2. **Add UTM parameters:** Configure UTMs in your Facebook Ads Manager  
+3. **Test:** Verify traffic attribution inside SealMetrics  
+4. **Monitor:** Ensure continuity in your reporting  
 
 Need assistance? [Contact our support team](mailto:support@sealmetrics.com)
