@@ -1,3 +1,581 @@
-Event Propierties Guide
-Updated over 4 months ago
-...
+---
+id: event-properties
+title: "Understanding Event Properties in Sealmetrics"
+sidebar_label: "Event Properties"
+sidebar_position: 4
+description: "Learn how to use event properties in Sealmetrics for advanced conversion tracking, custom data collection, and detailed analytics segmentation while maintaining GDPR compliance."
+tags: [events, properties, tracking, analytics, customization, conversions]
+keywords:
+  - event properties
+  - custom tracking
+  - conversion properties
+  - Sealmetrics tracking
+  - cookieless analytics
+  - event metadata
+  - custom dimensions
+  - analytics segmentation
+  - GDPR compliant tracking
+last_update:
+  date: 2025-11-20
+  author: rafael-jimenez
+---
+
+# Understanding Event Properties in Sealmetrics
+
+Event properties represent one of Sealmetrics' most powerful features for businesses requiring detailed conversion tracking without compromising GDPR compliance. This comprehensive guide explains how to implement, optimize, and leverage event properties to transform your cookieless analytics into a sophisticated business intelligence system.
+
+## What Are Event Properties?
+
+Event properties in Sealmetrics are customizable key-value pairs that attach additional context and metadata to any conversion or micro-conversion event you track. Unlike traditional analytics platforms that rely on cookies to build user profiles, Sealmetrics enables rich data collection through event properties while maintaining a consentless, privacy-first approach.
+
+These properties extend Sealmetrics' baseline tracking capabilities by allowing you to capture business-specific information at the moment of conversion. This approach proves particularly valuable for organizations operating under strict privacy regulations, as it collects contextual data about events rather than building persistent user profiles.
+
+### Core Components of Event Properties
+
+Every event property consists of three fundamental elements:
+
+1. **Property Name**: A descriptive identifier for the data point (e.g., 'product-category', 'plan-type', 'lead-source')
+2. **Property Value**: The actual data associated with the property name (e.g., 'electronics', 'premium', 'organic-search')
+3. **Event Context**: The conversion or micro-conversion event to which the property attaches
+
+This structure provides flexibility while maintaining data integrity across your analytics implementation.
+
+## How Properties Work in Sealmetrics
+
+When you track a conversion event using Sealmetrics, the platform captures baseline information including the event type (conversion or micro-conversion), the event label (your conversion's name), and associated page view information. Event properties enhance this foundation by adding custom dimensions specific to your business needs.
+
+### Standard Event Tracking Structure
+
+```javascript
+<script>
+/* SealMetrics Tracker Code */
+(function() {
+var options = {
+   account: 'ACCOUNT-ID',
+   event: 'conversion',
+   label: 'Purchase',
+   amount: '{{Revenue}}',
+   use_session: 1,
+};
+var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(callback){var script=document.createElement("script");script.src=url;script.async=true;script.onload=function(){if(typeof callback==="function"){callback();}};script.onerror=function(){console.error("Error loading script: "+url);};document.getElementsByTagName("head")[0].appendChild(script);}loadScript(function(){options.id=Math.floor((Math.random()*999)+1);if(window.sm){var instance=new window.sm(options);instance.track(options.event);}else{console.error("sm2 plugin is not available");}});
+})();
+/* End SealMetrics Tracker Code */
+</script>
+```
+
+### Enhanced Tracking with Properties
+
+```javascript
+// Conversion tracking with detailed properties
+window.sealmetrics.event('conversion', {
+  label: 'purchase-completed',
+  properties: {
+    'product-id': '12345',
+    'product-category': 'electronics',
+    'price': '99.99',
+    'currency': 'EUR',
+    'payment-method': 'credit-card',
+    'shipping-country': 'Germany',
+    'discount-code': 'SPRING2024',
+    'customer-type': 'returning'
+  }
+});
+```
+
+```javascript
+<script>
+/* SealMetrics Tracker Code */
+(function() {
+var options = {
+   account: 'ACCOUNT-ID',
+   event: 'conversion',
+   label: 'Purchase',
+   amount: '95.99',
+   properties: {
+    'product-id': '12345',
+    'product-category': 'electronics',
+    'price-cohort': '99.99',
+    'currency': 'EUR',
+    'payment-method': 'credit-card',
+    'shipping-country': 'Germany',
+    'discount-code': 'SPRING2024',
+    'color': 'red'
+    'size': 'XL'
+  },
+   use_session: 1,
+};
+var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(callback){var script=document.createElement("script");script.src=url;script.async=true;script.onload=function(){if(typeof callback==="function"){callback();}};script.onerror=function(){console.error("Error loading script: "+url);};document.getElementsByTagName("head")[0].appendChild(script);}loadScript(function(){options.id=Math.floor((Math.random()*999)+1);if(window.sm){var instance=new window.sm(options);instance.track(options.event);}else{console.error("sm2 plugin is not available");}});
+})();
+/* End SealMetrics Tracker Code */
+</script>
+```
+
+The properties object accepts any number of key-value pairs, with both keys and values stored as strings. Sealmetrics processes these properties alongside the core event data, making them available for analysis through API access or BigQuery integration.
+
+## Benefits of Using Event Properties
+
+### 1. Richer Analytics Without Privacy Compromise
+
+Event properties enable Sealmetrics to collect detailed conversion data while maintaining GDPR Article 6(1)(f) compliance. Unlike cookie-based systems that track users across sessions, Sealmetrics captures rich context at the moment of conversion without building persistent user profiles.
+
+For organizations concerned about privacy regulations, this approach provides the analytics depth of traditional platforms while avoiding consent requirements. As of November 2024, approximately 65% of European users reject cookie consent banners, making Sealmetrics' consentless approach with event properties particularly valuable for accurate data collection.
+
+### 2. Advanced Segmentation Capabilities
+
+Properties enable sophisticated data segmentation that rivals cookie-based analytics platforms. By attaching relevant metadata to each conversion, you can analyze performance across multiple dimensions:
+
+- Product categories and SKUs
+- Customer segments and types
+- Geographic regions and markets
+- Marketing campaigns and channels
+- Pricing tiers and discount applications
+- User journey stages and touchpoints
+
+This segmentation capability transforms Sealmetrics from a simple conversion counter into a comprehensive business intelligence tool.
+
+### 3. Marketing Attribution Enhancement
+
+Event properties prove particularly powerful for marketing attribution. By adding campaign, source, and medium information to conversion events, you can understand which marketing efforts drive results without relying on third-party cookies.
+
+```javascript
+  label: 'trial-started',
+  properties: {
+    'utm-source': 'google',
+    'utm-medium': 'cpc',
+    'utm-campaign': 'q4-promotion',
+    'ad-group': 'cookieless-analytics',
+    'landing-page': '/features/gdpr-compliance'
+  }
+});
+```
+
+This approach maintains full attribution visibility even as browsers increasingly restrict third-party tracking mechanisms.
+
+### 4. Business-Specific Custom Metrics
+
+Every business has unique data requirements. Event properties allow Sealmetrics to adapt to your specific needs without requiring platform modifications. Whether you're tracking SaaS subscriptions, e-commerce transactions, lead generation, or B2B conversions, properties enable customization that fits your business model.
+
+## Implementation Examples
+
+### E-commerce Purchase Tracking
+
+For online retailers, event properties capture detailed transaction information that enables sophisticated analysis:
+
+```javascript
+  label: 'purchase-completed',
+  properties: {
+    'items-count': '3',
+    'total-amount': '249.97',
+    'currency': 'EUR',
+    'payment-method': 'credit-card',
+    'shipping-country': 'Germany',
+    'shipping-method': 'express',
+    'discount-applied': 'true',
+    'discount-code': 'WELCOME10',
+    'discount-amount': '24.99',
+    'customer-type': 'new',
+    'product-categories': 'electronics,accessories',
+    'average-item-price': '83.32'
+  }
+});
+```
+
+This implementation enables analysis of:
+- Revenue by product category
+- Discount code effectiveness
+- Shipping method preferences by region
+- Average order value by customer type
+- Payment method adoption rates
+
+### SaaS Subscription Tracking
+
+Software-as-a-Service companies benefit from tracking subscription details and upgrade patterns:
+
+```javascript
+window.sealmetrics.event('conversion', {
+  label: 'subscription-purchased',
+  properties: {
+    'plan-type': 'premium',
+    'plan-price': '49.00',
+    'subscription-term': 'annual',
+    'billing-cycle': 'yearly',
+    'discount-applied': 'SPRING25',
+    'previous-plan': 'basic',
+    'account-size': 'team',
+    'user-count': '5',
+    'upgrade': 'true',
+    'trial-used': 'true',
+    'trial-duration': '14',
+    'signup-source': 'product-hunt'
+  }
+});
+```
+
+This data structure supports analysis of:
+- Plan conversion rates
+- Upgrade patterns from trial to paid
+- Discount impact on conversions
+- Team size distribution
+- Acquisition channel effectiveness
+
+### Lead Generation Tracking
+
+B2B companies capturing leads can track qualification criteria and lead quality indicators:
+
+```javascript
+window.sealmetrics.event('conversion', {
+  label: 'lead-submitted',
+  properties: {
+    'lead-source': 'blog-post',
+    'content-title': 'cookieless-analytics-guide',
+    'interested-in': 'analytics-solution',
+    'company-size': '50-100',
+    'industry': 'healthcare',
+    'job-title': 'marketing-director',
+    'country': 'Netherlands',
+    'form-location': 'blog-sidebar',
+    'returning-visitor': 'false'
+  }
+});
+```
+
+Properties enable lead scoring and qualification based on:
+- Company characteristics (size, industry, location)
+- Engagement depth (time, pages viewed)
+- Content interest areas
+- Lead source and channel
+
+### Event Tracking for Downloads and Content
+
+Content marketing teams can track digital asset performance:
+
+```javascript
+  label: 'whitepaper-downloaded',
+  properties: {
+    'document-title': 'gdpr-compliance-guide-2025',
+    'document-category': 'compliance',
+    'file-format': 'pdf',
+    'file-size': '2.4mb',
+    'page-number': '32',
+    'download-source': 'resource-center',
+    'visitor-type': 'anonymous',
+    'industry-tag': 'fintech',
+    'content-gate': 'true'
+  }
+});
+```
+
+## How to Add Properties in Sealmetrics
+
+### Step 1: Plan Your Property Schema
+
+Before implementation, document the properties you need for each conversion type. Consider:
+
+- What business questions you need to answer
+- Which data points enable those answers
+- Naming conventions for consistency
+- Expected value formats and types
+
+Create a properties schema document that lists each conversion type and its associated properties.
+
+### Step 2: Navigate to Conversion Setup
+
+Access your Sealmetrics dashboard and navigate to the conversion setup screen. Select the conversion event you want to enhance with properties.
+
+### Step 3: Enable Properties
+
+In the conversion configuration:
+
+1. Locate the "Add properties to your event" option
+2. Select "Yes" to enable property tracking
+3. Review the generated tracking code template
+
+### Step 4: Define Custom Properties
+
+Modify the tracking code to include your specific property names and values:
+
+```javascript
+  label: 'your-conversion-name',
+  properties: {
+    'property-name-1': 'value-1',
+    'property-name-2': 'value-2',
+    // Add all relevant properties
+  }
+});
+```
+
+### Step 5: Implement Tracking Code
+
+Add the complete tracking code to your website at the appropriate trigger point:
+
+- For purchase completions: Thank you page or order confirmation
+- For form submissions: Form success callback
+- For downloads: Download click handler
+- For sign-ups: Registration completion
+
+### Step 6: Test Implementation
+
+Before deploying to production:
+
+1. Trigger test conversions
+2. Verify properties appear in API responses
+3. Confirm data types and formats are correct
+4. Check that all expected properties capture values
+
+## Best Practices for Event Properties
+
+### 1. Establish Consistent Naming Conventions
+
+Use clear, descriptive naming patterns that your entire team understands:
+
+- **Use kebab-case**: `product-category` instead of `productCategory` or `product_category`
+- **Be specific**: `subscription-plan-type` instead of just `type`
+- **Include context**: `payment-method` instead of just `method`
+- **Avoid abbreviations**: `customer-lifetime-value` instead of `clv`
+
+Consistency ensures that anyone analyzing data understands what each property represents.
+
+### 2. Track Only Actionable Data
+
+Every property should serve a specific analytical purpose. Avoid tracking data "just in case" as this increases complexity without adding value.
+
+Ask for each property:
+- What decision will this data inform?
+- How will we segment or filter using this property?
+- Does this data duplicate information available elsewhere?
+
+If you cannot answer these questions, reconsider whether the property is necessary.
+
+### 3. Use Descriptive Property Names
+
+Property names should be self-explanatory without requiring documentation reference. Someone reviewing your data six months later should immediately understand what each property represents.
+
+**Good examples:**
+- `subscription-renewal-count`
+- `previous-plan-name`
+- `discount-percentage-applied`
+- `customer-acquisition-source`
+
+**Poor examples:**
+- `count`
+- `prev`
+- `disc`
+- `src`
+
+### 4. Maintain Consistent Data Types
+
+While Sealmetrics stores all property values as strings, maintain consistent formatting for numerical and boolean values:
+
+- **Numbers**: Always format the same way (`99.99` not `$99.99` or `99.99 EUR`)
+- **Booleans**: Use `'true'`/`'false'` consistently, not `'yes'`/`'no'` or `'1'`/`'0'`
+- **Dates**: Use ISO 8601 format (`2024-11-20T14:30:00Z`)
+- **Categories**: Use consistent casing (`'premium'` not sometimes `'Premium'`)
+
+This consistency simplifies analysis and prevents segmentation issues.
+
+### 5. Document Your Property Schema
+
+Maintain internal documentation that lists:
+
+- All conversion types in your Sealmetrics implementation
+- Properties associated with each conversion type
+- Expected value formats and examples
+- Business purpose for each property
+- Data ownership and update responsibility
+
+This documentation proves invaluable as your team grows and your implementation evolves.
+
+### 6. Consider Data Privacy Implications
+
+Even with Sealmetrics' consentless approach, be mindful of what data you collect through properties:
+
+- **Avoid personal identifiers**: Don't include names, email addresses, or personal IDs
+- **Aggregate categories**: Use `'company-size: 50-100'` instead of exact employee counts
+- **Generalize locations**: Use country or region, not specific addresses
+- **Exclude sensitive data**: Avoid health information, financial details, or other sensitive categories
+
+Sealmetrics maintains GDPR compliance through its consentless approach, but responsible data collection practices remain important.
+
+### 7. Plan for Scale
+
+Consider how your property schema will scale:
+
+- Will new products require new properties?
+- Can your naming system accommodate growth?
+- Are your property names future-proof?
+- Have you left room for additional dimensions?
+
+A well-planned schema accommodates business growth without requiring complete restructuring.
+
+## Accessing Properties Data
+
+### Important Limitation
+
+Properties data is not currently displayed in the standard Sealmetrics dashboard interface. This architectural decision optimizes dashboard performance while maintaining flexibility for advanced analysis.
+
+To access and analyze your event properties, Sealmetrics provides two powerful options:
+
+### 1. API Access
+
+Query your conversion data programmatically using the Sealmetrics API. This approach suits:
+
+- Custom dashboard development
+- Integration with existing business intelligence tools
+- Automated reporting workflows
+- Real-time data analysis applications
+
+The API returns complete event data including all properties, enabling you to build tailored analytics interfaces that display exactly the metrics your business needs.
+
+### 2. BigQuery Integration
+
+For advanced analytics and data warehouse integration, Sealmetrics offers BigQuery connectivity. This option provides:
+
+- **SQL-based analysis**: Query properties using familiar SQL syntax
+- **Cross-platform analysis**: Join Sealmetrics data with other business data sources
+- **Advanced aggregations**: Perform complex calculations across properties
+- **Data visualization**: Connect to tools like Looker, Tableau, or Data Studio
+- **Historical analysis**: Analyze trends across extended time periods
+
+BigQuery integration transforms Sealmetrics into a comprehensive analytics warehouse while maintaining the privacy-first approach that makes cookieless tracking possible.
+
+### Requesting Access
+
+If you'd like to leverage event properties through API access or BigQuery integration, contact the Sealmetrics team at [[email protected]](mailto:[email protected]).
+
+The team can provide:
+- API documentation and authentication details
+- BigQuery connection configuration
+- Sample queries and analysis templates
+- Best practices for data extraction and analysis
+
+## Comparison: Event Properties vs. Cookie-Based Analytics
+
+| Feature | Sealmetrics Event Properties | Google Analytics (Cookie-based) |
+|---------|----------------------------|--------------------------------|
+| **Data Collection Method** | Event-attached properties | User-scoped cookies + events |
+| **Privacy Compliance** | GDPR-compliant by design | Requires consent banners |
+| **User Tracking** | Event-level only | Cross-session user profiles |
+| **Data Loss from Consent** | 0% (no consent required) | 40-65% (consent rejection) |
+| **Custom Dimensions** | Unlimited properties | Limited by plan (20-200) |
+| **Implementation Complexity** | Simple key-value pairs | Complex data layer configuration |
+| **Data Availability** | API + BigQuery | Dashboard + API |
+| **Historical Analysis** | Full event history | Subject to data retention policies |
+| **Cross-domain Tracking** | Manual property passing | Automatic with cookie linking |
+| **Real-time Analysis** | Via API | Dashboard interface |
+
+Sealmetrics' event properties approach trades cross-session user tracking for complete data capture without consent requirements. For businesses prioritizing data completeness and privacy compliance, this tradeoff proves highly favorable.
+
+## Troubleshooting Common Issues
+
+### Properties Not Appearing in API Response
+
+**Possible causes:**
+1. Properties not properly formatted in tracking code
+2. Conversion event not firing correctly
+3. API query not requesting property data
+
+**Solutions:**
+- Verify tracking code syntax matches documentation examples
+- Use browser console to confirm conversion events fire
+- Check API request includes property fields in query
+- Test with a simple property first (e.g., `'test': 'value'`)
+
+### Inconsistent Property Values
+
+**Possible causes:**
+1. Multiple developers using different naming conventions
+2. Dynamic value generation producing varied formats
+3. Conditional logic creating inconsistent data
+
+**Solutions:**
+- Document and enforce naming conventions
+- Implement validation functions for value formatting
+- Review all tracking code for consistency
+- Use constants for repeated property values
+
+### Property Data Not Available in BigQuery
+
+**Possible causes:**
+1. BigQuery integration not configured
+2. Permissions not properly set
+3. Data sync delay
+
+**Solutions:**
+- Confirm BigQuery integration is active with Sealmetrics team
+- Verify BigQuery project permissions
+- Allow 24 hours for initial data sync
+- Check BigQuery dataset for Sealmetrics tables
+
+## Frequently Asked Questions
+
+### How many properties can I attach to a single event?
+
+Sealmetrics does not enforce a hard limit on property count per event. However, best practice recommends 10-20 properties per event for optimal performance and clarity. If you find yourself needing more properties, consider whether you're tracking redundant data or if some properties should be split into separate events.
+
+### Are properties stored forever?
+
+Property data retention follows your Sealmetrics data retention policy. Standard retention is 25 months, but this can be configured based on your subscription plan and requirements. Contact Sealmetrics support to adjust retention settings.
+
+### Can I update properties after an event is tracked?
+
+No. Event properties are immutable once the event is tracked. This immutability ensures data integrity and accurate historical analysis. If you need to correct property data, implement the fix in your tracking code for future events.
+
+### Do properties affect page load performance?
+
+Property inclusion has minimal impact on page performance. Sealmetrics tracking is asynchronous and lightweight. However, avoid generating properties through expensive calculations or external API calls during page load. Generate property values in advance when possible.
+
+### Can I use properties for funnel analysis?
+
+Yes. Properties enable sophisticated funnel analysis by allowing segmentation at each funnel stage. Track relevant properties at each conversion step, then use API or BigQuery queries to analyze drop-off rates across different segments.
+
+### How do properties work with micro-conversions?
+
+Properties work identically for micro-conversions and full conversions. Use the same implementation pattern with `window.sealmetrics.event('micro-conversion', {...})`. This consistency simplifies implementation and analysis.
+
+### Can I filter dashboard data by properties?
+
+The standard Sealmetrics dashboard does not currently support property-based filtering. Property data access requires API queries or BigQuery integration. This limitation is by design to maintain dashboard performance while enabling sophisticated analysis through dedicated tools.
+
+### Are there reserved property names I should avoid?
+
+Sealmetrics does not reserve specific property names, but avoid using names that conflict with event metadata (like 'label', 'type', or 'timestamp'). Use descriptive, specific names that clearly differentiate your custom properties from event metadata.
+
+### How do I handle multi-value properties?
+
+For properties with multiple values (like multiple product categories), use a delimiter within the string value:
+
+```javascript
+properties: {
+  'product-categories': 'electronics,accessories,cables'
+}
+```
+
+Then parse the delimited string during analysis. Alternatively, track separate events for each value if the analysis requires it.
+
+### Can properties include special characters?
+
+Property names should use alphanumeric characters and hyphens only. Property values can include most characters, but avoid characters that require URL encoding or have special meaning in SQL queries (quotes, semicolons, etc.) to simplify analysis.
+
+### How do properties compare to Google Analytics custom dimensions?
+
+Sealmetrics properties are more flexible than GA custom dimensions. While GA limits custom dimensions by plan (typically 20-200), Sealmetrics allows unlimited properties per event. Additionally, Sealmetrics properties attach to individual events, while GA custom dimensions typically scope to users or sessions, making Sealmetrics more flexible for event-level analysis.
+
+### Do I need developer resources to implement properties?
+
+Basic property implementation requires minimal technical knowledge - if you can implement standard Sealmetrics tracking, you can add properties. However, dynamic property generation, validation, and advanced patterns may require developer assistance. Start simple and increase complexity as needed.
+
+## Next Steps
+
+Now that you understand event properties in Sealmetrics, consider these next actions:
+
+1. **Audit Current Tracking**: Review existing conversions and identify where properties would add analytical value
+2. **Design Property Schema**: Document properties needed for each conversion type
+3. **Implement Test Properties**: Start with 1-2 conversions and basic properties
+4. **Verify Data Collection**: Use API to confirm properties capture correctly
+5. **Expand Implementation**: Gradually add properties to remaining conversions
+6. **Request Advanced Access**: Contact Sealmetrics for API documentation or BigQuery integration
+7. **Build Custom Dashboards**: Leverage properties data for business-specific analytics
+
+Event properties transform Sealmetrics from simple conversion tracking into a comprehensive business intelligence platform. By capturing rich contextual data at the moment of conversion, you gain analytical depth comparable to cookie-based platforms while maintaining complete GDPR compliance and avoiding data loss from consent rejection.
+
+The consentless approach combined with flexible property schemas positions Sealmetrics as the analytics solution for privacy-conscious organizations that refuse to compromise on data quality and analytical capabilities.
