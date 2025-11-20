@@ -115,7 +115,7 @@ const config: Config = {
       },
       items: [
         { label: 'Documentation', to: '/intro', position: 'left' },
-        { label: 'API Reference', to: '/api/overview', position: 'left' },
+        { label: 'API Reference', to: '/api/api', position: 'left' },
         { label: 'Changelog', to: '/changelog', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
         { href: 'https://sealmetrics.com', label: 'Website', position: 'right' },
