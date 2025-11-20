@@ -24,6 +24,14 @@ const config: Config = {
     locales: ['en'],
   },
 
+  // 🚀 SEALMETRICS TRACKING
+  scripts: [
+    {
+      src: '/js/sealmetrics.js',
+      async: true,
+    },
+  ],
+
   // 🚀 META TAGS PARA LLMs - Robots directives
   headTags: [
     {
@@ -115,7 +123,7 @@ const config: Config = {
       },
       items: [
         { label: 'Documentation', to: '/intro', position: 'left' },
-        { label: 'API Reference', to: '/api/api', position: 'left' },
+        { label: 'API Reference', to: '/api', position: 'left' },
         { label: 'Changelog', to: '/changelog', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
         { href: 'https://sealmetrics.com', label: 'Website', position: 'right' },
@@ -133,7 +141,7 @@ const config: Config = {
           title: 'Docs',
           items: [
             { label: 'Getting Started', to: '/getting-started' },
-            { label: 'API Reference', to: '/api/overview' },
+            { label: 'API Reference', to: '/api' },
             { label: 'Server Status', href: 'https://app.comply.org/attest/sealmetrics' },
           ],
         },
