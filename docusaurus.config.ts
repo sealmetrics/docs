@@ -123,7 +123,6 @@ const config: Config = {
       },
       items: [
         { label: 'Documentation', to: '/intro', position: 'left' },
-        { label: 'API Reference', to: '/api', position: 'left' },
         { label: 'Changelog', to: '/changelog', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
         { href: 'https://sealmetrics.com', label: 'Website', position: 'right' },
@@ -140,16 +139,16 @@ const config: Config = {
         {
           title: 'Docs',
           items: [
-            { label: 'Getting Started', to: '/getting-started' },
-            { label: 'API Reference', to: '/api' },
-            { label: 'Server Status', href: 'https://app.comply.org/attest/sealmetrics' },
+            { label: 'Consentless Analytics', href: 'https://sealmetrics.com' },
+            { label: 'Legal Audit', href: 'https://app.comply.org/attest/sealmetrics' },
+            { label: 'Server Status', href: 'https://sealmetrics.instatus.com/' },
           ],
         },
         {
           title: 'Community',
           items: [
             { label: 'LinkedIn', href: 'https://linkedin.com/company/sealmetrics' },
-            { label: 'X (Twitter)', href: 'https://twitter.com/sealmetrics' },
+            { label: 'X (Twitter)', href: 'https://x.com/sealmetrics' },
           ],
         },
         {
