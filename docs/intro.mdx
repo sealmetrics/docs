@@ -164,6 +164,33 @@ import Link from '@docusaurus/Link';
     </p>
   </div>
 
+  {/* Guides */}
+  <div
+    style={{
+      border: '1px solid #e0e0e0',
+      borderRadius: '12px',
+      padding: '1.5rem',
+      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+      transition: 'transform 0.2s ease',
+    }}
+    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
+    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+  >
+    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#00825C" viewBox="0 0 24 24">
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+      </svg>
+      <h3 style={{ color: '#00825C', marginLeft: '0.5rem' }}>
+        <Link to="/guides" style={{ textDecoration: 'none', color: '#00825C' }}>
+          Guides
+        </Link>
+      </h3>
+    </div>
+    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
+      Step-by-step tutorials and comprehensive guides on cookieless analytics, GDPR compliance, and implementation best practices.
+    </p>
+  </div>
+
 </div>
 
 ---
