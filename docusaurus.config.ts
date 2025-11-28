@@ -125,6 +125,7 @@ const config: Config = {
         { label: 'Documentation', to: '/intro', position: 'left' },
         { label: 'Changelog', to: '/changelog', position: 'left' },
         { to: '/blog', label: 'Blog', position: 'left' },
+        { to: '/guides', label: 'Guide', position: 'left' },
         { href: 'https://sealmetrics.com', label: 'Website', position: 'right' },
         {
           type: 'search',
@@ -155,6 +156,7 @@ const config: Config = {
           title: 'More',
           items: [
             { label: 'Changelog', to: '/changelog' },
+            { label: 'Guides', to: '/guides' },
           ],
         },
       ],
