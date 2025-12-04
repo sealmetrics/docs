@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-product/security-privacy" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Security &amp; Privacy | SealMetrics Docs</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:image" content="https://docs.sealmetrics.com/img/sealmetrics-social-card.jpg"><meta data-rh="true" property="og:url" content="https://docs.sealmetrics.com/product/security-privacy"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" property="og:type" content="website"><meta data-rh="true" property="og:image" content="https://docs.sealmetrics.com/img/sealmetrics-social-card.jpg"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Security &amp; Privacy | SealMetrics Docs"><meta data-rh="true" name="description" content="Understand Sealmetrics&#x27; privacy-by-design architecture, GDPR compliance, data security measures, and why we never collect personal data."><meta data-rh="true" property="og:description" content="Understand Sealmetrics&#x27; privacy-by-design architecture, GDPR compliance, data security measures, and why we never collect personal data."><meta data-rh="true" name="keywords" content="sealmetrics security,privacy by design,GDPR compliance,data protection,cookieless analytics,anonymous analytics,EU data hosting,no personal data"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://docs.sealmetrics.com/product/security-privacy"><link data-rh="true" rel="alternate" href="https://docs.sealmetrics.com/product/security-privacy" hreflang="en"><link data-rh="true" rel="alternate" href="https://docs.sealmetrics.com/product/security-privacy" hreflang="x-default"><link data-rh="true" rel="preconnect" href="https://CGIHF419IR-dsn.algolia.net" crossorigin="anonymous"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Security & Privacy","item":"https://docs.sealmetrics.com/product/security-privacy"}]}</script><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="SealMetrics Docs RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="SealMetrics Docs Atom Feed">
+
+
+
+
+<link rel="search" type="application/opensearchdescription+xml" title="SealMetrics Docs" href="/opensearch.xml">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<script src="/js/sealmetrics.js" async></script><link rel="stylesheet" href="/assets/css/styles.fb0ce113.css">
+<script src="/assets/js/runtime~main.45382c59.js" defer="defer"></script>
+<script src="/assets/js/main.dd6e567b.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/img/logo.svg"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="SealMetrics Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="SealMetrics Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate"></b></a><a class="navbar__item navbar__link" href="/intro">Documentation</a><a class="navbar__item navbar__link" href="/changelog">Changelog</a><a class="navbar__item navbar__link" href="/blog">Blog</a><a class="navbar__item navbar__link" href="/guides">Guide</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://sealmetrics.com" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">Website<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbarSearchContainer_Bca1"><button type="button" class="DocSearch DocSearch-Button" aria-label="Search (Meta+k)" aria-keyshortcuts="Meta+k"><span class="DocSearch-Button-Container"><svg width="20" height="20" class="DocSearch-Search-Icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8" stroke="currentColor" fill="none" stroke-width="1.4"></circle><path d="m21 21-4.3-4.3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="DocSearch-Button-Placeholder">Search</span></span><span class="DocSearch-Button-Keys"></span></button></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/intro"><span title="Introduction" class="linkLabel_WmDU">Introduction</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/product/how-it-works"><span title="Product" class="categoryLinkLabel_W154">Product</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/product/how-it-works"><span title="How It Works" class="linkLabel_WmDU">How It Works</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/product/features"><span title="Features" class="linkLabel_WmDU">Features</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/product/integrations"><span title="Integrations" class="linkLabel_WmDU">Integrations</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/product/security-privacy"><span title="Security &amp; Privacy" class="linkLabel_WmDU">Security &amp; Privacy</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/first-steps/"><span title="First Steps" class="categoryLinkLabel_W154">First Steps</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/category/privacy-first-tracking"><span title="Features" class="categoryLinkLabel_W154">Features</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/reports/"><span title="Reports" class="categoryLinkLabel_W154">Reports</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/metrics-insights/referral-vs-direct-traffic"><span title="Metrics Insights" class="categoryLinkLabel_W154">Metrics Insights</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/implementation/content-site-structure/"><span title="Implementation" class="categoryLinkLabel_W154">Implementation</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/privacy-and-consentless/"><span title="Privacy &amp; Consentless Analytics" class="categoryLinkLabel_W154">Privacy &amp; Consentless Analytics</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/category/platform-internals"><span title="Platform" class="categoryLinkLabel_W154">Platform</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/api/authentication/"><span title="API Reference" class="categoryLinkLabel_W154">API Reference</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/legal/GDPR-and-ePrivacy/"><span title="Legal" class="categoryLinkLabel_W154">Legal</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/faq/"><span title="FAQ" class="categoryLinkLabel_W154">FAQ</span></a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Product</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Security &amp; Privacy</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Security &amp; Privacy</h1></header>
+<p>Sealmetrics was built from the ground up with one core principle: <strong>privacy is not a feature, it&#x27;s the foundation</strong>. Every architectural decision, every line of code, every system design choice prioritizes user privacy and data security.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="privacy-by-design">Privacy by Design<a href="#privacy-by-design" class="hash-link" aria-label="Direct link to Privacy by Design" title="Direct link to Privacy by Design" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-we-dont-collect-ever">What We Don&#x27;t Collect (Ever)<a href="#what-we-dont-collect-ever" class="hash-link" aria-label="Direct link to What We Don&#x27;t Collect (Ever)" title="Direct link to What We Don&#x27;t Collect (Ever)" translate="no">​</a></h3>
+<p>Sealmetrics is built on what we <strong>don&#x27;t</strong> track:</p>
+<ul>
+<li class=""><strong>No IP addresses</strong> - Not collected, not stored, not processed at any layer</li>
+<li class=""><strong>No cookies</strong> - Zero cookies, zero local storage, zero fingerprinting</li>
+<li class=""><strong>No persistent identifiers</strong> - No user IDs, device IDs, or tracking tokens</li>
+<li class=""><strong>No personal information</strong> - No emails, names, phone numbers, addresses</li>
+<li class=""><strong>No user journeys</strong> - Cannot reconstruct individual browsing patterns across sessions</li>
+<li class=""><strong>No behavioral profiles</strong> - Cannot build personality or preference models</li>
+<li class=""><strong>No cross-site tracking</strong> - Only measures your website, never follows users elsewhere</li>
+<li class=""><strong>No sensitive data</strong> - No health information, financial data, political views, religious beliefs</li>
+</ul>
+<p>This isn&#x27;t a marketing claim. It&#x27;s architecturally impossible for Sealmetrics to identify individual users.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-four-variable-system">The Four-Variable System<a href="#the-four-variable-system" class="hash-link" aria-label="Direct link to The Four-Variable System" title="Direct link to The Four-Variable System" translate="no">​</a></h3>
+<p>Every interaction on your website is captured using exactly four data points:</p>
+<ol>
+<li class=""><strong>Timestamp</strong> - When the event occurred</li>
+<li class=""><strong>User Agent</strong> - Browser and device type (parsed but never stored)</li>
+<li class=""><strong>Current URL</strong> - The page being viewed</li>
+<li class=""><strong>Referral URL</strong> - Where the visitor came from</li>
+</ol>
+<p>That&#x27;s the complete data set. Nothing more is collected. Nothing more is stored.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-anonymization-works">How Anonymization Works<a href="#how-anonymization-works" class="hash-link" aria-label="Direct link to How Anonymization Works" title="Direct link to How Anonymization Works" translate="no">​</a></h3>
+<p><strong>At Collection:</strong></p>
+<ul>
+<li class="">User agent strings are immediately parsed for browser/device insights</li>
+<li class="">The raw user agent is discarded and never stored</li>
+<li class="">No fingerprinting algorithms are applied</li>
+<li class="">No attempt is made to create persistent identifiers</li>
+</ul>
+<p><strong>At Processing:</strong></p>
+<ul>
+<li class="">Each event is processed in isolation</li>
+<li class="">No correlation with other events from the same user</li>
+<li class="">Statistical aggregation only</li>
+<li class="">Individual-level data is never accessible</li>
+</ul>
+<p><strong>At Storage:</strong></p>
+<ul>
+<li class="">Only aggregate patterns are stored</li>
+<li class="">No way to reverse-engineer individual users</li>
+<li class="">No raw user-level data persists anywhere in the system</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="legal-compliance-by-design">Legal Compliance by Design<a href="#legal-compliance-by-design" class="hash-link" aria-label="Direct link to Legal Compliance by Design" title="Direct link to Legal Compliance by Design" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="gdpr-compliance-no-consent-required">GDPR Compliance (No Consent Required)<a href="#gdpr-compliance-no-consent-required" class="hash-link" aria-label="Direct link to GDPR Compliance (No Consent Required)" title="Direct link to GDPR Compliance (No Consent Required)" translate="no">​</a></h3>
+<p>Sealmetrics operates under Article 6(1)(f) of GDPR: <strong>Legitimate Interest</strong>.</p>
+<p><strong>Why no consent is required:</strong></p>
+<ul>
+<li class="">We don&#x27;t collect personal data as defined by GDPR</li>
+<li class="">No IP addresses = no personal identifiers</li>
+<li class="">Anonymous aggregate data only</li>
+<li class="">No possibility of individual identification</li>
+<li class="">Processing is strictly necessary for analytics purposes</li>
+<li class="">Minimal data collection approach</li>
+</ul>
+<p><strong>Data retention:</strong> Up to 25 months without requiring user consent.</p>
+<p><strong>Your rights as a data controller:</strong></p>
+<ul>
+<li class="">No GDPR compliance burden from using Sealmetrics</li>
+<li class="">No need to update privacy policies for personal data processing</li>
+<li class="">No Data Processing Agreement (DPA) required</li>
+<li class="">No risk of GDPR violations from analytics</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="eprivacy-directive-compliance-no-cookies--no-consent">ePrivacy Directive Compliance (No Cookies = No Consent)<a href="#eprivacy-directive-compliance-no-cookies--no-consent" class="hash-link" aria-label="Direct link to ePrivacy Directive Compliance (No Cookies = No Consent)" title="Direct link to ePrivacy Directive Compliance (No Cookies = No Consent)" translate="no">​</a></h3>
+<p>The ePrivacy Directive (Cookie Law) requires consent for cookies and terminal storage.</p>
+<p><strong>Sealmetrics compliance:</strong></p>
+<ul>
+<li class="">Zero cookies used</li>
+<li class="">No local storage access</li>
+<li class="">No code stored on user devices</li>
+<li class="">No fingerprinting techniques</li>
+<li class="">No session reconstruction across visits</li>
+</ul>
+<p><strong>Result:</strong> No consent banner required. No data loss from cookie rejection.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ccpa-compliance">CCPA Compliance<a href="#ccpa-compliance" class="hash-link" aria-label="Direct link to CCPA Compliance" title="Direct link to CCPA Compliance" translate="no">​</a></h3>
+<p>The California Consumer Privacy Act regulates &quot;personal information.&quot;</p>
+<p><strong>Sealmetrics compliance:</strong></p>
+<ul>
+<li class="">No personal information collected as defined by CCPA</li>
+<li class="">No sale of data (we don&#x27;t have data to sell)</li>
+<li class="">No third-party sharing</li>
+<li class="">Anonymous analytics only</li>
+</ul>
+<p><strong>User rights:</strong> Because we don&#x27;t collect personal information, CCPA disclosure and deletion requirements don&#x27;t apply.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="pecr-compliance-uk-cookie-law">PECR Compliance (UK Cookie Law)<a href="#pecr-compliance-uk-cookie-law" class="hash-link" aria-label="Direct link to PECR Compliance (UK Cookie Law)" title="Direct link to PECR Compliance (UK Cookie Law)" translate="no">​</a></h3>
+<p>The Privacy and Electronic Communications Regulations apply in the UK.</p>
+<p><strong>Sealmetrics compliance:</strong></p>
+<ul>
+<li class="">No cookies or similar technologies</li>
+<li class="">No information stored on user devices</li>
+<li class="">No access to device information beyond standard HTTP headers</li>
+<li class="">Fully compliant without consent requirements</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-security-measures">Data Security Measures<a href="#data-security-measures" class="hash-link" aria-label="Direct link to Data Security Measures" title="Direct link to Data Security Measures" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="infrastructure-security">Infrastructure Security<a href="#infrastructure-security" class="hash-link" aria-label="Direct link to Infrastructure Security" title="Direct link to Infrastructure Security" translate="no">​</a></h3>
+<p><strong>Geographic isolation:</strong></p>
+<ul>
+<li class="">All servers located in Dublin, Ireland (EU)</li>
+<li class="">No international data transfers</li>
+<li class="">EU data protection laws apply</li>
+<li class="">No exposure to weaker privacy jurisdictions</li>
+</ul>
+<p><strong>Encryption:</strong></p>
+<ul>
+<li class=""><strong>In transit:</strong> HTTPS/TLS encryption for all data transmission</li>
+<li class=""><strong>At rest:</strong> Full encryption of stored data</li>
+<li class="">End-to-end encryption throughout the entire system</li>
+</ul>
+<p><strong>Access controls:</strong></p>
+<ul>
+<li class="">Strict role-based access controls</li>
+<li class="">Granular permissions system</li>
+<li class="">Principle of least privilege</li>
+<li class="">Multi-factor authentication for administrative access</li>
+</ul>
+<p><strong>Audit trails:</strong></p>
+<ul>
+<li class="">Complete logging of all system access</li>
+<li class="">Operational activity monitoring</li>
+<li class="">Security event tracking</li>
+<li class="">Compliance audit support</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="operational-security">Operational Security<a href="#operational-security" class="hash-link" aria-label="Direct link to Operational Security" title="Direct link to Operational Security" translate="no">​</a></h3>
+<p><strong>Infrastructure redundancy:</strong></p>
+<ul>
+<li class="">Multiple backup systems</li>
+<li class="">Automatic failover capabilities</li>
+<li class="">Geographic distribution within EU</li>
+<li class="">99.9% uptime SLA</li>
+</ul>
+<p><strong>Security monitoring:</strong></p>
+<ul>
+<li class="">24/7 system monitoring</li>
+<li class="">Intrusion detection systems</li>
+<li class="">Automated threat response</li>
+<li class="">Regular vulnerability scanning</li>
+</ul>
+<p><strong>Incident response:</strong></p>
+<ul>
+<li class="">Established incident response procedures</li>
+<li class="">Security breach protocols</li>
+<li class="">Rapid response capabilities</li>
+<li class="">Transparent communication commitments</li>
+</ul>
+<p><strong>Regular audits:</strong></p>
+<ul>
+<li class="">Ongoing security assessments</li>
+<li class="">Third-party security audits</li>
+<li class="">Penetration testing</li>
+<li class="">Code security reviews</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="application-security">Application Security<a href="#application-security" class="hash-link" aria-label="Direct link to Application Security" title="Direct link to Application Security" translate="no">​</a></h3>
+<p><strong>Bot filtering:</strong></p>
+<ul>
+<li class="">Sophisticated bot detection algorithms</li>
+<li class="">Filters search engine crawlers (Googlebot, Bingbot)</li>
+<li class="">Removes monitoring tools and scrapers</li>
+<li class="">Blocks datacenter traffic</li>
+<li class="">Protects data quality and system resources</li>
+</ul>
+<p><strong>Data validation:</strong></p>
+<ul>
+<li class="">Input sanitization on all endpoints</li>
+<li class="">Protection against injection attacks</li>
+<li class="">Rate limiting on API endpoints</li>
+<li class="">DDoS protection</li>
+</ul>
+<p><strong>Secure API access:</strong></p>
+<ul>
+<li class="">Bearer token authentication</li>
+<li class="">Token expiration policies</li>
+<li class="">Secure token storage requirements</li>
+<li class="">HTTPS-only API endpoints</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="privacy-transparency">Privacy Transparency<a href="#privacy-transparency" class="hash-link" aria-label="Direct link to Privacy Transparency" title="Direct link to Privacy Transparency" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-we-track-the-complete-list">What We Track (The Complete List)<a href="#what-we-track-the-complete-list" class="hash-link" aria-label="Direct link to What We Track (The Complete List)" title="Direct link to What We Track (The Complete List)" translate="no">​</a></h3>
+<p><strong>Page views:</strong></p>
+<ul>
+<li class="">URL visited</li>
+<li class="">Timestamp of visit</li>
+<li class="">Referring URL</li>
+<li class="">Browser type (derived from user agent)</li>
+<li class="">Device type (derived from user agent)</li>
+<li class="">Operating system (derived from user agent)</li>
+<li class="">Country (derived from time zone, not IP)</li>
+<li class="">Screen size category</li>
+<li class="">Language preference</li>
+</ul>
+<p><strong>Events:</strong></p>
+<ul>
+<li class="">Event name (e.g., &quot;Purchase&quot;, &quot;Signup&quot;)</li>
+<li class="">Event timestamp</li>
+<li class="">Associated page URL</li>
+<li class="">Optional revenue value</li>
+<li class="">Optional custom properties (you define these)</li>
+</ul>
+<p><strong>Sessions (GlobalTracker mode only):</strong></p>
+<ul>
+<li class="">Temporary session ID (expires when browser closes)</li>
+<li class="">Session start time</li>
+<li class="">Pages viewed in that session only</li>
+<li class="">Session duration</li>
+</ul>
+<p><strong>Nothing else.</strong> This is the exhaustive list.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-we-cant-do-technical-limitations">What We Can&#x27;t Do (Technical Limitations)<a href="#what-we-cant-do-technical-limitations" class="hash-link" aria-label="Direct link to What We Can&#x27;t Do (Technical Limitations)" title="Direct link to What We Can&#x27;t Do (Technical Limitations)" translate="no">​</a></h3>
+<p>Because of our privacy-first architecture, Sealmetrics <strong>cannot:</strong></p>
+<ul>
+<li class="">Identify individual users across sessions</li>
+<li class="">Rebuild complete user journeys over time</li>
+<li class="">Track users across different websites</li>
+<li class="">Create behavioral profiles</li>
+<li class="">Correlate visits from the same person</li>
+<li class="">Identify returning visitors (across sessions)</li>
+<li class="">Determine demographic information</li>
+<li class="">Infer sensitive personal attributes</li>
+<li class="">Share data with third parties (we don&#x27;t have data to share)</li>
+<li class="">Sell user data (legally impossible—no user data exists)</li>
+</ul>
+<p>These aren&#x27;t policy choices. They&#x27;re architectural constraints. The system is fundamentally incapable of these actions.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-ad-blockers-dont-block-sealmetrics">Why Ad Blockers Don&#x27;t Block Sealmetrics<a href="#why-ad-blockers-dont-block-sealmetrics" class="hash-link" aria-label="Direct link to Why Ad Blockers Don&#x27;t Block Sealmetrics" title="Direct link to Why Ad Blockers Don&#x27;t Block Sealmetrics" translate="no">​</a></h2>
+<p>Ad blockers target tools that:</p>
+<ul>
+<li class="">Build user profiles</li>
+<li class="">Track users across websites</li>
+<li class="">Serve advertisements</li>
+<li class="">Implement behavioral targeting</li>
+<li class="">Use known tracking domains</li>
+</ul>
+<p><strong>Sealmetrics doesn&#x27;t do any of these things:</strong></p>
+<ul>
+<li class="">First-party analytics only (measures your site, not users across sites)</li>
+<li class="">No user profiling</li>
+<li class="">No advertisements</li>
+<li class="">No behavioral targeting</li>
+<li class="">Unique domain (app.sealmetrics.com)</li>
+<li class="">Doesn&#x27;t match ad blocker filter patterns</li>
+</ul>
+<p><strong>Result:</strong> Your analytics work for 100% of visitors, even those using privacy tools.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="privacy-philosophy">Privacy Philosophy<a href="#privacy-philosophy" class="hash-link" aria-label="Direct link to Privacy Philosophy" title="Direct link to Privacy Philosophy" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="our-commitment">Our Commitment<a href="#our-commitment" class="hash-link" aria-label="Direct link to Our Commitment" title="Direct link to Our Commitment" translate="no">​</a></h3>
+<p>We believe website owners deserve accurate analytics. We also believe internet users deserve privacy. These goals are not in conflict.</p>
+<p><strong>Our principles:</strong></p>
+<ol>
+<li class=""><strong>Privacy is non-negotiable</strong> - We will never compromise user privacy for features</li>
+<li class=""><strong>Transparency is mandatory</strong> - We fully disclose what we collect and how it works</li>
+<li class=""><strong>Compliance is inherent</strong> - Privacy compliance is built in, not bolted on</li>
+<li class=""><strong>Security is foundational</strong> - Data security is a system-wide priority</li>
+<li class=""><strong>Users come first</strong> - When in doubt, we choose the more private approach</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="independent-verification">Independent Verification<a href="#independent-verification" class="hash-link" aria-label="Direct link to Independent Verification" title="Direct link to Independent Verification" translate="no">​</a></h3>
+<p>Don&#x27;t take our word for it:</p>
+<ul>
+<li class=""><strong>Open documentation</strong> - Our four-variable system is fully documented</li>
+<li class=""><strong>Transparent jurisdiction</strong> - European company under strict EU privacy law</li>
+<li class=""><strong>Public architecture</strong> - No hidden tracking mechanisms</li>
+<li class=""><strong>Legal compliance</strong> - Independently verified GDPR compliance</li>
+<li class=""><strong>Source code transparency</strong> - Tracking script is inspectable</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-sealmetrics-guarantee">The Sealmetrics Guarantee<a href="#the-sealmetrics-guarantee" class="hash-link" aria-label="Direct link to The Sealmetrics Guarantee" title="Direct link to The Sealmetrics Guarantee" translate="no">​</a></h3>
+<p>We guarantee:</p>
+<ul>
+<li class="">We will never collect personal data</li>
+<li class="">We will never sell or share your analytics data</li>
+<li class="">We will never introduce user-level tracking</li>
+<li class="">We will never move infrastructure outside the EU</li>
+<li class="">We will always prioritize privacy over features</li>
+</ul>
+<p>This isn&#x27;t just policy. It&#x27;s who we are.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-governance">Data Governance<a href="#data-governance" class="hash-link" aria-label="Direct link to Data Governance" title="Direct link to Data Governance" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-ownership">Data ownership<a href="#data-ownership" class="hash-link" aria-label="Direct link to Data ownership" title="Direct link to Data ownership" translate="no">​</a></h3>
+<p><strong>You own your data.</strong> Period.</p>
+<ul>
+<li class="">Full access via dashboard and API</li>
+<li class="">Export to CSV anytime</li>
+<li class="">Delete your account and all data instantly</li>
+<li class="">No lock-in, no proprietary formats</li>
+<li class="">Complete control over retention</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-retention">Data retention<a href="#data-retention" class="hash-link" aria-label="Direct link to Data retention" title="Direct link to Data retention" translate="no">​</a></h3>
+<p><strong>Default retention:</strong> 25 months</p>
+<p><strong>Your control:</strong></p>
+<ul>
+<li class="">Delete specific date ranges</li>
+<li class="">Export before deletion</li>
+<li class="">Account deletion removes all data permanently</li>
+<li class="">No backups retained after deletion</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-portability">Data portability<a href="#data-portability" class="hash-link" aria-label="Direct link to Data portability" title="Direct link to Data portability" translate="no">​</a></h3>
+<p>Export your complete dataset at any time:</p>
+<ul>
+<li class="">CSV export for all reports</li>
+<li class="">API access for programmatic extraction</li>
+<li class="">Standard formats for easy migration</li>
+<li class="">No export fees, no restrictions</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="compliance-support">Compliance Support<a href="#compliance-support" class="hash-link" aria-label="Direct link to Compliance Support" title="Direct link to Compliance Support" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="for-your-legal-team">For Your Legal Team<a href="#for-your-legal-team" class="hash-link" aria-label="Direct link to For Your Legal Team" title="Direct link to For Your Legal Team" translate="no">​</a></h3>
+<p>Sealmetrics simplifies compliance:</p>
+<ul>
+<li class=""><strong>No DPA required</strong> - No personal data processing = no Data Processing Agreement needed</li>
+<li class=""><strong>No privacy policy updates</strong> - No personal data collection to disclose</li>
+<li class=""><strong>No consent management</strong> - No consent required for cookieless, anonymous analytics</li>
+<li class=""><strong>No DPIA required</strong> - Low privacy risk = no Data Protection Impact Assessment needed</li>
+<li class=""><strong>Simple vendor assessment</strong> - Minimal third-party risk to evaluate</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="documentation-available">Documentation Available<a href="#documentation-available" class="hash-link" aria-label="Direct link to Documentation Available" title="Direct link to Documentation Available" translate="no">​</a></h3>
+<ul>
+<li class="">Privacy architecture documentation</li>
+<li class="">Legal compliance white papers</li>
+<li class="">GDPR compliance analysis</li>
+<li class="">Security infrastructure overview</li>
+<li class="">Audit support materials</li>
+</ul>
+<hr>
+<p><strong>Privacy-first analytics isn&#x27;t a compromise. It&#x27;s an upgrade.</strong></p>
+<p>Sealmetrics proves you can have complete analytics data, powerful insights, and uncompromising privacy—all at the same time.</p>
+<p><strong>Questions about our privacy or security practices?</strong> Contact our team or review our comprehensive privacy documentation.</p>
+<p>Ready to measure your traffic the right way? Start your free trial today.</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-tags-row"><div class="col"><b>Tags:</b><ul class="tags_jXut padding--none margin-left--sm"><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/tags/security">security</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/tags/privacy">privacy</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/tags/gdpr">gdpr</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/tags/eprivacy">eprivacy</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/tags/ccpa">ccpa</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/tags/compliance">compliance</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/tags/data-protection">data-protection</a></li></ul></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/product/integrations"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Integrations</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/first-steps/"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">First Steps Overview</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#privacy-by-design" class="table-of-contents__link toc-highlight">Privacy by Design</a><ul><li><a href="#what-we-dont-collect-ever" class="table-of-contents__link toc-highlight">What We Don&#39;t Collect (Ever)</a></li><li><a href="#the-four-variable-system" class="table-of-contents__link toc-highlight">The Four-Variable System</a></li><li><a href="#how-anonymization-works" class="table-of-contents__link toc-highlight">How Anonymization Works</a></li></ul></li><li><a href="#legal-compliance-by-design" class="table-of-contents__link toc-highlight">Legal Compliance by Design</a><ul><li><a href="#gdpr-compliance-no-consent-required" class="table-of-contents__link toc-highlight">GDPR Compliance (No Consent Required)</a></li><li><a href="#eprivacy-directive-compliance-no-cookies--no-consent" class="table-of-contents__link toc-highlight">ePrivacy Directive Compliance (No Cookies = No Consent)</a></li><li><a href="#ccpa-compliance" class="table-of-contents__link toc-highlight">CCPA Compliance</a></li><li><a href="#pecr-compliance-uk-cookie-law" class="table-of-contents__link toc-highlight">PECR Compliance (UK Cookie Law)</a></li></ul></li><li><a href="#data-security-measures" class="table-of-contents__link toc-highlight">Data Security Measures</a><ul><li><a href="#infrastructure-security" class="table-of-contents__link toc-highlight">Infrastructure Security</a></li><li><a href="#operational-security" class="table-of-contents__link toc-highlight">Operational Security</a></li><li><a href="#application-security" class="table-of-contents__link toc-highlight">Application Security</a></li></ul></li><li><a href="#privacy-transparency" class="table-of-contents__link toc-highlight">Privacy Transparency</a><ul><li><a href="#what-we-track-the-complete-list" class="table-of-contents__link toc-highlight">What We Track (The Complete List)</a></li><li><a href="#what-we-cant-do-technical-limitations" class="table-of-contents__link toc-highlight">What We Can&#39;t Do (Technical Limitations)</a></li></ul></li><li><a href="#why-ad-blockers-dont-block-sealmetrics" class="table-of-contents__link toc-highlight">Why Ad Blockers Don&#39;t Block Sealmetrics</a></li><li><a href="#privacy-philosophy" class="table-of-contents__link toc-highlight">Privacy Philosophy</a><ul><li><a href="#our-commitment" class="table-of-contents__link toc-highlight">Our Commitment</a></li><li><a href="#independent-verification" class="table-of-contents__link toc-highlight">Independent Verification</a></li><li><a href="#the-sealmetrics-guarantee" class="table-of-contents__link toc-highlight">The Sealmetrics Guarantee</a></li></ul></li><li><a href="#data-governance" class="table-of-contents__link toc-highlight">Data Governance</a><ul><li><a href="#data-ownership" class="table-of-contents__link toc-highlight">Data ownership</a></li><li><a href="#data-retention" class="table-of-contents__link toc-highlight">Data retention</a></li><li><a href="#data-portability" class="table-of-contents__link toc-highlight">Data portability</a></li></ul></li><li><a href="#compliance-support" class="table-of-contents__link toc-highlight">Compliance Support</a><ul><li><a href="#for-your-legal-team" class="table-of-contents__link toc-highlight">For Your Legal Team</a></li><li><a href="#documentation-available" class="table-of-contents__link toc-highlight">Documentation Available</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://sealmetrics.com" target="_blank" rel="noopener noreferrer" class="footer__link-item">Consentless Analytics<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://app.comply.org/attest/sealmetrics" target="_blank" rel="noopener noreferrer" class="footer__link-item">Legal Audit<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://sealmetrics.instatus.com/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Server Status<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://linkedin.com/company/sealmetrics" target="_blank" rel="noopener noreferrer" class="footer__link-item">LinkedIn<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://x.com/sealmetrics" target="_blank" rel="noopener noreferrer" class="footer__link-item">X (Twitter)<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/changelog">Changelog</a></li><li class="footer__item"><a class="footer__link-item" href="/guides">Guides</a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">© 2025 SealMetrics. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
