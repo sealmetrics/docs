@@ -1,0 +1,430 @@
+---
+sidebar_position: 7
+title: Docusaurus
+description: Add privacy-first analytics to your Docusaurus documentation site
+---
+
+# Docusaurus Plugin
+
+The official SealMetrics plugin for Docusaurus provides privacy-first, cookieless analytics with full SPA (Single Page Application) support. Perfect for documentation sites, developer portals, and technical blogs.
+
+:::tip Download Plugin
+**[Download Docusaurus Plugin](/downloads/docusaurus-plugin-sealmetrics.zip)** • Version 1.0.0
+
+**Requirements:** Docusaurus 2.x or 3.x, Node.js 16+
+
+Or install via npm:
+```bash
+npm install docusaurus-plugin-sealmetrics
+```
+:::
+
+## Features
+
+- **Privacy First** - No cookies, no consent banners needed
+- **SPA Support** - Automatic tracking on route changes
+- **Content Grouping** - Categorize pages by URL patterns
+- **TypeScript Support** - Full type definitions included
+- **Lightweight** - Minimal bundle impact
+- **Docusaurus 2 & 3** - Compatible with both versions
+
+## Installation
+
+### Option 1: npm (Recommended)
+
+```bash
+npm install docusaurus-plugin-sealmetrics
+# or
+yarn add docusaurus-plugin-sealmetrics
+```
+
+### Option 2: Manual Installation
+
+1. Download the plugin zip file
+2. Extract to your project's `packages/` directory
+3. Add as a local dependency in your `package.json`:
+
+```json
+{
+  "dependencies": {
+    "docusaurus-plugin-sealmetrics": "file:./packages/docusaurus-plugin-sealmetrics"
+  }
+}
+```
+
+4. Run `npm install` or `yarn install`
+
+## Quick Start
+
+Add the plugin to your `docusaurus.config.js`:
+
+```js
+module.exports = {
+  plugins: [
+    [
+      'docusaurus-plugin-sealmetrics',
+      {
+        accountId: 'YOUR_ACCOUNT_ID',
+      },
+    ],
+  ],
+};
+```
+
+That's it! The plugin will automatically track pageviews across your entire site, including SPA navigation.
+
+## Configuration Options
+
+### Basic Configuration
+
+```js
+{
+  plugins: [
+    [
+      'docusaurus-plugin-sealmetrics',
+      {
+        // Required: Your SealMetrics Account ID
+        accountId: 'YOUR_ACCOUNT_ID',
+
+        // Optional: Enable tracking in development
+        enableInDevelopment: false,
+
+        // Optional: Enable debug logging
+        debug: false,
+      },
+    ],
+  ],
+}
+```
+
+### All Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `accountId` | `string` | **required** | Your SealMetrics Account ID |
+| `enableInDevelopment` | `boolean` | `false` | Enable tracking in dev mode |
+| `useSession` | `boolean` | `true` | Enable session tracking |
+| `contentGrouping` | `string` | `null` | Static content group for all pages |
+| `contentGroupingRules` | `array` | `null` | Dynamic content grouping rules |
+| `debug` | `boolean` | `false` | Log tracking events to console |
+| `trackPageViews` | `boolean` | `true` | Auto-track pageviews |
+| `respectDoNotTrack` | `boolean` | `false` | Honor browser DNT setting |
+
+## Content Grouping
+
+Categorize your pages for better analytics segmentation. Rules are evaluated in order—first match wins.
+
+### Example Configuration
+
+```js
+{
+  plugins: [
+    [
+      'docusaurus-plugin-sealmetrics',
+      {
+        accountId: 'YOUR_ACCOUNT_ID',
+        contentGroupingRules: [
+          { pattern: '/blog', group: 'Blog' },
+          { pattern: '/docs/api', group: 'API Reference' },
+          { pattern: '/docs/guides', group: 'Guides' },
+          { pattern: '/docs', group: 'Documentation' },
+        ],
+      },
+    ],
+  ],
+}
+```
+
+### Default Content Groups
+
+If no rules are specified, the plugin uses these defaults:
+
+| URL Pattern | Content Group |
+|-------------|---------------|
+| `/blog/*` | Blog |
+| `/docs/*` | Docs |
+| `/` | Home |
+| Everything else | Docs |
+
+## Events Tracked
+
+### Pageview
+
+Automatically tracked on every page load and SPA navigation.
+
+**When tracked:**
+- Initial page load
+- Client-side navigation (clicking links)
+- Browser back/forward navigation
+- Hash changes
+
+**Data collected:**
+- Page URL (pathname only)
+- Content group (based on rules)
+- Session tracking enabled
+
+### Custom Events
+
+Track custom events using the global `sealmetricsTrack` function:
+
+```js
+// Track a button click
+window.sealmetricsTrack('button_click', {
+  label: 'signup_cta',
+  location: 'header',
+});
+
+// Track a conversion
+window.sealmetricsTrack('conversion', {
+  amount: 99.99,
+  currency: 'USD',
+  label: 'premium_signup',
+});
+
+// Track a microconversion
+window.sealmetricsTrack('newsletter_signup', {
+  source: 'blog_sidebar',
+});
+```
+
+## React Component Integration
+
+Track events from your React components:
+
+```jsx
+import React from 'react';
+
+function SignupButton() {
+  const handleClick = () => {
+    // Track the click event
+    if (typeof window !== 'undefined' && window.sealmetricsTrack) {
+      window.sealmetricsTrack('signup_click', {
+        location: 'hero_section',
+      });
+    }
+    // Proceed with signup logic
+  };
+
+  return (
+    <button onClick={handleClick}>
+      Get Started
+    </button>
+  );
+}
+
+export default SignupButton;
+```
+
+## TypeScript Support
+
+The plugin includes full TypeScript definitions. Add type safety to your custom event tracking:
+
+```typescript
+// Type-safe event tracking
+declare global {
+  interface Window {
+    sealmetricsTrack: (
+      eventName: string,
+      eventData?: Record<string, unknown>
+    ) => void;
+  }
+}
+
+// Usage with type checking
+window.sealmetricsTrack('custom_event', { key: 'value' });
+```
+
+Or import the types directly in your Docusaurus site:
+
+```typescript
+import type { PluginOptions } from 'docusaurus-plugin-sealmetrics';
+
+const config: PluginOptions = {
+  accountId: 'YOUR_ACCOUNT_ID',
+  debug: true,
+};
+```
+
+## How It Works
+
+1. **Script Injection** - The plugin injects the SealMetrics tracker script into your site's `<head>`
+2. **Initial Pageview** - Tracks the first pageview when the page loads
+3. **SPA Navigation** - Listens for History API changes (`pushState`, `replaceState`, `popstate`) and tracks subsequent pageviews
+4. **Content Grouping** - Automatically categorizes pages based on your rules
+5. **Deduplication** - Prevents duplicate tracking for the same URL
+
+## Use Cases
+
+### Documentation Sites
+
+Track which sections of your documentation are most valuable:
+
+```js
+contentGroupingRules: [
+  { pattern: '/docs/getting-started', group: 'Getting Started' },
+  { pattern: '/docs/api-reference', group: 'API Reference' },
+  { pattern: '/docs/tutorials', group: 'Tutorials' },
+  { pattern: '/docs/examples', group: 'Examples' },
+  { pattern: '/docs', group: 'Documentation' },
+]
+```
+
+### Developer Portals
+
+Understand developer engagement:
+
+```js
+contentGroupingRules: [
+  { pattern: '/docs/quickstart', group: 'Quickstart' },
+  { pattern: '/docs/sdks', group: 'SDKs' },
+  { pattern: '/docs/api', group: 'API Docs' },
+  { pattern: '/changelog', group: 'Changelog' },
+  { pattern: '/blog', group: 'Blog' },
+]
+```
+
+### Technical Blogs
+
+Track content categories:
+
+```js
+contentGroupingRules: [
+  { pattern: '/blog/tutorials', group: 'Tutorials' },
+  { pattern: '/blog/announcements', group: 'Announcements' },
+  { pattern: '/blog/engineering', group: 'Engineering' },
+  { pattern: '/blog', group: 'Blog' },
+]
+```
+
+## Privacy & Compliance
+
+### What's NOT Collected
+
+- No cookies set
+- No email addresses
+- No personal identifiable information (PII)
+- No cross-site tracking
+- No user fingerprinting
+
+### GDPR Compliance
+
+The plugin is designed for GDPR compliance:
+- No consent required (no cookies)
+- Session tracking uses privacy-safe methods
+- All data is anonymized
+- No personal data stored
+
+### Do Not Track Support
+
+Optionally respect the browser's Do Not Track setting:
+
+```js
+{
+  accountId: 'YOUR_ACCOUNT_ID',
+  respectDoNotTrack: true,
+}
+```
+
+## Finding Your Account ID
+
+1. Log in to your [SealMetrics dashboard](https://app.sealmetrics.com)
+2. Click on your profile icon (top-right)
+3. Select "Tags & Connectors"
+4. Copy your Account ID
+
+![Finding your Account ID](/img/Add-New-Account.png)
+
+## Troubleshooting
+
+### Events not appearing in dashboard
+
+1. Verify your Account ID is correct
+2. Enable `debug: true` and check browser console
+3. Ensure you're testing on a production build (or enable `enableInDevelopment`)
+4. Check for JavaScript errors in browser console
+
+### Debug Mode
+
+Enable debug mode to see tracking events in your browser console:
+
+```js
+{
+  accountId: 'YOUR_ACCOUNT_ID',
+  debug: true,
+}
+```
+
+You'll see messages like:
+```
+[SealMetrics] Tracker initialized with options: {account: "xxx", use_session: 1, id: 123}
+[SealMetrics] Tracked pageview: {pathname: "/docs/intro", contentGrouping: "Documentation"}
+```
+
+### Duplicate pageviews
+
+The plugin prevents duplicate tracking for the same URL. If you see duplicates:
+1. Check if you have multiple tracking scripts installed
+2. Verify the plugin is only listed once in your config
+3. Disable debug mode and check again
+
+### Content grouping not working
+
+1. Rules are evaluated in order—more specific patterns should come first
+2. Enable `debug: true` to see which group is assigned
+3. Verify your patterns match the actual URL paths
+4. Use exact prefix matching (e.g., `/docs/api` matches `/docs/api/auth`)
+
+### Development mode tracking
+
+By default, tracking is disabled in development. To test:
+
+```js
+{
+  accountId: 'YOUR_ACCOUNT_ID',
+  enableInDevelopment: true,
+  debug: true,
+}
+```
+
+### SPA navigation not tracking
+
+The plugin automatically listens for:
+- `history.pushState` changes
+- `history.replaceState` changes
+- `popstate` events (back/forward)
+
+If navigation isn't tracked:
+1. Verify Docusaurus is using client-side routing
+2. Check that the plugin is properly loaded (see debug mode)
+3. Ensure no other scripts are overriding the History API
+
+## Compatibility
+
+| Docusaurus Version | Supported |
+|--------------------|-----------|
+| 2.0.x | Yes |
+| 2.1.x | Yes |
+| 2.2.x | Yes |
+| 2.3.x | Yes |
+| 2.4.x | Yes |
+| 3.0.x | Yes |
+| 3.1.x | Yes |
+
+### Node.js Requirements
+
+- Node.js 16.0.0 or higher
+- npm 7+ or yarn 1.22+
+
+### Browser Support
+
+The tracking script supports all modern browsers:
+- Chrome 80+
+- Firefox 75+
+- Safari 13+
+- Edge 80+
+
+## Support
+
+- **Documentation**: [docs.sealmetrics.com](https://docs.sealmetrics.com/plugins-and-modules/docusaurus)
+- **Email**: support@sealmetrics.com
+- **GitHub Issues**: [Report a bug](https://github.com/sealmetrics/docusaurus-plugin-sealmetrics/issues)
