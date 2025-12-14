@@ -85,8 +85,8 @@ The simplest setup with no local installation required:
       "command": "npx",
       "args": ["-y", "@sealmetrics/mcp"],
       "env": {
-        "SEALMETRICS_API_TOKEN": "your-api-token",
-        "SEALMETRICS_ACCOUNT_ID": "your-account-id"
+        "SEALMETRICS_API_TOKEN": "YOUR_API_TOKEN_HERE",
+        "SEALMETRICS_ACCOUNT_ID": "YOUR_ACCOUNT_ID_HERE"
       }
     }
   }
@@ -111,8 +111,8 @@ Then add this configuration using the full path:
       "command": "/Users/YOUR_USER/.local/bin/sealmetrics-mcp",
       "args": [],
       "env": {
-        "SEALMETRICS_API_TOKEN": "your-api-token",
-        "SEALMETRICS_ACCOUNT_ID": "your-account-id"
+        "SEALMETRICS_API_TOKEN": "YOUR_API_TOKEN_HERE",
+        "SEALMETRICS_ACCOUNT_ID": "YOUR_ACCOUNT_ID_HERE"
       }
     }
   }
@@ -128,8 +128,8 @@ Then add this configuration using the full path:
       "command": "uvx",
       "args": ["sealmetrics-mcp"],
       "env": {
-        "SEALMETRICS_API_TOKEN": "your-api-token",
-        "SEALMETRICS_ACCOUNT_ID": "your-account-id"
+        "SEALMETRICS_API_TOKEN": "YOUR_API_TOKEN_HERE",
+        "SEALMETRICS_ACCOUNT_ID": "YOUR_ACCOUNT_ID_HERE"
       }
     }
   }
@@ -137,7 +137,7 @@ Then add this configuration using the full path:
 ```
 
 :::warning Important
-Replace `your-api-token` and `your-account-id` with your actual credentials. Never commit these values to version control.
+Replace `YOUR_API_TOKEN_HERE` and `YOUR_ACCOUNT_ID_HERE` with your actual credentials. Never commit these values to version control.
 :::
 
 ### Post-Configuration Steps
@@ -242,10 +242,10 @@ You can test if the server runs correctly from the terminal:
 
 ```bash
 # Using npx
-SEALMETRICS_API_TOKEN="your-token" npx -y @sealmetrics/mcp
+SEALMETRICS_API_TOKEN="YOUR_API_TOKEN_HERE" npx -y @sealmetrics/mcp
 
 # Using Python
-SEALMETRICS_API_TOKEN="your-token" ~/.local/bin/sealmetrics-mcp
+SEALMETRICS_API_TOKEN="YOUR_API_TOKEN_HERE" ~/.local/bin/sealmetrics-mcp
 ```
 
 ### Check Logs
