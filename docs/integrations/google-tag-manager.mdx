@@ -1,0 +1,313 @@
+---
+sidebar_position: 2
+title: Google Tag Manager Template
+description: Install SealMetrics tracking on your website using the official Google Tag Manager template. Track pageviews, conversions, and microconversions without writing code.
+---
+
+# Google Tag Manager Template
+
+The **SealMetrics GTM Template** allows you to install and configure SealMetrics tracking on your website directly from Google Tag Manager, without writing any code. Track pageviews, conversions, and microconversions with full attribution — all while maintaining GDPR compliance.
+
+## Features
+
+- **No-code installation** — Configure everything through GTM's visual interface
+- **Three event types** — Pageviews, microconversions, and conversions
+- **Super-Privacy mode** — Optional aggregated-data tracking without user attribution
+- **Custom properties** — Attach additional data to any event
+- **Cookieless tracking** — GDPR-compliant analytics without consent banners
+
+## Installation Options
+
+You have two ways to install the SealMetrics template:
+
+### Option 1: Community Template Gallery (Recommended)
+
+:::info Pending Review
+The SealMetrics template has been submitted to Google's Community Template Gallery and is currently **pending review**. Once approved, you'll be able to install it directly from within GTM.
+:::
+
+Once approved, to install from the Gallery:
+
+1. In Google Tag Manager, go to **Templates** in the left sidebar
+2. Click **Search Gallery** in the Tag Templates section
+3. Search for **"Sealmetrics"**
+4. Click on the template and then **Add to workspace**
+5. Confirm by clicking **Add**
+
+### Option 2: Manual Import (Available Now)
+
+You can import the template manually right now:
+
+1. **Download the template file:**
+
+   <a href="https://github.com/sealmetrics/gtm-template/raw/main/template.tpl" className="button button--primary" download>Download template.tpl</a>
+
+   Or clone the repository:
+   ```bash
+   git clone https://github.com/sealmetrics/gtm-template.git
+   ```
+
+2. In Google Tag Manager, go to **Templates** in the left sidebar
+
+3. In the **Tag Templates** section, click **New**
+
+4. Click the **three dots menu (⋮)** in the top-right corner
+
+5. Select **Import**
+
+6. Choose the downloaded `template.tpl` file
+
+7. Click **Save** to add the template to your workspace
+
+## Configuration
+
+Once the template is installed, you can create tags using it.
+
+### Creating a New Tag
+
+1. Go to **Tags** in the left sidebar
+2. Click **New**
+3. Click on **Tag Configuration**
+4. Select **Sealmetrics Tracking** from the list
+5. Configure the tag settings (see below)
+6. Add a **Trigger** (e.g., "All Pages" for pageviews)
+7. **Save** the tag
+
+### Tag Settings
+
+#### Event Type
+
+Choose what type of event to track:
+
+| Event Type | Use Case | Example |
+|------------|----------|---------|
+| **Pageview** | Track page loads | Every page visit |
+| **Microconversion** | Track intermediate actions | Add to cart, form start, video play |
+| **Conversion** | Track completed goals | Purchase, lead form submit, signup |
+
+#### Account ID (Required)
+
+Your SealMetrics Account ID. Find it in your [SealMetrics dashboard](https://app.sealmetrics.com) under **Settings**.
+
+:::tip Finding Your Account ID
+1. Log in to SealMetrics
+2. Click your profile icon in the top-right
+3. Go to **Tags & Connectors**
+4. Your Account ID is displayed in the tracking code section
+:::
+
+#### Event Label (Microconversions & Conversions)
+
+A descriptive name for the event. Use clear, consistent naming:
+
+- `purchase` — For completed orders
+- `add_to_cart` — For add-to-cart clicks
+- `lead_form_submit` — For lead generation
+- `newsletter_signup` — For email subscriptions
+- `checkout_step_1`, `checkout_step_2` — For funnel steps
+
+#### Conversion Value (Conversions only)
+
+The monetary value of the conversion. For e-commerce, this is typically the order total.
+
+You can use a GTM variable to dynamically pass the value:
+- Create a **Data Layer Variable** for your order total
+- Reference it like `{{Order Total}}`
+
+#### Content Grouping (Pageviews only)
+
+Optional. Group pages by category for better analytics:
+
+- `blog` — Blog posts
+- `product` — Product pages
+- `category` — Category listings
+- `checkout` — Checkout flow pages
+- `landing` — Landing pages
+
+#### Don't Count as Pageview
+
+Enable this checkbox when firing a microconversion or conversion **on the same page** where a pageview tag already fires. This prevents duplicate pageview counts.
+
+**Example:** On a thank-you page, you have both:
+- A pageview tag (fires on page load)
+- A conversion tag (fires on page load)
+
+Enable this option on the conversion tag to avoid counting two pageviews.
+
+#### Enable Super-Privacy Tracking
+
+When enabled, tracking works in **aggregated-data mode**:
+
+- No user sessions are tracked
+- Conversions are not attributed to traffic sources
+- Maximum privacy compliance
+- Useful for sensitive industries or strict privacy requirements
+
+**Default behavior (disabled):** Full attribution tracking where conversions are connected to their traffic source (UTM parameters, referrer, etc.).
+
+#### Custom Properties
+
+Add key-value pairs to attach additional data to events:
+
+| Property Name | Property Value | Use Case |
+|--------------|----------------|----------|
+| `product-id` | `SKU12345` | Track which product was purchased |
+| `product-name` | `Blue Widget` | Human-readable product name |
+| `order-id` | `ORD-98765` | Link to your order system |
+| `payment-method` | `credit_card` | Payment analytics |
+| `coupon-code` | `SAVE20` | Track promo code usage |
+
+Use kebab-case for property names (e.g., `product-id`, not `productId`).
+
+## Complete Setup Examples
+
+### Example 1: Basic Pageview Tracking
+
+Track all page loads on your website:
+
+**Tag Configuration:**
+- **Event Type:** Pageview
+- **Account ID:** Your account ID
+- **Content Grouping:** (optional) Use a variable like `{{Page Type}}`
+
+**Trigger:** All Pages
+
+### Example 2: E-commerce Purchase Tracking
+
+Track completed purchases with order value:
+
+**Tag Configuration:**
+- **Event Type:** Conversion
+- **Account ID:** Your account ID
+- **Event Label:** `purchase`
+- **Conversion Value:** `{{Order Total}}` (Data Layer variable)
+- **Don't count as pageview:** ✓ Enabled
+- **Custom Properties:**
+  - `order-id` → `{{Order ID}}`
+  - `payment-method` → `{{Payment Method}}`
+
+**Trigger:** Custom Event — `purchase` or Thank You Page view
+
+### Example 3: Add to Cart Microconversion
+
+Track when users add products to their cart:
+
+**Tag Configuration:**
+- **Event Type:** Microconversion
+- **Account ID:** Your account ID
+- **Event Label:** `add_to_cart`
+- **Don't count as pageview:** ✓ Enabled
+- **Custom Properties:**
+  - `product-id` → `{{Product ID}}`
+  - `product-name` → `{{Product Name}}`
+
+**Trigger:** Custom Event — `add_to_cart` click
+
+### Example 4: Lead Form Submission
+
+Track contact form submissions:
+
+**Tag Configuration:**
+- **Event Type:** Conversion
+- **Account ID:** Your account ID
+- **Event Label:** `lead_form_submit`
+- **Don't count as pageview:** ✓ Enabled
+
+**Trigger:** Form Submission on contact page
+
+## Using Data Layer Variables
+
+For dynamic values (order totals, product IDs, etc.), push data to the GTM Data Layer and create variables.
+
+### Push Data to Data Layer
+
+Add this code when an event occurs (e.g., on your thank-you page):
+
+```html
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'purchase',
+    orderTotal: 149.99,
+    orderId: 'ORD-12345',
+    paymentMethod: 'credit_card'
+  });
+</script>
+```
+
+### Create Data Layer Variables in GTM
+
+1. Go to **Variables** → **New**
+2. Choose **Data Layer Variable**
+3. Set **Data Layer Variable Name** to `orderTotal`
+4. Name it `Order Total` and save
+5. Repeat for other values (`orderId`, `paymentMethod`, etc.)
+
+### Use Variables in Your Tag
+
+Reference variables in your tag configuration:
+- **Conversion Value:** `{{Order Total}}`
+- **Custom Properties:** `order-id` → `{{Order ID}}`
+
+## Testing Your Setup
+
+### Preview Mode
+
+1. Click **Preview** in GTM
+2. Navigate your website
+3. Verify tags fire on the correct pages/events
+4. Check that values are passed correctly
+
+### Debug in SealMetrics
+
+1. Log in to [SealMetrics](https://app.sealmetrics.com)
+2. Go to your account dashboard
+3. Check **Real-time** data to see incoming events
+4. Verify pageviews and conversions appear correctly
+
+### Browser Developer Tools
+
+1. Open Developer Tools (F12)
+2. Go to the **Network** tab
+3. Filter by `sealmetrics`
+4. Verify requests are being sent with correct parameters
+
+## Troubleshooting
+
+### Tag not firing
+
+1. Check your **Trigger** configuration
+2. Verify the trigger conditions match the page/event
+3. Use GTM Preview mode to debug
+
+### Values not passing correctly
+
+1. Verify Data Layer variables are configured correctly
+2. Check that data is pushed **before** the tag fires
+3. Test variable values in Preview mode
+
+### Duplicate pageviews
+
+Enable **"Don't count as pageview"** on conversion/microconversion tags that fire on pages where a pageview tag also fires.
+
+### No data in SealMetrics
+
+1. Verify your **Account ID** is correct
+2. Check that tags are firing (use Preview mode)
+3. Wait a few minutes — data may take time to appear
+4. Ensure your website domain is registered in SealMetrics
+
+## Resources
+
+- **GitHub Repository:** [github.com/sealmetrics/gtm-template](https://github.com/sealmetrics/gtm-template)
+- **Direct Download:** [template.tpl](https://github.com/sealmetrics/gtm-template/raw/main/template.tpl)
+- **Google Tag Manager:** [tagmanager.google.com](https://tagmanager.google.com)
+- **SealMetrics Dashboard:** [app.sealmetrics.com](https://app.sealmetrics.com)
+
+## Support
+
+Need help with the GTM template?
+
+- **GitHub Issues:** [Report bugs or request features](https://github.com/sealmetrics/gtm-template/issues)
+- **Email:** support@sealmetrics.com
+- **Documentation:** [Full SealMetrics docs](/)
