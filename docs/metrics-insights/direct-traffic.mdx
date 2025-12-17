@@ -1,12 +1,12 @@
 ---
-title: Understanding Direct Traffic in SealMetrics
+title: Understanding Direct Traffic in Sealmetrics
 sidebar_label: Direct Traffic
-description: Learn how SealMetrics classifies Direct traffic and how referrer detection impacts traffic source attribution.
+description: Learn how Sealmetrics classifies Direct traffic and how referrer detection impacts traffic source attribution.
 ---
 
-# Understanding Direct Traffic in SealMetrics
+# Understanding Direct Traffic in Sealmetrics
 
-Direct vs Referrer traffic in SealMetrics follows one simple rule:
+Direct vs Referrer traffic in Sealmetrics follows one simple rule:
 
 - **If a referrer exists → Referrer Traffic**
 - **If the referrer is empty → Direct Traffic**
@@ -19,7 +19,7 @@ This binary model ensures clear and privacy-compliant traffic source attribution
 
 Direct traffic occurs when the **referrer field is empty**.
 
-This means SealMetrics received no information about the previous page the user came from.
+This means Sealmetrics received no information about the previous page the user came from.
 
 **Key rule:**  
 > **Direct traffic = referrer is empty**
@@ -36,13 +36,13 @@ Example referrer header:
 ````
 Referrer: https://google.com/search?q=analytics
 ````
-SealMetrics reads this header (without storing personal information) to classify traffic sources.
+Sealmetrics reads this header (without storing personal information) to classify traffic sources.
 
 ---
 
-## How SealMetrics Classifies Referrers
+## How Sealmetrics Classifies Referrers
 
-If a referrer exists, SealMetrics analyzes the domain and performs **category-based enrichment**:
+If a referrer exists, Sealmetrics analyzes the domain and performs **category-based enrichment**:
 
 ### ✔ Domain recognition  
 Certain domains are automatically recognized and reclassified:
@@ -59,7 +59,7 @@ It provides more meaningful insight into *which channels* bring traffic to your 
 
 ## Why This System Matters
 
-SealMetrics’ referrer classification allows you to:
+Sealmetrics’ referrer classification allows you to:
 
 - Identify top-performing traffic sources  
 - Understand whether traffic comes from search, social, media, or partners  
@@ -71,7 +71,7 @@ SealMetrics’ referrer classification allows you to:
 ## Summary
 
 - **Direct Traffic** occurs when the referrer is empty  
-- **Referrer Traffic** is enriched when SealMetrics recognizes known platforms  
+- **Referrer Traffic** is enriched when Sealmetrics recognizes known platforms  
 - This classification provides clearer attribution while staying fully privacy-first  
 
-SealMetrics gives you a transparent, simple, and accurate way to understand how users arrive at your website — without cookies, without IDs, and without compromising user privacy.
+Sealmetrics gives you a transparent, simple, and accurate way to understand how users arrive at your website — without cookies, without IDs, and without compromising user privacy.

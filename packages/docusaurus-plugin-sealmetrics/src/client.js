@@ -1,5 +1,5 @@
 /**
- * SealMetrics Client Module for Docusaurus
+ * Sealmetrics Client Module for Docusaurus
  *
  * Handles SPA route changes and automatic pageview tracking.
  * Works with Docusaurus 2.x and 3.x.
@@ -19,7 +19,7 @@ if (ExecutionEnvironment.canUseDOM) {
    */
   function debugLog(...args) {
     if (config.debug) {
-      console.log('[SealMetrics]', ...args);
+      console.log('[Sealmetrics]', ...args);
     }
   }
 
@@ -82,7 +82,7 @@ if (ExecutionEnvironment.canUseDOM) {
   }
 
   /**
-   * Initialize SealMetrics tracker
+   * Initialize Sealmetrics tracker
    */
   function initTracker() {
     if (isInitialized || !window.sm) {
@@ -105,7 +105,7 @@ if (ExecutionEnvironment.canUseDOM) {
       isInitialized = true;
       debugLog('Tracker initialized with options:', options);
     } catch (error) {
-      console.error('[SealMetrics] Failed to initialize tracker:', error);
+      console.error('[Sealmetrics] Failed to initialize tracker:', error);
     }
   }
 
@@ -127,7 +127,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
     // Wait for tracker script to load
     if (!window.sm) {
-      debugLog('Waiting for SealMetrics script to load...');
+      debugLog('Waiting for Sealmetrics script to load...');
       setTimeout(() => trackPageView(pathname), 100);
       return;
     }
@@ -154,7 +154,7 @@ if (ExecutionEnvironment.canUseDOM) {
       lastTrackedPath = pathname;
       debugLog('Tracked pageview:', { pathname, contentGrouping });
     } catch (error) {
-      console.error('[SealMetrics] Failed to track pageview:', error);
+      console.error('[Sealmetrics] Failed to track pageview:', error);
     }
   }
 
@@ -164,7 +164,7 @@ if (ExecutionEnvironment.canUseDOM) {
    */
   function trackEvent(eventName, eventData = {}) {
     if (!smInstance) {
-      console.warn('[SealMetrics] Tracker not initialized. Call after page load.');
+      console.warn('[Sealmetrics] Tracker not initialized. Call after page load.');
       return;
     }
 
@@ -179,7 +179,7 @@ if (ExecutionEnvironment.canUseDOM) {
       smInstance.track(eventName, trackOptions);
       debugLog('Tracked event:', eventName, eventData);
     } catch (error) {
-      console.error('[SealMetrics] Failed to track event:', error);
+      console.error('[Sealmetrics] Failed to track event:', error);
     }
   }
 
@@ -222,7 +222,7 @@ if (ExecutionEnvironment.canUseDOM) {
     }, 0);
   });
 
-  debugLog('SealMetrics client module loaded');
+  debugLog('Sealmetrics client module loaded');
 }
 
 export default {};

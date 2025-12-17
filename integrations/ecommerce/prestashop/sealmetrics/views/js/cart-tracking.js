@@ -1,5 +1,5 @@
 /**
- * SealMetrics - Add to Cart Tracking
+ * Sealmetrics - Add to Cart Tracking
  * Handles add-to-cart event tracking for PrestaShop
  */
 (function() {

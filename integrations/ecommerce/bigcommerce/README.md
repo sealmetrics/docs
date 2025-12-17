@@ -1,6 +1,6 @@
-# SealMetrics Tracking for BigCommerce
+# Sealmetrics Tracking for BigCommerce
 
-Advanced e-commerce tracking integration with SealMetrics for BigCommerce stores. Tracks pageviews, product views, add-to-cart, checkout funnel, and purchases.
+Advanced e-commerce tracking integration with Sealmetrics for BigCommerce stores. Tracks pageviews, product views, add-to-cart, checkout funnel, and purchases.
 
 ## Installation
 
@@ -9,12 +9,12 @@ Advanced e-commerce tracking integration with SealMetrics for BigCommerce stores
 1. Go to **BigCommerce Admin** > **Storefront** > **Script Manager**
 2. Click **Create a Script**
 3. Configure:
-   - **Name**: SealMetrics Tracking
+   - **Name**: Sealmetrics Tracking
    - **Location**: Head
    - **Pages**: All Pages
    - **Script type**: Script
 4. Paste the contents of `embed-snippet.html`
-5. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+5. Replace `YOUR_ACCOUNT_ID` with your Sealmetrics Account ID
 6. Click **Save**
 
 ### Via Theme Files (Advanced)
@@ -30,7 +30,7 @@ Edit the `CONFIG` object at the top of the script:
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `accountId` | string | `'YOUR_ACCOUNT_ID'` | **Required.** Your SealMetrics Account ID |
+| `accountId` | string | `'YOUR_ACCOUNT_ID'` | **Required.** Your Sealmetrics Account ID |
 | `debugMode` | boolean | `false` | Enable console logging for debugging |
 | `attributeMap` | object | `{...}` | Attribute name normalization map |
 
@@ -234,7 +234,7 @@ Only anonymous e-commerce data is tracked:
 
 1. Enable `debugMode: true` in configuration
 2. Open browser console (F12)
-3. Look for `[SealMetrics]` log messages
+3. Look for `[Sealmetrics]` log messages
 4. Verify page type is detected correctly
 
 ### Product data not captured

@@ -1,6 +1,6 @@
-# SealMetrics Integrations
+# Sealmetrics Integrations
 
-Official tracking integrations for SealMetrics. These plugins and scripts enable seamless tracking across various platforms.
+Official tracking integrations for Sealmetrics. These plugins and scripts enable seamless tracking across various platforms.
 
 ## E-commerce Integrations
 
@@ -45,7 +45,7 @@ Form submission tracking for lead generation sites.
 
 All integrations share the same architecture:
 
-1. **Single script load** - SealMetrics JS loaded once (async)
+1. **Single script load** - Sealmetrics JS loaded once (async)
 2. **Global queue** - `window.sealmetricsTrack` array
 3. **Pageview first** - Always fires before other events
 4. **Debug mode** - Optional console logging

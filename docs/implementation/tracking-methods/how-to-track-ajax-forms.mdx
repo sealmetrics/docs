@@ -6,7 +6,7 @@ If you are working with AJAX forms, follow these steps to track conversions when
 ---
 
 ## 1. Add SEAL’s Tracking Pixel
-Add the SealMetrics tracking pixel to **all pages** of your website.
+Add the Sealmetrics tracking pixel to **all pages** of your website.
 
 ---
 
@@ -16,7 +16,7 @@ When the AJAX form is successfully submitted, fire the following tracking code:
 
 ```html
 <script>
-/* SealMetrics Tracker Code */
+/* Sealmetrics Tracker Code */
 var oSm = window.oSm || {};
 oSm.account = 'XXXXXXXXXXXXXXXXXXXXX';
 oSm.decore = 1;
@@ -40,7 +40,7 @@ oSm.label = 'form-lead';
             sm.tracker.track(e.event)
         })
 }(oSm);
-/* End SealMetrics Tracker Code */
+/* End Sealmetrics Tracker Code */
 </script>
 ```
 

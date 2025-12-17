@@ -1,21 +1,21 @@
 ---
-title: Understanding the "(not set)" Value in SealMetrics Reports
+title: Understanding the "(not set)" Value in Sealmetrics Reports
 sidebar_label: "(not set) value explained"
-description: Learn why SealMetrics shows "(not set)" in your reports, what causes missing UTM parameters, and how to avoid attribution gaps.
+description: Learn why Sealmetrics shows "(not set)" in your reports, what causes missing UTM parameters, and how to avoid attribution gaps.
 sidebar_position: 12
 ---
 
-# Understanding the “(not set)” Value in SealMetrics Reports
+# Understanding the “(not set)” Value in Sealmetrics Reports
 
-The value **“(not set)”** appears in SealMetrics whenever a UTM parameter expected for attribution is **missing** from the URL. This happens when **one or more UTM parameters are present**, but another required one is not.
+The value **“(not set)”** appears in Sealmetrics whenever a UTM parameter expected for attribution is **missing** from the URL. This happens when **one or more UTM parameters are present**, but another required one is not.
 
-SealMetrics does **not infer or guess missing UTMs** — if a parameter doesn’t exist in the URL, its value is recorded as **(not set)**.
+Sealmetrics does **not infer or guess missing UTMs** — if a parameter doesn’t exist in the URL, its value is recorded as **(not set)**.
 
 ---
 
 ## Why “(not set)” Appears
 
-When SealMetrics processes UTM parameters, it reads exactly what is present.  
+When Sealmetrics processes UTM parameters, it reads exactly what is present.  
 If the URL contains some UTMs but not all, the missing ones become **(not set)**.
 
 ### Example URL
@@ -32,7 +32,7 @@ Parameter **missing**:
 
 - `utm_medium = (not set)`
 
-Because `utm_medium` does not exist in the URL, SealMetrics assigns **(not set)**.
+Because `utm_medium` does not exist in the URL, Sealmetrics assigns **(not set)**.
 
 ---
 
@@ -71,11 +71,11 @@ Examples of issues that cause missing values:
 - Double `?` in the URL
 - Spaces or unencoded characters
 
-If a parameter is malformed, SealMetrics treats it as **not included**, resulting in **(not set)**.
+If a parameter is malformed, Sealmetrics treats it as **not included**, resulting in **(not set)**.
 
 ---
 
-## Why SealMetrics Never "Fills in the Blanks"
+## Why Sealmetrics Never "Fills in the Blanks"
 
 Unlike some analytics tools:
 
@@ -83,7 +83,7 @@ Unlike some analytics tools:
 ❌ No automatic inference  
 ❌ No cross-hit reconstruction  
 
-SealMetrics maintains:
+Sealmetrics maintains:
 
 ✔ Privacy-first measurement  
 ✔ Strict attribution rules  
@@ -123,8 +123,8 @@ Some redirect chains strip UTMs → leading to missing values.
 
 ## Summary
 
-“**(not set)**” in SealMetrics means a required UTM parameter is **missing from the URL**.  
-Because SealMetrics follows a privacy-first, no-assumptions approach:
+“**(not set)**” in Sealmetrics means a required UTM parameter is **missing from the URL**.  
+Because Sealmetrics follows a privacy-first, no-assumptions approach:
 
 - It only uses explicitly provided data  
 - It never reconstructs or guesses missing parameters  

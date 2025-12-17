@@ -1,17 +1,17 @@
 /**
- * SealMetrics Tracking for Webflow
+ * Sealmetrics Tracking for Webflow
  *
- * Lead tracking integration with SealMetrics for Webflow sites.
+ * Lead tracking integration with Sealmetrics for Webflow sites.
  * Tracks form submissions as conversions.
  *
  * @version 1.0.0
- * @author SealMetrics
+ * @author Sealmetrics
  * @license MIT
  *
  * INSTALLATION:
  * 1. Go to Webflow Project Settings > Custom Code
  * 2. Paste this script in the "Head Code" section
- * 3. Replace 'YOUR_ACCOUNT_ID' with your SealMetrics Account ID
+ * 3. Replace 'YOUR_ACCOUNT_ID' with your Sealmetrics Account ID
  * 4. Optionally configure the settings below
  * 5. Publish your site
  */
@@ -23,7 +23,7 @@
     // CONFIGURATION - Edit these values
     // =====================================================
     var CONFIG = {
-        // Required: Your SealMetrics Account ID
+        // Required: Your Sealmetrics Account ID
         accountId: 'YOUR_ACCOUNT_ID',
 
         // Enable debug mode (logs events to console)
@@ -60,7 +60,7 @@
 
     // Exit if no account ID configured
     if (!CONFIG.accountId || CONFIG.accountId === 'YOUR_ACCOUNT_ID') {
-        console.warn('[SealMetrics] Account ID not configured. Please set your Account ID in the CONFIG object.');
+        console.warn('[Sealmetrics] Account ID not configured. Please set your Account ID in the CONFIG object.');
         return;
     }
 
@@ -75,7 +75,7 @@
      */
     function smLog(message, data) {
         if (window.sealmetricsDebug && console && console.log) {
-            console.log('[SealMetrics]', message, data || '');
+            console.log('[Sealmetrics]', message, data || '');
         }
     }
 
@@ -105,7 +105,7 @@
     };
 
     /**
-     * Load SealMetrics script
+     * Load Sealmetrics script
      */
     function loadScript() {
         var script = document.createElement('script');
@@ -117,7 +117,7 @@
             processQueue();
         };
         script.onerror = function() {
-            smLog('Failed to load SealMetrics script');
+            smLog('Failed to load Sealmetrics script');
         };
         document.head.appendChild(script);
     }
@@ -324,7 +324,7 @@
         loadScript();
         trackPageview();
         initFormTracking();
-        smLog('SealMetrics initialized with config:', CONFIG);
+        smLog('Sealmetrics initialized with config:', CONFIG);
     }
 
     // Start when DOM is ready

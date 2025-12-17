@@ -1,16 +1,16 @@
 ---
-title: Understanding Referrer Loss and Direct Traffic in SealMetrics
+title: Understanding Referrer Loss and Direct Traffic in Sealmetrics
 sidebar_label: Referrer Loss & Direct Traffic
-description: Learn why referrers are lost on modern websites and why Direct traffic may appear unusually high in SealMetrics.
+description: Learn why referrers are lost on modern websites and why Direct traffic may appear unusually high in Sealmetrics.
 ---
 
-# Understanding Referrer Loss and Direct Traffic in SealMetrics
+# Understanding Referrer Loss and Direct Traffic in Sealmetrics
 
-SealMetrics is a privacy-first, cookieless analytics platform.  
+Sealmetrics is a privacy-first, cookieless analytics platform.  
 Since we don’t track users or sessions, **the referrer becomes the most important signal** to determine traffic source attribution.
 
 But on modern websites, the referrer is frequently lost due to technical, browser-level, or security-related factors.  
-When this happens, SealMetrics has only one valid classification:
+When this happens, Sealmetrics has only one valid classification:
 
 👉 **Empty referrer → Direct Traffic**
 
@@ -18,9 +18,9 @@ This article explains *why* referrers disappear and *why your Direct traffic may
 
 ---
 
-## Why the Referrer Matters in SealMetrics
+## Why the Referrer Matters in Sealmetrics
 
-Because SealMetrics does not use cookies or store user identifiers, we classify each hit independently.
+Because Sealmetrics does not use cookies or store user identifiers, we classify each hit independently.
 
 Traffic classification depends on the referrer:
 
@@ -30,7 +30,7 @@ Traffic classification depends on the referrer:
 - `empty referrer` → **Direct**
 - `same-domain referrer` → **Internal Pageview**
 
-If the referrer is missing, lost, or blocked, SealMetrics cannot determine the original source — and the hit is assigned to **Direct**.
+If the referrer is missing, lost, or blocked, Sealmetrics cannot determine the original source — and the hit is assigned to **Direct**.
 
 ---
 
@@ -134,7 +134,7 @@ window.open
 3. Referrer Traffic Classification
 ----------------------------------
 
-When referrer information is present, SealMetrics performs domain-based enrichment:
+When referrer information is present, Sealmetrics performs domain-based enrichment:
 
 ### **Classification Flow**
 1. Detect referrer domain  
@@ -218,7 +218,7 @@ Still considered **internal navigation**.
 6. Traffic Source Priority System
 ---------------------------------
 
-SealMetrics follows a strict priority order:
+Sealmetrics follows a strict priority order:
 
 1. **UTM Parameters** (highest priority)  
 2. **Known Platform Recognition** (SEO / Social / Partner…)  
@@ -330,7 +330,7 @@ Referrer loss can artificially inflate Direct numbers.
 
 ### **Summary**
 
-Referrer vs Direct classification in SealMetrics creates a clear, privacy-first understanding of how users reach your site.
+Referrer vs Direct classification in Sealmetrics creates a clear, privacy-first understanding of how users reach your site.
 
 It allows you to:
 
@@ -339,4 +339,4 @@ It allows you to:
 - Optimize marketing investments  
 - Stay fully privacy compliant  
 
-By combining UTMs, domain analysis, and referrer intelligence, SealMetrics provides accurate attribution without tracking individuals.
+By combining UTMs, domain analysis, and referrer intelligence, Sealmetrics provides accurate attribution without tracking individuals.

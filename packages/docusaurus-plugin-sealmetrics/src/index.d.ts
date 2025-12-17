@@ -32,8 +32,8 @@ export interface ContentGroupingRule {
  */
 export interface PluginOptions {
   /**
-   * Your SealMetrics Account ID (required)
-   * Find this in your SealMetrics dashboard under Settings > Account
+   * Your Sealmetrics Account ID (required)
+   * Find this in your Sealmetrics dashboard under Settings > Account
    * @example "60a52f6ac660b269d13c3f53"
    */
   accountId: string;
@@ -112,7 +112,7 @@ declare global {
 }
 
 /**
- * SealMetrics plugin for Docusaurus
+ * Sealmetrics plugin for Docusaurus
  *
  * @example
  * // docusaurus.config.js
@@ -131,9 +131,9 @@ declare global {
  *   ],
  * };
  */
-declare function pluginSealMetrics(
+declare function pluginSealmetrics(
   context: unknown,
   options: PluginOptions
 ): Plugin;
 
-export default pluginSealMetrics;
+export default pluginSealmetrics;

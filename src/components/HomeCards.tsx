@@ -10,7 +10,7 @@ const HomeCards: React.FC = () => {
     {
       title: 'Getting Started',
       description:
-        'Learn the basics of SealMetrics — installation, setup, and how cookieless analytics works.',
+        'Learn the basics of Sealmetrics — installation, setup, and how cookieless analytics works.',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#00A47C" viewBox="0 0 24 24">
           <path d="M3 13h18v-2H3v2zm0 6h12v-2H3v2zm0-12h18V5H3v2z" />
@@ -43,7 +43,7 @@ const HomeCards: React.FC = () => {
     {
       title: 'Legal & Compliance',
       description:
-        'Understand how SealMetrics meets GDPR, CNIL, and ePrivacy standards — no cookies required.',
+        'Understand how Sealmetrics meets GDPR, CNIL, and ePrivacy standards — no cookies required.',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#00A47C" viewBox="0 0 24 24">
           <path d="M12 1l8 4v6c0 5.25-3.5 10.74-8 12-4.5-1.26-8-6.75-8-12V5l8-4z" />
@@ -54,7 +54,7 @@ const HomeCards: React.FC = () => {
     {
       title: 'Changelog',
       description:
-        'Track the latest updates, feature releases, and improvements across SealMetrics.',
+        'Track the latest updates, feature releases, and improvements across Sealmetrics.',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#00A47C" viewBox="0 0 24 24">
           <path d="M12 8v5h5v-2h-3V8h-2zm0-6C6.48 2 2 6.48 2 12s4.48 10 10 10 

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * SealMetrics MCP Server
+ * Sealmetrics MCP Server
  *
- * A Model Context Protocol server that provides access to SealMetrics analytics data.
+ * A Model Context Protocol server that provides access to Sealmetrics analytics data.
  * Allows AI assistants to query traffic, conversions, sales, and generate tracking pixels.
  */
 
@@ -14,7 +14,7 @@ import {
   Tool,
 } from "@modelcontextprotocol/sdk/types.js";
 
-// SealMetrics API Configuration
+// Sealmetrics API Configuration
 const API_BASE_URL = "https://app.sealmetrics.com/api";
 
 interface TokenCache {
@@ -156,7 +156,7 @@ function generatePixel(
   if (ignorePageview) configLines.push(`  oSm.ignore_pageview = 1;`);
 
   return `<script>
-  /* SealMetrics Tracker Code */
+  /* Sealmetrics Tracker Code */
   var oSm = window.oSm || {};
 ${configLines.join("\n")}
 
@@ -305,7 +305,7 @@ function formatMicroconversionsSummary(data: any[]): string {
 const tools: Tool[] = [
   {
     name: "list_accounts",
-    description: "Get list of SealMetrics accounts available to the authenticated user",
+    description: "Get list of Sealmetrics accounts available to the authenticated user",
     inputSchema: {
       type: "object",
       properties: {},
@@ -315,13 +315,13 @@ const tools: Tool[] = [
   {
     name: "get_traffic",
     description:
-      "Get traffic/acquisition data from SealMetrics. Answers questions like 'How much traffic from SEO yesterday?' or 'Show me Google Ads performance this month'",
+      "Get traffic/acquisition data from Sealmetrics. Answers questions like 'How much traffic from SEO yesterday?' or 'Show me Google Ads performance this month'",
     inputSchema: {
       type: "object",
       properties: {
         account_id: {
           type: "string",
-          description: "SealMetrics account ID (optional if SEALMETRICS_ACCOUNT_ID is set)",
+          description: "Sealmetrics account ID (optional if SEALMETRICS_ACCOUNT_ID is set)",
         },
         date_range: {
           type: "string",
@@ -366,13 +366,13 @@ const tools: Tool[] = [
   {
     name: "get_conversions",
     description:
-      "Get conversion/sales data from SealMetrics. Answers questions like 'How many sales this month?' or 'Show conversions from Google Ads yesterday'",
+      "Get conversion/sales data from Sealmetrics. Answers questions like 'How many sales this month?' or 'Show conversions from Google Ads yesterday'",
     inputSchema: {
       type: "object",
       properties: {
         account_id: {
           type: "string",
-          description: "SealMetrics account ID (optional if SEALMETRICS_ACCOUNT_ID is set)",
+          description: "Sealmetrics account ID (optional if SEALMETRICS_ACCOUNT_ID is set)",
         },
         date_range: {
           type: "string",
@@ -411,13 +411,13 @@ const tools: Tool[] = [
   {
     name: "get_microconversions",
     description:
-      "Get microconversion data (add-to-cart, signups, etc.) from SealMetrics",
+      "Get microconversion data (add-to-cart, signups, etc.) from Sealmetrics",
     inputSchema: {
       type: "object",
       properties: {
         account_id: {
           type: "string",
-          description: "SealMetrics account ID",
+          description: "Sealmetrics account ID",
         },
         date_range: {
           type: "string",
@@ -461,7 +461,7 @@ const tools: Tool[] = [
       properties: {
         account_id: {
           type: "string",
-          description: "SealMetrics account ID",
+          description: "Sealmetrics account ID",
         },
         date_range: {
           type: "string",
@@ -484,7 +484,7 @@ const tools: Tool[] = [
       properties: {
         account_id: {
           type: "string",
-          description: "SealMetrics account ID",
+          description: "Sealmetrics account ID",
         },
         date_range: {
           type: "string",
@@ -515,7 +515,7 @@ const tools: Tool[] = [
       properties: {
         account_id: {
           type: "string",
-          description: "SealMetrics account ID",
+          description: "Sealmetrics account ID",
         },
         date_range: {
           type: "string",
@@ -559,13 +559,13 @@ const tools: Tool[] = [
   {
     name: "generate_pixel",
     description:
-      "Generate a SealMetrics tracking pixel for conversions or microconversions, ready for Google Tag Manager",
+      "Generate a Sealmetrics tracking pixel for conversions or microconversions, ready for Google Tag Manager",
     inputSchema: {
       type: "object",
       properties: {
         account_id: {
           type: "string",
-          description: "Your SealMetrics account ID",
+          description: "Your Sealmetrics account ID",
         },
         event_type: {
           type: "string",
@@ -620,7 +620,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const result = await makeRequest("/auth/accounts", {});
         const accounts = result.data || {};
 
-        let text = "## Available SealMetrics Accounts\n\n";
+        let text = "## Available Sealmetrics Accounts\n\n";
 
         if (!Object.keys(accounts).length && DEFAULT_ACCOUNT_ID) {
           text += `**Default Account**\n- ID: \`${DEFAULT_ACCOUNT_ID}\`\n`;
@@ -892,7 +892,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           (args as any).ignore_pageview
         );
 
-        let text = "## SealMetrics Tracking Pixel\n\n";
+        let text = "## Sealmetrics Tracking Pixel\n\n";
         text += "Copy this code and paste it into Google Tag Manager or your website:\n\n";
         text += "```html\n" + pixel + "\n```\n\n";
         text += "### Usage Instructions:\n\n";

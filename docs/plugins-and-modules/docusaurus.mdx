@@ -6,7 +6,7 @@ description: Add privacy-first analytics to your Docusaurus documentation site
 
 # Docusaurus Plugin
 
-The official SealMetrics plugin for Docusaurus provides privacy-first, cookieless analytics with full SPA (Single Page Application) support. Perfect for documentation sites, developer portals, and technical blogs.
+The official Sealmetrics plugin for Docusaurus provides privacy-first, cookieless analytics with full SPA (Single Page Application) support. Perfect for documentation sites, developer portals, and technical blogs.
 
 :::tip Download Plugin
 **[Download Docusaurus Plugin](/downloads/docusaurus-plugin-sealmetrics.zip)** • Version 1.0.0
@@ -83,7 +83,7 @@ That's it! The plugin will automatically track pageviews across your entire site
     [
       'docusaurus-plugin-sealmetrics',
       {
-        // Required: Your SealMetrics Account ID
+        // Required: Your Sealmetrics Account ID
         accountId: 'YOUR_ACCOUNT_ID',
 
         // Optional: Enable tracking in development
@@ -101,7 +101,7 @@ That's it! The plugin will automatically track pageviews across your entire site
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `accountId` | `string` | **required** | Your SealMetrics Account ID |
+| `accountId` | `string` | **required** | Your Sealmetrics Account ID |
 | `enableInDevelopment` | `boolean` | `false` | Enable tracking in dev mode |
 | `useSession` | `boolean` | `true` | Enable session tracking |
 | `contentGrouping` | `string` | `null` | Static content group for all pages |
@@ -247,7 +247,7 @@ const config: PluginOptions = {
 
 ## How It Works
 
-1. **Script Injection** - The plugin injects the SealMetrics tracker script into your site's `<head>`
+1. **Script Injection** - The plugin injects the Sealmetrics tracker script into your site's `<head>`
 2. **Initial Pageview** - Tracks the first pageview when the page loads
 3. **SPA Navigation** - Listens for History API changes (`pushState`, `replaceState`, `popstate`) and tracks subsequent pageviews
 4. **Content Grouping** - Automatically categorizes pages based on your rules
@@ -327,7 +327,7 @@ Optionally respect the browser's Do Not Track setting:
 
 ## Finding Your Account ID
 
-1. Log in to your [SealMetrics dashboard](https://app.sealmetrics.com)
+1. Log in to your [Sealmetrics dashboard](https://app.sealmetrics.com)
 2. Click on your profile icon (top-right)
 3. Select "Tags & Connectors"
 4. Copy your Account ID
@@ -356,8 +356,8 @@ Enable debug mode to see tracking events in your browser console:
 
 You'll see messages like:
 ```
-[SealMetrics] Tracker initialized with options: {account: "xxx", use_session: 1, id: 123}
-[SealMetrics] Tracked pageview: {pathname: "/docs/intro", contentGrouping: "Documentation"}
+[Sealmetrics] Tracker initialized with options: {account: "xxx", use_session: 1, id: 123}
+[Sealmetrics] Tracked pageview: {pathname: "/docs/intro", contentGrouping: "Documentation"}
 ```
 
 ### Duplicate pageviews

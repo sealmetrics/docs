@@ -5,7 +5,7 @@ title: Guides
 
 # Guides
 
-Welcome to the SealMetrics guides section. Here you'll find step-by-step tutorials and best practices for getting the most out of SealMetrics.
+Welcome to the Sealmetrics guides section. Here you'll find step-by-step tutorials and best practices for getting the most out of Sealmetrics.
 
 ## Available Guides
 

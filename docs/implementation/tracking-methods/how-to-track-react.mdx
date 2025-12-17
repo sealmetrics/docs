@@ -1,16 +1,16 @@
 # How to Track React Sites
 
 ## Overview
-This guide explains how to track React-based websites using SealMetrics.  
+This guide explains how to track React-based websites using Sealmetrics.  
 React apps often use client-side navigation, so it's important to make sure tracking triggers properly after route changes and conversions.
 
 ---
 
-## 1. Add SealMetrics tracking pixel to all website pages
+## 1. Add Sealmetrics tracking pixel to all website pages
 
 ```html
 <script>
-/* SealMetrics Tracker Code */
+/* Sealmetrics Tracker Code */
 var oSm = window.oSm || {};
 oSm.account = 'XXXXXXXXXXXXX';
 oSm.event = 'pageview';
@@ -32,7 +32,7 @@ oSm.event = 'pageview';
         sm.tracker.track(e.event);
       })
 }(oSm);
-/* End SealMetrics Tracker Code */
+/* End Sealmetrics Tracker Code */
 </script>
 ```
 
@@ -42,7 +42,7 @@ oSm.event = 'pageview';
 
 ```html
 <script>
-/* SealMetrics Tracker Code */
+/* Sealmetrics Tracker Code */
 var oSm = window.oSm || {};
 oSm.event = 'conversion';
 oSm.label = 'purchase';
@@ -65,7 +65,7 @@ oSm.amount = '1.01';
         sm.tracker.track(e.event);
       })
 }(oSm);
-/* End SealMetrics Tracker Code */
+/* End Sealmetrics Tracker Code */
 </script>
 ```
 

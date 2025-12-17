@@ -1,16 +1,16 @@
 ---
 sidebar_position: 1
 title: MCP Server for AI Assistants
-description: Connect Claude and other AI assistants to your SealMetrics analytics data using the Model Context Protocol (MCP) server.
+description: Connect Claude and other AI assistants to your Sealmetrics analytics data using the Model Context Protocol (MCP) server.
 ---
 
 # MCP Server for AI Assistants
 
-The **SealMetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your marketing performance, traffic, conversions, and more — directly from your AI assistant.
+The **Sealmetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your marketing performance, traffic, conversions, and more — directly from your AI assistant.
 
 ## What is MCP?
 
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server acts as a bridge between Claude (or other MCP-compatible assistants) and your SealMetrics analytics data.
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The Sealmetrics MCP server acts as a bridge between Claude (or other MCP-compatible assistants) and your Sealmetrics analytics data.
 
 ## Features
 
@@ -36,7 +36,7 @@ Once connected, you can ask your AI assistant questions like:
 
 ## Installation
 
-The SealMetrics MCP server is available as both an npm package (recommended) and a Python package.
+The Sealmetrics MCP server is available as both an npm package (recommended) and a Python package.
 
 ### Option 1: Using npx (Recommended)
 
@@ -144,15 +144,15 @@ Replace `YOUR_API_TOKEN_HERE` and `YOUR_ACCOUNT_ID_HERE` with your actual creden
 
 1. Save the JSON configuration file
 2. **Restart Claude Desktop completely** (Cmd+Q on macOS, then reopen)
-3. The SealMetrics tools will appear available in Claude Desktop
+3. The Sealmetrics tools will appear available in Claude Desktop
 
 ### Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `SEALMETRICS_API_TOKEN` | Yes* | Your API authentication token (recommended) |
-| `SEALMETRICS_EMAIL` | Yes* | Your SealMetrics email (alternative to token) |
-| `SEALMETRICS_PASSWORD` | Yes* | Your SealMetrics password (alternative to token) |
+| `SEALMETRICS_EMAIL` | Yes* | Your Sealmetrics email (alternative to token) |
+| `SEALMETRICS_PASSWORD` | Yes* | Your Sealmetrics password (alternative to token) |
 | `SEALMETRICS_ACCOUNT_ID` | No | Default account ID (can be specified per query) |
 
 *\*Authentication requires either `SEALMETRICS_API_TOKEN` OR (`SEALMETRICS_EMAIL` + `SEALMETRICS_PASSWORD`). The token method is preferred for security reasons.*
@@ -161,7 +161,7 @@ Replace `YOUR_API_TOKEN_HERE` and `YOUR_ACCOUNT_ID_HERE` with your actual creden
 
 ### API Token
 
-Follow our guide to obtain your API token from the SealMetrics dashboard:
+Follow our guide to obtain your API token from the Sealmetrics dashboard:
 
 1. Click on your **profile icon** in the top-right corner
 2. Select **"Tags & Connectors"**
@@ -172,7 +172,7 @@ For detailed instructions, see [How to Obtain Your API Token](/api/authenticatio
 
 ### Account ID
 
-Your Account ID identifies which SealMetrics account to query. To find it:
+Your Account ID identifies which Sealmetrics account to query. To find it:
 
 1. Use the [Account Endpoints API](/api/core-api-endpoints/account-endpoints) to list all accounts linked to your credentials
 2. The response will include your Account ID(s) in this format:
@@ -262,7 +262,7 @@ cat ~/Library/Logs/Claude/mcp-server-sealmetrics.log
 |---------|----------|
 | npx not found | Install Node.js 18+ from [nodejs.org](https://nodejs.org/) |
 | Incorrect path | Run `which sealmetrics-mcp` to find the correct path (Python) |
-| Invalid token | Verify your API token in the SealMetrics dashboard |
+| Invalid token | Verify your API token in the Sealmetrics dashboard |
 | Missing environment variables | Ensure `SEALMETRICS_API_TOKEN` is set in the config |
 | Claude not restarted properly | Use Cmd+Q (macOS) or fully close and reopen Claude Desktop |
 
@@ -284,7 +284,7 @@ cat ~/Library/Logs/Claude/mcp-server-sealmetrics.log
 - **PyPI Package**: [pypi.org/project/sealmetrics-mcp](https://pypi.org/project/sealmetrics-mcp/)
 - **GitHub Repository**: [github.com/sealmetrics/mcp-server](https://github.com/sealmetrics/mcp-server)
 - **MCP Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io/)
-- **API Documentation**: [SealMetrics API Reference](/api)
+- **API Documentation**: [Sealmetrics API Reference](/api)
 
 ## Support
 

@@ -1,5 +1,5 @@
 /**
- * SealMetrics Tracking Module for Magento 2
+ * Sealmetrics Tracking Module for Magento 2
  * Cart tracking handler for AJAX add-to-cart on listing pages
  */
 define([

@@ -1,6 +1,6 @@
 # docusaurus-plugin-sealmetrics
 
-Official [SealMetrics](https://sealmetrics.com) analytics plugin for [Docusaurus](https://docusaurus.io/).
+Official [Sealmetrics](https://sealmetrics.com) analytics plugin for [Docusaurus](https://docusaurus.io/).
 
 Privacy-first, cookieless analytics with full SPA (Single Page Application) support. No cookie banners required.
 
@@ -50,7 +50,7 @@ That's it! The plugin will automatically track pageviews across your site.
     [
       'docusaurus-plugin-sealmetrics',
       {
-        // Required: Your SealMetrics Account ID
+        // Required: Your Sealmetrics Account ID
         accountId: 'YOUR_ACCOUNT_ID',
 
         // Optional: Enable tracking in development
@@ -93,7 +93,7 @@ Rules are evaluated in order—first match wins.
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `accountId` | `string` | **required** | Your SealMetrics Account ID |
+| `accountId` | `string` | **required** | Your Sealmetrics Account ID |
 | `enableInDevelopment` | `boolean` | `false` | Enable tracking in dev mode |
 | `useSession` | `boolean` | `true` | Enable session tracking |
 | `contentGrouping` | `string` | `null` | Static content group for all pages |
@@ -171,7 +171,7 @@ window.sealmetricsTrack('custom_event', { key: 'value' });
 
 ## How It Works
 
-1. **Script Injection** - The plugin injects the SealMetrics tracker script into your site's `<head>`
+1. **Script Injection** - The plugin injects the Sealmetrics tracker script into your site's `<head>`
 2. **Initial Pageview** - Tracks the first pageview when the page loads
 3. **SPA Navigation** - Listens for History API changes and tracks subsequent pageviews
 4. **Content Grouping** - Automatically categorizes pages based on your rules
@@ -189,7 +189,7 @@ If no rules are specified, the plugin uses these defaults:
 
 ## Finding Your Account ID
 
-1. Log in to your [SealMetrics dashboard](https://app.sealmetrics.com)
+1. Log in to your [Sealmetrics dashboard](https://app.sealmetrics.com)
 2. Click on your profile icon (top-right)
 3. Select "Tags & Connectors"
 4. Copy your Account ID

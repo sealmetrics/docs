@@ -6,7 +6,7 @@ description: Track form submissions and lead conversions on your WordPress site
 
 # WordPress Plugin (Lead Tracking)
 
-The SealMetrics WordPress plugin tracks form submissions and lead conversions on your WordPress site. Perfect for blogs, business websites, landing pages, and any WordPress site that uses forms to generate leads.
+The Sealmetrics WordPress plugin tracks form submissions and lead conversions on your WordPress site. Perfect for blogs, business websites, landing pages, and any WordPress site that uses forms to generate leads.
 
 :::tip Download Plugin
 **[Download WordPress Plugin](/downloads/sealmetrics-wordpress.zip)** • Version 1.0.0
@@ -20,10 +20,10 @@ The SealMetrics WordPress plugin tracks form submissions and lead conversions on
 2. Upload to `/wp-content/plugins/sealmetrics-tracking/`
 3. Log in to your **WordPress Admin Dashboard**
 4. Navigate to **Plugins** > **Installed Plugins**
-5. Find "SealMetrics Tracking"
+5. Find "Sealmetrics Tracking"
 6. Click **Activate**
-7. Go to **Settings** > **SealMetrics**
-8. Enter your **SealMetrics Account ID**
+7. Go to **Settings** > **Sealmetrics**
+8. Enter your **Sealmetrics Account ID**
 9. Configure your conversion label (default: "lead")
 10. Save settings
 
@@ -31,8 +31,8 @@ The SealMetrics WordPress plugin tracks form submissions and lead conversions on
 
 After installation, configure the plugin:
 
-1. Go to **Settings** > **SealMetrics** in WordPress admin
-2. Enter your **SealMetrics Account ID** (required)
+1. Go to **Settings** > **Sealmetrics** in WordPress admin
+2. Enter your **Sealmetrics Account ID** (required)
 3. Set your **Conversion Label** (default: "lead")
 4. Optionally enable tracking of:
    - Page path
@@ -105,7 +105,7 @@ The WordPress module automatically detects and tracks submissions from these pop
 
 ## Information Stored
 
-The WordPress module collects and sends the following information to SealMetrics:
+The WordPress module collects and sends the following information to Sealmetrics:
 
 ### Form Information
 - **Form Name**: Identifier for the form (plugin type + form ID)
@@ -207,20 +207,20 @@ Track completion of complex forms:
 2. Verify Account ID is saved in settings
 3. Check the Settings page to see which form plugins are detected
 4. Open browser console (F12) and submit a test form
-5. Look for SealMetrics event messages
+5. Look for Sealmetrics event messages
 6. Clear cache if using a caching plugin
 
 ### Specific form plugin not working
 
 1. Verify the form plugin is active and updated
-2. Check if form plugin appears in **Settings** > **SealMetrics** detected plugins list
+2. Check if form plugin appears in **Settings** > **Sealmetrics** detected plugins list
 3. Test with a simple form first
 4. Look for JavaScript errors in console
 5. Try disabling other plugins to identify conflicts
 
 ### Page context not capturing
 
-1. Enable page tracking options in **Settings** > **SealMetrics**
+1. Enable page tracking options in **Settings** > **Sealmetrics**
 2. Verify page has proper WordPress post type
 3. Check that permalink structure is set (not default `?p=123`)
 4. Test with a standard post or page first
@@ -230,7 +230,7 @@ Track completion of complex forms:
 The plugin includes JavaScript-side deduplication. If you see duplicates:
 1. Clear browser cache and test in incognito mode
 2. Verify the plugin is only installed once
-3. Check that no other SealMetrics scripts are present on the site
+3. Check that no other Sealmetrics scripts are present on the site
 4. Disable any form submission tracking in theme or other plugins
 
 ### Multi-Step Forms
@@ -258,7 +258,7 @@ Use different conversion labels for different purposes:
 - `demo` - Demo request forms
 - `newsletter` - Newsletter signups
 
-Change this in **Settings** > **SealMetrics** > **Conversion Label**
+Change this in **Settings** > **Sealmetrics** > **Conversion Label**
 
 ### Page Type Customization
 
@@ -282,12 +282,12 @@ Give your forms descriptive names in the form builder:
 - "Quote Request - Services Page"
 - "Newsletter Signup - Footer"
 
-This makes identification easier in your SealMetrics dashboard.
+This makes identification easier in your Sealmetrics dashboard.
 
 ### Testing
 Before going live:
 1. Submit test forms on different pages
-2. Check that conversions appear in SealMetrics dashboard
+2. Check that conversions appear in Sealmetrics dashboard
 3. Test each form plugin separately
 4. Verify mobile forms work correctly
 5. Test with caching enabled

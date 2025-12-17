@@ -1,7 +1,7 @@
 /**
  * docusaurus-plugin-sealmetrics
  *
- * Official SealMetrics analytics plugin for Docusaurus.
+ * Official Sealmetrics analytics plugin for Docusaurus.
  * Provides privacy-first, cookieless tracking with full SPA support.
  *
  * @see https://docs.sealmetrics.com/plugins-and-modules/docusaurus
@@ -25,7 +25,7 @@ const DEFAULT_OPTIONS = {
  * @param {import('./index').PluginOptions} options
  * @returns {import('@docusaurus/types').Plugin}
  */
-function pluginSealMetrics(context, options) {
+function pluginSealmetrics(context, options) {
   const { siteConfig } = context;
   const isProd = process.env.NODE_ENV === 'production';
 
@@ -44,7 +44,7 @@ function pluginSealMetrics(context, options) {
   if (!accountId) {
     throw new Error(
       '[docusaurus-plugin-sealmetrics] Missing required option: accountId. ' +
-      'Get your Account ID from your SealMetrics dashboard.'
+      'Get your Account ID from your Sealmetrics dashboard.'
     );
   }
 
@@ -113,4 +113,4 @@ function pluginSealMetrics(context, options) {
   };
 }
 
-module.exports = pluginSealMetrics;
+module.exports = pluginSealmetrics;

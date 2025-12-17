@@ -1,5 +1,5 @@
 /**
- * SealMetrics Tracking Module for Magento 2
+ * Sealmetrics Tracking Module for Magento 2
  * Mixin for catalog add-to-cart widget to track add-to-cart events
  */
 define([

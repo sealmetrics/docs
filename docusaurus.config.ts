@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'SealMetrics Docs',
+  title: 'Sealmetrics Docs',
   tagline: 'Privacy-first analytics documentation',
   favicon: 'img/favicon.ico',
 
@@ -118,7 +118,7 @@ const config: Config = {
     navbar: {
       title: '',
       logo: {
-        alt: 'SealMetrics Logo',
+        alt: 'Sealmetrics Logo',
         src: 'img/logo.svg',
       },
       items: [
@@ -161,7 +161,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `© ${new Date().getFullYear()} SealMetrics. Built with Docusaurus.`,
+      copyright: `© ${new Date().getFullYear()} Sealmetrics. Built with Docusaurus.`,
     },
 
     prism: {

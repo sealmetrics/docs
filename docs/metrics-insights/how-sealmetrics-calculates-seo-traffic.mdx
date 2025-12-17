@@ -1,19 +1,19 @@
 ---
-title: How SealMetrics Calculates SEO Traffic
+title: How Sealmetrics Calculates SEO Traffic
 sidebar_label: SEO Traffic Calculation
-description: Learn how SealMetrics differentiates SEO traffic from paid traffic using a privacy-first methodology.
+description: Learn how Sealmetrics differentiates SEO traffic from paid traffic using a privacy-first methodology.
 ---
 
-# How SealMetrics Calculates SEO Traffic
+# How Sealmetrics Calculates SEO Traffic
 
-SealMetrics is designed to classify traffic sources with precision while maintaining strict privacy compliance.  
+Sealmetrics is designed to classify traffic sources with precision while maintaining strict privacy compliance.  
 This document explains how SEO (organic search) traffic is detected and how we avoid misclassifying paid Google Ads traffic.
 
 ---
 
 ## 1. SEO Traffic Definition
 
-SealMetrics attributes a visit to **SEO traffic** when the following two conditions are true:
+Sealmetrics attributes a visit to **SEO traffic** when the following two conditions are true:
 
 ### ✅ **Condition 1: The referrer is Google**
 
@@ -37,7 +37,7 @@ If the landing URL contains **any** of the following parameters, it is *not* SEO
 - Newly introduced Google Ads identifiers
 - Any `utm_` parameter (utm_source, utm_medium, utm_campaign, utm_term, etc.)
 
-### 🟦 **If BOTH conditions are met → SealMetrics classifies the hit as SEO traffic**
+### 🟦 **If BOTH conditions are met → Sealmetrics classifies the hit as SEO traffic**
 
 Example:
 ````
@@ -53,7 +53,7 @@ Result: SEO Traffic
 A common question:  
 **“Could Google Ads traffic ever be classified as SEO traffic?”**
 
-### ✔️ SealMetrics keeps this risk extremely low — under 1%.  
+### ✔️ Sealmetrics keeps this risk extremely low — under 1%.  
 For misclassification to happen, TWO things must occur simultaneously:
 
 1. The referrer must be Google  
@@ -68,10 +68,10 @@ For misclassification to happen, TWO things must occur simultaneously:
 
 - Google Ads **auto-tagging almost always adds `gclid`**  
 - Manual UTM tagging is standard practice  
-- Google continuously introduces new ad identifiers, all of which SealMetrics detects  
+- Google continuously introduces new ad identifiers, all of which Sealmetrics detects  
 
 ### Result:  
-If **any** ad-related parameter exists → SealMetrics classifies the hit as **Paid Traffic**, not SEO.
+If **any** ad-related parameter exists → Sealmetrics classifies the hit as **Paid Traffic**, not SEO.
 
 ---
 
@@ -85,7 +85,7 @@ If **any** ad-related parameter exists → SealMetrics classifies the hit as **P
 
 ---
 
-SEO attribution in SealMetrics is designed to be:
+SEO attribution in Sealmetrics is designed to be:
 
 - Accurate  
 - Privacy-safe  

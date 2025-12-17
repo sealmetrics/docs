@@ -1,6 +1,6 @@
 ---
 title: "Quick Start"
-description: "Get up and running with the SealMetrics API in 5 minutes. Authentication, first request, and common operations."
+description: "Get up and running with the Sealmetrics API in 5 minutes. Authentication, first request, and common operations."
 sidebar_position: 2
 ---
 
@@ -9,13 +9,13 @@ import TabItem from '@theme/TabItem';
 
 # Quick Start
 
-Get your first SealMetrics API request working in under 5 minutes.
+Get your first Sealmetrics API request working in under 5 minutes.
 
 ---
 
 ## Prerequisites
 
-- A SealMetrics account ([sign up here](https://app.sealmetrics.com/register))
+- A Sealmetrics account ([sign up here](https://app.sealmetrics.com/register))
 - Your email and password for API authentication
 - A tool to make HTTP requests (cURL, Postman, or your programming language of choice)
 
@@ -314,7 +314,7 @@ EMAIL = "your-email@example.com"
 PASSWORD = "your-password"
 BASE_URL = "https://app.sealmetrics.com/api"
 
-class SealMetricsAPI:
+class SealmetricsAPI:
     def __init__(self, email, password):
         self.base_url = BASE_URL
         self.token = None
@@ -367,7 +367,7 @@ class SealMetricsAPI:
 
 # Usage
 if __name__ == "__main__":
-    api = SealMetricsAPI(EMAIL, PASSWORD)
+    api = SealmetricsAPI(EMAIL, PASSWORD)
 
     # Get accounts
     accounts = api.get_accounts()
@@ -398,7 +398,7 @@ if __name__ == "__main__":
 ```javascript
 const BASE_URL = "https://app.sealmetrics.com/api";
 
-class SealMetricsAPI {
+class SealmetricsAPI {
   constructor() {
     this.token = null;
     this.expiresAt = null;
@@ -449,7 +449,7 @@ class SealMetricsAPI {
 
 // Usage
 async function main() {
-  const api = new SealMetricsAPI();
+  const api = new SealmetricsAPI();
   await api.authenticate("your-email@example.com", "your-password");
 
   const accounts = await api.getAccounts();

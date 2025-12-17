@@ -6,7 +6,7 @@ description: Track e-commerce events on your Magento 2 store
 
 # Magento 2 Module
 
-The SealMetrics Magento 2 module is a fully integrated extension that tracks customer behavior throughout your store. From browsing products to completing purchases, get comprehensive insights while maintaining privacy compliance.
+The Sealmetrics Magento 2 module is a fully integrated extension that tracks customer behavior throughout your store. From browsing products to completing purchases, get comprehensive insights while maintaining privacy compliance.
 
 :::tip Download Module
 **[Download Magento 2 Module](/downloads/sealmetrics-magento2.zip)** • Version 1.0.0
@@ -20,7 +20,7 @@ The SealMetrics Magento 2 module is a fully integrated extension that tracks cus
 
 ```bash
 composer require sealmetrics/module-tracking
-php bin/magento module:enable SealMetrics_Tracking
+php bin/magento module:enable Sealmetrics_Tracking
 php bin/magento setup:upgrade
 php bin/magento cache:flush
 ```
@@ -28,12 +28,12 @@ php bin/magento cache:flush
 ### Method 2: Manual Installation
 
 1. Download the module files
-2. Create directory structure: `app/code/SealMetrics/Tracking/`
+2. Create directory structure: `app/code/Sealmetrics/Tracking/`
 3. Copy all module files into this directory
 4. Run the following commands:
 
 ```bash
-php bin/magento module:enable SealMetrics_Tracking
+php bin/magento module:enable Sealmetrics_Tracking
 php bin/magento setup:upgrade
 php bin/magento cache:flush
 ```
@@ -42,8 +42,8 @@ php bin/magento cache:flush
 
 1. Log in to your **Magento Admin Panel**
 2. Navigate to **Stores** > **Configuration**
-3. Find **SealMetrics** in the left sidebar
-4. Enter your **SealMetrics Account ID**
+3. Find **Sealmetrics** in the left sidebar
+4. Enter your **Sealmetrics Account ID**
 5. Enable the module
 6. Save configuration
 
@@ -132,7 +132,7 @@ Tracked after successful order placement using server-side observers.
 
 ## Information Stored
 
-The Magento 2 module collects and sends the following information to SealMetrics:
+The Magento 2 module collects and sends the following information to Sealmetrics:
 
 ### Product Information
 - **SKU**: Product identifier (or `PROD-{id}` format for products without SKUs)
@@ -185,12 +185,12 @@ All tracking is completely anonymous and privacy-compliant.
 
 1. Clear Magento cache: `php bin/magento cache:flush`
 2. Check module is enabled: `php bin/magento module:status`
-3. Verify Account ID in **Stores** > **Configuration** > **SealMetrics**
+3. Verify Account ID in **Stores** > **Configuration** > **Sealmetrics**
 4. Check browser console for JavaScript errors
 
 ### Module not showing in configuration
 
-1. Ensure module is enabled: `php bin/magento module:enable SealMetrics_Tracking`
+1. Ensure module is enabled: `php bin/magento module:enable Sealmetrics_Tracking`
 2. Run setup upgrade: `php bin/magento setup:upgrade`
 3. Clear cache and recompile if needed
 

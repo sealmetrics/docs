@@ -1,22 +1,22 @@
 /**
- * SealMetrics Tracking for BigCommerce
+ * Sealmetrics Tracking for BigCommerce
  *
- * Advanced e-commerce tracking integration with SealMetrics for BigCommerce stores.
+ * Advanced e-commerce tracking integration with Sealmetrics for BigCommerce stores.
  * Tracks pageviews, product views, add-to-cart, checkout funnel, and purchases.
  *
  * @version 1.0.0
- * @author SealMetrics
+ * @author Sealmetrics
  * @license MIT
  *
  * INSTALLATION:
  * 1. Go to BigCommerce Admin > Storefront > Script Manager
  * 2. Click "Create a Script"
- * 3. Name: SealMetrics Tracking
+ * 3. Name: Sealmetrics Tracking
  * 4. Location: Head
  * 5. Pages: All Pages
  * 6. Script type: Script
  * 7. Paste this script content
- * 8. Replace 'YOUR_ACCOUNT_ID' with your SealMetrics Account ID
+ * 8. Replace 'YOUR_ACCOUNT_ID' with your Sealmetrics Account ID
  * 9. Save
  */
 
@@ -27,7 +27,7 @@
     // CONFIGURATION - Edit these values
     // =====================================================
     var CONFIG = {
-        // Required: Your SealMetrics Account ID
+        // Required: Your Sealmetrics Account ID
         accountId: 'YOUR_ACCOUNT_ID',
 
         // Enable debug mode (logs events to console)
@@ -59,7 +59,7 @@
 
     // Exit if no account ID configured
     if (!CONFIG.accountId || CONFIG.accountId === 'YOUR_ACCOUNT_ID') {
-        console.warn('[SealMetrics] Account ID not configured. Please set your Account ID in the CONFIG object.');
+        console.warn('[Sealmetrics] Account ID not configured. Please set your Account ID in the CONFIG object.');
         return;
     }
 
@@ -74,7 +74,7 @@
      */
     function smLog(message, data) {
         if (window.sealmetricsDebug && console && console.log) {
-            console.log('[SealMetrics]', message, data || '');
+            console.log('[Sealmetrics]', message, data || '');
         }
     }
 
@@ -104,7 +104,7 @@
     };
 
     /**
-     * Load SealMetrics script
+     * Load Sealmetrics script
      */
     function loadScript() {
         var script = document.createElement('script');
@@ -116,7 +116,7 @@
             processQueue();
         };
         script.onerror = function() {
-            smLog('Failed to load SealMetrics script');
+            smLog('Failed to load Sealmetrics script');
         };
         document.head.appendChild(script);
     }
@@ -721,7 +721,7 @@
                 break;
         }
 
-        smLog('SealMetrics initialized');
+        smLog('Sealmetrics initialized');
     }
 
     // Start when DOM is ready

@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 title: How to Measure Conversions and Micro-Conversions
-description: Learn how to configure the SealMetrics pixel to track conversions and micro-conversions accurately while avoiding duplicate pageviews.
+description: Learn how to configure the Sealmetrics pixel to track conversions and micro-conversions accurately while avoiding duplicate pageviews.
 tags: [conversions, micro-conversions, pixel, analytics, setup]
 keywords:
   - sealmetrics conversions
@@ -13,7 +13,7 @@ keywords:
 
 # How to Measure Conversions and Micro-Conversions
 
-With SealMetrics, you have full control over measuring conversions and micro-conversions — ensuring accurate data collection while avoiding unnecessary duplication of pageviews.
+With Sealmetrics, you have full control over measuring conversions and micro-conversions — ensuring accurate data collection while avoiding unnecessary duplication of pageviews.
 
 Each conversion or micro-conversion event must be linked to a pageview, but you can define whether that pageview is triggered automatically or managed manually.
 
@@ -43,7 +43,7 @@ This prevents double counting in the same session.
 
 ```html
 <script>
-  /* SealMetrics Tracker Code */
+  /* Sealmetrics Tracker Code */
   var oSm = window.oSm || {};
   oSm.account = "YOUR_ACCOUNT_ID";
   oSm.event = "conversion";
@@ -76,7 +76,7 @@ If you need to include a pageview when tracking a conversion (e.g., a purchase c
 This ensures both the pageview and conversion are tracked accurately.
 
 <script>
-  /* SealMetrics Tracker Code */
+  /* Sealmetrics Tracker Code */
   var oSm = window.oSm || {};
   oSm.account = "YOUR_ACCOUNT_ID";
   oSm.event = "conversion";
@@ -123,4 +123,4 @@ If you exclude the pageview from the conversion pixel, ensure it has already bee
 
 Where to Find Event Pixels
 
-You can view and manage your event pixels directly in your SealMetrics account under Settings → Tags & API Info → Event Pixels.
+You can view and manage your event pixels directly in your Sealmetrics account under Settings → Tags & API Info → Event Pixels.

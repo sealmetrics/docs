@@ -1,13 +1,13 @@
 ---
 title: Referral vs Direct Traffic
 sidebar_label: Referral vs Direct Traffic
-description: Learn how SealMetrics classifies referrer traffic vs direct traffic using privacy-first principles and advanced attribution logic.
+description: Learn how Sealmetrics classifies referrer traffic vs direct traffic using privacy-first principles and advanced attribution logic.
 sidebar_position: 1
 ---
 
 # Referral vs Direct Traffic
 
-Understanding the distinction between **Referrer** and **Direct** traffic in SealMetrics is essential for accurate traffic source analysis and attribution.
+Understanding the distinction between **Referrer** and **Direct** traffic in Sealmetrics is essential for accurate traffic source analysis and attribution.
 
 ---
 
@@ -16,7 +16,7 @@ Understanding the distinction between **Referrer** and **Direct** traffic in Sea
 - **Referrer Traffic** → When a previous-page URL exists  
 - **Direct Traffic** → When the referrer field is empty or unavailable  
 
-This binary classification forms the foundation of SealMetrics’ traffic attribution model.
+This binary classification forms the foundation of Sealmetrics’ traffic attribution model.
 
 **If referrer exists → Referrer Traffic**  
 **If referrer is empty → Direct Traffic**
@@ -34,7 +34,7 @@ When a user clicks from one webpage to another, the browser sends an HTTP *refer
 1. User browses Website A (e.g., *google.com*)
 2. Clicks a link to your website
 3. Browser sends an HTTP request with the `referrer`
-4. SealMetrics reads and processes referrer data
+4. Sealmetrics reads and processes referrer data
 
 ### Example HTTP Header
 
@@ -46,7 +46,7 @@ User-Agent: Mozilla/5.0...
 
 ## 3. Referrer Traffic Classification
 
-When referrer information is present, SealMetrics performs domain-based enrichment:
+When referrer information is present, Sealmetrics performs domain-based enrichment:
 
 ### Classification Flow
 
@@ -128,7 +128,7 @@ Still considered **internal navigation**.
 
 ## 6. Traffic Source Priority System
 
-SealMetrics follows a strict priority order:
+Sealmetrics follows a strict priority order:
 
 1. UTM Parameters (highest priority)  
 2. Known Platform Recognition (SEO / Social / Partner…)  
@@ -251,7 +251,7 @@ Usually caused by:
 
 ## Summary
 
-SealMetrics’ classification of Referrer vs Direct traffic provides a clear, privacy-first view of how visitors reach your website.
+Sealmetrics’ classification of Referrer vs Direct traffic provides a clear, privacy-first view of how visitors reach your website.
 
 This distinction enables you to:
 
@@ -260,4 +260,4 @@ This distinction enables you to:
 - Optimize marketing investments  
 - Maintain full privacy compliance  
 
-By combining UTM parameters, domain analysis, and referrer intelligence, SealMetrics provides accurate, transparent attribution — **without personal tracking or cookies**.
+By combining UTM parameters, domain analysis, and referrer intelligence, Sealmetrics provides accurate, transparent attribution — **without personal tracking or cookies**.

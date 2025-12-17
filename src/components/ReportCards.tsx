@@ -8,7 +8,7 @@ const ReportCards: React.FC = () => {
 
   const cards = [
     {
-      title: 'SealMetrics Dashboard',
+      title: 'Sealmetrics Dashboard',
       description:
         'Overview of visits, page views, conversions, and micro-conversions — your central analytics hub.',
       icon: (
@@ -54,7 +54,7 @@ const ReportCards: React.FC = () => {
     {
       title: 'Definitions',
       description:
-        'Learn the meaning of all key SealMetrics metrics — entrances, conversions, revenue, and advanced KPIs.',
+        'Learn the meaning of all key Sealmetrics metrics — entrances, conversions, revenue, and advanced KPIs.',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#00A47C" viewBox="0 0 24 24">
           <path d="M4 4h16v2H4V4zm0 4h16v2H4V8zm0 4h10v2H4v-2zm0 4h10v2H4v-2z" />

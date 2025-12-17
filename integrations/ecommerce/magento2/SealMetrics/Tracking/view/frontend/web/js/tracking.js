@@ -1,5 +1,5 @@
 /**
- * SealMetrics Tracking Module for Magento 2
+ * Sealmetrics Tracking Module for Magento 2
  * Main tracking utility module
  */
 define([
