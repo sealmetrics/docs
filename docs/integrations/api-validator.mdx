@@ -1,0 +1,280 @@
+---
+sidebar_position: 3
+title: API Validator
+description: Test and validate your SealMetrics API integration with the official API Validator tool. Explore endpoints, test parameters, and troubleshoot your implementation.
+---
+
+# API Validator
+
+The **SealMetrics API Validator** is a web-based tool that allows you to test and validate your SealMetrics API integration in real-time. Explore available endpoints, configure parameters, and see detailed responses — all without writing code.
+
+**Live Tool:** [api-validator.sealmetrics.com](https://api-validator.sealmetrics.com)
+
+## What is the API Validator?
+
+The API Validator is a professional testing tool designed to help developers and marketers:
+
+- **Validate API credentials** before implementing them in production
+- **Explore endpoints** and understand what data is available
+- **Test parameters** with different configurations
+- **Debug integrations** by seeing actual API responses
+- **Learn the API** through hands-on experimentation
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Token Validation** | Verify your API token works correctly |
+| **Endpoint Explorer** | Browse all available API endpoints by category |
+| **Parameter Configuration** | Set required and optional parameters with smart defaults |
+| **Real-time Responses** | Execute API calls and see formatted JSON responses |
+| **Quick Health Check** | One-click validation of all core endpoints |
+| **Session History** | Track all your validation attempts with export functionality |
+| **Dark Mode** | Professional UI with light and dark theme support |
+
+## Getting Started
+
+### Step 1: Get Your API Token
+
+Before using the API Validator, you need your SealMetrics API token:
+
+1. Log in to [SealMetrics](https://app.sealmetrics.com)
+2. Click your **profile icon** in the top-right corner
+3. Select **"Tags & Connectors"**
+4. Navigate to the **"Connectors"** section
+5. Copy your **API Token**
+
+For detailed instructions, see [How to Obtain Your API Token](/api/authentication/how-to-obtain-api-token).
+
+### Step 2: Access the Validator
+
+1. Go to [api-validator.sealmetrics.com](https://api-validator.sealmetrics.com)
+2. Enter your API token in the authentication field
+3. Click **"Validate Token"** to verify your credentials
+
+### Step 3: Explore Endpoints
+
+Once authenticated, you can:
+
+1. Browse endpoints by category (Authentication, Reports)
+2. Select an endpoint to see its parameters
+3. Configure required and optional parameters
+4. Click **"Execute"** to make the API call
+5. View the formatted response
+
+## Available Endpoints
+
+The API Validator provides access to all SealMetrics API endpoints:
+
+### Authentication
+
+| Endpoint | Description |
+|----------|-------------|
+| **Get Accounts** | List all accounts accessible with your API token |
+
+### Reports
+
+| Endpoint | Description | Key Parameters |
+|----------|-------------|----------------|
+| **Traffic / Acquisition** | Traffic data by source, medium, campaign, or term | `date_range`, `report_type`, UTM filters |
+| **Conversions** | Conversion and sales data with attribution | `date_range`, UTM filters |
+| **Microconversions** | Engagement events (add-to-cart, signups, etc.) | `date_range`, `label` filter |
+| **Pages Performance** | Page-level metrics and content grouping | `date_range`, `content_grouping` |
+| **Funnel Analysis** | Conversion funnel data by dimension | `date_range`, `report_type` |
+| **ROAS Evolution** | Return on Ad Spend over time | `date_range`, `time_unit` |
+
+## Common Parameters
+
+Most report endpoints share these parameters:
+
+### Date Range Options
+
+| Value | Description |
+|-------|-------------|
+| `today` | Current day |
+| `yesterday` | Previous day |
+| `last_7_days` | Past 7 days |
+| `last_30_days` | Past 30 days (default) |
+| `last_90_days` | Past 90 days |
+| `this_month` | Current calendar month |
+| `last_month` | Previous calendar month |
+| `this_year` | Current calendar year |
+
+### UTM Filters
+
+Filter traffic and conversion data by:
+
+- **utm_source** — Traffic source (e.g., `google`, `facebook`)
+- **utm_medium** — Marketing medium (e.g., `cpc`, `email`)
+- **utm_campaign** — Campaign name
+
+### Report Types (Acquisition)
+
+Group acquisition data by:
+
+| Value | Description |
+|-------|-------------|
+| `Source` | Group by traffic source |
+| `Medium` | Group by marketing medium |
+| `Campaign` | Group by campaign name |
+| `Term` | Group by keyword/term |
+
+## Use Cases
+
+### Validating a New Integration
+
+Before deploying your integration to production:
+
+1. Enter your API token
+2. Run a **Quick Health Check** to validate all endpoints
+3. Test specific endpoints you plan to use
+4. Verify the response format matches your expectations
+
+### Debugging API Issues
+
+When your integration isn't working:
+
+1. Reproduce the failing request in the Validator
+2. Check the response for error messages
+3. Verify your parameters are correct
+4. Compare working vs. non-working requests
+
+### Learning the API
+
+Before writing code:
+
+1. Browse available endpoints and their descriptions
+2. Understand required vs. optional parameters
+3. See example responses for each endpoint
+4. Export session history as documentation
+
+### Testing Different Date Ranges
+
+Compare data across time periods:
+
+1. Run a report with `last_7_days`
+2. Run the same report with `last_30_days`
+3. Compare results to understand trends
+
+## Quick Health Check
+
+The **Quick Health Check** feature validates all core API endpoints with a single click:
+
+1. Click **"Quick Health Check"** in the Validator
+2. The tool tests each endpoint with your credentials
+3. See a summary of passing and failing endpoints
+4. Click any result to see the detailed response
+
+This is useful for:
+- Initial setup verification
+- Periodic health monitoring
+- Troubleshooting connectivity issues
+
+## Session History
+
+The Validator tracks all your API calls during a session:
+
+- **Timestamp** — When the request was made
+- **Endpoint** — Which API endpoint was called
+- **Status** — Success or failure
+- **Response Time** — How long the request took
+- **Parameters** — What parameters were used
+
+You can:
+- Click any history item to see full details
+- Export history as JSON for documentation
+- Clear history to start fresh
+
+## Security
+
+The API Validator is designed with security in mind:
+
+- **No server-side storage** — Your API token is never stored on our servers
+- **Browser-only storage** — Tokens are kept only in browser memory/localStorage
+- **HTTPS only** — All communication is encrypted
+- **No logging** — API responses are not logged or stored
+
+:::tip Best Practice
+Use a dedicated API token for testing. You can revoke it after testing is complete.
+:::
+
+## Self-Hosting
+
+The API Validator is open source and can be self-hosted:
+
+**GitHub Repository:** [github.com/sealmetrics/API-validator](https://github.com/sealmetrics/API-validator)
+
+### Requirements
+
+- Python 3.10+ (backend)
+- Node.js 20+ (frontend)
+- Docker (optional)
+
+### Quick Start with Docker
+
+```bash
+git clone https://github.com/sealmetrics/API-validator.git
+cd API-validator
+docker-compose up --build
+```
+
+Then open [http://localhost:3000](http://localhost:3000).
+
+### Manual Setup
+
+**Backend:**
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+**Frontend:**
+```bash
+cd frontend
+pnpm install
+pnpm dev
+```
+
+## Troubleshooting
+
+### "Invalid Token" Error
+
+1. Verify your token is copied correctly (no extra spaces)
+2. Check the token hasn't expired
+3. Ensure API access is enabled for your account
+
+### "Account Not Found" Error
+
+1. Verify your Account ID is correct
+2. Check that your token has access to that account
+3. Use the **Get Accounts** endpoint to list accessible accounts
+
+### Empty Response
+
+1. Check your date range has data
+2. Verify UTM filters aren't too restrictive
+3. Try removing optional filters to see all data
+
+### Connection Errors
+
+1. Check your internet connection
+2. Verify [api-validator.sealmetrics.com](https://api-validator.sealmetrics.com) is accessible
+3. Try clearing browser cache and cookies
+
+## Resources
+
+- **Live Tool:** [api-validator.sealmetrics.com](https://api-validator.sealmetrics.com)
+- **GitHub Repository:** [github.com/sealmetrics/API-validator](https://github.com/sealmetrics/API-validator)
+- **API Documentation:** [Full API Reference](/api)
+- **Get API Token:** [How to Obtain Your API Token](/api/authentication/how-to-obtain-api-token)
+
+## Support
+
+Need help with the API Validator?
+
+- **GitHub Issues:** [Report bugs or request features](https://github.com/sealmetrics/API-validator/issues)
+- **Email:** support@sealmetrics.com
+- **API Documentation:** [Full API reference](/api)
