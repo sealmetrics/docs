@@ -1,4 +1,4 @@
-/* SealMetrics Tracker Code */
+/* Sealmetrics Tracker Code */
 (function() {
   // Determine content_grouping based on URL path
   var path = window.location.pathname;
@@ -38,4 +38,4 @@
     }
   });
 })();
-/* End SealMetrics Tracker Code */
+/* End Sealmetrics Tracker Code */
