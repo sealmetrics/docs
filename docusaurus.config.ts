@@ -148,6 +148,7 @@ const config: Config = {
         {
           title: 'Community',
           items: [
+            { label: 'GitHub', href: 'https://github.com/sealmetrics' },
             { label: 'LinkedIn', href: 'https://linkedin.com/company/sealmetrics' },
             { label: 'X (Twitter)', href: 'https://x.com/sealmetrics' },
           ],
