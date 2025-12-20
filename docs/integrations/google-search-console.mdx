@@ -1,0 +1,213 @@
+---
+sidebar_position: 2
+title: Google Search Console Integration
+description: Connect Google Search Console to the Sealmetrics AI Agent for SEO insights, keyword analysis, and quick win detection.
+---
+
+# Google Search Console Integration
+
+Connect your **Google Search Console** account to the Sealmetrics AI Agent to unlock powerful SEO insights directly within your analytics workflow. Query search performance data, detect optimization opportunities, and inspect URL indexing status — all through natural language.
+
+## Features
+
+Once connected, you can ask the AI Agent questions like:
+
+- *"Show me my top search queries this month"*
+- *"Which pages get the most impressions but low CTR?"*
+- *"Find SEO quick wins for my site"*
+- *"Is my new blog post indexed by Google?"*
+- *"What's my average position for branded keywords?"*
+
+### Available Capabilities
+
+| Capability | Description |
+|------------|-------------|
+| **Search Analytics** | Clicks, impressions, CTR, and position data by query, page, country, or device |
+| **Quick Wins Detection** | Automatic identification of high-potential keywords in positions 4-10 |
+| **URL Inspection** | Check indexing status and crawl information for any URL |
+| **Sitemap Management** | View sitemap status, errors, and submit new sitemaps |
+
+## Connecting Google Search Console
+
+### Step 1: Access Integrations Settings
+
+1. Log in to **[agent.sealmetrics.com](https://agent.sealmetrics.com)**
+2. Click on your **profile icon** in the top-right corner
+3. Select **Settings**
+4. Navigate to the **Integrations** tab
+
+### Step 2: Connect Your Google Account
+
+1. In the Integrations panel, find **Google Search Console**
+2. Click the **Connect** button
+3. You'll be redirected to Google's authorization page
+4. Select the Google account that has access to your Search Console properties
+5. Review the permissions and click **Allow**
+
+:::info Permissions Required
+The integration requests read-only access to your Search Console data (`webmasters.readonly` scope) plus write access for sitemap management. Your data is never stored permanently — it's only accessed when you make a query.
+:::
+
+### Step 3: Select Your Property
+
+After authorization:
+
+1. The AI Agent will automatically detect your Search Console properties
+2. You can query data for any property you have access to
+3. Use the `gsc_list_sites` tool to see all available properties
+
+## Usage Examples
+
+### Search Performance Analysis
+
+Query your top search queries:
+
+> "Show me my top 20 search queries for the last 30 days"
+
+The AI Agent will retrieve:
+- Query text
+- Total clicks
+- Total impressions
+- Average CTR (%)
+- Average position
+
+### Page Performance
+
+Analyze which pages perform best in search:
+
+> "What pages get the most clicks from Google?"
+
+### Quick Wins Detection
+
+Find SEO optimization opportunities:
+
+> "Find SEO quick wins for my site"
+
+This identifies keywords where you:
+- Have high impressions (visibility)
+- Rank in positions 4-10 (striking distance)
+- Have low CTR (opportunity for improvement)
+
+These are keywords where small optimizations can yield significant traffic gains.
+
+### URL Indexing Status
+
+Check if a specific page is indexed:
+
+> "Is https://mysite.com/new-blog-post indexed by Google?"
+
+The response includes:
+- Indexing verdict (PASS/FAIL/PARTIAL)
+- Coverage state
+- Last crawl time
+- Mobile usability status
+
+### Filter by Device or Country
+
+Narrow your analysis:
+
+> "Show mobile search performance for the USA"
+
+> "What queries bring traffic from Spain?"
+
+### Sitemap Management
+
+Check your sitemap status:
+
+> "Show my sitemaps and their status"
+
+Submit a new sitemap:
+
+> "Submit my sitemap at https://mysite.com/sitemap.xml"
+
+## Available Tools
+
+The GSC integration provides six specialized tools:
+
+| Tool | Description |
+|------|-------------|
+| `gsc_list_sites` | List all Search Console properties you have access to |
+| `gsc_search_analytics` | Query search performance data with filters |
+| `gsc_detect_quick_wins` | Find high-potential optimization opportunities |
+| `gsc_inspect_url` | Check indexing status for a specific URL |
+| `gsc_list_sitemaps` | View all submitted sitemaps and their status |
+| `gsc_submit_sitemap` | Submit a new sitemap for indexing |
+
+## Data Freshness
+
+- **Search Analytics**: Data is typically 2-3 days behind (Google's standard delay)
+- **URL Inspection**: Real-time data from Google's index
+- **Sitemaps**: Real-time status information
+
+## Disconnecting
+
+To disconnect your Google Search Console:
+
+1. Go to **Settings** → **Integrations**
+2. Find Google Search Console
+3. Click **Disconnect**
+
+Your tokens will be immediately revoked and deleted.
+
+:::tip Revoking Access
+You can also revoke access from your Google Account settings at [myaccount.google.com/permissions](https://myaccount.google.com/permissions).
+:::
+
+## Troubleshooting
+
+### "No Search Console properties found"
+
+This means your Google account doesn't have access to any Search Console properties. To fix:
+
+1. Go to [Google Search Console](https://search.google.com/search-console)
+2. Add your website as a property
+3. Complete the verification process
+4. Reconnect in Sealmetrics
+
+### "Access denied" errors
+
+If you see permission errors:
+
+1. Make sure you're using the correct Google account
+2. Verify you have at least "Full User" permissions on the property
+3. Try disconnecting and reconnecting the integration
+
+### "Token expired"
+
+OAuth tokens expire periodically. The system automatically refreshes them, but if you see this error:
+
+1. Disconnect the integration
+2. Reconnect with fresh authorization
+
+### Data not showing for certain dates
+
+Search Console data typically has a 2-3 day delay. If you're querying recent dates:
+
+1. Try expanding your date range
+2. Use dates at least 3 days in the past
+
+## Privacy & Security
+
+- **OAuth 2.0**: We use Google's secure OAuth flow for authentication
+- **Encrypted Storage**: Access tokens are encrypted at rest using AES-256
+- **No Data Storage**: We don't store your Search Console data — queries are made in real-time
+- **Revocable Access**: You can disconnect at any time
+
+## Limitations
+
+- **API Quotas**: Google limits Search Console API requests. For heavy usage, consider spreading queries throughout the day
+- **Data Delay**: Search analytics data has a 2-3 day delay
+- **Row Limits**: Single queries return up to 25,000 rows
+
+## Related Resources
+
+- [Google Search Console Help](https://support.google.com/webmasters)
+- [Search Analytics API Documentation](https://developers.google.com/webmaster-tools/search-console-api-original)
+- [Sealmetrics Product Features](/product/features)
+
+## Support
+
+Need help with the GSC integration?
+
+- **Email**: support@sealmetrics.com
+- **In-app Chat**: Available in the Sealmetrics dashboard
