@@ -1,179 +1,105 @@
 ---
-sidebar_position: 0
+sidebar_position: 1
 title: Reports Overview
-description: Explore all Sealmetrics reports — from dashboard metrics to acquisition, ROAS, funnels, and key definitions.
-tags: [reports overview, analytics, dashboard, funnel, roas, acquisition, definitions]
-keywords:
-  - sealmetrics reports
-  - analytics overview
-  - cookieless analytics
-  - privacy-first analytics
-  - dashboard insights
 ---
 
-# Reports Overview
+# Reports
 
-Sealmetrics provides a full suite of reports to help you understand traffic, conversions, and business performance — all with **privacy-first, cookieless tracking**.
+Sealmetrics provides 8 specialized reports to analyze your website traffic, conversions, and user behavior.
 
----
+## Available Reports
 
-import Link from '@docusaurus/Link';
+| Report | Purpose | Key Metrics |
+|--------|---------|-------------|
+| [Overview](./overview) | Real-time dashboard summary | Entrances, Pageviews, Conversions, Revenue |
+| [Evolution](./evolution) | Temporal trends analysis | Metrics over time, grouped by day/week/month |
+| [Pages](./pages) | Page performance analysis | Top pages, landing pages, bounce rates |
+| [Sources](./sources) | Traffic source breakdown | UTM analysis, referrers, campaigns |
+| [Geography](./geography) | Geographic distribution | Country-level metrics |
+| [Devices](./devices) | Device and browser analysis | Device types, browsers, operating systems |
+| [Conversions](./conversions) | Conversion and event tracking | Conversions, microconversions, revenue |
+| [Funnel](./funnel) | Conversion funnel analysis | Step progression, drop-off rates |
 
-<div
-  style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '1.5rem',
-    marginTop: '2rem',
-  }}
->
+## Accessing Reports
 
-  {/* Dashboard */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#00825C" viewBox="0 0 24 24">
-        <path d="M3 13h2v-2H3v2zm4 0h2v-6H7v6zm4 0h2V5h-2v8zm4 0h2V9h-2v4zm4 0h2V3h-2v10z"/>
-      </svg>
-      <h3 style={{ color: '#00825C', marginLeft: '0.5rem' }}>
-        <Link to="/reports/dashboard" style={{ textDecoration: 'none', color: '#00825C' }}>
-          Sealmetrics Dashboard
-        </Link>
-      </h3>
-    </div>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Overview of visits, page views, conversions, and micro-conversions — your central analytics hub.
-    </p>
-  </div>
+1. Log in to [Sealmetrics Dashboard](https://app.sealmetrics.com)
+2. Select a site from the site selector (top left)
+3. Click any report in the sidebar
 
-  {/* Acquisition */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#00825C" viewBox="0 0 24 24">
-        <path d="M3 13h18v-2H3v2zm0 6h12v-2H3v2zm0-12h18V5H3v2z"/>
-      </svg>
-      <h3 style={{ color: '#00825C', marginLeft: '0.5rem' }}>
-        <Link to="/reports/acquisition" style={{ textDecoration: 'none', color: '#00825C' }}>
-          Traffic Source Analysis
-        </Link>
-      </h3>
-    </div>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Analyze acquisition sources, ROAS, and performance by medium, campaign, and device.
-    </p>
-  </div>
+## Common Features
 
-  {/* ROAS Evolution */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#00825C" viewBox="0 0 24 24">
-        <path d="M3 17h2v-2H3v2zm4 0h2v-6H7v6zm4 0h2V9h-2v8zm4 0h2V5h-2v12zm4 0h2v-9h-2v9z"/>
-      </svg>
-      <h3 style={{ color: '#00825C', marginLeft: '0.5rem' }}>
-        <Link to="/reports/roas-evolution" style={{ textDecoration: 'none', color: '#00825C' }}>
-          ROAS Evolution Report
-        </Link>
-      </h3>
-    </div>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Measure Return on Ad Spend over time and compare performance by source, medium, or campaign.
-    </p>
-  </div>
+All reports share these features:
 
-  {/* Sales Funnel */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#00825C" viewBox="0 0 24 24">
-        <path d="M2 3h20l-8 9v5l-4 4v-9L2 3z"/>
-      </svg>
-      <h3 style={{ color: '#00825C', marginLeft: '0.5rem' }}>
-        <Link to="/reports/sales-funnel" style={{ textDecoration: 'none', color: '#00825C' }}>
-          Sales Funnel Report
-        </Link>
-      </h3>
-    </div>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Visualize user behavior through funnel stages — from micro-conversions to completed sales.
-    </p>
-  </div>
+### Date Range Picker
 
-  {/* Definitions */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#00825C" viewBox="0 0 24 24">
-        <path d="M4 4h16v2H4V4zm0 4h16v2H4V8zm0 4h10v2H4v-2zm0 4h10v2H4v-2z"/>
-      </svg>
-      <h3 style={{ color: '#00825C', marginLeft: '0.5rem' }}>
-        <Link to="/reports/definitions" style={{ textDecoration: 'none', color: '#00825C' }}>
-          Definitions
-        </Link>
-      </h3>
-    </div>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Learn the meaning of all key Sealmetrics metrics — entrances, conversions, revenue, and advanced KPIs.
-    </p>
-  </div>
+Located in the header. Options:
 
-</div>
+| Preset | Description |
+|--------|-------------|
+| Today | Current day |
+| Yesterday | Previous day |
+| 7d | Last 7 days |
+| 30d | Last 30 days |
+| 90d | Last 90 days |
+| This Week/Month/Quarter/Year | Current period |
+| Last Week/Month/Quarter/Year | Previous period |
+| Custom | Select specific date range |
 
----
+**Keyboard shortcuts:**
+- `T` = Today
+- `Y` = Yesterday
+- `W` = This Week
+- `M` = This Month
+- `C` = Toggle comparison mode
 
-## About Sealmetrics Reports
+### Comparison Mode
 
-Each report provides:
-- 100% privacy-compliant, cookieless analytics  
-- Unified metric definitions  
-- Automatic 30-day comparisons  
-- Real-time filtering and visualization  
-- Complete transparency without user tracking  
+Compare current period with:
+- **Previous Period**: Same number of days before the selected range
+- **Previous Year**: Same dates in the prior year
+- **Custom**: Manually select comparison range
 
-> Sealmetrics gives you actionable insights — without cookies, consent banners, or data loss.
+When enabled, charts show a secondary line and stat cards display delta percentages.
+
+### Global Filters
+
+Filter bar below the header. Available filters:
+
+| Category | Filters |
+|----------|---------|
+| Geography | Countries (multi-select) |
+| Devices | Device type, Browser, Operating System |
+| Traffic Sources | UTM Source, Medium, Campaign |
+| Pages | Path contains, Path starts with |
+
+Filters apply to all reports. Active filters appear as removable chips.
+
+### Segments
+
+Save filter combinations for quick access:
+
+1. Apply desired filters
+2. Click **Save as Segment**
+3. Name the segment
+4. Access saved segments from the dropdown
+
+### Export
+
+Most reports include an **Export** button to download data as CSV.
+
+## Report Details
+
+- [Overview](./overview) - Main dashboard with key metrics
+- [Evolution](./evolution) - Time-based trend analysis
+- [Pages](./pages) - Page-level performance
+- [Sources](./sources) - Traffic source analysis
+- [Geography](./geography) - Country breakdown
+- [Devices](./devices) - Device and browser stats
+- [Conversions](./conversions) - Conversion tracking
+- [Funnel](./funnel) - Funnel progression
+
+## Additional Documentation
+
+- [Filters](./filters) - Detailed filter documentation
+- [Date Range](./date-range) - Date selection and comparison
+- [Definitions](./definitions) - Metric definitions

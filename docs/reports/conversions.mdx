@@ -1,0 +1,309 @@
+---
+sidebar_position: 8
+title: Conversions Report
+---
+
+# Conversions
+
+The Conversions report provides detailed analysis of your conversion and microconversion events, including revenue tracking and performance metrics.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Conversions** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/conversions`
+
+## Tabs
+
+The report has two tabs for different event types:
+
+### 1. Conversions Tab
+
+Shows completed conversion events (primary goals).
+
+| Column | Description |
+|--------|-------------|
+| **Conversion Type** | Name/identifier of the conversion |
+| **Count** | Total number of conversions (with progress bar) |
+| **Unique Users** | Distinct users who converted |
+| **Revenue** | Total revenue attributed (with progress bar) |
+| **Avg. Value** | Average revenue per conversion |
+| **Conv. Rate** | Conversions / Total Entrances × 100 |
+
+#### Conversion Types
+
+Common conversion types include:
+
+| Type | Typical Use |
+|------|-------------|
+| purchase | E-commerce transaction |
+| signup | Account registration |
+| subscription | Subscription signup |
+| lead | Lead form submission |
+| download | File download |
+| booking | Appointment/reservation |
+
+### 2. Microconversions Tab
+
+Shows microconversion events (secondary goals/engagement metrics).
+
+| Column | Description |
+|--------|-------------|
+| **Event Type** | Name/identifier of the microconversion |
+| **Count** | Total number of events (with progress bar) |
+| **Unique Users** | Distinct users who triggered this event |
+| **Pages** | Number of unique pages where event occurred |
+
+#### Common Microconversions
+
+| Type | Typical Use |
+|------|-------------|
+| add_to_cart | Item added to shopping cart |
+| newsletter_signup | Email list subscription |
+| video_play | Video engagement |
+| scroll_depth | Page scroll milestone |
+| click_cta | CTA button click |
+| form_start | Form interaction started |
+
+## Summary Cards
+
+Top section displays aggregate metrics:
+
+| Card | Description |
+|------|-------------|
+| **Total Conversions** | Sum of all conversion events |
+| **Total Revenue** | Sum of all revenue |
+| **Conversion Rate** | Overall conversion rate |
+| **Avg. Order Value** | Average revenue per conversion |
+
+When comparison mode is enabled, cards show delta percentages.
+
+## Charts
+
+### Conversions Over Time
+
+Line chart showing conversion count over the selected period.
+
+- Hover for daily/weekly values
+- Identify peaks and patterns
+- Comparison line when enabled
+
+### Revenue Over Time
+
+Area chart showing revenue accumulation.
+
+- Track revenue trends
+- Identify high-value periods
+- Spot anomalies
+
+### Conversion Type Distribution
+
+Pie chart showing distribution across conversion types.
+
+- Top 5 types shown individually
+- Remaining grouped as "Other"
+- Percentage labels
+
+## Filtering
+
+### Table Filter Builder
+
+Each tab has its own filter builder:
+
+**Conversions tab fields:**
+- Conversion Type
+- Count
+- Revenue
+- Conv. Rate
+
+**Microconversions tab fields:**
+- Event Type
+- Count
+- Unique Users
+
+**Example filters:**
+
+| Goal | Filter |
+|------|--------|
+| High-value conversions | Revenue greater than 1000 |
+| Frequent events | Count greater than 100 |
+| Low-performing types | Conv. Rate less than 1 |
+| Specific conversion | Type equals "purchase" |
+
+### Global Filter Integration
+
+Conversions report respects global filters:
+
+1. Global filter: Country = Spain
+2. See only conversions from Spanish visitors
+3. Compare conversion rates by country
+
+## Tracking Conversions
+
+### JavaScript API
+
+Track conversions using the tracker:
+
+```javascript
+// Basic conversion
+sealmetrics.conv('purchase');
+
+// Conversion with revenue
+sealmetrics.conv('purchase', 99.99);
+
+// Conversion with properties
+sealmetrics.conv('purchase', 149.99, {
+  product_id: 'SKU-123',
+  category: 'Electronics'
+});
+```
+
+### Microconversions
+
+Track engagement events:
+
+```javascript
+// Basic microconversion
+sealmetrics.micro('add_to_cart');
+
+// Microconversion with properties
+sealmetrics.micro('video_play', {
+  video_id: 'intro-video',
+  duration: 120
+});
+```
+
+See [Tracker Documentation](/tracker/conversions) for complete implementation guide.
+
+## Revenue Analysis
+
+### Revenue Metrics
+
+| Metric | Calculation | Use |
+|--------|-------------|-----|
+| Total Revenue | Sum of all conversion amounts | Overall performance |
+| Avg. Order Value | Total Revenue / Conversions | Transaction size |
+| Revenue per Entrance | Total Revenue / Entrances | Traffic value |
+| Revenue per User | Total Revenue / Unique Users | Customer value |
+
+### Revenue by Source
+
+Combine with Sources report:
+
+1. Go to Sources report
+2. Sort by Revenue column
+3. Identify highest-revenue sources
+4. Calculate ROAS (external ad spend data)
+
+### Revenue by Country
+
+Combine with Geography report:
+
+1. Go to Geography report
+2. Sort by Revenue column
+3. Identify top markets
+4. Calculate revenue per visitor by country
+
+## Use Cases
+
+### Monitoring Conversion Performance
+
+1. Check **Total Conversions** card daily
+2. Compare with previous period
+3. Investigate significant changes (>10%)
+4. Check by conversion type for specifics
+
+### Identifying Top Conversion Types
+
+1. Go to **Conversions** tab
+2. Sort by **Count** or **Revenue**
+3. Focus optimization on top types
+4. Monitor conversion rate per type
+
+### Analyzing Microconversion Funnel
+
+1. Go to **Microconversions** tab
+2. Sort by **Count** (descending)
+3. Track progression: view → add_to_cart → checkout → purchase
+4. Calculate drop-off rates between steps
+
+### Finding Conversion Opportunities
+
+1. Filter by high-traffic sources (Sources report)
+2. Return to Conversions report
+3. Compare conversion rates
+4. Low rate + high traffic = opportunity
+
+### Revenue Trend Analysis
+
+1. Set date range to 90 days
+2. Review Revenue Over Time chart
+3. Identify:
+   - Seasonal patterns
+   - Campaign impact periods
+   - Unusual spikes or drops
+
+### Comparing Conversion Types
+
+1. Go to **Conversions** tab
+2. Sort by **Conv. Rate**
+3. Compare:
+   - Which types convert best?
+   - Which have highest value?
+   - Which need improvement?
+
+## Attribution
+
+### Last-Touch Attribution
+
+Sealmetrics uses last-touch attribution by default:
+
+- Conversion attributed to the session where it occurred
+- Source/medium of that session gets credit
+- Simple and transparent model
+
+### Multi-Session Users
+
+For users who convert after multiple sessions:
+
+- Each session tracked independently
+- Conversion credited to the converting session
+- Use Unique Users to understand user-level conversion
+
+## Best Practices
+
+### Naming Conventions
+
+Use consistent, descriptive conversion type names:
+
+| Good | Avoid |
+|------|-------|
+| purchase | conv1 |
+| newsletter_signup | signup |
+| request_demo | form |
+| add_to_cart | cart |
+
+### Revenue Values
+
+- Always pass numeric values (not strings)
+- Use consistent currency
+- Include only the transaction amount
+- Don't include tax/shipping unless relevant
+
+### Testing Conversions
+
+Before going live:
+
+1. Test each conversion type
+2. Verify revenue values are correct
+3. Check properties are captured
+4. Confirm data appears in report
+
+## Export
+
+Click **Export** to download:
+- Current tab data (Conversions or Microconversions)
+- All visible columns
+- Respects active filters
+- CSV format

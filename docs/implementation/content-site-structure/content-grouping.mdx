@@ -1,102 +1,265 @@
-# Understanding Content Grouping in Sealmetrics
+---
+sidebar_position: 1
+title: Content Grouping
+---
 
-Content Grouping is a powerful feature in Sealmetrics that allows you to organize your page views into logical groups, enabling you to analyze related pages as a single unit. This feature helps you understand the performance of content categories rather than individual pages.
+# Content Grouping
 
-## What is Content Grouping?
+Content Grouping categorizes pages into logical groups for aggregated analysis. Instead of analyzing individual URLs, you can group related pages (e.g., all blog posts, all product pages) and view metrics for the entire group.
 
-Content Grouping lets you categorize multiple URLs under a single group name. Instead of analyzing each page individually, you can group related pages together and get aggregated data for the entire group.
+## What Content Grouping Does
 
-### Example scenarios:
-- Group all blog posts under **"Blog Content"**
-- Categorize product pages as **"Product Catalog"**
-- Organize help documentation under **"Support Pages"**
-- Group checkout pages as **"Purchase Flow"**
+| Without Content Grouping | With Content Grouping |
+|-------------------------|----------------------|
+| `/blog/post-1` → 50 views | **Blog** → 1,200 views |
+| `/blog/post-2` → 30 views | **Products** → 3,500 views |
+| `/blog/post-3` → 25 views | **Checkout** → 800 views |
+| ... (hundreds of rows) | (5-10 meaningful groups) |
 
-## How Content Grouping Works
+Content grouping enables:
+- Conversions by content group
+- Bounce rate per section
+- Traffic distribution across page types
+- Funnel analysis by content type
 
-When you implement content grouping, Sealmetrics will:
-- Collect page views from individual URLs as usual
-- Apply the group classification you've defined
-- Aggregate metrics for all pages within each group
-- Provide unified reporting for grouped content
+## Two Ways to Set Up Content Grouping
 
-## Setting Up Content Grouping
+### Method 1: URL Parameter (Recommended)
 
-### Method 1: Global Tracker Configuration
-
-The easiest way to add content grouping is through the Global Tracker in your Sealmetrics dashboard:
-
-1. Access Global Tracker: Go to your Sealmetrics dashboard and navigate to the **Global Tracker** section  
-2. Select **Page View**  
-3. Enable Content Grouping: Toggle **“Yes”** for *“Add content grouping to your page view”*  
-4. Configure Your Code: The tracker will automatically generate code with the `content_grouping` parameter
-
-### Generated Code Example
+Add the `group` parameter to the tracker script. The group is set automatically for all pageviews on that page.
 
 ```html
-<script>
-/* Sealmetrics Tracker Code */
-(function() {
-  var options = {
-    account: '00000000000000000001234',
-    event: 'pageview',
-    content_grouping: 'custom-name',
-    use_session: 1,
-  };
-  var url="//app.sealmetrics.com/tag/v2/tracker";
-  // ... rest of tracking code
-})();
-</script>
+<!-- Blog pages -->
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog" defer></script>
+
+<!-- Product pages -->
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=product" defer></script>
+
+<!-- Checkout flow -->
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=checkout" defer></script>
 ```
 
-## Key Configuration Parameters
+### Method 2: JavaScript API
 
-| Parameter | Description |
-|----------|-------------|
-| `account` | Your unique Sealmetrics account ID |
-| `event` | Should be set to `'pageview'` |
-| `content_grouping` | The group name to assign to the current page |
-| `use_session` | Enables session tracking |
+Set the group dynamically when calling pageview:
 
-### Important Notes
-- Use lowercase and hyphens for group names (e.g., `blog-content`)
-- Keep naming consistent across your site
-- Include `content_grouping` in every page view you want grouped
+```javascript
+sealmetrics({ group: 'blog' });
+```
+
+This is useful when:
+- The group depends on page content (not URL structure)
+- You're using a SPA with dynamic sections
+- You want to override the URL parameter
+
+## Setting Up Content Groups in Dashboard
+
+### Step 1: Navigate to Settings
+
+1. Log in to Sealmetrics
+2. Select your site from the dropdown
+3. Click **Settings** in the sidebar
+4. Click **Properties**
+
+### Step 2: Add Content Group Rules
+
+You have two options:
+
+#### Option A: Quick Setup (Recommended for New Sites)
+
+1. Click **Quick Setup**
+2. Choose a template that matches your site structure:
+
+| Template | Use Case | Example Rules |
+|----------|----------|---------------|
+| **E-commerce** | Online stores | Products, Categories, Cart, Checkout |
+| **Blog / Content** | Publishers, blogs | Blog Posts, Categories, Authors |
+| **SaaS / App** | Web applications | Dashboard, Settings, Billing |
+| **Documentation** | Docs sites | Getting Started, API Reference, Guides |
+| **Support Site** | Help centers | Help Articles, Knowledge Base, Tickets |
+| **Marketing Site** | Landing pages | Features, Pricing, About, Case Studies |
+
+3. Preview the rules
+4. Click **Apply All Rules** or add individual rules
+
+#### Option B: Manual Setup
+
+1. Click **Add Rule**
+2. Enter:
+   - **Group Name**: The label shown in reports (e.g., "Blog Posts")
+   - **URL Pattern**: The pattern to match (e.g., `/blog/*`)
+3. Click **Add Rule**
+
+### URL Pattern Syntax
+
+Use `*` to match any characters:
+
+| Pattern | Matches | Does Not Match |
+|---------|---------|----------------|
+| `/blog/*` | `/blog/my-post`, `/blog/2025/news` | `/blogging`, `/blog` |
+| `/products/*/reviews` | `/products/shoes/reviews` | `/products/shoes` |
+| `/docs/*` | `/docs/api`, `/docs/guides/intro` | `/documentation` |
+| `/` | `/` (homepage only) | `/about`, `/contact` |
+
+### Step 3: Implement the Tracker
+
+After defining rules in the dashboard, you must also send the group from the tracker.
+
+#### Option A: Server-Side Rendering
+
+Set the group based on URL pattern on the server:
+
+```php
+<?php
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Determine content group based on URL
+$group = 'other';
+if ($path === '/') {
+    $group = 'homepage';
+} elseif (str_starts_with($path, '/blog/')) {
+    $group = 'blog';
+} elseif (str_starts_with($path, '/products/')) {
+    $group = 'product';
+} elseif (str_starts_with($path, '/checkout')) {
+    $group = 'checkout';
+}
+?>
+
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=<?= $group ?>" defer></script>
+```
+
+#### Option B: Client-Side (SPA)
+
+Set the group when the route changes:
+
+```javascript
+// React with react-router
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+
+function useContentGrouping() {
+  const location = useLocation();
+
+  useEffect(() => {
+    let group = 'other';
+
+    if (location.pathname === '/') {
+      group = 'homepage';
+    } else if (location.pathname.startsWith('/blog/')) {
+      group = 'blog';
+    } else if (location.pathname.startsWith('/products/')) {
+      group = 'product';
+    } else if (location.pathname.startsWith('/checkout')) {
+      group = 'checkout';
+    }
+
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics({ group });
+    }
+  }, [location.pathname]);
+}
+```
+
+#### Option C: CMS-Based
+
+For WordPress, WooCommerce, or other CMS:
+
+```php
+<?php
+function get_content_group() {
+    if (is_front_page()) return 'homepage';
+    if (is_single() && get_post_type() === 'post') return 'blog';
+    if (is_product()) return 'product';
+    if (is_cart()) return 'cart';
+    if (is_checkout()) return 'checkout';
+    if (is_account_page()) return 'account';
+    return 'other';
+}
+?>
+
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=<?= get_content_group() ?>" defer></script>
+```
+
+## Viewing Content Group Reports
+
+### Pages Report
+
+1. Go to **Pages** in the sidebar
+2. The **Content Group** column shows the assigned group for each page
+3. Use the **Group by** dropdown to aggregate by content group
+
+### Filtering by Content Group
+
+1. Click **Add Filter**
+2. Select **Content Group**
+3. Choose one or more groups
+
+## Common Content Group Structures
+
+### E-commerce
+
+| Group | Pattern | Pages |
+|-------|---------|-------|
+| Homepage | `/` | Landing page |
+| Products | `/products/*` | Product listings, search results |
+| Product Details | `/product/*` | Individual product pages |
+| Cart | `/cart` | Shopping cart |
+| Checkout | `/checkout/*` | Checkout steps |
+| Account | `/account/*` | User account, orders |
+| Blog | `/blog/*` | Content marketing |
+
+### SaaS
+
+| Group | Pattern | Pages |
+|-------|---------|-------|
+| Marketing | `/`, `/features/*`, `/pricing` | Public pages |
+| App | `/app/*`, `/dashboard/*` | Authenticated app |
+| Settings | `/settings/*` | User settings |
+| Billing | `/billing/*` | Subscription management |
+| Docs | `/docs/*` | Documentation |
+
+### Publisher / Blog
+
+| Group | Pattern | Pages |
+|-------|---------|-------|
+| Homepage | `/` | Main page |
+| Articles | `/articles/*`, `/news/*` | Content pages |
+| Categories | `/category/*` | Topic pages |
+| Authors | `/author/*` | Author pages |
+| Archives | `/archive/*` | Historical content |
 
 ## Best Practices
 
-- **Define Clear Categories:** Create logical groups aligned with business goals  
-- **Use Consistent Naming:** Maintain uniform naming for easy reporting  
-- **Avoid Over-Grouping:** Stick to meaningful categories  
-- **Review Periodically:** Update groups as content evolves  
+### Do
 
-## Common Use Cases
+- **Keep groups meaningful**: 5-15 groups is ideal
+- **Use consistent naming**: `blog` not `Blog Posts` or `blog-posts`
+- **Group by user intent**: Separate informational vs transactional content
+- **Test patterns**: Verify URLs match expected groups before going live
 
-### E-commerce
-- Group product categories  
-- Separate informational vs transactional content  
-- Analyze funnel steps by content group  
+### Don't
 
-### Content Publishers
-- Group content by topic  
-- Compare performance of formats  
-- Track engagement across categories  
-
-### SaaS Platforms
-- Group feature pages  
-- Separate onboarding vs help content  
-- Track user journeys by content type  
+- **Over-segment**: 50+ groups makes analysis difficult
+- **Use overlapping patterns**: `/products/*` and `/products/sale/*` may conflict
+- **Forget to implement**: Dashboard rules require tracker implementation
 
 ## Troubleshooting
 
-**Q: How do I update existing content groups?**  
-Update the `content_grouping` parameter in your tracking code and redeploy.
+### Pages showing wrong content group
 
-**Q: Can I reuse group names?**  
-Yes — any pages with the same value will be aggregated together.
+1. Check the `group` parameter in the tracker script
+2. Verify URL pattern matches in Settings > Properties
+3. Confirm pattern priority (more specific patterns should have higher priority)
 
-**Q: What if I omit the parameter?**  
-The page will not appear in content grouping reports but will still appear in normal analytics.
+### Content group not appearing in reports
 
-**Q: Is there a limit to the number of groups?**  
-No strict limit, but 10–20 groups is ideal for clear reporting.
+1. Ensure the tracker includes the `group` parameter
+2. Wait 5 minutes for data processing
+3. Check that the page has received traffic since adding the group
+
+### "Other" or empty content group
+
+Pages without a matching rule or `group` parameter will show as ungrouped. Either:
+- Add a rule to match the URL pattern
+- Add a catch-all rule with pattern `/*` and name "Other"

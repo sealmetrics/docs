@@ -1,0 +1,267 @@
+---
+sidebar_position: 9
+title: Funnel Report
+---
+
+# Funnel
+
+The Funnel report visualizes user progression through defined conversion steps, showing drop-off rates and bottlenecks.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Funnel** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/funnel`
+
+## Funnel Selector
+
+Choose which funnel to analyze from the dropdown at the top of the report.
+
+### Available Funnels
+
+Funnels are configured in Settings. Common examples:
+
+| Funnel | Typical Steps |
+|--------|---------------|
+| E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
+| Lead Generation | Landing Page → Form View → Form Submit → Thank You |
+| SaaS Signup | Homepage → Pricing → Sign Up → Verify Email |
+| Content Engagement | Article View → Scroll 50% → Scroll 100% → Share |
+
+## Funnel Visualization
+
+### Bar Chart
+
+Vertical bar chart showing progression through steps.
+
+| Element | Description |
+|---------|-------------|
+| **Bars** | Height represents users at each step |
+| **Labels** | Step name and user count |
+| **Drop-off arrows** | Show percentage leaving between steps |
+| **Colors** | Gradient from first to last step |
+
+### Reading the Funnel
+
+From left to right:
+1. First bar = users who entered the funnel
+2. Each subsequent bar = users who completed that step
+3. Arrows between bars = users who dropped off
+4. Last bar = users who completed the entire funnel
+
+## Metrics Table
+
+Detailed breakdown below the visualization.
+
+| Column | Description |
+|--------|-------------|
+| **Step** | Step name/number |
+| **Users** | Users who reached this step |
+| **Entry Rate** | Percentage of funnel entrants who reached this step |
+| **Completion Rate** | Percentage of previous step who completed this step |
+| **Drop-off** | Users who left at this step |
+| **Drop-off Rate** | Percentage who left at this step |
+
+### Example Metrics
+
+| Step | Users | Entry Rate | Completion | Drop-off |
+|------|-------|------------|------------|----------|
+| View Product | 10,000 | 100% | - | 3,000 |
+| Add to Cart | 7,000 | 70% | 70% | 4,000 |
+| Checkout | 3,000 | 30% | 43% | 1,500 |
+| Purchase | 1,500 | 15% | 50% | - |
+
+## Funnel Steps
+
+### Step Types
+
+Steps can be defined as:
+
+| Type | Trigger | Example |
+|------|---------|---------|
+| **Pageview** | User visits specific URL | /checkout |
+| **Event** | Microconversion fires | add_to_cart |
+| **Conversion** | Conversion fires | purchase |
+
+### Step Configuration
+
+Configure funnels in Settings → Funnels:
+
+1. Click **Create Funnel**
+2. Name the funnel
+3. Add steps in order
+4. For each step, define:
+   - Step name
+   - Step type (pageview/event/conversion)
+   - Matching criteria (URL pattern or event type)
+5. Save the funnel
+
+### URL Matching
+
+For pageview steps, URL patterns support:
+
+| Pattern | Matches |
+|---------|---------|
+| /checkout | Exact match |
+| /products/* | Any product page |
+| /blog/** | Blog and all subpaths |
+
+## Funnel Analysis
+
+### Key Metrics to Watch
+
+| Metric | Target | Action if Low |
+|--------|--------|---------------|
+| Overall Conversion Rate | Industry benchmark | Optimize worst step |
+| Step Completion Rate | >70% | Investigate UX issues |
+| Time Between Steps | Reasonable for action | Reduce friction |
+
+### Identifying Bottlenecks
+
+1. Look for steps with completion rate <50%
+2. Compare to expected behavior:
+   - Is the step too complex?
+   - Is there a technical issue?
+   - Is the value proposition clear?
+
+### Common Bottleneck Causes
+
+| Step | Common Issues |
+|------|---------------|
+| Add to Cart → Checkout | Price shock, shipping costs |
+| Checkout → Payment | Payment method issues, trust |
+| Form View → Submit | Too many fields, unclear CTA |
+| Landing → Signup | Weak value proposition |
+
+## Filtering
+
+### Global Filters
+
+Apply global filters to segment funnel analysis:
+
+**Example segments:**
+- Mobile users only
+- Traffic from Google Ads
+- Spanish visitors
+- First-time visitors
+
+### Comparing Segments
+
+1. Apply segment filter (e.g., Mobile)
+2. Note funnel metrics
+3. Remove filter, apply different segment (e.g., Desktop)
+4. Compare drop-off rates per step
+
+### Date Range
+
+Funnel respects the selected date range:
+- Users must complete steps within the date range
+- Useful for campaign-specific analysis
+- Compare different time periods
+
+## Use Cases
+
+### Checkout Optimization
+
+1. Select checkout funnel
+2. Identify step with highest drop-off
+3. Common findings:
+   - Cart → Checkout: Add guest checkout
+   - Checkout → Payment: Add payment methods
+   - Payment → Confirmation: Improve trust signals
+
+### Lead Form Analysis
+
+1. Create funnel: Page View → Form Start → Field 1 → ... → Submit
+2. Identify where users abandon
+3. Optimize:
+   - Reduce required fields
+   - Improve field labels
+   - Add progress indicator
+
+### Mobile vs Desktop Comparison
+
+1. Filter by Mobile
+2. Note overall conversion rate
+3. Filter by Desktop
+4. Compare:
+   - If Mobile significantly lower, prioritize mobile UX
+   - Identify which step has biggest gap
+
+### Campaign Effectiveness
+
+1. Filter by campaign UTMs
+2. Analyze funnel progression
+3. Compare campaigns:
+   - Same funnel entry, different completion?
+   - Traffic quality varies by campaign
+
+### A/B Test Validation
+
+1. Define same funnel for test and control
+2. Filter by test variant (via UTM or custom property)
+3. Compare funnel metrics
+4. Statistical significance if sample size adequate
+
+## Funnel Configuration
+
+### Creating a New Funnel
+
+1. Go to Settings → Funnels
+2. Click **Create Funnel**
+3. Enter funnel name
+4. Add steps (minimum 2):
+   - Step 1: Entry point
+   - Step 2-N: Progression steps
+   - Final step: Conversion goal
+5. Save
+
+### Editing Funnels
+
+1. Go to Settings → Funnels
+2. Click funnel name
+3. Modify steps
+4. Save changes
+
+Note: Historical data recalculates based on new definition.
+
+### Deleting Funnels
+
+1. Go to Settings → Funnels
+2. Click delete icon
+3. Confirm deletion
+
+Warning: This removes the funnel from reports.
+
+## Best Practices
+
+### Funnel Design
+
+| Do | Don't |
+|----|-------|
+| Keep steps sequential | Skip logical steps |
+| Use 3-6 steps | Create 10+ step funnels |
+| Name steps clearly | Use technical names |
+| Match real user journey | Create artificial paths |
+
+### Step Granularity
+
+- Too few steps: Miss where drop-off occurs
+- Too many steps: Overwhelming, hard to act on
+- Right balance: 4-6 steps for most funnels
+
+### Multiple Funnels
+
+Create separate funnels for:
+- Different user journeys (new vs returning)
+- Different products/services
+- Different entry points
+
+## Export
+
+Click **Export** to download:
+- All funnel step data
+- Users and rates per step
+- Respects active filters
+- CSV format

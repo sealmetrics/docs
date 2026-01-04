@@ -1,0 +1,292 @@
+---
+sidebar_position: 10
+title: Filters
+---
+
+# Filters
+
+Sealmetrics provides two types of filters: global filters that apply across all reports, and local filters specific to individual tables.
+
+## Global Filters
+
+Global filters appear in the filter bar below the header and affect all reports in the current session.
+
+### Accessing Global Filters
+
+1. Click **Add Filter** in the filter bar
+2. Select a filter category
+3. Choose or enter filter values
+4. Filter applies immediately
+
+### Available Global Filters
+
+#### Geography
+
+| Filter | Options | Description |
+|--------|---------|-------------|
+| **Countries** | Multi-select list | Filter by visitor country |
+
+Example: Select Spain and Portugal to see only traffic from the Iberian Peninsula.
+
+#### Devices
+
+| Filter | Options | Description |
+|--------|---------|-------------|
+| **Device Type** | Desktop, Mobile, Tablet | Filter by device category |
+| **Browser** | Chrome, Safari, Firefox, Edge, etc. | Filter by browser |
+| **Operating System** | Windows, macOS, iOS, Android, etc. | Filter by OS |
+
+Example: Select Mobile + iOS to see only iPhone/iPad traffic.
+
+#### Traffic Sources
+
+| Filter | Options | Description |
+|--------|---------|-------------|
+| **UTM Source** | Dynamic list from your data | google, facebook, newsletter, etc. |
+| **UTM Medium** | Dynamic list from your data | cpc, organic, email, referral, etc. |
+| **UTM Campaign** | Dynamic list from your data | Your campaign names |
+
+Example: Select Medium = "cpc" to see only paid traffic.
+
+#### Pages
+
+| Filter | Options | Description |
+|--------|---------|-------------|
+| **Path contains** | Text input | URLs containing the text |
+| **Path starts with** | Text input | URLs starting with the text |
+
+Example: Path starts with "/blog" to see only blog traffic.
+
+### Filter Bar Behavior
+
+- Active filters appear as chips in the filter bar
+- Click the X on a chip to remove that filter
+- Multiple filters combine with AND logic
+- Filters persist across reports until removed
+- Filters reset when changing sites
+
+### Combining Filters
+
+Filters combine with AND logic:
+
+| Filter 1 | Filter 2 | Result |
+|----------|----------|--------|
+| Country = Spain | Device = Mobile | Spanish mobile visitors |
+| Medium = cpc | Source = google | Google Ads traffic |
+| Browser = Safari | Country = USA | US Safari users |
+
+## Local Filters (Filter Builder)
+
+Each table in reports has its own filter builder for granular filtering within that specific table.
+
+### Accessing Local Filters
+
+1. Click the filter icon (funnel) above the table
+2. The filter builder panel opens
+3. Add filter conditions
+4. Click Apply
+
+### Filter Builder Interface
+
+| Element | Description |
+|---------|-------------|
+| **Field dropdown** | Select which column to filter |
+| **Operator dropdown** | Select comparison operator |
+| **Value input** | Enter the value to compare |
+| **Add button** | Add another condition |
+| **Apply button** | Apply all conditions |
+| **Clear button** | Remove all conditions |
+
+### Operators
+
+#### Text Fields
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| contains | Field includes text | Path contains "product" |
+| starts with | Field begins with text | Path starts with "/en/" |
+| equals | Exact match | Source equals "google" |
+| not equals | Does not match | Medium not equals "cpc" |
+
+#### Numeric Fields
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| equals | Exact value | Conversions equals 0 |
+| not equals | Different value | Entrances not equals 0 |
+| greater than | Above value | Pageviews greater than 1000 |
+| less than | Below value | Bounce Rate less than 50 |
+| greater than or equal | Value or above | Revenue >= 100 |
+| less than or equal | Value or below | Conv. Rate <= 5 |
+
+### Multiple Conditions
+
+Add multiple conditions for complex filters:
+
+| Field | Operator | Value | Logic |
+|-------|----------|-------|-------|
+| Entrances | greater than | 100 | AND |
+| Bounce Rate | less than | 50 | AND |
+| Conversions | greater than | 0 | - |
+
+All conditions combine with AND logic.
+
+### Filter Builder by Report
+
+Each report's tables have different available fields:
+
+#### Overview
+
+- Page path
+- Source/Medium
+
+#### Pages Report
+
+| Tab | Fields |
+|-----|--------|
+| All Pages | Path, Title, Pageviews, Unique Visitors |
+| Landing Pages | Path, Title, Entrances, Bounce Rate, Conversions |
+
+#### Sources Report
+
+| Tab | Fields |
+|-----|--------|
+| Sources | Source, Medium, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
+| Mediums | Medium, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
+| Campaigns | Campaign, Source, Medium, Entrances, Conversions, Revenue |
+| Terms | Term, Campaign, Source, Entrances, Conversions |
+| Content | Content, Campaign, Source, Entrances, Conversions |
+| Referrers | Referrer, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
+
+#### Geography Report
+
+- Country, Entrances, Pageviews, Bounce Rate, Conversions, Revenue
+
+#### Devices Report
+
+| Tab | Fields |
+|-----|--------|
+| Device Types | Device, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
+| Browsers | Browser, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
+| Operating Systems | OS, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
+
+#### Conversions Report
+
+| Tab | Fields |
+|-----|--------|
+| Conversions | Type, Count, Revenue, Conv. Rate |
+| Microconversions | Type, Count, Unique Users |
+
+## Segments
+
+Save filter combinations for quick access.
+
+### Creating a Segment
+
+1. Apply desired global filters
+2. Click **Save as Segment**
+3. Enter segment name
+4. Click Save
+
+### Using Segments
+
+1. Click the Segments dropdown in the filter bar
+2. Select a saved segment
+3. Filters apply immediately
+
+### Segment Examples
+
+| Segment Name | Filters |
+|--------------|---------|
+| Mobile Spain | Country = Spain, Device = Mobile |
+| Paid Traffic | Medium = cpc |
+| Blog Visitors | Path starts with "/blog" |
+| High-Value Users | (Created after filtering by conversions > 0) |
+
+### Managing Segments
+
+1. Click Segments dropdown
+2. Click the settings icon
+3. Options:
+   - Rename segment
+   - Delete segment
+   - View filters in segment
+
+## Filter Strategies
+
+### Performance Analysis
+
+Find underperforming segments:
+
+1. Filter: Entrances > 500 (significant traffic)
+2. Filter: Bounce Rate > 70 (high bounce)
+3. Result: High-traffic pages with engagement issues
+
+### Conversion Optimization
+
+Find conversion opportunities:
+
+1. Filter: Entrances > 200
+2. Filter: Conversions = 0
+3. Result: Popular pages not converting
+
+### Traffic Quality
+
+Identify quality sources:
+
+1. Filter: Entrances > 50
+2. Filter: Conv. Rate > 3
+3. Sort by Revenue
+4. Result: High-performing traffic sources
+
+### Geographic Targeting
+
+Analyze specific markets:
+
+1. Global filter: Country = [target market]
+2. Local filter: Conversions > 0
+3. Result: Converting pages in target market
+
+## Filter Persistence
+
+### What Persists
+
+| Element | Behavior |
+|---------|----------|
+| Global filters | Persist across reports, reset on site change |
+| Local filters | Reset when leaving the report |
+| Segments | Saved permanently until deleted |
+| Date range | Persists across reports |
+
+### URL Parameters
+
+Filters are reflected in URL parameters:
+- Shareable links include active filters
+- Bookmarks preserve filter state
+- Direct links to filtered views
+
+Example URL:
+```
+/sites/123/sources?country=ES&medium=cpc&dateRange=30d
+```
+
+## Best Practices
+
+### Use Global Filters For
+
+- Segmenting by user attributes (country, device)
+- Filtering by traffic source
+- Consistent analysis across reports
+
+### Use Local Filters For
+
+- Finding specific items in tables
+- Threshold-based filtering (metrics above/below values)
+- Detailed table exploration
+
+### Performance Tips
+
+- Apply broad filters first (country, device)
+- Then refine with specific filters
+- Save common combinations as segments
+- Clear filters before starting new analysis

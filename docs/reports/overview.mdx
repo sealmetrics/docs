@@ -1,0 +1,145 @@
+---
+sidebar_position: 2
+title: Overview Report
+---
+
+# Overview
+
+The Overview report is the main dashboard showing real-time summary statistics for your site.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Overview** in the sidebar (or it loads by default)
+
+**URL pattern:** `/sites/{site_id}`
+
+## Metrics Summary
+
+The top section displays key metrics in stat cards:
+
+| Metric | Description |
+|--------|-------------|
+| **Entrances** | Number of sessions started (unique visits) |
+| **Pageviews** | Total page views across all sessions |
+| **Bounce Rate** | Percentage of single-page sessions |
+| **Events** | Total microconversions tracked |
+| **Conversions** | Total conversions completed |
+| **Conv. Rate** | Conversions / Entrances × 100 |
+| **Revenue** | Total revenue from conversions |
+
+Each card shows:
+- Current value
+- Comparison with previous period (when comparison mode is enabled)
+- Delta percentage (green for improvement, red for decline)
+
+## Live Counter
+
+Real-time count of active visitors currently on your site. Updates automatically every few seconds.
+
+Located in the top-right area of the stats section.
+
+## Main Chart
+
+Large area chart showing trends over the selected period.
+
+### Metric Selector
+
+Toggle between metrics using the buttons above the chart:
+
+| Option | Shows |
+|--------|-------|
+| **Entrances** | Session starts over time |
+| **Pageviews** | Page views over time |
+| **Conversions** | Conversions over time |
+
+### Chart Features
+
+- **Hover**: Shows exact value for each data point
+- **Comparison line**: When comparison mode is enabled, a secondary line shows the previous period
+- **Brush**: For periods longer than 30 days, drag to zoom into a specific range
+- **Responsive**: Chart adjusts to screen size
+
+## Top Pages Table
+
+Shows the most visited pages during the selected period.
+
+| Column | Description |
+|--------|-------------|
+| **Page** | URL path |
+| **Pageviews** | Total views for this page |
+
+Click a row to view detailed page analytics.
+
+## Top Sources Table
+
+Shows the traffic sources driving the most visits.
+
+| Column | Description |
+|--------|-------------|
+| **Source / Medium** | Traffic source (e.g., "google / organic") |
+| **Entrances** | Sessions from this source |
+
+Click a row to view detailed source analytics.
+
+## Using Filters
+
+Apply global filters to focus on specific segments:
+
+### Example: Mobile Traffic Only
+
+1. Click **Add Filter** in the filter bar
+2. Select **Device Type**
+3. Choose **Mobile**
+4. All metrics update to show mobile-only data
+
+### Example: Specific Country
+
+1. Click **Add Filter**
+2. Select **Countries**
+3. Search and select countries (e.g., Spain, Germany)
+4. Dashboard shows only traffic from selected countries
+
+## Using Comparison Mode
+
+Compare current performance with a previous period:
+
+1. Click the date range picker
+2. Select **Compare: Previous Period** (or Previous Year)
+3. All stat cards show delta percentages
+4. Chart displays both current and comparison lines
+
+### Reading Delta Values
+
+| Delta | Meaning |
+|-------|---------|
+| +15% (green) | 15% increase vs comparison period |
+| -8% (red) | 8% decrease vs comparison period |
+| 0% (gray) | No change |
+
+## Best Practices
+
+### Daily Monitoring
+
+- Check Overview daily for anomalies
+- Watch for sudden drops in entrances (tracking issues)
+- Monitor bounce rate trends
+- Track conversion rate stability
+
+### Quick Health Check
+
+1. Compare today vs yesterday
+2. Look for significant deviations (>20%)
+3. Investigate sources if traffic changed
+4. Check pages if bounce rate increased
+
+### Using with Other Reports
+
+From Overview, dive deeper:
+
+| Observation | Next Step |
+|-------------|-----------|
+| Bounce rate increased | Go to **Pages** → Landing Pages tab |
+| Conversions dropped | Go to **Conversions** report |
+| Traffic source changed | Go to **Sources** report |
+| Geographic shift | Go to **Geography** report |

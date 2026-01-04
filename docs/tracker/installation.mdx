@@ -1,0 +1,185 @@
+---
+sidebar_position: 2
+title: Installation
+---
+
+# Installation
+
+## Basic Installation
+
+Add this script tag to your HTML, preferably in `<head>`:
+
+```html
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+Replace `YOUR_ACCOUNT_ID` with your Sealmetrics account ID (found in Settings > Account).
+
+The `defer` attribute ensures the script loads asynchronously without blocking page rendering.
+
+## With Content Grouping
+
+Content grouping categorizes pages into sections for analysis (e.g., "blog", "product", "checkout").
+
+Add the `group` parameter:
+
+```html
+<!-- Blog pages -->
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog" defer></script>
+
+<!-- Product pages -->
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=product" defer></script>
+
+<!-- Documentation pages -->
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=docs" defer></script>
+
+<!-- Checkout flow -->
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=checkout" defer></script>
+```
+
+Content grouping enables reports like:
+- Conversions by content group
+- Bounce rate per section
+- Traffic distribution across page types
+
+## Custom Endpoint
+
+For self-hosted deployments or custom domains:
+
+```html
+<script src="https://your-pixel-domain.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+## Parameters Reference
+
+| Parameter | Required | Description | Example |
+|-----------|----------|-------------|---------|
+| `id` | Yes | Your Sealmetrics account ID | `id=67a1d6c0bb10b861397fdd3a` |
+| `group` | No | Content grouping for this page | `group=blog` |
+
+## What Happens After Installation
+
+1. The script loads asynchronously (does not block rendering)
+2. A session ID is generated from browser characteristics (fingerprint hash)
+3. An anti-spam token is validated (embedded in the script, valid for 24 hours)
+4. The initial pageview is tracked automatically
+5. SPA navigation is detected automatically (History API)
+
+## Verifying Installation
+
+### Option 1: Browser Console
+
+Open DevTools (F12) and type:
+
+```javascript
+typeof sealmetrics === 'function'
+// Should return: true
+```
+
+### Option 2: Network Tab
+
+1. Open DevTools > Network
+2. Filter by "event"
+3. Reload the page
+4. Look for a POST request to `/event` with status 204
+
+### Option 3: Debug Mode
+
+Add `?debug=1` to any page URL:
+
+```
+https://yoursite.com/page?debug=1
+```
+
+This logs all tracking events to the browser console.
+
+## Common Installation Patterns
+
+### WordPress (without plugin)
+
+Add to `header.php` or use a "Header Scripts" plugin:
+
+```html
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+### Next.js
+
+In `app/layout.tsx` or `pages/_app.tsx`:
+
+```tsx
+import Script from 'next/script';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <head>
+        <Script
+          src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID"
+          strategy="afterInteractive"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+### Nuxt.js
+
+In `nuxt.config.ts`:
+
+```typescript
+export default defineNuxtConfig({
+  app: {
+    head: {
+      script: [
+        {
+          src: 'https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID',
+          defer: true
+        }
+      ]
+    }
+  }
+});
+```
+
+### Google Tag Manager
+
+1. Create a new Custom HTML tag
+2. Paste:
+```html
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+3. Set trigger to "All Pages"
+4. Publish
+
+### Shopify
+
+1. Go to Online Store > Themes > Edit code
+2. Open `theme.liquid`
+3. Add before `</head>`:
+```html
+<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+## Troubleshooting
+
+### Script not loading
+
+1. Check that `YOUR_ACCOUNT_ID` is replaced with your actual account ID
+2. Verify the account is active in Sealmetrics dashboard
+3. Check browser console for errors
+
+### Events not appearing in dashboard
+
+1. Events are processed in batches; wait 2-5 minutes
+2. Verify the domain is registered in Settings > Domains
+3. Check if adblockers are blocking requests (unlikely with first-party setup)
+
+### 204 response but no data
+
+The server returns 204 for all requests (valid or rejected) to prevent information leakage. Check:
+1. Account ID is correct
+2. Domain is authorized for this account
+3. Token is valid (script was loaded less than 24 hours ago)

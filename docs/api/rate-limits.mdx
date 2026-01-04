@@ -1,0 +1,211 @@
+---
+sidebar_position: 4
+title: Rate Limits
+---
+
+# Rate Limits
+
+Rate limits protect the API from abuse and ensure fair usage across all clients.
+
+## Limits by Plan
+
+| Plan | Requests/minute | Burst | Price |
+|------|-----------------|-------|-------|
+| **Starter** | 60 | 10 | €249/month |
+| **Growth** | 120 | 20 | €549/month |
+| **Business** | 240 | 40 | €999/month |
+| **Scale** | 480 | 80 | €1,899/month |
+| **Enterprise** | 10,000+ | 100 | Custom |
+
+### Understanding Burst
+
+Burst allows temporary spikes above the base rate. For example, with Starter (60 req/min, burst 10):
+
+- Sustained rate: 1 request per second
+- Burst: Up to 10 requests instantly, then throttled
+- After burst: Requests are delayed (not rejected) until rate normalizes
+
+## Rate Limit Headers
+
+Every API response includes these headers:
+
+| Header | Description | Example |
+|--------|-------------|---------|
+| `X-RateLimit-Limit` | Max requests per minute for your plan | `60` |
+| `X-RateLimit-Remaining` | Requests remaining in current window | `45` |
+| `X-RateLimit-Reset` | Unix timestamp when window resets | `1704067200` |
+| `X-RateLimit-Tier` | Your plan tier | `starter` |
+
+Example response headers:
+
+```http
+HTTP/1.1 200 OK
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 45
+X-RateLimit-Reset: 1704067200
+X-RateLimit-Tier: starter
+Content-Type: application/json
+```
+
+## Rate Limit Exceeded (429)
+
+When you exceed the limit, you receive:
+
+```http
+HTTP/1.1 429 Too Many Requests
+Retry-After: 15
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1704067200
+Content-Type: application/json
+```
+
+```json
+{
+  "error": {
+    "code": "rate_limit_exceeded",
+    "message": "Too many requests. Please retry after 15 seconds."
+  },
+  "request_id": "req_abc123"
+}
+```
+
+The `Retry-After` header indicates how many seconds to wait.
+
+## Soft Limiting Behavior
+
+Before rejecting requests, the API applies soft limiting:
+
+| Usage | Behavior |
+|-------|----------|
+| 0-80% | Normal response |
+| 80-100% | Normal response + `X-RateLimit-Warning: approaching_limit` |
+| >100% | Requests delayed (throttled) |
+| Sustained >100% | 429 Too Many Requests |
+
+This gives you time to reduce request rate before hitting hard limits.
+
+## Per-Endpoint Adjustments
+
+Some endpoints have lower limits due to query complexity:
+
+| Endpoint Pattern | Limit Adjustment |
+|------------------|------------------|
+| `/sites/{id}/stats` | 50% of plan limit |
+| `/sites/{id}/funnel` | 50% of plan limit |
+| All other endpoints | 100% of plan limit |
+
+Example: Starter plan (60 req/min) has 30 req/min for stats endpoints.
+
+## Endpoints Without Rate Limits
+
+These endpoints are excluded from rate limiting:
+
+- `/health` - Health check
+- `/livez` - Liveness probe
+- `/readyz` - Readiness probe
+- `/docs` - Swagger documentation
+- `/redoc` - ReDoc documentation
+- `/openapi.json` - OpenAPI specification
+
+## Best Practices
+
+### 1. Monitor Rate Limit Headers
+
+```python
+def make_request(url, headers):
+    response = requests.get(url, headers=headers)
+
+    remaining = int(response.headers.get('X-RateLimit-Remaining', 0))
+    if remaining < 10:
+        print(f"Warning: Only {remaining} requests remaining")
+
+    return response
+```
+
+### 2. Implement Exponential Backoff
+
+```python
+import time
+import random
+
+def request_with_backoff(url, headers, max_retries=5):
+    for attempt in range(max_retries):
+        response = requests.get(url, headers=headers)
+
+        if response.status_code != 429:
+            return response
+
+        retry_after = int(response.headers.get('Retry-After', 1))
+        # Add jitter to prevent thundering herd
+        sleep_time = retry_after + random.uniform(0, 1)
+        time.sleep(sleep_time)
+
+    raise Exception("Max retries exceeded")
+```
+
+### 3. Cache Responses
+
+```python
+from functools import lru_cache
+import time
+
+# Cache stats for 5 minutes
+@lru_cache(maxsize=100)
+def get_stats_cached(site_id, period, cache_key):
+    return get_stats(site_id, period)
+
+def get_stats(site_id, period):
+    # Create cache key that expires every 5 minutes
+    cache_key = int(time.time() / 300)
+    return get_stats_cached(site_id, period, cache_key)
+```
+
+### 4. Batch Requests When Possible
+
+Instead of:
+```python
+# Bad: 10 separate requests
+for site_id in site_ids:
+    stats = get_stats(site_id)
+```
+
+Consider:
+```python
+# Better: Fewer requests with more data per request
+stats = get_stats_batch(site_ids)  # If batch endpoint available
+```
+
+### 5. Use Webhooks for Real-Time Data
+
+For real-time updates, use webhooks instead of polling:
+
+```python
+# Bad: Polling every second (60 req/min just for one metric)
+while True:
+    stats = get_stats(site_id)
+    time.sleep(1)
+
+# Better: Configure webhook for real-time updates
+# (No API calls needed - data pushed to you)
+```
+
+## Upgrading Your Plan
+
+If you consistently hit rate limits, consider upgrading:
+
+1. Go to **Settings** → **Billing**
+2. Click **Change Plan**
+3. Select a higher tier
+4. Rate limit increase is immediate (no restart needed)
+
+## Enterprise Custom Limits
+
+Enterprise plans can negotiate custom limits:
+
+- Per-endpoint limits
+- Higher burst allowances
+- Dedicated API instances
+- SLA guarantees
+
+Contact sales@sealmetrics.com for Enterprise pricing.

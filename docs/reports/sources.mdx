@@ -1,0 +1,237 @@
+---
+sidebar_position: 5
+title: Sources Report
+---
+
+# Sources
+
+The Sources report provides complete analysis of traffic sources using UTM parameters and referrers.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Sources** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/sources`
+
+## Tabs
+
+The report has 6 tabs for different levels of UTM analysis:
+
+### 1. Sources Tab
+
+Shows traffic grouped by UTM Source and Medium combination.
+
+| Column | Description |
+|--------|-------------|
+| **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
+| **Entrances** | Sessions from this source |
+| **Pageviews** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Events** | Microconversions |
+| **Conversions** | Completed conversions |
+| **Conv. Rate** | Conversion rate |
+| **Revenue** | Total revenue |
+
+**Charts included:**
+- **Stacked Bar Chart**: Volume by source (Entrances + Conversions)
+- **Pie Chart**: Distribution of top 4 sources
+- **Dual Axis Chart**: Conversion Rate (bars) vs Bounce Rate (line)
+
+### 2. Mediums Tab
+
+Shows traffic grouped by UTM Medium only.
+
+| Medium | Description |
+|--------|-------------|
+| organic | Search engine organic traffic |
+| cpc | Cost-per-click paid traffic |
+| social | Social media organic traffic |
+| email | Email marketing traffic |
+| referral | Links from other websites |
+| (none) | Direct traffic |
+
+Same columns and charts as Sources tab.
+
+### 3. Campaigns Tab
+
+Shows traffic grouped by UTM Campaign.
+
+| Column | Description |
+|--------|-------------|
+| **Campaign** | Campaign name |
+| **Source / Medium** | Associated source and medium |
+| **Entrances** | Sessions from this campaign |
+| **...** | Same metrics as Sources tab |
+
+Useful for:
+- Comparing ad campaigns
+- Tracking email campaigns
+- Measuring promotional campaigns
+
+### 4. Terms Tab
+
+Shows traffic grouped by UTM Term (typically search keywords).
+
+| Column | Description |
+|--------|-------------|
+| **Term** | Search term or keyword |
+| **Campaign / Source / Medium** | Associated UTM parameters |
+| **Entrances** | Sessions from this term |
+| **...** | Standard metrics |
+
+Useful for:
+- Paid search keyword analysis
+- Understanding search intent
+- Identifying high-value keywords
+
+### 5. Content Tab
+
+Shows traffic grouped by UTM Content (for A/B testing ads).
+
+| Column | Description |
+|--------|-------------|
+| **Content** | Ad variant identifier |
+| **Campaign / Source / Medium** | Associated UTM parameters |
+| **Entrances** | Sessions from this variant |
+| **...** | Standard metrics |
+
+Useful for:
+- A/B testing ad creatives
+- Differentiating links pointing to same URL
+- Tracking banner variations
+
+### 6. Referrers Tab
+
+Shows traffic from referring websites (not UTM-based).
+
+| Column | Description |
+|--------|-------------|
+| **Referrer** | Domain of referring website |
+| **Entrances** | Sessions from this referrer |
+| **Pageviews** | Page views from this referrer |
+| **Bounce Rate** | Bounce rate |
+| **Events** | Microconversions |
+| **Conversions** | Conversions |
+| **Conv. Rate** | Conversion rate |
+| **Revenue** | Revenue |
+
+Useful for:
+- Identifying backlink traffic
+- Finding partnership opportunities
+- Monitoring press mentions
+
+## Charts
+
+Each tab (except Terms and Content) includes three charts:
+
+### Stacked Bar Chart
+
+Shows volume comparison:
+- Horizontal bars per source/medium
+- Stacked: Entrances (blue) + Conversions (green)
+- Quick visual of volume vs conversion balance
+
+### Pie Chart
+
+Shows distribution:
+- Top 4 sources/mediums
+- Remaining grouped as "Other"
+- Percentage labels
+
+### Dual Axis Chart
+
+Shows efficiency comparison:
+- Bars: Conversion Rate (left axis)
+- Line: Bounce Rate (right axis)
+- Identifies sources with good conversion but high bounce
+
+## Filtering
+
+Each tab has its own filter builder:
+
+### Common Filters
+
+| Field | Use Case |
+|-------|----------|
+| Source contains "google" | All Google traffic |
+| Medium equals "cpc" | Paid traffic only |
+| Conversions greater than 10 | High-performing sources |
+| Bounce Rate less than 50 | Engaged traffic |
+
+### Combining Filters
+
+Example: Find underperforming paid sources
+1. Medium equals "cpc"
+2. AND Conversions less than 5
+3. AND Entrances greater than 100
+
+## UTM Parameter Reference
+
+| Parameter | URL Format | Example |
+|-----------|------------|---------|
+| Source | `utm_source=` | google, facebook, newsletter |
+| Medium | `utm_medium=` | cpc, organic, email |
+| Campaign | `utm_campaign=` | spring-sale, brand-2025 |
+| Term | `utm_term=` | running+shoes |
+| Content | `utm_content=` | banner-a, text-link |
+
+### Example URL
+
+```
+https://example.com/landing?utm_source=google&utm_medium=cpc&utm_campaign=spring-sale&utm_term=running+shoes&utm_content=banner-a
+```
+
+## Use Cases
+
+### Evaluating Ad Spend
+
+1. Go to **Sources** tab
+2. Filter: Medium equals "cpc"
+3. Compare:
+   - Google vs Facebook vs LinkedIn
+   - Cost per conversion (external data + Revenue)
+   - Conversion rates
+
+### Comparing Campaigns
+
+1. Go to **Campaigns** tab
+2. Sort by Revenue (descending)
+3. Identify:
+   - Best performing campaigns
+   - Campaigns to scale
+   - Campaigns to pause
+
+### Finding High-Value Referrers
+
+1. Go to **Referrers** tab
+2. Sort by Conversions (descending)
+3. Look for:
+   - Unexpected high-performing referrers
+   - Partnership opportunities
+   - Guest posting targets
+
+### Analyzing Email Performance
+
+1. Go to **Mediums** tab
+2. Filter: Medium equals "email"
+3. Review:
+   - Open → Click → Conversion funnel
+   - Compare campaigns in Campaigns tab
+
+### Keyword Analysis
+
+1. Go to **Terms** tab
+2. Sort by Conversions
+3. Identify:
+   - Converting keywords
+   - High-traffic low-conversion keywords (optimize landing pages)
+   - Long-tail opportunities
+
+## Export
+
+Each tab has its own export:
+- Exports current tab data only
+- Respects active filters
+- Includes all visible columns
+- CSV format

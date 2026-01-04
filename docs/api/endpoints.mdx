@@ -1,0 +1,501 @@
+---
+sidebar_position: 5
+title: Endpoints Reference
+---
+
+# Endpoints Reference
+
+Complete reference for all API endpoints.
+
+## Common Query Parameters
+
+These parameters are available on most analytics endpoints:
+
+| Parameter | Type | Description | Example |
+|-----------|------|-------------|---------|
+| `period` | string | Time period | `today`, `yesterday`, `7d`, `30d`, `90d`, `custom` |
+| `from` | ISO8601 | Start date (required for `custom`) | `2025-01-01T00:00:00Z` |
+| `to` | ISO8601 | End date (required for `custom`) | `2025-01-31T23:59:59Z` |
+| `interval` | string | Aggregation interval | `hour`, `day`, `week`, `month` |
+| `limit` | int | Max results (default: 100) | `10`, `50`, `100` |
+| `country` | string | Filter by country (ISO 2) | `ES`, `US`, `DE` |
+
+---
+
+## Stats
+
+### GET /sites/{site_id}/stats
+
+Real-time summary statistics.
+
+**Parameters:**
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `site_id` | Yes | Site identifier |
+| `period` | No | Time period (default: `today`) |
+
+**Response:**
+
+```json
+{
+  "period": "today",
+  "pageviews": 12543,
+  "unique_visitors": 4521,
+  "sessions": 5234,
+  "bounce_rate": 42.3,
+  "avg_session_duration": 185,
+  "pages_per_session": 2.4,
+  "conversions": 156,
+  "revenue": 12450.00
+}
+```
+
+---
+
+## Pageviews
+
+### GET /sites/{site_id}/pageviews
+
+Pageview timeseries data.
+
+**Parameters:**
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `site_id` | Yes | Site identifier |
+| `period` | No | Time period (default: `7d`) |
+| `interval` | No | Aggregation interval (default: `day`) |
+
+**Response:**
+
+```json
+{
+  "period": "7d",
+  "interval": "day",
+  "data": [
+    {"date": "2025-01-08", "pageviews": 11234, "unique_visitors": 4123},
+    {"date": "2025-01-09", "pageviews": 12543, "unique_visitors": 4521},
+    {"date": "2025-01-10", "pageviews": 10876, "unique_visitors": 3987}
+  ]
+}
+```
+
+---
+
+## Pages
+
+### GET /sites/{site_id}/pages
+
+Top pages with metrics.
+
+**Parameters:**
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `site_id` | Yes | Site identifier |
+| `period` | No | Time period (default: `30d`) |
+| `limit` | No | Max results (default: `100`) |
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "path": "/",
+      "pageviews": 5432,
+      "unique_visitors": 3211,
+      "bounce_rate": 35.2,
+      "avg_time_on_page": 45,
+      "content_group": "homepage"
+    },
+    {
+      "path": "/products",
+      "pageviews": 3421,
+      "unique_visitors": 2156,
+      "bounce_rate": 28.4,
+      "avg_time_on_page": 120,
+      "content_group": "products"
+    }
+  ]
+}
+```
+
+---
+
+## Referrers
+
+### GET /sites/{site_id}/referrers
+
+Traffic sources breakdown.
+
+**Parameters:**
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `site_id` | Yes | Site identifier |
+| `period` | No | Time period (default: `30d`) |
+| `limit` | No | Max results (default: `100`) |
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "source": "google",
+      "medium": "organic",
+      "sessions": 2341,
+      "pageviews": 5678,
+      "bounce_rate": 38.2,
+      "conversions": 45,
+      "revenue": 3420.00
+    },
+    {
+      "source": "facebook",
+      "medium": "social",
+      "sessions": 1234,
+      "pageviews": 2890,
+      "bounce_rate": 52.1,
+      "conversions": 23,
+      "revenue": 1890.00
+    }
+  ]
+}
+```
+
+---
+
+## Geographic
+
+### GET /sites/{site_id}/geo
+
+Geographic breakdown by country.
+
+**Parameters:**
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `site_id` | Yes | Site identifier |
+| `period` | No | Time period (default: `30d`) |
+| `limit` | No | Max results (default: `50`) |
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "country": "ES",
+      "country_name": "Spain",
+      "sessions": 4521,
+      "pageviews": 12345,
+      "conversions": 89,
+      "revenue": 8900.00
+    },
+    {
+      "country": "US",
+      "country_name": "United States",
+      "sessions": 2341,
+      "pageviews": 5678,
+      "conversions": 45,
+      "revenue": 4500.00
+    }
+  ]
+}
+```
+
+---
+
+## Devices
+
+### GET /sites/{site_id}/devices
+
+Device and browser analytics.
+
+**Parameters:**
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `site_id` | Yes | Site identifier |
+| `period` | No | Time period (default: `30d`) |
+
+**Response:**
+
+```json
+{
+  "devices": [
+    {"type": "desktop", "sessions": 6543, "percentage": 58.2},
+    {"type": "mobile", "sessions": 3890, "percentage": 34.6},
+    {"type": "tablet", "sessions": 812, "percentage": 7.2}
+  ],
+  "browsers": [
+    {"name": "Chrome", "sessions": 5432, "percentage": 48.3},
+    {"name": "Safari", "sessions": 2341, "percentage": 20.8},
+    {"name": "Firefox", "sessions": 1234, "percentage": 11.0}
+  ],
+  "os": [
+    {"name": "Windows", "sessions": 4521, "percentage": 40.2},
+    {"name": "macOS", "sessions": 2890, "percentage": 25.7},
+    {"name": "iOS", "sessions": 2341, "percentage": 20.8}
+  ]
+}
+```
+
+---
+
+## Conversions
+
+### GET /sites/{site_id}/conversions
+
+Conversion metrics by type.
+
+**Parameters:**
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `site_id` | Yes | Site identifier |
+| `period` | No | Time period (default: `30d`) |
+| `type` | No | Filter by conversion type |
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "type": "purchase",
+      "count": 456,
+      "revenue": 45600.50,
+      "avg_value": 100.00,
+      "conversion_rate": 3.2
+    },
+    {
+      "type": "lead",
+      "count": 89,
+      "revenue": 0,
+      "avg_value": 0,
+      "conversion_rate": 0.6
+    }
+  ],
+  "totals": {
+    "count": 545,
+    "revenue": 45600.50
+  }
+}
+```
+
+---
+
+## Funnel
+
+### GET /sites/{site_id}/funnel
+
+Funnel report grouped by UTM parameters.
+
+**Parameters:**
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `site_id` | Yes | Site identifier |
+| `period` | No | Time period (default: `30d`) |
+| `country` | No | Filter by country (ISO 2) |
+
+**Response:**
+
+```json
+{
+  "account_id": "acme",
+  "date_from": "2025-01-01",
+  "date_to": "2025-01-31",
+  "microconversion_types": ["view-product", "add-to-cart", "checkout-step-1"],
+  "conversion_types": ["purchase", "lead"],
+  "rows": [
+    {
+      "utm_source": "google",
+      "utm_medium": "cpc",
+      "utm_campaign": "brand-2025",
+      "utm_term": "sealmetrics",
+      "entrances": 5234,
+      "page_views": 12456,
+      "microconversions": {
+        "view-product": 2341,
+        "add-to-cart": 823,
+        "checkout-step-1": 512
+      },
+      "conversions": {
+        "purchase": 156,
+        "lead": 23
+      },
+      "revenue": {
+        "purchase": 15600.50
+      }
+    }
+  ],
+  "totals": {
+    "utm_source": "TOTAL",
+    "utm_medium": "",
+    "utm_campaign": "",
+    "utm_term": "",
+    "entrances": 15234,
+    "page_views": 34567,
+    "microconversions": {
+      "view-product": 8234,
+      "add-to-cart": 2345
+    },
+    "conversions": {
+      "purchase": 456,
+      "lead": 89
+    },
+    "revenue": {
+      "purchase": 45600.50
+    }
+  }
+}
+```
+
+---
+
+## Live Visitors
+
+### GET /sites/{site_id}/live
+
+Real-time active visitors via WebSocket.
+
+**Connection:**
+
+```javascript
+const ws = new WebSocket('wss://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/live');
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log('Active visitors:', data.active_visitors);
+};
+```
+
+**Message Format:**
+
+```json
+{
+  "active_visitors": 42,
+  "pages": [
+    {"path": "/", "visitors": 15},
+    {"path": "/products", "visitors": 12},
+    {"path": "/checkout", "visitors": 8}
+  ],
+  "timestamp": "2025-01-10T14:30:00Z"
+}
+```
+
+---
+
+## Site Settings
+
+### GET /sites/{site_id}/settings
+
+Get current site configuration.
+
+**Response:**
+
+```json
+{
+  "site_id": "acme",
+  "name": "ACME Corporation",
+  "timezone": "Europe/Madrid",
+  "is_active": true,
+  "domains": ["www.acme.com", "shop.acme.com"],
+  "created_at": "2024-01-15T10:00:00Z"
+}
+```
+
+### PATCH /sites/{site_id}/settings
+
+Update site configuration.
+
+**Request:**
+
+```json
+{
+  "name": "ACME Corp",
+  "timezone": "America/New_York"
+}
+```
+
+**Response:**
+
+```json
+{
+  "site_id": "acme",
+  "name": "ACME Corp",
+  "timezone": "America/New_York",
+  "is_active": true,
+  "domains": ["www.acme.com", "shop.acme.com"],
+  "updated_at": "2025-01-10T14:30:00Z"
+}
+```
+
+### Supported Timezones
+
+Use IANA timezone identifiers:
+
+| Region | Timezone |
+|--------|----------|
+| Spain | `Europe/Madrid` |
+| UK | `Europe/London` |
+| US East | `America/New_York` |
+| US West | `America/Los_Angeles` |
+| Germany | `Europe/Berlin` |
+| France | `Europe/Paris` |
+| Japan | `Asia/Tokyo` |
+| Australia | `Australia/Sydney` |
+
+---
+
+## Create Site
+
+### POST /sites
+
+Create a new site.
+
+**Request:**
+
+```json
+{
+  "name": "My New Site",
+  "domains": ["www.example.com"],
+  "timezone": "Europe/Madrid"
+}
+```
+
+**Response:**
+
+```json
+{
+  "site_id": "abc123",
+  "name": "My New Site",
+  "domains": ["www.example.com"],
+  "timezone": "Europe/Madrid",
+  "is_active": true,
+  "created_at": "2025-01-10T14:30:00Z",
+  "tracker_code": "<script src=\"https://pixel.sealmetrics.com/t.js?id=abc123\" defer></script>"
+}
+```
+
+---
+
+## Health Check
+
+### GET /health
+
+API health status (no authentication required).
+
+**Response:**
+
+```json
+{
+  "status": "healthy",
+  "version": "2.0.0",
+  "timestamp": "2025-01-10T14:30:00Z"
+}
+```

@@ -1,0 +1,153 @@
+---
+sidebar_position: 3
+title: Evolution Report
+---
+
+# Evolution
+
+The Evolution report shows how your metrics change over time, with flexible grouping and UTM filtering.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Evolution** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/evolution`
+
+## Time Grouping
+
+Control how data is aggregated using the grouping selector:
+
+| Grouping | Best For |
+|----------|----------|
+| **Day** | Short periods (7-30 days), daily patterns |
+| **Week** | Medium periods (1-3 months), weekly trends |
+| **Month** | Long periods (6+ months), seasonal analysis |
+
+## UTM Filters
+
+Filter data by specific traffic sources:
+
+### Available Filters
+
+| Filter | Description | Example |
+|--------|-------------|---------|
+| **UTM Source** | Traffic source | google, facebook, newsletter |
+| **UTM Medium** | Traffic medium | cpc, organic, email |
+| **UTM Campaign** | Campaign name | black-friday-2025, brand-awareness |
+
+### Applying UTM Filters
+
+1. Click the dropdown for the desired filter (Source, Medium, or Campaign)
+2. Select one or more values
+3. Data updates to show only matching traffic
+4. Active filters appear as removable chips below the dropdowns
+
+### Combining Filters
+
+Filters combine with AND logic:
+- Source = "google" AND Medium = "cpc" shows only Google Ads traffic
+- Add Campaign = "brand-2025" to narrow further
+
+## Charts
+
+The report displays three charts:
+
+### Pageviews Chart (Main)
+
+Large area chart showing page views over time.
+
+- Hover for exact values per date
+- Brush available for long periods (drag to zoom)
+- Comparison line when comparison mode is enabled
+
+### Entrances Chart
+
+Smaller chart showing sessions over time.
+
+- Shows traffic volume trends
+- Useful for identifying traffic spikes or drops
+
+### Conversions Chart
+
+Smaller chart showing conversions over time.
+
+- Track conversion performance
+- Identify high-converting periods
+
+## Data Table
+
+Detailed breakdown with all metrics per time period.
+
+| Column | Description |
+|--------|-------------|
+| **Date** | Time period (day, week start, or month) |
+| **Entrances** | Sessions started |
+| **Pageviews** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Events** | Microconversions |
+| **Conversions** | Completed conversions |
+| **Conv. Rate** | Conversion rate |
+| **Revenue** | Total revenue |
+
+### Table Features
+
+- **Sorting**: Click column headers to sort
+- **Pagination**: Navigate through pages for long periods
+- **Export**: Download as CSV
+
+## Use Cases
+
+### Analyzing Weekly Patterns
+
+1. Set date range to last 30 days
+2. Select **Day** grouping
+3. Look for patterns:
+   - Higher traffic on weekdays vs weekends?
+   - Conversion rate changes by day?
+
+### Comparing Campaigns
+
+1. Set date range to campaign period
+2. Filter by UTM Campaign
+3. Compare:
+   - Add Campaign A, note metrics
+   - Clear, add Campaign B, compare
+
+### Identifying Seasonality
+
+1. Set date range to last 12 months
+2. Select **Month** grouping
+3. Look for:
+   - Peak months
+   - Low seasons
+   - Year-over-year patterns (enable comparison)
+
+### Tracking Campaign Launch
+
+1. Set date range starting from launch date
+2. Filter by campaign UTMs
+3. Select **Day** grouping
+4. Monitor:
+   - Ramp-up pattern
+   - Peak performance day
+   - Decay curve
+
+## Filters Interaction
+
+Evolution report respects both:
+
+1. **Global filters** (from the filter bar)
+2. **UTM filters** (specific to this report)
+
+Example:
+- Global filter: Country = Spain
+- UTM filter: Source = google
+- Result: Google traffic from Spain only
+
+## Export
+
+Click **Export** to download:
+- All data points in the current view
+- Respects active filters
+- CSV format with headers

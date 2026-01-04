@@ -1,0 +1,177 @@
+---
+sidebar_position: 4
+title: Pages Report
+---
+
+# Pages
+
+The Pages report analyzes page-level performance, showing which pages receive the most traffic and how they perform.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Pages** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/pages`
+
+## Tabs
+
+The report has two tabs with different perspectives:
+
+### All Pages Tab
+
+Shows all pages that received traffic during the selected period.
+
+| Column | Description |
+|--------|-------------|
+| **Page** | URL path and page title |
+| **Trend** | 7-day sparkline showing recent traffic pattern |
+| **Pageviews** | Total views (with relative progress bar) |
+| **Unique Visitors** | Distinct visitors (with relative progress bar) |
+| **Content Group** | Assigned content group (if configured) |
+
+### Landing Pages Tab
+
+Shows pages where sessions started (entry points to your site).
+
+| Column | Description |
+|--------|-------------|
+| **Page** | URL path and page title |
+| **Entrances** | Sessions that started on this page (with progress bar) |
+| **Bounce Rate** | Percentage of single-page sessions |
+| **Conversions** | Conversions attributed to this landing page (with progress bar) |
+| **Content Group** | Assigned content group (if configured) |
+
+#### Bounce Rate Colors
+
+| Color | Bounce Rate | Interpretation |
+|-------|-------------|----------------|
+| Green | < 40% | Good engagement |
+| Yellow | 40-70% | Average |
+| Red | > 70% | May need attention |
+
+## Top Pages Chart
+
+Horizontal bar chart showing the 10 most visited pages.
+
+- Bars represent pageview count
+- Hover for exact values
+- URLs truncated if too long
+
+## Content Groups
+
+Content groups categorize pages for aggregated analysis.
+
+### What Are Content Groups?
+
+Instead of analyzing individual URLs, group related pages:
+
+| Group | Example Pages |
+|-------|---------------|
+| Blog | /blog/*, /articles/* |
+| Products | /products/*, /shop/* |
+| Checkout | /cart, /checkout/* |
+| Account | /account/*, /profile/* |
+
+### Filtering by Content Group
+
+1. Click the content group filter above the table
+2. Select one or more groups
+3. Table shows only pages in selected groups
+
+### Configuring Content Groups
+
+Content groups are configured in Settings → Properties.
+
+See [Content Grouping](../implementation/content-site-structure/content-grouping) for setup instructions.
+
+## Filtering
+
+### Table Filter Builder
+
+Click the filter icon to open the filter builder:
+
+**Available fields:**
+- Path (URL path)
+- Title (page title)
+- Pageviews
+- Unique Visitors
+- Bounce Rate
+- Conversions
+
+**Operators:**
+- Text: contains, starts with, equals
+- Numbers: greater than, less than, equals
+
+**Example filters:**
+
+| Goal | Filter |
+|------|--------|
+| Blog pages only | Path starts with "/blog" |
+| High traffic pages | Pageviews greater than 1000 |
+| Problem pages | Bounce Rate greater than 70 |
+| Converting pages | Conversions greater than 0 |
+
+### Combining with Global Filters
+
+Page report respects global filters:
+
+1. Global filter: Country = Spain
+2. Table filter: Path contains "products"
+3. Result: Product pages viewed by Spanish visitors
+
+## Trend Sparklines
+
+Each row includes a 7-day trend sparkline:
+
+- Shows relative traffic pattern
+- Identify growing vs declining pages
+- Quick visual for recent performance
+
+## Use Cases
+
+### Finding Top Content
+
+1. Go to **All Pages** tab
+2. Sort by **Pageviews** (default)
+3. Review top 10-20 pages
+4. These are your most valuable content pieces
+
+### Identifying Problem Landing Pages
+
+1. Go to **Landing Pages** tab
+2. Sort by **Bounce Rate** (descending)
+3. Look for high-traffic pages with high bounce rates
+4. These pages may need improvement
+
+### Analyzing Blog Performance
+
+1. Configure content group for "Blog"
+2. Filter by Blog content group
+3. Review:
+   - Which posts get most traffic?
+   - Which have best conversion rates?
+
+### Finding Conversion Opportunities
+
+1. Go to **All Pages** tab
+2. Filter: Pageviews > 500 AND Conversions = 0
+3. These high-traffic pages aren't converting
+4. Consider adding CTAs or conversion elements
+
+### Tracking New Page Performance
+
+1. Publish new page
+2. Wait 24-48 hours
+3. Search for the page path
+4. Monitor:
+   - Initial traffic ramp
+   - Bounce rate vs site average
+   - Trend direction
+
+## Export
+
+Click **Export** to download:
+- All visible rows (respecting filters)
+- All columns including content group
+- CSV format
