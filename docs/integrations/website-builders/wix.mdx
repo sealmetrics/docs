@@ -1,0 +1,183 @@
+---
+sidebar_position: 2
+title: Wix
+description: Privacy-first, cookieless analytics for Wix websites and Wix Stores
+---
+
+# Wix Integration
+
+Privacy-first, cookieless analytics for Wix websites and Wix Stores.
+
+## Installation
+
+### Method 1: Custom Code (Recommended)
+
+1. Go to **Settings > Custom Code** (or **Marketing & SEO > Custom Code**)
+2. Click **"+ Add Custom Code"**
+3. Paste the tracking script (see below)
+4. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+5. Set **Placement** to **Head**
+6. Set **Pages** to **All pages**
+7. Click **Apply** and **Publish**
+
+### Method 2: Embed Code Element
+
+1. Add an **Embed Code** element to your site
+2. Choose **"Embed HTML"**
+3. Wrap the script in `<script>` tags
+4. Set to appear on all pages via page settings
+
+## Configuration
+
+```html
+<script>
+// Required: Your SealMetrics Account ID
+var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
+
+// Optional: Track contact forms as lead conversions (default: false)
+var SEALMETRICS_CONTACT_AS_LEAD = false;
+</script>
+<script src="https://cdn.sealmetrics.com/wix/sealmetrics-wix.js" async></script>
+```
+
+## Automatic Events
+
+| Event | Description |
+|-------|-------------|
+| `pageview` | All page views with content grouping |
+| `form_submit` | Wix form submissions |
+| `newsletter_signup` | Newsletter form submissions |
+| `cta_click` | Button clicks |
+| `outbound_click` | External link clicks |
+| `scroll_depth` | 25%, 50%, 75%, 100% scroll |
+| `video_play` | Video starts |
+| `video_complete` | Video ends |
+
+## Wix Stores Events
+
+| Event | Description |
+|-------|-------------|
+| `view_item` | Product page views |
+| `add_to_cart` | Add to cart button clicks |
+| `begin_checkout` | Checkout button clicks |
+| `purchase` | Order confirmation (conversion) |
+
+## Wix Bookings Events
+
+| Event | Description |
+|-------|-------------|
+| `booking_started` | Book now button clicks |
+
+## Content Groups
+
+Automatic detection based on URL patterns:
+
+| URL Pattern | Group |
+|-------------|-------|
+| `/` | `home` |
+| `/product-page/*`, `/products/*` | `product` |
+| `/shop`, `/store`, `/all-products` | `catalog` |
+| `/cart` | `cart` |
+| `/checkout` | `checkout` |
+| `/thank-you`, `/order-confirmation` | `thankyou` |
+| `/blog/*`, `/post/*` | `blog` |
+| `/blog`, `/posts` | `blog-index` |
+| `/about*` | `about` |
+| `/contact*` | `contact` |
+| `/services/*` | `service` |
+| `/portfolio/*`, `/gallery/*` | `portfolio` |
+| `/pricing*`, `/plans*` | `pricing` |
+| `/booking/*`, `/schedule/*` | `booking` |
+| `/events/*` | `events` |
+| `/members/*`, `/account/*` | `account` |
+
+## Form Detection
+
+### Newsletter Forms
+
+Tracked as `newsletter_signup`:
+- Form ID/class contains newsletter keywords
+- Forms with only an email field
+
+### Contact Forms
+
+Tracked as `form_submit` or `lead` (if configured)
+
+## CTA Button Tracking
+
+Add `data-track` attribute or use specific classes:
+
+```html
+<a href="/signup" class="cta-button">Get Started</a>
+```
+
+## Custom Events with Wix Velo
+
+Track custom events from Wix Velo (Corvid):
+
+```javascript
+// In Wix Velo
+$w.onReady(function () {
+  $w('#myButton').onClick(() => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('custom_event', {
+        property: 'value'
+      });
+    }
+  });
+});
+```
+
+## Conversions
+
+Track custom conversions:
+
+```javascript
+// Lead conversion
+sealmetrics.conv('lead', 0, {
+  source: 'quote_form'
+});
+
+// Manual purchase (if not using Wix Stores)
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'EUR'
+});
+```
+
+## Advanced Wix Velo Integration
+
+For advanced tracking with Wix Velo:
+
+```javascript
+// page.js
+import wixLocation from 'wix-location';
+
+$w.onReady(function () {
+  // Track specific interactions
+  $w('#submitButton').onClick(() => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('form_submit', {
+        form_name: 'custom_form'
+      });
+    }
+  });
+});
+```
+
+## Compatibility
+
+- Wix Editor
+- Wix Studio (Editor X)
+- Wix Stores
+- Wix Bookings
+- Wix Events
+- Wix Blog
+- Wix Members Area
+- Wix Ascend forms
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner needed

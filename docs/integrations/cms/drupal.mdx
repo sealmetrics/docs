@@ -1,0 +1,164 @@
+---
+sidebar_position: 2
+title: Drupal
+description: Privacy-first, cookieless analytics for Drupal 9, 10, and 11
+---
+
+# Drupal Integration
+
+Privacy-first, cookieless analytics for Drupal 9, 10, and 11.
+
+## Requirements
+
+- Drupal 9.x, 10.x, or 11.x
+- PHP 8.0 or higher
+
+## Installation
+
+### Option 1: Manual Installation
+
+1. Download and extract the module
+2. Copy to `modules/contrib/sealmetrics` or `modules/custom/sealmetrics`
+3. Go to **Extend** (`/admin/modules`)
+4. Enable "SealMetrics Analytics"
+5. Configure at **Configuration > System > SealMetrics Analytics**
+
+### Option 2: Composer
+
+```bash
+composer require drupal/sealmetrics
+drush en sealmetrics
+```
+
+## Configuration
+
+1. Go to `/admin/config/system/sealmetrics`
+2. Enter your **Account ID** (from your SealMetrics dashboard)
+3. Configure tracking options:
+
+| Setting | Description |
+|---------|-------------|
+| **Account ID** | Your SealMetrics Account ID (required) |
+| **Skip admin pages** | Don't track admin page views |
+| **Track form submissions** | Track contact forms, webforms |
+| **Track contact forms as leads** | Track as conversions instead of events |
+| **Track search queries** | Track site searches |
+| **Track 404 errors** | Track broken link visits |
+
+## Tracked Events
+
+### Automatic Events
+
+| Event | Description |
+|-------|-------------|
+| `pageview` | All page views with content grouping |
+| `form_submit` | Form submissions (unless newsletter) |
+| `newsletter_signup` | Newsletter form submissions |
+| `lead` | Contact forms (if configured as lead) |
+| `search` | Site search queries |
+| `404_error` | Page not found errors |
+
+### Content Groups
+
+The module automatically detects content types:
+
+| Content Type | Group |
+|--------------|-------|
+| Front page | `home` |
+| Article/Blog | `blog` |
+| Page | `page` |
+| Product | `product` |
+| Taxonomy term | `category` |
+| User pages | `account` |
+| Search | `search` |
+| 404 | `404` |
+
+Custom content types use their machine name as the group.
+
+## Form Detection
+
+The module intelligently distinguishes between:
+
+### Newsletter Forms
+
+Tracked as `newsletter_signup` microconversion:
+- Form ID/class contains: `newsletter`, `subscribe`, `mailchimp`, etc.
+- Forms with only an email field
+
+### Contact Forms
+
+Tracked as `form_submit` or `lead` conversion:
+- All other forms (contact, quote requests, etc.)
+
+## Webform Integration
+
+Full support for the Webform module:
+- Standard form submissions
+- AJAX form submissions
+- Multi-step forms (tracked on final submission)
+
+## Custom Event Tracking
+
+Track custom events in your theme or module:
+
+```javascript
+// Wait for SealMetrics to load
+(function() {
+  function track() {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('custom_event', {
+        property: 'value'
+      });
+    } else {
+      setTimeout(track, 100);
+    }
+  }
+  track();
+})();
+```
+
+## Conversions
+
+Track conversions (purchases, leads, signups):
+
+```javascript
+// Lead conversion
+sealmetrics.conv('lead', 0, {
+  source: 'quote_form'
+});
+
+// Purchase (if using Commerce)
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'EUR'
+});
+```
+
+## Drupal Commerce Integration
+
+For e-commerce tracking with Drupal Commerce, add this to your order complete template or hook:
+
+```php
+// In hook_commerce_order_place() or similar
+function mymodule_track_purchase($order) {
+  $total = $order->getTotalPrice()->getNumber();
+  $currency = $order->getTotalPrice()->getCurrencyCode();
+
+  // Add inline script
+  $script = "
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('purchase', {$total}, {
+        currency: '{$currency}'
+      });
+    }
+  ";
+  // Attach to page via #attached
+}
+```
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- No order IDs or user IDs stored
+- GDPR compliant by design
+- No consent banner required

@@ -1,0 +1,158 @@
+---
+sidebar_position: 1
+title: WooCommerce
+description: Privacy-first, cookieless e-commerce analytics for WooCommerce stores
+---
+
+# WooCommerce Integration
+
+Privacy-first, cookieless analytics for WordPress + WooCommerce stores with complete e-commerce funnel tracking.
+
+## Requirements
+
+- WordPress 5.0+
+- WooCommerce 5.0+
+- PHP 7.4+
+
+## Installation
+
+### Step 1: Download the Plugin
+
+Download the latest version of the SealMetrics WooCommerce plugin:
+
+<a className="button button--primary" href="https://github.com/sealmetrics/modules/releases/latest/download/sealmetrics-woocommerce.zip">Download Plugin</a>
+
+### Step 2: Upload to WordPress
+
+1. Go to **WordPress Admin > Plugins > Add New > Upload Plugin**
+2. Upload the ZIP file and click **Install Now**
+3. Activate the plugin
+
+### Step 3: Configure
+
+1. Go to **Settings > SealMetrics**
+2. Enter your **Account ID** (found in your [SealMetrics dashboard](https://app.sealmetrics.com))
+3. Save changes
+
+## Configuration Options
+
+| Setting | Description |
+|---------|-------------|
+| **Account ID** | Your SealMetrics Account ID (required) |
+| **Pixel URL** | Custom pixel domain for first-party tracking (optional) |
+
+## E-commerce Events
+
+The plugin automatically tracks the complete e-commerce funnel:
+
+| Event | Type | Properties |
+|-------|------|------------|
+| `pageview` | Auto | All pages with content grouping |
+| `view_item` | Microconversion | product_name, product_id, sku, price, currency, category, brand |
+| `add_to_cart` | Microconversion | product_name, product_id, sku, price, quantity, currency, variation attributes |
+| `begin_checkout` | Microconversion | cart_total, currency, items_count |
+| `purchase` | Conversion | revenue, currency, payment_method, coupon, items array |
+
+## Content Groups
+
+Automatic detection based on WooCommerce page type:
+
+| Page Type | Group |
+|-----------|-------|
+| Shop page | `catalog` |
+| Product category | `catalog` |
+| Single product | `product` |
+| Cart | `cart` |
+| Checkout | `checkout` |
+| Order confirmation | `thankyou` |
+| My Account | `account` |
+
+## Features
+
+### Brand Detection
+
+The plugin automatically detects product brands from popular plugins:
+- YITH WooCommerce Brands
+- Perfect Brands for WooCommerce
+- WooCommerce Brands
+- Custom `product_brand` taxonomy
+
+### Variable Products
+
+All variation attributes are captured automatically:
+
+```javascript
+{
+  product_name: "T-Shirt - Large, Blue",
+  size: "Large",
+  color: "Blue",
+  // ... other selected attributes
+}
+```
+
+### Add to Cart Tracking
+
+Works with all add-to-cart methods:
+- Standard add to cart buttons
+- AJAX add to cart
+- Variable product forms
+- Quantity changes
+
+### Purchase Tracking
+
+Full e-commerce data is captured on order confirmation:
+
+```javascript
+sealmetrics.conv('purchase', 129.99, {
+  currency: 'EUR',
+  payment_method: 'PayPal',
+  coupon: 'SAVE10',
+  items: [
+    {
+      product_id: '123',
+      product_name: 'Product Name',
+      sku: 'SKU-123',
+      price: '49.99',
+      quantity: '2',
+      category: 'Clothing',
+      brand: 'Brand Name',
+      size: 'Large',
+      color: 'Blue'
+    }
+  ]
+});
+```
+
+### Duplicate Prevention
+
+The plugin prevents duplicate purchase tracking:
+- Uses order meta to track sent conversions
+- Handles page refreshes on thank you page
+
+## Privacy
+
+- No cookies used
+- No order IDs stored externally
+- No customer data collected
+- GDPR compliant by design
+- No consent banner needed
+
+## Troubleshooting
+
+### Tracker not loading
+
+1. Verify Account ID is configured in **Settings > SealMetrics**
+2. Clear WordPress cache
+3. Check browser console for JavaScript errors
+
+### Purchases not tracking
+
+1. Ensure the order confirmation page loads correctly
+2. Check WooCommerce order status is "completed" or "processing"
+3. Verify no conflicting analytics plugins
+
+### Add to cart not working
+
+1. Check AJAX add to cart is enabled in WooCommerce settings
+2. Verify no JavaScript errors in browser console
+3. Test with the default theme (Storefront) to rule out theme conflicts

@@ -1,0 +1,156 @@
+---
+sidebar_position: 3
+title: Squarespace
+description: Privacy-first, cookieless analytics for Squarespace websites and Squarespace Commerce
+---
+
+# Squarespace Integration
+
+Privacy-first, cookieless analytics for Squarespace websites and Squarespace Commerce.
+
+## Installation
+
+1. Go to **Settings > Advanced > Code Injection**
+2. Paste the tracking script in the **Header** section
+3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+4. Click **Save** and **Publish**
+
+## Configuration
+
+```html
+<script>
+// Required: Your SealMetrics Account ID
+var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
+
+// Optional: Track contact forms as lead conversions (default: false)
+var SEALMETRICS_CONTACT_AS_LEAD = false;
+</script>
+<script src="https://cdn.sealmetrics.com/squarespace/sealmetrics-squarespace.js" async></script>
+```
+
+## Automatic Events
+
+| Event | Description |
+|-------|-------------|
+| `pageview` | All page views with content grouping |
+| `form_submit` | Form block submissions |
+| `newsletter_signup` | Newsletter block submissions |
+| `cta_click` | Button block clicks |
+| `outbound_click` | External link clicks |
+| `file_download` | PDF, ZIP, DOC downloads |
+| `scroll_depth` | 25%, 50%, 75%, 100% scroll |
+| `video_play` | Video starts |
+| `video_complete` | Video ends |
+| `gallery_click` | Gallery item clicks |
+| `lightbox_open` | Lightbox opens |
+
+## Squarespace Commerce Events
+
+| Event | Description |
+|-------|-------------|
+| `view_item` | Product page views |
+| `add_to_cart` | Add to cart button clicks |
+| `begin_checkout` | Checkout button clicks |
+| `purchase` | Order confirmation (conversion) |
+
+## Content Groups
+
+Automatic detection based on page type and URL:
+
+| Page Type | Group |
+|-----------|-------|
+| Homepage | `home` |
+| Products collection | `catalog` |
+| Product item | `product` |
+| Cart | `cart` |
+| Checkout | `checkout` |
+| Thank you | `thankyou` |
+| Blog collection | `blog-index` |
+| Blog item | `blog` |
+| Gallery | `gallery` |
+| Album | `album` |
+| Video | `video` |
+| About page | `about` |
+| Contact page | `contact` |
+| Services | `service` |
+| Portfolio | `portfolio` |
+| Pricing | `pricing` |
+| Events | `events` |
+
+## Form Detection
+
+### Newsletter Forms
+
+Automatically detected and tracked as `newsletter_signup`:
+- Newsletter blocks
+- Forms with newsletter-related classes
+- Single email field forms
+
+### Contact Forms
+
+Tracked as `form_submit` or `lead` (if configured)
+
+## Button Tracking
+
+Button blocks are automatically tracked. Add `data-track` for custom tracking:
+
+```html
+<a href="/signup" class="cta-button" data-track="hero-cta">Get Started</a>
+```
+
+## Custom Events
+
+Track custom events via JavaScript:
+
+```html
+<script>
+document.querySelector('#myButton').addEventListener('click', function() {
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics.micro('custom_event', {
+      property: 'value'
+    });
+  }
+});
+</script>
+```
+
+## Conversions
+
+Track custom conversions:
+
+```javascript
+// Lead conversion
+sealmetrics.conv('lead', 0, {
+  source: 'quote_form'
+});
+
+// Manual purchase tracking
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'USD'
+});
+```
+
+## Squarespace Commerce
+
+For Squarespace Commerce stores, the following is tracked automatically:
+
+1. **Product Views**: When a visitor views a product detail page
+2. **Add to Cart**: When clicking the add to cart button
+3. **Begin Checkout**: When clicking the checkout button
+4. **Purchase**: On the order confirmation page
+
+No additional configuration required.
+
+## Template Compatibility
+
+Works with all Squarespace templates:
+- Squarespace 7.0 templates (Brine, Bedford, etc.)
+- Squarespace 7.1 templates
+- Squarespace Commerce
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner needed

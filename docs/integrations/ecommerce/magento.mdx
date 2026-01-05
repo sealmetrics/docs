@@ -1,0 +1,200 @@
+---
+sidebar_position: 3
+title: Magento 2
+description: Privacy-first, cookieless analytics for Magento 2.4+ (Adobe Commerce)
+---
+
+# Magento 2 Integration
+
+Privacy-first, cookieless analytics for Magento 2.4+ (Adobe Commerce).
+
+## Requirements
+
+- Magento 2.4.0+
+- PHP 7.4+ / 8.0+
+
+## Installation
+
+### Option 1: Manual Installation
+
+1. Create directory: `app/code/SealMetrics/Analytics`
+2. Copy extension files to that directory
+3. Run commands:
+
+```bash
+bin/magento module:enable SealMetrics_Analytics
+bin/magento setup:upgrade
+bin/magento cache:clean
+```
+
+### Option 2: Composer
+
+```bash
+composer require sealmetrics/module-analytics
+bin/magento module:enable SealMetrics_Analytics
+bin/magento setup:upgrade
+bin/magento cache:clean
+```
+
+## Configuration
+
+1. Go to **Admin > Stores > Configuration > SealMetrics > Analytics**
+2. Enable the module
+3. Enter your Account ID
+4. Configure tracking options
+5. Save and clear cache
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Enable** | Turn tracking on/off |
+| **Account ID** | Your SealMetrics Account ID (required) |
+| **Pixel URL** | Custom pixel domain (optional) |
+| **Track Product Views** | Enable `view_item` events |
+| **Track Add to Cart** | Enable `add_to_cart` events |
+| **Track Checkout** | Enable `begin_checkout` events |
+| **Track Purchases** | Enable purchase conversions |
+
+## Tracked Events
+
+### Automatic Events
+
+| Event | Type | When |
+|-------|------|------|
+| `pageview` | Auto | All pages with content grouping |
+
+### E-commerce Events
+
+| Event | Type | Properties |
+|-------|------|------------|
+| `view_item` | Micro | product_name, product_id, sku, price, currency, category, brand |
+| `add_to_cart` | Micro | product_name, product_id, price, quantity, currency |
+| `begin_checkout` | Micro | cart_total, currency, items_count |
+| `purchase` | Conversion | revenue, currency, payment_method, coupon, items array |
+
+## Content Groups
+
+Automatic detection based on Magento layout handles:
+
+| Page Type | Group |
+|-----------|-------|
+| `cms_index_index` | `home` |
+| `catalog_product_view` | `product` |
+| `catalog_category_view` | `catalog` |
+| `catalogsearch_result_index` | `search` |
+| `checkout_cart_index` | `cart` |
+| `checkout_index_index` | `checkout` |
+| `checkout_onepage_success` | `thankyou` |
+| `customer_account_*` | `account` |
+
+## Features
+
+### Product Tracking
+
+Full product data including brand and category:
+
+```javascript
+sealmetrics.micro('view_item', {
+  product_name: 'Configurable Product',
+  product_id: '123',
+  sku: 'PROD-123',
+  price: '99.99',
+  currency: 'EUR',
+  category: 'Electronics',
+  brand: 'Brand Name'
+});
+```
+
+### Configurable Products
+
+Selected options are tracked automatically:
+
+```javascript
+{
+  product_name: 'T-Shirt',
+  size: 'Large',
+  color: 'Blue',
+  // All selected options captured
+}
+```
+
+### Add to Cart
+
+Captured via Magento's customer-data events:
+
+```javascript
+sealmetrics.micro('add_to_cart', {
+  product_id: '123',
+  product_name: 'Product Name',
+  price: '49.99',
+  quantity: '2',
+  currency: 'EUR'
+});
+```
+
+### Purchase Tracking
+
+Complete order data on success page:
+
+```javascript
+sealmetrics.conv('purchase', 149.98, {
+  currency: 'EUR',
+  payment_method: 'Stripe',
+  coupon: 'SAVE20',
+  items: [
+    {
+      product_id: '123',
+      product_name: 'Product',
+      sku: 'SKU-123',
+      price: '74.99',
+      quantity: '2',
+      category: 'Category',
+      brand: 'Brand',
+      size: 'M',
+      color: 'Red'
+    }
+  ]
+});
+```
+
+## Multi-store Support
+
+- Works with multiple store views
+- Configure per-store if needed
+- Respects store-specific currency
+
+## Privacy
+
+- No cookies used
+- No order IDs stored externally
+- No customer data collected
+- GDPR compliant by design
+- No consent banner needed
+
+## Troubleshooting
+
+### Module not showing in admin
+
+1. Run `bin/magento module:status`
+2. Verify module is enabled
+3. Clear cache: `bin/magento cache:clean`
+
+### Tracker not loading
+
+1. Check configuration is enabled
+2. Verify Account ID is set
+3. Clear frontend cache
+4. View page source for script
+
+### Purchases not tracking
+
+1. Check success page loads correctly
+2. Verify order status is complete
+3. Check JavaScript console for errors
+
+### Performance
+
+1. Enable production mode
+2. Deploy static content
+3. Enable full page cache

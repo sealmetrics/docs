@@ -1,0 +1,154 @@
+---
+sidebar_position: 5
+title: BigCommerce
+description: Privacy-first analytics for BigCommerce stores
+---
+
+# BigCommerce Integration
+
+Privacy-first analytics for BigCommerce stores using Script Manager or theme files.
+
+## Installation
+
+### Method 1: Script Manager (Recommended)
+
+1. Go to **Storefront > Script Manager**
+2. Click **Create a Script**
+3. Configure:
+   - **Name**: SealMetrics
+   - **Location**: Head
+   - **Select pages where script will be added**: All Pages
+   - **Script type**: Script
+4. Paste the tracking script (see below)
+5. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+6. Click **Save**
+
+### Method 2: Theme Files
+
+1. Go to **Storefront > My Themes**
+2. Click **Advanced > Edit Theme Files**
+3. Open `templates/layout/base.html`
+4. Add the script before `</head>`
+5. Save
+
+## Tracking Script
+
+```html
+<script>
+var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
+
+// SealMetrics BigCommerce Tracker
+(function() {
+  var script = document.createElement('script');
+  script.src = 'https://pixel.sealmetrics.com/t.js';
+  script.async = true;
+  script.onload = function() {
+    // Initialize with BigCommerce page data
+    var pageType = '{{page_type}}';
+    var group = pageType === 'product' ? 'product' :
+                pageType === 'category' ? 'catalog' :
+                pageType === 'cart' ? 'cart' :
+                pageType === 'checkout' ? 'checkout' :
+                pageType === 'orderconfirmation' ? 'thankyou' :
+                pageType === 'default' ? 'home' : pageType;
+
+    sealmetrics.init(SEALMETRICS_ACCOUNT_ID, { group: group });
+  };
+  document.head.appendChild(script);
+})();
+</script>
+```
+
+## Tracked Events
+
+| Event | Type | When |
+|-------|------|------|
+| `pageview` | Auto | All pages |
+| `view_item` | Micro | Product pages |
+| `view_cart` | Micro | Cart page |
+| `begin_checkout` | Micro | Checkout page |
+| `add_to_cart` | Micro | Add to cart button click |
+| `purchase` | Conversion | Order confirmation |
+
+## Properties Tracked
+
+### view_item
+
+```javascript
+{
+  product_name: '{{product.title}}',
+  product_id: '{{product.id}}',
+  sku: '{{product.sku}}',
+  price: '{{product.price.without_tax.value}}',
+  currency: '{{currency_selector.active_currency_code}}',
+  category: '{{product.category}}',
+  brand: '{{product.brand.name}}'
+}
+```
+
+### purchase
+
+```javascript
+{
+  revenue: '{{order.grand_total.value}}',
+  currency: '{{order.currency_code}}',
+  items: [/* product details */]
+}
+```
+
+## BigCommerce Handlebars Variables
+
+The script uses BigCommerce's Handlebars templating:
+
+| Variable | Description |
+|----------|-------------|
+| `{{page_type}}` | Current page type |
+| `{{product.title}}` | Product name |
+| `{{product.id}}` | Product ID |
+| `{{product.price.without_tax.value}}` | Price |
+| `{{cart.grand_total.value}}` | Cart total |
+| `{{order.grand_total.value}}` | Order total |
+
+## E-commerce Event Examples
+
+### Track Add to Cart
+
+```html
+<script>
+// Listen for add to cart
+document.addEventListener('click', function(e) {
+  if (e.target.matches('[data-button-type="add-cart"]')) {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('add_to_cart', {
+        product_name: '{{product.title}}',
+        product_id: '{{product.id}}',
+        price: '{{product.price.without_tax.value}}'
+      });
+    }
+  }
+});
+</script>
+```
+
+### Track Purchase
+
+On the order confirmation page:
+
+```html
+{{#if page_type '===' 'orderconfirmation'}}
+<script>
+if (typeof sealmetrics !== 'undefined') {
+  sealmetrics.conv('purchase', {{order.grand_total.value}}, {
+    currency: '{{order.currency_code}}'
+  });
+}
+</script>
+{{/if}}
+```
+
+## Privacy
+
+- No cookies used
+- No personal data stored
+- GDPR compliant by design
+- No consent required

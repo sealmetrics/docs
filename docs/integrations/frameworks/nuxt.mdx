@@ -1,0 +1,238 @@
+---
+sidebar_position: 3
+title: Nuxt 3
+description: Privacy-first, cookieless analytics for Nuxt 3 applications
+---
+
+# Nuxt 3 Integration
+
+Nuxt module for privacy-first, cookieless analytics in Nuxt 3 applications.
+
+## Installation
+
+```bash
+npm install @sealmetrics/nuxt
+# or
+yarn add @sealmetrics/nuxt
+# or
+pnpm add @sealmetrics/nuxt
+```
+
+## Setup
+
+Add the module to your `nuxt.config.ts`:
+
+```ts
+export default defineNuxtConfig({
+  modules: ['@sealmetrics/nuxt'],
+
+  sealmetrics: {
+    accountId: 'YOUR_ACCOUNT_ID',
+    // Optional:
+    // pixelUrl: 'https://pixel.sealmetrics.com',
+    // debug: false,
+    // disabled: false,
+  },
+});
+```
+
+That's it! The tracker will be automatically loaded on all pages.
+
+## Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `accountId` | `string` | **required** | Your SealMetrics Account ID |
+| `pixelUrl` | `string` | `https://pixel.sealmetrics.com` | Custom pixel URL |
+| `debug` | `boolean` | `false` | Enable debug logging |
+| `disabled` | `boolean` | `false` | Disable tracking |
+
+## Content Groups
+
+### Using Route Meta
+
+Set content groups using route meta:
+
+```ts
+// pages/products/[id].vue
+definePageMeta({
+  sealmetricsGroup: 'product',
+});
+```
+
+### Automatic Detection
+
+Content groups are automatically detected based on path:
+
+| Path | Group |
+|------|-------|
+| `/` | `home` |
+| `/blog/*` | `blog` |
+| `/products/*` | `product` |
+| `/cart` | `cart` |
+| etc. | |
+
+## Tracking Events
+
+### Using the Composable
+
+```vue
+<script setup>
+const { micro, conv, isReady } = useSealMetrics();
+
+// Track product view on mount
+onMounted(() => {
+  if (isReady.value) {
+    micro('view_item', {
+      product_name: 'Product Name',
+      product_id: '123',
+      price: '99.99',
+    });
+  }
+});
+
+// Track add to cart
+const handleAddToCart = () => {
+  micro('add_to_cart', {
+    product_name: 'Product Name',
+    quantity: '1',
+  });
+};
+
+// Track purchase
+const handlePurchase = (total: number) => {
+  conv('purchase', total, {
+    currency: 'EUR',
+  });
+};
+</script>
+```
+
+### Using the Plugin
+
+```vue
+<script setup>
+const { $sealmetrics } = useNuxtApp();
+
+// Track event
+$sealmetrics.micro('cta_click', { button_text: 'Sign Up' });
+
+// Track conversion
+$sealmetrics.conv('lead', 0, { source: 'contact_form' });
+</script>
+```
+
+### useTrackOnMount Helper
+
+```vue
+<script setup>
+// Automatically tracks event when component mounts
+useTrackOnMount('view_item', {
+  product_name: 'Product Name',
+  product_id: '123',
+});
+</script>
+```
+
+## Common Events
+
+### Microconversions
+
+```ts
+const { micro } = useSealMetrics();
+
+// Form submission
+micro('form_submit', { form_name: 'contact' });
+
+// Newsletter signup
+micro('newsletter_signup', { form_location: 'footer' });
+
+// Product view
+micro('view_item', {
+  product_name: 'Product Name',
+  product_id: '123',
+  price: '99.99',
+});
+
+// Add to cart
+micro('add_to_cart', {
+  product_name: 'Product Name',
+  quantity: '1',
+});
+
+// CTA click
+micro('cta_click', {
+  button_text: 'Get Started',
+  button_location: 'hero',
+});
+```
+
+### Conversions
+
+```ts
+const { conv } = useSealMetrics();
+
+// Purchase
+conv('purchase', 149.99, {
+  currency: 'EUR',
+});
+
+// Lead
+conv('lead', 0, {
+  source: 'contact_form',
+});
+
+// Signup
+conv('signup', 0, {
+  plan: 'free',
+});
+```
+
+## Environment Configuration
+
+Disable tracking in development:
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@sealmetrics/nuxt'],
+
+  sealmetrics: {
+    accountId: process.env.SEALMETRICS_ACCOUNT_ID || '',
+    disabled: process.env.NODE_ENV === 'development',
+    debug: process.env.NODE_ENV === 'development',
+  },
+});
+```
+
+## TypeScript
+
+The module includes full TypeScript support. Types are auto-imported.
+
+### Type Declarations
+
+```ts
+// types/sealmetrics.d.ts
+declare module '#app' {
+  interface NuxtApp {
+    $sealmetrics: {
+      micro: (name: string, props?: Record<string, any>) => void;
+      conv: (name: string, value: number, props?: Record<string, any>) => void;
+      isReady: () => boolean;
+    };
+  }
+}
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    sealmetricsGroup?: string;
+  }
+}
+```
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner required

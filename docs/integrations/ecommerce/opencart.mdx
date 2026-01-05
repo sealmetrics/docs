@@ -1,0 +1,179 @@
+---
+sidebar_position: 2
+title: OpenCart
+description: Privacy-first, cookieless analytics for OpenCart stores
+---
+
+# OpenCart Integration
+
+Privacy-first, cookieless analytics for OpenCart stores.
+
+## Compatibility
+
+- OpenCart 4.x (primary support)
+- OpenCart 3.x (with modifications)
+- PHP 7.4+
+
+## Installation
+
+### OpenCart 4.x
+
+1. Download the extension package
+2. Go to **Extensions > Installer**
+3. Upload `sealmetrics.ocmod.zip`
+4. Go to **Extensions > Extensions > Analytics**
+5. Install **SealMetrics Analytics**
+6. Click **Edit** and configure your Account ID
+7. Enable the extension and save
+
+<a className="button button--primary" href="https://github.com/sealmetrics/modules/releases/latest/download/sealmetrics-opencart.ocmod.zip">Download Extension</a>
+
+### OpenCart 3.x
+
+1. Upload the `upload` folder contents to your OpenCart root
+2. Go to **Extensions > Modifications** and click **Refresh**
+3. Go to **Extensions > Analytics**
+4. Install **SealMetrics Analytics**
+5. Configure your Account ID and enable
+
+## Configuration
+
+| Setting | Description |
+|---------|-------------|
+| **Account ID** | Your SealMetrics Account ID (required) |
+| **Pixel URL** | Custom pixel domain (optional) |
+| **Track Product Views** | Enable `view_item` tracking |
+| **Track Add to Cart** | Enable `add_to_cart` tracking |
+| **Track Checkout** | Enable `begin_checkout` tracking |
+| **Track Purchases** | Enable purchase conversion tracking |
+| **Contact Forms as Leads** | Track contact form submissions as lead conversions |
+
+## Tracked Events
+
+### Automatic Events
+
+| Event | Description |
+|-------|-------------|
+| `pageview` | All page views with content grouping |
+| `scroll_depth` | 25%, 50%, 75%, 100% scroll |
+| `outbound_click` | External link clicks |
+
+### E-commerce Events
+
+| Event | Description |
+|-------|-------------|
+| `view_item` | Product page views |
+| `add_to_cart` | Add to cart button clicks |
+| `begin_checkout` | Checkout page views |
+| `purchase` | Order confirmation (conversion) |
+
+### Content Groups
+
+Automatic detection based on OpenCart routes:
+
+| Route | Group |
+|-------|-------|
+| `common/home` | `home` |
+| `product/product` | `product` |
+| `product/category` | `catalog` |
+| `product/manufacturer` | `brand` |
+| `product/search` | `search` |
+| `checkout/cart` | `cart` |
+| `checkout/checkout` | `checkout` |
+| `checkout/success` | `thankyou` |
+| `account/*` | `account` |
+| `information/contact` | `contact` |
+
+## Product Data
+
+The following product attributes are tracked:
+
+```javascript
+{
+  product_id: "123",
+  product_name: "Example Product",
+  sku: "SKU-123",
+  price: "29.99",
+  category: "Electronics",
+  brand: "Brand Name"
+}
+```
+
+## Purchase Data
+
+Purchase conversions include full order details:
+
+```javascript
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'EUR',
+  payment_method: 'PayPal',
+  coupon: 'SAVE10',
+  items: [
+    {
+      product_id: "123",
+      product_name: "Product",
+      sku: "SKU-123",
+      price: "49.99",
+      quantity: "2",
+      category: "Electronics",
+      brand: "Brand",
+      size: "Large",    // Options tracked as properties
+      color: "Blue"
+    }
+  ]
+});
+```
+
+## Custom Events
+
+Track custom events via JavaScript:
+
+```javascript
+// Track custom micro-conversion
+if (typeof sealmetrics !== 'undefined') {
+  sealmetrics.micro('wishlist_add', {
+    product_id: '123',
+    product_name: 'Example Product'
+  });
+}
+
+// Track custom conversion
+sealmetrics.conv('lead', 0, {
+  source: 'newsletter',
+  campaign: 'spring_sale'
+});
+```
+
+## Multi-store Support
+
+For multi-store OpenCart installations:
+- Configure SealMetrics separately for each store
+- Use different Account IDs if needed
+- Each store tracks independently
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- No order IDs stored externally
+- GDPR compliant by design
+- No consent banner needed
+
+## Troubleshooting
+
+### Tracker not loading
+
+1. Verify Account ID is configured
+2. Check extension is enabled
+3. Clear OpenCart cache (**System > Maintenance > Clear**)
+
+### Purchases not tracking
+
+1. Ensure "Track Purchases" is enabled
+2. Check order confirmation page loads correctly
+3. Verify no JavaScript errors in console
+
+### Add to cart not tracking
+
+1. Check "Track Add to Cart" is enabled
+2. Ensure cart uses standard OpenCart methods

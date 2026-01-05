@@ -1,0 +1,275 @@
+---
+sidebar_position: 1
+title: Next.js
+description: Privacy-first, cookieless analytics for Next.js applications
+---
+
+# Next.js Integration
+
+NPM package for privacy-first, cookieless analytics in Next.js applications.
+
+## Installation
+
+```bash
+npm install @sealmetrics/nextjs
+# or
+yarn add @sealmetrics/nextjs
+# or
+pnpm add @sealmetrics/nextjs
+```
+
+## Quick Start
+
+### App Router (Next.js 13+)
+
+Add the tracker to your root layout:
+
+```tsx
+// app/layout.tsx
+import { SealMetricsScript } from '@sealmetrics/nextjs';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <SealMetricsScript accountId="YOUR_ACCOUNT_ID" />
+      </body>
+    </html>
+  );
+}
+```
+
+### Pages Router
+
+Add the tracker to your `_app.tsx`:
+
+```tsx
+// pages/_app.tsx
+import type { AppProps } from 'next/app';
+import { SealMetricsScript } from '@sealmetrics/nextjs';
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <>
+      <Component {...pageProps} />
+      <SealMetricsScript accountId="YOUR_ACCOUNT_ID" />
+    </>
+  );
+}
+```
+
+## Tracking Events
+
+### Using the Hook
+
+```tsx
+'use client';
+
+import { useEffect } from 'react';
+import { useSealMetrics } from '@sealmetrics/nextjs';
+
+export function ProductPage({ product }) {
+  const { micro, conv, isReady } = useSealMetrics();
+
+  // Track product view on mount
+  useEffect(() => {
+    if (isReady) {
+      micro('view_item', {
+        product_name: product.name,
+        product_id: product.id,
+        price: String(product.price),
+      });
+    }
+  }, [isReady, product]);
+
+  const handleAddToCart = () => {
+    micro('add_to_cart', {
+      product_name: product.name,
+      quantity: '1',
+    });
+  };
+
+  const handlePurchase = () => {
+    conv('purchase', product.price, {
+      currency: 'EUR',
+    });
+  };
+
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <button onClick={handleAddToCart}>Add to Cart</button>
+      <button onClick={handlePurchase}>Buy Now</button>
+    </div>
+  );
+}
+```
+
+### Using the Provider
+
+Wrap your app with `SealMetricsProvider` for context-based tracking:
+
+```tsx
+// app/layout.tsx
+import { SealMetricsProvider } from '@sealmetrics/nextjs';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <SealMetricsProvider accountId="YOUR_ACCOUNT_ID" debug>
+          {children}
+        </SealMetricsProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+## Content Groups
+
+Set a content group for the page:
+
+```tsx
+<SealMetricsScript
+  accountId="YOUR_ACCOUNT_ID"
+  group="product"
+/>
+```
+
+### Dynamic Content Groups
+
+For dynamic routes, compute the group based on the current page:
+
+```tsx
+// app/products/[slug]/page.tsx
+import { SealMetricsScript } from '@sealmetrics/nextjs';
+
+export default function ProductPage() {
+  return (
+    <>
+      <SealMetricsScript accountId="YOUR_ACCOUNT_ID" group="product" />
+      {/* Page content */}
+    </>
+  );
+}
+```
+
+## API Reference
+
+### SealMetricsScript Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `accountId` | `string` | **required** | Your SealMetrics Account ID |
+| `pixelUrl` | `string` | `https://pixel.sealmetrics.com` | Custom pixel URL |
+| `group` | `string` | - | Content group for the page |
+| `strategy` | `string` | `afterInteractive` | Script loading strategy |
+| `debug` | `boolean` | `false` | Enable debug logging |
+| `disabled` | `boolean` | `false` | Disable tracking |
+
+### useSealMetrics Hook
+
+Returns an object with:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `micro` | `(name: string, props?: object) => void` | Track microconversion |
+| `conv` | `(name: string, value: number, props?: object) => void` | Track conversion |
+| `isReady` | `boolean` | Whether tracker is loaded |
+
+## Common Events
+
+### Microconversions
+
+```tsx
+const { micro } = useSealMetrics();
+
+// Form submission
+micro('form_submit', { form_name: 'contact' });
+
+// Newsletter signup
+micro('newsletter_signup', { form_location: 'footer' });
+
+// Product view
+micro('view_item', {
+  product_name: 'Product Name',
+  product_id: '123',
+  price: '99.99',
+});
+
+// Add to cart
+micro('add_to_cart', {
+  product_name: 'Product Name',
+  quantity: '1',
+});
+
+// CTA click
+micro('cta_click', {
+  button_text: 'Get Started',
+  button_location: 'hero',
+});
+```
+
+### Conversions
+
+```tsx
+const { conv } = useSealMetrics();
+
+// Purchase
+conv('purchase', 149.99, {
+  currency: 'EUR',
+});
+
+// Lead
+conv('lead', 0, {
+  source: 'contact_form',
+});
+
+// Signup
+conv('signup', 0, {
+  plan: 'free',
+});
+
+// Subscription
+conv('subscription', 29.99, {
+  plan: 'pro_monthly',
+  currency: 'EUR',
+});
+```
+
+## Environment Configuration
+
+Disable tracking in development:
+
+```tsx
+<SealMetricsScript
+  accountId="YOUR_ACCOUNT_ID"
+  disabled={process.env.NODE_ENV === 'development'}
+  debug={process.env.NODE_ENV === 'development'}
+/>
+```
+
+## TypeScript
+
+Full TypeScript support included. Import types as needed:
+
+```tsx
+import type {
+  SealMetricsConfig,
+  EventProperties,
+  ProductItem,
+} from '@sealmetrics/nextjs';
+```
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner required

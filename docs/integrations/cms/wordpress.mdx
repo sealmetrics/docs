@@ -1,0 +1,163 @@
+---
+sidebar_position: 1
+title: WordPress
+description: Privacy-first, cookieless analytics for WordPress sites
+---
+
+# WordPress Integration
+
+Privacy-first, cookieless analytics for WordPress sites (without WooCommerce).
+
+:::info For WooCommerce stores
+If you're using WooCommerce, use the [WooCommerce plugin](/integrations/ecommerce/woocommerce) instead for complete e-commerce tracking.
+:::
+
+## Requirements
+
+- WordPress 5.0+
+- PHP 7.4+
+
+## Installation
+
+### Step 1: Download the Plugin
+
+Download the latest version of the SealMetrics WordPress plugin:
+
+<a className="button button--primary" href="https://github.com/sealmetrics/modules/releases/latest/download/sealmetrics-wordpress.zip">Download Plugin</a>
+
+### Step 2: Upload to WordPress
+
+1. Go to **WordPress Admin > Plugins > Add New > Upload Plugin**
+2. Upload the ZIP file and click **Install Now**
+3. Activate the plugin
+
+### Step 3: Configure
+
+1. Go to **Settings > SealMetrics**
+2. Enter your **Account ID** (found in your [SealMetrics dashboard](https://app.sealmetrics.com))
+3. Save changes
+
+## Configuration Options
+
+| Setting | Description |
+|---------|-------------|
+| **Account ID** | Your SealMetrics Account ID (required) |
+| **Pixel URL** | Custom pixel domain for first-party tracking (optional) |
+| **Track Contact Forms as Leads** | Convert contact form submissions to lead conversions |
+
+## Tracked Events
+
+### Automatic Events
+
+These events are tracked automatically without any additional configuration:
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `pageview` | Auto | All pages with automatic content grouping |
+| `search` | Microconversion | Search queries with results count |
+| `404_error` | Microconversion | Broken link visits |
+
+### Form Events
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `form_submit` | Microconversion | Contact form submissions |
+| `newsletter_signup` | Microconversion | Newsletter form submissions |
+| `lead` | Conversion | Contact forms (if "Track as Leads" is enabled) |
+
+## Content Groups
+
+Content groups are automatically detected based on WordPress page type:
+
+| Page Type | Group |
+|-----------|-------|
+| Home page | `home` |
+| Blog posts | `post` |
+| Static pages | `page` |
+| Categories | `category` |
+| Tags | `tag` |
+| Author archives | `author` |
+| Search results | `search` |
+| 404 pages | `404` |
+| Custom post types | `{post_type}` |
+
+## Form Plugin Support
+
+The plugin automatically tracks forms from these popular plugins:
+
+- Contact Form 7
+- Gravity Forms
+- WPForms
+- Elementor Forms
+- Ninja Forms
+- Formidable Forms
+- Generic HTML forms
+
+### Newsletter Detection
+
+Forms are automatically classified as newsletter subscriptions if:
+- Form ID/class contains: `newsletter`, `subscribe`, `mailchimp`, `convertkit`, `mailerlite`
+- Form action URL contains newsletter keywords
+- Form has only an email field
+
+### Contact vs Newsletter Example
+
+```javascript
+// Newsletter form - automatically detected
+sealmetrics.micro('newsletter_signup', {
+  form_name: 'sidebar_newsletter',
+  form_type: 'cf7'
+});
+
+// Contact form with "Track as Leads" enabled
+sealmetrics.conv('lead', 0, {
+  source: 'contact_form',
+  form_name: 'contact_page_form',
+  form_type: 'gravity'
+});
+
+// Contact form (default behavior)
+sealmetrics.micro('form_submit', {
+  form_name: 'contact_page_form',
+  form_type: 'gravity'
+});
+```
+
+## Custom Post Types
+
+Custom post types are automatically tracked with their own content group. For example:
+
+| Post Type | Group |
+|-----------|-------|
+| `portfolio` | `portfolio` |
+| `product` | `product` |
+| `service` | `service` |
+| `testimonial` | `testimonial` |
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner needed
+
+## Troubleshooting
+
+### Tracker not loading
+
+1. Verify Account ID is configured in **Settings > SealMetrics**
+2. Clear WordPress cache (if using a caching plugin)
+3. Clear browser cache
+4. Check browser console for JavaScript errors
+5. Temporarily disable other plugins to check for conflicts
+
+### Forms not tracking
+
+1. Verify your form plugin is in the [supported list](#form-plugin-support)
+2. Check the form has proper HTML structure
+3. Test form submission manually and check the network tab
+
+### Wrong content group
+
+1. Check the page type in WordPress admin
+2. Verify no custom templates are overriding the page type

@@ -1,0 +1,185 @@
+---
+sidebar_position: 1
+title: Webflow
+description: Privacy-first, cookieless analytics for Webflow sites
+---
+
+# Webflow Integration
+
+Privacy-first, cookieless analytics for Webflow sites with automatic event tracking.
+
+## Installation
+
+### Method 1: Project-wide (Recommended)
+
+1. Go to **Project Settings > Custom Code**
+2. In the **Head Code** section, paste the tracking script
+3. Replace `YOUR_ACCOUNT_ID` with your Account ID
+4. Publish your site
+
+### Method 2: Specific Pages
+
+1. Open the page in the Designer
+2. Go to **Page Settings > Custom Code**
+3. Add the script to **Inside \<head\> tag**
+4. Publish
+
+## Configuration
+
+```html
+<script>
+// Required: Your SealMetrics Account ID
+var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
+
+// Optional: Track contact forms as lead conversions (default: false)
+var SEALMETRICS_CONTACT_AS_LEAD = false;
+</script>
+<script src="https://cdn.sealmetrics.com/webflow/sealmetrics-webflow.js" async></script>
+```
+
+## Automatic Events
+
+The script automatically tracks these events without any additional configuration:
+
+| Event | Description |
+|-------|-------------|
+| `pageview` | All page views with content grouping |
+| `form_submit` | Form submissions (non-newsletter) |
+| `newsletter_signup` | Newsletter form submissions |
+| `cta_click` | CTA button clicks |
+| `outbound_click` | External link clicks |
+| `file_download` | PDF, ZIP, DOC, XLS, PPT downloads |
+| `scroll_depth` | 25%, 50%, 75%, 100% scroll |
+| `video_play` | Video starts playing |
+| `video_progress` | Video 25%, 50%, 75% progress |
+| `video_complete` | Video finishes |
+| `tab_click` | Webflow tab interactions |
+| `slider_interaction` | Slider arrow clicks |
+| `lightbox_open` | Lightbox opens |
+
+## Webflow E-commerce Events
+
+If using Webflow E-commerce, these events are tracked automatically:
+
+| Event | Description |
+|-------|-------------|
+| `view_item` | Product page views |
+| `add_to_cart` | Add to cart clicks |
+| `begin_checkout` | Checkout button clicks |
+| `purchase` | Order confirmation (conversion) |
+
+## Content Groups
+
+The script automatically detects page types:
+
+| URL Pattern | Group |
+|-------------|-------|
+| `/` or `/home` | `home` |
+| `/blog/*` | `blog` |
+| `/blog` | `blog-index` |
+| `/products/*` | `product` |
+| `/services/*` | `service` |
+| `/portfolio/*`, `/work/*`, `/projects/*` | `portfolio` |
+| `/about*`, `/team*`, `/about-us*` | `about` |
+| `/contact*` | `contact` |
+| `/pricing*`, `/plans*` | `pricing` |
+| `/faq*`, `/help*` | `faq` |
+| `/case-stud*`, `/success-stor*` | `case-study` |
+| `/thank*` | `thankyou` |
+| `/cart` | `cart` |
+| `/checkout` | `checkout` |
+| `/legal*`, `/privacy*`, `/terms*` | `legal` |
+| `/careers*`, `/jobs*` | `careers` |
+| CMS collection items | `{collection_name}` |
+
+## Form Detection
+
+### Newsletter Forms
+
+Automatically detected and tracked as `newsletter_signup`:
+- Form name/ID/class contains: `newsletter`, `subscribe`, `mailchimp`, `convertkit`, `klaviyo`, `optin`, etc.
+- Forms with only an email field
+
+### Contact Forms
+
+Tracked as `form_submit` or `lead` (if `SEALMETRICS_CONTACT_AS_LEAD = true`)
+
+## CTA Button Tracking
+
+Add `data-track` attribute or use specific CSS classes:
+
+```html
+<!-- Option 1: data-track attribute -->
+<a href="/signup" data-track="hero-signup">Get Started</a>
+
+<!-- Option 2: CSS classes -->
+<a href="/signup" class="cta-button">Get Started</a>
+<button class="primary-button">Learn More</button>
+```
+
+This tracks a `cta_click` event with:
+- `button_text`: Button text content
+- `button_id`: Button ID (if set)
+- `track_name`: Value of `data-track` attribute
+- `button_location`: Parent section ID or class
+
+## Video Tracking
+
+### Native HTML5 Videos
+
+Automatically tracked:
+- `video_play`: When video starts
+- `video_progress`: At 25%, 50%, 75%
+- `video_complete`: When video ends
+
+### YouTube/Vimeo Embeds
+
+Basic click-to-play tracking (click triggers `video_play`)
+
+## Custom Events
+
+Track custom events anywhere on your site:
+
+```html
+<script>
+// Wait for SealMetrics to load
+function trackEvent() {
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics.micro('custom_event', {
+      property: 'value'
+    });
+  } else {
+    setTimeout(trackEvent, 100);
+  }
+}
+trackEvent();
+</script>
+```
+
+## Conversions
+
+For lead generation or purchases:
+
+```javascript
+// Lead conversion (contact form, quote request)
+sealmetrics.conv('lead', 0, {
+  source: 'contact_form'
+});
+
+// Purchase (if not using Webflow Ecommerce auto-tracking)
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'USD'
+});
+
+// Signup
+sealmetrics.conv('signup', 0, {
+  plan: 'free'
+});
+```
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner needed
