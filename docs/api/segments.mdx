@@ -1,0 +1,555 @@
+---
+sidebar_position: 12
+title: Segments
+---
+
+# Segments API
+
+Create and manage saved filter configurations that can be reused across all analytics endpoints.
+
+---
+
+## Overview
+
+Segments allow you to:
+
+- Save complex filter combinations for reuse
+- Apply consistent filters across reports
+- Share segments with your team
+- Use system segments for common patterns
+
+**Base path:** `/segments`
+
+---
+
+## Segment Structure
+
+A segment consists of a name, display name, and filter conditions:
+
+```json
+{
+  "id": "seg_abc123",
+  "account_id": "my-site",
+  "name": "paid-spain",
+  "display_name": "Paid Traffic Spain",
+  "description": "CPC traffic from Spain",
+  "filters": {
+    "conditions": [
+      {"field": "utm_medium", "operator": "eq", "value": "cpc"},
+      {"field": "country", "operator": "eq", "value": "ES"}
+    ]
+  },
+  "color": "#F59E0B",
+  "is_system": false,
+  "created_by": 123,
+  "created_at": "2025-01-05T10:00:00Z",
+  "updated_at": "2025-01-05T10:00:00Z"
+}
+```
+
+---
+
+## Filter Fields
+
+Available fields for segment conditions:
+
+| Field | Description | Example Values |
+|-------|-------------|----------------|
+| `utm_source` | Traffic source | `google`, `facebook` |
+| `utm_medium` | Traffic medium | `cpc`, `organic`, `email` |
+| `utm_campaign` | Campaign name | `spring_sale` |
+| `utm_term` | Search term | `running shoes` |
+| `utm_content` | Ad content | `banner_a` |
+| `country` | Country code | `ES`, `US`, `FR` |
+| `device_type` | Device category | `desktop`, `mobile`, `tablet` |
+| `browser` | Browser name | `Chrome`, `Safari` |
+| `os` | Operating system | `Windows`, `iOS` |
+| `path` | URL path | `/products/`, `/blog/` |
+| `content_grouping` | Content group | `blog`, `products` |
+| `referrer` | Referrer URL | `facebook.com` |
+| `referrer_domain` | Referrer domain | `facebook.com` |
+| `channel` | Channel group | `Organic Search`, `Direct` |
+
+---
+
+## Filter Operators
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `eq` | Equals | `{"field": "country", "operator": "eq", "value": "ES"}` |
+| `neq` | Not equals | `{"field": "country", "operator": "neq", "value": "US"}` |
+| `contains` | Contains substring | `{"field": "path", "operator": "contains", "value": "/blog/"}` |
+| `not_contains` | Does not contain | `{"field": "path", "operator": "not_contains", "value": "/admin/"}` |
+| `starts_with` | Starts with | `{"field": "path", "operator": "starts_with", "value": "/products/"}` |
+| `ends_with` | Ends with | `{"field": "path", "operator": "ends_with", "value": ".html"}` |
+| `in` | In list | `{"field": "country", "operator": "in", "value": ["ES", "FR", "DE"]}` |
+| `not_in` | Not in list | `{"field": "device_type", "operator": "not_in", "value": ["tablet"]}` |
+| `regex` | Regex match | `{"field": "path", "operator": "regex", "value": "^/products/[0-9]+"}` |
+| `not_regex` | Regex not match | `{"field": "utm_source", "operator": "not_regex", "value": "^spam"}` |
+
+---
+
+## Filter Logic
+
+### Simple Mode (AND)
+
+All conditions combined with AND:
+
+```json
+{
+  "filters": {
+    "conditions": [
+      {"field": "country", "operator": "eq", "value": "ES"},
+      {"field": "device_type", "operator": "eq", "value": "mobile"}
+    ]
+  }
+}
+```
+
+**Result:** `country = 'ES' AND device_type = 'mobile'`
+
+### Advanced Mode (OR between groups)
+
+Multiple groups combined with OR, conditions within each group with AND:
+
+```json
+{
+  "filters": {
+    "groups": [
+      {
+        "conditions": [
+          {"field": "country", "operator": "eq", "value": "ES"},
+          {"field": "device_type", "operator": "eq", "value": "mobile"}
+        ]
+      },
+      {
+        "conditions": [
+          {"field": "country", "operator": "eq", "value": "FR"},
+          {"field": "device_type", "operator": "eq", "value": "desktop"}
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Result:** `(country = 'ES' AND device_type = 'mobile') OR (country = 'FR' AND device_type = 'desktop')`
+
+### Exclusion Mode (NOT)
+
+Use `not_groups` to exclude matching records:
+
+```json
+{
+  "filters": {
+    "conditions": [
+      {"field": "country", "operator": "eq", "value": "ES"}
+    ],
+    "not_groups": [
+      {
+        "conditions": [
+          {"field": "utm_source", "operator": "eq", "value": "spam"}
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Result:** `country = 'ES' AND NOT (utm_source = 'spam')`
+
+---
+
+## List Segments
+
+```http
+GET /segments?account_id={account_id}
+```
+
+Get all segments for an account.
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `include_system` | boolean | `true` | Include system segments |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "seg_system_organic",
+      "name": "organic-search",
+      "display_name": "Organic Search",
+      "description": "Visitors from organic search results",
+      "color": "#10B981",
+      "is_system": true,
+      "filter_count": 1
+    },
+    {
+      "id": "seg_abc123",
+      "name": "paid-spain",
+      "display_name": "Paid Traffic Spain",
+      "description": "CPC traffic from Spain",
+      "color": "#F59E0B",
+      "is_system": false,
+      "filter_count": 2
+    }
+  ]
+}
+```
+
+---
+
+## Get Segment
+
+```http
+GET /segments/{segment_id}?account_id={account_id}
+```
+
+Get a segment by ID or name.
+
+**Path Parameters:**
+
+| Parameter | Description |
+|-----------|-------------|
+| `segment_id` | Segment ID (seg_xxx) or name slug (paid-spain) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "seg_abc123",
+    "account_id": "my-site",
+    "name": "paid-spain",
+    "display_name": "Paid Traffic Spain",
+    "description": "CPC traffic from Spain",
+    "filters": {
+      "conditions": [
+        {"field": "utm_medium", "operator": "eq", "value": "cpc"},
+        {"field": "country", "operator": "eq", "value": "ES"}
+      ]
+    },
+    "color": "#F59E0B",
+    "is_system": false,
+    "created_by": 123,
+    "created_at": "2025-01-05T10:00:00Z",
+    "updated_at": "2025-01-05T10:00:00Z"
+  }
+}
+```
+
+---
+
+## Create Segment
+
+```http
+POST /segments?account_id={account_id}
+```
+
+Create a new segment.
+
+**Required scope:** `editor` or higher
+
+**Request Body:**
+
+```json
+{
+  "name": "eu-mobile-paid",
+  "display_name": "EU Mobile Paid Traffic",
+  "description": "Paid traffic from EU countries on mobile devices",
+  "filters": {
+    "conditions": [
+      {"field": "utm_medium", "operator": "eq", "value": "cpc"},
+      {"field": "device_type", "operator": "eq", "value": "mobile"},
+      {"field": "country", "operator": "in", "value": ["ES", "FR", "DE", "IT", "PT"]}
+    ]
+  },
+  "color": "#8B5CF6"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Unique slug (lowercase, alphanumeric, hyphens) |
+| `display_name` | string | Yes | Human-readable name (1-100 chars) |
+| `description` | string | No | Description (max 500 chars) |
+| `filters` | object | Yes | Filter conditions |
+| `color` | string | No | Hex color code (#RRGGBB) |
+
+**Response (201 Created):** Full segment object
+
+---
+
+## Update Segment
+
+```http
+PUT /segments/{segment_id}?account_id={account_id}
+```
+
+Update an existing segment.
+
+**Request Body:**
+
+```json
+{
+  "display_name": "EU Mobile CPC Traffic",
+  "filters": {
+    "conditions": [
+      {"field": "utm_medium", "operator": "in", "value": ["cpc", "ppc"]},
+      {"field": "device_type", "operator": "eq", "value": "mobile"},
+      {"field": "country", "operator": "in", "value": ["ES", "FR", "DE", "IT", "PT", "NL", "BE"]}
+    ]
+  }
+}
+```
+
+All fields are optional. Only provided fields are updated.
+
+:::warning
+System segments cannot be modified. Duplicate them first if you need a variation.
+:::
+
+---
+
+## Delete Segment
+
+```http
+DELETE /segments/{segment_id}?account_id={account_id}
+```
+
+Delete a segment.
+
+**Response:** 204 No Content
+
+:::warning
+System segments cannot be deleted.
+:::
+
+---
+
+## Duplicate Segment
+
+```http
+POST /segments/{segment_id}/duplicate?account_id={account_id}&new_name={new_name}
+```
+
+Create a copy of an existing segment with a new name.
+
+**Query Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `new_name` | string | Name for the new segment (slug format) |
+
+**Example:**
+
+```http
+POST /segments/organic-search/duplicate?account_id=my-site&new_name=organic-search-spain
+```
+
+**Response (201 Created):** Full segment object of the new copy
+
+---
+
+## System Segments
+
+Sealmetrics includes built-in segments for common patterns:
+
+| Name | Display Name | Filter |
+|------|--------------|--------|
+| `all-traffic` | All Traffic | No filters |
+| `organic-search` | Organic Search | `utm_medium = organic` |
+| `paid-search` | Paid Search | `utm_medium = cpc` |
+| `social` | Social Media | `channel = Social` |
+| `direct` | Direct Traffic | `channel = Direct` |
+| `referral` | Referral Traffic | `channel = Referral` |
+| `mobile` | Mobile Users | `device_type = mobile` |
+| `desktop` | Desktop Users | `device_type = desktop` |
+
+System segments:
+- Cannot be modified or deleted
+- Can be duplicated to create custom variations
+- Are included by default in segment lists
+
+---
+
+## Using Segments in Stats Endpoints
+
+Apply a segment to any stats endpoint with the `segment` parameter:
+
+```http
+GET /stats/pages?account_id=my-site&segment=paid-spain
+```
+
+You can reference segments by:
+- **Name:** `segment=paid-spain`
+- **ID:** `segment=seg_abc123`
+
+### Combining Segment with Explicit Filters
+
+When you use a segment AND explicit filter parameters:
+
+```http
+GET /stats/pages?account_id=my-site&segment=paid-spain&utm_campaign=spring_sale
+```
+
+The segment filters are applied first, then explicit parameters are added (AND logic).
+
+---
+
+## Error Codes
+
+| HTTP | Error Code | Description |
+|------|------------|-------------|
+| 403 | `forbidden` | Editor permission required |
+| 403 | `cannot_modify_system` | System segments cannot be modified |
+| 404 | `not_found` | Segment not found |
+| 409 | `conflict` | Segment name already exists |
+
+---
+
+## Code Examples
+
+### Python - Create and Use Segment
+
+```python
+import requests
+
+API_KEY = "str_your_api_key"
+BASE_URL = "https://api.sealmetrics.com/api/v1"
+ACCOUNT_ID = "my-site"
+
+def create_segment(name, display_name, conditions, color=None):
+    """Create a new segment."""
+    response = requests.post(
+        f"{BASE_URL}/segments",
+        headers={"X-API-Key": API_KEY},
+        params={"account_id": ACCOUNT_ID},
+        json={
+            "name": name,
+            "display_name": display_name,
+            "filters": {"conditions": conditions},
+            "color": color
+        }
+    )
+    response.raise_for_status()
+    return response.json()["data"]
+
+
+def get_stats_with_segment(segment_name, period="30d"):
+    """Get stats using a saved segment."""
+    response = requests.get(
+        f"{BASE_URL}/stats/overview",
+        headers={"X-API-Key": API_KEY},
+        params={
+            "account_id": ACCOUNT_ID,
+            "period": period,
+            "segment": segment_name
+        }
+    )
+    return response.json()["data"]
+
+
+# Create a segment for high-value EU traffic
+segment = create_segment(
+    name="eu-converters",
+    display_name="EU Converters",
+    conditions=[
+        {"field": "country", "operator": "in", "value": ["ES", "FR", "DE", "IT"]},
+        {"field": "utm_medium", "operator": "in", "value": ["cpc", "email"]}
+    ],
+    color="#10B981"
+)
+
+print(f"Created segment: {segment['id']}")
+
+# Use the segment
+stats = get_stats_with_segment("eu-converters", "7d")
+print(f"Conversions: {stats['conversions']}")
+print(f"Revenue: €{stats['revenue']}")
+```
+
+### JavaScript - List and Apply Segments
+
+```javascript
+const API_KEY = 'str_your_api_key';
+const BASE_URL = 'https://api.sealmetrics.com/api/v1';
+const ACCOUNT_ID = 'my-site';
+
+async function listSegments(includeSystem = true) {
+  const params = new URLSearchParams({
+    account_id: ACCOUNT_ID,
+    include_system: includeSystem
+  });
+
+  const response = await fetch(`${BASE_URL}/segments?${params}`, {
+    headers: { 'X-API-Key': API_KEY }
+  });
+
+  const { data } = await response.json();
+  return data;
+}
+
+async function getStatsForAllSegments(period = '30d') {
+  const segments = await listSegments();
+  const results = {};
+
+  for (const segment of segments) {
+    const params = new URLSearchParams({
+      account_id: ACCOUNT_ID,
+      period,
+      segment: segment.name
+    });
+
+    const response = await fetch(`${BASE_URL}/stats/overview?${params}`, {
+      headers: { 'X-API-Key': API_KEY }
+    });
+
+    const { data } = await response.json();
+    results[segment.display_name] = {
+      entrances: data.entrances,
+      conversions: data.conversions,
+      revenue: data.revenue
+    };
+  }
+
+  return results;
+}
+
+// Usage
+const comparison = await getStatsForAllSegments('30d');
+console.table(comparison);
+```
+
+### Create Complex Segment with OR Logic
+
+```python
+# Spanish mobile users OR French desktop users
+complex_segment = create_segment(
+    name="es-mobile-or-fr-desktop",
+    display_name="ES Mobile OR FR Desktop",
+    filters={
+        "groups": [
+            {
+                "conditions": [
+                    {"field": "country", "operator": "eq", "value": "ES"},
+                    {"field": "device_type", "operator": "eq", "value": "mobile"}
+                ]
+            },
+            {
+                "conditions": [
+                    {"field": "country", "operator": "eq", "value": "FR"},
+                    {"field": "device_type", "operator": "eq", "value": "desktop"}
+                ]
+            }
+        ]
+    }
+)
+```

@@ -1,0 +1,639 @@
+---
+sidebar_position: 6
+title: Accounts
+---
+
+# Accounts API
+
+Complete reference for managing analytics accounts, domains, UTM mappings, user access, and pixel installation.
+
+## Overview
+
+The Accounts API allows you to:
+
+- Create and manage analytics accounts
+- Configure authorized domains for tracking
+- Set up custom UTM parameter mappings
+- Manage user access and roles
+- Generate and verify pixel installation
+
+**Base path:** `/accounts`
+
+---
+
+## Account Endpoints
+
+### List Accounts
+
+```http
+GET /accounts
+```
+
+Returns all accounts accessible by the current user.
+
+**Query Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `include_inactive` | boolean | Include inactive accounts (admin only) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "accounts": [
+      {
+        "id": "acme-corp",
+        "name": "ACME Corporation",
+        "domains": ["www.acme.com", "shop.acme.com"],
+        "timezone": "Europe/Madrid",
+        "currency": "EUR",
+        "is_active": true,
+        "created_at": "2024-01-15T10:00:00Z",
+        "user_count": 3
+      }
+    ],
+    "total": 1
+  }
+}
+```
+
+---
+
+### Create Account
+
+```http
+POST /accounts
+```
+
+Creates a new analytics account.
+
+**Required scope:** `admin` or `accounts:create`
+
+**Request Body:**
+
+```json
+{
+  "name": "My New Site",
+  "domains": ["www.example.com", "example.com"],
+  "timezone": "Europe/Madrid",
+  "currency": "EUR"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Account display name (1-255 chars) |
+| `domains` | string[] | No | Authorized domains for tracking |
+| `timezone` | string | No | IANA timezone (default: UTC) |
+| `currency` | string | No | ISO 4217 currency code (default: EUR) |
+
+**Response (201 Created):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "my-new-site",
+    "name": "My New Site",
+    "domains": ["www.example.com", "example.com"],
+    "timezone": "Europe/Madrid",
+    "currency": "EUR",
+    "is_active": true,
+    "created_at": "2025-01-10T14:30:00Z"
+  }
+}
+```
+
+---
+
+### Get Account
+
+```http
+GET /accounts/{account_id}
+```
+
+Returns detailed information about a specific account.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "acme-corp",
+    "name": "ACME Corporation",
+    "domains": ["www.acme.com", "shop.acme.com"],
+    "timezone": "Europe/Madrid",
+    "currency": "EUR",
+    "is_active": true,
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2025-01-08T09:15:00Z",
+    "user_count": 3
+  }
+}
+```
+
+---
+
+### Update Account
+
+```http
+PATCH /accounts/{account_id}
+```
+
+Updates account settings.
+
+**Request Body:**
+
+```json
+{
+  "name": "ACME Corp (Updated)",
+  "timezone": "America/New_York",
+  "currency": "USD"
+}
+```
+
+All fields are optional. Only provided fields are updated.
+
+---
+
+### Delete Account
+
+```http
+DELETE /accounts/{account_id}
+```
+
+Deactivates an account (soft delete).
+
+**Required scope:** `admin`
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "deleted": true,
+    "account_id": "acme-corp"
+  }
+}
+```
+
+---
+
+## Domain Endpoints
+
+Domains authorize which websites can send tracking data to an account.
+
+### List Domains
+
+```http
+GET /accounts/{account_id}/domains
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "domains": [
+      {
+        "id": 1,
+        "domain": "www.acme.com",
+        "is_active": true,
+        "created_at": "2024-01-15T10:00:00Z"
+      },
+      {
+        "id": 2,
+        "domain": "shop.acme.com",
+        "is_active": true,
+        "created_at": "2024-01-15T10:00:00Z"
+      }
+    ],
+    "total": 2
+  }
+}
+```
+
+---
+
+### Add Domain
+
+```http
+POST /accounts/{account_id}/domains
+```
+
+**Request Body:**
+
+```json
+{
+  "domain": "blog.acme.com"
+}
+```
+
+**Response (201 Created):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 3,
+    "domain": "blog.acme.com",
+    "is_active": true,
+    "created_at": "2025-01-10T14:30:00Z"
+  }
+}
+```
+
+---
+
+### Remove Domain
+
+```http
+DELETE /accounts/{account_id}/domains/{domain}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "removed": true,
+    "domain": "blog.acme.com"
+  }
+}
+```
+
+---
+
+## UTM Mapping Endpoints
+
+UTM mappings allow custom URL parameters to be mapped to standard UTM fields.
+
+### List UTM Mappings
+
+```http
+GET /accounts/{account_id}/utm-mappings
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "mappings": [
+      {
+        "id": 1,
+        "custom_param": "campaign_id",
+        "maps_to": "utm_campaign",
+        "is_active": true,
+        "created_at": "2024-06-01T12:00:00Z"
+      },
+      {
+        "id": 2,
+        "custom_param": "ad_source",
+        "maps_to": "utm_source",
+        "is_active": true,
+        "created_at": "2024-06-01T12:00:00Z"
+      }
+    ],
+    "total": 2
+  }
+}
+```
+
+---
+
+### Add UTM Mapping
+
+```http
+POST /accounts/{account_id}/utm-mappings
+```
+
+**Request Body:**
+
+```json
+{
+  "custom_param": "gclid_source",
+  "maps_to": "utm_source"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `custom_param` | string | Your custom URL parameter name |
+| `maps_to` | enum | Standard UTM field: `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` |
+
+**Example Use Case:**
+
+If your ad platform uses `?src=google` instead of `?utm_source=google`, create a mapping:
+
+```json
+{
+  "custom_param": "src",
+  "maps_to": "utm_source"
+}
+```
+
+Now `?src=google` will be treated as `?utm_source=google`.
+
+---
+
+### Update UTM Mapping
+
+```http
+PATCH /accounts/{account_id}/utm-mappings/{mapping_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "maps_to": "utm_medium",
+  "is_active": false
+}
+```
+
+---
+
+### Remove UTM Mapping
+
+```http
+DELETE /accounts/{account_id}/utm-mappings/{custom_param}
+```
+
+---
+
+## Account User Endpoints
+
+Manage user access and roles within an account.
+
+### User Roles
+
+| Role | Description |
+|------|-------------|
+| `owner` | Full access, can delete account |
+| `admin` | Full access, can manage users |
+| `editor` | Read and write analytics data |
+| `viewer` | Read-only access |
+
+---
+
+### List Account Users
+
+```http
+GET /accounts/{account_id}/users
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "users": [
+      {
+        "user_id": 1,
+        "email": "admin@acme.com",
+        "name": "Admin User",
+        "role": "owner",
+        "created_at": "2024-01-15T10:00:00Z"
+      },
+      {
+        "user_id": 2,
+        "email": "analyst@acme.com",
+        "name": "Data Analyst",
+        "role": "viewer",
+        "created_at": "2024-03-20T14:00:00Z"
+      }
+    ],
+    "total": 2
+  }
+}
+```
+
+---
+
+### Add User to Account
+
+```http
+POST /accounts/{account_id}/users
+```
+
+**Required scope:** `admin` or `accounts:manage_users`
+
+**Request Body:**
+
+```json
+{
+  "user_id": 5,
+  "role": "editor"
+}
+```
+
+---
+
+### Update User Role
+
+```http
+PATCH /accounts/{account_id}/users/{user_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "role": "admin"
+}
+```
+
+---
+
+### Remove User from Account
+
+```http
+DELETE /accounts/{account_id}/users/{user_id}
+```
+
+---
+
+## Pixel Code Endpoints
+
+### Get Pixel Code
+
+```http
+GET /accounts/{account_id}/pixel
+```
+
+Returns the tracking pixel installation code.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "account_id": "acme-corp",
+    "script_tag": "<script src=\"https://t.sealmetrics.com/t.js?id=acme-corp\" defer></script>",
+    "tracker_url": "https://t.sealmetrics.com/t.js?id=acme-corp",
+    "instructions": "Add this script tag to your website's <head> section."
+  }
+}
+```
+
+---
+
+### Get Pixel Status
+
+```http
+GET /accounts/{account_id}/pixel/status
+```
+
+Check if the tracking pixel is installed and receiving data.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "account_id": "acme-corp",
+    "installed": true,
+    "first_hit_at": "2024-01-15T10:05:00Z",
+    "last_hit_at": "2025-01-10T14:28:00Z",
+    "total_hits": 1523456
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `installed` | `true` if pixel has received any hits |
+| `first_hit_at` | Timestamp of the first hit received |
+| `last_hit_at` | Timestamp of the most recent hit |
+| `total_hits` | Total hits in the last 14 days |
+
+---
+
+## Timezones
+
+### List Available Timezones
+
+```http
+GET /accounts/config/timezones
+```
+
+Returns all available IANA timezone identifiers.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "timezones": [
+      {
+        "timezone": "Europe/Madrid",
+        "country_code": "ES",
+        "country_name": "Spain"
+      },
+      {
+        "timezone": "America/New_York",
+        "country_code": "US",
+        "country_name": "United States"
+      }
+    ],
+    "total": 400
+  }
+}
+```
+
+---
+
+## Error Codes
+
+| HTTP Code | Error Code | Description |
+|-----------|------------|-------------|
+| 400 | `invalid_timezone` | Invalid IANA timezone identifier |
+| 400 | `invalid_domain` | Invalid domain format |
+| 403 | `forbidden` | Insufficient permissions |
+| 404 | `not_found` | Account or resource not found |
+| 409 | `conflict` | User already has access to account |
+
+---
+
+## Code Examples
+
+### Python
+
+```python
+import requests
+
+API_KEY = "str_your_api_key"
+BASE_URL = "https://api.sealmetrics.com/api/v1"
+
+# Create account
+response = requests.post(
+    f"{BASE_URL}/accounts",
+    headers={"X-API-Key": API_KEY},
+    json={
+        "name": "My E-commerce Site",
+        "domains": ["www.myshop.com"],
+        "timezone": "Europe/Madrid"
+    }
+)
+account = response.json()["data"]
+print(f"Created account: {account['id']}")
+
+# Add domain
+requests.post(
+    f"{BASE_URL}/accounts/{account['id']}/domains",
+    headers={"X-API-Key": API_KEY},
+    json={"domain": "shop.myshop.com"}
+)
+
+# Get pixel code
+pixel = requests.get(
+    f"{BASE_URL}/accounts/{account['id']}/pixel",
+    headers={"X-API-Key": API_KEY}
+).json()["data"]
+print(pixel["script_tag"])
+```
+
+### JavaScript
+
+```javascript
+const API_KEY = 'str_your_api_key';
+const BASE_URL = 'https://api.sealmetrics.com/api/v1';
+
+// Create account
+const response = await fetch(`${BASE_URL}/accounts`, {
+  method: 'POST',
+  headers: {
+    'X-API-Key': API_KEY,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: 'My E-commerce Site',
+    domains: ['www.myshop.com'],
+    timezone: 'Europe/Madrid'
+  })
+});
+
+const { data: account } = await response.json();
+console.log(`Created account: ${account.id}`);
+
+// Check pixel status
+const statusResponse = await fetch(
+  `${BASE_URL}/accounts/${account.id}/pixel/status`,
+  { headers: { 'X-API-Key': API_KEY } }
+);
+const { data: status } = await statusResponse.json();
+console.log(`Pixel installed: ${status.installed}`);
+```

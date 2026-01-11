@@ -1,0 +1,476 @@
+---
+sidebar_position: 8
+title: Pagination & Filtering
+---
+
+# Pagination, Sorting & Advanced Filters
+
+Complete reference for pagination, sorting, and advanced filtering across all API endpoints.
+
+---
+
+## Pagination
+
+List endpoints return paginated results to handle large datasets efficiently.
+
+### Request Parameters
+
+| Parameter | Type | Default | Range | Description |
+|-----------|------|---------|-------|-------------|
+| `page` | integer | `1` | 1+ | Page number (1-indexed) |
+| `page_size` | integer | `50` | 1-1000 | Items per page |
+
+:::note
+Some endpoints have a lower maximum `page_size` (100 instead of 1000). Check individual endpoint documentation.
+:::
+
+### Response Format
+
+All paginated endpoints return a consistent response structure:
+
+```json
+{
+  "data": [...],
+  "total": 250,
+  "page": 1,
+  "page_size": 50,
+  "has_next": true,
+  "has_prev": false
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data` | array | Array of result items |
+| `total` | integer | Total count of items matching the query |
+| `page` | integer | Current page number |
+| `page_size` | integer | Items per page |
+| `has_next` | boolean | `true` if more pages exist after this one |
+| `has_prev` | boolean | `true` if pages exist before this one |
+
+### Pagination Examples
+
+**First page (default):**
+```http
+GET /stats/pages?account_id=my-site&period=30d
+```
+
+**Second page with 100 items:**
+```http
+GET /stats/pages?account_id=my-site&period=30d&page=2&page_size=100
+```
+
+**Calculate total pages:**
+```javascript
+const totalPages = Math.ceil(response.total / response.page_size);
+```
+
+---
+
+## Sorting
+
+Control the order of results with `sort_by` and `sort_order` parameters.
+
+### Request Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `sort_by` | string | varies | Field to sort by |
+| `sort_order` | string | `desc` | Sort direction: `asc` or `desc` |
+
+### Available Sort Fields
+
+#### Traffic Endpoints
+
+For `/stats/pages`, `/stats/sources`, `/stats/campaigns`, `/stats/mediums`, `/stats/terms`, `/stats/contents`, `/stats/referrers`, `/stats/geo/countries`:
+
+| Field | Description |
+|-------|-------------|
+| `entrances` | Session starts (default) |
+| `engaged_entrances` | Engaged sessions (2+ pageviews) |
+| `page_views` | Total page views |
+| `conversions` | Total conversions |
+| `revenue` | Total revenue |
+
+#### Page Endpoints
+
+For `/stats/pages`:
+
+| Field | Description |
+|-------|-------------|
+| `page_views` | Page views (default) |
+| `entrances` | Entry points to this page |
+| `engaged_entrances` | Engaged entries |
+| `conversions` | Conversions on this page |
+| `revenue` | Revenue from this page |
+
+#### Conversion Endpoints
+
+For `/stats/conversions`:
+
+| Field | Description |
+|-------|-------------|
+| `count` | Number of conversions (default) |
+| `revenue` | Total revenue |
+| `avg_value` | Average conversion value |
+
+#### Microconversion Endpoints
+
+For `/stats/microconversions`:
+
+| Field | Description |
+|-------|-------------|
+| `count` | Number of microconversions (default) |
+
+### Sorting Examples
+
+**Top sources by revenue:**
+```http
+GET /stats/sources?account_id=my-site&sort_by=revenue&sort_order=desc
+```
+
+**Lowest bounce rate pages:**
+```http
+GET /stats/pages?account_id=my-site&sort_by=engaged_entrances&sort_order=desc
+```
+
+**Newest conversions first:**
+```http
+GET /stats/conversions?account_id=my-site&sort_by=count&sort_order=asc
+```
+
+---
+
+## Standard Filters
+
+Most endpoints support these common filter parameters:
+
+### UTM Filters
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `utm_source` | Traffic source | `google`, `facebook` |
+| `utm_medium` | Traffic medium | `cpc`, `organic`, `email` |
+| `utm_campaign` | Campaign name | `spring_sale` |
+| `utm_term` | Search term/keyword | `running shoes` |
+
+### Geographic Filters
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `country` | ISO 3166-1 alpha-2 code | `ES`, `US`, `FR` |
+
+### Content Filters
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `content_grouping` | Content group name | `blog`, `products` |
+| `path_filter` | URL path pattern | `/products/` |
+
+### Device Filters
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `device_type` | Device category | `desktop`, `mobile`, `tablet` |
+| `browser` | Browser name | `Chrome`, `Safari` |
+| `os` | Operating system | `Windows`, `iOS` |
+
+### Segment Filter
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `segment` | Saved segment ID or name | `paid-spain`, `mobile-users` |
+
+---
+
+## Advanced Filters
+
+The `filters` parameter enables complex filtering with operators.
+
+### Syntax
+
+```
+filters=field:operator:value,field2:operator:value2
+```
+
+Multiple filters are combined with AND logic.
+
+### Operators
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `eq` | Equals | `country:eq:ES` |
+| `ne` | Not equals | `country:ne:US` |
+| `contains` | Contains substring | `utm_source:contains:google` |
+| `not_contains` | Does not contain | `path:not_contains:admin` |
+| `regex` | Regex match | `path:regex:^/products/` |
+| `not_regex` | Regex not match | `path:not_regex:^/api/` |
+| `in` | In list (values separated by `\|`) | `country:in:ES\|FR\|DE` |
+| `not_in` | Not in list | `utm_medium:not_in:cpc\|ppc` |
+
+### Field Reference
+
+Available fields for advanced filtering:
+
+| Field | Description |
+|-------|-------------|
+| `utm_source` | Traffic source |
+| `utm_medium` | Traffic medium |
+| `utm_campaign` | Campaign name |
+| `utm_term` | Search term |
+| `utm_content` | Ad content |
+| `country` | Country code |
+| `device_type` | Device type |
+| `browser` | Browser name |
+| `os` | Operating system |
+| `path` | Page URL path |
+| `referrer` | Referrer domain |
+
+### Examples
+
+**Spanish traffic only:**
+```http
+GET /stats/pages?account_id=my-site&filters=country:eq:ES
+```
+
+**EU countries excluding UK:**
+```http
+GET /stats/sources?account_id=my-site&filters=country:in:ES|FR|DE|IT|PT,country:ne:GB
+```
+
+**Product pages from Google:**
+```http
+GET /stats/pages?account_id=my-site&filters=path:contains:/products/,utm_source:eq:google
+```
+
+**Non-branded organic traffic:**
+```http
+GET /stats/campaigns?account_id=my-site&filters=utm_medium:eq:organic,utm_campaign:not_contains:brand
+```
+
+**Mobile users from social:**
+```http
+GET /stats/pages?account_id=my-site&filters=device_type:eq:mobile,utm_medium:in:social|social-media
+```
+
+**Blog pages with regex:**
+```http
+GET /stats/pages?account_id=my-site&filters=path:regex:^/blog/2025/
+```
+
+---
+
+## Saved Segments
+
+Segments are pre-saved filter combinations that can be reused.
+
+### Using Segments
+
+Apply a segment with the `segment` parameter:
+
+```http
+GET /stats/pages?account_id=my-site&segment=paid-spain
+```
+
+Segments can be referenced by ID or name.
+
+### Segment + Explicit Filters
+
+When you combine a segment with explicit filter parameters:
+
+1. Segment filters are applied first
+2. Explicit parameters override segment values
+3. Additional filters are ANDed together
+
+**Example:**
+
+If segment `paid-traffic` has `utm_medium=cpc`, and you add `country=ES`:
+
+```http
+GET /stats/pages?account_id=my-site&segment=paid-traffic&country=ES
+```
+
+This applies: `utm_medium=cpc AND country=ES`
+
+---
+
+## Filter Combinations
+
+### Standard + Advanced Filters
+
+You can combine standard parameters with advanced filters:
+
+```http
+GET /stats/pages?account_id=my-site&utm_medium=cpc&country=ES&filters=path:contains:/products/
+```
+
+This applies:
+- `utm_medium = cpc` (standard)
+- `country = ES` (standard)
+- `path LIKE '%/products/%'` (advanced)
+
+### Priority
+
+1. Saved segment filters (lowest priority)
+2. Standard filter parameters
+3. Advanced filters (highest priority)
+
+If the same field appears in multiple places, the higher priority wins.
+
+---
+
+## Response with Filters
+
+The response includes filter metadata when applicable:
+
+```json
+{
+  "data": [...],
+  "total": 45,
+  "page": 1,
+  "page_size": 50,
+  "has_next": false,
+  "has_prev": false,
+  "comparison": {
+    "entrances": 420,
+    "engaged_entrances": 336,
+    "page_views": 1250,
+    "conversions": 15,
+    "revenue": 1200.00
+  }
+}
+```
+
+The `comparison` object (when `compare` is used) contains totals for the comparison period using the same filters.
+
+---
+
+## Best Practices
+
+### Pagination
+
+1. **Use reasonable page sizes** - 50-100 items is optimal for most cases
+2. **Don't skip pages** - Iterate sequentially for complete data
+3. **Cache total count** - The `total` rarely changes during pagination
+
+### Filtering
+
+1. **Start broad, then narrow** - Add filters incrementally
+2. **Use segments for reusable filters** - Avoid repeating complex filter strings
+3. **Use `in` for multiple values** - More efficient than multiple requests
+
+### Sorting
+
+1. **Default sort is usually optimal** - Most endpoints default to the most useful sort
+2. **Secondary sorting not supported** - Results with equal values have undefined order
+3. **Ascending for "worst" analysis** - Use `asc` to find lowest performers
+
+---
+
+## Code Examples
+
+### Python - Paginate All Results
+
+```python
+import requests
+
+def get_all_pages(account_id, period="30d"):
+    """Fetch all pages with pagination."""
+    all_data = []
+    page = 1
+
+    while True:
+        response = requests.get(
+            "https://api.sealmetrics.com/api/v1/stats/pages",
+            headers={"X-API-Key": API_KEY},
+            params={
+                "account_id": account_id,
+                "period": period,
+                "page": page,
+                "page_size": 100,
+                "sort_by": "entrances",
+                "sort_order": "desc"
+            }
+        )
+        data = response.json()
+        all_data.extend(data["data"])
+
+        if not data["has_next"]:
+            break
+        page += 1
+
+    return all_data
+```
+
+### JavaScript - Advanced Filter Builder
+
+```javascript
+class FilterBuilder {
+  constructor() {
+    this.filters = [];
+  }
+
+  equals(field, value) {
+    this.filters.push(`${field}:eq:${value}`);
+    return this;
+  }
+
+  contains(field, value) {
+    this.filters.push(`${field}:contains:${value}`);
+    return this;
+  }
+
+  in(field, values) {
+    this.filters.push(`${field}:in:${values.join('|')}`);
+    return this;
+  }
+
+  notEquals(field, value) {
+    this.filters.push(`${field}:ne:${value}`);
+    return this;
+  }
+
+  build() {
+    return this.filters.join(',');
+  }
+}
+
+// Usage
+const filters = new FilterBuilder()
+  .in('country', ['ES', 'FR', 'DE'])
+  .equals('utm_medium', 'cpc')
+  .contains('path', '/products/')
+  .build();
+
+// Result: "country:in:ES|FR|DE,utm_medium:eq:cpc,path:contains:/products/"
+```
+
+### PHP - Sorted and Filtered Request
+
+```php
+<?php
+$params = http_build_query([
+    'account_id' => 'my-site',
+    'period' => '30d',
+    'filters' => 'country:in:ES|FR,utm_medium:eq:organic',
+    'sort_by' => 'revenue',
+    'sort_order' => 'desc',
+    'page' => 1,
+    'page_size' => 50
+]);
+
+$response = file_get_contents(
+    "https://api.sealmetrics.com/api/v1/stats/sources?{$params}",
+    false,
+    stream_context_create([
+        'http' => [
+            'header' => "X-API-Key: {$apiKey}"
+        ]
+    ])
+);
+
+$data = json_decode($response, true);
+foreach ($data['data'] as $source) {
+    echo "{$source['utm_source']}: €{$source['revenue']}\n";
+}
+```
