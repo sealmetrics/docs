@@ -24,14 +24,6 @@ const config: Config = {
     locales: ['en'],
   },
 
-  // 🚀 SEALMETRICS TRACKING
-  scripts: [
-    {
-      src: '/js/sealmetrics.js',
-      async: true,
-    },
-  ],
-
   // 🚀 META TAGS PARA LLMs - Robots directives
   headTags: [
     {
