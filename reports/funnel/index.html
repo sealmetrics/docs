@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-reports/funnel" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Funnel Report | Sealmetrics Docs</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:image" content="https://docs.sealmetrics.com/img/sealmetrics-social-card.jpg"><meta data-rh="true" property="og:url" content="https://docs.sealmetrics.com/reports/funnel"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="keywords" content="consentless analytics, GDPR analytics, cookieless tracking, privacy-first analytics, Google Analytics alternative, web analytics without consent, CNIL compliant analytics"><meta data-rh="true" property="og:type" content="website"><meta data-rh="true" property="og:image" content="https://docs.sealmetrics.com/img/sealmetrics-social-card.jpg"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Funnel Report | Sealmetrics Docs"><meta data-rh="true" name="description" content="The Funnel report visualizes user progression through defined conversion steps, showing drop-off rates and bottlenecks."><meta data-rh="true" property="og:description" content="The Funnel report visualizes user progression through defined conversion steps, showing drop-off rates and bottlenecks."><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://docs.sealmetrics.com/reports/funnel"><link data-rh="true" rel="alternate" href="https://docs.sealmetrics.com/reports/funnel" hreflang="en"><link data-rh="true" rel="alternate" href="https://docs.sealmetrics.com/reports/funnel" hreflang="x-default"><link data-rh="true" rel="preconnect" href="https://CGIHF419IR-dsn.algolia.net" crossorigin="anonymous"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Funnel Report","item":"https://docs.sealmetrics.com/reports/funnel"}]}</script><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="Sealmetrics Docs RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="Sealmetrics Docs Atom Feed">
+
+
+
+
+<link rel="search" type="application/opensearchdescription+xml" title="Sealmetrics Docs" href="/opensearch.xml">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><link rel="stylesheet" href="/assets/css/styles.eafea64c.css">
+<script src="/assets/js/runtime~main.e1aaf61c.js" defer="defer"></script>
+<script src="/assets/js/main.fb0ab873.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/img/logo.svg"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="Sealmetrics Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="Sealmetrics Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate"></b></a><a class="navbar__item navbar__link" href="/intro">Documentation</a><a class="navbar__item navbar__link" href="/changelog">Changelog</a><a class="navbar__item navbar__link" href="/blog">Blog</a><a class="navbar__item navbar__link" href="/guides">Guide</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://sealmetrics.com" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">Website<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbarSearchContainer_Bca1"><button type="button" class="DocSearch DocSearch-Button" aria-label="Search (Meta+k)" aria-keyshortcuts="Meta+k"><span class="DocSearch-Button-Container"><svg width="20" height="20" class="DocSearch-Search-Icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8" stroke="currentColor" fill="none" stroke-width="1.4"></circle><path d="m21 21-4.3-4.3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="DocSearch-Button-Placeholder">Search</span></span><span class="DocSearch-Button-Keys"></span></button></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/intro"><span title="Introduction" class="linkLabel_WmDU">Introduction</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/tracker/"><span title="Tracker" class="categoryLinkLabel_W154">Tracker</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/product/how-it-works"><span title="Product" class="categoryLinkLabel_W154">Product</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/first-steps/"><span title="First Steps" class="categoryLinkLabel_W154">First Steps</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/category/privacy-first-tracking"><span title="Features" class="categoryLinkLabel_W154">Features</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/reports/"><span title="Reports" class="categoryLinkLabel_W154">Reports</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/"><span title="Reports Overview" class="linkLabel_WmDU">Reports Overview</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/overview"><span title="Overview Report" class="linkLabel_WmDU">Overview Report</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/evolution"><span title="Evolution Report" class="linkLabel_WmDU">Evolution Report</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/pages"><span title="Pages Report" class="linkLabel_WmDU">Pages Report</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/sources"><span title="Sources Report" class="linkLabel_WmDU">Sources Report</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/geography"><span title="Geography Report" class="linkLabel_WmDU">Geography Report</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/devices"><span title="Devices Report" class="linkLabel_WmDU">Devices Report</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/conversions"><span title="Conversions Report" class="linkLabel_WmDU">Conversions Report</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/reports/funnel"><span title="Funnel Report" class="linkLabel_WmDU">Funnel Report</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/filters"><span title="Filters" class="linkLabel_WmDU">Filters</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/date-range"><span title="Date Range" class="linkLabel_WmDU">Date Range</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/reports/definitions"><span title="Metric Definitions" class="linkLabel_WmDU">Metric Definitions</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/metrics-insights/referral-vs-direct-traffic"><span title="Metrics Insights" class="categoryLinkLabel_W154">Metrics Insights</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/implementation/content-site-structure/"><span title="Implementation" class="categoryLinkLabel_W154">Implementation</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/privacy-and-consentless/"><span title="Privacy &amp; Consentless Analytics" class="categoryLinkLabel_W154">Privacy &amp; Consentless Analytics</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/integrations/"><span title="Integrations" class="categoryLinkLabel_W154">Integrations</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/category/tracking--attribution-settings"><span title="Platform" class="categoryLinkLabel_W154">Platform</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/api/"><span title="API" class="categoryLinkLabel_W154">API</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/legal/gdpr-and-eprivacy"><span title="Legal" class="categoryLinkLabel_W154">Legal</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/faq/"><span title="FAQ" class="categoryLinkLabel_W154">FAQ</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/legacy/"><span title="Legacy (v1)" class="categoryLinkLabel_W154">Legacy (v1)</span></a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Reports</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Funnel Report</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Funnel</h1></header>
+<p>The Funnel report visualizes user progression through defined conversion steps, showing drop-off rates and bottlenecks.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="accessing-the-report">Accessing the Report<a href="#accessing-the-report" class="hash-link" aria-label="Direct link to Accessing the Report" title="Direct link to Accessing the Report" translate="no">​</a></h2>
+<ol>
+<li class="">Select a site from the site selector</li>
+<li class="">Click <strong>Funnel</strong> in the sidebar</li>
+</ol>
+<p><strong>URL pattern:</strong> <code>/sites/{site_id}/funnel</code></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="funnel-selector">Funnel Selector<a href="#funnel-selector" class="hash-link" aria-label="Direct link to Funnel Selector" title="Direct link to Funnel Selector" translate="no">​</a></h2>
+<p>Choose which funnel to analyze from the dropdown at the top of the report.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="available-funnels">Available Funnels<a href="#available-funnels" class="hash-link" aria-label="Direct link to Available Funnels" title="Direct link to Available Funnels" translate="no">​</a></h3>
+<p>Funnels are configured in Settings. Common examples:</p>
+<table><thead><tr><th>Funnel</th><th>Typical Steps</th></tr></thead><tbody><tr><td>E-commerce Checkout</td><td>View Product → Add to Cart → Checkout → Purchase</td></tr><tr><td>Lead Generation</td><td>Landing Page → Form View → Form Submit → Thank You</td></tr><tr><td>SaaS Signup</td><td>Homepage → Pricing → Sign Up → Verify Email</td></tr><tr><td>Content Engagement</td><td>Article View → Scroll 50% → Scroll 100% → Share</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="funnel-visualization">Funnel Visualization<a href="#funnel-visualization" class="hash-link" aria-label="Direct link to Funnel Visualization" title="Direct link to Funnel Visualization" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="bar-chart">Bar Chart<a href="#bar-chart" class="hash-link" aria-label="Direct link to Bar Chart" title="Direct link to Bar Chart" translate="no">​</a></h3>
+<p>Vertical bar chart showing progression through steps.</p>
+<table><thead><tr><th>Element</th><th>Description</th></tr></thead><tbody><tr><td><strong>Bars</strong></td><td>Height represents users at each step</td></tr><tr><td><strong>Labels</strong></td><td>Step name and user count</td></tr><tr><td><strong>Drop-off arrows</strong></td><td>Show percentage leaving between steps</td></tr><tr><td><strong>Colors</strong></td><td>Gradient from first to last step</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="reading-the-funnel">Reading the Funnel<a href="#reading-the-funnel" class="hash-link" aria-label="Direct link to Reading the Funnel" title="Direct link to Reading the Funnel" translate="no">​</a></h3>
+<p>From left to right:</p>
+<ol>
+<li class="">First bar = users who entered the funnel</li>
+<li class="">Each subsequent bar = users who completed that step</li>
+<li class="">Arrows between bars = users who dropped off</li>
+<li class="">Last bar = users who completed the entire funnel</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="metrics-table">Metrics Table<a href="#metrics-table" class="hash-link" aria-label="Direct link to Metrics Table" title="Direct link to Metrics Table" translate="no">​</a></h2>
+<p>Detailed breakdown below the visualization.</p>
+<table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody><tr><td><strong>Step</strong></td><td>Step name/number</td></tr><tr><td><strong>Users</strong></td><td>Users who reached this step</td></tr><tr><td><strong>Entry Rate</strong></td><td>Percentage of funnel entrants who reached this step</td></tr><tr><td><strong>Completion Rate</strong></td><td>Percentage of previous step who completed this step</td></tr><tr><td><strong>Drop-off</strong></td><td>Users who left at this step</td></tr><tr><td><strong>Drop-off Rate</strong></td><td>Percentage who left at this step</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="example-metrics">Example Metrics<a href="#example-metrics" class="hash-link" aria-label="Direct link to Example Metrics" title="Direct link to Example Metrics" translate="no">​</a></h3>
+<table><thead><tr><th>Step</th><th>Users</th><th>Entry Rate</th><th>Completion</th><th>Drop-off</th></tr></thead><tbody><tr><td>View Product</td><td>10,000</td><td>100%</td><td>-</td><td>3,000</td></tr><tr><td>Add to Cart</td><td>7,000</td><td>70%</td><td>70%</td><td>4,000</td></tr><tr><td>Checkout</td><td>3,000</td><td>30%</td><td>43%</td><td>1,500</td></tr><tr><td>Purchase</td><td>1,500</td><td>15%</td><td>50%</td><td>-</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="funnel-steps">Funnel Steps<a href="#funnel-steps" class="hash-link" aria-label="Direct link to Funnel Steps" title="Direct link to Funnel Steps" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-types">Step Types<a href="#step-types" class="hash-link" aria-label="Direct link to Step Types" title="Direct link to Step Types" translate="no">​</a></h3>
+<p>Steps can be defined as:</p>
+<table><thead><tr><th>Type</th><th>Trigger</th><th>Example</th></tr></thead><tbody><tr><td><strong>Pageview</strong></td><td>User visits specific URL</td><td>/checkout</td></tr><tr><td><strong>Event</strong></td><td>Microconversion fires</td><td>add_to_cart</td></tr><tr><td><strong>Conversion</strong></td><td>Conversion fires</td><td>purchase</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-configuration">Step Configuration<a href="#step-configuration" class="hash-link" aria-label="Direct link to Step Configuration" title="Direct link to Step Configuration" translate="no">​</a></h3>
+<p>Configure funnels in Settings → Funnels:</p>
+<ol>
+<li class="">Click <strong>Create Funnel</strong></li>
+<li class="">Name the funnel</li>
+<li class="">Add steps in order</li>
+<li class="">For each step, define:<!-- -->
+<ul>
+<li class="">Step name</li>
+<li class="">Step type (pageview/event/conversion)</li>
+<li class="">Matching criteria (URL pattern or event type)</li>
+</ul>
+</li>
+<li class="">Save the funnel</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="url-matching">URL Matching<a href="#url-matching" class="hash-link" aria-label="Direct link to URL Matching" title="Direct link to URL Matching" translate="no">​</a></h3>
+<p>For pageview steps, URL patterns support:</p>
+<table><thead><tr><th>Pattern</th><th>Matches</th></tr></thead><tbody><tr><td>/checkout</td><td>Exact match</td></tr><tr><td>/products/*</td><td>Any product page</td></tr><tr><td>/blog/**</td><td>Blog and all subpaths</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="funnel-analysis">Funnel Analysis<a href="#funnel-analysis" class="hash-link" aria-label="Direct link to Funnel Analysis" title="Direct link to Funnel Analysis" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-metrics-to-watch">Key Metrics to Watch<a href="#key-metrics-to-watch" class="hash-link" aria-label="Direct link to Key Metrics to Watch" title="Direct link to Key Metrics to Watch" translate="no">​</a></h3>
+<table><thead><tr><th>Metric</th><th>Target</th><th>Action if Low</th></tr></thead><tbody><tr><td>Overall Conversion Rate</td><td>Industry benchmark</td><td>Optimize worst step</td></tr><tr><td>Step Completion Rate</td><td>&gt;70%</td><td>Investigate UX issues</td></tr><tr><td>Time Between Steps</td><td>Reasonable for action</td><td>Reduce friction</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="identifying-bottlenecks">Identifying Bottlenecks<a href="#identifying-bottlenecks" class="hash-link" aria-label="Direct link to Identifying Bottlenecks" title="Direct link to Identifying Bottlenecks" translate="no">​</a></h3>
+<ol>
+<li class="">Look for steps with completion rate &lt;50%</li>
+<li class="">Compare to expected behavior:<!-- -->
+<ul>
+<li class="">Is the step too complex?</li>
+<li class="">Is there a technical issue?</li>
+<li class="">Is the value proposition clear?</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="common-bottleneck-causes">Common Bottleneck Causes<a href="#common-bottleneck-causes" class="hash-link" aria-label="Direct link to Common Bottleneck Causes" title="Direct link to Common Bottleneck Causes" translate="no">​</a></h3>
+<table><thead><tr><th>Step</th><th>Common Issues</th></tr></thead><tbody><tr><td>Add to Cart → Checkout</td><td>Price shock, shipping costs</td></tr><tr><td>Checkout → Payment</td><td>Payment method issues, trust</td></tr><tr><td>Form View → Submit</td><td>Too many fields, unclear CTA</td></tr><tr><td>Landing → Signup</td><td>Weak value proposition</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="filtering">Filtering<a href="#filtering" class="hash-link" aria-label="Direct link to Filtering" title="Direct link to Filtering" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="global-filters">Global Filters<a href="#global-filters" class="hash-link" aria-label="Direct link to Global Filters" title="Direct link to Global Filters" translate="no">​</a></h3>
+<p>Apply global filters to segment funnel analysis:</p>
+<p><strong>Example segments:</strong></p>
+<ul>
+<li class="">Mobile users only</li>
+<li class="">Traffic from Google Ads</li>
+<li class="">Spanish visitors</li>
+<li class="">First-time visitors</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="comparing-segments">Comparing Segments<a href="#comparing-segments" class="hash-link" aria-label="Direct link to Comparing Segments" title="Direct link to Comparing Segments" translate="no">​</a></h3>
+<ol>
+<li class="">Apply segment filter (e.g., Mobile)</li>
+<li class="">Note funnel metrics</li>
+<li class="">Remove filter, apply different segment (e.g., Desktop)</li>
+<li class="">Compare drop-off rates per step</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="date-range">Date Range<a href="#date-range" class="hash-link" aria-label="Direct link to Date Range" title="Direct link to Date Range" translate="no">​</a></h3>
+<p>Funnel respects the selected date range:</p>
+<ul>
+<li class="">Users must complete steps within the date range</li>
+<li class="">Useful for campaign-specific analysis</li>
+<li class="">Compare different time periods</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="use-cases">Use Cases<a href="#use-cases" class="hash-link" aria-label="Direct link to Use Cases" title="Direct link to Use Cases" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="checkout-optimization">Checkout Optimization<a href="#checkout-optimization" class="hash-link" aria-label="Direct link to Checkout Optimization" title="Direct link to Checkout Optimization" translate="no">​</a></h3>
+<ol>
+<li class="">Select checkout funnel</li>
+<li class="">Identify step with highest drop-off</li>
+<li class="">Common findings:<!-- -->
+<ul>
+<li class="">Cart → Checkout: Add guest checkout</li>
+<li class="">Checkout → Payment: Add payment methods</li>
+<li class="">Payment → Confirmation: Improve trust signals</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="lead-form-analysis">Lead Form Analysis<a href="#lead-form-analysis" class="hash-link" aria-label="Direct link to Lead Form Analysis" title="Direct link to Lead Form Analysis" translate="no">​</a></h3>
+<ol>
+<li class="">Create funnel: Page View → Form Start → Field 1 → ... → Submit</li>
+<li class="">Identify where users abandon</li>
+<li class="">Optimize:<!-- -->
+<ul>
+<li class="">Reduce required fields</li>
+<li class="">Improve field labels</li>
+<li class="">Add progress indicator</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="mobile-vs-desktop-comparison">Mobile vs Desktop Comparison<a href="#mobile-vs-desktop-comparison" class="hash-link" aria-label="Direct link to Mobile vs Desktop Comparison" title="Direct link to Mobile vs Desktop Comparison" translate="no">​</a></h3>
+<ol>
+<li class="">Filter by Mobile</li>
+<li class="">Note overall conversion rate</li>
+<li class="">Filter by Desktop</li>
+<li class="">Compare:<!-- -->
+<ul>
+<li class="">If Mobile significantly lower, prioritize mobile UX</li>
+<li class="">Identify which step has biggest gap</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="campaign-effectiveness">Campaign Effectiveness<a href="#campaign-effectiveness" class="hash-link" aria-label="Direct link to Campaign Effectiveness" title="Direct link to Campaign Effectiveness" translate="no">​</a></h3>
+<ol>
+<li class="">Filter by campaign UTMs</li>
+<li class="">Analyze funnel progression</li>
+<li class="">Compare campaigns:<!-- -->
+<ul>
+<li class="">Same funnel entry, different completion?</li>
+<li class="">Traffic quality varies by campaign</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ab-test-validation">A/B Test Validation<a href="#ab-test-validation" class="hash-link" aria-label="Direct link to A/B Test Validation" title="Direct link to A/B Test Validation" translate="no">​</a></h3>
+<ol>
+<li class="">Define same funnel for test and control</li>
+<li class="">Filter by test variant (via UTM or custom property)</li>
+<li class="">Compare funnel metrics</li>
+<li class="">Statistical significance if sample size adequate</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="funnel-configuration">Funnel Configuration<a href="#funnel-configuration" class="hash-link" aria-label="Direct link to Funnel Configuration" title="Direct link to Funnel Configuration" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="creating-a-new-funnel">Creating a New Funnel<a href="#creating-a-new-funnel" class="hash-link" aria-label="Direct link to Creating a New Funnel" title="Direct link to Creating a New Funnel" translate="no">​</a></h3>
+<ol>
+<li class="">Go to Settings → Funnels</li>
+<li class="">Click <strong>Create Funnel</strong></li>
+<li class="">Enter funnel name</li>
+<li class="">Add steps (minimum 2):<!-- -->
+<ul>
+<li class="">Step 1: Entry point</li>
+<li class="">Step 2-N: Progression steps</li>
+<li class="">Final step: Conversion goal</li>
+</ul>
+</li>
+<li class="">Save</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="editing-funnels">Editing Funnels<a href="#editing-funnels" class="hash-link" aria-label="Direct link to Editing Funnels" title="Direct link to Editing Funnels" translate="no">​</a></h3>
+<ol>
+<li class="">Go to Settings → Funnels</li>
+<li class="">Click funnel name</li>
+<li class="">Modify steps</li>
+<li class="">Save changes</li>
+</ol>
+<p>Note: Historical data recalculates based on new definition.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="deleting-funnels">Deleting Funnels<a href="#deleting-funnels" class="hash-link" aria-label="Direct link to Deleting Funnels" title="Direct link to Deleting Funnels" translate="no">​</a></h3>
+<ol>
+<li class="">Go to Settings → Funnels</li>
+<li class="">Click delete icon</li>
+<li class="">Confirm deletion</li>
+</ol>
+<p>Warning: This removes the funnel from reports.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="best-practices">Best Practices<a href="#best-practices" class="hash-link" aria-label="Direct link to Best Practices" title="Direct link to Best Practices" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="funnel-design">Funnel Design<a href="#funnel-design" class="hash-link" aria-label="Direct link to Funnel Design" title="Direct link to Funnel Design" translate="no">​</a></h3>
+<table><thead><tr><th>Do</th><th>Don&#x27;t</th></tr></thead><tbody><tr><td>Keep steps sequential</td><td>Skip logical steps</td></tr><tr><td>Use 3-6 steps</td><td>Create 10+ step funnels</td></tr><tr><td>Name steps clearly</td><td>Use technical names</td></tr><tr><td>Match real user journey</td><td>Create artificial paths</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-granularity">Step Granularity<a href="#step-granularity" class="hash-link" aria-label="Direct link to Step Granularity" title="Direct link to Step Granularity" translate="no">​</a></h3>
+<ul>
+<li class="">Too few steps: Miss where drop-off occurs</li>
+<li class="">Too many steps: Overwhelming, hard to act on</li>
+<li class="">Right balance: 4-6 steps for most funnels</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="multiple-funnels">Multiple Funnels<a href="#multiple-funnels" class="hash-link" aria-label="Direct link to Multiple Funnels" title="Direct link to Multiple Funnels" translate="no">​</a></h3>
+<p>Create separate funnels for:</p>
+<ul>
+<li class="">Different user journeys (new vs returning)</li>
+<li class="">Different products/services</li>
+<li class="">Different entry points</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="export">Export<a href="#export" class="hash-link" aria-label="Direct link to Export" title="Direct link to Export" translate="no">​</a></h2>
+<p>Click <strong>Export</strong> to download:</p>
+<ul>
+<li class="">All funnel step data</li>
+<li class="">Users and rates per step</li>
+<li class="">Respects active filters</li>
+<li class="">CSV format</li>
+</ul></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/reports/conversions"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Conversions Report</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/reports/filters"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Filters</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#accessing-the-report" class="table-of-contents__link toc-highlight">Accessing the Report</a></li><li><a href="#funnel-selector" class="table-of-contents__link toc-highlight">Funnel Selector</a><ul><li><a href="#available-funnels" class="table-of-contents__link toc-highlight">Available Funnels</a></li></ul></li><li><a href="#funnel-visualization" class="table-of-contents__link toc-highlight">Funnel Visualization</a><ul><li><a href="#bar-chart" class="table-of-contents__link toc-highlight">Bar Chart</a></li><li><a href="#reading-the-funnel" class="table-of-contents__link toc-highlight">Reading the Funnel</a></li></ul></li><li><a href="#metrics-table" class="table-of-contents__link toc-highlight">Metrics Table</a><ul><li><a href="#example-metrics" class="table-of-contents__link toc-highlight">Example Metrics</a></li></ul></li><li><a href="#funnel-steps" class="table-of-contents__link toc-highlight">Funnel Steps</a><ul><li><a href="#step-types" class="table-of-contents__link toc-highlight">Step Types</a></li><li><a href="#step-configuration" class="table-of-contents__link toc-highlight">Step Configuration</a></li><li><a href="#url-matching" class="table-of-contents__link toc-highlight">URL Matching</a></li></ul></li><li><a href="#funnel-analysis" class="table-of-contents__link toc-highlight">Funnel Analysis</a><ul><li><a href="#key-metrics-to-watch" class="table-of-contents__link toc-highlight">Key Metrics to Watch</a></li><li><a href="#identifying-bottlenecks" class="table-of-contents__link toc-highlight">Identifying Bottlenecks</a></li><li><a href="#common-bottleneck-causes" class="table-of-contents__link toc-highlight">Common Bottleneck Causes</a></li></ul></li><li><a href="#filtering" class="table-of-contents__link toc-highlight">Filtering</a><ul><li><a href="#global-filters" class="table-of-contents__link toc-highlight">Global Filters</a></li><li><a href="#comparing-segments" class="table-of-contents__link toc-highlight">Comparing Segments</a></li><li><a href="#date-range" class="table-of-contents__link toc-highlight">Date Range</a></li></ul></li><li><a href="#use-cases" class="table-of-contents__link toc-highlight">Use Cases</a><ul><li><a href="#checkout-optimization" class="table-of-contents__link toc-highlight">Checkout Optimization</a></li><li><a href="#lead-form-analysis" class="table-of-contents__link toc-highlight">Lead Form Analysis</a></li><li><a href="#mobile-vs-desktop-comparison" class="table-of-contents__link toc-highlight">Mobile vs Desktop Comparison</a></li><li><a href="#campaign-effectiveness" class="table-of-contents__link toc-highlight">Campaign Effectiveness</a></li><li><a href="#ab-test-validation" class="table-of-contents__link toc-highlight">A/B Test Validation</a></li></ul></li><li><a href="#funnel-configuration" class="table-of-contents__link toc-highlight">Funnel Configuration</a><ul><li><a href="#creating-a-new-funnel" class="table-of-contents__link toc-highlight">Creating a New Funnel</a></li><li><a href="#editing-funnels" class="table-of-contents__link toc-highlight">Editing Funnels</a></li><li><a href="#deleting-funnels" class="table-of-contents__link toc-highlight">Deleting Funnels</a></li></ul></li><li><a href="#best-practices" class="table-of-contents__link toc-highlight">Best Practices</a><ul><li><a href="#funnel-design" class="table-of-contents__link toc-highlight">Funnel Design</a></li><li><a href="#step-granularity" class="table-of-contents__link toc-highlight">Step Granularity</a></li><li><a href="#multiple-funnels" class="table-of-contents__link toc-highlight">Multiple Funnels</a></li></ul></li><li><a href="#export" class="table-of-contents__link toc-highlight">Export</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://sealmetrics.com" target="_blank" rel="noopener noreferrer" class="footer__link-item">Consentless Analytics<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://app.comply.org/attest/sealmetrics" target="_blank" rel="noopener noreferrer" class="footer__link-item">Legal Audit<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://sealmetrics.instatus.com/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Server Status<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/sealmetrics" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://linkedin.com/company/sealmetrics" target="_blank" rel="noopener noreferrer" class="footer__link-item">LinkedIn<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://x.com/sealmetrics" target="_blank" rel="noopener noreferrer" class="footer__link-item">X (Twitter)<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/changelog">Changelog</a></li><li class="footer__item"><a class="footer__link-item" href="/guides">Guides</a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">© 2026 Sealmetrics. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
