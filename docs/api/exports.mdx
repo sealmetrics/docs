@@ -295,8 +295,8 @@ Cancel a pending export or delete a completed one.
 
 | Rows | Processing | Response |
 |------|------------|----------|
-| <10,000 | Synchronous | Immediate download URL |
-| >=10,000 | Background job | Poll status until complete |
+| Less than 10,000 | Synchronous | Immediate download URL |
+| 10,000 or more | Background job | Poll status until complete |
 
 For large exports:
 
