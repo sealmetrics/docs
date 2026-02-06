@@ -1,0 +1,206 @@
+---
+sidebar_position: 15
+title: Bot Detection & Traffic Quality
+description: How SealMetrics detects and filters bot traffic to ensure data accuracy. Multi-layer detection system protecting your analytics.
+tags: [security, bot detection, traffic quality, spam protection]
+keywords:
+  - bot detection
+  - spam protection
+  - traffic quality
+  - data accuracy
+  - fake traffic
+---
+
+# Bot Detection & Traffic Quality
+
+SealMetrics employs multiple layers of protection to ensure your analytics data reflects real human visitors, not bots or spam traffic.
+
+---
+
+## Multi-Layer Detection System
+
+### Layer 1: IP Blocklist
+
+Known malicious IPs are blocked at the edge:
+
+- **Global blocklist** — Common bot IPs, data centers, VPN exit nodes
+- **Per-account blocklist** — Custom IPs you want to exclude
+- **Real-time updates** — Blocklist refreshed automatically
+
+### Layer 2: User-Agent Filtering
+
+Bot signatures in the User-Agent string are detected:
+
+- Known bot identifiers (Googlebot, Bingbot, etc.)
+- Automated tool signatures (curl, wget, python-requests)
+- Headless browser patterns (HeadlessChrome, PhantomJS)
+
+### Layer 3: Geographic Validation
+
+Traffic from unknown or suspicious locations:
+
+- Missing geo data indicates potential bots
+- Data center IP ranges flagged
+- Unusual geographic patterns monitored
+
+### Layer 4: Behavioral Analysis
+
+Click patterns and timing analysis:
+
+- Inhuman click speeds detected
+- Rapid repeated actions blocked
+- Session behavior scoring
+
+### Layer 5: HMAC Token Validation
+
+Each request includes a cryptographic token:
+
+- Prevents replay attacks
+- Validates request authenticity
+- Time-bound token expiration
+
+### Layer 6: Domain Authorization
+
+Only authorized domains can send data:
+
+- Configure allowed domains in Settings
+- Prevents data injection from unauthorized sources
+- Subdomain wildcard support
+
+---
+
+## How Bot Traffic is Handled
+
+When bot traffic is detected:
+
+1. **Blocked immediately** — No data stored
+2. **Logged for analysis** — Helps improve detection
+3. **Not counted** — Never appears in reports
+
+---
+
+## What Gets Filtered
+
+| Traffic Type | Filtered | Notes |
+|--------------|----------|-------|
+| Search engine crawlers | Yes | Googlebot, Bingbot, etc. |
+| SEO tools | Yes | Ahrefs, Semrush, Moz |
+| Uptime monitors | Yes | Pingdom, UptimeRobot |
+| Security scanners | Yes | Vulnerability scanners |
+| Automated testing | Yes | Selenium, Puppeteer |
+| Data center traffic | Yes | AWS, GCP, Azure IPs |
+| Known bot networks | Yes | Spam networks |
+| Your own test traffic | Configurable | Optional filtering |
+
+---
+
+## What Passes Through
+
+| Traffic Type | Tracked | Notes |
+|--------------|---------|-------|
+| Real browsers | Yes | Chrome, Firefox, Safari, etc. |
+| Mobile apps | Yes | In-app browsers |
+| VPN users | Yes | Legitimate users with VPNs |
+| Tor exit nodes | Configurable | Can be filtered if needed |
+
+---
+
+## Agent Detection (Advanced)
+
+For accounts requiring deeper analysis, SealMetrics offers advanced agent detection:
+
+### How It Works
+
+1. **Initial classification** — First hit analyzed
+2. **Behavioral signals** — Mouse movements, scroll patterns, timing
+3. **Final classification** — Human vs. suspected agent
+
+### Classification Results
+
+| Classification | Meaning |
+|----------------|---------|
+| `human` | Confirmed human behavior |
+| `agent_suspected` | Automated behavior detected |
+| `unclassified` | Insufficient data |
+
+### Enabling Agent Detection
+
+Contact support to enable advanced agent detection for your account.
+
+---
+
+## Custom Blocklists
+
+### Adding IPs to Blocklist
+
+You can exclude specific IPs via the dashboard:
+
+1. Go to **Settings → Security**
+2. Select **IP Blocklist**
+3. Add IPs or CIDR ranges
+
+```
+192.168.1.100        # Single IP
+10.0.0.0/8           # CIDR range
+```
+
+### Common Use Cases
+
+- Exclude your office IP
+- Block competitor scrapers
+- Filter internal testing traffic
+
+---
+
+## User-Agent Blocklist
+
+Block traffic by User-Agent patterns:
+
+1. Go to **Settings → Security**
+2. Select **UA Blocklist**
+3. Add patterns (supports regex)
+
+```
+curl/*               # Block curl requests
+python-requests/*    # Block Python scripts
+custom-bot/*         # Block specific bot
+```
+
+---
+
+## Data Quality Indicators
+
+In your reports, look for:
+
+- **Bounce rate** — Extremely high rates may indicate bot traffic
+- **Session duration** — 0-second sessions could be bots
+- **Geographic distribution** — Unusual concentrations warrant investigation
+
+---
+
+## Best Practices
+
+1. **Review traffic periodically** — Check for anomalies
+2. **Use content grouping** — Helps identify targeted bot traffic
+3. **Monitor conversion rates** — Bots don't convert
+4. **Check referrer sources** — Unknown referrers may be spam
+
+---
+
+## Comparison with Other Tools
+
+| Feature | SealMetrics | Google Analytics |
+|---------|-------------|------------------|
+| Bot filtering | Multi-layer | Single checkbox |
+| Custom blocklists | Yes | Limited |
+| Real-time blocking | Yes | Delayed |
+| Behavioral analysis | Yes | Limited |
+| Transparent filtering | Yes | Black box |
+
+---
+
+## Related Documentation
+
+- [Domain Authorization](/platform/account-setup/how-to-add-domains)
+- [First-Party Tracking](/implementation/tracker/first-party)
+- [Privacy Overview](/security-privacy/overview)

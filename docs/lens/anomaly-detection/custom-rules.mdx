@@ -1,0 +1,322 @@
+---
+sidebar_position: 3
+title: Custom Rules
+description: Create custom anomaly detection rules tailored to your specific business needs.
+---
+
+# Custom Rules
+
+Create detection rules specific to your business metrics and thresholds. Custom rules are available on Guard (5 rules) and Growth (unlimited) plans.
+
+## When to Create Custom Rules
+
+Use custom rules when:
+
+- Standard rules don't cover your specific KPIs
+- You need different thresholds than defaults
+- You want to monitor custom event properties
+- You need combined metric conditions
+
+## Creating a Custom Rule
+
+### Step 1: Access Rule Builder
+
+1. Go to **LENS → Rules**
+2. Click **Create Custom Rule**
+3. Choose a rule template or start from scratch
+
+### Step 2: Define the Metric
+
+Select what to monitor:
+
+```yaml
+# Example: Monitor a specific product category
+metric_type: conversion_rate
+filters:
+  - field: product_category
+    operator: equals
+    value: "electronics"
+```
+
+**Available metric types:**
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `count` | Count of events | Sessions, pageviews, conversions |
+| `sum` | Sum of values | Revenue, quantity |
+| `average` | Mean value | AOV, session duration |
+| `rate` | Ratio of two metrics | Conversion rate, bounce rate |
+| `percentile` | Value at percentile | p95 load time |
+
+### Step 3: Set Comparison
+
+Define how to evaluate the metric:
+
+| Comparison Type | Description | Best For |
+|-----------------|-------------|----------|
+| `vs_previous_period` | Compare to same period before | Day-over-day, week-over-week |
+| `vs_rolling_average` | Compare to rolling average | Smoothing out variance |
+| `vs_fixed_value` | Compare to static number | Absolute thresholds |
+| `vs_same_day_last_week` | Compare to same weekday | Businesses with weekly patterns |
+
+```yaml
+comparison:
+  type: vs_rolling_average
+  lookback_days: 7
+  exclude_outliers: true
+```
+
+### Step 4: Configure Threshold
+
+Set when to trigger an alert:
+
+```yaml
+threshold:
+  direction: decrease  # or 'increase' or 'any'
+  percentage: 25       # Trigger at 25% change
+  # OR
+  absolute: 100        # Trigger at absolute value
+```
+
+**Threshold options:**
+
+| Option | Description |
+|--------|-------------|
+| `direction` | `increase`, `decrease`, or `any` |
+| `percentage` | Percentage change threshold |
+| `absolute` | Absolute value threshold |
+| `consecutive` | Require N consecutive breaches |
+
+### Step 5: Add Filters (Optional)
+
+Narrow the scope of monitoring:
+
+```yaml
+filters:
+  - field: country
+    operator: in
+    values: ["US", "UK", "DE"]
+  - field: device_type
+    operator: equals
+    value: "mobile"
+  - field: utm_source
+    operator: not_equals
+    value: "internal"
+```
+
+**Available filter operators:**
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `equals` | Exact match | `country equals "US"` |
+| `not_equals` | Not equal | `source not_equals "direct"` |
+| `contains` | Contains substring | `page contains "/blog"` |
+| `starts_with` | Starts with | `campaign starts_with "Q1_"` |
+| `in` | In list | `country in ["US", "UK"]` |
+| `not_in` | Not in list | `device not_in ["bot"]` |
+| `greater_than` | Numeric comparison | `amount greater_than 100` |
+| `less_than` | Numeric comparison | `sessions less_than 50` |
+
+### Step 6: Configure Alert Settings
+
+```yaml
+alert:
+  severity: high  # critical, high, medium, low
+  cooldown_hours: 4
+  notify:
+    email: true
+    slack: true
+    webhook: false
+  message: "Electronics conversion rate dropped below threshold"
+```
+
+## Custom Rule Examples
+
+### Example 1: High-Value Transaction Drop
+
+Monitor when high-value orders decrease:
+
+```yaml
+name: "High-Value Orders Drop"
+description: "Alert when orders over $500 decrease significantly"
+
+metric:
+  type: count
+  event: conversion
+  filters:
+    - field: amount
+      operator: greater_than
+      value: 500
+
+comparison:
+  type: vs_previous_7_days
+
+threshold:
+  direction: decrease
+  percentage: 30
+
+alert:
+  severity: high
+  cooldown_hours: 8
+```
+
+### Example 2: Mobile Conversion Rate by Country
+
+Monitor mobile conversion rate for key markets:
+
+```yaml
+name: "Mobile CR Drop - Key Markets"
+description: "Alert when mobile conversion rate drops in US, UK, or DE"
+
+metric:
+  type: rate
+  numerator: conversions
+  denominator: sessions
+  filters:
+    - field: device_type
+      operator: equals
+      value: "mobile"
+    - field: country
+      operator: in
+      values: ["US", "UK", "DE"]
+
+comparison:
+  type: vs_same_day_last_week
+
+threshold:
+  direction: decrease
+  percentage: 20
+
+alert:
+  severity: high
+  message: "Mobile conversion rate in key markets dropped {percentage}%"
+```
+
+### Example 3: Campaign Budget Pacing
+
+Monitor if campaign spend is on track:
+
+```yaml
+name: "Campaign Underspend Alert"
+description: "Alert when daily spend is below expected pacing"
+
+metric:
+  type: sum
+  field: ad_spend
+  filters:
+    - field: utm_campaign
+      operator: starts_with
+      value: "2024_"
+
+comparison:
+  type: vs_fixed_value
+  value: 500  # Expected daily spend
+
+threshold:
+  direction: decrease
+  percentage: 40
+
+schedule:
+  run_at: "18:00"  # Check at 6 PM
+  timezone: "America/New_York"
+
+alert:
+  severity: medium
+  message: "Campaign spend is {percentage}% below daily target"
+```
+
+### Example 4: New Customer Rate
+
+Monitor the ratio of new vs returning customers:
+
+```yaml
+name: "New Customer Ratio Change"
+description: "Alert when new customer percentage changes significantly"
+
+metric:
+  type: rate
+  numerator:
+    event: conversion
+    filters:
+      - field: is_new_customer
+        operator: equals
+        value: "true"
+  denominator:
+    event: conversion
+
+comparison:
+  type: vs_rolling_average
+  lookback_days: 30
+
+threshold:
+  direction: any
+  percentage: 25
+
+alert:
+  severity: medium
+```
+
+## Testing Custom Rules
+
+Before activating, test your rule:
+
+1. Click **Test Rule** in the rule builder
+2. Select a historical time period
+3. Review when the rule would have triggered
+4. Adjust thresholds if needed
+
+```
+Test Results - Last 30 Days
+───────────────────────────
+Rule: High-Value Orders Drop
+Would have triggered: 3 times
+
+• Jan 15, 2024 - 35% drop (threshold: 30%)
+• Jan 22, 2024 - 42% drop (threshold: 30%)
+• Feb 02, 2024 - 31% drop (threshold: 30%)
+
+[Looks Good] [Adjust Threshold]
+```
+
+## Managing Custom Rules
+
+### Edit a Rule
+
+1. Go to **LENS → Rules → Custom**
+2. Click on the rule name
+3. Modify settings
+4. Click **Save**
+
+### Duplicate a Rule
+
+Use an existing rule as a template:
+
+1. Find the rule to duplicate
+2. Click **⋮ → Duplicate**
+3. Modify as needed
+4. Save with a new name
+
+### Delete a Rule
+
+1. Find the rule to delete
+2. Click **⋮ → Delete**
+3. Confirm deletion
+
+:::warning
+Deleting a rule removes all historical alert data for that rule.
+:::
+
+## Rule Limits by Plan
+
+| Plan | Custom Rules | Filters per Rule | Advanced Features |
+|------|--------------|------------------|-------------------|
+| Research | 0 | - | - |
+| Guard | 5 | 5 | Basic |
+| Growth | Unlimited | Unlimited | All |
+
+**Advanced features** (Growth only):
+- Scheduled rules (run at specific times)
+- Compound conditions (AND/OR logic)
+- Custom alert templates
+- Webhook notifications
+- API-based rule management

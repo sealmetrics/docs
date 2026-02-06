@@ -10,32 +10,32 @@ Get your first API call working in 5 minutes.
 ## Prerequisites
 
 1. A Sealmetrics account with at least one site
-2. An API key (generate in Settings → API Keys)
-3. Your site ID (found in Settings → Account)
+2. An API key (generate in Settings → API Tokens)
+3. Your account ID (found in Settings → Account)
 
 ## Step 1: Get Your API Key
 
-1. Log in to [Sealmetrics Dashboard](https://app.sealmetrics.com)
-2. Go to **Settings** → **API Keys**
-3. Click **Generate New Key**
-4. Copy the key (starts with `str_`, `gro_`, `bus_`, `scl_`, or `ent_`)
+1. Log in to [Sealmetrics Dashboard](https://my.sealmetrics.com)
+2. Go to **Settings** → **API Tokens**
+3. Click **Create Token**
+4. Copy the token (starts with `sm_`)
 
 :::warning
 Store your API key securely. It will only be shown once.
 :::
 
-## Step 2: Find Your Site ID
+## Step 2: Find Your Account ID
 
 1. Go to **Settings** → **Account**
-2. Copy the **Account ID** (e.g., `67a1d6c0bb10b861397fdd3a`)
+2. Copy the **Account ID** (e.g., `acme-corp`)
 
 ## Step 3: Make Your First Request
 
 ### Using cURL
 
 ```bash
-curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats?period=7d" \
-  -H "X-API-Key: str_your_api_key_here"
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?account_id=YOUR_ACCOUNT_ID&period=7d" \
+  -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Using Python
@@ -43,13 +43,16 @@ curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats?period=
 ```python
 import requests
 
-API_KEY = "str_your_api_key_here"
-SITE_ID = "67a1d6c0bb10b861397fdd3a"
+API_KEY = "sm_your_api_key_here"
+ACCOUNT_ID = "your-account-id"
 
 response = requests.get(
-    f"https://api.sealmetrics.com/api/v1/sites/{SITE_ID}/stats",
+    "https://my.sealmetrics.com/api/v1/stats/overview",
     headers={"X-API-Key": API_KEY},
-    params={"period": "7d"}
+    params={
+        "account_id": ACCOUNT_ID,
+        "period": "7d"
+    }
 )
 
 print(response.json())
@@ -58,11 +61,16 @@ print(response.json())
 ### Using JavaScript
 
 ```javascript
-const API_KEY = 'str_your_api_key_here';
-const SITE_ID = '67a1d6c0bb10b861397fdd3a';
+const API_KEY = 'sm_your_api_key_here';
+const ACCOUNT_ID = 'your-account-id';
+
+const params = new URLSearchParams({
+  account_id: ACCOUNT_ID,
+  period: '7d'
+});
 
 const response = await fetch(
-  `https://api.sealmetrics.com/api/v1/sites/${SITE_ID}/stats?period=7d`,
+  `https://my.sealmetrics.com/api/v1/stats/overview?${params}`,
   {
     headers: { 'X-API-Key': API_KEY }
   }
@@ -78,15 +86,15 @@ A successful response looks like:
 
 ```json
 {
-  "period": "7d",
-  "pageviews": 12543,
-  "unique_visitors": 4521,
-  "sessions": 5234,
-  "bounce_rate": 42.3,
-  "avg_session_duration": 185,
-  "pages_per_session": 2.4,
-  "conversions": 156,
-  "revenue": 12450.00
+  "data": {
+    "entrances": 12543,
+    "page_views": 28976,
+    "engaged_entrances": 7234,
+    "bounce_rate": 42.3,
+    "conversions": 156,
+    "revenue": 12450.00,
+    "microconversions": 892
+  }
 }
 ```
 
@@ -96,7 +104,6 @@ Check the rate limit headers:
 X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 59
 X-RateLimit-Reset: 1704067200
-X-RateLimit-Tier: starter
 ```
 
 ## Common Use Cases
@@ -104,29 +111,36 @@ X-RateLimit-Tier: starter
 ### Get Top Pages
 
 ```bash
-curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/pages?period=30d&limit=10" \
-  -H "X-API-Key: str_your_api_key_here"
+curl "https://my.sealmetrics.com/api/v1/stats/pages?account_id=YOUR_ACCOUNT_ID&period=30d&page_size=10" \
+  -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Traffic Sources
 
 ```bash
-curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/referrers?period=30d" \
-  -H "X-API-Key: str_your_api_key_here"
+curl "https://my.sealmetrics.com/api/v1/stats/sources?account_id=YOUR_ACCOUNT_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Conversions
 
 ```bash
-curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/conversions?period=30d" \
-  -H "X-API-Key: str_your_api_key_here"
+curl "https://my.sealmetrics.com/api/v1/stats/conversions?account_id=YOUR_ACCOUNT_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Funnel Data
 
 ```bash
-curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/funnel?period=30d" \
-  -H "X-API-Key: str_your_api_key_here"
+curl "https://my.sealmetrics.com/api/v1/stats/funnel?account_id=YOUR_ACCOUNT_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Get Geographic Data
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?account_id=YOUR_ACCOUNT_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ## Troubleshooting
@@ -144,18 +158,31 @@ curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/funnel?period
 
 **Solution:** Check that your API key is correct and hasn't been revoked.
 
+### 403 Forbidden
+
+```json
+{
+  "error": {
+    "code": "forbidden",
+    "message": "Access denied to account: acme-corp"
+  }
+}
+```
+
+**Solution:** Verify your API token has access to the specified account.
+
 ### 404 Not Found
 
 ```json
 {
   "error": {
     "code": "not_found",
-    "message": "Site not found"
+    "message": "Account not found"
   }
 }
 ```
 
-**Solution:** Verify your site ID is correct.
+**Solution:** Verify your account ID is correct.
 
 ### 429 Too Many Requests
 
@@ -174,4 +201,5 @@ curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/funnel?period
 
 - [Authentication](./authentication) - Learn about API keys and JWT tokens
 - [Rate Limits](./rate-limits) - Understand limits per plan
-- [Endpoints](./endpoints) - Complete endpoint reference
+- [Stats Endpoints](./stats) - Complete analytics endpoint reference
+- [Accounts](./accounts) - Manage accounts and settings

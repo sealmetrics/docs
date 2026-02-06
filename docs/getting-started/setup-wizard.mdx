@@ -1,0 +1,237 @@
+---
+sidebar_position: 3
+title: Setup Wizard
+description: Step-by-step guide to install your tracking pixel and configure conversions.
+---
+
+# Setup Wizard
+
+The Setup Wizard guides you through installing your tracking pixel and optionally configuring conversions. Complete it in 3 simple steps.
+
+## Accessing the Wizard
+
+The wizard opens automatically for new accounts. You can also access it anytime:
+
+1. Go to **Settings**
+2. Click **Setup Wizard**
+
+Or navigate directly to: `my.sealmetrics.com/settings/wizard`
+
+## Step 1: Install the Tracking Pixel
+
+### Select Your Platform
+
+Choose your platform for tailored instructions:
+
+| Platform | Instructions |
+|----------|--------------|
+| **HTML** | Add script to `<head>` section |
+| **WordPress** | Use Theme Editor or header plugin |
+| **Shopify** | Edit theme.liquid in Layout folder |
+| **Google Tag Manager** | Create Custom HTML tag |
+| **Next.js** | Use `next/script` component |
+| **Webflow** | Add to Project Settings > Custom Code |
+
+### Copy the Tracking Code
+
+The wizard generates your personalized tracking code:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+Click **Copy** to copy it to your clipboard.
+
+### Platform-Specific Instructions
+
+#### HTML
+Add the script tag before the closing `</head>` tag:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Website</title>
+  <!-- Other head elements -->
+  <script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+</head>
+<body>
+  <!-- Your content -->
+</body>
+</html>
+```
+
+#### WordPress
+1. Go to **Appearance > Theme Editor** (or use a plugin like "Insert Headers and Footers")
+2. Open `header.php` or use the plugin's settings
+3. Paste the tracking code before `</head>`
+4. Save changes
+
+#### Shopify
+1. Go to **Online Store > Themes > Actions > Edit code**
+2. Find `theme.liquid` in the Layout folder
+3. Paste the tracking code before `</head>`
+4. Save changes
+
+#### Google Tag Manager
+1. Create a new **Custom HTML** tag
+2. Paste the tracking code
+3. Set trigger: **All Pages**
+4. Publish the container
+
+#### Next.js
+Use the `next/script` component:
+
+```jsx
+import Script from 'next/script';
+
+export default function Layout({ children }) {
+  return (
+    <>
+      <Script
+        src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID"
+        strategy="afterInteractive"
+      />
+      {children}
+    </>
+  );
+}
+```
+
+#### Webflow
+1. Go to **Project Settings > Custom Code**
+2. Paste the tracking code in the **Head Code** section
+3. Save and publish your site
+
+## Step 2: Verify Installation
+
+After installing the code, the wizard automatically detects when your pixel is working.
+
+### Verification Process
+
+1. Open your website in a new browser tab
+2. The wizard listens for incoming hits
+3. When detected, you'll see "Pixel Verified!"
+
+### Verification Status
+
+| Status | Meaning |
+|--------|---------|
+| **Listening...** | Waiting for first hit |
+| **Pixel Verified!** | Installation successful |
+
+Once verified, you'll see:
+- Total hits received
+- Timestamp of last hit
+
+### Troubleshooting Installation
+
+If verification fails:
+
+1. **Check placement** - Ensure code is before `</head>`
+2. **Save and publish** - Don't forget to save/publish changes
+3. **Clear cache** - Clear browser cache and reload
+4. **Disable ad blockers** - Some blockers may interfere
+
+You can click **Continue Anyway** to proceed even if verification doesn't complete (the pixel may still work).
+
+## Step 3: Set Up Conversions (Optional)
+
+Configure tracking for important actions on your website. This step is optional - you can always add conversions later.
+
+### Available Conversion Types
+
+#### E-commerce
+| Type | Code | Description |
+|------|------|-------------|
+| **Purchase** | `sealmetrics.conv('purchase', orderValue)` | Track completed purchases with order value |
+| **Add to Cart** | `sealmetrics.micro('add_to_cart')` | Track products added to cart |
+| **Checkout Started** | `sealmetrics.micro('checkout_start')` | Track checkout initiation |
+| **Checkout Completed** | `sealmetrics.micro('checkout_complete')` | Track successful checkout |
+
+#### Lead Generation
+| Type | Code | Description |
+|------|------|-------------|
+| **Form Submission** | `sealmetrics.conv('lead')` | Track contact form submissions |
+| **User Registration** | `sealmetrics.conv('signup')` | Track user sign-ups |
+
+#### Engagement
+| Type | Code | Description |
+|------|------|-------------|
+| **CTA Click** | `sealmetrics.micro('cta_click')` | Track call-to-action clicks |
+| **Video Play** | `sealmetrics.micro('video_play')` | Track video plays |
+| **File Download** | `sealmetrics.micro('download')` | Track file downloads |
+
+#### Cookie Consent Tracking
+| Type | Code | Description |
+|------|------|-------------|
+| **Banner Shown** | `sealmetrics.micro('consent_shown')` | Track when banner displays |
+| **Consent Accepted** | `sealmetrics.micro('consent_accept')` | Track accept clicks |
+| **Consent Rejected** | `sealmetrics.micro('consent_reject')` | Track reject clicks |
+| **Consent Customized** | `sealmetrics.micro('consent_customize')` | Track preference opens |
+
+### Implementing Conversions
+
+1. Select the conversion types you want to track
+2. Click the copy button next to each code
+3. Add the code to your website where the action occurs
+
+#### Example: E-commerce Purchase
+
+On your order confirmation page:
+
+```html
+<script>
+  // After successful purchase
+  sealmetrics.conv('purchase', 99.99);
+</script>
+```
+
+#### Example: Form Submission
+
+After form success:
+
+```javascript
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const response = await submitForm();
+
+  if (response.success) {
+    sealmetrics.conv('lead');
+    showSuccessMessage();
+  }
+});
+```
+
+## Completing the Wizard
+
+### Finish
+Click **Finish** to complete the wizard and go to your pixel settings.
+
+### Skip & Finish
+Click **Skip & Finish** to complete without setting up conversions.
+
+## After the Wizard
+
+Once complete:
+
+1. **View your data** - Go to the Overview report to see incoming traffic
+2. **Set up more conversions** - Go to Settings > Pixels for the Pixel Builder
+3. **Configure content groups** - Organize your pages into groups
+4. **Invite team members** - Add your team in Settings > Team
+
+## Re-running the Wizard
+
+You can access the wizard anytime from **Settings > Setup Wizard**. This is useful for:
+- Setting up additional accounts
+- Getting fresh installation instructions
+- Reviewing conversion code snippets
+
+## Related Documentation
+
+- [Quick Start](/getting-started/quick-start) - Overview of getting started
+- [Tracker Installation](/implementation/tracker/installation) - Detailed installation guide
+- [Conversions](/implementation/tracker/conversions) - Full conversion tracking guide
+- [Microconversions](/implementation/tracker/microconversions) - Engagement tracking
+- [Pixel Builder](/platform/settings/tracking/pixel-builder) - Advanced pixel configuration

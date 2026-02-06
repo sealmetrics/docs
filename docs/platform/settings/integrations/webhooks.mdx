@@ -1,0 +1,421 @@
+---
+sidebar_position: 2
+title: Webhooks
+description: Send Sealmetrics data to external services via webhooks.
+---
+
+# Webhooks
+
+Webhooks allow Sealmetrics to send real-time data to your servers or third-party services when specific events occur.
+
+## What Are Webhooks?
+
+Webhooks are HTTP callbacks that send data when events happen:
+
+```
+Event occurs in Sealmetrics
+         ↓
+Webhook triggered
+         ↓
+HTTP POST to your URL
+         ↓
+Your server processes data
+```
+
+## Accessing Webhook Settings
+
+1. Go to **Settings → Integrations → Webhooks**
+2. View configured webhooks
+
+## Available Webhook Events
+
+| Event | Trigger | Use Case |
+|-------|---------|----------|
+| `conversion.created` | New conversion recorded | Update CRM, send to ad platforms |
+| `anomaly.detected` | LENS detects anomaly | Alert systems, incident management |
+| `anomaly.resolved` | Anomaly returns to normal | Close incident tickets |
+| `report.generated` | Scheduled report ready | Notify team, archive report |
+| `threshold.exceeded` | Metric crosses threshold | Real-time alerting |
+
+## Creating a Webhook
+
+### Step 1: Add New Webhook
+
+1. Click **+ Add Webhook**
+2. Configure basic settings:
+
+```
+Create Webhook
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Name: [Conversion to CRM                  ]
+
+Endpoint URL:
+[https://api.mycrm.com/webhooks/sealmetrics]
+
+Events to send:
+☑ conversion.created
+☐ anomaly.detected
+☐ anomaly.resolved
+☐ report.generated
+☐ threshold.exceeded
+
+Active: ☑ Enable this webhook
+```
+
+### Step 2: Configure Security
+
+```
+Security
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Signing Secret:
+[whsec_abc123def456...]     [Regenerate]
+
+This secret is used to sign webhook payloads.
+Verify signatures to ensure requests are from Sealmetrics.
+
+Custom Headers (optional):
++ X-API-Key: your-api-key
++ Authorization: Bearer token123
+[+ Add Header]
+```
+
+### Step 3: Configure Retry Policy
+
+```
+Retry Policy
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+On failure, retry:
+● Up to [3] times
+○ Don't retry (fire once)
+
+Retry intervals:
+  1st retry: 1 minute after failure
+  2nd retry: 5 minutes after failure
+  3rd retry: 30 minutes after failure
+
+Consider failed after: [3] consecutive failures
+
+Notification on persistent failure:
+☑ Email: [admin@company.com]
+```
+
+### Step 4: Test Webhook
+
+```
+Test Webhook
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Send a test payload to verify your endpoint works.
+
+Event to test: [conversion.created        ▼]
+
+[Send Test]
+
+Result:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Success (200 OK)
+
+Response time: 145ms
+Response body: {"received": true}
+```
+
+## Webhook Payloads
+
+### conversion.created
+
+```json
+{
+  "event": "conversion.created",
+  "timestamp": "2024-01-15T14:32:00Z",
+  "data": {
+    "conversion_id": "conv_abc123",
+    "account_id": "acc_xyz789",
+    "type": "purchase",
+    "amount": 149.99,
+    "currency": "EUR",
+    "order_id": "ORD-12345",
+    "attribution": {
+      "source": "google",
+      "medium": "cpc",
+      "campaign": "winter-sale",
+      "model": "last_click"
+    },
+    "user": {
+      "anonymous_id": "anon_123...",
+      "country": "ES",
+      "device": "mobile"
+    },
+    "custom_properties": {
+      "product_category": "electronics",
+      "coupon_used": "SAVE10"
+    }
+  }
+}
+```
+
+### anomaly.detected
+
+```json
+{
+  "event": "anomaly.detected",
+  "timestamp": "2024-01-15T14:32:00Z",
+  "data": {
+    "anomaly_id": "anom_def456",
+    "account_id": "acc_xyz789",
+    "rule_id": "conversion_rate_drop",
+    "rule_name": "Conversion Rate Drop",
+    "severity": "critical",
+    "metric": {
+      "name": "conversion_rate",
+      "current_value": 0.012,
+      "baseline_value": 0.0185,
+      "change_percentage": -35.1
+    },
+    "segments": {
+      "device": {
+        "mobile": {"change": -42},
+        "desktop": {"change": -21}
+      }
+    },
+    "links": {
+      "dashboard": "https://app.sealmetrics.com/lens/anomaly/anom_def456",
+      "investigate": "https://app.sealmetrics.com/lens/investigate/anom_def456"
+    }
+  }
+}
+```
+
+### threshold.exceeded
+
+```json
+{
+  "event": "threshold.exceeded",
+  "timestamp": "2024-01-15T14:32:00Z",
+  "data": {
+    "threshold_id": "thresh_ghi789",
+    "account_id": "acc_xyz789",
+    "name": "Daily Revenue Target",
+    "metric": "revenue",
+    "condition": "below",
+    "threshold_value": 5000,
+    "current_value": 3450,
+    "period": "today"
+  }
+}
+```
+
+## Verifying Webhook Signatures
+
+Sealmetrics signs all webhook payloads. Verify signatures to ensure authenticity.
+
+### Signature Header
+
+```
+X-Sealmetrics-Signature: sha256=abc123def456...
+X-Sealmetrics-Timestamp: 1705320000
+```
+
+### Verification Code
+
+**Python:**
+
+```python
+import hmac
+import hashlib
+
+def verify_webhook(payload: bytes, signature: str, timestamp: str, secret: str) -> bool:
+    # Check timestamp is recent (prevent replay attacks)
+    import time
+    if abs(time.time() - int(timestamp)) > 300:  # 5 minute tolerance
+        return False
+
+    # Compute expected signature
+    signed_payload = f"{timestamp}.{payload.decode('utf-8')}"
+    expected = hmac.new(
+        secret.encode('utf-8'),
+        signed_payload.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+
+    # Compare signatures
+    return hmac.compare_digest(f"sha256={expected}", signature)
+
+# Usage in Flask
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    signature = request.headers.get('X-Sealmetrics-Signature')
+    timestamp = request.headers.get('X-Sealmetrics-Timestamp')
+
+    if not verify_webhook(request.data, signature, timestamp, WEBHOOK_SECRET):
+        return 'Invalid signature', 401
+
+    data = request.json
+    # Process webhook...
+    return 'OK', 200
+```
+
+**Node.js:**
+
+```javascript
+const crypto = require('crypto');
+
+function verifyWebhook(payload, signature, timestamp, secret) {
+  // Check timestamp is recent
+  const now = Math.floor(Date.now() / 1000);
+  if (Math.abs(now - parseInt(timestamp)) > 300) {
+    return false;
+  }
+
+  // Compute expected signature
+  const signedPayload = `${timestamp}.${payload}`;
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(signedPayload)
+    .digest('hex');
+
+  // Compare signatures
+  return crypto.timingSafeEqual(
+    Buffer.from(`sha256=${expected}`),
+    Buffer.from(signature)
+  );
+}
+
+// Usage in Express
+app.post('/webhook', (req, res) => {
+  const signature = req.headers['x-sealmetrics-signature'];
+  const timestamp = req.headers['x-sealmetrics-timestamp'];
+
+  if (!verifyWebhook(req.rawBody, signature, timestamp, WEBHOOK_SECRET)) {
+    return res.status(401).send('Invalid signature');
+  }
+
+  const data = req.body;
+  // Process webhook...
+  res.status(200).send('OK');
+});
+```
+
+## Managing Webhooks
+
+### View Webhook Activity
+
+```
+Webhook: Conversion to CRM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status: ✅ Active
+Created: January 1, 2024
+
+Last 24 Hours:
+  Deliveries: 234
+  Successful: 231 (98.7%)
+  Failed: 3 (1.3%)
+  Avg Response: 145ms
+
+Recent Deliveries:
+─────────────────────────────────────────────────────
+Time        Event                Status    Response
+─────────────────────────────────────────────────────
+14:32:00    conversion.created   ✅ 200    145ms
+14:28:15    conversion.created   ✅ 200    132ms
+14:15:42    conversion.created   ❌ 500    Retry 1/3
+14:10:03    conversion.created   ✅ 200    156ms
+```
+
+### Retry Failed Deliveries
+
+1. Find failed delivery in history
+2. Click **Retry**
+3. Or click **Retry All Failed** to retry all
+
+### Pause Webhook
+
+Temporarily stop sending without deleting:
+
+```
+Webhook Status
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☐ Active (currently sending)
+
+When paused:
+• Events are NOT queued
+• Events during pause are lost
+• Resume anytime
+
+[Pause Webhook]
+```
+
+### Delete Webhook
+
+```
+Delete Webhook
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Are you sure you want to delete "Conversion to CRM"?
+
+This will:
+• Stop all webhook deliveries immediately
+• Delete webhook configuration
+• Delete delivery history
+
+This cannot be undone.
+
+[Cancel] [Delete Webhook]
+```
+
+## Common Integrations
+
+### Zapier
+
+Use webhooks to trigger Zapier workflows:
+
+1. Create a Zap with "Webhooks by Zapier" trigger
+2. Copy the Zapier webhook URL
+3. Add to Sealmetrics webhooks
+4. Build your automation in Zapier
+
+### Slack
+
+Send conversion notifications to Slack:
+
+1. Create Slack Incoming Webhook in Slack App settings
+2. Add webhook URL to Sealmetrics
+3. Format payload for Slack (use middleware or Zapier)
+
+### Custom CRM
+
+Send conversions to your CRM:
+
+```python
+# Example: Receive conversion and create CRM contact
+@app.route('/sealmetrics-webhook', methods=['POST'])
+def handle_conversion():
+    data = request.json
+
+    if data['event'] == 'conversion.created':
+        conv = data['data']
+
+        # Create or update CRM contact
+        crm.create_contact({
+            'email': conv['custom_properties'].get('email'),
+            'order_id': conv['order_id'],
+            'revenue': conv['amount'],
+            'source': conv['attribution']['source']
+        })
+
+    return 'OK', 200
+```
+
+## Limits
+
+| Plan | Webhooks | Events/day |
+|------|----------|------------|
+| Research | 0 | - |
+| Guard | 5 | 10,000 |
+| Growth | 20 | 100,000 |
+
+Events exceeding daily limits are dropped (not queued).

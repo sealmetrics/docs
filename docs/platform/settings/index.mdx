@@ -1,0 +1,155 @@
+---
+sidebar_position: 1
+title: Settings Overview
+description: Configure your Sealmetrics account, tracking, integrations, and preferences.
+---
+
+# Settings Overview
+
+The Settings area lets you configure every aspect of your Sealmetrics account. Access it by clicking the gear icon in the main navigation.
+
+## Settings Categories
+
+### Account Settings
+
+Configure your account and organization.
+
+| Setting | Description |
+|---------|-------------|
+| [General](./account/general) | Account name, timezone, default date range |
+| [Users & Teams](./account/users) | Manage team members and permissions |
+| [API Keys](./account/api-keys) | Create and manage API access tokens |
+
+### Tracking Settings
+
+Configure how data is collected.
+
+| Setting | Description |
+|---------|-------------|
+| [Pixel Builder](./tracking/pixel-builder) | Generate and customize your tracking code |
+| [Content Grouping](./tracking/content-grouping) | Group pages into content categories |
+| [Custom Dimensions](./tracking/custom-dimensions) | Define custom data fields |
+
+### Integrations
+
+Connect external services.
+
+| Setting | Description |
+|---------|-------------|
+| [BigQuery](./integrations/bigquery) | Export data to Google BigQuery |
+| [Webhooks](./integrations/webhooks) | Send data to external endpoints |
+
+### Advanced
+
+Power user settings.
+
+| Setting | Description |
+|---------|-------------|
+| [Audit Log](./advanced/audit-log) | View account activity history |
+| [LLM Settings](./llm) | Configure AI model for LENS insights |
+
+## Quick Access
+
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+  gap: '1rem',
+  marginTop: '1.5rem'
+}}>
+  <a href="./account/api-keys" style={{
+    display: 'block',
+    border: '1px solid #e0e0e0',
+    borderRadius: '8px',
+    padding: '1rem',
+    textDecoration: 'none',
+    color: 'inherit',
+    textAlign: 'center'
+  }}>
+    <span style={{ fontSize: '1.5rem' }}>🔑</span>
+    <p style={{ margin: '0.5rem 0 0', fontWeight: 'bold' }}>API Keys</p>
+  </a>
+  <a href="./tracking/pixel-builder" style={{
+    display: 'block',
+    border: '1px solid #e0e0e0',
+    borderRadius: '8px',
+    padding: '1rem',
+    textDecoration: 'none',
+    color: 'inherit',
+    textAlign: 'center'
+  }}>
+    <span style={{ fontSize: '1.5rem' }}>📊</span>
+    <p style={{ margin: '0.5rem 0 0', fontWeight: 'bold' }}>Pixel Builder</p>
+  </a>
+  <a href="./integrations/bigquery" style={{
+    display: 'block',
+    border: '1px solid #e0e0e0',
+    borderRadius: '8px',
+    padding: '1rem',
+    textDecoration: 'none',
+    color: 'inherit',
+    textAlign: 'center'
+  }}>
+    <span style={{ fontSize: '1.5rem' }}>☁️</span>
+    <p style={{ margin: '0.5rem 0 0', fontWeight: 'bold' }}>BigQuery</p>
+  </a>
+  <a href="./advanced/audit-log" style={{
+    display: 'block',
+    border: '1px solid #e0e0e0',
+    borderRadius: '8px',
+    padding: '1rem',
+    textDecoration: 'none',
+    color: 'inherit',
+    textAlign: 'center'
+  }}>
+    <span style={{ fontSize: '1.5rem' }}>📋</span>
+    <p style={{ margin: '0.5rem 0 0', fontWeight: 'bold' }}>Audit Log</p>
+  </a>
+</div>
+
+## Settings by Role
+
+Different team members need different settings access:
+
+| Role | Can Access |
+|------|------------|
+| **Admin** | All settings |
+| **Manager** | Tracking, integrations, notifications |
+| **Analyst** | View settings, cannot modify |
+| **Viewer** | No settings access |
+
+## Common Tasks
+
+### Set Up Tracking
+
+1. Go to **Settings → Tracking → Pixel Builder**
+2. Configure your pixel options
+3. Copy the generated code
+4. Install on your website
+
+[Pixel Builder guide →](./tracking/pixel-builder)
+
+### Add Team Members
+
+1. Go to **Settings → Account → Users**
+2. Click **Invite User**
+3. Enter email and select role
+4. User receives invitation email
+
+[User management guide →](./account/users)
+
+### Connect BigQuery
+
+1. Go to **Settings → Integrations → BigQuery**
+2. Create a GCP service account
+3. Upload credentials
+4. Configure sync options
+
+[BigQuery setup guide →](./integrations/bigquery)
+
+### View Activity History
+
+1. Go to **Settings → Advanced → Audit Log**
+2. Browse or search activity
+3. Filter by user, action, or date
+
+[Audit log guide →](./advanced/audit-log)

@@ -1,0 +1,360 @@
+---
+sidebar_position: 6
+title: Invoices & Payments
+description: Managing invoices, payment methods, and billing information in Sealmetrics.
+---
+
+# Invoices & Payments
+
+Manage your billing, view invoices, update payment methods, and handle billing-related tasks.
+
+## Viewing Invoices
+
+### Access Invoice History
+
+1. Go to **Settings → Billing → Invoices**
+2. View list of all invoices
+
+```
+Invoices
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Invoice       Date         Amount      Status
+─────────────────────────────────────────────
+INV-2024-01   Jan 15       €482.79     ✅ Paid
+INV-2023-12   Dec 15       €482.79     ✅ Paid
+INV-2023-11   Nov 15       €399.00     ✅ Paid
+INV-2023-10   Oct 15       €399.00     ✅ Paid
+
+[Download All] [Filter by Date]
+```
+
+### Invoice Details
+
+Click on any invoice to view details:
+
+```
+Invoice INV-2024-01
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Invoice Date:    January 15, 2024
+Due Date:        January 15, 2024
+Status:          Paid
+
+Bill To:
+  Your Company S.L.
+  Calle Example 123
+  28001 Madrid, Spain
+  VAT: ES12345678A
+
+───────────────────────────────────────────
+
+Description                          Amount
+───────────────────────────────────────────
+Sealmetrics Guard (Monthly)        €399.00
+  Jan 15 - Feb 14, 2024
+
+LENS Overage (27 questions)         €10.80
+  @ €0.40/question
+
+Pageview Overage (150,000)           €3.00
+  @ €0.20/10,000
+
+───────────────────────────────────────────
+Subtotal                           €412.80
+VAT (21%)                           €86.69
+───────────────────────────────────────────
+Total                              €499.49
+Amount Paid                        €499.49
+Balance Due                          €0.00
+
+[Download PDF] [Download CSV]
+```
+
+### Download Options
+
+| Format | Use Case |
+|--------|----------|
+| PDF | Official invoice for records |
+| CSV | Import to accounting software |
+
+## Payment Methods
+
+### Accessing Payment Settings
+
+Sealmetrics uses **Stripe** for secure payment processing. To manage your payment methods:
+
+1. Go to **Settings → Billing**
+2. Click **Manage Payment Methods**
+3. This opens the **Stripe Customer Portal** where you can:
+   - Add new cards
+   - Update existing cards
+   - Remove old payment methods
+   - Set a default payment method
+
+### Change Your Credit Card
+
+To update or replace your credit card:
+
+1. Go to **Settings → Billing**
+2. Click **Manage Payment Methods**
+3. In the Stripe portal:
+   - Click **Add payment method** to add a new card
+   - Or click on an existing card to update it
+4. Enter your new card details
+5. Set as default if desired
+6. Click **Save**
+
+```
+Payment Methods (Stripe Portal)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Primary:
+┌─────────────────────────────────────────┐
+│ 💳 Visa ending in 4242                  │
+│    Expires 12/2025                      │
+│    [Default]                            │
+└─────────────────────────────────────────┘
+
+Backup:
+┌─────────────────────────────────────────┐
+│ 💳 Mastercard ending in 5555            │
+│    Expires 08/2026                      │
+│    [Make Default] [Remove]              │
+└─────────────────────────────────────────┘
+
+[+ Add Payment Method]
+```
+
+### Add Payment Method
+
+1. Click **+ Add Payment Method**
+2. Choose type:
+   - Credit/Debit Card
+   - SEPA Direct Debit (EU)
+   - Bank Transfer (annual plans only)
+3. Enter details
+4. Click **Save**
+
+### Supported Payment Methods
+
+| Method | Availability |
+|--------|--------------|
+| Visa | All plans |
+| Mastercard | All plans |
+| American Express | All plans |
+| SEPA Direct Debit | EU customers |
+| Bank Transfer | Annual plans, Growth+ |
+| PayPal | Not currently supported |
+
+### Update Expiring Card
+
+When your card is expiring:
+
+1. You'll receive email notification 30 days before
+2. Go to **Settings → Billing → Payment Methods**
+3. Click on the expiring card
+4. Update details or add new card
+5. Set new card as default if needed
+
+## Billing Information
+
+### Company Details
+
+Update your billing information:
+
+1. Go to **Settings → Billing → Billing Info**
+2. Edit details:
+
+```
+Billing Information
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Company Name:    [Your Company S.L.        ]
+VAT Number:      [ES12345678A              ]
+
+Billing Address:
+Street:          [Calle Example 123        ]
+City:            [Madrid                   ]
+Postal Code:     [28001                    ]
+Country:         [Spain                  ▼ ]
+
+Billing Email:   [billing@company.com      ]
+  ☑ Send invoices to this email
+  ☑ Send payment receipts
+
+[Save Changes]
+```
+
+### VAT/Tax Information
+
+#### EU Customers
+
+If you have a valid EU VAT number:
+- Provide VAT ID during signup or in billing settings
+- VAT reverse charge applies (0% VAT)
+- You self-report VAT in your country
+
+#### Non-EU Customers
+
+- No VAT charged
+- Local taxes may apply in your jurisdiction
+
+#### Spanish Customers
+
+- 21% IVA applies
+- VAT shown on all invoices
+
+### Invoice Customization
+
+Request custom invoice details:
+
+- Purchase order numbers
+- Cost center codes
+- Department names
+- Custom fields
+
+Contact billing@sealmetrics.com for custom invoice requirements.
+
+## Billing Cycle
+
+### Monthly Billing
+
+- Charged on the same day each month
+- Based on your signup/upgrade date
+- Example: Signed up Jan 15 → Billed 15th of each month
+
+### Annual Billing
+
+- Charged once per year
+- ~17% discount (2 months free)
+- Example: Annual starting Jan 15 → Next charge Jan 15 next year
+
+### Changing Billing Cycle
+
+**Monthly to Annual:**
+1. Go to **Settings → Billing → Plan**
+2. Click **Switch to Annual**
+3. Pay prorated annual amount (minus current month credit)
+4. Save ~17% going forward
+
+**Annual to Monthly:**
+- Automatic at renewal if you choose not to renew annually
+- Contact support mid-term for special circumstances
+
+## Failed Payments
+
+### Automatic Retry
+
+When a payment fails:
+
+1. **Day 0:** First attempt fails, you're notified
+2. **Day 3:** Automatic retry #1
+3. **Day 7:** Automatic retry #2
+4. **Day 10:** Automatic retry #3, service warning
+5. **Day 14:** Service suspension if unresolved
+
+### Manual Retry
+
+To retry immediately:
+
+1. Go to **Settings → Billing**
+2. See payment failure banner
+3. Click **Retry Payment**
+4. Or update payment method and retry
+
+### Preventing Service Interruption
+
+If payment fails:
+
+```
+⚠️ Payment Failed
+
+Your payment of €499.49 failed on Jan 15.
+
+Card ending in 4242 was declined.
+Reason: Insufficient funds
+
+Next automatic retry: Jan 18
+
+[Update Payment Method] [Retry Now]
+```
+
+1. Update payment method with valid card
+2. Click **Retry Now**
+3. Service continues uninterrupted
+
+## Refunds & Credits
+
+### Cancellation Refunds
+
+- **Monthly plans:** No refunds, access until period ends
+- **Annual plans:** Prorated refund available within first 30 days
+
+### Service Credits
+
+Credits may be issued for:
+- SLA violations (Growth plan)
+- Extended outages
+- Billing errors
+
+Credits appear on next invoice:
+
+```
+Invoice INV-2024-02
+───────────────────────────────────────────
+Sealmetrics Guard (Monthly)        €399.00
+Credit: January SLA compensation   -€39.90
+───────────────────────────────────────────
+Total                              €359.10
+```
+
+### Requesting Refund
+
+For refund requests:
+
+1. Email billing@sealmetrics.com
+2. Include invoice number
+3. Explain circumstances
+4. Response within 2 business days
+
+## Receipts & Tax Documents
+
+### Payment Receipts
+
+Receipts are sent automatically after each payment:
+
+- Sent to billing email
+- Includes payment confirmation
+- Links to full invoice
+
+### Annual Tax Summary
+
+Request annual summary for tax purposes:
+
+1. Go to **Settings → Billing → Documents**
+2. Click **Generate Annual Summary**
+3. Select year
+4. Download PDF
+
+### VAT Invoices
+
+All invoices include:
+- Your VAT number (if provided)
+- Our VAT number: ESB12345678
+- VAT breakdown
+- Invoice date and number
+
+## Contact Billing Support
+
+For billing questions:
+
+- **Email:** billing@sealmetrics.com
+- **Response time:** 1 business day
+- **Include:** Account email, invoice number (if relevant)
+
+Common requests:
+- Invoice copies
+- Payment receipts
+- VAT corrections
+- Custom billing arrangements

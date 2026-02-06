@@ -1,0 +1,158 @@
+---
+sidebar_position: 1
+title: How Anomaly Detection Works
+description: Learn how LENS detects anomalies in your analytics data using statistical analysis and machine learning.
+---
+
+# How Anomaly Detection Works
+
+LENS continuously monitors your analytics data to detect unusual patterns that could indicate problems or opportunities.
+
+## Detection Methods
+
+LENS uses multiple techniques to identify anomalies:
+
+### 1. Statistical Thresholds
+
+Compares current values against historical baselines:
+
+```
+Current Value vs. Historical Average
+─────────────────────────────────────
+If deviation > threshold → Anomaly detected
+
+Example:
+- 7-day average conversion rate: 2.5%
+- Today's conversion rate: 1.6%
+- Deviation: -36%
+- Threshold: 25%
+- Result: ANOMALY DETECTED
+```
+
+### 2. Trend Analysis
+
+Identifies when metrics deviate from expected trends:
+
+- **Seasonal patterns** - Accounts for day-of-week and time-of-day variations
+- **Growth trends** - Considers natural growth or decline patterns
+- **Campaign effects** - Factors in known campaign schedules
+
+### 3. Comparative Analysis
+
+Compares related metrics to find inconsistencies:
+
+- Traffic up but conversions flat → Potential quality issue
+- Revenue up but orders flat → Average order value change
+- Mobile traffic up, desktop down → Device shift pattern
+
+## How Rules Work
+
+Each detection rule has:
+
+| Component | Description | Example |
+|-----------|-------------|---------|
+| **Metric** | What to monitor | `conversion_rate` |
+| **Comparison** | How to evaluate | `vs_previous_period` |
+| **Threshold** | When to alert | `> 20% change` |
+| **Lookback** | Historical period | `7 days` |
+| **Minimum data** | Required samples | `100 conversions` |
+
+### Rule Evaluation Flow
+
+```
+┌─────────────────┐
+│  Collect Data   │
+│  (every hour)   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Calculate Metric│
+│   Current vs    │
+│   Historical    │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Apply Threshold │
+│  Is deviation   │◄── No ──► No action
+│  significant?   │
+└────────┬────────┘
+         │ Yes
+         ▼
+┌─────────────────┐
+│ Check Minimum   │
+│ Data Volume     │◄── No ──► Skip (insufficient data)
+└────────┬────────┘
+         │ Yes
+         ▼
+┌─────────────────┐
+│ Create Anomaly  │
+│ Send Alert      │
+└─────────────────┘
+```
+
+## Sensitivity Levels
+
+Adjust how sensitive LENS is to changes:
+
+### Low Sensitivity
+- Threshold: >40% deviation
+- Best for: High-variance businesses, early-stage tracking
+- Fewer alerts, only major changes
+
+### Medium Sensitivity (Default)
+- Threshold: >25% deviation
+- Best for: Most businesses
+- Balanced alert volume
+
+### High Sensitivity
+- Threshold: >15% deviation
+- Best for: Stable businesses, critical metrics
+- More alerts, catches subtle changes
+
+## Alert Deduplication
+
+LENS prevents alert fatigue:
+
+1. **Cooldown period** - Same rule won't fire again for 4 hours
+2. **Grouping** - Related anomalies are bundled
+3. **Escalation** - Persistent issues escalate in severity
+
+## Data Requirements
+
+For accurate detection, LENS needs:
+
+| Metric Type | Minimum Data | Optimal Data |
+|-------------|--------------|--------------|
+| Traffic | 7 days | 30+ days |
+| Conversions | 50 events | 200+ events |
+| Revenue | 20 transactions | 100+ transactions |
+| Campaigns | 1,000 clicks | 5,000+ clicks |
+
+:::info New Accounts
+Anomaly detection automatically activates once you have 7 days of data. Until then, you'll see a "Learning" status.
+:::
+
+## Handling False Positives
+
+If LENS alerts on expected changes:
+
+1. **Dismiss with reason** - Click "Dismiss" and select why
+2. **LENS learns** - Future similar patterns are weighted differently
+3. **Create exception** - Set up rules to ignore specific patterns
+
+### Common False Positive Scenarios
+
+| Scenario | Solution |
+|----------|----------|
+| Weekend traffic drops | Enable day-of-week adjustment |
+| Holiday spikes | Add holiday calendar |
+| Known campaign launches | Mark campaign dates |
+| Seasonal business | Set seasonal baseline |
+
+## Next Steps
+
+- [View all available rules →](./rule-types)
+- [Create custom rules →](./custom-rules)
+- [Configure thresholds →](./thresholds)

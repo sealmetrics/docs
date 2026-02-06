@@ -1,0 +1,367 @@
+---
+sidebar_position: 1
+title: BigQuery Integration
+description: Export your Sealmetrics data to Google BigQuery for advanced analysis.
+---
+
+# BigQuery Integration
+
+Export your Sealmetrics data to Google BigQuery for custom SQL analysis, machine learning, and integration with your data warehouse.
+
+## Prerequisites
+
+- Sealmetrics Guard or Growth plan
+- Google Cloud Platform (GCP) account
+- BigQuery API enabled in GCP
+- GCP service account with BigQuery permissions
+
+## Setup Overview
+
+1. Create a GCP service account
+2. Grant BigQuery permissions
+3. Generate and download credentials
+4. Configure in Sealmetrics
+5. Choose sync settings
+6. Verify data export
+
+## Step 1: Create GCP Service Account
+
+### In Google Cloud Console
+
+1. Go to [console.cloud.google.com](https://console.cloud.google.com)
+2. Select your project (or create one)
+3. Navigate to **IAM & Admin → Service Accounts**
+4. Click **+ Create Service Account**
+
+```
+Service Account Details:
+  Name: sealmetrics-export
+  ID: sealmetrics-export
+  Description: Service account for Sealmetrics BigQuery export
+```
+
+5. Click **Create and Continue**
+
+## Step 2: Grant Permissions
+
+Grant the service account BigQuery access:
+
+```
+Grant this service account access to project:
+
+Role 1: BigQuery Data Editor
+        (roles/bigquery.dataEditor)
+
+Role 2: BigQuery Job User
+        (roles/bigquery.jobUser)
+
+[Continue]
+```
+
+Alternatively, create a custom role with these permissions:
+- `bigquery.datasets.create`
+- `bigquery.tables.create`
+- `bigquery.tables.updateData`
+- `bigquery.jobs.create`
+
+## Step 3: Generate Credentials
+
+1. Click on the created service account
+2. Go to **Keys** tab
+3. Click **Add Key → Create new key**
+4. Choose **JSON** format
+5. Click **Create**
+6. Save the downloaded JSON file securely
+
+```json
+// Downloaded file looks like:
+{
+  "type": "service_account",
+  "project_id": "your-project-id",
+  "private_key_id": "abc123...",
+  "private_key": "-----BEGIN PRIVATE KEY-----\n...",
+  "client_email": "sealmetrics-export@your-project.iam.gserviceaccount.com",
+  "client_id": "123456789...",
+  ...
+}
+```
+
+## Step 4: Configure in Sealmetrics
+
+1. Go to **Settings → Integrations → BigQuery**
+2. Upload your credentials:
+
+```
+BigQuery Integration
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status: Not Connected
+
+Step 1: Upload Credentials
+
+  [Upload JSON Key File]
+
+  Or paste JSON content:
+  ┌─────────────────────────────────────────┐
+  │ {                                       │
+  │   "type": "service_account",            │
+  │   ...                                   │
+  │ }                                       │
+  └─────────────────────────────────────────┘
+
+[Verify Credentials]
+```
+
+3. Verify credentials are valid
+
+## Step 5: Configure Sync Settings
+
+### Dataset Settings
+
+```
+Dataset Configuration
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GCP Project: your-project-id (from credentials)
+
+Dataset Name: [sealmetrics_analytics       ]
+              (will be created if doesn't exist)
+
+Location: [EU (europe-west1)              ▼]
+
+Table Prefix: [sm_                         ]
+              Tables will be named: sm_pageviews, sm_conversions, etc.
+```
+
+### Sync Schedule
+
+```
+Sync Schedule
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sync Frequency:
+○ Hourly (Growth plan only)
+● Daily at [03:00] UTC
+○ Weekly on [Sunday] at [03:00] UTC
+
+Data to Export:
+☑ Pageviews
+☑ Events
+☑ Conversions
+☑ Sessions (aggregated)
+☐ Raw hits (high volume)
+
+Historical Backfill:
+☑ Export historical data
+  From: [2024-01-01] (max 24 months)
+```
+
+### Data Options
+
+```
+Data Options
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Include UTM parameters
+☑ Include device information
+☑ Include geographic data
+☐ Include IP addresses (privacy consideration)
+☑ Include custom dimensions
+☑ Include custom properties
+```
+
+## Step 6: Activate and Verify
+
+1. Click **Activate Integration**
+2. Wait for initial sync (may take several hours for historical data)
+3. Check status:
+
+```
+BigQuery Integration Status
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status: ✅ Active
+
+Last Sync: Today at 03:15 UTC
+Records Synced: 1,234,567
+Next Sync: Tomorrow at 03:00 UTC
+
+Tables:
+  sm_pageviews     1,023,456 rows    Updated 03:15
+  sm_events          156,789 rows    Updated 03:15
+  sm_conversions      34,567 rows    Updated 03:15
+  sm_sessions         89,012 rows    Updated 03:15
+
+[View in BigQuery] [Sync Now] [Pause Integration]
+```
+
+## BigQuery Schema
+
+### Pageviews Table (`sm_pageviews`)
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | STRING | Unique pageview ID |
+| `timestamp` | TIMESTAMP | When pageview occurred |
+| `session_id` | STRING | Session identifier |
+| `user_id` | STRING | Anonymous user ID |
+| `page_url` | STRING | Full page URL |
+| `page_path` | STRING | URL path only |
+| `page_title` | STRING | HTML page title |
+| `referrer` | STRING | Referring URL |
+| `utm_source` | STRING | UTM source |
+| `utm_medium` | STRING | UTM medium |
+| `utm_campaign` | STRING | UTM campaign |
+| `device_type` | STRING | mobile/desktop/tablet |
+| `browser` | STRING | Browser name |
+| `os` | STRING | Operating system |
+| `country` | STRING | ISO country code |
+| `region` | STRING | Region/state |
+| `city` | STRING | City name |
+| `content_group` | STRING | Content group assignment |
+| `custom_dimensions` | JSON | Custom dimensions object |
+
+### Conversions Table (`sm_conversions`)
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | STRING | Unique conversion ID |
+| `timestamp` | TIMESTAMP | When conversion occurred |
+| `session_id` | STRING | Session identifier |
+| `user_id` | STRING | Anonymous user ID |
+| `conversion_type` | STRING | Type/label |
+| `amount` | FLOAT | Conversion value |
+| `currency` | STRING | Currency code |
+| `order_id` | STRING | Order/transaction ID |
+| `utm_source` | STRING | Attributed source |
+| `utm_medium` | STRING | Attributed medium |
+| `utm_campaign` | STRING | Attributed campaign |
+| `attribution_model` | STRING | Model used |
+| `custom_properties` | JSON | Custom properties |
+
+## Example Queries
+
+### Daily Traffic Summary
+
+```sql
+SELECT
+  DATE(timestamp) as date,
+  COUNT(*) as pageviews,
+  COUNT(DISTINCT session_id) as sessions,
+  COUNT(DISTINCT user_id) as users
+FROM `your-project.sealmetrics_analytics.sm_pageviews`
+WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+GROUP BY date
+ORDER BY date DESC
+```
+
+### Conversion Attribution
+
+```sql
+SELECT
+  utm_source,
+  utm_medium,
+  COUNT(*) as conversions,
+  SUM(amount) as revenue,
+  AVG(amount) as avg_order_value
+FROM `your-project.sealmetrics_analytics.sm_conversions`
+WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+GROUP BY utm_source, utm_medium
+ORDER BY revenue DESC
+```
+
+### Traffic by Content Group
+
+```sql
+SELECT
+  content_group,
+  COUNT(*) as pageviews,
+  COUNT(DISTINCT user_id) as unique_users,
+  ROUND(AVG(time_on_page), 1) as avg_time_seconds
+FROM `your-project.sealmetrics_analytics.sm_pageviews`
+WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 7 DAY)
+  AND content_group IS NOT NULL
+GROUP BY content_group
+ORDER BY pageviews DESC
+```
+
+### Custom Dimension Analysis
+
+```sql
+SELECT
+  JSON_VALUE(custom_dimensions, '$.customer_type') as customer_type,
+  COUNT(DISTINCT p.session_id) as sessions,
+  COUNT(c.id) as conversions,
+  SAFE_DIVIDE(COUNT(c.id), COUNT(DISTINCT p.session_id)) * 100 as conversion_rate
+FROM `your-project.sealmetrics_analytics.sm_pageviews` p
+LEFT JOIN `your-project.sealmetrics_analytics.sm_conversions` c
+  ON p.session_id = c.session_id
+WHERE p.timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+GROUP BY customer_type
+ORDER BY sessions DESC
+```
+
+## Troubleshooting
+
+### "Permission Denied" Error
+
+Verify service account has:
+- BigQuery Data Editor role
+- BigQuery Job User role
+- Access to the correct GCP project
+
+### Sync Not Running
+
+1. Check integration status is "Active"
+2. Verify credentials haven't expired
+3. Check GCP project billing is active
+4. Review error logs in **Settings → Integrations → BigQuery → Logs**
+
+### Missing Data
+
+1. Check date range matches expected data
+2. Verify data options include needed fields
+3. Check if data is still processing (1-2 hour delay)
+4. Ensure table wasn't manually modified in BigQuery
+
+### High Costs
+
+To reduce BigQuery costs:
+- Use partitioned tables (enabled by default)
+- Limit historical backfill
+- Use aggregated tables instead of raw hits
+- Set up BigQuery budget alerts
+
+## Data Retention
+
+BigQuery data retention follows your settings:
+
+```
+Data Retention in BigQuery
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+● Match Sealmetrics retention (24 months)
+  Old data automatically deleted
+
+○ Custom retention
+  Keep data for: [36] months
+
+○ Keep indefinitely
+  Data never auto-deleted (you manage)
+```
+
+## Costs
+
+### Sealmetrics
+
+BigQuery integration is included free with Guard and Growth plans.
+
+### Google Cloud
+
+You pay GCP directly for:
+- Storage: ~$0.02/GB/month
+- Queries: ~$5/TB scanned
+
+Typical costs for mid-size site (1M pageviews/month):
+- Storage: ~$1-2/month
+- Queries: Depends on usage, typically $5-20/month

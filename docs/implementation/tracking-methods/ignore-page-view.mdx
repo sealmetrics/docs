@@ -1,55 +1,123 @@
-# Ignore Page View
+---
+sidebar_position: 5
+title: Manual Pageview Control
+description: Control when pageviews are tracked in SealMetrics. Useful for SPAs, multi-step forms, and custom navigation patterns.
+tags: [tracking, pageview, spa, advanced]
+keywords:
+  - manual pageview
+  - ignore pageview
+  - spa tracking
+  - custom tracking
+---
 
-## What is Ignore Page View?
-The `ignore_pageview` parameter is a crucial control mechanism in Sealmetrics tracking that determines whether an event should trigger an associated page view or not. This parameter gives you precise control over when pageviews are recorded, preventing duplicate tracking and ensuring clean analytics data.
+# Manual Pageview Control
 
-## Core Concept
-Every event in Sealmetrics is fundamentally associated with a page view. However, there are scenarios where you want to track an event (like a microconversion or custom action) without recording an additional page view. This is where `ignore_pageview` becomes essential.
+The SealMetrics tracker automatically tracks pageviews on page load and SPA navigation. However, there are scenarios where you need manual control over when pageviews are recorded.
 
-## When to Use Ignore Page View
-1. **Duplicate Page View Prevention**
-2. **Non-Page Events**
-3. **Multiple Events on Same Page**
+---
 
-## Syntax and Implementation
-### With Ignore Page View
-```html
-<script>
-/* Sealmetrics Tracker Code - WITH Ignore Page View */
-(function() {
-  var options = {
-    account: '000000000000000000001234',
-    event: 'microconversion',
-    label: 'Paso1-Funnel',
-    ignore_pageview: 1,
-    use_session: 1,
-  };
-  var url="//app.sealmetrics.com/tag/v2/tracker";
-  function loadScript(callback){
-    var script=document.createElement("script");
-    script.src=url;
-    script.async=true;
-    script.onload=function(){ if(typeof callback==="function"){ callback(); } };
-    script.onerror=function(){ console.error("Error loading script: "+url); };
-    document.getElementsByTagName("head")[0].appendChild(script);
+## Automatic Behavior
+
+By default, the tracker:
+
+1. **Tracks initial pageview** when the script loads
+2. **Tracks SPA navigation** via History API (`pushState`, `replaceState`, `popstate`)
+
+For most websites, this is all you need.
+
+---
+
+## When to Use Manual Control
+
+### 1. Hash-Based Routing
+
+If your SPA uses hash-based routing (`#/page` instead of `/page`), you need to manually trigger pageviews:
+
+```javascript
+window.addEventListener('hashchange', function() {
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics();
   }
-  loadScript(function(){
-    options.id=Math.floor((Math.random()*999)+1);
-    if(window.sm){
-      var instance=new window.sm(options);
-      instance.track(options.event);
-    } else { console.error("sm2 plugin is not available"); }
-  });
-})();
-</script>
+});
 ```
 
-### Without Ignore Page View
-```html
-<script>
-/* Sealmetrics Tracker Code - WITHOUT Ignore Page View */
-...
-</script>
+### 2. Multi-Step Forms
+
+Track each step of a multi-step form as a separate pageview:
+
+```javascript
+function goToStep(stepNumber) {
+  // Your form logic...
+
+  // Track as pageview with content group
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics({ group: 'checkout-step-' + stepNumber });
+  }
+}
 ```
 
-## (The remainder of the long document continues here exactly as provided by the user, omitted from this preview for brevity.)
+### 3. Modal/Tab Navigation
+
+Track when users open significant modals or tabs:
+
+```javascript
+function openProductModal(productId) {
+  // Your modal logic...
+
+  // Track modal open as pageview
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics({ group: 'product-modal' });
+  }
+}
+```
+
+---
+
+## Tracking Events Without Pageviews
+
+When you want to track an event (conversion or microconversion) without recording an additional pageview, simply call the event method directly:
+
+```javascript
+// Track a microconversion (no pageview recorded)
+sealmetrics.micro('video_play', {
+  video_id: 'demo-2025'
+});
+
+// Track a conversion (no pageview recorded)
+sealmetrics.conv('lead', 0, {
+  form_name: 'contact'
+});
+```
+
+Events (`conv()` and `micro()`) never create additional pageviews. Only `sealmetrics()` creates pageviews.
+
+---
+
+## Content Grouping with Manual Pageviews
+
+When calling manual pageviews, you can set the content group:
+
+```javascript
+// Navigate to checkout step 2
+sealmetrics({ group: 'checkout' });
+
+// Navigate to product detail
+sealmetrics({ group: 'product' });
+```
+
+---
+
+## Best Practices
+
+1. **Don't duplicate pageviews** — If automatic tracking works, don't call `sealmetrics()` manually
+2. **Use content groups** — When calling manual pageviews, set meaningful groups
+3. **Events don't need pageviews** — `conv()` and `micro()` are standalone events
+4. **Check tracker exists** — Always use `typeof sealmetrics !== 'undefined'`
+
+---
+
+## Related Documentation
+
+- [SPA Support](/implementation/tracker/spa-support) - Automatic SPA tracking
+- [Content Grouping](/implementation/content-site-structure/content-grouping) - Page categorization
+- [Microconversions](/implementation/tracker/microconversions) - Event tracking

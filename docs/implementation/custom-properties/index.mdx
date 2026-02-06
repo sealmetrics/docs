@@ -1,0 +1,308 @@
+---
+sidebar_position: 1
+title: Custom Properties Overview
+description: Capture business-specific data with custom event properties in Sealmetrics.
+---
+
+# Custom Properties
+
+Custom properties let you attach additional data to events, enabling deeper analysis tailored to your business needs.
+
+## What Are Custom Properties?
+
+Standard tracking captures basic information:
+- Page URL
+- Traffic source
+- Device type
+- Conversion amount
+
+Custom properties let you add your own data:
+- Product category
+- Customer type
+- A/B test variant
+- Subscription plan
+- Anything else relevant to your business
+
+## Use Cases
+
+### E-commerce
+
+```javascript
+_sm('conversion', {
+  order_id: 'ORD-12345',
+  amount: 149.99,
+  properties: {
+    product_category: 'electronics',
+    brand: 'Apple',
+    payment_method: 'credit_card',
+    coupon_used: 'SAVE10',
+    is_first_purchase: 'true'
+  }
+});
+```
+
+**Analysis enabled:**
+- Revenue by product category
+- Conversion rate by brand
+- Coupon effectiveness
+- New vs returning customer behavior
+
+### SaaS
+
+```javascript
+_sm('event', 'feature_used', {
+  properties: {
+    feature_name: 'export',
+    plan_type: 'pro',
+    company_size: '50-100',
+    user_role: 'admin'
+  }
+});
+```
+
+**Analysis enabled:**
+- Feature adoption by plan
+- Usage patterns by company size
+- Admin vs regular user behavior
+
+### Media/Publishing
+
+```javascript
+_sm('pageview', {
+  properties: {
+    article_category: 'technology',
+    author: 'jane-doe',
+    publish_date: '2024-01-15',
+    word_count: '1500',
+    has_video: 'true',
+    subscriber_only: 'false'
+  }
+});
+```
+
+**Analysis enabled:**
+- Performance by category
+- Author comparison
+- Content length impact
+- Video vs text engagement
+
+## Property Types
+
+### Event Properties
+
+Attached to specific events (pageviews, conversions, custom events):
+
+```javascript
+// Properties sent with this specific event
+_sm('event', 'add_to_cart', {
+  properties: {
+    product_id: 'SKU-123',
+    product_name: 'Widget Pro',
+    price: '49.99'
+  }
+});
+```
+
+### User Properties
+
+Persist across all events for a user:
+
+```javascript
+// Set once, applies to all future events
+_sm('set', 'userProperties', {
+  customer_type: 'premium',
+  signup_date: '2024-01-15',
+  account_id: 'ACC-789'
+});
+```
+
+### Session Properties
+
+Persist for the current session only:
+
+```javascript
+// Set once, applies to all events in this session
+_sm('set', 'sessionProperties', {
+  entry_campaign: 'winter-sale',
+  ab_variant: 'B'
+});
+```
+
+## Property Limits
+
+| Plan | Properties per Event | Unique Property Names |
+|------|---------------------|----------------------|
+| Research | 10 | 50 |
+| Guard | 25 | 100 |
+| Growth | 50 | Unlimited |
+
+### Value Limits
+
+| Attribute | Limit |
+|-----------|-------|
+| Property name | 64 characters |
+| Property value | 256 characters |
+| Property name format | Alphanumeric + underscore |
+
+## Reserved Properties
+
+Some property names are reserved for Sealmetrics:
+
+| Property | Purpose | Set Automatically |
+|----------|---------|-------------------|
+| `_amount` | Conversion value | From `amount` parameter |
+| `_currency` | Currency code | From `currency` parameter |
+| `_order_id` | Transaction ID | From `order_id` parameter |
+| `_label` | Event label | From event type |
+| `_page_url` | Page URL | Yes |
+| `_referrer` | Referrer URL | Yes |
+| `_timestamp` | Event time | Yes |
+
+Don't use property names starting with underscore (`_`).
+
+## Best Practices
+
+### Naming Conventions
+
+```javascript
+// Good: snake_case, descriptive
+properties: {
+  product_category: 'electronics',
+  customer_type: 'premium',
+  is_first_purchase: 'true'
+}
+
+// Bad: inconsistent, vague
+properties: {
+  'Product-Category': 'electronics',
+  type: 'premium',
+  first: 'yes'
+}
+```
+
+### Value Consistency
+
+```javascript
+// Good: consistent values
+customer_type: 'free' | 'pro' | 'enterprise'
+
+// Bad: inconsistent values
+customer_type: 'Free' | 'PRO' | 'Enterprise' | 'free' | 'premium'
+```
+
+### Use Strings for All Values
+
+```javascript
+// Good: all strings (required)
+properties: {
+  price: '49.99',
+  quantity: '2',
+  in_stock: 'true'
+}
+
+// Bad: mixed types (may cause issues)
+properties: {
+  price: 49.99,      // Should be string
+  quantity: 2,       // Should be string
+  in_stock: true     // Should be string
+}
+```
+
+## Quick Start
+
+### 1. Plan Your Properties
+
+Before implementing, decide:
+- What questions do you want to answer?
+- What data do you need to answer them?
+- Which events should carry which properties?
+
+### 2. Implement Properties
+
+Add properties to your tracking code:
+
+```javascript
+// With pageviews
+_sm('pageview', {
+  properties: {
+    page_type: 'product',
+    category: 'electronics'
+  }
+});
+
+// With events
+_sm('event', 'signup', {
+  properties: {
+    plan_selected: 'pro',
+    referral_source: 'friend'
+  }
+});
+
+// With conversions
+_sm('conversion', {
+  order_id: 'ORD-123',
+  amount: 99.99,
+  properties: {
+    product_category: 'software',
+    payment_method: 'stripe'
+  }
+});
+```
+
+### 3. Analyze in Reports
+
+Once properties are flowing:
+
+1. Open any report
+2. Click **Add Filter**
+3. Select your custom property
+4. Filter or break down by values
+
+## Next Steps
+
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+  gap: '1rem',
+  marginTop: '1.5rem'
+}}>
+  <a href="./event-properties" style={{
+    display: 'block',
+    border: '1px solid #e0e0e0',
+    borderRadius: '8px',
+    padding: '1rem',
+    textDecoration: 'none',
+    color: 'inherit'
+  }}>
+    <strong style={{ color: '#00825C' }}>Event Properties</strong>
+    <p style={{ margin: '0.5rem 0 0', fontSize: '0.85rem' }}>
+      Detailed guide to event-level properties.
+    </p>
+  </a>
+  <a href="./user-properties" style={{
+    display: 'block',
+    border: '1px solid #e0e0e0',
+    borderRadius: '8px',
+    padding: '1rem',
+    textDecoration: 'none',
+    color: 'inherit'
+  }}>
+    <strong style={{ color: '#00825C' }}>User Properties</strong>
+    <p style={{ margin: '0.5rem 0 0', fontSize: '0.85rem' }}>
+      Properties that persist across sessions.
+    </p>
+  </a>
+  <a href="./content-grouping" style={{
+    display: 'block',
+    border: '1px solid #e0e0e0',
+    borderRadius: '8px',
+    padding: '1rem',
+    textDecoration: 'none',
+    color: 'inherit'
+  }}>
+    <strong style={{ color: '#00825C' }}>Content Grouping</strong>
+    <p style={{ margin: '0.5rem 0 0', fontSize: '0.85rem' }}>
+      Group pages using property rules.
+    </p>
+  </a>
+</div>

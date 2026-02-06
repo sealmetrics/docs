@@ -1,0 +1,206 @@
+---
+sidebar_position: 1
+title: Chat with LENS
+description: Ask questions about your analytics data in natural language and get instant AI-powered insights.
+---
+
+# Chat with LENS
+
+LENS AI Assistant lets you ask questions about your data in plain English and receive instant, contextual answers.
+
+## How It Works
+
+1. **You ask a question** in natural language
+2. **LENS analyzes your data** using the appropriate metrics and segments
+3. **AI generates an answer** with relevant context and recommendations
+
+```
+You: Why did conversions drop last week?
+
+LENS: Your conversions dropped 23% last week (156 → 120).
+
+The main factors were:
+1. Google Ads traffic decreased 35% (budget paused on Wed)
+2. Mobile conversion rate dropped from 2.1% to 1.4%
+3. The /checkout page had a 15% increase in exits
+
+Recommended actions:
+• Review Google Ads budget allocation
+• Investigate mobile checkout experience
+• Check for recent changes to checkout flow
+```
+
+## Accessing the AI Assistant
+
+1. Go to **LENS** in the main navigation
+2. Click **Chat** tab
+3. Type your question in the input field
+4. Press Enter or click Send
+
+## What You Can Ask
+
+### Traffic Analysis
+
+| Question Type | Examples |
+|---------------|----------|
+| Traffic overview | *"How is traffic trending this month?"* |
+| Source breakdown | *"Which sources drove the most traffic last week?"* |
+| Comparisons | *"Compare organic vs paid traffic for January"* |
+| Changes | *"Why did traffic spike on Tuesday?"* |
+
+### Conversion Analysis
+
+| Question Type | Examples |
+|---------------|----------|
+| Performance | *"What's my conversion rate this month?"* |
+| Trends | *"How are conversions trending vs last month?"* |
+| Attribution | *"Which channels drive the most conversions?"* |
+| Investigation | *"Why did conversion rate drop yesterday?"* |
+
+### Revenue Analysis
+
+| Question Type | Examples |
+|---------------|----------|
+| Overview | *"What's my total revenue this quarter?"* |
+| Breakdown | *"Revenue by product category"* |
+| Trends | *"How is AOV trending?"* |
+| Comparisons | *"Compare this month's revenue to last month"* |
+
+### Campaign Analysis
+
+| Question Type | Examples |
+|---------------|----------|
+| Performance | *"How is my Black Friday campaign performing?"* |
+| ROAS | *"What's the ROAS for Google Ads?"* |
+| Comparison | *"Compare Facebook vs Google campaign performance"* |
+| Optimization | *"Which campaigns should I scale?"* |
+
+## Understanding LENS Responses
+
+### Response Structure
+
+```
+┌─────────────────────────────────────────────┐
+│ Direct Answer                               │
+│ Clear, concise response to your question    │
+├─────────────────────────────────────────────┤
+│ Supporting Data                             │
+│ • Key metric: value (change%)               │
+│ • Related metric: value                     │
+│ • Comparison baseline: value                │
+├─────────────────────────────────────────────┤
+│ Context & Analysis                          │
+│ Why this happened, contributing factors     │
+├─────────────────────────────────────────────┤
+│ Recommendations (when relevant)             │
+│ Actionable next steps                       │
+└─────────────────────────────────────────────┘
+```
+
+### Data Visualizations
+
+LENS may include inline visualizations:
+
+- **Trend charts** - For time-series questions
+- **Bar charts** - For comparisons
+- **Tables** - For detailed breakdowns
+- **Sparklines** - For quick trend context
+
+## Conversation Context
+
+LENS remembers context within a conversation:
+
+```
+You: How is traffic this week?
+LENS: Traffic is up 12% vs last week (45,000 sessions)...
+
+You: What about conversions?
+LENS: [Understands you mean "conversions this week"]
+      Conversions are up 8% (234 conversions)...
+
+You: Break it down by source
+LENS: [Understands you mean "conversions by source this week"]
+      Google: 98 conversions (+15%)
+      Facebook: 67 conversions (-5%)
+      ...
+```
+
+### Starting a New Topic
+
+To reset context:
+- Click **New Conversation**
+- Or be explicit: *"Let's talk about something different..."*
+
+## Multi-Account Questions
+
+If you have multiple accounts:
+
+```
+You: Compare traffic across all my accounts
+
+LENS: Traffic comparison (Last 7 days):
+
+      Account          Sessions    Change
+      ─────────────────────────────────────
+      Main Store       45,230      +12%
+      UK Store         12,450      +5%
+      Wholesale        3,200       -8%
+```
+
+Specify an account:
+```
+You: How are conversions on the UK Store?
+```
+
+## Follow-up Questions
+
+LENS suggests relevant follow-ups:
+
+```
+LENS: Your conversion rate dropped 20% last week...
+
+Suggested follow-ups:
+• "Which traffic sources had the biggest CR drop?"
+• "When exactly did the drop start?"
+• "How does this compare to the same week last year?"
+```
+
+## Limitations
+
+LENS cannot:
+
+| Limitation | Alternative |
+|------------|-------------|
+| Make changes to your account | Use dashboard settings |
+| Access external data | Connect via integrations |
+| Predict future performance | Use historical trends as guidance |
+| Access real-time data (&lt;1 hour) | Data has ~1 hour processing delay |
+
+## Technical Details
+
+### LLM Providers
+
+LENS uses multiple AI providers for optimal results:
+
+| Provider | Use Case | Notes |
+|----------|----------|-------|
+| Claude (Anthropic) | Complex analysis | Primary for detailed questions |
+| GPT-4 (OpenAI) | Quick queries | Fast response time |
+| Gemini (Google) | Data synthesis | Large dataset handling |
+| DeepSeek | Cost optimization | High-volume simple queries |
+
+The system automatically selects the best provider based on your question.
+
+### Data Privacy
+
+- Your data never leaves Sealmetrics infrastructure
+- LLM providers receive aggregated, anonymized queries
+- No PII is ever sent to AI providers
+- All data is encrypted in transit and at rest
+
+[Learn more about LENS privacy →](/security-privacy)
+
+## Next Steps
+
+- [Question limits by plan →](./question-limits)
+- [Best practices for better answers →](./best-practices)

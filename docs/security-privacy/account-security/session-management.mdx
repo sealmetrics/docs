@@ -1,0 +1,312 @@
+---
+sidebar_position: 4
+title: Session Management
+description: View and manage your active sessions across devices.
+---
+
+# Session Management
+
+Session management lets you see all devices and locations where your account is currently signed in, and remotely sign out of sessions you don't recognize.
+
+## Viewing Active Sessions
+
+1. Go to **Settings → Security → Sessions**
+2. View all active sessions
+
+```
+Active Sessions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Current Session:
+┌─────────────────────────────────────────┐
+│ 🟢 Chrome on macOS                      │
+│    Madrid, Spain                        │
+│    IP: 192.168.1.50                     │
+│    Active now                           │
+│                           [This Device] │
+└─────────────────────────────────────────┘
+
+Other Sessions:
+┌─────────────────────────────────────────┐
+│ 🟢 Safari on iPhone                     │
+│    Madrid, Spain                        │
+│    IP: 83.45.123.78                     │
+│    Last active: 2 hours ago             │
+│                       [Sign Out]        │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│ ⚪ Chrome on Windows                    │
+│    London, United Kingdom               │
+│    IP: 203.0.113.45                     │
+│    Last active: 3 days ago              │
+│                       [Sign Out]        │
+└─────────────────────────────────────────┘
+
+[Sign Out All Other Sessions]
+```
+
+## Session Information
+
+Each session shows:
+
+| Field | Description |
+|-------|-------------|
+| Browser/App | Chrome, Safari, Firefox, Mobile App, etc. |
+| Operating System | macOS, Windows, iOS, Android, Linux |
+| Location | City, Country (from IP geolocation) |
+| IP Address | Network IP address |
+| Last Active | When the session was last used |
+| Status | Active now, Hours ago, Days ago |
+
+## Session Details
+
+Click on a session for more information:
+
+```
+Session Details
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Browser: Safari 17.2
+OS: iOS 17.2
+Device: iPhone 14 Pro
+
+Location:
+  City: Madrid
+  Country: Spain
+  ISP: Movistar España
+
+Session:
+  Created: January 10, 2024 09:15
+  Last Active: January 15, 2024 12:30
+  Session ID: sess_abc123...
+
+Activity:
+  Logins: 12
+  Actions: 145
+  Last Page: Dashboard
+
+[Sign Out This Session]
+```
+
+## Signing Out Sessions
+
+### Single Session
+
+Click **Sign Out** next to any session:
+
+```
+Sign Out Session?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This will sign out:
+  Chrome on Windows
+  London, United Kingdom
+  Last active: 3 days ago
+
+The user will need to sign in again.
+
+[Cancel] [Sign Out]
+```
+
+### All Other Sessions
+
+Sign out everywhere except current device:
+
+```
+Sign Out All Other Sessions?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This will sign out 3 other sessions:
+
+  • Safari on iPhone (Madrid)
+  • Chrome on Windows (London)
+  • Firefox on Ubuntu (Berlin)
+
+Your current session will remain active.
+Other users will need to sign in again.
+
+[Cancel] [Sign Out All]
+```
+
+## When to Review Sessions
+
+Review your sessions when:
+
+- 🔴 **Immediately:** You notice suspicious activity
+- 🔴 **After:** Your password was compromised
+- 🟡 **Regularly:** Monthly security check
+- 🟡 **After:** Using a shared or public computer
+- 🟢 **Optionally:** After traveling
+
+## Suspicious Sessions
+
+### Warning Signs
+
+Watch for sessions from:
+
+| Sign | Concern Level | Action |
+|------|---------------|--------|
+| Unknown location | 🔴 High | Sign out immediately |
+| Unknown device | 🔴 High | Sign out, change password |
+| Very old sessions | 🟡 Medium | Sign out for hygiene |
+| Public IP you don't recognize | 🟡 Medium | Investigate |
+
+### If You See Suspicious Activity
+
+1. **Sign out** the suspicious session immediately
+2. **Change your password** right away
+3. **Enable 2FA** if not already enabled
+4. **Review** recent account activity
+5. **Check** for any changes made to your account
+
+```
+⚠️ Suspicious Session Detected?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+If you don't recognize this session:
+
+1. [Sign Out This Session]
+2. [Sign Out All Sessions]
+3. [Change Password]
+4. [Review Audit Log]
+```
+
+## Session Settings
+
+### Session Timeout
+
+Configure how long sessions remain active:
+
+```
+Session Timeout
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sign out inactive sessions after:
+○ 1 day
+● 7 days
+○ 30 days
+○ Never (not recommended)
+
+This applies to all users in your account.
+```
+
+### Remember Me
+
+Control "Remember Me" functionality:
+
+```
+Remember Me Setting
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Allow "Remember Me" on login
+
+When enabled:
+  Remembered sessions last: [30] days
+
+When disabled:
+  All sessions expire after: [7] days
+  Users must sign in more frequently
+```
+
+## Team Session Management (Admins)
+
+Admins can view and manage all team sessions:
+
+### View All Team Sessions
+
+```
+Team Sessions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Filter by user: [All users             ▼]
+
+User                Sessions    Last Active
+─────────────────────────────────────────────
+admin@company.com        3      Now
+sarah@company.com        2      1 hour ago
+mike@company.com         1      Yesterday
+guest@agency.com         4      3 days ago
+
+Total active sessions: 10
+
+[Sign Out All Team Sessions]
+```
+
+### Force Sign Out User
+
+Sign out all sessions for a specific user:
+
+```
+Force Sign Out User
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+User: guest@agency.com
+Active Sessions: 4
+
+Signing out will:
+  • Terminate all 4 active sessions
+  • Require user to sign in again
+  • Log the action in audit trail
+
+Reason (required):
+[Security concern - unusual activity      ]
+
+[Cancel] [Force Sign Out]
+```
+
+## API Sessions
+
+API keys have their own session tracking:
+
+```
+API Sessions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+API Key             Last Used       Requests/24h
+─────────────────────────────────────────────────
+Production API      5 minutes ago   1,234
+BigQuery Sync       3 hours ago     89
+Test Key            Never           0
+
+[View API Key Details]
+```
+
+## Session Security Best Practices
+
+### For Individual Users
+
+- ✅ Sign out from shared computers
+- ✅ Review sessions monthly
+- ✅ Use 2FA on all sessions
+- ✅ Sign out old sessions regularly
+- ❌ Don't stay signed in on public computers
+- ❌ Don't ignore unknown sessions
+
+### For Admins
+
+- ✅ Set reasonable session timeouts
+- ✅ Monitor team sessions regularly
+- ✅ Disable "Remember Me" for high-security accounts
+- ✅ Force sign-out when employees leave
+- ✅ Review sessions during security incidents
+
+## Troubleshooting
+
+### "Session expired unexpectedly"
+
+- Check if admin changed timeout settings
+- Verify you didn't sign out from another device
+- Clear browser cookies and sign in again
+
+### "Can't see my sessions"
+
+- Make sure you're signed in
+- Check you have permission (admins can restrict)
+- Try refreshing the page
+
+### "Old sessions still showing"
+
+- Sessions may take a few minutes to update
+- "Last active" shows last recorded activity
+- Sign out to immediately remove

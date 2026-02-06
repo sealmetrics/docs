@@ -1,0 +1,364 @@
+---
+sidebar_position: 3
+title: IP Allowlist
+description: Restrict account access to specific IP addresses for enhanced security.
+---
+
+# IP Allowlist
+
+IP allowlisting restricts access to your Sealmetrics account to specific IP addresses, adding another layer of security beyond passwords and 2FA.
+
+## What Is IP Allowlisting?
+
+When enabled, only users connecting from approved IP addresses can access your account. Requests from other IPs are blocked, even with valid credentials.
+
+```
+User Request
+     ↓
+Check IP Address
+     ↓
+┌──────────────────┐
+│ IP in allowlist? │
+└────────┬─────────┘
+         │
+    Yes ↙   ↘ No
+   Allow    Block
+```
+
+## Who Should Use It?
+
+IP allowlisting is ideal for:
+
+- **Organizations with static IPs** (office networks)
+- **High-security environments** (financial, healthcare)
+- **Compliance requirements** (SOC 2, PCI-DSS)
+- **Restricting vendor/contractor access**
+
+Not recommended if:
+- Team works from many locations
+- No VPN infrastructure
+- Frequently changing IPs
+
+## Availability
+
+| Plan | IP Allowlist |
+|------|--------------|
+| Research | Not available |
+| Guard | Not available |
+| Growth | ✅ Available |
+
+## Enabling IP Allowlist
+
+### Step 1: Access Settings
+
+1. Go to **Settings → Security → IP Allowlist**
+2. Review the warning
+
+```
+IP Allowlist
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status: Disabled
+
+⚠️ Warning: Enabling IP allowlist will block
+access from any IP not in your list. Make sure
+to add all necessary IPs before enabling.
+
+[Configure IP Allowlist]
+```
+
+### Step 2: Add IP Addresses
+
+Add IPs before enabling:
+
+```
+Configure IP Allowlist
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your current IP: 192.168.1.50
+[Add Current IP]
+
+Allowed IP Addresses:
+┌─────────────────────────────────────────┐
+│ (No IPs added yet)                      │
+└─────────────────────────────────────────┘
+
+Add IP Address:
+[                                         ]
+Description: [                            ]
+
+Supported formats:
+• Single IP: 192.168.1.50
+• CIDR range: 192.168.1.0/24
+• IPv6: 2001:db8::1
+
+[Add IP]
+```
+
+### Step 3: Enable Allowlist
+
+After adding IPs:
+
+```
+IP Allowlist Configuration
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Allowed IP Addresses:
+
+IP/Range              Description          Added
+─────────────────────────────────────────────────
+192.168.1.0/24        Office Network       Jan 15
+10.0.0.0/8            VPN Range            Jan 15
+83.45.123.78          CEO Home             Jan 15
+
+[+ Add Another IP]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ I understand that enabling this will block
+  access from IPs not in this list
+
+[Enable IP Allowlist]
+```
+
+## Managing the Allowlist
+
+### Add New IP
+
+```
+Add IP Address
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IP Address or Range:
+[203.0.113.0/24                           ]
+
+Description:
+[New York Office                          ]
+
+☐ Temporary (expires after: [ ] days)
+
+[Cancel] [Add IP]
+```
+
+### Edit/Remove IP
+
+```
+Edit IP: 192.168.1.0/24
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IP Address or Range:
+[192.168.1.0/24                           ]
+
+Description:
+[Main Office Network                      ]
+
+Added: January 15, 2024
+Added by: admin@company.com
+
+[Delete IP] [Cancel] [Save Changes]
+```
+
+### Temporary IP Access
+
+Grant time-limited access:
+
+```
+Add Temporary IP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IP Address:
+[198.51.100.45                            ]
+
+Description:
+[Contractor - Project ABC                 ]
+
+☑ Temporary access
+  Expires: [January 31, 2024            ▼]
+
+  Or expires in: [14] days
+
+[Add Temporary IP]
+```
+
+## Common IP Ranges
+
+### Office Networks
+
+```
+# Typical office setup
+Office Main:       192.168.1.0/24
+Office Branch:     192.168.2.0/24
+```
+
+### VPN Endpoints
+
+```
+# VPN exit IPs
+VPN Server 1:      203.0.113.10
+VPN Server 2:      203.0.113.11
+VPN Range:         203.0.113.0/28
+```
+
+### Cloud Services
+
+```
+# If accessing from cloud servers
+AWS NAT Gateway:   52.x.x.x
+GCP NAT:           35.x.x.x
+```
+
+## Bypass Options
+
+### Emergency Access
+
+If you're locked out:
+
+1. Contact support at security@sealmetrics.com
+2. Verify identity (photo ID required)
+3. Support can temporarily disable allowlist
+4. You add your new IP
+5. Re-enable allowlist
+
+### Admin Override (Growth)
+
+Designated admins can bypass the allowlist:
+
+```
+Allowlist Bypass
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Allow designated admins to bypass IP allowlist
+
+Bypass requires:
+☑ 2FA verification
+☑ Additional email confirmation
+☑ Logged in audit trail
+
+Admins with bypass:
++ admin@company.com
++ cto@company.com
+[+ Add Admin]
+
+⚠️ Bypass should only be used in emergencies.
+All bypass events are logged.
+```
+
+## What Happens When Blocked
+
+When someone tries to access from a non-allowed IP:
+
+```
+Access Blocked
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your IP address (198.51.100.99) is not in
+the allowlist for this account.
+
+If you believe this is an error, contact
+your account administrator.
+
+Your IP: 198.51.100.99
+Time: January 15, 2024 14:32:15 UTC
+
+[Request Access]
+```
+
+### Request Access Workflow
+
+Users can request access:
+
+```
+Request IP Access
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your IP: 198.51.100.99
+
+Reason for access:
+[Working from home due to office closure  ]
+
+Duration needed:
+○ One-time access
+● Temporary (until [February 1, 2024])
+○ Permanent
+
+[Submit Request]
+
+Request will be sent to account admins.
+```
+
+Admins receive notification:
+
+```
+IP Access Request
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+User: sarah@company.com
+IP: 198.51.100.99
+Reason: Working from home due to office closure
+Duration: Until February 1, 2024
+
+Location (approximate): Seattle, WA, USA
+
+[Approve] [Deny]
+```
+
+## Audit Logging
+
+All IP allowlist actions are logged:
+
+```
+IP Allowlist Audit Log
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Jan 15, 14:32 - Access blocked
+  IP: 198.51.100.99
+  User attempted: sarah@company.com
+
+Jan 15, 14:35 - IP added
+  IP: 198.51.100.99
+  Added by: admin@company.com
+  Reason: Approved access request
+
+Jan 15, 14:36 - Login successful
+  IP: 198.51.100.99
+  User: sarah@company.com
+```
+
+## Best Practices
+
+### Do
+
+- ✅ Add your current IP before enabling
+- ✅ Include VPN exit IPs
+- ✅ Use CIDR ranges for dynamic office IPs
+- ✅ Document each IP's purpose
+- ✅ Review allowlist quarterly
+- ✅ Test access from allowed IPs
+
+### Don't
+
+- ❌ Enable without adding any IPs (locks everyone out)
+- ❌ Add overly broad ranges (defeats purpose)
+- ❌ Forget to add backup admin IP
+- ❌ Leave expired temporary IPs
+
+## Troubleshooting
+
+### "Locked myself out"
+
+1. Try from another allowed location (office, VPN)
+2. Ask a colleague with access to add your IP
+3. Contact support with identity verification
+
+### "IP keeps changing"
+
+If your ISP assigns dynamic IPs:
+- Use VPN with static exit IP
+- Request static IP from ISP
+- Use CIDR range (less secure but workable)
+
+### "Can't access from VPN"
+
+1. Check VPN exit IP (not internal VPN IP)
+2. Use `curl ifconfig.me` to find exit IP
+3. Add that IP to allowlist

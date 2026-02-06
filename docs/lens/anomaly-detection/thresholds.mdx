@@ -1,0 +1,288 @@
+---
+sidebar_position: 4
+title: Configuring Thresholds
+description: Fine-tune anomaly detection sensitivity by adjusting thresholds for your business needs.
+---
+
+# Configuring Thresholds
+
+Thresholds determine when LENS triggers an alert. Setting them correctly balances catching real issues against avoiding alert fatigue.
+
+## Understanding Thresholds
+
+A threshold defines the boundary between "normal" and "anomalous":
+
+```
+                    Normal Range
+         ◄─────────────────────────────►
+    ─────┬───────────────┬───────────────┬─────
+         │               │               │
+   -30%  │     -20%      │      +20%     │  +30%
+         │               │               │
+         └── Alert ──────┴───── Alert ───┘
+           (drop)                 (spike)
+```
+
+## Threshold Types
+
+### Percentage Thresholds
+
+Most common type. Alert when metric changes by a percentage:
+
+```yaml
+threshold:
+  type: percentage
+  value: 25
+  direction: decrease
+```
+
+**Best for:** Conversion rates, traffic, revenue
+
+### Absolute Thresholds
+
+Alert when metric crosses a fixed value:
+
+```yaml
+threshold:
+  type: absolute
+  value: 100
+  direction: below  # Alert when metric drops below 100
+```
+
+**Best for:** Minimum session counts, revenue targets
+
+### Standard Deviation Thresholds
+
+Alert when metric deviates from the mean by N standard deviations:
+
+```yaml
+threshold:
+  type: standard_deviation
+  value: 2  # 2 standard deviations
+```
+
+**Best for:** Highly variable metrics, statistical analysis
+
+## Adjusting Rule Thresholds
+
+### Method 1: Quick Adjust
+
+1. Go to **LENS → Rules**
+2. Find the rule
+3. Click the threshold value
+4. Enter new value
+5. Click **Save**
+
+### Method 2: Full Edit
+
+1. Go to **LENS → Rules**
+2. Click the rule name
+3. Navigate to **Threshold** section
+4. Modify all threshold settings
+5. Click **Save Changes**
+
+## Threshold Recommendations by Metric Type
+
+### Traffic Metrics
+
+| Metric | Recommended Threshold | Notes |
+|--------|----------------------|-------|
+| Total sessions | ±30% | Higher variance expected |
+| Organic traffic | ±25% | Algorithm changes cause swings |
+| Paid traffic | ±20% | Should be more stable |
+| Direct traffic | ±35% | Highly variable |
+
+### Conversion Metrics
+
+| Metric | Recommended Threshold | Notes |
+|--------|----------------------|-------|
+| Conversion rate | ±20% | Critical metric, tighter threshold |
+| Transaction count | ±25% | Volume-dependent |
+| Add-to-cart rate | ±25% | Earlier funnel, more variance |
+| Checkout rate | ±15% | Late funnel, tighter monitoring |
+
+### Revenue Metrics
+
+| Metric | Recommended Threshold | Notes |
+|--------|----------------------|-------|
+| Total revenue | ±25% | Primary business metric |
+| Average order value | ±20% | Stable metric |
+| Revenue per session | ±25% | Combined metric |
+
+### Engagement Metrics
+
+| Metric | Recommended Threshold | Notes |
+|--------|----------------------|-------|
+| Bounce rate | ±25% | Varies by source |
+| Session duration | ±30% | High natural variance |
+| Pages per session | ±25% | Content-dependent |
+
+## Sensitivity Presets
+
+Use presets for quick configuration:
+
+### Low Sensitivity
+
+```yaml
+# Fewer alerts, only major changes
+traffic_threshold: 40%
+conversion_threshold: 30%
+revenue_threshold: 35%
+technical_threshold: 20%
+```
+
+**Use when:**
+- New to LENS
+- High-variance business
+- Limited resources to investigate
+
+### Medium Sensitivity (Default)
+
+```yaml
+# Balanced approach
+traffic_threshold: 30%
+conversion_threshold: 20%
+revenue_threshold: 25%
+technical_threshold: 10%
+```
+
+**Use when:**
+- Established tracking
+- Regular monitoring capacity
+- Moderate business variance
+
+### High Sensitivity
+
+```yaml
+# More alerts, catches subtle changes
+traffic_threshold: 20%
+conversion_threshold: 15%
+revenue_threshold: 20%
+technical_threshold: 5%
+```
+
+**Use when:**
+- Stable, predictable business
+- Dedicated analytics team
+- Critical metrics requiring tight monitoring
+
+## Advanced Threshold Settings
+
+### Consecutive Breaches
+
+Require multiple consecutive breaches before alerting:
+
+```yaml
+threshold:
+  percentage: 20
+  consecutive_periods: 3  # Must breach 3 periods in a row
+```
+
+**Benefits:**
+- Reduces false positives from temporary blips
+- Ensures sustained change before alerting
+
+### Minimum Data Requirements
+
+Set minimum data volume before rule evaluates:
+
+```yaml
+minimum_requirements:
+  sessions: 500
+  conversions: 50
+  revenue: 1000
+```
+
+**Benefits:**
+- Prevents alerts on statistically insignificant data
+- Avoids noise in low-traffic periods
+
+### Day-of-Week Adjustments
+
+Account for weekly patterns:
+
+```yaml
+day_of_week_adjustment: true
+comparison_day: same_weekday  # Compare Monday to Monday
+```
+
+**Benefits:**
+- Reduces false positives from weekend drops
+- More accurate comparison base
+
+### Time-of-Day Adjustments
+
+Account for daily patterns:
+
+```yaml
+time_of_day_adjustment: true
+comparison_hours: same_hours  # Compare 2-3 PM to 2-3 PM
+```
+
+**Benefits:**
+- Accounts for business hours patterns
+- Better for real-time monitoring
+
+## Tuning Thresholds Over Time
+
+### Review Alert History
+
+1. Go to **LENS → Analytics**
+2. View **Alert Distribution**
+3. Identify:
+   - Rules with too many false positives
+   - Rules that never fire (thresholds too high)
+   - Rules that fire constantly (thresholds too low)
+
+### Recommended Tuning Process
+
+1. **Week 1-2:** Use default thresholds
+2. **Week 3:** Review alert history
+3. **Week 4:** Adjust thresholds based on review
+4. **Monthly:** Ongoing threshold refinement
+
+### Threshold Tuning Checklist
+
+| Signal | Action |
+|--------|--------|
+| >5 false positives/week | Increase threshold by 5-10% |
+| Alert for known issue was missed | Decrease threshold by 5-10% |
+| Rule never fires | Verify data, then decrease threshold |
+| Every alert is actionable | Thresholds are well-tuned |
+
+## Per-Segment Thresholds
+
+Apply different thresholds to different segments:
+
+```yaml
+rule: conversion_rate_drop
+segments:
+  - name: "US Traffic"
+    filter: country == "US"
+    threshold: 15%  # Tighter for main market
+
+  - name: "Other Markets"
+    filter: country != "US"
+    threshold: 30%  # Looser for smaller markets
+```
+
+**Available on:** Growth plan only
+
+## Threshold Templates
+
+Save threshold configurations for reuse:
+
+1. Configure thresholds for a rule
+2. Click **Save as Template**
+3. Name the template (e.g., "E-commerce Strict")
+4. Apply to other rules via **Apply Template**
+
+### Pre-built Templates
+
+| Template | Best For | Characteristics |
+|----------|----------|-----------------|
+| E-commerce Standard | Online retail | Balanced, revenue-focused |
+| E-commerce Strict | High-value retail | Tight revenue thresholds |
+| Lead Gen Standard | B2B, lead gen | Form and conversion focused |
+| Media/Content | Publishers | Traffic and engagement focused |
+| SaaS | Software | Signup and activation focused |

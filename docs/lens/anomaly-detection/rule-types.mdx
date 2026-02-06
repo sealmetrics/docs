@@ -1,0 +1,262 @@
+---
+sidebar_position: 2
+title: Detection Rules Catalog
+description: Complete catalog of 60+ anomaly detection rules available in LENS.
+---
+
+# Detection Rules Catalog
+
+LENS includes 60+ pre-built detection rules across six categories. This page documents all available rules.
+
+## Traffic Rules
+
+Monitor visitor volume and patterns.
+
+| Rule ID | Name | Description | Default Threshold |
+|---------|------|-------------|-------------------|
+| `traffic_drop_significant` | Significant Traffic Drop | Alerts when overall traffic drops significantly | >30% drop |
+| `traffic_spike_unusual` | Unusual Traffic Spike | Alerts on unexpected traffic increases | >50% increase |
+| `traffic_source_shift` | Traffic Source Shift | Major change in source distribution | >25% shift |
+| `new_traffic_source` | New Traffic Source | New source contributing >5% of traffic | >5% share |
+| `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
+| `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35% drop |
+| `organic_traffic_change` | Organic Traffic Change | Significant organic search change | >25% change |
+| `paid_traffic_anomaly` | Paid Traffic Anomaly | Unexpected paid traffic volume | >30% deviation |
+| `mobile_traffic_shift` | Mobile Traffic Shift | Device type distribution change | >20% shift |
+| `geographic_traffic_change` | Geographic Traffic Change | Country/region distribution change | >30% shift |
+
+### Traffic Rule Details
+
+#### `traffic_drop_significant`
+
+```yaml
+metric: total_sessions
+comparison: vs_previous_7_days
+threshold: -30%
+minimum_sessions: 100
+cooldown: 4_hours
+severity: high
+```
+
+**Common causes:**
+- Tracking code removed or broken
+- Website downtime
+- SEO penalty
+- Seasonal decrease
+
+#### `traffic_spike_unusual`
+
+```yaml
+metric: total_sessions
+comparison: vs_previous_7_days
+threshold: +50%
+minimum_sessions: 100
+cooldown: 4_hours
+severity: medium
+```
+
+**Common causes:**
+- Viral content
+- PR coverage
+- Bot traffic
+- Campaign launch
+
+---
+
+## Conversion Rules
+
+Monitor conversion events and rates.
+
+| Rule ID | Name | Description | Default Threshold |
+|---------|------|-------------|-------------------|
+| `conversion_rate_drop` | Conversion Rate Drop | CR drops below baseline | >20% drop |
+| `conversion_rate_spike` | Conversion Rate Spike | CR increases unusually | >30% increase |
+| `conversion_volume_drop` | Conversion Volume Drop | Fewer conversions than expected | >25% drop |
+| `conversion_volume_spike` | Conversion Volume Spike | More conversions than expected | >40% increase |
+| `micro_conversion_drop` | Micro-conversion Drop | Pre-conversion events decrease | >30% drop |
+| `funnel_step_drop` | Funnel Step Drop | Specific funnel step underperforms | >25% drop |
+| `cart_abandonment_spike` | Cart Abandonment Spike | Abandonment rate increases | >20% increase |
+| `checkout_completion_drop` | Checkout Completion Drop | Checkout success rate drops | >15% drop |
+| `form_submission_drop` | Form Submission Drop | Form completions decrease | >25% drop |
+| `lead_quality_change` | Lead Quality Change | Lead scoring distribution shifts | >20% shift |
+
+### Conversion Rule Details
+
+#### `conversion_rate_drop`
+
+```yaml
+metric: conversion_rate
+comparison: vs_previous_7_days
+threshold: -20%
+minimum_conversions: 50
+minimum_sessions: 500
+cooldown: 4_hours
+severity: high
+```
+
+**Investigation checklist:**
+- [ ] Check tracking code is firing
+- [ ] Review recent website changes
+- [ ] Check payment gateway status
+- [ ] Compare by traffic source
+- [ ] Review pricing or offer changes
+
+---
+
+## Revenue Rules
+
+Monitor monetary metrics and transaction values.
+
+| Rule ID | Name | Description | Default Threshold |
+|---------|------|-------------|-------------------|
+| `revenue_drop_significant` | Revenue Drop | Total revenue decreases | >25% drop |
+| `revenue_spike_unusual` | Revenue Spike | Total revenue increases unusually | >50% increase |
+| `aov_decrease` | AOV Decrease | Average order value drops | >20% drop |
+| `aov_increase` | AOV Increase | Average order value increases | >30% increase |
+| `transaction_count_drop` | Transaction Count Drop | Fewer transactions | >25% drop |
+| `refund_rate_spike` | Refund Rate Spike | Refund rate increases | >50% increase |
+| `discount_usage_spike` | Discount Usage Spike | Discount code usage increases | >40% increase |
+| `currency_mix_change` | Currency Mix Change | Payment currency distribution shifts | >25% shift |
+
+### Revenue Rule Details
+
+#### `revenue_drop_significant`
+
+```yaml
+metric: total_revenue
+comparison: vs_previous_7_days
+threshold: -25%
+minimum_revenue: 1000
+minimum_transactions: 20
+cooldown: 4_hours
+severity: critical
+```
+
+**Alert includes:**
+- Current revenue vs. baseline
+- Breakdown by product category
+- Breakdown by traffic source
+- Suggested investigation steps
+
+---
+
+## Source & Campaign Rules
+
+Monitor traffic source and campaign performance.
+
+| Rule ID | Name | Description | Default Threshold |
+|---------|------|-------------|-------------------|
+| `source_performance_drop` | Source Performance Drop | Traffic source underperforms | >30% drop |
+| `source_quality_change` | Source Quality Change | Bounce rate or time changes | >25% change |
+| `campaign_roas_drop` | Campaign ROAS Drop | Return on ad spend decreases | >25% drop |
+| `campaign_ctr_anomaly` | Campaign CTR Anomaly | Click-through rate changes | >30% change |
+| `campaign_cpc_spike` | Campaign CPC Spike | Cost per click increases | >40% increase |
+| `campaign_spend_anomaly` | Campaign Spend Anomaly | Spend deviates from expected | >30% deviation |
+| `new_campaign_detected` | New Campaign Detected | New UTM campaign appears | Any new campaign |
+| `campaign_stopped` | Campaign Stopped | Active campaign stops sending traffic | 0 sessions for 24h |
+| `utm_tracking_issues` | UTM Tracking Issues | UTM parameters malformed | >5% malformed |
+
+### Campaign Rule Details
+
+#### `campaign_roas_drop`
+
+```yaml
+metric: roas
+comparison: vs_previous_7_days
+threshold: -25%
+minimum_spend: 100
+minimum_conversions: 10
+cooldown: 8_hours
+severity: high
+```
+
+**Alert actions:**
+- Pause underperforming campaigns
+- Investigate audience targeting
+- Review ad creative performance
+- Check landing page changes
+
+---
+
+## Technical Rules
+
+Monitor data quality and tracking health.
+
+| Rule ID | Name | Description | Default Threshold |
+|---------|------|-------------|-------------------|
+| `pixel_not_firing` | Pixel Not Firing | No data received | 0 hits for 1 hour |
+| `pixel_error_spike` | Pixel Error Spike | Tracking errors increase | >10% error rate |
+| `data_delay` | Data Delay | Data arriving late | >30 min delay |
+| `duplicate_events` | Duplicate Events | Same event firing multiple times | >5% duplicates |
+| `missing_required_params` | Missing Parameters | Required parameters not sent | >5% missing |
+| `invalid_values` | Invalid Values | Parameter values out of range | >2% invalid |
+| `page_load_slow` | Page Load Slow | Page load time increases | >50% slower |
+| `js_errors_spike` | JS Errors Spike | JavaScript errors increase | >100% increase |
+| `bot_traffic_spike` | Bot Traffic Spike | Bot traffic increases | >20% bot traffic |
+| `sampling_active` | Sampling Active | Data being sampled | Any sampling |
+
+### Technical Rule Details
+
+#### `pixel_not_firing`
+
+```yaml
+metric: total_hits
+comparison: vs_expected
+threshold: 0
+lookback: 1_hour
+cooldown: 1_hour
+severity: critical
+```
+
+**Immediate actions:**
+1. Check website is accessible
+2. Verify tracking code is present
+3. Check for JavaScript errors
+4. Test in incognito mode
+5. Check firewall/security rules
+
+---
+
+## Engagement Rules
+
+Monitor user engagement and behavior.
+
+| Rule ID | Name | Description | Default Threshold |
+|---------|------|-------------|-------------------|
+| `bounce_rate_spike` | Bounce Rate Spike | Bounce rate increases | >25% increase |
+| `session_duration_drop` | Session Duration Drop | Time on site decreases | >30% drop |
+| `pages_per_session_drop` | Pages/Session Drop | Page depth decreases | >25% drop |
+| `scroll_depth_decrease` | Scroll Depth Decrease | Users scrolling less | >20% decrease |
+| `exit_rate_spike` | Exit Rate Spike | Exit rate on key pages increases | >30% increase |
+| `return_visitor_drop` | Return Visitor Drop | Returning visitors decrease | >25% drop |
+| `new_visitor_spike` | New Visitor Spike | New visitor ratio increases | >30% increase |
+| `engagement_score_drop` | Engagement Score Drop | Overall engagement decreases | >20% drop |
+
+---
+
+## Plan Availability
+
+| Category | Research | Guard | Growth |
+|----------|----------|-------|--------|
+| Traffic (10 rules) | 5 | All | All |
+| Conversion (10 rules) | 5 | All | All |
+| Revenue (8 rules) | 3 | All | All |
+| Source/Campaign (9 rules) | - | All | All |
+| Technical (10 rules) | 3 | All | All |
+| Engagement (8 rules) | - | All | All |
+| **Total** | **16** | **55** | **55 + Custom** |
+
+---
+
+## Enabling/Disabling Rules
+
+To manage active rules:
+
+1. Go to **LENS → Rules**
+2. Find the rule you want to modify
+3. Toggle the switch to enable/disable
+4. Optionally adjust the threshold
+
+:::tip
+Start with fewer rules and add more as you understand your data patterns. Too many alerts can lead to alert fatigue.
+:::

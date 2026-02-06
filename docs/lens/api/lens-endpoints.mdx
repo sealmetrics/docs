@@ -1,0 +1,532 @@
+---
+sidebar_position: 1
+title: LENS API Endpoints
+description: API reference for programmatically interacting with LENS AI features.
+---
+
+# LENS API Endpoints
+
+Access LENS features programmatically via the REST API.
+
+## Authentication
+
+All LENS endpoints require authentication via Bearer token:
+
+```bash
+curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  https://app.sealmetrics.com/api/lens/...
+```
+
+See [Authentication](/api/authentication) for details on obtaining tokens.
+
+## Endpoints Overview
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/lens/chat` | POST | Send a question to the AI assistant |
+| `/lens/anomalies` | GET | List detected anomalies |
+| `/lens/anomalies/{id}` | GET | Get anomaly details |
+| `/lens/anomalies/{id}/acknowledge` | POST | Acknowledge an anomaly |
+| `/lens/rules` | GET | List detection rules |
+| `/lens/rules/{id}` | GET | Get rule details |
+| `/lens/rules` | POST | Create custom rule |
+| `/lens/rules/{id}` | PATCH | Update a rule |
+| `/lens/reports` | GET | List generated reports |
+| `/lens/usage` | GET | Get question usage stats |
+
+---
+
+## AI Assistant
+
+### Send a Question
+
+Ask the LENS AI assistant a question about your data.
+
+```
+POST /api/lens/chat
+```
+
+#### Request Body
+
+```json
+{
+  "account_id": "acc_123456",
+  "question": "Why did conversions drop last week?",
+  "context": {
+    "date_range": "last_7_days",
+    "segments": ["mobile"]
+  }
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `account_id` | string | Yes | Account to query |
+| `question` | string | Yes | Natural language question |
+| `context.date_range` | string | No | Date range context |
+| `context.segments` | array | No | Segments to focus on |
+| `conversation_id` | string | No | Continue existing conversation |
+
+#### Response
+
+```json
+{
+  "status": "ok",
+  "data": {
+    "answer": "Your conversions dropped 23% last week (156 → 120). The main factors were:\n\n1. Google Ads traffic decreased 35%\n2. Mobile conversion rate dropped from 2.1% to 1.4%\n\nRecommended actions:\n• Review Google Ads budget\n• Investigate mobile experience",
+    "conversation_id": "conv_abc123",
+    "metrics_referenced": [
+      {"name": "conversions", "value": 120, "change": -23},
+      {"name": "conversion_rate_mobile", "value": 1.4, "change": -33}
+    ],
+    "confidence": 0.89,
+    "follow_ups": [
+      "Which traffic sources had the biggest CR drop?",
+      "When exactly did the drop start?",
+      "How does this compare to last year?"
+    ]
+  },
+  "usage": {
+    "questions_used": 128,
+    "questions_limit": 200,
+    "questions_remaining": 72
+  }
+}
+```
+
+#### Example
+
+```bash
+curl -X POST https://app.sealmetrics.com/api/lens/chat \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "account_id": "acc_123456",
+    "question": "What were my top traffic sources last week?"
+  }'
+```
+
+---
+
+## Anomalies
+
+### List Anomalies
+
+Get detected anomalies for an account.
+
+```
+GET /api/lens/anomalies
+```
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+| `date_range` | string | No | Filter by date range |
+| `severity` | string | No | Filter by severity: `critical`, `high`, `medium`, `low` |
+| `status` | string | No | Filter by status: `open`, `acknowledged`, `dismissed` |
+| `rule_id` | string | No | Filter by specific rule |
+| `limit` | integer | No | Max results (default: 50) |
+| `offset` | integer | No | Pagination offset |
+
+#### Response
+
+```json
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "anom_abc123",
+      "rule_id": "conversion_rate_drop",
+      "rule_name": "Conversion Rate Drop",
+      "severity": "critical",
+      "status": "open",
+      "detected_at": "2024-01-15T14:32:00Z",
+      "metric": {
+        "name": "conversion_rate",
+        "current_value": 0.012,
+        "baseline_value": 0.0185,
+        "change_percentage": -35.1
+      },
+      "segments": {
+        "device": {"mobile": -42, "desktop": -21}
+      }
+    }
+  ],
+  "pagination": {
+    "total": 23,
+    "limit": 50,
+    "offset": 0
+  }
+}
+```
+
+### Get Anomaly Details
+
+Get detailed information about a specific anomaly.
+
+```
+GET /api/lens/anomalies/{anomaly_id}
+```
+
+#### Response
+
+```json
+{
+  "status": "ok",
+  "data": {
+    "id": "anom_abc123",
+    "rule_id": "conversion_rate_drop",
+    "rule_name": "Conversion Rate Drop",
+    "severity": "critical",
+    "status": "open",
+    "detected_at": "2024-01-15T14:32:00Z",
+    "metric": {
+      "name": "conversion_rate",
+      "current_value": 0.012,
+      "baseline_value": 0.0185,
+      "change_percentage": -35.1,
+      "time_series": [
+        {"date": "2024-01-09", "value": 0.019},
+        {"date": "2024-01-10", "value": 0.018},
+        {"date": "2024-01-11", "value": 0.017},
+        {"date": "2024-01-12", "value": 0.015},
+        {"date": "2024-01-13", "value": 0.014},
+        {"date": "2024-01-14", "value": 0.013},
+        {"date": "2024-01-15", "value": 0.012}
+      ]
+    },
+    "segments": {
+      "device": {
+        "mobile": {"current": 0.008, "baseline": 0.014, "change": -42},
+        "desktop": {"current": 0.015, "baseline": 0.019, "change": -21}
+      },
+      "source": {
+        "google_ads": {"current": 0.010, "baseline": 0.016, "change": -38},
+        "organic": {"current": 0.013, "baseline": 0.017, "change": -24}
+      }
+    },
+    "ai_analysis": "The conversion rate drop correlates with a 200ms increase in mobile page load time, particularly affecting the checkout flow.",
+    "recommended_actions": [
+      "Investigate mobile page performance",
+      "Check recent deployments affecting checkout",
+      "Review mobile-specific conversion funnel"
+    ]
+  }
+}
+```
+
+### Acknowledge Anomaly
+
+Mark an anomaly as acknowledged.
+
+```
+POST /api/lens/anomalies/{anomaly_id}/acknowledge
+```
+
+#### Request Body
+
+```json
+{
+  "note": "Investigating with engineering team"
+}
+```
+
+#### Response
+
+```json
+{
+  "status": "ok",
+  "data": {
+    "id": "anom_abc123",
+    "status": "acknowledged",
+    "acknowledged_at": "2024-01-15T15:00:00Z",
+    "acknowledged_by": "user@company.com",
+    "note": "Investigating with engineering team"
+  }
+}
+```
+
+### Dismiss Anomaly
+
+Mark an anomaly as dismissed (false positive).
+
+```
+POST /api/lens/anomalies/{anomaly_id}/dismiss
+```
+
+#### Request Body
+
+```json
+{
+  "reason": "expected_change",
+  "note": "Planned site maintenance caused temporary drop"
+}
+```
+
+| Reason | Description |
+|--------|-------------|
+| `expected_change` | Known change or event |
+| `false_positive` | Detection was incorrect |
+| `not_actionable` | True but no action needed |
+| `other` | Other reason (provide note) |
+
+---
+
+## Rules
+
+### List Rules
+
+Get all detection rules for an account.
+
+```
+GET /api/lens/rules
+```
+
+#### Query Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `account_id` | string | Account ID |
+| `category` | string | Filter by category |
+| `enabled` | boolean | Filter by enabled status |
+
+#### Response
+
+```json
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "conversion_rate_drop",
+      "name": "Conversion Rate Drop",
+      "category": "conversions",
+      "type": "system",
+      "enabled": true,
+      "threshold": {
+        "direction": "decrease",
+        "percentage": 20
+      },
+      "last_triggered": "2024-01-15T14:32:00Z",
+      "trigger_count_30d": 3
+    },
+    {
+      "id": "custom_rule_001",
+      "name": "High-Value Order Drop",
+      "category": "custom",
+      "type": "custom",
+      "enabled": true,
+      "threshold": {
+        "direction": "decrease",
+        "percentage": 30
+      },
+      "last_triggered": null,
+      "trigger_count_30d": 0
+    }
+  ]
+}
+```
+
+### Create Custom Rule
+
+Create a new custom detection rule.
+
+```
+POST /api/lens/rules
+```
+
+#### Request Body
+
+```json
+{
+  "account_id": "acc_123456",
+  "name": "High-Value Orders Drop",
+  "description": "Alert when orders over €500 decrease",
+  "metric": {
+    "type": "count",
+    "event": "conversion",
+    "filters": [
+      {"field": "amount", "operator": "greater_than", "value": 500}
+    ]
+  },
+  "comparison": {
+    "type": "vs_previous_7_days"
+  },
+  "threshold": {
+    "direction": "decrease",
+    "percentage": 30
+  },
+  "alert": {
+    "severity": "high",
+    "cooldown_hours": 8,
+    "channels": ["email", "slack"]
+  }
+}
+```
+
+#### Response
+
+```json
+{
+  "status": "ok",
+  "data": {
+    "id": "custom_rule_002",
+    "name": "High-Value Orders Drop",
+    "created_at": "2024-01-15T16:00:00Z",
+    "enabled": true
+  }
+}
+```
+
+### Update Rule
+
+Update an existing rule (enable/disable, change threshold).
+
+```
+PATCH /api/lens/rules/{rule_id}
+```
+
+#### Request Body
+
+```json
+{
+  "enabled": false,
+  "threshold": {
+    "percentage": 25
+  }
+}
+```
+
+---
+
+## Usage
+
+### Get Question Usage
+
+Get LENS AI question usage statistics.
+
+```
+GET /api/lens/usage
+```
+
+#### Query Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `account_id` | string | Account ID |
+
+#### Response
+
+```json
+{
+  "status": "ok",
+  "data": {
+    "period": {
+      "start": "2024-01-01",
+      "end": "2024-01-31"
+    },
+    "questions": {
+      "limit": 200,
+      "used": 127,
+      "remaining": 73
+    },
+    "daily_usage": [
+      {"date": "2024-01-15", "count": 12},
+      {"date": "2024-01-14", "count": 8},
+      {"date": "2024-01-13", "count": 5}
+    ],
+    "by_user": [
+      {"email": "analyst@company.com", "count": 85},
+      {"email": "manager@company.com", "count": 42}
+    ],
+    "overage": {
+      "count": 0,
+      "cost": 0
+    },
+    "resets_at": "2024-02-01T00:00:00Z"
+  }
+}
+```
+
+---
+
+## Error Responses
+
+### Rate Limit
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Too many requests to LENS API",
+    "retry_after": 60
+  }
+}
+```
+
+### Question Limit
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "QUESTION_LIMIT_EXCEEDED",
+    "message": "Monthly question limit reached",
+    "limit": 200,
+    "used": 200,
+    "resets_at": "2024-02-01T00:00:00Z",
+    "overage_available": true,
+    "overage_rate": 0.40
+  }
+}
+```
+
+### Invalid Question
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "INVALID_QUESTION",
+    "message": "Question is too vague or cannot be answered with available data",
+    "suggestions": [
+      "Try being more specific about the time period",
+      "Specify which metric you're interested in",
+      "Add context about segments or filters"
+    ]
+  }
+}
+```
+
+---
+
+## Rate Limits
+
+| Endpoint | Rate Limit |
+|----------|------------|
+| `/lens/chat` | 10 requests/minute |
+| `/lens/anomalies` | 60 requests/minute |
+| `/lens/rules` | 30 requests/minute |
+| `/lens/usage` | 10 requests/minute |
+
+Rate limit headers are included in all responses:
+- `X-RateLimit-Limit`
+- `X-RateLimit-Remaining`
+- `X-RateLimit-Reset`
+
+---
+
+## Webhooks
+
+Configure webhooks to receive LENS events. See [Email Alerts - Webhook Section](../reports/email-alerts#webhook-alerts) for details.
+
+### Event Types
+
+| Event | Description |
+|-------|-------------|
+| `anomaly.detected` | New anomaly detected |
+| `anomaly.resolved` | Anomaly returned to normal |
+| `report.generated` | Scheduled report ready |
+| `question.answered` | AI question answered |

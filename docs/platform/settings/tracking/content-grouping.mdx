@@ -1,0 +1,352 @@
+---
+sidebar_position: 2
+title: Content Grouping
+description: Group pages into logical categories for easier analysis and reporting.
+---
+
+# Content Grouping
+
+Content Grouping lets you organize your pages into logical categories, making it easier to analyze performance by section rather than individual URLs.
+
+## What is Content Grouping?
+
+Instead of analyzing hundreds of individual URLs:
+
+```
+Before Content Grouping:
+─────────────────────────
+/products/widget-a           234 views
+/products/widget-b           189 views
+/products/gadget-x           167 views
+/blog/how-to-use-widgets     145 views
+/blog/widget-comparison      132 views
+/about                        89 views
+... (hundreds more)
+```
+
+You can analyze by content type:
+
+```
+After Content Grouping:
+─────────────────────────
+Products                     1,234 views
+Blog                           892 views
+Company Pages                  345 views
+Support                        234 views
+```
+
+## Accessing Content Grouping
+
+1. Click the **gear icon** in the main navigation
+2. Select **Tracking → Content Grouping**
+
+## Creating Content Groups
+
+### Rule-Based Groups
+
+Define rules to automatically assign pages to groups:
+
+```
+Content Groups
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Group: Products
+Rules:
+  • URL path starts with "/products/"
+  • URL path starts with "/shop/"
+  • URL path contains "/product/"
+
+Group: Blog
+Rules:
+  • URL path starts with "/blog/"
+  • URL path contains "/articles/"
+
+Group: Support
+Rules:
+  • URL path starts with "/help/"
+  • URL path starts with "/support/"
+  • URL path starts with "/faq/"
+
+[+ Add Group]
+```
+
+### Adding a New Group
+
+1. Click **+ Add Group**
+2. Configure the group:
+
+```
+Add Content Group
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Group Name: [Product Categories           ]
+
+Rules (pages matching ANY rule are included):
+
+Rule 1:
+  Match Type: [URL Path                  ▼]
+  Condition:  [starts with               ▼]
+  Value:      [/products/                  ]
+
+Rule 2:
+  Match Type: [URL Path                  ▼]
+  Condition:  [matches regex             ▼]
+  Value:      [/category/[^/]+/products    ]
+
+[+ Add Another Rule]
+
+[Save Group]
+```
+
+## Rule Types
+
+### URL Path Rules
+
+Match against the URL path:
+
+| Condition | Example Value | Matches |
+|-----------|---------------|---------|
+| `starts with` | `/blog/` | /blog/post-1, /blog/category/tech |
+| `ends with` | `/checkout` | /cart/checkout, /checkout |
+| `contains` | `/product/` | /shop/product/123, /product/widget |
+| `equals` | `/pricing` | Only /pricing exactly |
+| `matches regex` | `/blog/\d{4}/` | /blog/2024/post-1 |
+
+### URL Parameter Rules
+
+Match against query parameters:
+
+| Condition | Parameter | Value | Matches |
+|-----------|-----------|-------|---------|
+| `equals` | category | shoes | ?category=shoes |
+| `exists` | promo | (any) | ?promo=summer, ?promo=1 |
+| `matches regex` | id | `\d+` | ?id=123, ?id=456 |
+
+### Page Title Rules
+
+Match against the HTML page title:
+
+| Condition | Value | Matches |
+|-----------|-------|---------|
+| `contains` | "Product" | "Product: Widget A - MyStore" |
+| `starts with` | "Blog:" | "Blog: How to Use Widgets" |
+
+### Custom Property Rules
+
+Match against custom event properties:
+
+| Property | Condition | Value | Matches |
+|----------|-----------|-------|---------|
+| `page_type` | equals | product | Pages with page_type="product" |
+| `category` | contains | electronics | Pages with category containing "electronics" |
+
+## Rule Priority
+
+When a page matches multiple groups, the first matching group wins:
+
+```
+Rule Priority (drag to reorder):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ☰ Landing Pages     (checked first)
+2. ☰ Products
+3. ☰ Blog
+4. ☰ Support
+5. ☰ Other             (catch-all)
+
+Example:
+URL: /products/landing-widget
+
+If "Landing Pages" rule matches first → assigned to "Landing Pages"
+Otherwise falls through to "Products"
+```
+
+## Testing Rules
+
+### Rule Tester
+
+Test how pages would be classified:
+
+```
+Test Content Group Rules
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Enter URL to test:
+[/products/category/electronics/widget-pro]
+
+[Test]
+
+Result:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Assigned to: Products
+
+Rules evaluated:
+1. Landing Pages: ❌ No match
+2. Products: ✅ Matched "URL contains /products/"
+3. Blog: (skipped)
+4. Support: (skipped)
+```
+
+### Bulk Test
+
+Test multiple URLs at once:
+
+```
+Bulk Test
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Paste URLs (one per line):
+┌─────────────────────────────────────────┐
+│ /products/widget-a                      │
+│ /blog/how-to-guide                      │
+│ /support/faq                            │
+│ /random-page                            │
+└─────────────────────────────────────────┘
+
+[Test All]
+
+Results:
+─────────────────────────────────────────
+/products/widget-a        → Products
+/blog/how-to-guide        → Blog
+/support/faq              → Support
+/random-page              → (No Group) ⚠️
+```
+
+## Using Content Groups in Reports
+
+### Filtering by Group
+
+In any report, filter by content group:
+
+```
+Filters:
++ Content Group: [Products              ▼]
+
+Showing traffic for "Products" content group
+```
+
+### Group Breakdown Report
+
+View all groups side by side:
+
+```
+Content Group Performance
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Group          Views    Users    Conv Rate   Revenue
+──────────────────────────────────────────────────────
+Products       45,230   12,340   3.2%        €123,456
+Blog           23,120    8,920   0.8%         €12,340
+Landing Pages  12,340    9,870   5.1%         €45,678
+Support         5,670    3,210   0.2%          €1,234
+(No Group)      1,230      890   1.0%          €2,345
+```
+
+### Drilling Down
+
+Click on any group to see pages within:
+
+```
+Products (45,230 views)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Page                          Views    Conv Rate
+─────────────────────────────────────────────────
+/products/widget-pro          12,340   4.5%
+/products/gadget-x             8,920   3.8%
+/products/bundle-deal          6,780   5.2%
+/products/accessories          5,430   2.1%
+... (more pages)
+```
+
+## Common Group Configurations
+
+### E-commerce Site
+
+```
+Groups:
+1. Homepage        - URL equals "/"
+2. Category Pages  - URL matches "/category/"
+3. Product Pages   - URL matches "/products/" or "/product/"
+4. Cart/Checkout   - URL contains "/cart" or "/checkout"
+5. Account         - URL starts with "/account/"
+6. Support         - URL starts with "/help/"
+7. Other           - (catch-all)
+```
+
+### Blog/Media Site
+
+```
+Groups:
+1. Homepage        - URL equals "/"
+2. Articles        - URL matches regex "/\d{4}/\d{2}/"
+3. Category        - URL starts with "/category/"
+4. Author Pages    - URL starts with "/author/"
+5. Search Results  - URL contains "?s=" or "/search"
+6. Static Pages    - URL in ["/about", "/contact", "/privacy"]
+7. Other           - (catch-all)
+```
+
+### SaaS Application
+
+```
+Groups:
+1. Marketing Site  - URL host equals "www.myapp.com"
+2. Login/Signup    - URL matches "/login" or "/signup"
+3. Dashboard       - URL starts with "/app/dashboard"
+4. Settings        - URL starts with "/app/settings"
+5. Features        - URL matches "/app/" but not above
+6. Docs            - URL host equals "docs.myapp.com"
+7. Other           - (catch-all)
+```
+
+## Advanced: Code-Based Grouping
+
+Set content group via JavaScript for complex logic:
+
+```javascript
+// Set content group based on complex logic
+_sm('set', 'contentGroup', determineContentGroup());
+
+function determineContentGroup() {
+  // Check data layer
+  if (dataLayer.pageType === 'product') {
+    return 'Products';
+  }
+
+  // Check URL patterns
+  if (window.location.pathname.startsWith('/blog/')) {
+    return 'Blog';
+  }
+
+  // Check page content
+  if (document.querySelector('.product-detail')) {
+    return 'Products';
+  }
+
+  return 'Other';
+}
+```
+
+This overrides rule-based grouping when set.
+
+## Limitations
+
+- Maximum 20 content groups per account
+- Maximum 10 rules per group
+- Regex patterns have 100 character limit
+- Groups apply to new data only (not retroactive)
+
+## Retroactive Grouping
+
+Content groups normally apply only to new data. To apply groups to historical data:
+
+1. Go to **Settings → Tracking → Content Grouping**
+2. Click **Reprocess Historical Data**
+3. Select date range
+4. Click **Start Reprocessing**
+
+:::warning
+Reprocessing can take several hours for large date ranges and may temporarily affect report accuracy.
+:::

@@ -1,0 +1,379 @@
+---
+sidebar_position: 3
+title: Custom Dimensions
+description: Define custom data fields to capture business-specific information with your tracking.
+---
+
+# Custom Dimensions
+
+Custom dimensions let you capture additional data beyond standard analytics fields, enabling business-specific analysis.
+
+## What Are Custom Dimensions?
+
+Standard tracking captures common fields:
+- Page URL
+- Referrer
+- Device type
+- Country
+
+Custom dimensions let you add your own fields:
+- User type (free/premium)
+- Product category
+- A/B test variant
+- Customer segment
+
+## Accessing Custom Dimensions
+
+1. Click the **gear icon** in the main navigation
+2. Select **Tracking → Custom Dimensions**
+
+## Dimension Types
+
+### Hit-Level Dimensions
+
+Attached to individual pageviews or events:
+
+```
+Dimension: Product Category
+Scope: Hit
+Example values: "Electronics", "Clothing", "Home"
+
+Use case: Different pages show different categories
+Each pageview can have a different value
+```
+
+### Session-Level Dimensions
+
+Persist for the entire session:
+
+```
+Dimension: Entry Campaign
+Scope: Session
+Example values: "summer-sale", "brand-awareness"
+
+Use case: Track how users entered, apply to all pages
+Value set once, applies to entire session
+```
+
+### User-Level Dimensions
+
+Persist across all sessions for a user:
+
+```
+Dimension: Customer Tier
+Scope: User
+Example values: "free", "pro", "enterprise"
+
+Use case: Segment all behavior by customer type
+Value persists until explicitly changed
+```
+
+## Creating Custom Dimensions
+
+### Add New Dimension
+
+1. Click **+ Add Custom Dimension**
+2. Configure:
+
+```
+Add Custom Dimension
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Name:        [Customer Type                ]
+
+Internal ID: [customer_type                ]
+             (used in code, no spaces)
+
+Scope:       [User                        ▼]
+
+Data Type:   [String                      ▼]
+
+Description: [Free, pro, or enterprise tier]
+
+Default Value: [free                       ]
+               (optional, used when not set)
+
+[Create Dimension]
+```
+
+### Available Data Types
+
+| Type | Example Values | Use Case |
+|------|----------------|----------|
+| String | "premium", "category-a" | Categories, names |
+| Number | 42, 3.14 | Counts, scores |
+| Boolean | true, false | Flags, toggles |
+| Date | "2024-01-15" | Timestamps |
+
+## Setting Dimension Values
+
+### Via JavaScript
+
+Set dimensions when tracking:
+
+```javascript
+// Hit-level: set with the pageview
+_sm('pageview', {
+  dimensions: {
+    product_category: 'Electronics',
+    page_type: 'product-detail'
+  }
+});
+
+// Session-level: set once, persists
+_sm('set', 'sessionDimensions', {
+  entry_campaign: 'summer-sale',
+  ab_test_variant: 'B'
+});
+
+// User-level: set once, persists across sessions
+_sm('set', 'userDimensions', {
+  customer_type: 'premium',
+  signup_date: '2024-01-15'
+});
+```
+
+### Via Data Layer
+
+Read from existing data layer:
+
+```javascript
+// Configure dimension mapping
+_sm('init', 'acc_123...', {
+  dimensionMapping: {
+    customer_type: 'dataLayer.userType',
+    page_category: 'dataLayer.pageCategory'
+  }
+});
+```
+
+### Via Server-Side
+
+Send dimensions with server-side events:
+
+```python
+import requests
+
+requests.post(
+    "https://app.sealmetrics.com/api/events",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={
+        "account_id": "acc_123...",
+        "event": "purchase",
+        "dimensions": {
+            "customer_type": "premium",
+            "order_category": "electronics"
+        }
+    }
+)
+```
+
+## Using Custom Dimensions in Reports
+
+### Filtering
+
+Filter any report by custom dimension:
+
+```
+Traffic Report
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Filters:
++ Customer Type: [Premium               ▼]
++ Product Category: [Electronics        ▼]
+
+Showing data for: Premium customers viewing Electronics
+```
+
+### Breaking Down
+
+Break down metrics by dimension:
+
+```
+Conversions by Customer Type
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Customer Type    Conversions    Conv Rate    Revenue
+─────────────────────────────────────────────────────
+Enterprise            234         5.2%       €89,000
+Pro                   567         3.8%       €45,600
+Free                  123         0.8%        €2,340
+```
+
+### Custom Reports
+
+Create reports specifically for your dimensions:
+
+```
+Custom Report: A/B Test Analysis
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dimension: ab_test_variant
+Metrics: Sessions, Conversions, Revenue
+
+Results:
+─────────────────────────────────────────────────────
+Variant    Sessions    Conversions    Conv Rate
+─────────────────────────────────────────────────────
+Control      12,340         234         1.90%
+Variant A    12,120         298         2.46% ↑
+Variant B    12,540         187         1.49% ↓
+```
+
+## Common Dimension Examples
+
+### E-commerce
+
+```javascript
+// Product dimensions
+_sm('event', 'product_view', {
+  dimensions: {
+    product_category: 'Electronics',
+    product_brand: 'Apple',
+    price_range: '$100-$500',
+    in_stock: true
+  }
+});
+
+// Customer dimensions
+_sm('set', 'userDimensions', {
+  customer_tier: 'gold',
+  lifetime_value_bucket: 'high',
+  first_purchase_date: '2023-06-15'
+});
+```
+
+### SaaS
+
+```javascript
+// User dimensions
+_sm('set', 'userDimensions', {
+  plan_type: 'pro',
+  company_size: '50-200',
+  industry: 'technology',
+  trial_user: false
+});
+
+// Feature usage
+_sm('event', 'feature_used', {
+  dimensions: {
+    feature_name: 'export',
+    feature_category: 'reporting'
+  }
+});
+```
+
+### Media/Content
+
+```javascript
+// Content dimensions
+_sm('pageview', {
+  dimensions: {
+    content_type: 'article',
+    author: 'john-smith',
+    category: 'technology',
+    publish_date: '2024-01-15',
+    word_count_bucket: '1000-2000',
+    has_video: true
+  }
+});
+
+// User dimensions
+_sm('set', 'userDimensions', {
+  subscriber_status: 'premium',
+  newsletter_signup: true
+});
+```
+
+## Dimension Limits
+
+| Plan | Custom Dimensions |
+|------|-------------------|
+| Research | 10 |
+| Guard | 25 |
+| Growth | 50 |
+
+Each dimension can have:
+- Name: 64 characters max
+- ID: 32 characters max, alphanumeric + underscore
+- Value: 256 characters max per value
+
+## Managing Dimensions
+
+### Edit Dimension
+
+1. Click on dimension name
+2. Modify settings (cannot change scope or ID)
+3. Save changes
+
+### Archive Dimension
+
+Stop collecting new data but keep historical:
+
+```
+Archive Dimension
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Archiving "old_campaign_id" will:
+• Stop accepting new values
+• Keep existing historical data
+• Free up a dimension slot
+• Allow unarchiving later
+
+[Cancel] [Archive]
+```
+
+### Delete Dimension
+
+Permanently remove dimension and all data:
+
+```
+⚠️ Delete Dimension
+
+This will PERMANENTLY delete:
+• The dimension definition
+• ALL historical data for this dimension
+
+This cannot be undone.
+
+Type dimension ID to confirm: [old_campaign_id]
+
+[Cancel] [Delete]
+```
+
+## Best Practices
+
+### Naming Conventions
+
+- Use snake_case for IDs: `customer_type`, not `customerType`
+- Use descriptive names: `product_category`, not `cat1`
+- Prefix related dimensions: `user_tier`, `user_industry`, `user_company_size`
+
+### Choosing Scope
+
+| Scope | Use When | Example |
+|-------|----------|---------|
+| Hit | Value changes per page/event | Product category, page type |
+| Session | Value is constant for visit | Entry campaign, A/B variant |
+| User | Value is constant for user | Customer tier, signup date |
+
+### Performance Tips
+
+- Don't create dimensions you won't analyze
+- Use predefined values where possible (faster queries)
+- Consider cardinality (dimensions with millions of unique values are slower)
+
+## Troubleshooting
+
+### Dimension Not Appearing in Reports
+
+1. Check dimension is not archived
+2. Verify scope matches how you're setting it
+3. Ensure ID matches exactly (case-sensitive)
+4. Wait 1-2 hours for processing
+
+### Values Showing as "(not set)"
+
+1. Value wasn't sent with the event
+2. Dimension was created after data was collected
+3. Default value not configured

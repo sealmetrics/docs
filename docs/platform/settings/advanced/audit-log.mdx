@@ -1,0 +1,328 @@
+---
+sidebar_position: 1
+title: Audit Log
+description: Track all account activity and changes for security and compliance.
+---
+
+# Audit Log
+
+The Audit Log records all significant actions taken in your Sealmetrics account, providing a complete trail for security and compliance purposes.
+
+## Accessing Audit Log
+
+1. Go to **Settings → Advanced → Audit Log**
+2. View chronological list of all actions
+
+## What's Logged
+
+### User Actions
+
+| Action | Details Recorded |
+|--------|------------------|
+| Login | User, IP, device, location |
+| Logout | User, session duration |
+| Failed login | Email attempted, IP, reason |
+| Password change | User (not the password) |
+| 2FA enabled/disabled | User |
+| API key created | User, key name, permissions |
+| API key revoked | User, key name |
+
+### Account Changes
+
+| Action | Details Recorded |
+|--------|------------------|
+| User invited | Inviter, invitee email, role |
+| User removed | Remover, removed user |
+| Role changed | Who changed, old role, new role |
+| Settings changed | Who, what setting, old/new values |
+| Integration connected | Who, integration type |
+| Integration disconnected | Who, integration type |
+
+### Data Actions
+
+| Action | Details Recorded |
+|--------|------------------|
+| Data exported | Who, date range, type |
+| Report scheduled | Who, report type, schedule |
+| Conversion deleted | Who, conversion ID |
+| Account archived | Who |
+
+## Viewing the Audit Log
+
+### Log Interface
+
+```
+Audit Log
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Filters:
+  Date Range: [Last 7 days           ▼]
+  User: [All users                   ▼]
+  Action Type: [All actions          ▼]
+
+[Search: ___________________________] [Export CSV]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Jan 15, 2024 14:32:15 UTC
+🔑 API Key Created
+User: admin@company.com
+Details: Created "BigQuery Sync" with read-only scope
+IP: 192.168.1.50
+
+Jan 15, 2024 14:28:03 UTC
+👤 User Invited
+User: admin@company.com
+Details: Invited sarah@company.com as Analyst
+IP: 192.168.1.50
+
+Jan 15, 2024 12:15:42 UTC
+🔐 Login Successful
+User: mike@company.com
+Details: Chrome on macOS, Madrid, Spain
+IP: 83.45.123.78
+
+Jan 15, 2024 11:30:00 UTC
+⚙️ Settings Changed
+User: admin@company.com
+Details: Changed timezone from UTC to Europe/Madrid
+IP: 192.168.1.50
+```
+
+### Log Entry Details
+
+Click on any entry for full details:
+
+```
+Log Entry Details
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Event ID: log_abc123def456
+Timestamp: January 15, 2024 14:32:15 UTC
+
+Action: API Key Created
+
+Actor:
+  Email: admin@company.com
+  Name: John Admin
+  Role: Admin
+
+Context:
+  IP Address: 192.168.1.50
+  User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)...
+  Location: Madrid, Spain
+  Session ID: sess_xyz789
+
+Details:
+  Key Name: BigQuery Sync
+  Key ID: key_newkey123
+  Scope: read-only
+  Expiration: Never
+  Accounts: All
+
+Previous Value: N/A (new creation)
+New Value: API key created with specified settings
+```
+
+## Filtering and Search
+
+### By Date Range
+
+```
+Date Range:
+  ○ Today
+  ○ Yesterday
+  ● Last 7 days
+  ○ Last 30 days
+  ○ Custom range: [Start] to [End]
+```
+
+### By User
+
+```
+User:
+  ○ All users
+  ● Specific user: [admin@company.com    ▼]
+```
+
+### By Action Type
+
+```
+Action Type:
+  ○ All actions
+  ● Authentication (logins, logouts, 2FA)
+  ○ User Management (invites, removals, role changes)
+  ○ Settings Changes
+  ○ Integrations
+  ○ Data Actions (exports, deletions)
+  ○ API Activity
+```
+
+### Text Search
+
+Search within log entries:
+
+```
+Search: [bigquery                        ]
+
+Matches entries containing "bigquery" in:
+• Action description
+• Details
+• User email
+• IP address
+```
+
+## Exporting Audit Logs
+
+### Export to CSV
+
+1. Set your filters
+2. Click **Export CSV**
+3. Download file
+
+```csv
+timestamp,event_id,action,user_email,ip_address,details
+2024-01-15T14:32:15Z,log_abc123,api_key_created,admin@company.com,192.168.1.50,"Created BigQuery Sync"
+2024-01-15T14:28:03Z,log_def456,user_invited,admin@company.com,192.168.1.50,"Invited sarah@company.com"
+...
+```
+
+### Scheduled Export
+
+Set up automatic exports for compliance:
+
+```
+Scheduled Audit Log Export
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Enable scheduled export
+
+Frequency: [Weekly on Monday           ▼]
+Format: [CSV                           ▼]
+Deliver to: [compliance@company.com     ]
+
+Include:
+☑ All action types
+☐ Authentication only
+☐ Settings changes only
+```
+
+## Security Best Practices
+
+### Regular Review
+
+Set a schedule to review the audit log:
+
+- **Daily:** Check for failed logins, unusual activity
+- **Weekly:** Review user management actions
+- **Monthly:** Full audit review for compliance
+
+### Alert on Suspicious Activity
+
+Configure alerts for specific events:
+
+```
+Audit Alerts
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Multiple failed logins (>5 in 10 minutes)
+☑ Login from new country
+☑ Admin role granted
+☑ API key with full access created
+☐ Any settings change
+☐ Any data export
+
+Alert to: [security@company.com         ]
+```
+
+### Investigating Incidents
+
+When investigating a security incident:
+
+1. **Identify timeframe** - When did the issue occur?
+2. **Filter by time** - Review all activity in that window
+3. **Identify actors** - Who was active during that time?
+4. **Trace actions** - Follow the sequence of events
+5. **Check IPs** - Look for unusual IP addresses
+6. **Export evidence** - Download CSV for records
+
+## Compliance Use Cases
+
+### GDPR Data Access Requests
+
+Track who accessed what data:
+
+1. Filter by "Data Actions"
+2. Search for specific user or data type
+3. Export for documentation
+
+### SOC 2 Audit Evidence
+
+Demonstrate access controls:
+
+1. Export authentication logs
+2. Show user management history
+3. Document settings changes
+
+### Internal Security Audit
+
+Review account security posture:
+
+1. Check for shared credentials (multiple IPs for same user)
+2. Review inactive users
+3. Audit API key usage
+4. Verify 2FA adoption
+
+## Log Retention
+
+| Plan | Retention Period |
+|------|------------------|
+| Research | 30 days |
+| Guard | 90 days |
+| Growth | 1 year |
+
+Logs are automatically deleted after the retention period. Export regularly if you need longer retention.
+
+## API Access
+
+Query audit logs programmatically (Growth plan):
+
+```bash
+curl https://app.sealmetrics.com/api/audit-log \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d "start_date=2024-01-01" \
+  -d "end_date=2024-01-31" \
+  -d "action_type=authentication"
+```
+
+Response:
+
+```json
+{
+  "data": [
+    {
+      "id": "log_abc123",
+      "timestamp": "2024-01-15T14:32:15Z",
+      "action": "login_success",
+      "user": "admin@company.com",
+      "ip": "192.168.1.50",
+      "details": {
+        "device": "Chrome on macOS",
+        "location": "Madrid, Spain"
+      }
+    }
+  ],
+  "pagination": {
+    "total": 1234,
+    "page": 1,
+    "per_page": 100
+  }
+}
+```
+
+## Limitations
+
+- Audit logs cannot be modified or deleted
+- Bulk exports limited to 10,000 entries per request
+- Real-time streaming not available (use webhooks for real-time)
+- Some automated system actions not logged (internal processes)

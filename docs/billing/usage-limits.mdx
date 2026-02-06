@@ -1,0 +1,313 @@
+---
+sidebar_position: 4
+title: Usage & Limits
+description: Understanding pageview limits, usage tracking, and what happens when you exceed your plan limits.
+---
+
+# Usage & Limits
+
+Learn how Sealmetrics tracks usage, what counts toward your limits, and how to manage overages.
+
+## Pageview Limits
+
+Each plan includes a monthly pageview allowance:
+
+| Plan | Monthly Pageviews |
+|------|-------------------|
+| Research | 500,000 |
+| Guard | 2,000,000 |
+| Growth | 10,000,000 |
+
+### What Counts as a Pageview
+
+| Event Type | Counts? | Notes |
+|------------|:-------:|-------|
+| Page load | ✅ | Standard pageview |
+| Virtual pageview (SPA) | ✅ | Single-page app navigation |
+| Custom event | ❌ | Events are free |
+| Conversion | ❌ | Conversions are free |
+| Micro-conversion | ❌ | All events are free |
+| API call | ❌ | API usage is separate |
+
+**Example:**
+
+```
+User visits 5 pages, adds item to cart, completes purchase
+
+Pageviews counted: 5
+Events (free): 2 (add-to-cart, purchase)
+Total cost: 5 pageviews
+```
+
+### Multi-Account Pageviews
+
+Pageviews are pooled across all accounts in your plan:
+
+```
+Plan: Guard (2M pageviews)
+
+Account 1 (main-store.com):    1,200,000 pageviews
+Account 2 (blog.company.com):    600,000 pageviews
+Account 3 (uk.store.com):        150,000 pageviews
+────────────────────────────────────────────────────
+Total used:                    1,950,000 pageviews
+Remaining:                        50,000 pageviews
+```
+
+## Monitoring Usage
+
+### Dashboard View
+
+1. Go to **Settings → Usage**
+2. View current period usage:
+
+```
+Usage - January 2024
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Pageviews
+├─────────────────────────────────░░░░░│ 82%
+1,640,000 / 2,000,000
+
+By Account:
+  main-store.com      1,100,000 (67%)
+  blog.company.com      400,000 (24%)
+  uk.store.com          140,000 (9%)
+
+Daily Average: 54,667 pageviews
+Projected Month-End: 1,694,677 pageviews
+
+Status: ✅ On track
+```
+
+### Usage Alerts
+
+You'll receive notifications at:
+
+| Threshold | Notification Type |
+|-----------|-------------------|
+| 80% | Email warning |
+| 90% | Email + Dashboard alert |
+| 100% | Email + Dashboard + In-app popup |
+| Overage | Email with usage details |
+
+Configure alerts in **Settings → Notifications → Usage Alerts**.
+
+## Handling Overages
+
+### What Happens When You Exceed
+
+When you exceed your pageview limit:
+
+1. **Tracking continues** - No data is lost
+2. **Overage charges apply** - €0.20 per 10,000 pageviews
+3. **Notification sent** - You're informed of the overage
+4. **Invoice updated** - Charges added to next bill
+
+### Overage Pricing
+
+| Extra Pageviews | Cost |
+|-----------------|------|
+| 10,000 | €0.20 |
+| 100,000 | €2.00 |
+| 500,000 | €10.00 |
+| 1,000,000 | €20.00 |
+
+### Setting Overage Limits
+
+Prevent unexpected charges:
+
+1. Go to **Settings → Billing → Usage Limits**
+2. Set maximum overage amount:
+
+```
+Overage Settings
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Maximum monthly overage: €50
+
+When limit reached:
+● Stop tracking (data loss)
+○ Continue tracking (unlimited overage)
+○ Notify me to decide
+
+Email notifications:
+☑ Notify at 80% of overage limit
+☑ Notify at 100% of overage limit
+```
+
+:::warning
+If you choose "Stop tracking" when limit is reached, pageviews beyond your limit + overage cap will not be recorded.
+:::
+
+## Other Limits
+
+### Data Retention
+
+| Plan | Retention | What Happens After |
+|------|-----------|-------------------|
+| Research | 12 months | Data archived, then deleted |
+| Guard | 24 months | Data archived, then deleted |
+| Growth | 36 months | Data archived, then deleted |
+
+**Extended retention:** Available as add-on (€50/year extra).
+
+### API Rate Limits
+
+| Plan | Requests/min | Burst |
+|------|--------------|-------|
+| Research | 30 | 50 |
+| Guard | 60 | 100 |
+| Growth | 120 | 200 |
+
+API limits are per account, not pooled.
+
+### LENS AI Questions
+
+| Plan | Questions/month | Overage |
+|------|-----------------|---------|
+| Research | 50 | €0.50/question |
+| Guard | 200 | €0.40/question |
+| Growth | 500 | €0.30/question |
+
+[More about LENS limits →](/lens/ai-assistant/question-limits)
+
+### Team Members
+
+| Plan | Limit |
+|------|-------|
+| Research | 2 users |
+| Guard | 5 users |
+| Growth | Unlimited |
+
+Exceeding user limits requires plan upgrade.
+
+### Custom Properties
+
+| Plan | Properties per Event |
+|------|---------------------|
+| Research | 10 |
+| Guard | 25 |
+| Growth | 50 |
+
+### Custom Rules (LENS)
+
+| Plan | Custom Rules |
+|------|--------------|
+| Research | 0 |
+| Guard | 5 |
+| Growth | Unlimited |
+
+## Reducing Usage
+
+### Optimize Tracking
+
+If you're approaching limits, consider:
+
+1. **Exclude internal traffic**
+   ```javascript
+   _sm('set', 'excludeIPs', ['192.168.1.0/24']);
+   ```
+
+2. **Filter bot traffic** (enabled by default)
+
+3. **Exclude staging/development**
+   - Don't install pixel on staging environments
+   - Use separate test accounts
+
+4. **Sample high-traffic pages**
+   ```javascript
+   // Track only 10% of homepage traffic
+   if (Math.random() < 0.1) {
+     _sm('pageview');
+   }
+   ```
+
+### Monitor by Account
+
+Identify high-usage accounts:
+
+1. Go to **Settings → Usage**
+2. View **By Account** breakdown
+3. Consider if all accounts need full tracking
+
+## Usage History
+
+### View Historical Usage
+
+1. Go to **Settings → Usage → History**
+2. Select time period
+
+```
+Usage History
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Month       Pageviews    Limit      Status
+──────────────────────────────────────────
+Jan 2024    1,640,000    2,000,000  ✅
+Dec 2023    2,150,000    2,000,000  ⚠️ +150K overage
+Nov 2023    1,890,000    2,000,000  ✅
+Oct 2023    1,750,000    2,000,000  ✅
+Sep 2023    3,200,000    2,000,000  ⚠️ +1.2M overage
+```
+
+### Export Usage Data
+
+Download usage reports:
+
+1. Go to **Settings → Usage → Export**
+2. Select date range
+3. Download CSV
+
+## Planning for Growth
+
+### Upgrade Triggers
+
+Consider upgrading when:
+
+| Trigger | Recommendation |
+|---------|----------------|
+| 2+ months at 90%+ usage | Upgrade plan |
+| Regular overages | Upgrade plan |
+| Need more accounts | Upgrade plan |
+| Need more team members | Upgrade plan |
+
+### Cost Comparison
+
+When overages become expensive:
+
+```
+Scenario: Guard plan, consistently 500K over
+
+Monthly breakdown:
+  Guard plan:        €399
+  Overage (500K):     €10
+  Total:             €409
+
+vs. Growth plan:     €599
+
+Upgrade makes sense when overage > €200/month
+(at 1M+ extra pageviews consistently)
+```
+
+## FAQ
+
+### Do events count toward pageviews?
+
+No. Only pageviews and virtual pageviews count. All events (conversions, micro-conversions, custom events) are free.
+
+### What happens if I hit my limit mid-month?
+
+Tracking continues and overage charges apply. You can set an overage limit to cap charges.
+
+### Can I buy extra pageviews without upgrading?
+
+Yes, through pageview add-on packs or automatic overage. Overage is simpler for occasional spikes.
+
+### Do unused pageviews roll over?
+
+No. Pageview allowances reset each billing cycle and don't roll over.
+
+### How quickly does usage update?
+
+Usage dashboard updates hourly. Real-time usage may have a ~1 hour delay.

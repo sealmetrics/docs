@@ -1,0 +1,524 @@
+---
+sidebar_position: 3
+title: SaaS Application
+description: Implementation guide for tracking a SaaS product - from landing page to trial signup, onboarding, and subscription.
+---
+
+# SaaS Implementation Guide
+
+Complete guide to implement Sealmetrics tracking for your SaaS product. Track the full user journey from landing to paid subscription.
+
+## What You'll Track
+
+| Event Type | Example | Purpose |
+|------------|---------|---------|
+| Pageviews | Pricing, features, blog | Traffic analysis |
+| Microconversions | Plan selection, form steps | Funnel optimization |
+| Conversions | Trial signup, subscription | Revenue attribution |
+
+---
+
+## Step 1: Basic Installation
+
+Add the tracking script to your marketing site and app:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+### Content Grouping for SaaS
+
+```html
+<!-- Marketing pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=marketing" defer></script>
+
+<!-- Pricing page -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=pricing" defer></script>
+
+<!-- Blog -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=blog" defer></script>
+
+<!-- Documentation -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=docs" defer></script>
+
+<!-- App (logged in) -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=app" defer></script>
+
+<!-- Onboarding -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=onboarding" defer></script>
+```
+
+---
+
+## Step 2: Track Pricing Page Interactions
+
+### Plan Selection
+
+```javascript
+// Track when user clicks on a plan
+document.querySelectorAll('.plan-card').forEach(function(card) {
+  card.addEventListener('click', function() {
+    sealmetrics.micro('select_plan', {
+      plan: this.dataset.plan,  // 'starter', 'pro', 'enterprise'
+      billing: document.querySelector('.billing-toggle.active').dataset.billing  // 'monthly', 'yearly'
+    });
+  });
+});
+```
+
+### Billing Toggle
+
+```javascript
+// Track monthly/yearly toggle
+document.querySelectorAll('.billing-toggle').forEach(function(toggle) {
+  toggle.addEventListener('click', function() {
+    sealmetrics.micro('toggle_billing', {
+      selected: this.dataset.billing  // 'monthly' or 'yearly'
+    });
+  });
+});
+```
+
+### CTA Clicks
+
+```javascript
+// Track "Start Trial" or "Get Started" clicks
+document.querySelectorAll('.cta-start-trial').forEach(function(button) {
+  button.addEventListener('click', function() {
+    sealmetrics.micro('click_start_trial', {
+      plan: this.dataset.plan,
+      location: this.dataset.location  // 'hero', 'pricing', 'footer'
+    });
+  });
+});
+```
+
+### Feature Comparison
+
+```javascript
+// Track when user opens feature comparison
+document.querySelector('.compare-plans').addEventListener('click', function() {
+  sealmetrics.micro('view_comparison');
+});
+```
+
+---
+
+## Step 3: Track Signup Funnel
+
+### Multi-step Signup Form
+
+```javascript
+// Step 1: Email entered
+document.querySelector('#signup-email').addEventListener('blur', function() {
+  if (this.value && this.checkValidity()) {
+    sealmetrics.micro('signup_step_1', {
+      step: 'email_entered'
+    });
+  }
+});
+
+// Step 2: Password created
+document.querySelector('#signup-password').addEventListener('blur', function() {
+  if (this.value) {
+    sealmetrics.micro('signup_step_2', {
+      step: 'password_created'
+    });
+  }
+});
+
+// Step 3: Company info
+document.querySelector('#company-form').addEventListener('submit', function() {
+  sealmetrics.micro('signup_step_3', {
+    step: 'company_info',
+    company_size: document.querySelector('[name="company_size"]').value
+  });
+});
+
+// Final: Account created (CONVERSION)
+// Track on the post-signup/welcome page
+sealmetrics.conv('signup', 0, {
+  plan: 'trial',
+  source: document.referrer.includes('pricing') ? 'pricing' : 'direct'
+});
+```
+
+### Single-page Signup
+
+```javascript
+document.querySelector('#signup-form').addEventListener('submit', function(e) {
+  // Track before form submits
+  sealmetrics.micro('signup_submitted', {
+    plan: document.querySelector('[name="plan"]').value
+  });
+});
+
+// On success callback or success page
+function onSignupSuccess(user) {
+  sealmetrics.conv('signup', 0, {
+    plan: user.plan,
+    trial_days: '14'
+  });
+}
+```
+
+---
+
+## Step 4: Track Onboarding
+
+Track how users progress through onboarding to identify drop-off points.
+
+### Onboarding Checklist
+
+```javascript
+// Generic onboarding step tracker
+function trackOnboardingStep(stepName, stepNumber, data) {
+  sealmetrics.micro('onboarding_' + stepName, {
+    step_number: stepNumber.toString(),
+    ...data
+  });
+}
+
+// Step 1: Profile completed
+trackOnboardingStep('profile_completed', 1, {
+  has_avatar: document.querySelector('#avatar').src ? 'yes' : 'no'
+});
+
+// Step 2: First project created
+trackOnboardingStep('project_created', 2, {
+  project_type: projectType
+});
+
+// Step 3: Team member invited
+trackOnboardingStep('team_invited', 3, {
+  invites_sent: inviteCount.toString()
+});
+
+// Step 4: Integration connected
+trackOnboardingStep('integration_connected', 4, {
+  integration: integrationName  // 'slack', 'github', 'jira'
+});
+
+// Step 5: First action completed
+trackOnboardingStep('first_action', 5, {
+  action_type: actionType
+});
+```
+
+### Onboarding Completed
+
+```javascript
+// When user completes all onboarding steps
+sealmetrics.micro('onboarding_completed', {
+  time_to_complete: calculateDays(signupDate, new Date()),
+  steps_completed: '5'
+});
+```
+
+### Skip Onboarding
+
+```javascript
+document.querySelector('.skip-onboarding').addEventListener('click', function() {
+  sealmetrics.micro('onboarding_skipped', {
+    last_step: currentStep.toString()
+  });
+});
+```
+
+---
+
+## Step 5: Track Feature Usage
+
+Track which features users engage with to understand product-market fit.
+
+### Feature Activation
+
+```javascript
+// First time using a feature
+function trackFeatureActivation(featureName) {
+  if (!localStorage.getItem('activated_' + featureName)) {
+    sealmetrics.micro('feature_activated', {
+      feature: featureName
+    });
+    localStorage.setItem('activated_' + featureName, 'true');
+  }
+}
+
+// Examples
+trackFeatureActivation('dashboard');
+trackFeatureActivation('reports');
+trackFeatureActivation('exports');
+trackFeatureActivation('api');
+trackFeatureActivation('integrations');
+```
+
+### Key Actions
+
+```javascript
+// Track important user actions
+sealmetrics.micro('create_report', {
+  report_type: reportType
+});
+
+sealmetrics.micro('export_data', {
+  format: 'csv',
+  rows: rowCount.toString()
+});
+
+sealmetrics.micro('invite_team_member', {
+  role: memberRole
+});
+
+sealmetrics.micro('connect_integration', {
+  integration: integrationName
+});
+```
+
+---
+
+## Step 6: Track Subscription Conversions
+
+### Trial to Paid
+
+```javascript
+// When user enters payment info and subscribes
+sealmetrics.conv('subscription', monthlyPrice, {
+  plan: 'pro',
+  billing_cycle: 'monthly',
+  currency: 'USD',
+  trial_days_used: trialDaysUsed.toString()
+});
+```
+
+### Plan Upgrade
+
+```javascript
+// When user upgrades to a higher plan
+sealmetrics.conv('upgrade', priceDifference, {
+  from_plan: 'starter',
+  to_plan: 'pro',
+  billing_cycle: 'monthly',
+  currency: 'USD'
+});
+```
+
+### Plan Downgrade
+
+```javascript
+// Track downgrades for churn analysis
+sealmetrics.micro('downgrade', {
+  from_plan: 'pro',
+  to_plan: 'starter',
+  reason: selectedReason  // from exit survey
+});
+```
+
+### Annual Upgrade
+
+```javascript
+// When user switches from monthly to annual
+sealmetrics.conv('annual_upgrade', annualPrice, {
+  plan: 'pro',
+  previous_billing: 'monthly',
+  savings: savingsAmount.toString(),
+  currency: 'USD'
+});
+```
+
+---
+
+## Step 7: Track Churn Signals
+
+### Cancel Flow
+
+```javascript
+// User clicks cancel
+sealmetrics.micro('cancel_initiated');
+
+// User selects reason
+sealmetrics.micro('cancel_reason', {
+  reason: selectedReason  // 'too_expensive', 'not_using', 'missing_feature', etc.
+});
+
+// Offer accepted (save)
+sealmetrics.micro('cancel_saved', {
+  offer: acceptedOffer  // 'discount', 'pause', 'downgrade'
+});
+
+// Final cancellation
+sealmetrics.micro('cancel_confirmed', {
+  reason: finalReason,
+  days_as_customer: customerDays.toString(),
+  plan: currentPlan
+});
+```
+
+### Reactivation
+
+```javascript
+// When a churned user returns and subscribes again
+sealmetrics.conv('reactivation', monthlyPrice, {
+  plan: 'pro',
+  days_churned: daysSinceCancellation.toString(),
+  previous_plan: previousPlan
+});
+```
+
+---
+
+## Complete SaaS Funnel
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      SaaS FUNNEL                                 │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ACQUISITION                                                    │
+│   ───────────                                                    │
+│   Landing ──► Pricing ──► Select Plan ──► Start Trial           │
+│   (pv)        (pv)        (micro)         (micro)               │
+│                                                                  │
+│   ACTIVATION                                                     │
+│   ──────────                                                     │
+│   Signup ──► Onboarding Steps ──► Feature Activation            │
+│   (CONV)     (micro x N)          (micro)                       │
+│                                                                  │
+│   REVENUE                                                        │
+│   ───────                                                        │
+│   Trial End ──► Enter Payment ──► Subscribe                     │
+│                 (micro)           (CONV)                        │
+│                                                                  │
+│   EXPANSION                                                      │
+│   ─────────                                                      │
+│   Feature Usage ──► Upgrade ──► Annual                          │
+│   (micro)           (CONV)      (CONV)                          │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Example: Complete Implementation
+
+### Marketing Site (Next.js)
+
+```tsx
+// components/PricingCard.tsx
+export function PricingCard({ plan, price, billing }) {
+  const handleSelect = () => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('select_plan', {
+        plan: plan,
+        billing: billing,
+        price: price.toString()
+      });
+    }
+    router.push(`/signup?plan=${plan}&billing=${billing}`);
+  };
+
+  return (
+    <div className="plan-card" onClick={handleSelect}>
+      {/* Plan details */}
+    </div>
+  );
+}
+```
+
+### Signup Page
+
+```tsx
+// pages/signup.tsx
+export default function Signup() {
+  const searchParams = useSearchParams();
+  const plan = searchParams.get('plan') || 'starter';
+
+  const handleSubmit = async (formData) => {
+    try {
+      const user = await createAccount(formData);
+
+      // Track signup conversion
+      if (typeof sealmetrics !== 'undefined') {
+        sealmetrics.conv('signup', 0, {
+          plan: plan,
+          source: document.referrer.includes('pricing') ? 'pricing' : 'other'
+        });
+      }
+
+      router.push('/onboarding');
+    } catch (error) {
+      // Handle error
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields */}
+    </form>
+  );
+}
+```
+
+### App Dashboard
+
+```tsx
+// components/UpgradeButton.tsx
+export function UpgradeButton({ toPlan, price }) {
+  const handleUpgrade = async () => {
+    const result = await processUpgrade(toPlan);
+
+    if (result.success && typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('upgrade', price, {
+        from_plan: currentPlan,
+        to_plan: toPlan,
+        billing_cycle: billingCycle,
+        currency: 'USD'
+      });
+    }
+  };
+
+  return (
+    <button onClick={handleUpgrade}>
+      Upgrade to {toPlan}
+    </button>
+  );
+}
+```
+
+---
+
+## Key Metrics to Track
+
+| Metric | How to Calculate | Events Needed |
+|--------|------------------|---------------|
+| **Visitor → Trial** | signup / unique visitors | pageview, signup |
+| **Trial → Paid** | subscription / signup | signup, subscription |
+| **Onboarding Completion** | onboarding_completed / signup | signup, onboarding_* |
+| **Feature Adoption** | feature_activated / active users | feature_activated |
+| **Expansion Revenue** | upgrade + annual_upgrade value | upgrade, annual_upgrade |
+| **Churn Rate** | cancel_confirmed / active subscriptions | cancel_confirmed |
+
+---
+
+## Dashboard Analysis
+
+After implementing, analyze:
+
+### Acquisition
+- Which channels drive trial signups
+- Pricing page conversion rate
+- Plan preference by source
+
+### Activation
+- Onboarding completion rate
+- Time to first value
+- Feature activation patterns
+
+### Revenue
+- Trial to paid conversion by plan
+- MRR by acquisition source
+- Upgrade patterns
+
+### Retention
+- Churn reasons
+- Feature usage before churn
+- Reactivation success

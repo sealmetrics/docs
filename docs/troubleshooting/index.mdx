@@ -1,0 +1,218 @@
+---
+sidebar_position: 1
+title: Troubleshooting
+description: Common issues and solutions for SealMetrics implementation.
+---
+
+# Troubleshooting
+
+Solutions for common issues with SealMetrics tracking and reporting.
+
+---
+
+## Quick Diagnostics
+
+### Check Tracker Installation
+
+1. Open your website in a browser
+2. Open Developer Tools (F12)
+3. Go to the **Network** tab
+4. Filter by `sealmetrics` or `pixel`
+5. Reload the page
+
+You should see:
+- `t.js` script loading (200 OK)
+- Beacon/fetch request to `t.sealmetrics.com` (204 No Content)
+
+### Verify Data Collection
+
+1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
+2. Go to **Real-time** report
+3. Visit your website in another tab
+4. Your visit should appear within seconds
+
+---
+
+## Common Issues
+
+### Tracking Not Working
+
+**Symptoms:** No data appearing in dashboard
+
+**Solutions:**
+
+1. **Check script installation**
+   ```javascript
+   // In browser console
+   console.log(typeof sealmetrics);
+   // Should output: "function"
+   ```
+
+2. **Verify Account ID**
+   - Confirm your Account ID matches the one in your tracker script
+   - Find your Account ID in Settings → Account
+
+3. **Check domain authorization**
+   - Go to Settings → Domains
+   - Ensure your website domain is listed
+
+4. **Check for JavaScript errors**
+   - Open browser console (F12 → Console)
+   - Look for any errors related to sealmetrics
+
+### Conversions Not Appearing
+
+**Symptoms:** Pageviews work but conversions don't show up
+
+**Solutions:**
+
+1. **Verify conversion code**
+   ```javascript
+   // Check if tracker is loaded before calling
+   if (typeof sealmetrics !== 'undefined') {
+     sealmetrics.conv('purchase', 99.99);
+   }
+   ```
+
+2. **Check Network tab**
+   - Look for the beacon request after conversion fires
+   - Verify the payload contains `"e":"purchase"` and `"v":99.99`
+
+3. **Timing issues**
+   - Ensure `sealmetrics.conv()` is called AFTER the script loads
+   - Use `window.addEventListener('load', ...)` for page load events
+
+### Duplicate Conversions
+
+**Symptoms:** Same order appearing multiple times
+
+**Solutions:**
+
+1. **Server-side deduplication** (recommended)
+   ```php
+   if (!$order->isTracked()) {
+     echo '<script>sealmetrics.conv("purchase", ' . $order->total . ');</script>';
+     $order->markAsTracked();
+   }
+   ```
+
+2. **Client-side check**
+   ```javascript
+   var orderId = 'ORD-123';
+   if (!localStorage.getItem('tracked_' + orderId)) {
+     sealmetrics.conv('purchase', 99.99, { order_id: orderId });
+     localStorage.setItem('tracked_' + orderId, 'true');
+   }
+   ```
+
+### SPA Navigation Not Tracked
+
+**Symptoms:** Only first page view appears, navigation ignored
+
+**Solutions:**
+
+The tracker automatically detects History API navigation. If it's not working:
+
+1. **Hash-based routing**
+   - Hash changes (`#/page`) require manual tracking
+   ```javascript
+   window.addEventListener('hashchange', function() {
+     sealmetrics();
+   });
+   ```
+
+2. **Custom routing**
+   - If using a custom router, call `sealmetrics()` on route changes
+
+### Data Discrepancy with Other Tools
+
+**Symptoms:** Different numbers than Google Analytics
+
+This is expected. SealMetrics differs because:
+
+1. **No cookies** — SealMetrics uses fingerprinting, GA uses cookies
+2. **Bot filtering** — SealMetrics has different bot detection
+3. **Session definition** — Different session timeout rules
+4. **Ad blocker immunity** — SealMetrics tracks users blocked by ad blockers
+
+See [GA4 vs SealMetrics](/faq/ga4-vs-sealmetrics) for detailed comparison.
+
+---
+
+## Network Issues
+
+### Blocked by Ad Blockers
+
+SealMetrics is designed to work with ad blockers. If blocked:
+
+1. **First-party tracking** — Set up [first-party tracking](/implementation/tracker/first-party)
+2. **Custom domain** — Use your own subdomain for the pixel
+
+### CORS Errors
+
+You shouldn't see CORS errors. If you do:
+
+1. **Check Content-Type** — Tracker uses `text/plain` to avoid preflight
+2. **Verify script URL** — Use the exact URL from your dashboard
+
+### 429 Too Many Requests
+
+API rate limiting. Solutions:
+
+1. **Reduce request frequency**
+2. **Implement caching**
+3. **Upgrade plan** for higher limits
+
+---
+
+## Real-Time Report Issues
+
+### Data Appears Delayed
+
+Real-time data has minimal delay (< 5 seconds). If delayed:
+
+1. **Check system time** — Ensure your server clock is accurate
+2. **Network latency** — Verify internet connection
+3. **Processing queue** — During traffic spikes, brief delays are normal
+
+### Visitors Disappear Quickly
+
+Real-time shows visitors active in the last 5 minutes. This is expected behavior.
+
+---
+
+## Content Grouping Issues
+
+### Group Not Appearing
+
+1. **Verify parameter**
+   ```html
+   <script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=blog" defer></script>
+   ```
+
+2. **Or use JavaScript**
+   ```javascript
+   sealmetrics({ group: 'blog' });
+   ```
+
+3. **Check Reports** — Content groups appear in Pages report filters
+
+---
+
+## GTM-Specific Issues
+
+### Tags Not Firing
+
+1. **Verify trigger** — Check GTM Preview mode
+2. **Check tag type** — Use Custom HTML tag
+3. **Timing** — Ensure tag fires before page unload
+
+See [Google Tag Manager integration](/integrations/google-tag-manager) for detailed setup.
+
+---
+
+## Still Having Issues?
+
+1. **Check the FAQ** — [Common questions](/faq)
+2. **Contact support** — support@sealmetrics.com
+3. **Community** — [GitHub discussions](https://github.com/sealmetrics)

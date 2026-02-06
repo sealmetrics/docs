@@ -1,0 +1,366 @@
+---
+sidebar_position: 3
+title: User Properties
+description: Properties that persist across sessions for long-term user segmentation.
+---
+
+# User Properties
+
+User properties persist across all sessions for a user, enabling long-term segmentation and analysis.
+
+## How User Properties Work
+
+Unlike event properties (sent once), user properties are stored with the user profile:
+
+```
+User: user_abc123
+├── User Properties (persistent)
+│   ├── customer_type: premium
+│   ├── signup_date: 2024-01-15
+│   └── company_size: 50-100
+│
+└── Events (each includes user properties)
+    ├── Event 1: { ..., customer_type: premium, ... }
+    ├── Event 2: { ..., customer_type: premium, ... }
+    └── Event 3: { ..., customer_type: premium, ... }
+```
+
+## Setting User Properties
+
+### Basic Usage
+
+```javascript
+_sm('set', 'userProperties', {
+  customer_type: 'premium',
+  signup_date: '2024-01-15',
+  account_id: 'ACC-789'
+});
+```
+
+### When to Set
+
+Set user properties when you learn something about the user:
+
+```javascript
+// After signup
+_sm('set', 'userProperties', {
+  signup_date: new Date().toISOString().split('T')[0],
+  signup_source: 'organic',
+  plan_type: 'free'
+});
+
+// After upgrading
+_sm('set', 'userProperties', {
+  plan_type: 'pro',
+  upgrade_date: new Date().toISOString().split('T')[0]
+});
+
+// After profile completion
+_sm('set', 'userProperties', {
+  industry: 'technology',
+  company_size: '50-100',
+  job_role: 'marketing'
+});
+```
+
+## User Property Examples
+
+### SaaS Application
+
+```javascript
+_sm('set', 'userProperties', {
+  // Account info
+  plan_type: 'pro',
+  billing_cycle: 'annual',
+  account_age_days: '365',
+
+  // Company info
+  company_size: '50-100',
+  industry: 'technology',
+  country: 'US',
+
+  // User info
+  role: 'admin',
+  department: 'marketing',
+
+  // Engagement
+  activation_status: 'complete',
+  feature_tier: 'power_user',
+  nps_score: '9'
+});
+```
+
+### E-commerce
+
+```javascript
+_sm('set', 'userProperties', {
+  // Customer status
+  customer_type: 'returning',
+  loyalty_tier: 'gold',
+  lifetime_value_bucket: 'high',
+
+  // Purchase history
+  first_purchase_date: '2023-06-15',
+  total_orders: '12',
+  preferred_category: 'electronics',
+
+  // Preferences
+  newsletter_subscriber: 'true',
+  preferred_payment: 'paypal',
+  preferred_shipping: 'express'
+});
+```
+
+### Media/Subscription
+
+```javascript
+_sm('set', 'userProperties', {
+  // Subscription
+  subscription_type: 'premium',
+  subscription_start: '2024-01-01',
+  trial_user: 'false',
+
+  // Engagement
+  articles_read_bucket: '50-100',
+  preferred_topics: 'technology,science',
+  device_preference: 'mobile',
+
+  // Newsletter
+  newsletter_frequency: 'daily',
+  notification_enabled: 'true'
+});
+```
+
+## Updating User Properties
+
+User properties can be updated at any time:
+
+```javascript
+// Initial state
+_sm('set', 'userProperties', {
+  plan_type: 'free',
+  feature_count: '3'
+});
+
+// Later: user upgrades
+_sm('set', 'userProperties', {
+  plan_type: 'pro',        // Updated
+  upgrade_date: '2024-01-20' // New property
+  // feature_count remains '3' (not overwritten)
+});
+```
+
+### Merge Behavior
+
+New properties are merged with existing:
+
+```javascript
+// Before: { a: '1', b: '2' }
+_sm('set', 'userProperties', { b: '3', c: '4' });
+// After: { a: '1', b: '3', c: '4' }
+```
+
+### Removing Properties
+
+Set to empty string to effectively remove:
+
+```javascript
+_sm('set', 'userProperties', {
+  old_property: ''  // Will be filtered out in reports
+});
+```
+
+## User Properties vs Event Properties
+
+| Aspect | User Properties | Event Properties |
+|--------|-----------------|------------------|
+| Persistence | Across all sessions | Single event only |
+| When to use | User attributes | Event-specific data |
+| Set frequency | Once or when changing | Every event |
+| Example | `customer_type: 'premium'` | `product_id: 'SKU-123'` |
+
+### Decision Guide
+
+**Use User Properties for:**
+- Account type or plan
+- Customer segment
+- Signup date
+- Lifetime metrics
+- Preferences
+- Demographics
+
+**Use Event Properties for:**
+- Product information
+- Transaction details
+- Page-specific data
+- Action context
+- Temporary states
+
+## Reading User Properties
+
+### In JavaScript
+
+```javascript
+// Get current user properties
+const userProps = _sm('get', 'userProperties');
+console.log(userProps.customer_type); // 'premium'
+```
+
+### In Reports
+
+User properties appear as dimensions:
+
+```
+Conversions by Customer Type
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+customer_type    Conversions    Revenue      AOV
+──────────────────────────────────────────────────
+premium               234      €46,800    €200
+standard              567      €56,700    €100
+free                   89       €4,450     €50
+```
+
+## User Identification
+
+### Anonymous Users
+
+By default, users are identified by a first-party ID:
+
+```javascript
+// Automatic - no action needed
+// User identified by _sm_uid cookie/storage
+```
+
+### Known Users
+
+When you know who the user is:
+
+```javascript
+// Set a custom user ID (e.g., after login)
+_sm('identify', 'user-12345');
+
+// Then set properties
+_sm('set', 'userProperties', {
+  email_domain: 'company.com',
+  user_role: 'admin'
+});
+```
+
+### User ID Best Practices
+
+```javascript
+// Good: stable, internal IDs
+_sm('identify', 'usr_abc123');
+_sm('identify', '12345');
+
+// Avoid: PII or changeable values
+_sm('identify', 'john@example.com');  // PII concern
+_sm('identify', 'JohnSmith');         // Could change
+```
+
+## Privacy Considerations
+
+### What NOT to Store
+
+Never store PII in user properties:
+
+```javascript
+// ❌ Don't do this
+_sm('set', 'userProperties', {
+  email: 'john@example.com',
+  phone: '+1234567890',
+  full_name: 'John Smith',
+  address: '123 Main St'
+});
+
+// ✅ Do this instead
+_sm('set', 'userProperties', {
+  email_domain: 'example.com',  // Domain only
+  country: 'US',                // General location
+  customer_type: 'enterprise'   // Non-identifying
+});
+```
+
+### GDPR Compliance
+
+User properties are subject to:
+- Right to erasure (deletion requests)
+- Data portability (export requests)
+- Right to access (viewing requests)
+
+Contact support to process data subject requests.
+
+## Server-Side User Properties
+
+Set properties from your backend:
+
+```python
+import requests
+
+# Set user properties via API
+requests.post(
+    "https://app.sealmetrics.com/api/users/properties",
+    headers={"Authorization": f"Bearer {API_KEY}"},
+    json={
+        "account_id": "acc_123...",
+        "user_id": "user-12345",
+        "properties": {
+            "subscription_status": "active",
+            "mrr": "99",
+            "payment_method": "stripe"
+        }
+    }
+)
+```
+
+### Backend Advantages
+
+- Access to billing/CRM data
+- More accurate values
+- Not dependent on JavaScript
+- Can set historical data
+
+## Debugging
+
+### Check Current Properties
+
+```javascript
+_sm('debug', true);
+
+// View current user properties
+console.log(_sm('get', 'userProperties'));
+
+// Output:
+// {
+//   customer_type: 'premium',
+//   signup_date: '2024-01-15',
+//   ...
+// }
+```
+
+### Verify in Dashboard
+
+1. Go to **Reports** → any report
+2. Add dimension: your user property
+3. Verify values appear correctly
+
+## Troubleshooting
+
+### Properties Not Persisting
+
+1. Check cookies/storage not blocked
+2. Verify same domain across pages
+3. Check for privacy mode/incognito
+
+### Properties Missing on Events
+
+1. Ensure `set` called before events
+2. Check for JavaScript errors
+3. Verify property names are valid
+
+### Wrong User Getting Properties
+
+1. Check `identify` calls are correct
+2. Verify user ID matches expected
+3. Check for shared browser scenarios

@@ -1,256 +1,414 @@
-# Ecommerce Setup Guide
+---
+sidebar_position: 1
+title: E-commerce Setup Guide
+description: Complete guide to tracking e-commerce conversions, revenue, and customer journey with SealMetrics. Includes examples for WooCommerce, Shopify, and custom platforms.
+tags: [ecommerce, conversions, revenue, tracking, woocommerce, shopify]
+keywords:
+  - ecommerce tracking
+  - conversion tracking
+  - revenue tracking
+  - purchase tracking
+  - woocommerce analytics
+  - shopify analytics
+---
 
-Updated over 4 months ago
+# E-commerce Setup Guide
 
-Complete E-commerce Tracking Implementation
+This guide covers how to implement complete e-commerce tracking with SealMetrics, from product views to purchase completion.
 
-This comprehensive guide provides step-by-step implementation for tracking the entire e-commerce customer journey using Sealmetrics' privacy-first analytics platform.
+---
 
-## Core E-commerce Events
+## Quick Start
 
-### 1. Basic Page View Tracking
+### 1. Install the Tracker
+
+Add to every page of your store:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+### 2. Track Purchases
+
+On your thank-you/confirmation page:
 
 ```html
 <script>
-/* Basic E-commerce Page Tracking */
-(function() {
-  var options = {
-    account: 'YOUR_ACCOUNT_ID_HERE',
-    event: 'pageview',
-    content_grouping: getEcommercePageType(),
-    use_session: 1,
-  };
-
-  function getEcommercePageType() {
-    const path = window.location.pathname;
-    if (path.includes('/product/')) return 'product-pages';
-    if (path.includes('/category/')) return 'category-pages';
-    if (path.includes('/cart')) return 'cart-page';
-    if (path.includes('/checkout')) return 'checkout-pages';
-    if (path.includes('/account')) return 'account-pages';
-    if (path === '/') return 'homepage';
-    return 'general-pages';
-  }
-
-  var url="//app.sealmetrics.com/tag/v2/tracker";
-  function loadScript(callback){
-    var script=document.createElement("script");
-    script.src=url;
-    script.async=true;
-    script.onload=function(){ if(typeof callback==="function"){callback();} };
-    script.onerror=function(){console.error("Error loading script: "+url);};
-    document.getElementsByTagName("head")[0].appendChild(script);
-  }
-
-  loadScript(function(){
-    options.id=Math.floor((Math.random()*999)+1);
-    if(window.sm){
-      var instance=new window.sm(options);
-      instance.track(options.event);
-    } else {
-      console.error("sm2 plugin is not available");
-    }
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', 149.99, {
+      order_id: 'ORD-12345',
+      currency: 'EUR'
+    });
   });
-})();
 </script>
 ```
 
-### 2. Product View Tracking
+That's the minimum setup. Read on for complete funnel tracking.
 
-```html
-<script>
-function trackProductView(productData) {
-  (function() {
-    var options = {
-      account: 'YOUR_ACCOUNT_ID_HERE',
-      event: 'microconversion',
-      label: 'Product View',
-      ignore_pageview: 1,
-      use_session: 1,
-      properties: {
-        product_id: productData.id,
-        product_name: productData.name,
-        category: productData.category,
-        subcategory: productData.subcategory,
-        brand: productData.brand,
-        price: productData.price,
-        currency: productData.currency,
-        availability: productData.inStock ? 'in_stock' : 'out_of_stock',
-        color: productData.color,
-        size: productData.size,
-        material: productData.material,
-        traffic_source: getTrafficSource(),
-        product_position: productData.listPosition,
-        came_from_search: document.referrer.includes('search')
-      }
-    };
+---
 
-    var url="//app.sealmetrics.com/tag/v2/tracker";
-    function loadScript(callback){
-      var script=document.createElement("script");
-      script.src=url;
-      script.async=true;
-      script.onload=function(){ if(typeof callback==="function"){callback();} };
-      script.onerror=function(){console.error("Error loading script: "+url);};
-      document.getElementsByTagName("head")[0].appendChild(script);
-    }
+## The E-commerce Funnel
 
-    loadScript(function(){
-      options.id=Math.floor((Math.random()*999)+1);
-      if(window.sm){
-        var instance=new window.sm(options);
-        instance.track(options.event);
-      } else {
-        console.error("sm2 plugin is not available");
+Track the complete customer journey:
+
+| Step | Event Type | Function |
+|------|------------|----------|
+| Product View | Microconversion | `sealmetrics.micro('view_product', {...})` |
+| Add to Cart | Microconversion | `sealmetrics.micro('add_to_cart', {...})` |
+| View Cart | Microconversion | `sealmetrics.micro('view_cart', {...})` |
+| Begin Checkout | Microconversion | `sealmetrics.micro('begin_checkout', {...})` |
+| Add Payment Info | Microconversion | `sealmetrics.micro('add_payment_info', {...})` |
+| Purchase | Conversion | `sealmetrics.conv('purchase', amount, {...})` |
+
+---
+
+## Step-by-Step Implementation
+
+### Product View
+
+Track when users view product details:
+
+```javascript
+// On product page load
+sealmetrics.micro('view_product', {
+  product_id: 'SKU-123',
+  product_name: 'Blue Running Shoes',
+  category: 'footwear',
+  price: '89.99',
+  currency: 'EUR'
+});
+```
+
+### Add to Cart
+
+Track add-to-cart clicks:
+
+```javascript
+document.querySelector('.add-to-cart').addEventListener('click', function() {
+  sealmetrics.micro('add_to_cart', {
+    product_id: 'SKU-123',
+    product_name: 'Blue Running Shoes',
+    price: '89.99',
+    quantity: '1'
+  });
+});
+```
+
+### View Cart
+
+Track when users view their cart:
+
+```javascript
+// On cart page load
+sealmetrics.micro('view_cart', {
+  items_count: '3',
+  cart_value: '267.97'
+});
+```
+
+### Begin Checkout
+
+Track checkout initiation:
+
+```javascript
+// When user starts checkout
+sealmetrics.micro('begin_checkout', {
+  items_count: '3',
+  cart_value: '267.97'
+});
+```
+
+### Purchase (Conversion)
+
+Track completed purchases:
+
+```javascript
+// On thank-you page
+sealmetrics.conv('purchase', 267.97, {
+  order_id: 'ORD-12345',
+  currency: 'EUR',
+  payment_method: 'credit_card',
+  items_count: '3'
+});
+```
+
+---
+
+## Platform-Specific Implementation
+
+### WooCommerce
+
+Add to your `functions.php` or a custom plugin:
+
+```php
+// Track purchases on thank-you page
+add_action('woocommerce_thankyou', function($order_id) {
+  $order = wc_get_order($order_id);
+  if (!$order) return;
+  ?>
+  <script>
+    window.addEventListener('load', function() {
+      if (typeof sealmetrics !== 'undefined') {
+        sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
+          order_id: '<?php echo $order_id; ?>',
+          currency: '<?php echo $order->get_currency(); ?>',
+          payment_method: '<?php echo $order->get_payment_method(); ?>',
+          items_count: '<?php echo $order->get_item_count(); ?>'
+        });
       }
     });
-  })();
-}
+  </script>
+  <?php
+});
+```
 
-document.addEventListener('DOMContentLoaded', function() {
-  if (window.productData) {
-    trackProductView(window.productData);
+For add-to-cart tracking, add this JavaScript:
+
+```javascript
+// WooCommerce AJAX add-to-cart
+jQuery(document.body).on('added_to_cart', function(e, fragments, cart_hash, button) {
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics.micro('add_to_cart', {
+      product_id: jQuery(button).data('product_id'),
+      product_name: jQuery(button).data('product_name') || 'Product'
+    });
   }
 });
-</script>
 ```
 
-### 3. Add to Cart Tracking
+### Shopify
+
+In your **checkout.liquid** or via **Additional Scripts** (Settings → Checkout):
 
 ```html
-<button onclick="addToCart(productData)" class="add-to-cart-btn"/>Add to Cart</button>
-
+{% if first_time_accessed %}
 <script>
-function addToCart(product) {
-  (function() {
-    var options = {
-      account: 'YOUR_ACCOUNT_ID_HERE',
-      event: 'microconversion',
-      label: 'Add to Cart',
-      ignore_pageview: 1,
-      use_session: 1,
-      properties: {
-        product_id: product.id,
-        product_name: product.name,
-        category: product.category,
-        brand: product.brand,
-        price: product.price,
-        quantity: product.selectedQuantity || 1,
-        selected_color: product.selectedColor,
-        selected_size: product.selectedSize,
-        cart_total_items: getCartItemCount() + 1,
-        cart_total_value: getCartTotal() + product.price,
-        time_on_product_page: getTimeOnPage(),
-        images_viewed: getImagesViewed(),
-        reviews_read: getReviewsRead()
-      }
-    };
-
-    var url="//app.sealmetrics.com/tag/v2/tracker";
-    function loadScript(callback){
-      var script=document.createElement("script");
-      script.src=url;
-      script.async=true;
-      script.onload=function(){ if(typeof callback==="function"){callback();} };
-      script.onerror=function(){console.error("Error loading script: "+url);};
-      document.getElementsByTagName("head")[0].appendChild(script);
+  window.addEventListener('load', function() {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
+        order_id: '{{ order.name }}',
+        currency: '{{ checkout.currency }}',
+        items_count: '{{ checkout.line_items.size }}'
+      });
     }
-
-    loadScript(function(){
-      options.id=Math.floor((Math.random()*999)+1);
-      if(window.sm){
-        var instance=new window.sm(options);
-        instance.track(options.event);
-      } else {
-        console.error("sm2 plugin is not available");
-      }
-    });
-  })();
-}
+  });
 </script>
+{% endif %}
 ```
 
-### 4. Remove from Cart Tracking
+For add-to-cart, use theme JavaScript:
 
-```html
-<script>
-function removeFromCart(product) {
-  (function() {
-    var options = {
-      account: 'YOUR_ACCOUNT_ID_HERE',
-      event: 'microconversion',
-      label: 'Remove from Cart',
-      ignore_pageview: 1,
-      use_session: 1,
-      properties: {
-        product_id: product.id,
-        product_name: product.name,
-        price: product.price,
-        quantity_removed: product.quantity,
-        removal_reason: product.removalReason,
-        cart_total_items: getCartItemCount() - product.quantity,
-        cart_total_value: getCartTotal() - (product.price * product.quantity)
-      }
-    };
-
-    var url="//app.sealmetrics.com/tag/v2/tracker";
-    function loadScript(callback){
-      var script=document.createElement("script");
-      script.src=url;
-      script.async=true;
-      script.onload=function(){ if(typeof callback==="function"){callback();} };
-      script.onerror=function(){console.error("Error loading script: "+url);};
-      document.getElementsByTagName("head")[0].appendChild(script);
+```javascript
+// In theme.js or via Shopify ScriptTag API
+document.addEventListener('click', function(e) {
+  if (e.target.matches('[data-add-to-cart]') || e.target.closest('[data-add-to-cart]')) {
+    var form = e.target.closest('form[action*="/cart/add"]');
+    if (form && typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('add_to_cart', {
+        product_id: form.querySelector('[name="id"]').value
+      });
     }
+  }
+});
+```
 
-    loadScript(function(){
-      options.id=Math.floor((Math.random()*999)+1);
-      if(window.sm){
-        var instance=new window.sm(options);
-        instance.track(options.event);
-      } else {
-        console.error("sm2 plugin is not available");
-      }
-    });
-  })();
-}
+### Magento 2
+
+In your checkout success template or via layout XML:
+
+```php
+<?php
+$order = $block->getOrder();
+?>
+<script>
+  window.addEventListener('load', function() {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('purchase', <?php echo $order->getGrandTotal(); ?>, {
+        order_id: '<?php echo $order->getIncrementId(); ?>',
+        currency: '<?php echo $order->getOrderCurrencyCode(); ?>',
+        items_count: '<?php echo (int)$order->getTotalQtyOrdered(); ?>'
+      });
+    }
+  });
 </script>
 ```
 
-### 5. Checkout Process Tracking
+### PrestaShop
 
-(… TRUNCATED FOR BREVITY IN CHAT … full text included in file …)
+In your order confirmation template:
 
-### Helper Functions
+```php
+{if isset($order)}
+<script>
+  window.addEventListener('load', function() {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('purchase', {$order.total_paid|floatval}, {
+        order_id: '{$order.reference|escape:'javascript'}',
+        currency: '{$currency.iso_code|escape:'javascript'}',
+        items_count: '{$order.products|count}'
+      });
+    }
+  });
+</script>
+{/if}
+```
+
+---
+
+## Dynamic Values
+
+### Server-Side Rendering
+
+Pass values from your backend:
 
 ```html
 <script>
-function getCartItemCount() { return window.cartData ? window.cartData.totalItems : 0; }
-function getCartTotal() { return window.cartData ? window.cartData.totalValue : 0; }
-function getTimeOnPage() { return Math.round((Date.now() - window.pageStartTime) / 1000); }
-function getSessionDuration() { const s=sessionStorage.getItem('sessionStart')||Date.now(); return Math.round((Date.now()-s)/1000/60); }
-function getTrafficSource() { const r=document.referrer; if(!r) return 'direct'; if(r.includes('google'))return 'google'; if(r.includes('facebook'))return 'facebook'; if(r.includes('instagram'))return 'instagram'; return 'referral'; }
-function getPagesVisited(){ const v=sessionStorage.getItem('pagesVisited'); return v?JSON.parse(v).length:1; }
-function getImagesViewed(){ return document.querySelectorAll('.product-image:viewed').length||1; }
-function getReviewsRead(){ return document.querySelector('.reviews-section:in-view')?true:false; }
-
-if(!sessionStorage.getItem('sessionStart')){ sessionStorage.setItem('sessionStart',Date.now()); }
-window.pageStartTime=Date.now();
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', <?= json_encode($order['total']) ?>, {
+      order_id: <?= json_encode($order['id']) ?>,
+      currency: <?= json_encode($order['currency']) ?>
+    });
+  });
 </script>
 ```
 
-## Analytics Dashboard Setup
+### Data Layer
 
-- Funnel metrics  
-- Revenue metrics  
-- Customer behavior  
-- Product performance  
+If using Google Tag Manager's data layer:
 
-## Custom Reports
+```html
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'purchase',
+    ecommerce: {
+      transaction_id: 'ORD-12345',
+      value: 149.99,
+      currency: 'EUR'
+    }
+  });
+</script>
 
-- Sales Performance  
-- Conversion Analysis  
-- Customer Segmentation  
-- Marketing Attribution  
+<script>
+  // Read from data layer
+  window.addEventListener('load', function() {
+    var purchaseData = window.dataLayer.find(function(item) {
+      return item.event === 'purchase';
+    });
 
-Sealmetrics keeps the full e-commerce tracking flow fully compliant and consentless.
+    if (purchaseData && typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('purchase', purchaseData.ecommerce.value, {
+        order_id: purchaseData.ecommerce.transaction_id,
+        currency: purchaseData.ecommerce.currency
+      });
+    }
+  });
+</script>
+```
+
+---
+
+## Content Grouping for E-commerce
+
+Use content grouping to segment your pages:
+
+```html
+<!-- Product pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=product" defer></script>
+
+<!-- Category pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=category" defer></script>
+
+<!-- Cart page -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=cart" defer></script>
+
+<!-- Checkout pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=checkout" defer></script>
+```
+
+---
+
+## Properties Reference
+
+Recommended properties for e-commerce events:
+
+| Property | Description | Example |
+|----------|-------------|---------|
+| `order_id` | Unique order identifier | `'ORD-12345'` |
+| `currency` | ISO 4217 currency code | `'EUR'`, `'USD'` |
+| `product_id` | Product SKU/ID | `'SKU-123'` |
+| `product_name` | Product name | `'Blue Shoes'` |
+| `category` | Product category | `'footwear'` |
+| `price` | Item price | `'89.99'` |
+| `quantity` | Number of items | `'2'` |
+| `items_count` | Total cart items | `'3'` |
+| `cart_value` | Cart total | `'267.97'` |
+| `payment_method` | Payment type | `'credit_card'` |
+| `coupon` | Discount code | `'SAVE10'` |
+
+:::tip All values are strings
+Property values are transmitted as strings. Numbers are automatically converted.
+:::
+
+---
+
+## Deduplication
+
+Prevent duplicate conversion tracking:
+
+### Server-Side Flag (Recommended)
+
+Mark orders as tracked in your database:
+
+```php
+// PHP example
+if (!$order->isTracked()) {
+  echo '<script>sealmetrics.conv("purchase", ' . $order->getTotal() . ', {...});</script>';
+  $order->markAsTracked();
+}
+```
+
+### Client-Side Check
+
+Use localStorage for simple deduplication:
+
+```javascript
+var orderId = 'ORD-12345';
+if (!localStorage.getItem('tracked_' + orderId)) {
+  sealmetrics.conv('purchase', 149.99, { order_id: orderId });
+  localStorage.setItem('tracked_' + orderId, 'true');
+}
+```
+
+---
+
+## Testing
+
+### Verify Installation
+
+1. Open your store in a browser
+2. Open Developer Tools → Network tab
+3. Filter by `t.sealmetrics.com`
+4. Navigate through pages and complete a test purchase
+5. Verify requests are sent with correct data
+
+### Check Real-Time Data
+
+1. Log in to [SealMetrics dashboard](https://app.sealmetrics.com)
+2. Go to Real-time report
+3. Your test events should appear within seconds
+
+### Verify Conversion Data
+
+1. Go to Conversions report
+2. Check that purchase amount and properties are correct
+3. Verify attribution to traffic source
+
+---
+
+## Related Documentation
+
+- [Conversions](/implementation/tracker/conversions) - Detailed conversion tracking
+- [Microconversions](/implementation/tracker/microconversions) - Funnel step tracking
+- [Google Tag Manager](/integrations/google-tag-manager) - GTM integration
+- [WooCommerce Plugin](/integrations/ecommerce/woocommerce) - Official WooCommerce integration

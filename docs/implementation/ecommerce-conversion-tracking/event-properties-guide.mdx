@@ -46,68 +46,35 @@ When you track a conversion event using Sealmetrics, the platform captures basel
 
 ### Standard Event Tracking Structure
 
+First, add the tracker to your page:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+Then track a basic conversion:
+
 ```javascript
-<script>
-/* Sealmetrics Tracker Code */
-(function() {
-var options = {
-   account: 'ACCOUNT-ID',
-   event: 'conversion',
-   label: 'Purchase',
-   amount: '{{Revenue}}',
-   use_session: 1,
-};
-var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(callback){var script=document.createElement("script");script.src=url;script.async=true;script.onload=function(){if(typeof callback==="function"){callback();}};script.onerror=function(){console.error("Error loading script: "+url);};document.getElementsByTagName("head")[0].appendChild(script);}loadScript(function(){options.id=Math.floor((Math.random()*999)+1);if(window.sm){var instance=new window.sm(options);instance.track(options.event);}else{console.error("sm2 plugin is not available");}});
-})();
-/* End Sealmetrics Tracker Code */
-</script>
+sealmetrics.conv('purchase', 99.99);
 ```
 
 ### Enhanced Tracking with Properties
 
-```javascript
-// Conversion tracking with detailed properties
-window.sealmetrics.event('conversion', {
-  label: 'purchase-completed',
-  properties: {
-    'product-id': '12345',
-    'product-category': 'electronics',
-    'price': '99.99',
-    'currency': 'EUR',
-    'payment-method': 'credit-card',
-    'shipping-country': 'Germany',
-    'discount-code': 'SPRING2024',
-    'customer-type': 'returning'
-  }
-});
-```
+Add custom properties to capture detailed conversion data:
 
 ```javascript
-<script>
-/* Sealmetrics Tracker Code */
-(function() {
-var options = {
-   account: 'ACCOUNT-ID',
-   event: 'conversion',
-   label: 'Purchase',
-   amount: '95.99',
-   properties: {
-    'product-id': '12345',
-    'product-category': 'electronics',
-    'price-cohort': '99.99',
-    'currency': 'EUR',
-    'payment-method': 'credit-card',
-    'shipping-country': 'Germany',
-    'discount-code': 'SPRING2024',
-    'color': 'red'
-    'size': 'XL'
-  },
-   use_session: 1,
-};
-var url="//app.sealmetrics.com/tag/v2/tracker";function loadScript(callback){var script=document.createElement("script");script.src=url;script.async=true;script.onload=function(){if(typeof callback==="function"){callback();}};script.onerror=function(){console.error("Error loading script: "+url);};document.getElementsByTagName("head")[0].appendChild(script);}loadScript(function(){options.id=Math.floor((Math.random()*999)+1);if(window.sm){var instance=new window.sm(options);instance.track(options.event);}else{console.error("sm2 plugin is not available");}});
-})();
-/* End Sealmetrics Tracker Code */
-</script>
+// Conversion tracking with detailed properties
+sealmetrics.conv('purchase', 95.99, {
+  product_id: '12345',
+  product_category: 'electronics',
+  currency: 'EUR',
+  payment_method: 'credit_card',
+  shipping_country: 'Germany',
+  discount_code: 'SPRING2024',
+  customer_type: 'returning',
+  color: 'red',
+  size: 'XL'
+});
 ```
 
 The properties object accepts any number of key-value pairs, with both keys and values stored as strings. Sealmetrics processes these properties alongside the core event data, making them available for analysis through API access or BigQuery integration.
@@ -138,14 +105,12 @@ This segmentation capability transforms Sealmetrics from a simple conversion cou
 Event properties prove particularly powerful for marketing attribution. By adding campaign, source, and medium information to conversion events, you can understand which marketing efforts drive results without relying on third-party cookies.
 
 ```javascript
-  label: 'trial-started',
-  properties: {
-    'utm-source': 'google',
-    'utm-medium': 'cpc',
-    'utm-campaign': 'q4-promotion',
-    'ad-group': 'cookieless-analytics',
-    'landing-page': '/features/gdpr-compliance'
-  }
+sealmetrics.conv('trial_started', 0, {
+  utm_source: 'google',
+  utm_medium: 'cpc',
+  utm_campaign: 'q4-promotion',
+  ad_group: 'cookieless-analytics',
+  landing_page: '/features/gdpr-compliance'
 });
 ```
 
@@ -162,21 +127,18 @@ Every business has unique data requirements. Event properties allow Sealmetrics 
 For online retailers, event properties capture detailed transaction information that enables sophisticated analysis:
 
 ```javascript
-  label: 'purchase-completed',
-  properties: {
-    'items-count': '3',
-    'total-amount': '249.97',
-    'currency': 'EUR',
-    'payment-method': 'credit-card',
-    'shipping-country': 'Germany',
-    'shipping-method': 'express',
-    'discount-applied': 'true',
-    'discount-code': 'WELCOME10',
-    'discount-amount': '24.99',
-    'customer-type': 'new',
-    'product-categories': 'electronics,accessories',
-    'average-item-price': '83.32'
-  }
+sealmetrics.conv('purchase', 249.97, {
+  items_count: '3',
+  currency: 'EUR',
+  payment_method: 'credit_card',
+  shipping_country: 'Germany',
+  shipping_method: 'express',
+  discount_applied: 'true',
+  discount_code: 'WELCOME10',
+  discount_amount: '24.99',
+  customer_type: 'new',
+  product_categories: 'electronics,accessories',
+  average_item_price: '83.32'
 });
 ```
 
@@ -192,22 +154,18 @@ This implementation enables analysis of:
 Software-as-a-Service companies benefit from tracking subscription details and upgrade patterns:
 
 ```javascript
-window.sealmetrics.event('conversion', {
-  label: 'subscription-purchased',
-  properties: {
-    'plan-type': 'premium',
-    'plan-price': '49.00',
-    'subscription-term': 'annual',
-    'billing-cycle': 'yearly',
-    'discount-applied': 'SPRING25',
-    'previous-plan': 'basic',
-    'account-size': 'team',
-    'user-count': '5',
-    'upgrade': 'true',
-    'trial-used': 'true',
-    'trial-duration': '14',
-    'signup-source': 'product-hunt'
-  }
+sealmetrics.conv('subscription_purchased', 49.00, {
+  plan_type: 'premium',
+  subscription_term: 'annual',
+  billing_cycle: 'yearly',
+  discount_applied: 'SPRING25',
+  previous_plan: 'basic',
+  account_size: 'team',
+  user_count: '5',
+  upgrade: 'true',
+  trial_used: 'true',
+  trial_duration: '14',
+  signup_source: 'product-hunt'
 });
 ```
 
@@ -223,19 +181,16 @@ This data structure supports analysis of:
 B2B companies capturing leads can track qualification criteria and lead quality indicators:
 
 ```javascript
-window.sealmetrics.event('conversion', {
-  label: 'lead-submitted',
-  properties: {
-    'lead-source': 'blog-post',
-    'content-title': 'cookieless-analytics-guide',
-    'interested-in': 'analytics-solution',
-    'company-size': '50-100',
-    'industry': 'healthcare',
-    'job-title': 'marketing-director',
-    'country': 'Netherlands',
-    'form-location': 'blog-sidebar',
-    'returning-visitor': 'false'
-  }
+sealmetrics.conv('lead', 0, {
+  lead_source: 'blog-post',
+  content_title: 'cookieless-analytics-guide',
+  interested_in: 'analytics-solution',
+  company_size: '50-100',
+  industry: 'healthcare',
+  job_title: 'marketing-director',
+  country: 'Netherlands',
+  form_location: 'blog-sidebar',
+  returning_visitor: 'false'
 });
 ```
 
@@ -250,18 +205,16 @@ Properties enable lead scoring and qualification based on:
 Content marketing teams can track digital asset performance:
 
 ```javascript
-  label: 'whitepaper-downloaded',
-  properties: {
-    'document-title': 'gdpr-compliance-guide-2025',
-    'document-category': 'compliance',
-    'file-format': 'pdf',
-    'file-size': '2.4mb',
-    'page-number': '32',
-    'download-source': 'resource-center',
-    'visitor-type': 'anonymous',
-    'industry-tag': 'fintech',
-    'content-gate': 'true'
-  }
+sealmetrics.micro('whitepaper_downloaded', {
+  document_title: 'gdpr-compliance-guide-2025',
+  document_category: 'compliance',
+  file_format: 'pdf',
+  file_size: '2.4mb',
+  page_number: '32',
+  download_source: 'resource-center',
+  visitor_type: 'anonymous',
+  industry_tag: 'fintech',
+  content_gate: 'true'
 });
 ```
 
@@ -295,12 +248,10 @@ In the conversion configuration:
 Modify the tracking code to include your specific property names and values:
 
 ```javascript
-  label: 'your-conversion-name',
-  properties: {
-    'property-name-1': 'value-1',
-    'property-name-2': 'value-2',
-    // Add all relevant properties
-  }
+sealmetrics.conv('your_conversion_name', 0, {
+  property_name_1: 'value-1',
+  property_name_2: 'value-2'
+  // Add all relevant properties
 });
 ```
 
@@ -530,7 +481,7 @@ Yes. Properties enable sophisticated funnel analysis by allowing segmentation at
 
 ### How do properties work with micro-conversions?
 
-Properties work identically for micro-conversions and full conversions. Use the same implementation pattern with `window.sealmetrics.event('micro-conversion', {...})`. This consistency simplifies implementation and analysis.
+Properties work identically for micro-conversions and full conversions. Use the same implementation pattern with `sealmetrics.micro('event_name', {...})`. This consistency simplifies implementation and analysis.
 
 ### Can I filter dashboard data by properties?
 

@@ -1,0 +1,400 @@
+---
+sidebar_position: 1
+title: Pixel Builder
+description: Generate and customize your Sealmetrics tracking code with the visual pixel builder.
+---
+
+# Pixel Builder
+
+The Pixel Builder helps you generate customized tracking code for your website without writing code manually.
+
+## Accessing Pixel Builder
+
+1. Click the **gear icon** in the main navigation
+2. Select **Tracking → Pixel Builder**
+
+## Basic Configuration
+
+### Step 1: Select Account
+
+Choose which account this pixel will track to:
+
+```
+Account: [My E-commerce Store            ▼]
+
+Account ID: acc_1234567890abcdef
+Tracking Domain: track.mystore.com
+```
+
+### Step 2: Privacy Mode
+
+Choose your privacy/compliance mode:
+
+```
+Privacy Mode
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+● Standard Mode
+  Uses first-party cookies for better accuracy.
+  Requires consent in some jurisdictions.
+
+○ SuperPrivacy Mode
+  Completely cookieless tracking.
+  No consent required under GDPR.
+  Slightly reduced accuracy for returning visitors.
+
+○ Consent-Based Mode
+  Shows consent banner first.
+  Standard mode if consent given.
+  SuperPrivacy mode if consent denied.
+```
+
+### Step 3: Tracking Features
+
+Enable/disable tracking features:
+
+```
+Tracking Features
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Automatic pageview tracking
+  Track page loads automatically
+
+☑ SPA support (Single Page Applications)
+  Track virtual navigation in React, Vue, etc.
+
+☑ Scroll depth tracking
+  Track how far users scroll (25%, 50%, 75%, 100%)
+
+☑ Time on page tracking
+  Track active time spent on pages
+
+☐ Click tracking
+  Track all link clicks (generates more data)
+
+☐ Form tracking
+  Automatically track form submissions
+
+☑ Error tracking
+  Track JavaScript errors
+```
+
+## Generated Code
+
+### Basic Installation
+
+After configuration, copy the generated code:
+
+```html
+<!-- Sealmetrics Tracking Code -->
+<script>
+  (function(s,e,a,l,m,t,r,i,c){
+    s['SealmetricsObject']=m;s[m]=s[m]||function(){
+    (s[m].q=s[m].q||[]).push(arguments)};s[m].l=1*new Date();
+    t=e.createElement(a);r=e.getElementsByTagName(a)[0];
+    t.async=1;t.src=l;r.parentNode.insertBefore(t,r)
+  })(window,document,'script','https://track.mystore.com/sm.js','_sm');
+
+  _sm('init', 'acc_1234567890abcdef', {
+    trackingDomain: 'track.mystore.com',
+    privacyMode: 'standard',
+    scrollTracking: true,
+    timeOnPage: true
+  });
+
+  _sm('pageview');
+</script>
+<!-- End Sealmetrics Tracking Code -->
+```
+
+### Installation Location
+
+```
+Place the code in your HTML:
+
+Recommended: Inside <head> tag
+             This ensures tracking starts immediately
+
+Alternative: Before </body> tag
+             May miss very quick bounces
+
+Do NOT place:
+• After other heavy scripts (delays tracking)
+• Inside async-loaded containers
+• In iframes
+```
+
+## Advanced Options
+
+### Custom Tracking Domain
+
+Use your own subdomain for first-party tracking:
+
+```
+Custom Tracking Domain
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Use custom tracking domain
+
+Domain: [track.mystore.com               ]
+
+DNS Setup Required:
+Add this CNAME record to your DNS:
+
+  track.mystore.com → sm-proxy.sealmetrics.com
+
+[Verify DNS]
+```
+
+### Cross-Domain Tracking
+
+Track users across multiple domains:
+
+```
+Cross-Domain Tracking
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Enable cross-domain tracking
+
+Linked Domains:
++ mystore.com
++ checkout.mystore.com
++ blog.mystore.com
+
+[+ Add Domain]
+
+This will:
+• Append tracking parameters to cross-domain links
+• Maintain session continuity across domains
+• Provide unified attribution
+```
+
+### Excluded Traffic
+
+Filter out internal traffic:
+
+```
+Traffic Exclusions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Exclude by IP:
++ 192.168.1.0/24 (Office network)
++ 10.0.0.50 (VPN)
+[+ Add IP]
+
+Exclude by URL parameter:
++ debug=true
++ internal=1
+[+ Add Parameter]
+
+Exclude by cookie:
++ sealmetrics_exclude=1
+[+ Add Cookie]
+```
+
+### Data Layer Integration
+
+Connect with existing tag management:
+
+```
+Data Layer Integration
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Read from dataLayer
+
+Variable Mapping:
+  Page Title:      dataLayer.pageTitle
+  User ID:         dataLayer.userId
+  Custom Prop 1:   dataLayer.category
+  Custom Prop 2:   dataLayer.productType
+
+☑ Push events to dataLayer
+  Sealmetrics events will be pushed to dataLayer
+  for use with other tools
+```
+
+## Platform-Specific Code
+
+### Google Tag Manager
+
+```html
+<!-- In GTM Custom HTML Tag -->
+<script>
+  (function(s,e,a,l,m,t,r,i,c){
+    s['SealmetricsObject']=m;s[m]=s[m]||function(){
+    (s[m].q=s[m].q||[]).push(arguments)};s[m].l=1*new Date();
+    t=e.createElement(a);r=e.getElementsByTagName(a)[0];
+    t.async=1;t.src=l;r.parentNode.insertBefore(t,r)
+  })(window,document,'script','https://track.mystore.com/sm.js','_sm');
+
+  _sm('init', 'acc_1234567890abcdef');
+</script>
+
+<!-- Trigger: All Pages -->
+<!-- Firing Priority: 100 (high) -->
+```
+
+### WordPress
+
+```php
+<!-- In functions.php or header.php -->
+<?php
+add_action('wp_head', function() {
+?>
+<script>
+  // Sealmetrics code here
+</script>
+<?php
+}, 1); // Priority 1 = load early
+```
+
+### Shopify
+
+```liquid
+<!-- In theme.liquid, before </head> -->
+<script>
+  // Sealmetrics code here
+
+  // E-commerce tracking
+  {% if template contains 'order' %}
+    _sm('conversion', {
+      order_id: '{{ checkout.order_id }}',
+      amount: {{ checkout.total_price | money_without_currency }},
+      currency: '{{ checkout.currency }}'
+    });
+  {% endif %}
+</script>
+```
+
+### React / Next.js
+
+```jsx
+// In _app.js or layout.js
+import Script from 'next/script'
+
+export default function App({ Component, pageProps }) {
+  return (
+    <>
+      <Script id="sealmetrics" strategy="afterInteractive">
+        {`
+          (function(s,e,a,l,m,t,r,i,c){
+            // Sealmetrics init code
+          })(window,document,'script','https://track.mystore.com/sm.js','_sm');
+
+          _sm('init', 'acc_1234567890abcdef');
+        `}
+      </Script>
+      <Component {...pageProps} />
+    </>
+  )
+}
+```
+
+## Testing Your Installation
+
+### Built-in Debugger
+
+Enable debug mode to verify tracking:
+
+```javascript
+_sm('debug', true);
+
+// Console will show:
+// [Sealmetrics] Pageview sent: /products/widget
+// [Sealmetrics] Event sent: add-to-cart
+// [Sealmetrics] Conversion sent: purchase, €149.99
+```
+
+### Verification Tool
+
+Use the built-in verification:
+
+1. After installing, click **Verify Installation**
+2. Enter your website URL
+3. Tool checks for:
+   - Pixel presence
+   - Correct account ID
+   - Data being received
+
+```
+Installation Verification
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+URL: https://mystore.com
+
+Checking...
+
+✅ Pixel found on page
+✅ Correct account ID (acc_1234...)
+✅ Data received (3 pageviews in last minute)
+✅ Cross-domain links decorated
+⚠️ Scroll tracking not firing (check config)
+
+Overall: Installation successful with minor issues
+```
+
+## Code Versioning
+
+### Current Version
+
+```
+Pixel Version: 2.4.1
+
+Last updated: January 10, 2024
+
+Changes in 2.4.1:
+• Improved SPA detection
+• Fixed Safari ITP handling
+• Added consent mode support
+```
+
+### Auto-Update
+
+The pixel auto-updates by default:
+
+```
+Auto-Update: ✅ Enabled
+
+Your pixel will automatically receive:
+• Bug fixes
+• Performance improvements
+• New features
+
+Major version changes require manual approval.
+```
+
+### Lock Version
+
+For strict change control:
+
+```
+☐ Lock to specific version
+
+Version: [2.4.1                          ▼]
+
+Warning: Locking prevents automatic updates.
+You'll need to manually update for fixes.
+```
+
+## Troubleshooting
+
+### No Data Appearing
+
+1. Check pixel is installed (View Source → search "sealmetrics")
+2. Verify account ID matches
+3. Check browser console for errors
+4. Ensure not blocked by ad blocker
+5. Wait 5-10 minutes for data processing
+
+### Duplicate Pageviews
+
+1. Check pixel isn't installed multiple times
+2. Disable auto-pageview if tracking manually
+3. Check GTM isn't firing on virtual pageviews + real pageviews
+
+### Cross-Domain Not Working
+
+1. Verify all domains in linked list
+2. Check DNS for all tracking subdomains
+3. Ensure links include `sealmetrics` parameter
+4. Test with debug mode enabled

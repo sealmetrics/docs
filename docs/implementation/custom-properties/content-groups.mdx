@@ -1,0 +1,372 @@
+---
+sidebar_position: 4
+title: Content Grouping with Properties
+description: Use properties to group and categorize your content for analysis.
+---
+
+# Content Grouping with Properties
+
+Content grouping lets you categorize pages into logical groups for easier analysis. This can be done with properties or through the settings UI.
+
+## Two Approaches
+
+### 1. Property-Based (This Page)
+
+Set content group as a property in your tracking code:
+
+```javascript
+_sm('pageview', {
+  properties: {
+    content_group: 'Products',
+    content_subgroup: 'Electronics'
+  }
+});
+```
+
+**Best for:** Dynamic content, complex logic, developer control
+
+### 2. Rule-Based (Settings)
+
+Define rules in the Sealmetrics UI that automatically assign groups:
+
+```
+Rule: URL starts with /products/ → Group: Products
+Rule: URL starts with /blog/ → Group: Blog
+```
+
+**Best for:** Simple patterns, non-technical users
+
+[See Settings-based Content Grouping →](/platform/settings/tracking/content-grouping)
+
+## Property-Based Content Grouping
+
+### Basic Implementation
+
+```javascript
+// Determine content group based on page
+function getContentGroup() {
+  const path = window.location.pathname;
+
+  if (path.startsWith('/products/')) return 'Products';
+  if (path.startsWith('/blog/')) return 'Blog';
+  if (path.startsWith('/help/')) return 'Support';
+  if (path === '/') return 'Homepage';
+  return 'Other';
+}
+
+// Send with pageview
+_sm('pageview', {
+  properties: {
+    content_group: getContentGroup()
+  }
+});
+```
+
+### Hierarchical Groups
+
+Create multi-level grouping:
+
+```javascript
+_sm('pageview', {
+  properties: {
+    content_group_1: 'Products',           // Level 1
+    content_group_2: 'Electronics',        // Level 2
+    content_group_3: 'Headphones'          // Level 3
+  }
+});
+```
+
+**Analysis enabled:**
+```
+Products
+├── Electronics
+│   ├── Headphones (1,234 views)
+│   ├── Speakers (892 views)
+│   └── Cameras (567 views)
+├── Clothing
+│   ├── Men (2,345 views)
+│   └── Women (3,456 views)
+└── Home (1,890 views)
+```
+
+### From Data Layer
+
+Read from existing data layer:
+
+```javascript
+// If your site sets:
+// dataLayer.push({ pageType: 'product', category: 'Electronics' });
+
+_sm('pageview', {
+  properties: {
+    content_group: dataLayer.find(d => d.pageType)?.pageType || 'Other',
+    content_category: dataLayer.find(d => d.category)?.category || 'Unknown'
+  }
+});
+```
+
+### From Page Elements
+
+Read from page structure:
+
+```javascript
+_sm('pageview', {
+  properties: {
+    content_group: document.body.dataset.pageType || 'Unknown',
+    content_category: document.querySelector('[data-category]')?.dataset.category || 'Unknown'
+  }
+});
+```
+
+## Platform-Specific Examples
+
+### WordPress
+
+```php
+// In your theme's functions.php or header.php
+<script>
+_sm('pageview', {
+  properties: {
+    content_group: '<?php
+      if (is_front_page()) echo "Homepage";
+      elseif (is_singular("post")) echo "Blog Post";
+      elseif (is_singular("product")) echo "Product";
+      elseif (is_category()) echo "Category Archive";
+      elseif (is_search()) echo "Search Results";
+      else echo "Other";
+    ?>',
+    content_category: '<?php
+      $categories = get_the_category();
+      echo !empty($categories) ? esc_js($categories[0]->name) : "Uncategorized";
+    ?>'
+  }
+});
+</script>
+```
+
+### Shopify
+
+```liquid
+<script>
+_sm('pageview', {
+  properties: {
+    content_group: '{% if template == 'index' %}Homepage{% elsif template contains 'product' %}Product{% elsif template contains 'collection' %}Collection{% elsif template == 'cart' %}Cart{% elsif template contains 'page' %}Page{% else %}Other{% endif %}',
+    {% if collection %}
+    content_category: '{{ collection.title | escape }}',
+    {% elsif product %}
+    content_category: '{{ product.type | escape }}',
+    {% endif %}
+  }
+});
+</script>
+```
+
+### React/Next.js
+
+```jsx
+// In your layout or _app.js
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+function getContentGroup(pathname) {
+  if (pathname === '/') return 'Homepage';
+  if (pathname.startsWith('/products')) return 'Products';
+  if (pathname.startsWith('/blog')) return 'Blog';
+  if (pathname.startsWith('/docs')) return 'Documentation';
+  return 'Other';
+}
+
+export default function App({ Component, pageProps }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      window._sm('pageview', {
+        properties: {
+          content_group: getContentGroup(url)
+        }
+      });
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+    return () => router.events.off('routeChangeComplete', handleRouteChange);
+  }, [router]);
+
+  return <Component {...pageProps} />;
+}
+```
+
+## Common Group Structures
+
+### E-commerce
+
+```javascript
+const contentGroups = {
+  '/': 'Homepage',
+  '/products': 'Product Listing',
+  '/products/[id]': 'Product Detail',
+  '/cart': 'Cart',
+  '/checkout': 'Checkout',
+  '/order-confirmation': 'Order Confirmation',
+  '/account': 'Account',
+  '/blog': 'Blog',
+  '/about': 'Company Info'
+};
+```
+
+### SaaS Marketing Site
+
+```javascript
+const contentGroups = {
+  '/': 'Homepage',
+  '/features': 'Features',
+  '/pricing': 'Pricing',
+  '/customers': 'Social Proof',
+  '/blog': 'Blog',
+  '/docs': 'Documentation',
+  '/login': 'Login',
+  '/signup': 'Signup'
+};
+```
+
+### Media/Publishing
+
+```javascript
+const contentGroups = {
+  '/': 'Homepage',
+  '/[year]/[month]/[slug]': 'Article',
+  '/category/[name]': 'Category',
+  '/author/[name]': 'Author',
+  '/search': 'Search',
+  '/subscribe': 'Subscription',
+  '/video': 'Video Content'
+};
+```
+
+## Analyzing Content Groups
+
+### In Reports
+
+Filter by content group:
+
+```
+Traffic Report
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Breakdown by: content_group
+
+Content Group    Sessions    Pageviews    Avg. Time
+─────────────────────────────────────────────────────
+Products          12,345      45,678       2:34
+Blog               8,901      23,456       4:12
+Homepage           6,789       6,789       0:45
+Support            3,456      12,345       3:21
+Other              1,234       2,345       1:15
+```
+
+### Conversion Analysis
+
+See which content groups drive conversions:
+
+```
+Conversions by First Content Group Visited
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+First Visit         Conversions    Conv. Rate
+─────────────────────────────────────────────
+Blog Article             234          4.5%
+Product Page             189          3.2%
+Homepage                 156          2.1%
+Landing Page             123          5.8%
+```
+
+### Content Performance
+
+Compare engagement across groups:
+
+```
+Content Group Performance
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Group          Bounce Rate    Pages/Session    Time
+──────────────────────────────────────────────────
+Blog              35%            2.3           4:12
+Products          42%            3.8           3:45
+Support           28%            4.1           5:30
+Homepage          55%            1.8           0:45
+```
+
+## Best Practices
+
+### Keep Groups Manageable
+
+```javascript
+// Good: 5-10 main groups
+content_group: 'Products' | 'Blog' | 'Support' | 'Account' | 'Other'
+
+// Bad: Too many groups
+content_group: 'Product-Electronics-Headphones-Sony-WH1000XM5'
+```
+
+### Use Hierarchy for Detail
+
+```javascript
+// Manageable top level
+content_group: 'Products'
+
+// Detail in subgroups
+content_subgroup: 'Electronics'
+content_category: 'Headphones'
+content_brand: 'Sony'
+```
+
+### Handle Edge Cases
+
+```javascript
+function getContentGroup() {
+  const path = window.location.pathname;
+
+  // Handle known paths
+  if (path === '/') return 'Homepage';
+  if (path.startsWith('/products/')) return 'Products';
+
+  // Handle 404s
+  if (document.title.includes('404')) return '404 Error';
+
+  // Catch-all
+  return 'Other';
+}
+```
+
+### Consistent Naming
+
+```javascript
+// Good: consistent format
+'Products', 'Blog Posts', 'Support Articles'
+
+// Bad: inconsistent
+'products', 'Blog', 'SUPPORT'
+```
+
+## Troubleshooting
+
+### Content Group Not Appearing
+
+1. Check property is being sent (debug mode)
+2. Verify property name matches expected
+3. Wait for data processing (1-2 hours)
+4. Check for JavaScript errors
+
+### Wrong Group Assigned
+
+1. Check your logic handles all cases
+2. Verify URL/data layer values
+3. Check execution timing
+4. Debug with console.log before sending
+
+### Mixed with Rule-Based Groups
+
+If you use both:
+- Code-based properties take precedence
+- Rule-based fills in where code doesn't set
+- Be consistent to avoid confusion

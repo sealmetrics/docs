@@ -1,0 +1,396 @@
+---
+sidebar_position: 2
+title: Event Properties
+description: Attach custom data to individual events for detailed analysis.
+---
+
+# Event Properties
+
+Event properties let you attach custom data to individual pageviews, events, and conversions.
+
+## How Event Properties Work
+
+Properties are sent with each event and stored alongside it:
+
+```
+Event: add_to_cart
+├── Standard fields (automatic)
+│   ├── timestamp: 2024-01-15T14:32:00Z
+│   ├── page_url: /products/widget
+│   ├── device: mobile
+│   └── country: ES
+│
+└── Custom properties (you define)
+    ├── product_id: SKU-123
+    ├── product_name: Widget Pro
+    ├── price: 49.99
+    └── category: electronics
+```
+
+## Adding Properties to Events
+
+### Pageviews
+
+```javascript
+_sm('pageview', {
+  properties: {
+    page_type: 'product',
+    category: 'electronics',
+    brand: 'Apple'
+  }
+});
+```
+
+### Custom Events
+
+```javascript
+_sm('event', 'video_play', {
+  properties: {
+    video_id: 'vid-123',
+    video_title: 'Product Demo',
+    video_duration: '120',
+    autoplay: 'false'
+  }
+});
+```
+
+### Conversions
+
+```javascript
+_sm('conversion', {
+  order_id: 'ORD-12345',
+  amount: 149.99,
+  currency: 'EUR',
+  properties: {
+    product_category: 'electronics',
+    payment_method: 'credit_card',
+    shipping_method: 'express',
+    coupon_code: 'SAVE10',
+    is_gift: 'false',
+    items_count: '3'
+  }
+});
+```
+
+### Micro-conversions
+
+```javascript
+_sm('microconversion', 'add_to_cart', {
+  amount: 49.99,
+  properties: {
+    product_id: 'SKU-123',
+    quantity: '2',
+    from_wishlist: 'true'
+  }
+});
+```
+
+## Common Property Patterns
+
+### Product Properties
+
+```javascript
+properties: {
+  // Identification
+  product_id: 'SKU-12345',
+  product_name: 'Wireless Headphones',
+  product_variant: 'Black',
+
+  // Categorization
+  category: 'Electronics',
+  subcategory: 'Audio',
+  brand: 'Sony',
+
+  // Pricing
+  price: '149.99',
+  original_price: '199.99',
+  discount_percent: '25',
+
+  // Inventory
+  in_stock: 'true',
+  stock_level: 'low',
+
+  // Position
+  list_name: 'Search Results',
+  list_position: '3'
+}
+```
+
+### Content Properties
+
+```javascript
+properties: {
+  // Identification
+  content_id: 'article-456',
+  content_title: 'How to Choose Headphones',
+
+  // Categorization
+  content_type: 'article',
+  category: 'buying-guides',
+  tags: 'audio,headphones,wireless',
+
+  // Metadata
+  author: 'jane-smith',
+  publish_date: '2024-01-10',
+  word_count: '1500',
+  read_time: '7',
+
+  // Features
+  has_video: 'true',
+  has_gallery: 'true',
+  subscriber_only: 'false'
+}
+```
+
+### User Action Properties
+
+```javascript
+properties: {
+  // Action context
+  action_location: 'product_page',
+  trigger: 'button_click',
+
+  // State before action
+  previous_step: 'cart',
+  items_in_cart: '3',
+
+  // Action details
+  selected_option: 'express_shipping',
+  estimated_delivery: '2024-01-18'
+}
+```
+
+## Using Properties in Reports
+
+### Filtering
+
+Filter reports by property values:
+
+```
+Traffic Report
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Filters:
++ page_type equals "product"
++ category equals "electronics"
+
+Showing: Product pages in Electronics category
+```
+
+### Breaking Down
+
+Break down metrics by property:
+
+```
+Conversions by Payment Method
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+payment_method    Conversions    Revenue      AOV
+──────────────────────────────────────────────────
+credit_card            234      €35,100    €150
+paypal                  89      €11,570    €130
+apple_pay               67       €9,380    €140
+bank_transfer           23       €4,600    €200
+```
+
+### Custom Reports
+
+Create reports specifically for your properties:
+
+1. Go to **Reports → Custom Reports**
+2. Click **Create Report**
+3. Select properties as dimensions or filters
+
+## Data Types
+
+### All Values Are Strings
+
+Sealmetrics stores all property values as strings:
+
+```javascript
+// Send as strings
+properties: {
+  price: '49.99',          // Not 49.99
+  quantity: '2',           // Not 2
+  is_sale: 'true',         // Not true
+  discount_percent: '25'   // Not 25
+}
+```
+
+### Why Strings?
+
+- Consistent storage and querying
+- No type coercion issues
+- Works reliably across all platforms
+
+### Converting for Analysis
+
+In reports, values are automatically converted for:
+- Numeric sorting (if values are numeric strings)
+- Aggregations (sum, average)
+
+## Property Inheritance
+
+### From User Properties
+
+User properties are automatically included:
+
+```javascript
+// Set user property once
+_sm('set', 'userProperties', {
+  customer_type: 'premium'
+});
+
+// All events include customer_type automatically
+_sm('event', 'feature_used', {
+  properties: {
+    feature_name: 'export'
+  }
+});
+// Stored: { feature_name: 'export', customer_type: 'premium' }
+```
+
+### From Session Properties
+
+Session properties are included for the session:
+
+```javascript
+// Set at session start
+_sm('set', 'sessionProperties', {
+  ab_variant: 'B'
+});
+
+// All events in session include ab_variant
+_sm('event', 'signup');
+// Stored: { ab_variant: 'B' }
+```
+
+### Precedence
+
+If the same property is set at multiple levels:
+
+```
+Event property > Session property > User property
+
+Event-level value wins if set
+```
+
+## Dynamic Properties
+
+### From Data Layer
+
+Read from existing data layer:
+
+```javascript
+// If your page has:
+// dataLayer = [{ productCategory: 'electronics', brand: 'Apple' }]
+
+_sm('pageview', {
+  properties: {
+    category: dataLayer[0].productCategory,
+    brand: dataLayer[0].brand
+  }
+});
+```
+
+### From DOM
+
+Read from page elements:
+
+```javascript
+_sm('pageview', {
+  properties: {
+    page_title: document.title,
+    product_id: document.querySelector('[data-product-id]')?.dataset.productId,
+    has_video: document.querySelector('video') ? 'true' : 'false'
+  }
+});
+```
+
+### From URL
+
+Parse from URL parameters:
+
+```javascript
+const params = new URLSearchParams(window.location.search);
+
+_sm('pageview', {
+  properties: {
+    search_query: params.get('q') || '',
+    sort_by: params.get('sort') || 'relevance',
+    page_number: params.get('page') || '1'
+  }
+});
+```
+
+## Validation
+
+### Client-Side Validation
+
+The SDK validates properties before sending:
+
+```javascript
+// This will log a warning and skip invalid properties
+_sm('event', 'test', {
+  properties: {
+    valid_property: 'value',           // ✅ Sent
+    'invalid-name': 'value',           // ⚠️ Skipped (hyphen)
+    '123numeric': 'value',             // ⚠️ Skipped (starts with number)
+    very_long_property_name_that_exceeds_the_maximum_allowed_length: 'value'  // ⚠️ Truncated
+  }
+});
+```
+
+### Server-Side Validation
+
+Additional validation on the server:
+- Values exceeding 256 chars are truncated
+- Total properties exceeding plan limit are dropped
+- Invalid UTF-8 is rejected
+
+## Debugging Properties
+
+### Debug Mode
+
+Enable to see properties being sent:
+
+```javascript
+_sm('debug', true);
+
+_sm('event', 'test', {
+  properties: { category: 'electronics' }
+});
+
+// Console output:
+// [Sealmetrics] Event sent: test
+// [Sealmetrics] Properties: { category: "electronics" }
+```
+
+### Verify in Dashboard
+
+Check properties arrived correctly:
+
+1. Go to **Reports → Events**
+2. Find your event
+3. Click to see properties
+
+## Troubleshooting
+
+### Properties Not Appearing
+
+1. **Check property names** - Must be alphanumeric + underscore
+2. **Check plan limits** - Properties over limit are dropped
+3. **Wait for processing** - Can take 1-2 hours
+4. **Verify with debug mode** - Ensure properties are sent
+
+### Wrong Values
+
+1. **Check data types** - All values must be strings
+2. **Check encoding** - UTF-8 special characters
+3. **Check truncation** - Values over 256 chars truncated
+
+### Missing on Some Events
+
+1. **Check conditional logic** - Properties only sent when defined
+2. **Check timing** - Ensure data is available when event fires
+3. **Check errors** - Look for console errors

@@ -1,0 +1,584 @@
+---
+sidebar_position: 5
+title: Content & Media Sites
+description: Implementation guide for blogs, news sites, and content publishers - track engagement, subscriptions, and ad performance.
+---
+
+# Content & Media Implementation Guide
+
+Complete guide for tracking content sites, blogs, news publishers, and media platforms. Measure reader engagement, subscription conversions, and content performance.
+
+## What You'll Track
+
+| Event Type | Example | Purpose |
+|------------|---------|---------|
+| Pageviews | Articles, categories, homepage | Traffic analysis |
+| Microconversions | Scroll depth, video plays, shares | Engagement metrics |
+| Conversions | Newsletter signups, subscriptions | Audience building |
+
+---
+
+## Step 1: Basic Installation
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+### Content Grouping
+
+Group content by type for better analysis:
+
+```html
+<!-- Homepage -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=home" defer></script>
+
+<!-- Article pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=article" defer></script>
+
+<!-- Category/archive pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=category" defer></script>
+
+<!-- Author pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=author" defer></script>
+
+<!-- Video content -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=video" defer></script>
+
+<!-- Podcast episodes -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=podcast" defer></script>
+```
+
+### Dynamic Grouping (WordPress)
+
+```php
+<?php
+function get_content_group() {
+  if (is_front_page()) return 'home';
+  if (is_single()) return 'article';
+  if (is_category() || is_tag()) return 'category';
+  if (is_author()) return 'author';
+  if (is_search()) return 'search';
+  return 'other';
+}
+?>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=<?php echo get_content_group(); ?>" defer></script>
+```
+
+---
+
+## Step 2: Track Reading Engagement
+
+### Scroll Depth
+
+```javascript
+(function() {
+  var tracked = {};
+  var articleHeight = document.querySelector('article, .post-content, .entry-content');
+  if (!articleHeight) return;
+
+  var articleTop = articleHeight.offsetTop;
+  var articleBottom = articleTop + articleHeight.offsetHeight;
+
+  window.addEventListener('scroll', function() {
+    var scrollPosition = window.scrollY + window.innerHeight;
+    var articleProgress = Math.min(100, Math.max(0,
+      Math.round(((scrollPosition - articleTop) / (articleBottom - articleTop)) * 100)
+    ));
+
+    [25, 50, 75, 100].forEach(function(milestone) {
+      if (articleProgress >= milestone && !tracked[milestone]) {
+        tracked[milestone] = true;
+        sealmetrics.micro('read_' + milestone, {
+          article_id: document.body.dataset.postId,
+          category: document.body.dataset.category
+        });
+      }
+    });
+  });
+})();
+```
+
+### Time on Article
+
+```javascript
+(function() {
+  var startTime = Date.now();
+  var engagementThresholds = [30, 60, 120, 300]; // seconds
+  var tracked = {};
+
+  function checkEngagement() {
+    var timeSpent = Math.floor((Date.now() - startTime) / 1000);
+
+    engagementThresholds.forEach(function(threshold) {
+      if (timeSpent >= threshold && !tracked[threshold]) {
+        tracked[threshold] = true;
+        sealmetrics.micro('time_on_article', {
+          seconds: threshold.toString(),
+          article_id: document.body.dataset.postId
+        });
+      }
+    });
+  }
+
+  // Check every 10 seconds
+  setInterval(checkEngagement, 10000);
+
+  // Also check on visibility change (tab switch)
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+      checkEngagement();
+    }
+  });
+})();
+```
+
+### Engaged Reader (Combined)
+
+```javascript
+// Fire when user has scrolled 50%+ AND spent 30+ seconds
+(function() {
+  var hasScrolled50 = false;
+  var hasSpent30s = false;
+  var hasFiredEngaged = false;
+
+  window.addEventListener('scroll', function() {
+    if (getScrollPercent() >= 50) {
+      hasScrolled50 = true;
+      checkEngaged();
+    }
+  });
+
+  setTimeout(function() {
+    hasSpent30s = true;
+    checkEngaged();
+  }, 30000);
+
+  function checkEngaged() {
+    if (hasScrolled50 && hasSpent30s && !hasFiredEngaged) {
+      hasFiredEngaged = true;
+      sealmetrics.micro('engaged_reader', {
+        article_id: document.body.dataset.postId,
+        category: document.body.dataset.category,
+        author: document.body.dataset.author
+      });
+    }
+  }
+
+  function getScrollPercent() {
+    var h = document.documentElement;
+    var b = document.body;
+    return Math.round((h.scrollTop || b.scrollTop) / ((h.scrollHeight || b.scrollHeight) - h.clientHeight) * 100);
+  }
+})();
+```
+
+---
+
+## Step 3: Track Newsletter Signups
+
+### Inline Newsletter Form
+
+```javascript
+document.querySelectorAll('.newsletter-form').forEach(function(form) {
+  form.addEventListener('submit', function(e) {
+    sealmetrics.conv('newsletter_signup', 0, {
+      form_location: this.dataset.location,  // 'header', 'footer', 'inline', 'popup'
+      article_id: document.body.dataset.postId || 'none',
+      category: document.body.dataset.category || 'none'
+    });
+  });
+});
+```
+
+### Popup/Modal Signup
+
+```javascript
+// Track popup shown
+function onNewsletterPopupShown() {
+  sealmetrics.micro('newsletter_popup_shown', {
+    trigger: 'exit_intent'  // or 'scroll', 'time'
+  });
+}
+
+// Track popup closed without signup
+function onNewsletterPopupClosed(didSignup) {
+  if (!didSignup) {
+    sealmetrics.micro('newsletter_popup_dismissed');
+  }
+}
+
+// Track signup
+function onNewsletterSignup(email) {
+  sealmetrics.conv('newsletter_signup', 0, {
+    form_location: 'popup',
+    trigger: 'exit_intent'
+  });
+}
+```
+
+### Double Opt-in Confirmation
+
+```javascript
+// On the confirmation page (after clicking email link)
+if (window.location.pathname.includes('/confirm')) {
+  sealmetrics.conv('newsletter_confirmed', 0, {
+    source: new URLSearchParams(window.location.search).get('src')
+  });
+}
+```
+
+---
+
+## Step 4: Track Social Shares
+
+### Share Button Clicks
+
+```javascript
+document.querySelectorAll('.share-button').forEach(function(button) {
+  button.addEventListener('click', function() {
+    sealmetrics.micro('social_share', {
+      platform: this.dataset.platform,  // 'twitter', 'facebook', 'linkedin', 'email'
+      article_id: document.body.dataset.postId,
+      article_title: document.title
+    });
+  });
+});
+```
+
+### Copy Link
+
+```javascript
+document.querySelector('.copy-link').addEventListener('click', function() {
+  sealmetrics.micro('copy_link', {
+    article_id: document.body.dataset.postId
+  });
+});
+```
+
+### Native Share API
+
+```javascript
+document.querySelector('.native-share').addEventListener('click', async function() {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: document.title,
+        url: window.location.href
+      });
+      sealmetrics.micro('native_share', {
+        article_id: document.body.dataset.postId
+      });
+    } catch (err) {
+      // User cancelled
+    }
+  }
+});
+```
+
+---
+
+## Step 5: Track Comments
+
+### Comment Form Interaction
+
+```javascript
+// Focus on comment field
+document.querySelector('#comment-field').addEventListener('focus', function() {
+  sealmetrics.micro('comment_started', {
+    article_id: document.body.dataset.postId
+  });
+}, { once: true });
+
+// Comment submitted
+document.querySelector('#comment-form').addEventListener('submit', function() {
+  sealmetrics.micro('comment_submitted', {
+    article_id: document.body.dataset.postId,
+    is_reply: this.querySelector('[name="parent"]').value ? 'yes' : 'no'
+  });
+});
+```
+
+### Comment Reactions (if using reactions)
+
+```javascript
+document.querySelectorAll('.comment-reaction').forEach(function(button) {
+  button.addEventListener('click', function() {
+    sealmetrics.micro('comment_reaction', {
+      reaction_type: this.dataset.reaction,  // 'like', 'helpful', 'disagree'
+      article_id: document.body.dataset.postId
+    });
+  });
+});
+```
+
+---
+
+## Step 6: Track Video/Audio Content
+
+### Video Player
+
+```javascript
+document.querySelectorAll('video, .video-player').forEach(function(video) {
+  var videoId = video.dataset.videoId || video.id;
+  var tracked = {};
+
+  video.addEventListener('play', function() {
+    if (!tracked.play) {
+      tracked.play = true;
+      sealmetrics.micro('video_play', {
+        video_id: videoId,
+        video_title: video.dataset.title
+      });
+    }
+  });
+
+  video.addEventListener('timeupdate', function() {
+    var percent = Math.round((this.currentTime / this.duration) * 100);
+
+    [25, 50, 75].forEach(function(milestone) {
+      if (percent >= milestone && !tracked[milestone]) {
+        tracked[milestone] = true;
+        sealmetrics.micro('video_progress_' + milestone, {
+          video_id: videoId
+        });
+      }
+    });
+  });
+
+  video.addEventListener('ended', function() {
+    sealmetrics.micro('video_complete', {
+      video_id: videoId,
+      video_title: video.dataset.title
+    });
+  });
+});
+```
+
+### Podcast Player
+
+```javascript
+var podcast = document.querySelector('.podcast-player');
+if (podcast) {
+  var audio = podcast.querySelector('audio');
+  var episodeId = podcast.dataset.episodeId;
+  var tracked = {};
+
+  audio.addEventListener('play', function() {
+    if (!tracked.play) {
+      tracked.play = true;
+      sealmetrics.micro('podcast_play', {
+        episode_id: episodeId,
+        episode_title: podcast.dataset.title
+      });
+    }
+  });
+
+  audio.addEventListener('ended', function() {
+    sealmetrics.micro('podcast_complete', {
+      episode_id: episodeId
+    });
+  });
+
+  // Track download
+  podcast.querySelector('.download-episode').addEventListener('click', function() {
+    sealmetrics.micro('podcast_download', {
+      episode_id: episodeId
+    });
+  });
+}
+```
+
+### YouTube Embeds
+
+```javascript
+// YouTube IFrame API
+function onYouTubeIframeAPIReady() {
+  document.querySelectorAll('.youtube-embed').forEach(function(container) {
+    var player = new YT.Player(container, {
+      events: {
+        onStateChange: function(event) {
+          var videoId = player.getVideoData().video_id;
+
+          if (event.data === YT.PlayerState.PLAYING) {
+            sealmetrics.micro('youtube_play', { video_id: videoId });
+          }
+          if (event.data === YT.PlayerState.ENDED) {
+            sealmetrics.micro('youtube_complete', { video_id: videoId });
+          }
+        }
+      }
+    });
+  });
+}
+```
+
+---
+
+## Step 7: Track Paid Subscriptions
+
+### Paywall Interactions
+
+```javascript
+// Paywall shown
+document.addEventListener('paywallShown', function(e) {
+  sealmetrics.micro('paywall_shown', {
+    article_id: document.body.dataset.postId,
+    content_type: e.detail.contentType  // 'premium', 'members_only'
+  });
+});
+
+// Plan selection
+document.querySelectorAll('.subscription-plan').forEach(function(plan) {
+  plan.addEventListener('click', function() {
+    sealmetrics.micro('plan_selected', {
+      plan: this.dataset.plan,
+      price: this.dataset.price,
+      billing: this.dataset.billing
+    });
+  });
+});
+```
+
+### Subscription Purchase
+
+```javascript
+// On subscription success
+function onSubscriptionComplete(subscription) {
+  sealmetrics.conv('subscription', subscription.price, {
+    plan: subscription.plan,
+    billing_cycle: subscription.billing,  // 'monthly', 'yearly'
+    currency: subscription.currency,
+    source: document.body.dataset.postId ? 'article_paywall' : 'pricing_page'
+  });
+}
+```
+
+### Subscription Upgrade
+
+```javascript
+sealmetrics.conv('subscription_upgrade', priceDifference, {
+  from_plan: currentPlan,
+  to_plan: newPlan,
+  currency: 'USD'
+});
+```
+
+---
+
+## Step 8: Track Internal Navigation
+
+### Related Articles
+
+```javascript
+document.querySelectorAll('.related-articles a').forEach(function(link) {
+  link.addEventListener('click', function() {
+    sealmetrics.micro('related_article_click', {
+      from_article: document.body.dataset.postId,
+      to_article: this.dataset.postId,
+      position: this.dataset.position  // '1', '2', '3'
+    });
+  });
+});
+```
+
+### Category Navigation
+
+```javascript
+document.querySelectorAll('.category-nav a').forEach(function(link) {
+  link.addEventListener('click', function() {
+    sealmetrics.micro('category_click', {
+      category: this.dataset.category,
+      location: 'navigation'
+    });
+  });
+});
+```
+
+### Search
+
+```javascript
+document.querySelector('#search-form').addEventListener('submit', function() {
+  var query = document.querySelector('#search-input').value;
+  sealmetrics.micro('search', {
+    search_term: query,
+    results_page: 'true'
+  });
+});
+```
+
+---
+
+## Complete Content Funnel
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    CONTENT ENGAGEMENT FUNNEL                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   DISCOVERY                                                      │
+│   ─────────                                                      │
+│   Homepage ──► Category ──► Article                             │
+│   (pageview)   (pageview)   (pageview)                          │
+│                                                                  │
+│   ENGAGEMENT                                                     │
+│   ──────────                                                     │
+│   Read 25% ──► Read 50% ──► Read 75% ──► Read 100%             │
+│   (micro)      (micro)      (micro)      (micro)                │
+│                                                                  │
+│   INTERACTION                                                    │
+│   ───────────                                                    │
+│   Comment ──► Share ──► Related Click                           │
+│   (micro)     (micro)   (micro)                                 │
+│                                                                  │
+│   CONVERSION                                                     │
+│   ──────────                                                     │
+│   Newsletter Popup ──► Signup ──► Confirm                       │
+│   (micro)              (CONV)     (CONV)                        │
+│                                                                  │
+│   MONETIZATION                                                   │
+│   ────────────                                                   │
+│   Paywall ──► Plan Select ──► Subscribe                         │
+│   (micro)     (micro)         (CONV)                            │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Key Metrics for Content Sites
+
+| Metric | Formula | Events Needed |
+|--------|---------|---------------|
+| **Engaged Readers** | engaged_reader / pageviews | pageview, engaged_reader |
+| **Read Completion** | read_100 / article pageviews | pageview, read_100 |
+| **Newsletter Rate** | signups / unique visitors | pageview, newsletter_signup |
+| **Share Rate** | shares / article pageviews | pageview, social_share |
+| **Comment Rate** | comments / article pageviews | pageview, comment_submitted |
+| **Video Completion** | video_complete / video_play | video_play, video_complete |
+| **Subscription Rate** | subscriptions / paywall_shown | paywall_shown, subscription |
+
+---
+
+## Content Performance Analysis
+
+After implementing, analyze in your dashboard:
+
+### Traffic
+- Top articles by pageviews
+- Traffic sources per article
+- Category performance
+
+### Engagement
+- Average scroll depth by category
+- Time on page by author
+- Engaged reader rate by topic
+
+### Conversion
+- Newsletter signup sources
+- Best converting content
+- Subscription paths
+
+### Content ROI
+- Revenue per article (if subscriptions)
+- Lifetime value by acquisition content
+- Author performance

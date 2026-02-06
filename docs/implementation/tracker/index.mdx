@@ -1,0 +1,101 @@
+---
+sidebar_position: 1
+title: Tracker Overview
+---
+
+# Tracker
+
+Ultra-lightweight JavaScript tracker for collecting analytics data.
+
+| Specification | Value |
+|---------------|-------|
+| Size (minified) | 1,703 bytes |
+| Size (gzipped) | **925 bytes** |
+| Dependencies | None (vanilla JavaScript) |
+| Cookies | None |
+| localStorage | None |
+| sessionStorage | None |
+| Browser support | Chrome 60+, Firefox 55+, Safari 11.1+, Edge 79+ |
+| Accounts per page | One |
+
+## Size Comparison
+
+| Platform | Size (gzipped) |
+|----------|----------------|
+| Google Analytics 4 | ~45 KB |
+| Plausible | ~1.5 KB |
+| Fathom | ~1.2 KB |
+| Simple Analytics | ~1.1 KB |
+| **Sealmetrics** | **925 bytes** |
+
+## Quick Start
+
+Add one line to your HTML:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+This script:
+1. Loads asynchronously (does not block page rendering)
+2. Tracks the initial pageview automatically
+3. Detects SPA navigation automatically (React, Vue, Angular, Next.js)
+
+## API
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `sealmetrics()` | Manual pageview | `sealmetrics()` |
+| `sealmetrics({ group })` | Pageview with content grouping | `sealmetrics({ group: 'blog' })` |
+| `sealmetrics.conv(type, amount)` | Conversion | `sealmetrics.conv('purchase', 99.99)` |
+| `sealmetrics.conv(type, amount, props)` | Conversion with properties | `sealmetrics.conv('purchase', 99.99, { order_id: '123' })` |
+| `sealmetrics.micro(type)` | Microconversion | `sealmetrics.micro('add_to_cart')` |
+| `sealmetrics.micro(type, props)` | Microconversion with properties | `sealmetrics.micro('add_to_cart', { product_id: 'SKU-123' })` |
+
+## Global Variables
+
+The tracker exposes three identical global variables:
+
+| Variable | Recommendation |
+|----------|----------------|
+| `sealmetrics` | Recommended (unique, no conflicts) |
+| `sm` | Short form |
+| `_sm` | Backup if others conflict |
+
+```javascript
+// All three work identically:
+sealmetrics.conv('purchase', 99.99);
+sm.conv('purchase', 99.99);
+_sm.conv('purchase', 99.99);
+```
+
+## Privacy
+
+The tracker does not collect or store:
+- Cookies
+- IP addresses (used only for blocklist check, never stored in analytics)
+- Personal identifiable information
+- Form inputs
+- User credentials
+- localStorage or sessionStorage data
+
+Session identification uses a browser fingerprint hash (hostname, user agent, timezone, viewport size). No canvas fingerprinting.
+
+## Documentation
+
+### Getting Started
+
+- [**Step-by-Step Guide**](./step-by-step-guide) - Complete visual guide from zero to tracking
+- [Installation](./installation) - Script tag, content grouping, custom domains
+
+### Tracking Events
+
+- [Conversions](./conversions) - Tracking purchases, leads, signups
+- [Microconversions](./microconversions) - Tracking funnel steps, engagement events
+
+### Advanced
+
+- [API Reference](./api-reference) - Complete technical reference
+- [SPA Support](./spa-support) - React, Vue, Angular, Next.js integration
+- [First-Party Setup](./first-party) - Custom domain for tracking
+- [Migration from v1](./migration-from-v1) - Breaking changes and code examples

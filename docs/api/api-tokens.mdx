@@ -1,0 +1,349 @@
+---
+sidebar_position: 4
+title: API Tokens
+description: Create and manage API tokens for programmatic access.
+---
+
+# API Tokens
+
+Create and manage personal API tokens for programmatic access to the Sealmetrics API.
+
+## Overview
+
+API tokens provide:
+- Long-lived authentication for integrations
+- Scoped permissions per token
+- Optional account restrictions
+- Automatic expiration
+
+**Base path:** `/api-tokens`
+
+---
+
+## Scopes
+
+Each token can be granted specific permissions:
+
+| Scope | Description |
+|-------|-------------|
+| `read` | Read analytics data |
+| `write` | Create/update resources |
+| `admin` | Full access including user management |
+| `accounts:read` | Read account settings |
+| `accounts:write` | Modify account settings |
+| `exports:create` | Create data exports |
+| `webhooks:manage` | Manage webhook endpoints |
+
+### List Available Scopes
+
+```http
+GET /api-tokens/scopes
+```
+
+**Response:**
+
+```json
+{
+  "data": {
+    "scopes": [
+      {
+        "scope": "read",
+        "name": "Read",
+        "description": "Read analytics data"
+      },
+      {
+        "scope": "write",
+        "name": "Write",
+        "description": "Create and update resources"
+      },
+      {
+        "scope": "admin",
+        "name": "Admin",
+        "description": "Full administrative access"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## List Tokens
+
+```http
+GET /api-tokens
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `include_inactive` | boolean | `false` | Include revoked tokens |
+
+**Response:**
+
+```json
+{
+  "data": {
+    "tokens": [
+      {
+        "id": 1,
+        "name": "Production API",
+        "token_prefix": "sm_abc",
+        "scopes": ["read", "write"],
+        "account_ids": ["acme-corp"],
+        "is_active": true,
+        "expires_at": "2026-01-10T00:00:00Z",
+        "last_used_at": "2025-01-10T14:30:00Z",
+        "created_at": "2025-01-01T10:00:00Z"
+      }
+    ],
+    "total": 1
+  }
+}
+```
+
+---
+
+## Create Token
+
+```http
+POST /api-tokens
+```
+
+**Request Body:**
+
+```json
+{
+  "name": "My Integration",
+  "scopes": ["read", "exports:create"],
+  "account_ids": ["acme-corp", "other-site"],
+  "expires_in_days": 365
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Token name (1-255 chars) |
+| `scopes` | string[] | Yes | Permission scopes |
+| `account_ids` | string[] | No | Restrict to specific accounts |
+| `expires_in_days` | int | No | Days until expiration (default: 365) |
+
+**Response (201 Created):**
+
+```json
+{
+  "data": {
+    "id": 2,
+    "name": "My Integration",
+    "token": "sm_abc123def456ghi789...",
+    "token_prefix": "sm_abc",
+    "scopes": ["read", "exports:create"],
+    "account_ids": ["acme-corp", "other-site"],
+    "is_active": true,
+    "expires_at": "2026-01-10T00:00:00Z",
+    "created_at": "2025-01-10T14:30:00Z"
+  }
+}
+```
+
+**Important:** The full `token` value is only returned once. Store it securely.
+
+---
+
+## Get Token
+
+```http
+GET /api-tokens/{token_id}
+```
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Production API",
+    "token_prefix": "sm_abc",
+    "scopes": ["read", "write"],
+    "account_ids": ["acme-corp"],
+    "is_active": true,
+    "expires_at": "2026-01-10T00:00:00Z",
+    "last_used_at": "2025-01-10T14:30:00Z",
+    "created_at": "2025-01-01T10:00:00Z"
+  }
+}
+```
+
+---
+
+## Revoke Token
+
+```http
+DELETE /api-tokens/{token_id}
+```
+
+Revokes a token immediately. This action cannot be undone.
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Production API",
+    "is_active": false,
+    "revoked_at": "2025-01-10T14:30:00Z"
+  }
+}
+```
+
+---
+
+## Using API Tokens
+
+Include the token in the `X-API-Key` header:
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?account_id=acme" \
+  -H "X-API-Key: sm_abc123def456ghi789..."
+```
+
+---
+
+## Token Best Practices
+
+### 1. Use Minimal Scopes
+
+Only grant the scopes your integration needs:
+
+```json
+{
+  "name": "Read-only Dashboard",
+  "scopes": ["read"]
+}
+```
+
+### 2. Restrict to Specific Accounts
+
+If your integration only needs access to certain accounts:
+
+```json
+{
+  "name": "Client Dashboard",
+  "scopes": ["read"],
+  "account_ids": ["client-a", "client-b"]
+}
+```
+
+### 3. Set Appropriate Expiration
+
+For temporary integrations, use short expiration:
+
+```json
+{
+  "name": "Audit Script",
+  "scopes": ["read"],
+  "expires_in_days": 7
+}
+```
+
+### 4. Rotate Tokens Regularly
+
+Create a new token before the old one expires:
+
+```python
+# Create new token
+new_token = create_token("Production API v2", scopes=["read", "write"])
+
+# Update your application config
+update_config(new_token)
+
+# Revoke old token after confirming new one works
+revoke_token(old_token_id)
+```
+
+### 5. Never Commit Tokens
+
+Store tokens in environment variables:
+
+```bash
+# .env file (never commit!)
+SEALMETRICS_API_KEY=sm_abc123...
+```
+
+```python
+import os
+API_KEY = os.environ["SEALMETRICS_API_KEY"]
+```
+
+---
+
+## Token Errors
+
+| HTTP Code | Error | Description |
+|-----------|-------|-------------|
+| 401 | `invalid_api_key` | Token not found or revoked |
+| 401 | `token_expired` | Token has expired |
+| 403 | `insufficient_scope` | Token lacks required scope |
+| 403 | `account_not_allowed` | Account not in token's allowed list |
+
+---
+
+## Code Examples
+
+### Python
+
+```python
+import requests
+
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+
+def create_api_token(auth_token: str, name: str, scopes: list) -> dict:
+    """Create a new API token."""
+    response = requests.post(
+        f"{BASE_URL}/api-tokens",
+        headers={"Authorization": f"Bearer {auth_token}"},
+        json={
+            "name": name,
+            "scopes": scopes,
+            "expires_in_days": 365
+        }
+    )
+    response.raise_for_status()
+    return response.json()["data"]
+
+def revoke_token(auth_token: str, token_id: int):
+    """Revoke an API token."""
+    response = requests.delete(
+        f"{BASE_URL}/api-tokens/{token_id}",
+        headers={"Authorization": f"Bearer {auth_token}"}
+    )
+    response.raise_for_status()
+```
+
+### JavaScript
+
+```javascript
+async function createApiToken(authToken, name, scopes) {
+  const response = await fetch(`${BASE_URL}/api-tokens`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${authToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name,
+      scopes,
+      expires_in_days: 365
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to create token: ${response.status}`);
+  }
+
+  const { data } = await response.json();
+  return data;
+}
+```

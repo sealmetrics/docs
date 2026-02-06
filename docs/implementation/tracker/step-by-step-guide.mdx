@@ -1,0 +1,642 @@
+---
+sidebar_position: 1
+title: Step-by-Step Implementation Guide
+description: Complete visual guide to implement Sealmetrics tracking on your website, from basic pageviews to conversions and funnels.
+---
+
+# Step-by-Step Implementation Guide
+
+This guide walks you through implementing Sealmetrics tracking on your website. By the end, you'll have:
+
+- ✅ Basic pageview tracking
+- ✅ Conversion tracking (purchases, leads, signups)
+- ✅ Microconversion tracking (add to cart, funnel steps)
+- ✅ Verified data flowing to your dashboard
+
+---
+
+## Before You Start
+
+### What You Need
+
+| Requirement | Where to Find It |
+|-------------|------------------|
+| Sealmetrics Account ID | Settings → Account → Account ID |
+| Access to your website's HTML | Theme editor, CMS, or code repository |
+| 15 minutes | That's all it takes! |
+
+### Find Your Account ID
+
+1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
+2. Go to **Settings** → **Account**
+3. Copy your **Account ID** (looks like `67a1d6c0bb10b861397fdd3a`)
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  Settings → Account                                      │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  Account ID: 67a1d6c0bb10b861397fdd3a     [Copy]        │
+│                                                          │
+│  Account Name: My Store                                  │
+│  Timezone: Europe/Madrid                                 │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Step 1: Install the Tracking Pixel
+
+### 1.1 Add the Script Tag
+
+Add this single line to your website's `<head>` section:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+Replace `YOUR_ACCOUNT_ID` with your actual Account ID.
+
+### 1.2 Where to Add It
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+
+    <!-- Add Sealmetrics here, before </head> -->
+    <script src="https://t.sealmetrics.com/t.js?id=67a1d6c0bb10b861397fdd3a" defer></script>
+</head>
+<body>
+    <!-- Your content -->
+</body>
+</html>
+```
+
+### 1.3 Platform-Specific Instructions
+
+<details>
+<summary><strong>WordPress</strong></summary>
+
+**Option A: Theme Editor**
+1. Go to **Appearance → Theme Editor**
+2. Select `header.php`
+3. Find `</head>`
+4. Paste the script before it
+5. Click **Update File**
+
+**Option B: Plugin (recommended)**
+1. Install "Insert Headers and Footers" plugin
+2. Go to **Settings → Insert Headers and Footers**
+3. Paste the script in "Scripts in Header"
+4. Save
+
+</details>
+
+<details>
+<summary><strong>Shopify</strong></summary>
+
+1. Go to **Online Store → Themes**
+2. Click **Actions → Edit code**
+3. Open `theme.liquid`
+4. Find `</head>`
+5. Paste the script before it
+6. Save
+
+</details>
+
+<details>
+<summary><strong>Wix</strong></summary>
+
+1. Go to **Settings → Custom Code**
+2. Click **+ Add Custom Code**
+3. Paste the script
+4. Set placement to **Head**
+5. Apply to **All pages**
+6. Save
+
+</details>
+
+<details>
+<summary><strong>Squarespace</strong></summary>
+
+1. Go to **Settings → Advanced → Code Injection**
+2. Paste in **Header** section
+3. Save
+
+</details>
+
+<details>
+<summary><strong>Next.js</strong></summary>
+
+In `app/layout.tsx`:
+
+```tsx
+import Script from 'next/script';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <head>
+        <Script
+          src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID"
+          strategy="afterInteractive"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+</details>
+
+<details>
+<summary><strong>Google Tag Manager</strong></summary>
+
+1. Create new **Custom HTML** tag
+2. Paste:
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+3. Set trigger: **All Pages**
+4. Publish
+
+</details>
+
+---
+
+## Step 2: Verify Installation
+
+### 2.1 Open Browser DevTools
+
+1. Visit your website
+2. Press `F12` (or right-click → Inspect)
+3. Go to **Console** tab
+
+### 2.2 Check the Tracker Loaded
+
+Type in console:
+
+```javascript
+typeof sealmetrics
+```
+
+Expected result:
+```
+"function"
+```
+
+If you see `"undefined"`, the script hasn't loaded yet. Check:
+- Script URL is correct
+- Account ID is valid
+- No adblocker interference
+
+### 2.3 Check Network Requests
+
+1. Go to **Network** tab in DevTools
+2. Filter by `event`
+3. Reload the page
+4. Look for a POST request to `/event`
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  Network                                     Filter: event│
+├─────────────────────────────────────────────────────────┤
+│  Name          Status    Type    Size    Time           │
+│  ─────────────────────────────────────────────────────  │
+│  event         204       fetch   0 B     45 ms    ✓     │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Status 204** = Success! The event was received.
+
+### 2.4 Enable Debug Mode
+
+Add `?debug=1` to any page URL:
+
+```
+https://yoursite.com/page?debug=1
+```
+
+Open console to see detailed tracking information:
+
+```
+[Sealmetrics] Pageview tracked
+  URL: https://yoursite.com/page
+  Session: 1abc123def
+  Referrer: https://google.com
+```
+
+---
+
+## Step 3: Add Content Grouping (Optional)
+
+Content grouping helps you analyze performance by section (blog, products, checkout).
+
+### 3.1 Add Group Parameter
+
+Modify your script tag to include a `group`:
+
+```html
+<!-- Blog pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=blog" defer></script>
+
+<!-- Product pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=product" defer></script>
+
+<!-- Checkout pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=checkout" defer></script>
+```
+
+### 3.2 Dynamic Grouping (Advanced)
+
+For CMS/dynamic sites, generate the group server-side:
+
+```php
+<?php
+// Determine content group based on page type
+$group = 'general';
+if (is_single()) $group = 'blog';
+if (is_product()) $group = 'product';
+if (is_checkout()) $group = 'checkout';
+?>
+
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=<?php echo $group; ?>" defer></script>
+```
+
+---
+
+## Step 4: Track Conversions
+
+Conversions are goal completions with monetary value: purchases, leads, signups.
+
+### 4.1 Basic Conversion
+
+```javascript
+sealmetrics.conv('purchase', 99.99);
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| Type | string | `'purchase'`, `'lead'`, `'signup'`, etc. |
+| Amount | number | Monetary value (use `0` for non-monetary) |
+
+### 4.2 Conversion with Properties
+
+```javascript
+sealmetrics.conv('purchase', 149.99, {
+  currency: 'EUR',
+  payment_method: 'credit_card',
+  coupon: 'SAVE10'
+});
+```
+
+### 4.3 Implementation: Thank You Page
+
+The most common pattern is tracking on your order confirmation page.
+
+**Static HTML:**
+
+```html
+<!-- thank-you.html -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=checkout" defer></script>
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', 149.99, {
+      currency: 'EUR'
+    });
+  });
+</script>
+```
+
+**PHP (WooCommerce, custom):**
+
+```php
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
+      currency: '<?php echo $order->get_currency(); ?>'
+    });
+  });
+</script>
+```
+
+**Shopify:**
+
+In **Settings → Checkout → Additional scripts**:
+
+```html
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
+      currency: '{{ checkout.currency }}'
+    });
+  });
+</script>
+```
+
+### 4.4 Common Conversion Types
+
+| Type | Amount | When to Use |
+|------|--------|-------------|
+| `purchase` | Order total | E-commerce checkout complete |
+| `lead` | `0` | Contact form submitted |
+| `signup` | `0` | Account created |
+| `subscription` | Monthly price | SaaS subscription started |
+| `booking` | Booking value | Reservation confirmed |
+| `download` | `0` | Lead magnet downloaded |
+
+### 4.5 Prevent Duplicate Conversions
+
+Users might refresh the thank-you page. Prevent duplicates:
+
+**Option A: Server-side flag (recommended)**
+
+```php
+<?php
+if (!$order->is_tracked()) {
+  echo '<script>
+    window.addEventListener("load", function() {
+      sealmetrics.conv("purchase", ' . $order->get_total() . ');
+    });
+  </script>';
+  $order->mark_as_tracked();
+}
+?>
+```
+
+**Option B: Client-side localStorage**
+
+```javascript
+var orderId = 'ORD-12345';
+if (!localStorage.getItem('tracked_' + orderId)) {
+  sealmetrics.conv('purchase', 99.99);
+  localStorage.setItem('tracked_' + orderId, 'true');
+}
+```
+
+---
+
+## Step 5: Track Microconversions
+
+Microconversions are user interactions that indicate progress toward a conversion.
+
+### 5.1 Basic Microconversion
+
+```javascript
+sealmetrics.micro('add_to_cart');
+```
+
+### 5.2 Microconversion with Properties
+
+```javascript
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  product_name: 'Blue Sneakers',
+  price: '89.99'
+});
+```
+
+### 5.3 E-commerce Funnel Example
+
+Track the complete customer journey:
+
+```javascript
+// Step 1: Product viewed (automatic pageview)
+
+// Step 2: Added to cart
+document.querySelector('.add-to-cart').addEventListener('click', function() {
+  sealmetrics.micro('add_to_cart', {
+    product_id: this.dataset.productId,
+    price: this.dataset.price
+  });
+});
+
+// Step 3: View cart
+// On cart page load:
+sealmetrics.micro('view_cart', {
+  items_count: '3',
+  cart_value: '267.99'
+});
+
+// Step 4: Begin checkout
+document.querySelector('.checkout-button').addEventListener('click', function() {
+  sealmetrics.micro('begin_checkout');
+});
+
+// Step 5: Add shipping info
+// On shipping form submit:
+sealmetrics.micro('add_shipping_info', {
+  shipping_method: 'express'
+});
+
+// Step 6: Add payment info
+// On payment form submit:
+sealmetrics.micro('add_payment_info', {
+  payment_method: 'credit_card'
+});
+
+// Step 7: Purchase (CONVERSION, not microconversion)
+// On thank-you page:
+sealmetrics.conv('purchase', 267.99, {
+  currency: 'EUR'
+});
+```
+
+### 5.4 SaaS Funnel Example
+
+```javascript
+// Pricing page: Toggle billing cycle
+document.querySelector('.billing-toggle').addEventListener('click', function() {
+  sealmetrics.micro('toggle_billing', {
+    selected: this.dataset.cycle // 'monthly' or 'yearly'
+  });
+});
+
+// Pricing page: Click "Start Trial"
+document.querySelector('.start-trial').addEventListener('click', function() {
+  sealmetrics.micro('click_start_trial', {
+    plan: this.dataset.plan
+  });
+});
+
+// Signup form submitted
+document.querySelector('#signup-form').addEventListener('submit', function() {
+  sealmetrics.micro('signup_started');
+});
+
+// Trial started (CONVERSION)
+sealmetrics.conv('signup', 0, {
+  plan: 'pro',
+  trial: 'true'
+});
+
+// Later: Trial converted to paid (CONVERSION)
+sealmetrics.conv('subscription', 49, {
+  plan: 'pro',
+  billing_cycle: 'monthly'
+});
+```
+
+### 5.5 Content Engagement
+
+```javascript
+// Scroll depth tracking
+var tracked = {};
+window.addEventListener('scroll', function() {
+  var scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+
+  [25, 50, 75, 100].forEach(function(milestone) {
+    if (scrollPercent >= milestone && !tracked[milestone]) {
+      tracked[milestone] = true;
+      sealmetrics.micro('scroll_' + milestone);
+    }
+  });
+});
+
+// Video engagement
+var video = document.querySelector('video');
+
+video.addEventListener('play', function() {
+  sealmetrics.micro('video_play', {
+    video_id: this.dataset.videoId
+  });
+});
+
+video.addEventListener('ended', function() {
+  sealmetrics.micro('video_complete', {
+    video_id: this.dataset.videoId
+  });
+});
+
+// Newsletter signup
+document.querySelector('#newsletter').addEventListener('submit', function() {
+  sealmetrics.micro('newsletter_signup', {
+    position: 'footer'
+  });
+});
+```
+
+---
+
+## Step 6: Verify in Dashboard
+
+### 6.1 Check Real-time Data
+
+1. Go to [my.sealmetrics.com](https://my.sealmetrics.com)
+2. Open **Real-time** report
+3. Visit your website in another tab
+4. You should see your visit appear within seconds
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  Real-time                                    🟢 Live    │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  Active visitors: 1                                      │
+│                                                          │
+│  Recent pageviews:                                       │
+│  ─────────────────────────────────────────────────────  │
+│  /products/blue-sneakers    2 seconds ago               │
+│  /                          45 seconds ago              │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+### 6.2 Check Conversions
+
+1. Trigger a test conversion on your site
+2. Go to **Conversions** report
+3. Set date range to **Today**
+4. Verify your conversion appears
+
+### 6.3 Check Funnel
+
+1. Go to **Funnel** report
+2. View microconversions by step
+3. Analyze drop-off between steps
+
+---
+
+## Complete Implementation Checklist
+
+### Basic Setup
+- [ ] Script added to all pages
+- [ ] Correct Account ID in script URL
+- [ ] Verified `typeof sealmetrics === 'function'` in console
+- [ ] Verified 204 response in Network tab
+- [ ] Data appearing in Real-time dashboard
+
+### Conversions
+- [ ] Conversion tracking on thank-you/confirmation page
+- [ ] Correct amount passed to `sealmetrics.conv()`
+- [ ] Deduplication in place (no double-counting)
+- [ ] Properties include currency if applicable
+
+### Microconversions (if applicable)
+- [ ] Add to cart tracked
+- [ ] Checkout funnel steps tracked
+- [ ] Key engagement events tracked (scroll, video, etc.)
+
+### Content Grouping (optional)
+- [ ] Different groups for different page types
+- [ ] Groups appearing in dashboard reports
+
+---
+
+## Troubleshooting
+
+### Script not loading
+
+| Symptom | Solution |
+|---------|----------|
+| `typeof sealmetrics` returns `undefined` | Check script URL, Account ID, no typos |
+| 404 error in Network | Verify script URL is exactly correct |
+| Script blocked | Check adblocker, CSP headers |
+
+### Events not appearing in dashboard
+
+| Symptom | Solution |
+|---------|----------|
+| 204 response but no data | Wait 2-5 minutes, check correct account |
+| Non-204 response | Check Account ID, domain authorization |
+| Data in wrong account | Verify Account ID in script matches dashboard |
+
+### Conversions not tracking
+
+| Symptom | Solution |
+|---------|----------|
+| Conversion fires but not in dashboard | Check `window.addEventListener('load')` wrapper |
+| Double conversions | Implement deduplication (Step 4.5) |
+| Amount is 0 | Ensure amount is a number, not string |
+
+### Debug mode not working
+
+Add `?debug=1` to URL and check console. If nothing appears:
+1. Clear browser cache
+2. Disable browser extensions
+3. Try incognito mode
+
+---
+
+## Next Steps
+
+Now that tracking is set up:
+
+1. **[Set up content grouping](/implementation/tracker/installation#with-content-grouping)** to analyze by page type
+2. **[Configure alerts](/lens/anomaly-detection)** for traffic anomalies
+3. **[Use LENS AI](/lens/ai-assistant)** to ask questions about your data
+4. **[Export data](/api/exports)** for external analysis
+
+---
+
+## Need Help?
+
+- **Documentation**: [docs.sealmetrics.com](https://docs.sealmetrics.com)
+- **API Reference**: [Tracker API Reference](/implementation/tracker/api-reference)
+- **Support**: support@sealmetrics.com

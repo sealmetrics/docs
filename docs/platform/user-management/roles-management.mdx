@@ -2,38 +2,59 @@
 title: Roles Management
 sidebar_label: Roles Management
 sidebar_position: 1
-description: Learn the difference between Admin and User roles in Sealmetrics and what permissions each role has.
+description: Learn about user roles and permissions in Sealmetrics.
 ---
 
 # Roles Management
 
-Sealmetrics includes two main user roles:
+Sealmetrics includes four user roles with different permission levels:
 
-- **Admin**
-- **User**
+| Role | Description |
+|------|-------------|
+| **Admin** | Full access to everything, including billing |
+| **Manager** | Manage settings and integrations, no billing access |
+| **Analyst** | Access reports and data, no settings access |
+| **Viewer** | Read-only dashboard access |
 
-## Key Differences Between Roles
+## Permission Matrix
 
-Admins have extended permissions that standard users do not. Specifically, an **Admin can**:
+| Permission | Admin | Manager | Analyst | Viewer |
+|------------|:-----:|:-------:|:-------:|:------:|
+| View dashboards | ✅ | ✅ | ✅ | ✅ |
+| View reports | ✅ | ✅ | ✅ | ✅ |
+| Export data | ✅ | ✅ | ✅ | - |
+| Create dashboards | ✅ | ✅ | ✅ | - |
+| Use LENS AI | ✅ | ✅ | ✅ | - |
+| Manage integrations | ✅ | ✅ | - | - |
+| Manage tracking | ✅ | ✅ | - | - |
+| Manage users | ✅ | ✅ | - | - |
+| View audit log | ✅ | ✅ | - | - |
+| Manage billing | ✅ | - | - | - |
+| Delete account | ✅ | - | - | - |
 
-1. Add new Accounts.
-2. Add new Users.
-3. Grant each user access to some or all accounts.
-4. Add Costs in the Cost Calculator.
-5. Bypass Referrals.
-6. Grant access to specific corporate IPs.
+## Admin Capabilities
 
-Below is an example of the user and permissions interface:
+Admins have extended permissions that other roles do not:
 
-![Roles Management Screensh//img/roles-management.png)
+1. Add new Accounts
+2. Add new Users and assign roles
+3. Grant each user access to specific accounts
+4. Manage billing and payment methods
+5. Add Costs in the Cost Calculator
+6. Configure referral bypass rules
+7. Grant access to specific corporate IPs
 
----
+![Roles Management Screenshot](/img/roles-management.png)
 
 ## When to Use Each Role
 
-| Role | Best For | Permissions |
-|------|----------|-------------|
-| **Admin** | Owners, Managers, Agencies | Full platform control |
-| **User** | Analysts, marketers | Limited access to assigned accounts |
+| Role | Best For |
+|------|----------|
+| **Admin** | Business owners, account managers |
+| **Manager** | Team leads, agency managers |
+| **Analyst** | Marketing analysts, data teams |
+| **Viewer** | Clients, stakeholders (read-only access) |
 
-Admins should be assigned sparingly to maintain operational control and security across all accounts.
+:::tip Best Practice
+Assign Admin role sparingly to maintain security. Most team members only need Manager or Analyst access.
+:::

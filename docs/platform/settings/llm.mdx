@@ -1,0 +1,186 @@
+---
+sidebar_position: 5
+title: LLM Settings
+description: Configure the AI model provider used for generating insights in LENS.
+---
+
+# LLM Settings
+
+Configure which AI model powers your LENS insights. By default, Sealmetrics uses a self-hosted DeepSeek model, but you can configure your own provider for potentially faster responses or specific model preferences.
+
+## Accessing LLM Settings
+
+1. Click the gear icon to open **Settings**
+2. Click **LLM Settings** in the sidebar
+
+## Default Configuration
+
+By default, Sealmetrics uses **DeepSeek Local** via Ollama:
+
+| Aspect | Details |
+|--------|---------|
+| **Provider** | Self-hosted DeepSeek (via Ollama) |
+| **Cost** | Free (included in your plan) |
+| **Privacy** | Maximum - data never leaves Sealmetrics infrastructure |
+| **API Key** | Not required |
+
+This default configuration provides:
+- Zero API costs
+- Full data privacy (no external API calls)
+- Reliable availability
+
+## Available Providers
+
+| Provider | Type | API Key Required | Best For |
+|----------|------|------------------|----------|
+| **DeepSeek Local** | Self-hosted | No | Default, privacy-focused |
+| **DeepSeek Cloud** | Cloud | Yes | Faster responses |
+| **Anthropic (Claude)** | Cloud | Yes | Complex analysis, nuanced insights |
+| **OpenAI (GPT)** | Cloud | Yes | General-purpose, fast |
+| **Google Gemini** | Cloud | Yes | Multi-modal capabilities |
+
+## Configuring a Custom Provider
+
+### Step 1: Click Configure Custom Provider
+
+If you're using the default, click the **Configure Custom Provider** button.
+
+### Step 2: Select Provider
+
+Choose your preferred provider from the dropdown. Each provider shows:
+- Name and type (Self-hosted or Cloud)
+- Whether an API key is required
+- Link to obtain an API key
+
+### Step 3: Enter API Key (if required)
+
+For cloud providers, enter your API key:
+
+1. Click the link to get an API key from the provider's website
+2. Copy your API key
+3. Paste it in the API Key field
+
+Your API key is encrypted and stored securely.
+
+### Step 4: Configure Model Overrides (Optional)
+
+You can override the default models for different insight complexity levels:
+
+| Level | Default Use | Example Override |
+|-------|-------------|------------------|
+| **Simple** | Quick summaries, basic alerts | `gpt-4o-mini` |
+| **Complex** | Trend analysis, recommendations | `gpt-4o` |
+| **Critical** | Executive summaries, strategic insights | `claude-3-opus` |
+
+Leave blank to use the provider's default models.
+
+### Step 5: Test Connection
+
+Before saving, click **Test Connection** to verify:
+- API key is valid
+- Provider is reachable
+- Response latency is acceptable
+
+A successful test shows:
+- "Connection Successful" message
+- Response latency in milliseconds
+
+### Step 6: Save Settings
+
+Click **Save Settings** to apply your configuration.
+
+## Managing Your Configuration
+
+### View Current Settings
+
+Your configuration card shows:
+- Provider name and type
+- API key status (configured or not required)
+- Enabled/disabled status
+- Model overrides (if any)
+- Custom base URL (if configured)
+- Last updated timestamp
+
+### Edit Settings
+
+Click **Edit** to modify:
+- Switch providers
+- Update API key
+- Change model overrides
+- Toggle enabled status
+
+### Remove Configuration
+
+Click **Remove** to delete your custom configuration and revert to the default self-hosted DeepSeek.
+
+### Enable/Disable
+
+Use the **Enable Custom Configuration** toggle to:
+- **Enabled**: Use your custom provider
+- **Disabled**: Fall back to default self-hosted DeepSeek
+
+This lets you keep your configuration saved while temporarily using the default.
+
+## Advanced: Base URL Override
+
+For DeepSeek providers, you can specify a custom base URL:
+
+| Provider | Default URL | When to Override |
+|----------|-------------|------------------|
+| DeepSeek Local | `http://ollama:11434/v1` | Custom Ollama installation |
+| DeepSeek Cloud | `https://api.deepseek.com/v1` | Proxy or custom endpoint |
+
+## Multi-Account Configuration
+
+If you manage multiple accounts:
+
+1. Select the account from the dropdown at the top
+2. Configure LLM settings for that specific account
+3. Each account can have its own provider configuration
+
+## Security
+
+### API Key Storage
+
+- API keys are encrypted using AES-256-GCM before storage
+- Only the last 4 characters are displayed (`****XXXX`)
+- Keys are never logged or exposed in API responses
+
+### Data Privacy
+
+| Provider | Data Sent | Privacy Level |
+|----------|-----------|---------------|
+| DeepSeek Local | None (self-hosted) | Maximum |
+| Cloud Providers | Analytics summaries for insight generation | Standard |
+
+Cloud providers receive aggregated analytics data (not raw events) to generate insights. No personally identifiable information is ever sent.
+
+## Troubleshooting
+
+### "Connection Failed" Error
+
+1. Verify your API key is correct and active
+2. Check the provider's status page for outages
+3. Ensure your network allows outbound API calls
+4. Try testing with a different provider
+
+### Slow Response Times
+
+If insights take too long:
+1. Check the test connection latency
+2. Consider switching to a provider with lower latency
+3. Cloud providers are typically faster than self-hosted
+
+### "API Key Required" Error
+
+Cloud providers require an API key. Get one from:
+- **Anthropic**: https://console.anthropic.com/
+- **OpenAI**: https://platform.openai.com/api-keys
+- **Google**: https://aistudio.google.com/app/apikey
+- **DeepSeek**: https://platform.deepseek.com/
+
+## Related Documentation
+
+- [LENS AI Overview](/lens) - How LENS generates insights
+- [AI Assistant](/lens/ai-assistant) - Using the chat interface
+- [Anomaly Detection](/lens/anomaly-detection) - Automated alerts

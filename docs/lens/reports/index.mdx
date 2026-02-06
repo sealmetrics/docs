@@ -1,0 +1,336 @@
+---
+sidebar_position: 1
+title: LENS Reports
+description: Automated AI-generated reports that deliver insights directly to your inbox.
+---
+
+# LENS Reports
+
+LENS generates automated reports that summarize your analytics data and deliver insights without you needing to ask.
+
+## Report Types
+
+### Executive Summary
+
+A high-level overview designed for stakeholders who need the big picture.
+
+**Includes:**
+- Key metrics snapshot (traffic, conversions, revenue)
+- Week-over-week and month-over-month trends
+- Top performing channels and campaigns
+- Notable anomalies or issues
+- AI-generated insights and recommendations
+
+**Best for:** Leadership, weekly team updates, stakeholder communication
+
+### Performance Report
+
+Detailed analysis of your marketing and site performance.
+
+**Includes:**
+- Traffic breakdown by source, medium, campaign
+- Conversion funnel analysis
+- Revenue attribution
+- Campaign ROAS comparison
+- Device and geographic performance
+
+**Best for:** Marketing teams, performance reviews, optimization planning
+
+### Anomaly Report
+
+Summary of all detected anomalies in a given period.
+
+**Includes:**
+- List of all anomalies detected
+- Severity breakdown
+- Resolution status
+- Trend analysis of anomaly frequency
+- Recommendations for prevention
+
+**Best for:** Technical teams, quality monitoring, issue tracking
+
+### Custom Report
+
+Build your own report with specific metrics and segments.
+
+**Includes:**
+- Custom metric selection
+- Custom segments and filters
+- Flexible time periods
+- Custom comparison baselines
+
+**Best for:** Specific business needs, unique KPIs, specialized analysis
+
+## Creating a Report
+
+### Step 1: Choose a Template
+
+1. Go to **LENS → Reports**
+2. Click **Create Report**
+3. Select a template:
+   - Executive Summary
+   - Performance Report
+   - Anomaly Report
+   - Start from Scratch
+
+### Step 2: Configure Settings
+
+```
+Report Name: Weekly Marketing Performance
+
+Template: Performance Report
+
+Time Period:
+○ Last 7 days
+● Last week (Mon-Sun)
+○ Last 30 days
+○ Custom range
+
+Comparison:
+● Previous period
+○ Same period last year
+○ No comparison
+```
+
+### Step 3: Select Metrics
+
+Choose what to include:
+
+```
+Metrics to Include:
+
+Traffic
+☑ Sessions
+☑ Users
+☑ Pageviews
+☐ Bounce Rate
+
+Conversions
+☑ Total Conversions
+☑ Conversion Rate
+☑ Revenue
+☑ Average Order Value
+
+Campaigns
+☑ Top Campaigns by ROAS
+☑ Spend vs Revenue
+☐ Click-through Rates
+```
+
+### Step 4: Add Segments (Optional)
+
+Break down data by segments:
+
+```
+Segment Breakdowns:
+
+☑ By Traffic Source
+☑ By Device Type
+☐ By Country
+☐ By Campaign
+☑ By Product Category
+```
+
+### Step 5: Configure Delivery
+
+```
+Delivery Schedule:
+● Weekly on Monday at 8:00 AM
+○ Daily at 8:00 AM
+○ Monthly on the 1st
+○ One-time (send now)
+
+Timezone: Europe/Madrid
+
+Recipients:
++ marketing@company.com
++ ceo@company.com
+
+Format:
+☑ Email with inline content
+☑ PDF attachment
+☐ CSV data export
+```
+
+### Step 6: Review and Activate
+
+Preview the report, then click **Activate**.
+
+## Managing Reports
+
+### View All Reports
+
+Go to **LENS → Reports** to see:
+
+| Report | Schedule | Last Sent | Status |
+|--------|----------|-----------|--------|
+| Weekly Executive Summary | Mon 8:00 | Jan 15 | ✅ Active |
+| Monthly Performance | 1st 9:00 | Jan 1 | ✅ Active |
+| Daily Anomaly Digest | Daily 7:00 | Jan 16 | ✅ Active |
+
+### Edit a Report
+
+1. Click on the report name
+2. Modify settings
+3. Click **Save Changes**
+
+Changes apply to the next scheduled send.
+
+### Pause/Resume
+
+- Click **⏸ Pause** to temporarily stop delivery
+- Click **▶ Resume** to restart
+
+### Delete a Report
+
+1. Click **⋮ → Delete**
+2. Confirm deletion
+
+:::warning
+Deleted reports cannot be recovered. Consider pausing instead if you might need it later.
+:::
+
+## Report Content Examples
+
+### Executive Summary Example
+
+```
+═══════════════════════════════════════════════════
+WEEKLY EXECUTIVE SUMMARY
+January 8-14, 2024
+═══════════════════════════════════════════════════
+
+📊 KEY METRICS
+
+Sessions:     45,230  (+12% vs prev week)
+Conversions:     892  (+8% vs prev week)
+Revenue:    €44,600  (+15% vs prev week)
+Conv. Rate:    1.97%  (-0.07pp vs prev week)
+
+🏆 TOP PERFORMERS
+
+1. Google Ads - Brand        ROAS 5.2  ↑
+2. Email - Newsletter        ROAS 4.8  ↑
+3. Facebook - Retargeting    ROAS 3.1  →
+
+⚠️ ATTENTION NEEDED
+
+• Mobile conversion rate dropped 15%
+• Organic traffic from Google down 8%
+• Cart abandonment up 5pp
+
+💡 AI INSIGHTS
+
+"The mobile conversion rate drop correlates with
+a 200ms increase in page load time on product
+pages. Consider investigating recent deployments
+affecting mobile performance."
+
+═══════════════════════════════════════════════════
+```
+
+### Performance Report Example
+
+```
+═══════════════════════════════════════════════════
+MARKETING PERFORMANCE REPORT
+January 2024
+═══════════════════════════════════════════════════
+
+TRAFFIC BY SOURCE
+─────────────────────────────────────────
+Source          Sessions    Change    Share
+─────────────────────────────────────────
+Google Ads       52,340     +18%      35%
+Organic          41,230     +5%       28%
+Direct           24,560     +2%       16%
+Facebook         18,920     +22%      13%
+Email            11,450     +8%        8%
+─────────────────────────────────────────
+
+CONVERSION FUNNEL
+─────────────────────────────────────────
+Stage              Count    Rate    vs Last
+─────────────────────────────────────────
+Sessions         148,500     -       +12%
+Product Views     89,100    60%      +15%
+Add to Cart       22,275    25%      +10%
+Checkout Start     8,910    40%       +8%
+Purchase           3,564    40%      +12%
+─────────────────────────────────────────
+
+CAMPAIGN ROAS RANKING
+─────────────────────────────────────────
+Campaign                 Spend     Revenue    ROAS
+─────────────────────────────────────────
+Brand Search           €8,500    €44,200    5.20
+Retargeting           €12,300    €38,130    3.10
+Prospecting - LAL     €15,200    €30,400    2.00
+Prospecting - Int     €18,400    €23,920    1.30
+─────────────────────────────────────────
+
+═══════════════════════════════════════════════════
+```
+
+## Report Frequency Recommendations
+
+| Report Type | Recommended Frequency | Audience |
+|-------------|----------------------|----------|
+| Executive Summary | Weekly | Leadership, stakeholders |
+| Performance Report | Weekly or bi-weekly | Marketing team |
+| Anomaly Report | Daily | Technical/ops team |
+| Campaign Report | Weekly during campaigns | Media buyers |
+| Custom KPI Report | Depends on KPIs | Specific teams |
+
+## Report Limits by Plan
+
+| Feature | Research | Guard | Growth |
+|---------|----------|-------|--------|
+| Active reports | 2 | 10 | Unlimited |
+| Custom reports | - | 3 | Unlimited |
+| Recipients per report | 2 | 5 | Unlimited |
+| PDF export | - | ✅ | ✅ |
+| CSV data export | - | - | ✅ |
+| Custom branding | - | - | ✅ |
+
+## Integrations
+
+### Email
+
+Default delivery method. Reports are sent as:
+- Inline HTML email
+- Optional PDF attachment
+- Optional CSV attachment (Growth)
+
+### Slack
+
+Send reports to Slack channels:
+
+1. Go to **Settings → Integrations → Slack**
+2. Connect your workspace
+3. In report settings, add Slack channel as recipient
+
+### Webhook
+
+Receive report data via webhook:
+
+1. In report settings, enable **Webhook Delivery**
+2. Enter your webhook URL
+3. Report data is POSTed as JSON
+
+```json
+{
+  "report_id": "rpt_abc123",
+  "report_name": "Weekly Executive Summary",
+  "period": {
+    "start": "2024-01-08",
+    "end": "2024-01-14"
+  },
+  "metrics": {
+    "sessions": 45230,
+    "conversions": 892,
+    "revenue": 44600
+  },
+  "generated_at": "2024-01-15T08:00:00Z"
+}
+```

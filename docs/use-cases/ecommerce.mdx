@@ -1,0 +1,459 @@
+---
+sidebar_position: 2
+title: E-commerce Store
+description: Complete implementation guide for tracking an online store with Sealmetrics - from product views to purchases.
+---
+
+# E-commerce Implementation Guide
+
+Complete guide to implement Sealmetrics tracking on your online store. Track the full customer journey from landing to purchase.
+
+## What You'll Track
+
+| Event Type | Example | Purpose |
+|------------|---------|---------|
+| Pageviews | Product page, category, cart | Traffic analysis |
+| Microconversions | Add to cart, begin checkout | Funnel analysis |
+| Conversions | Purchase | Revenue attribution |
+
+---
+
+## Step 1: Basic Installation
+
+Add the tracking script to your store's header:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+### With Content Grouping
+
+Use different groups for different page types:
+
+```html
+<!-- Homepage -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=home" defer></script>
+
+<!-- Category/listing pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=category" defer></script>
+
+<!-- Product pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=product" defer></script>
+
+<!-- Cart -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=cart" defer></script>
+
+<!-- Checkout -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=checkout" defer></script>
+```
+
+---
+
+## Step 2: Track Add to Cart
+
+Track when users add products to their cart.
+
+### Basic Implementation
+
+```javascript
+document.querySelectorAll('.add-to-cart-button').forEach(function(button) {
+  button.addEventListener('click', function() {
+    sealmetrics.micro('add_to_cart', {
+      product_id: this.dataset.productId,
+      product_name: this.dataset.productName,
+      price: this.dataset.price,
+      currency: 'EUR'
+    });
+  });
+});
+```
+
+### WooCommerce (WordPress)
+
+```php
+// In functions.php or custom plugin
+add_action('wp_footer', function() {
+  if (!is_product()) return;
+  ?>
+  <script>
+    document.querySelector('.single_add_to_cart_button').addEventListener('click', function() {
+      sealmetrics.micro('add_to_cart', {
+        product_id: '<?php echo get_the_ID(); ?>',
+        product_name: '<?php echo esc_js(get_the_title()); ?>',
+        price: '<?php echo wc_get_product()->get_price(); ?>',
+        currency: '<?php echo get_woocommerce_currency(); ?>'
+      });
+    });
+  </script>
+  <?php
+});
+```
+
+### Shopify
+
+```html
+<!-- In theme.liquid or product template -->
+<script>
+  document.querySelector('[name="add"]').addEventListener('click', function() {
+    sealmetrics.micro('add_to_cart', {
+      product_id: '{{ product.id }}',
+      product_name: '{{ product.title | escape }}',
+      price: '{{ product.price | money_without_currency }}',
+      currency: '{{ cart.currency.iso_code }}'
+    });
+  });
+</script>
+```
+
+### Magento 2
+
+```javascript
+// In custom module or theme JS
+require(['jquery'], function($) {
+  $(document).on('click', '#product-addtocart-button', function() {
+    var form = $('#product_addtocart_form');
+    sealmetrics.micro('add_to_cart', {
+      product_id: $('[name="product"]').val(),
+      product_name: $('.page-title span').text(),
+      price: $('.price-final_price .price').first().text().replace(/[^0-9.,]/g, ''),
+      quantity: $('#qty').val()
+    });
+  });
+});
+```
+
+### PrestaShop
+
+```javascript
+// In custom.js or theme
+document.addEventListener('click', function(e) {
+  if (e.target.matches('.add-to-cart')) {
+    var productInfo = document.querySelector('[data-product]');
+    if (productInfo) {
+      var product = JSON.parse(productInfo.dataset.product);
+      sealmetrics.micro('add_to_cart', {
+        product_id: product.id,
+        product_name: product.name,
+        price: product.price_amount,
+        currency: prestashop.currency.iso_code
+      });
+    }
+  }
+});
+```
+
+---
+
+## Step 3: Track Checkout Funnel
+
+Track each step of the checkout process.
+
+### Complete Funnel Example
+
+```javascript
+// Step 1: View cart
+// On cart page load
+sealmetrics.micro('view_cart', {
+  items_count: document.querySelectorAll('.cart-item').length.toString(),
+  cart_value: document.querySelector('.cart-total').dataset.value
+});
+
+// Step 2: Begin checkout
+document.querySelector('.checkout-button').addEventListener('click', function() {
+  sealmetrics.micro('begin_checkout', {
+    cart_value: this.dataset.cartTotal
+  });
+});
+
+// Step 3: Add contact info
+document.querySelector('#contact-form').addEventListener('submit', function() {
+  sealmetrics.micro('add_contact_info');
+});
+
+// Step 4: Add shipping info
+document.querySelector('#shipping-form').addEventListener('submit', function() {
+  sealmetrics.micro('add_shipping_info', {
+    shipping_method: document.querySelector('[name="shipping"]:checked').value
+  });
+});
+
+// Step 5: Add payment info
+document.querySelector('#payment-form').addEventListener('submit', function() {
+  sealmetrics.micro('add_payment_info', {
+    payment_method: document.querySelector('[name="payment"]:checked').value
+  });
+});
+```
+
+### WooCommerce Checkout
+
+```php
+add_action('wp_footer', function() {
+  if (!is_checkout()) return;
+  ?>
+  <script>
+    // Track checkout page load
+    sealmetrics.micro('begin_checkout', {
+      cart_value: '<?php echo WC()->cart->get_total('edit'); ?>'
+    });
+
+    // Track form submission
+    document.querySelector('form.checkout').addEventListener('submit', function() {
+      var paymentMethod = document.querySelector('[name="payment_method"]:checked');
+      sealmetrics.micro('add_payment_info', {
+        payment_method: paymentMethod ? paymentMethod.value : 'unknown'
+      });
+    });
+  </script>
+  <?php
+});
+```
+
+### Shopify Checkout
+
+In **Settings → Checkout → Additional scripts** (before thank you):
+
+```html
+{% if first_time_accessed %}
+<script>
+  // Track checkout completion steps based on page
+  {% if checkout.shipping_address %}
+    sealmetrics.micro('add_shipping_info', {
+      shipping_method: '{{ checkout.shipping_rate.title | escape }}'
+    });
+  {% endif %}
+</script>
+{% endif %}
+```
+
+---
+
+## Step 4: Track Purchases
+
+Track completed orders on the thank-you page.
+
+### Basic Implementation
+
+```html
+<!-- On order confirmation/thank-you page -->
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', ORDER_TOTAL, {
+      currency: 'EUR',
+      items_count: 'ITEM_COUNT',
+      payment_method: 'PAYMENT_METHOD'
+    });
+  });
+</script>
+```
+
+### WooCommerce
+
+```php
+add_action('woocommerce_thankyou', function($order_id) {
+  // Prevent duplicate tracking on refresh
+  if (get_post_meta($order_id, '_sealmetrics_tracked', true)) return;
+
+  $order = wc_get_order($order_id);
+  ?>
+  <script>
+    window.addEventListener('load', function() {
+      sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
+        currency: '<?php echo $order->get_currency(); ?>',
+        payment_method: '<?php echo esc_js($order->get_payment_method_title()); ?>',
+        items_count: '<?php echo $order->get_item_count(); ?>',
+        coupon: '<?php echo implode(',', $order->get_coupon_codes()); ?>'
+      });
+    });
+  </script>
+  <?php
+  update_post_meta($order_id, '_sealmetrics_tracked', true);
+});
+```
+
+### Shopify
+
+In **Settings → Checkout → Additional scripts**:
+
+```html
+{% if first_time_accessed %}
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=checkout" defer></script>
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
+      currency: '{{ checkout.currency }}',
+      items_count: '{{ checkout.line_items.size }}',
+      payment_method: '{{ checkout.transactions[0].gateway | default: "unknown" }}'
+    });
+  });
+</script>
+{% endif %}
+```
+
+### Magento 2
+
+```php
+// In success.phtml or via layout XML
+<?php
+$order = $block->getOrder();
+if ($order && !$order->getSealmetricsTracked()):
+?>
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', <?php echo $order->getGrandTotal(); ?>, {
+      currency: '<?php echo $order->getOrderCurrencyCode(); ?>',
+      payment_method: '<?php echo $order->getPayment()->getMethodInstance()->getTitle(); ?>',
+      items_count: '<?php echo (int)$order->getTotalItemCount(); ?>'
+    });
+  });
+</script>
+<?php
+  $order->setSealmetricsTracked(true)->save();
+endif;
+?>
+```
+
+### PrestaShop
+
+```php
+// In OrderConfirmationController or hook
+public function hookDisplayOrderConfirmation($params)
+{
+  $order = $params['order'];
+  if ($order->sealmetrics_tracked) return '';
+
+  $output = '<script>
+    window.addEventListener("load", function() {
+      sealmetrics.conv("purchase", ' . $order->total_paid . ', {
+        currency: "' . $order->id_currency . '",
+        payment_method: "' . $order->payment . '",
+        items_count: "' . count($order->getProducts()) . '"
+      });
+    });
+  </script>';
+
+  $order->sealmetrics_tracked = true;
+  $order->save();
+
+  return $output;
+}
+```
+
+---
+
+## Step 5: Additional E-commerce Events
+
+### Wishlist
+
+```javascript
+document.querySelectorAll('.add-to-wishlist').forEach(function(button) {
+  button.addEventListener('click', function() {
+    sealmetrics.micro('add_to_wishlist', {
+      product_id: this.dataset.productId,
+      product_name: this.dataset.productName
+    });
+  });
+});
+```
+
+### Product Quick View
+
+```javascript
+document.querySelectorAll('.quick-view').forEach(function(button) {
+  button.addEventListener('click', function() {
+    sealmetrics.micro('quick_view', {
+      product_id: this.dataset.productId
+    });
+  });
+});
+```
+
+### Remove from Cart
+
+```javascript
+document.querySelectorAll('.remove-from-cart').forEach(function(button) {
+  button.addEventListener('click', function() {
+    sealmetrics.micro('remove_from_cart', {
+      product_id: this.dataset.productId
+    });
+  });
+});
+```
+
+### Apply Coupon
+
+```javascript
+document.querySelector('#apply-coupon').addEventListener('click', function() {
+  var couponCode = document.querySelector('#coupon-input').value;
+  sealmetrics.micro('apply_coupon', {
+    coupon_code: couponCode
+  });
+});
+```
+
+### Search
+
+```javascript
+document.querySelector('#search-form').addEventListener('submit', function() {
+  var query = document.querySelector('#search-input').value;
+  sealmetrics.micro('search', {
+    search_term: query
+  });
+});
+```
+
+---
+
+## Complete E-commerce Funnel
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    E-COMMERCE FUNNEL                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   Landing Page ──► Product Page ──► Add to Cart ──► Cart        │
+│   (pageview)       (pageview)       (micro)         (micro)     │
+│                                                                  │
+│        │                                              │          │
+│        ▼                                              ▼          │
+│   Begin Checkout ──► Shipping Info ──► Payment ──► Purchase     │
+│   (micro)            (micro)           (micro)      (CONV)      │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+| Step | Event Type | Function |
+|------|------------|----------|
+| Landing | Pageview | Automatic |
+| Product view | Pageview | Automatic |
+| Add to cart | Micro | `sealmetrics.micro('add_to_cart')` |
+| View cart | Micro | `sealmetrics.micro('view_cart')` |
+| Begin checkout | Micro | `sealmetrics.micro('begin_checkout')` |
+| Add shipping | Micro | `sealmetrics.micro('add_shipping_info')` |
+| Add payment | Micro | `sealmetrics.micro('add_payment_info')` |
+| **Purchase** | **Conversion** | `sealmetrics.conv('purchase', amount)` |
+
+---
+
+## Dashboard Analysis
+
+After implementing, you can analyze:
+
+### Traffic Sources
+- Which campaigns drive the most revenue
+- ROAS by utm_source/utm_medium
+- Best performing ad creatives
+
+### Funnel Drop-off
+- Cart abandonment rate
+- Checkout step completion rates
+- Where users exit the funnel
+
+### Product Performance
+- Which products are viewed vs purchased
+- Add-to-cart rate by category
+- Revenue by product (if passing properties)
+
+### Content Grouping
+- Compare conversion rates: home → product → checkout
+- Identify high-performing page types

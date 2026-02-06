@@ -1,0 +1,495 @@
+---
+sidebar_position: 11
+title: Alerts
+description: Configure and manage traffic anomaly alerts.
+---
+
+# Alerts API
+
+Create alert rules to get notified when traffic anomalies occur.
+
+## Overview
+
+The Alerts API allows you to:
+- Create rules for traffic anomaly detection
+- Configure notification channels (email, webhook)
+- View alert history and statistics
+- Acknowledge and manage triggered alerts
+
+**Base path:** `/alerts`
+
+---
+
+## Alert Rules
+
+### List Alert Rules
+
+```http
+GET /alerts/rules?account_id={account_id}
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `account_id` | string | Required. Account ID |
+| `include_inactive` | boolean | Include disabled rules |
+
+**Response:**
+
+```json
+{
+  "rules": [
+    {
+      "id": 1,
+      "account_id": "acme",
+      "name": "Traffic Drop Alert",
+      "description": "Alert when traffic drops significantly",
+      "metric": "entrances",
+      "condition": "decrease",
+      "threshold_percent": 25,
+      "comparison_period": "previous_week",
+      "notification_channels": ["email", "webhook"],
+      "is_active": true,
+      "last_triggered_at": "2025-01-05T10:30:00Z",
+      "created_at": "2024-12-01T10:00:00Z"
+    }
+  ],
+  "total": 1
+}
+```
+
+---
+
+### Create Alert Rule
+
+```http
+POST /alerts/rules?account_id={account_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "name": "Revenue Drop",
+  "description": "Alert when revenue drops more than 30%",
+  "metric": "revenue",
+  "condition": "decrease",
+  "threshold_percent": 30,
+  "comparison_period": "previous_week",
+  "filters": {
+    "utm_medium": "cpc"
+  },
+  "notification_channels": ["email"],
+  "email_recipients": ["alerts@company.com"],
+  "webhook_endpoint_id": "550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Rule name (1-255 chars) |
+| `description` | string | No | Rule description |
+| `metric` | enum | Yes | Metric to monitor |
+| `condition` | enum | Yes | `increase` or `decrease` |
+| `threshold_percent` | number | Yes | Threshold percentage (1-100) |
+| `comparison_period` | enum | Yes | Comparison period |
+| `filters` | object | No | Filter conditions |
+| `notification_channels` | string[] | Yes | `email`, `webhook`, or both |
+| `email_recipients` | string[] | No | Email addresses for notifications |
+| `webhook_endpoint_id` | uuid | No | Webhook endpoint to notify |
+
+### Available Metrics
+
+| Metric | Description |
+|--------|-------------|
+| `entrances` | Session starts |
+| `page_views` | Total pageviews |
+| `conversions` | Conversion count |
+| `revenue` | Total revenue |
+| `bounce_rate` | Bounce rate percentage |
+| `engaged_entrances` | Engaged sessions |
+
+### Comparison Periods
+
+| Period | Description |
+|--------|-------------|
+| `previous_day` | Same time yesterday |
+| `previous_week` | Same day last week |
+| `previous_month` | Same day last month |
+| `previous_year` | Same day last year |
+
+**Response (201 Created):**
+
+```json
+{
+  "id": 2,
+  "account_id": "acme",
+  "name": "Revenue Drop",
+  "metric": "revenue",
+  "condition": "decrease",
+  "threshold_percent": 30,
+  "comparison_period": "previous_week",
+  "is_active": true,
+  "created_at": "2025-01-10T14:30:00Z"
+}
+```
+
+---
+
+### Get Alert Rule
+
+```http
+GET /alerts/rules/{rule_id}?account_id={account_id}
+```
+
+---
+
+### Update Alert Rule
+
+```http
+PATCH /alerts/rules/{rule_id}?account_id={account_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "name": "Updated Name",
+  "threshold_percent": 40,
+  "is_active": false
+}
+```
+
+All fields are optional. Only provided fields are updated.
+
+---
+
+### Delete Alert Rule
+
+```http
+DELETE /alerts/rules/{rule_id}?account_id={account_id}
+```
+
+---
+
+## Test Alert
+
+### Test Alert Rule
+
+```http
+POST /alerts/rules/{rule_id}/test?account_id={account_id}
+```
+
+Test a rule without triggering actual notifications.
+
+**Request Body (optional):**
+
+```json
+{
+  "send_notification": true
+}
+```
+
+Set `send_notification: true` to send a real test notification.
+
+**Response:**
+
+```json
+{
+  "would_trigger": true,
+  "current_value": 650,
+  "comparison_value": 1000,
+  "change_percent": -35.0,
+  "threshold_percent": 25,
+  "message": "Rule would trigger: entrances decreased 35% vs previous week",
+  "notification_sent": false
+}
+```
+
+---
+
+## Alert History
+
+### Get Alert History
+
+```http
+GET /alerts/history?account_id={account_id}
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `account_id` | string | Required. Account ID |
+| `rule_id` | int | Filter by specific rule |
+| `status` | string | Filter by status |
+| `limit` | int | Max results (default: 50) |
+| `offset` | int | Pagination offset |
+
+### Alert Statuses
+
+| Status | Description |
+|--------|-------------|
+| `triggered` | Alert fired, awaiting acknowledgment |
+| `acknowledged` | User acknowledged the alert |
+| `resolved` | Alert condition no longer active |
+| `dismissed` | User dismissed without action |
+
+**Response:**
+
+```json
+{
+  "alerts": [
+    {
+      "id": 123,
+      "rule_id": 1,
+      "rule_name": "Traffic Drop Alert",
+      "status": "triggered",
+      "metric": "entrances",
+      "current_value": 650,
+      "comparison_value": 1000,
+      "change_percent": -35.0,
+      "threshold_percent": 25,
+      "triggered_at": "2025-01-10T10:30:00Z",
+      "acknowledged_at": null,
+      "acknowledged_by": null,
+      "notes": null
+    }
+  ],
+  "total": 45
+}
+```
+
+---
+
+### Acknowledge Alert
+
+```http
+PATCH /alerts/history/{alert_id}?account_id={account_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "status": "acknowledged",
+  "notes": "Investigating the traffic drop"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `status` | enum | `acknowledged`, `resolved`, or `dismissed` |
+| `notes` | string | Optional notes about the action taken |
+
+**Response:**
+
+```json
+{
+  "id": 123,
+  "status": "acknowledged",
+  "acknowledged_at": "2025-01-10T14:30:00Z",
+  "acknowledged_by": "user@company.com",
+  "notes": "Investigating the traffic drop"
+}
+```
+
+---
+
+## Statistics
+
+### Get Alert Statistics
+
+```http
+GET /alerts/stats?account_id={account_id}
+```
+
+**Response:**
+
+```json
+{
+  "total_rules": 5,
+  "active_rules": 4,
+  "alerts_last_7_days": 12,
+  "alerts_last_30_days": 45,
+  "by_status": {
+    "triggered": 3,
+    "acknowledged": 5,
+    "resolved": 30,
+    "dismissed": 7
+  },
+  "by_metric": {
+    "entrances": 25,
+    "revenue": 15,
+    "conversions": 5
+  }
+}
+```
+
+---
+
+## Code Examples
+
+### Python - Create and Monitor Alerts
+
+```python
+import requests
+
+API_KEY = "sm_your_api_key"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+ACCOUNT_ID = "my-account"
+
+def create_alert_rule(name: str, metric: str, threshold: int) -> dict:
+    """Create a new alert rule."""
+    response = requests.post(
+        f"{BASE_URL}/alerts/rules",
+        headers={"X-API-Key": API_KEY},
+        params={"account_id": ACCOUNT_ID},
+        json={
+            "name": name,
+            "metric": metric,
+            "condition": "decrease",
+            "threshold_percent": threshold,
+            "comparison_period": "previous_week",
+            "notification_channels": ["email"],
+            "email_recipients": ["alerts@company.com"]
+        }
+    )
+    response.raise_for_status()
+    return response.json()
+
+def get_active_alerts() -> list:
+    """Get all triggered alerts."""
+    response = requests.get(
+        f"{BASE_URL}/alerts/history",
+        headers={"X-API-Key": API_KEY},
+        params={
+            "account_id": ACCOUNT_ID,
+            "status": "triggered"
+        }
+    )
+    response.raise_for_status()
+    return response.json()["alerts"]
+
+def acknowledge_alert(alert_id: int, notes: str):
+    """Acknowledge an alert."""
+    response = requests.patch(
+        f"{BASE_URL}/alerts/history/{alert_id}",
+        headers={"X-API-Key": API_KEY},
+        params={"account_id": ACCOUNT_ID},
+        json={
+            "status": "acknowledged",
+            "notes": notes
+        }
+    )
+    response.raise_for_status()
+
+# Usage
+rule = create_alert_rule("Traffic Alert", "entrances", 25)
+print(f"Created rule: {rule['id']}")
+
+alerts = get_active_alerts()
+for alert in alerts:
+    print(f"Alert: {alert['rule_name']} - {alert['change_percent']}%")
+```
+
+### JavaScript - React Hook for Alerts
+
+```javascript
+import { useState, useEffect } from 'react';
+
+function useAlerts(accountId) {
+  const [alerts, setAlerts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchAlerts() {
+      const response = await fetch(
+        `${BASE_URL}/alerts/history?account_id=${accountId}&status=triggered`,
+        { headers: { 'X-API-Key': API_KEY } }
+      );
+      const data = await response.json();
+      setAlerts(data.alerts);
+      setLoading(false);
+    }
+
+    fetchAlerts();
+    const interval = setInterval(fetchAlerts, 60000); // Poll every minute
+
+    return () => clearInterval(interval);
+  }, [accountId]);
+
+  const acknowledgeAlert = async (alertId, notes) => {
+    await fetch(
+      `${BASE_URL}/alerts/history/${alertId}?account_id=${accountId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'X-API-Key': API_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: 'acknowledged', notes })
+      }
+    );
+    // Refresh alerts
+    setAlerts(alerts.filter(a => a.id !== alertId));
+  };
+
+  return { alerts, loading, acknowledgeAlert };
+}
+```
+
+---
+
+## Best Practices
+
+### 1. Start with Conservative Thresholds
+
+Begin with higher thresholds to avoid alert fatigue:
+
+```json
+{
+  "threshold_percent": 40
+}
+```
+
+Adjust lower as you understand normal traffic patterns.
+
+### 2. Use Filters for Specific Segments
+
+Create targeted alerts for important traffic sources:
+
+```json
+{
+  "name": "Paid Traffic Drop",
+  "filters": {
+    "utm_medium": "cpc"
+  }
+}
+```
+
+### 3. Combine with Webhooks
+
+Integrate with Slack or other tools:
+
+1. Create a webhook endpoint
+2. Reference it in alert rules:
+
+```json
+{
+  "notification_channels": ["webhook"],
+  "webhook_endpoint_id": "550e8400-..."
+}
+```
+
+### 4. Review and Resolve Alerts
+
+Don't let alerts pile up:
+
+```python
+# Auto-resolve old alerts
+old_alerts = get_alerts(status="triggered", older_than_days=7)
+for alert in old_alerts:
+    acknowledge_alert(alert["id"], "Auto-resolved after 7 days")
+```

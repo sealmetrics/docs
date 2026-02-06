@@ -1,0 +1,330 @@
+---
+sidebar_position: 2
+title: Users & Teams
+description: Manage team members, roles, and permissions in your Sealmetrics account.
+---
+
+# Users & Teams
+
+Manage who has access to your Sealmetrics account and what they can do.
+
+## Accessing User Settings
+
+1. Click the **gear icon** in the main navigation
+2. Select **Account → Users**
+
+## Current Users
+
+View all team members:
+
+```
+Team Members (4 of 5 seats)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Name              Email                    Role        Status
+──────────────────────────────────────────────────────────────
+John Smith        john@company.com         Admin       Active
+Sarah Johnson     sarah@company.com        Manager     Active
+Mike Wilson       mike@company.com         Analyst     Active
+Guest User        guest@agency.com         Viewer      Active
+
+[+ Invite User]
+```
+
+## Inviting Users
+
+### Send Invitation
+
+1. Click **+ Invite User**
+2. Enter details:
+
+```
+Invite Team Member
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Email:    [newuser@company.com              ]
+
+Role:     [Manager                         ▼]
+
+Accounts: [All accounts                    ▼]
+          Or select specific accounts:
+          ☑ Main Store
+          ☑ UK Store
+          ☐ Test Account
+
+Personal message (optional):
+[Welcome to our analytics team!             ]
+
+[Send Invitation]
+```
+
+### Invitation Process
+
+1. User receives email invitation
+2. They click "Accept Invitation"
+3. Create password (or use SSO)
+4. Immediately gains access
+
+### Pending Invitations
+
+View and manage outstanding invitations:
+
+```
+Pending Invitations
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Email                    Invited      Expires     Actions
+─────────────────────────────────────────────────────────
+newuser@company.com      Jan 15       Jan 22      [Resend] [Revoke]
+```
+
+Invitations expire after 7 days. Resend to extend.
+
+## Roles & Permissions
+
+### Available Roles
+
+| Role | Description |
+|------|-------------|
+| **Admin** | Full access to everything |
+| **Manager** | Manage settings and integrations, no billing |
+| **Analyst** | Access reports and data, no settings |
+| **Viewer** | Read-only dashboard access |
+
+### Permission Matrix
+
+| Permission | Admin | Manager | Analyst | Viewer |
+|------------|:-----:|:-------:|:-------:|:------:|
+| View dashboards | ✅ | ✅ | ✅ | ✅ |
+| View reports | ✅ | ✅ | ✅ | ✅ |
+| Export data | ✅ | ✅ | ✅ | - |
+| Create dashboards | ✅ | ✅ | ✅ | - |
+| Use LENS AI | ✅ | ✅ | ✅ | - |
+| Manage integrations | ✅ | ✅ | - | - |
+| Manage tracking | ✅ | ✅ | - | - |
+| Manage users | ✅ | ✅ | - | - |
+| View audit log | ✅ | ✅ | - | - |
+| Manage billing | ✅ | - | - | - |
+| Delete account | ✅ | - | - | - |
+
+### Custom Roles (Growth Plan)
+
+Create custom roles with specific permissions:
+
+1. Go to **Account → Users → Roles**
+2. Click **Create Custom Role**
+3. Name the role and select permissions
+4. Assign to users
+
+```
+Create Custom Role
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Role Name: [Campaign Manager                ]
+
+Permissions:
+☑ View all reports
+☑ View conversions
+☑ View ROAS data
+☑ Export data
+☑ Use LENS AI
+☐ Manage tracking settings
+☐ Manage integrations
+☑ Manage campaign integrations only
+☐ Manage users
+☐ Access billing
+
+[Create Role]
+```
+
+## Managing Users
+
+### Edit User
+
+1. Click on a user's name
+2. Modify settings:
+
+```
+Edit User: sarah@company.com
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Display Name: [Sarah Johnson               ]
+Role:         [Manager                    ▼]
+
+Account Access:
+● All accounts
+○ Selected accounts only
+
+Notifications:
+☑ Receive anomaly alerts
+☑ Receive weekly summary
+☐ Receive billing notifications
+
+[Save Changes]
+```
+
+### Change User Role
+
+1. Find user in the list
+2. Click role dropdown
+3. Select new role
+4. Confirm change
+
+Role changes take effect immediately.
+
+### Remove User
+
+1. Find user in the list
+2. Click **⋮ → Remove**
+3. Confirm removal
+
+```
+Remove User
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Are you sure you want to remove sarah@company.com?
+
+They will immediately lose access to:
+• All dashboards and reports
+• LENS AI
+• Integrations they configured
+
+☐ Transfer their dashboards to me
+
+[Cancel] [Remove User]
+```
+
+## Account Access Restrictions
+
+### Per-Account Access
+
+Limit users to specific accounts:
+
+```
+User: guest@agency.com
+Role: Analyst
+
+Account Access:
+○ All accounts
+● Selected accounts only
+
+  ☑ Client A Store
+  ☑ Client B Store
+  ☐ Internal Analytics
+  ☐ Test Account
+```
+
+### IP Restrictions (Growth Plan)
+
+Require users to access from specific IPs:
+
+```
+IP Restrictions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Enable IP allowlist for this user
+
+Allowed IPs:
++ 192.168.1.0/24 (Office network)
++ 10.0.0.50 (VPN exit)
+
+[Add IP]
+```
+
+## SSO/SAML (Growth Plan)
+
+### Enable SSO
+
+Connect to your identity provider:
+
+1. Go to **Account → Users → SSO**
+2. Configure SAML settings:
+
+```
+SAML Configuration
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Identity Provider:  [Okta                    ▼]
+
+SSO URL:           [https://company.okta.com/app/... ]
+Entity ID:         [https://app.sealmetrics.com     ]
+Certificate:       [Upload X.509 Certificate        ]
+
+Attribute Mapping:
+  Email:       [email                              ]
+  First Name:  [firstName                          ]
+  Last Name:   [lastName                           ]
+
+Default Role:  [Analyst                           ▼]
+
+[Test Configuration] [Enable SSO]
+```
+
+### Supported Providers
+
+| Provider | Status |
+|----------|--------|
+| Okta | Full support |
+| Azure AD | Full support |
+| Google Workspace | Full support |
+| OneLogin | Full support |
+| Custom SAML 2.0 | Supported |
+
+### SSO Enforcement
+
+Force all users to use SSO:
+
+```
+SSO Enforcement
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+☑ Require SSO for all users
+
+Exceptions (can still use password):
++ admin@company.com (emergency access)
+
+Warning: Enabling this will require all users
+to authenticate via SSO. Users without IdP
+accounts will be locked out.
+
+[Save]
+```
+
+## User Limits
+
+### Seats by Plan
+
+| Plan | Included Users |
+|------|----------------|
+| Research | 2 |
+| Guard | 5 |
+| Growth | Unlimited |
+
+### Adding More Seats
+
+For Research/Guard plans:
+
+1. Upgrade to a higher plan, or
+2. Add user pack (Guard only): +5 users for €50/month
+
+## Activity Tracking
+
+View user activity:
+
+```
+User Activity: sarah@company.com
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Last Login:      Today at 14:32
+Login Count:     47 (last 30 days)
+Last IP:         192.168.1.50
+Last Browser:    Chrome 120 / macOS
+
+Recent Actions:
+• Viewed Traffic Report (2 min ago)
+• Exported Conversions CSV (1 hour ago)
+• Updated BigQuery integration (yesterday)
+• Invited mike@company.com (3 days ago)
+```
+
+Full activity history available in [Audit Log →](../advanced/audit-log)

@@ -1,51 +1,195 @@
+---
+sidebar_position: 4
+title: How to Track AJAX Forms
+description: Track form submissions and conversions from AJAX forms with SealMetrics. Works with any JavaScript framework.
+tags: [ajax, forms, conversions, tracking]
+keywords:
+  - ajax form tracking
+  - form submission tracking
+  - lead tracking
+  - conversion tracking
+---
+
 # How to Track AJAX Forms
 
-## Overview
-If you are working with AJAX forms, follow these steps to track conversions when an AJAX form is submitted.
+Track conversions when AJAX forms are submitted successfully.
 
 ---
 
-## 1. Add SEAL’s Tracking Pixel
-Add the Sealmetrics tracking pixel to **all pages** of your website.
+## Prerequisites
 
----
-
-## 2. Trigger Conversion After AJAX Form Submission
-
-When the AJAX form is successfully submitted, fire the following tracking code:
+Ensure the SealMetrics tracker is installed on your page:
 
 ```html
-<script>
-/* Sealmetrics Tracker Code */
-var oSm = window.oSm || {};
-oSm.account = 'XXXXXXXXXXXXXXXXXXXXX';
-oSm.decore = 1;
-oSm.event = 'conversion';
-oSm.label = 'form-lead';
-
-!function(e){
-    var t="//app.sealmetrics.com/tag/tracker";
-    window.oSm=oSm,
-    window.smTrackerLoaded
-        ? sm.tracker.track(e.event)
-        : Promise.all([
-            new Promise(function(e){
-                var n=document.createElement("script");
-                n.src=t,
-                n.async=!0,
-                n.onload=function(){e(t)},
-                document.getElementsByTagName("head")[0].appendChild(n)
-            })
-        ]).then(function(){
-            sm.tracker.track(e.event)
-        })
-}(oSm);
-/* End Sealmetrics Tracker Code */
-</script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
 ---
 
-## Notes
-- Fire this snippet **only after** the AJAX form is successfully submitted.
-- This script will register a **conversion event** with the label `form-lead`.
+## Basic Implementation
+
+Call `sealmetrics.conv()` or `sealmetrics.micro()` in your AJAX success callback:
+
+```javascript
+// Example with fetch API
+fetch('/api/submit-form', {
+  method: 'POST',
+  body: formData
+})
+.then(response => response.json())
+.then(data => {
+  if (data.success) {
+    // Track the form submission as a conversion
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('lead', 0, {
+        form_name: 'contact',
+        form_location: 'homepage'
+      });
+    }
+  }
+});
+```
+
+---
+
+## jQuery AJAX Example
+
+```javascript
+$.ajax({
+  url: '/api/submit-form',
+  method: 'POST',
+  data: formData,
+  success: function(response) {
+    // Track successful submission
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('lead', 0, {
+        form_name: 'newsletter',
+        source: 'footer'
+      });
+    }
+  }
+});
+```
+
+---
+
+## Conversion vs Microconversion
+
+Choose the right method based on your goal:
+
+| Goal Type | Method | Example |
+|-----------|--------|---------|
+| Lead form (valuable) | `sealmetrics.conv()` | Contact form, quote request |
+| Newsletter signup | `sealmetrics.conv()` | Email subscription |
+| Minor interaction | `sealmetrics.micro()` | Feedback form, comments |
+
+### Conversion Example (with value)
+
+```javascript
+// Lead with estimated value
+sealmetrics.conv('lead', 50, {
+  form_name: 'quote_request',
+  service: 'consulting'
+});
+```
+
+### Microconversion Example
+
+```javascript
+// Form step completion (no monetary value)
+sealmetrics.micro('form_step', {
+  step: 'personal_info',
+  form_name: 'checkout'
+});
+```
+
+---
+
+## Framework Examples
+
+### React
+
+```jsx
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      body: JSON.stringify(formData)
+    });
+
+    if (response.ok) {
+      // Track conversion
+      if (typeof sealmetrics !== 'undefined') {
+        sealmetrics.conv('lead', 0, {
+          form_name: 'contact'
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Form submission failed');
+  }
+};
+```
+
+### Vue.js
+
+```javascript
+async submitForm() {
+  try {
+    await this.$axios.post('/api/contact', this.formData);
+
+    // Track conversion
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('lead', 0, {
+        form_name: 'contact'
+      });
+    }
+  } catch (error) {
+    console.error('Form submission failed');
+  }
+}
+```
+
+---
+
+## Best Practices
+
+1. **Track only on success** — Don't fire tracking on form errors
+2. **Check tracker exists** — Always use `typeof sealmetrics !== 'undefined'`
+3. **Include form context** — Add properties like `form_name` and `form_location`
+4. **Avoid duplicates** — Track once per successful submission
+
+---
+
+## Troubleshooting
+
+### Conversion not appearing
+
+1. Check browser Network tab for beacon to `t.sealmetrics.com`
+2. Verify the tracker script is loaded before your AJAX code
+3. Ensure the success callback is actually firing
+
+### Duplicate conversions
+
+If you're seeing duplicates, ensure your tracking code only fires once:
+
+```javascript
+let formTracked = false;
+
+function onFormSuccess() {
+  if (!formTracked && typeof sealmetrics !== 'undefined') {
+    sealmetrics.conv('lead', 0, { form_name: 'contact' });
+    formTracked = true;
+  }
+}
+```
+
+---
+
+## Related Documentation
+
+- [Conversions](/implementation/tracker/conversions) - Full conversion tracking reference
+- [Microconversions](/implementation/tracker/microconversions) - Event tracking
+- [Troubleshooting](/troubleshooting) - Common issues and solutions

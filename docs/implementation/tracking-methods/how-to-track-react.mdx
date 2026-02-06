@@ -1,76 +1,426 @@
+---
+sidebar_position: 3
+title: How to Track React Sites
+description: Complete guide to tracking React applications with SealMetrics. Includes examples for react-router, conversions, and microconversions.
+tags: [react, spa, tracking, conversions, microconversions]
+keywords:
+  - react analytics
+  - react tracking
+  - react-router analytics
+  - spa tracking
+  - cookieless react analytics
+---
+
 # How to Track React Sites
 
-## Overview
-This guide explains how to track React-based websites using Sealmetrics.  
-React apps often use client-side navigation, so it's important to make sure tracking triggers properly after route changes and conversions.
+SealMetrics works seamlessly with React applications. The tracker automatically detects navigation via react-router and tracks pageviews without additional configuration.
 
 ---
 
-## 1. Add Sealmetrics tracking pixel to all website pages
+## Installation
+
+Add the tracker script to your `index.html` or use React's Script handling:
+
+### Option 1: In public/index.html
 
 ```html
-<script>
-/* Sealmetrics Tracker Code */
-var oSm = window.oSm || {};
-oSm.account = 'XXXXXXXXXXXXX';
-oSm.event = 'pageview';
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My React App</title>
+  <!-- SealMetrics Tracker -->
+  <script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
+```
 
-!function(e){
-  var t="//app.sealmetrics.com/tag/tracker";
-  window.oSm=oSm,
-  window.smTrackerLoaded
-    ? sm.tracker.track(e.event)
-    : Promise.all([
-        new Promise(function(e){
-          var n=document.createElement("script");
-          n.src=t;
-          n.async=!0;
-          n.onload=function(){e(t)};
-          document.getElementsByTagName("head")[0].appendChild(n);
-        })
-      ]).then(function(){
-        sm.tracker.track(e.event);
-      })
-}(oSm);
-/* End Sealmetrics Tracker Code */
-</script>
+### Option 2: Using React Helmet
+
+```jsx
+import { Helmet } from 'react-helmet';
+
+function App() {
+  return (
+    <>
+      <Helmet>
+        <script
+          src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID"
+          defer
+        />
+      </Helmet>
+      {/* Your app content */}
+    </>
+  );
+}
 ```
 
 ---
 
-## 2. Trigger conversion tracking after a user submits a form or completes a conversion
+## Automatic Pageview Tracking
 
-```html
-<script>
-/* Sealmetrics Tracker Code */
-var oSm = window.oSm || {};
-oSm.event = 'conversion';
-oSm.label = 'purchase';
-oSm.amount = '1.01';
+Once installed, the tracker automatically tracks:
 
-!function(e){
-  var t="//app/sealmetrics.com/tag/tracker";
-  window.oSm=oSm,
-  window.smTrackerLoaded
-    ? sm.tracker.track(e.event)
-    : Promise.all([
-        new Promise(function(e){
-          var n=document.createElement("script");
-          n.src=t;
-          n.async=!0;
-          n.onload=function(){e(t)};
-          document.getElementsByTagName("head")[0].appendChild(n);
-        })
-      ]).then(function(){
-        sm.tracker.track(e.event);
-      })
-}(oSm);
-/* End Sealmetrics Tracker Code */
-</script>
+- Initial page load
+- Navigation via `react-router` (both v5 and v6)
+- Browser back/forward navigation
+- Any History API-based routing
+
+**No additional setup required** for basic pageview tracking.
+
+---
+
+## Tracking Conversions
+
+Track purchases, signups, and other goal completions:
+
+```jsx
+import { useEffect } from 'react';
+
+function ThankYouPage({ order }) {
+  useEffect(() => {
+    // Track conversion after component mounts
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('purchase', order.total, {
+        order_id: order.id,
+        currency: order.currency,
+        payment_method: order.paymentMethod
+      });
+    }
+  }, [order]);
+
+  return (
+    <div>
+      <h1>Thank you for your purchase!</h1>
+      <p>Order #{order.id}</p>
+    </div>
+  );
+}
 ```
 
 ---
 
-## Notes
-- You can trigger each pixel in any order you prefer.
-- For SPA/React apps, ensure that pageview events fire on route changes.
+## Tracking Microconversions
+
+Track user interactions and funnel steps:
+
+### Add to Cart
+
+```jsx
+function ProductPage({ product }) {
+  const handleAddToCart = () => {
+    // Your cart logic...
+
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('add_to_cart', {
+        product_id: product.id,
+        product_name: product.name,
+        price: String(product.price),
+        category: product.category
+      });
+    }
+  };
+
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <button onClick={handleAddToCart}>Add to Cart</button>
+    </div>
+  );
+}
+```
+
+### Form Submission
+
+```jsx
+function ContactForm() {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Your form submission logic...
+
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('form_submit', {
+        form_name: 'contact',
+        form_location: 'footer'
+      });
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields */}
+      <button type="submit">Send</button>
+    </form>
+  );
+}
+```
+
+---
+
+## Custom Hook for Analytics
+
+Create a reusable hook for cleaner code:
+
+```jsx
+// hooks/useAnalytics.js
+export function useAnalytics() {
+  const trackConversion = (type, amount, properties = {}) => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv(type, amount, properties);
+    }
+  };
+
+  const trackMicro = (type, properties = {}) => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro(type, properties);
+    }
+  };
+
+  const trackPageview = (options = {}) => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics(options);
+    }
+  };
+
+  return { trackConversion, trackMicro, trackPageview };
+}
+```
+
+**Usage:**
+
+```jsx
+import { useAnalytics } from './hooks/useAnalytics';
+
+function CheckoutSuccess({ order }) {
+  const { trackConversion } = useAnalytics();
+
+  useEffect(() => {
+    trackConversion('purchase', order.total, {
+      order_id: order.id,
+      currency: order.currency
+    });
+  }, [order]);
+
+  return <div>Thank you!</div>;
+}
+```
+
+---
+
+## TypeScript Support
+
+Add type declarations for better IDE support:
+
+```typescript
+// types/sealmetrics.d.ts
+interface SealmetricsOptions {
+  group?: string;
+}
+
+interface SealmetricsFunction {
+  (options?: SealmetricsOptions): void;
+  conv(type: string, amount: number, properties?: Record<string, string>): void;
+  micro(type: string, properties?: Record<string, string>): void;
+}
+
+declare global {
+  const sealmetrics: SealmetricsFunction | undefined;
+  const sm: SealmetricsFunction | undefined;
+  const _sm: SealmetricsFunction | undefined;
+}
+
+export {};
+```
+
+**Typed hook:**
+
+```typescript
+// hooks/useAnalytics.ts
+export function useAnalytics() {
+  const trackConversion = (
+    type: string,
+    amount: number,
+    properties?: Record<string, string>
+  ) => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv(type, amount, properties);
+    }
+  };
+
+  const trackMicro = (type: string, properties?: Record<string, string>) => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro(type, properties);
+    }
+  };
+
+  return { trackConversion, trackMicro };
+}
+```
+
+---
+
+## Content Grouping
+
+Group pages by content type for better analytics:
+
+```jsx
+function BlogPost({ post }) {
+  useEffect(() => {
+    // Set content group for this page
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics({ group: 'blog' });
+    }
+  }, [post.slug]);
+
+  return <article>{/* Post content */}</article>;
+}
+```
+
+Or use different tracker URLs per page type:
+
+```jsx
+// For blog section
+<Helmet>
+  <script
+    src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog"
+    defer
+  />
+</Helmet>
+```
+
+---
+
+## React Router Integration
+
+### With react-router v6
+
+The tracker works automatically with react-router v6:
+
+```jsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/thank-you" element={<ThankYou />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+Navigation between routes is tracked automatically.
+
+### With react-router v5
+
+Also works automatically:
+
+```jsx
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/products/:id" component={ProductDetail} />
+        <Route path="/checkout" component={Checkout} />
+      </Switch>
+    </BrowserRouter>
+  );
+}
+```
+
+---
+
+## E-commerce Example
+
+Complete checkout flow tracking:
+
+```jsx
+// Cart page
+function CartPage({ cart }) {
+  const { trackMicro } = useAnalytics();
+
+  useEffect(() => {
+    trackMicro('view_cart', {
+      items_count: String(cart.items.length),
+      cart_value: String(cart.total)
+    });
+  }, []);
+
+  return <div>{/* Cart UI */}</div>;
+}
+
+// Checkout page
+function CheckoutPage({ cart }) {
+  const { trackMicro } = useAnalytics();
+
+  useEffect(() => {
+    trackMicro('begin_checkout', {
+      items_count: String(cart.items.length),
+      cart_value: String(cart.total)
+    });
+  }, []);
+
+  return <div>{/* Checkout form */}</div>;
+}
+
+// Thank you page
+function ThankYouPage({ order }) {
+  const { trackConversion } = useAnalytics();
+
+  useEffect(() => {
+    trackConversion('purchase', order.total, {
+      order_id: order.id,
+      currency: order.currency,
+      items_count: String(order.items.length)
+    });
+  }, []);
+
+  return <div>Thank you for your order!</div>;
+}
+```
+
+---
+
+## Troubleshooting
+
+### Tracker not defined
+
+Always check if the tracker is loaded before using it:
+
+```jsx
+if (typeof sealmetrics !== 'undefined') {
+  sealmetrics.conv('purchase', 99.99);
+}
+```
+
+### Duplicate pageviews
+
+- Ensure the tracker script is only included once
+- Don't manually call `sealmetrics()` if automatic tracking is sufficient
+- Use `useEffect` with proper dependencies to avoid re-triggering
+
+### Events not appearing
+
+1. Check the browser Network tab for requests to `t.sealmetrics.com`
+2. Verify your Account ID is correct
+3. Check the Real-time report in your SealMetrics dashboard
+
+---
+
+## Related Documentation
+
+- [SPA Support](/implementation/tracker/spa-support) - Detailed SPA integration
+- [Conversions](/implementation/tracker/conversions) - All conversion tracking options
+- [Microconversions](/implementation/tracker/microconversions) - Tracking user interactions
+- [Next.js Integration](/integrations/frameworks/nextjs) - For Next.js projects

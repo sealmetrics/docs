@@ -5,69 +5,225 @@ title: API Overview
 
 # API
 
-REST API for querying analytics data programmatically.
+REST API for querying analytics data and managing your Sealmetrics account programmatically.
 
 | Specification | Value |
 |---------------|-------|
-| Base URL | `https://api.sealmetrics.com/api/v1` |
+| Base URL | `https://my.sealmetrics.com/api/v1` |
 | Protocol | HTTPS only |
 | Format | JSON |
 | Authentication | API Key or JWT Bearer token |
 | Rate Limits | Per-plan (see [Rate Limits](./rate-limits)) |
-| Documentation | `/docs` (Swagger), `/redoc` (ReDoc) |
+| Documentation | `/docs` (Swagger UI) |
 
-## Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/sites/{site_id}/stats` | Real-time summary stats |
-| GET | `/sites/{site_id}/pageviews` | Pageview timeseries |
-| GET | `/sites/{site_id}/visitors` | Unique visitors |
-| GET | `/sites/{site_id}/pages` | Top pages with metrics |
-| GET | `/sites/{site_id}/referrers` | Traffic sources |
-| GET | `/sites/{site_id}/geo` | Geographic breakdown |
-| GET | `/sites/{site_id}/devices` | Device analytics |
-| GET | `/sites/{site_id}/conversions` | Conversion metrics |
-| GET | `/sites/{site_id}/funnel` | Funnel report by UTM |
-| GET | `/sites/{site_id}/live` | Live visitors (WebSocket) |
-| GET | `/sites/{site_id}/settings` | Site settings |
-| PATCH | `/sites/{site_id}/settings` | Update site settings |
-| POST | `/sites` | Create new site |
-| GET | `/health` | Health check |
-
-## Quick Example
+## Quick Start
 
 ```bash
-curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats?period=7d" \
-  -H "X-API-Key: str_your_api_key_here"
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?account_id=YOUR_ACCOUNT_ID&period=7d" \
+  -H "X-API-Key: sm_your_api_key_here"
 ```
 
 Response:
 
 ```json
 {
-  "period": "7d",
-  "pageviews": 12543,
-  "unique_visitors": 4521,
-  "sessions": 5234,
-  "bounce_rate": 42.3,
-  "avg_session_duration": 185,
-  "pages_per_session": 2.4,
-  "conversions": 156,
-  "revenue": 12450.00
+  "data": {
+    "entrances": 12543,
+    "page_views": 28976,
+    "engaged_entrances": 7234,
+    "bounce_rate": 42.3,
+    "conversions": 156,
+    "revenue": 12450.00,
+    "microconversions": 892
+  }
 }
 ```
 
-## Response Headers
+## API Sections
 
-Every response includes rate limit information:
+### Analytics Data
 
-| Header | Description | Example |
-|--------|-------------|---------|
-| `X-RateLimit-Limit` | Max requests per minute | `60` |
-| `X-RateLimit-Remaining` | Requests left in current window | `45` |
-| `X-RateLimit-Reset` | Unix timestamp when limit resets | `1704067200` |
-| `X-RateLimit-Tier` | Your plan tier | `starter` |
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/stats/overview` | GET | Dashboard overview with all key metrics |
+| `/stats/query` | POST | Flexible multi-dimensional query |
+| `/stats/pages` | GET | Page metrics with pagination |
+| `/stats/mediums` | GET | Traffic by UTM medium |
+| `/stats/sources` | GET | Traffic by UTM source |
+| `/stats/campaigns` | GET | Traffic by UTM campaign |
+| `/stats/terms` | GET | Traffic by UTM term |
+| `/stats/contents` | GET | Traffic by UTM content |
+| `/stats/referrers` | GET | Referrer domain traffic |
+| `/stats/geo/countries` | GET | Geographic breakdown |
+| `/stats/devices` | GET | Device, browser, OS breakdown |
+
+### Account Management
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/accounts` | GET, POST | List and create accounts |
+| `/accounts/{id}` | GET, PATCH, DELETE | Manage specific account |
+| `/accounts/{id}/domains` | GET, POST, DELETE | Authorized domains |
+| `/accounts/{id}/utm-mappings` | GET, POST, PATCH, DELETE | UTM parameter mappings |
+| `/accounts/{id}/users` | GET, POST, PATCH, DELETE | User access management |
+| `/accounts/{id}/pixel` | GET | Get tracking pixel code |
+| `/accounts/{id}/pixel/status` | GET | Check pixel installation |
+
+### Authentication
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/auth/token` | POST | Login with email/password |
+| `/auth/refresh` | POST | Refresh access token |
+| `/auth/logout` | POST | Logout current session |
+| `/auth/me` | GET | Get current user info |
+| `/auth/sessions` | GET, DELETE | Manage active sessions |
+| `/auth/forgot-password` | POST | Request password reset |
+| `/auth/reset-password` | POST | Reset password with token |
+
+### User Management
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/users` | GET, POST | List and create users (admin) |
+| `/users/{id}` | GET, PATCH, DELETE | Manage specific user |
+| `/users/me/password` | POST | Change current user password |
+| `/users/invitations` | GET, POST | Manage user invitations |
+
+### API Tokens
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api-tokens` | GET, POST | List and create API tokens |
+| `/api-tokens/{id}` | GET, DELETE | Get or revoke token |
+| `/api-tokens/scopes` | GET | List available scopes |
+
+### Segments
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/segments` | GET, POST | List and create saved segments |
+| `/segments/{id}` | GET, PUT, DELETE | Manage specific segment |
+| `/segments/{id}/duplicate` | POST | Duplicate a segment |
+
+### Webhooks
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/webhooks` | GET, POST | List and create webhook endpoints |
+| `/webhooks/{id}` | GET, PATCH, DELETE | Manage specific webhook |
+| `/webhooks/{id}/test` | POST | Send test webhook |
+| `/webhooks/{id}/rotate-secret` | POST | Rotate webhook secret |
+| `/webhooks/{id}/deliveries` | GET | List delivery history |
+| `/webhooks/event-types` | GET | List available event types |
+
+### Alerts
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/alerts/rules` | GET, POST | List and create alert rules |
+| `/alerts/rules/{id}` | GET, PATCH, DELETE | Manage alert rule |
+| `/alerts/rules/{id}/test` | POST | Test alert rule |
+| `/alerts/history` | GET | Get alert history |
+| `/alerts/stats` | GET | Get alert statistics |
+
+### Bulk Exports
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/exports` | GET, POST | List and create export jobs |
+| `/exports/{id}` | GET, DELETE | Get or cancel export |
+| `/exports/estimate` | POST | Estimate export size |
+| `/exports/stream` | POST | Stream small export directly |
+| `/exports/download/{token}` | GET | Download export file |
+
+### LENS AI Insights
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/lens/insights` | GET | List AI-generated insights |
+| `/lens/insights/summary` | GET | Get insights summary for badges |
+| `/lens/insights/{id}` | GET | Get specific insight |
+| `/lens/insights/{id}/read` | PATCH | Mark insight as read |
+| `/lens/insights/{id}/dismiss` | PATCH | Dismiss insight |
+| `/lens/settings` | GET, PATCH | LENS notification settings |
+
+### Channel Groups
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/channel-groups` | GET, POST | List and create channel rules |
+| `/channel-groups/{id}` | GET, PATCH, DELETE | Manage channel rule |
+| `/channel-groups/stats/channels` | GET | Get channel metrics |
+
+## Common Query Parameters
+
+These parameters are available on most analytics endpoints:
+
+| Parameter | Type | Description | Example |
+|-----------|------|-------------|---------|
+| `account_id` | string | **Required.** Account identifier | `my-account` |
+| `period` | string | Time period shortcut | `today`, `7d`, `30d`, `90d` |
+| `start_date` | date | Start date (YYYY-MM-DD) | `2025-01-01` |
+| `end_date` | date | End date (YYYY-MM-DD) | `2025-01-31` |
+| `segment` | string | Apply saved segment filters | `paid-traffic` |
+| `country` | string | Filter by country (ISO 2) | `ES`, `US` |
+| `utm_source` | string | Filter by UTM source | `google` |
+| `utm_medium` | string | Filter by UTM medium | `cpc` |
+| `utm_campaign` | string | Filter by UTM campaign | `brand-2025` |
+| `compare` | string | Comparison mode | `previous`, `yoy` |
+| `page` | int | Page number (default: 1) | `1` |
+| `page_size` | int | Results per page (default: 50) | `100` |
+| `sort_by` | string | Sort field | `entrances`, `revenue` |
+| `sort_order` | string | Sort direction | `asc`, `desc` |
+
+### Period Shortcuts
+
+| Value | Description |
+|-------|-------------|
+| `today` | Current day |
+| `yesterday` | Previous day |
+| `7d` | Last 7 days |
+| `30d` | Last 30 days |
+| `90d` | Last 90 days |
+| `12m` | Last 12 months |
+| `this_week` | Current week |
+| `last_week` | Previous week |
+| `this_month` | Current month |
+| `last_month` | Previous month |
+| `this_quarter` | Current quarter |
+| `last_quarter` | Previous quarter |
+| `this_year` | Current year |
+| `last_year` | Previous year |
+| `wtd` | Week to date |
+| `mtd` | Month to date |
+| `qtd` | Quarter to date |
+| `ytd` | Year to date |
+
+## Response Format
+
+All successful responses wrap data in a `data` field:
+
+```json
+{
+  "data": {
+    // Response payload
+  }
+}
+```
+
+Paginated responses include pagination metadata:
+
+```json
+{
+  "data": [...],
+  "total": 156,
+  "page": 1,
+  "page_size": 50,
+  "has_next": true,
+  "has_prev": false
+}
+```
 
 ## Error Responses
 
@@ -78,8 +234,7 @@ All errors return JSON with this structure:
   "error": {
     "code": "error_code",
     "message": "Human-readable description"
-  },
-  "request_id": "req_abc123"
+  }
 }
 ```
 
@@ -89,6 +244,7 @@ All errors return JSON with this structure:
 | 401 | `unauthorized` | Missing or invalid authentication |
 | 403 | `forbidden` | Valid auth but insufficient permissions |
 | 404 | `not_found` | Resource does not exist |
+| 409 | `conflict` | Resource already exists |
 | 429 | `rate_limit_exceeded` | Too many requests |
 | 500 | `internal_error` | Server error |
 
@@ -96,5 +252,9 @@ All errors return JSON with this structure:
 
 - [Quick Start](./quick-start) - First API call in 5 minutes
 - [Authentication](./authentication) - API keys and JWT tokens
+- [Stats Endpoints](./stats) - Analytics data endpoints
+- [Accounts](./accounts) - Account management
+- [Segments](./segments) - Saved segments
+- [Exports](./exports) - Bulk data exports
+- [Webhooks](./webhooks) - Webhook subscriptions
 - [Rate Limits](./rate-limits) - Limits per plan tier
-- [Endpoints](./endpoints) - Complete endpoint reference

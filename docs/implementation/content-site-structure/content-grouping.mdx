@@ -30,13 +30,13 @@ Add the `group` parameter to the tracker script. The group is set automatically 
 
 ```html
 <!-- Blog pages -->
-<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog" defer></script>
 
 <!-- Product pages -->
-<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=product" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=product" defer></script>
 
 <!-- Checkout flow -->
-<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=checkout" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=checkout" defer></script>
 ```
 
 ### Method 2: JavaScript API
@@ -126,7 +126,7 @@ if ($path === '/') {
 }
 ?>
 
-<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=<?= $group ?>" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=<?= $group ?>" defer></script>
 ```
 
 #### Option B: Client-Side (SPA)
@@ -178,7 +178,7 @@ function get_content_group() {
 }
 ?>
 
-<script src="https://pixel.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=<?= get_content_group() ?>" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=<?= get_content_group() ?>" defer></script>
 ```
 
 ## Viewing Content Group Reports

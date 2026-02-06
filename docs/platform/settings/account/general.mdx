@@ -1,0 +1,246 @@
+---
+sidebar_position: 1
+title: General Settings
+description: Configure basic account settings like name, timezone, and default preferences.
+---
+
+# General Settings
+
+Configure the basic settings for your Sealmetrics account.
+
+## Accessing General Settings
+
+1. Click the **gear icon** in the main navigation
+2. Select **Account → General**
+
+## Account Information
+
+### Account Name
+
+The display name for your account, shown in the dashboard and reports.
+
+```
+Account Name: [My E-commerce Store          ]
+
+This name appears in:
+• Dashboard header
+• Reports and exports
+• Email notifications
+• Team member invitations
+```
+
+### Account ID
+
+Your unique account identifier (read-only). Used for:
+- API calls
+- Support requests
+- Integration configuration
+
+```
+Account ID: acc_1234567890abcdef
+            [Copy to Clipboard]
+```
+
+### Website URL
+
+The primary domain being tracked:
+
+```
+Website URL: [https://www.mystore.com       ]
+
+Used for:
+• Link validation
+• Cross-domain configuration
+• Report deep links
+```
+
+## Timezone Settings
+
+### Account Timezone
+
+All data is displayed in your selected timezone:
+
+```
+Timezone: [Europe/Madrid (UTC+1)          ▼]
+
+This affects:
+• Report date ranges
+• Scheduled report delivery times
+• Real-time dashboard display
+• Anomaly detection timing
+```
+
+**Common timezones:**
+
+| Region | Timezone |
+|--------|----------|
+| Spain | Europe/Madrid |
+| UK | Europe/London |
+| Germany | Europe/Berlin |
+| US East | America/New_York |
+| US West | America/Los_Angeles |
+| Japan | Asia/Tokyo |
+
+:::warning Data Processing
+Changing timezone only affects how data is displayed. Historical data is stored in UTC and recalculated for display.
+:::
+
+## Default Date Range
+
+Set the default date range when you open reports:
+
+```
+Default Date Range: [Last 7 Days            ▼]
+
+Options:
+• Today
+• Yesterday
+• Last 7 Days (default)
+• Last 30 Days
+• This Month
+• Last Month
+• Custom (remember last selection)
+```
+
+## Display Preferences
+
+### Number Format
+
+Configure how numbers are displayed:
+
+```
+Number Format:
+  Thousands separator: [,    ▼]  (e.g., 1,000,000)
+  Decimal separator:   [.    ▼]  (e.g., 1,234.56)
+
+Preview: 1,234,567.89
+```
+
+### Currency
+
+Default currency for revenue display:
+
+```
+Currency: [EUR - Euro (€)              ▼]
+
+This affects:
+• Revenue reports
+• Conversion values
+• ROAS calculations
+
+Note: Multi-currency data is converted at
+daily rates for consistent reporting.
+```
+
+### Date Format
+
+How dates appear in reports:
+
+```
+Date Format: [DD/MM/YYYY                 ▼]
+
+Options:
+• DD/MM/YYYY (31/12/2024)
+• MM/DD/YYYY (12/31/2024)
+• YYYY-MM-DD (2024-12-31)
+```
+
+## Week Start Day
+
+For weekly reports and comparisons:
+
+```
+Week Starts On: [Monday                    ▼]
+
+Options:
+• Sunday (US standard)
+• Monday (ISO standard)
+```
+
+## Data Settings
+
+### Data Retention
+
+View your data retention period (based on plan):
+
+```
+Data Retention: 24 months (Guard plan)
+
+Your data is kept for 24 months from collection.
+Older data is automatically archived, then deleted.
+
+Current oldest data: January 2022
+Will be deleted: January 2024
+```
+
+[Extend retention →](/billing/add-ons)
+
+### Sampling
+
+View sampling status:
+
+```
+Data Sampling: Disabled ✅
+
+All your data is processed without sampling.
+This ensures 100% accuracy in all reports.
+
+Note: Very high-traffic accounts may enable
+sampling for performance. You'll be notified
+if this becomes necessary.
+```
+
+## Danger Zone
+
+### Archive Account
+
+Temporarily disable tracking and hide from dashboard:
+
+```
+Archive Account
+
+Archiving will:
+• Stop all data collection
+• Hide account from dashboard
+• Preserve historical data
+• Pause billing for this account
+
+You can unarchive at any time.
+
+[Archive Account]
+```
+
+### Delete Account
+
+Permanently delete the account and all data:
+
+```
+⚠️ Delete Account
+
+This will PERMANENTLY delete:
+• All tracking data
+• All reports and dashboards
+• All integrations
+• All settings
+
+This action cannot be undone.
+
+Type "DELETE my-store" to confirm:
+[                                           ]
+
+[Delete Account]
+```
+
+:::danger Permanent Action
+Account deletion cannot be undone. Export your data first if needed.
+:::
+
+## Saving Changes
+
+After making changes:
+
+1. Review your settings
+2. Click **Save Changes**
+3. Confirmation appears: "Settings saved successfully"
+
+Changes take effect immediately for most settings. Timezone changes may take up to 1 hour to fully propagate.

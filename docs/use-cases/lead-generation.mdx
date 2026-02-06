@@ -1,0 +1,542 @@
+---
+sidebar_position: 4
+title: Lead Generation
+description: Implementation guide for service businesses, agencies, and B2B sites focused on generating leads.
+---
+
+# Lead Generation Implementation Guide
+
+Complete guide for tracking lead generation on service websites, agency sites, and B2B platforms. Track the journey from visitor to qualified lead.
+
+## What You'll Track
+
+| Event Type | Example | Purpose |
+|------------|---------|---------|
+| Pageviews | Service pages, case studies | Traffic analysis |
+| Microconversions | Form interactions, content downloads | Engagement analysis |
+| Conversions | Form submissions, demo requests | Lead attribution |
+
+---
+
+## Step 1: Basic Installation
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+### Content Grouping
+
+```html
+<!-- Homepage -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=home" defer></script>
+
+<!-- Service pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=services" defer></script>
+
+<!-- Case studies / Portfolio -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=portfolio" defer></script>
+
+<!-- Blog -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=blog" defer></script>
+
+<!-- Landing pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=landing" defer></script>
+
+<!-- Contact / Quote request -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=contact" defer></script>
+```
+
+---
+
+## Step 2: Track Form Interactions
+
+### Contact Form
+
+```javascript
+// Form field focus (intent signal)
+document.querySelectorAll('#contact-form input, #contact-form textarea').forEach(function(field) {
+  field.addEventListener('focus', function() {
+    if (!this.dataset.tracked) {
+      sealmetrics.micro('form_start', {
+        form_name: 'contact',
+        first_field: this.name
+      });
+      this.dataset.tracked = 'true';
+    }
+  }, { once: true });
+});
+
+// Form submission (CONVERSION)
+document.querySelector('#contact-form').addEventListener('submit', function(e) {
+  sealmetrics.conv('lead', 0, {
+    form_name: 'contact',
+    service_interest: document.querySelector('[name="service"]')?.value || 'general',
+    source: document.querySelector('[name="how_did_you_hear"]')?.value || 'not_specified'
+  });
+});
+```
+
+### Quote Request Form
+
+```javascript
+document.querySelector('#quote-form').addEventListener('submit', function() {
+  var budget = document.querySelector('[name="budget"]').value;
+  var estimatedValue = getBudgetValue(budget);  // Map budget range to number
+
+  sealmetrics.conv('quote_request', estimatedValue, {
+    service: document.querySelector('[name="service"]').value,
+    budget_range: budget,
+    timeline: document.querySelector('[name="timeline"]').value,
+    company_size: document.querySelector('[name="company_size"]').value
+  });
+});
+
+function getBudgetValue(budget) {
+  var values = {
+    'under_5k': 2500,
+    '5k_10k': 7500,
+    '10k_25k': 17500,
+    '25k_50k': 37500,
+    'over_50k': 75000
+  };
+  return values[budget] || 0;
+}
+```
+
+### Demo Request
+
+```javascript
+document.querySelector('#demo-form').addEventListener('submit', function() {
+  sealmetrics.conv('demo_request', 0, {
+    product: document.querySelector('[name="product"]')?.value,
+    company_size: document.querySelector('[name="employees"]')?.value,
+    role: document.querySelector('[name="job_title"]')?.value
+  });
+});
+```
+
+---
+
+## Step 3: Track Content Downloads
+
+### Lead Magnets (Ebooks, Whitepapers, Guides)
+
+```javascript
+// Gated content - form submission
+document.querySelector('#download-form').addEventListener('submit', function() {
+  var resourceName = document.querySelector('[name="resource"]').value;
+
+  sealmetrics.conv('content_download', 0, {
+    resource_name: resourceName,
+    resource_type: 'ebook',  // 'whitepaper', 'guide', 'template'
+    topic: document.querySelector('[name="topic"]')?.value
+  });
+});
+
+// Direct download links (if not gated)
+document.querySelectorAll('a[download]').forEach(function(link) {
+  link.addEventListener('click', function() {
+    sealmetrics.micro('file_download', {
+      file_name: this.getAttribute('download') || this.href.split('/').pop(),
+      file_type: this.href.split('.').pop()
+    });
+  });
+});
+```
+
+### Case Study Views
+
+```javascript
+// Track case study engagement
+document.querySelectorAll('.case-study-card').forEach(function(card) {
+  card.addEventListener('click', function() {
+    sealmetrics.micro('view_case_study', {
+      case_study: this.dataset.title,
+      industry: this.dataset.industry,
+      service: this.dataset.service
+    });
+  });
+});
+```
+
+---
+
+## Step 4: Track Engagement Signals
+
+### Scroll Depth on Key Pages
+
+```javascript
+// Only on service/landing pages
+if (document.body.classList.contains('service-page') ||
+    document.body.classList.contains('landing-page')) {
+
+  var scrollMilestones = {};
+
+  window.addEventListener('scroll', function() {
+    var scrollPercent = Math.round(
+      (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+    );
+
+    [25, 50, 75, 100].forEach(function(milestone) {
+      if (scrollPercent >= milestone && !scrollMilestones[milestone]) {
+        scrollMilestones[milestone] = true;
+        sealmetrics.micro('scroll_' + milestone, {
+          page_type: document.body.dataset.pageType
+        });
+      }
+    });
+  });
+}
+```
+
+### Time on Page
+
+```javascript
+// Track engaged visitors (30+ seconds on page)
+setTimeout(function() {
+  sealmetrics.micro('engaged_visit', {
+    page: window.location.pathname,
+    page_type: document.body.dataset.pageType
+  });
+}, 30000);
+```
+
+### Video Testimonials
+
+```javascript
+document.querySelectorAll('.testimonial-video').forEach(function(video) {
+  video.addEventListener('play', function() {
+    sealmetrics.micro('testimonial_play', {
+      client: this.dataset.client,
+      industry: this.dataset.industry
+    });
+  });
+
+  video.addEventListener('ended', function() {
+    sealmetrics.micro('testimonial_complete', {
+      client: this.dataset.client
+    });
+  });
+});
+```
+
+---
+
+## Step 5: Track CTA Interactions
+
+### Primary CTAs
+
+```javascript
+// "Get a Quote" buttons
+document.querySelectorAll('.cta-quote').forEach(function(button) {
+  button.addEventListener('click', function() {
+    sealmetrics.micro('cta_click', {
+      cta_type: 'quote',
+      location: this.dataset.location,  // 'header', 'hero', 'footer', 'sidebar'
+      page: window.location.pathname
+    });
+  });
+});
+
+// "Contact Us" buttons
+document.querySelectorAll('.cta-contact').forEach(function(button) {
+  button.addEventListener('click', function() {
+    sealmetrics.micro('cta_click', {
+      cta_type: 'contact',
+      location: this.dataset.location
+    });
+  });
+});
+
+// "Schedule a Call" buttons
+document.querySelectorAll('.cta-schedule').forEach(function(button) {
+  button.addEventListener('click', function() {
+    sealmetrics.micro('cta_click', {
+      cta_type: 'schedule_call',
+      location: this.dataset.location
+    });
+  });
+});
+```
+
+### Phone Number Clicks
+
+```javascript
+document.querySelectorAll('a[href^="tel:"]').forEach(function(link) {
+  link.addEventListener('click', function() {
+    sealmetrics.conv('phone_call', 0, {
+      phone_number: this.href.replace('tel:', ''),
+      page: window.location.pathname,
+      location: this.dataset.location || 'unknown'
+    });
+  });
+});
+```
+
+### Live Chat
+
+```javascript
+// If using Intercom, Drift, or similar
+document.querySelector('.chat-launcher').addEventListener('click', function() {
+  sealmetrics.micro('chat_opened', {
+    page: window.location.pathname
+  });
+});
+
+// Track chat completion (if your chat tool supports callbacks)
+window.Intercom('onConversationStarted', function() {
+  sealmetrics.conv('chat_lead', 0, {
+    page: window.location.pathname
+  });
+});
+```
+
+---
+
+## Step 6: Track Calendar Bookings
+
+### Calendly / Cal.com / HubSpot Meetings
+
+```javascript
+// Calendly
+window.addEventListener('message', function(e) {
+  if (e.data.event === 'calendly.event_scheduled') {
+    sealmetrics.conv('meeting_booked', 0, {
+      meeting_type: e.data.payload.event_type.name,
+      invitee_email: e.data.payload.invitee.email
+    });
+  }
+});
+
+// Cal.com
+if (typeof Cal !== 'undefined') {
+  Cal('on', 'bookingSuccessful', function(e) {
+    sealmetrics.conv('meeting_booked', 0, {
+      meeting_type: e.data.eventType,
+      duration: e.data.duration
+    });
+  });
+}
+```
+
+---
+
+## Step 7: Multi-Step Forms
+
+### Wizard-style Quote Forms
+
+```javascript
+var currentStep = 1;
+
+function trackFormStep(stepNumber, stepName, data) {
+  sealmetrics.micro('form_step_' + stepNumber, {
+    step_name: stepName,
+    form_name: 'quote_wizard',
+    ...data
+  });
+}
+
+// Step 1: Service selection
+document.querySelector('#step1-next').addEventListener('click', function() {
+  trackFormStep(1, 'service_selected', {
+    service: document.querySelector('[name="service"]:checked').value
+  });
+  currentStep = 2;
+});
+
+// Step 2: Project details
+document.querySelector('#step2-next').addEventListener('click', function() {
+  trackFormStep(2, 'details_provided', {
+    budget: document.querySelector('[name="budget"]').value,
+    timeline: document.querySelector('[name="timeline"]').value
+  });
+  currentStep = 3;
+});
+
+// Step 3: Contact info (final submission)
+document.querySelector('#quote-wizard').addEventListener('submit', function() {
+  var budget = document.querySelector('[name="budget"]').value;
+
+  sealmetrics.conv('quote_request', getBudgetValue(budget), {
+    service: document.querySelector('[name="service"]:checked').value,
+    budget_range: budget,
+    timeline: document.querySelector('[name="timeline"]').value,
+    steps_completed: '3'
+  });
+});
+
+// Track abandonment
+window.addEventListener('beforeunload', function() {
+  if (currentStep > 1 && currentStep < 3) {
+    sealmetrics.micro('form_abandoned', {
+      form_name: 'quote_wizard',
+      last_step: currentStep.toString()
+    });
+  }
+});
+```
+
+---
+
+## Platform-Specific Implementations
+
+### WordPress (Contact Form 7)
+
+```php
+// In functions.php
+add_action('wp_footer', function() {
+  ?>
+  <script>
+    document.addEventListener('wpcf7mailsent', function(event) {
+      var formId = event.detail.contactFormId;
+      var formName = event.detail.containerElement.dataset.formName || 'contact';
+
+      sealmetrics.conv('lead', 0, {
+        form_name: formName,
+        form_id: formId.toString()
+      });
+    });
+  </script>
+  <?php
+});
+```
+
+### WordPress (Gravity Forms)
+
+```php
+add_action('gform_after_submission', function($entry, $form) {
+  ?>
+  <script>
+    sealmetrics.conv('lead', 0, {
+      form_name: '<?php echo esc_js($form['title']); ?>',
+      form_id: '<?php echo $form['id']; ?>'
+    });
+  </script>
+  <?php
+}, 10, 2);
+```
+
+### HubSpot Forms
+
+```javascript
+window.addEventListener('message', function(e) {
+  if (e.data.type === 'hsFormCallback' && e.data.eventName === 'onFormSubmit') {
+    sealmetrics.conv('lead', 0, {
+      form_name: e.data.formId,
+      source: 'hubspot'
+    });
+  }
+});
+```
+
+### Typeform
+
+```javascript
+// Typeform embed callbacks
+window.tf.createWidget('<typeform-id>', {
+  container: document.querySelector('#typeform'),
+  onSubmit: function(payload) {
+    sealmetrics.conv('lead', 0, {
+      form_name: 'typeform_intake',
+      response_id: payload.responseId
+    });
+  }
+});
+```
+
+---
+
+## Complete Lead Gen Funnel
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   LEAD GENERATION FUNNEL                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   AWARENESS                                                      │
+│   ─────────                                                      │
+│   Blog Post ──► Service Page ──► Case Study                    │
+│   (pageview)    (pageview)       (micro: view_case_study)       │
+│                                                                  │
+│   INTEREST                                                       │
+│   ────────                                                       │
+│   Scroll 50% ──► Video Watch ──► Resource Download              │
+│   (micro)        (micro)         (CONV: content_download)       │
+│                                                                  │
+│   CONSIDERATION                                                  │
+│   ─────────────                                                  │
+│   CTA Click ──► Form Start ──► Form Steps                       │
+│   (micro)       (micro)        (micro x N)                      │
+│                                                                  │
+│   CONVERSION                                                     │
+│   ──────────                                                     │
+│   Form Submit ──► Demo/Call Booked                              │
+│   (CONV: lead)    (CONV: meeting_booked)                        │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Lead Scoring with Properties
+
+Use properties to enable lead scoring in your CRM:
+
+```javascript
+sealmetrics.conv('lead', 0, {
+  // Lead source
+  source: getUtmSource(),
+  medium: getUtmMedium(),
+  campaign: getUtmCampaign(),
+
+  // Qualification signals
+  company_size: formData.employees,      // 'small', 'medium', 'enterprise'
+  budget_range: formData.budget,         // 'under_5k', '5k_10k', etc.
+  timeline: formData.timeline,           // 'immediate', '1_month', '3_months'
+  decision_maker: formData.role,         // 'ceo', 'director', 'manager'
+
+  // Engagement signals
+  pages_viewed: sessionStorage.getItem('pages_viewed'),
+  time_on_site: Math.round((Date.now() - sessionStart) / 1000).toString(),
+  content_downloaded: sessionStorage.getItem('downloads') || '0'
+});
+```
+
+---
+
+## Key Metrics to Track
+
+| Metric | Formula | Events |
+|--------|---------|--------|
+| **Visitor → Lead** | leads / visitors | pageview, lead |
+| **Form Start Rate** | form_start / page visitors | pageview, form_start |
+| **Form Completion** | lead / form_start | form_start, lead |
+| **Content Download Rate** | downloads / visitors | pageview, content_download |
+| **Lead by Source** | leads by utm_source | lead (with properties) |
+| **Lead Quality** | weighted by budget/company size | lead (with properties) |
+
+---
+
+## Dashboard Analysis
+
+After implementing:
+
+### Traffic Analysis
+- Which channels bring the most leads
+- Best performing landing pages
+- Content that drives conversions
+
+### Funnel Optimization
+- Form abandonment points
+- CTA click-through rates
+- Time from first visit to lead
+
+### Lead Quality
+- Leads by company size
+- Budget distribution
+- Timeline urgency
+
+### Content Performance
+- Case studies that influence leads
+- Blog posts in conversion paths
+- Download-to-lead correlation

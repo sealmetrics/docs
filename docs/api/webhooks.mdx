@@ -1,0 +1,588 @@
+---
+sidebar_position: 10
+title: Webhooks
+description: Real-time event notifications via HTTP callbacks.
+---
+
+# Webhooks API
+
+Receive real-time notifications when events occur in your Sealmetrics account.
+
+## Overview
+
+Webhooks allow you to:
+- Receive instant notifications when alerts trigger
+- Get notified when exports complete
+- Integrate with external systems (Slack, Zapier, custom apps)
+- Build real-time dashboards and alerting systems
+
+All webhooks are:
+- Signed with HMAC-SHA256 for security
+- Retried automatically on failure (up to 5 attempts)
+- Logged for debugging and replay
+
+---
+
+## Endpoints
+
+### List Webhook Endpoints
+
+```http
+GET /webhooks?account_id={account_id}
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `account_id` | string | Required. Account ID |
+| `include_inactive` | boolean | Include disabled endpoints |
+| `limit` | int | Max results (default: 50) |
+| `offset` | int | Pagination offset |
+
+**Response:**
+
+```json
+{
+  "endpoints": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "account_id": "acme",
+      "name": "Slack Alerts",
+      "url": "https://hooks.slack.com/services/xxx",
+      "event_types": ["alert.triggered"],
+      "is_active": true,
+      "is_verified": true,
+      "secret_last_4": "a1b2",
+      "created_at": "2025-01-01T10:00:00Z",
+      "last_delivery_at": "2025-01-10T14:30:00Z"
+    }
+  ],
+  "total": 1
+}
+```
+
+---
+
+### Create Webhook Endpoint
+
+```http
+POST /webhooks?account_id={account_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "name": "My Webhook",
+  "url": "https://my-app.com/webhooks/sealmetrics",
+  "event_types": ["alert.triggered", "export.completed"],
+  "headers": {
+    "X-Custom-Header": "value"
+  },
+  "description": "Notifications for my dashboard"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Display name (max 255 chars) |
+| `url` | string | Yes | HTTPS endpoint URL |
+| `event_types` | string[] | Yes | Events to subscribe to |
+| `headers` | object | No | Custom headers to include |
+| `description` | string | No | Description for reference |
+
+**Response (201 Created):**
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "account_id": "acme",
+  "name": "My Webhook",
+  "url": "https://my-app.com/webhooks/sealmetrics",
+  "event_types": ["alert.triggered", "export.completed"],
+  "secret": "whsec_abc123def456...",
+  "is_active": true,
+  "is_verified": false,
+  "created_at": "2025-01-10T14:30:00Z"
+}
+```
+
+**Important:** The `secret` is only returned once. Store it securely for signature verification.
+
+---
+
+### Get Webhook Endpoint
+
+```http
+GET /webhooks/{endpoint_id}?account_id={account_id}
+```
+
+---
+
+### Update Webhook Endpoint
+
+```http
+PATCH /webhooks/{endpoint_id}?account_id={account_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "name": "Updated Name",
+  "url": "https://new-url.com/webhook",
+  "event_types": ["alert.triggered"],
+  "is_active": false
+}
+```
+
+All fields are optional. Only provided fields are updated.
+
+---
+
+### Delete Webhook Endpoint
+
+```http
+DELETE /webhooks/{endpoint_id}?account_id={account_id}
+```
+
+Deletes the endpoint and all delivery history.
+
+---
+
+## Event Types
+
+### List Available Event Types
+
+```http
+GET /webhooks/event-types
+```
+
+**Response:**
+
+```json
+{
+  "event_types": [
+    {
+      "type": "alert.triggered",
+      "name": "Alert Triggered",
+      "description": "Fired when an anomaly alert triggers"
+    },
+    {
+      "type": "alert.resolved",
+      "name": "Alert Resolved",
+      "description": "Fired when an alert condition resolves"
+    },
+    {
+      "type": "export.completed",
+      "name": "Export Completed",
+      "description": "Fired when a bulk export finishes"
+    },
+    {
+      "type": "export.failed",
+      "name": "Export Failed",
+      "description": "Fired when a bulk export fails"
+    },
+    {
+      "type": "insight.created",
+      "name": "Insight Created",
+      "description": "Fired when LENS generates a new insight"
+    }
+  ]
+}
+```
+
+---
+
+## Testing
+
+### Send Test Webhook
+
+```http
+POST /webhooks/{endpoint_id}/test?account_id={account_id}
+```
+
+Sends a test event to verify your endpoint is correctly configured.
+
+**Request Body (optional):**
+
+```json
+{
+  "event_type": "alert.triggered",
+  "include_sample_context": true
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "delivery_id": "d-12345",
+  "response_status": 200,
+  "response_time_ms": 145,
+  "verified": true
+}
+```
+
+On first successful test, the endpoint is marked as `verified`.
+
+---
+
+## Secret Rotation
+
+### Rotate Webhook Secret
+
+```http
+POST /webhooks/{endpoint_id}/rotate-secret?account_id={account_id}
+```
+
+Generates a new secret key. The previous secret remains valid for 24 hours to allow graceful migration.
+
+**Response:**
+
+```json
+{
+  "new_secret": "whsec_new123...",
+  "previous_secret_expires_at": "2025-01-11T14:30:00Z",
+  "secret_version": 2
+}
+```
+
+**Important:** Update your signature verification code with the new secret before the previous one expires.
+
+---
+
+## Deliveries
+
+### List Deliveries
+
+```http
+GET /webhooks/{endpoint_id}/deliveries?account_id={account_id}
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `status` | string | Filter: `pending`, `success`, `failed`, `retrying` |
+| `limit` | int | Max results (default: 50) |
+| `offset` | int | Pagination offset |
+
+**Response:**
+
+```json
+{
+  "deliveries": [
+    {
+      "id": "d-12345",
+      "delivery_id": "550e8400-e29b-41d4-a716-446655440001",
+      "event_type": "alert.triggered",
+      "status": "success",
+      "attempt_number": 1,
+      "response_status_code": 200,
+      "response_time_ms": 145,
+      "created_at": "2025-01-10T14:30:00Z",
+      "completed_at": "2025-01-10T14:30:01Z"
+    }
+  ],
+  "total": 156
+}
+```
+
+### Get Delivery Details
+
+```http
+GET /webhooks/{endpoint_id}/deliveries/{delivery_id}?account_id={account_id}
+```
+
+Returns full delivery details including payload and response.
+
+**Response:**
+
+```json
+{
+  "id": "d-12345",
+  "delivery_id": "550e8400-e29b-41d4-a716-446655440001",
+  "event_type": "alert.triggered",
+  "status": "success",
+  "payload": {
+    "event": "alert.triggered",
+    "data": {...}
+  },
+  "payload_size_bytes": 1234,
+  "attempt_number": 1,
+  "response_status_code": 200,
+  "response_body": "OK",
+  "response_time_ms": 145,
+  "created_at": "2025-01-10T14:30:00Z",
+  "completed_at": "2025-01-10T14:30:01Z"
+}
+```
+
+### Replay Delivery
+
+```http
+POST /webhooks/{endpoint_id}/deliveries/{delivery_id}/replay?account_id={account_id}
+```
+
+Replays a failed delivery with the same payload.
+
+**Request Body (optional):**
+
+```json
+{
+  "force": true
+}
+```
+
+Set `force: true` to replay a delivery that already succeeded.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "new_delivery_id": "550e8400-e29b-41d4-a716-446655440002",
+  "message": "Delivery queued for retry"
+}
+```
+
+### Bulk Replay
+
+```http
+POST /webhooks/bulk/replay?account_id={account_id}
+```
+
+Replay multiple failed deliveries at once.
+
+**Request Body:**
+
+```json
+{
+  "delivery_ids": [
+    "550e8400-e29b-41d4-a716-446655440001",
+    "550e8400-e29b-41d4-a716-446655440002"
+  ],
+  "force": false
+}
+```
+
+---
+
+## Statistics
+
+### Get Endpoint Statistics
+
+```http
+GET /webhooks/{endpoint_id}/stats?account_id={account_id}
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `hours` | int | Hours to look back (default: 24, max: 720) |
+
+**Response:**
+
+```json
+{
+  "endpoint": {...},
+  "stats": {
+    "total_deliveries": 156,
+    "successful": 150,
+    "failed": 4,
+    "pending": 2,
+    "success_rate": 96.2,
+    "avg_response_time_ms": 125
+  },
+  "recent_failures": [
+    {
+      "delivery_id": "d-12345",
+      "error_type": "timeout",
+      "error_message": "Request timed out after 30s",
+      "created_at": "2025-01-10T14:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## Webhook Payload
+
+All webhooks are sent as HTTP POST requests with JSON body:
+
+```json
+{
+  "event": "alert.triggered",
+  "event_id": "evt_abc123",
+  "timestamp": "2025-01-10T14:30:00Z",
+  "account_id": "acme",
+  "data": {
+    // Event-specific data
+  }
+}
+```
+
+### Alert Triggered
+
+```json
+{
+  "event": "alert.triggered",
+  "event_id": "evt_abc123",
+  "timestamp": "2025-01-10T14:30:00Z",
+  "account_id": "acme",
+  "data": {
+    "alert_id": 123,
+    "rule_name": "Traffic Drop",
+    "severity": "warning",
+    "message": "Traffic dropped 35% compared to previous period",
+    "metric": "entrances",
+    "current_value": 650,
+    "expected_value": 1000,
+    "threshold_percent": 25,
+    "triggered_at": "2025-01-10T14:30:00Z"
+  }
+}
+```
+
+### Export Completed
+
+```json
+{
+  "event": "export.completed",
+  "event_id": "evt_def456",
+  "timestamp": "2025-01-10T15:00:00Z",
+  "account_id": "acme",
+  "data": {
+    "export_id": "exp_abc123",
+    "export_type": "pageviews",
+    "row_count": 15234,
+    "file_size_bytes": 2456789,
+    "download_url": "https://my.sealmetrics.com/api/v1/exports/download/token123",
+    "expires_at": "2025-01-17T15:00:00Z"
+  }
+}
+```
+
+---
+
+## Signature Verification
+
+All webhooks include a signature header for verification:
+
+```
+X-Sealmetrics-Signature: sha256=abc123...
+X-Sealmetrics-Timestamp: 1704898200
+```
+
+### Verification Steps
+
+1. Extract the timestamp and signature from headers
+2. Prepare the signed payload: `{timestamp}.{request_body}`
+3. Compute HMAC-SHA256 with your webhook secret
+4. Compare with the provided signature
+
+### Python Example
+
+```python
+import hmac
+import hashlib
+
+def verify_webhook(request_body: bytes, signature: str, timestamp: str, secret: str) -> bool:
+    # Prepare signed payload
+    signed_payload = f"{timestamp}.{request_body.decode()}"
+
+    # Compute expected signature
+    expected = hmac.new(
+        secret.encode(),
+        signed_payload.encode(),
+        hashlib.sha256
+    ).hexdigest()
+
+    # Extract signature value (remove 'sha256=' prefix)
+    provided = signature.replace('sha256=', '')
+
+    return hmac.compare_digest(expected, provided)
+```
+
+### Node.js Example
+
+```javascript
+const crypto = require('crypto');
+
+function verifyWebhook(body, signature, timestamp, secret) {
+  const signedPayload = `${timestamp}.${body}`;
+
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(signedPayload)
+    .digest('hex');
+
+  const provided = signature.replace('sha256=', '');
+
+  return crypto.timingSafeEqual(
+    Buffer.from(expected),
+    Buffer.from(provided)
+  );
+}
+```
+
+---
+
+## Best Practices
+
+### 1. Verify Signatures
+
+Always verify webhook signatures to ensure requests are from Sealmetrics:
+
+```python
+if not verify_webhook(request.body, request.headers['X-Sealmetrics-Signature'],
+                       request.headers['X-Sealmetrics-Timestamp'], WEBHOOK_SECRET):
+    return Response(status=401)
+```
+
+### 2. Respond Quickly
+
+Return a 2xx response within 30 seconds. Process asynchronously if needed:
+
+```python
+@app.post("/webhook")
+async def handle_webhook(request: Request, background_tasks: BackgroundTasks):
+    # Verify signature first
+    verify_webhook(...)
+
+    # Queue for processing
+    background_tasks.add_task(process_webhook, request.json())
+
+    # Return immediately
+    return {"received": True}
+```
+
+### 3. Handle Duplicates
+
+Webhooks may be retried. Use `event_id` for idempotency:
+
+```python
+if redis.sismember("processed_events", event_id):
+    return {"status": "already_processed"}
+
+redis.sadd("processed_events", event_id)
+redis.expire("processed_events", 86400 * 7)  # 7 days
+```
+
+### 4. Use HTTPS
+
+Always use HTTPS endpoints. HTTP endpoints are rejected.
+
+### 5. Rotate Secrets Periodically
+
+Rotate webhook secrets every 90 days for security:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/webhooks/{id}/rotate-secret?account_id=acme" \
+  -H "X-API-Key: sm_your_key"
+```
