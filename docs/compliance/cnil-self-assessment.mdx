@@ -1,0 +1,458 @@
+---
+title: "CNIL Self-Assessment: Sealmetrics Compliance"
+sidebar_label: "CNIL Auto-Evaluation"
+sidebar_position: 2
+description: "Official CNIL self-assessment documentation for Sealmetrics analytics - demonstrating compliance with French consent exemption requirements."
+---
+
+# CNIL Self-Assessment: Sealmetrics
+
+This document provides the official self-assessment of Sealmetrics against CNIL's criteria for consent-exempt audience measurement tools, as defined in the [CNIL's auto-evaluation framework](https://www.cnil.fr/sites/default/files/2025-07/outil_d_auto-evaluation_mesure_d_audience.pdf) (July 2025).
+
+:::info Important Notice
+This self-assessment follows CNIL guidelines but **does not constitute CNIL certification**. Per CNIL guidance, providers cannot claim to be "certified" or "validated" by CNIL. This document demonstrates how Sealmetrics meets the published exemption criteria when properly configured.
+:::
+
+---
+
+## Executive Summary
+
+| Category | Status |
+|----------|--------|
+| **5 Permitted Objectives** | ✅ All compliant |
+| **14 Technical Criteria** | ✅ All compliant |
+| **Consent Exemption Eligible** | ✅ Yes |
+| **Last Assessment Date** | February 2026 |
+
+---
+
+## Part 1: Permitted Objectives
+
+CNIL allows consent exemption **only** when analytics are used for these 5 specific purposes:
+
+### Objective 1: Performance Measurement
+**Requirement:** Measure website/application performance metrics.
+
+| Criterion | Sealmetrics Compliance |
+|-----------|----------------------|
+| Measures page load times | ✅ Yes |
+| Tracks error rates | ✅ Yes |
+| Limited to performance data | ✅ Yes - no behavioral profiling |
+
+**Evidence:** Sealmetrics tracks pageviews, load events, and technical errors exclusively for performance analysis.
+
+---
+
+### Objective 2: Navigation Problem Detection
+**Requirement:** Identify navigation issues affecting user experience.
+
+| Criterion | Sealmetrics Compliance |
+|-----------|----------------------|
+| Detects 404 errors | ✅ Yes |
+| Identifies broken user flows | ✅ Yes |
+| Tracks exit pages | ✅ Yes |
+
+**Evidence:** Funnel reports and page analytics identify drop-off points and navigation issues.
+
+---
+
+### Objective 3: Technical & Ergonomic Optimization
+**Requirement:** Optimize technical performance and user experience.
+
+| Criterion | Sealmetrics Compliance |
+|-----------|----------------------|
+| Device/browser analysis | ✅ Yes |
+| Screen resolution data | ✅ Yes |
+| Used only for optimization | ✅ Yes - not for targeting |
+
+**Evidence:** Device reports provide aggregated, anonymized data for UX optimization only.
+
+---
+
+### Objective 4: Server Capacity Estimation
+**Requirement:** Estimate necessary server infrastructure.
+
+| Criterion | Sealmetrics Compliance |
+|-----------|----------------------|
+| Traffic volume metrics | ✅ Yes |
+| Peak usage identification | ✅ Yes |
+| Real-time visitor counts | ✅ Yes |
+
+**Evidence:** Real-time dashboard and traffic reports enable infrastructure planning.
+
+---
+
+### Objective 5: Content Analysis
+**Requirement:** Analyze which content is consulted by visitors.
+
+| Criterion | Sealmetrics Compliance |
+|-----------|----------------------|
+| Page view tracking | ✅ Yes |
+| Content grouping | ✅ Yes |
+| Aggregated statistics only | ✅ Yes |
+
+**Evidence:** Pages report shows aggregated content performance without individual user tracking.
+
+---
+
+## Part 2: Technical Criteria (14 Points)
+
+### Criterion 1: Purpose Limitation
+**Requirement:** Tool must be used exclusively for audience measurement for the publisher's own account.
+
+| Aspect | Compliance |
+|--------|------------|
+| Single-purpose tool | ✅ Sealmetrics is exclusively for analytics |
+| Publisher's own account | ✅ Each client has isolated account |
+| No secondary uses | ✅ No advertising, profiling, or resale |
+
+**Configuration:** Default configuration. No additional setup required.
+
+---
+
+### Criterion 2: Anonymous Statistical Output
+**Requirement:** Must produce only anonymous statistical data.
+
+| Aspect | Compliance |
+|--------|------------|
+| Aggregated reports | ✅ All reports show aggregated data |
+| No individual user data export | ✅ Cannot export individual sessions |
+| Statistical anonymization | ✅ Data aggregated before display |
+
+**Configuration:** Built into platform architecture. Cannot be disabled.
+
+---
+
+### Criterion 3: No Cross-Site Tracking
+**Requirement:** Cannot track users across different websites or applications.
+
+| Aspect | Compliance |
+|--------|------------|
+| First-party only | ✅ No third-party cookies |
+| Domain-isolated identifiers | ✅ Session IDs unique per domain |
+| No unified IDs | ✅ No cross-domain identification |
+
+**Technical Implementation:**
+```
+Session ID scope: Single domain only
+Cookie scope: First-party, same-site
+Cross-domain tracking: Not possible by design
+```
+
+---
+
+### Criterion 4: No Data Cross-Referencing
+**Requirement:** Cannot cross-reference analytics data with other processing activities.
+
+| Aspect | Compliance |
+|--------|------------|
+| Isolated data processing | ✅ Analytics data stays in Sealmetrics |
+| No CRM integration for profiling | ✅ No user-level data merge |
+| No external enrichment | ✅ No third-party data added |
+
+**Configuration:** Platform architecture prevents data cross-referencing. API exports only aggregated statistics.
+
+---
+
+### Criterion 5: No Third-Party Data Transmission
+**Requirement:** Cannot transmit non-anonymized data to third parties.
+
+| Aspect | Compliance |
+|--------|------------|
+| No data sales | ✅ Sealmetrics never sells data |
+| No third-party sharing | ✅ No data shared with external parties |
+| Client owns their data | ✅ Data belongs exclusively to client |
+
+**Legal Basis:** [Sealmetrics Privacy Policy](https://sealmetrics.com/privacy-policy) and [DPA](https://sealmetrics.com/dpa) guarantee no third-party data sharing.
+
+---
+
+### Criterion 6: Cookie Lifetime ≤ 13 Months
+**Requirement:** Cookie validity must not exceed 13 months, without automatic renewal.
+
+| Aspect | Compliance |
+|--------|------------|
+| Cookie duration | ✅ **No persistent cookies used** |
+| Session-based identification | ✅ Session IDs expire with browser session |
+| No automatic renewal | ✅ N/A - no persistent storage |
+
+**Technical Implementation:**
+```
+Storage method: Session-based (no cookies in default mode)
+SuperPrivacy mode: Zero storage (isolated hits)
+Maximum theoretical lifetime: Browser session only
+```
+
+**Note:** Sealmetrics exceeds this requirement by not using persistent cookies at all in standard configuration.
+
+---
+
+### Criterion 7: Data Retention ≤ 25 Months
+**Requirement:** Collected data must not be retained beyond 25 months.
+
+| Aspect | Compliance |
+|--------|------------|
+| Analytics data retention | ✅ 25 months maximum |
+| Automatic deletion | ✅ Data purged after retention period |
+| Raw logs retention | ✅ 14 days only |
+
+**Data Retention Schedule:**
+| Data Type | Retention Period |
+|-----------|-----------------|
+| Raw request logs | 14 days |
+| Aggregated analytics | 25 months |
+| Account configuration | Until account deletion |
+
+---
+
+### Criterion 8: IP Address Anonymization
+**Requirement:** IP addresses must be anonymized (last octet removed minimum).
+
+| Aspect | Compliance |
+|--------|------------|
+| IP processing | ✅ **IP addresses not collected** |
+| Geolocation method | ✅ Derived from timezone, not IP |
+| No IP storage | ✅ IP never stored or logged |
+
+**Technical Implementation:**
+```javascript
+// Sealmetrics does NOT collect IP addresses
+// Country detection uses browser timezone API:
+Intl.DateTimeFormat().resolvedOptions().timeZone
+```
+
+**Note:** Sealmetrics exceeds this requirement by not processing IP addresses at all.
+
+---
+
+### Criterion 9: Geolocation Precision Limit
+**Requirement:** Geolocation must not be more precise than postal code level.
+
+| Aspect | Compliance |
+|--------|------------|
+| Location precision | ✅ Country level only |
+| No precise geolocation | ✅ No city/region/postal code |
+| Privacy-preserving method | ✅ Timezone-based detection |
+
+**Geolocation Data Collected:**
+- Country (derived from timezone)
+- No region, city, or postal code
+- No GPS or IP-based location
+
+---
+
+### Criterion 10: Independent Data Collection Per Publisher
+**Requirement:** For services serving multiple publishers, data collection must be independent for each.
+
+| Aspect | Compliance |
+|--------|------------|
+| Client data isolation | ✅ Complete separation |
+| No shared identifiers | ✅ Each account has unique tracking |
+| Independent databases | ✅ Logical separation per account |
+
+**Architecture:**
+```
+Account A ──► Isolated dataset A ──► Reports A only
+Account B ──► Isolated dataset B ──► Reports B only
+                    ↓
+         No cross-account access possible
+```
+
+---
+
+### Criterion 11: Totally Independent Trackers
+**Requirement:** Trackers must be completely independent with no interdependencies.
+
+| Aspect | Compliance |
+|--------|------------|
+| Unique tracking IDs | ✅ Each account has unique ID |
+| No shared infrastructure impact | ✅ Client A cannot affect Client B |
+| Independent configuration | ✅ Each account configured separately |
+
+**Implementation:**
+```html
+<!-- Each client gets unique, independent tracker -->
+<script src="https://t.sealmetrics.com/t.js?id=UNIQUE_ACCOUNT_ID" defer></script>
+```
+
+---
+
+### Criterion 12: User Information Requirement
+**Requirement:** Users must be informed about analytics via privacy policy.
+
+| Aspect | Compliance |
+|--------|------------|
+| Documentation provided | ✅ Privacy policy template available |
+| Clear information | ✅ Plain language explanation |
+| Purpose explanation | ✅ Audience measurement stated |
+
+**Recommended Privacy Policy Text:**
+```
+This website uses Sealmetrics for audience measurement. This tool
+is configured to comply with CNIL guidelines for consent exemption.
+It collects anonymous statistical data only, does not use cookies,
+and does not track you across websites. You can opt out at any time
+at [opt-out link].
+```
+
+---
+
+### Criterion 13: Opt-Out Mechanism
+**Requirement:** Users must have ability to refuse audience measurement.
+
+| Aspect | Compliance |
+|--------|------------|
+| Opt-out available | ✅ Yes |
+| Easy to access | ✅ Single-click opt-out |
+| Persistent opt-out | ✅ Remembered via localStorage |
+
+**Opt-Out Implementation:**
+```javascript
+// Users can opt out with:
+localStorage.setItem('sealmetrics_optout', 'true');
+
+// Or via opt-out page:
+// https://sealmetrics.com/opt-out
+```
+
+---
+
+### Criterion 14: No Reuse by Provider
+**Requirement:** Analytics provider cannot reuse data for their own commercial purposes.
+
+| Aspect | Compliance |
+|--------|------------|
+| No data monetization | ✅ Sealmetrics never sells data |
+| No model training | ✅ Client data not used for AI/ML |
+| No benchmarking without consent | ✅ No cross-client analysis |
+
+**Legal Guarantee:** Our [Terms of Service](https://sealmetrics.com/terms) and [DPA](https://sealmetrics.com/dpa) legally prohibit any reuse of client data.
+
+---
+
+## Part 3: Data Processing Details
+
+### Data Collected
+
+| Data Point | Collected | Purpose | Anonymization |
+|------------|-----------|---------|---------------|
+| Page URL | ✅ | Content analysis | Aggregated |
+| Referrer | ✅ | Traffic source | Aggregated |
+| User agent | ✅ | Device analysis | Aggregated |
+| Screen size | ✅ | UX optimization | Aggregated |
+| Timezone | ✅ | Country detection | Country only |
+| Session ID | ✅ | Visit counting | Temporary, hashed |
+| IP address | ❌ | Not collected | N/A |
+| Email/name | ❌ | Not collected | N/A |
+| Precise location | ❌ | Not collected | N/A |
+
+### Data NOT Collected
+
+Sealmetrics explicitly does **not** collect:
+- IP addresses
+- Email addresses or personal identifiers
+- Precise geolocation (GPS, city, postal code)
+- Device fingerprints
+- Cross-site identifiers
+- Advertising IDs
+- Social media profiles
+
+---
+
+## Part 4: Infrastructure & Security
+
+### Data Location
+
+| Aspect | Detail |
+|--------|--------|
+| **Processing location** | Dublin, Ireland (EU) |
+| **Data storage** | EU only |
+| **Subprocessors** | EU-based only |
+| **International transfers** | None required |
+
+### Security Measures
+
+- TLS 1.3 encryption in transit
+- AES-256 encryption at rest
+- SOC 2 Type II compliant infrastructure
+- Regular security audits
+- GDPR Article 32 technical measures
+
+---
+
+## Part 5: Configuration Checklist
+
+To ensure CNIL compliance, verify your Sealmetrics configuration:
+
+### Required Settings ✅
+
+- [ ] Standard tracking mode enabled (not debug mode)
+- [ ] No custom user ID implementation
+- [ ] No PII in custom properties
+- [ ] Privacy policy updated with Sealmetrics mention
+- [ ] Opt-out mechanism available to users
+
+### Recommended Settings
+
+- [ ] SuperPrivacy mode for maximum privacy
+- [ ] Content grouping for aggregated analysis
+- [ ] Conversion tracking without PII
+
+### Prohibited Configurations ❌
+
+- [ ] Do NOT pass email addresses as properties
+- [ ] Do NOT use custom user IDs for cross-session tracking
+- [ ] Do NOT combine with advertising/remarketing tools
+- [ ] Do NOT export individual-level data for profiling
+
+---
+
+## Part 6: Compliance Statement
+
+### Official Declaration
+
+Sealmetrics declares that:
+
+1. Our solution **meets the CNIL criteria** for consent-exempt audience measurement
+2. When properly configured, Sealmetrics **can be implemented without requiring user consent** under Article 82 of French Data Protection Law
+3. We provide **documentation and configuration guidance** to ensure compliant implementation
+4. We **do not reuse client data** for any commercial purpose
+
+### What This Means
+
+Publishers using Sealmetrics in France can:
+- ✅ Measure website traffic without consent banners
+- ✅ Track conversions for their own business analysis
+- ✅ Analyze content performance
+- ✅ Monitor technical performance
+
+Publishers **cannot**:
+- ❌ Claim Sealmetrics is "CNIL certified" or "CNIL validated"
+- ❌ Use Sealmetrics data for advertising purposes
+- ❌ Combine Sealmetrics with profiling tools and claim exemption
+
+---
+
+## Part 7: Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | February 2026 | Initial self-assessment based on CNIL July 2025 framework |
+
+---
+
+## References
+
+- [CNIL - Cookies: solutions pour les outils de mesure d'audience](https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies-solutions-pour-les-outils-de-mesure-daudience)
+- [CNIL - Self-Assessment Tool (PDF)](https://www.cnil.fr/sites/default/files/2025-07/outil_d_auto-evaluation_mesure_d_audience.pdf)
+- [CNIL - Sheet n°16: Use analytics on your websites](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications)
+- [Sealmetrics Privacy Policy](https://sealmetrics.com/privacy-policy)
+- [Sealmetrics DPA](https://sealmetrics.com/dpa)
+
+---
+
+## Contact
+
+For compliance questions or DPO inquiries:
+- **Email:** privacy@sealmetrics.com
+- **DPO Contact:** dpo@sealmetrics.com
