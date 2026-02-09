@@ -208,14 +208,53 @@ Think of this as a European alternative/complement to initiatives like Global Pr
 
 ## Practical Implications
 
+:::warning Reality Check: Cookie Banners Won't Fully Disappear
+While the Digital Omnibus promises significant relief, legal analysts note that cookie banners will likely persist in many scenarios. The exemptions are narrower than headlines suggest, and information obligations still require some form of user notification.
+:::
+
+### Why Cookie Banners May Persist
+
+Despite the reforms, several factors will keep cookie banners alive for many websites:
+
+**1. Narrow Exemptions**
+
+The Article 88a(3)(c) exemption applies only to:
+- Aggregated data (not individual tracking)
+- Controller's own use (not shared with third parties)
+- The specific service being measured
+
+Most third-party analytics tools, advertising pixels, and cross-site tracking fall **outside** these exemptions.
+
+**2. Information Obligations Remain**
+
+Even when consent isn't required, GDPR's transparency requirements (Articles 13-14) still mandate informing users about data processing. This may require:
+- Privacy policy updates (minimum)
+- Some form of notification interface (likely)
+
+**3. Hybrid Solutions Expected**
+
+Legal experts predict many websites will adopt "hybrid" approaches:
+- **Notification-only banners** for exempt processing (no consent button)
+- **Consent banners** for third-party tracking (accept/reject)
+- **Combined banners** explaining both
+
+**4. Browser Signal Delays**
+
+Full browser-based consent management requires:
+- European standards development (ongoing)
+- Website implementation (24 months after entry into force)
+- Browser vendor implementation (48 months after entry into force)
+
+Until browsers widely support automated signals (~2029-2031), manual consent mechanisms will remain necessary for consent-required processing.
+
 ### What Changes for Website Operators
 
 **If you only do first-party analytics for your own use:**
-- ✅ No cookie banner needed
 - ✅ No consent required
 - ✅ Direct cost savings
 - ⚠️ Must be aggregated data
 - ⚠️ Only for your own use (no data sharing)
+- ⚠️ May still need information notice (not consent banner)
 
 **If you use third-party tracking or advertising:**
 - ⚠️ Still need consent
@@ -276,12 +315,12 @@ Think of this as a European alternative/complement to initiatives like Global Pr
 
 ## Key Takeaways
 
-1. **60% of cookie banners will disappear** thanks to consent exemptions
-2. **First-party analytics for own use = no consent needed**
-3. **Third-party tracking still requires consent**
-4. **Better consent UX** when consent is required
-5. **Browser signals coming** in 24-48 months
-6. **€1.64 billion annual savings** from banner elimination
-7. **Unified GDPR framework** replaces fragmented rules
+1. **First-party analytics for own use = no consent needed** (clear win)
+2. **Third-party tracking still requires consent** (no change)
+3. **Cookie banners will reduce but not disappear entirely** — information obligations and third-party tools maintain some form of notification
+4. **Better consent UX** when consent is required (single-click refuse, 6-month cooldown)
+5. **Browser signals coming** in 24-48 months (but full adoption will take longer)
+6. **Hybrid banner solutions** likely for sites mixing first-party and third-party tools
+7. **Unified GDPR framework** replaces fragmented ePrivacy/GDPR cookie rules
 
-The cookie consent reform represents a pragmatic evolution: preserving privacy protections while eliminating the consent fatigue that undermined them. By distinguishing between invasive cross-site tracking and benign first-party measurement, Article 88a promises a better web for users and businesses alike.
+The cookie consent reform represents a pragmatic evolution: preserving privacy protections while reducing consent fatigue. For websites using **only first-party, aggregated analytics** (like Sealmetrics), the path to banner-free operation is clear. For websites mixing multiple tracking tools, the picture is more nuanced — expect simplified banners rather than no banners.

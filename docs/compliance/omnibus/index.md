@@ -17,11 +17,57 @@ The Digital Omnibus is part of the European Commission's broader simplification 
 
 **Published**: November 19, 2025
 
+**Current status**: Under review by European Parliament and Council
+
 **Goal**: Simplify the EU data regulatory framework by:
 - Reducing the number of overlapping regulations
 - Eliminating contradictions and ambiguities
 - Lowering compliance costs
 - Maintaining high standards for data protection and privacy
+
+---
+
+## Current Legislative Status
+
+:::info Last Updated: February 2026
+This section reflects the current state of the legislative process. Check official EU sources for the latest developments.
+:::
+
+### Committee Assignments
+
+The Digital Omnibus proposal (procedure 2025/0360(COD)) has been assigned to **joint committee responsibility**:
+
+| Committee | Role |
+|-----------|------|
+| **ITRE** (Industry, Research and Energy) | Joint lead committee |
+| **LIBE** (Civil Liberties, Justice and Home Affairs) | Joint lead committee |
+
+**Rapporteurs**: Not yet appointed (as of January 2026)
+
+### Open Feedback Periods
+
+The Commission has opened post-adoption feedback opportunities:
+
+| Consultation | Deadline |
+|--------------|----------|
+| Digital Omnibus feedback | **9 March 2026** |
+| Digital Fitness Check | **11 March 2026** |
+
+Organizations can submit feedback through the [Have Your Say portal](https://ec.europa.eu/info/law/better-regulation/have-your-say_en).
+
+### Expected Timeline
+
+| Milestone | Expected Date |
+|-----------|---------------|
+| Committee rapporteur appointments | Q1 2026 |
+| Parliament/Council positions | Q2 2026 |
+| Trilogue negotiations | Summer 2026 |
+| Final adoption | Mid-to-late 2026 |
+| Entry into force | ~Q3 2027 |
+
+**Note**: Timeline may shift based on negotiation complexity and political priorities.
+
+---
 
 ## The Great Consolidation: 5 Laws → 2 Laws
 
@@ -125,11 +171,14 @@ The Data Act absorbs provisions from:
 - Browser signals for machine-readable consent (24-48 month timeline)
 
 **Impact:**
-- 60% of cookies no longer need consent
-- 50% of private websites can eliminate banners
-- 80% of public sector websites can eliminate banners
-- €820M/year business savings
-- €500M/year user productivity gains
+- First-party analytics for own use: **NO CONSENT NEEDED**
+- Third-party tracking: **CONSENT STILL REQUIRED**
+- €820M/year projected business savings
+- €500M/year projected user productivity gains
+
+:::note Realistic Expectations
+While the Commission projects significant banner reduction, legal analysts note that information obligations and third-party tools will maintain some form of notification for many websites. Full banner elimination applies mainly to sites using **only** first-party, aggregated analytics.
+:::
 
 **Learn more**: [Cookie Consent Reform](./cookies-eprivacy.md)
 
@@ -324,11 +373,13 @@ The Data Act absorbs provisions from:
 
 ### When will cookie banners disappear?
 
-**Partial elimination starting mid-2027** (6 months after entry into force, estimated).
+**Partial reduction starting mid-2027** (6 months after entry into force, estimated).
 
-**60% of cookies** will no longer need consent (first-party, aggregated, own use).
+**First-party analytics** for aggregated, own use will no longer need consent.
 
-**40% of cookies** (third-party tracking, advertising) will still require consent.
+**Third-party tracking** (advertising, cross-site) will still require consent.
+
+**Reality check**: Cookie banners will reduce but not fully disappear for most websites. Information obligations and third-party tools will maintain some form of notification. Sites using **only** first-party analytics (like Sealmetrics) have the clearest path to banner-free operation.
 
 ### What happens to the ePrivacy Directive?
 

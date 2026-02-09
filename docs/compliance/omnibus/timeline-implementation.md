@@ -11,9 +11,13 @@ The EU Digital Omnibus follows a carefully phased implementation schedule that g
 
 ## Legislative Process
 
-### November 19, 2025: Proposal Published
+:::info Last Updated: February 2026
+This timeline reflects the current state of the legislative process. Dates are estimates based on typical EU procedures.
+:::
 
-**Status**: Commission proposal adopted and published as COM(2025) 837 final
+### November 19, 2025: Proposal Published ✅
+
+**Status**: Complete
 
 **Documents released**:
 - Proposed Regulation text
@@ -23,21 +27,48 @@ The EU Digital Omnibus follows a carefully phased implementation schedule that g
 
 **What happened**: European Commission initiated the ordinary legislative procedure under Articles 16 and 114 TFEU.
 
-### 2026: Parliamentary and Council Review
+### January 2026: Committee Assignments ✅
+
+**Status**: Complete
+
+The proposal (procedure 2025/0360(COD)) has been assigned to **joint committee responsibility**:
+
+| Committee | Full Name | Focus |
+|-----------|-----------|-------|
+| **ITRE** | Industry, Research and Energy | Data Act consolidation, technical aspects |
+| **LIBE** | Civil Liberties, Justice and Home Affairs | GDPR amendments, privacy aspects |
+
+**Rapporteurs**: Not yet appointed (as of late January 2026)
+
+### Open Feedback Periods 🔄
+
+**Status**: Currently open
+
+| Consultation | Deadline | Link |
+|--------------|----------|------|
+| Digital Omnibus feedback | **9 March 2026** | [Have Your Say](https://ec.europa.eu/info/law/better-regulation/have-your-say_en) |
+| Digital Fitness Check | **11 March 2026** | [Have Your Say](https://ec.europa.eu/info/law/better-regulation/have-your-say_en) |
+
+Organizations can submit formal positions during these periods.
+
+### Q1-Q2 2026: Parliamentary and Council Review 🔄
+
+**Status**: In progress
 
 **European Parliament**:
-- Committee assignment (likely LIBE for GDPR amendments, ITRE for Data Act)
-- Rapporteur appointment
-- Draft report and amendments
-- Committee vote
-- Plenary vote
+- ✅ Committee assignment (ITRE + LIBE joint)
+- 🔄 Rapporteur appointment (expected Q1 2026)
+- ⏳ Draft report and amendments
+- ⏳ Committee vote
+- ⏳ Plenary vote
 
 **Council of the European Union**:
-- Working Party examination
-- COREPER review
-- Council position adoption
+- ✅ Antici Group presentation (November 21, 2025)
+- 🔄 Working Party examination
+- ⏳ COREPER review
+- ⏳ Council position adoption
 
-**Expected duration**: 12-18 months for first reading positions
+**Expected duration**: Parliament/Council positions by Q2 2026
 
 ### 2026-2027: Trilogue Negotiations
 
@@ -94,9 +125,18 @@ All timelines below are calculated **from entry into force** (estimated Q3 2027)
 - No re-asking during valid consent period (Article 88a(4)(b))
 
 **Impact**:
-- 60% of cookie banners can be eliminated
 - First-party analytics without consent becomes lawful
 - Better consent UX where consent is required
+- Third-party tracking still requires consent
+
+:::note Realistic Expectations
+While the Commission projects 60% of cookies will no longer need consent, legal analysts note that:
+- Information obligations may still require some form of notification
+- Hybrid banner solutions are expected for sites with mixed tracking tools
+- Full cookie banner elimination applies mainly to sites using **only** first-party, aggregated analytics
+
+See [Cookie Consent Reform](./cookies-eprivacy.md) for detailed analysis.
+:::
 
 **What to do before this deadline**:
 - [x] Audit analytics and tracking tools
