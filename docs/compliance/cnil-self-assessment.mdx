@@ -291,8 +291,8 @@ Account B ──► Isolated dataset B ──► Reports B only
 This website uses Sealmetrics for audience measurement. This tool
 is configured to comply with CNIL guidelines for consent exemption.
 It collects anonymous statistical data only, does not use cookies,
-and does not track you across websites. You can opt out at any time
-at [opt-out link].
+and does not track you across websites. You can block analytics
+using your browser's privacy settings or an ad blocker.
 ```
 
 ---
@@ -302,18 +302,35 @@ at [opt-out link].
 
 | Aspect | Compliance |
 |--------|------------|
-| Opt-out available | ✅ Yes |
-| Easy to access | ✅ Single-click opt-out |
-| Persistent opt-out | ✅ Remembered via localStorage |
+| Opt-out available | ✅ Yes - via browser settings or site implementation |
+| Easy to access | ✅ Standard browser controls |
+| No individual tracking | ✅ Nothing personal to opt out of |
 
-**Opt-Out Implementation:**
-```javascript
-// Users can opt out with:
-localStorage.setItem('sealmetrics_optout', 'true');
+**Important Context:**
 
-// Or via opt-out page:
-// https://sealmetrics.com/opt-out
+Sealmetrics does **not use localStorage, cookies, or any persistent storage** by default. This means:
+- There is no individual user tracking to opt out of
+- Data is collected as aggregate statistics only
+- Each pageview is independent with no user identification
+
+**Opt-Out Methods:**
+
+1. **Browser-level blocking** - Users can block the tracking script using browser privacy settings or ad blockers
+2. **Publisher-implemented opt-out** - Site owners can implement conditional script loading based on user preference
+
+```html
+<!-- Example: Publisher-implemented opt-out -->
+<script>
+  if (!localStorage.getItem('analytics_optout')) {
+    var s = document.createElement('script');
+    s.src = 'https://pixel.sealmetrics.com/t.js?id=YOUR_ID';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script>
 ```
+
+**Note:** Since Sealmetrics collects only aggregate statistics without individual identification, the opt-out requirement is satisfied by standard browser controls.
 
 ---
 

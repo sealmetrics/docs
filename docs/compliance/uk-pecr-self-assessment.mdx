@@ -76,7 +76,7 @@ The UK analytics exemption requires **all four conditions** to be met:
 This website uses Sealmetrics for audience measurement. This is a privacy-first
 analytics tool that collects aggregate statistics only. It does not use cookies,
 does not track you across websites, and does not collect personal information.
-You can opt out at any time at [opt-out link].
+You can block analytics using your browser's privacy settings or an ad blocker.
 ```
 
 ---
@@ -86,27 +86,39 @@ You can opt out at any time at [opt-out link].
 
 | Criterion | Sealmetrics Compliance |
 |-----------|----------------------|
-| Opt-out available | ✅ Yes |
-| Simple to use | ✅ Single-click opt-out |
+| Opt-out available | ✅ Yes - via browser settings or site implementation |
+| Simple to use | ✅ Standard browser controls |
 | Free of charge | ✅ No cost to user |
-| Easily accessible | ✅ Can be added to any page |
+| Easily accessible | ✅ Built into all modern browsers |
 
-**Opt-Out Implementation:**
-```javascript
-// Users can opt out with:
-localStorage.setItem('sealmetrics_optout', 'true');
+**Important Context:**
 
-// Or via universal opt-out page:
-// https://sealmetrics.com/opt-out
-```
+Sealmetrics does **not use localStorage, cookies, or any persistent storage** by default. This means:
+- There is no individual user tracking to opt out of
+- Data is collected as aggregate statistics only
+- Each pageview is independent with no user identification
 
-**Publisher Implementation:**
+**Opt-Out Methods:**
+
+1. **Browser-level blocking** - Users can block the tracking script using:
+   - Browser privacy settings
+   - Ad blockers (uBlock Origin, etc.)
+   - Privacy extensions
+
+2. **Publisher-implemented opt-out** - Site owners can implement their own opt-out:
 ```html
-<!-- Add to privacy policy or footer -->
-<a href="#" onclick="localStorage.setItem('sealmetrics_optout','true');alert('You have opted out of analytics.');">
-  Opt out of analytics
-</a>
+<!-- Example: Check preference before loading tracker -->
+<script>
+  if (!localStorage.getItem('analytics_optout')) {
+    var s = document.createElement('script');
+    s.src = 'https://pixel.sealmetrics.com/t.js?id=YOUR_ID';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+</script>
 ```
+
+**Note:** Since Sealmetrics collects only aggregate statistics without individual identification, the opt-out requirement is satisfied by standard browser controls that allow users to block any script.
 
 ---
 
