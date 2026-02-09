@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[9565],{12069:e=>{e.exports=JSON.parse('{"tag":{"label":"releases","permalink":"/tags/releases","allTagsPath":"/tags","count":1,"items":[{"id":"changelog","title":"Release Notes","description":"Sealmetrics product updates and announcements","permalink":"/changelog"}],"unlisted":false}}')}}]);
