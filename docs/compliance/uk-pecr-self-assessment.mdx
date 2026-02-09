@@ -1,0 +1,368 @@
+---
+title: "UK PECR Self-Assessment: Sealmetrics Compliance"
+sidebar_label: "UK PECR Auto-Evaluation"
+sidebar_position: 3
+description: "Official UK PECR self-assessment documentation for Sealmetrics analytics - demonstrating compliance with UK analytics exemption requirements under the Data Use and Access Act 2025."
+---
+
+# UK PECR Self-Assessment: Sealmetrics
+
+This document provides the official self-assessment of Sealmetrics against the UK's criteria for consent-exempt analytics under the **Privacy and Electronic Communications Regulations (PECR)** as amended by the **Data Use and Access Act 2025**, effective **February 5, 2026**.
+
+:::info Important Notice
+This self-assessment follows ICO guidelines but **does not constitute ICO certification**. This document demonstrates how Sealmetrics meets the published exemption criteria when properly configured for UK users.
+:::
+
+---
+
+## Executive Summary
+
+| Category | Status |
+|----------|--------|
+| **Analytics Exemption Conditions** | ✅ All compliant |
+| **Aggregate Statistics Purpose** | ✅ Compliant |
+| **User Information Requirement** | ✅ Compliant |
+| **Opt-Out Mechanism** | ✅ Compliant |
+| **No Advertising Use** | ✅ Compliant |
+| **Consent Exemption Eligible** | ✅ Yes |
+| **Last Assessment Date** | February 2026 |
+
+---
+
+## Background: UK PECR Changes 2026
+
+### Data Use and Access Act 2025
+
+The **Data Use and Access Act 2025** (DUAA) received Royal Assent on **November 7, 2025** and takes effect on **February 5, 2026**. It introduces significant changes to UK PECR, including a new exemption for analytics cookies and similar technologies.
+
+### Key Changes for Analytics
+
+Prior to DUAA 2025, UK PECR required consent for **all** cookies except those "strictly necessary" for service delivery. The new legislation introduces an **analytics exemption** similar to existing frameworks in France (CNIL) and other EU member states.
+
+### Legal Reference
+
+> **Section 99 of DUAA 2025** amends PECR Regulation 6 to allow storing or accessing information on a user's terminal equipment without consent when the **sole purpose** is to obtain or compile statistical information about the use of an information society service, subject to specific conditions.
+
+---
+
+## Part 1: Analytics Exemption Conditions
+
+The UK analytics exemption requires **all four conditions** to be met:
+
+### Condition 1: Sole Purpose - Aggregate Statistics
+**Requirement:** The sole purpose must be to obtain or compile statistical information about the use of an information society service.
+
+| Criterion | Sealmetrics Compliance |
+|-----------|----------------------|
+| Purpose limited to statistics | ✅ Yes - only audience measurement |
+| No secondary purposes | ✅ No advertising, profiling, or resale |
+| Aggregate data only | ✅ All reports show aggregated statistics |
+
+**Evidence:** Sealmetrics is a purpose-built analytics tool that produces only aggregate statistical reports. Individual user tracking, profiling, and advertising are architecturally impossible.
+
+---
+
+### Condition 2: Clear User Information
+**Requirement:** The subscriber or user must have been provided with clear and comprehensive information about the purposes of storing or accessing the information.
+
+| Criterion | Sealmetrics Compliance |
+|-----------|----------------------|
+| Information provided | ✅ Privacy policy templates available |
+| Clear language | ✅ Plain English explanations |
+| Comprehensive coverage | ✅ All data collection explained |
+
+**Recommended Privacy Policy Text:**
+```
+This website uses Sealmetrics for audience measurement. This is a privacy-first
+analytics tool that collects aggregate statistics only. It does not use cookies,
+does not track you across websites, and does not collect personal information.
+You can opt out at any time at [opt-out link].
+```
+
+---
+
+### Condition 3: Simple Opt-Out Mechanism
+**Requirement:** The subscriber or user must have been given a simple means, free of charge, of refusing storage or access to that information.
+
+| Criterion | Sealmetrics Compliance |
+|-----------|----------------------|
+| Opt-out available | ✅ Yes |
+| Simple to use | ✅ Single-click opt-out |
+| Free of charge | ✅ No cost to user |
+| Easily accessible | ✅ Can be added to any page |
+
+**Opt-Out Implementation:**
+```javascript
+// Users can opt out with:
+localStorage.setItem('sealmetrics_optout', 'true');
+
+// Or via universal opt-out page:
+// https://sealmetrics.com/opt-out
+```
+
+**Publisher Implementation:**
+```html
+<!-- Add to privacy policy or footer -->
+<a href="#" onclick="localStorage.setItem('sealmetrics_optout','true');alert('You have opted out of analytics.');">
+  Opt out of analytics
+</a>
+```
+
+---
+
+### Condition 4: No Advertising Use
+**Requirement:** The information cannot be used for purposes relating to advertising.
+
+| Criterion | Sealmetrics Compliance |
+|-----------|----------------------|
+| No advertising features | ✅ Not available in Sealmetrics |
+| No ad targeting | ✅ Architecturally impossible |
+| No retargeting data | ✅ No data shared for ads |
+| No ad networks | ✅ No third-party integrations |
+
+**Evidence:** Sealmetrics has no advertising features, no integration with ad platforms, and no capability to share data with advertising networks. The platform is designed exclusively for audience measurement.
+
+---
+
+## Part 2: Permitted Activities Under UK Exemption
+
+The ICO guidance clarifies what activities are permitted under the analytics exemption:
+
+### Permitted Analytics Activities
+
+| Activity | Sealmetrics Support | Compliance |
+|----------|---------------------|------------|
+| Aggregate visitor counts | ✅ Yes | ✅ Compliant |
+| Page interaction metrics | ✅ Yes | ✅ Compliant |
+| Session duration (aggregate) | ✅ Yes | ✅ Compliant |
+| Device and browser info | ✅ Yes (aggregated) | ✅ Compliant |
+| Referrer source analysis | ✅ Yes | ✅ Compliant |
+| A/B testing | ✅ Via events | ✅ Compliant |
+| Coarse geolocation | ✅ Country only | ✅ Compliant |
+| Page load performance | ✅ Yes | ✅ Compliant |
+| Error monitoring | ✅ Yes | ✅ Compliant |
+
+---
+
+### Prohibited Activities (Not Available in Sealmetrics)
+
+| Activity | Sealmetrics | Status |
+|----------|-------------|--------|
+| Individual user tracking | ❌ Not possible | ✅ Compliant |
+| User profiling | ❌ Not possible | ✅ Compliant |
+| Cross-device tracking | ❌ Not possible | ✅ Compliant |
+| Advertising purposes | ❌ Not available | ✅ Compliant |
+| Device fingerprinting | ❌ Not used | ✅ Compliant |
+| Cross-site tracking | ❌ Not possible | ✅ Compliant |
+
+---
+
+## Part 3: Technical Compliance Details
+
+### Data Collection Practices
+
+| Data Point | Collected | Purpose | UK Exemption Status |
+|------------|-----------|---------|---------------------|
+| Page URL | ✅ | Content analysis | ✅ Permitted |
+| Referrer | ✅ | Traffic source | ✅ Permitted |
+| User agent | ✅ | Device analysis | ✅ Permitted |
+| Screen size | ✅ | UX optimization | ✅ Permitted |
+| Timezone | ✅ | Country detection | ✅ Permitted |
+| Session ID | ✅ | Visit counting | ✅ Permitted (temporary) |
+| IP address | ❌ | Not collected | ✅ N/A |
+| Email/name | ❌ | Not collected | ✅ N/A |
+| Precise location | ❌ | Not collected | ✅ N/A |
+
+### Storage Methods
+
+| Method | Sealmetrics Use | UK Exemption Compliance |
+|--------|-----------------|-------------------------|
+| First-party cookies | ❌ Not used by default | ✅ N/A |
+| Third-party cookies | ❌ Never used | ✅ Compliant |
+| localStorage | Session ID only (optional) | ✅ Covered by exemption |
+| Device fingerprinting | ❌ Never used | ✅ Compliant |
+
+### SuperPrivacy Mode
+
+For maximum compliance, Sealmetrics offers **SuperPrivacy Mode** which:
+- Uses zero storage mechanisms
+- Treats each pageview as completely isolated
+- Cannot link hits to sessions
+- Provides the highest level of privacy
+
+```
+SuperPrivacy Mode: Zero storage → Zero exemption requirements
+Standard Mode: Session storage → Covered by UK analytics exemption
+```
+
+---
+
+## Part 4: Comparison with Previous UK Requirements
+
+### Before February 5, 2026
+
+| Requirement | Status |
+|-------------|--------|
+| Consent required for all analytics | ✅ Required |
+| Exception for "strictly necessary" only | Limited |
+| Analytics = consent required | Yes |
+
+### After February 5, 2026
+
+| Requirement | Status |
+|-------------|--------|
+| Analytics exemption available | ✅ Yes |
+| Conditions must be met | 4 conditions |
+| Advertising use prohibited | ✅ Required |
+| Opt-out must be provided | ✅ Required |
+
+---
+
+## Part 5: ICO Enforcement Considerations
+
+### Increased Penalties Under DUAA 2025
+
+The Data Use and Access Act 2025 increases maximum penalties for PECR violations:
+
+| Penalty Type | Maximum |
+|--------------|---------|
+| **Standard maximum** | £17.5 million |
+| **Turnover-based** | 4% of worldwide annual turnover |
+| **Applicable** | Whichever is higher |
+
+### ICO Enforcement Priorities
+
+The ICO has indicated focus on:
+- **Advertising-related cookies** without consent
+- **Third-party tracking** without valid legal basis
+- **Inadequate user information** about data collection
+- **Missing or difficult opt-out mechanisms**
+
+**Sealmetrics Advantage:** By design, Sealmetrics cannot be used for advertising or cross-site tracking, eliminating the highest-risk compliance concerns.
+
+---
+
+## Part 6: Configuration Checklist for UK Compliance
+
+### Required Settings ✅
+
+- [ ] Standard tracking mode enabled
+- [ ] No custom user ID implementation that enables individual tracking
+- [ ] No PII in custom event properties
+- [ ] Privacy policy updated with analytics information
+- [ ] Opt-out mechanism available and easily accessible
+- [ ] No integration with advertising platforms
+
+### Recommended Settings
+
+- [ ] SuperPrivacy mode for highest privacy
+- [ ] Content grouping for aggregate analysis
+- [ ] Conversion tracking without PII
+- [ ] Clear opt-out link in website footer
+
+### Prohibited Configurations ❌
+
+- [ ] Do NOT pass email addresses as properties
+- [ ] Do NOT use custom user IDs for cross-session tracking
+- [ ] Do NOT combine with advertising or remarketing tools
+- [ ] Do NOT share data with third parties for advertising
+- [ ] Do NOT use data for user profiling
+
+---
+
+## Part 7: Compliance Statement
+
+### Official Declaration
+
+Sealmetrics declares that:
+
+1. Our solution **meets the UK PECR analytics exemption criteria** as amended by DUAA 2025
+2. When properly configured, Sealmetrics **can be implemented without requiring user consent** under Regulation 6 of PECR
+3. We provide **documentation and configuration guidance** to ensure compliant implementation
+4. We **do not use client data** for advertising or any prohibited purpose
+
+### What This Means for UK Publishers
+
+Publishers using Sealmetrics in the UK can:
+- ✅ Measure website traffic without consent banners (for analytics)
+- ✅ Track conversions for their own business analysis
+- ✅ Analyze content performance
+- ✅ Monitor technical performance
+
+Publishers **must**:
+- ✅ Provide clear information about analytics in their privacy policy
+- ✅ Offer a simple, free opt-out mechanism
+- ✅ Use analytics data only for aggregate statistics
+
+Publishers **cannot**:
+- ❌ Use analytics data for advertising purposes
+- ❌ Share data with advertising networks
+- ❌ Enable individual user tracking or profiling
+
+---
+
+## Part 8: Data Protection & Security
+
+### Data Location
+
+| Aspect | Detail |
+|--------|--------|
+| **Processing location** | Dublin, Ireland (EU) |
+| **Data storage** | EU only |
+| **UK adequacy** | ✅ EU has UK adequacy decision |
+| **International transfers** | Protected by adequacy |
+
+### UK GDPR Alignment
+
+Sealmetrics also complies with UK GDPR requirements:
+
+| Requirement | Compliance |
+|-------------|------------|
+| Data minimisation | ✅ Only essential data collected |
+| Purpose limitation | ✅ Analytics only |
+| Storage limitation | ✅ 25 months maximum |
+| Security measures | ✅ TLS 1.3, AES-256 encryption |
+
+---
+
+## Part 9: Transition Timeline
+
+### Key Dates
+
+| Date | Event |
+|------|-------|
+| **November 7, 2025** | DUAA 2025 receives Royal Assent |
+| **February 5, 2026** | PECR amendments take effect |
+| **Ongoing** | ICO guidance updates expected |
+
+### Recommended Actions for Publishers
+
+1. **Before February 5, 2026**: Review current analytics setup
+2. **February 5, 2026**: Analytics exemption becomes available
+3. **Ongoing**: Monitor ICO guidance for clarifications
+
+---
+
+## Part 10: Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | February 2026 | Initial self-assessment based on DUAA 2025 |
+
+---
+
+## References
+
+- [Data Use and Access Act 2025](https://www.legislation.gov.uk/ukpga/2025/25/contents/enacted)
+- [ICO - Cookies and similar technologies](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/cookies-and-similar-technologies/)
+- [Privacy and Electronic Communications Regulations 2003](https://www.legislation.gov.uk/uksi/2003/2426/contents)
+- [Sealmetrics Privacy Policy](https://sealmetrics.com/privacy-policy)
+- [Sealmetrics DPA](https://sealmetrics.com/dpa)
+
+---
+
+## Contact
+
+For compliance questions or DPO inquiries:
+- **Email:** privacy@sealmetrics.com
+- **DPO Contact:** dpo@sealmetrics.com
