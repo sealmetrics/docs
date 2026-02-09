@@ -44,23 +44,14 @@ If all these requirements are met, the Session ID is considered **non-identifyin
 
 ## How Sealmetrics Ensures Compliance
 
-Sealmetrics provides two measurement modes to adapt to different privacy levels:
+Sealmetrics uses temporary Session IDs that are fully compliant with CNIL & AEPD consent exemptions:
 
-### 1. Session ID Mode  
-✔ Temporary Session IDs  
-✔ Fully compliant with CNIL & AEPD consent exemptions  
-✔ No persistence  
-✔ No personal identification  
+✔ Temporary Session IDs
+✔ Fully compliant with CNIL & AEPD consent exemptions
+✔ No persistence
+✔ No personal identification
 
 Session IDs are used only within the active session to group hits — never to track or identify users.
-
-### 2. Super-Privacy Mode (Isolated Hits)  
-✔ **No Session IDs at all**  
-✔ No cookies  
-✔ No identifiers  
-✔ Maximum anonymity  
-
-This mode guarantees **absolute compliance** with GDPR, ePrivacy, and the strictest interpretations of privacy law.
 
 ## Summary
 
@@ -69,10 +60,8 @@ This mode guarantees **absolute compliance** with GDPR, ePrivacy, and the strict
 | Session ID stored in a cookie | **Yes** | Persistence = identification |
 | Temporary ID without cookies | **No** | Cannot identify the user |
 | Cross-site session tracking | **Yes** | Considered profiling |
-| Isolated hits (no Session ID) | **No** | No identifiers at all |
+| Sealmetrics session tracking | **No** | Temporary, non-identifying |
 
 ---
 
-**Sealmetrics ensures that all tracking—Session-based or Isolated—remains fully compliant with GDPR and ePrivacy, without compromising your analytics.**
-
-If quieres que prepare el siguiente artículo legal, mándamelo y sigo con la misma estructura.
+**Sealmetrics ensures that all tracking remains fully compliant with GDPR and ePrivacy, without compromising your analytics.**
