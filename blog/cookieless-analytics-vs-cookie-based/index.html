@@ -11,7 +11,7 @@
 
 <link rel="search" type="application/opensearchdescription+xml" title="Sealmetrics Docs" href="/opensearch.xml">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><link rel="stylesheet" href="/assets/css/styles.c831e4da.css">
-<script src="/assets/js/runtime~main.1dc573b0.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.d53e5513.js" defer="defer"></script>
 <script src="/assets/js/main.6b7b4fe4.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -56,7 +56,7 @@
 <p>This cookieless approach means no consent banners are required. According to CNIL&#x27;s 2020 guidance on cookieless analytics, tools that don&#x27;t use cookies and don&#x27;t store identifying information can operate under legitimate interest rather than requiring explicit consent.</p>
 <p>Unlike cookie-based tools that lose 60-87% of EU traffic, cookieless analytics captures every visitor. Businesses using Sealmetrics report complete data accuracy compared to 13-40% visibility with Google Analytics in EU markets.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-comparison-cookie-based-vs-cookieless">Technical Comparison: Cookie-Based vs Cookieless<a href="#technical-comparison-cookie-based-vs-cookieless" class="hash-link" aria-label="Direct link to Technical Comparison: Cookie-Based vs Cookieless" title="Direct link to Technical Comparison: Cookie-Based vs Cookieless" translate="no">​</a></h2>
-<table><thead><tr><th>Technical Aspect</th><th>Cookie-Based (Google Analytics)</th><th>Cookieless (Sealmetrics)</th></tr></thead><tbody><tr><td><strong>Tracking Method</strong></td><td>Persistent cookies in browser</td><td>Session identifiers + isolated hits</td></tr><tr><td><strong>Requires Cookies</strong></td><td>Yes (first-party + third-party)</td><td>No cookies used</td></tr><tr><td><strong>Requires Consent</strong></td><td>Yes (GDPR Article 6(1)(a))</td><td>No (legitimate interest 6(1)(f))</td></tr><tr><td><strong>Data Loss from Rejections</strong></td><td>60-87% in EU</td><td>0% - captures all visitors</td></tr><tr><td><strong>IP Address Storage</strong></td><td>Stored or hashed</td><td>Never stored</td></tr><tr><td><strong>Cross-Session Tracking</strong></td><td>Links visits over months</td><td>Limited to session duration</td></tr><tr><td><strong>Browser Compatibility</strong></td><td>Blocked by Safari ITP, Firefox ETP</td><td>Works in all browsers</td></tr><tr><td><strong>Implementation Complexity</strong></td><td>Medium (consent management needed)</td><td>Simple (2-minute setup)</td></tr><tr><td><strong>GDPR Compliance</strong></td><td>Requires consent banners</td><td>Compliant without consent</td></tr><tr><td><strong>Data Retention</strong></td><td>14 months (GA4 default)</td><td>25 months without consent</td></tr><tr><td><strong>Geolocation Accuracy</strong></td><td>High (IP-based)</td><td>Medium (browser language/timezone)</td></tr><tr><td><strong>User Identification</strong></td><td>Persistent across devices</td><td>Single device, single session</td></tr><tr><td><strong>Script Size</strong></td><td>~45KB (GA4)</td><td>~12KB (Sealmetrics)</td></tr><tr><td><strong>Page Load Impact</strong></td><td>~80-120ms</td><td>~20-30ms</td></tr><tr><td><strong>CNIL Approval</strong></td><td>Requires configuration</td><td>Approved methodology</td></tr></tbody></table>
+<table><thead><tr><th>Technical Aspect</th><th>Cookie-Based (Google Analytics)</th><th>Cookieless (Sealmetrics)</th></tr></thead><tbody><tr><td><strong>Tracking Method</strong></td><td>Persistent cookies in browser</td><td>Session identifiers + isolated hits</td></tr><tr><td><strong>Requires Cookies</strong></td><td>Yes (first-party + third-party)</td><td>No cookies used</td></tr><tr><td><strong>Requires Consent</strong></td><td>Yes (GDPR Article 6(1)(a))</td><td>No (legitimate interest 6(1)(f))</td></tr><tr><td><strong>Data Loss from Rejections</strong></td><td>60-87% in EU</td><td>0% - captures all visitors</td></tr><tr><td><strong>IP Address Storage</strong></td><td>Stored or hashed</td><td>Never stored</td></tr><tr><td><strong>Cross-Session Tracking</strong></td><td>Links visits over months</td><td>Limited to session duration</td></tr><tr><td><strong>Browser Compatibility</strong></td><td>Blocked by Safari ITP, Firefox ETP</td><td>Works in all browsers</td></tr><tr><td><strong>Implementation Complexity</strong></td><td>Medium (consent management needed)</td><td>Simple (2-minute setup)</td></tr><tr><td><strong>GDPR Compliance</strong></td><td>Requires consent banners</td><td>Compliant without consent</td></tr><tr><td><strong>Data Retention</strong></td><td>14 months (GA4 default)</td><td>25 months without consent</td></tr><tr><td><strong>Geolocation Accuracy</strong></td><td>High (IP-based)</td><td>Medium (browser language/timezone)</td></tr><tr><td><strong>User Identification</strong></td><td>Persistent across devices</td><td>Single device, single session</td></tr><tr><td><strong>Script Size</strong></td><td>~130KB (GA4 gzipped)</td><td>1.3KB (Sealmetrics gzipped)</td></tr><tr><td><strong>Page Load Impact</strong></td><td>~80-120ms</td><td>~20-30ms</td></tr><tr><td><strong>CNIL Approval</strong></td><td>Requires configuration</td><td>Approved methodology</td></tr></tbody></table>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-collection-accuracy">Data Collection Accuracy<a href="#data-collection-accuracy" class="hash-link" aria-label="Direct link to Data Collection Accuracy" title="Direct link to Data Collection Accuracy" translate="no">​</a></h3>
 <p>Cookie-based analytics accuracy has declined dramatically since GDPR enforcement:</p>
 <ul>
@@ -182,7 +182,7 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="page-load-impact">Page Load Impact<a href="#page-load-impact" class="hash-link" aria-label="Direct link to Page Load Impact" title="Direct link to Page Load Impact" translate="no">​</a></h3>
 <p><strong>Cookie-based analytics</strong> (Google Analytics 4):</p>
 <ul>
-<li class="">Script size: ~45KB (gtag.js)</li>
+<li class="">Script size: ~130KB (gzipped)</li>
 <li class="">Additional requests: 3-5 (consent management, GTM, etc.)</li>
 <li class="">First Contentful Paint delay: 80-120ms</li>
 <li class="">Consent banner: Additional 150-200ms</li>
@@ -190,7 +190,7 @@
 </ul>
 <p><strong>Cookieless analytics</strong> (Sealmetrics):</p>
 <ul>
-<li class="">Script size: ~12KB</li>
+<li class="">Script size: 1.3KB (gzipped)</li>
 <li class="">Additional requests: 1 (tracking endpoint)</li>
 <li class="">First Contentful Paint delay: 20-30ms</li>
 <li class="">No consent banner: 0ms</li>
