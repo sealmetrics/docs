@@ -13,6 +13,10 @@ Unlike the wholesale repeal of other regulations, the GDPR is **amended, not rep
 
 ## Personal Data Definition Clarified
 
+:::warning EDPB-EDPS Position
+The European data protection authorities have expressed **strong opposition** to these changes in their [Joint Opinion 2/2026](./edpb-edps-opinion.md), recommending their complete removal from the proposal. They argue the current definition works well and changes risk reducing protection levels. The final text may differ from the Commission proposal.
+:::
+
 ### The "Reasonably Likely" Standard
 
 The Omnibus amends **Article 4** to codify the Court of Justice of the European Union (CJEU) interpretation of "personal data":
@@ -60,7 +64,11 @@ A hospital shares pseudonymized medical records with a research institution:
 - Technical techniques and standards
 - When pseudonymization provides sufficient protection
 
-**Benefits:**
+:::note EDPB-EDPS Concern
+The [Joint Opinion 2/2026](./edpb-edps-opinion.md) opposes giving the Commission this power, arguing that whether data is "personal" is a fundamental rights question, not a technical specification. They recommend the EDPB retain authority over pseudonymization guidance.
+:::
+
+**Benefits (per Commission):**
 - Harmonized standards across EU
 - Technical guidance for implementation
 - Legal certainty for processors
@@ -111,6 +119,10 @@ When providing information to data subjects would require **disproportionate eff
 **Example**: Retrospective medical research on decades of patient records where contacting all individuals is impractical.
 
 ## AI Training and Development
+
+:::note EDPB-EDPS Position
+The [Joint Opinion 2/2026](./edpb-edps-opinion.md) accepts the legitimate interest basis for AI but requests stronger safeguards, particularly for web scraping scenarios and meaningful right to object implementation.
+:::
 
 ### New Article 88c: AI Legitimate Interest
 
@@ -375,6 +387,7 @@ The **European Data Protection Board (EDPB)** will create:
 
 - [Cookie Consent Reform](./cookies-eprivacy.md) - Details on Articles 88a and 88b
 - [Impact on Web Analytics](./impact-analytics.md) - How amendments affect analytics
+- [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory position on these amendments
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
 
 ## Key Takeaways

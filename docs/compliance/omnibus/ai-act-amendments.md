@@ -35,6 +35,10 @@ The EU Digital Omnibus addresses the intersection of AI development and data pro
 
 ## New Article 88c: Legitimate Interest for AI
 
+:::note EDPB-EDPS Position
+The [Joint Opinion 2/2026](./edpb-edps-opinion.md) accepts the legitimate interest basis for AI development but requests stronger safeguards. Key concerns include large-scale web scraping, meaningful right to object implementation, and explicit stronger protections for children's data. The final text may include additional conditions.
+:::
+
 ### The Legal Basis Problem
 
 **Before Article 88c**:
@@ -524,6 +528,7 @@ Even with Article 88c, the standard legitimate interest assessment applies:
 - [GDPR Amendments](./gdpr-changes.md) - Complete list of GDPR changes including Article 88c
 - [Timeline and Implementation](./timeline-implementation.md) - When Article 88c takes effect
 - [SME and Small Mid-Cap Exemptions](./smes-small-midcaps.md) - AI Act SME/SMC extensions
+- [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory position on AI processing provisions
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
 
 ## Key Takeaways

@@ -62,6 +62,10 @@ Website operators face a difficult choice:
 
 ## What the Omnibus Changes for Analytics
 
+:::tip EDPB-EDPS Validation
+The European data protection authorities **support** the audience measurement exemption in their [Joint Opinion 2/2026](./edpb-edps-opinion.md). They also recommend adding a **contextual advertising exemption** for ads based on page content (not user tracking). This reinforces the legal basis for privacy-first analytics like Sealmetrics.
+:::
+
 ### The Game-Changing Exemption
 
 **Article 88a(3)(c)** provides a clear legal basis for audience measurement:
@@ -557,6 +561,7 @@ If you need individual user tracking, cross-device tracking, or behavioral profi
 
 - [Cookie Consent Reform](./cookies-eprivacy.md) - Full details on Article 88a
 - [GDPR Amendments](./gdpr-changes.md) - Other GDPR changes in the Omnibus
+- [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory validation of analytics exemption
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
 
 ## Key Takeaways

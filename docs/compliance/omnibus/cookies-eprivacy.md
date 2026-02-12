@@ -43,6 +43,10 @@ The 2009 ePrivacy Directive predates modern web analytics, programmatic advertis
 
 ## The Solution: GDPR Integration
 
+:::tip EDPB-EDPS Support
+The European data protection authorities **strongly support** addressing cookie banner fatigue in their [Joint Opinion 2/2026](./edpb-edps-opinion.md). They endorse the Article 88a(3)(c) exemption for audience measurement and additionally recommend creating an explicit exemption for **contextual advertising** (ads based on page content, not user tracking).
+:::
+
 ### Article 5(3) ePrivacy Repealed
 
 The Digital Omnibus **repeals Article 5(3) of the ePrivacy Directive** for processing of personal data. This eliminates the separate cookie consent regime that has run parallel to GDPR since 2018.
@@ -311,6 +315,7 @@ Until browsers widely support automated signals (~2029-2031), manual consent mec
 
 - [GDPR Amendments in the Digital Omnibus](./gdpr-changes.md) - Other changes to the GDPR
 - [Impact on Web Analytics](./impact-analytics.md) - What this means for analytics providers
+- [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory support for cookie consent reform
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
 
 ## Key Takeaways

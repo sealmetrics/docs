@@ -33,6 +33,10 @@ The Digital Omnibus is part of the European Commission's broader simplification 
 This section reflects the current state of the legislative process. Check official EU sources for the latest developments.
 :::
 
+:::tip EDPB-EDPS Joint Opinion Published
+On February 10, 2026, the European Data Protection Board and European Data Protection Supervisor published their [Joint Opinion 2/2026](./edpb-edps-opinion.md) on the Digital Omnibus. They support simplification goals but raise concerns about personal data definition changes and request stronger AI safeguards. This consultative document may influence the final text during Parliament/Council negotiations.
+:::
+
 ### Committee Assignments
 
 The Digital Omnibus proposal (procedure 2025/0360(COD)) has been assigned to **joint committee responsibility**:
@@ -351,6 +355,10 @@ While the Commission projects significant banner reduction, legal analysts note 
 - **[Impact on Web Analytics](./impact-analytics.md)** - How the Omnibus affects analytics providers and website tracking
 - **[AI Act Amendments](./ai-act-amendments.md)** - GDPR-AI intersection and Article 88c legitimate interest
 
+### Regulatory Positions
+
+- **[EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md)** - Official position of European data protection authorities on the Digital Omnibus proposal
+
 ## Key Differences from Current Law
 
 | Aspect | Current Law | Digital Omnibus |
@@ -468,10 +476,11 @@ While the Commission projects significant banner reduction, legal analysts note 
 - **Digital Markets Act** (EU 2022/1925) - Gatekeeper regulation
 - **ePrivacy Directive** (2002/58/EC, as amended) - Electronic communications privacy
 
-### Industry Guidance
+### Regulatory Opinions
 
-- EDPB guidelines on Articles 88a and 88b (expected 2026)
-- National DPA guidance on cookie exemptions
+- [EDPB-EDPS Joint Opinion 2/2026](https://www.edpb.europa.eu/our-work-tools/our-documents/edpbedps-joint-opinion/edpb-edps-joint-opinion-22026-proposal_en) - Official position on the Digital Omnibus
+- EDPB guidelines on Articles 88a and 88b (expected after adoption)
+- National DPA guidance on cookie exemptions (expected after adoption)
 - European standardisation bodies: Browser signal standards
 
 ## Conclusion
