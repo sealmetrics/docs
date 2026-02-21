@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 17
 title: Auth Advanced
 ---
 
@@ -31,7 +31,7 @@ Returns all active sessions for the current user.
       {
         "id": 123,
         "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)...",
-        "ip_address": "85.123.45.67",
+        "ip_address": "203.0.113.45",
         "created_at": "2025-01-08T10:30:00Z",
         "last_used_at": "2025-01-10T14:25:00Z",
         "is_current": true
@@ -39,7 +39,7 @@ Returns all active sessions for the current user.
       {
         "id": 121,
         "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0)...",
-        "ip_address": "92.45.123.89",
+        "ip_address": "198.51.100.89",
         "created_at": "2025-01-05T08:15:00Z",
         "last_used_at": "2025-01-09T18:42:00Z",
         "is_current": false
@@ -277,6 +277,10 @@ Start 2FA setup. Requires password verification.
 | `backup_codes` | Recovery codes (store securely, shown once) |
 | `provisioning_uri` | URI for manual authenticator setup |
 | `expires_in_minutes` | Time until setup expires |
+
+:::note
+The `secret` and `backup_codes` shown above are example values. Real values are unique per user.
+:::
 
 :::warning
 Save the backup codes immediately. They are only shown once and cannot be retrieved later.
@@ -522,7 +526,7 @@ def login_with_2fa(email, password, totp_code):
 ### JavaScript - Session Management
 
 ```javascript
-const API_KEY = 'str_your_api_key';
+const API_KEY = 'sm_your_api_key';
 const BASE_URL = 'https://api.sealmetrics.com/api/v1';
 
 async function getSessions(token) {

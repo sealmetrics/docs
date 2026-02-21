@@ -1,5 +1,5 @@
 ---
-sidebar_position: 8
+sidebar_position: 9
 title: Pagination & Filtering
 ---
 
@@ -52,12 +52,12 @@ All paginated endpoints return a consistent response structure:
 
 **First page (default):**
 ```http
-GET /stats/pages?account_id=my-site&period=30d
+GET /stats/pages?site_id=my-site&period=30d
 ```
 
 **Second page with 100 items:**
 ```http
-GET /stats/pages?account_id=my-site&period=30d&page=2&page_size=100
+GET /stats/pages?site_id=my-site&period=30d&page=2&page_size=100
 ```
 
 **Calculate total pages:**
@@ -126,17 +126,17 @@ For `/stats/microconversions`:
 
 **Top sources by revenue:**
 ```http
-GET /stats/sources?account_id=my-site&sort_by=revenue&sort_order=desc
+GET /stats/sources?site_id=my-site&sort_by=revenue&sort_order=desc
 ```
 
 **Lowest bounce rate pages:**
 ```http
-GET /stats/pages?account_id=my-site&sort_by=engaged_entrances&sort_order=desc
+GET /stats/pages?site_id=my-site&sort_by=engaged_entrances&sort_order=desc
 ```
 
 **Newest conversions first:**
 ```http
-GET /stats/conversions?account_id=my-site&sort_by=count&sort_order=asc
+GET /stats/conversions?site_id=my-site&sort_by=count&sort_order=asc
 ```
 
 ---
@@ -230,32 +230,32 @@ Available fields for advanced filtering:
 
 **Spanish traffic only:**
 ```http
-GET /stats/pages?account_id=my-site&filters=country:eq:ES
+GET /stats/pages?site_id=my-site&filters=country:eq:ES
 ```
 
 **EU countries excluding UK:**
 ```http
-GET /stats/sources?account_id=my-site&filters=country:in:ES|FR|DE|IT|PT,country:ne:GB
+GET /stats/sources?site_id=my-site&filters=country:in:ES|FR|DE|IT|PT,country:ne:GB
 ```
 
 **Product pages from Google:**
 ```http
-GET /stats/pages?account_id=my-site&filters=path:contains:/products/,utm_source:eq:google
+GET /stats/pages?site_id=my-site&filters=path:contains:/products/,utm_source:eq:google
 ```
 
 **Non-branded organic traffic:**
 ```http
-GET /stats/campaigns?account_id=my-site&filters=utm_medium:eq:organic,utm_campaign:not_contains:brand
+GET /stats/campaigns?site_id=my-site&filters=utm_medium:eq:organic,utm_campaign:not_contains:brand
 ```
 
 **Mobile users from social:**
 ```http
-GET /stats/pages?account_id=my-site&filters=device_type:eq:mobile,utm_medium:in:social|social-media
+GET /stats/pages?site_id=my-site&filters=device_type:eq:mobile,utm_medium:in:social|social-media
 ```
 
 **Blog pages with regex:**
 ```http
-GET /stats/pages?account_id=my-site&filters=path:regex:^/blog/2025/
+GET /stats/pages?site_id=my-site&filters=path:regex:^/blog/2025/
 ```
 
 ---
@@ -269,7 +269,7 @@ Segments are pre-saved filter combinations that can be reused.
 Apply a segment with the `segment` parameter:
 
 ```http
-GET /stats/pages?account_id=my-site&segment=paid-spain
+GET /stats/pages?site_id=my-site&segment=paid-spain
 ```
 
 Segments can be referenced by ID or name.
@@ -287,7 +287,7 @@ When you combine a segment with explicit filter parameters:
 If segment `paid-traffic` has `utm_medium=cpc`, and you add `country=ES`:
 
 ```http
-GET /stats/pages?account_id=my-site&segment=paid-traffic&country=ES
+GET /stats/pages?site_id=my-site&segment=paid-traffic&country=ES
 ```
 
 This applies: `utm_medium=cpc AND country=ES`
@@ -301,7 +301,7 @@ This applies: `utm_medium=cpc AND country=ES`
 You can combine standard parameters with advanced filters:
 
 ```http
-GET /stats/pages?account_id=my-site&utm_medium=cpc&country=ES&filters=path:contains:/products/
+GET /stats/pages?site_id=my-site&utm_medium=cpc&country=ES&filters=path:contains:/products/
 ```
 
 This applies:
@@ -374,7 +374,7 @@ The `comparison` object (when `compare` is used) contains totals for the compari
 ```python
 import requests
 
-def get_all_pages(account_id, period="30d"):
+def get_all_pages(site_id, period="30d"):
     """Fetch all pages with pagination."""
     all_data = []
     page = 1
@@ -384,7 +384,7 @@ def get_all_pages(account_id, period="30d"):
             "https://api.sealmetrics.com/api/v1/stats/pages",
             headers={"X-API-Key": API_KEY},
             params={
-                "account_id": account_id,
+                "site_id": site_id,
                 "period": period,
                 "page": page,
                 "page_size": 100,
@@ -450,7 +450,7 @@ const filters = new FilterBuilder()
 ```php
 <?php
 $params = http_build_query([
-    'account_id' => 'my-site',
+    'site_id' => 'my-site',
     'period' => '30d',
     'filters' => 'country:in:ES|FR,utm_medium:eq:organic',
     'sort_by' => 'revenue',

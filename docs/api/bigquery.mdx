@@ -1,0 +1,590 @@
+---
+sidebar_position: 15
+title: BigQuery Integration
+description: Export analytics data to Google BigQuery for advanced analysis.
+---
+
+# BigQuery Integration
+
+Export Sealmetrics analytics data to Google BigQuery for advanced analysis, custom reporting, and data warehousing.
+
+---
+
+## Overview
+
+The BigQuery integration allows you to:
+
+- Automatically sync analytics data to your BigQuery dataset
+- Run custom SQL queries on your traffic and conversion data
+- Integrate with BI tools like Looker, Data Studio, or Tableau
+- Perform advanced analysis not available in the dashboard
+
+**Base path:** `/integrations/bigquery`
+
+:::note Enterprise Feature
+BigQuery integration is available on Enterprise plans only.
+:::
+
+---
+
+## Setup Flow
+
+1. Create a Google Cloud service account with BigQuery permissions
+2. Configure the integration with your credentials
+3. Run initial setup to create tables
+4. Enable automatic sync or trigger manual syncs
+
+---
+
+## Configure Integration
+
+### Create Integration
+
+```http
+POST /integrations/bigquery?site_id={site_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "project_id": "my-gcp-project",
+  "dataset_id": "sealmetrics_data",
+  "credentials_json": "{...service account JSON...}",
+  "sync_frequency": "daily",
+  "sync_hour_utc": 3,
+  "enabled": true,
+  "tables": ["sessions", "pageviews", "conversions"]
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `project_id` | string | Yes | Google Cloud project ID |
+| `dataset_id` | string | Yes | BigQuery dataset name |
+| `credentials_json` | string | Yes | Service account JSON key |
+| `sync_frequency` | enum | No | `hourly`, `daily` (default), `weekly` |
+| `sync_hour_utc` | integer | No | Hour (0-23) to run daily syncs (default: 3) |
+| `enabled` | boolean | No | Enable automatic sync (default: true) |
+| `tables` | string[] | No | Tables to sync (default: all) |
+
+**Response (201 Created):**
+
+```json
+{
+  "data": {
+    "id": 1,
+    "site_id": "my-site",
+    "project_id": "my-gcp-project",
+    "dataset_id": "sealmetrics_data",
+    "sync_frequency": "daily",
+    "sync_hour_utc": 3,
+    "enabled": true,
+    "tables": ["sessions", "pageviews", "conversions"],
+    "status": "pending_setup",
+    "last_sync_at": null,
+    "next_sync_at": "2025-01-11T03:00:00Z",
+    "created_at": "2025-01-10T14:30:00Z"
+  }
+}
+```
+
+### Get Integration
+
+```http
+GET /integrations/bigquery?site_id={site_id}
+```
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 1,
+    "site_id": "my-site",
+    "project_id": "my-gcp-project",
+    "dataset_id": "sealmetrics_data",
+    "sync_frequency": "daily",
+    "sync_hour_utc": 3,
+    "enabled": true,
+    "tables": ["sessions", "pageviews", "conversions"],
+    "status": "active",
+    "last_sync_at": "2025-01-10T03:00:00Z",
+    "last_sync_status": "success",
+    "last_sync_rows": 15420,
+    "next_sync_at": "2025-01-11T03:00:00Z",
+    "created_at": "2025-01-01T10:00:00Z"
+  }
+}
+```
+
+### Update Integration
+
+```http
+PATCH /integrations/bigquery?site_id={site_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "sync_frequency": "hourly",
+  "enabled": true,
+  "tables": ["sessions", "pageviews", "conversions", "microconversions"]
+}
+```
+
+All fields are optional. Only provided fields are updated.
+
+### Delete Integration
+
+```http
+DELETE /integrations/bigquery?site_id={site_id}
+```
+
+Removes the integration configuration. Does not delete data from BigQuery.
+
+**Response:** 204 No Content
+
+---
+
+## Initial Setup
+
+After configuring the integration, run setup to create BigQuery tables.
+
+```http
+POST /integrations/bigquery/setup?site_id={site_id}
+```
+
+This endpoint:
+1. Validates credentials and permissions
+2. Creates the dataset if it doesn't exist
+3. Creates tables with the correct schema
+4. Marks integration as ready for sync
+
+**Response:**
+
+```json
+{
+  "data": {
+    "status": "success",
+    "dataset_created": false,
+    "tables_created": ["sessions", "pageviews", "conversions"],
+    "message": "BigQuery setup completed successfully"
+  }
+}
+```
+
+### Setup Errors
+
+| Error | Description |
+|-------|-------------|
+| `invalid_credentials` | Service account JSON is invalid |
+| `insufficient_permissions` | Service account lacks required permissions |
+| `dataset_exists_different_project` | Dataset exists in another project |
+| `quota_exceeded` | BigQuery quota exceeded |
+
+---
+
+## Sync Operations
+
+### Trigger Manual Sync
+
+```http
+POST /integrations/bigquery/sync?site_id={site_id}
+```
+
+Trigger an immediate sync of recent data.
+
+**Request Body (optional):**
+
+```json
+{
+  "date_from": "2025-01-01",
+  "date_to": "2025-01-10"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `date_from` | date | Start date (default: last sync date) |
+| `date_to` | date | End date (default: yesterday) |
+
+**Response:**
+
+```json
+{
+  "data": {
+    "sync_id": "550e8400-e29b-41d4-a716-446655440000",
+    "status": "started",
+    "date_from": "2025-01-01",
+    "date_to": "2025-01-10",
+    "estimated_rows": 45000,
+    "message": "Sync started. Check logs for progress."
+  }
+}
+```
+
+### Backfill Historical Data
+
+```http
+POST /integrations/bigquery/backfill?site_id={site_id}
+```
+
+Sync historical data that may be missing.
+
+**Request Body:**
+
+```json
+{
+  "date_from": "2024-01-01",
+  "date_to": "2024-12-31",
+  "tables": ["sessions", "pageviews"]
+}
+```
+
+**Response:**
+
+```json
+{
+  "data": {
+    "backfill_id": "550e8400-e29b-41d4-a716-446655440001",
+    "status": "started",
+    "date_from": "2024-01-01",
+    "date_to": "2024-12-31",
+    "tables": ["sessions", "pageviews"],
+    "estimated_rows": 1250000,
+    "message": "Backfill started. This may take several minutes."
+  }
+}
+```
+
+:::caution
+Backfills for large date ranges may take significant time and consume BigQuery quota.
+:::
+
+### Retry Failed Sync
+
+```http
+POST /integrations/bigquery/retry/{log_id}?site_id={site_id}
+```
+
+Retry a failed sync operation.
+
+**Response:**
+
+```json
+{
+  "data": {
+    "sync_id": "550e8400-e29b-41d4-a716-446655440002",
+    "status": "started",
+    "original_log_id": 123,
+    "message": "Retry started"
+  }
+}
+```
+
+---
+
+## Sync Logs
+
+### List Sync Logs
+
+```http
+GET /integrations/bigquery/logs?site_id={site_id}
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `limit` | integer | `20` | Max results (1-100) |
+| `offset` | integer | `0` | Skip N results |
+| `status` | enum | - | Filter by status |
+
+**Response:**
+
+```json
+{
+  "data": {
+    "logs": [
+      {
+        "id": 123,
+        "sync_id": "550e8400-e29b-41d4-a716-446655440000",
+        "type": "sync",
+        "status": "success",
+        "date_from": "2025-01-09",
+        "date_to": "2025-01-09",
+        "tables_synced": ["sessions", "pageviews", "conversions"],
+        "rows_synced": 15420,
+        "bytes_processed": 4500000,
+        "duration_seconds": 45,
+        "started_at": "2025-01-10T03:00:00Z",
+        "completed_at": "2025-01-10T03:00:45Z"
+      }
+    ],
+    "total": 30
+  }
+}
+```
+
+### Sync Status Values
+
+| Status | Description |
+|--------|-------------|
+| `pending` | Sync queued |
+| `running` | Sync in progress |
+| `success` | Sync completed successfully |
+| `partial` | Some tables failed |
+| `failed` | Sync failed completely |
+
+### Get Sync Log Detail
+
+```http
+GET /integrations/bigquery/logs/{log_id}?site_id={site_id}
+```
+
+Returns detailed information including per-table results and error messages.
+
+---
+
+## Schema Information
+
+### Get Table Schema
+
+```http
+GET /integrations/bigquery/schema?site_id={site_id}
+```
+
+Returns the schema for all available tables.
+
+**Response:**
+
+```json
+{
+  "data": {
+    "tables": {
+      "sessions": {
+        "description": "Session-level data",
+        "fields": [
+          {"name": "session_id", "type": "STRING", "description": "Unique session identifier"},
+          {"name": "visitor_id", "type": "STRING", "description": "Visitor identifier"},
+          {"name": "started_at", "type": "TIMESTAMP", "description": "Session start time"},
+          {"name": "utm_source", "type": "STRING", "description": "UTM source"},
+          {"name": "utm_medium", "type": "STRING", "description": "UTM medium"},
+          {"name": "utm_campaign", "type": "STRING", "description": "UTM campaign"},
+          {"name": "country", "type": "STRING", "description": "Country code (ISO)"},
+          {"name": "device_type", "type": "STRING", "description": "Device type"},
+          {"name": "browser", "type": "STRING", "description": "Browser name"},
+          {"name": "os", "type": "STRING", "description": "Operating system"},
+          {"name": "landing_page", "type": "STRING", "description": "Entry page path"},
+          {"name": "page_views", "type": "INTEGER", "description": "Pages viewed"},
+          {"name": "duration_seconds", "type": "INTEGER", "description": "Session duration"},
+          {"name": "is_engaged", "type": "BOOLEAN", "description": "Engaged session flag"},
+          {"name": "is_bounce", "type": "BOOLEAN", "description": "Bounce flag"}
+        ]
+      },
+      "pageviews": {
+        "description": "Page view events",
+        "fields": [
+          {"name": "pageview_id", "type": "STRING", "description": "Unique pageview identifier"},
+          {"name": "session_id", "type": "STRING", "description": "Session identifier"},
+          {"name": "path", "type": "STRING", "description": "Page path"},
+          {"name": "title", "type": "STRING", "description": "Page title"},
+          {"name": "viewed_at", "type": "TIMESTAMP", "description": "View timestamp"},
+          {"name": "time_on_page", "type": "INTEGER", "description": "Seconds on page"}
+        ]
+      },
+      "conversions": {
+        "description": "Conversion events",
+        "fields": [
+          {"name": "conversion_id", "type": "STRING", "description": "Unique conversion identifier"},
+          {"name": "session_id", "type": "STRING", "description": "Session identifier"},
+          {"name": "conversion_type", "type": "STRING", "description": "Conversion type"},
+          {"name": "value", "type": "FLOAT", "description": "Conversion value"},
+          {"name": "currency", "type": "STRING", "description": "Currency code"},
+          {"name": "converted_at", "type": "TIMESTAMP", "description": "Conversion timestamp"}
+        ]
+      },
+      "microconversions": {
+        "description": "Microconversion events",
+        "fields": [
+          {"name": "event_id", "type": "STRING", "description": "Unique event identifier"},
+          {"name": "session_id", "type": "STRING", "description": "Session identifier"},
+          {"name": "event_type", "type": "STRING", "description": "Event type"},
+          {"name": "event_data", "type": "JSON", "description": "Event metadata"},
+          {"name": "occurred_at", "type": "TIMESTAMP", "description": "Event timestamp"}
+        ]
+      }
+    }
+  }
+}
+```
+
+---
+
+## Required Permissions
+
+The service account needs these BigQuery permissions:
+
+| Permission | Purpose |
+|------------|---------|
+| `bigquery.datasets.create` | Create dataset (if needed) |
+| `bigquery.datasets.get` | Read dataset metadata |
+| `bigquery.tables.create` | Create tables |
+| `bigquery.tables.get` | Read table metadata |
+| `bigquery.tables.updateData` | Insert data |
+| `bigquery.jobs.create` | Run load jobs |
+
+**Recommended Role:** `roles/bigquery.dataEditor` on the dataset.
+
+---
+
+## Code Examples
+
+### Python - Setup and Sync
+
+```python
+import requests
+import json
+
+API_KEY = "sm_your_api_key"
+BASE_URL = "https://api.sealmetrics.com/api/v1"
+SITE_ID = "my-site"
+
+def setup_bigquery(project_id, dataset_id, credentials_path):
+    """Configure BigQuery integration."""
+
+    with open(credentials_path) as f:
+        credentials = f.read()
+
+    # Create integration
+    response = requests.post(
+        f"{BASE_URL}/integrations/bigquery",
+        headers={"X-API-Key": API_KEY},
+        params={"site_id": SITE_ID},
+        json={
+            "project_id": project_id,
+            "dataset_id": dataset_id,
+            "credentials_json": credentials,
+            "sync_frequency": "daily",
+            "sync_hour_utc": 3
+        }
+    )
+    response.raise_for_status()
+
+    # Run setup
+    setup_response = requests.post(
+        f"{BASE_URL}/integrations/bigquery/setup",
+        headers={"X-API-Key": API_KEY},
+        params={"site_id": SITE_ID}
+    )
+    setup_response.raise_for_status()
+
+    return setup_response.json()
+
+
+def trigger_backfill(date_from, date_to):
+    """Backfill historical data."""
+    response = requests.post(
+        f"{BASE_URL}/integrations/bigquery/backfill",
+        headers={"X-API-Key": API_KEY},
+        params={"site_id": SITE_ID},
+        json={
+            "date_from": date_from,
+            "date_to": date_to
+        }
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def check_sync_status(sync_id):
+    """Check status of a sync operation."""
+    response = requests.get(
+        f"{BASE_URL}/integrations/bigquery/logs",
+        headers={"X-API-Key": API_KEY},
+        params={"site_id": SITE_ID}
+    )
+
+    for log in response.json()["data"]["logs"]:
+        if log["sync_id"] == sync_id:
+            return log["status"]
+
+    return "not_found"
+```
+
+### JavaScript - Monitor Sync
+
+```javascript
+async function monitorSync(syncId) {
+  const checkStatus = async () => {
+    const response = await fetch(
+      `${BASE_URL}/integrations/bigquery/logs?site_id=${SITE_ID}`,
+      {
+        headers: { 'X-API-Key': API_KEY }
+      }
+    );
+
+    const { data } = await response.json();
+    const log = data.logs.find(l => l.sync_id === syncId);
+
+    return log?.status || 'not_found';
+  };
+
+  let status = await checkStatus();
+
+  while (status === 'pending' || status === 'running') {
+    await new Promise(r => setTimeout(r, 5000)); // Wait 5s
+    status = await checkStatus();
+    console.log(`Sync status: ${status}`);
+  }
+
+  return status;
+}
+```
+
+---
+
+## Error Codes
+
+| HTTP Code | Error | Description |
+|-----------|-------|-------------|
+| 400 | `invalid_credentials` | Service account JSON is malformed |
+| 401 | `authentication_failed` | Credentials rejected by Google |
+| 403 | `insufficient_permissions` | Missing required BigQuery permissions |
+| 404 | `integration_not_found` | No BigQuery integration configured |
+| 409 | `sync_in_progress` | Another sync is already running |
+| 429 | `quota_exceeded` | BigQuery API quota exceeded |
+
+---
+
+## Best Practices
+
+### 1. Use Dedicated Service Account
+
+Create a service account specifically for Sealmetrics:
+
+```bash
+gcloud iam service-accounts create sealmetrics-sync \
+  --display-name="Sealmetrics BigQuery Sync"
+```
+
+### 2. Limit Dataset Permissions
+
+Grant permissions only on the specific dataset:
+
+```bash
+bq add-iam-policy-binding \
+  --member="serviceAccount:sealmetrics-sync@project.iam.gserviceaccount.com" \
+  --role="roles/bigquery.dataEditor" \
+  project:sealmetrics_data
+```
+
+### 3. Schedule Syncs During Off-Peak
+
+Configure `sync_hour_utc` to run during low-traffic hours to minimize impact.
+
+### 4. Monitor Sync Logs
+
+Regularly check sync logs for failures and set up alerts for `failed` status.

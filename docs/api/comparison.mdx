@@ -1,5 +1,5 @@
 ---
-sidebar_position: 9
+sidebar_position: 10
 title: Period Comparison
 ---
 
@@ -25,7 +25,7 @@ The Sealmetrics API supports two comparison modes:
 Add the `compare` parameter to any stats endpoint:
 
 ```http
-GET /stats/overview?account_id=my-site&period=30d&compare=previous
+GET /stats/overview?site_id=my-site&period=30d&compare=previous
 ```
 
 ### Parameter Values
@@ -58,7 +58,7 @@ Compares with the same duration immediately before the selected range.
 | This month (Jan 1-10) | Dec 2-11 (same duration) |
 
 ```http
-GET /stats/sources?account_id=my-site&period=7d&compare=previous
+GET /stats/sources?site_id=my-site&period=7d&compare=previous
 ```
 
 This compares:
@@ -78,7 +78,7 @@ Compares with the exact same dates in the previous year.
 | Dec 25, 2024 | Dec 25, 2023 |
 
 ```http
-GET /stats/sources?account_id=my-site&period=this_month&compare=yoy
+GET /stats/sources?site_id=my-site&period=this_month&compare=yoy
 ```
 
 This compares:
@@ -251,7 +251,7 @@ The comparison period is calculated based on the selected date range:
 ### With Custom Dates
 
 ```http
-GET /stats/overview?account_id=my-site&start_date=2025-01-01&end_date=2025-01-15&compare=previous
+GET /stats/overview?site_id=my-site&start_date=2025-01-01&end_date=2025-01-15&compare=previous
 ```
 
 | | Dates |
@@ -301,12 +301,12 @@ If some days in the comparison period have no data, those days contribute zero t
 ```python
 import requests
 
-def get_stats_with_comparison(account_id, period="30d", compare="previous"):
+def get_stats_with_comparison(site_id, period="30d", compare="previous"):
     response = requests.get(
         "https://api.sealmetrics.com/api/v1/stats/overview",
         headers={"X-API-Key": API_KEY},
         params={
-            "account_id": account_id,
+            "site_id": site_id,
             "period": period,
             "compare": compare
         }
@@ -343,7 +343,7 @@ for metric in metrics:
 ```javascript
 async function fetchWithComparison(accountId, period, compare = 'previous') {
   const params = new URLSearchParams({
-    account_id: accountId,
+    site_id: accountId,
     period,
     compare
   });
@@ -393,12 +393,12 @@ console.log(`Bounce Rate: ${data.bounce_rate}% (${bounceDelta.text})`);
 ### Build Trend Analysis
 
 ```python
-def analyze_trend(account_id, periods=["7d", "30d", "90d"]):
+def analyze_trend(site_id, periods=["7d", "30d", "90d"]):
     """Analyze trends across multiple time periods."""
     results = {}
 
     for period in periods:
-        data = get_stats_with_comparison(account_id, period, "previous")
+        data = get_stats_with_comparison(site_id, period, "previous")
 
         results[period] = {
             "entrances": {

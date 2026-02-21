@@ -14,7 +14,7 @@ All stats endpoints accept these parameters:
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `account_id` | string | Yes | Account identifier |
+| `site_id` | string | Yes | Site identifier |
 | `start_date` | date | No | Start date (YYYY-MM-DD) |
 | `end_date` | date | No | End date (YYYY-MM-DD) |
 | `period` | string | No | Period shortcut (overrides dates) |
@@ -34,7 +34,7 @@ All stats endpoints accept these parameters:
 Dashboard summary with all key metrics.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/overview?account_id=acme&period=7d" \
+curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d" \
   -H "X-API-Key: sm_your_key"
 ```
 
@@ -61,7 +61,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/overview?account_id=acme&period=7d
 **With Comparison:**
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/overview?account_id=acme&period=7d&compare=previous"
+curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d&compare=previous"
 ```
 
 ```json
@@ -79,80 +79,6 @@ curl "https://my.sealmetrics.com/api/v1/stats/overview?account_id=acme&period=7d
 
 ---
 
-## Multi-Dimensional Query
-
-### POST /stats/query
-
-Flexible query endpoint for custom analytics queries.
-
-```bash
-curl -X POST "https://my.sealmetrics.com/api/v1/stats/query" \
-  -H "X-API-Key: sm_your_key" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "account_id": "acme",
-    "start_date": "2025-01-01",
-    "end_date": "2025-01-31",
-    "dimensions": ["utm_source", "utm_medium", "country"],
-    "metrics": ["entrances", "conversions", "revenue"],
-    "filters": {
-      "utm_medium": "cpc"
-    },
-    "sort_by": "revenue",
-    "sort_order": "desc",
-    "limit": 100
-  }'
-```
-
-**Request Body:**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `account_id` | string | Account identifier |
-| `start_date` | date | Start date |
-| `end_date` | date | End date |
-| `dimensions` | string[] | Grouping dimensions |
-| `metrics` | string[] | Metrics to return |
-| `filters` | object | Filter conditions |
-| `sort_by` | string | Sort field |
-| `sort_order` | string | `asc` or `desc` |
-| `limit` | int | Max results |
-
-**Available Dimensions:**
-
-| Dimension | Description |
-|-----------|-------------|
-| `date` | Date |
-| `hour` | Hour of day |
-| `day_of_week` | Day of week (1=Monday) |
-| `utm_source` | Traffic source |
-| `utm_medium` | Traffic medium |
-| `utm_campaign` | Campaign name |
-| `utm_term` | Search term |
-| `utm_content` | Content variation |
-| `country` | Country code |
-| `device` | Device type |
-| `browser` | Browser name |
-| `os` | Operating system |
-| `page_path` | Page path |
-| `landing_page` | Landing page |
-| `channel` | Channel group |
-
-**Available Metrics:**
-
-| Metric | Description |
-|--------|-------------|
-| `entrances` | Session starts |
-| `page_views` | Total pageviews |
-| `engaged_entrances` | Sessions with 2+ pageviews |
-| `bounce_rate` | Bounce rate percentage |
-| `conversions` | Conversion count |
-| `revenue` | Total revenue |
-| `microconversions` | Microconversion count |
-| `conversion_rate` | Conversion rate |
-
----
-
 ## Pages
 
 ### GET /stats/pages
@@ -160,7 +86,7 @@ curl -X POST "https://my.sealmetrics.com/api/v1/stats/query" \
 Page-level metrics with pagination.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/pages?account_id=acme&period=30d&page=1&page_size=20" \
+curl "https://my.sealmetrics.com/api/v1/stats/pages?site_id=acme&period=30d&page=1&page_size=20" \
   -H "X-API-Key: sm_your_key"
 ```
 
@@ -201,7 +127,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/pages?account_id=acme&period=30d&p
 Quick endpoint for top pages.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/pages/top?account_id=acme&period=7d&limit=10"
+curl "https://my.sealmetrics.com/api/v1/stats/pages/top?site_id=acme&period=7d&limit=10"
 ```
 
 ### GET /stats/pages/content-groups
@@ -209,7 +135,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/pages/top?account_id=acme&period=7
 Pages grouped by content group.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/pages/content-groups?account_id=acme&period=30d"
+curl "https://my.sealmetrics.com/api/v1/stats/pages/content-groups?site_id=acme&period=30d"
 ```
 
 ### GET /stats/landing-pages
@@ -217,7 +143,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/pages/content-groups?account_id=ac
 Landing page performance.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/landing-pages?account_id=acme&period=30d"
+curl "https://my.sealmetrics.com/api/v1/stats/landing-pages?site_id=acme&period=30d"
 ```
 
 ---
@@ -229,7 +155,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/landing-pages?account_id=acme&peri
 Traffic by UTM medium.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/mediums?account_id=acme&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/mediums?site_id=acme&period=30d" \
   -H "X-API-Key: sm_your_key"
 ```
 
@@ -268,7 +194,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/mediums?account_id=acme&period=30d
 Traffic by UTM source.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/sources?account_id=acme&period=30d&utm_medium=cpc"
+curl "https://my.sealmetrics.com/api/v1/stats/sources?site_id=acme&period=30d&utm_medium=cpc"
 ```
 
 ### GET /stats/campaigns
@@ -276,7 +202,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/sources?account_id=acme&period=30d
 Traffic by UTM campaign.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/campaigns?account_id=acme&period=30d&utm_source=google&utm_medium=cpc"
+curl "https://my.sealmetrics.com/api/v1/stats/campaigns?site_id=acme&period=30d&utm_source=google&utm_medium=cpc"
 ```
 
 ### GET /stats/terms
@@ -284,7 +210,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/campaigns?account_id=acme&period=3
 Traffic by UTM term (search keywords).
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/terms?account_id=acme&period=30d"
+curl "https://my.sealmetrics.com/api/v1/stats/terms?site_id=acme&period=30d"
 ```
 
 ### GET /stats/contents
@@ -292,7 +218,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/terms?account_id=acme&period=30d"
 Traffic by UTM content.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/contents?account_id=acme&period=30d"
+curl "https://my.sealmetrics.com/api/v1/stats/contents?site_id=acme&period=30d"
 ```
 
 ### GET /stats/referrers
@@ -300,7 +226,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/contents?account_id=acme&period=30
 Traffic from referrer domains.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/referrers?account_id=acme&period=30d"
+curl "https://my.sealmetrics.com/api/v1/stats/referrers?site_id=acme&period=30d"
 ```
 
 **Response:**
@@ -330,7 +256,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/referrers?account_id=acme&period=3
 Traffic by country.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?account_id=acme&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?site_id=acme&period=30d" \
   -H "X-API-Key: sm_your_key"
 ```
 
@@ -375,7 +301,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?account_id=acme&peri
 Complete device breakdown.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/devices?account_id=acme&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/devices?site_id=acme&period=30d" \
   -H "X-API-Key: sm_your_key"
 ```
 
@@ -408,7 +334,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/devices?account_id=acme&period=30d
 Device types only.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/devices/types?account_id=acme&period=30d"
+curl "https://my.sealmetrics.com/api/v1/stats/devices/types?site_id=acme&period=30d"
 ```
 
 ### GET /stats/browsers
@@ -416,7 +342,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/devices/types?account_id=acme&peri
 Browser breakdown.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/browsers?account_id=acme&period=30d"
+curl "https://my.sealmetrics.com/api/v1/stats/browsers?site_id=acme&period=30d"
 ```
 
 ### GET /stats/os
@@ -424,7 +350,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/browsers?account_id=acme&period=30
 Operating system breakdown.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/os?account_id=acme&period=30d"
+curl "https://my.sealmetrics.com/api/v1/stats/os?site_id=acme&period=30d"
 ```
 
 ---
@@ -436,7 +362,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/os?account_id=acme&period=30d"
 Conversion metrics by type.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/conversions?account_id=acme&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/conversions?site_id=acme&period=30d" \
   -H "X-API-Key: sm_your_key"
 ```
 
@@ -483,7 +409,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/conversions?account_id=acme&period
 List available conversion types.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/conversions/types?account_id=acme"
+curl "https://my.sealmetrics.com/api/v1/stats/conversions/types?site_id=acme"
 ```
 
 ---
@@ -495,7 +421,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/conversions/types?account_id=acme"
 Funnel analysis by UTM parameters.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/funnel?account_id=acme&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=acme&period=30d" \
   -H "X-API-Key: sm_your_key"
 ```
 
@@ -553,7 +479,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/funnel?account_id=acme&period=30d"
 Metrics over time.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/evolution?account_id=acme&period=30d&interval=day" \
+curl "https://my.sealmetrics.com/api/v1/stats/evolution?site_id=acme&period=30d&interval=day" \
   -H "X-API-Key: sm_your_key"
 ```
 
@@ -600,7 +526,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/evolution?account_id=acme&period=3
 Event properties by UTM attribution.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/properties?account_id=acme&period=30d&property_key=product_category" \
+curl "https://my.sealmetrics.com/api/v1/stats/properties?site_id=acme&period=30d&property_key=product_category" \
   -H "X-API-Key: sm_your_key"
 ```
 
@@ -647,7 +573,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/properties?account_id=acme&period=
 List available property keys.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/properties/keys?account_id=acme"
+curl "https://my.sealmetrics.com/api/v1/stats/properties/keys?site_id=acme"
 ```
 
 ---
@@ -662,24 +588,24 @@ import requests
 API_KEY = "sm_your_api_key"
 BASE_URL = "https://my.sealmetrics.com/api/v1"
 
-def get_overview(account_id: str, period: str = "7d"):
+def get_overview(site_id: str, period: str = "7d"):
     response = requests.get(
         f"{BASE_URL}/stats/overview",
         headers={"X-API-Key": API_KEY},
         params={
-            "account_id": account_id,
+            "site_id": site_id,
             "period": period
         }
     )
     response.raise_for_status()
     return response.json()["data"]
 
-def get_traffic_sources(account_id: str, period: str = "30d"):
+def get_traffic_sources(site_id: str, period: str = "30d"):
     response = requests.get(
         f"{BASE_URL}/stats/sources",
         headers={"X-API-Key": API_KEY},
         params={
-            "account_id": account_id,
+            "site_id": site_id,
             "period": period,
             "sort_by": "revenue",
             "sort_order": "desc"
@@ -702,7 +628,7 @@ const BASE_URL = 'https://my.sealmetrics.com/api/v1';
 
 async function getStats(accountId, period = '7d') {
   const params = new URLSearchParams({
-    account_id: accountId,
+    site_id: accountId,
     period: period
   });
 

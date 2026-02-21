@@ -22,17 +22,15 @@ API tokens provide:
 
 ## Scopes
 
-Each token can be granted specific permissions:
+API tokens can be granted the following permissions:
 
 | Scope | Description |
 |-------|-------------|
-| `read` | Read analytics data |
-| `write` | Create/update resources |
-| `admin` | Full access including user management |
-| `accounts:read` | Read account settings |
-| `accounts:write` | Modify account settings |
-| `exports:create` | Create data exports |
-| `webhooks:manage` | Manage webhook endpoints |
+| `stats:read` | Read analytics data (traffic, conversions, pages) |
+| `sites:read` | Read site configuration (domains, settings) |
+| `accounts:read` | Read account information |
+
+**Note:** API tokens have read-only access. Write operations require JWT authentication via the dashboard.
 
 ### List Available Scopes
 
@@ -47,19 +45,19 @@ GET /api-tokens/scopes
   "data": {
     "scopes": [
       {
-        "scope": "read",
-        "name": "Read",
+        "id": "stats:read",
+        "name": "Stats Read",
         "description": "Read analytics data"
       },
       {
-        "scope": "write",
-        "name": "Write",
-        "description": "Create and update resources"
+        "id": "sites:read",
+        "name": "Sites Read",
+        "description": "Read site configuration"
       },
       {
-        "scope": "admin",
-        "name": "Admin",
-        "description": "Full administrative access"
+        "id": "accounts:read",
+        "name": "Accounts Read",
+        "description": "Read account information"
       }
     ]
   }
@@ -90,7 +88,7 @@ GET /api-tokens
         "id": 1,
         "name": "Production API",
         "token_prefix": "sm_abc",
-        "scopes": ["read", "write"],
+        "scopes": ["stats:read", "sites:read", "accounts:read"],
         "account_ids": ["acme-corp"],
         "is_active": true,
         "expires_at": "2026-01-10T00:00:00Z",
@@ -116,7 +114,7 @@ POST /api-tokens
 ```json
 {
   "name": "My Integration",
-  "scopes": ["read", "exports:create"],
+  "scopes": ["stats:read", "sites:read"],
   "account_ids": ["acme-corp", "other-site"],
   "expires_in_days": 365
 }
@@ -138,7 +136,7 @@ POST /api-tokens
     "name": "My Integration",
     "token": "sm_abc123def456ghi789...",
     "token_prefix": "sm_abc",
-    "scopes": ["read", "exports:create"],
+    "scopes": ["stats:read", "sites:read"],
     "account_ids": ["acme-corp", "other-site"],
     "is_active": true,
     "expires_at": "2026-01-10T00:00:00Z",
@@ -165,7 +163,7 @@ GET /api-tokens/{token_id}
     "id": 1,
     "name": "Production API",
     "token_prefix": "sm_abc",
-    "scopes": ["read", "write"],
+    "scopes": ["stats:read", "sites:read", "accounts:read"],
     "account_ids": ["acme-corp"],
     "is_active": true,
     "expires_at": "2026-01-10T00:00:00Z",
@@ -205,7 +203,7 @@ Revokes a token immediately. This action cannot be undone.
 Include the token in the `X-API-Key` header:
 
 ```bash
-curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?account_id=acme" \
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme" \
   -H "X-API-Key: sm_abc123def456ghi789..."
 ```
 
@@ -219,19 +217,19 @@ Only grant the scopes your integration needs:
 
 ```json
 {
-  "name": "Read-only Dashboard",
-  "scopes": ["read"]
+  "name": "Analytics Only",
+  "scopes": ["stats:read"]
 }
 ```
 
-### 2. Restrict to Specific Accounts
+### 2. Restrict to Specific Sites
 
-If your integration only needs access to certain accounts:
+If your integration only needs access to certain sites:
 
 ```json
 {
   "name": "Client Dashboard",
-  "scopes": ["read"],
+  "scopes": ["stats:read"],
   "account_ids": ["client-a", "client-b"]
 }
 ```
@@ -243,7 +241,7 @@ For temporary integrations, use short expiration:
 ```json
 {
   "name": "Audit Script",
-  "scopes": ["read"],
+  "scopes": ["stats:read"],
   "expires_in_days": 7
 }
 ```
@@ -254,7 +252,7 @@ Create a new token before the old one expires:
 
 ```python
 # Create new token
-new_token = create_token("Production API v2", scopes=["read", "write"])
+new_token = create_token("Production API v2", scopes=["stats:read", "sites:read"])
 
 # Update your application config
 update_config(new_token)

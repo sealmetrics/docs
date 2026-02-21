@@ -34,7 +34,7 @@ Store your API key securely. It will only be shown once.
 ### Using cURL
 
 ```bash
-curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?account_id=YOUR_ACCOUNT_ID&period=7d" \
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_ACCOUNT_ID&period=7d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
@@ -50,7 +50,7 @@ response = requests.get(
     "https://my.sealmetrics.com/api/v1/stats/overview",
     headers={"X-API-Key": API_KEY},
     params={
-        "account_id": ACCOUNT_ID,
+        "site_id": ACCOUNT_ID,
         "period": "7d"
     }
 )
@@ -65,7 +65,7 @@ const API_KEY = 'sm_your_api_key_here';
 const ACCOUNT_ID = 'your-account-id';
 
 const params = new URLSearchParams({
-  account_id: ACCOUNT_ID,
+  site_id: ACCOUNT_ID,
   period: '7d'
 });
 
@@ -111,35 +111,35 @@ X-RateLimit-Reset: 1704067200
 ### Get Top Pages
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/pages?account_id=YOUR_ACCOUNT_ID&period=30d&page_size=10" \
+curl "https://my.sealmetrics.com/api/v1/stats/pages?site_id=YOUR_ACCOUNT_ID&period=30d&page_size=10" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Traffic Sources
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/sources?account_id=YOUR_ACCOUNT_ID&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/sources?site_id=YOUR_ACCOUNT_ID&period=30d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Conversions
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/conversions?account_id=YOUR_ACCOUNT_ID&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/conversions?site_id=YOUR_ACCOUNT_ID&period=30d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Funnel Data
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/funnel?account_id=YOUR_ACCOUNT_ID&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=YOUR_ACCOUNT_ID&period=30d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Geographic Data
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?account_id=YOUR_ACCOUNT_ID&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?site_id=YOUR_ACCOUNT_ID&period=30d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 

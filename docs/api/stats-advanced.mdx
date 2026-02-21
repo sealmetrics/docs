@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 title: Stats Advanced
 ---
 
@@ -37,7 +37,7 @@ Get traffic metrics grouped by UTM medium.
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `account_id` | string | required | Account ID |
+| `site_id` | string | required | Site ID |
 | `period` | string | `30d` | Date period (see [Periods](#date-periods)) |
 | `start_date` | date | - | Custom start date (YYYY-MM-DD) |
 | `end_date` | date | - | Custom end date (YYYY-MM-DD) |
@@ -476,55 +476,6 @@ Get list of microconversion types with data in the selected period.
 
 ---
 
-## Custom Properties
-
-Query conversions by custom properties sent with conversion events.
-
-### Available Property Keys
-
-```http
-GET /stats/properties/keys
-```
-
-Returns all unique property keys used in conversions.
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "data": ["brand", "category", "color", "size"]
-}
-```
-
----
-
-### Property Values
-
-```http
-GET /stats/properties/values
-```
-
-Get values for a specific property key with metrics.
-
-**Query Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `key` | string | Property key to query |
-
----
-
-### Property Breakdown
-
-```http
-GET /stats/properties/breakdown
-```
-
-Get pivotable breakdown by property values.
-
----
-
 ## Date Periods
 
 All stats endpoints accept a `period` parameter with these values:
@@ -609,9 +560,9 @@ import requests
 
 response = requests.get(
     "https://api.sealmetrics.com/api/v1/stats/sources",
-    headers={"X-API-Key": "str_your_key"},
+    headers={"X-API-Key": "sm_your_api_key"},
     params={
-        "account_id": "my-site",
+        "site_id": "my-site",
         "period": "30d",
         "sort_by": "revenue",
         "sort_order": "desc",
@@ -628,9 +579,9 @@ for source in response.json()["data"]:
 ```python
 response = requests.get(
     "https://api.sealmetrics.com/api/v1/stats/campaigns",
-    headers={"X-API-Key": "str_your_key"},
+    headers={"X-API-Key": "sm_your_api_key"},
     params={
-        "account_id": "my-site",
+        "site_id": "my-site",
         "period": "7d",
         "segment": "paid-traffic",
         "country": "ES",
@@ -645,9 +596,9 @@ response = requests.get(
 # Get add_to_cart by source
 carts = requests.get(
     "https://api.sealmetrics.com/api/v1/stats/microconversions",
-    headers={"X-API-Key": "str_your_key"},
+    headers={"X-API-Key": "sm_your_api_key"},
     params={
-        "account_id": "my-site",
+        "site_id": "my-site",
         "period": "30d",
         "conversion_type": "add_to_cart"
     }

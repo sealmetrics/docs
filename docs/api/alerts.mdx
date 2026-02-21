@@ -1,5 +1,5 @@
 ---
-sidebar_position: 11
+sidebar_position: 13
 title: Alerts
 description: Configure and manage traffic anomaly alerts.
 ---
@@ -25,14 +25,14 @@ The Alerts API allows you to:
 ### List Alert Rules
 
 ```http
-GET /alerts/rules?account_id={account_id}
+GET /alerts/rules?site_id={site_id}
 ```
 
 **Query Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `account_id` | string | Required. Account ID |
+| `site_id` | string | Required. Site ID |
 | `include_inactive` | boolean | Include disabled rules |
 
 **Response:**
@@ -42,7 +42,7 @@ GET /alerts/rules?account_id={account_id}
   "rules": [
     {
       "id": 1,
-      "account_id": "acme",
+      "site_id": "acme",
       "name": "Traffic Drop Alert",
       "description": "Alert when traffic drops significantly",
       "metric": "entrances",
@@ -64,7 +64,7 @@ GET /alerts/rules?account_id={account_id}
 ### Create Alert Rule
 
 ```http
-POST /alerts/rules?account_id={account_id}
+POST /alerts/rules?site_id={site_id}
 ```
 
 **Request Body:**
@@ -124,7 +124,7 @@ POST /alerts/rules?account_id={account_id}
 ```json
 {
   "id": 2,
-  "account_id": "acme",
+  "site_id": "acme",
   "name": "Revenue Drop",
   "metric": "revenue",
   "condition": "decrease",
@@ -140,7 +140,7 @@ POST /alerts/rules?account_id={account_id}
 ### Get Alert Rule
 
 ```http
-GET /alerts/rules/{rule_id}?account_id={account_id}
+GET /alerts/rules/{rule_id}?site_id={site_id}
 ```
 
 ---
@@ -148,7 +148,7 @@ GET /alerts/rules/{rule_id}?account_id={account_id}
 ### Update Alert Rule
 
 ```http
-PATCH /alerts/rules/{rule_id}?account_id={account_id}
+PATCH /alerts/rules/{rule_id}?site_id={site_id}
 ```
 
 **Request Body:**
@@ -168,7 +168,7 @@ All fields are optional. Only provided fields are updated.
 ### Delete Alert Rule
 
 ```http
-DELETE /alerts/rules/{rule_id}?account_id={account_id}
+DELETE /alerts/rules/{rule_id}?site_id={site_id}
 ```
 
 ---
@@ -178,7 +178,7 @@ DELETE /alerts/rules/{rule_id}?account_id={account_id}
 ### Test Alert Rule
 
 ```http
-POST /alerts/rules/{rule_id}/test?account_id={account_id}
+POST /alerts/rules/{rule_id}/test?site_id={site_id}
 ```
 
 Test a rule without triggering actual notifications.
@@ -214,14 +214,14 @@ Set `send_notification: true` to send a real test notification.
 ### Get Alert History
 
 ```http
-GET /alerts/history?account_id={account_id}
+GET /alerts/history?site_id={site_id}
 ```
 
 **Query Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `account_id` | string | Required. Account ID |
+| `site_id` | string | Required. Site ID |
 | `rule_id` | int | Filter by specific rule |
 | `status` | string | Filter by status |
 | `limit` | int | Max results (default: 50) |
@@ -266,7 +266,7 @@ GET /alerts/history?account_id={account_id}
 ### Acknowledge Alert
 
 ```http
-PATCH /alerts/history/{alert_id}?account_id={account_id}
+PATCH /alerts/history/{alert_id}?site_id={site_id}
 ```
 
 **Request Body:**
@@ -302,7 +302,7 @@ PATCH /alerts/history/{alert_id}?account_id={account_id}
 ### Get Alert Statistics
 
 ```http
-GET /alerts/stats?account_id={account_id}
+GET /alerts/stats?site_id={site_id}
 ```
 
 **Response:**
@@ -345,7 +345,7 @@ def create_alert_rule(name: str, metric: str, threshold: int) -> dict:
     response = requests.post(
         f"{BASE_URL}/alerts/rules",
         headers={"X-API-Key": API_KEY},
-        params={"account_id": ACCOUNT_ID},
+        params={"site_id": ACCOUNT_ID},
         json={
             "name": name,
             "metric": metric,
@@ -365,7 +365,7 @@ def get_active_alerts() -> list:
         f"{BASE_URL}/alerts/history",
         headers={"X-API-Key": API_KEY},
         params={
-            "account_id": ACCOUNT_ID,
+            "site_id": ACCOUNT_ID,
             "status": "triggered"
         }
     )
@@ -377,7 +377,7 @@ def acknowledge_alert(alert_id: int, notes: str):
     response = requests.patch(
         f"{BASE_URL}/alerts/history/{alert_id}",
         headers={"X-API-Key": API_KEY},
-        params={"account_id": ACCOUNT_ID},
+        params={"site_id": ACCOUNT_ID},
         json={
             "status": "acknowledged",
             "notes": notes
@@ -406,7 +406,7 @@ function useAlerts(accountId) {
   useEffect(() => {
     async function fetchAlerts() {
       const response = await fetch(
-        `${BASE_URL}/alerts/history?account_id=${accountId}&status=triggered`,
+        `${BASE_URL}/alerts/history?site_id=${accountId}&status=triggered`,
         { headers: { 'X-API-Key': API_KEY } }
       );
       const data = await response.json();
@@ -422,7 +422,7 @@ function useAlerts(accountId) {
 
   const acknowledgeAlert = async (alertId, notes) => {
     await fetch(
-      `${BASE_URL}/alerts/history/${alertId}?account_id=${accountId}`,
+      `${BASE_URL}/alerts/history/${alertId}?site_id=${accountId}`,
       {
         method: 'PATCH',
         headers: {

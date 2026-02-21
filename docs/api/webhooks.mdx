@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 12
 title: Webhooks
 description: Real-time event notifications via HTTP callbacks.
 ---
@@ -28,14 +28,14 @@ All webhooks are:
 ### List Webhook Endpoints
 
 ```http
-GET /webhooks?account_id={account_id}
+GET /webhooks?site_id={site_id}
 ```
 
 **Query Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `account_id` | string | Required. Account ID |
+| `site_id` | string | Required. Site ID |
 | `include_inactive` | boolean | Include disabled endpoints |
 | `limit` | int | Max results (default: 50) |
 | `offset` | int | Pagination offset |
@@ -47,7 +47,7 @@ GET /webhooks?account_id={account_id}
   "endpoints": [
     {
       "id": "550e8400-e29b-41d4-a716-446655440000",
-      "account_id": "acme",
+      "site_id": "acme",
       "name": "Slack Alerts",
       "url": "https://hooks.slack.com/services/xxx",
       "event_types": ["alert.triggered"],
@@ -67,7 +67,7 @@ GET /webhooks?account_id={account_id}
 ### Create Webhook Endpoint
 
 ```http
-POST /webhooks?account_id={account_id}
+POST /webhooks?site_id={site_id}
 ```
 
 **Request Body:**
@@ -97,7 +97,7 @@ POST /webhooks?account_id={account_id}
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
-  "account_id": "acme",
+  "site_id": "acme",
   "name": "My Webhook",
   "url": "https://my-app.com/webhooks/sealmetrics",
   "event_types": ["alert.triggered", "export.completed"],
@@ -115,7 +115,7 @@ POST /webhooks?account_id={account_id}
 ### Get Webhook Endpoint
 
 ```http
-GET /webhooks/{endpoint_id}?account_id={account_id}
+GET /webhooks/{endpoint_id}?site_id={site_id}
 ```
 
 ---
@@ -123,7 +123,7 @@ GET /webhooks/{endpoint_id}?account_id={account_id}
 ### Update Webhook Endpoint
 
 ```http
-PATCH /webhooks/{endpoint_id}?account_id={account_id}
+PATCH /webhooks/{endpoint_id}?site_id={site_id}
 ```
 
 **Request Body:**
@@ -144,7 +144,7 @@ All fields are optional. Only provided fields are updated.
 ### Delete Webhook Endpoint
 
 ```http
-DELETE /webhooks/{endpoint_id}?account_id={account_id}
+DELETE /webhooks/{endpoint_id}?site_id={site_id}
 ```
 
 Deletes the endpoint and all delivery history.
@@ -200,7 +200,7 @@ GET /webhooks/event-types
 ### Send Test Webhook
 
 ```http
-POST /webhooks/{endpoint_id}/test?account_id={account_id}
+POST /webhooks/{endpoint_id}/test?site_id={site_id}
 ```
 
 Sends a test event to verify your endpoint is correctly configured.
@@ -235,7 +235,7 @@ On first successful test, the endpoint is marked as `verified`.
 ### Rotate Webhook Secret
 
 ```http
-POST /webhooks/{endpoint_id}/rotate-secret?account_id={account_id}
+POST /webhooks/{endpoint_id}/rotate-secret?site_id={site_id}
 ```
 
 Generates a new secret key. The previous secret remains valid for 24 hours to allow graceful migration.
@@ -259,7 +259,7 @@ Generates a new secret key. The previous secret remains valid for 24 hours to al
 ### List Deliveries
 
 ```http
-GET /webhooks/{endpoint_id}/deliveries?account_id={account_id}
+GET /webhooks/{endpoint_id}/deliveries?site_id={site_id}
 ```
 
 **Query Parameters:**
@@ -294,7 +294,7 @@ GET /webhooks/{endpoint_id}/deliveries?account_id={account_id}
 ### Get Delivery Details
 
 ```http
-GET /webhooks/{endpoint_id}/deliveries/{delivery_id}?account_id={account_id}
+GET /webhooks/{endpoint_id}/deliveries/{delivery_id}?site_id={site_id}
 ```
 
 Returns full delivery details including payload and response.
@@ -324,7 +324,7 @@ Returns full delivery details including payload and response.
 ### Replay Delivery
 
 ```http
-POST /webhooks/{endpoint_id}/deliveries/{delivery_id}/replay?account_id={account_id}
+POST /webhooks/{endpoint_id}/deliveries/{delivery_id}/replay?site_id={site_id}
 ```
 
 Replays a failed delivery with the same payload.
@@ -352,7 +352,7 @@ Set `force: true` to replay a delivery that already succeeded.
 ### Bulk Replay
 
 ```http
-POST /webhooks/bulk/replay?account_id={account_id}
+POST /webhooks/bulk/replay?site_id={site_id}
 ```
 
 Replay multiple failed deliveries at once.
@@ -376,7 +376,7 @@ Replay multiple failed deliveries at once.
 ### Get Endpoint Statistics
 
 ```http
-GET /webhooks/{endpoint_id}/stats?account_id={account_id}
+GET /webhooks/{endpoint_id}/stats?site_id={site_id}
 ```
 
 **Query Parameters:**
@@ -420,7 +420,7 @@ All webhooks are sent as HTTP POST requests with JSON body:
   "event": "alert.triggered",
   "event_id": "evt_abc123",
   "timestamp": "2025-01-10T14:30:00Z",
-  "account_id": "acme",
+  "site_id": "acme",
   "data": {
     // Event-specific data
   }
@@ -434,7 +434,7 @@ All webhooks are sent as HTTP POST requests with JSON body:
   "event": "alert.triggered",
   "event_id": "evt_abc123",
   "timestamp": "2025-01-10T14:30:00Z",
-  "account_id": "acme",
+  "site_id": "acme",
   "data": {
     "alert_id": 123,
     "rule_name": "Traffic Drop",
@@ -456,7 +456,7 @@ All webhooks are sent as HTTP POST requests with JSON body:
   "event": "export.completed",
   "event_id": "evt_def456",
   "timestamp": "2025-01-10T15:00:00Z",
-  "account_id": "acme",
+  "site_id": "acme",
   "data": {
     "export_id": "exp_abc123",
     "export_type": "pageviews",
@@ -583,6 +583,6 @@ Always use HTTPS endpoints. HTTP endpoints are rejected.
 Rotate webhook secrets every 90 days for security:
 
 ```bash
-curl -X POST "https://my.sealmetrics.com/api/v1/webhooks/{id}/rotate-secret?account_id=acme" \
+curl -X POST "https://my.sealmetrics.com/api/v1/webhooks/{id}/rotate-secret?site_id=acme" \
   -H "X-API-Key: sm_your_key"
 ```

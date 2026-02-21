@@ -1,5 +1,5 @@
 ---
-sidebar_position: 12
+sidebar_position: 11
 title: Segments
 ---
 
@@ -29,7 +29,7 @@ A segment consists of a name, display name, and filter conditions:
 ```json
 {
   "id": "seg_abc123",
-  "account_id": "my-site",
+  "site_id": "my-site",
   "name": "paid-spain",
   "display_name": "Paid Traffic Spain",
   "description": "CPC traffic from Spain",
@@ -163,7 +163,7 @@ Use `not_groups` to exclude matching records:
 ## List Segments
 
 ```http
-GET /segments?account_id={account_id}
+GET /segments?site_id={site_id}
 ```
 
 Get all segments for an account.
@@ -172,7 +172,7 @@ Get all segments for an account.
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `account_id` | string | required | Account ID |
+| `site_id` | string | required | Site ID |
 | `include_system` | boolean | `true` | Include system segments |
 
 **Response:**
@@ -208,7 +208,7 @@ Get all segments for an account.
 ## Get Segment
 
 ```http
-GET /segments/{segment_id}?account_id={account_id}
+GET /segments/{segment_id}?site_id={site_id}
 ```
 
 Get a segment by ID or name.
@@ -226,7 +226,7 @@ Get a segment by ID or name.
   "success": true,
   "data": {
     "id": "seg_abc123",
-    "account_id": "my-site",
+    "site_id": "my-site",
     "name": "paid-spain",
     "display_name": "Paid Traffic Spain",
     "description": "CPC traffic from Spain",
@@ -250,7 +250,7 @@ Get a segment by ID or name.
 ## Create Segment
 
 ```http
-POST /segments?account_id={account_id}
+POST /segments?site_id={site_id}
 ```
 
 Create a new segment.
@@ -290,7 +290,7 @@ Create a new segment.
 ## Update Segment
 
 ```http
-PUT /segments/{segment_id}?account_id={account_id}
+PUT /segments/{segment_id}?site_id={site_id}
 ```
 
 Update an existing segment.
@@ -321,7 +321,7 @@ System segments cannot be modified. Duplicate them first if you need a variation
 ## Delete Segment
 
 ```http
-DELETE /segments/{segment_id}?account_id={account_id}
+DELETE /segments/{segment_id}?site_id={site_id}
 ```
 
 Delete a segment.
@@ -337,7 +337,7 @@ System segments cannot be deleted.
 ## Duplicate Segment
 
 ```http
-POST /segments/{segment_id}/duplicate?account_id={account_id}&new_name={new_name}
+POST /segments/{segment_id}/duplicate?site_id={site_id}&new_name={new_name}
 ```
 
 Create a copy of an existing segment with a new name.
@@ -351,7 +351,7 @@ Create a copy of an existing segment with a new name.
 **Example:**
 
 ```http
-POST /segments/organic-search/duplicate?account_id=my-site&new_name=organic-search-spain
+POST /segments/organic-search/duplicate?site_id=my-site&new_name=organic-search-spain
 ```
 
 **Response (201 Created):** Full segment object of the new copy
@@ -385,7 +385,7 @@ System segments:
 Apply a segment to any stats endpoint with the `segment` parameter:
 
 ```http
-GET /stats/pages?account_id=my-site&segment=paid-spain
+GET /stats/pages?site_id=my-site&segment=paid-spain
 ```
 
 You can reference segments by:
@@ -397,7 +397,7 @@ You can reference segments by:
 When you use a segment AND explicit filter parameters:
 
 ```http
-GET /stats/pages?account_id=my-site&segment=paid-spain&utm_campaign=spring_sale
+GET /stats/pages?site_id=my-site&segment=paid-spain&utm_campaign=spring_sale
 ```
 
 The segment filters are applied first, then explicit parameters are added (AND logic).
@@ -422,7 +422,7 @@ The segment filters are applied first, then explicit parameters are added (AND l
 ```python
 import requests
 
-API_KEY = "str_your_api_key"
+API_KEY = "sm_your_api_key"
 BASE_URL = "https://api.sealmetrics.com/api/v1"
 ACCOUNT_ID = "my-site"
 
@@ -431,7 +431,7 @@ def create_segment(name, display_name, conditions, color=None):
     response = requests.post(
         f"{BASE_URL}/segments",
         headers={"X-API-Key": API_KEY},
-        params={"account_id": ACCOUNT_ID},
+        params={"site_id": ACCOUNT_ID},
         json={
             "name": name,
             "display_name": display_name,
@@ -449,7 +449,7 @@ def get_stats_with_segment(segment_name, period="30d"):
         f"{BASE_URL}/stats/overview",
         headers={"X-API-Key": API_KEY},
         params={
-            "account_id": ACCOUNT_ID,
+            "site_id": ACCOUNT_ID,
             "period": period,
             "segment": segment_name
         }
@@ -479,13 +479,13 @@ print(f"Revenue: €{stats['revenue']}")
 ### JavaScript - List and Apply Segments
 
 ```javascript
-const API_KEY = 'str_your_api_key';
+const API_KEY = 'sm_your_api_key';
 const BASE_URL = 'https://api.sealmetrics.com/api/v1';
 const ACCOUNT_ID = 'my-site';
 
 async function listSegments(includeSystem = true) {
   const params = new URLSearchParams({
-    account_id: ACCOUNT_ID,
+    site_id: ACCOUNT_ID,
     include_system: includeSystem
   });
 
@@ -503,7 +503,7 @@ async function getStatsForAllSegments(period = '30d') {
 
   for (const segment of segments) {
     const params = new URLSearchParams({
-      account_id: ACCOUNT_ID,
+      site_id: ACCOUNT_ID,
       period,
       segment: segment.name
     });

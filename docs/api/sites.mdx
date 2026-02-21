@@ -1,41 +1,34 @@
 ---
-sidebar_position: 6
-title: Accounts
+sidebar_position: 5
+title: Sites
 ---
 
-# Accounts API
+# Sites API
 
-Complete reference for managing analytics accounts, domains, UTM mappings, user access, and pixel installation.
+Complete reference for managing analytics sites, domains, UTM mappings, and pixel installation.
 
 ## Overview
 
-The Accounts API allows you to:
+The Sites API allows you to:
 
-- Create and manage analytics accounts
+- Create and manage analytics sites
 - Configure authorized domains for tracking
 - Set up custom UTM parameter mappings
-- Manage user access and roles
 - Generate and verify pixel installation
 
-**Base path:** `/accounts`
+**Base path:** `/sites`
 
 ---
 
-## Account Endpoints
+## Site Endpoints
 
-### List Accounts
+### List Sites
 
 ```http
-GET /accounts
+GET /sites
 ```
 
-Returns all accounts accessible by the current user.
-
-**Query Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `include_inactive` | boolean | Include inactive accounts (admin only) |
+Returns all sites accessible by the current user.
 
 **Response:**
 
@@ -43,7 +36,7 @@ Returns all accounts accessible by the current user.
 {
   "success": true,
   "data": {
-    "accounts": [
+    "sites": [
       {
         "id": "acme-corp",
         "name": "ACME Corporation",
@@ -51,8 +44,7 @@ Returns all accounts accessible by the current user.
         "timezone": "Europe/Madrid",
         "currency": "EUR",
         "is_active": true,
-        "created_at": "2024-01-15T10:00:00Z",
-        "user_count": 3
+        "created_at": "2024-01-15T10:00:00Z"
       }
     ],
     "total": 1
@@ -62,15 +54,15 @@ Returns all accounts accessible by the current user.
 
 ---
 
-### Create Account
+### Create Site
 
 ```http
-POST /accounts
+POST /sites
 ```
 
-Creates a new analytics account.
+Creates a new analytics site within your organization.
 
-**Required scope:** `admin` or `accounts:create`
+**Required scope:** `write`
 
 **Request Body:**
 
@@ -85,7 +77,7 @@ Creates a new analytics account.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `name` | string | Yes | Account display name (1-255 chars) |
+| `name` | string | Yes | Site display name (1-255 chars) |
 | `domains` | string[] | No | Authorized domains for tracking |
 | `timezone` | string | No | IANA timezone (default: UTC) |
 | `currency` | string | No | ISO 4217 currency code (default: EUR) |
@@ -107,15 +99,17 @@ Creates a new analytics account.
 }
 ```
 
+**Note:** The `id` is auto-generated as a slug from the site name.
+
 ---
 
-### Get Account
+### Get Site
 
 ```http
-GET /accounts/{account_id}
+GET /sites/{site_id}
 ```
 
-Returns detailed information about a specific account.
+Returns detailed information about a specific site.
 
 **Response:**
 
@@ -130,21 +124,20 @@ Returns detailed information about a specific account.
     "currency": "EUR",
     "is_active": true,
     "created_at": "2024-01-15T10:00:00Z",
-    "updated_at": "2025-01-08T09:15:00Z",
-    "user_count": 3
+    "updated_at": "2025-01-08T09:15:00Z"
   }
 }
 ```
 
 ---
 
-### Update Account
+### Update Site
 
 ```http
-PATCH /accounts/{account_id}
+PATCH /sites/{site_id}
 ```
 
-Updates account settings.
+Updates site settings.
 
 **Request Body:**
 
@@ -160,15 +153,15 @@ All fields are optional. Only provided fields are updated.
 
 ---
 
-### Delete Account
+### Delete Site
 
 ```http
-DELETE /accounts/{account_id}
+DELETE /sites/{site_id}
 ```
 
-Deactivates an account (soft delete).
+Deactivates a site (soft delete).
 
-**Required scope:** `admin`
+**Required scope:** `write`
 
 **Response:**
 
@@ -177,7 +170,7 @@ Deactivates an account (soft delete).
   "success": true,
   "data": {
     "deleted": true,
-    "account_id": "acme-corp"
+    "site_id": "acme-corp"
   }
 }
 ```
@@ -186,12 +179,12 @@ Deactivates an account (soft delete).
 
 ## Domain Endpoints
 
-Domains authorize which websites can send tracking data to an account.
+Domains authorize which websites can send tracking data to a site.
 
 ### List Domains
 
 ```http
-GET /accounts/{account_id}/domains
+GET /sites/{site_id}/domains
 ```
 
 **Response:**
@@ -224,7 +217,7 @@ GET /accounts/{account_id}/domains
 ### Add Domain
 
 ```http
-POST /accounts/{account_id}/domains
+POST /sites/{site_id}/domains
 ```
 
 **Request Body:**
@@ -254,7 +247,7 @@ POST /accounts/{account_id}/domains
 ### Remove Domain
 
 ```http
-DELETE /accounts/{account_id}/domains/{domain}
+DELETE /sites/{site_id}/domains/{domain}
 ```
 
 **Response:**
@@ -278,7 +271,7 @@ UTM mappings allow custom URL parameters to be mapped to standard UTM fields.
 ### List UTM Mappings
 
 ```http
-GET /accounts/{account_id}/utm-mappings
+GET /sites/{site_id}/utm-mappings
 ```
 
 **Response:**
@@ -313,7 +306,7 @@ GET /accounts/{account_id}/utm-mappings
 ### Add UTM Mapping
 
 ```http
-POST /accounts/{account_id}/utm-mappings
+POST /sites/{site_id}/utm-mappings
 ```
 
 **Request Body:**
@@ -348,7 +341,7 @@ Now `?src=google` will be treated as `?utm_source=google`.
 ### Update UTM Mapping
 
 ```http
-PATCH /accounts/{account_id}/utm-mappings/{mapping_id}
+PATCH /sites/{site_id}/utm-mappings/{mapping_id}
 ```
 
 **Request Body:**
@@ -365,110 +358,19 @@ PATCH /accounts/{account_id}/utm-mappings/{mapping_id}
 ### Remove UTM Mapping
 
 ```http
-DELETE /accounts/{account_id}/utm-mappings/{custom_param}
-```
-
----
-
-## Account User Endpoints
-
-Manage user access and roles within an account.
-
-### User Roles
-
-| Role | Description |
-|------|-------------|
-| `owner` | Full access, can delete account |
-| `admin` | Full access, can manage users |
-| `editor` | Read and write analytics data |
-| `viewer` | Read-only access |
-
----
-
-### List Account Users
-
-```http
-GET /accounts/{account_id}/users
-```
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "data": {
-    "users": [
-      {
-        "user_id": 1,
-        "email": "admin@acme.com",
-        "name": "Admin User",
-        "role": "owner",
-        "created_at": "2024-01-15T10:00:00Z"
-      },
-      {
-        "user_id": 2,
-        "email": "analyst@acme.com",
-        "name": "Data Analyst",
-        "role": "viewer",
-        "created_at": "2024-03-20T14:00:00Z"
-      }
-    ],
-    "total": 2
-  }
-}
-```
-
----
-
-### Add User to Account
-
-```http
-POST /accounts/{account_id}/users
-```
-
-**Required scope:** `admin` or `accounts:manage_users`
-
-**Request Body:**
-
-```json
-{
-  "user_id": 5,
-  "role": "editor"
-}
-```
-
----
-
-### Update User Role
-
-```http
-PATCH /accounts/{account_id}/users/{user_id}
-```
-
-**Request Body:**
-
-```json
-{
-  "role": "admin"
-}
-```
-
----
-
-### Remove User from Account
-
-```http
-DELETE /accounts/{account_id}/users/{user_id}
+DELETE /sites/{site_id}/utm-mappings/{custom_param}
 ```
 
 ---
 
 ## Pixel Code Endpoints
 
+**Note:** To manage user access to sites, use the [Organizations API](/api/organizations). Users are added to organizations and then granted access to specific sites.
+
 ### Get Pixel Code
 
 ```http
-GET /accounts/{account_id}/pixel
+GET /sites/{site_id}/pixel
 ```
 
 Returns the tracking pixel installation code.
@@ -479,7 +381,7 @@ Returns the tracking pixel installation code.
 {
   "success": true,
   "data": {
-    "account_id": "acme-corp",
+    "site_id": "acme-corp",
     "script_tag": "<script src=\"https://t.sealmetrics.com/t.js?id=acme-corp\" defer></script>",
     "tracker_url": "https://t.sealmetrics.com/t.js?id=acme-corp",
     "instructions": "Add this script tag to your website's <head> section."
@@ -492,7 +394,7 @@ Returns the tracking pixel installation code.
 ### Get Pixel Status
 
 ```http
-GET /accounts/{account_id}/pixel/status
+GET /sites/{site_id}/pixel/status
 ```
 
 Check if the tracking pixel is installed and receiving data.
@@ -503,7 +405,7 @@ Check if the tracking pixel is installed and receiving data.
 {
   "success": true,
   "data": {
-    "account_id": "acme-corp",
+    "site_id": "acme-corp",
     "installed": true,
     "first_hit_at": "2024-01-15T10:05:00Z",
     "last_hit_at": "2025-01-10T14:28:00Z",
@@ -526,7 +428,7 @@ Check if the tracking pixel is installed and receiving data.
 ### List Available Timezones
 
 ```http
-GET /accounts/config/timezones
+GET /sites/config/timezones
 ```
 
 Returns all available IANA timezone identifiers.
@@ -563,8 +465,7 @@ Returns all available IANA timezone identifiers.
 | 400 | `invalid_timezone` | Invalid IANA timezone identifier |
 | 400 | `invalid_domain` | Invalid domain format |
 | 403 | `forbidden` | Insufficient permissions |
-| 404 | `not_found` | Account or resource not found |
-| 409 | `conflict` | User already has access to account |
+| 404 | `not_found` | Site or resource not found |
 
 ---
 
@@ -575,12 +476,12 @@ Returns all available IANA timezone identifiers.
 ```python
 import requests
 
-API_KEY = "str_your_api_key"
+API_KEY = "sm_your_api_key"
 BASE_URL = "https://api.sealmetrics.com/api/v1"
 
-# Create account
+# Create site
 response = requests.post(
-    f"{BASE_URL}/accounts",
+    f"{BASE_URL}/sites",
     headers={"X-API-Key": API_KEY},
     json={
         "name": "My E-commerce Site",
@@ -588,19 +489,19 @@ response = requests.post(
         "timezone": "Europe/Madrid"
     }
 )
-account = response.json()["data"]
-print(f"Created account: {account['id']}")
+site = response.json()["data"]
+print(f"Created site: {site['id']}")
 
 # Add domain
 requests.post(
-    f"{BASE_URL}/accounts/{account['id']}/domains",
+    f"{BASE_URL}/sites/{site['id']}/domains",
     headers={"X-API-Key": API_KEY},
     json={"domain": "shop.myshop.com"}
 )
 
 # Get pixel code
 pixel = requests.get(
-    f"{BASE_URL}/accounts/{account['id']}/pixel",
+    f"{BASE_URL}/sites/{site['id']}/pixel",
     headers={"X-API-Key": API_KEY}
 ).json()["data"]
 print(pixel["script_tag"])
@@ -609,11 +510,11 @@ print(pixel["script_tag"])
 ### JavaScript
 
 ```javascript
-const API_KEY = 'str_your_api_key';
+const API_KEY = 'sm_your_api_key';
 const BASE_URL = 'https://api.sealmetrics.com/api/v1';
 
-// Create account
-const response = await fetch(`${BASE_URL}/accounts`, {
+// Create site
+const response = await fetch(`${BASE_URL}/sites`, {
   method: 'POST',
   headers: {
     'X-API-Key': API_KEY,
@@ -626,12 +527,12 @@ const response = await fetch(`${BASE_URL}/accounts`, {
   })
 });
 
-const { data: account } = await response.json();
-console.log(`Created account: ${account.id}`);
+const { data: site } = await response.json();
+console.log(`Created site: ${site.id}`);
 
 // Check pixel status
 const statusResponse = await fetch(
-  `${BASE_URL}/accounts/${account.id}/pixel/status`,
+  `${BASE_URL}/sites/${site.id}/pixel/status`,
   { headers: { 'X-API-Key': API_KEY } }
 );
 const { data: status } = await statusResponse.json();

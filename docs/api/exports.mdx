@@ -1,5 +1,5 @@
 ---
-sidebar_position: 11
+sidebar_position: 14
 title: Exports
 ---
 
@@ -54,7 +54,7 @@ The Exports API allows you to:
 ## Create Export
 
 ```http
-POST /exports?account_id={account_id}
+POST /exports?site_id={site_id}
 ```
 
 Create a new export job.
@@ -110,7 +110,7 @@ Create a new export job.
   "job": {
     "id": 1,
     "job_id": "550e8400-e29b-41d4-a716-446655440000",
-    "account_id": "my-site",
+    "site_id": "my-site",
     "export_type": "sources",
     "format": "csv",
     "date_from": "2025-01-01",
@@ -156,7 +156,7 @@ Create a new export job.
 ## Estimate Export Size
 
 ```http
-POST /exports/estimate?account_id={account_id}
+POST /exports/estimate?site_id={site_id}
 ```
 
 Get size estimate without creating a job.
@@ -188,7 +188,7 @@ Get size estimate without creating a job.
 ## List Exports
 
 ```http
-GET /exports?account_id={account_id}
+GET /exports?site_id={site_id}
 ```
 
 List all exports for an account.
@@ -227,7 +227,7 @@ List all exports for an account.
 ## Get Export Status
 
 ```http
-GET /exports/{job_id}?account_id={account_id}
+GET /exports/{job_id}?site_id={site_id}
 ```
 
 Get status of a specific export job.
@@ -260,7 +260,7 @@ Content-Disposition: attachment; filename="sealmetrics_sources_20250101_20250110
 ## Stream Export (Small Datasets)
 
 ```http
-POST /exports/stream?account_id={account_id}
+POST /exports/stream?site_id={site_id}
 ```
 
 Stream export directly for small datasets (&lt;10K rows).
@@ -282,7 +282,7 @@ Stream export directly for small datasets (&lt;10K rows).
 ## Cancel/Delete Export
 
 ```http
-DELETE /exports/{job_id}?account_id={account_id}
+DELETE /exports/{job_id}?site_id={site_id}
 ```
 
 Cancel a pending export or delete a completed one.
@@ -332,17 +332,17 @@ For large exports:
 import requests
 import time
 
-API_KEY = "str_your_api_key"
+API_KEY = "sm_your_api_key"
 BASE_URL = "https://api.sealmetrics.com/api/v1"
 
-def export_data(account_id, export_type, date_from, date_to, filters=None):
+def export_data(site_id, export_type, date_from, date_to, filters=None):
     """Create export and return download URL."""
 
     # Create export
     response = requests.post(
         f"{BASE_URL}/exports",
         headers={"X-API-Key": API_KEY},
-        params={"account_id": account_id},
+        params={"site_id": site_id},
         json={
             "export_type": export_type,
             "format": "csv",
@@ -363,7 +363,7 @@ def export_data(account_id, export_type, date_from, date_to, filters=None):
         response = requests.get(
             f"{BASE_URL}/exports/{job_id}",
             headers={"X-API-Key": API_KEY},
-            params={"account_id": account_id}
+            params={"site_id": site_id}
         )
         job = response.json()
 
@@ -385,7 +385,7 @@ def download_file(download_url, output_path):
 
 # Usage
 url = export_data(
-    account_id="my-site",
+    site_id="my-site",
     export_type="sources",
     date_from="2025-01-01",
     date_to="2025-01-10",
@@ -399,7 +399,7 @@ download_file(url, "sources_export.csv")
 ```javascript
 async function streamExport(accountId, exportType, dateFrom, dateTo) {
   const response = await fetch(
-    `${BASE_URL}/exports/stream?account_id=${accountId}`,
+    `${BASE_URL}/exports/stream?site_id=${accountId}`,
     {
       method: 'POST',
       headers: {
@@ -427,13 +427,13 @@ async function streamExport(accountId, exportType, dateFrom, dateTo) {
 ### Check Estimate Before Export
 
 ```python
-def estimate_first(account_id, export_config):
+def estimate_first(site_id, export_config):
     """Check size before creating export."""
 
     response = requests.post(
         f"{BASE_URL}/exports/estimate",
         headers={"X-API-Key": API_KEY},
-        params={"account_id": account_id},
+        params={"site_id": site_id},
         json=export_config
     )
     estimate = response.json()
@@ -449,5 +449,5 @@ def estimate_first(account_id, export_config):
             return None
 
     # Proceed with export
-    return export_data(account_id, **export_config)
+    return export_data(site_id, **export_config)
 ```

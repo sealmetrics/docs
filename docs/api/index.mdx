@@ -19,7 +19,7 @@ REST API for querying analytics data and managing your Sealmetrics account progr
 ## Quick Start
 
 ```bash
-curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?account_id=YOUR_ACCOUNT_ID&period=7d" \
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_SITE_ID&period=7d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
@@ -46,7 +46,6 @@ Response:
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/stats/overview` | GET | Dashboard overview with all key metrics |
-| `/stats/query` | POST | Flexible multi-dimensional query |
 | `/stats/pages` | GET | Page metrics with pagination |
 | `/stats/mediums` | GET | Traffic by UTM medium |
 | `/stats/sources` | GET | Traffic by UTM source |
@@ -57,17 +56,26 @@ Response:
 | `/stats/geo/countries` | GET | Geographic breakdown |
 | `/stats/devices` | GET | Device, browser, OS breakdown |
 
-### Account Management
+### Site Management
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/accounts` | GET, POST | List and create accounts |
-| `/accounts/{id}` | GET, PATCH, DELETE | Manage specific account |
-| `/accounts/{id}/domains` | GET, POST, DELETE | Authorized domains |
-| `/accounts/{id}/utm-mappings` | GET, POST, PATCH, DELETE | UTM parameter mappings |
-| `/accounts/{id}/users` | GET, POST, PATCH, DELETE | User access management |
-| `/accounts/{id}/pixel` | GET | Get tracking pixel code |
-| `/accounts/{id}/pixel/status` | GET | Check pixel installation |
+| `/sites` | GET, POST | List and create sites |
+| `/sites/{id}` | GET, PATCH, DELETE | Manage specific site |
+| `/sites/{id}/domains` | GET, POST, DELETE | Authorized domains |
+| `/sites/{id}/utm-mappings` | GET, POST, PATCH, DELETE | UTM parameter mappings |
+| `/sites/{id}/pixel` | GET | Get tracking pixel code |
+| `/sites/{id}/pixel/status` | GET | Check pixel installation |
+
+### Organizations
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/organizations` | GET, POST | List and create organizations |
+| `/organizations/{slug}` | GET, PATCH, DELETE | Manage specific organization |
+| `/organizations/{slug}/members` | GET, POST, PATCH, DELETE | Team member management |
+| `/organizations/{slug}/sites` | GET | List organization sites |
+| `/organizations/{slug}/invitations` | GET, POST, DELETE | Manage invitations |
 
 ### Authentication
 
@@ -80,15 +88,6 @@ Response:
 | `/auth/sessions` | GET, DELETE | Manage active sessions |
 | `/auth/forgot-password` | POST | Request password reset |
 | `/auth/reset-password` | POST | Reset password with token |
-
-### User Management
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/users` | GET, POST | List and create users (admin) |
-| `/users/{id}` | GET, PATCH, DELETE | Manage specific user |
-| `/users/me/password` | POST | Change current user password |
-| `/users/invitations` | GET, POST | Manage user invitations |
 
 ### API Tokens
 
@@ -137,24 +136,29 @@ Response:
 | `/exports/stream` | POST | Stream small export directly |
 | `/exports/download/{token}` | GET | Download export file |
 
-### LENS AI Insights
+### BigQuery Integration
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/lens/insights` | GET | List AI-generated insights |
-| `/lens/insights/summary` | GET | Get insights summary for badges |
-| `/lens/insights/{id}` | GET | Get specific insight |
-| `/lens/insights/{id}/read` | PATCH | Mark insight as read |
-| `/lens/insights/{id}/dismiss` | PATCH | Dismiss insight |
-| `/lens/settings` | GET, PATCH | LENS notification settings |
+| `/integrations/bigquery` | GET, POST, PATCH, DELETE | Configure BigQuery integration |
+| `/integrations/bigquery/setup` | POST | Create BigQuery tables |
+| `/integrations/bigquery/sync` | POST | Trigger manual sync |
+| `/integrations/bigquery/backfill` | POST | Backfill historical data |
+| `/integrations/bigquery/logs` | GET | List sync logs |
+| `/integrations/bigquery/schema` | GET | Get table schema |
 
-### Channel Groups
+### IP Allowlist
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/channel-groups` | GET, POST | List and create channel rules |
-| `/channel-groups/{id}` | GET, PATCH, DELETE | Manage channel rule |
-| `/channel-groups/stats/channels` | GET | Get channel metrics |
+| `/ip-allowlist/settings` | GET, PUT | Manage allowlist settings |
+| `/ip-allowlist/patterns` | GET, POST | List and add IP patterns |
+| `/ip-allowlist/patterns/{id}` | PATCH, DELETE | Manage specific pattern |
+| `/ip-allowlist/patterns/bulk` | POST | Add multiple patterns |
+| `/ip-allowlist/check` | POST | Validate an IP address |
+| `/ip-allowlist/export` | GET | Export patterns |
+| `/ip-allowlist/import` | POST | Import patterns |
+| `/ip-allowlist/audit` | GET | Access audit log |
 
 ## Common Query Parameters
 
@@ -162,7 +166,7 @@ These parameters are available on most analytics endpoints:
 
 | Parameter | Type | Description | Example |
 |-----------|------|-------------|---------|
-| `account_id` | string | **Required.** Account identifier | `my-account` |
+| `site_id` | string | **Required.** Site identifier | `my-site` |
 | `period` | string | Time period shortcut | `today`, `7d`, `30d`, `90d` |
 | `start_date` | date | Start date (YYYY-MM-DD) | `2025-01-01` |
 | `end_date` | date | End date (YYYY-MM-DD) | `2025-01-31` |
@@ -253,8 +257,11 @@ All errors return JSON with this structure:
 - [Quick Start](./quick-start) - First API call in 5 minutes
 - [Authentication](./authentication) - API keys and JWT tokens
 - [Stats Endpoints](./stats) - Analytics data endpoints
-- [Accounts](./accounts) - Account management
+- [Sites](./sites) - Site management
+- [Organizations](./organizations) - Team management
 - [Segments](./segments) - Saved segments
 - [Exports](./exports) - Bulk data exports
 - [Webhooks](./webhooks) - Webhook subscriptions
+- [BigQuery Integration](./bigquery) - Export to Google BigQuery
+- [IP Allowlist](./ip-allowlist) - Restrict access by IP
 - [Rate Limits](./rate-limits) - Limits per plan tier
