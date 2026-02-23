@@ -10,7 +10,7 @@ Export your Sealmetrics data to Google BigQuery for custom SQL analysis, machine
 
 ## Prerequisites
 
-- Sealmetrics Guard or Growth plan
+- Sealmetrics Growth plan or above
 - Google Cloud Platform (GCP) account
 - BigQuery API enabled in GCP
 - GCP service account with BigQuery permissions
@@ -140,7 +140,7 @@ Sync Schedule
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Sync Frequency:
-○ Hourly (Growth plan only)
+○ Hourly
 ● Daily at [03:00] UTC
 ○ Weekly on [Sunday] at [03:00] UTC
 
@@ -354,7 +354,7 @@ Data Retention in BigQuery
 
 ### Sealmetrics
 
-BigQuery integration is included free with Guard and Growth plans.
+BigQuery integration is included free with Growth, Scale, Pro, and Enterprise plans.
 
 ### Google Cloud
 
@@ -362,6 +362,6 @@ You pay GCP directly for:
 - Storage: ~$0.02/GB/month
 - Queries: ~$5/TB scanned
 
-Typical costs for mid-size site (1M pageviews/month):
+Typical costs for mid-size site (1M events/month):
 - Storage: ~$1-2/month
 - Queries: Depends on usage, typically $5-20/month

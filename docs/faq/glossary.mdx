@@ -1,150 +1,309 @@
 ---
-title: Glossary of Technical Terms
-sidebar_position: 99
-description: Technical glossary for understanding core Sealmetrics concepts — tracking, consentless analytics, attribution, and privacy technology.
+title: Glossary
+sidebar_position: 1
+description: Complete glossary of analytics, privacy, and platform terms used in SealMetrics.
 ---
 
-# Technical Glossary
+# Glossary
 
-This glossary provides clear definitions of all key terms used throughout Sealmetrics documentation and FAQ sections.  
-It helps you understand tracking behavior, privacy constraints, and analytics concepts behind cookieless measurement.
-
----
-
-## **A — Analytics & Tracking**
-
-### **Attribution**
-The method used to assign a conversion to a traffic source.  
-Sealmetrics uses *last-click attribution*, the only consentless-compliant model.
-
-### **Aggregated Data**
-Data that cannot be linked to individuals.  
-Sealmetrics processes pageviews (“hits”) independently without reconstructing sessions.
-
-### **API (Application Programming Interface)**
-A programmatic interface used to extract analytics data, automate workflows, or integrate Sealmetrics with BI tools.
+A comprehensive reference of all terms used throughout SealMetrics documentation. For detailed metric formulas and benchmarks, see the [Metrics Reference](/reports/definitions).
 
 ---
 
-## **C — Consent, Cookies & Compliance**
+## A
 
-### **CCPA**
-California Consumer Privacy Act — regulates collection of personal data in California.  
-Sealmetrics is compliant because it collects no personal data.
+### Aggregated Data
 
-### **Consent Mode**
-Google’s mechanism for restricting tracking based on user consent.  
-Sealmetrics does not use Consent Mode and must not be blocked by it.
+Data that is summarized so it cannot be linked back to any individual. SealMetrics processes pageviews ("hits") independently without reconstructing user profiles.
 
-### **Cookies**
-Small files stored on a user’s device to identify them across sessions.  
-Sealmetrics uses **zero cookies**.
+### API (Application Programming Interface)
 
-### **Cookieless Tracking**
-Analytics without cookies, fingerprinting, or persistent identifiers.  
-Sealmetrics tracks isolated hits while remaining compliant with GDPR and ePrivacy.
+A programmatic interface for extracting analytics data, automating workflows, or integrating SealMetrics with external tools. See the [API documentation](/api).
 
-### **CNIL / AEPD**
-French and Spanish data protection authorities whose guidelines define how analytics can operate without consent.  
-Sealmetrics follows both strictly.
+### Attribution
+
+The method used to assign a conversion to a traffic source. SealMetrics uses last-click attribution, the only model fully compatible with consentless analytics.
+
+### Average Order Value (AOV)
+
+The average revenue per conversion. Calculated as Total Revenue divided by Number of Conversions. See [Metrics Reference](/reports/definitions#average-order-value-aov).
 
 ---
 
-## **D — Data & Metrics**
+## B
 
-### **Direct Traffic**
-Visits without a referrer.  
-Often inflated in GA4 because mid-session consent acceptance resets attribution.
+### Batch API
 
-### **Data Minimization**
-Collecting only what is strictly necessary.  
-Sealmetrics collects **4 variables per hit**: timestamp, user agent (not stored), URL, referrer.
+A way to execute multiple analytics queries in a single HTTP request, reducing latency and simplifying integrations. See the [Batch API guide](/api/batch).
 
----
+### Bounce Rate
 
-## **E — E-commerce & Events**
+The percentage of sessions where the visitor viewed only one page and then left. A lower bounce rate generally indicates better engagement. See [Metrics Reference](/reports/definitions#bounce-rate).
 
-### **Event Tracking**
-Capturing specific user actions such as clicks, form submissions, or purchases.
+### Browser
 
-### **E-commerce Tracking**
-Collection of revenue, transactions, and purchase events.  
-Sealmetrics supports full e-commerce analytics without cookies.
+The web browser used to access your site (e.g., Chrome, Safari, Firefox, Edge). Reported under the Devices report.
 
 ---
 
-## **F — Fingerprinting & Privacy**
+## C
 
-### **Fingerprinting**
-Identifying a user through a combination of device attributes.  
-Sealmetrics does *not* perform fingerprinting.
+### CCPA
 
-### **First-Party Tracker**
-A tracker running under your own domain (e.g., `analytics.yourdomain.com`) to avoid browser restrictions.
+California Consumer Privacy Act -- regulates collection of personal data in California. SealMetrics is compliant because it collects no personal data.
 
----
+### Channel
 
-## **H — Hits vs Sessions**
+A classification of traffic into high-level groups such as Organic Search, Paid Search, Social, Direct, Email, and Referral. Channels are derived automatically from UTM parameters and referrer data. See [Sources report](/reports/sources).
 
-### **Hit**
-A single interaction: pageview, event, or conversion.  
-Sealmetrics is a **hit-based system**, not session-based.
+### CNIL / AEPD
 
-### **Session**
-A group of interactions in a period of time (e.g., 30 minutes).  
-Sessions count as personal data → require consent → Sealmetrics does not track them.
+French and Spanish data protection authorities whose guidelines define how analytics can operate without consent. SealMetrics follows both strictly. See [Compliance](/compliance).
 
----
+### Consent Mode
 
-## **P — Privacy & Regulations**
+Google's mechanism for restricting tracking based on user consent status. SealMetrics does not use Consent Mode and must not be blocked by consent banners.
 
-### **Privacy by Design**
-Principle of designing systems that inherently protect user privacy.  
-Sealmetrics follows this fully.
+### Content Group
 
-### **PECR**
-UK’s Privacy and Electronic Communications Regulations — restrict the use of cookies.  
-Sealmetrics is compliant because it stores nothing on user devices.
+A user-defined label assigned to pages so you can analyze sections of your site as a group (e.g., "Blog", "Products", "Checkout"). See [Content Grouping guide](/implementation/content-grouping).
 
-### **Personal Data**
-Anything that can identify an individual.  
-Sealmetrics collects none.
+### Content Grouping
 
----
+The practice of assigning labels to pages to analyze site sections as groups. Configured via the tracker or the SealMetrics dashboard. See [Content Grouping guide](/implementation/content-grouping).
 
-## **R — ROAS & Reporting**
+### Conversion
 
-### **ROAS**
-Return on Ad Spend.  
-Sealmetrics calculates ROAS when cost and revenue tracking is enabled.
+A completed goal event such as a purchase, signup, or lead form submission, tracked with `sealmetrics.conv()`. See [Metrics Reference](/reports/definitions#conversions).
 
-### **Referral**
-The URL from which the user came.  
-Used for source/medium attribution.
+### Conversion Rate
+
+The percentage of sessions that resulted in at least one conversion. Calculated as Sessions with Conversions divided by Total Sessions, multiplied by 100. See [Metrics Reference](/reports/definitions#conversion-rate).
+
+### Cookieless Tracking
+
+Analytics without cookies, fingerprinting, or persistent identifiers. SealMetrics tracks isolated hits while remaining compliant with GDPR and ePrivacy. See [Consentless Analytics FAQ](/faq/consentless-analytics).
+
+### Cookies
+
+Small files stored on a user's device to identify them across sessions. SealMetrics uses zero cookies.
+
+### Cost per Acquisition (CPA)
+
+The average cost to acquire one conversion. Calculated as Total Ad Spend divided by Total Conversions. Requires external cost data import.
 
 ---
 
-## **S — Sealmetrics Technology**
+## D
 
-### **Session-ID Tracking**
-Temporary ID for the duration of a single pageview group, not persistent or linkable.  
-Consent-free and compliant.
+### Data Minimization
 
-### **Isolated Hits Tracking**
-Each hit is recorded independently with no link between visits.  
-Core of Sealmetrics' privacy-first design.
+The principle of collecting only what is strictly necessary. SealMetrics collects minimal data per hit: timestamp, URL, and referrer.
 
-### **Source-ID Technology**
-Allows assigning conversions to traffic sources without identifying users.
+### Delta
+
+The percentage change between the current period and the comparison period. Shown as a positive or negative value with color coding (green for improvement, red for decline). See [Metrics Reference](/reports/definitions#delta-δ).
+
+### Device Type
+
+The category of device used to access your site: Desktop, Mobile, or Tablet. See the [Devices report](/reports/devices).
+
+### Direct Traffic
+
+Visits with no referrer or UTM parameters, typically from users typing the URL directly or using bookmarks. Shown as `(direct)` / `(none)` in source reports.
+
+### Drop-off Rate
+
+In a funnel, the percentage of users who left at a specific step without proceeding further. See [Funnel report](/reports/funnel).
 
 ---
 
-## **U — UTM Parameters**
+## E
 
-### **UTM Source / Medium / Campaign / Term**
-Standard marketing parameters defining how traffic arrives.  
-Fully supported by Sealmetrics without cookies.
+### E-commerce Tracking
+
+Collection of revenue, transactions, and purchase events. SealMetrics supports full e-commerce analytics without cookies. See [E-commerce Conversion Tracking](/implementation/ecommerce-conversion-tracking).
+
+### Engaged Entrances
+
+Sessions where the visitor viewed more than one page (two or more pageviews). A measure of traffic quality. See [Metrics Reference](/reports/definitions#engaged-entrances).
+
+### Engagement Rate
+
+The percentage of sessions where visitors viewed more than one page. The inverse of Bounce Rate (Engagement Rate + Bounce Rate = 100%). See [Metrics Reference](/reports/definitions#engagement-rate).
+
+### Entrances
+
+The number of sessions (visits) that started during the selected period. Each new session after 30 minutes of inactivity counts as one entrance. See [Metrics Reference](/reports/definitions#entrances).
+
+### Event Tracking
+
+Capturing specific user actions such as clicks, form submissions, scroll depth, or video plays. See [Event Tracking guide](/implementation/event-tracking).
 
 ---
 
-If you want, we can auto-link these glossary terms across all FAQ pages using MDX components.
+## F
+
+### Fingerprinting
+
+Identifying a user through a combination of device attributes (screen size, fonts, plugins, etc.). SealMetrics does not perform fingerprinting.
+
+### First-Party Tracker
+
+A tracker running under your own domain (e.g., `analytics.yourdomain.com`) to avoid browser restrictions and ad blockers. See [Tracking Methods](/implementation/tracking-methods).
+
+### Funnel
+
+A defined sequence of steps a user is expected to follow (e.g., Product Page, Add to Cart, Checkout, Purchase). See [Funnel report](/reports/funnel).
+
+### Funnel Completion Rate
+
+The percentage of users who completed all steps in a funnel, from first step to last. See [Metrics Reference](/reports/definitions#funnel-completion-rate).
+
+---
+
+## G
+
+### GDPR
+
+General Data Protection Regulation -- the EU regulation governing the processing of personal data. SealMetrics is compliant because it does not collect personal data and does not require consent banners.
+
+---
+
+## H
+
+### Hit
+
+A single interaction recorded by SealMetrics: a pageview, event, or conversion. SealMetrics is a hit-based system, meaning each interaction is recorded independently.
+
+---
+
+## I
+
+### Isolated Hits Tracking
+
+A tracking method where each hit is recorded independently with no link between visits. This is the core of SealMetrics' privacy-first design. See [Consentless Analytics FAQ](/faq/consentless-analytics).
+
+---
+
+## L
+
+### Landing Page
+
+The first page a user views when starting a session. Analyzing landing page performance helps optimize first impressions and reduce bounce rates. See the [Pages report](/reports/pages).
+
+### LENS
+
+SealMetrics' AI-powered analytics insights engine. LENS analyzes your data and surfaces anomalies, trends, and actionable recommendations automatically. See [LENS documentation](/lens).
+
+---
+
+## M
+
+### Microconversion
+
+A small user interaction tracked as an event, such as scroll depth reached, button clicks, form starts, add-to-cart actions, or video plays. Tracked with `sealmetrics.micro()`. Useful for measuring funnel progression before a full conversion. See [Event Tracking guide](/implementation/event-tracking).
+
+---
+
+## O
+
+### Operating System
+
+The operating system of the visitor's device (e.g., Windows, macOS, iOS, Android, Linux). Reported under the [Devices report](/reports/devices).
+
+### Organization
+
+The top-level entity in SealMetrics that contains Sites and Members. Organizations provide multi-user access control with roles (Owner, Admin, Member). See [Organizations API](/api/organizations).
+
+---
+
+## P
+
+### Page Path
+
+The URL path of a page, excluding the domain. For example, for `https://example.com/products/widget`, the path is `/products/widget`.
+
+### Page Title
+
+The HTML title of a page, taken from the `<title>` tag at the time of the pageview.
+
+### Pageviews
+
+The total number of pages viewed during the selected period. Each page load (including refreshes) counts as one pageview. See [Metrics Reference](/reports/definitions#pageviews).
+
+### Pages per Session
+
+The average number of pages viewed per session. Calculated as Total Pageviews divided by Total Entrances. See [Metrics Reference](/reports/definitions#pages-per-session).
+
+### PECR
+
+UK Privacy and Electronic Communications Regulations -- restricts the use of cookies and similar technologies. SealMetrics is compliant because it stores nothing on user devices.
+
+### Personal Data
+
+Any information that can identify an individual, directly or indirectly. SealMetrics collects none.
+
+### Privacy by Design
+
+The principle of building systems that inherently protect user privacy from the ground up, rather than adding protections as an afterthought. SealMetrics follows this approach fully.
+
+---
+
+## R
+
+### Referrer
+
+The domain of the website that linked to your site, detected from the HTTP Referer header. Used for source attribution when no UTM parameters are present.
+
+### Revenue
+
+The total monetary value from conversions during the selected period, derived from the amount passed to `sealmetrics.conv()`. See [Metrics Reference](/reports/definitions#revenue).
+
+### Revenue per Entrance
+
+The average revenue generated per session. Calculated as Total Revenue divided by Total Entrances. See [Metrics Reference](/reports/definitions#revenue-per-entrance).
+
+### Revenue per Visitor
+
+The average revenue generated per unique visitor. Calculated as Total Revenue divided by Unique Visitors. See [Metrics Reference](/reports/definitions#revenue-per-visitor).
+
+### ROAS (Return on Ad Spend)
+
+Revenue generated per unit of advertising spend. A ROAS above 1.0 means revenue exceeds cost. Requires external cost data import. See [Metrics Reference](/reports/definitions#return-on-ad-spend-roas).
+
+---
+
+## S
+
+### Session
+
+A group of interactions within a period of activity. In SealMetrics, a new session starts after 30 minutes of inactivity. SealMetrics uses session-level aggregation for metrics like Bounce Rate while keeping the tracking itself consentless.
+
+### Session-ID Tracking
+
+A temporary identifier used for the duration of a single pageview group. It is not persistent or linkable across visits, making it consent-free and compliant.
+
+### Site
+
+A website being tracked by SealMetrics. Each Site has a unique Site ID used in the tracking code. Sites belong to an Organization. See [Sites API](/api/sites).
+
+### Source-ID Technology
+
+SealMetrics technology that allows assigning conversions to traffic sources without identifying individual users.
+
+### Step Completion Rate
+
+In a funnel, the percentage of users who completed a step relative to the number who entered that step from the previous one. See [Funnel report](/reports/funnel).
+
+---
+
+## U
+
+### Unique Visitors
+
+The number of distinct users who visited during the selected period. Identified using cookieless methods; the same user on different devices counts as different visitors. See [Metrics Reference](/reports/definitions#unique-visitors).
+
+### UTM Parameters
+
+Standard URL parameters (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`) used to tag marketing links and identify traffic sources. Fully supported by SealMetrics without cookies. See [Sources report](/reports/sources).

@@ -79,7 +79,7 @@ Legitimate interest allows data processing when your business needs outweigh use
 - Collect only necessary data (pageviews, sessions, referrers)
 - Store no personally identifiable information
 - Don't use data for other purposes (advertising, profiling)
-- Retain data for reasonable periods (25 months for trend analysis)
+- Retain data for reasonable periods (24 months for trend analysis)
 - Operate with technical safeguards (no cookies, no IPs)
 
 Unlike consent-based approaches, legitimate interest captures 100% of visitor data while maintaining full GDPR compliance.
@@ -96,7 +96,7 @@ Implementing GDPR compliant analytics requires addressing technical, legal, and 
 
 **IP Address Handling**: This is where most analytics tools fail GDPR. Google Analytics stores full IP addresses. Plausible and Matomo hash IP addresses, which GDPR still considers personal data because hashed values can be reversed or matched. Sealmetrics never stores IP addresses—not even hashed versions. Our session-based tracking generates anonymous identifiers that can't be traced back to individuals.
 
-**Data Retention Limits**: Determine legitimate retention periods and enforce them. Sealmetrics defaults to 25 months of retention, documented as necessary for year-over-year trend analysis and seasonal pattern identification. Data older than 25 months is automatically purged.
+**Data Retention Limits**: Determine legitimate retention periods and enforce them. Sealmetrics defaults to 24 months of retention, documented as necessary for year-over-year trend analysis and seasonal pattern identification. Data older than 24 months is automatically purged.
 
 **Security Measures**: Implement encryption in transit (HTTPS), encryption at rest, access controls, and regular security audits. Sealmetrics uses AES-256 encryption, role-based access control, and annual penetration testing.
 
@@ -217,7 +217,7 @@ This technical choice means Sealmetrics processes less personal data than any co
 
 ### 25-Month Retention Without Consent
 
-Data retention limits are crucial for GDPR compliance under the data minimization principle. Sealmetrics retains analytics data for 25 months, a period we've documented as necessary for meaningful trend analysis.
+Data retention limits are crucial for GDPR compliance under the data minimization principle. Sealmetrics retains analytics data for 24 months, a period we've documented as necessary for meaningful trend analysis.
 
 **Why 25 Months**: This retention period allows:
 - Year-over-year comparisons (12 months of current data + 12 months historical)
@@ -225,9 +225,9 @@ Data retention limits are crucial for GDPR compliance under the data minimizatio
 - Long-term trend analysis for strategic decisions
 - Buffer period for data exports and migrations
 
-**Automatic Purging**: Data older than 25 months is automatically deleted from our systems. No manual intervention needed, no risk of keeping data too long.
+**Automatic Purging**: Data older than 24 months is automatically deleted from our systems. No manual intervention needed, no risk of keeping data too long.
 
-**Documented Justification**: We maintain internal documentation explaining why 25-month retention serves our clients' legitimate interests in business intelligence and user experience optimization. This documentation supports the legitimate interest legal basis.
+**Documented Justification**: We maintain internal documentation explaining why 24-month retention serves our clients' legitimate interests in business intelligence and user experience optimization. This documentation supports the legitimate interest legal basis.
 
 ### EU Infrastructure
 
@@ -346,7 +346,7 @@ Add or update your analytics section:
 We use Sealmetrics for web analytics under GDPR Article 6(1)(f) 
 legitimate interest. Sealmetrics collects anonymous usage data 
 (pages viewed, session duration, referral sources) without cookies 
-or IP address storage. Data is retained for 25 months for trend 
+or IP address storage. Data is retained for 24 months for trend 
 analysis and stored exclusively on EU servers. No personal 
 information is collected. You can opt out via [opt-out link].
 ```
@@ -385,7 +385,7 @@ After implementation, verify everything works correctly.
 - Privacy policy mentions analytics with correct legal basis
 - DPA executed with Sealmetrics
 - Internal legitimate interest documentation complete
-- Data retention periods configured (25 months)
+- Data retention periods configured (24 months)
 - Team trained on data handling procedures
 
 **Ongoing Compliance**:
@@ -455,7 +455,7 @@ In their groundbreaking 2020 guidance on audience measurement, CNIL stated:
 CNIL's guidance establishes specific requirements:
 - Purpose limitation to audience measurement only
 - No cross-site tracking or user profiling
-- Limited data retention periods (maximum 25 months mentioned)
+- Limited data retention periods (maximum 24 months mentioned)
 - No IP address storage beyond immediate processing needs
 - Transparent privacy policy disclosures
 
@@ -491,7 +491,7 @@ Unlike cookie-based analytics tools that retrofit GDPR compliance onto existing 
 
 5. **Purpose Limitation**: Sealmetrics processes data only for audience measurement. No advertising integrations, no data selling, no repurposing for other commercial activities.
 
-6. **Documented Retention**: 25-month retention justified and documented as necessary for trend analysis, with automatic purging of older data.
+6. **Documented Retention**: 24-month retention justified and documented as necessary for trend analysis, with automatic purging of older data.
 
 This technical foundation supports legitimate interest as the legal basis, confirmed by CNIL guidance and accepted by DPOs across the EU.
 
@@ -549,13 +549,13 @@ Sealmetrics solves this by never storing IP addresses—not hashed, not truncate
 
 GDPR doesn't specify exact retention periods but requires you to keep data only as long as necessary for documented purposes. For analytics, retention depends on your business justification.
 
-CNIL's 2020 guidance mentions 25 months as an acceptable retention period for audience measurement, justified by the need for year-over-year comparisons and seasonal pattern identification.
+CNIL's 2020 guidance mentions 24 months as an acceptable retention period for audience measurement, justified by the need for year-over-year comparisons and seasonal pattern identification.
 
-Sealmetrics implements 25-month retention with documented justification:
+Sealmetrics implements 24-month retention with documented justification:
 - 12 months of current data for analysis
 - 12 months of historical data for year-over-year comparison
 - 1 month buffer for data exports and migrations
-- Automatic deletion after 25 months
+- Automatic deletion after 24 months
 
 Your privacy policy should specify retention periods, and you should maintain internal documentation justifying why these periods are necessary for your legitimate interests.
 
@@ -625,7 +625,7 @@ GDPR doesn't prescribe specific documentation formats, but best practices includ
 - Our Interest: Business intelligence and user experience optimization
 - User Impact: Minimal—no cookies, no IP storage, no identification
 - Data Minimization: Only pageviews, sessions, referrers collected
-- Safeguards: Cookieless tracking, zero IP storage, EU servers, 25-month retention
+- Safeguards: Cookieless tracking, zero IP storage, EU servers, 24-month retention
 - Conclusion: Our legitimate interest outweighs minimal privacy impact
 
 **Alternative Considered**: "We considered consent-based analytics but rejected it because 60-87% data loss from cookie rejections would prevent achieving our business intelligence purposes."
@@ -656,7 +656,7 @@ Sealmetrics provides the only analytics platform that satisfies all these requir
 - **Zero IP storage**: Not even hashed—complete elimination of primary personal data concern
 - **100% data capture**: Track every visitor without cookie banner interference
 - **EU-exclusive**: No Schrems II complications or adequacy decision dependencies
-- **25-month retention**: Documented as necessary for trend analysis with automatic purging
+- **24-month retention**: Documented as necessary for trend analysis with automatic purging
 
 Stop compromising between compliance and complete analytics data.
 

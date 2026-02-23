@@ -73,7 +73,7 @@ IP: 192.168.1.50
 Jan 15, 2024 14:28:03 UTC
 👤 User Invited
 User: admin@company.com
-Details: Invited sarah@company.com as Analyst
+Details: Invited sarah@company.com as Member
 IP: 192.168.1.50
 
 Jan 15, 2024 12:15:42 UTC
@@ -275,17 +275,19 @@ Review account security posture:
 
 ## Log Retention
 
+Audit logs are available on Scale, Pro, and Enterprise plans.
+
 | Plan | Retention Period |
 |------|------------------|
-| Research | 30 days |
-| Guard | 90 days |
-| Growth | 1 year |
+| Scale | 90 days |
+| Pro | 1 year |
+| Enterprise | Custom |
 
 Logs are automatically deleted after the retention period. Export regularly if you need longer retention.
 
 ## API Access
 
-Query audit logs programmatically (Growth plan):
+Query audit logs programmatically (Scale plan and above):
 
 ```bash
 curl https://app.sealmetrics.com/api/audit-log \

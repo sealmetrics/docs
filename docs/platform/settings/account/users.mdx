@@ -1,330 +1,109 @@
 ---
 sidebar_position: 2
 title: Users & Teams
-description: Manage team members, roles, and permissions in your Sealmetrics account.
+description: Invite members, assign sites, manage roles, and remove users from your Sealmetrics organization.
 ---
 
 # Users & Teams
 
-Manage who has access to your Sealmetrics account and what they can do.
+Manage who has access to your Sealmetrics organization and control what they can see and do.
 
-## Accessing User Settings
+---
 
-1. Click the **gear icon** in the main navigation
-2. Select **Account → Users**
+## Viewing Members
 
-## Current Users
+To see all members in your organization:
 
-View all team members:
+1. Go to **Settings** (gear icon in the navigation)
+2. Navigate to **Organization** and select your organization
+3. Open the **Members** tab
 
-```
-Team Members (4 of 5 seats)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+You will see a list of all current members, their email, organization role, and status.
 
-Name              Email                    Role        Status
-──────────────────────────────────────────────────────────────
-John Smith        john@company.com         Admin       Active
-Sarah Johnson     sarah@company.com        Manager     Active
-Mike Wilson       mike@company.com         Analyst     Active
-Guest User        guest@agency.com         Viewer      Active
+---
 
-[+ Invite User]
-```
+## Inviting Members
 
-## Inviting Users
+Owners and Admins can invite new members to the organization.
 
-### Send Invitation
+### How to send an invitation
 
-1. Click **+ Invite User**
-2. Enter details:
+1. Open the **Members** page for your organization
+2. Click **Invite Member**
+3. Enter the person's email address
+4. Choose their organization role:
+   - **Owner** -- full access to everything including billing
+   - **Admin** -- manage members and all sites, no billing
+   - **Member** -- access only to assigned sites
+5. If you selected **Member**, choose which sites they should have access to
+6. Click **Send Invitation**
 
-```
-Invite Team Member
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The invited person will receive an email with a link to accept the invitation. If they do not already have a Sealmetrics account, they will be asked to create one.
 
-Email:    [newuser@company.com              ]
+### Pending invitations
 
-Role:     [Manager                         ▼]
+Invitations expire after 7 days. You can view pending invitations on the Members page and:
 
-Accounts: [All accounts                    ▼]
-          Or select specific accounts:
-          ☑ Main Store
-          ☑ UK Store
-          ☐ Test Account
+- **Resend** an invitation to extend the expiration
+- **Cancel** an invitation if it is no longer needed
 
-Personal message (optional):
-[Welcome to our analytics team!             ]
+---
 
-[Send Invitation]
-```
+## Assigning Sites to Members
 
-### Invitation Process
+Members can only see the sites you explicitly assign to them. Owners and Admins see all sites automatically.
 
-1. User receives email invitation
-2. They click "Accept Invitation"
-3. Create password (or use SSO)
-4. Immediately gains access
+### To assign sites to a member
 
-### Pending Invitations
+1. Go to the **Members** page
+2. Find the member in the list
+3. Click on their name or the manage option
+4. Select the sites they should have access to
+5. Save changes
 
-View and manage outstanding invitations:
+You can add or remove site access at any time without affecting the member's organization role.
 
-```
-Pending Invitations
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
 
-Email                    Invited      Expires     Actions
-─────────────────────────────────────────────────────────
-newuser@company.com      Jan 15       Jan 22      [Resend] [Revoke]
-```
+## Changing a Member's Role
 
-Invitations expire after 7 days. Resend to extend.
+Owners and Admins can change organization roles for other members.
 
-## Roles & Permissions
-
-### Available Roles
-
-| Role | Description |
-|------|-------------|
-| **Admin** | Full access to everything |
-| **Manager** | Manage settings and integrations, no billing |
-| **Analyst** | Access reports and data, no settings |
-| **Viewer** | Read-only dashboard access |
-
-### Permission Matrix
-
-| Permission | Admin | Manager | Analyst | Viewer |
-|------------|:-----:|:-------:|:-------:|:------:|
-| View dashboards | ✅ | ✅ | ✅ | ✅ |
-| View reports | ✅ | ✅ | ✅ | ✅ |
-| Export data | ✅ | ✅ | ✅ | - |
-| Create dashboards | ✅ | ✅ | ✅ | - |
-| Use LENS AI | ✅ | ✅ | ✅ | - |
-| Manage integrations | ✅ | ✅ | - | - |
-| Manage tracking | ✅ | ✅ | - | - |
-| Manage users | ✅ | ✅ | - | - |
-| View audit log | ✅ | ✅ | - | - |
-| Manage billing | ✅ | - | - | - |
-| Delete account | ✅ | - | - | - |
-
-### Custom Roles (Growth Plan)
-
-Create custom roles with specific permissions:
-
-1. Go to **Account → Users → Roles**
-2. Click **Create Custom Role**
-3. Name the role and select permissions
-4. Assign to users
-
-```
-Create Custom Role
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Role Name: [Campaign Manager                ]
-
-Permissions:
-☑ View all reports
-☑ View conversions
-☑ View ROAS data
-☑ Export data
-☑ Use LENS AI
-☐ Manage tracking settings
-☐ Manage integrations
-☑ Manage campaign integrations only
-☐ Manage users
-☐ Access billing
-
-[Create Role]
-```
-
-## Managing Users
-
-### Edit User
-
-1. Click on a user's name
-2. Modify settings:
-
-```
-Edit User: sarah@company.com
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Display Name: [Sarah Johnson               ]
-Role:         [Manager                    ▼]
-
-Account Access:
-● All accounts
-○ Selected accounts only
-
-Notifications:
-☑ Receive anomaly alerts
-☑ Receive weekly summary
-☐ Receive billing notifications
-
-[Save Changes]
-```
-
-### Change User Role
-
-1. Find user in the list
-2. Click role dropdown
-3. Select new role
-4. Confirm change
+1. Go to the **Members** page
+2. Find the member
+3. Change their role using the role dropdown
+4. Confirm the change
 
 Role changes take effect immediately.
 
-### Remove User
+**Restrictions:**
+- Admins cannot change the role of an Owner
+- Only Owners can promote someone to Owner or demote an Owner
 
-1. Find user in the list
-2. Click **⋮ → Remove**
-3. Confirm removal
+---
 
-```
-Remove User
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## Removing a Member
 
-Are you sure you want to remove sarah@company.com?
+1. Go to the **Members** page
+2. Find the member you want to remove
+3. Click the remove option
+4. Confirm the removal
 
-They will immediately lose access to:
-• All dashboards and reports
-• LENS AI
-• Integrations they configured
+The member will immediately lose access to all sites and data in the organization.
 
-☐ Transfer their dashboards to me
-
-[Cancel] [Remove User]
-```
-
-## Account Access Restrictions
-
-### Per-Account Access
-
-Limit users to specific accounts:
-
-```
-User: guest@agency.com
-Role: Analyst
-
-Account Access:
-○ All accounts
-● Selected accounts only
-
-  ☑ Client A Store
-  ☑ Client B Store
-  ☐ Internal Analytics
-  ☐ Test Account
-```
-
-### IP Restrictions (Growth Plan)
-
-Require users to access from specific IPs:
-
-```
-IP Restrictions
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-☑ Enable IP allowlist for this user
-
-Allowed IPs:
-+ 192.168.1.0/24 (Office network)
-+ 10.0.0.50 (VPN exit)
-
-[Add IP]
-```
-
-## SSO/SAML (Growth Plan)
-
-### Enable SSO
-
-Connect to your identity provider:
-
-1. Go to **Account → Users → SSO**
-2. Configure SAML settings:
-
-```
-SAML Configuration
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Identity Provider:  [Okta                    ▼]
-
-SSO URL:           [https://company.okta.com/app/... ]
-Entity ID:         [https://app.sealmetrics.com     ]
-Certificate:       [Upload X.509 Certificate        ]
-
-Attribute Mapping:
-  Email:       [email                              ]
-  First Name:  [firstName                          ]
-  Last Name:   [lastName                           ]
-
-Default Role:  [Analyst                           ▼]
-
-[Test Configuration] [Enable SSO]
-```
-
-### Supported Providers
-
-| Provider | Status |
-|----------|--------|
-| Okta | Full support |
-| Azure AD | Full support |
-| Google Workspace | Full support |
-| OneLogin | Full support |
-| Custom SAML 2.0 | Supported |
-
-### SSO Enforcement
-
-Force all users to use SSO:
-
-```
-SSO Enforcement
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-☑ Require SSO for all users
-
-Exceptions (can still use password):
-+ admin@company.com (emergency access)
-
-Warning: Enabling this will require all users
-to authenticate via SSO. Users without IdP
-accounts will be locked out.
-
-[Save]
-```
+---
 
 ## User Limits
 
-### Seats by Plan
+All Sealmetrics plans include **unlimited users**. There is no limit on the number of team members you can invite to your organization.
 
-| Plan | Included Users |
-|------|----------------|
-| Research | 2 |
-| Guard | 5 |
-| Growth | Unlimited |
+---
 
-### Adding More Seats
+## Understanding Roles
 
-For Research/Guard plans:
+Sealmetrics uses a two-tier role system:
 
-1. Upgrade to a higher plan, or
-2. Add user pack (Guard only): +5 users for €50/month
+- **Organization roles** (Owner, Admin, Member) control access at the organization level
+- **Site-level roles** (Editor, Viewer) control what a user can do within a specific site
 
-## Activity Tracking
-
-View user activity:
-
-```
-User Activity: sarah@company.com
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Last Login:      Today at 14:32
-Login Count:     47 (last 30 days)
-Last IP:         192.168.1.50
-Last Browser:    Chrome 120 / macOS
-
-Recent Actions:
-• Viewed Traffic Report (2 min ago)
-• Exported Conversions CSV (1 hour ago)
-• Updated BigQuery integration (yesterday)
-• Invited mike@company.com (3 days ago)
-```
-
-Full activity history available in [Audit Log →](../advanced/audit-log)
+For a full breakdown of permissions, see [Roles & Permissions](../../user-management/roles-management).

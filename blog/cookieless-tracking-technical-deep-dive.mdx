@@ -31,7 +31,7 @@ date: 2025-12-01
 **Key Takeaways**:
 - Cookieless tracking uses session identifiers instead of persistent cookies
 - Zero IP storage means no personal data processing (no consent needed)
-- 25-month data retention possible under legitimate interest
+- 24-month data retention possible under legitimate interest
 - Sealmetrics captures what GA4 misses: [ghosted users](/blog/cookie-banner-ghosting-data-loss), cookie rejecters, Safari/Firefox visitors
 
 For a complete overview of cookieless analytics, see our [Cookieless Analytics: Complete Guide 2026](/blog/cookieless-analytics-guide).
@@ -297,7 +297,7 @@ For analytics tracking, legitimate interest = **understanding user behavior to i
 | No Personal Data | Session-only, no ID | Fresh session ID per visit |
 | No IP Storage | Cannot identify individuals | Zero IP collection |
 | Data Minimization | Collect only necessary | No email, no device fingerprint |
-| Storage Limitation | Don't keep longer than needed | 25-month retention max |
+| Storage Limitation | Don't keep longer than needed | 24-month retention max |
 | Transparency | Privacy Policy required | Disclose to users |
 | Balancing Test | Conduct DPIA | Sealmetrics provides DPA |
 
@@ -318,13 +318,12 @@ const minimumRequiredFields = {
   // deviceId: false,
   // macAddress: false,
   // emailHash: false,
-  // deviceFingerprint: false
 };
 
 // ✓ Storage Limitation Built-In
 const retentionPolicy = {
   defaultRetentionDays: 90,    // Delete after 3 months
-  maxRetentionDays: 750,       // Absolute limit: 25 months
+  maxRetentionDays: 730,       // Absolute limit: 24 months
   // Automatically enforced by system
 };
 
@@ -361,7 +360,6 @@ const allowedPurposes = [
 │  2. Collect pageview data                              │
 │  3. NO IP capture                                      │
 │  4. NO cookie creation                                 │
-│  5. NO device fingerprinting                           │
 └────────────────────────┬────────────────────────────────┘
                          │
                     HTTPS POST
@@ -384,7 +382,7 @@ const allowedPurposes = [
 │  • Sessions aggregated by date                         │
 │  • Pageviews grouped by URL                            │
 │  • Events counted and categorized                      │
-│  • Retention policy enforced (25-month max)            │
+│  • Retention policy enforced (24-month max)            │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
@@ -644,7 +642,7 @@ GET /api/v1/analytics/{siteId}/conversions
 // - attribution
 
 // Returns: JSON data
-// Use with Zapier, Make, custom integrations
+// Use with webhooks, custom integrations
 ```
 
 Unlike Google Analytics (which restricts API), Sealmetrics data is yours.

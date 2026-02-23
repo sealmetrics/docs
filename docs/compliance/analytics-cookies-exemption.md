@@ -76,10 +76,10 @@ document.cookie = `analytics_id=value; expires=${expires.toUTCString()}; path=/`
 
 #### 3. Data Retention Cap
 
-**Requirement**: Ensure data retention does not exceed **25 months**
+**Requirement**: Ensure data retention does not exceed **24 months**
 
 **What this means**:
-- Raw analytics data must be deleted or anonymized after 25 months
+- Raw analytics data must be deleted or anonymized after 24 months
 - Aggregated reports can be retained indefinitely (no personal data)
 - Applies to data collected via cookies, not just cookies themselves
 
@@ -179,7 +179,7 @@ The French DPA (CNIL) developed similar framework:
 | Aspect | CNIL | AEPD |
 |--------|------|------|
 | **Cookie lifespan** | 13 months | 13 months |
-| **Data retention** | 25 months | 25 months |
+| **Data retention** | 24 months | 24 months |
 | **IP anonymization** | Required (at collection) | Implied by data minimization |
 | **Cross-site tracking** | Prohibited | Prohibited |
 | **Own purposes only** | Required | Required |
@@ -236,7 +236,7 @@ The French DPA (CNIL) developed similar framework:
 ✅ **Aggregated measurement**: Statistics, not individual tracking
 ✅ **Own purposes**: Used solely by website owner to understand their site
 ✅ **13-month cookies**: Cookie lifespan limited
-✅ **25-month retention**: Raw data deleted after 25 months
+✅ **24-month retention**: Raw data deleted after 24 months
 ✅ **IP anonymization**: IP addresses not stored or processed beyond necessary
 
 ### Examples of Compliant Approaches
@@ -254,7 +254,7 @@ The French DPA (CNIL) developed similar framework:
 - Enable IP anonymization (at least last 2 octets)
 - Disable user tracking across sites
 - Set cookie lifetime to 13 months
-- Set data retention to 25 months
+- Set data retention to 24 months
 - No third-party integrations
 
 #### Sealmetrics
@@ -285,7 +285,7 @@ The French DPA (CNIL) developed similar framework:
 - Implement IP anonymization in server logs
 - Do not track individuals over time
 - Aggregate data for statistical purposes only
-- 25-month data retention limit
+- 24-month data retention limit
 
 ## Practical Implementation Guide
 
@@ -321,7 +321,7 @@ The French DPA (CNIL) developed similar framework:
 - [ ] No individual user profiling for advertising
 - [ ] First-party cookies only (if cookies used)
 - [ ] Cookie lifespan ≤ 13 months
-- [ ] Data retention ≤ 25 months
+- [ ] Data retention ≤ 24 months
 - [ ] IP addresses anonymized
 - [ ] No data sharing with third parties for their purposes
 - [ ] If using third-party service: DPA prohibiting data reuse
@@ -341,7 +341,7 @@ The French DPA (CNIL) developed similar framework:
 - Self-host if possible
 - Enable IP anonymization (2 bytes minimum)
 - Disable user ID tracking across visits
-- Set 13-month cookie, 25-month retention
+- Set 13-month cookie, 24-month retention
 - Document configuration
 
 **If using Sealmetrics**:
@@ -370,7 +370,7 @@ We use [analytics tool name] to understand how visitors use our website. This he
 
 **Legal basis**: Legitimate interest (GDPR Article 6(1)(f))
 
-**Data retention**: 25 months maximum
+**Data retention**: 24 months maximum
 
 **Your rights**: You can object to analytics processing. Contact [email] to exercise your rights.
 
@@ -408,7 +408,7 @@ We use [analytics tool name] to understand how visitors use our website. This he
 
 **Risk areas**:
 - Google Analytics without consent
-- Exceeding 25-month retention
+- Exceeding 24-month retention
 - Cross-site tracking without consent
 - False claims of exemption
 
@@ -486,7 +486,7 @@ Organizations complying with AEPD requirements today will be well-positioned for
 ## Key Takeaways
 
 1. **Analytics CAN be exempt from consent** under specific AEPD criteria
-2. **Three requirements**: User notification, 13-month cookies, 25-month retention
+2. **Three requirements**: User notification, 13-month cookies, 24-month retention
 3. **Own purposes only**: No data sharing, cross-site tracking, or advertising use
 4. **Third-party analytics**: Require contractual guarantees against data reuse
 5. **Google Analytics**: Difficult to qualify for exemption in default configuration

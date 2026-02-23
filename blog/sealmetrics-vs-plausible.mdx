@@ -30,7 +30,7 @@ This comprehensive comparison examines both platforms across 15 key dimensions: 
 - **IP Storage**: Plausible hashes and stores IPs; Sealmetrics stores zero IP data
 - **Consent Requirements**: Plausible depends on configuration (often needs consent); Sealmetrics is consentless by design
 - **Data Accuracy**: Plausible 20-40% loss from consent rejection; Sealmetrics 0% loss
-- **Pricing**: Plausible starts €9/month; Sealmetrics starts €29/month (more inclusive features)
+- **Pricing**: Plausible starts €9/month; Sealmetrics starts €229/month (more inclusive features)
 - **Setup Complexity**: Both offer simple implementation (~2-5 minutes)
 
 <!--truncate-->
@@ -49,7 +49,7 @@ This comprehensive comparison examines both platforms across 15 key dimensions: 
 - True consentless analytics is critical (no banner ever)
 - You want zero IP storage (maximum privacy)
 - GDPR compliance without compromise is required
-- You need longer data retention (25 months vs 6-12 months)
+- You need longer data retention (24 months vs 6-12 months)
 
 **The Bottom Line**: Both are vast improvements over Google Analytics. Plausible is a solid cookieless analytics tool with good privacy practices. **Sealmetrics** goes further by eliminating IP storage entirely, achieving true consentless operation, and capturing 100% of visitor data without legal risk.
 
@@ -113,23 +113,8 @@ Plausible uses a **hashed IP address** combined with user agent and domain to ge
 - Lack of  KPIs for professional porpouse
 
 **Sealmetrics' Approach**:
-```javascript
-// Simplified Sealmetrics session identification
-const sessionId = generateSessionId({
-  browserFingerprint: {
-    userAgent: navigator.userAgent,
-    screenResolution: `${screen.width}x${screen.height}`,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    language: navigator.language
-  },
-  timestamp: Date.now(),
-  randomSalt: Math.random()
-});
-// IP address used ONLY for geolocation, then immediately discarded
-// Zero IP storage in database
-```
 
-**Sealmetrics** uses browser characteristics (non-invasive fingerprinting) combined with timestamps and random salts to generate session identifiers. Critically, **IP addresses are never stored**—they're used only for one-time geolocation lookup, then immediately discarded from memory.
+**Sealmetrics** uses proprietary cookieless technology to identify sessions without storing IP addresses or personal data. Critically, **IP addresses are never stored**—they're used only for one-time geolocation lookup, then immediately discarded from memory.
 
 **Pros**:
 - No IP storage = not personal data under GDPR
@@ -204,7 +189,7 @@ The CNIL (French data protection authority) issued specific guidance on analytic
 1. No cookies stored on user device
 2. No cross-site tracking
 3. No IP address storage for user identification
-4. Limited data retention (≤25 months)
+4. Limited data retention (≤24 months)
 5. Clear privacy policy disclosure
 
 **Plausible**:
@@ -220,7 +205,7 @@ The CNIL (French data protection authority) issued specific guidance on analytic
 - ✅ No cookies
 - ✅ No cross-site tracking
 - ✅ Zero IP storage
-- ✅ 25-month retention (CNIL-optimized)
+- ✅ 24-month retention (CNIL-optimized)
 - ✅ Privacy policy included
 
 **Verdict**: **Sealmetrics** fully complies with CNIL requirements explicitly.
@@ -275,13 +260,13 @@ German DPOs have been particularly strict about hashed IP addresses. **Sealmetri
 | **Session Recording** | ❌ No (privacy by design) | ❌ No (privacy by design) |
 | **Heatmaps** | ❌ No | ❌ No |
 | **A/B Testing** | ❌ No | ❌ No |
-| **Data Retention** | 6-12 months default | **25 months (GDPR-optimized)** |
+| **Data Retention** | 6-12 months default | **24 months (GDPR-optimized)** |
 | **API Access** | ✅ Yes (Stats API) | ✅ Yes (Full API) |
 | **Data Export** | ✅ CSV export | ✅ CSV export |
 
 **Key differences**:
 - **Sealmetrics** includes conversion funnels natively; Plausible doesn't offer funnel visualization
-- **Sealmetrics** provides 25-month retention vs 6-12 months typical for Plausible
+- **Sealmetrics** provides 24-month retention vs 6-12 months typical for Plausible
 - Neither offers session recording or heatmaps (by privacy design)
 
 ### Integration & Technical Features
@@ -334,9 +319,9 @@ Result: Counted as 2 unique users, not returning visitor
 
 **Sealmetrics** (no tracking session):
 ```
-Day 1: User visits, session_token = random(fingerprint + timestamp + salt)
+Day 1: User visits, new session generated (no cookies, no personal data)
 Session expires after users leave the website
-Day 2: Same user returns, new session_token generated
+Day 2: Same user returns, new session generated
 Result: Properly tracked as new visitor
 ```
 
@@ -364,15 +349,18 @@ Result: Properly tracked as new visitor
 
 ### Sealmetrics Pricing (2025)
 
-**Cloud Hosting** (only option):
-- Starter: **€29/month** (100K pageviews)
-- Product Intelligence: **€389/month** (500K pageviews)
-- Enterprise: **Custom pricing** (unlimited)
+**Volume-based plans** (all features included):
+- Starter: **€229/month** (1M events)
+- Growth: **€459/month** (5M events)
+- Scale: **€919/month** (25M events)
+- Pro: **€1,724/month** (100M events)
+- Enterprise: **Custom pricing** (unlimited events)
 
 **Notable**:
-- Conversion funnels included (not in Plausible)
-- 25-month data retention included
-- Priority support at all tiers
+- All features included in all plans (no tiered features)
+- Unlimited websites and unlimited users on all plans
+- 24-month data retention included
+- Annual billing saves approximately 15%
 
 ## Use Case Recommendations
 
@@ -418,7 +406,7 @@ Result: Properly tracked as new visitor
 - Need: Multi-day attribution
 - Legal: GDPR compliance critical
 
-**Why Sealmetrics**: Losing 25% of potential leads (Plausible's data loss) means missing high-value opportunities. 25-month retention tracks full sales cycles. Zero IP storage satisfies enterprise DPOs.
+**Why Sealmetrics**: Losing 25% of potential leads (Plausible's data loss) means missing high-value opportunities. 24-month retention tracks full sales cycles. Zero IP storage satisfies enterprise DPOs.
 
 **Scenario 3: Enterprise with Strict Compliance**
 - Size: 500+ employees
@@ -596,8 +584,7 @@ Both are significantly better than Google Analytics (~35% blocked). Neither tool
 - Requires technical setup
 
 **Sealmetrics**:
-- ⚠️ White-label available on Enterprise plan
-- Contact sales for details
+- ❌ White-label not available
 - Managed service (no self-hosting)
 
 ### Which has better support?
@@ -610,8 +597,9 @@ Both are significantly better than Google Analytics (~35% blocked). Neither tool
 
 **Sealmetrics**:
 - Email support for all customers
-- Priority support on all paid plans
-- Live chat on Business+ plans
+- Email support on all plans
+- Chat support on Growth+ plans
+- Priority support on Scale+ plans
 - Response time: 4-12 hours
 
 **Verdict**: **Sealmetrics** provides faster, more personalized support.
@@ -621,7 +609,7 @@ Both are significantly better than Google Analytics (~35% blocked). Neither tool
 Both **Plausible** and **Sealmetrics** are excellent alternatives to Google Analytics, offering cookieless analytics that respects user privacy. The choice between them depends on your specific requirements, budget, and compliance needs.
 
 **Choose Plausible if**:
-- Budget is primary concern (€9-19/month tier)
+- Budget is primary concern (starting at €9/month)
 - You value open-source transparency
 - Traffic is primarily non-EU (USA, Asia)
 - Self-hosting is important
@@ -637,7 +625,7 @@ Both **Plausible** and **Sealmetrics** are excellent alternatives to Google Anal
 - Multi-day attribution matters
 - You prefer managed service over self-hosting
 
-**The Reality**: For most EU-focused businesses with significant traffic and conversion tracking needs, **Sealmetrics'** zero IP storage, consentless operation, and 100% data capture justify the higher price. The additional €70/month (€99 vs €29) is trivial compared to the value of complete data visibility.
+**The Reality**: For most EU-focused businesses with significant traffic and conversion tracking needs, **Sealmetrics'** zero IP storage, consentless operation, and 100% data capture justify the higher price. The investment in complete data visibility is justified by the value of accurate analytics.
 
 For small sites, USA-focused traffic, or budget-conscious projects, **Plausible** offers excellent value and has proven itself as a reliable, privacy-first analytics solution.
 

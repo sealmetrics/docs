@@ -1,12 +1,14 @@
 ---
 sidebar_position: 12
-title: Metric Definitions
-description: Complete glossary of key Sealmetrics metrics — understand entrances, pageviews, conversions, micro-conversions, revenue, and advanced KPIs.
+title: Metrics Reference
+description: Detailed reference of all SealMetrics report metrics — formulas, benchmarks, and interpretation for entrances, pageviews, conversions, revenue, and advanced KPIs.
 ---
 
-# Metric Definitions
+# Metrics Reference
 
-Complete reference of all metrics used in Sealmetrics reports.
+Detailed formulas, benchmarks, and interpretation guidelines for every metric in SealMetrics reports.
+
+For a complete glossary of all terms (including privacy, platform, and technical concepts), see the [Glossary](/faq/glossary).
 
 ## Quick Reference
 
@@ -23,8 +25,6 @@ Complete reference of all metrics used in Sealmetrics reports.
 | [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
 | [Revenue](#revenue) | Sum of conversion amounts | Higher |
 | [AOV](#average-order-value-aov) | Revenue / Conversions | Higher |
-
-For technical terms related to privacy, tracking technology, and compliance, see the [Technical Glossary](/faq/glossary).
 
 ## Traffic Metrics
 
@@ -58,7 +58,7 @@ For technical terms related to privacy, tracking technology, and compliance, see
 
 | Aspect | Description |
 |--------|-------------|
-| Identification | Based on browser fingerprinting (cookieless) |
+| Identification | Cookieless (no cookies required) |
 | Cross-device | Same user on different devices counts as different visitors |
 | Use case | Measure audience size |
 
@@ -220,135 +220,9 @@ sealmetrics.conv('purchase', 149.50); // Adds 149.50 to revenue
 | Use case | Measure transaction size |
 | Optimization | Upselling, cross-selling |
 
-## Source Metrics
+## Report Dimensions
 
-### UTM Source
-
-**Definition:** The origin of traffic as defined by the `utm_source` parameter.
-
-| Common Values | Description |
-|---------------|-------------|
-| google | Google (organic or paid) |
-| facebook | Facebook |
-| instagram | Instagram |
-| newsletter | Email newsletter |
-| linkedin | LinkedIn |
-
-### UTM Medium
-
-**Definition:** The marketing medium as defined by the `utm_medium` parameter.
-
-| Common Values | Description |
-|---------------|-------------|
-| organic | Unpaid search traffic |
-| cpc | Cost-per-click (paid search) |
-| email | Email marketing |
-| social | Social media (organic) |
-| referral | Links from other sites |
-| (none) | Direct traffic |
-
-### UTM Campaign
-
-**Definition:** The specific campaign name as defined by the `utm_campaign` parameter.
-
-**Examples:**
-- `spring-sale-2025`
-- `brand-awareness-q1`
-- `product-launch-widget`
-
-### Referrer
-
-**Definition:** The domain of the website that linked to your site (when no UTM parameters present).
-
-| Aspect | Description |
-|--------|-------------|
-| Detection | From HTTP Referer header |
-| When shown | Traffic without UTM parameters |
-| Format | Domain only (not full URL) |
-
-## Page Metrics
-
-### Page Path
-
-**Definition:** The URL path of a page, excluding domain.
-
-**Example:** For `https://example.com/products/widget`, the path is `/products/widget`.
-
-### Page Title
-
-**Definition:** The HTML title of a page (from `<title>` tag).
-
-**Note:** If title changes after page load, the initial title is recorded.
-
-### Landing Page
-
-**Definition:** The first page a user views when starting a session.
-
-| Aspect | Description |
-|--------|-------------|
-| Importance | First impression of your site |
-| Analysis | Landing page bounce rate is critical |
-| Optimization | Focus on high-traffic landing pages |
-
-### Content Group
-
-**Definition:** A user-defined category for grouping related pages.
-
-**Example groups:**
-- Blog (all blog posts)
-- Products (product pages)
-- Checkout (cart and checkout flow)
-
-See [Content Grouping](/implementation/content-site-structure/content-grouping) for setup.
-
-## Device Metrics
-
-### Device Type
-
-**Definition:** The category of device used to access your site.
-
-| Type | Description |
-|------|-------------|
-| Desktop | Computers, laptops |
-| Mobile | Smartphones |
-| Tablet | Tablets, iPads |
-
-### Browser
-
-**Definition:** The web browser used to access your site.
-
-| Browser | Description |
-|---------|-------------|
-| Chrome | Google Chrome |
-| Safari | Apple Safari |
-| Firefox | Mozilla Firefox |
-| Edge | Microsoft Edge |
-
-Includes version number when available.
-
-### Operating System
-
-**Definition:** The operating system of the user's device.
-
-| OS | Description |
-|----|-------------|
-| Windows | Windows 10, 11 |
-| macOS | Apple Mac |
-| iOS | iPhone, iPad |
-| Android | Android devices |
-| Linux | Linux distributions |
-
-## Geographic Metrics
-
-### Country
-
-**Definition:** The country where the user is located.
-
-| Aspect | Description |
-|--------|-------------|
-| Detection | Based on IP geolocation |
-| Accuracy | Country-level is highly accurate |
-| Privacy | City-level not tracked |
+Reports can be broken down by dimensions such as UTM Source, UTM Medium, UTM Campaign, Referrer, Page Path, Landing Page, Content Group, Device Type, Browser, Operating System, and Country. For definitions of these terms, see the [Glossary](/faq/glossary).
 
 ## Funnel Metrics
 

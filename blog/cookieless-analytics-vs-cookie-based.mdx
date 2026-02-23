@@ -74,7 +74,7 @@ Unlike cookie-based tools that lose 60-87% of EU traffic, cookieless analytics c
 | **Browser Compatibility** | Blocked by Safari ITP, Firefox ETP |  Works in all browsers |
 | **Implementation Complexity** | Medium (consent management needed) | Simple (2-minute setup) |
 | **GDPR Compliance** | Requires consent banners | Compliant without consent |
-| **Data Retention** | 14 months (GA4 default) | 25 months without consent |
+| **Data Retention** | 14 months (GA4 default) | 24 months without consent |
 | **Geolocation Accuracy** | High (IP-based) | Medium (browser language/timezone) |
 | **User Identification** | Persistent across devices | Single device, single session |
 | **Script Size** | ~130KB (GA4 gzipped) | 1.3KB (Sealmetrics gzipped) |
@@ -339,16 +339,16 @@ Google Analytics (free) plus required infrastructure:
 
 ### Cookieless Analytics Total Cost
 
-Sealmetrics pricing:
-- **Starter**: €19/month (50,000 pageviews)
-- **Growth**: €99/month (500,000 pageviews)
-- **Business**: €299/month (5,000,000 pageviews)
+Sealmetrics pricing (volume-based):
+- **Starter**: €229/month (1M events)
+- **Growth**: €459/month (5M events)
+- **Scale**: €919/month (25M events)
 - **Consent Management**: €0 (not needed)
 - **Legal Review**: €0 (CNIL-approved methodology)
 - **Ongoing Compliance**: €0 (built-in)
 - **Data Loss Cost**: €0 (100\% capture)
 
-**Annual cost**: €228-3,588 with zero data loss
+**Annual cost**: €2,388-9,588 (with annual billing discount) and zero data loss
 
 The ROI is obvious. Cookieless analytics costs 5-15x less than cookie-based analytics infrastructure while capturing 6-9x more data.
 
@@ -404,7 +404,7 @@ For websites accessed via mobile browsers, cookieless analytics works identicall
 
 ### What happens to my data with cookieless analytics?
 
-Sealmetrics stores all analytics data on EU-based servers (Frankfurt, Germany) with 25-month retention. Unlike Google Analytics (US-based with Schrems II concerns), cookieless analytics keeps your data within EU jurisdiction.
+Sealmetrics stores all analytics data on EU-based servers (Frankfurt, Germany) with 24-month retention. Unlike Google Analytics (US-based with Schrems II concerns), cookieless analytics keeps your data within EU jurisdiction.
 
 Data is fully anonymized: no IP addresses, no persistent identifiers, no personal data. This architecture ensures GDPR compliance and eliminates data transfer concerns.
 
@@ -428,7 +428,7 @@ For most businesses, yes. Sealmetrics provides:
 - Traffic source attribution
 - Device and browser data
 - Geographic insights (country/region)
-- Custom dashboards and reports
+- Data export and API access
 
 The main limitation is cross-session user tracking. If your business requires tracking the same user across multiple visits over months (rare for most companies), you may need supplementary tools. But for 95% of analytics use cases, cookieless analytics provides superior data quality because of 100\% capture rate.
 
@@ -440,7 +440,7 @@ Google Analytics is free, but the total cost of cookie-based analytics includes:
 - Ongoing policy maintenance: €500-1,000/month
 - **Data loss opportunity cost**: Massive (60-87% visitors untracked)
 
-Sealmetrics costs €19-299/month depending on traffic, with no additional infrastructure required. Total cost of ownership is 5-15x lower than cookie-based analytics systems.
+Sealmetrics plans start at €229/month (€199/month with annual billing) depending on event volume, with no additional infrastructure required. Total cost of ownership is significantly lower than cookie-based analytics systems when you factor in consent management, legal review, and data loss costs.
 
 ### How does Sealmetrics differ from other cookieless tools like Plausible or Matomo?
 
@@ -450,7 +450,7 @@ Key differences:
 - No cookies
 - No IP storage (competitors store hashed IPs)
 - No consent required
-- 25-month retention without consent
+- 24-month retention without consent
 - CNIL-approved methodology
 
 **Plausible/Matomo**: Cookie-free but still store IPs

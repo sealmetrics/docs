@@ -80,7 +80,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **Technical approaches**:
 1. **Session-based measurement**: Track page views within session, without cross-session linking
 2. **Server-side logging**: Analyze server logs without client-side identifiers
-3. **Privacy-preserving fingerprinting**: Ephemeral technical signals for session uniqueness (not tracking)
+3. **Cookieless session identification**: Without personal data or persistent identifiers
 4. **Aggregated metrics only**: Count events without identifying individuals
 
 **Key principle**: Measure the **audience** (how many, from where, what they do) without **tracking individuals** (who specifically, what they do over time).
@@ -271,7 +271,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **Cookieless analytics**:
 - ✅ Session-only tracking (no long-term storage of identifiers)
 - ✅ Aggregated data quickly (raw logs not retained long)
-- ✅ Typical retention: 25 months maximum (align with AEPD requirements)
+- ✅ Typical retention: 24 months maximum (align with AEPD requirements)
 - ✅ Aggregated reports can be kept indefinitely (no personal data)
 
 **Best practice**: Delete raw server logs after aggregation; retain only statistics.
@@ -435,7 +435,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - ✅ Disable user ID tracking
 - ✅ Disable cross-site tracking
 - ✅ Enable IP anonymization
-- ✅ Limit data retention (25 months max recommended)
+- ✅ Limit data retention (24 months max recommended)
 - ✅ Disable any advertising features
 - ✅ Ensure first-party data only
 
@@ -497,7 +497,7 @@ You have the right to:
 To exercise these rights, contact: [privacy@example.com]
 
 ### Data Retention
-Analytics data is retained for 25 months, then deleted.
+Analytics data is retained for 24 months, then deleted.
 
 ### Analytics Provider
 We use [Sealmetrics/other provider], which acts as our data processor and does not use data for their own purposes.
@@ -527,7 +527,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 - Categories of data subjects (website visitors)
 - Categories of personal data (IP address [if processed], referrer, user agent)
 - Categories of recipients (analytics provider, if any)
-- Retention periods (25 months)
+- Retention periods (24 months)
 - Security measures
 
 **Maintain this record**: Available for supervisory authority if requested.
@@ -563,31 +563,26 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 
 ### What about device fingerprinting?
 
-**Device fingerprinting** = Combining browser/device characteristics to create unique identifier
+**Device fingerprinting** = Combining browser/device characteristics to create a persistent unique identifier for tracking users across sessions.
 
-**GDPR status**:
-- If creates persistent identifier: Likely personal data
-- If used for tracking: Requires legal basis (consent or legitimate interest)
+**GDPR status**: Persistent device fingerprinting creates personal data and requires legal basis (typically consent).
 
-**ePrivacy status**:
-- Accessing device information may require consent under Article 5(3)
+**ePrivacy status**: Accessing device information to build persistent identifiers may require consent under Article 5(3).
 
-**Cookieless analytics caution**: Using fingerprinting defeats the purpose; truly cookieless should avoid persistent fingerprinting.
-
-**Acceptable**: Ephemeral technical signals for session uniqueness (not cross-session tracking).
+**Sealmetrics**: Does not use device fingerprinting. Sessions are identified using cookieless, privacy-preserving technology that does not create persistent identifiers and cannot track users across sessions.
 
 ### How long can I retain cookieless analytics data?
 
 **GDPR Storage Limitation** (Article 5(1)(e)): No longer than necessary
 
 **Best practice**:
-- **Raw data (IP addresses, logs)**: 25 months maximum (aligns with AEPD)
+- **Raw data (IP addresses, logs)**: 24 months maximum (aligns with AEPD)
 - **Aggregated statistics**: Indefinitely (no personal data)
 
 **Recommended approach**:
 1. Collect raw data
 2. Aggregate into statistics daily/weekly/monthly
-3. Delete raw data after aggregation (or after 25 months max)
+3. Delete raw data after aggregation (or after 24 months max)
 4. Retain aggregated reports indefinitely
 
 ### Can I share cookieless analytics data?

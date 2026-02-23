@@ -179,7 +179,7 @@ Reset password using the token from the email.
 ```json
 {
   "token": "abc123def456...",
-  "new_password": "MyNewSecurePassword123!"
+  "new_password": "<your_new_password>"
 }
 ```
 
@@ -246,7 +246,7 @@ Start 2FA setup. Requires password verification.
 
 ```json
 {
-  "password": "CurrentPassword123!"
+  "password": "<your_password>"
 }
 ```
 
@@ -256,7 +256,7 @@ Start 2FA setup. Requires password verification.
 {
   "success": true,
   "data": {
-    "secret": "JBSWY3DPEHPK3PXP",
+    "secret": "YOUR_TOTP_SECRET_KEY",
     "qr_code_data_url": "data:image/png;base64,iVBORw0KGgo...",
     "backup_codes": [
       "ABCD-1234-EFGH",
@@ -264,7 +264,7 @@ Start 2FA setup. Requires password verification.
       "QRST-9012-UVWX",
       "..."
     ],
-    "provisioning_uri": "otpauth://totp/Sealmetrics:user@example.com?secret=JBSWY3DPEHPK3PXP&issuer=Sealmetrics",
+    "provisioning_uri": "otpauth://totp/Sealmetrics:user@example.com?secret=YOUR_TOTP_SECRET_KEY&issuer=Sealmetrics",
     "expires_in_minutes": 10
   }
 }
@@ -339,7 +339,7 @@ Disable two-factor authentication. Requires password and current 2FA code.
 
 ```json
 {
-  "password": "CurrentPassword123!",
+  "password": "<your_password>",
   "code": "123456"
 }
 ```
@@ -399,7 +399,7 @@ POST /auth/token
 ```json
 {
   "email": "user@example.com",
-  "password": "Password123!"
+  "password": "<your_password>"
 }
 ```
 

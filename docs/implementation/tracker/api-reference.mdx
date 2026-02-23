@@ -249,7 +249,7 @@ sealmetrics({ group: 'product' });
 | Field | Description |
 |-------|-------------|
 | `a` | Account ID |
-| `s` | Session ID (fingerprint hash) |
+| `s` | Session ID (auto-generated) |
 | `t` | HMAC anti-spam token |
 | `u` | Current URL |
 | `r` | Referrer URL |
@@ -303,25 +303,7 @@ Includes all pageview fields plus:
 
 ## Session Identification
 
-Sessions are identified using a browser fingerprint hash. No cookies or storage are used.
-
-### Fingerprint Components
-
-| Component | Example |
-|-----------|---------|
-| Hostname (root domain) | `example.com` |
-| User Agent | `Mozilla/5.0...` |
-| Protocol (HTTPS) | `true` |
-| Timezone | `Europe/Madrid` |
-| Is Mobile | `false` |
-| Browser + Version | `chrome94.0` |
-| OS + Version | `macos10.15` |
-| Language | `en-US` |
-| Screen Size | `1920x1080` |
-| Hardware Concurrency | `8` |
-| Device Memory | `8` |
-
-The fingerprint is hashed using Java's `String.hashCode()` algorithm for consistency with legacy systems.
+Session IDs are automatically generated using privacy-preserving browser characteristics. No cookies or personal data are used.
 
 ---
 

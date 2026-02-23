@@ -60,7 +60,7 @@ For self-hosted deployments or custom domains:
 ## What Happens After Installation
 
 1. The script loads asynchronously (does not block rendering)
-2. A session ID is generated from browser characteristics (fingerprint hash)
+2. A session ID is generated automatically without cookies
 3. An anti-spam token is validated (embedded in the script, valid for 24 hours)
 4. The initial pageview is tracked automatically
 5. SPA navigation is detected automatically (History API)

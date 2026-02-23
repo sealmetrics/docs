@@ -122,7 +122,7 @@ Sealmetrics meets all four criteria:
 - **Session IDs exist only during active sessions**
 - **Users cannot be tracked across visits**
 - **No IP addresses stored** (unlike Plausible/Matomo which hash IPs)
-- **Data retained 25 months** with GDPR Article 6(1)(f) justification
+- **Data retained 24 months** with GDPR Article 6(1)(f) justification
 
 ---
 
@@ -188,7 +188,7 @@ This is why Sealmetrics requires no consent banner while cookie-based tools do.
 | **GDPR Legal Basis** | Consent required | Legitimate interest | Consent or LI | Legitimate interest | **Legitimate interest** |
 | **CNIL Compliant** | No | Partial | Partial | Yes | **Yes** |
 | **Setup Complexity** | High (30-60 min) | Medium (10 min) | High (20-30 min) | Low (5 min) | **Very Low (2 min)** |
-| **Data Retention** | 14 months | Unlimited | Unlimited | Unlimited | **25 months** |
+| **Data Retention** | 14 months | Unlimited | Unlimited | Unlimited | **24 months** |
 | **Real-Time Data** | Delayed | Yes | Yes | Yes | **Yes** |
 | **Price (10k pageviews/mo)** | Free (but data loss) | $9/mo | $29/mo | $19/mo | **$49/mo** |
 | **Consentless Analytics** | No | No | No | No | **Yes** |
@@ -273,7 +273,7 @@ When evaluating cookieless analytics tools, ask these questions:
 
 **CNIL recommendation**: 13 months maximum for cookieless analytics.
 
-**Sealmetrics approach**: 25 months with documented legitimate interest justification (available to customers).
+**Sealmetrics approach**: 24 months with documented legitimate interest justification (available to customers).
 
 ### Question 4: Can you track across sessions?
 
@@ -353,7 +353,7 @@ Before removing Google Analytics:
 
 Replace cookie consent section with:
 
-> "We use Sealmetrics, a cookieless analytics platform, to understand how visitors use our website. Sealmetrics does not use cookies, does not store IP addresses, and cannot track you across different websites or visits. This processing is based on our legitimate interest in understanding website performance (GDPR Article 6(1)(f)). Data is retained for 25 months and stored exclusively in the EU. You can opt out at any time using our opt-out page."
+> "We use Sealmetrics, a cookieless analytics platform, to understand how visitors use our website. Sealmetrics does not use cookies, does not store IP addresses, and cannot track you across different websites or visits. This processing is based on our legitimate interest in understanding website performance (GDPR Article 6(1)(f)). Data is retained for 24 months and stored exclusively in the EU. You can opt out at any time using our opt-out page."
 
 **Template available**: Sealmetrics provides a complete privacy policy template to all customers.
 
@@ -471,7 +471,7 @@ No direct effect. However, removing consent banners (made possible by cookieless
 
 ### 10. What about data retention with cookieless analytics?
 
-CNIL recommends 13 months maximum for analytics without consent. Sealmetrics retains data for 25 months based on documented legitimate interest (statistical analysis requires multi-year comparison). This is GDPR compliant when properly justified.
+CNIL recommends 13 months maximum for analytics without consent. Sealmetrics retains data for 24 months based on documented legitimate interest (statistical analysis requires multi-year comparison). This is GDPR compliant when properly justified.
 
 ### 11. Is hashing IP addresses enough to be "cookieless"?
 
@@ -491,7 +491,7 @@ Sealmetrics is designed to be compliant with the strictest interpretation of cur
 
 ### 15. How does cookieless analytics work for mobile apps?
 
-Mobile apps don't use cookies, so "cookieless" is a web-specific term. For mobile apps, the equivalent is identifier-free tracking. Sealmetrics provides mobile SDKs that follow the same privacy-first principles: no device ID storage, no cross-session tracking, session-based analytics only.
+Mobile apps don't use cookies, so "cookieless" is a web-specific term. For mobile apps, the equivalent is identifier-free tracking. Sealmetrics is currently a web analytics platform; for mobile apps, similar privacy-first principles apply: no device ID storage, no cross-session tracking, session-based analytics only.
 
 ---
 
@@ -536,7 +536,7 @@ The future of web analytics is cookieless. The question isn't whether to make th
 - [ePrivacy Directive](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32002L0058)
 
 **Try Sealmetrics**:
-- [Start Free Trial](https://sealmetrics.com) - 14 days, no credit card required
+- [Start Free Trial](https://sealmetrics.com) - 14-day free trial, card not charged during trial
 - [Live Demo](https://sealmetrics.com/demo) - See cookieless analytics in action
 - [Documentation](https://docs.sealmetrics.com) - Complete implementation guides
 

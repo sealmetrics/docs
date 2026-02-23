@@ -178,7 +178,7 @@ All Sealmetrics data stays in EU servers:
 - No Schrems II concerns
 
 **4. 25-Month Retention (No Consent)**:
-Because Sealmetrics operates under legitimate interest and processes minimal data, it can retain analytics data for 25 months without consent—longer than Google Analytics' 14-month maximum under consent-free operation.
+Because Sealmetrics operates under legitimate interest and processes minimal data, it can retain analytics data for 24 months without consent—longer than Google Analytics' 14-month maximum under consent-free operation.
 
 **Practical outcome**: Businesses using Sealmetrics don't need consent banners for analytics, passing DPO reviews without legal complexity Google Analytics introduces.
 
@@ -194,7 +194,7 @@ Because Sealmetrics operates under legitimate interest and processes minimal dat
 | Stores IP Addresses | Yes (hashed) | **Never** |
 | GDPR Legal Basis | Consent (6.1.a) | **Legitimate Interest (6.1.f)** |
 | Data Location | USA + EU | **EU only** |
-| Data Retention (no consent) | 14 months | **25 months** |
+| Data Retention (no consent) | 14 months | **24 months** |
 | **Data Accuracy** | | |
 | Data Loss from Cookie Rejection | 60-87% (EU) | **0%** |
 | Works with Ad Blockers | Often blocked | Not blocked |
@@ -308,29 +308,29 @@ Because Sealmetrics operates under legitimate interest and processes minimal dat
 
 ### Sealmetrics Pricing
 
-**Transparent pricing** (no hidden costs):
-- **Starter**: 29 EUR/month - 100,000 pageviews
-- **Growth**: 99 EUR/month - 1,000,000 pageviews  
-- **Scale**: 299 EUR/month - 10,000,000 pageviews
-- **Enterprise**: Custom pricing for 10M+ pageviews
+**Volume-based pricing** (no hidden costs):
+- **Starter**: 229 EUR/month - 1M events
+- **Growth**: 459 EUR/month - 5M events
+- **Scale**: 919 EUR/month - 25M events
+- **Pro**: 1,724 EUR/month - 100M events
+- **Enterprise**: Custom pricing for unlimited events
 
-**Included**:
-- Unlimited tracked websites
-- No event limits (only pageview-based)
-- 25-month data retention
-- Email support
-- API access
-- Data export
+**Included in all plans**:
+- Unlimited websites
+- Unlimited users
+- 24-month data retention
+- Full API access
+- LENS AI
 - All features (no tiered features)
 
 **Hidden costs**: None. No consent banner needed, no legal review required, no integration complexity.
 
 **Apples-to-apples comparison**:
-- Mid-sized site (2M pageviews/month)
+- Mid-sized site (2M events/month)
 - Google Analytics: "Free" + $12,000/year (consent + legal + implementation)
-- Sealmetrics: 1,188 EUR/year (99 EUR/month)
+- Sealmetrics: 2,748 EUR/year (Starter plan, 229 EUR/month) or 2,388 EUR/year (annual billing)
 
-**Sealmetrics costs 90% less** when accounting for true total cost of ownership.
+**Sealmetrics costs significantly less** when accounting for true total cost of ownership.
 
 ---
 
@@ -594,21 +594,22 @@ Sealmetrics tracks the pageviews and conversions; your A/B testing tool handles 
 
 ### What's Sealmetrics' data retention policy?
 
-Sealmetrics retains analytics data for **25 months** without requiring user consent. This is longer than Google Analytics' 14-month maximum under consent-free operation.
+Sealmetrics retains analytics data for **24 months** without requiring user consent. This is longer than Google Analytics' 14-month maximum under consent-free operation.
 
-After 25 months, data is automatically deleted. You can export data before deletion if needed for long-term archival.
+After 24 months, data is automatically deleted. You can export data before deletion if needed for long-term archival.
 
 ### How does Sealmetrics pricing scale?
 
-Sealmetrics pricing is based on monthly pageviews:
-- 100K pageviews: 29 EUR/month
-- 1M pageviews: 99 EUR/month
-- 10M pageviews: 299 EUR/month
-- 10M+ pageviews: Custom pricing
+Sealmetrics pricing is volume-based on monthly events:
+- 1M events: 229 EUR/month (Starter)
+- 5M events: 459 EUR/month (Growth)
+- 25M events: 919 EUR/month (Scale)
+- 100M events: 1,724 EUR/month (Pro)
+- Unlimited: Custom pricing (Enterprise)
 
-**Pageview calculation**: A pageview is counted each time a page loads. Single-page applications (SPAs) can configure custom pageview events for route changes.
+Annual billing saves approximately 15%. All plans include unlimited websites and unlimited users.
 
-**Overages**: If you exceed your plan limit, Sealmetrics automatically scales to the next tier. You're billed the difference. No surprise shutoffs or overage penalties.
+**Overages**: If you exceed your plan's event limit, tracking continues without interruption. Overage is billed per 100,000 additional events at your plan's overage rate.
 
 ### Can I self-host Sealmetrics?
 

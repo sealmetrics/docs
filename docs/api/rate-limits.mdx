@@ -7,43 +7,23 @@ title: Rate Limits
 
 Rate limits protect the API from abuse and ensure fair usage across all clients.
 
-## Limits by Plan
-
-| Plan | Requests/minute | Burst | Price |
-|------|-----------------|-------|-------|
-| **Starter** | 60 | 10 | €249/month |
-| **Growth** | 120 | 20 | €549/month |
-| **Business** | 240 | 40 | €999/month |
-| **Scale** | 480 | 80 | €1,899/month |
-| **Enterprise** | 10,000+ | 100 | Custom |
-
-### Understanding Burst
-
-Burst allows temporary spikes above the base rate. For example, with Starter (60 req/min, burst 10):
-
-- Sustained rate: 1 request per second
-- Burst: Up to 10 requests instantly, then throttled
-- After burst: Requests are delayed (not rejected) until rate normalizes
-
 ## Rate Limit Headers
 
 Every API response includes these headers:
 
 | Header | Description | Example |
 |--------|-------------|---------|
-| `X-RateLimit-Limit` | Max requests per minute for your plan | `60` |
-| `X-RateLimit-Remaining` | Requests remaining in current window | `45` |
+| `X-RateLimit-Limit` | Max requests per minute for your plan | `120` |
+| `X-RateLimit-Remaining` | Requests remaining in current window | `95` |
 | `X-RateLimit-Reset` | Unix timestamp when window resets | `1704067200` |
-| `X-RateLimit-Tier` | Your plan tier | `starter` |
 
 Example response headers:
 
 ```http
 HTTP/1.1 200 OK
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 45
+X-RateLimit-Limit: 120
+X-RateLimit-Remaining: 95
 X-RateLimit-Reset: 1704067200
-X-RateLimit-Tier: starter
 Content-Type: application/json
 ```
 
@@ -54,7 +34,7 @@ When you exceed the limit, you receive:
 ```http
 HTTP/1.1 429 Too Many Requests
 Retry-After: 15
-X-RateLimit-Limit: 60
+X-RateLimit-Limit: 120
 X-RateLimit-Remaining: 0
 X-RateLimit-Reset: 1704067200
 Content-Type: application/json
@@ -94,8 +74,6 @@ Some endpoints have lower limits due to query complexity:
 | `/sites/{id}/stats` | 50% of plan limit |
 | `/sites/{id}/funnel` | 50% of plan limit |
 | All other endpoints | 100% of plan limit |
-
-Example: Starter plan (60 req/min) has 30 req/min for stats endpoints.
 
 ## Endpoints Without Rate Limits
 
@@ -189,15 +167,6 @@ while True:
 # Better: Configure webhook for real-time updates
 # (No API calls needed - data pushed to you)
 ```
-
-## Upgrading Your Plan
-
-If you consistently hit rate limits, consider upgrading:
-
-1. Go to **Settings** → **Billing**
-2. Click **Change Plan**
-3. Select a higher tier
-4. Rate limit increase is immediate (no restart needed)
 
 ## Enterprise Custom Limits
 

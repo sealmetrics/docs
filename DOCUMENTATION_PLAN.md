@@ -62,11 +62,15 @@ Documentar las 60+ reglas organizadas por categoría:
 | Campaigns | campaign_budget_anomaly, roas_decline | Rendimiento de campañas |
 
 #### `ai-assistant/question-limits.mdx` - Límites por Plan
-| Plan | Preguntas/mes | Overage |
-|------|---------------|---------|
-| Research | 50 | €0.50/pregunta |
-| Guard | 200 | €0.40/pregunta |
-| Growth | 500 | €0.30/pregunta |
+| Plan | Preguntas/mes |
+|------|---------------|
+| Starter | 500 |
+| Growth | 1,000 |
+| Scale | 2,000 |
+| Pro | 5,000 |
+| Enterprise | Custom |
+
+Pack adicional: €99/500 preguntas (one-time, no expiran)
 
 #### `api/lens-endpoints.mdx` - Endpoints API
 ```
@@ -89,9 +93,11 @@ GET  /api/lens/reports        # Obtener informes generados
 docs/billing/
 ├── index.mdx                   # Resumen de planes y precios
 ├── plans/
-│   ├── research.mdx           # Plan Research (€199/mes)
-│   ├── guard.mdx              # Plan Guard (€399/mes)
-│   └── growth.mdx             # Plan Growth (€599/mes)
+│   ├── starter.mdx            # Plan Starter (€229/mes, €199 anual)
+│   ├── growth.mdx             # Plan Growth (€459/mes, €399 anual)
+│   ├── scale.mdx              # Plan Scale (€919/mes, €799 anual)
+│   ├── pro.mdx                # Plan Pro (€1,724/mes, €1,499 anual)
+│   └── enterprise.mdx         # Plan Enterprise (custom)
 ├── features-comparison.mdx     # Tabla comparativa de features
 ├── usage-limits.mdx            # Límites y cuotas
 ├── add-ons.mdx                 # Complementos adicionales
@@ -104,27 +110,24 @@ docs/billing/
 #### `index.mdx` - Planes y Precios
 
 **Tabla de Planes:**
-| Feature | Research €199/mes | Guard €399/mes | Growth €599/mes |
-|---------|-------------------|----------------|-----------------|
-| Cuentas incluidas | 1 | 3 | 10 |
-| Pageviews/mes | 500K | 2M | 10M |
-| Retención datos | 12 meses | 24 meses | 36 meses |
-| LENS AI preguntas | 50 | 200 | 500 |
-| Usuarios | 2 | 5 | Ilimitados |
-| Soporte | Email | Email + Chat | Dedicado |
-| SLA | - | 99.5% | 99.9% |
-| API access | Básico | Completo | Completo + Prioridad |
+| Feature | Starter €229/mes | Growth €459/mes | Scale €919/mes | Pro €1,724/mes | Enterprise |
+|---------|------------------|-----------------|----------------|----------------|------------|
+| Events/mes | 1M | 5M | 25M | 100M | Unlimited |
+| Sitios incluidos | Unlimited | Unlimited | Unlimited | Unlimited | Unlimited |
+| Retención datos | 24 meses | 24 meses | 24 meses | 24 meses | Custom |
+| LENS AI preguntas | 500 | 1,000 | 2,000 | 5,000 | Custom |
+| Usuarios | Unlimited | Unlimited | Unlimited | Unlimited | Unlimited |
+| BigQuery | - | Included | Included | Included | Included |
+| Webhooks | - | - | Included | Included | Included |
+| Audit logs | - | - | Included | Included | Included |
 
 #### `add-ons.mdx` - Complementos
 | Add-on | Precio | Descripción |
 |--------|--------|-------------|
-| Cuentas adicionales | €300/10 cuentas | Pack de 10 cuentas extra |
-| Preguntas LENS | €99/100 preguntas | Pack de preguntas adicionales |
-| Retención extendida | €50/año adicional | Más tiempo de retención |
-| Pageviews extra | €20/100K | Pageviews adicionales |
+| Preguntas LENS | €99/500 preguntas | Pack de preguntas adicionales (one-time) |
 
 #### `usage-limits.mdx` - Límites
-- Cómo se calculan los pageviews
+- Cómo se calculan los events
 - Qué pasa al exceder límites
 - Alertas de uso (80%, 90%, 100%)
 - Política de overage

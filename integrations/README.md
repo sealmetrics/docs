@@ -11,7 +11,6 @@ Full e-commerce tracking: pageviews, product views, add-to-cart, checkout funnel
 | [WooCommerce](./ecommerce/woocommerce/) | WordPress Plugin | `ecommerce/woocommerce/` |
 | [PrestaShop](./ecommerce/prestashop/) | PrestaShop Module | `ecommerce/prestashop/` |
 | [Magento 2](./ecommerce/magento2/) | Magento Module | `ecommerce/magento2/` |
-| [BigCommerce](./ecommerce/bigcommerce/) | JavaScript | `ecommerce/bigcommerce/` |
 
 ### Events Tracked (E-commerce)
 
