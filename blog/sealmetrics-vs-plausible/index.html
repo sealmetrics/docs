@@ -11,8 +11,8 @@
 
 <link rel="search" type="application/opensearchdescription+xml" title="Sealmetrics Docs" href="/opensearch.xml">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><link rel="stylesheet" href="/assets/css/styles.c831e4da.css">
-<script src="/assets/js/runtime~main.a5c5aade.js" defer="defer"></script>
-<script src="/assets/js/main.a397f18f.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.fb8af54d.js" defer="defer"></script>
+<script src="/assets/js/main.5afcd0aa.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -26,7 +26,7 @@
 <li class=""><strong>IP Storage</strong>: Plausible hashes and stores IPs; Sealmetrics stores zero IP data</li>
 <li class=""><strong>Consent Requirements</strong>: Plausible depends on configuration (often needs consent); Sealmetrics is consentless by design</li>
 <li class=""><strong>Data Accuracy</strong>: Plausible 20-40% loss from consent rejection; Sealmetrics 0% loss</li>
-<li class=""><strong>Pricing</strong>: Plausible starts €9/month; Sealmetrics starts €29/month (more inclusive features)</li>
+<li class=""><strong>Pricing</strong>: Plausible starts €9/month; Sealmetrics starts €229/month (more inclusive features)</li>
 <li class=""><strong>Setup Complexity</strong>: Both offer simple implementation (~2-5 minutes)</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="executive-summary-which-tool-is-right-for-you">Executive Summary: Which Tool is Right for You?<a href="#executive-summary-which-tool-is-right-for-you" class="hash-link" aria-label="Direct link to Executive Summary: Which Tool is Right for You?" title="Direct link to Executive Summary: Which Tool is Right for You?" translate="no">​</a></h2>
@@ -44,7 +44,7 @@
 <li class="">True consentless analytics is critical (no banner ever)</li>
 <li class="">You want zero IP storage (maximum privacy)</li>
 <li class="">GDPR compliance without compromise is required</li>
-<li class="">You need longer data retention (25 months vs 6-12 months)</li>
+<li class="">You need longer data retention (24 months vs 6-12 months)</li>
 </ul>
 <p><strong>The Bottom Line</strong>: Both are vast improvements over Google Analytics. Plausible is a solid cookieless analytics tool with good privacy practices. <strong>Sealmetrics</strong> goes further by eliminating IP storage entirely, achieving true consentless operation, and capturing 100% of visitor data without legal risk.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="background-understanding-both-tools">Background: Understanding Both Tools<a href="#background-understanding-both-tools" class="hash-link" aria-label="Direct link to Background: Understanding Both Tools" title="Direct link to Background: Understanding Both Tools" translate="no">​</a></h2>
@@ -91,8 +91,7 @@
 <li class="">Lack of  KPIs for professional porpouse</li>
 </ul>
 <p><strong>Sealmetrics&#x27; Approach</strong>:</p>
-<div class="language-javascript codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-javascript codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">// Simplified Sealmetrics session identification</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">const</span><span class="token plain"> sessionId </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">generateSessionId</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token literal-property property" style="color:#36acaa">browserFingerprint</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">userAgent</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token dom variable" style="color:#36acaa">navigator</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">userAgent</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">screenResolution</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token template-string template-punctuation string" style="color:#e3116c">`</span><span class="token template-string interpolation interpolation-punctuation punctuation" style="color:#393A34">${</span><span class="token template-string interpolation">screen</span><span class="token template-string interpolation punctuation" style="color:#393A34">.</span><span class="token template-string interpolation property-access">width</span><span class="token template-string interpolation interpolation-punctuation punctuation" style="color:#393A34">}</span><span class="token template-string string" style="color:#e3116c">x</span><span class="token template-string interpolation interpolation-punctuation punctuation" style="color:#393A34">${</span><span class="token template-string interpolation">screen</span><span class="token template-string interpolation punctuation" style="color:#393A34">.</span><span class="token template-string interpolation property-access">height</span><span class="token template-string interpolation interpolation-punctuation punctuation" style="color:#393A34">}</span><span class="token template-string template-punctuation string" style="color:#e3116c">`</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">timezone</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token known-class-name class-name">Intl</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access maybe-class-name" style="color:#d73a49">DateTimeFormat</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">resolvedOptions</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">timeZone</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">language</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token dom variable" style="color:#36acaa">navigator</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">language</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token literal-property property" style="color:#36acaa">timestamp</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token known-class-name class-name">Date</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">now</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token literal-property property" style="color:#36acaa">randomSalt</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token known-class-name class-name">Math</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">random</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">// IP address used ONLY for geolocation, then immediately discarded</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">// Zero IP storage in database</span><br></span></code></pre></div></div>
-<p><strong>Sealmetrics</strong> uses browser characteristics (non-invasive fingerprinting) combined with timestamps and random salts to generate session identifiers. Critically, <strong>IP addresses are never stored</strong>—they&#x27;re used only for one-time geolocation lookup, then immediately discarded from memory.</p>
+<p><strong>Sealmetrics</strong> uses proprietary cookieless technology to identify sessions without storing IP addresses or personal data. Critically, <strong>IP addresses are never stored</strong>—they&#x27;re used only for one-time geolocation lookup, then immediately discarded from memory.</p>
 <p><strong>Pros</strong>:</p>
 <ul>
 <li class="">No IP storage = not personal data under GDPR</li>
@@ -144,7 +143,7 @@
 <li class="">No cookies stored on user device</li>
 <li class="">No cross-site tracking</li>
 <li class="">No IP address storage for user identification</li>
-<li class="">Limited data retention (≤25 months)</li>
+<li class="">Limited data retention (≤24 months)</li>
 <li class="">Clear privacy policy disclosure</li>
 </ol>
 <p><strong>Plausible</strong>:</p>
@@ -161,7 +160,7 @@
 <li class="">✅ No cookies</li>
 <li class="">✅ No cross-site tracking</li>
 <li class="">✅ Zero IP storage</li>
-<li class="">✅ 25-month retention (CNIL-optimized)</li>
+<li class="">✅ 24-month retention (CNIL-optimized)</li>
 <li class="">✅ Privacy policy included</li>
 </ul>
 <p><strong>Verdict</strong>: <strong>Sealmetrics</strong> fully complies with CNIL requirements explicitly.</p>
@@ -189,11 +188,11 @@
 <li class="">Sealmetrics doesnt&#x27;t calculaute Unique Visitors, Bounce Rate or Visit duration because tracking these KPIs the users are tracked individually, so the consent is required.</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="advanced-features">Advanced Features<a href="#advanced-features" class="hash-link" aria-label="Direct link to Advanced Features" title="Direct link to Advanced Features" translate="no">​</a></h3>
-<table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Custom Events</strong></td><td>✅ Yes (unlimited)</td><td>✅ Yes (unlimited)</td></tr><tr><td><strong>Goal Tracking</strong></td><td>✅ Yes (€/$ value)</td><td>✅ Yes (€/$ value)</td></tr><tr><td><strong>Conversion Funnels</strong></td><td>❌ No</td><td>✅ <strong>Yes</strong></td></tr><tr><td><strong>E-commerce Tracking</strong></td><td>⚠️ Via custom events</td><td>✅ <strong>Native support</strong></td></tr><tr><td><strong>Custom Properties</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Session Recording</strong></td><td>❌ No (privacy by design)</td><td>❌ No (privacy by design)</td></tr><tr><td><strong>Heatmaps</strong></td><td>❌ No</td><td>❌ No</td></tr><tr><td><strong>A/B Testing</strong></td><td>❌ No</td><td>❌ No</td></tr><tr><td><strong>Data Retention</strong></td><td>6-12 months default</td><td><strong>25 months (GDPR-optimized)</strong></td></tr><tr><td><strong>API Access</strong></td><td>✅ Yes (Stats API)</td><td>✅ Yes (Full API)</td></tr><tr><td><strong>Data Export</strong></td><td>✅ CSV export</td><td>✅ CSV export</td></tr></tbody></table>
+<table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Custom Events</strong></td><td>✅ Yes (unlimited)</td><td>✅ Yes (unlimited)</td></tr><tr><td><strong>Goal Tracking</strong></td><td>✅ Yes (€/$ value)</td><td>✅ Yes (€/$ value)</td></tr><tr><td><strong>Conversion Funnels</strong></td><td>❌ No</td><td>✅ <strong>Yes</strong></td></tr><tr><td><strong>E-commerce Tracking</strong></td><td>⚠️ Via custom events</td><td>✅ <strong>Native support</strong></td></tr><tr><td><strong>Custom Properties</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Session Recording</strong></td><td>❌ No (privacy by design)</td><td>❌ No (privacy by design)</td></tr><tr><td><strong>Heatmaps</strong></td><td>❌ No</td><td>❌ No</td></tr><tr><td><strong>A/B Testing</strong></td><td>❌ No</td><td>❌ No</td></tr><tr><td><strong>Data Retention</strong></td><td>6-12 months default</td><td><strong>24 months (GDPR-optimized)</strong></td></tr><tr><td><strong>API Access</strong></td><td>✅ Yes (Stats API)</td><td>✅ Yes (Full API)</td></tr><tr><td><strong>Data Export</strong></td><td>✅ CSV export</td><td>✅ CSV export</td></tr></tbody></table>
 <p><strong>Key differences</strong>:</p>
 <ul>
 <li class=""><strong>Sealmetrics</strong> includes conversion funnels natively; Plausible doesn&#x27;t offer funnel visualization</li>
-<li class=""><strong>Sealmetrics</strong> provides 25-month retention vs 6-12 months typical for Plausible</li>
+<li class=""><strong>Sealmetrics</strong> provides 24-month retention vs 6-12 months typical for Plausible</li>
 <li class="">Neither offers session recording or heatmaps (by privacy design)</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="integration--technical-features">Integration &amp; Technical Features<a href="#integration--technical-features" class="hash-link" aria-label="Direct link to Integration &amp; Technical Features" title="Direct link to Integration &amp; Technical Features" translate="no">​</a></h3>
@@ -214,7 +213,7 @@
 <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Day 1: User visits, session_id = hash(IP + UA + &quot;2024-11-25&quot;)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Day 2: Same user returns, session_id = hash(IP + UA + &quot;2024-11-26&quot;)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Result: Counted as 2 unique users, not returning visitor</span><br></span></code></pre></div></div>
 <p><strong>Limitation</strong>: Daily rotation means multi-day visitor journeys are broken. A user visiting Monday and Tuesday appears as two separate users.</p>
 <p><strong>Sealmetrics</strong> (no tracking session):</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Day 1: User visits, session_token = random(fingerprint + timestamp + salt)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Session expires after users leave the website</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Day 2: Same user returns, new session_token generated</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Result: Properly tracked as new visitor</span><br></span></code></pre></div></div>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Day 1: User visits, new session generated (no cookies, no personal data)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Session expires after users leave the website</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Day 2: Same user returns, new session generated</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Result: Properly tracked as new visitor</span><br></span></code></pre></div></div>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="pricing-comparison">Pricing Comparison<a href="#pricing-comparison" class="hash-link" aria-label="Direct link to Pricing Comparison" title="Direct link to Pricing Comparison" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="plausible-pricing-2025">Plausible Pricing (2025)<a href="#plausible-pricing-2025" class="hash-link" aria-label="Direct link to Plausible Pricing (2025)" title="Direct link to Plausible Pricing (2025)" translate="no">​</a></h3>
 <p><strong>Cloud Hosting</strong>:</p>
@@ -239,17 +238,20 @@
 <li class="">Additional sites: +€6/month each</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sealmetrics-pricing-2025">Sealmetrics Pricing (2025)<a href="#sealmetrics-pricing-2025" class="hash-link" aria-label="Direct link to Sealmetrics Pricing (2025)" title="Direct link to Sealmetrics Pricing (2025)" translate="no">​</a></h3>
-<p><strong>Cloud Hosting</strong> (only option):</p>
+<p><strong>Volume-based plans</strong> (all features included):</p>
 <ul>
-<li class="">Starter: <strong>€29/month</strong> (100K pageviews)</li>
-<li class="">Product Intelligence: <strong>€389/month</strong> (500K pageviews)</li>
-<li class="">Enterprise: <strong>Custom pricing</strong> (unlimited)</li>
+<li class="">Starter: <strong>€229/month</strong> (1M events)</li>
+<li class="">Growth: <strong>€459/month</strong> (5M events)</li>
+<li class="">Scale: <strong>€919/month</strong> (25M events)</li>
+<li class="">Pro: <strong>€1,724/month</strong> (100M events)</li>
+<li class="">Enterprise: <strong>Custom pricing</strong> (unlimited events)</li>
 </ul>
 <p><strong>Notable</strong>:</p>
 <ul>
-<li class="">Conversion funnels included (not in Plausible)</li>
-<li class="">25-month data retention included</li>
-<li class="">Priority support at all tiers</li>
+<li class="">All features included in all plans (no tiered features)</li>
+<li class="">Unlimited websites and unlimited users on all plans</li>
+<li class="">24-month data retention included</li>
+<li class="">Annual billing saves approximately 15%</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="use-case-recommendations">Use Case Recommendations<a href="#use-case-recommendations" class="hash-link" aria-label="Direct link to Use Case Recommendations" title="Direct link to Use Case Recommendations" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="when-plausible-is-the-better-choice">When Plausible is the Better Choice<a href="#when-plausible-is-the-better-choice" class="hash-link" aria-label="Direct link to When Plausible is the Better Choice" title="Direct link to When Plausible is the Better Choice" translate="no">​</a></h3>
@@ -293,7 +295,7 @@
 <li class="">Need: Multi-day attribution</li>
 <li class="">Legal: GDPR compliance critical</li>
 </ul>
-<p><strong>Why Sealmetrics</strong>: Losing 25% of potential leads (Plausible&#x27;s data loss) means missing high-value opportunities. 25-month retention tracks full sales cycles. Zero IP storage satisfies enterprise DPOs.</p>
+<p><strong>Why Sealmetrics</strong>: Losing 25% of potential leads (Plausible&#x27;s data loss) means missing high-value opportunities. 24-month retention tracks full sales cycles. Zero IP storage satisfies enterprise DPOs.</p>
 <p><strong>Scenario 3: Enterprise with Strict Compliance</strong></p>
 <ul>
 <li class="">Size: 500+ employees</li>
@@ -441,8 +443,7 @@ If you had consent banner with Plausible:</p>
 </ul>
 <p><strong>Sealmetrics</strong>:</p>
 <ul>
-<li class="">⚠️ White-label available on Enterprise plan</li>
-<li class="">Contact sales for details</li>
+<li class="">❌ White-label not available</li>
 <li class="">Managed service (no self-hosting)</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="which-has-better-support">Which has better support?<a href="#which-has-better-support" class="hash-link" aria-label="Direct link to Which has better support?" title="Direct link to Which has better support?" translate="no">​</a></h3>
@@ -456,8 +457,9 @@ If you had consent banner with Plausible:</p>
 <p><strong>Sealmetrics</strong>:</p>
 <ul>
 <li class="">Email support for all customers</li>
-<li class="">Priority support on all paid plans</li>
-<li class="">Live chat on Business+ plans</li>
+<li class="">Email support on all plans</li>
+<li class="">Chat support on Growth+ plans</li>
+<li class="">Priority support on Scale+ plans</li>
 <li class="">Response time: 4-12 hours</li>
 </ul>
 <p><strong>Verdict</strong>: <strong>Sealmetrics</strong> provides faster, more personalized support.</p>
@@ -465,7 +467,7 @@ If you had consent banner with Plausible:</p>
 <p>Both <strong>Plausible</strong> and <strong>Sealmetrics</strong> are excellent alternatives to Google Analytics, offering cookieless analytics that respects user privacy. The choice between them depends on your specific requirements, budget, and compliance needs.</p>
 <p><strong>Choose Plausible if</strong>:</p>
 <ul>
-<li class="">Budget is primary concern (€9-19/month tier)</li>
+<li class="">Budget is primary concern (starting at €9/month)</li>
 <li class="">You value open-source transparency</li>
 <li class="">Traffic is primarily non-EU (USA, Asia)</li>
 <li class="">Self-hosting is important</li>
@@ -482,7 +484,7 @@ If you had consent banner with Plausible:</p>
 <li class="">Multi-day attribution matters</li>
 <li class="">You prefer managed service over self-hosting</li>
 </ul>
-<p><strong>The Reality</strong>: For most EU-focused businesses with significant traffic and conversion tracking needs, <strong>Sealmetrics&#x27;</strong> zero IP storage, consentless operation, and 100% data capture justify the higher price. The additional €70/month (€99 vs €29) is trivial compared to the value of complete data visibility.</p>
+<p><strong>The Reality</strong>: For most EU-focused businesses with significant traffic and conversion tracking needs, <strong>Sealmetrics&#x27;</strong> zero IP storage, consentless operation, and 100% data capture justify the higher price. The investment in complete data visibility is justified by the value of accurate analytics.</p>
 <p>For small sites, USA-focused traffic, or budget-conscious projects, <strong>Plausible</strong> offers excellent value and has proven itself as a reliable, privacy-first analytics solution.</p>
 <p><strong>Bottom line</strong>: Both are vast improvements over Google Analytics. Plausible is a great cookieless analytics tool. <strong>Sealmetrics</strong> takes privacy-first analytics to its logical conclusion—zero IP storage, zero data loss, zero compromise.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>

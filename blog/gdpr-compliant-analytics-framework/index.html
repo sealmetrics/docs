@@ -11,8 +11,8 @@
 
 <link rel="search" type="application/opensearchdescription+xml" title="Sealmetrics Docs" href="/opensearch.xml">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><link rel="stylesheet" href="/assets/css/styles.c831e4da.css">
-<script src="/assets/js/runtime~main.a5c5aade.js" defer="defer"></script>
-<script src="/assets/js/main.a397f18f.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.fb8af54d.js" defer="defer"></script>
+<script src="/assets/js/main.5afcd0aa.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -55,7 +55,7 @@
 <li class="">Collect only necessary data (pageviews, sessions, referrers)</li>
 <li class="">Store no personally identifiable information</li>
 <li class="">Don&#x27;t use data for other purposes (advertising, profiling)</li>
-<li class="">Retain data for reasonable periods (25 months for trend analysis)</li>
+<li class="">Retain data for reasonable periods (24 months for trend analysis)</li>
 <li class="">Operate with technical safeguards (no cookies, no IPs)</li>
 </ul>
 <p>Unlike consent-based approaches, legitimate interest captures 100% of visitor data while maintaining full GDPR compliance.</p>
@@ -65,7 +65,7 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-requirements">Technical Requirements<a href="#technical-requirements" class="hash-link" aria-label="Direct link to Technical Requirements" title="Direct link to Technical Requirements" translate="no">​</a></h3>
 <p><strong>No Unnecessary Data Collection</strong>: Collect only what&#x27;s needed for analytics. Sealmetrics tracks pageviews, sessions, referrers, device types, and basic engagement metrics. We don&#x27;t collect names, emails, precise locations, or other unnecessary identifiers.</p>
 <p><strong>IP Address Handling</strong>: This is where most analytics tools fail GDPR. Google Analytics stores full IP addresses. Plausible and Matomo hash IP addresses, which GDPR still considers personal data because hashed values can be reversed or matched. Sealmetrics never stores IP addresses—not even hashed versions. Our session-based tracking generates anonymous identifiers that can&#x27;t be traced back to individuals.</p>
-<p><strong>Data Retention Limits</strong>: Determine legitimate retention periods and enforce them. Sealmetrics defaults to 25 months of retention, documented as necessary for year-over-year trend analysis and seasonal pattern identification. Data older than 25 months is automatically purged.</p>
+<p><strong>Data Retention Limits</strong>: Determine legitimate retention periods and enforce them. Sealmetrics defaults to 24 months of retention, documented as necessary for year-over-year trend analysis and seasonal pattern identification. Data older than 24 months is automatically purged.</p>
 <p><strong>Security Measures</strong>: Implement encryption in transit (HTTPS), encryption at rest, access controls, and regular security audits. Sealmetrics uses AES-256 encryption, role-based access control, and annual penetration testing.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="legal-requirements">Legal Requirements<a href="#legal-requirements" class="hash-link" aria-label="Direct link to Legal Requirements" title="Direct link to Legal Requirements" translate="no">​</a></h3>
 <p><strong>Privacy Policy</strong>: Your privacy policy must explain what analytics you use, what legal basis applies, what data gets collected, and how long data is retained. When using legitimate interest, document your balancing test.</p>
@@ -127,7 +127,7 @@
 </ul>
 <p>This technical choice means Sealmetrics processes less personal data than any competitor, strengthening the legitimate interest legal basis and eliminating many GDPR compliance concerns.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="25-month-retention-without-consent">25-Month Retention Without Consent<a href="#25-month-retention-without-consent" class="hash-link" aria-label="Direct link to 25-Month Retention Without Consent" title="Direct link to 25-Month Retention Without Consent" translate="no">​</a></h3>
-<p>Data retention limits are crucial for GDPR compliance under the data minimization principle. Sealmetrics retains analytics data for 25 months, a period we&#x27;ve documented as necessary for meaningful trend analysis.</p>
+<p>Data retention limits are crucial for GDPR compliance under the data minimization principle. Sealmetrics retains analytics data for 24 months, a period we&#x27;ve documented as necessary for meaningful trend analysis.</p>
 <p><strong>Why 25 Months</strong>: This retention period allows:</p>
 <ul>
 <li class="">Year-over-year comparisons (12 months of current data + 12 months historical)</li>
@@ -135,8 +135,8 @@
 <li class="">Long-term trend analysis for strategic decisions</li>
 <li class="">Buffer period for data exports and migrations</li>
 </ul>
-<p><strong>Automatic Purging</strong>: Data older than 25 months is automatically deleted from our systems. No manual intervention needed, no risk of keeping data too long.</p>
-<p><strong>Documented Justification</strong>: We maintain internal documentation explaining why 25-month retention serves our clients&#x27; legitimate interests in business intelligence and user experience optimization. This documentation supports the legitimate interest legal basis.</p>
+<p><strong>Automatic Purging</strong>: Data older than 24 months is automatically deleted from our systems. No manual intervention needed, no risk of keeping data too long.</p>
+<p><strong>Documented Justification</strong>: We maintain internal documentation explaining why 24-month retention serves our clients&#x27; legitimate interests in business intelligence and user experience optimization. This documentation supports the legitimate interest legal basis.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="eu-infrastructure">EU Infrastructure<a href="#eu-infrastructure" class="hash-link" aria-label="Direct link to EU Infrastructure" title="Direct link to EU Infrastructure" translate="no">​</a></h3>
 <p>Sealmetrics operates exclusively on European infrastructure, eliminating Schrems II concerns.</p>
 <p><strong>Data Location</strong>: All Sealmetrics servers are located in EU data centers (Germany and France). Customer data never leaves the European Union. Our company is EU-based with no US parent organization or data sharing agreements with US entities.</p>
@@ -211,7 +211,7 @@
 <p>Update three key documents to reflect your analytics approach.</p>
 <p><strong>Privacy Policy Updates</strong>:</p>
 <p>Add or update your analytics section:</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">We use Sealmetrics for web analytics under GDPR Article 6(1)(f) </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">legitimate interest. Sealmetrics collects anonymous usage data </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">(pages viewed, session duration, referral sources) without cookies </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">or IP address storage. Data is retained for 25 months for trend </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">analysis and stored exclusively on EU servers. No personal </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">information is collected. You can opt out via [opt-out link].</span><br></span></code></pre></div></div>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">We use Sealmetrics for web analytics under GDPR Article 6(1)(f) </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">legitimate interest. Sealmetrics collects anonymous usage data </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">(pages viewed, session duration, referral sources) without cookies </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">or IP address storage. Data is retained for 24 months for trend </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">analysis and stored exclusively on EU servers. No personal </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">information is collected. You can opt out via [opt-out link].</span><br></span></code></pre></div></div>
 <p><strong>Legitimate Interest Documentation</strong> (Internal):</p>
 <p>Maintain internal records documenting:</p>
 <ul>
@@ -246,7 +246,7 @@
 <li class="">Privacy policy mentions analytics with correct legal basis</li>
 <li class="">DPA executed with Sealmetrics</li>
 <li class="">Internal legitimate interest documentation complete</li>
-<li class="">Data retention periods configured (25 months)</li>
+<li class="">Data retention periods configured (24 months)</li>
 <li class="">Team trained on data handling procedures</li>
 </ul>
 <p><strong>Ongoing Compliance</strong>:</p>
@@ -291,7 +291,7 @@
 <ul>
 <li class="">Purpose limitation to audience measurement only</li>
 <li class="">No cross-site tracking or user profiling</li>
-<li class="">Limited data retention periods (maximum 25 months mentioned)</li>
+<li class="">Limited data retention periods (maximum 24 months mentioned)</li>
 <li class="">No IP address storage beyond immediate processing needs</li>
 <li class="">Transparent privacy policy disclosures</li>
 </ul>
@@ -329,7 +329,7 @@
 <p><strong>Purpose Limitation</strong>: Sealmetrics processes data only for audience measurement. No advertising integrations, no data selling, no repurposing for other commercial activities.</p>
 </li>
 <li class="">
-<p><strong>Documented Retention</strong>: 25-month retention justified and documented as necessary for trend analysis, with automatic purging of older data.</p>
+<p><strong>Documented Retention</strong>: 24-month retention justified and documented as necessary for trend analysis, with automatic purging of older data.</p>
 </li>
 </ol>
 <p>This technical foundation supports legitimate interest as the legal basis, confirmed by CNIL guidance and accepted by DPOs across the EU.</p>
@@ -368,13 +368,13 @@
 <p>Sealmetrics solves this by never storing IP addresses—not hashed, not truncated, zero storage. This eliminates the personal data question entirely.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-long-can-i-store-analytics-data-under-gdpr">How long can I store analytics data under GDPR?<a href="#how-long-can-i-store-analytics-data-under-gdpr" class="hash-link" aria-label="Direct link to How long can I store analytics data under GDPR?" title="Direct link to How long can I store analytics data under GDPR?" translate="no">​</a></h3>
 <p>GDPR doesn&#x27;t specify exact retention periods but requires you to keep data only as long as necessary for documented purposes. For analytics, retention depends on your business justification.</p>
-<p>CNIL&#x27;s 2020 guidance mentions 25 months as an acceptable retention period for audience measurement, justified by the need for year-over-year comparisons and seasonal pattern identification.</p>
-<p>Sealmetrics implements 25-month retention with documented justification:</p>
+<p>CNIL&#x27;s 2020 guidance mentions 24 months as an acceptable retention period for audience measurement, justified by the need for year-over-year comparisons and seasonal pattern identification.</p>
+<p>Sealmetrics implements 24-month retention with documented justification:</p>
 <ul>
 <li class="">12 months of current data for analysis</li>
 <li class="">12 months of historical data for year-over-year comparison</li>
 <li class="">1 month buffer for data exports and migrations</li>
-<li class="">Automatic deletion after 25 months</li>
+<li class="">Automatic deletion after 24 months</li>
 </ul>
 <p>Your privacy policy should specify retention periods, and you should maintain internal documentation justifying why these periods are necessary for your legitimate interests.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="do-i-need-a-data-processing-agreement-dpa-with-my-analytics-provider">Do I need a Data Processing Agreement (DPA) with my analytics provider?<a href="#do-i-need-a-data-processing-agreement-dpa-with-my-analytics-provider" class="hash-link" aria-label="Direct link to Do I need a Data Processing Agreement (DPA) with my analytics provider?" title="Direct link to Do I need a Data Processing Agreement (DPA) with my analytics provider?" translate="no">​</a></h3>
@@ -425,7 +425,7 @@
 <li class="">Our Interest: Business intelligence and user experience optimization</li>
 <li class="">User Impact: Minimal—no cookies, no IP storage, no identification</li>
 <li class="">Data Minimization: Only pageviews, sessions, referrers collected</li>
-<li class="">Safeguards: Cookieless tracking, zero IP storage, EU servers, 25-month retention</li>
+<li class="">Safeguards: Cookieless tracking, zero IP storage, EU servers, 24-month retention</li>
 <li class="">Conclusion: Our legitimate interest outweighs minimal privacy impact</li>
 </ul>
 <p><strong>Alternative Considered</strong>: &quot;We considered consent-based analytics but rejected it because 60-87% data loss from cookie rejections would prevent achieving our business intelligence purposes.&quot;</p>
@@ -450,7 +450,7 @@
 <li class=""><strong>Zero IP storage</strong>: Not even hashed—complete elimination of primary personal data concern</li>
 <li class=""><strong>100% data capture</strong>: Track every visitor without cookie banner interference</li>
 <li class=""><strong>EU-exclusive</strong>: No Schrems II complications or adequacy decision dependencies</li>
-<li class=""><strong>25-month retention</strong>: Documented as necessary for trend analysis with automatic purging</li>
+<li class=""><strong>24-month retention</strong>: Documented as necessary for trend analysis with automatic purging</li>
 </ul>
 <p>Stop compromising between compliance and complete analytics data.</p>
 <p>Start your 14-day free trial: <a href="https://sealmetrics.com" target="_blank" rel="noopener noreferrer" class="">Sealmetrics.com</a></p>

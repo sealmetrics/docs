@@ -11,8 +11,8 @@
 
 <link rel="search" type="application/opensearchdescription+xml" title="Sealmetrics Docs" href="/opensearch.xml">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><link rel="stylesheet" href="/assets/css/styles.c831e4da.css">
-<script src="/assets/js/runtime~main.a5c5aade.js" defer="defer"></script>
-<script src="/assets/js/main.a397f18f.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.fb8af54d.js" defer="defer"></script>
+<script src="/assets/js/main.5afcd0aa.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -56,7 +56,7 @@
 <p>This cookieless approach means no consent banners are required. According to CNIL&#x27;s 2020 guidance on cookieless analytics, tools that don&#x27;t use cookies and don&#x27;t store identifying information can operate under legitimate interest rather than requiring explicit consent.</p>
 <p>Unlike cookie-based tools that lose 60-87% of EU traffic, cookieless analytics captures every visitor. Businesses using Sealmetrics report complete data accuracy compared to 13-40% visibility with Google Analytics in EU markets.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-comparison-cookie-based-vs-cookieless">Technical Comparison: Cookie-Based vs Cookieless<a href="#technical-comparison-cookie-based-vs-cookieless" class="hash-link" aria-label="Direct link to Technical Comparison: Cookie-Based vs Cookieless" title="Direct link to Technical Comparison: Cookie-Based vs Cookieless" translate="no">​</a></h2>
-<table><thead><tr><th>Technical Aspect</th><th>Cookie-Based (Google Analytics)</th><th>Cookieless (Sealmetrics)</th></tr></thead><tbody><tr><td><strong>Tracking Method</strong></td><td>Persistent cookies in browser</td><td>Session identifiers + isolated hits</td></tr><tr><td><strong>Requires Cookies</strong></td><td>Yes (first-party + third-party)</td><td>No cookies used</td></tr><tr><td><strong>Requires Consent</strong></td><td>Yes (GDPR Article 6(1)(a))</td><td>No (legitimate interest 6(1)(f))</td></tr><tr><td><strong>Data Loss from Rejections</strong></td><td>60-87% in EU</td><td>0% - captures all visitors</td></tr><tr><td><strong>IP Address Storage</strong></td><td>Stored or hashed</td><td>Never stored</td></tr><tr><td><strong>Cross-Session Tracking</strong></td><td>Links visits over months</td><td>Limited to session duration</td></tr><tr><td><strong>Browser Compatibility</strong></td><td>Blocked by Safari ITP, Firefox ETP</td><td>Works in all browsers</td></tr><tr><td><strong>Implementation Complexity</strong></td><td>Medium (consent management needed)</td><td>Simple (2-minute setup)</td></tr><tr><td><strong>GDPR Compliance</strong></td><td>Requires consent banners</td><td>Compliant without consent</td></tr><tr><td><strong>Data Retention</strong></td><td>14 months (GA4 default)</td><td>25 months without consent</td></tr><tr><td><strong>Geolocation Accuracy</strong></td><td>High (IP-based)</td><td>Medium (browser language/timezone)</td></tr><tr><td><strong>User Identification</strong></td><td>Persistent across devices</td><td>Single device, single session</td></tr><tr><td><strong>Script Size</strong></td><td>~130KB (GA4 gzipped)</td><td>1.3KB (Sealmetrics gzipped)</td></tr><tr><td><strong>Page Load Impact</strong></td><td>~80-120ms</td><td>~20-30ms</td></tr><tr><td><strong>CNIL Approval</strong></td><td>Requires configuration</td><td>Approved methodology</td></tr></tbody></table>
+<table><thead><tr><th>Technical Aspect</th><th>Cookie-Based (Google Analytics)</th><th>Cookieless (Sealmetrics)</th></tr></thead><tbody><tr><td><strong>Tracking Method</strong></td><td>Persistent cookies in browser</td><td>Session identifiers + isolated hits</td></tr><tr><td><strong>Requires Cookies</strong></td><td>Yes (first-party + third-party)</td><td>No cookies used</td></tr><tr><td><strong>Requires Consent</strong></td><td>Yes (GDPR Article 6(1)(a))</td><td>No (legitimate interest 6(1)(f))</td></tr><tr><td><strong>Data Loss from Rejections</strong></td><td>60-87% in EU</td><td>0% - captures all visitors</td></tr><tr><td><strong>IP Address Storage</strong></td><td>Stored or hashed</td><td>Never stored</td></tr><tr><td><strong>Cross-Session Tracking</strong></td><td>Links visits over months</td><td>Limited to session duration</td></tr><tr><td><strong>Browser Compatibility</strong></td><td>Blocked by Safari ITP, Firefox ETP</td><td>Works in all browsers</td></tr><tr><td><strong>Implementation Complexity</strong></td><td>Medium (consent management needed)</td><td>Simple (2-minute setup)</td></tr><tr><td><strong>GDPR Compliance</strong></td><td>Requires consent banners</td><td>Compliant without consent</td></tr><tr><td><strong>Data Retention</strong></td><td>14 months (GA4 default)</td><td>24 months without consent</td></tr><tr><td><strong>Geolocation Accuracy</strong></td><td>High (IP-based)</td><td>Medium (browser language/timezone)</td></tr><tr><td><strong>User Identification</strong></td><td>Persistent across devices</td><td>Single device, single session</td></tr><tr><td><strong>Script Size</strong></td><td>~130KB (GA4 gzipped)</td><td>1.3KB (Sealmetrics gzipped)</td></tr><tr><td><strong>Page Load Impact</strong></td><td>~80-120ms</td><td>~20-30ms</td></tr><tr><td><strong>CNIL Approval</strong></td><td>Requires configuration</td><td>Approved methodology</td></tr></tbody></table>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-collection-accuracy">Data Collection Accuracy<a href="#data-collection-accuracy" class="hash-link" aria-label="Direct link to Data Collection Accuracy" title="Direct link to Data Collection Accuracy" translate="no">​</a></h3>
 <p>Cookie-based analytics accuracy has declined dramatically since GDPR enforcement:</p>
 <ul>
@@ -276,17 +276,17 @@
 </ul>
 <p><strong>Annual cost</strong>: €6,000-40,000+ plus opportunity cost</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="cookieless-analytics-total-cost">Cookieless Analytics Total Cost<a href="#cookieless-analytics-total-cost" class="hash-link" aria-label="Direct link to Cookieless Analytics Total Cost" title="Direct link to Cookieless Analytics Total Cost" translate="no">​</a></h3>
-<p>Sealmetrics pricing:</p>
+<p>Sealmetrics pricing (volume-based):</p>
 <ul>
-<li class=""><strong>Starter</strong>: €19/month (50,000 pageviews)</li>
-<li class=""><strong>Growth</strong>: €99/month (500,000 pageviews)</li>
-<li class=""><strong>Business</strong>: €299/month (5,000,000 pageviews)</li>
+<li class=""><strong>Starter</strong>: €229/month (1M events)</li>
+<li class=""><strong>Growth</strong>: €459/month (5M events)</li>
+<li class=""><strong>Scale</strong>: €919/month (25M events)</li>
 <li class=""><strong>Consent Management</strong>: €0 (not needed)</li>
 <li class=""><strong>Legal Review</strong>: €0 (CNIL-approved methodology)</li>
 <li class=""><strong>Ongoing Compliance</strong>: €0 (built-in)</li>
 <li class=""><strong>Data Loss Cost</strong>: €0 (100% capture)</li>
 </ul>
-<p><strong>Annual cost</strong>: €228-3,588 with zero data loss</p>
+<p><strong>Annual cost</strong>: €2,388-9,588 (with annual billing discount) and zero data loss</p>
 <p>The ROI is obvious. Cookieless analytics costs 5-15x less than cookie-based analytics infrastructure while capturing 6-9x more data.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="frequently-asked-questions">Frequently Asked Questions<a href="#frequently-asked-questions" class="hash-link" aria-label="Direct link to Frequently Asked Questions" title="Direct link to Frequently Asked Questions" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="is-cookieless-analytics-as-accurate-as-cookie-based-analytics">Is cookieless analytics as accurate as cookie-based analytics?<a href="#is-cookieless-analytics-as-accurate-as-cookie-based-analytics" class="hash-link" aria-label="Direct link to Is cookieless analytics as accurate as cookie-based analytics?" title="Direct link to Is cookieless analytics as accurate as cookie-based analytics?" translate="no">​</a></h3>
@@ -317,7 +317,7 @@
 <p>Sealmetrics currently focuses on web analytics. Mobile apps have different tracking regulations (IDFA, GAID) that don&#x27;t involve cookie consent. Cookie-based vs cookieless is primarily a web browser distinction.</p>
 <p>For websites accessed via mobile browsers, cookieless analytics works identically to desktop—100% capture rate without consent banners, regardless of device.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-happens-to-my-data-with-cookieless-analytics">What happens to my data with cookieless analytics?<a href="#what-happens-to-my-data-with-cookieless-analytics" class="hash-link" aria-label="Direct link to What happens to my data with cookieless analytics?" title="Direct link to What happens to my data with cookieless analytics?" translate="no">​</a></h3>
-<p>Sealmetrics stores all analytics data on EU-based servers (Frankfurt, Germany) with 25-month retention. Unlike Google Analytics (US-based with Schrems II concerns), cookieless analytics keeps your data within EU jurisdiction.</p>
+<p>Sealmetrics stores all analytics data on EU-based servers (Frankfurt, Germany) with 24-month retention. Unlike Google Analytics (US-based with Schrems II concerns), cookieless analytics keeps your data within EU jurisdiction.</p>
 <p>Data is fully anonymized: no IP addresses, no persistent identifiers, no personal data. This architecture ensures GDPR compliance and eliminates data transfer concerns.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-do-i-explain-cookieless-analytics-to-my-dpo">How do I explain cookieless analytics to my DPO?<a href="#how-do-i-explain-cookieless-analytics-to-my-dpo" class="hash-link" aria-label="Direct link to How do I explain cookieless analytics to my DPO?" title="Direct link to How do I explain cookieless analytics to my DPO?" translate="no">​</a></h3>
 <p>Tell your Data Protection Officer:</p>
@@ -338,7 +338,7 @@
 <li class="">Traffic source attribution</li>
 <li class="">Device and browser data</li>
 <li class="">Geographic insights (country/region)</li>
-<li class="">Custom dashboards and reports</li>
+<li class="">Data export and API access</li>
 </ul>
 <p>The main limitation is cross-session user tracking. If your business requires tracking the same user across multiple visits over months (rare for most companies), you may need supplementary tools. But for 95% of analytics use cases, cookieless analytics provides superior data quality because of 100% capture rate.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="is-cookieless-analytics-more-expensive-than-google-analytics">Is cookieless analytics more expensive than Google Analytics?<a href="#is-cookieless-analytics-more-expensive-than-google-analytics" class="hash-link" aria-label="Direct link to Is cookieless analytics more expensive than Google Analytics?" title="Direct link to Is cookieless analytics more expensive than Google Analytics?" translate="no">​</a></h3>
@@ -349,7 +349,7 @@
 <li class="">Ongoing policy maintenance: €500-1,000/month</li>
 <li class=""><strong>Data loss opportunity cost</strong>: Massive (60-87% visitors untracked)</li>
 </ul>
-<p>Sealmetrics costs €19-299/month depending on traffic, with no additional infrastructure required. Total cost of ownership is 5-15x lower than cookie-based analytics systems.</p>
+<p>Sealmetrics plans start at €229/month (€199/month with annual billing) depending on event volume, with no additional infrastructure required. Total cost of ownership is significantly lower than cookie-based analytics systems when you factor in consent management, legal review, and data loss costs.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-does-sealmetrics-differ-from-other-cookieless-tools-like-plausible-or-matomo">How does Sealmetrics differ from other cookieless tools like Plausible or Matomo?<a href="#how-does-sealmetrics-differ-from-other-cookieless-tools-like-plausible-or-matomo" class="hash-link" aria-label="Direct link to How does Sealmetrics differ from other cookieless tools like Plausible or Matomo?" title="Direct link to How does Sealmetrics differ from other cookieless tools like Plausible or Matomo?" translate="no">​</a></h3>
 <p>Key differences:</p>
 <p><strong>Sealmetrics</strong>: True consentless analytics</p>
@@ -357,7 +357,7 @@
 <li class="">No cookies</li>
 <li class="">No IP storage (competitors store hashed IPs)</li>
 <li class="">No consent required</li>
-<li class="">25-month retention without consent</li>
+<li class="">24-month retention without consent</li>
 <li class="">CNIL-approved methodology</li>
 </ul>
 <p><strong>Plausible/Matomo</strong>: Cookie-free but still store IPs</p>
