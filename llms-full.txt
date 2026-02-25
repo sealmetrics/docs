@@ -554,7 +554,7 @@ Monitor visitor volume and patterns.
 | `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
 | `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35% drop |
 | `organic_traffic_change` | Organic Traffic Change | Significant organic search change | >25% change |
-| `paid_tr
+| `paid_
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -681,8 +681,6 @@ Get more accurate, actionable insights by following these best practices when as
 ✅ **Clear:** *"What's our conversion rate, average order value, and total revenue for this month?"*
 
 ### Name Your Segments
-
-❌ **Unclear:** *"How's mobile doing?"*
 
 ... [Read full document at https://docs.sealmetrics.com/lens/ai-assistant/best-practices]
 
@@ -943,7 +941,7 @@ Shows all pages that received traffic during the selected period.
 
 | Column | Description |
 |--------|-------------|
-| **Page** | URL path and page title
+| **Page** | URL path and page titl
 
 ... [Read full document at https://docs.sealmetrics.com/reports/pages]
 
@@ -1002,7 +1000,7 @@ Shows traffic grouped by UTM Source and Medium combination.
 | **Entrances** | Sessions from this source |
 | **Pageviews** | Total page views |
 | **Bounce Rate** | Single-page session percentage |
-| **
+| *
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -1034,7 +1032,7 @@ Interactive choropleth map showing traffic distribution by country.
 | Feature | Description |
 |---------|-------------|
 | **Color intensity** | Darker colors indicate more traffic |
-| **Hover tooltip** | Shows country
+| **Hover tooltip** | Shows countr
 
 ... [Read full document at https://docs.sealmetrics.com/reports/geography]
 
@@ -1109,7 +1107,7 @@ Shows completed conversion events (primary goals).
 | **Unique Users** | Distinct users who converted |
 | **Revenue** | Total revenue attributed (with progress bar) |
 | **Avg. Value** | Average revenue per conversion |
-| **Conv. Rate** | Conversions / Total 
+| **Conv. Rate** | Conversions / Tota
 
 ... [Read full document at https://docs.sealmetrics.com/reports/conversions]
 
@@ -1145,7 +1143,7 @@ Funnels are configured in Settings. Common examples:
 | E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
 | Lead Generation | Landing Page → Form View → Form Submit → Thank You |
 | SaaS Signup | Homepage → Pricing → Sign Up → Verify Email |
-| Content Engagement | Article View → Scroll 50% → Scr
+| Content Engagement | Article View → Scroll 50% → S
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1728,7 +1726,7 @@ _sm('conversion', {
   order_id: 'ORD-12345',
   amount: 149.99,
   properties: {
-  
+ 
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties]
 
@@ -1975,7 +1973,7 @@ That's it. The tracker automatically:
 
 1. **Tracks initial pageview** on first load
 2. **Detects `pushState` calls** when navigating to new routes
-3. **Detect
+3. **Detec
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites]
 
@@ -2723,7 +2721,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
-        <SealMetricsScript acco
+        <SealMetricsScript acc
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2737,23 +2735,15 @@ URL: https://docs.sealmetrics.com/integrations/mcp-server
 
 # MCP Server for AI Assistants
 
-The **Sealmetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your marketing performance, traffic, conversions, and more — directly from your AI assistant.
+The **SealMetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your traffic, conversions, campaigns, and more — directly from your AI assistant.
 
 ## What is MCP?
 
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The Sealmetrics MCP server acts as a bridge between Claude (or other MCP-compatible assistants) and your Sealmetrics analytics data.
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server runs locally on your machine and acts as a bridge between Claude and your SealMetrics analytics data.
 
-## Features
+## What can you ask Claude?
 
-Once connected, you can ask your AI assistant questions like:
-
-- *"How much traffic came from Google Ads yesterday?"*
-- *"What's my ROAS for the last 30 days?"*
-- *"Which landing pages are performing best?"*
-- *"Show me conversion data by campaign"*
-- *"Generate a conversion pixel for newsletter signups"*
-
-### Available Capabilities
+Once connected, you can ask questions like:
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/mcp-server]
 
@@ -4719,7 +4709,7 @@ SealMetrics is committed to data sovereignty and transparent retention policies.
 ### Why EU?
 
 - **GDPR compliance** — Data stays within EU jurisdiction
-- **Data sovereignty** — No US CLOUD Act c
+- **Data sovereignty** — No US CLOUD Act 
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/data-location]
 
@@ -4783,7 +4773,7 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 ## Aggregate Measurement Instead of Individual Tracking
 
 ### Traditional Analytics (❌ Requires Consent)
-- Us
+- U
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4832,7 +4822,7 @@ This document details everything Sealmetrics *does* and *does not* track, why, a
 # What We DO Track  
 ## The Four-Variable System (Isolated Hits)
 
-Sealmetrics processes each page view (“hit”) independently using **only four non-identifyi
+Sealmetrics processes each page view (“hit”) independently using **only four non-identify
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/what-we-track]
 
@@ -6849,7 +6839,7 @@ By default, Sealmetrics uses **DeepSeek Local** via Ollama:
 |--------|---------|
 | **Provider** | Self-hosted DeepSeek (via Ollama) |
 | **Cost** | Free (included in your plan) |
-| **Privacy** | Maximum - data never leaves Sealmetrics infrastruct
+| **Privacy** | Maximum - data never leaves Sealmetrics infrastruc
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -7149,7 +7139,7 @@ Each plan includes a monthly event allowance:
 
 All tracked interactions count toward your event limit:
 
-| Event Type | Cou
+| Event Type | Co
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -7264,12 +7254,6 @@ Invoice Date:    January 15, 2024
 Due Date:        January 15, 2024
 Status:          Paid
 
-Bill To:
-  Your Company S.L.
-  Calle Example 123
-  28001 Madrid, Spain
-  VAT: ES12345678A
-
 ... [Read full document at https://docs.sealmetrics.com/billing/invoices]
 
 
@@ -7342,7 +7326,7 @@ You should see:
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
 2. Go to **Real-time** report
 3. Visit your website in another tab
-4. Your visit should appe
+4. Your visit should app
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7792,7 +7776,7 @@ After months of development and feedback from hundreds of customers, we've rebui
 - **Faster, cleaner dashboard** — redesigned for clarity and speed
 - **Smarter attribution** — understand exactly where your conversions come from
 - **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and the upcoming EU Digital Omnibus
-- **New API** — more powerful, better d
+- **New API** — more powerful, better 
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 
