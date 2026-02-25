@@ -1,295 +1,251 @@
 ---
 sidebar_position: 1
 title: MCP Server for AI Assistants
-description: Connect Claude and other AI assistants to your Sealmetrics analytics data using the Model Context Protocol (MCP) server.
+description: Connect Claude Code, Claude Desktop, and other AI assistants to your SealMetrics analytics data using the Model Context Protocol (MCP) server.
 ---
 
 # MCP Server for AI Assistants
 
-The **Sealmetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your marketing performance, traffic, conversions, and more — directly from your AI assistant.
+The **SealMetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your traffic, conversions, campaigns, and more — directly from your AI assistant.
 
 ## What is MCP?
 
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The Sealmetrics MCP server acts as a bridge between Claude (or other MCP-compatible assistants) and your Sealmetrics analytics data.
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server runs locally on your machine and acts as a bridge between Claude and your SealMetrics analytics data.
 
-## Features
+## What can you ask Claude?
 
-Once connected, you can ask your AI assistant questions like:
+Once connected, you can ask questions like:
 
-- *"How much traffic came from Google Ads yesterday?"*
-- *"What's my ROAS for the last 30 days?"*
-- *"Which landing pages are performing best?"*
-- *"Show me conversion data by campaign"*
-- *"Generate a conversion pixel for newsletter signups"*
+- *"Show me an overview of my site for the last 7 days"*
+- *"What are the top traffic sources this month?"*
+- *"Compare this month's conversions with last month"*
+- *"Which landing pages have the highest bounce rate?"*
+- *"Show me revenue by country for the last quarter"*
+- *"What devices do my visitors use?"*
+- *"Analyze my top 3 campaigns and tell me which has the best conversion rate"*
 
-### Available Capabilities
+---
 
-| Capability | Description |
-|------------|-------------|
-| **Traffic Analysis** | Data segmented by source, medium, campaign, or geography |
-| **Conversion Tracking** | Sales data with full attribution information |
-| **Microconversions** | Engagement events like add-to-cart, signups, etc. |
-| **Funnel Analysis** | Performance metrics across conversion stages |
-| **ROAS Evolution** | Return on ad spend measurements over time |
-| **Landing Page Metrics** | View counts and page effectiveness analysis |
-| **Pixel Generation** | Create conversion tracking code for Google Tag Manager |
+## Setup (step by step)
 
-## Installation
+### Step 1: Verify Node.js is installed
 
-The Sealmetrics MCP server is available as both an npm package (recommended) and a Python package.
-
-### Option 1: Using npx (Recommended)
-
-No installation required. The package runs directly via npx:
+Open your terminal and run:
 
 ```bash
-npx -y @sealmetrics/mcp
+node --version
 ```
 
-### Option 2: Using pip (Python)
+You need **v18 or higher**. If you don't have it, download it from [nodejs.org](https://nodejs.org/).
 
-```bash
-pip install sealmetrics-mcp
-```
+### Step 2: Get your API Key
 
-### Option 3: Using pipx (Python)
+1. Log in to your SealMetrics dashboard at [my.sealmetrics.com](https://my.sealmetrics.com)
+2. Go to **Settings > API Keys** ([direct link](https://my.sealmetrics.com/settings/api-keys))
+3. Click **Create API Key**
+4. Give it a name (e.g. "Claude MCP") and click **Create**
+5. Copy the key — it starts with `sm_` (e.g. `sm_AbCdEf123...`)
 
-[pipx](https://pipx.pypa.io/) installs the package in an isolated environment:
+:::warning Important
+The full API key is only shown once. Copy it immediately and store it in a safe place.
+:::
 
-```bash
-brew install pipx
-pipx install sealmetrics-mcp
-```
+### Step 3: Find your Site ID
 
-## Configuration
+1. Go to **Settings > Sites** ([direct link](https://my.sealmetrics.com/settings/sites))
+2. Click on the site you want to query
+3. The **Site ID** is displayed at the top of the site settings page (e.g. `my-store`)
 
-### Claude Desktop Setup
+:::tip
+If you only have one site, you can skip this step — just ask Claude to "list my sites" and it will find it for you.
+:::
 
-To connect the MCP server to Claude Desktop, modify the configuration file:
+### Step 4: Configure your Claude client
 
-| Platform | Config File Location |
-|----------|---------------------|
-| **macOS** | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| **Windows** | `%APPDATA%\Claude\claude_desktop_config.json` |
+Choose the client you use:
 
-Choose the configuration that matches your preferred method:
+#### Claude Code
 
-#### Option A: npx Configuration (Recommended)
-
-The simplest setup with no local installation required:
+Create a file called `.mcp.json` in your project root:
 
 ```json
 {
   "mcpServers": {
     "sealmetrics": {
       "command": "npx",
-      "args": ["-y", "@sealmetrics/mcp"],
+      "args": ["-y", "@sealmetrics/mcp-server"],
       "env": {
-        "SEALMETRICS_API_TOKEN": "YOUR_API_TOKEN_HERE",
-        "SEALMETRICS_ACCOUNT_ID": "YOUR_ACCOUNT_ID_HERE"
+        "SEALMETRICS_API_KEY": "sm_your_key_here",
+        "SEALMETRICS_SITE_ID": "your-site-id"
       }
     }
   }
 }
 ```
 
-#### Option B: pipx Configuration (Python)
+Replace `sm_your_key_here` with your API key from Step 2, and `your-site-id` with your Site ID from Step 3.
 
-First, find the path to the executable:
-
-```bash
-which sealmetrics-mcp
-# Example output: /Users/YOUR_USER/.local/bin/sealmetrics-mcp
-```
-
-Then add this configuration using the full path:
-
-```json
-{
-  "mcpServers": {
-    "sealmetrics": {
-      "command": "/Users/YOUR_USER/.local/bin/sealmetrics-mcp",
-      "args": [],
-      "env": {
-        "SEALMETRICS_API_TOKEN": "YOUR_API_TOKEN_HERE",
-        "SEALMETRICS_ACCOUNT_ID": "YOUR_ACCOUNT_ID_HERE"
-      }
-    }
-  }
-}
-```
-
-#### Option C: uvx Configuration (Python)
-
-```json
-{
-  "mcpServers": {
-    "sealmetrics": {
-      "command": "uvx",
-      "args": ["sealmetrics-mcp"],
-      "env": {
-        "SEALMETRICS_API_TOKEN": "YOUR_API_TOKEN_HERE",
-        "SEALMETRICS_ACCOUNT_ID": "YOUR_ACCOUNT_ID_HERE"
-      }
-    }
-  }
-}
-```
-
-:::warning Important
-Replace `YOUR_API_TOKEN_HERE` and `YOUR_ACCOUNT_ID_HERE` with your actual credentials. Never commit these values to version control.
+:::tip Global configuration
+To make SealMetrics available in **all your projects**, add the same config to `~/.claude/settings.json` instead of a project-level `.mcp.json`.
 :::
 
-### Post-Configuration Steps
+#### Claude Desktop
 
-1. Save the JSON configuration file
-2. **Restart Claude Desktop completely** (Cmd+Q on macOS, then reopen)
-3. The Sealmetrics tools will appear available in Claude Desktop
+1. Open Claude Desktop
+2. Go to **Settings** (gear icon) > **Developer** > **Edit Config**
+3. Add the following configuration:
 
-### Environment Variables
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "command": "npx",
+      "args": ["-y", "@sealmetrics/mcp-server"],
+      "env": {
+        "SEALMETRICS_API_KEY": "sm_your_key_here",
+        "SEALMETRICS_SITE_ID": "your-site-id"
+      }
+    }
+  }
+}
+```
+
+4. Save and **restart Claude Desktop** completely (Cmd+Q on macOS, then reopen)
+
+### Step 5: Verify it works
+
+Open Claude and ask:
+
+> "List my SealMetrics sites"
+
+Claude should respond with a list of your sites. If it does, you're all set!
+
+---
+
+## Configuration reference
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `SEALMETRICS_API_TOKEN` | Yes* | Your API authentication token (recommended) |
-| `SEALMETRICS_EMAIL` | Yes* | Your Sealmetrics email (alternative to token) |
-| `SEALMETRICS_PASSWORD` | Yes* | Your Sealmetrics password (alternative to token) |
-| `SEALMETRICS_ACCOUNT_ID` | No | Default account ID (can be specified per query) |
+| `SEALMETRICS_API_KEY` | Yes | Your API key from [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys). Starts with `sm_`. |
+| `SEALMETRICS_SITE_ID` | No | Default Site ID from [Settings > Sites](https://my.sealmetrics.com/settings/sites). If set, you don't need to specify the site in every query. |
+| `SEALMETRICS_BASE_URL` | No | API base URL. Default: `https://my.sealmetrics.com/api/v1`. Only change this for custom deployments. |
 
-*\*Authentication requires either `SEALMETRICS_API_TOKEN` OR (`SEALMETRICS_EMAIL` + `SEALMETRICS_PASSWORD`). The token method is preferred for security reasons.*
+---
 
-## Getting Your Credentials
+## Available tools
 
-### API Token
-
-Follow our guide to obtain your API token from the Sealmetrics dashboard:
-
-1. Click on your **profile icon** in the top-right corner
-2. Select **"Tags & Connectors"**
-3. Navigate to the **"Connectors"** section
-4. Copy your **API Token**
-
-For detailed instructions, see [How to Obtain Your API Token](/api/authentication).
-
-### Account ID
-
-Your Account ID identifies which Sealmetrics account to query. To find it:
-
-1. Use the [Sites API](/api/sites) to list all sites linked to your credentials
-2. The response will include your Account ID(s) in this format:
-
-```json
-{
-  "status": "ok",
-  "data": {
-    "000000000000000000001234": "Your Account Name"
-  }
-}
-```
-
-The key (e.g., `000000000000000000001234`) is your Account ID.
-
-## Usage Examples
-
-Once configured, restart Claude Desktop and start asking questions:
-
-### Traffic Analysis
-
-> "Show me traffic from organic search for the last week"
-
-### Conversion Analysis
-
-> "What were my top converting campaigns last month?"
-
-### ROAS Tracking
-
-> "Compare ROAS between Google Ads and Facebook Ads"
-
-### Funnel Performance
-
-> "How many users reached checkout step 2 yesterday?"
-
-### Generate Tracking Code
-
-> "Create a conversion pixel for tracking newsletter signups"
-
-## Available Tools
-
-The MCP server exposes eight main tools to the AI assistant:
+Claude uses these tools automatically when you ask questions — you never need to call them directly.
 
 | Tool | Description |
 |------|-------------|
-| `list_accounts` | List all accounts linked to your credentials |
-| `get_traffic` | Retrieve traffic data with various filters |
-| `get_conversions` | Query conversion/sales data |
-| `get_microconversions` | Get engagement event data |
-| `get_funnel` | Retrieve funnel stage metrics |
-| `get_roas_evolution` | Track ROAS over time |
-| `get_pages` | Analyze landing page performance |
-| `generate_pixel` | Create conversion tracking code |
+| `list_sites` | List all sites accessible with your API key |
+| `get_overview` | Dashboard KPIs: pageviews, bounce rate, conversions, revenue with time series |
+| `get_traffic_sources` | Traffic by source (google, facebook, direct...) |
+| `get_traffic_mediums` | Traffic by medium (organic, cpc, email...) |
+| `get_campaigns` | Campaign performance with conversions and revenue |
+| `get_pages` | Metrics per page URL path |
+| `get_landing_pages` | Landing page performance with bounce rate |
+| `get_conversions` | Conversions by type with revenue and average order value |
+| `get_microconversions` | Engagement events (add_to_cart, signup, newsletter...) |
+| `get_countries` | Geographic breakdown by country |
+| `get_devices` | Device type, browser, and OS breakdown |
+| `get_funnel` | Funnel analysis with step-by-step conversion rates |
+
+### Common parameters
+
+| Parameter | Values | Default | Description |
+|-----------|--------|---------|-------------|
+| `site_id` | string | `$SEALMETRICS_SITE_ID` | Site to query |
+| `period` | `today`, `yesterday`, `7d`, `30d`, `90d`, `this_month`, `last_month`, `this_year`, etc. | `30d` | Time period |
+| `compare` | `previous`, `yoy` | none | Compare with previous period or year-over-year |
+| `limit` | 1-100 | 20 | Max rows returned |
+| `page` | number | 1 | Page number for paginated results |
+| `sort_by` | varies per tool | varies | Sort field |
+| `sort_order` | `asc`, `desc` | `desc` | Sort direction |
+
+### All period values
+
+| Period | Description |
+|--------|-------------|
+| `today` | Today |
+| `yesterday` | Yesterday |
+| `7d`, `30d`, `90d`, `12m` | Last N days/months |
+| `this_week`, `this_month`, `this_quarter`, `this_year` | Current period |
+| `wtd`, `mtd`, `qtd`, `ytd` | Period to date |
+| `last_week`, `last_month`, `last_quarter`, `last_year` | Previous period |
+
+---
 
 ## Troubleshooting
 
-### Claude doesn't see the MCP server
+### Claude doesn't see the SealMetrics tools
 
-1. Ensure the config file is in the correct location
-2. Verify JSON syntax is valid (use a JSON validator if needed)
-3. **Restart Claude Desktop completely** (Cmd+Q on macOS, not just close the window)
-4. For npx: ensure Node.js 18+ is installed
+1. **Claude Code**: Make sure `.mcp.json` is in your project root and restart Claude Code
+2. **Claude Desktop**: Save the config file and restart the app completely (Cmd+Q on macOS)
+3. Verify Node.js 18+ is installed: `node --version`
 
-### Test the Server Manually
+### "Invalid API key"
 
-You can test if the server runs correctly from the terminal:
+Your API key is incorrect or expired. Go to [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys) and generate a new one.
+
+### "site_id is required"
+
+Either set `SEALMETRICS_SITE_ID` in your config, or ask Claude to "list my sites" first, then specify the site in your question.
+
+### "Access denied to site X"
+
+Your API key doesn't have permission for that site. Check your token permissions in [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys).
+
+### "npx: command not found"
+
+Install Node.js from [nodejs.org](https://nodejs.org/). npx is bundled with Node.js.
+
+### Test the server manually
+
+You can verify the server starts correctly from your terminal:
 
 ```bash
-# Using npx
-SEALMETRICS_API_TOKEN="YOUR_API_TOKEN_HERE" npx -y @sealmetrics/mcp
-
-# Using Python
-SEALMETRICS_API_TOKEN="YOUR_API_TOKEN_HERE" ~/.local/bin/sealmetrics-mcp
+SEALMETRICS_API_KEY="sm_your_key_here" npx -y @sealmetrics/mcp-server
 ```
 
-### Check Logs
+If it starts without errors, the server is working. Press Ctrl+C to stop it.
 
-Review Claude Desktop's MCP server logs for errors:
+---
 
-```bash
-cat ~/Library/Logs/Claude/mcp-server-sealmetrics.log
+## How it works
+
+The MCP server runs locally on your machine and communicates with the SealMetrics API over HTTPS. No analytics data is stored locally.
+
+```
+Your machine                             SealMetrics cloud
+┌──────────────────────────┐            ┌──────────────────────┐
+│                          │            │                      │
+│  Claude Code / Desktop   │            │  my.sealmetrics.com  │
+│          |               │            │                      │
+│  @sealmetrics/mcp-server │── HTTPS ──>│  /api/v1/*           │
+│  (runs locally via npx)  │<── JSON ───│                      │
+│          |               │            │                      │
+│  Claude reads the data   │            └──────────────────────┘
+│  and answers your query  │
+│                          │
+└──────────────────────────┘
 ```
 
-### Common Issues
+- Authenticated via `X-API-Key` header (your key never leaves your machine)
+- Automatic retries with exponential backoff on rate limits
+- 30-second timeout per request
+- No data stored locally
 
-| Problem | Solution |
-|---------|----------|
-| npx not found | Install Node.js 18+ from [nodejs.org](https://nodejs.org/) |
-| Incorrect path | Run `which sealmetrics-mcp` to find the correct path (Python) |
-| Invalid token | Verify your API token in the Sealmetrics dashboard |
-| Missing environment variables | Ensure `SEALMETRICS_API_TOKEN` is set in the config |
-| Claude not restarted properly | Use Cmd+Q (macOS) or fully close and reopen Claude Desktop |
-
-### Authentication errors
-
-1. Verify your API token is correct
-2. Check that the token hasn't expired
-3. Ensure your account has API access enabled
-
-### No data returned
-
-1. Confirm your Account ID is correct
-2. Check that the date range contains data
-3. Verify the account has tracking data
+---
 
 ## Resources
 
-- **npm Package**: [npmjs.com/package/@sealmetrics/mcp](https://www.npmjs.com/package/@sealmetrics/mcp)
-- **PyPI Package**: [pypi.org/project/sealmetrics-mcp](https://pypi.org/project/sealmetrics-mcp/)
-- **GitHub Repository**: [github.com/sealmetrics/mcp-server](https://github.com/sealmetrics/mcp-server)
+- **npm**: [@sealmetrics/mcp-server](https://www.npmjs.com/package/@sealmetrics/mcp-server)
+- **Source code**: [github.com/adinton/sealmetrics2/tree/main/mcp-server](https://github.com/adinton/sealmetrics2/tree/main/mcp-server)
 - **MCP Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io/)
-- **API Documentation**: [Sealmetrics API Reference](/api)
+- **API Reference**: [API Documentation](/api)
 
-## Support
+## Need help?
 
-Need help with the MCP server?
-
-- **GitHub Issues**: [Report bugs or request features](https://github.com/sealmetrics/mcp-server/issues)
 - **Email**: support@sealmetrics.com
-- **API Documentation**: [Full API reference](/api)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/adinton/sealmetrics2/issues)
