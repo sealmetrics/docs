@@ -1,0 +1,38 @@
+name: Daily LLMs.txt Regeneration
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # Daily at 6:00 AM UTC
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    name: Regenerate llms.txt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate llms.txt files
+        run: node scripts/generate-llms.mjs
+
+      - name: Check for changes
+        id: diff
+        run: |
+          git diff --name-only static/llms.txt static/llms-full.txt
+          echo "changed=$(git diff --name-only static/llms.txt static/llms-full.txt | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        if: steps.diff.outputs.changed != '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add static/llms.txt static/llms-full.txt
+          git commit -m "chore: auto-regenerate llms.txt"
+          git push

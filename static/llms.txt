@@ -40,107 +40,501 @@ Attribution at channel level (e.g., "Google Organic", "Facebook Ads") without us
 
 ## Documentation
 
+
 Base URL: https://docs.sealmetrics.com
 
+
+### Introduction
+
+- [Sealmetrics Documentation](https://docs.sealmetrics.com/intro): Learn how to use Sealmetrics — the privacy-first analytics platform that tracks 100% of your data without cookies or consent banners.
+
+
+
 ### Getting Started
-- [Documentation Home](https://docs.sealmetrics.com): Complete guide overview
-- [How Sealmetrics Works](https://docs.sealmetrics.com/getting-started/how-it-works): Privacy-first architecture and Four-Variable System
-- [Quick Start](https://docs.sealmetrics.com/getting-started/quick-start): First steps from installation to data validation
-- [Measuring Conversions](https://docs.sealmetrics.com/getting-started/measure-conversions): Track conversions and micro-conversions
 
-### Implementation
-- [Tracker Setup](https://docs.sealmetrics.com/implementation/tracker/setup): Configure global and conversion trackers
-- [Tracker Installation](https://docs.sealmetrics.com/implementation/tracker/installation): Add the tracking script to your site
-- [Event Tracking](https://docs.sealmetrics.com/implementation/event-tracking): Track custom events and interactions
-- [SPA Tracking](https://docs.sealmetrics.com/implementation/tracker/spa-support): Single Page Application implementation
-- [Conversions](https://docs.sealmetrics.com/implementation/tracker/conversions): Set up conversion tracking
-- [Microconversions](https://docs.sealmetrics.com/implementation/tracker/microconversions): Track smaller user actions
+- [First Steps Overview](https://docs.sealmetrics.com/getting-started): Start your journey with Sealmetrics — from installing your first tracker to seeing real-time, privacy-first analytics in action.
 
-### Integrations
-- [Integrations Overview](https://docs.sealmetrics.com/integrations): All available platform integrations
+- [How It Works](https://docs.sealmetrics.com/getting-started/how-it-works): Understand how Sealmetrics measures 100% of your website traffic without cookies, consent banners, or personal data collection.
 
-#### CMS Platforms
-- [WordPress](https://docs.sealmetrics.com/integrations/cms/wordpress): Plugin with automatic form tracking
-- [Drupal](https://docs.sealmetrics.com/integrations/cms/drupal): Module for Drupal 9, 10, 11
-- [Joomla](https://docs.sealmetrics.com/integrations/cms/joomla): Plugin for Joomla 4.x and 5.x
+- [First Steps with Sealmetrics](https://docs.sealmetrics.com/getting-started/quick-start): Get started with Sealmetrics in under 5 minutes — from account setup and tracking installation to your first privacy-first analytics insights.
 
-#### E-commerce
-- [WooCommerce](https://docs.sealmetrics.com/integrations/ecommerce/woocommerce): Complete funnel tracking for WordPress + WooCommerce
-- [Magento 2](https://docs.sealmetrics.com/integrations/ecommerce/magento): Full tracking module for Magento 2.4+ / Adobe Commerce
-- [PrestaShop](https://docs.sealmetrics.com/integrations/ecommerce/prestashop): Module for PrestaShop 1.7+ and 8.x
-- [OpenCart](https://docs.sealmetrics.com/integrations/ecommerce/opencart): Extension for OpenCart 3.x and 4.x
-- [BigCommerce](https://docs.sealmetrics.com/integrations/ecommerce/bigcommerce): Script Manager integration
+- [Features](https://docs.sealmetrics.com/getting-started/features): Explore the complete feature set of Sealmetrics - from core analytics reports to API access, conversion tracking, and privacy-first capabilities.
 
-#### JavaScript Frameworks
-- [Next.js](https://docs.sealmetrics.com/integrations/frameworks/nextjs): NPM package with App Router and Pages Router support
-- [React](https://docs.sealmetrics.com/integrations/frameworks/react): React package with hooks, provider, and React Router
-- [Nuxt 3](https://docs.sealmetrics.com/integrations/frameworks/nuxt): Nuxt module with composables and auto-imports
+- [Setup Wizard](https://docs.sealmetrics.com/getting-started/setup-wizard): Step-by-step guide to install your tracking pixel and configure conversions.
 
-#### Website Builders
-- [Webflow](https://docs.sealmetrics.com/integrations/website-builders/webflow): Auto-tracking for forms, videos, CTAs
-- [Wix](https://docs.sealmetrics.com/integrations/website-builders/wix): Wix Editor, Stores, Bookings, Velo support
-- [Squarespace](https://docs.sealmetrics.com/integrations/website-builders/squarespace): Code Injection integration
+- [How to Measure Conversions](https://docs.sealmetrics.com/getting-started/measure-conversions): Learn how to track conversions and microconversions with SealMetrics. Measure purchases, signups, leads, and user interactions.
 
-#### Tag Management
-- [GTM Container Template](https://docs.sealmetrics.com/integrations/tag-management/gtm-template): Ready-to-import container (RECOMMENDED for GTM users)
-- [GTM Tag Template](https://docs.sealmetrics.com/integrations/google-tag-manager): Custom GTM implementation
+- [See Your Data Flow in Real-Time with Sealmetrics](https://docs.sealmetrics.com/getting-started/see-your-data-flow): Learn how Sealmetrics delivers instant, real-time analytics without cookies or consent banners.
 
-### API Reference
-- [API Overview](https://docs.sealmetrics.com/api): REST API documentation
-- [Authentication](https://docs.sealmetrics.com/api/authentication): API Key and JWT Bearer token auth
-- [Quick Start](https://docs.sealmetrics.com/api/quick-start): First API call guide
-- [Rate Limits](https://docs.sealmetrics.com/api/rate-limits): Limits per plan tier
+- [Migrate from Sealmetrics v1](https://docs.sealmetrics.com/getting-started/migration-from-v1): Import your historical analytics data from Sealmetrics v1 to v2
 
-#### API Endpoints
-Base URL: `https://my.sealmetrics.com/api/v1`
+- [Quick Journey through the Platform](https://docs.sealmetrics.com/getting-started/quick-journey): A quick walkthrough of the Sealmetrics platform — from user management to tracking, cost analysis, and pixel setup.
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/stats/overview` | GET | Dashboard overview with all key metrics |
-| `/stats/query` | POST | Flexible multi-dimensional query |
-| `/stats/pages` | GET | Page metrics with pagination |
-| `/stats/mediums` | GET | Traffic by UTM medium |
-| `/stats/sources` | GET | Traffic by UTM source |
-| `/stats/campaigns` | GET | Traffic by UTM campaign |
-| `/stats/geo/countries` | GET | Geographic breakdown |
-| `/stats/devices` | GET | Device, browser, OS breakdown |
-| `/accounts` | GET, POST | List and create accounts |
-| `/accounts/{id}/pixel` | GET | Get tracking pixel code |
-| `/webhooks` | GET, POST | Webhook endpoints |
-| `/exports` | GET, POST | Bulk data exports |
-| `/lens/insights` | GET | AI-generated insights |
 
-### Reports
-- [Reports Overview](https://docs.sealmetrics.com/reports): All available reports
-- [Traffic Sources](https://docs.sealmetrics.com/reports/sources): Acquisition analysis
-- [Conversions](https://docs.sealmetrics.com/reports/conversions): Conversion tracking
-- [Funnels](https://docs.sealmetrics.com/reports/funnel): Funnel analysis
-- [Attribution Model](https://docs.sealmetrics.com/reports/insights/attribution-model): Channel attribution
-
-### Legal & Compliance
-- [Compliance Overview](https://docs.sealmetrics.com/compliance): How Sealmetrics meets privacy regulations
-- [CNIL Self-Assessment](https://docs.sealmetrics.com/compliance/cnil-self-assessment): Official evaluation against CNIL's 14 criteria
-- [UK PECR Self-Assessment](https://docs.sealmetrics.com/compliance/uk-pecr-self-assessment): UK analytics exemption compliance
-- [GDPR and ePrivacy](https://docs.sealmetrics.com/compliance/GDPR-and-ePrivacy): EU privacy law compliance
-
-### Security & Privacy
-- [Security Overview](https://docs.sealmetrics.com/security-privacy): Security architecture
-- [Consentless Analytics](https://docs.sealmetrics.com/security-privacy/consentless-analytics): How tracking works without consent
-- [Bot Detection](https://docs.sealmetrics.com/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic): Automatic bot filtering
-- [Privacy by Design](https://docs.sealmetrics.com/security-privacy/privacy-by-design): How we protect user privacy
-- [What We Track](https://docs.sealmetrics.com/security-privacy/what-we-track): Data collection details
 
 ### LENS AI
-- [LENS Overview](https://docs.sealmetrics.com/lens): AI-powered analytics assistant
-- [Getting Started with LENS](https://docs.sealmetrics.com/lens/getting-started): Setup and configuration
-- [Anomaly Detection](https://docs.sealmetrics.com/lens/anomaly-detection): Automatic anomaly alerts
-- [AI Assistant](https://docs.sealmetrics.com/lens/ai-assistant): AI-generated recommendations and chat
+
+- [AI Chat Assistant](https://docs.sealmetrics.com/lens/ai-assistant): Ask questions about your analytics data and get instant AI-powered answers
+
+- [How Anomaly Detection Works](https://docs.sealmetrics.com/lens/anomaly-detection): Learn how LENS detects anomalies in your analytics data using statistical analysis and machine learning.
+
+- [LENS API Endpoints](https://docs.sealmetrics.com/lens/api/lens-endpoints): API reference for programmatically interacting with LENS AI features.
+
+- [LENS AI Overview](https://docs.sealmetrics.com/lens): AI-powered anomaly detection and intelligent insights for your analytics data.
+
+- [LENS Reports](https://docs.sealmetrics.com/lens/reports): Automated AI-generated reports that deliver insights directly to your inbox.
+
+- [Question Limits](https://docs.sealmetrics.com/lens/ai-assistant/question-limits): Understand LENS AI question limits, usage tracking, and options for additional questions.
+
+- [Detection Rules Catalog](https://docs.sealmetrics.com/lens/anomaly-detection/rule-types): Complete catalog of 60+ anomaly detection rules available in LENS.
+
+- [Getting Started with LENS](https://docs.sealmetrics.com/lens/getting-started): Set up LENS AI and start receiving intelligent insights about your analytics data.
+
+- [Email Alerts](https://docs.sealmetrics.com/lens/reports/email-alerts): Configure real-time email notifications for anomalies and important changes.
+
+- [Best Practices](https://docs.sealmetrics.com/lens/ai-assistant/best-practices): Get better answers from LENS AI with these tips and techniques.
+
+- [Custom Rules](https://docs.sealmetrics.com/lens/anomaly-detection/custom-rules): Create custom anomaly detection rules tailored to your specific business needs.
+
+- [Executive Summary](https://docs.sealmetrics.com/lens/reports/executive-summary): Automated weekly business intelligence report for stakeholders and leadership.
+
+- [Configuring Thresholds](https://docs.sealmetrics.com/lens/anomaly-detection/thresholds): Fine-tune anomaly detection sensitivity by adjusting thresholds for your business needs.
+
+
+
+### Reports & Insights
+
+- [Reports Overview](https://docs.sealmetrics.com/reports)
+
+- [Referral vs Direct Traffic](https://docs.sealmetrics.com/reports/insights/referral-vs-direct-traffic): Learn how Sealmetrics classifies referrer traffic vs direct traffic using privacy-first principles and advanced attribution logic.
+
+- [Overview Report](https://docs.sealmetrics.com/reports/overview)
+
+- [Evolution Report](https://docs.sealmetrics.com/reports/evolution)
+
+- [Pages Report](https://docs.sealmetrics.com/reports/pages)
+
+- [What is Rejoined Traffic?](https://docs.sealmetrics.com/reports/insights/rejoined-traffic): Understanding how Sealmetrics classifies traffic returning after 6+ hours of inactivity without inflating Direct traffic.
+
+- [Sources Report](https://docs.sealmetrics.com/reports/sources)
+
+- [Geography Report](https://docs.sealmetrics.com/reports/geography)
+
+- [Devices Report](https://docs.sealmetrics.com/reports/devices)
+
+- [Conversions Report](https://docs.sealmetrics.com/reports/conversions)
+
+- [Funnel Report](https://docs.sealmetrics.com/reports/funnel)
+
+- [Properties Report](https://docs.sealmetrics.com/reports/properties): Analyze conversion and microconversion properties by traffic source attribution.
+
+- [Filters](https://docs.sealmetrics.com/reports/filters)
+
+- [Date Range](https://docs.sealmetrics.com/reports/date-range)
+
+- [Metrics Reference](https://docs.sealmetrics.com/reports/definitions): Detailed reference of all SealMetrics report metrics — formulas, benchmarks, and interpretation for entrances, pageviews, conversions, revenue, and advanced KPIs.
+
+- [Understanding the "(not set)" Value in Sealmetrics Reports](https://docs.sealmetrics.com/reports/insights/understanding-not-set): Learn why Sealmetrics shows "(not set)" in your reports, what causes missing UTM parameters, and how to avoid attribution gaps.
+
+- [How to Change UTM Parameters in Sealmetrics](https://docs.sealmetrics.com/reports/insights/how-to-change-utm-parameters): Learn how to customize UTM parameters in Sealmetrics and adjust them for GA4 alternatives or custom analytics setups.
+
+- [Why Do I See More Conversions or Revenue in Sealmetrics Than in My ERP?](https://docs.sealmetrics.com/reports/insights/attribution-model): Understand why Sealmetrics may show more conversions or revenue than your ERP and how to properly configure your tracking to avoid discrepancies.
+
+- [Understanding Direct Traffic in Sealmetrics](https://docs.sealmetrics.com/reports/insights/direct-traffic): Learn how Sealmetrics classifies Direct traffic and how referrer detection impacts traffic source attribution.
+
+- [What is gtm-msr.appspot.com and How to Prevent It from Triggering Tags in GTM](https://docs.sealmetrics.com/reports/insights/gtm-msr-appspot-and-tag-blocking): Learn why gtm-msr.appspot.com appears in Google Tag Manager and how to prevent it from firing tags or polluting your analytics.
+
+- [How Sealmetrics Calculates Entrances](https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-entrances): Learn what an Entrance is in Sealmetrics, how it differs from GA4 Visits, and how it compares to Pageviews in a privacy-first analytics system.
+
+- [How Sealmetrics Calculates SEO Traffic](https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-seo-traffic): Learn how Sealmetrics differentiates SEO traffic from paid traffic using a privacy-first methodology.
+
+- [How to Track Google Ads Campaigns](https://docs.sealmetrics.com/reports/insights/how-to-track-google-ads-campaigns): Learn how to correctly track Google Ads campaigns in Sealmetrics using UTM parameters and Google Ads value-track templates.
+
+- [How to Track Social Ads Campaigns](https://docs.sealmetrics.com/reports/insights/how-to-track-social-ads-campaigns): Learn how to track Facebook and Meta Ads campaigns in Sealmetrics without cookies using UTM parameters and privacy-first attribution.
+
+- [Understanding Referrer Loss and Direct Traffic in Sealmetrics](https://docs.sealmetrics.com/reports/insights/understanding-referrer-loss-and-direct-traffic): Learn why referrers are lost on modern websites and why Direct traffic may appear unusually high in Sealmetrics.
+
+- [What Is a TERM in Sealmetrics?](https://docs.sealmetrics.com/reports/insights/what-is-a-term): Learn how Sealmetrics defines TERM across SEO, Referrer, Google Ads, and UTM-based traffic sources.
+
+- [Why Do I See More Conversions or Revenue in Sealmetrics Than in My ERP?](https://docs.sealmetrics.com/reports/insights/why-more-conversions-than-erp): Understand why Sealmetrics may show more conversions or revenue than your ERP and how to properly configure your tracking to avoid discrepancies.
+
+
+
+### Implementation
+
+- [Content & Site Structure](https://docs.sealmetrics.com/implementation/content-site-structure)
+
+- [E-commerce Conversion Tracking](https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking)
+
+- [Implementation](https://docs.sealmetrics.com/implementation)
+
+- [Tracking Methods](https://docs.sealmetrics.com/implementation/tracking-methods)
+
+- [Content Grouping](https://docs.sealmetrics.com/implementation/content-site-structure/content-grouping)
+
+- [Custom Properties Overview](https://docs.sealmetrics.com/implementation/custom-properties): Capture business-specific data with custom event properties in Sealmetrics.
+
+- [E-commerce Setup Guide](https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide): Complete guide to tracking e-commerce conversions, revenue, and customer journey with SealMetrics. Includes examples for WooCommerce, Shopify, and custom platforms.
+
+- [Tracker Overview](https://docs.sealmetrics.com/implementation/tracker)
+
+- [Step-by-Step Implementation Guide](https://docs.sealmetrics.com/implementation/tracker/step-by-step-guide): Complete visual guide to implement Sealmetrics tracking on your website, from basic pageviews to conversions and funnels.
+
+- [Event Properties](https://docs.sealmetrics.com/implementation/custom-properties/event-properties): Attach custom data to individual events for detailed analysis.
+
+- [Installation](https://docs.sealmetrics.com/implementation/tracker/installation)
+
+- [How to Track SPA Sites](https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites): Learn how SealMetrics automatically tracks Single Page Applications (SPAs) built with React, Vue, Angular, Next.js, and other modern frameworks.
+
+- [User Properties](https://docs.sealmetrics.com/implementation/custom-properties/user-properties): Properties that persist across sessions for long-term user segmentation.
+
+- [Conversions](https://docs.sealmetrics.com/implementation/tracker/conversions)
+
+- [First Party Tracker](https://docs.sealmetrics.com/implementation/tracker/first-party): Learn how Sealmetrics’ first-party tracker works and how to install it for better privacy, compliance, and adblocker resistance.
+
+- [How to Track React Sites](https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-react): Complete guide to tracking React applications with SealMetrics. Includes examples for react-router, conversions, and microconversions.
+
+- [Content Grouping with Properties](https://docs.sealmetrics.com/implementation/custom-properties/content-groups): Use properties to group and categorize your content for analysis.
+
+- [Understanding Event Properties in Sealmetrics](https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties-guide): Learn how to use event properties in Sealmetrics for advanced conversion tracking, custom data collection, and detailed analytics segmentation while maintaining GDPR compliance.
+
+- [Microconversions](https://docs.sealmetrics.com/implementation/tracker/microconversions)
+
+- [How to Track AJAX Forms](https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-ajax-forms): Track form submissions and conversions from AJAX forms with SealMetrics. Works with any JavaScript framework.
+
+- [Setting Up Trackers in Sealmetrics](https://docs.sealmetrics.com/implementation/tracker/setup): Learn how to configure and set up global and conversion trackers in Sealmetrics to start collecting privacy-first analytics data.
+
+- [SPA Support](https://docs.sealmetrics.com/implementation/tracker/spa-support)
+
+- [Manual Pageview Control](https://docs.sealmetrics.com/implementation/tracking-methods/ignore-page-view): Control when pageviews are tracked in SealMetrics. Useful for SPAs, multi-step forms, and custom navigation patterns.
+
+- [Content Grouping](https://docs.sealmetrics.com/implementation/content-grouping): Group pages by section to analyze your site's content performance
+
+- [Tracker API Reference](https://docs.sealmetrics.com/implementation/tracker/api-reference): Complete API reference for the SealMetrics JavaScript tracker. Includes all methods, parameters, and payload specifications.
+
+- [Migration from v1](https://docs.sealmetrics.com/implementation/tracker/migration-from-v1)
+
+- [Understanding Event Properties in Sealmetrics](https://docs.sealmetrics.com/implementation/event-tracking): Learn how event properties work in Sealmetrics, how to implement them, and how they enhance your analytics with custom metadata.
+
+
+
+### Integrations
+
+- [Integrations Overview](https://docs.sealmetrics.com/integrations): Connect SealMetrics with your favorite platforms, frameworks, and tools
+
+- [WordPress](https://docs.sealmetrics.com/integrations/cms/wordpress): Privacy-first, cookieless analytics for WordPress sites
+
+- [WooCommerce](https://docs.sealmetrics.com/integrations/ecommerce/woocommerce): Privacy-first, cookieless e-commerce analytics for WooCommerce stores
+
+- [Next.js](https://docs.sealmetrics.com/integrations/frameworks/nextjs): Privacy-first, cookieless analytics for Next.js applications
+
+- [MCP Server for AI Assistants](https://docs.sealmetrics.com/integrations/mcp-server): Connect Claude and other AI assistants to your Sealmetrics analytics data using the Model Context Protocol (MCP) server.
+
+- [GTM Container Template](https://docs.sealmetrics.com/integrations/tag-management/gtm-template): Ready-to-import Google Tag Manager container template for SealMetrics
+
+- [Webflow](https://docs.sealmetrics.com/integrations/website-builders/webflow): Privacy-first, cookieless analytics for Webflow sites
+
+- [Drupal](https://docs.sealmetrics.com/integrations/cms/drupal): Privacy-first, cookieless analytics for Drupal 9, 10, and 11
+
+- [OpenCart](https://docs.sealmetrics.com/integrations/ecommerce/opencart): Privacy-first, cookieless analytics for OpenCart stores
+
+- [React](https://docs.sealmetrics.com/integrations/frameworks/react): Privacy-first, cookieless analytics for React applications
+
+- [Google Search Console Integration](https://docs.sealmetrics.com/integrations/google-search-console): Connect Google Search Console to the Sealmetrics AI Agent for SEO insights, keyword analysis, and quick win detection.
+
+- [Google Tag Manager Template](https://docs.sealmetrics.com/integrations/google-tag-manager): Install Sealmetrics tracking on your website using the official Google Tag Manager template. Track pageviews, conversions, and microconversions without writing code.
+
+- [Wix](https://docs.sealmetrics.com/integrations/website-builders/wix): Privacy-first, cookieless analytics for Wix websites and Wix Stores
+
+- [API Validator](https://docs.sealmetrics.com/integrations/api-validator): Test and validate your Sealmetrics API integration with the official API Validator tool. Explore endpoints, test parameters, and troubleshoot your implementation.
+
+- [Joomla](https://docs.sealmetrics.com/integrations/cms/joomla): Privacy-first, cookieless analytics for Joomla 4.x and 5.x
+
+- [Magento 2](https://docs.sealmetrics.com/integrations/ecommerce/magento): Privacy-first, cookieless analytics for Magento 2.4+ (Adobe Commerce)
+
+- [Nuxt 3](https://docs.sealmetrics.com/integrations/frameworks/nuxt): Privacy-first, cookieless analytics for Nuxt 3 applications
+
+- [Squarespace](https://docs.sealmetrics.com/integrations/website-builders/squarespace): Privacy-first, cookieless analytics for Squarespace websites and Squarespace Commerce
+
+- [PrestaShop](https://docs.sealmetrics.com/integrations/ecommerce/prestashop): Privacy-first, cookieless analytics for PrestaShop 1.7+ and 8.x stores
+
+- [BigCommerce](https://docs.sealmetrics.com/integrations/ecommerce/bigcommerce): BigCommerce integration for Sealmetrics
+
+
+
+### API Reference
+
+- [API Overview](https://docs.sealmetrics.com/api)
+
+- [Quick Start](https://docs.sealmetrics.com/api/quick-start)
+
+- [Authentication](https://docs.sealmetrics.com/api/authentication)
+
+- [API Tokens](https://docs.sealmetrics.com/api/api-tokens): Create and manage API tokens for programmatic access.
+
+- [Sites](https://docs.sealmetrics.com/api/sites)
+
+- [Organizations](https://docs.sealmetrics.com/api/organizations)
+
+- [Stats Endpoints](https://docs.sealmetrics.com/api/stats): Analytics data endpoints for retrieving traffic, conversion, and engagement metrics.
+
+- [Stats Advanced](https://docs.sealmetrics.com/api/stats-advanced)
+
+- [Pagination & Filtering](https://docs.sealmetrics.com/api/pagination-sorting)
+
+- [Period Comparison](https://docs.sealmetrics.com/api/comparison)
+
+- [Segments](https://docs.sealmetrics.com/api/segments)
+
+- [Webhooks](https://docs.sealmetrics.com/api/webhooks): Real-time event notifications via HTTP callbacks.
+
+- [Alerts](https://docs.sealmetrics.com/api/alerts): Configure and manage traffic anomaly alerts.
+
+- [Exports](https://docs.sealmetrics.com/api/exports)
+
+- [BigQuery Integration](https://docs.sealmetrics.com/api/bigquery): Export analytics data to Google BigQuery for advanced analysis.
+
+- [IP Allowlist](https://docs.sealmetrics.com/api/ip-allowlist): Restrict API and dashboard access to specific IP addresses.
+
+- [Auth Advanced](https://docs.sealmetrics.com/api/auth-advanced)
+
+- [Rate Limits](https://docs.sealmetrics.com/api/rate-limits)
+
+- [Batch API](https://docs.sealmetrics.com/api/batch): Execute multiple analytics queries in a single request
+
+
+
+### Security & Privacy
+
+- [Privacy & Consentless Analytics](https://docs.sealmetrics.com/security-privacy): Learn about Sealmetrics’ privacy-first philosophy, consentless analytics technology, and key platform benefits.
+
+- [Two-Factor Authentication](https://docs.sealmetrics.com/security-privacy/account-security/two-factor-auth): Add an extra layer of security to your Sealmetrics account with 2FA/TOTP.
+
+- [What is Consentless Analytics?](https://docs.sealmetrics.com/security-privacy/consentless-analytics): Learn how consentless analytics enables 100% traffic tracking with full GDPR compliance and zero consent required.
+
+- [Backup Codes](https://docs.sealmetrics.com/security-privacy/account-security/backup-codes): Recovery codes for accessing your account when you can't use your authenticator.
+
+- [Sealmetrics Key Benefits Overview](https://docs.sealmetrics.com/security-privacy/key-benefits): Discover the key benefits of Sealmetrics’ consentless analytics — privacy-first compliance, data accuracy, and business intelligence.
+
+- [IP Allowlist](https://docs.sealmetrics.com/security-privacy/account-security/ip-allowlist): Restrict account access to specific IP addresses for enhanced security.
+
+- [How Sealmetrics determines the country without using IP addresses](https://docs.sealmetrics.com/security-privacy/country-detection): >-
+
+- [How Sealmetrics Protects User Privacy](https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy): Learn how Sealmetrics ensures genuine user privacy through data minimization, anonymization, and zero personal data processing.
+
+- [Session Management](https://docs.sealmetrics.com/security-privacy/account-security/session-management): View and manage your active sessions across devices.
+
+- [Why Sealmetrics Is Not Blocked by AdBlockers](https://docs.sealmetrics.com/security-privacy/adblocker-bypass): Learn why Sealmetrics bypasses AdBlockers through 1st-party tracking and a privacy-first architecture that avoids third-party domain blocking.
+
+- [How Attribution Works Without a User-ID](https://docs.sealmetrics.com/security-privacy/attribution-without-userid): Learn how Sealmetrics attributes traffic and conversions without using User-IDs, cookies, or cross-session tracking — fully compliant and consentless.
+
+- [Security & Privacy](https://docs.sealmetrics.com/security-privacy/overview): Understand Sealmetrics' privacy-by-design architecture, GDPR compliance, data security measures, and why we never collect personal data.
+
+- [Why Sealmetrics Can Measure Without Consent](https://docs.sealmetrics.com/security-privacy/why-no-consent): Discover why Sealmetrics can measure web traffic without user consent while fully complying with GDPR, ePrivacy, and CNIL guidelines.
+
+- [Bot Detection & Traffic Quality](https://docs.sealmetrics.com/security-privacy/bot-detection): How SealMetrics detects and filters bot traffic to ensure data accuracy. Multi-layer detection system protecting your analytics.
+
+- [Data Location & Retention](https://docs.sealmetrics.com/security-privacy/data-location): Where SealMetrics stores your data and how long it's retained. EU-based infrastructure with clear retention policies.
+
+- [Benefits of Consentless Tracking](https://docs.sealmetrics.com/security-privacy/consentless-benefits): Understand why Sealmetrics’ consentless architecture outperforms traditional analytics tools, offering accurate, future-proof, privacy-first measurement.
+
+- [1st Party Tracker](https://docs.sealmetrics.com/security-privacy/first-party-tracking): How Sealmetrics’ 1st-party tracker works and why it bypasses ad blockers.
+
+- [How Consentless Tracking Works](https://docs.sealmetrics.com/security-privacy/how-consentless-works): Learn how Sealmetrics delivers 100% consentless web analytics through aggregate, privacy-preserving measurement technologies.
+
+- [Privacy by Design Principles](https://docs.sealmetrics.com/security-privacy/privacy-by-design): Learn how Sealmetrics implements Privacy by Design through its architecture, processes, and technical safeguards.
+
+- [What We Track vs What We Don’t](https://docs.sealmetrics.com/security-privacy/what-we-track): Learn exactly what Sealmetrics collects — and what it never collects — through its privacy-first, consentless analytics architecture.
+
+
+
+### Compliance
+
+- [GDPR and ePrivacy](https://docs.sealmetrics.com/compliance/GDPR-and-ePrivacy)
+
+- [Compliance Overview](https://docs.sealmetrics.com/compliance/compliance-overview)
+
+- [Legal & Compliance](https://docs.sealmetrics.com/compliance)
+
+- [Does SealMetrics comply with CNIL guidelines?](https://docs.sealmetrics.com/compliance/compliance-overview/cnil-compliance): Learn how SealMetrics meets CNIL requirements for consent-exempt audience measurement under GDPR and ePrivacy.
+
+- [EU Digital Omnibus Regulation](https://docs.sealmetrics.com/compliance/omnibus): Complete guide to the EU Digital Omnibus Regulation (COM(2025) 837) simplifying GDPR, ePrivacy, and data legislation
+
+- [Analytics Cookies: Consent Exemption Requirements](https://docs.sealmetrics.com/compliance/analytics-cookies-exemption): AEPD and EU guidance on when analytics cookies are exempt from consent requirements
+
+- [CNIL Self-Assessment: Sealmetrics Compliance](https://docs.sealmetrics.com/compliance/cnil-self-assessment): Official CNIL self-assessment documentation for Sealmetrics analytics - demonstrating compliance with French consent exemption requirements.
+
+- [GDPR Amendments in the Digital Omnibus](https://docs.sealmetrics.com/compliance/omnibus/gdpr-changes): Detailed analysis of GDPR changes: personal data definition, pseudonymization, AI training, breach notifications
+
+- [GDPR and Cookieless Analytics](https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics): How cookieless analytics comply with GDPR requirements and provide better data without consent banners
+
+- [Cookie Consent Reform: The End of Banner Fatigue](https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy): How the EU Digital Omnibus eliminates cookie banners for 60% of websites through unified GDPR processing rules
+
+- [UK PECR Self-Assessment: Sealmetrics Compliance](https://docs.sealmetrics.com/compliance/uk-pecr-self-assessment): Official UK PECR self-assessment documentation for Sealmetrics analytics - demonstrating compliance with UK analytics exemption requirements under the Data Use and Access Act 2025.
+
+- [Data Law Consolidation: From 5 Acts to 2](https://docs.sealmetrics.com/compliance/omnibus/data-consolidation): How the Digital Omnibus merges FFDR, DGA, and Open Data Directive into the Data Act
+
+- [Data Intermediation Services: From Mandatory to Voluntary](https://docs.sealmetrics.com/compliance/omnibus/data-intermediation): Changes to data intermediation and data altruism rules under the Digital Omnibus
+
+- [AI Act Amendments in the Digital Omnibus](https://docs.sealmetrics.com/compliance/omnibus/ai-act-amendments): How the Digital Omnibus simplifies AI compliance and clarifies GDPR-AI intersection
+
+- [Single Entry Point for Incident Reporting](https://docs.sealmetrics.com/compliance/omnibus/incident-reporting): New unified cybersecurity and data breach reporting system operated by ENISA
+
+- [SME and Small Mid-Cap Exemptions](https://docs.sealmetrics.com/compliance/omnibus/smes-small-midcaps): How the Digital Omnibus extends small business protections to companies with up to 749 employees
+
+- [Implementation Timeline](https://docs.sealmetrics.com/compliance/omnibus/timeline-implementation): Key dates and milestones for Digital Omnibus implementation
+
+- [Impact on Web Analytics and Tracking](https://docs.sealmetrics.com/compliance/omnibus/impact-analytics): How the Digital Omnibus affects web analytics, consent requirements, and consentless tracking solutions
+
+- [EDPB-EDPS Joint Opinion on the Digital Omnibus](https://docs.sealmetrics.com/compliance/omnibus/edpb-edps-opinion): Official position of European data protection authorities on the Digital Omnibus proposal - concerns, support, and recommendations
+
+- [Legal FAQ — Sealmetrics Compliance Questions](https://docs.sealmetrics.com/compliance/compliance-overview/legal-faq): Frequently asked legal, compliance, privacy, and data protection questions about Sealmetrics.
+
+- [Do Temporary Session Identifiers (Session IDs) Require Consent Under GDPR?](https://docs.sealmetrics.com/compliance/GDPR-and-ePrivacy/do-session-ids-require-consent): Understanding when Session IDs require user consent under GDPR and ePrivacy, and how Sealmetrics ensures full regulatory compliance.
+
+- [How Sealmetrics Blocks Bot Traffic Without Handling IPs](https://docs.sealmetrics.com/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic): Learn how Sealmetrics filters bot traffic while maintaining full GDPR and ePrivacy compliance—without processing IP addresses.
+
+- [Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?](https://docs.sealmetrics.com/compliance/compliance-overview/is-sealmetrics-privacy-compliant): Learn how Sealmetrics ensures full compliance with GDPR, ePrivacy, CCPA, PECR, and global privacy regulations through its privacy-first, isolated-hit architecture.
+
+
 
 ### Use Cases
-- [E-commerce](https://docs.sealmetrics.com/use-cases/ecommerce): Online store analytics
-- [SaaS](https://docs.sealmetrics.com/use-cases/saas): SaaS product analytics
-- [Lead Generation](https://docs.sealmetrics.com/use-cases/lead-generation): Lead tracking and attribution
-- [Content & Media](https://docs.sealmetrics.com/use-cases/content-media): Publisher analytics
+
+- [Use Cases](https://docs.sealmetrics.com/use-cases): Implementation guides for different industries and business types.
+
+- [E-commerce Store](https://docs.sealmetrics.com/use-cases/ecommerce): Complete implementation guide for tracking an online store with Sealmetrics - from product views to purchases.
+
+- [SaaS Application](https://docs.sealmetrics.com/use-cases/saas): Implementation guide for tracking a SaaS product - from landing page to trial signup, onboarding, and subscription.
+
+- [Lead Generation](https://docs.sealmetrics.com/use-cases/lead-generation): Implementation guide for service businesses, agencies, and B2B sites focused on generating leads.
+
+- [Content & Media Sites](https://docs.sealmetrics.com/use-cases/content-media): Implementation guide for blogs, news sites, and content publishers - track engagement, subscriptions, and ad performance.
+
+
+
+### GA4 Migration
+
+- [GA4 Migration Guide](https://docs.sealmetrics.com/ga4-migration): Migrate from Google Analytics 4 to Sealmetrics with our comprehensive guide.
+
+
+
+### Platform Settings
+
+- [How to Delete an Account](https://docs.sealmetrics.com/platform/account-setup/how-to-delete-account): Learn how to delete an account in Sealmetrics from the platform dashboard.
+
+- [Organizations](https://docs.sealmetrics.com/platform/organizations): Understanding organizations, sites, and team management in Sealmetrics.
+
+- [General Settings](https://docs.sealmetrics.com/platform/settings/account/general): Configure basic account settings like name, timezone, and default preferences.
+
+- [Audit Log](https://docs.sealmetrics.com/platform/settings/advanced/audit-log): Track all account activity and changes for security and compliance.
+
+- [Settings Overview](https://docs.sealmetrics.com/platform/settings): Configure your Sealmetrics account, tracking, integrations, and preferences.
+
+- [BigQuery Integration](https://docs.sealmetrics.com/platform/settings/integrations/bigquery): Export your Sealmetrics data to Google BigQuery for advanced analysis.
+
+- [Pixel Builder](https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder): Generate and customize your Sealmetrics tracking code with the visual pixel builder.
+
+- [Roles & Permissions](https://docs.sealmetrics.com/platform/user-management/roles-management): Understand the role system in Sealmetrics — organization roles, site-level roles, and how they combine.
+
+- [How to Add Domains to Your Account](https://docs.sealmetrics.com/platform/account-setup/how-to-add-domains): Learn how to add and configure domains within your Sealmetrics account.
+
+- [Users & Teams](https://docs.sealmetrics.com/platform/settings/account/users): Invite members, assign sites, manage roles, and remove users from your Sealmetrics organization.
+
+- [Webhooks](https://docs.sealmetrics.com/platform/settings/integrations/webhooks): Send Sealmetrics data to external services via webhooks.
+
+- [Content Grouping](https://docs.sealmetrics.com/platform/settings/tracking/content-grouping): Group pages into logical categories for easier analysis and reporting.
+
+- [How to Add an Organization Admin](https://docs.sealmetrics.com/platform/user-management/create-admin-user): Step-by-step guide to adding a new Admin to your Sealmetrics organization.
+
+- [How to Find Your Sealmetrics Account ID](https://docs.sealmetrics.com/platform/account-setup/find-account-id): Learn where to find your Sealmetrics Account ID to configure trackers and integrations.
+
+- [Custom Dimensions](https://docs.sealmetrics.com/platform/settings/tracking/custom-dimensions): Define custom data fields to capture business-specific information with your tracking.
+
+- [How to Change Your Password](https://docs.sealmetrics.com/platform/user-management/change-password): Learn how to update your Sealmetrics password from your user profile.
+
+- [How to Add a New Site](https://docs.sealmetrics.com/platform/account-setup/how-to-add-new-account): Step-by-step guide to adding a new site (website) to your Sealmetrics organization.
+
+- [How to Invite a Team Member](https://docs.sealmetrics.com/platform/user-management/how-to-add-new-user): Learn how to invite new team members to your Sealmetrics organization.
+
+- [How to Change Your Time Zone](https://docs.sealmetrics.com/platform/account-setup/how-to-change-timezone): Learn how to modify the time zone of your Sealmetrics account.
+
+- [LLM Settings](https://docs.sealmetrics.com/platform/settings/llm): Configure the AI model provider used for generating insights in LENS.
+
+- [Access Restricted to Authorized IPs](https://docs.sealmetrics.com/platform/user-management/authorized-ips): Enhance security by restricting platform access to authorized IP addresses.
+
+- [How to Share Your Affiliate Link](https://docs.sealmetrics.com/platform/affiliates-and-partners/how-to-share-your-affiliate-link): Learn how to create and share your Sealmetrics affiliate link and access your commissions dashboard.
+
+- [Bypass POS or Referrer](https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/bypass-pos-or-referrer): Learn how to exclude payment gateways and external domains from being counted as referrers in Sealmetrics.
+
+
+
+### Plans & Billing
+
+- [Plans & Pricing](https://docs.sealmetrics.com/billing): Overview of Sealmetrics plans, pricing, and what's included in each tier.
+
+- [Starter Plan](https://docs.sealmetrics.com/billing/plans/starter): Everything included in the Sealmetrics Starter plan for small e-commerce and startups.
+
+- [Growth Plan](https://docs.sealmetrics.com/billing/plans/growth): Everything included in the Sealmetrics Growth plan for growing teams that need BigQuery.
+
+- [Features Comparison](https://docs.sealmetrics.com/billing/features-comparison): Detailed side-by-side comparison of all features across Sealmetrics plans.
+
+- [Scale Plan](https://docs.sealmetrics.com/billing/plans/scale): Everything included in the Sealmetrics Scale plan for multi-brand retailers.
+
+- [Pro Plan](https://docs.sealmetrics.com/billing/plans/pro): Everything included in the Sealmetrics Pro plan for large retail groups.
+
+- [Usage & Limits](https://docs.sealmetrics.com/billing/usage-limits): Understanding event limits, usage tracking, and what happens when you exceed your plan limits.
+
+- [Add-ons & Extras](https://docs.sealmetrics.com/billing/add-ons): Additional features and capacity you can add to your Sealmetrics plan.
+
+- [Enterprise Plan](https://docs.sealmetrics.com/billing/plans/enterprise): Everything included in the Sealmetrics Enterprise plan for organizations with custom needs.
+
+- [Invoices & Payments](https://docs.sealmetrics.com/billing/invoices): Managing invoices, payment methods, and billing information in Sealmetrics.
+
+- [Billing FAQ](https://docs.sealmetrics.com/billing/faq): Frequently asked questions about Sealmetrics pricing, billing, and payments.
+
+
+
+### Troubleshooting
+
+- [Troubleshooting](https://docs.sealmetrics.com/troubleshooting): Common issues and solutions for SealMetrics implementation.
+
+
+
+### FAQ
+
+- [Glossary](https://docs.sealmetrics.com/faq/glossary): Complete glossary of analytics, privacy, and platform terms used in SealMetrics.
+
+- [Frequently Asked Questions (FAQ)](https://docs.sealmetrics.com/faq): Answers to the most common questions about Sealmetrics, consentless analytics, attribution, implementation, privacy, product features, and legal compliance.
+
+- [Consentless Analytics](https://docs.sealmetrics.com/faq/consentless-analytics): Learn how Sealmetrics measures traffic without consent while remaining fully compliant with GDPR, ePrivacy, CCPA, and PECR.
+
+- [GA4 vs Sealmetrics](https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics): Understand why Sealmetrics and GA4 report different values, including direct traffic inflation, hit counting, and consent impacts.
+
+- [Attribution Model](https://docs.sealmetrics.com/faq/attribution): Learn how last-click attribution works under privacy constraints and why Sealmetrics uses it.
+
+- [Implementation & Tracking](https://docs.sealmetrics.com/faq/implementation): How to install the pixel, track events, use GTM, configure ecommerce, and verify tracking accuracy.
+
+- [Frequently Asked Questions](https://docs.sealmetrics.com/faq/privacy-security): Quick answers to the most common questions about Sealmetrics, consentless analytics, tracking accuracy, attribution models, and GA4 differences.
+
+- [Technical Privacy Model](https://docs.sealmetrics.com/faq/privacy-technical): Learn exactly what data Sealmetrics collects, what it does not collect, and how privacy is enforced technically.
+
+- [Product Features](https://docs.sealmetrics.com/faq/product): Learn about reports, funnels, ROAS, real-time data, API access, first-party tracking, and integrations.
+
+- [Legal & Compliance](https://docs.sealmetrics.com/faq/legal-compliance): Understand how Sealmetrics complies with GDPR, ePrivacy, CNIL, AEPD, CCPA, and PECR without requiring consent.
+
+
+
+### Other
+
+- [Reports Overview](https://docs.sealmetrics.com): Explore all Sealmetrics reports — from dashboard metrics to acquisition, ROAS, funnels, and key definitions.
+
+- [Complete Guide to Cookieless Analytics 2025](https://docs.sealmetrics.com/guides/complete-guide-cookieless-analytics): Learn how cookieless analytics captures 100% of visitor data without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages.
+
+- [Guides](https://docs.sealmetrics.com/guides)
+
+- [Release Notes](https://docs.sealmetrics.com/changelog): Sealmetrics product updates and announcements
+
+
 
 ## Quick Implementation Examples
 
@@ -285,20 +679,6 @@ window.addEventListener('scroll', function() {
 });
 ```
 
-### Newsletter Signup
-```javascript
-document.querySelector('#newsletter-form').addEventListener('submit', function() {
-  sealmetrics.micro('newsletter_signup', { position: 'footer', page_type: 'blog' });
-});
-```
-
-### CTA Click
-```javascript
-document.querySelector('.cta-button').addEventListener('click', function() {
-  sealmetrics.micro('cta_click', { button_text: this.textContent, button_location: 'hero' });
-});
-```
-
 ---
 
 ## Framework Integration
@@ -364,28 +744,6 @@ export default defineNuxtConfig({
 });
 ```
 
-### Vue.js
-```vue
-<template>
-  <button @click="addToCart">Add to Cart</button>
-</template>
-
-<script>
-export default {
-  methods: {
-    addToCart() {
-      if (typeof sealmetrics !== 'undefined') {
-        sealmetrics.micro('add_to_cart', {
-          product_id: this.product.id,
-          product_name: this.product.name
-        });
-      }
-    }
-  }
-};
-</script>
-```
-
 ### Google Tag Manager
 1. Create Custom HTML tag
 2. Paste:
@@ -395,41 +753,6 @@ export default {
 3. Set trigger to "All Pages"
 4. Publish
 
-### TypeScript Declarations
-```typescript
-// types/sealmetrics.d.ts
-interface SealmetricsFunction {
-  (options?: { group?: string }): void;
-  conv(type: string, amount: number, properties?: Record<string, string>): void;
-  micro(type: string, properties?: Record<string, string>): void;
-}
-
-declare global {
-  const sealmetrics: SealmetricsFunction;
-}
-```
-
----
-
-## WooCommerce Implementation
-```php
-// In functions.php
-add_action('woocommerce_thankyou', function($order_id) {
-  $order = wc_get_order($order_id);
-  ?>
-  <script>
-    window.addEventListener('load', function() {
-      sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
-        order_id: '<?php echo $order_id; ?>',
-        currency: '<?php echo $order->get_currency(); ?>',
-        payment_method: '<?php echo $order->get_payment_method(); ?>'
-      });
-    });
-  </script>
-  <?php
-});
-```
-
 ---
 
 ## API Examples
@@ -437,18 +760,6 @@ add_action('woocommerce_thankyou', function($order_id) {
 ### cURL - Get Overview Stats
 ```bash
 curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?account_id=YOUR_ACCOUNT_ID&period=7d" \
-  -H "X-API-Key: sm_your_api_key_here"
-```
-
-### cURL - Get Top Pages
-```bash
-curl "https://my.sealmetrics.com/api/v1/stats/pages?account_id=YOUR_ACCOUNT_ID&period=30d&page_size=10" \
-  -H "X-API-Key: sm_your_api_key_here"
-```
-
-### cURL - Get Traffic Sources
-```bash
-curl "https://my.sealmetrics.com/api/v1/stats/sources?account_id=YOUR_ACCOUNT_ID&period=30d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
@@ -478,21 +789,6 @@ const response = await fetch(
   { headers: { 'X-API-Key': API_KEY } }
 );
 const data = await response.json();
-```
-
-### API Response Example
-```json
-{
-  "data": {
-    "entrances": 12543,
-    "page_views": 28976,
-    "engaged_entrances": 7234,
-    "bounce_rate": 42.3,
-    "conversions": 156,
-    "revenue": 12450.00,
-    "microconversions": 892
-  }
-}
 ```
 
 ## Key Differentiators vs Google Analytics 4
