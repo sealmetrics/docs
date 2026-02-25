@@ -21,28 +21,16 @@ This guide walks you through implementing Sealmetrics tracking on your website. 
 
 | Requirement | Where to Find It |
 |-------------|------------------|
-| Sealmetrics Account ID | Settings → Account → Account ID |
+| Sealmetrics Site ID | Settings → Sites → [your site] → General tab |
 | Access to your website's HTML | Theme editor, CMS, or code repository |
 | 15 minutes | That's all it takes! |
 
-### Find Your Account ID
+### Find Your Site ID
 
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
-2. Go to **Settings** → **Account**
-3. Copy your **Account ID** (looks like `67a1d6c0bb10b861397fdd3a`)
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  Settings → Account                                      │
-├─────────────────────────────────────────────────────────┤
-│                                                          │
-│  Account ID: 67a1d6c0bb10b861397fdd3a     [Copy]        │
-│                                                          │
-│  Account Name: My Store                                  │
-│  Timezone: Europe/Madrid                                 │
-│                                                          │
-└─────────────────────────────────────────────────────────┘
-```
+2. Go to **Settings → Sites**
+3. Click on your site
+4. Copy the **Site ID** from the General tab (use the copy button next to it)
 
 ---
 
@@ -53,10 +41,10 @@ This guide walks you through implementing Sealmetrics tracking on your website. 
 Add this single line to your website's `<head>` section:
 
 ```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
-Replace `YOUR_ACCOUNT_ID` with your actual Account ID.
+Replace `YOUR_SITE_ID` with your actual Site ID.
 
 ### 1.2 Where to Add It
 
@@ -142,7 +130,7 @@ export default function RootLayout({ children }) {
     <html>
       <head>
         <Script
-          src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID"
+          src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID"
           strategy="afterInteractive"
         />
       </head>
@@ -160,7 +148,7 @@ export default function RootLayout({ children }) {
 1. Create new **Custom HTML** tag
 2. Paste:
 ```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 3. Set trigger: **All Pages**
 4. Publish
@@ -192,7 +180,7 @@ Expected result:
 
 If you see `"undefined"`, the script hasn't loaded yet. Check:
 - Script URL is correct
-- Account ID is valid
+- Site ID is valid
 - No adblocker interference
 
 ### 2.3 Check Network Requests
@@ -567,7 +555,7 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 
 ### Basic Setup
 - [ ] Script added to all pages
-- [ ] Correct Account ID in script URL
+- [ ] Correct Site ID in script URL
 - [ ] Verified `typeof sealmetrics === 'function'` in console
 - [ ] Verified 204 response in Network tab
 - [ ] Data appearing in Real-time dashboard
@@ -595,7 +583,7 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 
 | Symptom | Solution |
 |---------|----------|
-| `typeof sealmetrics` returns `undefined` | Check script URL, Account ID, no typos |
+| `typeof sealmetrics` returns `undefined` | Check script URL, Site ID, no typos |
 | 404 error in Network | Verify script URL is exactly correct |
 | Script blocked | Check adblocker, CSP headers |
 
@@ -604,8 +592,8 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 | Symptom | Solution |
 |---------|----------|
 | 204 response but no data | Wait 2-5 minutes, check correct account |
-| Non-204 response | Check Account ID, domain authorization |
-| Data in wrong account | Verify Account ID in script matches dashboard |
+| Non-204 response | Check Site ID, domain authorization |
+| Data in wrong account | Verify Site ID in script matches dashboard |
 
 ### Conversions not tracking
 

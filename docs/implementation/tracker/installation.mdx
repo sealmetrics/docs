@@ -10,10 +10,10 @@ title: Installation
 Add this script tag to your HTML, preferably in `<head>`:
 
 ```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
-Replace `YOUR_ACCOUNT_ID` with your Sealmetrics account ID (found in Settings > Account).
+Replace `YOUR_SITE_ID` with your Sealmetrics Site ID (found in Settings → Sites → [your site]).
 
 The `defer` attribute ensures the script loads asynchronously without blocking page rendering.
 
@@ -25,16 +25,16 @@ Add the `group` parameter:
 
 ```html
 <!-- Blog pages -->
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID&group=blog" defer></script>
 
 <!-- Product pages -->
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=product" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID&group=product" defer></script>
 
 <!-- Documentation pages -->
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=docs" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID&group=docs" defer></script>
 
 <!-- Checkout flow -->
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=checkout" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID&group=checkout" defer></script>
 ```
 
 Content grouping enables reports like:
@@ -47,14 +47,14 @@ Content grouping enables reports like:
 For self-hosted deployments or custom domains:
 
 ```html
-<script src="https://your-pixel-domain.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script src="https://your-pixel-domain.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
 ## Parameters Reference
 
 | Parameter | Required | Description | Example |
 |-----------|----------|-------------|---------|
-| `id` | Yes | Your Sealmetrics account ID | `id=67a1d6c0bb10b861397fdd3a` |
+| `id` | Yes | Your Sealmetrics Site ID | `id=67a1d6c0bb10b861397fdd3a` |
 | `group` | No | Content grouping for this page | `group=blog` |
 
 ## What Happens After Installation
@@ -100,7 +100,7 @@ This logs all tracking events to the browser console.
 Add to `header.php` or use a "Header Scripts" plugin:
 
 ```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
 ### Next.js
@@ -115,7 +115,7 @@ export default function RootLayout({ children }) {
     <html>
       <head>
         <Script
-          src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID"
+          src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID"
           strategy="afterInteractive"
         />
       </head>
@@ -135,7 +135,7 @@ export default defineNuxtConfig({
     head: {
       script: [
         {
-          src: 'https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID',
+          src: 'https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID',
           defer: true
         }
       ]
@@ -149,7 +149,7 @@ export default defineNuxtConfig({
 1. Create a new Custom HTML tag
 2. Paste:
 ```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 3. Set trigger to "All Pages"
 4. Publish
@@ -160,26 +160,26 @@ export default defineNuxtConfig({
 2. Open `theme.liquid`
 3. Add before `</head>`:
 ```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
 ## Troubleshooting
 
 ### Script not loading
 
-1. Check that `YOUR_ACCOUNT_ID` is replaced with your actual account ID
-2. Verify the account is active in Sealmetrics dashboard
+1. Check that `YOUR_SITE_ID` is replaced with your actual Site ID
+2. Verify the site is active in Sealmetrics dashboard
 3. Check browser console for errors
 
 ### Events not appearing in dashboard
 
 1. Events are processed in batches; wait 2-5 minutes
-2. Verify the domain is registered in Settings > Domains
+2. Verify the domain is registered in Settings → Sites → [your site] → Domains
 3. Check if adblockers are blocking requests (unlikely with first-party setup)
 
 ### 204 response but no data
 
 The server returns 204 for all requests (valid or rejected) to prevent information leakage. Check:
-1. Account ID is correct
-2. Domain is authorized for this account
+1. Site ID is correct
+2. Domain is authorized for this site
 3. Token is valid (script was loaded less than 24 hours ago)

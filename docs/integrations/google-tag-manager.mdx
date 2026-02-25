@@ -84,15 +84,15 @@ Choose what type of event to track:
 | **Microconversion** | Track intermediate actions | Add to cart, form start, video play |
 | **Conversion** | Track completed goals | Purchase, lead form submit, signup |
 
-#### Account ID (Required)
+#### Site ID (Required)
 
-Your Sealmetrics Account ID. Find it in your [Sealmetrics dashboard](https://app.sealmetrics.com) under **Settings**.
+Your Sealmetrics Site ID. Find it in your [Sealmetrics dashboard](https://app.sealmetrics.com) under **Settings**.
 
-:::tip Finding Your Account ID
+:::tip Finding Your Site ID
 1. Log in to Sealmetrics
-2. Click your profile icon in the top-right
-3. Go to **Tags & Connectors**
-4. Your Account ID is displayed in the tracking code section
+2. Go to **Settings → Sites**
+3. Click on your site
+4. Your Site ID is displayed in the **General** tab
 :::
 
 #### Event Label (Microconversions & Conversions)
@@ -155,7 +155,7 @@ Track all page loads on your website:
 
 **Tag Configuration:**
 - **Event Type:** Pageview
-- **Account ID:** Your account ID
+- **Site ID:** Your account ID
 - **Content Grouping:** (optional) Use a variable like `{{Page Type}}`
 
 **Trigger:** All Pages
@@ -166,7 +166,7 @@ Track completed purchases with order value:
 
 **Tag Configuration:**
 - **Event Type:** Conversion
-- **Account ID:** Your account ID
+- **Site ID:** Your account ID
 - **Event Label:** `purchase`
 - **Conversion Value:** `{{Order Total}}` (Data Layer variable)
 - **Don't count as pageview:** ✓ Enabled
@@ -182,7 +182,7 @@ Track when users add products to their cart:
 
 **Tag Configuration:**
 - **Event Type:** Microconversion
-- **Account ID:** Your account ID
+- **Site ID:** Your account ID
 - **Event Label:** `add_to_cart`
 - **Don't count as pageview:** ✓ Enabled
 - **Custom Properties:**
@@ -197,7 +197,7 @@ Track contact form submissions:
 
 **Tag Configuration:**
 - **Event Type:** Conversion
-- **Account ID:** Your account ID
+- **Site ID:** Your account ID
 - **Event Label:** `lead_form_submit`
 - **Don't count as pageview:** ✓ Enabled
 
@@ -280,7 +280,7 @@ Enable **"Don't count as pageview"** on conversion/microconversion tags that fir
 
 ### No data in Sealmetrics
 
-1. Verify your **Account ID** is correct
+1. Verify your **Site ID** is correct
 2. Check that tags are firing (use Preview mode)
 3. Wait a few minutes — data may take time to appear
 4. Ensure your website domain is registered in Sealmetrics

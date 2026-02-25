@@ -1,115 +1,129 @@
 ---
 sidebar_position: 5
-title: Setting Up Trackers in Sealmetrics
-description: Learn how to configure and set up global and conversion trackers in Sealmetrics to start collecting privacy-first analytics data.
+title: Setting Up Tracking in Sealmetrics
+description: Learn how to configure and set up pageview tracking, conversions, and microconversions in Sealmetrics.
 tags: [tracker setup, sealmetrics, analytics, conversions, pixel]
 keywords:
   - sealmetrics tracker setup
-  - global tracker
-  - conversion pixel
+  - tracking pixel
+  - conversion tracking
   - cookieless analytics
   - first steps
 ---
 
-# Setting Up Trackers in Sealmetrics
+# Setting Up Tracking in Sealmetrics
 
-To ensure accurate data collection with Sealmetrics, you can easily set up different trackers for your site.  
-This guide walks you through configuring your **global** and **conversion** trackers step by step.
-
----
-
-![Sealmetrics tracker configuration overview](/img/trackers-dashboard.png)
+Sealmetrics uses a single tracking pixel to collect all data: pageviews, conversions, and microconversions.
+This guide walks you through configuring your tracking from the dashboard.
 
 ---
 
-## Step 1: Accessing the Tracker Configuration
+## Step 1: Find Your Pixel Code
 
-1. Log in to your [Sealmetrics Dashboard](https://app.sealmetrics.com).  
-2. Navigate to **Tags & API Info → Common Tracker**.  
-3. Here you can manage your tracking setup, including installations, pages, events, conversions, and micro-conversions.
+1. Log in to your [Sealmetrics Dashboard](https://my.sealmetrics.com).
+2. Go to **Settings → Pixels** in the sidebar.
+3. Select your site from the **Pixel Status** section.
+4. Copy the tracking script displayed on the page.
 
----
+The pixel code looks like this:
 
-## Step 2: Accessing Tags & Connectors
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
+```
 
-1. Open **Settings → Tags & Connectors**.  
-2. Under **Integration Options**, you can assign IDs.  
-3. If you manage multiple domains, each one will have its own **Tracking ID**.
-
-![Accessing Tags & Connectors in Sealmetrics](/img/tags-and-connectors.png)
-
----
-
-## Step 3: Choosing Your Tracker Type
-
-Under **Tags & Connectors → New Tag & Connectors**, you’ll find a list of available tracker types:
-
-- **Global Tracker (Main Tag):**  
-  The standard tracking method suitable for overall traffic monitoring.
-
-- **Conversion Tracker (Sales Tag):**  
-  Used to track conversions, revenue, and micro-conversions.
-
-- **Event Tracker (Micro-Event Tag):**  
-  Measures user interactions such as button clicks or scrolls.
-
-Each tracker type serves a specific purpose and should be implemented based on your measurement goals.  
-For instance, use the **Conversion Tracker** to count purchases or sign-ups, and the **Event Tracker** for smaller actions like clicks or interactions.
+Replace `YOUR_SITE_ID` with your actual Site ID (found in **Settings → Sites → [your site]**).
 
 ---
 
-## Step 4: Go to Global Tracker
+## Step 2: Install the Pixel
 
-1. Click **Global Tracker** in your Sealmetrics dashboard.  
-2. Copy the tracker code displayed on the screen.  
-3. Paste the code inside the `<head>` tag of every page on your website.
+The **Pixels** page shows platform-specific installation guides for:
 
-![Global tracker setup example](/img/global-tracker-setup.png)
+- **WordPress** — Use the Theme Editor or a plugin like "Insert Headers and Footers"
+- **Shopify** — Edit `theme.liquid` and paste before `</head>`
+- **Wix** — Go to Settings → Custom Code
+- **Next.js** — Use the `Script` component with `strategy="afterInteractive"`
+- **Google Tag Manager** — Create a Custom HTML tag with trigger "All Pages"
+- **Manual HTML** — Paste the script in the `<head>` of every page
 
----
-
-## Step 5: Set Up Conversion Pixel
-
-1. Go to **Conversion Pixel** in the Sealmetrics dashboard.  
-2. Select **Conversion**.  
-3. Introduce a name for your conversion or micro-conversion.  
-4. If the conversion has a value, add it to the **Value** field.  
-5. Use the **ignore page view?** option when a pageview should not be counted for that event.  
-6. Save your changes.
-
-![Setting up conversion pixel in Sealmetrics](/img/conversion-pixel-setup.png)
+For detailed installation instructions, see the [Installation Guide](/implementation/tracker/installation).
 
 ---
 
-### Understanding the “Ignore Page View” Option
+## Step 3: Verify Installation
 
-The **ignore page view** setting allows you to skip counting an additional pageview when a conversion is triggered on an already tracked page.
+The **Pixel Status** section on the Pixels page shows real-time status for each site:
 
-**Example:**  
-If a user clicks “Buy Now” on a product page that has already been logged as a pageview, enabling `ignore_pageview = 1` avoids double counting.
+- **Active** — The pixel is receiving data
+- **Inactive** — No hits received recently
+- **Not installed** — No hits received yet
 
-![Global tracker ignore pageview example](/img/ignore-pageview-example.png)
+You can also verify manually:
 
----
-
-## Step 6: Triggering the Pixel in Tag Manager
-
-If you use **Google Tag Manager**, place the conversion pixel in the “All Pages” tag or create a custom trigger when the conversion action occurs.
-
-Example trigger:  
-When a user reaches `/thank-you` after completing a purchase, the conversion pixel fires automatically.
+1. Open your website in a browser
+2. Open DevTools (F12) → Console
+3. Type `typeof sealmetrics` — it should return `"function"`
+4. Check the Network tab for a POST to `/event` with status **204**
 
 ---
 
-## Step 7: Set Up the Sales Funnel (Optional)
+## Step 4: Track Conversions
 
-1. Go to **Sales Funnel** under the Sealmetrics dashboard.  
-2. Add your funnel steps manually.  
-3. Configure events such as “Add to Cart”, “Checkout”, and “Purchase”.  
-4. Save and test your funnel configuration.
+Conversions track goal completions with monetary value (purchases, leads, signups).
 
-![Sales funnel setup example in Sealmetrics](/img/sales-funnel-setup.png)
+Call `sealmetrics.conv()` on your confirmation or thank-you page:
+
+```javascript
+sealmetrics.conv('purchase', 99.99);
+```
+
+You can add custom properties:
+
+```javascript
+sealmetrics.conv('purchase', 149.99, {
+  currency: 'EUR',
+  payment_method: 'credit_card'
+});
+```
 
 ---
 
-If you have questions or need help, contact [hello@sealmetrics.com](mailto:hello@sealmetrics.com).
+## Step 5: Track Microconversions
+
+Microconversions track user interactions that indicate progress toward a conversion (add to cart, form starts, video plays).
+
+```javascript
+sealmetrics.micro('add_to_cart');
+
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  price: '89.99'
+});
+```
+
+---
+
+## Step 6: Use the Pixel Builder (Optional)
+
+For more complex setups, use the **Pixel Builder** on the Pixels page to create reusable pixel configurations:
+
+1. Click **Create Pixel** in the Saved Pixels section
+2. Choose the pixel type: **Pageview**, **Conversion**, or **Microconversion**
+3. Configure the event label, value, and custom properties
+4. Select your target platform: **JavaScript**, **GTM**, or **Tealium**
+5. Copy the generated code from the preview
+
+Saved pixels can be edited or deleted at any time.
+
+---
+
+## Privacy Considerations
+
+Sealmetrics does not use cookies or store personal data. When tracking conversions and microconversions:
+
+- Never include personal identifiers (order IDs, user IDs, emails) in properties
+- Only track event types and aggregate values
+
+---
+
+If you have questions, contact [support@sealmetrics.com](mailto:support@sealmetrics.com).

@@ -1,77 +1,67 @@
 ---
 title: How to Change UTM Parameters in Sealmetrics
 sidebar_label: Change UTM parameters
-description: Learn how to customize UTM parameters in Sealmetrics and adjust them for GA4 alternatives or custom analytics setups.
+description: Learn how to customize UTM parameters in Sealmetrics by mapping custom URL parameters to standard UTM fields.
 sidebar_position: 14
 ---
 
 # How to Change UTM Parameters in Sealmetrics
 
-Some businesses use custom UTM structures or alternative analytics platforms such as Adobe Analytics, Piwik PRO, or proprietary BI systems.  
-If you prefer not to follow the defaults used by Google Analytics and want to adapt Sealmetrics to your own UTM naming conventions, you can fully customize them inside the platform.
-
-This guide explains how to update your UTM reference parameters in just a few steps.
+Some businesses use custom UTM structures or alternative analytics platforms such as Adobe Analytics, Piwik PRO, or proprietary BI systems.
+If your marketing tools use different parameter names (e.g., `campaign_id` instead of `utm_campaign`), you can create custom mappings in Sealmetrics.
 
 ---
 
-## 1. Access the UTM Reference Settings
+## 1. Access UTM Mappings
 
-Navigate to:
+1. Go to **Settings → Sites** in the sidebar.
+2. Click on the site you want to configure.
+3. Click the **UTM Mappings** tab.
 
-**Account Setup → UTMs Reference**
+This section lets you map custom URL parameters to the standard UTM fields that Sealmetrics uses for reporting.
 
-From this panel, Sealmetrics shows the current UTM parameters your account recognizes.  
-The default values follow standard GA4 conventions, but all fields are customizable.
+:::info
+Standard UTM parameters (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`) work automatically without any mappings. You only need mappings for custom parameter names.
+:::
 
-![UTMs Reference Configuration](/img/how-to-change-utm-parameters-1.png)
 ---
 
-## 2. Update the UTM Parameter Names
+## 2. Add a Custom Mapping
 
-Inside the **UTMs Reference** section, you can modify each parameter to match the naming structure you want to work with.
+1. Enter your custom parameter name in the **Custom Parameter Name** field (e.g., `campaign_id`).
+2. Select which UTM field it maps to from the **Maps To** dropdown:
+   - **Source** (`utm_source`)
+   - **Medium** (`utm_medium`)
+   - **Campaign** (`utm_campaign`)
+   - **Term** (`utm_term`)
+   - **Content** (`utm_content`)
+3. Click **Add** (or press Enter).
 
-Available fields include:
+The mapping will appear in the list below the form.
 
-- `utm_source`
-- `utm_medium`
-- `utm_campaign`
-- `utm_term`
-- `utm_content`
-- `utm_matchtype`
-- `utm_network`
-- Additional optional custom fields depending on your setup
+---
 
-Each field has a **Restore** option to revert back to Sealmetrics’ default UTM naming if needed.
+## 3. Remove a Mapping
 
-![UTMs Reference Configuration 2](/img/how-to-change-utm-parameters-2.png)
-
-After updating any UTM field, click **Update** to save the changes.
+Click the **trash icon** next to any mapping to remove it. A confirmation dialog will appear before deletion.
 
 ---
 
 ## Why Customize UTMs?
 
-Customizing UTM parameters is especially helpful when:
+Customizing UTM mappings is especially helpful when:
 
-- Migrating from GA4 and aligning Sealmetrics with existing conventions  
-- Using Adobe Analytics or another platform with a different parameter structure  
-- Maintaining internal naming conventions for campaign management  
-- Shortening long UTMs (e.g., `utm_campaign` → `cmp`)  
-- Standardizing UTMs across teams and tools
-
-Sealmetrics will automatically track whichever parameter names you define here.
+- Your marketing tools use non-standard parameter names (e.g., Hubspot's `campaign_id`)
+- Migrating from another platform and keeping existing URL conventions
+- Maintaining internal naming conventions for campaign management
+- Shortening long parameter names (e.g., `cmp` instead of `utm_campaign`)
+- Standardizing parameters across teams and tools
 
 ---
 
 ## Important Notes
 
-- Changes apply **from the moment you update the settings**.  
-  Previous hits collected before the update will not be renamed retroactively.
-
+- Changes apply **from the moment you add the mapping**. Previous hits will not be remapped retroactively.
 - If a UTM parameter is missing in the URL, Sealmetrics will display **"(not set)"** for that field.
-
+- Custom mappings are additive — they don't modify how standard UTM parameters are captured.
 - Keep your UTM structure consistent across all campaigns to maintain clean and accurate reports.
-
----
-
-If you want, I can create a **recommended UTM naming convention** tailored for your marketing team.

@@ -1,38 +1,52 @@
 ---
-title: How to Add Domains to Your Account
+title: How to Add Domains to Your Site
 sidebar_label: Add Domains
 sidebar_position: 2
-description: Learn how to add and configure domains within your Sealmetrics account.
+description: Learn how to add and manage domains for your Sealmetrics site.
 ---
 
-# How to Add Domains in Your Account
+# How to Add Domains to Your Site
 
-Sealmetrics defines an entrance as a click that meets one of two conditions:
+Domains define which websites are authorized to send tracking data to your Sealmetrics site. You need at least one domain configured for tracking to work.
 
-- An empty referrer  
-- A referrer from a different domain than your own  
-
-If the referrer is from a different domain (e.g., facebook.com → yoursite.com), Sealmetrics counts the visit as a new entrance.
+Sealmetrics counts a new **entrance** when the referrer is empty or comes from a different domain than your own (e.g., facebook.com → yoursite.com).
 
 ---
 
-## Steps to Add a Domain
+## Add a Domain During Site Creation
 
-### 1. Click the **Monitor** icon  
-<img src="/img/account-setup/add-domain-step1.png" alt="Step 1 add domain"/>
+When you create a new site, you can add one or more domains in the creation form:
 
-### 2. Go to **Accounts** and click **Add an account**  
-<img src="/img/account-setup/add-domain-step2.png" alt="Step 2 add domain"/>
-
-### 3. Add a Name and Domain  
-<img src="/img/account-setup/add-domain-step3.png" alt="Step 3 add domain"/>
-
-### 4. Select a Time Zone  
-<img src="/img/account-setup/add-domain-step4.png" alt="Step 4 add domain"/>
-
-### 5. Select your campaign tracking parameters  
-<img src="/img/account-setup/add-domain-step5.png" alt="Step 5 add domain"/>
+1. Go to **Settings → Sites** in the sidebar.
+2. Click **New Site**.
+3. Enter the site name and add your domain(s) in the **Domains** field.
+4. Type a domain (e.g., `example.com`) and press **Enter** or click **+** to add it.
+5. Set timezone and currency, then click **Create Site**.
 
 ---
 
-Once saved, your domain will be tracked immediately respecting full privacy compliance standards.
+## Add a Domain to an Existing Site
+
+1. Go to **Settings → Sites** in the sidebar.
+2. Click on the site you want to configure.
+3. Click the **Domains** tab.
+4. Type the domain (e.g., `example.com` or `sub.example.com`) in the input field.
+5. Press **Enter** or click **Add**.
+
+The domain will appear in the list and tracking will be authorized immediately.
+
+---
+
+## Remove a Domain
+
+1. In the **Domains** tab, click the **trash icon** next to the domain you want to remove.
+2. Confirm the removal in the dialog.
+
+---
+
+## Important Notes
+
+- Domains must be in a valid format (e.g., `example.com`, `shop.example.com`).
+- Subdomains are supported.
+- Only one domain or its subdomains can be tracked per site (no cross-site tracking).
+- If no domains are configured, you'll see a message: "No domains configured. Add your first domain to start tracking."

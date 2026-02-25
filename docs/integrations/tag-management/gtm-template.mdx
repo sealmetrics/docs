@@ -9,7 +9,7 @@ description: Ready-to-import Google Tag Manager container template for SealMetri
 Ready-to-import GTM container template with pre-configured tags for SealMetrics tracking.
 
 :::tip Quick Installation
-This template includes all the tags, triggers, and variables you need. Just import, configure your Account ID, and publish.
+This template includes all the tags, triggers, and variables you need. Just import, configure your Site ID, and publish.
 :::
 
 ## Installation
@@ -18,7 +18,7 @@ This template includes all the tags, triggers, and variables you need. Just impo
 2. Go to **Google Tag Manager > Admin > Import Container**
 3. Upload the JSON file
 4. Choose **"Merge"** and select **"Rename conflicting tags"**
-5. Go to **Variables** and update `SealMetrics Account ID` with your Account ID
+5. Go to **Variables** and update `SealMetrics Site ID` with your Site ID
 
 <a className="button button--primary" href="https://github.com/sealmetrics/gtm-template/releases/latest/download/sealmetrics-gtm-template.json">Download Template</a>
 
@@ -29,7 +29,7 @@ This template includes all the tags, triggers, and variables you need. Just impo
 - **Trigger**: All Pages
 - **Purpose**: Loads the SealMetrics tracker on every page
 
-This tag loads automatically on all pages and initializes the tracker with your Account ID.
+This tag loads automatically on all pages and initializes the tracker with your Site ID.
 
 ### 2. SealMetrics - Conversion
 
@@ -78,7 +78,7 @@ This tag automatically converts your existing e-commerce dataLayer events to Sea
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `SealMetrics Account ID` | Your account ID | `YOUR_ACCOUNT_ID_HERE` |
+| `SealMetrics Site ID` | Your account ID | `YOUR_ACCOUNT_ID_HERE` |
 | `SealMetrics Pixel URL` | Pixel endpoint | `https://t.sealmetrics.com` |
 | `Conversion Type` | Type of conversion | `conversion` |
 | `Conversion Value` | Monetary value | `0` |

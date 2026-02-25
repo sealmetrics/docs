@@ -10,13 +10,13 @@ Get your first API call working in 5 minutes.
 ## Prerequisites
 
 1. A Sealmetrics account with at least one site
-2. An API key (generate in Settings → API Tokens)
-3. Your account ID (found in Settings → Account)
+2. An API key (generate in Settings → API Keys)
+3. Your Site ID (found in Settings → Sites → [your site])
 
 ## Step 1: Get Your API Key
 
 1. Log in to [Sealmetrics Dashboard](https://my.sealmetrics.com)
-2. Go to **Settings** → **API Tokens**
+2. Go to **Settings** → **API Keys**
 3. Click **Create Token**
 4. Copy the token (starts with `sm_`)
 
@@ -24,17 +24,17 @@ Get your first API call working in 5 minutes.
 Store your API key securely. It will only be shown once.
 :::
 
-## Step 2: Find Your Account ID
+## Step 2: Find Your Site ID
 
-1. Go to **Settings** → **Account**
-2. Copy the **Account ID** (e.g., `acme-corp`)
+1. Go to **Settings** → **Sites**
+2. Click on your site and copy the **Site ID** (e.g., `acme-corp`)
 
 ## Step 3: Make Your First Request
 
 ### Using cURL
 
 ```bash
-curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_ACCOUNT_ID&period=7d" \
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_SITE_ID&period=7d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
@@ -44,13 +44,13 @@ curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_ACCOU
 import requests
 
 API_KEY = "sm_your_api_key_here"
-ACCOUNT_ID = "your-account-id"
+SITE_ID = "your-account-id"
 
 response = requests.get(
     "https://my.sealmetrics.com/api/v1/stats/overview",
     headers={"X-API-Key": API_KEY},
     params={
-        "site_id": ACCOUNT_ID,
+        "site_id": SITE_ID,
         "period": "7d"
     }
 )
@@ -62,10 +62,10 @@ print(response.json())
 
 ```javascript
 const API_KEY = 'sm_your_api_key_here';
-const ACCOUNT_ID = 'your-account-id';
+const SITE_ID = 'your-account-id';
 
 const params = new URLSearchParams({
-  site_id: ACCOUNT_ID,
+  site_id: SITE_ID,
   period: '7d'
 });
 
@@ -111,35 +111,35 @@ X-RateLimit-Reset: 1704067200
 ### Get Top Pages
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/pages?site_id=YOUR_ACCOUNT_ID&period=30d&page_size=10" \
+curl "https://my.sealmetrics.com/api/v1/stats/pages?site_id=YOUR_SITE_ID&period=30d&page_size=10" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Traffic Sources
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/sources?site_id=YOUR_ACCOUNT_ID&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/sources?site_id=YOUR_SITE_ID&period=30d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Conversions
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/conversions?site_id=YOUR_ACCOUNT_ID&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/conversions?site_id=YOUR_SITE_ID&period=30d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Funnel Data
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=YOUR_ACCOUNT_ID&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=YOUR_SITE_ID&period=30d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
 ### Get Geographic Data
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?site_id=YOUR_ACCOUNT_ID&period=30d" \
+curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?site_id=YOUR_SITE_ID&period=30d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
@@ -169,7 +169,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?site_id=YOUR_ACCOUNT
 }
 ```
 
-**Solution:** Verify your API token has access to the specified account.
+**Solution:** Verify your API token has access to the specified site.
 
 ### 404 Not Found
 
@@ -177,12 +177,12 @@ curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?site_id=YOUR_ACCOUNT
 {
   "error": {
     "code": "not_found",
-    "message": "Account not found"
+    "message": "Site not found"
   }
 }
 ```
 
-**Solution:** Verify your account ID is correct.
+**Solution:** Verify your Site ID is correct.
 
 ### 429 Too Many Requests
 
