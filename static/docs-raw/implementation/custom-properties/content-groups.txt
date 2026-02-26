@@ -1,8 +1,6 @@
----
-sidebar_position: 4
-title: Dynamic Content Grouping
-description: Set content groups dynamically with JavaScript for SPAs and complex sites.
----
+# Dynamic Content Grouping
+
+URL: https://docs.sealmetrics.com/implementation/custom-properties/content-groups
 
 # Dynamic Content Grouping
 
@@ -20,8 +18,6 @@ Set the group directly in the tracker script URL:
 
 **Best for:** Static sites, CMS templates, server-rendered pages
 
-[See full Content Grouping guide →](/implementation/content-site-structure/content-grouping)
-
 ### 2. JavaScript API (This Page)
 
 Set the group dynamically when tracking a pageview:
@@ -32,9 +28,7 @@ sealmetrics({ group: 'products' });
 
 **Best for:** SPAs, dynamic content, logic that depends on page state
 
-:::caution Important
-When using the JavaScript API, the tracker script must have finished loading before you call `sealmetrics()`. Use the `group` URL parameter instead if you want to avoid timing issues with `defer`.
-:::
+**Important:** When using the JavaScript API, the tracker script must have finished loading before you call `sealmetrics()`. Use the `group` URL parameter instead if you want to avoid timing issues with `defer`.
 
 ## Dynamic Content Grouping
 
@@ -145,9 +139,7 @@ export default function ContentGroupTracker() {
 }
 ```
 
-:::info
-In SPAs, the tracker auto-detects route changes and sends pageviews automatically. Using `sealmetrics({ group })` sends an additional pageview with the group. If you only want to set the group without duplicating the pageview, use the URL parameter method instead.
-:::
+Note: In SPAs, the tracker auto-detects route changes and sends pageviews automatically. Using `sealmetrics({ group })` sends an additional pageview with the group. If you only want to set the group without duplicating the pageview, use the URL parameter method instead.
 
 ## Common Group Structures
 
