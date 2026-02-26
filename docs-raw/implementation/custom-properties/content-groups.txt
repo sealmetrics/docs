@@ -1,0 +1,246 @@
+# Dynamic Content Grouping
+
+URL: https://docs.sealmetrics.com/implementation/custom-properties/content-groups
+
+# Dynamic Content Grouping
+
+Content grouping lets you categorize pages into logical groups for easier analysis. This page covers how to set the group dynamically with JavaScript, which is useful for SPAs and sites where the group depends on page content rather than URL structure.
+
+## Two Approaches
+
+### 1. URL Parameter (Recommended)
+
+Set the group directly in the tracker script URL:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog" defer></script>
+```
+
+**Best for:** Static sites, CMS templates, server-rendered pages
+
+### 2. JavaScript API (This Page)
+
+Set the group dynamically when tracking a pageview:
+
+```javascript
+sealmetrics({ group: 'products' });
+```
+
+**Best for:** SPAs, dynamic content, logic that depends on page state
+
+**Important:** When using the JavaScript API, the tracker script must have finished loading before you call `sealmetrics()`. Use the `group` URL parameter instead if you want to avoid timing issues with `defer`.
+
+## Dynamic Content Grouping
+
+### Basic Implementation
+
+Determine the group based on the current URL path:
+
+```javascript
+function getContentGroup() {
+  const path = window.location.pathname;
+
+  if (path.startsWith('/products/')) return 'products';
+  if (path.startsWith('/blog/')) return 'blog';
+  if (path.startsWith('/help/')) return 'support';
+  if (path === '/') return 'homepage';
+  return 'other';
+}
+
+sealmetrics({ group: getContentGroup() });
+```
+
+### From Data Layer
+
+Read from an existing data layer (e.g., Google Tag Manager):
+
+```javascript
+// If your site sets:
+// dataLayer.push({ pageType: 'product', category: 'Electronics' });
+
+const pageType = dataLayer.find(d => d.pageType)?.pageType || 'other';
+sealmetrics({ group: pageType });
+```
+
+### From Page Elements
+
+Read from HTML data attributes:
+
+```javascript
+const group = document.body.dataset.pageType || 'other';
+sealmetrics({ group: group });
+```
+
+## Platform-Specific Examples
+
+### WordPress
+
+Use PHP to set the group server-side (recommended approach):
+
+```php
+<?php
+function get_content_group() {
+    if (is_front_page()) return 'homepage';
+    if (is_singular('post')) return 'blog';
+    if (is_singular('product')) return 'product';
+    if (is_category()) return 'category';
+    if (is_search()) return 'search';
+    if (is_cart()) return 'cart';
+    if (is_checkout()) return 'checkout';
+    return 'other';
+}
+?>
+
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=<?= get_content_group() ?>" defer></script>
+```
+
+### Shopify
+
+Use Liquid template logic:
+
+```liquid
+{% assign group = 'other' %}
+{% if template == 'index' %}{% assign group = 'homepage' %}
+{% elsif template contains 'product' %}{% assign group = 'product' %}
+{% elsif template contains 'collection' %}{% assign group = 'collection' %}
+{% elsif template == 'cart' %}{% assign group = 'cart' %}
+{% elsif template contains 'page' %}{% assign group = 'page' %}
+{% endif %}
+
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group={{ group }}" defer></script>
+```
+
+### React / Next.js (SPA)
+
+For SPAs, use the JavaScript API to set the group on each route change:
+
+```jsx
+import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
+
+function getContentGroup(pathname) {
+  if (pathname === '/') return 'homepage';
+  if (pathname.startsWith('/products')) return 'products';
+  if (pathname.startsWith('/blog')) return 'blog';
+  if (pathname.startsWith('/docs')) return 'docs';
+  return 'other';
+}
+
+export default function ContentGroupTracker() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics({ group: getContentGroup(pathname) });
+    }
+  }, [pathname]);
+
+  return null;
+}
+```
+
+Note: In SPAs, the tracker auto-detects route changes and sends pageviews automatically. Using `sealmetrics({ group })` sends an additional pageview with the group. If you only want to set the group without duplicating the pageview, use the URL parameter method instead.
+
+## Common Group Structures
+
+### E-commerce
+
+```javascript
+const contentGroups = {
+  '/': 'homepage',
+  '/products': 'product-listing',
+  '/products/[id]': 'product-detail',
+  '/cart': 'cart',
+  '/checkout': 'checkout',
+  '/order-confirmation': 'confirmation',
+  '/account': 'account',
+  '/blog': 'blog'
+};
+```
+
+### SaaS Marketing Site
+
+```javascript
+const contentGroups = {
+  '/': 'homepage',
+  '/features': 'features',
+  '/pricing': 'pricing',
+  '/customers': 'social-proof',
+  '/blog': 'blog',
+  '/docs': 'docs',
+  '/login': 'login',
+  '/signup': 'signup'
+};
+```
+
+### Media / Publishing
+
+```javascript
+const contentGroups = {
+  '/': 'homepage',
+  '/[year]/[month]/[slug]': 'article',
+  '/category/[name]': 'category',
+  '/author/[name]': 'author',
+  '/search': 'search',
+  '/subscribe': 'subscription',
+  '/video': 'video'
+};
+```
+
+## Best Practices
+
+### Keep Groups Manageable
+
+```javascript
+// Good: 5-10 main groups
+'products', 'blog', 'support', 'account', 'other'
+
+// Bad: Too granular
+'product-electronics-headphones-sony-wh1000xm5'
+```
+
+### Use Consistent Naming
+
+```javascript
+// Good: lowercase, consistent format
+'products', 'blog-posts', 'support'
+
+// Bad: inconsistent casing and format
+'Products', 'blog', 'SUPPORT'
+```
+
+### Handle Edge Cases
+
+```javascript
+function getContentGroup() {
+  const path = window.location.pathname;
+
+  if (path === '/') return 'homepage';
+  if (path.startsWith('/products/')) return 'products';
+
+  // Handle 404s
+  if (document.title.includes('404')) return 'error';
+
+  // Catch-all
+  return 'other';
+}
+```
+
+## Troubleshooting
+
+### Content Group Not Appearing
+
+1. Add `?debug=1` to the page URL to enable debug mode
+2. Check the browser console for tracking events
+3. Verify `sealmetrics` is defined before calling it
+4. Wait 5 minutes for data processing
+
+### Wrong Group Assigned
+
+1. Check your logic handles all URL patterns
+2. Verify data layer or DOM values are available when the script runs
+3. Check execution timing (script must be loaded first)
+
+### URL Parameter vs JavaScript
+
+If you set both, the JavaScript call takes priority. Be consistent to avoid confusion - pick one method per page.

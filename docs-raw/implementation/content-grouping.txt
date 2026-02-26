@@ -1,0 +1,67 @@
+# Content Grouping
+
+URL: https://docs.sealmetrics.com/implementation/content-grouping
+
+# Content Grouping
+
+Content Grouping lets you tag pages with a label (e.g., "blog", "products", "checkout") so you can analyze performance by section rather than individual URLs.
+
+## Setting up content grouping
+
+### Option 1: Default group via script tag
+
+Add the `group` parameter to your tracker script URL to set a default content group for all pages using that script:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=your-site-id&group=blog" defer></script>
+```
+
+This is useful when different sections of your site use different templates (e.g., your blog template always includes `group=blog`).
+
+### Option 2: Per-page override in JavaScript
+
+Override the content group dynamically when tracking a pageview:
+
+```javascript
+sealmetrics({ group: 'product-category' });
+```
+
+This takes priority over the default group set in the script URL.
+
+## Viewing content group reports
+
+Content grouping data appears in the **Pages** report:
+
+1. Go to your site dashboard
+2. Click on **Pages**
+3. Use the content group filter to see metrics by group
+4. Each page shows its content group badge
+
+### Metrics available per group
+
+- Page views
+- Entrances
+- Average time on page
+- Bounce rate
+
+## Landing pages by content group
+
+The **Landing Pages** report also supports content grouping. Filter by content group to see which sections of your site attract the most new visitors.
+
+## API usage
+
+Filter by content group in API requests:
+
+```
+GET /api/v1/stats/pages?account_id=my-site&period=30d&content_grouping=blog
+```
+
+Get a list of all content groups with metrics:
+
+```
+GET /api/v1/stats/pages/content-groups?account_id=my-site&period=30d
+```
+
+## Default value
+
+Pages without a content group are labeled `(not set)`.
