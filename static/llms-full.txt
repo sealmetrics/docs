@@ -1308,14 +1308,18 @@ URL: https://docs.sealmetrics.com/reports/insights/how-to-change-utm-parameters
 
 # How to Change UTM Parameters in Sealmetrics
 
-Some businesses use custom UTM structures or alternative analytics platforms such as Adobe Analytics, Piwik PRO, or proprietary BI systems.  
-If you prefer not to follow the defaults used by Google Analytics and want to adapt Sealmetrics to your own UTM naming conventions, you can fully customize them inside the platform.
-
-This guide explains how to update your UTM reference parameters in just a few steps.
+Some businesses use custom UTM structures or alternative analytics platforms such as Adobe Analytics, Piwik PRO, or proprietary BI systems.
+If your marketing tools use different parameter names (e.g., `campaign_id` instead of `utm_campaign`), you can create custom mappings in Sealmetrics.
 
 ---
 
-## 1. Access the UTM Reference Settin
+## 1. Access UTM Mappings
+
+1. Go to **Settings → Sites** in the sidebar.
+2. Click on the site you want to configure.
+3. Click the **UTM Mappings** tab.
+
+This
 
 ... [Read full document at https://docs.sealmetrics.com/reports/insights/how-to-change-utm-parameters]
 
@@ -1837,34 +1841,55 @@ This guide walks you through implementing Sealmetrics tracking on your website. 
 
 | Requirement | Where to Find It |
 |-------------|------------------|
-| Sealmetrics Account ID | Settings → Account → Account ID |
+| Sealmetrics Site ID | Settings → Sites → [your site] → General tab |
 | Access to your website's HTML | Theme editor, CMS, or code repository |
 | 15 minutes | That's all it takes! |
 
-### Find Your Account ID
+### Find Your Site ID
 
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
-2. Go to **Settings** → **Account**
-3. Copy your **Account ID** (looks like `67a1d6c0bb10b861397fdd3a`)
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  Settings → Account                                      │
-├─────────────────────────────────────────────────────────┤
-│                                                          │
-│  Account ID: 67a1d6c0bb10b861397fdd3a     [Copy]        │
-│                                                          │
-│  Account Name: My Store                                  │
-│  Timezone: Europe/Madrid                                 │
-│                                                          │
-└─────────────────────────────────────────────────────────┘
-```
+2. Go to **Settings → Sites**
+3. Click on your site
+4. Copy the **Site ID** from the General tab (use the copy button next to it)
 
 ---
 
 ## Step 1: Install the Tracking Pixel
 
 ### 1.1 Add the Script Tag
+
+Add this single line to your website's ``
+4. Paste the script before it
+5. Click **Update File**
+
+**Option B: Plugin (recommended)**
+1. Install "Insert Headers and Footers" plugin
+2. Go to **Settings → Insert Headers and Footers**
+3. Paste the script in "Scripts in Header"
+4. Save
+
+---
+
+## Step 2: Verify Installation
+
+### 2.1 Open Browser DevTools
+
+1. Visit your website
+2. Press `F12` (or right-click → Inspect)
+3. Go to **Console** tab
+
+### 2.2 Check the Tracker Loaded
+
+Type in console:
+
+```javascript
+typeof sealmetrics
+```
+
+Expected result:
+```
+"function"
+```
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/step-by-step-guide]
 
@@ -1931,21 +1956,21 @@ URL: https://docs.sealmetrics.com/implementation/tracker/installation
 
 Add this script tag to your HTML, preferably in ``:
 ```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
 ## Troubleshooting
 
 ### Script not loading
 
-1. Check that `YOUR_ACCOUNT_ID` is replaced with your actual account ID
-2. Verify the account is active in Sealmetrics dashboard
+1. Check that `YOUR_SITE_ID` is replaced with your actual Site ID
+2. Verify the site is active in Sealmetrics dashboard
 3. Check browser console for errors
 
 ### Events not appearing in dashboard
 
 1. Events are processed in batches; wait 2-5 minutes
-2. Verify the 
+2. Verify the domain is re
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/installation]
 
@@ -2080,7 +2105,7 @@ Ad blockers often block scripts from third-party domains. However, when you upgr
 
 To access the tracker setup:
 
-1. Log in to [app.s
+1. Log in to [my.se
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/first-party]
 
@@ -2329,27 +2354,27 @@ fetch('/api/submit-form', {
 
 
 
-## Setting Up Trackers in Sealmetrics
+## Setting Up Tracking in Sealmetrics
 
 
 URL: https://docs.sealmetrics.com/implementation/tracker/setup
 
 
-# Setting Up Trackers in Sealmetrics
+# Setting Up Tracking in Sealmetrics
 
-To ensure accurate data collection with Sealmetrics, you can easily set up different trackers for your site.  
-This guide walks you through configuring your **global** and **conversion** trackers step by step.
-
----
-
-![Sealmetrics tracker configuration overview](/img/trackers-dashboard.png)
+Sealmetrics uses a single tracking pixel to collect all data: pageviews, conversions, and microconversions.
+This guide walks you through configuring your tracking from the dashboard.
 
 ---
 
-## Step 1: Accessing the Tracker Configuration
+## Step 1: Find Your Pixel Code
 
-1. Log in to your [Sealmetrics Dashboard](https://app.sealmetrics.com).  
-2. Navigate to **Tags & API Info → Common T
+1. Log in to your [Sealmetrics Dashboard](https://my.sealmetrics.com).
+2. Go to **Settings → Pixels** in the sidebar.
+3. Select your site from the **Pixel Status** section.
+4. Copy the tracking script displayed on the page.
+
+The pixel code 
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/setup]
 
@@ -2737,23 +2762,15 @@ URL: https://docs.sealmetrics.com/integrations/mcp-server
 
 # MCP Server for AI Assistants
 
-The **Sealmetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your marketing performance, traffic, conversions, and more — directly from your AI assistant.
+The **SealMetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your traffic, conversions, campaigns, and more — directly from your AI assistant.
 
 ## What is MCP?
 
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The Sealmetrics MCP server acts as a bridge between Claude (or other MCP-compatible assistants) and your Sealmetrics analytics data.
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server runs locally on your machine and acts as a bridge between Claude and your SealMetrics analytics data.
 
-## Features
+## What can you ask Claude?
 
-Once connected, you can ask your AI assistant questions like:
-
-- *"How much traffic came from Google Ads yesterday?"*
-- *"What's my ROAS for the last 30 days?"*
-- *"Which landing pages are performing best?"*
-- *"Show me conversion data by campaign"*
-- *"Generate a conversion pixel for newsletter signups"*
-
-### Available Capabilities
+Once connected, you can ask questions like:
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/mcp-server]
 
@@ -2770,7 +2787,7 @@ URL: https://docs.sealmetrics.com/integrations/tag-management/gtm-template
 Ready-to-import GTM container template with pre-configured tags for SealMetrics tracking.
 
 **Tip:**
-This template includes all the tags, triggers, and variables you need. Just import, configure your Account ID, and publish.
+This template includes all the tags, triggers, and variables you need. Just import, configure your Site ID, and publish.
 
 ## Installation
 
@@ -2778,7 +2795,7 @@ This template includes all the tags, triggers, and variables you need. Just impo
 2. Go to **Google Tag Manager > Admin > Import Container**
 3. Upload the JSON file
 4. Choose **"Merge"** and select **"Rename conflicting tags"**
-5. Go to **Variables** and update `SealMetrics Account ID` with your Account ID
+5. Go to **Variables** and update `SealMetrics Site ID` with your Site ID
 
 ## Included Tags
 
@@ -2802,7 +2819,7 @@ Privacy-first, cookieless analytics for Webflow sites with automatic event track
 
 1. Go to **Project Settings > Custom Code**
 2. In the **Head Code** section, paste the tracking script
-3. Replace `YOUR_ACCOUNT_ID` with your Account ID
+3. Replace `YOUR_ACCOUNT_ID` with your Site ID
 4. Publish your site
 
 ### Method 2: Specific Pages
@@ -3010,14 +3027,14 @@ Privacy-first, cookieless analytics for Wix websites and Wix Stores.
 1. Go to **Settings > Custom Code** (or **Marketing & SEO > Custom Code**)
 2. Click **"+ Add Custom Code"**
 3. Paste the tracking script (see below)
-4. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+4. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Site ID
 5. Set **Placement** to **Head**
 6. Set **Pages** to **All pages**
 7. Click **Apply** and **Publish**
 
 ### Method 2: Embed Code Element
 
-1. Ad
+1. Add a
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/website-builders/wix]
 
@@ -3176,7 +3193,7 @@ Privacy-first, cookieless analytics for Squarespace websites and Squarespace Com
 
 1. Go to **Settings > Advanced > Code Injection**
 2. Paste the tracking script in the **Header** section
-3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Site ID
 4. Click **Save** and **Publish**
 
 ## Configuration
@@ -3186,7 +3203,7 @@ Privacy-first, cookieless analytics for Squarespace websites and Squarespace Com
 // Required: Your SealMetrics Account ID
 var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
 
-// Optional: Track contact forms as lead 
+// Optional: Track contact forms as lead con
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/website-builders/squarespace]
 
@@ -3305,21 +3322,21 @@ Get your first API call working in 5 minutes.
 ## Prerequisites
 
 1. A Sealmetrics account with at least one site
-2. An API key (generate in Settings → API Tokens)
-3. Your account ID (found in Settings → Account)
+2. An API key (generate in Settings → API Keys)
+3. Your Site ID (found in Settings → Sites → [your site])
 
 ## Step 1: Get Your API Key
 
 1. Log in to [Sealmetrics Dashboard](https://my.sealmetrics.com)
-2. Go to **Settings** → **API Tokens**
+2. Go to **Settings** → **API Keys**
 3. Click **Create Token**
 4. Copy the token (starts with `sm_`)
 
 **Warning:**
 
-## Step 2: Find Your Account ID
+## Step 2: Find Your Site ID
 
-1. Go to **Settings** → **A
+1. Go to **Settings** → *
 
 ... [Read full document at https://docs.sealmetrics.com/api/quick-start]
 
@@ -6187,25 +6204,28 @@ Transitioning from Google Analytics 4 to Sealmetrics? This guide will help you u
 # Platform Settings
 
 
-## How to Delete an Account
+## How to Delete a Site
 
 
 URL: https://docs.sealmetrics.com/platform/account-setup/how-to-delete-account
 
 
-# How to Delete an Account
+# How to Delete a Site
 
-Follow these simple steps:
+**Warning:**
 
-## Steps  
-1. Open the monitor menu.  
-2. Go to **Accounts**.  
-3. Click the **Delete** icon next to the account you want to remove.  
-4. Confirm the deletion.
+## Steps
+
+1. Go to **Settings → Sites** in the sidebar.
+2. Find the site you want to delete in the **Your Sites** list.
+3. Click the **trash icon** on the right side of the site row.
+4. Confirm the deletion in the dialog that appears.
+
+The site will be removed from your list immediately.
 
 ---
 
-If you delete an account, all related data is permanently removed.
+Only users with the appropriate permissions (Owner or Admin role) can delete sites. If you don't see the delete button, contact your organization owner.
 
 
 
@@ -6466,32 +6486,25 @@ Every member of an orga
 
 
 
-## How to Add Domains to Your Account
+## How to Add Domains to Your Site
 
 
 URL: https://docs.sealmetrics.com/platform/account-setup/how-to-add-domains
 
 
-# How to Add Domains in Your Account
+# How to Add Domains to Your Site
 
-Sealmetrics defines an entrance as a click that meets one of two conditions:
+Domains define which websites are authorized to send tracking data to your Sealmetrics site. You need at least one domain configured for tracking to work.
 
-- An empty referrer  
-- A referrer from a different domain than your own  
-
-If the referrer is from a different domain (e.g., facebook.com → yoursite.com), Sealmetrics counts the visit as a new entrance.
+Sealmetrics counts a new **entrance** when the referrer is empty or comes from a different domain than your own (e.g., facebook.com → yoursite.com).
 
 ---
 
-## Steps to Add a Domain
+## Add a Domain During Site Creation
 
-### 1. Click the **Monitor** icon  
+When you create a new site, you can add one or more domains in the creation form:
 
-### 2. Go to **Accounts** and click **Add an account**  
-
-### 3. Add a Name and Domain  
-
-### 4. Select a Time 
+1. Go to **Settings → Sites** in 
 
 ... [Read full document at https://docs.sealmetrics.com/platform/account-setup/how-to-add-domains]
 
@@ -6653,21 +6666,33 @@ Admins **cannot** manage billing or delete the organization -- only the Owner ca
 
 
 
-## How to Find Your Sealmetrics Account ID
+## How to Find Your Site ID
 
 
 URL: https://docs.sealmetrics.com/platform/account-setup/find-account-id
 
 
-# Find Sealmetrics' Account ID
+# How to Find Your Site ID
 
-Your Account ID appears in several sections under:
+Your **Site ID** is a unique identifier assigned to each site in Sealmetrics. You need it to install the tracking pixel, configure API access, and set up integrations.
 
-- **Common tracker**  
-- **1st party tracker**  
-- **E-commerce plugins**
+The Site ID is set when the site is created and **cannot be changed** afterwards.
 
-Open **Setup → Tags & API Info**, and you’ll see the Account ID displayed inside each tracker section.
+---
+
+## Steps to Find Your Site ID
+
+### 1. Go to **Settings**
+
+Click the **Settings** icon (gear) in the sidebar.
+
+### 2. Open **Sites**
+
+In the Settings menu, click on **Sites** to see your list of sites.
+
+### 3. Select
+
+... [Read full document at https://docs.sealmetrics.com/platform/account-setup/find-account-id]
 
 
 
@@ -6816,13 +6841,21 @@ URL: https://docs.sealmetrics.com/platform/account-setup/how-to-change-timezone
 
 # How to Change Your Time Zone
 
-### 1. Go to **Accounts**
+The timezone determines how dates and times are calculated in your reports.
 
-### 2. Edit the account  
+## Steps
 
-### 3. Select a new Time Zone and click **Update**  
+1. Go to **Settings → Sites** in the sidebar.
+2. Click on the site you want to configure.
+3. In the **General** tab, find the **Timezone** field.
+4. Select your timezone from the dropdown (you can search by name).
+5. Click **Save** to apply the change.
 
-By default, accounts use UTC until you modify this setting.
+---
+
+By default, new sites use **Europe/Madrid**. The timezone list is grouped by region (America, Europe, Asia, etc.) for easi
+
+... [Read full document at https://docs.sealmetrics.com/platform/account-setup/how-to-change-timezone]
 
 
 
@@ -7342,7 +7375,7 @@ You should see:
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
 2. Go to **Real-time** report
 3. Visit your website in another tab
-4. Your visit should appe
+4. Your visit should appear wi
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
