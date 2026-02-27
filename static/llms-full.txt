@@ -554,7 +554,7 @@ Monitor visitor volume and patterns.
 | `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
 | `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35% drop |
 | `organic_traffic_change` | Organic Traffic Change | Significant organic search change | >25% change |
-| `paid_tr
+| `paid_traffic_a
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -943,7 +943,8 @@ Shows all pages that received traffic during the selected period.
 
 | Column | Description |
 |--------|-------------|
-| **Page** | URL path and page title
+| **Page** | URL path and page title |
+
 
 ... [Read full document at https://docs.sealmetrics.com/reports/pages]
 
@@ -1002,7 +1003,7 @@ Shows traffic grouped by UTM Source and Medium combination.
 | **Entrances** | Sessions from this source |
 | **Pageviews** | Total page views |
 | **Bounce Rate** | Single-page session percentage |
-| **
+| **Event
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -1034,7 +1035,7 @@ Interactive choropleth map showing traffic distribution by country.
 | Feature | Description |
 |---------|-------------|
 | **Color intensity** | Darker colors indicate more traffic |
-| **Hover tooltip** | Shows country
+| **Hover tooltip** | Shows country na
 
 ... [Read full document at https://docs.sealmetrics.com/reports/geography]
 
@@ -1109,7 +1110,7 @@ Shows completed conversion events (primary goals).
 | **Unique Users** | Distinct users who converted |
 | **Revenue** | Total revenue attributed (with progress bar) |
 | **Avg. Value** | Average revenue per conversion |
-| **Conv. Rate** | Conversions / Total 
+| **Conv. Rate** | Conversions / Total Entra
 
 ... [Read full document at https://docs.sealmetrics.com/reports/conversions]
 
@@ -1145,7 +1146,7 @@ Funnels are configured in Settings. Common examples:
 | E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
 | Lead Generation | Landing Page → Form View → Form Submit → Thank You |
 | SaaS Signup | Homepage → Pricing → Sign Up → Verify Email |
-| Content Engagement | Article View → Scroll 50% → Scr
+| Content Engagement | Article View → Scroll 50% → Scroll 1
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1732,7 +1733,7 @@ _sm('conversion', {
   order_id: 'ORD-12345',
   amount: 149.99,
   properties: {
-  
+    pr
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties]
 
@@ -2000,7 +2001,7 @@ That's it. The tracker automatically:
 
 1. **Tracks initial pageview** on first load
 2. **Detects `pushState` calls** when navigating to new routes
-3. **Detect
+3. **Detects `
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites]
 
@@ -2171,49 +2172,31 @@ function App() {
 
 
 
-## Content Grouping with Properties
+## Dynamic Content Grouping
 
 
 URL: https://docs.sealmetrics.com/implementation/custom-properties/content-groups
 
 
-# Content Grouping with Properties
+# Dynamic Content Grouping
 
-Content grouping lets you categorize pages into logical groups for easier analysis. This can be done with properties or through the settings UI.
+Content grouping lets you categorize pages into logical groups for easier analysis. This page covers how to set the group dynamically with JavaScript, which is useful for SPAs and sites where the group depends on page content rather than URL structure.
 
 ## Two Approaches
 
-### 1. Property-Based (This Page)
+### 1. URL Parameter (Recommended)
 
-Set content group as a property in your tracking code:
+Set the group directly in the tracker script URL:
 
-```javascript
-_sm('pageview', {
-  properties: {
-    content_group: 'Products',
-    content_subgroup: 'Electronics'
-  }
-});
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog" defer></script>
 ```
 
-**Best for:** Dynamic content, complex logic, developer control
+**Best for:** Static sites, CMS templates, server-rendered pages
 
-### 2. Rule-Based (Settings)
+[See full Content Grouping guide →](/implementation/content-site-structure/content-grouping)
 
-Define rules in the Sealmetrics UI that automatically assign groups:
-
-```
-Rule: URL starts with /products/ → Group: Products
-Rule: URL starts with /blog/ → Group: Blog
-```
-
-**Best for:** Simple patterns, non-technical users
-
-[See Settings-based Content Grouping →](/platform/settings/tracking/content-grouping)
-
-## Property-Based Content Grouping
-
-### Basic Implementation
+### 2. JavaScript API (This Page)
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/content-groups]
 
@@ -2475,7 +2458,7 @@ Add the `group` parameter to your tracker script URL to set a default content gr
 <script src="https://t.sealmetrics.com/t.js?id=your-site-id&group=blog" defer></script>
 ```
 
-This is useful when
+This is useful when diffe
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/content-grouping]
 
@@ -2748,7 +2731,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
-        <SealMetricsScript acco
+        <SealMetricsScript accountI
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -3411,6 +3394,10 @@ API tokens can be granted the following permissions:
 **Note:** API tokens have read-only access. Write operations require JWT authentication via the dashboard.
 
 ### List Available Scopes
+
+```http
+GET /api-tokens/scopes
+```
 
 ... [Read full document at https://docs.sealmetrics.com/api/api-tokens]
 
@@ -4736,7 +4723,7 @@ SealMetrics is committed to data sovereignty and transparent retention policies.
 ### Why EU?
 
 - **GDPR compliance** — Data stays within EU jurisdiction
-- **Data sovereignty** — No US CLOUD Act c
+- **Data sovereignty** — No US CLOUD Act conc
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/data-location]
 
@@ -4800,7 +4787,7 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 ## Aggregate Measurement Instead of Individual Tracking
 
 ### Traditional Analytics (❌ Requires Consent)
-- Us
+- Uses c
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4849,7 +4836,7 @@ This document details everything Sealmetrics *does* and *does not* track, why, a
 # What We DO Track  
 ## The Four-Variable System (Isolated Hits)
 
-Sealmetrics processes each page view (“hit”) independently using **only four non-identifyi
+Sealmetrics processes each page view (“hit”) independently using **only four non-identifying 
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/what-we-track]
 
@@ -4980,6 +4967,8 @@ The Digital Omnibus proposal (procedure 2025/0360(COD)) has been assigned to **j
 **Rapporteurs**: Not yet appointed (as of January 2026)
 
 ### Open Feedback Periods
+
+The Commission has opened post-adoption feedback opportunities:
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus]
 
@@ -5437,6 +5426,8 @@ The Digital Omnibus transforms data intermediation from a mandatory compliance b
 
 #### 4. Personal Data Intermediaries
 
+**Function**: Services helping individuals exercise data portability rights
+
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/data-intermediation]
 
 
@@ -5501,6 +5492,8 @@ AI developers faced uncertainty about lawful basis for processing personal data 
 - Risk of enforcement action
 
 **Result**: Legal uncertainty deterred European AI investment; developers moved to jurisdictions with clearer rules.
+
+### Article 88c: Clear Legal Basis
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/ai-act-amendments]
 
@@ -5624,6 +5617,12 @@ Under current EU law, businesses enjoy lighter regulatory treatment while they q
 ### New Category: SMCs
 
 The Digital Omnibus creates an intermediate category between SMEs and large enterprises:
+
+**Small Mid-Cap (SMC) definition**:
+- **250-749 employees**
+- AND either:
+  - Annual turnover ≤ €150 million, OR
+  - Balance sheet total ≤ €129 million
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/smes-small-midcaps]
 
@@ -6408,6 +6407,8 @@ Service Account Details:
 
 ## Step 2: Grant Permissions
 
+Grant the service account BigQuery access:
+
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/integrations/bigquery]
 
 
@@ -6882,7 +6883,7 @@ By default, Sealmetrics uses **DeepSeek Local** via Ollama:
 |--------|---------|
 | **Provider** | Self-hosted DeepSeek (via Ollama) |
 | **Cost** | Free (included in your plan) |
-| **Privacy** | Maximum - data never leaves Sealmetrics infrastruct
+| **Privacy** | Maximum - data never leaves Sealmetrics infrastructure 
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -7182,7 +7183,7 @@ Each plan includes a monthly event allowance:
 
 All tracked interactions count toward your event limit:
 
-| Event Type | Cou
+| Event Type | Counts
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -7375,7 +7376,7 @@ You should see:
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
 2. Go to **Real-time** report
 3. Visit your website in another tab
-4. Your visit should appear wi
+4. Your visit should appear withi
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7425,6 +7426,8 @@ The average revenue per conversion. Calculated as Total Revenue divided by Numbe
 A way to execute multiple analytics queries in a single HTTP request, reducing latency and simplifying integrations. See the [Batch API guide](/api/batch).
 
 ### Bounce Rate
+
+The percentage of sessions where the visitor viewed only one page and then left. A lower bounce rate generally indicates better engagement. See [Metrics Reference](/reports/definitions#bounce-rate).
 
 ... [Read full document at https://docs.sealmetrics.com/faq/glossary]
 
@@ -7825,7 +7828,7 @@ After months of development and feedback from hundreds of customers, we've rebui
 - **Faster, cleaner dashboard** — redesigned for clarity and speed
 - **Smarter attribution** — understand exactly where your conversions come from
 - **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and the upcoming EU Digital Omnibus
-- **New API** — more powerful, better d
+- **New API** — more powerful, better docum
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 
