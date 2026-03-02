@@ -8,7 +8,7 @@
  * No external dependencies — uses only node:fs and node:path.
  */
 
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync } from 'node:fs';
 import { join, relative, extname, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -17,6 +17,7 @@ const __dirname = dirname(__filename);
 const ROOT = join(__dirname, '..');
 const DOCS_DIR = join(ROOT, 'docs');
 const STATIC_DIR = join(ROOT, 'static');
+const DOCS_RAW_DIR = join(STATIC_DIR, 'docs-raw');
 const TEMPLATES_DIR = join(__dirname, 'llms-templates');
 const BASE_URL = 'https://docs.sealmetrics.com';
 
@@ -292,6 +293,32 @@ function loadTemplate(name) {
   return readFileSync(join(TEMPLATES_DIR, name), 'utf-8').trim();
 }
 
+// ─── Raw doc path helper ─────────────────────────────────────────────────────
+
+function docRawUrl(doc) {
+  let rel = relative(DOCS_DIR, doc.filePath);
+  rel = rel.replace(/\.(mdx?|md)$/, '.txt');
+  return `${BASE_URL}/docs-raw/${rel}`;
+}
+
+// ─── Generate docs-raw/ individual text files ────────────────────────────────
+
+function generateDocsRaw(docs) {
+  let count = 0;
+  for (const doc of docs) {
+    let rel = relative(DOCS_DIR, doc.filePath);
+    rel = rel.replace(/\.(mdx?|md)$/, '.txt');
+    const outPath = join(DOCS_RAW_DIR, rel);
+
+    mkdirSync(dirname(outPath), { recursive: true });
+
+    const header = `# ${doc.title}\n\nURL: ${doc.url}\n\n`;
+    writeFileSync(outPath, header + doc.cleanContent, 'utf-8');
+    count++;
+  }
+  return count;
+}
+
 // ─── Generate llms.txt ───────────────────────────────────────────────────────
 
 function generateLlmsTxt(sections) {
@@ -310,6 +337,7 @@ function generateLlmsTxt(sections) {
     for (const doc of section.docs) {
       const desc = doc.description ? `: ${doc.description}` : '';
       parts.push(`- [${doc.title}](${doc.url})${desc}`);
+      parts.push(`  Raw: ${docRawUrl(doc)}`);
     }
     parts.push('');
   }
@@ -398,7 +426,7 @@ function generateLlmsFullTxt(sections) {
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 function main() {
-  console.log('Generating llms.txt and llms-full.txt...');
+  console.log('Generating docs-raw/, llms.txt and llms-full.txt...');
   console.log(`  Docs dir: ${DOCS_DIR}`);
 
   const docs = discoverDocs();
@@ -409,6 +437,10 @@ function main() {
   for (const s of sections) {
     console.log(`    - ${s.label}: ${s.docs.length} docs`);
   }
+
+  // Generate docs-raw/ individual text files
+  const rawCount = generateDocsRaw(docs);
+  console.log(`  docs-raw/: ${rawCount} text files generated`);
 
   // Generate llms.txt
   const llmsTxt = generateLlmsTxt(sections);

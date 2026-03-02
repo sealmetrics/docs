@@ -345,12 +345,12 @@ Browser breakdown.
 curl "https://my.sealmetrics.com/api/v1/stats/browsers?site_id=acme&period=30d"
 ```
 
-### GET /stats/os
+### GET /stats/operating-systems
 
 Operating system breakdown.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/os?site_id=acme&period=30d"
+curl "https://my.sealmetrics.com/api/v1/stats/operating-systems?site_id=acme&period=30d"
 ```
 
 ---
@@ -402,14 +402,6 @@ curl "https://my.sealmetrics.com/api/v1/stats/conversions?site_id=acme&period=30
     }
   }
 }
-```
-
-### GET /stats/conversions/types
-
-List available conversion types.
-
-```bash
-curl "https://my.sealmetrics.com/api/v1/stats/conversions/types?site_id=acme"
 ```
 
 ---
@@ -472,22 +464,60 @@ curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=acme&period=30d" \
 
 ---
 
-## Evolution (Time Series)
+:::tip Time series data
+To get metrics over time, use the [Multi-Dimensional Query](./stats-query) endpoint with `granularity: "daily"` or `"hourly"`. This replaces the need for a dedicated time series endpoint and gives you full control over dimensions, metrics, and filters.
+:::
 
-### GET /stats/evolution
+---
 
-Metrics over time.
+## Properties Report
+
+Analyze custom properties attached to conversions and microconversions.
+
+### GET /stats/properties/keys
+
+List available property keys from conversions and microconversions.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/evolution?site_id=acme&period=30d&interval=day" \
+curl "https://my.sealmetrics.com/api/v1/stats/properties/keys?site_id=acme&period=30d" \
   -H "X-API-Key: sm_your_key"
 ```
 
 **Query Parameters:**
 
-| Parameter | Description |
-|-----------|-------------|
-| `interval` | `hour`, `day`, `week`, `month` |
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `table` | string | No | `conversions`, `microconversions`, or `both` (default: `both`) |
+
+**Response:**
+
+```json
+{
+  "data": [
+    {"key": "product_category", "count": 1250},
+    {"key": "plan_type", "count": 340},
+    {"key": "form_id", "count": 89}
+  ]
+}
+```
+
+### GET /stats/properties/values
+
+Get property values with counts, grouped by UTM parameter.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/properties/values?site_id=acme&period=30d&property_key=product_category" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `property_key` | string | Yes | Property key to analyze |
+| `group_by` | string | No | `utm_source`, `utm_medium`, `utm_campaign`, or `all` (default: `utm_source`) |
+| `table` | string | No | `conversions`, `microconversions`, or `both` (default: `both`) |
+| `conversion_type` | string | No | Filter by specific conversion type |
 
 **Response:**
 
@@ -495,48 +525,48 @@ curl "https://my.sealmetrics.com/api/v1/stats/evolution?site_id=acme&period=30d&
 {
   "data": [
     {
-      "date": "2025-01-01",
-      "entrances": 1234,
-      "page_views": 2890,
-      "conversions": 15,
-      "revenue": 1500.00
+      "utm_source": "google",
+      "total": 156,
+      "values": {
+        "electronics": 89,
+        "fashion": 45,
+        "home": 22
+      }
     },
     {
-      "date": "2025-01-02",
-      "entrances": 1456,
-      "page_views": 3210,
-      "conversions": 18,
-      "revenue": 1800.00
+      "utm_source": "facebook",
+      "total": 78,
+      "values": {
+        "electronics": 34,
+        "fashion": 28,
+        "home": 16
+      }
     }
   ],
-  "interval": "day",
-  "date_range": {
-    "start": "2025-01-01",
-    "end": "2025-01-31"
-  }
+  "total": 25,
+  "page": 1,
+  "page_size": 50,
+  "has_next": false,
+  "has_prev": false
 }
 ```
 
----
+### GET /stats/properties/breakdown
 
-## Properties Report
-
-### GET /stats/properties
-
-Event properties by UTM attribution.
+Get a pivot-table style breakdown where rows are UTM combinations and columns are property values.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/properties?site_id=acme&period=30d&property_key=product_category" \
+curl "https://my.sealmetrics.com/api/v1/stats/properties/breakdown?site_id=acme&period=30d&property_key=product_category" \
   -H "X-API-Key: sm_your_key"
 ```
 
 **Query Parameters:**
 
-| Parameter | Required | Description |
-|-----------|----------|-------------|
-| `property_key` | Yes | Property to analyze |
-| `data_source` | No | `all`, `conversions`, `microconversions` |
-| `view_mode` | No | `totals` or `rates` |
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `property_key` | string | Yes | Property key to analyze |
+| `table` | string | No | `conversions`, `microconversions`, or `both` (default: `both`) |
+| `conversion_type` | string | No | Filter by specific conversion type |
 
 **Response:**
 
@@ -566,14 +596,6 @@ curl "https://my.sealmetrics.com/api/v1/stats/properties?site_id=acme&period=30d
     }
   }
 }
-```
-
-### GET /stats/properties/keys
-
-List available property keys.
-
-```bash
-curl "https://my.sealmetrics.com/api/v1/stats/properties/keys?site_id=acme"
 ```
 
 ---
