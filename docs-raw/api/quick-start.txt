@@ -1,0 +1,202 @@
+# Quick Start
+
+URL: https://docs.sealmetrics.com/api/quick-start
+
+# Quick Start
+
+Get your first API call working in 5 minutes.
+
+## Prerequisites
+
+1. A Sealmetrics account with at least one site
+2. An API key (generate in Settings → API Keys)
+3. Your Site ID (found in Settings → Sites → [your site])
+
+## Step 1: Get Your API Key
+
+1. Log in to [Sealmetrics Dashboard](https://my.sealmetrics.com)
+2. Go to **Settings** → **API Keys**
+3. Click **Create Token**
+4. Copy the token (starts with `sm_`)
+
+**Warning:**
+
+## Step 2: Find Your Site ID
+
+1. Go to **Settings** → **Sites**
+2. Click on your site and copy the **Site ID** (e.g., `acme-corp`)
+
+## Step 3: Make Your First Request
+
+### Using cURL
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_SITE_ID&period=7d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Using Python
+
+```python
+import requests
+
+API_KEY = "sm_your_api_key_here"
+SITE_ID = "your-account-id"
+
+response = requests.get(
+    "https://my.sealmetrics.com/api/v1/stats/overview",
+    headers={"X-API-Key": API_KEY},
+    params={
+        "site_id": SITE_ID,
+        "period": "7d"
+    }
+)
+
+print(response.json())
+```
+
+### Using JavaScript
+
+```javascript
+const API_KEY = 'sm_your_api_key_here';
+const SITE_ID = 'your-account-id';
+
+const params = new URLSearchParams({
+  site_id: SITE_ID,
+  period: '7d'
+});
+
+const response = await fetch(
+  `https://my.sealmetrics.com/api/v1/stats/overview?${params}`,
+  {
+    headers: { 'X-API-Key': API_KEY }
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+## Step 4: Check the Response
+
+A successful response looks like:
+
+```json
+{
+  "data": {
+    "entrances": 12543,
+    "page_views": 28976,
+    "engaged_entrances": 7234,
+    "bounce_rate": 42.3,
+    "conversions": 156,
+    "revenue": 12450.00,
+    "microconversions": 892
+  }
+}
+```
+
+Check the rate limit headers:
+
+```http
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+X-RateLimit-Reset: 1704067200
+```
+
+## Common Use Cases
+
+### Get Top Pages
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/pages?site_id=YOUR_SITE_ID&period=30d&page_size=10" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Get Traffic Sources
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/sources?site_id=YOUR_SITE_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Get Conversions
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/conversions?site_id=YOUR_SITE_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Get Funnel Data
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=YOUR_SITE_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Get Geographic Data
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?site_id=YOUR_SITE_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+## Troubleshooting
+
+### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "code": "invalid_api_key",
+    "message": "The provided API key is invalid or has been revoked"
+  }
+}
+```
+
+**Solution:** Check that your API key is correct and hasn't been revoked.
+
+### 403 Forbidden
+
+```json
+{
+  "error": {
+    "code": "forbidden",
+    "message": "Access denied to account: acme-corp"
+  }
+}
+```
+
+**Solution:** Verify your API token has access to the specified site.
+
+### 404 Not Found
+
+```json
+{
+  "error": {
+    "code": "not_found",
+    "message": "Site not found"
+  }
+}
+```
+
+**Solution:** Verify your Site ID is correct.
+
+### 429 Too Many Requests
+
+```json
+{
+  "error": {
+    "code": "rate_limit_exceeded",
+    "message": "Too many requests. Please retry after 15 seconds."
+  }
+}
+```
+
+**Solution:** Wait for the `Retry-After` seconds and reduce request frequency.
+
+## Next Steps
+
+- [Authentication](./authentication) - Learn about API keys and JWT tokens
+- [Rate Limits](./rate-limits) - Understand limits per plan
+- [Stats Endpoints](./stats) - Complete analytics endpoint reference
+- [Sites](./sites) - Manage sites and settings

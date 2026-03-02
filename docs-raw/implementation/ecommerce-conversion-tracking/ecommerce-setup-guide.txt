@@ -1,0 +1,403 @@
+# E-commerce Setup Guide
+
+URL: https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide
+
+# E-commerce Setup Guide
+
+This guide covers how to implement complete e-commerce tracking with SealMetrics, from product views to purchase completion.
+
+---
+
+## Quick Start
+
+### 1. Install the Tracker
+
+Add to every page of your store:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+### 2. Track Purchases
+
+On your thank-you/confirmation page:
+
+```html
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', 149.99, {
+      order_id: 'ORD-12345',
+      currency: 'EUR'
+    });
+  });
+</script>
+```
+
+That's the minimum setup. Read on for complete funnel tracking.
+
+---
+
+## The E-commerce Funnel
+
+Track the complete customer journey:
+
+| Step | Event Type | Function |
+|------|------------|----------|
+| Product View | Microconversion | `sealmetrics.micro('view_product', {...})` |
+| Add to Cart | Microconversion | `sealmetrics.micro('add_to_cart', {...})` |
+| View Cart | Microconversion | `sealmetrics.micro('view_cart', {...})` |
+| Begin Checkout | Microconversion | `sealmetrics.micro('begin_checkout', {...})` |
+| Add Payment Info | Microconversion | `sealmetrics.micro('add_payment_info', {...})` |
+| Purchase | Conversion | `sealmetrics.conv('purchase', amount, {...})` |
+
+---
+
+## Step-by-Step Implementation
+
+### Product View
+
+Track when users view product details:
+
+```javascript
+// On product page load
+sealmetrics.micro('view_product', {
+  product_id: 'SKU-123',
+  product_name: 'Blue Running Shoes',
+  category: 'footwear',
+  price: '89.99',
+  currency: 'EUR'
+});
+```
+
+### Add to Cart
+
+Track add-to-cart clicks:
+
+```javascript
+document.querySelector('.add-to-cart').addEventListener('click', function() {
+  sealmetrics.micro('add_to_cart', {
+    product_id: 'SKU-123',
+    product_name: 'Blue Running Shoes',
+    price: '89.99',
+    quantity: '1'
+  });
+});
+```
+
+### View Cart
+
+Track when users view their cart:
+
+```javascript
+// On cart page load
+sealmetrics.micro('view_cart', {
+  items_count: '3',
+  cart_value: '267.97'
+});
+```
+
+### Begin Checkout
+
+Track checkout initiation:
+
+```javascript
+// When user starts checkout
+sealmetrics.micro('begin_checkout', {
+  items_count: '3',
+  cart_value: '267.97'
+});
+```
+
+### Purchase (Conversion)
+
+Track completed purchases:
+
+```javascript
+// On thank-you page
+sealmetrics.conv('purchase', 267.97, {
+  order_id: 'ORD-12345',
+  currency: 'EUR',
+  payment_method: 'credit_card',
+  items_count: '3'
+});
+```
+
+---
+
+## Platform-Specific Implementation
+
+### WooCommerce
+
+Add to your `functions.php` or a custom plugin:
+
+```php
+// Track purchases on thank-you page
+add_action('woocommerce_thankyou', function($order_id) {
+  $order = wc_get_order($order_id);
+  if (!$order) return;
+  ?>
+  <script>
+    window.addEventListener('load', function() {
+      if (typeof sealmetrics !== 'undefined') {
+        sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
+          order_id: '<?php echo $order_id; ?>',
+          currency: '<?php echo $order->get_currency(); ?>',
+          payment_method: '<?php echo $order->get_payment_method(); ?>',
+          items_count: '<?php echo $order->get_item_count(); ?>'
+        });
+      }
+    });
+  </script>
+  <?php
+});
+```
+
+For add-to-cart tracking, add this JavaScript:
+
+```javascript
+// WooCommerce AJAX add-to-cart
+jQuery(document.body).on('added_to_cart', function(e, fragments, cart_hash, button) {
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics.micro('add_to_cart', {
+      product_id: jQuery(button).data('product_id'),
+      product_name: jQuery(button).data('product_name') || 'Product'
+    });
+  }
+});
+```
+
+### Shopify
+
+In your **checkout.liquid** or via **Additional Scripts** (Settings → Checkout):
+
+```html
+{% if first_time_accessed %}
+<script>
+  window.addEventListener('load', function() {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
+        order_id: '{{ order.name }}',
+        currency: '{{ checkout.currency }}',
+        items_count: '{{ checkout.line_items.size }}'
+      });
+    }
+  });
+</script>
+{% endif %}
+```
+
+For add-to-cart, use theme JavaScript:
+
+```javascript
+// In theme.js or via Shopify ScriptTag API
+document.addEventListener('click', function(e) {
+  if (e.target.matches('[data-add-to-cart]') || e.target.closest('[data-add-to-cart]')) {
+    var form = e.target.closest('form[action*="/cart/add"]');
+    if (form && typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('add_to_cart', {
+        product_id: form.querySelector('[name="id"]').value
+      });
+    }
+  }
+});
+```
+
+### Magento 2
+
+In your checkout success template or via layout XML:
+
+```php
+<?php
+$order = $block->getOrder();
+?>
+<script>
+  window.addEventListener('load', function() {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('purchase', <?php echo $order->getGrandTotal(); ?>, {
+        order_id: '<?php echo $order->getIncrementId(); ?>',
+        currency: '<?php echo $order->getOrderCurrencyCode(); ?>',
+        items_count: '<?php echo (int)$order->getTotalQtyOrdered(); ?>'
+      });
+    }
+  });
+</script>
+```
+
+### PrestaShop
+
+In your order confirmation template:
+
+```php
+{if isset($order)}
+<script>
+  window.addEventListener('load', function() {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('purchase', {$order.total_paid|floatval}, {
+        order_id: '{$order.reference|escape:'javascript'}',
+        currency: '{$currency.iso_code|escape:'javascript'}',
+        items_count: '{$order.products|count}'
+      });
+    }
+  });
+</script>
+{/if}
+```
+
+---
+
+## Dynamic Values
+
+### Server-Side Rendering
+
+Pass values from your backend:
+
+```html
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', <?= json_encode($order['total']) ?>, {
+      order_id: <?= json_encode($order['id']) ?>,
+      currency: <?= json_encode($order['currency']) ?>
+    });
+  });
+</script>
+```
+
+### Data Layer
+
+If using Google Tag Manager's data layer:
+
+```html
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'purchase',
+    ecommerce: {
+      transaction_id: 'ORD-12345',
+      value: 149.99,
+      currency: 'EUR'
+    }
+  });
+</script>
+
+<script>
+  // Read from data layer
+  window.addEventListener('load', function() {
+    var purchaseData = window.dataLayer.find(function(item) {
+      return item.event === 'purchase';
+    });
+
+    if (purchaseData && typeof sealmetrics !== 'undefined') {
+      sealmetrics.conv('purchase', purchaseData.ecommerce.value, {
+        order_id: purchaseData.ecommerce.transaction_id,
+        currency: purchaseData.ecommerce.currency
+      });
+    }
+  });
+</script>
+```
+
+---
+
+## Content Grouping for E-commerce
+
+Use content grouping to segment your pages:
+
+```html
+<!-- Product pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=product" defer></script>
+
+<!-- Category pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=category" defer></script>
+
+<!-- Cart page -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=cart" defer></script>
+
+<!-- Checkout pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=checkout" defer></script>
+```
+
+---
+
+## Properties Reference
+
+Recommended properties for e-commerce events:
+
+| Property | Description | Example |
+|----------|-------------|---------|
+| `order_id` | Unique order identifier | `'ORD-12345'` |
+| `currency` | ISO 4217 currency code | `'EUR'`, `'USD'` |
+| `product_id` | Product SKU/ID | `'SKU-123'` |
+| `product_name` | Product name | `'Blue Shoes'` |
+| `category` | Product category | `'footwear'` |
+| `price` | Item price | `'89.99'` |
+| `quantity` | Number of items | `'2'` |
+| `items_count` | Total cart items | `'3'` |
+| `cart_value` | Cart total | `'267.97'` |
+| `payment_method` | Payment type | `'credit_card'` |
+| `coupon` | Discount code | `'SAVE10'` |
+
+**Tip:**
+Property values are transmitted as strings. Numbers are automatically converted.
+
+---
+
+## Deduplication
+
+Prevent duplicate conversion tracking:
+
+### Server-Side Flag (Recommended)
+
+Mark orders as tracked in your database:
+
+```php
+// PHP example
+if (!$order->isTracked()) {
+  echo '<script>sealmetrics.conv("purchase", ' . $order->getTotal() . ', {...});</script>';
+  $order->markAsTracked();
+}
+```
+
+### Client-Side Check
+
+Use localStorage for simple deduplication:
+
+```javascript
+var orderId = 'ORD-12345';
+if (!localStorage.getItem('tracked_' + orderId)) {
+  sealmetrics.conv('purchase', 149.99, { order_id: orderId });
+  localStorage.setItem('tracked_' + orderId, 'true');
+}
+```
+
+---
+
+## Testing
+
+### Verify Installation
+
+1. Open your store in a browser
+2. Open Developer Tools → Network tab
+3. Filter by `t.sealmetrics.com`
+4. Navigate through pages and complete a test purchase
+5. Verify requests are sent with correct data
+
+### Check Real-Time Data
+
+1. Log in to [SealMetrics dashboard](https://app.sealmetrics.com)
+2. Go to Real-time report
+3. Your test events should appear within seconds
+
+### Verify Conversion Data
+
+1. Go to Conversions report
+2. Check that purchase amount and properties are correct
+3. Verify attribution to traffic source
+
+---
+
+## Related Documentation
+
+- [Conversions](/implementation/tracker/conversions) - Detailed conversion tracking
+- [Microconversions](/implementation/tracker/microconversions) - Funnel step tracking
+- [Google Tag Manager](/integrations/google-tag-manager) - GTM integration
+- [WooCommerce Plugin](/integrations/ecommerce/woocommerce) - Official WooCommerce integration
