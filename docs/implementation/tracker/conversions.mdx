@@ -35,9 +35,17 @@ sealmetrics.conv('purchase', 149.99, {
   order_id: 'ORD-2025-001234',
   currency: 'EUR',
   payment_method: 'credit_card',
-  coupon: 'SAVE10'
+  coupon: 'SAVE10',
+  items: [
+    { product_name: 'Camiseta', price: 19.95, quantity: 2, category: 'Ropa' },
+    { product_name: 'Pantalón', price: 49.99, quantity: 1, category: 'Ropa' }
+  ]
 });
 ```
+
+:::tip Items format
+The `items` property is an **array of JavaScript objects** inside the properties parameter (the third argument of `sealmetrics.conv()`). Each object supports free-form key-value fields like `product_name`, `price`, `quantity`, `category`, `variant`, `id`, etc. Do not pass `items` as a string or as a separate parameter outside the properties object.
+:::
 
 ### Lead (No Monetary Value)
 
@@ -81,8 +89,11 @@ Place on your order confirmation page:
     sealmetrics.conv('purchase', 189.99, {
       order_id: 'ORD-2025-001234',
       currency: 'EUR',
-      items_count: '3',
-      payment_method: 'credit_card'
+      payment_method: 'credit_card',
+      items: [
+        { product_name: 'Widget Pro', product_id: 'WDG-001', price: 59.99, quantity: 2, category: 'Widgets' },
+        { product_name: 'Widget Case', product_id: 'WDG-CASE', price: 70.01, quantity: 1, category: 'Accessories' }
+      ]
     });
   });
 </script>
@@ -109,13 +120,25 @@ In `functions.php` or a custom plugin:
 ```php
 add_action('woocommerce_thankyou', function($order_id) {
   $order = wc_get_order($order_id);
+  $items = array();
+  foreach ($order->get_items() as $item) {
+    $product = $item->get_product();
+    $items[] = array(
+      'product_name' => $item->get_name(),
+      'product_id'   => $product ? $product->get_id() : '',
+      'sku'          => $product ? $product->get_sku() : '',
+      'price'        => $item->get_total() / max($item->get_quantity(), 1),
+      'quantity'     => $item->get_quantity(),
+    );
+  }
   ?>
   <script>
     window.addEventListener('load', function() {
       sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
         order_id: '<?php echo $order_id; ?>',
         currency: '<?php echo $order->get_currency(); ?>',
-        payment_method: '<?php echo $order->get_payment_method(); ?>'
+        payment_method: '<?php echo $order->get_payment_method(); ?>',
+        items: <?php echo json_encode($items); ?>
       });
     });
   </script>
@@ -132,7 +155,18 @@ In your `checkout.liquid` or via Shopify Additional Scripts:
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
       order_id: '{{ order.name }}',
-      currency: '{{ checkout.currency }}'
+      currency: '{{ checkout.currency }}',
+      items: [
+        {% for item in checkout.line_items %}
+        {
+          product_name: '{{ item.title | escape }}',
+          product_id: '{{ item.product_id }}',
+          sku: '{{ item.sku | escape }}',
+          price: {{ item.final_price | money_without_currency | remove: ',' }},
+          quantity: {{ item.quantity }}
+        }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
     });
   });
 </script>
@@ -176,24 +210,36 @@ sealmetrics.conv('upgrade', 99, {
 
 Common properties to include:
 
-| Property | Description | Example |
-|----------|-------------|---------|
-| `order_id` | Unique order identifier | `'ORD-2025-001234'` |
-| `currency` | ISO 4217 currency code | `'EUR'`, `'USD'`, `'GBP'` |
-| `payment_method` | Payment type | `'credit_card'`, `'paypal'`, `'bank_transfer'` |
-| `coupon` | Discount code used | `'SAVE10'` |
-| `items_count` | Number of items | `'3'` |
-| `plan` | Subscription plan name | `'pro'`, `'enterprise'` |
-| `billing_cycle` | Billing frequency | `'monthly'`, `'yearly'` |
+| Property | Type | Description | Example |
+|----------|------|-------------|---------|
+| `order_id` | string | Unique order identifier | `'ORD-2025-001234'` |
+| `currency` | string | ISO 4217 currency code | `'EUR'`, `'USD'`, `'GBP'` |
+| `payment_method` | string | Payment type | `'credit_card'`, `'paypal'` |
+| `coupon` | string | Discount code used | `'SAVE10'` |
+| `items` | array | Array of product objects | See below |
+| `plan` | string | Subscription plan name | `'pro'`, `'enterprise'` |
+| `billing_cycle` | string | Billing frequency | `'monthly'`, `'yearly'` |
 
-:::warning Property Values Must Be Strings
-All property values are transmitted as strings. Numbers and booleans are automatically converted.
+### Product Items
+
+For e-commerce purchases, use the `items` property to send an array of product objects. Each object supports free-form key-value fields:
 
 ```javascript
-// Both work the same:
-sealmetrics.conv('purchase', 99, { items_count: 3 });
-sealmetrics.conv('purchase', 99, { items_count: '3' });
+sealmetrics.conv('purchase', 89.99, {
+  currency: 'EUR',
+  items: [
+    { product_name: 'Camiseta', price: 19.95, quantity: 2, category: 'Ropa' },
+    { product_name: 'Pantalón', price: 49.99, quantity: 1, category: 'Ropa' }
+  ]
+});
 ```
+
+Common fields per item: `product_name`, `product_id`, `sku`, `price`, `quantity`, `category`, `brand`, `variant`.
+
+:::warning Important
+- `items` must be a **native JavaScript array** of objects, not a string
+- `items` goes **inside** the properties object (the third parameter), not as a separate parameter
+- Individual product fields go inside each object of the array, not as top-level properties
 :::
 
 ## Timing

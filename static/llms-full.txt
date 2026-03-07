@@ -545,7 +545,7 @@ Monitor visitor volume and patterns.
 | `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
 | `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35% drop |
 | `organic_traffic_change` | Organic Traffic Change | Significant organic search change | >25% change |
-
+| `p
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -932,7 +932,7 @@ Shows all pages that received traffic during the selected period.
 
 | Column | Description |
 |--------|-------------|
-| **Page** | URL path and page 
+| **Page** | URL path and page t
 
 ... [Read full document at https://docs.sealmetrics.com/reports/pages]
 
@@ -990,7 +990,8 @@ Shows traffic grouped by UTM Source and Medium combination.
 | **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
 | **Entrances** | Sessions from this source |
 | **Pageviews** | Total page views |
-| **Bounce Rate** | Single-page session percentage 
+| **Bounce Rate** | Single-page session percentage |
+
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -1022,7 +1023,7 @@ Interactive choropleth map showing traffic distribution by country.
 | Feature | Description |
 |---------|-------------|
 | **Color intensity** | Darker colors indicate more traffic |
-| **Hover tooltip** | Shows co
+| **Hover tooltip** | Shows coun
 
 ... [Read full document at https://docs.sealmetrics.com/reports/geography]
 
@@ -1097,7 +1098,7 @@ Shows completed conversion events (primary goals).
 | **Unique Users** | Distinct users who converted |
 | **Revenue** | Total revenue attributed (with progress bar) |
 | **Avg. Value** | Average revenue per conversion |
-| **Conv. Rate** | Conversions 
+| **Conv. Rate** | Conversions / T
 
 ... [Read full document at https://docs.sealmetrics.com/reports/conversions]
 
@@ -1133,7 +1134,7 @@ Funnels are configured in Settings. Common examples:
 | E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
 | Lead Generation | Landing Page → Form View → Form Submit → Thank You |
 | SaaS Signup | Homepage → Pricing → Sign Up → Verify Email |
-| Content Engagement | Article View → Scroll 5
+| Content Engagement | Article View → Scroll 50% 
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1260,7 +1261,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Conversions](#conversions) | Count of conversion events | Higher |
 | [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
 | [Revenue](#revenue) | Sum of conversion amounts | Higher |
-| [AOV](#average-order-value-aov) | Revenue / Conversions | High
+| [AOV](#average-order-value-aov) | Revenue / Conversions | Higher |
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1694,7 +1695,7 @@ URL: https://docs.sealmetrics.com/implementation/custom-properties
 
 # Custom Properties
 
-Custom properties let you attach additional data to events, enabling deeper analysis tailored to your business needs.
+Custom properties let you attach additional data to conversions and microconversions, enabling deeper analysis tailored to your business needs.
 
 ## What Are Custom Properties?
 
@@ -1706,20 +1707,14 @@ Standard tracking captures basic information:
 
 Custom properties let you add your own data:
 - Product category
-- Customer type
-- A/B test variant
+- Payment method
 - Subscription plan
+- Coupon code
 - Anything else relevant to your business
 
-## Use Cases
+## How Properties Work
 
-### E-commerce
-
-```javascript
-_sm('conversion', {
-  order_id: 'ORD-12345',
-  amount: 149.99,
-  properties:
+Properties 
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties]
 
@@ -1756,13 +1751,17 @@ On your thank-you/confirmation page:
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', 149.99, {
       order_id: 'ORD-12345',
-      currency: 'EUR'
+      currency: 'EUR',
+      items: [
+        { product_name: 'Blue Running Shoes', price: 89.99, quantity: 1, category: 'footwear' },
+        { product_name: 'Sports Socks Pack', price: 60.00, quantity: 2, category: 'accessories' }
+      ]
     });
   });
 </script>
 ```
 
-That's the minimum setup. Read on for complete funnel tracking.
+That's the minimum setup. The `items` array is optional but recommended for detailed product analytics. Read on for complete funnel tracking.
 
 ---
 
@@ -1873,6 +1872,11 @@ Type in console:
 typeof sealmetrics
 ```
 
+Expected result:
+```
+"function"
+```
+
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/step-by-step-guide]
 
 
@@ -1885,14 +1889,14 @@ URL: https://docs.sealmetrics.com/implementation/custom-properties/event-propert
 
 # Event Properties
 
-Event properties let you attach custom data to individual pageviews, events, and conversions.
+Event properties let you attach custom data to conversions and microconversions for deeper analysis.
 
 ## How Event Properties Work
 
 Properties are sent with each event and stored alongside it:
 
 ```
-Event: add_to_cart
+Event: add_to_cart (microconversion)
 ├── Standard fields (automatic)
 │   ├── timestamp: 2024-01-15T14:32:00Z
 │   ├── page_url: /products/widget
@@ -1908,19 +1912,7 @@ Event: add_to_cart
 
 ## Adding Properties to Events
 
-### Pageviews
-
-```javascript
-_sm('pageview', {
-  properties: {
-    page_type: 'product',
-    category: 'electronics',
-    brand: 'Apple'
-  }
-});
-```
-
-### Custom Events
+### Conversions
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/event-properties]
 
@@ -1982,52 +1974,33 @@ That's it. The tracker automatically:
 
 1. **Tracks initial pageview** on first load
 2. **Detects `pushState` calls** when navigating to new routes
-3. **
+3. **De
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites]
 
 
 
-## User Properties
+## User Segmentation
 
 
 URL: https://docs.sealmetrics.com/implementation/custom-properties/user-properties
 
 
-# User Properties
+# User Segmentation with Properties
 
-User properties persist across all sessions for a user, enabling long-term segmentation and analysis.
+Sealmetrics is privacy-first and does not use cookies, localStorage, or persistent user identification. However, you can still segment users effectively by including business attributes in your event properties.
 
-## How User Properties Work
+## How It Works
 
-Unlike event properties (sent once), user properties are stored with the user profile:
-
-```
-User: user_abc123
-├── User Properties (persistent)
-│   ├── customer_type: premium
-│   ├── signup_date: 2024-01-15
-│   └── company_size: 50-100
-│
-└── Events (each includes user properties)
-    ├── Event 1: { ..., customer_type: premium, ... }
-    ├── Event 2: { ..., customer_type: premium, ... }
-    └── Event 3: { ..., customer_type: premium, ... }
-```
-
-## Setting User Properties
-
-### Basic Usage
+Include user-related attributes as properties when tracking conversions and microconversions. This lets you analyze behavior by user segment without storing any persistent user data.
 
 ```javascript
-_sm('set', 'userProperties', {
+// Include user context in conversions
+sealmetrics.conv('purchase', 149.99, {
   customer_type: 'premium',
-  signup_date: '2024-01-15',
-  account_id: 'ACC-789'
+  plan: 'pro',
+  currency: 'EUR'
 });
-```
-
-### When to Set
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/user-properties]
 
@@ -2063,6 +2036,8 @@ sealmetrics.conv(type, amount, properties);
 ```javascript
 sealmetrics.conv('purchase', 99.99);
 ```
+
+### Purchase with Properties
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/conversions]
 
@@ -2524,6 +2499,8 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 | localStorage | Used | None |
 | Size | ~15 KB | 1,313 bytes (gzipped) |
 
+## Breaking Changes
+
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/migration-from-v1]
 
 
@@ -2706,7 +2683,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
-        <SealMetricsScrip
+        <SealMetricsScript 
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2902,6 +2879,9 @@ function App() {
 ### Option 2: Script Only
 
 Just load the tracker script:
+
+```tsx
+import { SealMetricsScript } from '@sealmetrics/react';
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/react]
 
@@ -3325,6 +3305,7 @@ Include the key in the `X-API-Key` header:
 ```bash
 curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
   -H "X-API-Key: sm_your_api_key_here"
+`
 
 ... [Read full document at https://docs.sealmetrics.com/api/authentication]
 
@@ -3529,6 +3510,8 @@ Returns all organizations the current user belongs to.
 | `user_role` | Current user's role in this organization |
 
 ---
+
+### Create Organization
 
 ... [Read full document at https://docs.sealmetrics.com/api/organizations]
 
@@ -4738,7 +4721,7 @@ SealMetrics is committed to data sovereignty and transparent retention policies.
 ### Why EU?
 
 - **GDPR compliance** — Data stays within EU jurisdiction
-- **Data sovereignty** — No US CLOUD
+- **Data sovereignty** — No US CLOUD A
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/data-location]
 
@@ -4802,6 +4785,7 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 ## Aggregate Measurement Instead of Individual Tracking
 
 ### Traditional Analytics (❌ Requires Consent)
+-
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4850,7 +4834,7 @@ This document details everything Sealmetrics *does* and *does not* track, why, a
 # What We DO Track  
 ## The Four-Variable System (Isolated Hits)
 
-Sealmetrics processes each page view (“hit”) independently using **only four non-ide
+Sealmetrics processes each page view (“hit”) independently using **only four non-ident
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/what-we-track]
 
@@ -6159,6 +6143,20 @@ Group content by type for better analysis:
 
 ### Dynamic Grouping (WordPress)
 
+```php
+<?php
+function get_content_group() {
+  if (is_front_page()) return 'home';
+  if (is_single()) return 'article';
+  if (is_category() || is_tag()) return 'category';
+  if (is_author()) return 'author';
+  if (is_search()) return 'search';
+  return 'other';
+}
+?>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=<?php echo get_content_group(); ?>" defer></script>
+```
+
 ... [Read full document at https://docs.sealmetrics.com/use-cases/content-media]
 
 
@@ -6403,42 +6401,20 @@ URL: https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder
 
 # Pixel Builder
 
-The Pixel Builder helps you generate customized tracking code for your website without writing code manually.
+The Pixel Builder helps you generate tracking code for your website without writing code manually. It creates ready-to-copy snippets for conversions, microconversions, and pageviews.
 
 ## Accessing Pixel Builder
 
-1. Click the **gear icon** in the main navigation
-2. Select **Tracking → Pixel Builder**
+1. Go to **Settings → Pixels** in the sidebar
+2. In the **Saved Pixels** section, click **Create Pixel**
 
-## Basic Configuration
+## Creating a Pixel
 
-### Step 1: Select Account
+### Step 1: Name and Description
 
-Choose which account this pixel will track to:
+Give your pixel a descriptive name (e.g., "Purchase Tracking", "Newsletter Signup") and an optional description.
 
-```
-Account: [My E-commerce Store            ▼]
-
-Account ID: acc_1234567890abcdef
-Tracking Domain: track.mystore.com
-```
-
-### Step 2: Tracking Features
-
-Enable/disable tracking features:
-
-```
-Tracking Features
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-☑ Automatic pageview tracking
-  Track page loads automatically
-
-☑ SPA support (Single Page Applications)
-  Track virtual navigation in React, Vue, etc.
-
-☑ Scroll depth tracking
-  Track how far users scroll (25%, 50%, 75%, 100%)
+### Step 2: Choose Pixel Type
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder]
 
@@ -6695,34 +6671,29 @@ Standard tracking captures common fields:
 - Country
 
 Custom dimensions let you add your own fields:
-- User type (free/premium)
+- Customer type (free/premium)
 - Product category
 - A/B test variant
-- Customer segment
+- Subscription plan
 
 ## Accessing Custom Dimensions
 
 1. Click the **gear icon** in the main navigation
 2. Select **Tracking → Custom Dimensions**
 
-## Dimension Types
+## Dimension Scopes
 
 ### Hit-Level Dimensions
 
-Attached to individual pageviews or events:
+Attached to individual events. Pass as properties in your tracking calls:
 
-```
-Dimension: Product Category
-Scope: Hit
-Example values: "Electronics", "Clothing", "Home"
-
-Use case: Different pages show different categories
-Each pageview can have a different value
-```
-
-### Session-Level Dimensions
-
-Persist for the entire session:
+```javascript
+// Conversion with custom dimensions as properties
+sealmetrics.conv('purchase', 149.99, {
+  product_category: 'Electronics',
+  page_type: 'product-detail',
+  payment_method: 'credit_card'
+});
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/tracking/custom-dimensions]
 
@@ -6862,7 +6833,7 @@ By default, Sealmetrics uses **DeepSeek Local** via Ollama:
 |--------|---------|
 | **Provider** | Self-hosted DeepSeek (via Ollama) |
 | **Cost** | Free (included in your plan) |
-| **Privacy** | Maximum - data never leaves Sealmetrics infra
+| **Privacy** | Maximum - data never leaves Sealmetrics infrast
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -7162,7 +7133,7 @@ Each plan includes a monthly event allowance:
 
 All tracked interactions count toward your event limit:
 
-| Event Type 
+| Event Type | 
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -7349,7 +7320,7 @@ You should see:
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
 2. Go to **Real-time** report
 3. Visit your website in another tab
-4. Your visit should app
+4. Your visit should appea
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7799,7 +7770,7 @@ After months of development and feedback from hundreds of customers, we've rebui
 - **Faster, cleaner dashboard** — redesigned for clarity and speed
 - **Smarter attribution** — understand exactly where your conversions come from
 - **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and the upcoming EU Digital Omnibus
-- **New API** — more powerful, be
+- **New API** — more powerful, bett
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 
