@@ -106,23 +106,24 @@ Every business has unique data requirements. Event properties allow Sealmetrics 
 
 ### E-commerce Purchase Tracking
 
-For online retailers, event properties capture detailed transaction information that enables sophisticated analysis:
+For online retailers, use the `items` property to send detailed per-product data alongside transaction-level properties:
 
 ```javascript
 sealmetrics.conv('purchase', 249.97, {
-  items_count: '3',
   currency: 'EUR',
   payment_method: 'credit_card',
   shipping_country: 'Germany',
   shipping_method: 'express',
-  discount_applied: 'true',
   discount_code: 'WELCOME10',
-  discount_amount: '24.99',
   customer_type: 'new',
-  product_categories: 'electronics,accessories',
-  average_item_price: '83.32'
+  items: [
+    { product_name: 'Wireless Headphones', product_id: 'WH-100', price: 79.99, quantity: 2, category: 'electronics', brand: 'AudioTech' },
+    { product_name: 'USB-C Cable', product_id: 'USB-C-3M', price: 89.99, quantity: 1, category: 'accessories' }
+  ]
 });
 ```
+
+The `items` array is a native JavaScript array of objects inside the properties parameter. Each object can contain any key-value fields you need (`product_name`, `price`, `quantity`, `category`, `brand`, `variant`, `sku`, etc.). Do not pass `items` as a string or outside the properties object.
 
 This implementation enables analysis of:
 - Revenue by product category
@@ -130,6 +131,7 @@ This implementation enables analysis of:
 - Shipping method preferences by region
 - Average order value by customer type
 - Payment method adoption rates
+- Per-product performance and sales volume
 
 ### SaaS Subscription Tracking
 
@@ -475,15 +477,27 @@ Sealmetrics does not reserve specific property names, but avoid using names that
 
 ### How do I handle multi-value properties?
 
-For properties with multiple values (like multiple product categories), use a delimiter within the string value:
+For simple multi-value properties (like multiple categories), you can use a delimiter within the string value:
 
 ```javascript
-properties: {
+{
   'product-categories': 'electronics,accessories,cables'
 }
 ```
 
-Then parse the delimited string during analysis. Alternatively, track separate events for each value if the analysis requires it.
+For product-level data, use the `items` array to send structured objects:
+
+```javascript
+sealmetrics.conv('purchase', 149.99, {
+  currency: 'EUR',
+  items: [
+    { product_name: 'Headphones', price: 79.99, quantity: 1, category: 'electronics' },
+    { product_name: 'Cable', price: 9.99, quantity: 2, category: 'accessories' }
+  ]
+});
+```
+
+The `items` array is a native JavaScript array of objects inside the properties object. Do not pass it as a string.
 
 ### Can properties include special characters?
 

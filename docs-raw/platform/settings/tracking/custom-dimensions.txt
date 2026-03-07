@@ -15,55 +15,70 @@ Standard tracking captures common fields:
 - Country
 
 Custom dimensions let you add your own fields:
-- User type (free/premium)
+- Customer type (free/premium)
 - Product category
 - A/B test variant
-- Customer segment
+- Subscription plan
 
 ## Accessing Custom Dimensions
 
 1. Click the **gear icon** in the main navigation
 2. Select **Tracking → Custom Dimensions**
 
-## Dimension Types
+## Dimension Scopes
 
 ### Hit-Level Dimensions
 
-Attached to individual pageviews or events:
+Attached to individual events. Pass as properties in your tracking calls:
 
-```
-Dimension: Product Category
-Scope: Hit
-Example values: "Electronics", "Clothing", "Home"
+```javascript
+// Conversion with custom dimensions as properties
+sealmetrics.conv('purchase', 149.99, {
+  product_category: 'Electronics',
+  page_type: 'product-detail',
+  payment_method: 'credit_card'
+});
 
-Use case: Different pages show different categories
-Each pageview can have a different value
+// Microconversion with custom dimensions as properties
+sealmetrics.micro('product_view', {
+  product_category: 'Electronics',
+  product_brand: 'Apple',
+  price_range: '100-500'
+});
 ```
 
 ### Session-Level Dimensions
 
-Persist for the entire session:
+For data that applies to the entire session (e.g., A/B test variant, entry campaign), include the dimension as a property on every event in that session:
 
-```
-Dimension: Entry Campaign
-Scope: Session
-Example values: "summer-sale", "brand-awareness"
+```javascript
+// Include session context in each event
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  ab_variant: 'B',           // Session context
+  entry_campaign: 'summer-sale' // Session context
+});
 
-Use case: Track how users entered, apply to all pages
-Value set once, applies to entire session
+sealmetrics.conv('purchase', 99.99, {
+  ab_variant: 'B',
+  entry_campaign: 'summer-sale'
+});
 ```
 
 ### User-Level Dimensions
 
-Persist across all sessions for a user:
+For data about the user (e.g., customer tier, plan type), include it as a property with each event. Server-side rendering is the best way to inject this data:
 
-```
-Dimension: Customer Tier
-Scope: User
-Example values: "free", "pro", "enterprise"
-
-Use case: Segment all behavior by customer type
-Value persists until explicitly changed
+```php
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', <?php echo $order->total; ?>, {
+      customer_type: '<?php echo $user->tier; ?>',
+      plan: '<?php echo $user->plan; ?>',
+      currency: '<?php echo $order->currency; ?>'
+    });
+  });
+</script>
 ```
 
 ## Creating Custom Dimensions
@@ -82,7 +97,7 @@ Name:        [Customer Type                ]
 Internal ID: [customer_type                ]
              (used in code, no spaces)
 
-Scope:       [User                        ▼]
+Scope:       [Hit                         ▼]
 
 Data Type:   [String                      ▼]
 
@@ -103,67 +118,24 @@ Default Value: [free                       ]
 | Boolean | true, false | Flags, toggles |
 | Date | "2024-01-15" | Timestamps |
 
-## Setting Dimension Values
+## Setting Dimension Values via JavaScript
 
-### Via JavaScript
-
-Set dimensions when tracking:
+Dimensions are set as properties in your tracking calls:
 
 ```javascript
-// Hit-level: set with the pageview
-_sm('pageview', {
-  dimensions: {
-    product_category: 'Electronics',
-    page_type: 'product-detail'
-  }
-});
-
-// Session-level: set once, persists
-_sm('set', 'sessionDimensions', {
-  entry_campaign: 'summer-sale',
-  ab_test_variant: 'B'
-});
-
-// User-level: set once, persists across sessions
-_sm('set', 'userDimensions', {
+// With conversions (3rd parameter)
+sealmetrics.conv('purchase', 149.99, {
+  product_category: 'Electronics',
   customer_type: 'premium',
-  signup_date: '2024-01-15'
+  payment_method: 'credit_card'
 });
-```
 
-### Via Data Layer
-
-Read from existing data layer:
-
-```javascript
-// Configure dimension mapping
-_sm('init', 'acc_123...', {
-  dimensionMapping: {
-    customer_type: 'dataLayer.userType',
-    page_category: 'dataLayer.pageCategory'
-  }
+// With microconversions (2nd parameter)
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  product_category: 'Electronics',
+  customer_type: 'premium'
 });
-```
-
-### Via Server-Side
-
-Send dimensions with server-side events:
-
-```python
-import requests
-
-requests.post(
-    "https://app.sealmetrics.com/api/events",
-    headers={"Authorization": f"Bearer {API_KEY}"},
-    json={
-        "account_id": "acc_123...",
-        "event": "purchase",
-        "dimensions": {
-            "customer_type": "premium",
-            "order_category": "electronics"
-        }
-    }
-)
 ```
 
 ## Using Custom Dimensions in Reports
@@ -206,7 +178,7 @@ Create reports specifically for your dimensions:
 Custom Report: A/B Test Analysis
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Dimension: ab_test_variant
+Dimension: ab_variant
 Metrics: Sessions, Conversions, Revenue
 
 Results:
@@ -223,63 +195,42 @@ Variant B    12,540         187         1.49% ↓
 ### E-commerce
 
 ```javascript
-// Product dimensions
-_sm('event', 'product_view', {
-  dimensions: {
-    product_category: 'Electronics',
-    product_brand: 'Apple',
-    price_range: '$100-$500',
-    in_stock: true
-  }
-});
-
-// Customer dimensions
-_sm('set', 'userDimensions', {
+// Purchase with dimensions
+sealmetrics.conv('purchase', 149.99, {
+  product_category: 'Electronics',
+  product_brand: 'Apple',
+  price_range: '100-500',
   customer_tier: 'gold',
-  lifetime_value_bucket: 'high',
-  first_purchase_date: '2023-06-15'
+  payment_method: 'credit_card'
 });
 ```
 
 ### SaaS
 
 ```javascript
-// User dimensions
-_sm('set', 'userDimensions', {
+// Feature usage with dimensions
+sealmetrics.micro('feature_used', {
+  feature_name: 'export',
+  feature_category: 'reporting',
   plan_type: 'pro',
   company_size: '50-200',
-  industry: 'technology',
-  trial_user: false
-});
-
-// Feature usage
-_sm('event', 'feature_used', {
-  dimensions: {
-    feature_name: 'export',
-    feature_category: 'reporting'
-  }
+  industry: 'technology'
 });
 ```
 
 ### Media/Content
 
 ```javascript
-// Content dimensions
-_sm('pageview', {
-  dimensions: {
-    content_type: 'article',
-    author: 'john-smith',
-    category: 'technology',
-    publish_date: '2024-01-15',
-    word_count_bucket: '1000-2000',
-    has_video: true
-  }
-});
+// Content grouping is handled via the group parameter:
+// <script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=blog" defer></script>
 
-// User dimensions
-_sm('set', 'userDimensions', {
-  subscriber_status: 'premium',
-  newsletter_signup: true
+// Additional content dimensions via microconversions:
+sealmetrics.micro('article_engagement', {
+  content_type: 'article',
+  author: 'john-smith',
+  category: 'technology',
+  word_count_bucket: '1000-2000',
+  has_video: 'true'
 });
 ```
 
@@ -347,7 +298,7 @@ Type dimension ID to confirm: [old_campaign_id]
 
 | Scope | Use When | Example |
 |-------|----------|---------|
-| Hit | Value changes per page/event | Product category, page type |
+| Hit | Value changes per event | Product category, page type |
 | Session | Value is constant for visit | Entry campaign, A/B variant |
 | User | Value is constant for user | Customer tier, signup date |
 
@@ -362,9 +313,9 @@ Type dimension ID to confirm: [old_campaign_id]
 ### Dimension Not Appearing in Reports
 
 1. Check dimension is not archived
-2. Verify scope matches how you're setting it
-3. Ensure ID matches exactly (case-sensitive)
-4. Wait 1-2 hours for processing
+2. Verify the property name in your code matches the dimension ID exactly (case-sensitive)
+3. Ensure you're sending the property with your events
+4. Wait a few minutes for data processing
 
 ### Values Showing as "(not set)"
 

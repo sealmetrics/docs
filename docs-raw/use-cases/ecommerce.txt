@@ -238,12 +238,18 @@ Track completed orders on the thank-you page.
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', ORDER_TOTAL, {
       currency: 'EUR',
-      items_count: 'ITEM_COUNT',
-      payment_method: 'PAYMENT_METHOD'
+      payment_method: 'PAYMENT_METHOD',
+      items: [
+        { product_name: 'Product 1', price: 29.99, quantity: 1, category: 'Category A' },
+        { product_name: 'Product 2', price: 19.99, quantity: 2, category: 'Category B' }
+        // ... one object per product in the order
+      ]
     });
   });
 </script>
 ```
+
+**Tip:**
 
 ### WooCommerce
 
@@ -253,14 +259,28 @@ add_action('woocommerce_thankyou', function($order_id) {
   if (get_post_meta($order_id, '_sealmetrics_tracked', true)) return;
 
   $order = wc_get_order($order_id);
+
+  // Build items array
+  $items = array();
+  foreach ($order->get_items() as $item) {
+    $product = $item->get_product();
+    $items[] = array(
+      'product_name' => $item->get_name(),
+      'product_id'   => $product ? $product->get_id() : '',
+      'sku'          => $product ? $product->get_sku() : '',
+      'price'        => $item->get_total() / max($item->get_quantity(), 1),
+      'quantity'     => $item->get_quantity(),
+      'category'     => wp_strip_all_tags(wc_get_product_category_list($product ? $product->get_id() : 0)),
+    );
+  }
   ?>
   <script>
     window.addEventListener('load', function() {
       sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
         currency: '<?php echo $order->get_currency(); ?>',
         payment_method: '<?php echo esc_js($order->get_payment_method_title()); ?>',
-        items_count: '<?php echo $order->get_item_count(); ?>',
-        coupon: '<?php echo implode(',', $order->get_coupon_codes()); ?>'
+        coupon: '<?php echo implode(',', $order->get_coupon_codes()); ?>',
+        items: <?php echo json_encode($items); ?>
       });
     });
   </script>
@@ -280,8 +300,18 @@ In **Settings → Checkout → Additional scripts**:
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
       currency: '{{ checkout.currency }}',
-      items_count: '{{ checkout.line_items.size }}',
-      payment_method: '{{ checkout.transactions[0].gateway | default: "unknown" }}'
+      payment_method: '{{ checkout.transactions[0].gateway | default: "unknown" }}',
+      items: [
+        {% for item in checkout.line_items %}
+        {
+          product_name: '{{ item.title | escape }}',
+          product_id: '{{ item.product_id }}',
+          sku: '{{ item.sku | escape }}',
+          price: {{ item.final_price | money_without_currency | remove: ',' }},
+          quantity: {{ item.quantity }}
+        }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
     });
   });
 </script>
@@ -295,13 +325,23 @@ In **Settings → Checkout → Additional scripts**:
 <?php
 $order = $block->getOrder();
 if ($order && !$order->getSealmetricsTracked()):
+  $items = array();
+  foreach ($order->getAllVisibleItems() as $item) {
+    $items[] = array(
+      'product_name' => $item->getName(),
+      'product_id'   => $item->getProductId(),
+      'sku'          => $item->getSku(),
+      'price'        => $item->getPrice(),
+      'quantity'     => (int)$item->getQtyOrdered(),
+    );
+  }
 ?>
 <script>
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', <?php echo $order->getGrandTotal(); ?>, {
       currency: '<?php echo $order->getOrderCurrencyCode(); ?>',
       payment_method: '<?php echo $order->getPayment()->getMethodInstance()->getTitle(); ?>',
-      items_count: '<?php echo (int)$order->getTotalItemCount(); ?>'
+      items: <?php echo json_encode($items); ?>
     });
   });
 </script>
@@ -320,12 +360,24 @@ public function hookDisplayOrderConfirmation($params)
   $order = $params['order'];
   if ($order->sealmetrics_tracked) return '';
 
+  $items = array();
+  foreach ($order->getProducts() as $product) {
+    $items[] = array(
+      'product_name' => $product['product_name'],
+      'product_id'   => $product['product_id'],
+      'sku'          => $product['product_reference'],
+      'price'        => (float)$product['unit_price_tax_incl'],
+      'quantity'     => (int)$product['product_quantity'],
+      'category'     => $product['category'],
+    );
+  }
+
   $output = '<script>
     window.addEventListener("load", function() {
       sealmetrics.conv("purchase", ' . $order->total_paid . ', {
         currency: "' . $order->id_currency . '",
         payment_method: "' . $order->payment . '",
-        items_count: "' . count($order->getProducts()) . '"
+        items: ' . json_encode($items) . '
       });
     });
   </script>';

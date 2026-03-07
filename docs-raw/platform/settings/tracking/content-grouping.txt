@@ -38,11 +38,49 @@ Support                        234 views
 1. Click the **gear icon** in the main navigation
 2. Select **Tracking → Content Grouping**
 
-## Creating Content Groups
+## Setting Content Groups
 
-### Rule-Based Groups
+### Via URL Parameter (Recommended)
 
-Define rules to automatically assign pages to groups:
+Add the `group` parameter to your tracking script:
+
+```html
+<!-- Blog pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=blog" defer></script>
+
+<!-- Product pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=product" defer></script>
+
+<!-- Checkout pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=checkout" defer></script>
+```
+
+### Via JavaScript
+
+Override the content group dynamically:
+
+```javascript
+sealmetrics({ group: 'product' });
+```
+
+### Dynamic Grouping (Server-Side)
+
+For CMS/dynamic sites, generate the group server-side:
+
+```php
+<?php
+$group = 'general';
+if (is_single()) $group = 'blog';
+if (is_product()) $group = 'product';
+if (is_checkout()) $group = 'checkout';
+?>
+
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=<?php echo $group; ?>" defer></script>
+```
+
+## Creating Rule-Based Groups
+
+Define rules in the dashboard to automatically assign pages to groups:
 
 ```
 Content Groups
@@ -128,15 +166,6 @@ Match against the HTML page title:
 |-----------|-------|---------|
 | `contains` | "Product" | "Product: Widget A - MyStore" |
 | `starts with` | "Blog:" | "Blog: How to Use Widgets" |
-
-### Custom Property Rules
-
-Match against custom event properties:
-
-| Property | Condition | Value | Matches |
-|----------|-----------|-------|---------|
-| `page_type` | equals | product | Pages with page_type="product" |
-| `category` | contains | electronics | Pages with category containing "electronics" |
 
 ## Rule Priority
 
@@ -298,36 +327,6 @@ Groups:
 6. Docs            - URL host equals "docs.myapp.com"
 7. Other           - (catch-all)
 ```
-
-## Advanced: Code-Based Grouping
-
-Set content group via JavaScript for complex logic:
-
-```javascript
-// Set content group based on complex logic
-_sm('set', 'contentGroup', determineContentGroup());
-
-function determineContentGroup() {
-  // Check data layer
-  if (dataLayer.pageType === 'product') {
-    return 'Products';
-  }
-
-  // Check URL patterns
-  if (window.location.pathname.startsWith('/blog/')) {
-    return 'Blog';
-  }
-
-  // Check page content
-  if (document.querySelector('.product-detail')) {
-    return 'Products';
-  }
-
-  return 'Other';
-}
-```
-
-This overrides rule-based grouping when set.
 
 ## Limitations
 

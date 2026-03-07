@@ -27,13 +27,17 @@ On your thank-you/confirmation page:
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', 149.99, {
       order_id: 'ORD-12345',
-      currency: 'EUR'
+      currency: 'EUR',
+      items: [
+        { product_name: 'Blue Running Shoes', price: 89.99, quantity: 1, category: 'footwear' },
+        { product_name: 'Sports Socks Pack', price: 60.00, quantity: 2, category: 'accessories' }
+      ]
     });
   });
 </script>
 ```
 
-That's the minimum setup. Read on for complete funnel tracking.
+That's the minimum setup. The `items` array is optional but recommended for detailed product analytics. Read on for complete funnel tracking.
 
 ---
 
@@ -110,7 +114,7 @@ sealmetrics.micro('begin_checkout', {
 
 ### Purchase (Conversion)
 
-Track completed purchases:
+Track completed purchases with product details:
 
 ```javascript
 // On thank-you page
@@ -118,9 +122,15 @@ sealmetrics.conv('purchase', 267.97, {
   order_id: 'ORD-12345',
   currency: 'EUR',
   payment_method: 'credit_card',
-  items_count: '3'
+  items: [
+    { product_name: 'Blue Running Shoes', product_id: 'SKU-123', price: 89.99, quantity: 2, category: 'footwear' },
+    { product_name: 'Sports Socks', product_id: 'SKU-456', price: 89.99, quantity: 1, category: 'accessories' }
+  ]
 });
 ```
+
+**Tip:**
+The `items` property is an **array of objects** inside the third parameter (properties object) of `sealmetrics.conv()`. Each object can contain any key-value fields you need: `product_name`, `price`, `quantity`, `category`, `variant`, `id`, etc. Do **not** pass `items` as a string or as a separate parameter — it must be a native JavaScript array within the properties object.
 
 ---
 
@@ -135,6 +145,20 @@ Add to your `functions.php` or a custom plugin:
 add_action('woocommerce_thankyou', function($order_id) {
   $order = wc_get_order($order_id);
   if (!$order) return;
+
+  // Build items array
+  $items = array();
+  foreach ($order->get_items() as $item) {
+    $product = $item->get_product();
+    $items[] = array(
+      'product_name' => $item->get_name(),
+      'product_id'   => $product ? $product->get_id() : '',
+      'sku'          => $product ? $product->get_sku() : '',
+      'price'        => $item->get_total() / max($item->get_quantity(), 1),
+      'quantity'     => $item->get_quantity(),
+      'category'     => wp_strip_all_tags(wc_get_product_category_list($product ? $product->get_id() : 0)),
+    );
+  }
   ?>
   <script>
     window.addEventListener('load', function() {
@@ -143,7 +167,7 @@ add_action('woocommerce_thankyou', function($order_id) {
           order_id: '<?php echo $order_id; ?>',
           currency: '<?php echo $order->get_currency(); ?>',
           payment_method: '<?php echo $order->get_payment_method(); ?>',
-          items_count: '<?php echo $order->get_item_count(); ?>'
+          items: <?php echo json_encode($items); ?>
         });
       }
     });
@@ -178,7 +202,18 @@ In your **checkout.liquid** or via **Additional Scripts** (Settings → Checkout
       sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
         order_id: '{{ order.name }}',
         currency: '{{ checkout.currency }}',
-        items_count: '{{ checkout.line_items.size }}'
+        items: [
+          {% for item in checkout.line_items %}
+          {
+            product_name: '{{ item.title | escape }}',
+            product_id: '{{ item.product_id }}',
+            sku: '{{ item.sku | escape }}',
+            price: {{ item.final_price | money_without_currency | remove: ',' }},
+            quantity: {{ item.quantity }},
+            category: '{{ item.product.type | escape }}'
+          }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
       });
     }
   });
@@ -209,6 +244,16 @@ In your checkout success template or via layout XML:
 ```php
 <?php
 $order = $block->getOrder();
+$items = array();
+foreach ($order->getAllVisibleItems() as $item) {
+    $items[] = array(
+        'product_name' => $item->getName(),
+        'product_id'   => $item->getProductId(),
+        'sku'          => $item->getSku(),
+        'price'        => $item->getPrice(),
+        'quantity'     => (int)$item->getQtyOrdered(),
+    );
+}
 ?>
 <script>
   window.addEventListener('load', function() {
@@ -216,7 +261,7 @@ $order = $block->getOrder();
       sealmetrics.conv('purchase', <?php echo $order->getGrandTotal(); ?>, {
         order_id: '<?php echo $order->getIncrementId(); ?>',
         currency: '<?php echo $order->getOrderCurrencyCode(); ?>',
-        items_count: '<?php echo (int)$order->getTotalQtyOrdered(); ?>'
+        items: <?php echo json_encode($items); ?>
       });
     }
   });
@@ -235,7 +280,18 @@ In your order confirmation template:
       sealmetrics.conv('purchase', {$order.total_paid|floatval}, {
         order_id: '{$order.reference|escape:'javascript'}',
         currency: '{$currency.iso_code|escape:'javascript'}',
-        items_count: '{$order.products|count}'
+        items: [
+          {foreach from=$order.products item=product name=items}
+          {ldelim}
+            product_name: '{$product.product_name|escape:'javascript'}',
+            product_id: '{$product.product_id}',
+            sku: '{$product.product_reference|escape:'javascript'}',
+            price: {$product.unit_price_tax_incl|floatval},
+            quantity: {$product.product_quantity|intval},
+            category: '{$product.category|escape:'javascript'}'
+          {rdelim}{if !$smarty.foreach.items.last},{/if}
+          {/foreach}
+        ]
       });
     }
   });
@@ -326,18 +382,27 @@ Recommended properties for e-commerce events:
 |----------|-------------|---------|
 | `order_id` | Unique order identifier | `'ORD-12345'` |
 | `currency` | ISO 4217 currency code | `'EUR'`, `'USD'` |
-| `product_id` | Product SKU/ID | `'SKU-123'` |
-| `product_name` | Product name | `'Blue Shoes'` |
-| `category` | Product category | `'footwear'` |
-| `price` | Item price | `'89.99'` |
-| `quantity` | Number of items | `'2'` |
-| `items_count` | Total cart items | `'3'` |
-| `cart_value` | Cart total | `'267.97'` |
 | `payment_method` | Payment type | `'credit_card'` |
 | `coupon` | Discount code | `'SAVE10'` |
+| `items` | Array of product objects (see below) | `[{ product_name: '...', price: 19.99 }]` |
+
+#### Product fields inside `items`
+
+Each object in the `items` array can contain any combination of these fields (all are optional, free-form key-value):
+
+| Field | Description | Example |
+|-------|-------------|---------|
+| `product_name` | Product name | `'Blue Running Shoes'` |
+| `product_id` | Product SKU/ID | `'SKU-123'` |
+| `price` | Unit price | `89.99` |
+| `quantity` | Units purchased | `2` |
+| `category` | Product category | `'footwear'` |
+| `brand` | Brand name | `'Nike'` |
+| `variant` | Product variant | `'Blue / Size 42'` |
+| `sku` | Stock keeping unit | `'SKU-123-BL'` |
 
 **Tip:**
-Property values are transmitted as strings. Numbers are automatically converted.
+`items` is an **array of JavaScript objects** inside the properties parameter. Do not pass it as a string or as a separate parameter outside properties. Individual product fields (`product_name`, `price`, etc.) go inside each object of the array, not as top-level properties.
 
 ---
 

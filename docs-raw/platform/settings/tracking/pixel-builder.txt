@@ -4,372 +4,169 @@ URL: https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder
 
 # Pixel Builder
 
-The Pixel Builder helps you generate customized tracking code for your website without writing code manually.
+The Pixel Builder helps you generate tracking code for your website without writing code manually. It creates ready-to-copy snippets for conversions, microconversions, and pageviews.
 
 ## Accessing Pixel Builder
 
-1. Click the **gear icon** in the main navigation
-2. Select **Tracking → Pixel Builder**
+1. Go to **Settings → Pixels** in the sidebar
+2. In the **Saved Pixels** section, click **Create Pixel**
 
-## Basic Configuration
+## Creating a Pixel
 
-### Step 1: Select Account
+### Step 1: Name and Description
 
-Choose which account this pixel will track to:
+Give your pixel a descriptive name (e.g., "Purchase Tracking", "Newsletter Signup") and an optional description.
 
-```
-Account: [My E-commerce Store            ▼]
+### Step 2: Choose Pixel Type
 
-Account ID: acc_1234567890abcdef
-Tracking Domain: track.mystore.com
-```
+Select the type of event to track:
 
-### Step 2: Tracking Features
+| Type | Purpose | Function Generated |
+|------|---------|-------------------|
+| **Pageview** | Manual pageview (rarely needed — pageviews are automatic) | `sealmetrics()` |
+| **Conversion** | Goal completions with monetary value | `sealmetrics.conv()` |
+| **Microconversion** | User interactions and funnel steps | `sealmetrics.micro()` |
 
-Enable/disable tracking features:
+### Step 3: Configure the Event
 
-```
-Tracking Features
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**For Conversions:**
+- Select a **Conversion Type** (purchase, signup, lead, etc.)
+- Set the **Revenue** value (use `0` for non-monetary conversions)
+- Set the **Currency** (EUR, USD, etc.)
+- Add custom **Properties** (optional key-value pairs)
 
-☑ Automatic pageview tracking
-  Track page loads automatically
+**For Microconversions:**
+- Select a **Conversion Type** (add_to_cart, begin_checkout, etc.)
+- Add custom **Properties** (optional)
 
-☑ SPA support (Single Page Applications)
-  Track virtual navigation in React, Vue, etc.
+**For Pageviews:**
+- Add custom **Properties** (optional, e.g., content group)
 
-☑ Scroll depth tracking
-  Track how far users scroll (25%, 50%, 75%, 100%)
+### Step 4: Select Target Platform
 
-☑ Time on page tracking
-  Track active time spent on pages
+Choose where you'll use the code:
 
-☐ Click tracking
-  Track all link clicks (generates more data)
+| Platform | Output |
+|----------|--------|
+| **JavaScript** | Plain JavaScript snippet |
+| **GTM** | Wrapped in `<script>` tags for Google Tag Manager Custom HTML |
+| **Tealium** | Formatted as a Tealium extension |
 
-☐ Form tracking
-  Automatically track form submissions
+### Step 5: Copy the Generated Code
 
-☑ Error tracking
-  Track JavaScript errors
-```
+The code preview updates in real time. Click **Copy** to copy it to your clipboard.
 
-## Generated Code
+## Generated Code Examples
 
-### Basic Installation
-
-After configuration, copy the generated code:
-
-```html
-<!-- Sealmetrics Tracking Code -->
-<script>
-  (function(s,e,a,l,m,t,r,i,c){
-    s['SealmetricsObject']=m;s[m]=s[m]||function(){
-    (s[m].q=s[m].q||[]).push(arguments)};s[m].l=1*new Date();
-    t=e.createElement(a);r=e.getElementsByTagName(a)[0];
-    t.async=1;t.src=l;r.parentNode.insertBefore(t,r)
-  })(window,document,'script','https://track.mystore.com/sm.js','_sm');
-
-  _sm('init', 'acc_1234567890abcdef', {
-    trackingDomain: 'track.mystore.com',
-    privacyMode: 'standard',
-    scrollTracking: true,
-    timeOnPage: true
-  });
-
-  _sm('pageview');
-</script>
-<!-- End Sealmetrics Tracking Code -->
-```
-
-### Installation Location
-
-```
-Place the code in your HTML:
-
-Recommended: Inside <head> tag
-             This ensures tracking starts immediately
-
-Alternative: Before </body> tag
-             May miss very quick bounces
-
-Do NOT place:
-• After other heavy scripts (delays tracking)
-• Inside async-loaded containers
-• In iframes
-```
-
-## Advanced Options
-
-### Custom Tracking Domain
-
-Use your own subdomain for first-party tracking:
-
-```
-Custom Tracking Domain
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-☑ Use custom tracking domain
-
-Domain: [track.mystore.com               ]
-
-DNS Setup Required:
-Add this CNAME record to your DNS:
-
-  track.mystore.com → sm-proxy.sealmetrics.com
-
-[Verify DNS]
-```
-
-### Cross-Domain Tracking
-
-Track users across multiple domains:
-
-```
-Cross-Domain Tracking
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-☑ Enable cross-domain tracking
-
-Linked Domains:
-+ mystore.com
-+ checkout.mystore.com
-+ blog.mystore.com
-
-[+ Add Domain]
-
-This will:
-• Append tracking parameters to cross-domain links
-• Maintain session continuity across domains
-• Provide unified attribution
-```
-
-### Excluded Traffic
-
-Filter out internal traffic:
-
-```
-Traffic Exclusions
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Exclude by IP:
-+ 192.168.1.0/24 (Office network)
-+ 10.0.0.50 (VPN)
-[+ Add IP]
-
-Exclude by URL parameter:
-+ debug=true
-+ internal=1
-[+ Add Parameter]
-
-Exclude by cookie:
-+ sealmetrics_exclude=1
-[+ Add Cookie]
-```
-
-### Data Layer Integration
-
-Connect with existing tag management:
-
-```
-Data Layer Integration
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-☑ Read from dataLayer
-
-Variable Mapping:
-  Page Title:      dataLayer.pageTitle
-  User ID:         dataLayer.userId
-  Custom Prop 1:   dataLayer.category
-  Custom Prop 2:   dataLayer.productType
-
-☑ Push events to dataLayer
-  Sealmetrics events will be pushed to dataLayer
-  for use with other tools
-```
-
-## Platform-Specific Code
-
-### Google Tag Manager
-
-```html
-<!-- In GTM Custom HTML Tag -->
-<script>
-  (function(s,e,a,l,m,t,r,i,c){
-    s['SealmetricsObject']=m;s[m]=s[m]||function(){
-    (s[m].q=s[m].q||[]).push(arguments)};s[m].l=1*new Date();
-    t=e.createElement(a);r=e.getElementsByTagName(a)[0];
-    t.async=1;t.src=l;r.parentNode.insertBefore(t,r)
-  })(window,document,'script','https://track.mystore.com/sm.js','_sm');
-
-  _sm('init', 'acc_1234567890abcdef');
-</script>
-
-<!-- Trigger: All Pages -->
-<!-- Firing Priority: 100 (high) -->
-```
-
-### WordPress
-
-```php
-<!-- In functions.php or header.php -->
-<?php
-add_action('wp_head', function() {
-?>
-<script>
-  // Sealmetrics code here
-</script>
-<?php
-}, 1); // Priority 1 = load early
-```
-
-### Shopify
-
-```liquid
-<!-- In theme.liquid, before </head> -->
-<script>
-  // Sealmetrics code here
-
-  // E-commerce tracking
-  {% if template contains 'order' %}
-    _sm('conversion', {
-      order_id: '{{ checkout.order_id }}',
-      amount: {{ checkout.total_price | money_without_currency }},
-      currency: '{{ checkout.currency }}'
-    });
-  {% endif %}
-</script>
-```
-
-### React / Next.js
-
-```jsx
-// In _app.js or layout.js
-import Script from 'next/script'
-
-export default function App({ Component, pageProps }) {
-  return (
-    <>
-      <Script id="sealmetrics" strategy="afterInteractive">
-        {`
-          (function(s,e,a,l,m,t,r,i,c){
-            // Sealmetrics init code
-          })(window,document,'script','https://track.mystore.com/sm.js','_sm');
-
-          _sm('init', 'acc_1234567890abcdef');
-        `}
-      </Script>
-      <Component {...pageProps} />
-    </>
-  )
-}
-```
-
-## Testing Your Installation
-
-### Built-in Debugger
-
-Enable debug mode to verify tracking:
+### Conversion (JavaScript)
 
 ```javascript
-_sm('debug', true);
-
-// Console will show:
-// [Sealmetrics] Pageview sent: /products/widget
-// [Sealmetrics] Event sent: add-to-cart
-// [Sealmetrics] Conversion sent: purchase, €149.99
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'EUR'
+});
 ```
 
-### Verification Tool
+### Conversion with Dynamic Values
 
-Use the built-in verification:
+For values that come from your platform (e.g., order total from your CMS), switch the value type from **Literal** to **JS Variable** or **GTM Variable**:
 
-1. After installing, click **Verify Installation**
-2. Enter your website URL
-3. Tool checks for:
-   - Pixel presence
-   - Correct account ID
-   - Data being received
-
-```
-Installation Verification
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-URL: https://mystore.com
-
-Checking...
-
-✅ Pixel found on page
-✅ Correct account ID (acc_1234...)
-✅ Data received (3 pageviews in last minute)
-✅ Cross-domain links decorated
-⚠️ Scroll tracking not firing (check config)
-
-Overall: Installation successful with minor issues
+**JS Variable:**
+```javascript
+sealmetrics.conv('purchase', orderTotal, {
+  currency: orderCurrency
+});
 ```
 
-## Code Versioning
-
-### Current Version
-
-```
-Pixel Version: 2.4.1
-
-Last updated: January 10, 2024
-
-Changes in 2.4.1:
-• Improved SPA detection
-• Fixed Safari ITP handling
-• Added consent mode support
+**GTM Variable:**
+```javascript
+sealmetrics.conv('purchase', {{Order Total}}, {
+  currency: '{{Currency}}'
+});
 ```
 
-### Auto-Update
+### Microconversion (JavaScript)
 
-The pixel auto-updates by default:
-
-```
-Auto-Update: ✅ Enabled
-
-Your pixel will automatically receive:
-• Bug fixes
-• Performance improvements
-• New features
-
-Major version changes require manual approval.
+```javascript
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  price: '89.99'
+});
 ```
 
-### Lock Version
+### Microconversion (GTM)
 
-For strict change control:
-
-```
-☐ Lock to specific version
-
-Version: [2.4.1                          ▼]
-
-Warning: Locking prevents automatic updates.
-You'll need to manually update for fixes.
+```html
+<script>
+sealmetrics.micro('add_to_cart', {
+  product_id: '{{Product ID}}',
+  price: '{{Product Price}}'
+});
+</script>
 ```
 
-## Troubleshooting
+### Pageview (JavaScript)
 
-### No Data Appearing
+```javascript
+sealmetrics();
+```
 
-1. Check pixel is installed (View Source → search "sealmetrics")
-2. Verify account ID matches
-3. Check browser console for errors
-4. Ensure not blocked by ad blocker
-5. Wait 5-10 minutes for data processing
+## Value Types
 
-### Duplicate Pageviews
+When configuring revenue, currency, or property values, you can choose between:
 
-1. Check pixel isn't installed multiple times
-2. Disable auto-pageview if tracking manually
-3. Check GTM isn't firing on virtual pageviews + real pageviews
+| Type | Description | Example |
+|------|-------------|---------|
+| **Literal** | Fixed value | `99.99`, `'EUR'` |
+| **JS Variable** | JavaScript variable name | `orderTotal`, `document.getElementById('price').value` |
+| **GTM Variable** | Google Tag Manager variable | `{{Order Total}}`, `{{Currency}}` |
 
-### Cross-Domain Not Working
+## Saved Pixels
 
-1. Verify all domains in linked list
-2. Check DNS for all tracking subdomains
-3. Ensure links include `sealmetrics` parameter
-4. Test with debug mode enabled
+Saved pixels are stored per site. You can:
+
+- **Edit** a saved pixel to update its configuration
+- **Copy** the generated code at any time
+- **Delete** pixels you no longer need
+
+## Important Notes
+
+### Tracker Must Be Installed First
+
+The Pixel Builder generates event-tracking code only. The base tracker script must already be installed on your page:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
+```
+
+See the [Installation Guide](/implementation/tracker/installation) for setup instructions.
+
+### Conversions Count as Pageviews
+
+Every conversion and microconversion event also counts as a pageview. Do not call `sealmetrics()` separately on the same page where you fire a conversion.
+
+### Wait for Tracker to Load
+
+If placing conversion code directly on a page (e.g., a thank-you page), wrap it in a load listener:
+
+```javascript
+window.addEventListener('load', function() {
+  sealmetrics.conv('purchase', 99.99, {
+    currency: 'EUR'
+  });
+});
+```
+
+### Debug Mode
+
+Add `?debug=1` to any page URL to see tracking events logged in the browser console:
+
+```
+https://yoursite.com/thank-you?debug=1
+```
+
+## Related Documentation
+
+- [Installation](/implementation/tracker/installation) — Install the base tracker
+- [Conversions](/implementation/tracker/conversions) — Detailed conversion tracking guide
+- [Microconversions](/implementation/tracker/microconversions) — Event tracking guide
+- [API Reference](/implementation/tracker/api-reference) — Complete tracker API
