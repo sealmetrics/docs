@@ -413,7 +413,31 @@ Each object in the `items` array can contain any combination of these fields (al
 | `sku` | Stock keeping unit | `'SKU-123-BL'` |
 
 :::tip Items format
-`items` is an **array of JavaScript objects** inside the properties parameter. Do not pass it as a string or as a separate parameter outside properties. Individual product fields (`product_name`, `price`, etc.) go inside each object of the array, not as top-level properties.
+`items` is an **array of JavaScript objects** inside the properties parameter. Do not pass it as a string or as a separate parameter outside properties. Individual product fields (`product_name`, `price`, etc.) go inside each object of the array, not as top-level properties. You can include any custom fields you need — all are accepted.
+:::
+
+---
+
+## Viewing Product Data in the Dashboard
+
+Once you're tracking purchases with `items`, your product data is available in the **Properties** report.
+
+1. Go to your site in the SealMetrics dashboard
+2. Click **Properties** in the sidebar
+3. Select the **Conv. Items** tab
+
+In this mode you can:
+
+- **Browse product fields**: See all fields you've tracked across items (`product_name`, `category`, `brand`, `sku`, etc.) and how frequently each appears
+- **Analyze by source**: Select a field (e.g., `product_name`) to see which products are sold by each traffic source, medium, and campaign
+- **View totals or rates**: Toggle between raw counts and conversion rates
+- **Filter**: Narrow results by conversion type, UTMs, channel, country, or device
+- **Export**: Download CSV for any view
+
+Items with a `quantity` field are automatically counted by units — a product with `quantity: 2` counts as 2 in the report.
+
+:::tip
+Transaction-level properties like `currency`, `payment_method`, and `coupon` are available in the **Conversions** tab of the same Properties report.
 :::
 
 ---
@@ -466,9 +490,10 @@ if (!localStorage.getItem('tracked_' + orderId)) {
 
 ### Verify Conversion Data
 
-1. Go to Conversions report
-2. Check that purchase amount and properties are correct
-3. Verify attribution to traffic source
+1. Go to **Conversions** report — check that purchase amount is correct
+2. Go to **Properties** report — verify properties appear in the **Conversions** tab
+3. Select **Conv. Items** tab — confirm your product items are listed with correct fields
+4. Verify attribution to traffic source
 
 ---
 

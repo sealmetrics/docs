@@ -234,7 +234,11 @@ sealmetrics.conv('purchase', 89.99, {
 });
 ```
 
-Common fields per item: `product_name`, `product_id`, `sku`, `price`, `quantity`, `category`, `brand`, `variant`.
+Common fields per item: `product_name`, `product_id`, `sku`, `price`, `quantity`, `category`, `brand`, `variant`. You can add any custom fields you need — all fields are accepted.
+
+:::info Where to view items data
+Once tracked, product items appear in the **Properties** report under the **Conv. Items** tab. There you can analyze each product field broken down by traffic source, medium, and campaign. Items with a `quantity` field are automatically counted by the number of units (e.g., `quantity: 2` counts as 2).
+:::
 
 :::warning Important
 - `items` must be a **native JavaScript array** of objects, not a string
