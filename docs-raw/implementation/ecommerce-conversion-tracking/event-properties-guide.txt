@@ -133,6 +133,8 @@ This implementation enables analysis of:
 - Payment method adoption rates
 - Per-product performance and sales volume
 
+To analyze your product items, go to **Properties > Conv. Items** in the dashboard. You'll see each product field (name, category, brand, etc.) broken down by traffic source, medium, and campaign.
+
 ### SaaS Subscription Tracking
 
 Software-as-a-Service companies benefit from tracking subscription details and upgrade patterns:
@@ -344,15 +346,36 @@ A well-planned schema accommodates business growth without requiring complete re
 
 ## Accessing Properties Data
 
-### Important Limitation
+### Properties Report (Dashboard)
 
-Properties data is not currently displayed in the standard Sealmetrics dashboard interface. This architectural decision optimizes dashboard performance while maintaining flexibility for advanced analysis.
+Event properties are available directly in the Sealmetrics dashboard through the **Properties** report. Navigate to your site and click **Properties** in the sidebar.
 
-To access and analyze your event properties, Sealmetrics provides two powerful options:
+The Properties report has three modes, selectable via a button group:
 
-### 1. API Access
+| Mode | What it shows |
+|------|---------------|
+| **Conversions** | Properties from conversion events (e.g., `currency`, `payment_method`, `coupon`) |
+| **Microconversions** | Properties from microconversion events |
+| **Conv. Items** | Individual product data from the `items` array in purchase conversions |
 
-Query your conversion data programmatically using the Sealmetrics API. This approach suits:
+#### Conv. Items Mode
+
+When you select **Conv. Items**, the report displays per-product analytics from your conversion items. Each product sent in the `items` array appears as a separate entry with all its fields (e.g., `product_name`, `category`, `brand`, `price`, `sku`).
+
+You can:
+- **Browse available properties**: See all product fields you've tracked and how often each appears
+- **Analyze by attribution**: Select any property (e.g., `product_name`) to see a breakdown by traffic source, medium, and campaign
+- **Switch between Totals and Rates**: View raw counts or conversion rates
+- **Apply filters**: Filter by conversion type, UTM parameters, channel, country, or device
+- **Export to CSV**: Download the data for any mode
+
+**Note:** The `quantity` field is automatically respected — a product with `quantity: 2` counts as 2 units in the report. The `quantity` field itself is not shown as a reportable property since it's used for counting.
+
+**Tip:** When viewing properties in **Conversions** mode, the `items` key is automatically hidden from the property list since its data is better explored in **Conv. Items** mode.
+
+### API Access
+
+You can also query your conversion data programmatically using the Sealmetrics API. This approach suits:
 
 - Custom dashboard development
 - Integration with existing business intelligence tools
@@ -361,7 +384,7 @@ Query your conversion data programmatically using the Sealmetrics API. This appr
 
 The API returns complete event data including all properties, enabling you to build tailored analytics interfaces that display exactly the metrics your business needs.
 
-### 2. BigQuery Integration
+### BigQuery Integration
 
 For advanced analytics and data warehouse integration, Sealmetrics offers BigQuery connectivity. This option provides:
 
@@ -373,16 +396,6 @@ For advanced analytics and data warehouse integration, Sealmetrics offers BigQue
 
 BigQuery integration transforms Sealmetrics into a comprehensive analytics warehouse while maintaining the privacy-first approach that makes cookieless tracking possible.
 
-### Requesting Access
-
-If you'd like to leverage event properties through API access or BigQuery integration, contact the Sealmetrics team at [[email protected]](mailto:[email protected]).
-
-The team can provide:
-- API documentation and authentication details
-- BigQuery connection configuration
-- Sample queries and analysis templates
-- Best practices for data extraction and analysis
-
 ## Comparison: Event Properties vs. Cookie-Based Analytics
 
 | Feature | Sealmetrics Event Properties | Google Analytics (Cookie-based) |
@@ -393,7 +406,7 @@ The team can provide:
 | **Data Loss from Consent** | 0% (no consent required) | 40-65% (consent rejection) |
 | **Custom Dimensions** | Unlimited properties | Limited by plan (20-200) |
 | **Implementation Complexity** | Simple key-value pairs | Complex data layer configuration |
-| **Data Availability** | API + BigQuery | Dashboard + API |
+| **Data Availability** | Dashboard + API + BigQuery | Dashboard + API |
 | **Historical Analysis** | Full event history | Subject to data retention policies |
 | **Cross-domain Tracking** | Manual property passing | Automatic with cookie linking |
 | **Real-time Analysis** | Via API | Dashboard interface |
@@ -469,7 +482,7 @@ Properties work identically for micro-conversions and full conversions. Use the 
 
 ### Can I filter dashboard data by properties?
 
-The standard Sealmetrics dashboard does not currently support property-based filtering. Property data access requires API queries or BigQuery integration. This limitation is by design to maintain dashboard performance while enabling sophisticated analysis through dedicated tools.
+Yes. The **Properties** report in the dashboard lets you explore property data directly. You can select any property key, view its values broken down by traffic source/medium/campaign, and apply filters by conversion type, UTMs, channel, country, or device. For product-level data, use the **Conv. Items** mode to analyze individual items from your purchase conversions.
 
 ### Are there reserved property names I should avoid?
 
