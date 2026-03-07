@@ -1,0 +1,169 @@
+# Usage & Limits
+
+URL: https://docs.sealmetrics.com/billing/usage-limits
+
+# Usage & Limits
+
+Learn how Sealmetrics tracks usage, what counts toward your limits, and how to manage overages.
+
+## Event Limits
+
+Each plan includes a monthly event allowance:
+
+| Plan | Monthly Events | Overage per 100K |
+|------|---------------|-----------------|
+| Starter | 1,000,000 | €20 |
+| Growth | 5,000,000 | €15 |
+| Scale | 25,000,000 | €10 |
+| Pro | 100,000,000 | €8 |
+| Enterprise | Unlimited | - |
+
+### What Counts as an Event
+
+All tracked interactions count toward your event limit:
+
+| Event Type | Counts? | Notes |
+|------------|:-------:|-------|
+| Pageview | Yes | Standard page load |
+| Virtual pageview (SPA) | Yes | Single-page app navigation |
+| Custom event | Yes | User-defined events |
+| Conversion | Yes | Purchase, signup, etc. |
+| Micro-conversion | Yes | Add-to-cart, etc. |
+| AI Agent events | No | Detected agents are tracked but not billed |
+
+**Agent Analytics:** AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) is detected and tracked separately but does **not** count toward your event limit.
+
+### Events Are Pooled
+
+Events are pooled across all websites in your plan:
+
+```
+Plan: Growth (5M events)
+
+Website 1 (main-store.com):     3,200,000 events
+Website 2 (blog.company.com):     800,000 events
+Website 3 (uk.store.com):         650,000 events
+----------------------------------------------
+Total used:                     4,650,000 events
+Remaining:                        350,000 events
+```
+
+## Monitoring Usage
+
+### Dashboard View
+
+1. Go to **Settings > Billing**
+2. View the **Event Usage** card showing current period usage
+3. See breakdown of human events and AI agent events
+
+### Usage Alerts
+
+You'll receive notifications at:
+
+| Threshold | Notification Type |
+|-----------|-------------------|
+| 80% | Email warning |
+| 100% | Email + Dashboard alert |
+| Overage | Email with usage details |
+
+## Handling Overages
+
+### What Happens When You Exceed
+
+When you exceed your event limit:
+
+1. **Tracking continues** -- No data is lost
+2. **Overage charges apply** -- Billed per 100,000 additional events
+3. **Notification sent** -- You're informed of the overage
+4. **Invoice updated** -- Charges added to next bill
+
+### Overage Pricing
+
+| Plan | Per 100,000 Extra Events |
+|------|--------------------------|
+| Starter | €20 |
+| Growth | €15 |
+| Scale | €10 |
+| Pro | €8 |
+| Enterprise | No overage (unlimited) |
+
+## Other Limits
+
+### Data Retention
+
+| Plan | Retention |
+|------|-----------|
+| Starter | 24 months |
+| Growth | 24 months |
+| Scale | 24 months |
+| Pro | 24 months |
+| Enterprise | Custom |
+
+### LENS AI Questions
+
+| Plan | Questions/month |
+|------|-----------------|
+| Starter | 500 |
+| Growth | 1,000 |
+| Scale | 2,000 |
+| Pro | 5,000 |
+| Enterprise | Custom |
+
+Additional question packs available: €99 per 500 questions (one-time purchase, never expires).
+
+[More about LENS limits](/lens/ai-assistant/question-limits)
+
+### Websites and Users
+
+All plans include unlimited websites and unlimited users. There are no limits on the number of sites you can track or team members you can invite.
+
+## Reducing Usage
+
+### Optimize Tracking
+
+If you're approaching limits, consider:
+
+1. **Exclude internal traffic** -- Don't install pixel on staging/development environments
+
+2. **Filter bot traffic** -- Enabled by default, removes known bots
+
+3. **Agent Analytics** -- AI agent events are already excluded from your event count
+
+### Monitor by Website
+
+Identify high-usage websites:
+
+1. Go to **Settings > Billing**
+2. View the **Event Usage** card
+3. Consider if all websites need full tracking
+
+## Planning for Growth
+
+### Upgrade Triggers
+
+Consider upgrading when:
+
+| Trigger | Recommendation |
+|---------|----------------|
+| 2+ months at 90%+ usage | Upgrade plan |
+| Regular overages | Upgrade plan |
+| Need BigQuery | Upgrade to Growth+ |
+| Need webhooks/audit logs | Upgrade to Scale+ |
+
+## FAQ
+
+### Do AI agent events count toward my limit?
+
+No. Agent Analytics detects AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) and tracks them separately. These events do not count toward your monthly event limit.
+
+### What happens if I hit my limit mid-month?
+
+Tracking continues and overage charges apply. You'll be notified by email.
+
+### Do unused events roll over?
+
+No. Event allowances reset each billing cycle and don't roll over.
+
+### How quickly does usage update?
+
+Usage data is synced periodically. There may be a short delay before the latest events appear in your usage dashboard.

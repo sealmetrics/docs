@@ -1,0 +1,670 @@
+# Stats Endpoints
+
+URL: https://docs.sealmetrics.com/api/stats
+
+# Stats Endpoints
+
+Analytics endpoints for retrieving traffic, conversions, and engagement metrics.
+
+## Common Parameters
+
+All stats endpoints accept these parameters:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `site_id` | string | Yes | Site identifier |
+| `start_date` | date | No | Start date (YYYY-MM-DD) |
+| `end_date` | date | No | End date (YYYY-MM-DD) |
+| `period` | string | No | Period shortcut (overrides dates) |
+| `segment` | string | No | Segment ID or name to apply |
+| `compare` | string | No | `previous` or `yoy` for comparison |
+| `country` | string | No | Filter by country code |
+| `utm_source` | string | No | Filter by UTM source |
+| `utm_medium` | string | No | Filter by UTM medium |
+| `utm_campaign` | string | No | Filter by UTM campaign |
+
+---
+
+## Overview
+
+### GET /stats/overview
+
+Dashboard summary with all key metrics.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "data": {
+    "date_range": {
+      "start": "2025-01-01",
+      "end": "2025-01-07"
+    },
+    "entrances": 12543,
+    "page_views": 28976,
+    "engaged_entrances": 7234,
+    "bounce_rate": 42.3,
+    "conversions": 156,
+    "revenue": 12450.00,
+    "microconversions": 892
+  }
+}
+```
+
+**With Comparison:**
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d&compare=previous"
+```
+
+```json
+{
+  "data": {
+    "entrances": 12543,
+    "entrances_previous": 11234,
+    "entrances_change": 11.7,
+    "page_views": 28976,
+    "page_views_previous": 25432,
+    "page_views_change": 13.9
+  }
+}
+```
+
+---
+
+## Pages
+
+### GET /stats/pages
+
+Page-level metrics with pagination.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/pages?site_id=acme&period=30d&page=1&page_size=20" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "page_path": "/",
+      "page_views": 5432,
+      "entrances": 3211,
+      "engaged_entrances": 1890,
+      "bounce_rate": 41.2,
+      "conversions": 45,
+      "revenue": 4500.00
+    },
+    {
+      "page_path": "/products",
+      "page_views": 3421,
+      "entrances": 1256,
+      "engaged_entrances": 987,
+      "bounce_rate": 21.4,
+      "conversions": 89,
+      "revenue": 8900.00
+    }
+  ],
+  "total": 156,
+  "page": 1,
+  "page_size": 20,
+  "has_next": true,
+  "has_prev": false
+}
+```
+
+### GET /stats/pages/top
+
+Quick endpoint for top pages.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/pages/top?site_id=acme&period=7d&limit=10"
+```
+
+### GET /stats/pages/content-groups
+
+Pages grouped by content group.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/pages/content-groups?site_id=acme&period=30d"
+```
+
+### GET /stats/landing-pages
+
+Landing page performance.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/landing-pages?site_id=acme&period=30d"
+```
+
+---
+
+## Traffic Sources (UTM)
+
+### GET /stats/mediums
+
+Traffic by UTM medium.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/mediums?site_id=acme&period=30d" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "utm_medium": "cpc",
+      "entrances": 5234,
+      "page_views": 12456,
+      "engaged_entrances": 3890,
+      "bounce_rate": 25.7,
+      "conversions": 156,
+      "revenue": 15600.00
+    },
+    {
+      "utm_medium": "organic",
+      "entrances": 4521,
+      "page_views": 9876,
+      "engaged_entrances": 3234,
+      "bounce_rate": 28.5,
+      "conversions": 89,
+      "revenue": 8900.00
+    }
+  ],
+  "total": 8,
+  "page": 1,
+  "page_size": 50
+}
+```
+
+### GET /stats/sources
+
+Traffic by UTM source.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/sources?site_id=acme&period=30d&utm_medium=cpc"
+```
+
+### GET /stats/campaigns
+
+Traffic by UTM campaign.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/campaigns?site_id=acme&period=30d&utm_source=google&utm_medium=cpc"
+```
+
+### GET /stats/terms
+
+Traffic by UTM term (search keywords).
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/terms?site_id=acme&period=30d"
+```
+
+### GET /stats/contents
+
+Traffic by UTM content.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/contents?site_id=acme&period=30d"
+```
+
+### GET /stats/referrers
+
+Traffic from referrer domains.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/referrers?site_id=acme&period=30d"
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "referrer_domain": "reddit.com",
+      "entrances": 2341,
+      "page_views": 4567,
+      "engaged_entrances": 1890,
+      "bounce_rate": 19.3,
+      "conversions": 23,
+      "revenue": 2300.00
+    }
+  ]
+}
+```
+
+---
+
+## Geography
+
+### GET /stats/geo/countries
+
+Traffic by country.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?site_id=acme&period=30d" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "country": "ES",
+      "country_name": "Spain",
+      "entrances": 4521,
+      "page_views": 12345,
+      "engaged_entrances": 3234,
+      "bounce_rate": 28.5,
+      "conversions": 89,
+      "revenue": 8900.00
+    },
+    {
+      "country": "US",
+      "country_name": "United States",
+      "entrances": 2341,
+      "page_views": 5678,
+      "engaged_entrances": 1567,
+      "bounce_rate": 33.1,
+      "conversions": 45,
+      "revenue": 4500.00
+    }
+  ],
+  "total": 42,
+  "page": 1,
+  "page_size": 50
+}
+```
+
+---
+
+## Devices
+
+### GET /stats/devices
+
+Complete device breakdown.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/devices?site_id=acme&period=30d" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "data": {
+    "by_device": [
+      {"device": "desktop", "entrances": 6543, "percentage": 58.2},
+      {"device": "mobile", "entrances": 3890, "percentage": 34.6},
+      {"device": "tablet", "entrances": 812, "percentage": 7.2}
+    ],
+    "by_browser": [
+      {"browser": "Chrome", "entrances": 5432, "percentage": 48.3},
+      {"browser": "Safari", "entrances": 2341, "percentage": 20.8},
+      {"browser": "Firefox", "entrances": 1234, "percentage": 11.0}
+    ],
+    "by_os": [
+      {"os": "Windows", "entrances": 4521, "percentage": 40.2},
+      {"os": "macOS", "entrances": 2890, "percentage": 25.7},
+      {"os": "iOS", "entrances": 2341, "percentage": 20.8}
+    ]
+  }
+}
+```
+
+### GET /stats/devices/types
+
+Device types only.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/devices/types?site_id=acme&period=30d"
+```
+
+### GET /stats/browsers
+
+Browser breakdown.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/browsers?site_id=acme&period=30d"
+```
+
+### GET /stats/operating-systems
+
+Operating system breakdown.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/operating-systems?site_id=acme&period=30d"
+```
+
+---
+
+## Conversions
+
+### GET /stats/conversions
+
+Conversion metrics by type.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/conversions?site_id=acme&period=30d" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "data": {
+    "conversions": [
+      {
+        "conversion_type": "purchase",
+        "count": 456,
+        "revenue": 45600.50,
+        "avg_value": 100.00
+      },
+      {
+        "conversion_type": "lead",
+        "count": 89,
+        "revenue": 0,
+        "avg_value": 0
+      }
+    ],
+    "microconversions": [
+      {
+        "microconversion_type": "add_to_cart",
+        "count": 1234
+      },
+      {
+        "microconversion_type": "checkout_start",
+        "count": 567
+      }
+    ],
+    "totals": {
+      "conversions": 545,
+      "revenue": 45600.50,
+      "microconversions": 1801
+    }
+  }
+}
+```
+
+---
+
+## Funnel Report
+
+### GET /stats/funnel
+
+Funnel analysis by UTM parameters.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=acme&period=30d" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "data": {
+    "rows": [
+      {
+        "utm_source": "google",
+        "utm_medium": "cpc",
+        "utm_campaign": "brand-2025",
+        "entrances": 5234,
+        "page_views": 12456,
+        "microconversions": {
+          "view_product": 2341,
+          "add_to_cart": 823,
+          "checkout_start": 512
+        },
+        "conversions": {
+          "purchase": 156
+        },
+        "revenue": {
+          "purchase": 15600.50
+        }
+      }
+    ],
+    "totals": {
+      "entrances": 15234,
+      "page_views": 34567,
+      "microconversions": {
+        "view_product": 8234,
+        "add_to_cart": 2345
+      },
+      "conversions": {
+        "purchase": 456
+      },
+      "revenue": {
+        "purchase": 45600.50
+      }
+    },
+    "microconversion_types": ["view_product", "add_to_cart", "checkout_start"],
+    "conversion_types": ["purchase", "lead"]
+  }
+}
+```
+
+---
+
+**Tip:**
+To get metrics over time, use the [Multi-Dimensional Query](./stats-query) endpoint with `granularity: "daily"` or `"hourly"`. This replaces the need for a dedicated time series endpoint and gives you full control over dimensions, metrics, and filters.
+
+---
+
+## Properties Report
+
+Analyze custom properties attached to conversions and microconversions.
+
+### GET /stats/properties/keys
+
+List available property keys from conversions and microconversions.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/properties/keys?site_id=acme&period=30d" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `table` | string | No | `conversions`, `microconversions`, or `both` (default: `both`) |
+
+**Response:**
+
+```json
+{
+  "data": [
+    {"key": "product_category", "count": 1250},
+    {"key": "plan_type", "count": 340},
+    {"key": "form_id", "count": 89}
+  ]
+}
+```
+
+### GET /stats/properties/values
+
+Get property values with counts, grouped by UTM parameter.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/properties/values?site_id=acme&period=30d&property_key=product_category" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `property_key` | string | Yes | Property key to analyze |
+| `group_by` | string | No | `utm_source`, `utm_medium`, `utm_campaign`, or `all` (default: `utm_source`) |
+| `table` | string | No | `conversions`, `microconversions`, or `both` (default: `both`) |
+| `conversion_type` | string | No | Filter by specific conversion type |
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "utm_source": "google",
+      "total": 156,
+      "values": {
+        "electronics": 89,
+        "fashion": 45,
+        "home": 22
+      }
+    },
+    {
+      "utm_source": "facebook",
+      "total": 78,
+      "values": {
+        "electronics": 34,
+        "fashion": 28,
+        "home": 16
+      }
+    }
+  ],
+  "total": 25,
+  "page": 1,
+  "page_size": 50,
+  "has_next": false,
+  "has_prev": false
+}
+```
+
+### GET /stats/properties/breakdown
+
+Get a pivot-table style breakdown where rows are UTM combinations and columns are property values.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/properties/breakdown?site_id=acme&period=30d&property_key=product_category" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `property_key` | string | Yes | Property key to analyze |
+| `table` | string | No | `conversions`, `microconversions`, or `both` (default: `both`) |
+| `conversion_type` | string | No | Filter by specific conversion type |
+
+**Response:**
+
+```json
+{
+  "data": {
+    "property_key": "product_category",
+    "rows": [
+      {
+        "utm_source": "google",
+        "utm_medium": "cpc",
+        "utm_campaign": "brand",
+        "total": 156,
+        "values": {
+          "electronics": 89,
+          "fashion": 45,
+          "home": 22
+        }
+      }
+    ],
+    "property_values": ["electronics", "fashion", "home", "sports"],
+    "totals": {
+      "electronics": 234,
+      "fashion": 156,
+      "home": 89,
+      "sports": 45
+    }
+  }
+}
+```
+
+---
+
+## Code Examples
+
+### Python
+
+```python
+import requests
+
+API_KEY = "sm_your_api_key"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+
+def get_overview(site_id: str, period: str = "7d"):
+    response = requests.get(
+        f"{BASE_URL}/stats/overview",
+        headers={"X-API-Key": API_KEY},
+        params={
+            "site_id": site_id,
+            "period": period
+        }
+    )
+    response.raise_for_status()
+    return response.json()["data"]
+
+def get_traffic_sources(site_id: str, period: str = "30d"):
+    response = requests.get(
+        f"{BASE_URL}/stats/sources",
+        headers={"X-API-Key": API_KEY},
+        params={
+            "site_id": site_id,
+            "period": period,
+            "sort_by": "revenue",
+            "sort_order": "desc"
+        }
+    )
+    response.raise_for_status()
+    return response.json()["data"]
+
+# Usage
+overview = get_overview("my-account")
+print(f"Entrances: {overview['entrances']}")
+print(f"Revenue: ${overview['revenue']}")
+```
+
+### JavaScript
+
+```javascript
+const API_KEY = 'sm_your_api_key';
+const BASE_URL = 'https://my.sealmetrics.com/api/v1';
+
+async function getStats(accountId, period = '7d') {
+  const params = new URLSearchParams({
+    site_id: accountId,
+    period: period
+  });
+
+  const response = await fetch(`${BASE_URL}/stats/overview?${params}`, {
+    headers: { 'X-API-Key': API_KEY }
+  });
+
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
+  }
+
+  const { data } = await response.json();
+  return data;
+}
+
+// Usage
+const stats = await getStats('my-account', '30d');
+console.log(`Conversions: ${stats.conversions}`);
+console.log(`Revenue: $${stats.revenue}`);
+```

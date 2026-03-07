@@ -1,0 +1,245 @@
+# MCP Server for AI Assistants
+
+URL: https://docs.sealmetrics.com/integrations/mcp-server
+
+# MCP Server for AI Assistants
+
+The **SealMetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your traffic, conversions, campaigns, and more — directly from your AI assistant.
+
+## What is MCP?
+
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server runs locally on your machine and acts as a bridge between Claude and your SealMetrics analytics data.
+
+## What can you ask Claude?
+
+Once connected, you can ask questions like:
+
+- *"Show me an overview of my site for the last 7 days"*
+- *"What are the top traffic sources this month?"*
+- *"Compare this month's conversions with last month"*
+- *"Which landing pages have the highest bounce rate?"*
+- *"Show me revenue by country for the last quarter"*
+- *"What devices do my visitors use?"*
+- *"Analyze my top 3 campaigns and tell me which has the best conversion rate"*
+
+---
+
+## Setup (step by step)
+
+### Step 1: Verify Node.js is installed
+
+Open your terminal and run:
+
+```bash
+node --version
+```
+
+You need **v18 or higher**. If you don't have it, download it from [nodejs.org](https://nodejs.org/).
+
+### Step 2: Get your API Key
+
+1. Log in to your SealMetrics dashboard at [my.sealmetrics.com](https://my.sealmetrics.com)
+2. Go to **Settings > API Keys** ([direct link](https://my.sealmetrics.com/settings/api-keys))
+3. Click **Create API Key**
+4. Give it a name (e.g. "Claude MCP") and click **Create**
+5. Copy the key — it starts with `sm_` (e.g. `sm_AbCdEf123...`)
+
+**Warning:**
+The full API key is only shown once. Copy it immediately and store it in a safe place.
+
+### Step 3: Find your Site ID
+
+1. Go to **Settings > Sites** ([direct link](https://my.sealmetrics.com/settings/sites))
+2. Click on the site you want to query
+3. The **Site ID** is displayed at the top of the site settings page (e.g. `my-store`)
+
+**Tip:**
+
+### Step 4: Configure your Claude client
+
+Choose the client you use:
+
+#### Claude Code
+
+Create a file called `.mcp.json` in your project root:
+
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "command": "npx",
+      "args": ["-y", "@sealmetrics/mcp-server"],
+      "env": {
+        "SEALMETRICS_API_KEY": "sm_your_key_here",
+        "SEALMETRICS_SITE_ID": "your-site-id"
+      }
+    }
+  }
+}
+```
+
+Replace `sm_your_key_here` with your API key from Step 2, and `your-site-id` with your Site ID from Step 3.
+
+**Tip:**
+To make SealMetrics available in **all your projects**, add the same config to `~/.claude/settings.json` instead of a project-level `.mcp.json`.
+
+#### Claude Desktop
+
+1. Open Claude Desktop
+2. Go to **Settings** (gear icon) > **Developer** > **Edit Config**
+3. Add the following configuration:
+
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "command": "npx",
+      "args": ["-y", "@sealmetrics/mcp-server"],
+      "env": {
+        "SEALMETRICS_API_KEY": "sm_your_key_here",
+        "SEALMETRICS_SITE_ID": "your-site-id"
+      }
+    }
+  }
+}
+```
+
+4. Save and **restart Claude Desktop** completely (Cmd+Q on macOS, then reopen)
+
+### Step 5: Verify it works
+
+Open Claude and ask:
+
+> "List my SealMetrics sites"
+
+Claude should respond with a list of your sites. If it does, you're all set!
+
+---
+
+## Configuration reference
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `SEALMETRICS_API_KEY` | Yes | Your API key from [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys). Starts with `sm_`. |
+| `SEALMETRICS_SITE_ID` | No | Default Site ID from [Settings > Sites](https://my.sealmetrics.com/settings/sites). If set, you don't need to specify the site in every query. |
+| `SEALMETRICS_BASE_URL` | No | API base URL. Default: `https://my.sealmetrics.com/api/v1`. Only change this for custom deployments. |
+
+---
+
+## Available tools
+
+Claude uses these tools automatically when you ask questions — you never need to call them directly.
+
+| Tool | Description |
+|------|-------------|
+| `list_sites` | List all sites accessible with your API key |
+| `get_overview` | Dashboard KPIs: pageviews, bounce rate, conversions, revenue with time series |
+| `get_traffic_sources` | Traffic by source (google, facebook, direct...) |
+| `get_traffic_mediums` | Traffic by medium (organic, cpc, email...) |
+| `get_campaigns` | Campaign performance with conversions and revenue |
+| `get_pages` | Metrics per page URL path |
+| `get_landing_pages` | Landing page performance with bounce rate |
+| `get_conversions` | Conversions by type with revenue and average order value |
+| `get_microconversions` | Engagement events (add_to_cart, signup, newsletter...) |
+| `get_countries` | Geographic breakdown by country |
+| `get_devices` | Device type, browser, and OS breakdown |
+| `get_funnel` | Funnel analysis with step-by-step conversion rates |
+
+### Common parameters
+
+| Parameter | Values | Default | Description |
+|-----------|--------|---------|-------------|
+| `site_id` | string | `$SEALMETRICS_SITE_ID` | Site to query |
+| `period` | `today`, `yesterday`, `7d`, `30d`, `90d`, `this_month`, `last_month`, `this_year`, etc. | `30d` | Time period |
+| `compare` | `previous`, `yoy` | none | Compare with previous period or year-over-year |
+| `limit` | 1-100 | 20 | Max rows returned |
+| `page` | number | 1 | Page number for paginated results |
+| `sort_by` | varies per tool | varies | Sort field |
+| `sort_order` | `asc`, `desc` | `desc` | Sort direction |
+
+### All period values
+
+| Period | Description |
+|--------|-------------|
+| `today` | Today |
+| `yesterday` | Yesterday |
+| `7d`, `30d`, `90d`, `12m` | Last N days/months |
+| `this_week`, `this_month`, `this_quarter`, `this_year` | Current period |
+| `wtd`, `mtd`, `qtd`, `ytd` | Period to date |
+| `last_week`, `last_month`, `last_quarter`, `last_year` | Previous period |
+
+---
+
+## Troubleshooting
+
+### Claude doesn't see the SealMetrics tools
+
+1. **Claude Code**: Make sure `.mcp.json` is in your project root and restart Claude Code
+2. **Claude Desktop**: Save the config file and restart the app completely (Cmd+Q on macOS)
+3. Verify Node.js 18+ is installed: `node --version`
+
+### "Invalid API key"
+
+Your API key is incorrect or expired. Go to [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys) and generate a new one.
+
+### "site_id is required"
+
+Either set `SEALMETRICS_SITE_ID` in your config, or ask Claude to "list my sites" first, then specify the site in your question.
+
+### "Access denied to site X"
+
+Your API key doesn't have permission for that site. Check your token permissions in [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys).
+
+### "npx: command not found"
+
+Install Node.js from [nodejs.org](https://nodejs.org/). npx is bundled with Node.js.
+
+### Test the server manually
+
+You can verify the server starts correctly from your terminal:
+
+```bash
+SEALMETRICS_API_KEY="sm_your_key_here" npx -y @sealmetrics/mcp-server
+```
+
+If it starts without errors, the server is working. Press Ctrl+C to stop it.
+
+---
+
+## How it works
+
+The MCP server runs locally on your machine and communicates with the SealMetrics API over HTTPS. No analytics data is stored locally.
+
+```
+Your machine                             SealMetrics cloud
+┌──────────────────────────┐            ┌──────────────────────┐
+│                          │            │                      │
+│  Claude Code / Desktop   │            │  my.sealmetrics.com  │
+│          |               │            │                      │
+│  @sealmetrics/mcp-server │── HTTPS ──>│  /api/v1/*           │
+│  (runs locally via npx)  │<── JSON ───│                      │
+│          |               │            │                      │
+│  Claude reads the data   │            └──────────────────────┘
+│  and answers your query  │
+│                          │
+└──────────────────────────┘
+```
+
+- Authenticated via `X-API-Key` header (your key never leaves your machine)
+- Automatic retries with exponential backoff on rate limits
+- 30-second timeout per request
+- No data stored locally
+
+---
+
+## Resources
+
+- **npm**: [@sealmetrics/mcp-server](https://www.npmjs.com/package/@sealmetrics/mcp-server)
+- **Source code**: [github.com/adinton/sealmetrics2/tree/main/mcp-server](https://github.com/adinton/sealmetrics2/tree/main/mcp-server)
+- **MCP Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io/)
+- **API Reference**: [API Documentation](/api)
+
+## Need help?
+
+- **Email**: support@sealmetrics.com
+- **GitHub Issues**: [Report bugs or request features](https://github.com/adinton/sealmetrics2/issues)

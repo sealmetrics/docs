@@ -1,0 +1,134 @@
+# How Attribution Works Without a User-ID
+
+URL: https://docs.sealmetrics.com/security-privacy/attribution-without-userid
+
+# How Attribution Works Without a User-ID
+
+Sealmetrics delivers accurate campaign and conversion attribution without using User-IDs, cookies, fingerprinting, or session reconstruction. This article explains the mechanism behind our privacy-preserving attribution system.
+
+---
+
+## Why Traditional Analytics Require User-IDs
+
+Conventional analytics platforms depend on identifiers to track user journeys:
+
+- Cookie IDs  
+- Device IDs  
+- Fingerprints  
+- Cross-session identifiers  
+
+These technologies **link visits, clicks, and conversions to individuals**, which legally requires consent under GDPR and ePrivacy.
+
+Sealmetrics does **not** use any of these identifiers.
+
+---
+
+## Sealmetrics' Privacy-First Approach
+
+Sealmetrics does **not**:
+
+❌ Track users  
+❌ Link page views  
+❌ Build sessions  
+❌ Store IP addresses  
+❌ Store user agents  
+❌ Use cookies or persistent identifiers  
+
+Each interaction (hit) is completely isolated and cannot be associated with an individual.
+
+---
+
+## The Key Innovation — The Source-ID
+
+Instead of identifying users, Sealmetrics groups traffic and conversions using a **Source-ID**, derived exclusively from **traffic source characteristics**, not from user behavior.
+
+### A Source-ID is generated from:
+
+- `utm_source`
+- `utm_medium`
+- `utm_campaign`
+- `utm_term`
+- OR the referring domain
+
+No personal data. No unique identifiers.
+
+### How It Works
+
+1. A visitor lands on the site from a marketing source  
+2. Sealmetrics reads the traffic parameters  
+3. A **Source-ID** is generated from those parameters  
+4. All hits with the same campaign parameters share the same Source-ID  
+5. Conversions inherit the same Source-ID  
+
+This groups interactions by **campaign**, not by user.
+
+---
+
+## Example — Attribution in Action
+
+### 🔵 Step 1: User clicks a Google Ads campaign  
+UTM parameters detected → Source-ID created.
+
+### 🟣 Step 2: They browse the site  
+Hits remain isolated but carry the same Source-ID.
+
+### 🟢 Step 3: They convert  
+The conversion is assigned to the same Source-ID.
+
+### Result  
+**Conversion is attributed to Google Ads → Campaign XYZ → Keyword ABC.**
+
+No user identification required.
+
+---
+
+## Why This Is Fully Privacy-Compliant
+
+This method complies with GDPR, ePrivacy, CCPA, PECR:
+
+- ✔ No personal data  
+- ✔ No user identification  
+- ✔ No behavioral profiling  
+- ✔ No cross-session linkage  
+- ✔ No consent required  
+
+Privacy protection is embedded by design.
+
+---
+
+## What You Can Measure With Source-ID
+
+Even without User-IDs, Sealmetrics provides full marketing intelligence:
+
+### Campaign Analytics  
+- Traffic by campaign  
+- Source/medium performance  
+- UTM analytics  
+- Cost attribution  
+- ROAS  
+
+### Conversion Analytics  
+- Conversions per channel  
+- Revenue attribution  
+- Aggregated funnel insights  
+- Lead and e-commerce conversions  
+
+### Accuracy Benefits  
+- No consent loss  
+- No cookie rejection  
+- 100% traffic + 100% conversions measured  
+
+---
+
+## Summary
+
+Sealmetrics proves that accurate attribution **does not** require user tracking.
+
+We achieve attribution by grouping hits by **campaign characteristics**, not by individuals.
+
+- 🟢 100% privacy-preserving  
+- 🟢 100% compliant  
+- 🟢 100% traffic captured  
+- 🟢 No User-IDs, no cookies, no consent  
+
+This is the future of ethical analytics.

@@ -1,0 +1,143 @@
+# Release Notes
+
+URL: https://docs.sealmetrics.com/changelog
+
+# Release Notes
+
+---
+
+## Sealmetrics V2 is Here (February 9, 2026)
+
+**We're thrilled to announce the launch of Sealmetrics V2** — the most significant update since we started.
+
+After months of development and feedback from hundreds of customers, we've rebuilt Sealmetrics from the ground up to deliver:
+
+- **Faster, cleaner dashboard** — redesigned for clarity and speed
+- **Smarter attribution** — understand exactly where your conversions come from
+- **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and the upcoming EU Digital Omnibus
+- **New API** — more powerful, better documented, easier to integrate
+- **Improved tracking** — lighter script, better SPA support, more accurate data
+
+Sealmetrics V2 is now the default for all accounts. Your data, your settings, and your tracking code continue to work seamlessly.
+
+**Thank you** to everyone who helped shape this release. We're just getting started.
+
+→ [Explore the documentation](/) to discover everything that's new.
+
+---
+
+# Previous Updates
+
+---
+
+## November 2025
+
+##Update to the Robot User Agents Database (Nov 21, 6:00 UTC)
+
+We have expanded our internal database of robot-related user agents.  
+This update adds **158 new user agents**, improving the accuracy of our identification and filtering systems.
+
+This enhancement provides:
+
+- More reliable detection of automated traffic.  
+- Higher precision when distinguishing real users from bots.  
+- Better performance across our analytics and security workflows.
+
+Check the rest of the documentation to learn how to take advantage of these improvements in your setup.
+
+##Legal Approval for IP-Based Bot Filtering (Nov 18, 20:00 UTC)
+
+After a thorough legal review, we now have official approval to implement **IP-based filtering** to improve traffic accuracy—without compromising user privacy.
+
+### How It Works
+
+- When a hit arrives, we check whether the IP is in our **bot IP database**  
+- If it matches → the hit is **excluded from your analytics**  
+- If it doesn’t match → we do **not** store the IP, we simply register it as **human traffic**
+
+### Privacy First
+
+- We do not retain or track IPs that aren't bots  
+- No identification or storage of human IPs  
+- Full compliance with privacy regulations
+
+This ensures:
+- Better protection of your analytics data  
+- No compromise on user privacy  
+- No personal data is ever stored or exposed
+
+It’s a technical improvement — but also a principle:
+You can have precision without violating privacy.
+You can have control without crossing the line.
+
+---
+
+## Facebook Traffic Classification Fix (NEW – Nov 14, 19:00 UTC)
+
+We've improved how Sealmetrics classifies Facebook traffic to ensure higher accuracy between **organic** and **paid** sources.
+
+### What Was Happening Before
+A minor issue caused some visits containing the **`fbclid`** parameter (but *without* UTM tags) to be incorrectly categorized as **facebook-ads**.
+
+This affected a small portion of traffic, but could distort organic vs. paid Facebook reporting.
+
+### What Changed
+As of **Wednesday, November 17 at 19:00 UTC**:
+
+- Traffic containing **only `fbclid`** and **no UTM parameters**  
+  → is now classified as **Facebook Organic** (correct behavior)
+
+- Only traffic containing proper **UTM campaign parameters**  
+  → is classified as **Facebook Ads**
+
+### Impact on Your Reports
+- Improved accuracy in distinguishing paid vs. organic Facebook traffic  
+- Expect a slight increase in organic Facebook traffic from this timestamp onward  
+- Historical data remains unchanged to preserve consistency
+
+---
+
+## Performance Improvements (Nov 10, 22:00 UTC)
+
+### 2.5x Faster Data Processing
+
+We've significantly optimized our processing infrastructure by increasing core capacity. Your data now processes **2.5 times faster**, meaning real-time dashboard updates and instant report generation.
+
+**Benefits:**
+- Faster dashboard loading times  
+- Real-time data updates  
+- Instant report generation  
+- Improved overall platform responsiveness
+
+---
+
+## Facebook Ads Attribution Update (Nov 13, 19:00 UTC)
+
+**Warning:**
+As of this release, the `fbclid` parameter is no longer used to identify Facebook Ads traffic due to its lack of reliability and consistency.
+
+**What this means for you:**
+
+- Facebook Ads traffic now **requires properly configured UTM tags** for accurate attribution  
+- Ensure your campaigns include parameters such as:  
+  - `utm_source=facebook`  
+  - `utm_medium=paid`  
+  - (or equivalent)  
+- This ensures consistent, accurate attribution and full control over your data
+
+**Recommendation:** Review and update your Facebook Ads campaigns with correct UTMs to maintain full visibility.
+
+**Tip:**
+
+---
+
+## Migration Guide
+
+If you're currently relying on `fbclid` for Facebook Ads attribution, follow these steps:
+
+1. **Audit your campaigns:** Check all active Facebook Ads campaigns  
+2. **Add UTM parameters:** Configure UTMs in your Facebook Ads Manager  
+3. **Test:** Verify traffic attribution inside Sealmetrics  
+4. **Monitor:** Ensure continuity in your reporting  
+
+Need assistance? [Contact our support team](mailto:support@sealmetrics.com)

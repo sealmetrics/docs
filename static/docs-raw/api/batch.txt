@@ -1,0 +1,157 @@
+# Batch API
+
+URL: https://docs.sealmetrics.com/api/batch
+
+# Batch API
+
+The Batch API lets you execute multiple analytics queries in a single HTTP request. This is useful when building dashboards or reports that need data from several endpoints simultaneously.
+
+## Endpoint
+
+```
+POST /api/v1/batch
+```
+
+## Request format
+
+```json
+{
+  "queries": [
+    {
+      "id": "overview",
+      "endpoint": "/stats/overview",
+      "params": {
+        "account_id": "my-site",
+        "period": "30d"
+      }
+    },
+    {
+      "id": "pages",
+      "endpoint": "/stats/pages",
+      "params": {
+        "account_id": "my-site",
+        "period": "30d",
+        "page_size": 10
+      }
+    },
+    {
+      "id": "sources",
+      "endpoint": "/stats/sources",
+      "params": {
+        "account_id": "my-site",
+        "period": "30d"
+      },
+      "depends_on": ["overview"]
+    }
+  ],
+  "options": {
+    "fail_fast": false,
+    "parallel_limit": 5,
+    "include_timing": true
+  }
+}
+```
+
+### Query fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | Yes | Unique identifier for this query (alphanumeric) |
+| `endpoint` | string | Yes | Analytics endpoint path (must start with `/stats/`) |
+| `params` | object | Yes | Parameters for the endpoint |
+| `depends_on` | string[] | No | Query IDs that must complete before this one runs |
+
+### Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `fail_fast` | false | Stop execution on first error |
+| `parallel_limit` | 5 | Maximum concurrent queries (1-10) |
+| `include_timing` | true | Include execution time per query |
+
+## Supported endpoints
+
+All `/stats/` endpoints are available:
+
+- `/stats/overview` — Traffic overview
+- `/stats/pages` — Pages report
+- `/stats/sources` — Traffic sources
+- `/stats/mediums` — UTM mediums
+- `/stats/campaigns` — UTM campaigns
+- `/stats/terms` — UTM terms
+- `/stats/referrers` — Referrers
+- `/stats/countries` — Geographic data
+- `/stats/devices` — Device types
+- `/stats/browsers` — Browsers
+- `/stats/os` — Operating systems
+- `/stats/conversions` — Conversions
+- `/stats/microconversions` — Microconversions
+- `/stats/funnel` — Funnel analysis
+- `/stats/landing-pages` — Landing pages
+- `/stats/channels` — Channel groups
+
+## Response format
+
+```json
+{
+  "batch_id": "uuid",
+  "status": "completed",
+  "results": {
+    "overview": {
+      "status": "success",
+      "data": { },
+      "timing_ms": 45
+    },
+    "pages": {
+      "status": "success",
+      "data": { },
+      "timing_ms": 32
+    },
+    "sources": {
+      "status": "success",
+      "data": { },
+      "timing_ms": 28
+    }
+  },
+  "meta": {
+    "total_queries": 3,
+    "successful": 3,
+    "failed": 0,
+    "skipped": 0,
+    "total_timing_ms": 105
+  }
+}
+```
+
+### Query statuses
+
+| Status | Description |
+|--------|-------------|
+| `success` | Query completed successfully |
+| `error` | Query failed (see `error` field) |
+| `skipped` | Skipped because a dependency failed |
+
+## Validation endpoint
+
+Validate your batch request without executing it:
+
+```
+POST /api/v1/batch/validate
+```
+
+Returns the planned execution order and parallel groups:
+
+```json
+{
+  "valid": true,
+  "query_count": 3,
+  "execution_order": ["overview", "pages", "sources"],
+  "parallel_groups": [["overview", "pages"], ["sources"]]
+}
+```
+
+## Limits
+
+- Maximum 50 queries per batch
+- All query IDs must be unique
+- Circular dependencies are not allowed

@@ -1,0 +1,30 @@
+# How to Track Google Ads Campaigns
+
+URL: https://docs.sealmetrics.com/reports/insights/how-to-track-google-ads-campaigns
+
+# How to Track Google Ads Campaigns
+
+Sealmetrics reads the UTM parameters located in your URLs.
+
+By incorporating these URL tracking templates into your Google Ads campaigns, SEAL can track campaigns, terms/keywords, placements, or product IDs from Google Ads.
+
+---
+
+## Google Search & Display (GDN)
+
+```
+{lpurl}?utm_medium=cpc&utm_source=google&utm_campaign={Campaignid}&utm_term={ifsearch:{keyword}\{matchtype}}{ifcontent:{placement}}
+````
+## Google Shopping
+
+```
+{lpurl}?utm_medium=cpc&utm_source=google&utm_campaign={Campaignid}&utm_term={_term}
+````
+
+## Google Ads Account-Level Setup
+
+ou can add this code directly at the Account level following these Google Ads instructions:
+
+https://support.google.com/google-ads/answer/6305348?hl=en
+
+When configured at the account level, Google Ads will automatically append all value-track parameters to every campaign — including new ones — ensuring reliable attribution in Sealmetrics.

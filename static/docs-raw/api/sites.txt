@@ -1,0 +1,539 @@
+# Sites
+
+URL: https://docs.sealmetrics.com/api/sites
+
+# Sites API
+
+Complete reference for managing analytics sites, domains, UTM mappings, and pixel installation.
+
+## Overview
+
+The Sites API allows you to:
+
+- Create and manage analytics sites
+- Configure authorized domains for tracking
+- Set up custom UTM parameter mappings
+- Generate and verify pixel installation
+
+**Base path:** `/sites`
+
+---
+
+## Site Endpoints
+
+### List Sites
+
+```http
+GET /sites
+```
+
+Returns all sites accessible by the current user.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "sites": [
+      {
+        "id": "acme-corp",
+        "name": "ACME Corporation",
+        "domains": ["www.acme.com", "shop.acme.com"],
+        "timezone": "Europe/Madrid",
+        "currency": "EUR",
+        "is_active": true,
+        "created_at": "2024-01-15T10:00:00Z"
+      }
+    ],
+    "total": 1
+  }
+}
+```
+
+---
+
+### Create Site
+
+```http
+POST /sites
+```
+
+Creates a new analytics site within your organization.
+
+**Required scope:** `write`
+
+**Request Body:**
+
+```json
+{
+  "name": "My New Site",
+  "domains": ["www.example.com", "example.com"],
+  "timezone": "Europe/Madrid",
+  "currency": "EUR"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Site display name (1-255 chars) |
+| `domains` | string[] | No | Authorized domains for tracking |
+| `timezone` | string | No | IANA timezone (default: UTC) |
+| `currency` | string | No | ISO 4217 currency code (default: EUR) |
+
+**Response (201 Created):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "my-new-site",
+    "name": "My New Site",
+    "domains": ["www.example.com", "example.com"],
+    "timezone": "Europe/Madrid",
+    "currency": "EUR",
+    "is_active": true,
+    "created_at": "2025-01-10T14:30:00Z"
+  }
+}
+```
+
+**Note:** The `id` is auto-generated as a slug from the site name.
+
+---
+
+### Get Site
+
+```http
+GET /sites/{site_id}
+```
+
+Returns detailed information about a specific site.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "acme-corp",
+    "name": "ACME Corporation",
+    "domains": ["www.acme.com", "shop.acme.com"],
+    "timezone": "Europe/Madrid",
+    "currency": "EUR",
+    "is_active": true,
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2025-01-08T09:15:00Z"
+  }
+}
+```
+
+---
+
+### Update Site
+
+```http
+PATCH /sites/{site_id}
+```
+
+Updates site settings.
+
+**Request Body:**
+
+```json
+{
+  "name": "ACME Corp (Updated)",
+  "timezone": "America/New_York",
+  "currency": "USD"
+}
+```
+
+All fields are optional. Only provided fields are updated.
+
+---
+
+### Delete Site
+
+```http
+DELETE /sites/{site_id}
+```
+
+Deactivates a site (soft delete).
+
+**Required scope:** `write`
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "deleted": true,
+    "site_id": "acme-corp"
+  }
+}
+```
+
+---
+
+## Domain Endpoints
+
+Domains authorize which websites can send tracking data to a site.
+
+### List Domains
+
+```http
+GET /sites/{site_id}/domains
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "domains": [
+      {
+        "id": 1,
+        "domain": "www.acme.com",
+        "is_active": true,
+        "created_at": "2024-01-15T10:00:00Z"
+      },
+      {
+        "id": 2,
+        "domain": "shop.acme.com",
+        "is_active": true,
+        "created_at": "2024-01-15T10:00:00Z"
+      }
+    ],
+    "total": 2
+  }
+}
+```
+
+---
+
+### Add Domain
+
+```http
+POST /sites/{site_id}/domains
+```
+
+**Request Body:**
+
+```json
+{
+  "domain": "blog.acme.com"
+}
+```
+
+**Response (201 Created):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 3,
+    "domain": "blog.acme.com",
+    "is_active": true,
+    "created_at": "2025-01-10T14:30:00Z"
+  }
+}
+```
+
+---
+
+### Remove Domain
+
+```http
+DELETE /sites/{site_id}/domains/{domain}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "removed": true,
+    "domain": "blog.acme.com"
+  }
+}
+```
+
+---
+
+## UTM Mapping Endpoints
+
+UTM mappings allow custom URL parameters to be mapped to standard UTM fields.
+
+### List UTM Mappings
+
+```http
+GET /sites/{site_id}/utm-mappings
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "mappings": [
+      {
+        "id": 1,
+        "custom_param": "campaign_id",
+        "maps_to": "utm_campaign",
+        "is_active": true,
+        "created_at": "2024-06-01T12:00:00Z"
+      },
+      {
+        "id": 2,
+        "custom_param": "ad_source",
+        "maps_to": "utm_source",
+        "is_active": true,
+        "created_at": "2024-06-01T12:00:00Z"
+      }
+    ],
+    "total": 2
+  }
+}
+```
+
+---
+
+### Add UTM Mapping
+
+```http
+POST /sites/{site_id}/utm-mappings
+```
+
+**Request Body:**
+
+```json
+{
+  "custom_param": "gclid_source",
+  "maps_to": "utm_source"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `custom_param` | string | Your custom URL parameter name |
+| `maps_to` | enum | Standard UTM field: `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` |
+
+**Example Use Case:**
+
+If your ad platform uses `?src=google` instead of `?utm_source=google`, create a mapping:
+
+```json
+{
+  "custom_param": "src",
+  "maps_to": "utm_source"
+}
+```
+
+Now `?src=google` will be treated as `?utm_source=google`.
+
+---
+
+### Update UTM Mapping
+
+```http
+PATCH /sites/{site_id}/utm-mappings/{mapping_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "maps_to": "utm_medium",
+  "is_active": false
+}
+```
+
+---
+
+### Remove UTM Mapping
+
+```http
+DELETE /sites/{site_id}/utm-mappings/{custom_param}
+```
+
+---
+
+## Pixel Code Endpoints
+
+**Note:** To manage user access to sites, use the [Organizations API](/api/organizations). Users are added to organizations and then granted access to specific sites.
+
+### Get Pixel Code
+
+```http
+GET /sites/{site_id}/pixel
+```
+
+Returns the tracking pixel installation code.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "site_id": "acme-corp",
+    "script_tag": "<script src=\"https://t.sealmetrics.com/t.js?id=acme-corp\" defer></script>",
+    "tracker_url": "https://t.sealmetrics.com/t.js?id=acme-corp",
+    "instructions": "Add this script tag to your website's <head> section."
+  }
+}
+```
+
+---
+
+### Get Pixel Status
+
+```http
+GET /sites/{site_id}/pixel/status
+```
+
+Check if the tracking pixel is installed and receiving data.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "site_id": "acme-corp",
+    "installed": true,
+    "first_hit_at": "2024-01-15T10:05:00Z",
+    "last_hit_at": "2025-01-10T14:28:00Z",
+    "total_hits": 1523456
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `installed` | `true` if pixel has received any hits |
+| `first_hit_at` | Timestamp of the first hit received |
+| `last_hit_at` | Timestamp of the most recent hit |
+| `total_hits` | Total hits in the last 14 days |
+
+---
+
+## Timezones
+
+### List Available Timezones
+
+```http
+GET /sites/config/timezones
+```
+
+Returns all available IANA timezone identifiers.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "timezones": [
+      {
+        "timezone": "Europe/Madrid",
+        "country_code": "ES",
+        "country_name": "Spain"
+      },
+      {
+        "timezone": "America/New_York",
+        "country_code": "US",
+        "country_name": "United States"
+      }
+    ],
+    "total": 400
+  }
+}
+```
+
+---
+
+## Error Codes
+
+| HTTP Code | Error Code | Description |
+|-----------|------------|-------------|
+| 400 | `invalid_timezone` | Invalid IANA timezone identifier |
+| 400 | `invalid_domain` | Invalid domain format |
+| 403 | `forbidden` | Insufficient permissions |
+| 404 | `not_found` | Site or resource not found |
+
+---
+
+## Code Examples
+
+### Python
+
+```python
+import requests
+
+API_KEY = "sm_your_api_key"
+BASE_URL = "https://api.sealmetrics.com/api/v1"
+
+# Create site
+response = requests.post(
+    f"{BASE_URL}/sites",
+    headers={"X-API-Key": API_KEY},
+    json={
+        "name": "My E-commerce Site",
+        "domains": ["www.myshop.com"],
+        "timezone": "Europe/Madrid"
+    }
+)
+site = response.json()["data"]
+print(f"Created site: {site['id']}")
+
+# Add domain
+requests.post(
+    f"{BASE_URL}/sites/{site['id']}/domains",
+    headers={"X-API-Key": API_KEY},
+    json={"domain": "shop.myshop.com"}
+)
+
+# Get pixel code
+pixel = requests.get(
+    f"{BASE_URL}/sites/{site['id']}/pixel",
+    headers={"X-API-Key": API_KEY}
+).json()["data"]
+print(pixel["script_tag"])
+```
+
+### JavaScript
+
+```javascript
+const API_KEY = 'sm_your_api_key';
+const BASE_URL = 'https://api.sealmetrics.com/api/v1';
+
+// Create site
+const response = await fetch(`${BASE_URL}/sites`, {
+  method: 'POST',
+  headers: {
+    'X-API-Key': API_KEY,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: 'My E-commerce Site',
+    domains: ['www.myshop.com'],
+    timezone: 'Europe/Madrid'
+  })
+});
+
+const { data: site } = await response.json();
+console.log(`Created site: ${site.id}`);
+
+// Check pixel status
+const statusResponse = await fetch(
+  `${BASE_URL}/sites/${site.id}/pixel/status`,
+  { headers: { 'X-API-Key': API_KEY } }
+);
+const { data: status } = await statusResponse.json();
+console.log(`Pixel installed: ${status.installed}`);
+```

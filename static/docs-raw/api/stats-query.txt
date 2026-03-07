@@ -1,0 +1,725 @@
+# Multi-Dimensional Query
+
+URL: https://docs.sealmetrics.com/api/stats-query
+
+# Multi-Dimensional Query
+
+The Query API is the most flexible way to extract analytics data from Sealmetrics. Instead of using pre-built endpoints for each dimension, you define exactly which dimensions and metrics you need in a single request.
+
+**Use cases:**
+- Export data to BigQuery, Snowflake, or any data warehouse
+- Build custom reports crossing multiple dimensions (e.g., source + country + device)
+- Power BI / Looker Studio integrations
+- Programmatic data pipelines
+
+**Tip:**
+If you're building an integration that needs to pull data into an external system, this is the endpoint you should use. It replaces the need to call multiple individual stats endpoints.
+
+---
+
+## Query Endpoint
+
+```http
+POST /stats/query?site_id={site_id}
+```
+
+Execute a multi-dimensional analytics query with full control over dimensions, metrics, filters, and sorting.
+
+### Request Body
+
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `date_from` | date | Yes | - | Start date (YYYY-MM-DD), inclusive |
+| `date_to` | date | Yes | - | End date (YYYY-MM-DD), inclusive |
+| `granularity` | string | No | `total` | `total`, `daily`, or `hourly` |
+| `dimensions` | string[] | No | `[]` | Dimensions to group by (max 10) |
+| `metrics` | string[] | No | all metrics | Metrics to aggregate |
+| `filters` | object | No | - | Filter conditions (see [Filters](#filters)) |
+| `order_by` | object[] | No | `entrances desc` | Sort specifications (see [Sorting](#sorting)) |
+| `limit` | integer | No | `100` | Max rows to return (1-10,000) |
+| `offset` | integer | No | `0` | Rows to skip for pagination |
+| `compare` | string | No | - | `previous` or `yoy` (see [Comparison](./comparison)) |
+
+### Available Dimensions
+
+| Dimension | Description | Example Values |
+|-----------|-------------|----------------|
+| `date` | Date (auto-added with `daily` granularity) | `2025-01-15` |
+| `hour` | Hour of day (auto-added with `hourly` granularity) | `0`-`23` |
+| `day_of_week` | ISO 8601 day of week | `1` (Mon) - `7` (Sun) |
+| `country` | ISO 3166-1 alpha-2 country code | `ES`, `US`, `FR` |
+| `utm_source` | UTM source parameter | `google`, `facebook` |
+| `utm_medium` | UTM medium parameter | `cpc`, `organic`, `email` |
+| `utm_campaign` | UTM campaign parameter | `spring_sale` |
+| `utm_term` | UTM term parameter | `running shoes` |
+| `utm_content` | UTM content parameter | `banner_a` |
+| `device_type` | Device category | `desktop`, `mobile`, `tablet` |
+| `browser` | Browser name | `Chrome`, `Safari`, `Firefox` |
+| `os` | Operating system | `Windows`, `macOS`, `iOS` |
+| `channel_group` | GA4-style channel classification | `Organic Search`, `Paid Search` |
+
+### Available Metrics
+
+| Metric | Type | Description |
+|--------|------|-------------|
+| `entrances` | integer | Session starts (visits) |
+| `engaged_entrances` | integer | Sessions with more than 1 pageview |
+| `page_views` | integer | Total page views |
+| `microconversions` | integer | Total microconversion events |
+| `conversions` | integer | Total conversion events |
+| `revenue` | float | Total revenue from conversions |
+
+**Note:**
+`bounce_rate` is automatically calculated and included in the response when both `entrances` and `engaged_entrances` are in your metrics list. Formula: `(entrances - engaged_entrances) / entrances * 100`.
+
+### Granularity
+
+| Value | Behavior |
+|-------|----------|
+| `total` | Aggregate all dates. Groups only by the dimensions you specify. |
+| `daily` | Auto-adds `date` to dimensions. One row per day per dimension combination. |
+| `hourly` | Auto-adds `date` and `hour` to dimensions. Uses the hourly data table. |
+
+---
+
+## Basic Examples
+
+### Simple aggregation (no dimensions)
+
+Get total metrics for a date range:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/stats/query?site_id=acme" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "date_from": "2025-01-01",
+    "date_to": "2025-01-31",
+    "metrics": ["entrances", "conversions", "revenue"]
+  }'
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "entrances": 45230,
+      "conversions": 1256,
+      "revenue": 125600.50
+    }
+  ],
+  "meta": {
+    "total_rows": 1,
+    "has_more": false,
+    "granularity": "total",
+    "dimensions": [],
+    "metrics": ["entrances", "conversions", "revenue"]
+  }
+}
+```
+
+### Single dimension
+
+Traffic by country:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/stats/query?site_id=acme" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "date_from": "2025-01-01",
+    "date_to": "2025-01-31",
+    "dimensions": ["country"],
+    "metrics": ["entrances", "conversions", "revenue"],
+    "order_by": [{"field": "revenue", "direction": "desc"}],
+    "limit": 10
+  }'
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "country": "ES",
+      "entrances": 15420,
+      "conversions": 456,
+      "revenue": 45600.00
+    },
+    {
+      "country": "MX",
+      "entrances": 8750,
+      "conversions": 234,
+      "revenue": 23400.00
+    },
+    {
+      "country": "US",
+      "entrances": 6200,
+      "conversions": 178,
+      "revenue": 17800.00
+    }
+  ],
+  "meta": {
+    "total_rows": 42,
+    "has_more": true,
+    "granularity": "total",
+    "dimensions": ["country"],
+    "metrics": ["entrances", "conversions", "revenue"]
+  }
+}
+```
+
+### Multiple dimensions
+
+Cross source, country, and device type:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/stats/query?site_id=acme" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "date_from": "2025-01-01",
+    "date_to": "2025-01-31",
+    "dimensions": ["utm_source", "country", "device_type"],
+    "metrics": ["entrances", "engaged_entrances", "conversions", "revenue"],
+    "order_by": [{"field": "entrances", "direction": "desc"}],
+    "limit": 50
+  }'
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "utm_source": "google",
+      "country": "ES",
+      "device_type": "mobile",
+      "entrances": 5230,
+      "engaged_entrances": 3920,
+      "conversions": 145,
+      "revenue": 14500.00,
+      "bounce_rate": 25.05
+    },
+    {
+      "utm_source": "google",
+      "country": "ES",
+      "device_type": "desktop",
+      "entrances": 4100,
+      "engaged_entrances": 3280,
+      "conversions": 198,
+      "revenue": 19800.00,
+      "bounce_rate": 20.0
+    }
+  ],
+  "meta": {
+    "total_rows": 1240,
+    "has_more": true,
+    "granularity": "total",
+    "dimensions": ["utm_source", "country", "device_type"],
+    "metrics": ["entrances", "engaged_entrances", "conversions", "revenue"]
+  }
+}
+```
+
+### Daily time series
+
+Daily breakdown by source:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/stats/query?site_id=acme" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "date_from": "2025-01-01",
+    "date_to": "2025-01-07",
+    "granularity": "daily",
+    "dimensions": ["utm_source"],
+    "metrics": ["entrances", "conversions"]
+  }'
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "date": "2025-01-01",
+      "utm_source": "google",
+      "entrances": 1234,
+      "conversions": 45
+    },
+    {
+      "date": "2025-01-01",
+      "utm_source": "facebook",
+      "entrances": 567,
+      "conversions": 12
+    },
+    {
+      "date": "2025-01-02",
+      "utm_source": "google",
+      "entrances": 1456,
+      "conversions": 52
+    }
+  ],
+  "meta": {
+    "total_rows": 42,
+    "has_more": false,
+    "granularity": "daily",
+    "dimensions": ["date", "utm_source"],
+    "metrics": ["entrances", "conversions"]
+  }
+}
+```
+
+---
+
+## Filters
+
+Filters support both positive (include) and negative (exclude) conditions. Each filter accepts a single value or an array of values.
+
+### Filter Fields
+
+| Filter | Negative Filter | Type | Description |
+|--------|----------------|------|-------------|
+| `utm_source` | `utm_source_not` | string \| string[] | UTM source |
+| `utm_medium` | `utm_medium_not` | string \| string[] | UTM medium |
+| `utm_campaign` | `utm_campaign_not` | string \| string[] | UTM campaign |
+| `utm_term` | `utm_term_not` | string \| string[] | UTM term |
+| `utm_content` | `utm_content_not` | string \| string[] | UTM content |
+| `country` | `country_not` | string \| string[] | Country code |
+| `device_type` | `device_type_not` | string \| string[] | Device type |
+| `browser` | `browser_not` | string \| string[] | Browser |
+| `os` | `os_not` | string \| string[] | Operating system |
+| `channel_group` | `channel_group_not` | string \| string[] | Channel group |
+| `hour` | - | integer \| integer[] | Hour (0-23), for hourly queries |
+| `day_of_week` | - | integer \| integer[] | Day of week (1=Mon, 7=Sun) |
+
+### Filter Examples
+
+**Single value** — Only paid traffic from Spain:
+
+```json
+{
+  "filters": {
+    "utm_medium": "cpc",
+    "country": "ES"
+  }
+}
+```
+
+**Multiple values (IN)** — Traffic from Spain, Mexico, or Argentina:
+
+```json
+{
+  "filters": {
+    "country": ["ES", "MX", "AR"]
+  }
+}
+```
+
+**Negative filter (NOT IN)** — All traffic except from bots and direct:
+
+```json
+{
+  "filters": {
+    "channel_group_not": ["Direct"],
+    "utm_source_not": ["bot", "crawler"]
+  }
+}
+```
+
+**Combined positive and negative** — Google CPC traffic, excluding US and UK:
+
+```json
+{
+  "filters": {
+    "utm_source": "google",
+    "utm_medium": "cpc",
+    "country_not": ["US", "GB"]
+  }
+}
+```
+
+**Time-based filters** — Only business hours on weekdays:
+
+```json
+{
+  "filters": {
+    "hour": [9, 10, 11, 12, 13, 14, 15, 16, 17],
+    "day_of_week": [1, 2, 3, 4, 5]
+  }
+}
+```
+
+---
+
+## Sorting
+
+Sort results by one or more fields using the `order_by` array:
+
+```json
+{
+  "order_by": [
+    {"field": "revenue", "direction": "desc"},
+    {"field": "entrances", "direction": "asc"}
+  ]
+}
+```
+
+You can sort by any dimension or metric in your query, plus `bounce_rate` when available.
+
+**Default:** `[{"field": "entrances", "direction": "desc"}]`
+
+---
+
+## Pagination
+
+Use `limit` and `offset` for pagination. The `meta` object tells you if more rows are available.
+
+```json
+{
+  "limit": 100,
+  "offset": 0
+}
+```
+
+| Field | Max Value | Description |
+|-------|-----------|-------------|
+| `limit` | 10,000 | Rows per page |
+| `offset` | - | Rows to skip |
+
+**Check `meta.has_more`** to know if there are additional pages:
+
+```python
+offset = 0
+all_data = []
+
+while True:
+    result = query(offset=offset, limit=1000)
+    all_data.extend(result["data"])
+    if not result["meta"]["has_more"]:
+        break
+    offset += 1000
+```
+
+---
+
+## Period Comparison
+
+Add `compare` to get the same query executed against a comparison period:
+
+```json
+{
+  "date_from": "2025-02-01",
+  "date_to": "2025-02-28",
+  "dimensions": ["utm_source"],
+  "metrics": ["entrances", "conversions"],
+  "compare": "previous"
+}
+```
+
+| Mode | Comparison Period |
+|------|------------------|
+| `previous` | Same duration immediately before the selected range |
+| `yoy` | Same dates in the previous year |
+
+**Response with comparison:**
+
+```json
+{
+  "data": [
+    {
+      "utm_source": "google",
+      "entrances": 12500,
+      "conversions": 350
+    }
+  ],
+  "meta": {
+    "total_rows": 25,
+    "has_more": true,
+    "granularity": "total",
+    "dimensions": ["utm_source"],
+    "metrics": ["entrances", "conversions"]
+  },
+  "comparison_data": [
+    {
+      "utm_source": "google",
+      "entrances": 10800,
+      "conversions": 290
+    }
+  ],
+  "comparison_meta": {
+    "date_from": "2025-01-04",
+    "date_to": "2025-01-31",
+    "mode": "previous",
+    "total_rows": 23
+  }
+}
+```
+
+The `comparison_data` array has the same structure as `data`, making it straightforward to compute deltas client-side.
+
+---
+
+## CSV Export
+
+```http
+POST /stats/query/export?site_id={site_id}
+```
+
+Same request body as `/stats/query`, but returns a downloadable CSV file instead of JSON.
+
+### Additional Query Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `filename` | string | `export.csv` | Output filename |
+
+### Differences from JSON endpoint
+
+| Feature | `/stats/query` | `/stats/query/export` |
+|---------|----------------|----------------------|
+| Response format | JSON | CSV file (streaming) |
+| Max rows (`limit`) | 10,000 | 100,000 |
+| Comparison data | Separate `comparison_data` array | Rows with `period` column (`current` / `comparison`) |
+
+### Example
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/stats/query/export?site_id=acme&filename=monthly_report.csv" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "date_from": "2025-01-01",
+    "date_to": "2025-01-31",
+    "granularity": "daily",
+    "dimensions": ["utm_source", "utm_medium", "country"],
+    "metrics": ["entrances", "conversions", "revenue"],
+    "limit": 50000
+  }' \
+  -o monthly_report.csv
+```
+
+**CSV output:**
+
+```csv
+date,utm_source,utm_medium,country,entrances,conversions,revenue
+2025-01-01,google,cpc,ES,1234,45,4500.00
+2025-01-01,google,cpc,MX,567,12,1200.00
+2025-01-01,facebook,social,ES,890,23,2300.00
+```
+
+**CSV with comparison** (adds `period` column):
+
+```csv
+period,date,utm_source,entrances,conversions,revenue
+current,2025-01-01,google,1234,45,4500.00
+current,2025-01-02,google,1456,52,5200.00
+comparison,2024-12-02,google,1100,38,3800.00
+comparison,2024-12-03,google,1200,41,4100.00
+```
+
+---
+
+## Code Examples
+
+### Python — Full data extraction
+
+```python
+import requests
+
+API_KEY = "sm_your_api_key"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+
+def query_stats(site_id: str, body: dict) -> dict:
+    response = requests.post(
+        f"{BASE_URL}/stats/query",
+        headers={
+            "X-API-Key": API_KEY,
+            "Content-Type": "application/json"
+        },
+        params={"site_id": site_id},
+        json=body
+    )
+    response.raise_for_status()
+    return response.json()
+
+# Daily traffic by source and country for the last month
+result = query_stats("my-site", {
+    "date_from": "2025-01-01",
+    "date_to": "2025-01-31",
+    "granularity": "daily",
+    "dimensions": ["utm_source", "utm_medium", "country"],
+    "metrics": ["entrances", "engaged_entrances", "conversions", "revenue"],
+    "filters": {
+        "country": ["ES", "MX", "AR"],
+        "utm_medium_not": ["(not set)"]
+    },
+    "order_by": [{"field": "date", "direction": "asc"}],
+    "limit": 10000
+})
+
+for row in result["data"]:
+    print(f"{row['date']} | {row['utm_source']}/{row['utm_medium']} | "
+          f"{row['country']} | {row['entrances']} visits | €{row['revenue']}")
+
+print(f"\nTotal rows: {result['meta']['total_rows']}")
+print(f"Has more: {result['meta']['has_more']}")
+```
+
+### Python — Paginated export to DataFrame
+
+```python
+import pandas as pd
+import requests
+
+API_KEY = "sm_your_api_key"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+
+def export_all(site_id: str, body: dict) -> pd.DataFrame:
+    """Fetch all rows with automatic pagination."""
+    all_rows = []
+    body = {**body, "limit": 10000, "offset": 0}
+
+    while True:
+        resp = requests.post(
+            f"{BASE_URL}/stats/query",
+            headers={"X-API-Key": API_KEY, "Content-Type": "application/json"},
+            params={"site_id": site_id},
+            json=body
+        )
+        resp.raise_for_status()
+        result = resp.json()
+        all_rows.extend(result["data"])
+
+        if not result["meta"]["has_more"]:
+            break
+        body["offset"] += 10000
+
+    return pd.DataFrame(all_rows)
+
+df = export_all("my-site", {
+    "date_from": "2025-01-01",
+    "date_to": "2025-01-31",
+    "granularity": "daily",
+    "dimensions": ["utm_source", "country"],
+    "metrics": ["entrances", "conversions", "revenue"]
+})
+
+print(df.head())
+```
+
+### Python — Direct CSV download
+
+```python
+import requests
+
+API_KEY = "sm_your_api_key"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+
+response = requests.post(
+    f"{BASE_URL}/stats/query/export",
+    headers={"X-API-Key": API_KEY, "Content-Type": "application/json"},
+    params={"site_id": "my-site", "filename": "jan_2025.csv"},
+    json={
+        "date_from": "2025-01-01",
+        "date_to": "2025-01-31",
+        "granularity": "daily",
+        "dimensions": ["utm_source", "utm_medium", "country"],
+        "metrics": ["entrances", "conversions", "revenue"],
+        "limit": 100000
+    }
+)
+
+with open("jan_2025.csv", "wb") as f:
+    f.write(response.content)
+
+print(f"Saved {len(response.content)} bytes")
+```
+
+### JavaScript — Query with comparison
+
+```javascript
+const API_KEY = 'sm_your_api_key';
+const BASE_URL = 'https://my.sealmetrics.com/api/v1';
+
+async function queryStats(siteId, body) {
+  const response = await fetch(
+    `${BASE_URL}/stats/query?site_id=${siteId}`,
+    {
+      method: 'POST',
+      headers: {
+        'X-API-Key': API_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+// Compare this month vs last month by channel
+const result = await queryStats('my-site', {
+  date_from: '2025-02-01',
+  date_to: '2025-02-28',
+  dimensions: ['channel_group'],
+  metrics: ['entrances', 'conversions', 'revenue'],
+  order_by: [{ field: 'revenue', direction: 'desc' }],
+  compare: 'previous'
+});
+
+// Current period
+for (const row of result.data) {
+  console.log(`${row.channel_group}: ${row.entrances} visits, €${row.revenue}`);
+}
+
+// Comparison period
+if (result.comparison_data) {
+  console.log(`\nPrevious period (${result.comparison_meta.date_from} to ${result.comparison_meta.date_to}):`);
+  for (const row of result.comparison_data) {
+    console.log(`${row.channel_group}: ${row.entrances} visits, €${row.revenue}`);
+  }
+}
+```
+
+---
+
+## Error Handling
+
+| Status | Error | Description |
+|--------|-------|-------------|
+| 400 | `date_from must be before date_to` | Invalid date range |
+| 400 | `Invalid dimensions: {...}` | Unknown dimension name |
+| 400 | `Invalid metrics: {...}` | Unknown metric name |
+| 400 | `Maximum 10 dimensions allowed` | Too many dimensions |
+| 400 | `Invalid compare mode` | Must be `previous` or `yoy` |
+| 401 | `missing_credentials` | No API key provided |
+| 403 | `insufficient_scope` | API key lacks `stats:read` scope |
+| 403 | `forbidden` | No access to this site |
+
+---
+
+## Best Practices
+
+1. **Start with fewer dimensions** and add more as needed. Each additional dimension multiplies the number of result rows.
+
+2. **Use filters to reduce data volume.** Filtering at query time is much faster than fetching everything and filtering client-side.
+
+3. **Use the CSV export for large extractions.** The `/query/export` endpoint supports up to 100,000 rows and returns a streaming response, avoiding memory issues.
+
+4. **Paginate when needed.** If `meta.has_more` is `true`, increment `offset` by your `limit` value to fetch the next page.
+
+5. **Cache comparison queries.** Historical comparison data doesn't change, so `compare` results can be cached longer than current period data.
+
+6. **Prefer `daily` granularity over `hourly`** unless you specifically need hour-level data. Daily queries are faster and return fewer rows.

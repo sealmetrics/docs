@@ -1,0 +1,62 @@
+# How to Change UTM Parameters in Sealmetrics
+
+URL: https://docs.sealmetrics.com/reports/insights/how-to-change-utm-parameters
+
+# How to Change UTM Parameters in Sealmetrics
+
+Some businesses use custom UTM structures or alternative analytics platforms such as Adobe Analytics, Piwik PRO, or proprietary BI systems.
+If your marketing tools use different parameter names (e.g., `campaign_id` instead of `utm_campaign`), you can create custom mappings in Sealmetrics.
+
+---
+
+## 1. Access UTM Mappings
+
+1. Go to **Settings → Sites** in the sidebar.
+2. Click on the site you want to configure.
+3. Click the **UTM Mappings** tab.
+
+This section lets you map custom URL parameters to the standard UTM fields that Sealmetrics uses for reporting.
+
+**Info:**
+
+---
+
+## 2. Add a Custom Mapping
+
+1. Enter your custom parameter name in the **Custom Parameter Name** field (e.g., `campaign_id`).
+2. Select which UTM field it maps to from the **Maps To** dropdown:
+   - **Source** (`utm_source`)
+   - **Medium** (`utm_medium`)
+   - **Campaign** (`utm_campaign`)
+   - **Term** (`utm_term`)
+   - **Content** (`utm_content`)
+3. Click **Add** (or press Enter).
+
+The mapping will appear in the list below the form.
+
+---
+
+## 3. Remove a Mapping
+
+Click the **trash icon** next to any mapping to remove it. A confirmation dialog will appear before deletion.
+
+---
+
+## Why Customize UTMs?
+
+Customizing UTM mappings is especially helpful when:
+
+- Your marketing tools use non-standard parameter names (e.g., Hubspot's `campaign_id`)
+- Migrating from another platform and keeping existing URL conventions
+- Maintaining internal naming conventions for campaign management
+- Shortening long parameter names (e.g., `cmp` instead of `utm_campaign`)
+- Standardizing parameters across teams and tools
+
+---
+
+## Important Notes
+
+- Changes apply **from the moment you add the mapping**. Previous hits will not be remapped retroactively.
+- If a UTM parameter is missing in the URL, Sealmetrics will display **"(not set)"** for that field.
+- Custom mappings are additive — they don't modify how standard UTM parameters are captured.
+- Keep your UTM structure consistent across all campaigns to maintain clean and accurate reports.

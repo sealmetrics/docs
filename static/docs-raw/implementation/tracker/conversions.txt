@@ -1,0 +1,287 @@
+# Conversions
+
+URL: https://docs.sealmetrics.com/implementation/tracker/conversions
+
+# Conversions
+
+Track purchases, leads, signups, and other goal completions with monetary value.
+
+## Syntax
+
+```javascript
+sealmetrics.conv(type, amount);
+sealmetrics.conv(type, amount, properties);
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `type` | string | Yes | Conversion name (e.g., `'purchase'`, `'lead'`, `'signup'`) |
+| `amount` | number | Yes | Monetary value. Use `0` for non-monetary conversions |
+| `properties` | object | No | Custom key-value data |
+
+## Examples
+
+### Purchase
+
+```javascript
+sealmetrics.conv('purchase', 99.99);
+```
+
+### Purchase with Properties
+
+```javascript
+sealmetrics.conv('purchase', 149.99, {
+  order_id: 'ORD-2025-001234',
+  currency: 'EUR',
+  payment_method: 'credit_card',
+  coupon: 'SAVE10',
+  items: [
+    { product_name: 'Camiseta', price: 19.95, quantity: 2, category: 'Ropa' },
+    { product_name: 'Pantalón', price: 49.99, quantity: 1, category: 'Ropa' }
+  ]
+});
+```
+
+**Tip:**
+The `items` property is an **array of JavaScript objects** inside the properties parameter (the third argument of `sealmetrics.conv()`). Each object supports free-form key-value fields like `product_name`, `price`, `quantity`, `category`, `variant`, `id`, etc. Do not pass `items` as a string or as a separate parameter outside the properties object.
+
+### Lead (No Monetary Value)
+
+```javascript
+sealmetrics.conv('lead', 0, {
+  form_name: 'contact_form',
+  source: 'homepage'
+});
+```
+
+### Signup
+
+```javascript
+sealmetrics.conv('signup', 0, {
+  plan: 'trial',
+  referral_code: 'FRIEND20'
+});
+```
+
+### Subscription Purchase
+
+```javascript
+sealmetrics.conv('purchase', 49, {
+  plan: 'pro_monthly',
+  currency: 'USD',
+  billing_cycle: 'monthly'
+});
+```
+
+## E-commerce Implementation
+
+### Thank You Page
+
+Place on your order confirmation page:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=checkout" defer></script>
+<script>
+  // Wait for tracker to load
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', 189.99, {
+      order_id: 'ORD-2025-001234',
+      currency: 'EUR',
+      payment_method: 'credit_card',
+      items: [
+        { product_name: 'Widget Pro', product_id: 'WDG-001', price: 59.99, quantity: 2, category: 'Widgets' },
+        { product_name: 'Widget Case', product_id: 'WDG-CASE', price: 70.01, quantity: 1, category: 'Accessories' }
+      ]
+    });
+  });
+</script>
+```
+
+### Dynamic Values (Server-Side Rendering)
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=checkout" defer></script>
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', <?php echo $order->total; ?>, {
+      order_id: '<?php echo $order->id; ?>',
+      currency: '<?php echo $order->currency; ?>'
+    });
+  });
+</script>
+```
+
+### WooCommerce
+
+In `functions.php` or a custom plugin:
+
+```php
+add_action('woocommerce_thankyou', function($order_id) {
+  $order = wc_get_order($order_id);
+  $items = array();
+  foreach ($order->get_items() as $item) {
+    $product = $item->get_product();
+    $items[] = array(
+      'product_name' => $item->get_name(),
+      'product_id'   => $product ? $product->get_id() : '',
+      'sku'          => $product ? $product->get_sku() : '',
+      'price'        => $item->get_total() / max($item->get_quantity(), 1),
+      'quantity'     => $item->get_quantity(),
+    );
+  }
+  ?>
+  <script>
+    window.addEventListener('load', function() {
+      sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
+        order_id: '<?php echo $order_id; ?>',
+        currency: '<?php echo $order->get_currency(); ?>',
+        payment_method: '<?php echo $order->get_payment_method(); ?>',
+        items: <?php echo json_encode($items); ?>
+      });
+    });
+  </script>
+  <?php
+});
+```
+
+### Shopify
+
+In your `checkout.liquid` or via Shopify Additional Scripts:
+
+```html
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
+      order_id: '{{ order.name }}',
+      currency: '{{ checkout.currency }}',
+      items: [
+        {% for item in checkout.line_items %}
+        {
+          product_name: '{{ item.title | escape }}',
+          product_id: '{{ item.product_id }}',
+          sku: '{{ item.sku | escape }}',
+          price: {{ item.final_price | money_without_currency | remove: ',' }},
+          quantity: {{ item.quantity }}
+        }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    });
+  });
+</script>
+```
+
+## SaaS Implementation
+
+### Free Trial Signup
+
+```javascript
+document.querySelector('#signup-form').addEventListener('submit', function(e) {
+  sealmetrics.conv('signup', 0, {
+    plan: 'trial',
+    source: 'pricing_page'
+  });
+});
+```
+
+### Paid Subscription
+
+```javascript
+// After successful payment
+sealmetrics.conv('purchase', 49, {
+  plan: 'pro',
+  billing_cycle: 'monthly',
+  currency: 'USD'
+});
+```
+
+### Plan Upgrade
+
+```javascript
+sealmetrics.conv('upgrade', 99, {
+  from_plan: 'starter',
+  to_plan: 'pro',
+  currency: 'USD'
+});
+```
+
+## Properties Reference
+
+Common properties to include:
+
+| Property | Type | Description | Example |
+|----------|------|-------------|---------|
+| `order_id` | string | Unique order identifier | `'ORD-2025-001234'` |
+| `currency` | string | ISO 4217 currency code | `'EUR'`, `'USD'`, `'GBP'` |
+| `payment_method` | string | Payment type | `'credit_card'`, `'paypal'` |
+| `coupon` | string | Discount code used | `'SAVE10'` |
+| `items` | array | Array of product objects | See below |
+| `plan` | string | Subscription plan name | `'pro'`, `'enterprise'` |
+| `billing_cycle` | string | Billing frequency | `'monthly'`, `'yearly'` |
+
+### Product Items
+
+For e-commerce purchases, use the `items` property to send an array of product objects. Each object supports free-form key-value fields:
+
+```javascript
+sealmetrics.conv('purchase', 89.99, {
+  currency: 'EUR',
+  items: [
+    { product_name: 'Camiseta', price: 19.95, quantity: 2, category: 'Ropa' },
+    { product_name: 'Pantalón', price: 49.99, quantity: 1, category: 'Ropa' }
+  ]
+});
+```
+
+Common fields per item: `product_name`, `product_id`, `sku`, `price`, `quantity`, `category`, `brand`, `variant`. You can add any custom fields you need — all fields are accepted.
+
+**Info:**
+Once tracked, product items appear in the **Properties** report under the **Conv. Items** tab. There you can analyze each product field broken down by traffic source, medium, and campaign. Items with a `quantity` field are automatically counted by the number of units (e.g., `quantity: 2` counts as 2).
+
+**Warning:**
+- `items` must be a **native JavaScript array** of objects, not a string
+- `items` goes **inside** the properties object (the third parameter), not as a separate parameter
+- Individual product fields go inside each object of the array, not as top-level properties
+
+## Timing
+
+### Conversions Count as Pageviews
+
+Every conversion event also counts as a pageview. Do not call `sealmetrics()` separately on the same page.
+
+### Wait for Tracker to Load
+
+If calling conversion immediately on page load, wait for the script:
+
+```javascript
+window.addEventListener('load', function() {
+  sealmetrics.conv('purchase', 99.99);
+});
+```
+
+Or check if function exists:
+
+```javascript
+if (typeof sealmetrics !== 'undefined') {
+  sealmetrics.conv('purchase', 99.99);
+}
+```
+
+## Deduplication
+
+Sealmetrics does not deduplicate conversions automatically. To prevent duplicate tracking:
+
+1. **Server-side flag**: Mark orders as "tracked" in your database
+2. **One-time page**: Redirect after conversion so refreshing doesn't re-trigger
+3. **Session check**: Use your own session logic to track if conversion was already sent
+
+Example with localStorage (client-side):
+
+```javascript
+var orderId = 'ORD-2025-001234';
+if (!localStorage.getItem('tracked_' + orderId)) {
+  sealmetrics.conv('purchase', 99.99, { order_id: orderId });
+  localStorage.setItem('tracked_' + orderId, 'true');
+}
+```
+
+**Note:**

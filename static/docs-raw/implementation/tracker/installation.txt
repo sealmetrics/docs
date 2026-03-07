@@ -1,0 +1,33 @@
+# Installation
+
+URL: https://docs.sealmetrics.com/implementation/tracker/installation
+
+# Installation
+
+## Basic Installation
+
+Add this script tag to your HTML, preferably in ``:
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
+```
+
+## Troubleshooting
+
+### Script not loading
+
+1. Check that `YOUR_SITE_ID` is replaced with your actual Site ID
+2. Verify the site is active in Sealmetrics dashboard
+3. Check browser console for errors
+
+### Events not appearing in dashboard
+
+1. Events are processed in batches; wait 2-5 minutes
+2. Verify the domain is registered in Settings → Sites → [your site] → Domains
+3. Check if adblockers are blocking requests (unlikely with first-party setup)
+
+### 204 response but no data
+
+The server returns 204 for all requests (valid or rejected) to prevent information leakage. Check:
+1. Site ID is correct
+2. Domain is authorized for this site
+3. Token is valid (script was loaded less than 24 hours ago)

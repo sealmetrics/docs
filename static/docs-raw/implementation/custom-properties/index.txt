@@ -1,0 +1,183 @@
+# Custom Properties Overview
+
+URL: https://docs.sealmetrics.com/implementation/custom-properties
+
+# Custom Properties
+
+Custom properties let you attach additional data to conversions and microconversions, enabling deeper analysis tailored to your business needs.
+
+## What Are Custom Properties?
+
+Standard tracking captures basic information:
+- Page URL
+- Traffic source
+- Device type
+- Conversion amount
+
+Custom properties let you add your own data:
+- Product category
+- Payment method
+- Subscription plan
+- Coupon code
+- Anything else relevant to your business
+
+## How Properties Work
+
+Properties are key-value pairs passed as the last parameter to `sealmetrics.conv()` and `sealmetrics.micro()`:
+
+```javascript
+// Conversion with properties
+sealmetrics.conv('purchase', 149.99, {
+  product_category: 'electronics',
+  brand: 'Apple',
+  payment_method: 'credit_card',
+  coupon_used: 'SAVE10'
+});
+
+// Microconversion with properties
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  product_name: 'Widget Pro',
+  price: '49.99'
+});
+```
+
+## Use Cases
+
+### E-commerce
+
+```javascript
+sealmetrics.conv('purchase', 149.99, {
+  product_category: 'electronics',
+  brand: 'Apple',
+  payment_method: 'credit_card',
+  coupon_used: 'SAVE10',
+  is_first_purchase: 'true'
+});
+```
+
+**Analysis enabled:**
+- Revenue by product category
+- Conversion rate by brand
+- Coupon effectiveness
+- New vs returning customer behavior
+
+### SaaS
+
+```javascript
+sealmetrics.micro('feature_used', {
+  feature_name: 'export',
+  plan_type: 'pro',
+  company_size: '50-100',
+  user_role: 'admin'
+});
+```
+
+**Analysis enabled:**
+- Feature adoption by plan
+- Usage patterns by company size
+- Admin vs regular user behavior
+
+### Lead Generation
+
+```javascript
+sealmetrics.conv('lead', 0, {
+  form_name: 'contact_form',
+  source: 'homepage',
+  industry: 'technology',
+  company_size: '50-100'
+});
+```
+
+**Analysis enabled:**
+- Lead quality by source
+- Industry distribution
+- Form performance comparison
+
+## Property Limits
+
+| Attribute | Limit |
+|-----------|-------|
+| Property name max length | 100 characters |
+| Property value max length | 500 characters |
+| Total payload max | 64KB |
+
+## Reserved Properties
+
+Don't use property names starting with underscore (`_`). These are reserved for internal use.
+
+## Best Practices
+
+### Naming Conventions
+
+```javascript
+// Good: snake_case, descriptive
+{
+  product_category: 'electronics',
+  customer_type: 'premium',
+  is_first_purchase: 'true'
+}
+
+// Bad: inconsistent, vague
+{
+  'Product-Category': 'electronics',
+  type: 'premium',
+  first: 'yes'
+}
+```
+
+### Value Consistency
+
+```javascript
+// Good: consistent values
+// customer_type: 'free' | 'pro' | 'enterprise'
+
+// Bad: inconsistent values
+// customer_type: 'Free' | 'PRO' | 'Enterprise' | 'free' | 'premium'
+```
+
+### All Values Are Strings
+
+All property values are transmitted as strings. Numbers and booleans are automatically converted:
+
+```javascript
+// Both are equivalent
+sealmetrics.conv('purchase', 99, { quantity: 3 });
+sealmetrics.conv('purchase', 99, { quantity: '3' });
+```
+
+## Quick Start
+
+### 1. Plan Your Properties
+
+Before implementing, decide:
+- What questions do you want to answer?
+- What data do you need to answer them?
+- Which events should carry which properties?
+
+### 2. Add Properties to Your Events
+
+```javascript
+// With conversions
+sealmetrics.conv('purchase', 99.99, {
+  product_category: 'software',
+  payment_method: 'stripe'
+});
+
+// With microconversions
+sealmetrics.micro('signup', {
+  plan_selected: 'pro',
+  referral_source: 'friend'
+});
+```
+
+### 3. Analyze in Reports
+
+Once properties are flowing:
+
+1. Open any report
+2. Click **Add Filter**
+3. Select your custom property
+4. Filter or break down by values
+
+## Next Steps

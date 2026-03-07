@@ -1,0 +1,172 @@
+# Pixel Builder
+
+URL: https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder
+
+# Pixel Builder
+
+The Pixel Builder helps you generate tracking code for your website without writing code manually. It creates ready-to-copy snippets for conversions, microconversions, and pageviews.
+
+## Accessing Pixel Builder
+
+1. Go to **Settings → Pixels** in the sidebar
+2. In the **Saved Pixels** section, click **Create Pixel**
+
+## Creating a Pixel
+
+### Step 1: Name and Description
+
+Give your pixel a descriptive name (e.g., "Purchase Tracking", "Newsletter Signup") and an optional description.
+
+### Step 2: Choose Pixel Type
+
+Select the type of event to track:
+
+| Type | Purpose | Function Generated |
+|------|---------|-------------------|
+| **Pageview** | Manual pageview (rarely needed — pageviews are automatic) | `sealmetrics()` |
+| **Conversion** | Goal completions with monetary value | `sealmetrics.conv()` |
+| **Microconversion** | User interactions and funnel steps | `sealmetrics.micro()` |
+
+### Step 3: Configure the Event
+
+**For Conversions:**
+- Select a **Conversion Type** (purchase, signup, lead, etc.)
+- Set the **Revenue** value (use `0` for non-monetary conversions)
+- Set the **Currency** (EUR, USD, etc.)
+- Add custom **Properties** (optional key-value pairs)
+
+**For Microconversions:**
+- Select a **Conversion Type** (add_to_cart, begin_checkout, etc.)
+- Add custom **Properties** (optional)
+
+**For Pageviews:**
+- Add custom **Properties** (optional, e.g., content group)
+
+### Step 4: Select Target Platform
+
+Choose where you'll use the code:
+
+| Platform | Output |
+|----------|--------|
+| **JavaScript** | Plain JavaScript snippet |
+| **GTM** | Wrapped in `<script>` tags for Google Tag Manager Custom HTML |
+| **Tealium** | Formatted as a Tealium extension |
+
+### Step 5: Copy the Generated Code
+
+The code preview updates in real time. Click **Copy** to copy it to your clipboard.
+
+## Generated Code Examples
+
+### Conversion (JavaScript)
+
+```javascript
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'EUR'
+});
+```
+
+### Conversion with Dynamic Values
+
+For values that come from your platform (e.g., order total from your CMS), switch the value type from **Literal** to **JS Variable** or **GTM Variable**:
+
+**JS Variable:**
+```javascript
+sealmetrics.conv('purchase', orderTotal, {
+  currency: orderCurrency
+});
+```
+
+**GTM Variable:**
+```javascript
+sealmetrics.conv('purchase', {{Order Total}}, {
+  currency: '{{Currency}}'
+});
+```
+
+### Microconversion (JavaScript)
+
+```javascript
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  price: '89.99'
+});
+```
+
+### Microconversion (GTM)
+
+```html
+<script>
+sealmetrics.micro('add_to_cart', {
+  product_id: '{{Product ID}}',
+  price: '{{Product Price}}'
+});
+</script>
+```
+
+### Pageview (JavaScript)
+
+```javascript
+sealmetrics();
+```
+
+## Value Types
+
+When configuring revenue, currency, or property values, you can choose between:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| **Literal** | Fixed value | `99.99`, `'EUR'` |
+| **JS Variable** | JavaScript variable name | `orderTotal`, `document.getElementById('price').value` |
+| **GTM Variable** | Google Tag Manager variable | `{{Order Total}}`, `{{Currency}}` |
+
+## Saved Pixels
+
+Saved pixels are stored per site. You can:
+
+- **Edit** a saved pixel to update its configuration
+- **Copy** the generated code at any time
+- **Delete** pixels you no longer need
+
+## Important Notes
+
+### Tracker Must Be Installed First
+
+The Pixel Builder generates event-tracking code only. The base tracker script must already be installed on your page:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
+```
+
+See the [Installation Guide](/implementation/tracker/installation) for setup instructions.
+
+### Conversions Count as Pageviews
+
+Every conversion and microconversion event also counts as a pageview. Do not call `sealmetrics()` separately on the same page where you fire a conversion.
+
+### Wait for Tracker to Load
+
+If placing conversion code directly on a page (e.g., a thank-you page), wrap it in a load listener:
+
+```javascript
+window.addEventListener('load', function() {
+  sealmetrics.conv('purchase', 99.99, {
+    currency: 'EUR'
+  });
+});
+```
+
+### Debug Mode
+
+Add `?debug=1` to any page URL to see tracking events logged in the browser console:
+
+```
+https://yoursite.com/thank-you?debug=1
+```
+
+## Related Documentation
+
+- [Installation](/implementation/tracker/installation) — Install the base tracker
+- [Conversions](/implementation/tracker/conversions) — Detailed conversion tracking guide
+- [Microconversions](/implementation/tracker/microconversions) — Event tracking guide
+- [API Reference](/implementation/tracker/api-reference) — Complete tracker API

@@ -1,0 +1,249 @@
+# User Segmentation
+
+URL: https://docs.sealmetrics.com/implementation/custom-properties/user-properties
+
+# User Segmentation with Properties
+
+Sealmetrics is privacy-first and does not use cookies, localStorage, or persistent user identification. However, you can still segment users effectively by including business attributes in your event properties.
+
+## How It Works
+
+Include user-related attributes as properties when tracking conversions and microconversions. This lets you analyze behavior by user segment without storing any persistent user data.
+
+```javascript
+// Include user context in conversions
+sealmetrics.conv('purchase', 149.99, {
+  customer_type: 'premium',
+  plan: 'pro',
+  currency: 'EUR'
+});
+
+// Include user context in microconversions
+sealmetrics.micro('feature_used', {
+  feature_name: 'export',
+  plan_type: 'pro',
+  user_role: 'admin'
+});
+```
+
+## Segmentation Examples
+
+### SaaS Application
+
+Include plan and account data with each event:
+
+```javascript
+// On feature usage
+sealmetrics.micro('feature_used', {
+  feature_name: 'export',
+  plan_type: 'pro',
+  billing_cycle: 'annual',
+  company_size: '50-100',
+  user_role: 'admin'
+});
+
+// On subscription purchase
+sealmetrics.conv('subscription', 49, {
+  plan: 'pro',
+  billing_cycle: 'monthly',
+  currency: 'USD',
+  company_size: '50-100',
+  industry: 'technology'
+});
+```
+
+**Analysis enabled:**
+- Feature adoption by plan type
+- Revenue by company size
+- Conversion rate by industry
+
+### E-commerce
+
+Include customer context with purchases:
+
+```javascript
+// Purchase with customer data
+sealmetrics.conv('purchase', 149.99, {
+  customer_type: 'returning',
+  loyalty_tier: 'gold',
+  payment_method: 'paypal',
+  product_category: 'electronics',
+  coupon: 'SAVE10'
+});
+
+// Add to cart with context
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  price: '149.99',
+  category: 'electronics',
+  customer_type: 'returning'
+});
+```
+
+**Analysis enabled:**
+- Revenue by customer type
+- Conversion rate by loyalty tier
+- Category preferences by segment
+
+### Media/Subscription
+
+```javascript
+// Content engagement
+sealmetrics.micro('article_read', {
+  article_category: 'technology',
+  author: 'jane-doe',
+  subscriber_type: 'premium',
+  word_count: '1500'
+});
+
+// Subscription conversion
+sealmetrics.conv('subscription', 9.99, {
+  plan: 'premium',
+  billing_cycle: 'monthly',
+  currency: 'EUR',
+  referral_source: 'blog'
+});
+```
+
+## Implementation Patterns
+
+### Server-Rendered Pages
+
+Inject user data from your backend into the tracking calls:
+
+**PHP:**
+
+```php
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
+      customer_type: '<?php echo $user->type; ?>',
+      plan: '<?php echo $user->plan; ?>',
+      currency: '<?php echo $order->get_currency(); ?>'
+    });
+  });
+</script>
+```
+
+**Python (Jinja2):**
+
+```html
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', {{ order.total }}, {
+      customer_type: '{{ user.type }}',
+      plan: '{{ user.plan }}',
+      currency: '{{ order.currency }}'
+    });
+  });
+</script>
+```
+
+### JavaScript Applications
+
+Use your app's state to include user data:
+
+```javascript
+// From your app's user context
+var user = getCurrentUser();
+
+sealmetrics.micro('feature_used', {
+  feature_name: 'export',
+  plan_type: user.plan,
+  user_role: user.role,
+  company_size: user.companySize
+});
+```
+
+### Data Attributes
+
+Embed user data in HTML for use in event handlers:
+
+```html
+<button
+  class="add-to-cart"
+  data-product-id="SKU-123"
+  data-customer-type="premium"
+  onclick="trackAddToCart(this)"
+>
+  Add to Cart
+</button>
+
+<script>
+  function trackAddToCart(btn) {
+    sealmetrics.micro('add_to_cart', {
+      product_id: btn.dataset.productId,
+      customer_type: btn.dataset.customerType
+    });
+  }
+</script>
+```
+
+## Privacy Considerations
+
+### What NOT to Include
+
+Never include personally identifiable information (PII) in properties:
+
+```javascript
+// Don't do this
+sealmetrics.conv('purchase', 99.99, {
+  email: 'john@example.com',      // PII
+  phone: '+1234567890',           // PII
+  full_name: 'John Smith',        // PII
+  address: '123 Main St'          // PII
+});
+
+// Do this instead
+sealmetrics.conv('purchase', 99.99, {
+  email_domain: 'example.com',    // Domain only, not PII
+  country: 'US',                  // General location
+  customer_type: 'enterprise'     // Non-identifying segment
+});
+```
+
+### Why No Persistent User IDs?
+
+Sealmetrics is designed for privacy-first analytics:
+
+- **No cookies** — No consent banner needed
+- **No localStorage** — No persistent storage
+- **No user identification** — Sessions are based on anonymous browser fingerprinting
+- **GDPR compliant** — No personal data collected or stored
+
+This means you cannot track individual users across sessions. Instead, you analyze behavior by **segments** (properties) rather than individual users.
+
+## Analyzing User Segments in Reports
+
+User segment data appears in reports when you include it as properties:
+
+```
+Conversions by Customer Type
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+customer_type    Conversions    Revenue      AOV
+──────────────────────────────────────────────────
+premium               234      €46,800    €200
+standard              567      €56,700    €100
+free                   89       €4,450     €50
+```
+
+### How to Use
+
+1. Go to any report
+2. Add a filter or dimension using your property name (e.g., `customer_type`)
+3. Break down metrics by segment
+
+## Troubleshooting
+
+### Segments Not Appearing in Reports
+
+1. Ensure properties are being sent with events (check with `?debug=1`)
+2. Wait a few minutes for data processing
+3. Verify property names match what you're filtering by
+
+### Inconsistent Segments
+
+1. Use consistent property values across all events (e.g., always `'premium'`, not sometimes `'Premium'`)
+2. Standardize values before sending
+3. Document your property taxonomy for your team

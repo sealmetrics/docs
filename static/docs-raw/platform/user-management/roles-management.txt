@@ -1,0 +1,96 @@
+# Roles & Permissions
+
+URL: https://docs.sealmetrics.com/platform/user-management/roles-management
+
+# Roles & Permissions
+
+Sealmetrics uses a two-tier role system to give you fine-grained control over who can access what:
+
+1. **Organization roles** control what a user can do across the organization (manage members, billing, settings).
+2. **Site-level roles** control what a user can do within a specific site (edit configuration or view only).
+
+These two layers are independent and combine together to determine a user's full set of permissions.
+
+---
+
+## Organization Roles
+
+Every member of an organization has exactly one organization role: **Owner**, **Admin**, or **Member**.
+
+| Permission | Owner | Admin | Member |
+|------------|:-----:|:-----:|:------:|
+| View analytics for all org sites | Yes | Yes | -- |
+| View analytics for assigned sites only | -- | -- | Yes |
+| Add and remove members | Yes | Yes | -- |
+| Change member roles | Yes | Yes (cannot change owners) | -- |
+| Invite new members | Yes | Yes | -- |
+| Assign sites to members | Yes | Yes | -- |
+| Access billing and subscription | Yes | -- | -- |
+| Rename or delete the organization | Yes | -- | -- |
+| View organization settings | Yes | Yes | -- |
+
+### Owner
+
+The organization creator is automatically the Owner. Owners have unrestricted access to everything in the organization, including billing, member management, and all sites.
+
+### Admin
+
+Admins can manage the day-to-day operations of the organization. They can add and remove members, assign sites, and access all sites. However, they cannot manage billing or modify Owner-level settings.
+
+### Member
+
+Members have restricted access. They can only see the specific sites that an Owner or Admin has assigned to them. They cannot manage other members or access billing.
+
+---
+
+## Site-Level Roles
+
+Within each site, a user can have one of two roles: **Editor** or **Viewer**.
+
+| Permission | Editor | Viewer |
+|------------|:------:|:------:|
+| View reports and analytics | Yes | Yes |
+| Use LENS AI | Yes | Yes |
+| Export data | Yes | Yes |
+| Edit site configuration (tracking, integrations, etc.) | Yes | -- |
+| Manage conversion goals | Yes | -- |
+| Configure content grouping | Yes | -- |
+| Manage BigQuery integration | Yes | -- |
+
+### Editor
+
+Editors can view all data and modify the site's configuration, including tracking settings, integrations, and conversion goals.
+
+### Viewer
+
+Viewers have read-only access to all reports and analytics data. They cannot change any site settings.
+
+---
+
+## How Roles Combine
+
+A user's effective permissions are determined by the combination of their organization role and their site-level role. Here are some common examples:
+
+| Org Role | Site Role | What They Can Do |
+|----------|-----------|------------------|
+| **Owner** | (all sites) | Full access to everything -- all sites, billing, members, settings |
+| **Admin** | (all sites) | All sites, member management, no billing |
+| **Member** | **Editor** | Only assigned sites, can modify site config on those sites |
+| **Member** | **Viewer** | Only assigned sites, read-only access |
+
+**Tip:**
+
+---
+
+## Choosing the Right Roles
+
+| Scenario | Recommended Org Role | Recommended Site Role |
+|----------|---------------------|----------------------|
+| Business owner or account manager | Owner | -- (has all access) |
+| Team lead managing the analytics setup | Admin | -- (has all access) |
+| Marketing analyst on your team | Member | Editor (if they configure goals) or Viewer |
+| External client reviewing reports | Member | Viewer |
+| Agency partner managing tracking | Member | Editor |
+
+**Info:**
+Keep the number of Owners to a minimum. Most team members work well as Admins or Members with appropriate site access.

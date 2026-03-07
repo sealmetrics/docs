@@ -1,0 +1,115 @@
+# Tracker Overview
+
+URL: https://docs.sealmetrics.com/implementation/tracker
+
+# Tracker
+
+Ultra-lightweight JavaScript tracker for collecting analytics data.
+
+| Specification | Value |
+|---------------|-------|
+| Size (minified) | 2,367 bytes |
+| Size (gzipped) | **1,313 bytes** |
+| Dependencies | None (vanilla JavaScript) |
+| Cookies | None |
+| localStorage | None |
+| sessionStorage | None |
+| Browser support | Chrome 60+, Firefox 55+, Safari 11.1+, Edge 79+ |
+| Accounts per page | One |
+
+## Size Comparison
+
+### Privacy-First Analytics
+
+| Platform | Minified | Gzipped | vs Sealmetrics |
+|----------|----------|---------|----------------|
+| **Sealmetrics** | 2.4 KB | **1.3 KB** | — |
+| Plausible | 3.0 KB | 1.3 KB | ~same |
+| Fathom | 6.2 KB | 1.9 KB | 1.4x heavier |
+| Simple Analytics | 7.5 KB | 3.8 KB | 2.9x heavier |
+
+### Enterprise Analytics
+
+| Platform | Minified | Gzipped | vs Sealmetrics |
+|----------|----------|---------|----------------|
+| **Sealmetrics** | 2.4 KB | **1.3 KB** | — |
+| Mixpanel | 91 KB | 29.8 KB | **23x** heavier |
+| PostHog | 176 KB | 56.4 KB | **43x** heavier |
+| Matomo | 224 KB | 65.2 KB | **50x** heavier |
+| Google Analytics 4 | 365 KB | 129.6 KB | **99x** heavier |
+| Adobe Analytics | 695 KB | 150.7 KB | **117x** heavier |
+
+**Info:**
+All sizes measured in February 2026 by downloading production scripts directly from each vendor's CDN. Gzipped sizes calculated using standard gzip compression. Adobe Analytics measured from a real-world implementation (includes Adobe Launch + extensions).
+
+## Quick Start
+
+Add one line to your HTML:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+This script:
+1. Loads asynchronously (does not block page rendering)
+2. Tracks the initial pageview automatically
+3. Detects SPA navigation automatically (React, Vue, Angular, Next.js)
+
+## API
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `sealmetrics()` | Manual pageview | `sealmetrics()` |
+| `sealmetrics({ group })` | Pageview with content grouping | `sealmetrics({ group: 'blog' })` |
+| `sealmetrics.conv(type, amount)` | Conversion | `sealmetrics.conv('purchase', 99.99)` |
+| `sealmetrics.conv(type, amount, props)` | Conversion with properties | `sealmetrics.conv('purchase', 99.99, { order_id: '123' })` |
+| `sealmetrics.micro(type)` | Microconversion | `sealmetrics.micro('add_to_cart')` |
+| `sealmetrics.micro(type, props)` | Microconversion with properties | `sealmetrics.micro('add_to_cart', { product_id: 'SKU-123' })` |
+
+## Global Variables
+
+The tracker exposes three identical global variables:
+
+| Variable | Recommendation |
+|----------|----------------|
+| `sealmetrics` | Recommended (unique, no conflicts) |
+| `sm` | Short form |
+| `_sm` | Backup if others conflict |
+
+```javascript
+// All three work identically:
+sealmetrics.conv('purchase', 99.99);
+sm.conv('purchase', 99.99);
+_sm.conv('purchase', 99.99);
+```
+
+## Privacy
+
+The tracker does not collect or store:
+- Cookies
+- IP addresses (used only for blocklist check, never stored in analytics)
+- Personal identifiable information
+- Form inputs
+- User credentials
+- localStorage or sessionStorage data
+
+Session identification is cookieless — no cookies, canvas fingerprinting, or personal data are used.
+
+## Documentation
+
+### Getting Started
+
+- [**Step-by-Step Guide**](./step-by-step-guide) - Complete visual guide from zero to tracking
+- [Installation](./installation) - Script tag, content grouping, custom domains
+
+### Tracking Events
+
+- [Conversions](./conversions) - Tracking purchases, leads, signups
+- [Microconversions](./microconversions) - Tracking funnel steps, engagement events
+
+### Advanced
+
+- [API Reference](./api-reference) - Complete technical reference
+- [SPA Support](./spa-support) - React, Vue, Angular, Next.js integration
+- [First-Party Setup](./first-party) - Custom domain for tracking
+- [Migration from v1](./migration-from-v1) - Breaking changes and code examples
