@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Sealmetrics Docs',
   tagline: 'Privacy-first analytics documentation',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.png',
 
   url: 'https://docs.sealmetrics.com',
   baseUrl: '/',
