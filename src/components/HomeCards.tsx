@@ -16,7 +16,7 @@ const HomeCards: React.FC = () => {
           <path d="M3 13h18v-2H3v2zm0 6h12v-2H3v2zm0-12h18V5H3v2z" />
         </svg>
       ),
-      link: '/docs/getting-started',
+      link: '/getting-started',
     },
     {
       title: 'Reports',
@@ -27,7 +27,7 @@ const HomeCards: React.FC = () => {
           <path d="M2 3h20l-8 9v5l-4 4v-9L2 3z" />
         </svg>
       ),
-      link: '/docs/getting-started/reports',
+      link: '/reports',
     },
     {
       title: 'API Reference',
@@ -38,7 +38,7 @@ const HomeCards: React.FC = () => {
           <path d="M10 4v3H5v10h14V7h-5V4h7v16H3V4h7z" />
         </svg>
       ),
-      link: '/docs/api/overview',
+      link: '/api',
     },
     {
       title: 'Legal & Compliance',
@@ -49,7 +49,7 @@ const HomeCards: React.FC = () => {
           <path d="M12 1l8 4v6c0 5.25-3.5 10.74-8 12-4.5-1.26-8-6.75-8-12V5l8-4z" />
         </svg>
       ),
-      link: '/docs/legal/compliance',
+      link: '/compliance',
     },
     {
       title: 'Changelog',
@@ -63,7 +63,7 @@ const HomeCards: React.FC = () => {
           8-3.59 8-8 8z" />
         </svg>
       ),
-      link: '/docs/changelog',
+      link: '/changelog',
     },
   ];
 

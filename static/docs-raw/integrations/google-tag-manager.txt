@@ -12,6 +12,7 @@ The **Sealmetrics GTM Template** allows you to install and configure Sealmetrics
 - **Three event types** — Pageviews, microconversions, and conversions
 - **Custom properties** — Attach additional data to any event
 - **Cookieless tracking** — GDPR-compliant analytics without consent banners
+- **Automatic SPA support** — The tracker detects History API navigation automatically
 
 ## Installation Options
 
@@ -91,6 +92,12 @@ Your Sealmetrics Site ID. Find it in your [Sealmetrics dashboard](https://app.se
 3. Click on your site
 4. Your Site ID is displayed in the **General** tab
 
+#### Pixel URL
+
+The base URL of the Sealmetrics pixel service. Default: `https://t.sealmetrics.com`.
+
+Only change this if you are using a custom pixel domain. Most users should leave the default value.
+
 #### Event Label (Microconversions & Conversions)
 
 A descriptive name for the event. Use clear, consistent naming:
@@ -119,16 +126,6 @@ Optional. Group pages by category for better analytics:
 - `checkout` — Checkout flow pages
 - `landing` — Landing pages
 
-#### Don't Count as Pageview
-
-Enable this checkbox when firing a microconversion or conversion **on the same page** where a pageview tag already fires. This prevents duplicate pageview counts.
-
-**Example:** On a thank-you page, you have both:
-- A pageview tag (fires on page load)
-- A conversion tag (fires on page load)
-
-Enable this option on the conversion tag to avoid counting two pageviews.
-
 #### Custom Properties
 
 Add key-value pairs to attach additional data to events:
@@ -137,7 +134,6 @@ Add key-value pairs to attach additional data to events:
 |--------------|----------------|----------|
 | `product-id` | `SKU12345` | Track which product was purchased |
 | `product-name` | `Blue Widget` | Human-readable product name |
-| `order-id` | `ORD-98765` | Link to your order system |
 | `payment-method` | `credit_card` | Payment analytics |
 | `coupon-code` | `SAVE20` | Track promo code usage |
 
@@ -156,6 +152,8 @@ Track all page loads on your website:
 
 **Trigger:** All Pages
 
+The tracker automatically handles SPA (Single Page Application) navigation. You only need one pageview tag — the tracker detects URL changes via the History API and tracks them automatically.
+
 ### Example 2: E-commerce Purchase Tracking
 
 Track completed purchases with order value:
@@ -165,9 +163,7 @@ Track completed purchases with order value:
 - **Site ID:** Your account ID
 - **Event Label:** `purchase`
 - **Conversion Value:** `{{Order Total}}` (Data Layer variable)
-- **Don't count as pageview:** ✓ Enabled
 - **Custom Properties:**
-  - `order-id` → `{{Order ID}}`
   - `payment-method` → `{{Payment Method}}`
 
 **Trigger:** Custom Event — `purchase` or Thank You Page view
@@ -180,7 +176,6 @@ Track when users add products to their cart:
 - **Event Type:** Microconversion
 - **Site ID:** Your account ID
 - **Event Label:** `add_to_cart`
-- **Don't count as pageview:** ✓ Enabled
 - **Custom Properties:**
   - `product-id` → `{{Product ID}}`
   - `product-name` → `{{Product Name}}`
@@ -195,7 +190,6 @@ Track contact form submissions:
 - **Event Type:** Conversion
 - **Site ID:** Your account ID
 - **Event Label:** `lead_form_submit`
-- **Don't count as pageview:** ✓ Enabled
 
 **Trigger:** Form Submission on contact page
 
@@ -213,7 +207,6 @@ Add this code when an event occurs (e.g., on your thank-you page):
   window.dataLayer.push({
     event: 'purchase',
     orderTotal: 149.99,
-    orderId: 'ORD-12345',
     paymentMethod: 'credit_card'
   });
 </script>
@@ -225,13 +218,13 @@ Add this code when an event occurs (e.g., on your thank-you page):
 2. Choose **Data Layer Variable**
 3. Set **Data Layer Variable Name** to `orderTotal`
 4. Name it `Order Total` and save
-5. Repeat for other values (`orderId`, `paymentMethod`, etc.)
+5. Repeat for other values (`paymentMethod`, etc.)
 
 ### Use Variables in Your Tag
 
 Reference variables in your tag configuration:
 - **Conversion Value:** `{{Order Total}}`
-- **Custom Properties:** `order-id` → `{{Order ID}}`
+- **Custom Properties:** `payment-method` → `{{Payment Method}}`
 
 ## Testing Your Setup
 
@@ -254,7 +247,7 @@ Reference variables in your tag configuration:
 1. Open Developer Tools (F12)
 2. Go to the **Network** tab
 3. Filter by `sealmetrics`
-4. Verify requests are being sent with correct parameters
+4. Verify that `t.js` loads and event requests are sent with correct parameters
 
 ## Troubleshooting
 
@@ -269,10 +262,6 @@ Reference variables in your tag configuration:
 1. Verify Data Layer variables are configured correctly
 2. Check that data is pushed **before** the tag fires
 3. Test variable values in Preview mode
-
-### Duplicate pageviews
-
-Enable **"Don't count as pageview"** on conversion/microconversion tags that fire on pages where a pageview tag also fires.
 
 ### No data in Sealmetrics
 

@@ -35,6 +35,13 @@ const config: Config = {
     },
   ],
 
+  scripts: [
+    {
+      src: 'https://pre-pixel.sealmetrics.com/t.js?id=sealmetrics2&group=docs',
+      defer: true,
+    },
+  ],
+
   presets: [
     [
       'classic',

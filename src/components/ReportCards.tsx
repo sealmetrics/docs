@@ -16,7 +16,7 @@ const ReportCards: React.FC = () => {
           <path d="M3 13h2v-2H3v2zm4 0h2v-6H7v6zm4 0h2V5h-2v8zm4 0h2V9h-2v4zm4 0h2V3h-2v10z" />
         </svg>
       ),
-      link: '/docs/getting-started/reports/dashboard',
+      link: '/reports/overview',
     },
     {
       title: 'Traffic Source Analysis',
@@ -27,7 +27,7 @@ const ReportCards: React.FC = () => {
           <path d="M3 13h18v-2H3v2zm0 6h12v-2H3v2zm0-12h18V5H3v2z" />
         </svg>
       ),
-      link: '/docs/getting-started/reports/acquisition',
+      link: '/reports/sources',
     },
     {
       title: 'ROAS Evolution Report',
@@ -38,7 +38,7 @@ const ReportCards: React.FC = () => {
           <path d="M3 17h2v-2H3v2zm4 0h2v-6H7v6zm4 0h2V9h-2v8zm4 0h2V5h-2v12zm4 0h2v-9h-2v9z" />
         </svg>
       ),
-      link: '/docs/getting-started/reports/roas-evolution',
+      link: '/reports/evolution',
     },
     {
       title: 'Sales Funnel Report',
@@ -49,7 +49,7 @@ const ReportCards: React.FC = () => {
           <path d="M2 3h20l-8 9v5l-4 4v-9L2 3z" />
         </svg>
       ),
-      link: '/docs/getting-started/reports/sales-funnel',
+      link: '/reports/funnel',
     },
     {
       title: 'Definitions',
@@ -60,7 +60,7 @@ const ReportCards: React.FC = () => {
           <path d="M4 4h16v2H4V4zm0 4h16v2H4V8zm0 4h10v2H4v-2zm0 4h10v2H4v-2z" />
         </svg>
       ),
-      link: '/docs/getting-started/reports/definitions',
+      link: '/reports/definitions',
     },
   ];
 
