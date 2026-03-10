@@ -208,19 +208,19 @@
             <name>Rafa Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="EU regulation" term="EU regulation"/>
+        <category label="EU Regulation" term="EU Regulation"/>
         <category label="GDPR" term="GDPR"/>
-        <category label="cookies" term="cookies"/>
+        <category label="Cookies" term="Cookies"/>
         <category label="ePrivacy" term="ePrivacy"/>
         <category label="Analytics" term="Analytics"/>
-        <category label="compliance" term="compliance"/>
+        <category label="Compliance" term="Compliance"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[How Cookieless Tracking Works: Technical Deep Dive]]></title>
+        <title type="html"><![CDATA[How Session-Based Tracking Works: Cookieless Architecture Explained]]></title>
         <id>https://docs.sealmetrics.com/blog/cookieless-tracking-technical-deep-dive</id>
         <link href="https://docs.sealmetrics.com/blog/cookieless-tracking-technical-deep-dive"/>
         <updated>2025-12-01T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Understand the technical architecture behind cookieless analytics. Learn how Sealmetrics captures 100% of visitor data without cookies, IPs, or consent banners using session-based tracking and legitimate interest.]]></summary>
+        <summary type="html"><![CDATA[How session-based tracking replaces cookies. Technical deep dive into Sealmetrics' architecture: hashing, token rotation, and data flow.]]></summary>
         <content type="html"><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="introduction">Introduction<a href="https://docs.sealmetrics.com/blog/cookieless-tracking-technical-deep-dive#introduction" class="hash-link" aria-label="Direct link to Introduction" title="Direct link to Introduction" translate="no">​</a></h2>
 <p><strong>The Problem</strong>: Google Analytics loses 60-87% of EU visitor data due to <a class="" href="https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss">cookie rejections and banner ghosting</a>. Cookieless analytics solves this by tracking without cookies, consent banners, or IP addresses.</p>
 <p><strong>What You'll Learn</strong>:</p>
@@ -509,17 +509,17 @@
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="cookieless-analytics" term="cookieless-analytics"/>
-        <category label="technical" term="technical"/>
-        <category label="implementation" term="implementation"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
+        <category label="Technical" term="Technical"/>
+        <category label="Implementation" term="Implementation"/>
         <category label="GDPR" term="GDPR"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Sealmetrics vs Plausible: Which is Better? [2025 Comparison]]]></title>
+        <title type="html"><![CDATA[Sealmetrics vs Plausible: Which is Better? [2026 Comparison]]]></title>
         <id>https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible</id>
         <link href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible"/>
         <updated>2025-11-25T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Detailed comparison of Sealmetrics vs Plausible Analytics for 2025. Both offer cookieless analytics, but which is truly consentless? Compare features, pricing, GDPR compliance, and data accuracy.]]></summary>
+        <summary type="html"><![CDATA[Sealmetrics vs Plausible compared. Both offer cookieless analytics, but which is truly consentless? Features, pricing, and GDPR compliance reviewed.]]></summary>
         <content type="html"><![CDATA[<p>Both <strong>Sealmetrics</strong> and <strong>Plausible Analytics</strong> position themselves as privacy-first alternatives to Google Analytics, offering cookieless analytics that respects user privacy. But despite surface similarities, these tools take fundamentally different technical approaches—differences that dramatically impact data accuracy, legal compliance, and business outcomes.</p>
 <p>The most critical distinction: <strong>Plausible</strong> uses hashed IP addresses for session tracking and may require consent in strict interpretations of GDPR, while <strong>Sealmetrics</strong> eliminates IP storage entirely, achieving true consentless analytics under GDPR Article 6(1)(f).</p>
 <p>This comprehensive comparison examines both platforms across 15 key dimensions: technical architecture, privacy implementation, GDPR compliance, data accuracy, features, pricing, and real-world performance. Whether you're migrating from Google Analytics or choosing between privacy-focused alternatives, this guide provides the detailed analysis you need.</p>
@@ -590,7 +590,7 @@
 <ul>
 <li class="">Hashed IPs are still considered personal data under GDPR</li>
 <li class="">Some legal experts argue this requires consent</li>
-<li class="">Lack of  KPIs for professional porpouse</li>
+<li class="">Lack of KPIs for professional purpose</li>
 </ul>
 <p><strong>Sealmetrics' Approach</strong>:</p>
 <p><strong>Sealmetrics</strong> uses proprietary cookieless technology to identify sessions without storing IP addresses or personal data. Critically, <strong>IP addresses are never stored</strong>—they're used only for one-time geolocation lookup, then immediately discarded from memory.</p>
@@ -687,7 +687,7 @@
 <p><strong>Notable differences</strong>:</p>
 <ul>
 <li class="">Both offer similar core metrics for standard analytics use cases</li>
-<li class="">Sealmetrics doesnt't calculaute Unique Visitors, Bounce Rate or Visit duration because tracking these KPIs the users are tracked individually, so the consent is required.</li>
+<li class="">Sealmetrics doesn't calculate Unique Visitors, Bounce Rate or Visit Duration because tracking these KPIs requires individual user tracking, which would require consent.</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="advanced-features">Advanced Features<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#advanced-features" class="hash-link" aria-label="Direct link to Advanced Features" title="Direct link to Advanced Features" translate="no">​</a></h3>
 <table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Custom Events</strong></td><td>✅ Yes (unlimited)</td><td>✅ Yes (unlimited)</td></tr><tr><td><strong>Goal Tracking</strong></td><td>✅ Yes (€/$ value)</td><td>✅ Yes (€/$ value)</td></tr><tr><td><strong>Conversion Funnels</strong></td><td>❌ No</td><td>✅ <strong>Yes</strong></td></tr><tr><td><strong>E-commerce Tracking</strong></td><td>⚠️ Via custom events</td><td>✅ <strong>Native support</strong></td></tr><tr><td><strong>Custom Properties</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Session Recording</strong></td><td>❌ No (privacy by design)</td><td>❌ No (privacy by design)</td></tr><tr><td><strong>Heatmaps</strong></td><td>❌ No</td><td>❌ No</td></tr><tr><td><strong>A/B Testing</strong></td><td>❌ No</td><td>❌ No</td></tr><tr><td><strong>Data Retention</strong></td><td>6-12 months default</td><td><strong>24 months (GDPR-optimized)</strong></td></tr><tr><td><strong>API Access</strong></td><td>✅ Yes (Stats API)</td><td>✅ Yes (Full API)</td></tr><tr><td><strong>Data Export</strong></td><td>✅ CSV export</td><td>✅ CSV export</td></tr></tbody></table>
@@ -717,7 +717,7 @@
 <p><strong>Sealmetrics</strong> (no tracking session):</p>
 <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Day 1: User visits, new session generated (no cookies, no personal data)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Session expires after users leave the website</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Day 2: Same user returns, new session generated</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Result: Properly tracked as new visitor</span><br></span></code></pre></div></div>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="pricing-comparison">Pricing Comparison<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#pricing-comparison" class="hash-link" aria-label="Direct link to Pricing Comparison" title="Direct link to Pricing Comparison" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="plausible-pricing-2025">Plausible Pricing (2025)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#plausible-pricing-2025" class="hash-link" aria-label="Direct link to Plausible Pricing (2025)" title="Direct link to Plausible Pricing (2025)" translate="no">​</a></h3>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="plausible-pricing-2026">Plausible Pricing (2026)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#plausible-pricing-2026" class="hash-link" aria-label="Direct link to Plausible Pricing (2026)" title="Direct link to Plausible Pricing (2026)" translate="no">​</a></h3>
 <p><strong>Cloud Hosting</strong>:</p>
 <ul>
 <li class="">Starter: <strong>€9/month</strong> (10K pageviews)</li>
@@ -739,7 +739,7 @@
 <li class="">All features included at all tiers</li>
 <li class="">Additional sites: +€6/month each</li>
 </ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sealmetrics-pricing-2025">Sealmetrics Pricing (2025)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#sealmetrics-pricing-2025" class="hash-link" aria-label="Direct link to Sealmetrics Pricing (2025)" title="Direct link to Sealmetrics Pricing (2025)" translate="no">​</a></h3>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sealmetrics-pricing-2026">Sealmetrics Pricing (2026)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#sealmetrics-pricing-2026" class="hash-link" aria-label="Direct link to Sealmetrics Pricing (2026)" title="Direct link to Sealmetrics Pricing (2026)" translate="no">​</a></h3>
 <p><strong>Volume-based plans</strong> (all features included):</p>
 <ul>
 <li class="">Starter: <strong>€229/month</strong> (1M events)</li>
@@ -965,7 +965,7 @@ If you had consent banner with Plausible:</p>
 <li class="">Response time: 4-12 hours</li>
 </ul>
 <p><strong>Verdict</strong>: <strong>Sealmetrics</strong> provides faster, more personalized support.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="conclusion-plausible-vs-sealmetrics-in-2025">Conclusion: Plausible vs Sealmetrics in 2025<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#conclusion-plausible-vs-sealmetrics-in-2025" class="hash-link" aria-label="Direct link to Conclusion: Plausible vs Sealmetrics in 2025" title="Direct link to Conclusion: Plausible vs Sealmetrics in 2025" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="conclusion-plausible-vs-sealmetrics-in-2026">Conclusion: Plausible vs Sealmetrics in 2026<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#conclusion-plausible-vs-sealmetrics-in-2026" class="hash-link" aria-label="Direct link to Conclusion: Plausible vs Sealmetrics in 2026" title="Direct link to Conclusion: Plausible vs Sealmetrics in 2026" translate="no">​</a></h2>
 <p>Both <strong>Plausible</strong> and <strong>Sealmetrics</strong> are excellent alternatives to Google Analytics, offering cookieless analytics that respects user privacy. The choice between them depends on your specific requirements, budget, and compliance needs.</p>
 <p><strong>Choose Plausible if</strong>:</p>
 <ul>
@@ -1001,29 +1001,28 @@ If you had consent banner with Plausible:</p>
 <ul>
 <li class=""><a href="https://sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">Sealmetrics Official Website</a></li>
 <li class=""><a href="https://docs.sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">Sealmetrics Documentation</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework" target="_blank" rel="noopener noreferrer" class="">GDPR Compliance Guide</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework">GDPR Compliance Guide</a></li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="comparison-resources">Comparison Resources<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#comparison-resources" class="hash-link" aria-label="Direct link to Comparison Resources" title="Direct link to Comparison Resources" translate="no">​</a></h3>
 <ul>
-<li class=""><a href="https://docs.sealmetrics.com/guides/cookieless-analytics" target="_blank" rel="noopener noreferrer" class="">Complete Cookieless Analytics Guide</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/legal/gdpr-article-6" target="_blank" rel="noopener noreferrer" class="">GDPR Article 6(1)(f) Explained</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/comparisons/privacy-analytics-comparison" target="_blank" rel="noopener noreferrer" class="">Privacy-First Analytics Tools Compared</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Cookieless Analytics Guide</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics">Sealmetrics vs Google Analytics</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/consentless-analytics">What Is Consentless Analytics?</a></li>
 </ul>
 <hr>
 <p><strong>Ready to try 100% data capture with zero legal risk?</strong></p>
-<p>Experience true consentless analytics with <strong>Sealmetrics</strong>—no cookies, no consent banners, no compromise.</p>
-<p>→ <a href="https://app.sealmetrics.com/register" target="_blank" rel="noopener noreferrer" class="">Start your free 14-day trial</a><br>
-<!-- -->→ <a href="https://app.sealmetrics.com/demo" target="_blank" rel="noopener noreferrer" class="">Schedule a demo</a><br>
-<!-- -->→ <a href="https://sealmetrics.com/pricing" target="_blank" rel="noopener noreferrer" class="">Compare pricing</a></p>]]></content>
+<p>Experience true consentless analytics with <strong>Sealmetrics</strong> — no cookies, no consent banners, no compromise.</p>
+<p>→ <a href="https://my.sealmetrics.com/register" target="_blank" rel="noopener noreferrer" class="">Start your free 14-day trial</a>
+→ <a href="https://sealmetrics.com/pricing" target="_blank" rel="noopener noreferrer" class="">Compare pricing</a></p>]]></content>
         <author>
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="cookieless-analytics" term="cookieless-analytics"/>
-        <category label="comparison" term="comparison"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
+        <category label="Comparison" term="Comparison"/>
         <category label="Plausible" term="Plausible"/>
         <category label="Sealmetrics" term="Sealmetrics"/>
-        <category label="privacy-analytics" term="privacy-analytics"/>
+        <category label="Privacy Analytics" term="Privacy Analytics"/>
         <category label="GDPR" term="GDPR"/>
     </entry>
     <entry>
@@ -1031,7 +1030,7 @@ If you had consent banner with Plausible:</p>
         <id>https://docs.sealmetrics.com/blog/privacy-first-analytics-2025</id>
         <link href="https://docs.sealmetrics.com/blog/privacy-first-analytics-2025"/>
         <updated>2025-11-24T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Privacy-first analytics is no longer optional in 2025. With Chrome's cookie phase-out and GDPR enforcement increasing, learn why cookieless, consentless analytics like Sealmetrics is the only sustainable solution.]]></summary>
+        <summary type="html"><![CDATA[Privacy-first analytics is essential in 2025. GDPR enforcement and cookie phase-outs make consentless, cookieless analytics the only sustainable path.]]></summary>
         <content type="html"><![CDATA[<p>The digital analytics landscape has reached a critical inflection point in 2025. With Google Chrome completing its third-party cookie phase-out in Q2 2025 and European regulators issuing over €1.4 billion in GDPR fines throughout 2024, privacy-first analytics isn't just a competitive advantage—it's a business necessity.</p>
 <p>Traditional cookie-based analytics tools like Google Analytics are experiencing catastrophic data loss, with <strong>87% of German users</strong> and <strong>73% of French users</strong> rejecting cookie consent banners. Meanwhile, businesses using privacy-first, cookieless analytics solutions are capturing 100% of their visitor data without legal risk.</p>
 <p>This comprehensive guide explains why privacy-first analytics matters in 2025, how it works technically, and why solutions like <strong>Sealmetrics</strong>—which combines cookieless tracking with consentless data collection—represent the future of web analytics.</p>
@@ -1468,10 +1467,12 @@ If you had consent banner with Plausible:</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="https://docs.sealmetrics.com/blog/privacy-first-analytics-2025#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="further-reading">Further Reading<a href="https://docs.sealmetrics.com/blog/privacy-first-analytics-2025#further-reading" class="hash-link" aria-label="Direct link to Further Reading" title="Direct link to Further Reading" translate="no">​</a></h3>
 <ul>
-<li class=""><a href="https://docs.sealmetrics.com/guides/cookieless-analytics" target="_blank" rel="noopener noreferrer" class="">Complete Guide to Cookieless Analytics</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/legal/gdpr-article-6" target="_blank" rel="noopener noreferrer" class="">GDPR Article 6(1)(f) Explained for Analytics</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/comparisons/sealmetrics-vs-google-analytics" target="_blank" rel="noopener noreferrer" class="">Sealmetrics vs Google Analytics: Complete Comparison</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/guides/migration-from-ga4" target="_blank" rel="noopener noreferrer" class="">Migration Guide: GA4 to Sealmetrics</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Guide to Cookieless Analytics</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/consentless-analytics">What Is Consentless Analytics?</a> — How tracking without consent works under GDPR</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/how-consentless-works">How Consentless Tracking Works</a> — Technical deep dive into the Four-Variable System</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/consentless-benefits">Benefits of Consentless Tracking</a> — Why privacy-first analytics produces better data</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics">Sealmetrics vs Google Analytics</a> — Complete feature and compliance comparison</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss">Cookie Banner Ghosting</a> — Why 80-90% of analytics data disappears</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="legal-resources">Legal Resources<a href="https://docs.sealmetrics.com/blog/privacy-first-analytics-2025#legal-resources" class="hash-link" aria-label="Direct link to Legal Resources" title="Direct link to Legal Resources" translate="no">​</a></h3>
 <ul>
@@ -1481,32 +1482,32 @@ If you had consent banner with Plausible:</p>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-documentation">Technical Documentation<a href="https://docs.sealmetrics.com/blog/privacy-first-analytics-2025#technical-documentation" class="hash-link" aria-label="Direct link to Technical Documentation" title="Direct link to Technical Documentation" translate="no">​</a></h3>
 <ul>
-<li class=""><a href="https://docs.sealmetrics.com/developers" target="_blank" rel="noopener noreferrer" class="">Sealmetrics Developer Documentation</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/api" target="_blank" rel="noopener noreferrer" class="">Sealmetrics API Reference</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/examples" target="_blank" rel="noopener noreferrer" class="">Implementation Examples</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/implementation/tracker/installation">Tracker Installation Guide</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/api">API Reference</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/getting-started/quick-start">Getting Started</a></li>
 </ul>
 <hr>
 <p><strong>Ready to achieve true privacy-first analytics?</strong></p>
 <p>Experience 100% data capture with zero legal risk. No cookies, no consent banners, no compromise.</p>
-<p>→ <a href="https://sealmetrics.com/signup" target="_blank" rel="noopener noreferrer" class="">Start your free 14-day trial of Sealmetrics</a><br>
+<p>→ <a href="https://my.sealmetrics.com/register" target="_blank" rel="noopener noreferrer" class="">Start your free 14-day trial of Sealmetrics</a><br>
 <!-- -->→ <a href="https://sealmetrics.com/demo" target="_blank" rel="noopener noreferrer" class="">Schedule a demo</a><br>
 <!-- -->→ <a href="https://docs.sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">Read the documentation</a></p>]]></content>
         <author>
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="privacy-first-analytics" term="privacy-first-analytics"/>
-        <category label="cookieless-analytics" term="cookieless-analytics"/>
+        <category label="Privacy-First Analytics" term="Privacy-First Analytics"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
         <category label="GDPR" term="GDPR"/>
-        <category label="consentless-analytics" term="consentless-analytics"/>
-        <category label="data-privacy" term="data-privacy"/>
+        <category label="Consentless Analytics" term="Consentless Analytics"/>
+        <category label="Data Privacy" term="Data Privacy"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Cookie Banner Ghosting: Why 80-90% of Your Analytics Data Disappears]]></title>
         <id>https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss</id>
         <link href="https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss"/>
         <updated>2025-11-20T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[40-60% of users ignore cookie banners entirely without deciding. Combined with rejection rates, cookie-based analytics loses 80-90% of visitor data. Cookieless analytics captures 100%.]]></summary>
+        <summary type="html"><![CDATA[40-60% of users ignore cookie banners entirely. Combined with rejection, analytics loses 80-90% of data. Here's why.]]></summary>
         <content type="html"><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="introduction">Introduction<a href="https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss#introduction" class="hash-link" aria-label="Direct link to Introduction" title="Direct link to Introduction" translate="no">​</a></h2>
 <p><strong>The biggest threat to your analytics isn't cookie rejection—it's cookie banner ghosting.</strong></p>
 <p>While marketers obsess over rejection rates (users clicking "Reject All"), the silent killer of analytics data is the 40-60% of visitors who simply ignore cookie consent banners entirely. They don't accept. They don't reject. They just... ignore it.</p>
@@ -2277,7 +2278,7 @@ If you had consent banner with Plausible:</p>
 <p><strong>The cost of continuing with cookie-based analytics exceeds the cost of migration by 100-1000x</strong>. Migrating to Sealmetrics takes 15 minutes of implementation time and 2-4 weeks of validation. The alternative—making strategic business decisions on 10-20% of your visitor data—costs six to seven figures annually.</p>
 <p><strong>For businesses operating in the EU</strong>, cookieless analytics isn't an option—it's a necessity. When 80-90% of your website visitors are invisible to your analytics, you're operating blind. You cannot optimize what you cannot measure. You cannot attribute revenue you cannot track. You cannot serve users you cannot see.</p>
 <p>Sealmetrics captures 100% of visitors, eliminates banner ghosting, eliminates cookie rejection, maintains full GDPR compliance, and provides the complete business intelligence you need to make informed decisions.</p>
-<p><strong>Stop losing 80-90% of your analytics data.</strong> <a href="https://sealmetrics.com/signup" target="_blank" rel="noopener noreferrer" class="">Try Sealmetrics free for 14 days</a> and see your complete visitor base for the first time.</p>
+<p><strong>Stop losing 80-90% of your analytics data.</strong> <a href="https://my.sealmetrics.com/register" target="_blank" rel="noopener noreferrer" class="">Try Sealmetrics free for 14 days</a> and see your complete visitor base for the first time.</p>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>
 <p><strong>Legal Resources</strong>:</p>
@@ -2293,20 +2294,27 @@ If you had consent banner with Plausible:</p>
 <li class="">Choice Overload Theory (Iyengar &amp; Lepper)</li>
 <li class="">Psychological Reactance Theory (Brehm)</li>
 </ul>
+<p><strong>Related Reading</strong>:</p>
+<ul>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Guide to Cookieless Analytics</a> — How to measure traffic without cookies or consent banners</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-vs-cookie-based">Cookieless vs Cookie-Based Analytics</a> — Technical comparison of both approaches</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/consentless-analytics">What Is Consentless Analytics?</a> — How Sealmetrics captures 100% of traffic without consent</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework">GDPR Compliant Analytics Framework</a> — Complete compliance framework for web analytics</li>
+</ul>
 <p><strong>Official Resources</strong>:</p>
 <ul>
 <li class=""><a href="https://sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">Sealmetrics Website</a></li>
 <li class=""><a href="https://docs.sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">Sealmetrics Documentation</a></li>
-<li class=""><a href="https://app.sealmetrics.com/register" target="_blank" rel="noopener noreferrer" class="">Try Sealmetrics Free</a></li>
+<li class=""><a href="https://my.sealmetrics.com/register" target="_blank" rel="noopener noreferrer" class="">Try Sealmetrics Free</a></li>
 </ul>]]></content>
         <author>
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="cookieless-analytics" term="cookieless-analytics"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
         <category label="GDPR" term="GDPR"/>
         <category label="Privacy" term="Privacy"/>
-        <category label="data-loss" term="data-loss"/>
+        <category label="Data Loss" term="Data Loss"/>
         <category label="Analytics" term="Analytics"/>
     </entry>
     <entry>
@@ -2314,7 +2322,7 @@ If you had consent banner with Plausible:</p>
         <id>https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics</id>
         <link href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics"/>
         <updated>2025-11-19T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Complete comparison of Sealmetrics vs Google Analytics: data accuracy, GDPR compliance, features, pricing, and migration guide. See why businesses capture 5-8x more data with cookieless analytics.]]></summary>
+        <summary type="html"><![CDATA[Sealmetrics vs Google Analytics compared: data accuracy, GDPR compliance, pricing, and migration. See why businesses capture 5-8x more data.]]></summary>
         <content type="html"><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="introduction-why-businesses-are-switching-from-google-analytics">Introduction: Why Businesses Are Switching from Google Analytics<a href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics#introduction-why-businesses-are-switching-from-google-analytics" class="hash-link" aria-label="Direct link to Introduction: Why Businesses Are Switching from Google Analytics" title="Direct link to Introduction: Why Businesses Are Switching from Google Analytics" translate="no">​</a></h2>
 <p>Google Analytics has dominated web analytics for nearly two decades, but <strong>2025 marks a turning point</strong>. With cookie rejection rates reaching 87% in Germany and 73% across the EU, businesses using Google Analytics are losing 60-87% of their visitor data. This isn't a minor tracking gap—it's a business intelligence crisis.</p>
 <p>Sealmetrics offers a fundamentally different approach: <strong>cookieless analytics that captures 100% of visitor data without requiring consent banners</strong>. Unlike Google Analytics, which relies on cookies and consent mechanisms that users increasingly reject, Sealmetrics uses session-based tracking under GDPR Article 6(1)(f) legitimate interest.</p>
@@ -2781,7 +2789,7 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="conclusion-complete-data-vs-compliant-data">Conclusion: Complete Data vs Compliant Data<a href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics#conclusion-complete-data-vs-compliant-data" class="hash-link" aria-label="Direct link to Conclusion: Complete Data vs Compliant Data" title="Direct link to Conclusion: Complete Data vs Compliant Data" translate="no">​</a></h2>
 <p>The choice between Google Analytics and Sealmetrics isn't about features—it's about <strong>whether you want to see 15% or 100% of your visitors</strong>.</p>
-<p>Google Analytics dominated when cookies were accepted by default. In 2054, with 60-87% cookie rejection rates across the EU and rising ad blocker usage globally, Google Analytics shows an increasingly incomplete picture.</p>
+<p>Google Analytics dominated when cookies were accepted by default. In 2025, with 60-87% cookie rejection rates across the EU and rising ad blocker usage globally, Google Analytics shows an increasingly incomplete picture.</p>
 <p><strong>Sealmetrics solves the fundamental problem</strong>: How do you track website analytics in a privacy-first world where users reject cookies and block trackers?</p>
 <p>The answer: Don't use cookies. Don't require consent. Capture 100% of visitors through session-based tracking under legitimate interest.</p>
 <p><strong>For businesses operating in the EU</strong>, the data completeness difference is decisive:</p>
@@ -2808,8 +2816,8 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>
 <p><strong>Related Sealmetrics Guides</strong>:</p>
 <ul>
-<li class=""><a href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide/" target="_blank" rel="noopener noreferrer" class="">Complete Guide to Cookieless Analytics</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework/" target="_blank" rel="noopener noreferrer" class="">GDPR Compliant Analytics Framework</a>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Guide to Cookieless Analytics</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework">GDPR Compliant Analytics Framework</a>
 <strong>Legal References</strong>:</li>
 <li class=""><a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank" rel="noopener noreferrer" class="">GDPR Article 6(1)(f) - Legitimate Interest</a></li>
 <li class=""><a href="https://www.cnil.fr/en/cookies-and-other-trackers" target="_blank" rel="noopener noreferrer" class="">CNIL Guidance on Cookies (2020)</a></li>
@@ -2824,17 +2832,17 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="cookieless-analytics" term="cookieless-analytics"/>
-        <category label="google-analytics" term="google-analytics"/>
-        <category label="comparison" term="comparison"/>
-        <category label="gdpr-compliance" term="gdpr-compliance"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
+        <category label="Google Analytics" term="Google Analytics"/>
+        <category label="Comparison" term="Comparison"/>
+        <category label="GDPR Compliance" term="GDPR Compliance"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[GDPR Compliant Analytics: Complete Framework 2026]]></title>
         <id>https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework</id>
         <link href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework"/>
         <updated>2025-11-18T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Complete GDPR compliance framework for web analytics. Learn legal bases, technical requirements, and how to implement compliant tracking without losing visitor data.]]></summary>
+        <summary type="html"><![CDATA[GDPR compliance framework for web analytics. Legal bases, technical requirements, and compliant tracking that captures 100% of visitor data.]]></summary>
         <content type="html"><![CDATA[<p>The European Union issued over €20 million in fines for analytics violations in 2023, yet most companies still don't understand what makes their analytics GDPR compliant. Many businesses either accept massive data loss from cookie consent requirements or operate in a gray area of regulatory uncertainty.</p>
 <p>This comprehensive framework explains exactly what GDPR compliance requires for web analytics, which legal bases work, and how to implement compliant tracking without losing visitor data.</p>
 <p><strong>Key Takeaways</strong>:</p>
@@ -3274,8 +3282,11 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>
 <ul>
-<li class=""><a href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide" target="_blank" rel="noopener noreferrer" class="">Complete Guide to Cookieless Analytics</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/blog/cookieless-analytics-vs-cookie-based" target="_blank" rel="noopener noreferrer" class="">Cookieless vs Cookie-Based Analytics Comparison</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Guide to Cookieless Analytics</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-vs-cookie-based">Cookieless vs Cookie-Based Analytics</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/how-consentless-works">How Consentless Tracking Works</a> — Technical architecture behind GDPR-compliant tracking</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/consentless-analytics">What Is Consentless Analytics?</a> — Legal basis and implementation details</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/real-time-tracking-consent">Real-Time Analytics and Consent</a> — AEPD and CNIL rules on real-time data</li>
 <li class=""><a href="https://www.cnil.fr/en/cookies-and-other-trackers/rules/cookies/how-comply-cookies-and-trackers" target="_blank" rel="noopener noreferrer" class="">CNIL 2020 Analytics Guidance (Official)</a></li>
 <li class=""><a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank" rel="noopener noreferrer" class="">GDPR Official Text</a></li>
 <li class=""><a href="https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32002L0058" target="_blank" rel="noopener noreferrer" class="">ePrivacy Directive Article 5(3)</a></li>
@@ -3284,19 +3295,19 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="gdpr-compliance" term="gdpr-compliance"/>
-        <category label="cookieless-analytics" term="cookieless-analytics"/>
+        <category label="GDPR Compliance" term="GDPR Compliance"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
         <category label="Privacy" term="Privacy"/>
         <category label="Analytics" term="Analytics"/>
-        <category label="legitimate-interest" term="legitimate-interest"/>
-        <category label="cnil" term="cnil"/>
+        <category label="Legitimate Interest" term="Legitimate Interest"/>
+        <category label="CNIL" term="CNIL"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Cookieless Analytics vs Cookie-based]]></title>
+        <title type="html"><![CDATA[Cookie-Based vs Cookieless Analytics: Technical Comparison]]></title>
         <id>https://docs.sealmetrics.com/blog/cookieless-analytics-vs-cookie-based</id>
         <link href="https://docs.sealmetrics.com/blog/cookieless-analytics-vs-cookie-based"/>
         <updated>2025-11-17T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Cookie rejection rates have reached 60-87% across the EU, making traditional cookie-based analytics increasingly unreliable. This technical comparison explores how cookieless analytics fundamentally differs from cookie-based approaches and why businesses are migrating to consent-free tracking solutions. ]]></summary>
+        <summary type="html"><![CDATA[Cookie-based analytics loses 60-87% of EU data. Technical comparison of cookie vs cookieless tracking: accuracy, compliance, and implementation.]]></summary>
         <content type="html"><![CDATA[<p>Cookie rejection rates have reached 60-87% across the EU, making traditional cookie-based analytics increasingly unreliable. This technical comparison explores how cookieless analytics fundamentally differs from cookie-based approaches and why businesses are migrating to consent-free tracking solutions.</p>
 <p><strong>Key Takeaways:</strong></p>
 <ul>
@@ -3477,13 +3488,13 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
 </ul>
 <p>For a site receiving 100,000 monthly visitors, cookie-based analytics adds:</p>
 <ul>
-<li class="">230ms Ã— 100,000 = 23,000 seconds (6.4 hours) of cumulative delay</li>
+<li class="">230ms × 100,000 = 23,000 seconds (6.4 hours) of cumulative delay</li>
 <li class="">Consent banners shown: 100,000 times</li>
 <li class="">User friction: Every visitor interrupted</li>
 </ul>
 <p>Cookieless analytics adds:</p>
 <ul>
-<li class="">25ms Ã— 100,000 = 2,500 seconds (42 minutes) of cumulative delay</li>
+<li class="">25ms × 100,000 = 2,500 seconds (42 minutes) of cumulative delay</li>
 <li class="">Consent banners shown: 0 times</li>
 <li class="">User friction: None</li>
 </ul>
@@ -3662,125 +3673,164 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
 <p>Cookie-based analytics worked for 20 years, but GDPR, browser privacy features, and user behavior have fundamentally broken the model. Losing 60-87% of visitor data isn't sustainable for businesses that need accurate analytics to make informed decisions.</p>
 <p>Sealmetrics pioneered consentless analytics by eliminating both cookies and IP storage, enabling legitimate interest-based tracking that captures 100% of visitors without consent banners. This technical approach represents the future of privacy-first analytics.</p>
 <p>For businesses operating in EU markets, the migration from cookie-based to cookieless analytics isn't optional—it's essential for competitive survival. Start dual tracking today, compare data accuracy, and experience the clarity of seeing 100% of your visitors instead of 13-40%.</p>
-<p><strong>Ready to switch to cookieless analytics?</strong> <a href="https://sealmetrics.com/signup" target="_blank" rel="noopener noreferrer" class="">Try Sealmetrics free for 14 days</a> and see 6-9x more visitor data immediately.</p>
+<p><strong>Ready to switch to cookieless analytics?</strong> <a href="https://my.sealmetrics.com/register" target="_blank" rel="noopener noreferrer" class="">Try Sealmetrics free for 14 days</a> and see 6-9x more visitor data immediately.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="https://docs.sealmetrics.com/blog/cookieless-analytics-vs-cookie-based#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>
 <ul>
-<li class=""><a href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide" target="_blank" rel="noopener noreferrer" class="">Complete Guide to Cookieless Analytics</a></li>
-<li class=""><a href="https://resources.sealmetrics.com/consentless-analytics-cnil-aepd-guide" target="_blank" rel="noopener noreferrer" class="">GDPR Compliant Analytics Framework</a></li>
-<li class=""><a href="https://cnil.fr/" target="_blank" rel="noopener noreferrer" class="">CNIL Guidelines on Cookieless Analytics</a></li>
-<li class=""><a href="https://sealmetrics.com/resources/google-analytics-alternative" target="_blank" rel="noopener noreferrer" class="">Sealmetrics vs Google Analytics Comparison</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/first-steps/first-steps-with-sealmetrics" target="_blank" rel="noopener noreferrer" class="">How to Implement Cookieless Tracking</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Guide to Cookieless Analytics</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework">GDPR Compliant Analytics Framework</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics">Sealmetrics vs Google Analytics</a> — Full comparison with data accuracy benchmarks</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible">Sealmetrics vs Plausible</a> — Privacy-first tools compared</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/consentless-analytics">What Is Consentless Analytics?</a> — How it works under GDPR</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/implementation/tracker/installation">Tracker Installation Guide</a> — Get started in under 5 minutes</li>
+<li class=""><a href="https://www.cnil.fr/en/cookies-and-other-trackers/rules/cookies/how-comply-cookies-and-trackers" target="_blank" rel="noopener noreferrer" class="">CNIL Guidelines on Analytics (Official)</a></li>
 </ul>]]></content>
         <author>
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="gdpr-compliance" term="gdpr-compliance"/>
-        <category label="cookieless-analytics" term="cookieless-analytics"/>
+        <category label="GDPR Compliance" term="GDPR Compliance"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
         <category label="Privacy" term="Privacy"/>
         <category label="Analytics" term="Analytics"/>
-        <category label="cookies" term="cookies"/>
+        <category label="Cookies" term="Cookies"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Real-time tracking consent]]></title>
+        <title type="html"><![CDATA[Real-Time Analytics: AEPD and CNIL Consent Rules]]></title>
         <id>https://docs.sealmetrics.com/blog/real-time-tracking-consent</id>
         <link href="https://docs.sealmetrics.com/blog/real-time-tracking-consent"/>
         <updated>2025-11-14T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Is real-time tracking consentless?]]></summary>
-        <content type="html"><![CDATA[<p><strong>Marketers love real-time dashboards.</strong> Seeing how many people are on your site “right now” is exciting. But in Europe, the law is strict: <strong>not all “real-time tracking” is legal without consent.</strong></p>
-<p><a href="https://resources.sealmetrics.com/real-time-analytics-guide.html" target="_blank" rel="noopener noreferrer" class="">Access to Real Time Tracking Consent Guide</a></p>
-<p>In this article, we break down what the <strong>CNIL (France)</strong> and the <strong>AEPD (Spain)</strong> actually say, why reports like “last 30 minutes” may put you at legal risk, and how Sealmetrics solves this by design.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-consentless-analytics-matters"><strong>Why consentless analytics matters</strong><a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#why-consentless-analytics-matters" class="hash-link" aria-label="Direct link to why-consentless-analytics-matters" title="Direct link to why-consentless-analytics-matters" translate="no">​</a></h2>
-<p>Consent banners are killing data. In Spain and France, brands lose <strong>30–60% of visits and conversions</strong> when users reject cookies.</p>
-<p>Both CNIL and AEPD allow <strong>audience measurement without consent</strong>, but only if the tool meets strict conditions:</p>
+        <summary type="html"><![CDATA[Does real-time tracking need consent under GDPR? AEPD and CNIL rules on snapshots vs sub-daily windows, and how consentless analytics handles it.]]></summary>
+        <content type="html"><![CDATA[<p>Marketers love real-time dashboards. Seeing how many visitors are on your site right now feels like a direct line to your audience. But in the European Union, real-time tracking sits in a legal gray area that most analytics vendors either ignore or get wrong. The question is not whether real-time analytics is legal -- it is whether the specific implementation you use requires user consent under GDPR.</p>
+<p>The answer depends on a distinction that regulators in Spain and France have drawn clearly but that few analytics platforms have internalized: the difference between a <strong>snapshot</strong> and a <strong>window</strong>. Get this wrong, and your "consentless" analytics setup may actually require a cookie banner you thought you had eliminated.</p>
+<p>This article breaks down the regulatory framework from both the AEPD (Spain) and CNIL (France), explains the snapshot vs. window distinction with concrete examples, compares how major analytics tools handle real-time data, and shows why architectural decisions at the platform level determine your legal exposure.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-regulatory-framework-for-consentless-analytics">The Regulatory Framework for Consentless Analytics<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#the-regulatory-framework-for-consentless-analytics" class="hash-link" aria-label="Direct link to The Regulatory Framework for Consentless Analytics" title="Direct link to The Regulatory Framework for Consentless Analytics" translate="no">​</a></h2>
+<p>Both the Spanish Data Protection Authority (AEPD) and the French Commission Nationale de l'Informatique et des Libertes (CNIL) have published detailed guidance on when web analytics can operate without user consent. These exemptions exist because regulators recognize that basic audience measurement serves a legitimate purpose -- but the exemptions come with strict technical requirements.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="aepd-spains-daily-aggregation-rule">AEPD: Spain's Daily Aggregation Rule<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#aepd-spains-daily-aggregation-rule" class="hash-link" aria-label="Direct link to AEPD: Spain's Daily Aggregation Rule" title="Direct link to AEPD: Spain's Daily Aggregation Rule" translate="no">​</a></h3>
+<p>The AEPD's 2024 <em>Guia sobre cookies analiticas de medicion de audiencia</em> is the most prescriptive guidance any EU data protection authority has issued on analytics consent exemptions. It defines a clear set of conditions that analytics tools must meet to qualify for the audience measurement exemption.</p>
+<p>The conditions include:</p>
 <ul>
-<li class="">
-<p>No cross-site tracking.</p>
-</li>
-<li class="">
-<p>IP anonymization.</p>
-</li>
-<li class="">
-<p>Data retention limits.</p>
-</li>
-<li class="">
-<p><strong>Aggregated, anonymous statistics.</strong></p>
-</li>
+<li class=""><strong>No cross-site tracking</strong>: The tool must not track users across different websites or domains.</li>
+<li class=""><strong>IP anonymization</strong>: IP addresses must be anonymized before any storage or processing.</li>
+<li class=""><strong>Data retention limits</strong>: Analytics data cannot be retained indefinitely.</li>
+<li class=""><strong>Aggregated, anonymous statistics</strong>: The output must be statistical, not individual-level.</li>
+<li class=""><strong>Daily aggregation minimum</strong>: Audience metrics must be aggregated at a daily granularity -- not hourly, not by the minute, not by 30-minute windows.</li>
 </ul>
-<p>👉 The critical detail: <strong>AEPD requires data to be “aggregated daily”</strong> (except page load, which can be hourly).</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="real-time-vs-daily-aggregation-the-difference-that-matters"><strong>Real-time vs. daily aggregation: the difference that matters</strong><a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#real-time-vs-daily-aggregation-the-difference-that-matters" class="hash-link" aria-label="Direct link to real-time-vs-daily-aggregation-the-difference-that-matters" title="Direct link to real-time-vs-daily-aggregation-the-difference-that-matters" translate="no">​</a></h2>
-<p><strong>Allowed without consent:</strong></p>
+<p>That last point is the critical one for real-time analytics. The AEPD explicitly requires that audience measurement data be <strong>aggregated at a daily level</strong>. There is exactly one exception: page load performance metrics, which may be aggregated hourly because performance monitoring serves a distinct technical purpose.</p>
+<p>This means that any analytics tool showing you reports like "visits in the last 30 minutes" or "hourly traffic breakdown" is producing sub-daily aggregations that fall outside the AEPD exemption. If those reports are generated from data collected without consent, the tool is non-compliant -- regardless of what its marketing page says about being "cookieless" or "privacy-first."</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="cnil-frances-exemption-criteria">CNIL: France's Exemption Criteria<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#cnil-frances-exemption-criteria" class="hash-link" aria-label="Direct link to CNIL: France's Exemption Criteria" title="Direct link to CNIL: France's Exemption Criteria" translate="no">​</a></h3>
+<p>The CNIL takes a slightly different but complementary approach. Its guidance on the analytics consent exemption focuses on three core principles:</p>
 <ul>
-<li class="">
-<p><em>“Today you’ve had 500 pageviews.”</em></p>
-</li>
-<li class="">
-<p><em>“Right now there are 33 users on the site.”</em></p>
-</li>
-<li class="">
-<p>These are <strong>snapshots or daily accumulations</strong>, not logs of individuals.</p>
-<p><strong>Not allowed without consent:</strong></p>
-</li>
-<li class="">
-<p><em>“Last 30 minutes: 20 visits.”</em></p>
-</li>
-<li class="">
-<p><em>Visitor log: this user saw A, then B, then C.</em></p>
-</li>
-<li class="">
-<p>These are <strong>sub-daily buckets</strong> or individual journeys → <strong>need consent</strong> under AEPD.</p>
-</li>
+<li class=""><strong>Purpose limitation</strong>: The analytics must be used strictly for audience measurement -- not advertising, not retargeting, not profiling.</li>
+<li class=""><strong>Anonymity</strong>: Data must be anonymized in a way that prevents re-identification of individual users.</li>
+<li class=""><strong>No cross-site tracking</strong>: Similar to AEPD, no data sharing across different sites or with third parties.</li>
 </ul>
-<p><strong>Snapshot vs. Window:</strong></p>
+<p>The CNIL does not prescribe a specific aggregation granularity the way the AEPD does. However, it requires that data processing result in <strong>aggregate statistics only</strong>, which implicitly rules out visitor-level logs and individual session tracking. Real-time snapshots of aggregate data (e.g., "142 users currently on site") are acceptable because they represent an ephemeral, anonymous aggregate. But storing sub-daily bucketed data for later analysis crosses the line into non-exempt territory.</p>
+<p>The CNIL maintains a <a href="https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies-solutions-pour-les-outils-de-mesure-daudience" target="_blank" rel="noopener noreferrer" class="">list of tools</a> that qualify for its exemption, which provides a practical reference for what architectures regulators consider acceptable.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="where-both-regulators-agree">Where Both Regulators Agree<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#where-both-regulators-agree" class="hash-link" aria-label="Direct link to Where Both Regulators Agree" title="Direct link to Where Both Regulators Agree" translate="no">​</a></h3>
+<p>Despite differences in specificity, AEPD and CNIL converge on the same fundamental principle: <strong>consentless analytics must produce aggregate, anonymous statistics -- not individual-level data, and not fine-grained temporal breakdowns that could enable re-identification or behavioral analysis.</strong></p>
+<p>The aggregation requirement is not arbitrary. Sub-daily windows create a risk that, combined with other data points (traffic source, device type, page sequence), an individual user could be identified from ostensibly "anonymous" analytics. Daily aggregation collapses enough data points together that this re-identification risk drops to a level regulators consider acceptable.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="snapshot-vs-window-the-distinction-that-determines-legality">Snapshot vs. Window: The Distinction That Determines Legality<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#snapshot-vs-window-the-distinction-that-determines-legality" class="hash-link" aria-label="Direct link to Snapshot vs. Window: The Distinction That Determines Legality" title="Direct link to Snapshot vs. Window: The Distinction That Determines Legality" translate="no">​</a></h2>
+<p>The most important concept for understanding real-time analytics consent is the difference between a <strong>snapshot</strong> and a <strong>window</strong>. These terms are not formal regulatory language, but they precisely describe the two architectural approaches to real-time data -- and only one of them is compatible with consentless analytics.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-is-a-snapshot">What Is a Snapshot?<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#what-is-a-snapshot" class="hash-link" aria-label="Direct link to What Is a Snapshot?" title="Direct link to What Is a Snapshot?" translate="no">​</a></h3>
+<p>A snapshot answers the question: "What is happening right now?"</p>
+<p>Examples of snapshots:</p>
 <ul>
-<li class="">
-<p><em>Snapshot (33 users now)</em> → ephemeral, aggregated, safe.</p>
-</li>
-<li class="">
-<p><em>Window (last 30 min)</em> → stored sub-daily aggregation, not exonerated → needs consent.</p>
-</li>
+<li class="">"There are 33 users currently on the site."</li>
+<li class="">"Today so far: 1,247 pageviews."</li>
+<li class="">"Current active pages: /pricing (12 users), /blog (8 users), /demo (5 users)."</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-cnil-and-aepd-actually-say"><strong>What CNIL and AEPD actually say</strong><a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#what-cnil-and-aepd-actually-say" class="hash-link" aria-label="Direct link to what-cnil-and-aepd-actually-say" title="Direct link to what-cnil-and-aepd-actually-say" translate="no">​</a></h2>
+<p>A snapshot is <strong>ephemeral</strong>. It reflects the current state of the system at the moment you look at it. It is not stored as a time-series data point. When you refresh the dashboard, you get a new snapshot -- the previous one is gone. The "today so far" counter is a running daily aggregate, which aligns perfectly with the AEPD's daily aggregation requirement.</p>
+<p>Snapshots are compatible with consentless analytics because they are inherently aggregated and inherently anonymous. You cannot reconstruct an individual user's journey from a series of snapshots. The data exists only in the moment, and only in aggregate form.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-is-a-window">What Is a Window?<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#what-is-a-window" class="hash-link" aria-label="Direct link to What Is a Window?" title="Direct link to What Is a Window?" translate="no">​</a></h3>
+<p>A window answers the question: "What happened during this specific time period?"</p>
+<p>Examples of windows:</p>
 <ul>
-<li class="">
-<p><strong>CNIL (France)</strong>: Focuses on anonymity and no profiling. Real-time snapshots are fine if data is aggregated.</p>
-</li>
-<li class="">
-<p><strong>AEPD (Spain)</strong>: Explicitly requires <strong>daily aggregation</strong> for audience metrics, with one exception (page load times by hour).</p>
-</li>
+<li class="">"Last 30 minutes: 87 visits."</li>
+<li class="">"Traffic between 14:00 and 14:30: 43 sessions."</li>
+<li class="">"Hourly breakdown: 9am (120 visits), 10am (156 visits), 11am (189 visits)."</li>
 </ul>
-<p>Source: AEPD, <em>Guía sobre cookies analíticas de medición de audiencia</em> (2024).</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-tools-handle-this"><strong>How tools handle this</strong><a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#how-tools-handle-this" class="hash-link" aria-label="Direct link to how-tools-handle-this" title="Direct link to how-tools-handle-this" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-sealmetrics-is-different"><strong>Why Sealmetrics is different</strong><a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#why-sealmetrics-is-different" class="hash-link" aria-label="Direct link to why-sealmetrics-is-different" title="Direct link to why-sealmetrics-is-different" translate="no">​</a></h3>
-<p>Sealmetrics was built from the ground up to comply with <strong>both CNIL and AEPD</strong>:</p>
+<p>A window is <strong>stored</strong>. To generate a report covering a specific sub-daily time period, the system must retain data at that granularity. This means the platform is creating and persisting sub-daily aggregations -- exactly what the AEPD says falls outside the consent exemption.</p>
+<p>Even if each window shows aggregate numbers (not individual users), the existence of stored sub-daily buckets creates a structural problem. An hourly breakdown of traffic by page, combined with referral source data, starts to narrow down the anonymity set. Three visitors from LinkedIn to your pricing page between 2:15pm and 2:30pm is a small enough group that re-identification becomes plausible, especially when combined with CRM data.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-gray-area-active-users-right-now">The Gray Area: "Active Users Right Now"<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#the-gray-area-active-users-right-now" class="hash-link" aria-label="Direct link to The Gray Area: &quot;Active Users Right Now&quot;" title="Direct link to The Gray Area: &quot;Active Users Right Now&quot;" translate="no">​</a></h3>
+<p>One metric sits at the boundary: the "active users right now" counter that many analytics tools display. Whether this is a snapshot or a window depends entirely on implementation:</p>
 <ul>
-<li class="">
-<p><strong>Real-time data, but always aggregated daily.</strong></p>
-</li>
-<li class="">
-<p><strong>No cookies, no fingerprinting, no sub-daily windows.</strong></p>
-</li>
-<li class="">
-<p><strong>No visitor logs.</strong></p>
-</li>
-<li class="">
-<p><strong>EU hosting and contracts as data processor.</strong></p>
-</li>
+<li class=""><strong>Snapshot implementation</strong>: The system counts currently active connections or sessions in memory. The number is never stored. When a user leaves, the count decrements. This is consentless-safe.</li>
+<li class=""><strong>Window implementation</strong>: The system counts unique users who sent at least one event in the last N minutes. This requires storing timestamped per-user events and querying them -- a sub-daily window by another name. This is not consentless-safe under AEPD.</li>
 </ul>
-<p>This means: you can see your traffic “today so far” in real time, but you’ll never risk exposing an individual user’s navigation.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="bottom-line"><strong>Bottom line</strong><a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#bottom-line" class="hash-link" aria-label="Direct link to bottom-line" title="Direct link to bottom-line" translate="no">​</a></h2>
+<p>The difference is invisible on the dashboard. Both approaches show "33 users right now." But the underlying architecture determines whether you need consent.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-analytics-tools-handle-real-time-data">How Analytics Tools Handle Real-Time Data<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#how-analytics-tools-handle-real-time-data" class="hash-link" aria-label="Direct link to How Analytics Tools Handle Real-Time Data" title="Direct link to How Analytics Tools Handle Real-Time Data" translate="no">​</a></h2>
+<p>Not all analytics platforms approach real-time data the same way. Their architectural choices have direct consequences for GDPR compliance, and marketers should understand these differences before assuming any tool's privacy claims are accurate.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ga4-with-consent-mode-v2">GA4 with Consent Mode v2<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#ga4-with-consent-mode-v2" class="hash-link" aria-label="Direct link to GA4 with Consent Mode v2" title="Direct link to GA4 with Consent Mode v2" translate="no">​</a></h3>
+<p>Google Analytics 4 is a cookie-based tool that relies on consent for full functionality. Google's Consent Mode v2 attempts to model data from users who reject cookies, but this is estimation, not measurement. The real-time report in GA4 ("Users in last 30 minutes") is a classic window implementation -- it stores timestamped events and queries them for the last 30 minutes.</p>
+<p>This design requires consent by default. With Consent Mode v2, Google claims to handle consent-denied users through behavioral modeling, but this approach has been <a href="https://noyb.eu/en/noyb-files-gdpr-complaint-against-googles-new-consent-fraud" target="_blank" rel="noopener noreferrer" class="">questioned by multiple DPAs</a>, and the modeled data is not actual measurement. In practice, GA4 loses 30-60% of real visitor data in EU markets due to consent rejection.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="matomo-self-hosted">Matomo (Self-Hosted)<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#matomo-self-hosted" class="hash-link" aria-label="Direct link to Matomo (Self-Hosted)" title="Direct link to Matomo (Self-Hosted)" translate="no">​</a></h3>
+<p>Matomo offers a "cookieless" mode and can be configured for some level of privacy compliance. However, Matomo's real-time report ("Visits in Real Time") displays individual visit logs with timestamps, pages visited, referral source, and location. This is visitor-level, sub-daily data -- the opposite of what AEPD requires for the consent exemption.</p>
+<p>Even in cookieless mode, Matomo generates visitor logs that track individual browsing sessions. The data is detailed enough to potentially identify individuals, particularly in low-traffic scenarios. Matomo's real-time feature, as architected, does not qualify for the AEPD's audience measurement exemption.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="plausible-analytics">Plausible Analytics<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#plausible-analytics" class="hash-link" aria-label="Direct link to Plausible Analytics" title="Direct link to Plausible Analytics" translate="no">​</a></h3>
+<p>Plausible takes a privacy-first approach and does not use cookies. Its "Current visitors" counter is a genuine snapshot -- it shows a real-time count without storing sub-daily bucketed data. However, Plausible does offer time-based filtering (last 30 minutes, last hour) in some report views, which edges into window territory.</p>
+<p>Plausible has been accepted on the CNIL exemption list, indicating that its overall architecture meets French requirements. Whether it fully satisfies the stricter AEPD daily aggregation rule depends on which specific features are used and how the data is stored.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sealmetrics">Sealmetrics<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#sealmetrics" class="hash-link" aria-label="Direct link to Sealmetrics" title="Direct link to Sealmetrics" translate="no">​</a></h3>
+<p>Sealmetrics was designed from the ground up to comply with both AEPD and CNIL requirements, including the daily aggregation rule. The architectural decisions are fundamental, not bolted on:</p>
 <ul>
-<li class="">
-<p><strong>Real-time ≠ illegal.</strong> You can show snapshots or today’s totals without consent.</p>
-</li>
-<li class="">
-<p><strong>Sub-daily windows (30 min, hourly, logs) = not exonerated.</strong> Require consent under AEPD.</p>
-</li>
-<li class="">
-<p><strong>Sealmetrics</strong> is the only platform designed to give marketers <strong>real-time visibility and 100% compliance</strong> with both CNIL and AEPD.</p>
-</li>
+<li class=""><strong>Real-time dashboard shows daily aggregates only.</strong> You see "today so far" numbers that update in real time, but the underlying data is always aggregated at a daily level. There are no 30-minute windows, no hourly breakdowns, no sub-daily buckets.</li>
+<li class=""><strong>No visitor logs.</strong> There is no screen in the product that shows individual user sessions, navigation paths, or per-visitor timelines. The data model does not support it -- this is a deliberate architectural constraint, not a hidden feature.</li>
+<li class=""><strong>No cookies and no fingerprinting.</strong> Sealmetrics uses a <a class="" href="https://docs.sealmetrics.com/security-privacy/how-consentless-works">consentless tracking architecture</a> that does not set cookies, does not store IP addresses, and does not generate device fingerprints.</li>
+<li class=""><strong>100% data capture.</strong> Because no consent is required, there is no data loss from banner rejection. Every visit is measured, providing the complete dataset that tools like GA4 cannot deliver in EU markets.</li>
 </ul>
-<p>🔒 <em>Sealmetrics: Real-time insights. Always aggregated. Always compliant.</em></p>]]></content>
+<p>The result is that marketers get real-time visibility into their traffic without any legal risk from sub-daily data storage. You know how your site is performing today. You can see trends across days, weeks, and months. You just cannot generate a report titled "Traffic from 2pm to 3pm" -- and that constraint is what keeps the system compliant.</p>
+<p>For more details on the technical architecture, see <a class="" href="https://docs.sealmetrics.com/security-privacy/how-consentless-works">how consentless tracking works</a> and <a class="" href="https://docs.sealmetrics.com/implementation/tracker">tracker implementation</a>.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="comparison-real-time-analytics-compliance">Comparison: Real-Time Analytics Compliance<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#comparison-real-time-analytics-compliance" class="hash-link" aria-label="Direct link to Comparison: Real-Time Analytics Compliance" title="Direct link to Comparison: Real-Time Analytics Compliance" translate="no">​</a></h2>
+<p>The following table summarizes how each tool handles the key factors that determine whether real-time analytics requires consent under AEPD and CNIL rules.</p>
+<table><thead><tr><th>Feature</th><th>GA4 + Consent Mode</th><th>Matomo (Cookieless)</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Cookies required</strong></td><td>Yes</td><td>Optional</td><td>No</td><td>No</td></tr><tr><td><strong>Real-time counter</strong></td><td>Window (30 min)</td><td>Visitor log</td><td>Snapshot</td><td>Daily aggregate</td></tr><tr><td><strong>Sub-daily windows</strong></td><td>Yes</td><td>Yes</td><td>Limited</td><td>No</td></tr><tr><td><strong>Visitor-level logs</strong></td><td>Yes</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td><strong>IP storage</strong></td><td>Yes (hashed)</td><td>Configurable</td><td>No</td><td>No</td></tr><tr><td><strong>AEPD daily aggregation</strong></td><td>No</td><td>No</td><td>Partial</td><td>Yes</td></tr><tr><td><strong>CNIL exemption list</strong></td><td>No</td><td>Configurable</td><td>Yes</td><td>Yes</td></tr><tr><td><strong>Data capture rate (EU)</strong></td><td>40-70%</td><td>60-80%</td><td>80-95%</td><td>100%</td></tr><tr><td><strong>Consent banner needed</strong></td><td>Yes</td><td>Depends</td><td>No</td><td>No</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-implementation-why-architecture-matters">Technical Implementation: Why Architecture Matters<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#technical-implementation-why-architecture-matters" class="hash-link" aria-label="Direct link to Technical Implementation: Why Architecture Matters" title="Direct link to Technical Implementation: Why Architecture Matters" translate="no">​</a></h2>
+<p>The difference between compliant and non-compliant real-time analytics is not about the dashboard -- it is about the data pipeline behind it. Two systems can show identical numbers on screen while having fundamentally different compliance profiles based on how the data is collected, stored, and queried.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-non-compliant-pattern">The Non-Compliant Pattern<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#the-non-compliant-pattern" class="hash-link" aria-label="Direct link to The Non-Compliant Pattern" title="Direct link to The Non-Compliant Pattern" translate="no">​</a></h3>
+<p>A typical non-compliant architecture works like this:</p>
+<ol>
+<li class=""><strong>Event collection</strong>: Each pageview or interaction generates a timestamped event with user identifiers (cookie ID, session ID, or fingerprint hash).</li>
+<li class=""><strong>Event storage</strong>: Events are stored individually in a database with full timestamp precision.</li>
+<li class=""><strong>Real-time query</strong>: The "last 30 minutes" report queries all events where <code>timestamp &gt; now() - 30 minutes</code> and aggregates them on the fly.</li>
+<li class=""><strong>Result</strong>: The stored data contains sub-daily, user-level records. Even if the dashboard shows aggregate numbers, the underlying data can be queried at any granularity.</li>
+</ol>
+<p>This architecture fails the AEPD test because the raw data exists at sub-daily granularity. The daily aggregation must happen at the storage level, not just the display level.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-compliant-pattern">The Compliant Pattern<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#the-compliant-pattern" class="hash-link" aria-label="Direct link to The Compliant Pattern" title="Direct link to The Compliant Pattern" translate="no">​</a></h3>
+<p>Sealmetrics implements a compliant architecture:</p>
+<ol>
+<li class=""><strong>Event collection</strong>: Pageviews are captured via a lightweight, <a class="" href="https://docs.sealmetrics.com/implementation/tracker">cookieless tracker script</a> that sends minimal data -- page URL, referrer, and a non-identifying session token.</li>
+<li class=""><strong>Immediate aggregation</strong>: Events are aggregated into daily counters at the point of ingestion. No individual events are stored with sub-daily timestamps.</li>
+<li class=""><strong>Real-time display</strong>: The dashboard reads the running daily aggregate, which updates in real time as new events arrive. The "today so far" number is always current, but the stored granularity is daily.</li>
+<li class=""><strong>Snapshot counters</strong>: The "active users now" metric uses an in-memory counter that tracks current connections. This counter is ephemeral -- it is never persisted to the database.</li>
+</ol>
+<p>The infrastructure uses Go and ClickHouse, which provides the performance needed to aggregate at ingestion time without sacrificing real-time responsiveness. The aggregation is not a batch job that runs at midnight -- it happens continuously as data arrives.</p>
+<p>For details on Sealmetrics' compliance architecture and certifications, see the <a class="" href="https://docs.sealmetrics.com/compliance">compliance overview</a> and <a class="" href="https://docs.sealmetrics.com/security-privacy/consentless-analytics">consentless analytics documentation</a>.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="practical-implications-for-marketing-teams">Practical Implications for Marketing Teams<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#practical-implications-for-marketing-teams" class="hash-link" aria-label="Direct link to Practical Implications for Marketing Teams" title="Direct link to Practical Implications for Marketing Teams" translate="no">​</a></h2>
+<p>Understanding the snapshot vs. window distinction has practical consequences beyond legal compliance.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-you-can-do-without-consent">What You Can Do Without Consent<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#what-you-can-do-without-consent" class="hash-link" aria-label="Direct link to What You Can Do Without Consent" title="Direct link to What You Can Do Without Consent" translate="no">​</a></h3>
+<p>Under a properly implemented consentless analytics setup that meets AEPD and CNIL requirements, you can:</p>
+<ul>
+<li class=""><strong>Monitor today's traffic in real time.</strong> Daily aggregates update continuously, giving you a live view of pageviews, sessions, and engagement for the current day.</li>
+<li class=""><strong>Compare daily performance.</strong> Day-over-day, week-over-week, and month-over-month comparisons are all based on daily aggregates and fully compliant.</li>
+<li class=""><strong>Identify top pages and traffic sources today.</strong> You know which content is performing right now, aggregated at the daily level.</li>
+<li class=""><strong>Track campaign launches on day one.</strong> You can see whether a campaign is driving traffic from the moment it goes live, without waiting for next-day reporting.</li>
+<li class=""><strong>Capture 100% of visitors.</strong> No consent banner means no data loss. Every visit counts.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-requires-consent">What Requires Consent<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#what-requires-consent" class="hash-link" aria-label="Direct link to What Requires Consent" title="Direct link to What Requires Consent" translate="no">​</a></h3>
+<p>If you need any of the following, you must implement a consent mechanism (cookie banner) and accept the associated data loss:</p>
+<ul>
+<li class=""><strong>Intra-day time breakdowns.</strong> Hourly traffic charts, "last 30 minutes" reports, or time-of-day analysis.</li>
+<li class=""><strong>Individual visitor journeys.</strong> Session recordings, user-level page sequences, or individual navigation paths.</li>
+<li class=""><strong>Cross-session identification.</strong> Recognizing returning visitors across multiple visits using persistent identifiers.</li>
+<li class=""><strong>Cross-site tracking.</strong> Following users across different domains or websites.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-trade-off-is-worth-it">The Trade-Off Is Worth It<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#the-trade-off-is-worth-it" class="hash-link" aria-label="Direct link to The Trade-Off Is Worth It" title="Direct link to The Trade-Off Is Worth It" translate="no">​</a></h3>
+<p>For most marketing use cases, daily aggregated data provides everything needed to make decisions. You do not need to know that 14 people visited your pricing page between 2:15pm and 2:45pm. You need to know that your pricing page had 340 visits today, up 12% from yesterday, with 60% arriving from organic search.</p>
+<p>The trade-off is clear: give up sub-daily granularity in exchange for 100% data capture and zero legal risk. For any business operating in EU markets, the math strongly favors complete data over granular-but-partial data.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="bottom-line">Bottom Line<a href="https://docs.sealmetrics.com/blog/real-time-tracking-consent#bottom-line" class="hash-link" aria-label="Direct link to Bottom Line" title="Direct link to Bottom Line" translate="no">​</a></h2>
+<p>Real-time analytics is not inherently illegal under GDPR. The legality depends entirely on how "real-time" is implemented at the architectural level.</p>
+<p><strong>Snapshots and daily aggregates</strong> -- showing current counters and today's running totals -- are compatible with the AEPD and CNIL consent exemptions for audience measurement. They produce anonymous, aggregate statistics that cannot be used to identify or profile individuals.</p>
+<p><strong>Sub-daily windows and visitor logs</strong> -- showing time-bucketed reports, hourly breakdowns, or individual session data -- fall outside the consent exemption. Under AEPD rules, these require a cookie banner and user consent, which means accepting 30-60% data loss in EU markets.</p>
+<p>Sealmetrics is built on this distinction. The platform delivers real-time visibility into your traffic with 100% data capture, while maintaining full compliance with both AEPD and CNIL requirements. No cookies, no consent banners, no data loss, no legal gray areas.</p>
+<p>If your current analytics setup shows you "last 30 minutes" reports without asking for consent, it is time to reconsider your compliance posture. <a href="https://sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">See how Sealmetrics works</a> and start capturing the traffic you are currently losing.</p>]]></content>
         <author>
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
@@ -3788,16 +3838,17 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
         <category label="Analytics" term="Analytics"/>
         <category label="GDPR" term="GDPR"/>
         <category label="Privacy" term="Privacy"/>
-        <category label="cookieless" term="cookieless"/>
-        <category label="consentless" term="consentless"/>
+        <category label="Cookieless" term="Cookieless"/>
+        <category label="Consentless" term="Consentless"/>
+        <category label="Compliance" term="Compliance"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Cookieless Analytics: Complete Guide 2026]]></title>
         <id>https://docs.sealmetrics.com/blog/cookieless-analytics-guide</id>
         <link href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide"/>
         <updated>2025-11-13T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Cookieless analytics captures 100% of visitor data without consent banners. Complete guide to implementation, GDPR compliance, and comparison with cookie-based analytics. 2026 updated.]]></summary>
-        <content type="html"><![CDATA[<p><strong>Last Updated</strong>: November 13, 2025</p>
+        <summary type="html"><![CDATA[Cookieless analytics captures 100% of visitor data without consent banners. Guide to implementation, GDPR compliance, and comparisons.]]></summary>
+        <content type="html"><![CDATA[<p><strong>Last Updated</strong>: March 10, 2026</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="introduction">Introduction<a href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide#introduction" class="hash-link" aria-label="Direct link to Introduction" title="Direct link to Introduction" translate="no">​</a></h2>
 <p>Cookieless analytics has emerged as the solution to this data loss crisis. Unlike traditional cookie-based platforms like Google Analytics, cookieless analytics captures 100% of visitor data without requiring consent banners, cookies, or personal identifiers like IP addresses.</p>
 <p>This complete guide explains how cookieless analytics works, why it's GDPR compliant without consent, and how platforms like Sealmetrics provide businesses with accurate, complete data while respecting user privacy.</p>
@@ -4193,7 +4244,7 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
 </ul>
 <hr>
 <p><strong>About the Author</strong>: This guide was written by the Sealmetrics team, creators of the leading consentless analytics platform. We believe accurate data and user privacy are not opposites—they're requirements for modern web analytics.</p>
-<p><strong>Last Updated</strong>: November 13, 2025</p>
+<p><strong>Last Updated</strong>: March 10, 2026</p>
 <hr>
 <p><em>Sealmetrics captures 100% of your website traffic without cookies, consent banners, or IP address storage. GDPR compliant by design, trusted by privacy-conscious businesses across Europe.</em></p>]]></content>
         <author>
@@ -4203,14 +4254,14 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
         <category label="Analytics" term="Analytics"/>
         <category label="GDPR" term="GDPR"/>
         <category label="Privacy" term="Privacy"/>
-        <category label="cookieless" term="cookieless"/>
+        <category label="Cookieless" term="Cookieless"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Long-Term Analytics: 25-Month Data Retention Without Consent]]></title>
+        <title type="html"><![CDATA[Long-Term Analytics: 24-Month Data Retention Without Consent]]></title>
         <id>https://docs.sealmetrics.com/blog/long-term-analytics-data-retention</id>
         <link href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention"/>
         <updated>2024-06-13T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Sealmetrics retains analytics data for 24 months without requiring consent. Learn how cookieless tracking enables long-term analysis while staying GDPR compliant.]]></summary>
+        <summary type="html"><![CDATA[24-month analytics data retention without consent. How cookieless tracking enables long-term analysis while staying GDPR compliant.]]></summary>
         <content type="html"><![CDATA[<p>Understanding long-term user behavior is crucial for business growth, but traditional analytics platforms face a critical limitation: <strong>GDPR requires deleting data after consent expires, typically forcing 6-13 month retention limits</strong>. Sealmetrics solves this with cookieless tracking that enables <strong>24-month data retention without requiring user consent</strong>.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-takeaways">Key Takeaways<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#key-takeaways" class="hash-link" aria-label="Direct link to Key Takeaways" title="Direct link to Key Takeaways" translate="no">​</a></h2>
 <ul>
@@ -4434,15 +4485,18 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>
 <ul>
 <li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Guide to Cookieless Analytics</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework">GDPR Compliant Analytics Framework</a> — Legal bases for long-term data retention</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/how-consentless-works">How Consentless Tracking Works</a> — Technical architecture behind privacy-compliant analytics</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics">Sealmetrics vs Google Analytics</a> — Why businesses switch from GA4's limited data retention</li>
 </ul>]]></content>
         <author>
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="data-retention" term="data-retention"/>
-        <category label="long-term-analytics" term="long-term-analytics"/>
+        <category label="Data Retention" term="Data Retention"/>
+        <category label="Long-term Analytics" term="Long-term Analytics"/>
         <category label="GDPR" term="GDPR"/>
-        <category label="cookieless-analytics" term="cookieless-analytics"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
         <category label="Privacy" term="Privacy"/>
     </entry>
 </feed>

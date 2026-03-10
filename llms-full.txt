@@ -43,7 +43,7 @@ Attribution at channel level (e.g., "Google Organic", "Facebook Ads") without us
 # Introduction
 
 
-## Sealmetrics Documentation
+## Sealmetrics Docs: Consentless Analytics Platform
 
 
 URL: https://docs.sealmetrics.com/intro
@@ -54,16 +54,15 @@ URL: https://docs.sealmetrics.com/intro
 Welcome to the official **Sealmetrics Documentation** —  
 your complete guide to privacy-first analytics and cookieless data measurement.
 
----
+## Explore the Docs
 
 ---
 
 ## About Sealmetrics
 
-Sealmetrics enables **100% traffic tracking without cookies or consent banners**, compliant with GDPR and CNIL guidelines.  
-All data is processed and stored in the EU, ensuring full privacy and accuracy.
+Sealmetrics is a **consentless web analytics platform** that captures 100% of your traffic without cookies, fingerprinting, or consent banners. Traditional analytics tools like Google Analytics lose 30-60% of visitor data in EU markets because users reject cookie consent. Sealmetrics
 
-> **Sealmetrics** — analytics without consent, without data loss, and without compromise.
+... [Read full document at https://docs.sealmetrics.com/intro]
 
 
 
@@ -486,13 +485,6 @@ A high-level overview designed for stakeholders who need the big picture.
 
 Detailed analysis of your marketing and site performance.
 
-**Includes:**
-- Traffic breakdown by source, medium, campaign
-- Conversion funnel analysis
-- Revenue attribution
-- Campaign ROAS comparison
-- Device and geographic performance
-
 ... [Read full document at https://docs.sealmetrics.com/lens/reports]
 
 
@@ -551,8 +543,7 @@ Monitor visitor volume and patterns.
 | `new_traffic_source` | New Traffic Source | New source contributing >5% of traffic | >5% share |
 | `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
 | `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35% drop |
-| `organic_traffic_change` | Organic Traffic Change | Significant organic search change | >25% change |
-| `paid
+| `organic_traffic_change` | Organic Traffic Change | Significant organic search change | >
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -724,8 +715,6 @@ filters:
     value: "electronics"
 ```
 
-**Available metric types:**
-
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/custom-rules]
 
 
@@ -818,9 +807,9 @@ Sealmetrics provides 9 specialized reports to analyze your website traffic, conv
 
 | Report | Purpose | Key Metrics |
 |--------|---------|-------------|
-| [Overview](./overview) | Real-time dashboard summary | Entrances, Pageviews, Conversions, Revenue |
-| [Evolution](./evolution) | Temporal trends analysis | Metrics over time, grouped by day/week/month |
-| [Pages](./pages) | Page performance analysis | Top pages, landing pages, bounce r
+| [Overview](/reports/overview) | Real-time dashboard summary | Entrances, Pageviews, Conversions, Revenue |
+| [Evolution](/reports/evolution) | Temporal trends analysis | Metrics over time, grouped by day/week/month |
+| [Pages](/reports/pages) | Page performance analysis | Top pages, la
 
 ... [Read full document at https://docs.sealmetrics.com/reports]
 
@@ -939,7 +928,7 @@ Shows all pages that received traffic during the selected period.
 
 | Column | Description |
 |--------|-------------|
-| **Page** | URL path and page tit
+| **Page** | URL path and page 
 
 ... [Read full document at https://docs.sealmetrics.com/reports/pages]
 
@@ -997,8 +986,7 @@ Shows traffic grouped by UTM Source and Medium combination.
 | **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
 | **Entrances** | Sessions from this source |
 | **Pageviews** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
-| 
+| **Bounce Rate** | Single-page session pe
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -1030,7 +1018,7 @@ Interactive choropleth map showing traffic distribution by country.
 | Feature | Description |
 |---------|-------------|
 | **Color intensity** | Darker colors indicate more traffic |
-| **Hover tooltip** | Shows count
+| **Hover tooltip** | S
 
 ... [Read full document at https://docs.sealmetrics.com/reports/geography]
 
@@ -1143,7 +1131,7 @@ Funnels are configured in Settings. Common examples:
 | E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
 | Lead Generation | Landing Page → Form View → Form Submit → Thank You |
 | SaaS Signup | Homepage → Pricing → Sign Up → Verify Email |
-| Content Engagement | Article View → Scroll 50% → 
+| Content Engagement | Article View →
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1270,7 +1258,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Conversions](#conversions) | Count of conversion events | Higher |
 | [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
 | [Revenue](#revenue) | Sum of conversion amounts | Higher |
-| [AOV](#average-order-value-aov) | Revenue / Conversions | Higher |
+| [AOV](#average-order-value-aov) | Revenue / Conv
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1791,8 +1779,6 @@ Track the complete customer journey:
 
 ## Step-by-Step Implementation
 
-### Product View
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide]
 
 
@@ -1896,11 +1882,6 @@ Type in console:
 typeof sealmetrics
 ```
 
-Expected result:
-```
-"function"
-```
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/step-by-step-guide]
 
 
@@ -1997,8 +1978,7 @@ Simply add the standard tracker script to your site:
 That's it. The tracker automatically:
 
 1. **Tracks initial pageview** on first load
-2. **Detects `pushState` calls** when navigating to new routes
-3. **Dete
+2. **Detects `pushState` calls** when navigating to new route
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites]
 
@@ -2173,8 +2153,6 @@ Set the group directly in the tracker script URL:
 **Best for:** Static sites, CMS templates, server-rendered pages
 
 [See full Content Grouping guide →](/implementation/content-site-structure/content-grouping)
-
-### 2. JavaScript API (This Page)
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/content-groups]
 
@@ -2394,8 +2372,6 @@ Any router that uses the History API is automatically supported.
 
 ## Installation
 
-Same as regular installation:
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/spa-support]
 
 
@@ -2539,8 +2515,6 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 | Cookies | Used | None |
 | localStorage | Used | None |
 | Size | ~15 KB | 1,313 bytes (gzipped) |
-
-## Breaking Changes
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/migration-from-v1]
 
@@ -2722,7 +2696,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
-        <SealMetricsScript ac
+        <SealMetri
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2770,8 +2744,6 @@ This template includes all the tags, triggers, and variables you need. Just impo
 3. Upload the JSON file
 4. Choose **"Merge"** and select **"Rename conflicting tags"**
 5. Go to **Variables** and update `SealMetrics Site ID` with your Site ID
-
-## Included Tags
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/tag-management/gtm-template]
 
@@ -2918,9 +2890,6 @@ function App() {
 ### Option 2: Script Only
 
 Just load the tracker script:
-
-```tsx
-import { SealMetricsScript } from '@sealmetrics/react';
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/react]
 
@@ -3191,7 +3160,7 @@ REST API for querying analytics data and managing your Sealmetrics account progr
 | Protocol | HTTPS only |
 | Format | JSON |
 | Authentication | API Key or JWT Bearer token |
-| Rate Limits | Per-plan (see [Rate Limits](./rate-limits)) |
+| Rate Limits | Per-plan (see [Rate Limits](/api/rate-limits)) |
 | Documentation | `/docs` (Swagger UI) |
 
 ## Quick Start
@@ -3285,8 +3254,7 @@ Include the key in the `X-API-Key` header:
 
 ```bash
 curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
-  -H "X-API-Key: sm_your_api_key_here"
-``
+  -H "X-API-Key: sm_your_api_ke
 
 ... [Read full document at https://docs.sealmetrics.com/api/authentication]
 
@@ -3489,10 +3457,6 @@ Returns all organizations the current user belongs to.
 |-------|-------------|
 | `can_create_org` | `true` if user can create a new organization |
 | `user_role` | Current user's role in this organization |
-
----
-
-### Create Organization
 
 ... [Read full document at https://docs.sealmetrics.com/api/organizations]
 
@@ -3771,12 +3735,6 @@ GET /stats/overview?site_id=my-site&period=30d&compare=previous
 Compares with the same duration immediately before the selected range.
 
 **Examples:**
-
-| Selected Period | Comparison Period |
-|-----------------|-------------------|
-| Jan 15-21 (7 days) | Jan 8-14 (7 days) |
-| Last 30 days | Previous 30 days |
-| This month (Jan 1-10) | Dec 2-11 (same duration) |
 
 ... [Read full document at https://docs.sealmetrics.com/api/comparison]
 
@@ -4336,13 +4294,17 @@ URL: https://docs.sealmetrics.com/security-privacy/consentless-analytics
 
 # What is Consentless Analytics?
 
-**Consentless Analytics** is a privacy-first approach that allows businesses to analyze user behavior without requiring explicit visitor consent — while maintaining full compliance with GDPR, ePrivacy Directive, CCPA, and PECR.
+**Consentless analytics** is a method of measuring website traffic and user behavior without requiring visitor consent. It achieves this by not collecting personal data, not setting cookies, and not using any form of user identification — making consent legally unnecessary under GDPR, ePrivacy Directive, and other privacy regulations.
+
+Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When visitors reject consent — which happens 50–87% of the time across EU markets — the tool records nothing. The result: businesses make decisions based on a fraction of their actual traffic.
+
+Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Every visitor is measured. Every page view is counted. Every conversion is attributed to its source. No consent is needed because no personal data is involved.
 
 ---
 
-## How Consentless Analytics Works
+## How It Works: The Four-Variable System
 
-Traditional tools like Google Analytics depend on cookies and consent. When users reject consent, businesses lose up to **85% of traffic data**. Consentless Analytics eliminates this issue through
+Sealmetrics pioneered a consentless tracking approach built on four anonymous variables per event:
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/consentless-analytics]
 
@@ -4673,8 +4635,6 @@ Known malicious IPs are blocked at the edge:
 
 ### Layer 2: User-Agent Filtering
 
-Bot signatures in the User-Agent string are detected:
-
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/bot-detection]
 
 
@@ -4704,7 +4664,7 @@ SealMetrics is committed to data sovereignty and transparent retention policies.
 ### Why EU?
 
 - **GDPR compliance** — Data stays within EU jurisdiction
-- **Data sovereignty** — No US CLOUD Act
+- **Data sovereignty** — No US
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/data-location]
 
@@ -4764,11 +4724,13 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 
 ---
 
-# 1. The Core Methodology  
-## Aggregate Measurement Instead of Individual Tracking
+## 1. The Core Methodology
+### Aggregate Measurement Instead of Individual Tracking
 
 ### Traditional Analytics (❌ Requires Consent)
-- 
+- Uses cookies to store visitor IDs  
+- Reconstructs individual user journeys  
+- Builds detailed behavioral pr
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4817,7 +4779,7 @@ This document details everything Sealmetrics *does* and *does not* track, why, a
 # What We DO Track  
 ## The Four-Variable System (Isolated Hits)
 
-Sealmetrics processes each page view (“hit”) independently using **only four non-identif
+Sealmetrics processes each page view (“hit”) independently using **only four n
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/what-we-track]
 
@@ -4998,13 +4960,6 @@ To qualify for consent exemption, **all three** conditions must be met:
 
 **Requirement**: Inform users of analytics cookie use through privacy policy
 
-**Implementation**:
-- Clear statement in privacy policy
-- Description of analytics purposes
-- What data is collected
-- Retention periods
-- Rights of data subjects
-
 ... [Read full document at https://docs.sealmetrics.com/compliance/analytics-cookies-exemption]
 
 
@@ -5054,12 +5009,6 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 
 ### Objective 2: Navigation Problem Detection
 **Requirement:** Identify navigation issues affecting user experience.
-
-| Criterion | Sealmetrics Compliance |
-|-----------|----------------------|
-| Detects 404 errors | ✅ Yes |
-| Identifies broken user flows | ✅ Yes |
-| Tracks exit pages | ✅ Yes |
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/cnil-self-assessment]
 
@@ -5228,8 +5177,6 @@ The current Article 5(3) of the ePrivacy Directive, dating from 2009, has create
 - The very goal of informed consent is defeated
 
 ### Why the Current System Fails
-
-The 2009 ePrivacy Directive predates modern web analytics, programmatic advertising, and today's data ecosystem. Its blanket consent requirement for any terminal storage has created:
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy]
 
@@ -5468,8 +5415,6 @@ AI developers faced uncertainty about lawful basis for processing personal data 
 - Regulatory guidance lacking
 - Risk of enforcement action
 
-**Result**: Legal uncertainty deterred European AI investment; developers moved to jurisdictions with clearer rules.
-
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/ai-act-amendments]
 
 
@@ -5535,8 +5480,6 @@ Organizations operating in the EU face a fragmented landscape of incident report
 **To whom**: Financial supervisory authorities (EBA, EIOPA, ESMA)
 
 #### 4. eIDAS (Trust Services)
-
-**Regulation**: Regulation (EU) 910/2014
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/incident-reporting]
 
@@ -5725,11 +5668,6 @@ Website operators face a difficult choice:
 - ⚠️ Legal uncertainty (until now)
 
 ## What the Omnibus Changes for Analytics
-
-**Tip:**
-The European data protection authorities **support** the audience measurement exemption in their [Joint Opinion 2/2026](./edpb-edps-opinion.md). They also recommend adding a **contextual advertising exemption** for ads based on page content (not user tracking). This reinforces the legal basis for privacy-first analytics like Sealmetrics.
-
-### The Game-Changing Exemption
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/impact-analytics]
 
@@ -6128,22 +6066,6 @@ Group content by type for better analysis:
 
 ### Dynamic Grouping (WordPress)
 
-```php
-<?php
-function get_content_group() {
-  if (is_front_page()) return 'home';
-  if (is_single()) return 'article';
-  if (is_category() || is_tag()) return 'category';
-  if (is_author()) return 'author';
-  if (is_search()) return 'search';
-  return 'other';
-}
-?>
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=<?php echo get_content_group(); ?>" defer></script>
-```
-
----
-
 ... [Read full document at https://docs.sealmetrics.com/use-cases/content-media]
 
 
@@ -6319,12 +6241,10 @@ Configure your account and organization.
 
 | Setting | Description |
 |---------|-------------|
-| [General](./account/general) | Account name, timezone, default date range |
-| [Users & Teams](./account/users) | Manage team members and permissions |
+| [General](/platform/settings/account/general) | Account name, timezone, default date range |
+| [Users & Teams](/platform/settings/account/users) | Manage team members and permissions |
 
-### Tracking Settings
-
-Configure how data is 
+### Trackin
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings]
 
@@ -6400,8 +6320,6 @@ The Pixel Builder helps you generate tracking code for your website without writ
 ### Step 1: Name and Description
 
 Give your pixel a descriptive name (e.g., "Purchase Tracking", "Newsletter Signup") and an optional description.
-
-### Step 2: Choose Pixel Type
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder]
 
@@ -6853,7 +6771,7 @@ By default, Sealmetrics uses **DeepSeek Local** via Ollama:
 |--------|---------|
 | **Provider** | Self-hosted DeepSeek (via Ollama) |
 | **Cost** | Free (included in your plan) |
-| **Privacy** | Maximum - data never leaves Sealmetrics infrastru
+| **Privacy** | Maximum - data never leaves Sealmetri
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -7153,7 +7071,7 @@ Each plan includes a monthly event allowance:
 
 All tracked interactions count toward your event limit:
 
-| Event Type | C
+| Event
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -7340,7 +7258,7 @@ You should see:
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
 2. Go to **Real-time** report
 3. Visit your website in another tab
-4. Your visit should appear
+4. Your visit sh
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7414,10 +7332,10 @@ Use the links below to explore detailed answers for each topic.
 ### Consentless Analytics
 Learn how Sealmetrics measures 100% of traffic without consent and why it is fully compliant with GDPR and ePrivacy.
 
-[Read more →](./consentless-analytics)
+[Read more →](/faq/consentless-analytics)
 
 ### GA4 vs Sealmetrics
-Understand data differences, direct traffic inflation, 
+Understand data differences, direct traffic inflatio
 
 ... [Read full document at https://docs.sealmetrics.com/faq]
 
@@ -7452,28 +7370,35 @@ We do not track users individually, even anon
 
 
 
-## GA4 vs Sealmetrics
+## GA4 vs Sealmetrics — Complete Comparison
 
 
 URL: https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics
 
 
-# GA4 vs Sealmetrics FAQ
+# GA4 vs Sealmetrics
 
-## Why are GA4 and Sealmetrics numbers different?
+Google Analytics 4 and Sealmetrics take fundamentally different approaches to web analytics. GA4 relies on cookies and user consent. Sealmetrics uses consentless, privacy-preserving tracking that captures 100% of traffic without cookies or consent banners.
 
-Because GA4 relies on cookies, consent, and session-based tracking.  
-Sealmetrics tracks isolated hits without consent and without cookies.
-
-GA4 loses 50 to 85 percent of data when people reject cookies.  
-Sealmetrics measures 100 percent of traffic.
+This comparison covers the core differences across data accuracy, privacy compliance, features, implementation, and pricing.
 
 ---
 
-## Why is GA4's direct traffic inflated?
+## The Core Problem: Consent-Based Data Loss
 
-If a user accepts cookies mid-journey, GA4 loses attribution and assigns the visit to "Direct".  
-Sealmetrics attributes hit
+GA4 depends on cookies to identify users and track sessions. Under GDPR, visitors must consent before GA4 can set cookies. When they refuse — or simply ignore the banner — GA4 records nothing.
+
+Industry data shows rejection rates vary significantly by country:
+
+| Country | Estimated cookie rejection rate |
+|---------|--------------------------------|
+| Germany | 70–87% |
+| France | 60–73% |
+| Netherlands | 55–65% |
+| Spain | 40–55% |
+| United Kingdom | 35–50% |
+
+*Rates vary by industry, banner design, and implementation. Sources: CNIL annual reports, Eurostat digital economy surveys, CMP vendor benchmarks.*
 
 ... [Read full document at https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics]
 
@@ -7723,7 +7648,7 @@ Each report provides:
 
 
 
-## Complete Guide to Cookieless Analytics 2025
+## Complete Guide to Cookieless Analytics 2026
 
 
 URL: https://docs.sealmetrics.com/guides/complete-guide-cookieless-analytics
@@ -7790,7 +7715,7 @@ After months of development and feedback from hundreds of customers, we've rebui
 - **Faster, cleaner dashboard** — redesigned for clarity and speed
 - **Smarter attribution** — understand exactly where your conversions come from
 - **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and the upcoming EU Digital Omnibus
-- **New API** — more powerful, better
+- **New API** — more power
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 

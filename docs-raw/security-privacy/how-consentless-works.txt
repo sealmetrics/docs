@@ -11,8 +11,8 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 
 ---
 
-# 1. The Core Methodology  
-## Aggregate Measurement Instead of Individual Tracking
+## 1. The Core Methodology
+### Aggregate Measurement Instead of Individual Tracking
 
 ### Traditional Analytics (❌ Requires Consent)
 - Uses cookies to store visitor IDs  
@@ -30,7 +30,7 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 
 ---
 
-# 2. Session-Based Tracking
+## 2. Session-Based Tracking
 
 Sealmetrics uses a privacy-preserving session tracking approach.
 
@@ -55,8 +55,8 @@ Sealmetrics uses a privacy-preserving session tracking approach.
 
 ---
 
-# 3. The Four-Variable System  
-## Sealmetrics Only Captures These Four Anonymous Variables
+## 3. The Four-Variable System
+### Sealmetrics Only Captures These Four Anonymous Variables
 
 Each hit includes:
 
@@ -71,8 +71,8 @@ This extremely minimal dataset makes personal identification technically impossi
 
 ---
 
-# 4. How Data Is Collected and Processed  
-## Technical Flow of Consentless Tracking
+## 4. How Data Is Collected and Processed
+### Technical Flow of Consentless Tracking
 
 ### Step 1 — Event Detection
 - JavaScript tracker detects page views or events  
@@ -91,7 +91,7 @@ This extremely minimal dataset makes personal identification technically impossi
 
 ---
 
-# 5. The “Ping” Methodology  
+## 5. The “Ping” Methodology
 Sealmetrics uses a privacy-safe request system similar to search engines’ crawlers.
 
 ### Traditional Analytics “Pings”  
@@ -106,10 +106,20 @@ Sealmetrics uses a privacy-safe request system similar to search engines’ craw
 
 ---
 
+## 6. Data Storage and Retention
+
+Sealmetrics stores analytics data in aggregated form using a privacy-preserving architecture:
+
+- **No raw personal data** is stored at any point
+- **Aggregated metrics** are stored in ClickHouse for high-performance querying
+- **Data retention** of up to 24 months, configurable per account
+- **European infrastructure** — all data hosted in Dublin, Ireland (EU)
+- **No international data transfers** — data never leaves the EU
+
 ---
 
-# 7. Privacy-Safe Attribution  
-## How Conversions Are Attributed Without Tracking People
+## 7. Privacy-Safe Attribution
+### How Conversions Are Attributed Without Tracking People
 
 Sealmetrics uses:
 
@@ -121,8 +131,8 @@ Conversions are linked to channels — **not to individuals**.
 
 ---
 
-# 8. Compliance by Design  
-## Why Sealmetrics Doesn’t Require Consent
+## 8. Compliance by Design
+### Why Sealmetrics Doesn’t Require Consent
 
 ### GDPR
 - No personal data → GDPR does not apply  
@@ -145,7 +155,7 @@ This is **privacy-by-design**, not privacy-by-policy.
 
 ---
 
-# 9. Real-World Implementation Example
+## 9. Real-World Implementation Example
 
 ```html
 <!-- Basic Sealmetrics Implementation -->
@@ -175,7 +185,7 @@ sealmetrics.micro('add_to_cart', {
 
 ---
 
-# 10. Summary
+## 10. Summary
 
 Sealmetrics consentless tracking provides:
 
@@ -186,3 +196,15 @@ Sealmetrics consentless tracking provides:
 - **Rich analytics** — conversions, funnels, attribution
 
 No cookies. No consent banners. Complete data.
+
+---
+
+**Related reading:**
+
+- [Cookieless Tracking: Technical Deep Dive](/blog/cookieless-tracking-technical-deep-dive) — Extended analysis of the architecture behind consentless tracking
+- [Privacy-First Analytics: Why It Matters](/blog/privacy-first-analytics-2025) — The business case for privacy-first measurement
+- [Real-Time Analytics and Consent](/blog/real-time-tracking-consent) — How daily aggregation enables consentless real-time dashboards
+
+---
+
+*See it in action — [start a free trial](https://my.sealmetrics.com/register) and capture 100% of your traffic from day one.*
