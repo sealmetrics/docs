@@ -9,13 +9,13 @@ const config: Config = {
 
   url: 'https://docs.sealmetrics.com',
   baseUrl: '/',
+  trailingSlash: false,
 
   organizationName: 'rafa-sealmetrics',
   projectName: 'docs',
   deploymentBranch: 'gh-pages',
 
-  onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: 'throw',
 
   future: { v4: true },
 
@@ -32,6 +32,56 @@ const config: Config = {
         name: 'robots',
         content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
       },
+    },
+    {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Organization',
+            '@id': 'https://sealmetrics.com/#organization',
+            name: 'Sealmetrics',
+            url: 'https://sealmetrics.com',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://docs.sealmetrics.com/img/logo.svg',
+            },
+            sameAs: [
+              'https://www.linkedin.com/company/sealmetrics',
+              'https://x.com/sealmetrics',
+              'https://github.com/sealmetrics',
+            ],
+          },
+          {
+            '@type': 'WebSite',
+            '@id': 'https://docs.sealmetrics.com/#website',
+            url: 'https://docs.sealmetrics.com',
+            name: 'Sealmetrics Documentation',
+            publisher: { '@id': 'https://sealmetrics.com/#organization' },
+            inLanguage: 'en-US',
+          },
+          {
+            '@type': 'SoftwareApplication',
+            name: 'Sealmetrics',
+            applicationCategory: 'BusinessApplication',
+            operatingSystem: 'Web',
+            description: 'Consentless web analytics platform that captures 100% of traffic without cookies or consent banners, fully GDPR compliant.',
+            url: 'https://sealmetrics.com',
+            offers: {
+              '@type': 'Offer',
+              price: '199',
+              priceCurrency: 'EUR',
+              priceValidUntil: '2026-12-31',
+            },
+            aggregateRating: undefined,
+            provider: { '@id': 'https://sealmetrics.com/#organization' },
+          },
+        ],
+      }),
     },
   ],
 
@@ -105,6 +155,18 @@ const config: Config = {
       {
         name: 'twitter:card',
         content: 'summary_large_image',
+      },
+      {
+        property: 'og:site_name',
+        content: 'Sealmetrics Docs',
+      },
+      {
+        property: 'og:locale',
+        content: 'en_US',
+      },
+      {
+        name: 'twitter:site',
+        content: '@sealmetrics',
       },
     ],
 

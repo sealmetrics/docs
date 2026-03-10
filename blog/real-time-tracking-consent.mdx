@@ -1,93 +1,224 @@
 ---
 slug: real-time-tracking-consent
-title: "Real-time tracking consent"
-description: "Is real-time tracking consentless?"
+title: "Real-Time Analytics: AEPD and CNIL Consent Rules"
+description: "Does real-time tracking need consent under GDPR? AEPD and CNIL rules on snapshots vs sub-daily windows, and how consentless analytics handles it."
 authors: [rafael-jimenez]
-tags: [analytics, gdpr, privacy, cookieless, consentless]
+tags: [analytics, gdpr, privacy, cookieless, consentless, compliance]
 date: 2025-11-14
+keywords:
+  - real-time analytics consent
+  - consentless real-time tracking
+  - AEPD analytics
+  - CNIL analytics exemption
+  - real-time tracking GDPR
+  - consentless analytics
+  - daily aggregation AEPD
+  - audience measurement consent
 ---
 
-# Real Time Tracking Consent
 
-**Marketers love real-time dashboards.** Seeing how many people are on your site “right now” is exciting. But in Europe, the law is strict: **not all “real-time tracking” is legal without consent.**
-
-[Access to Real Time Tracking Consent Guide](https://resources.sealmetrics.com/real-time-analytics-guide.html)
-
-In this article, we break down what the **CNIL (France)** and the **AEPD (Spain)** actually say, why reports like “last 30 minutes” may put you at legal risk, and how Sealmetrics solves this by design.
+Marketers love real-time dashboards. Seeing how many visitors are on your site right now feels like a direct line to your audience. But in the European Union, real-time tracking sits in a legal gray area that most analytics vendors either ignore or get wrong. The question is not whether real-time analytics is legal -- it is whether the specific implementation you use requires user consent under GDPR.
 <!--truncate-->
 
-## **Why consentless analytics matters**
+The answer depends on a distinction that regulators in Spain and France have drawn clearly but that few analytics platforms have internalized: the difference between a **snapshot** and a **window**. Get this wrong, and your "consentless" analytics setup may actually require a cookie banner you thought you had eliminated.
 
-Consent banners are killing data. In Spain and France, brands lose **30–60% of visits and conversions** when users reject cookies.
+This article breaks down the regulatory framework from both the AEPD (Spain) and CNIL (France), explains the snapshot vs. window distinction with concrete examples, compares how major analytics tools handle real-time data, and shows why architectural decisions at the platform level determine your legal exposure.
 
-Both CNIL and AEPD allow **audience measurement without consent**, but only if the tool meets strict conditions:
+## The Regulatory Framework for Consentless Analytics
 
-- No cross-site tracking.
+Both the Spanish Data Protection Authority (AEPD) and the French Commission Nationale de l'Informatique et des Libertes (CNIL) have published detailed guidance on when web analytics can operate without user consent. These exemptions exist because regulators recognize that basic audience measurement serves a legitimate purpose -- but the exemptions come with strict technical requirements.
 
-- IP anonymization.
+### AEPD: Spain's Daily Aggregation Rule
 
-- Data retention limits.
+The AEPD's 2024 *Guia sobre cookies analiticas de medicion de audiencia* is the most prescriptive guidance any EU data protection authority has issued on analytics consent exemptions. It defines a clear set of conditions that analytics tools must meet to qualify for the audience measurement exemption.
 
-- **Aggregated, anonymous statistics.**
+The conditions include:
 
-👉 The critical detail: **AEPD requires data to be “aggregated daily”** (except page load, which can be hourly).
+- **No cross-site tracking**: The tool must not track users across different websites or domains.
+- **IP anonymization**: IP addresses must be anonymized before any storage or processing.
+- **Data retention limits**: Analytics data cannot be retained indefinitely.
+- **Aggregated, anonymous statistics**: The output must be statistical, not individual-level.
+- **Daily aggregation minimum**: Audience metrics must be aggregated at a daily granularity -- not hourly, not by the minute, not by 30-minute windows.
 
-## **Real-time vs. daily aggregation: the difference that matters**
+That last point is the critical one for real-time analytics. The AEPD explicitly requires that audience measurement data be **aggregated at a daily level**. There is exactly one exception: page load performance metrics, which may be aggregated hourly because performance monitoring serves a distinct technical purpose.
 
-**Allowed without consent:**
+This means that any analytics tool showing you reports like "visits in the last 30 minutes" or "hourly traffic breakdown" is producing sub-daily aggregations that fall outside the AEPD exemption. If those reports are generated from data collected without consent, the tool is non-compliant -- regardless of what its marketing page says about being "cookieless" or "privacy-first."
 
-- *“Today you’ve had 500 pageviews.”*
+### CNIL: France's Exemption Criteria
 
-- *“Right now there are 33 users on the site.”*
+The CNIL takes a slightly different but complementary approach. Its guidance on the analytics consent exemption focuses on three core principles:
 
-- These are **snapshots or daily accumulations**, not logs of individuals.
+- **Purpose limitation**: The analytics must be used strictly for audience measurement -- not advertising, not retargeting, not profiling.
+- **Anonymity**: Data must be anonymized in a way that prevents re-identification of individual users.
+- **No cross-site tracking**: Similar to AEPD, no data sharing across different sites or with third parties.
 
-  **Not allowed without consent:**
+The CNIL does not prescribe a specific aggregation granularity the way the AEPD does. However, it requires that data processing result in **aggregate statistics only**, which implicitly rules out visitor-level logs and individual session tracking. Real-time snapshots of aggregate data (e.g., "142 users currently on site") are acceptable because they represent an ephemeral, anonymous aggregate. But storing sub-daily bucketed data for later analysis crosses the line into non-exempt territory.
 
-- *“Last 30 minutes: 20 visits.”*
+The CNIL maintains a [list of tools](https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies-solutions-pour-les-outils-de-mesure-daudience) that qualify for its exemption, which provides a practical reference for what architectures regulators consider acceptable.
 
-- *Visitor log: this user saw A, then B, then C.*
+### Where Both Regulators Agree
 
-- These are **sub-daily buckets** or individual journeys → **need consent** under AEPD.
+Despite differences in specificity, AEPD and CNIL converge on the same fundamental principle: **consentless analytics must produce aggregate, anonymous statistics -- not individual-level data, and not fine-grained temporal breakdowns that could enable re-identification or behavioral analysis.**
 
+The aggregation requirement is not arbitrary. Sub-daily windows create a risk that, combined with other data points (traffic source, device type, page sequence), an individual user could be identified from ostensibly "anonymous" analytics. Daily aggregation collapses enough data points together that this re-identification risk drops to a level regulators consider acceptable.
 
+## Snapshot vs. Window: The Distinction That Determines Legality
 
-**Snapshot vs. Window:**
+The most important concept for understanding real-time analytics consent is the difference between a **snapshot** and a **window**. These terms are not formal regulatory language, but they precisely describe the two architectural approaches to real-time data -- and only one of them is compatible with consentless analytics.
 
-- *Snapshot (33 users now)* → ephemeral, aggregated, safe.
+### What Is a Snapshot?
 
-- *Window (last 30 min)* → stored sub-daily aggregation, not exonerated → needs consent.
+A snapshot answers the question: "What is happening right now?"
 
-## **What CNIL and AEPD actually say**
+Examples of snapshots:
 
-- **CNIL (France)**: Focuses on anonymity and no profiling. Real-time snapshots are fine if data is aggregated.
+- "There are 33 users currently on the site."
+- "Today so far: 1,247 pageviews."
+- "Current active pages: /pricing (12 users), /blog (8 users), /demo (5 users)."
 
-- **AEPD (Spain)**: Explicitly requires **daily aggregation** for audience metrics, with one exception (page load times by hour).
+A snapshot is **ephemeral**. It reflects the current state of the system at the moment you look at it. It is not stored as a time-series data point. When you refresh the dashboard, you get a new snapshot -- the previous one is gone. The "today so far" counter is a running daily aggregate, which aligns perfectly with the AEPD's daily aggregation requirement.
 
-Source: AEPD, *Guía sobre cookies analíticas de medición de audiencia* (2024).
+Snapshots are compatible with consentless analytics because they are inherently aggregated and inherently anonymous. You cannot reconstruct an individual user's journey from a series of snapshots. The data exists only in the moment, and only in aggregate form.
 
-## **How tools handle this**
+### What Is a Window?
 
-### **Why Sealmetrics is different**
+A window answers the question: "What happened during this specific time period?"
 
-Sealmetrics was built from the ground up to comply with **both CNIL and AEPD**:
+Examples of windows:
 
-- **Real-time data, but always aggregated daily.**
+- "Last 30 minutes: 87 visits."
+- "Traffic between 14:00 and 14:30: 43 sessions."
+- "Hourly breakdown: 9am (120 visits), 10am (156 visits), 11am (189 visits)."
 
-- **No cookies, no fingerprinting, no sub-daily windows.**
+A window is **stored**. To generate a report covering a specific sub-daily time period, the system must retain data at that granularity. This means the platform is creating and persisting sub-daily aggregations -- exactly what the AEPD says falls outside the consent exemption.
 
-- **No visitor logs.**
+Even if each window shows aggregate numbers (not individual users), the existence of stored sub-daily buckets creates a structural problem. An hourly breakdown of traffic by page, combined with referral source data, starts to narrow down the anonymity set. Three visitors from LinkedIn to your pricing page between 2:15pm and 2:30pm is a small enough group that re-identification becomes plausible, especially when combined with CRM data.
 
-- **EU hosting and contracts as data processor.**
+### The Gray Area: "Active Users Right Now"
 
-This means: you can see your traffic “today so far” in real time, but you’ll never risk exposing an individual user’s navigation.
+One metric sits at the boundary: the "active users right now" counter that many analytics tools display. Whether this is a snapshot or a window depends entirely on implementation:
 
-## **Bottom line**
+- **Snapshot implementation**: The system counts currently active connections or sessions in memory. The number is never stored. When a user leaves, the count decrements. This is consentless-safe.
+- **Window implementation**: The system counts unique users who sent at least one event in the last N minutes. This requires storing timestamped per-user events and querying them -- a sub-daily window by another name. This is not consentless-safe under AEPD.
 
-- **Real-time ≠ illegal.** You can show snapshots or today’s totals without consent.
+The difference is invisible on the dashboard. Both approaches show "33 users right now." But the underlying architecture determines whether you need consent.
 
-- **Sub-daily windows (30 min, hourly, logs) = not exonerated.** Require consent under AEPD.
+## How Analytics Tools Handle Real-Time Data
 
-- **Sealmetrics** is the only platform designed to give marketers **real-time visibility and 100% compliance** with both CNIL and AEPD.
+Not all analytics platforms approach real-time data the same way. Their architectural choices have direct consequences for GDPR compliance, and marketers should understand these differences before assuming any tool's privacy claims are accurate.
 
-🔒 *Sealmetrics: Real-time insights. Always aggregated. Always compliant.*
+### GA4 with Consent Mode v2
+
+Google Analytics 4 is a cookie-based tool that relies on consent for full functionality. Google's Consent Mode v2 attempts to model data from users who reject cookies, but this is estimation, not measurement. The real-time report in GA4 ("Users in last 30 minutes") is a classic window implementation -- it stores timestamped events and queries them for the last 30 minutes.
+
+This design requires consent by default. With Consent Mode v2, Google claims to handle consent-denied users through behavioral modeling, but this approach has been [questioned by multiple DPAs](https://noyb.eu/en/noyb-files-gdpr-complaint-against-googles-new-consent-fraud), and the modeled data is not actual measurement. In practice, GA4 loses 30-60% of real visitor data in EU markets due to consent rejection.
+
+### Matomo (Self-Hosted)
+
+Matomo offers a "cookieless" mode and can be configured for some level of privacy compliance. However, Matomo's real-time report ("Visits in Real Time") displays individual visit logs with timestamps, pages visited, referral source, and location. This is visitor-level, sub-daily data -- the opposite of what AEPD requires for the consent exemption.
+
+Even in cookieless mode, Matomo generates visitor logs that track individual browsing sessions. The data is detailed enough to potentially identify individuals, particularly in low-traffic scenarios. Matomo's real-time feature, as architected, does not qualify for the AEPD's audience measurement exemption.
+
+### Plausible Analytics
+
+Plausible takes a privacy-first approach and does not use cookies. Its "Current visitors" counter is a genuine snapshot -- it shows a real-time count without storing sub-daily bucketed data. However, Plausible does offer time-based filtering (last 30 minutes, last hour) in some report views, which edges into window territory.
+
+Plausible has been accepted on the CNIL exemption list, indicating that its overall architecture meets French requirements. Whether it fully satisfies the stricter AEPD daily aggregation rule depends on which specific features are used and how the data is stored.
+
+### Sealmetrics
+
+Sealmetrics was designed from the ground up to comply with both AEPD and CNIL requirements, including the daily aggregation rule. The architectural decisions are fundamental, not bolted on:
+
+- **Real-time dashboard shows daily aggregates only.** You see "today so far" numbers that update in real time, but the underlying data is always aggregated at a daily level. There are no 30-minute windows, no hourly breakdowns, no sub-daily buckets.
+- **No visitor logs.** There is no screen in the product that shows individual user sessions, navigation paths, or per-visitor timelines. The data model does not support it -- this is a deliberate architectural constraint, not a hidden feature.
+- **No cookies and no fingerprinting.** Sealmetrics uses a [consentless tracking architecture](/security-privacy/how-consentless-works) that does not set cookies, does not store IP addresses, and does not generate device fingerprints.
+- **100% data capture.** Because no consent is required, there is no data loss from banner rejection. Every visit is measured, providing the complete dataset that tools like GA4 cannot deliver in EU markets.
+
+The result is that marketers get real-time visibility into their traffic without any legal risk from sub-daily data storage. You know how your site is performing today. You can see trends across days, weeks, and months. You just cannot generate a report titled "Traffic from 2pm to 3pm" -- and that constraint is what keeps the system compliant.
+
+For more details on the technical architecture, see [how consentless tracking works](/security-privacy/how-consentless-works) and [tracker implementation](/implementation/tracker).
+
+## Comparison: Real-Time Analytics Compliance
+
+The following table summarizes how each tool handles the key factors that determine whether real-time analytics requires consent under AEPD and CNIL rules.
+
+| Feature | GA4 + Consent Mode | Matomo (Cookieless) | Plausible | Sealmetrics |
+|---|---|---|---|---|
+| **Cookies required** | Yes | Optional | No | No |
+| **Real-time counter** | Window (30 min) | Visitor log | Snapshot | Daily aggregate |
+| **Sub-daily windows** | Yes | Yes | Limited | No |
+| **Visitor-level logs** | Yes | Yes | No | No |
+| **IP storage** | Yes (hashed) | Configurable | No | No |
+| **AEPD daily aggregation** | No | No | Partial | Yes |
+| **CNIL exemption list** | No | Configurable | Yes | Yes |
+| **Data capture rate (EU)** | 40-70% | 60-80% | 80-95% | 100% |
+| **Consent banner needed** | Yes | Depends | No | No |
+
+## Technical Implementation: Why Architecture Matters
+
+The difference between compliant and non-compliant real-time analytics is not about the dashboard -- it is about the data pipeline behind it. Two systems can show identical numbers on screen while having fundamentally different compliance profiles based on how the data is collected, stored, and queried.
+
+### The Non-Compliant Pattern
+
+A typical non-compliant architecture works like this:
+
+1. **Event collection**: Each pageview or interaction generates a timestamped event with user identifiers (cookie ID, session ID, or fingerprint hash).
+2. **Event storage**: Events are stored individually in a database with full timestamp precision.
+3. **Real-time query**: The "last 30 minutes" report queries all events where `timestamp > now() - 30 minutes` and aggregates them on the fly.
+4. **Result**: The stored data contains sub-daily, user-level records. Even if the dashboard shows aggregate numbers, the underlying data can be queried at any granularity.
+
+This architecture fails the AEPD test because the raw data exists at sub-daily granularity. The daily aggregation must happen at the storage level, not just the display level.
+
+### The Compliant Pattern
+
+Sealmetrics implements a compliant architecture:
+
+1. **Event collection**: Pageviews are captured via a lightweight, [cookieless tracker script](/implementation/tracker) that sends minimal data -- page URL, referrer, and a non-identifying session token.
+2. **Immediate aggregation**: Events are aggregated into daily counters at the point of ingestion. No individual events are stored with sub-daily timestamps.
+3. **Real-time display**: The dashboard reads the running daily aggregate, which updates in real time as new events arrive. The "today so far" number is always current, but the stored granularity is daily.
+4. **Snapshot counters**: The "active users now" metric uses an in-memory counter that tracks current connections. This counter is ephemeral -- it is never persisted to the database.
+
+The infrastructure uses Go and ClickHouse, which provides the performance needed to aggregate at ingestion time without sacrificing real-time responsiveness. The aggregation is not a batch job that runs at midnight -- it happens continuously as data arrives.
+
+For details on Sealmetrics' compliance architecture and certifications, see the [compliance overview](/compliance) and [consentless analytics documentation](/security-privacy/consentless-analytics).
+
+## Practical Implications for Marketing Teams
+
+Understanding the snapshot vs. window distinction has practical consequences beyond legal compliance.
+
+### What You Can Do Without Consent
+
+Under a properly implemented consentless analytics setup that meets AEPD and CNIL requirements, you can:
+
+- **Monitor today's traffic in real time.** Daily aggregates update continuously, giving you a live view of pageviews, sessions, and engagement for the current day.
+- **Compare daily performance.** Day-over-day, week-over-week, and month-over-month comparisons are all based on daily aggregates and fully compliant.
+- **Identify top pages and traffic sources today.** You know which content is performing right now, aggregated at the daily level.
+- **Track campaign launches on day one.** You can see whether a campaign is driving traffic from the moment it goes live, without waiting for next-day reporting.
+- **Capture 100% of visitors.** No consent banner means no data loss. Every visit counts.
+
+### What Requires Consent
+
+If you need any of the following, you must implement a consent mechanism (cookie banner) and accept the associated data loss:
+
+- **Intra-day time breakdowns.** Hourly traffic charts, "last 30 minutes" reports, or time-of-day analysis.
+- **Individual visitor journeys.** Session recordings, user-level page sequences, or individual navigation paths.
+- **Cross-session identification.** Recognizing returning visitors across multiple visits using persistent identifiers.
+- **Cross-site tracking.** Following users across different domains or websites.
+
+### The Trade-Off Is Worth It
+
+For most marketing use cases, daily aggregated data provides everything needed to make decisions. You do not need to know that 14 people visited your pricing page between 2:15pm and 2:45pm. You need to know that your pricing page had 340 visits today, up 12% from yesterday, with 60% arriving from organic search.
+
+The trade-off is clear: give up sub-daily granularity in exchange for 100% data capture and zero legal risk. For any business operating in EU markets, the math strongly favors complete data over granular-but-partial data.
+
+## Bottom Line
+
+Real-time analytics is not inherently illegal under GDPR. The legality depends entirely on how "real-time" is implemented at the architectural level.
+
+**Snapshots and daily aggregates** -- showing current counters and today's running totals -- are compatible with the AEPD and CNIL consent exemptions for audience measurement. They produce anonymous, aggregate statistics that cannot be used to identify or profile individuals.
+
+**Sub-daily windows and visitor logs** -- showing time-bucketed reports, hourly breakdowns, or individual session data -- fall outside the consent exemption. Under AEPD rules, these require a cookie banner and user consent, which means accepting 30-60% data loss in EU markets.
+
+Sealmetrics is built on this distinction. The platform delivers real-time visibility into your traffic with 100% data capture, while maintaining full compliance with both AEPD and CNIL requirements. No cookies, no consent banners, no data loss, no legal gray areas.
+
+If your current analytics setup shows you "last 30 minutes" reports without asking for consent, it is time to reconsider your compliance posture. [See how Sealmetrics works](https://sealmetrics.com) and start capturing the traffic you are currently losing.
