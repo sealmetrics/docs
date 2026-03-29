@@ -14,7 +14,7 @@ All LENS endpoints require authentication via Bearer token:
 
 ```bash
 curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-  https://app.sealmetrics.com/api/lens/...
+  https://my.sealmetrics.com/api/lens/...
 ```
 
 See [Authentication](/api/authentication) for details on obtaining tokens.
@@ -97,7 +97,7 @@ POST /api/lens/chat
 #### Example
 
 ```bash
-curl -X POST https://app.sealmetrics.com/api/lens/chat \
+curl -X POST https://my.sealmetrics.com/api/lens/chat \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
