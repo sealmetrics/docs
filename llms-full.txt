@@ -158,6 +158,14 @@ Your command center for instant insights. See pageviews, sessions, conversions, 
 ### Acquisition Analysis
 Understand exactly where your traffic comes from and which channels drive results. Track performance across:
 
+- **Organic Search** - SEO traffic from Google, Bing, and other search engines
+- **Paid Search** - Google Ads and other PPC campaigns
+- **Social Media** - Facebook, Instagram, LinkedIn, Twitter, and more
+- **Referral Traffic** - Links from other websites
+- **Direct Visits** - Bookmarks and direct URL entries
+- **Email Campaigns** - Newsletter and email marketing performance
+- **Display Advertising** - Banner ads and retargeting campaigns
+
 ... [Read full document at https://docs.sealmetrics.com/getting-started/features]
 
 
@@ -495,10 +503,8 @@ Each Sealmetrics plan includes a monthly allocation of LENS AI questions. This p
 
 | Plan | Questions/Month |
 |------|-----------------|
-| **Starter** | 500 |
 | **Growth** | 1,000 |
 | **Scale** | 2,000 |
-| **Pro** | 5,000 |
 | **Enterprise** | Custom |
 
 Questions reset on the first day of each billing cycle.
@@ -507,7 +513,8 @@ Questions reset on the first day of each billing cycle.
 
 ### Counts as 1 question:
 - Asking a new question
-- Reques
+- Requesting a follow-up analysis
+- Asking for mor
 
 ... [Read full document at https://docs.sealmetrics.com/lens/ai-assistant/question-limits]
 
@@ -535,7 +542,7 @@ Monitor visitor volume and patterns.
 | `new_traffic_source` | New Traffic Source | New source contributing >5% of traffic | >5% share |
 | `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
 | `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35% drop |
-| `organic_traffic_change` | Organic Traffic Change | Significant organic searc
+| `organic_traffic_change` | Organic Traffic Change | Significant organic search cha
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -622,6 +629,8 @@ Projected end-of-day: €4,200
 ```
 
 ### System Alerts
+
+Triggered by technical issues:
 
 ... [Read full document at https://docs.sealmetrics.com/lens/reports/email-alerts]
 
@@ -974,7 +983,7 @@ Shows traffic grouped by UTM Source and Medium combination.
 | **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
 | **Entrances** | Sessions from this source |
 | **Pageviews** | Total page views |
-| **Bounce Rate** | Single-page se
+| **Bounce Rate** | Single-page sessi
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -1006,7 +1015,7 @@ Interactive choropleth map showing traffic distribution by country.
 | Feature | Description |
 |---------|-------------|
 | **Color intensity** | Darker colors indicate more traffic |
-| **Hover tooltip
+| **Hover tooltip** 
 
 ... [Read full document at https://docs.sealmetrics.com/reports/geography]
 
@@ -1117,7 +1126,7 @@ Funnels are configured in Settings. Common examples:
 | E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
 | Lead Generation | Landing Page → Form View → Form Submit → Thank You |
 | SaaS Signup | Homepage → Pricing → Sign Up → Verify Email |
-| Content Engagement | Artic
+| Content Engagement | Article 
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1244,7 +1253,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Conversions](#conversions) | Count of conversion events | Higher |
 | [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
 | [Revenue](#revenue) | Sum of conversion amounts | Higher |
-| [AOV](#average-order-value-aov) | R
+| [AOV](#average-order-value-aov) | Revenu
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1763,6 +1772,8 @@ Track the complete customer journey:
 
 ---
 
+## Step-by-Step Implementation
+
 ... [Read full document at https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide]
 
 
@@ -1862,6 +1873,10 @@ Add this single line to your website's ``
 
 Type in console:
 
+```javascript
+typeof sealmetrics
+```
+
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/step-by-step-guide]
 
 
@@ -1958,7 +1973,7 @@ Simply add the standard tracker script to your site:
 That's it. The tracker automatically:
 
 1. **Tracks initial pageview** on first load
-2. **Detects `pushState` calls** when navigating to new
+2. **Detects `pushState` calls** when navigating to new r
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites]
 
@@ -2186,6 +2201,21 @@ sealmetrics.conv('purchase', 99.99);
 
 Add custom properties to capture detailed conversion data:
 
+```javascript
+// Conversion tracking with detailed properties
+sealmetrics.conv('purchase', 95.99, {
+  product_id: '12345',
+  product_category: 'electronics',
+  currency: 'EUR',
+  payment_method: 'credit_card',
+  shipping_country: 'Germany',
+  discount_code: 'SPRING2024',
+  customer_type: 'returning',
+  color: 'red',
+  size: 'XL'
+});
+```
+
 ... [Read full document at https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties-guide]
 
 
@@ -2228,6 +2258,8 @@ sealmetrics.micro(type, properties);
 ```javascript
 sealmetrics.micro('add_to_cart');
 ```
+
+### Add to Cart with Properties
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/microconversions]
 
@@ -2473,7 +2505,7 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 | `adin` parameter | Supported | Removed |
 | Cookies | Used | None |
 | localStorage | Used | None |
-| Size | ~15 KB | 1,313 bytes (gzipped)
+| Size | ~15 KB | 1,313 bytes (gzipped) |
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/migration-from-v1]
 
@@ -2675,7 +2707,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
-        <Se
+        <SealM
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2754,7 +2786,7 @@ Privacy-first, cookieless analytics for Webflow sites with automatic event track
 3. Add the script to **Inside \<head\> tag**
 4. Publish
 
-## Configur
+## Configurat
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/website-builders/webflow]
 
@@ -3275,7 +3307,7 @@ Include the key in the `X-API-Key` header:
 
 ```bash
 curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
-  -H "X-API-Key: sm_your_
+  -H "X-API-Key: sm_your_ap
 
 ... [Read full document at https://docs.sealmetrics.com/api/authentication]
 
@@ -3982,7 +4014,6 @@ The BigQuery integration allows you to:
 **Base path:** `/integrations/bigquery`
 
 **Note:**
-BigQuery integration is available on Enterprise plans only.
 
 ---
 
@@ -4722,7 +4753,7 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 ### Traditional Analytics (❌ Requires Consent)
 - Uses cookies to store visitor IDs  
 - Reconstructs individual user journeys  
-- Builds detailed behav
+- Builds detailed behavior
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4771,7 +4802,7 @@ This document details everything Sealmetrics *does* and *does not* track, why, a
 # What We DO Track  
 ## The Four-Variable System (Isolated Hits)
 
-Sealmetrics processes each page view (“hit”) independently using **only 
+Sealmetrics processes each page view (“hit”) independently using **only fo
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/what-we-track]
 
@@ -4900,6 +4931,8 @@ The Digital Omnibus proposal (procedure 2025/0360(COD)) has been assigned to **j
 | **LIBE** (Civil Liberties, Justice and Home Affairs) | Joint lead committee |
 
 **Rapporteurs**: Not yet appointed (as of January 2026)
+
+### Open Feedback Periods
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus]
 
@@ -5042,6 +5075,10 @@ The Omnibus amends **Article 4** to codify the Court of Justice of the European 
 **Key principle**: Data that is personal for one entity may NOT be personal for another.
 
 **Example scenario:**
+
+A hospital shares pseudonymized medical records with a research institution:
+- **For the hospital**: Personal data (they have the key to re-identify)
+- **For the researcher**: NOT personal data (they cannot re-identify)
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/gdpr-changes]
 
@@ -5335,6 +5372,8 @@ The Digital Omnibus transforms data intermediation from a mandatory compliance b
 - Professional data cooperatives (freelancers share skills/availability data)
 
 **Value**: Collective bargaining power, shared benefits, democratic governance
+
+#### 4. Personal Data Intermediaries
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/data-intermediation]
 
@@ -6246,7 +6285,7 @@ Export your Sealmetrics data to Google BigQuery for custom SQL analysis, machine
 
 ## Prerequisites
 
-- Sealmetrics Growth plan or above
+- Any Sealmetrics plan (Growth, Scale, or Enterprise)
 - Google Cloud Platform (GCP) account
 - BigQuery API enabled in GCP
 - GCP service account with BigQuery permissions
@@ -6277,8 +6316,6 @@ Service Account Details:
 ```
 
 5. Click **Create and Continue**
-
-## Step 2: Grant Permissions
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/integrations/bigquery]
 
@@ -6609,6 +6646,14 @@ Custom dimensions let you add your own fields:
 
 Attached to individual events. Pass as properties in your tracking calls:
 
+```javascript
+// Conversion with custom dimensions as properties
+sealmetrics.conv('purchase', 149.99, {
+  product_category: 'Electronics',
+  page_type: 'product-detail',
+  payment_method: 'credit_card'
+});
+
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/tracking/custom-dimensions]
 
 
@@ -6747,7 +6792,7 @@ By default, Sealmetrics uses **DeepSeek Local** via Ollama:
 |--------|---------|
 | **Provider** | Self-hosted DeepSeek (via Ollama) |
 | **Cost** | Free (included in your plan) |
-| **Privacy** | Maximum - data never leaves S
+| **Privacy** | Maximum - data never leaves Sealm
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -6850,49 +6895,19 @@ URL: https://docs.sealmetrics.com/billing
 
 # Plans & Pricing
 
-Sealmetrics offers five volume-based plans designed to scale with your business needs. All plans include unlimited websites, unlimited users, privacy-first tracking, attribution modeling, and core reporting features.
+Sealmetrics offers three volume-based plans designed to scale with your business needs. All plans include unlimited websites, unlimited users, privacy-first tracking, attribution modeling, and core reporting features.
 
 ## Plan Comparison
 
-| Feature | Starter | Growth | Scale | Pro | Enterprise |
-|---------|:-------:|:------:|:-----:|:---:|:----------:|
-| **Monthly Price** | €229 | €459 | €919 | €1,724 | Custom |
-| **Annual Price (per month)** | €199 | €399 | €799 | €1,499 | Cus
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| **Monthly Price** | €599 | €1,079 | Custom |
+| **Annual Price (per month)** | €499 | €899 | Custom |
+| **Monthly Events** | 5M | 15M | Unlimited |
+
+### Core
 
 ... [Read full document at https://docs.sealmetrics.com/billing]
-
-
-
-## Starter Plan
-
-
-URL: https://docs.sealmetrics.com/billing/plans/starter
-
-
-# Starter Plan
-
-The Starter plan is designed for small e-commerce businesses and startups getting started with privacy-first analytics.
-
-## Pricing
-
-| Billing | Price | Per Month |
-|---------|-------|-----------|
-| Monthly | €229/month | €229 |
-| Annual | €2,388/year | €199 (save €360) |
-
-## What's Included
-
-### Events & Tracking
-
-| Feature | Included |
-|---------|----------|
-| Monthly events | 1,000,000 |
-| Websites | Unlimited |
-| Data retention | 24 months |
-| First-party tracking | Yes |
-| C
-
-... [Read full document at https://docs.sealmetrics.com/billing/plans/starter]
 
 
 
@@ -6904,14 +6919,14 @@ URL: https://docs.sealmetrics.com/billing/plans/growth
 
 # Growth Plan
 
-The Growth plan is designed for growing teams that need BigQuery export and higher event volumes. This is our most popular plan.
+The Growth plan is designed for growing teams and mid-size e-commerce businesses that need full analytics capabilities with BigQuery export and API access.
 
 ## Pricing
 
 | Billing | Price | Per Month |
 |---------|-------|-----------|
-| Monthly | €459/month | €459 |
-| Annual | €4,788/year | €399 (save €720) |
+| Monthly | €599/month | €599 |
+| Annual | €5,988/year | €499 (2 months free) |
 
 ## What's Included
 
@@ -6921,10 +6936,39 @@ The Growth plan is designed for growing teams that need BigQuery export and high
 |---------|----------|
 | Monthly events | 5,000,000 |
 | Websites | Unlimited |
-| Data retention | 24 months |
-| First-party tracking | Y
+| Data retention | 24 mont
 
 ... [Read full document at https://docs.sealmetrics.com/billing/plans/growth]
+
+
+
+## Scale Plan
+
+
+URL: https://docs.sealmetrics.com/billing/plans/scale
+
+
+# Scale Plan
+
+The Scale plan is designed for multi-brand retailers and larger organizations that need webhooks, audit logs, Agent AI Analytics, and higher event volumes. This is our most popular plan.
+
+## Pricing
+
+| Billing | Price | Per Month |
+|---------|-------|-----------|
+| Monthly | €1,079/month | €1,079 |
+| Annual | €10,788/year | €899 (2 months free) |
+
+## What's Included
+
+### Events & Tracking
+
+| Feature | Included |
+|---------|----------|
+| Monthly events | 15,000,000 |
+| Websites | Un
+
+... [Read full document at https://docs.sealmetrics.com/billing/plans/scale]
 
 
 
@@ -6940,37 +6984,38 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 
 ## Quick Comparison
 
-| | Starter | Growth | Scale | Pro | Enterprise |
-|---|:---:|:---:|:---:|:---:|:---:|
-| **Monthly Price** | €229 | €459 | €919 | €1,724 | Custom |
-| **Annual (per month)** | €199 | €399 | €799 | €1,499 | Custom |
-| **Monthly Events** | 1M | 5M | 25M | 100M | Unlimited |
-| **Websites** | Unlimited | Unlimited | Unlimited | Unlimited | Unlimited |
+| | Growth | Scale | Enterprise |
+|---|:---:|:---:|:---:|
+| **Monthly Price** | €599 | €1,079 | Custom |
+| **Annual (per month)** | €499 | €899 | Custom |
+| **Monthly Events** | 5M | 15M | Unlimited |
+| **Websites** | Unlimited | Unlimited | Unlimited |
 
 ---
 
 ## Events & Data
 
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Monthly events | 5M
+
 ... [Read full document at https://docs.sealmetrics.com/billing/features-comparison]
 
 
 
-## Scale Plan
+## Enterprise Plan
 
 
-URL: https://docs.sealmetrics.com/billing/plans/scale
+URL: https://docs.sealmetrics.com/billing/plans/enterprise
 
 
-# Scale Plan
+# Enterprise Plan
 
-The Scale plan is designed for multi-brand retailers that need webhooks, audit logs, and higher event volumes.
+The Enterprise plan is designed for large organizations with custom requirements, unlimited events, and dedicated support.
 
 ## Pricing
 
-| Billing | Price | Per Month |
-|---------|-------|-----------|
-| Monthly | €919/month | €919 |
-| Annual | €9,588/year | €799 (save €1,440) |
+Custom pricing based on your organization's needs. [Contact sales](mailto:sales@sealmetrics.com) for a personalized quote.
 
 ## What's Included
 
@@ -6978,46 +7023,13 @@ The Scale plan is designed for multi-brand retailers that need webhooks, audit l
 
 | Feature | Included |
 |---------|----------|
-| Monthly events | 25,000,000 |
+| Monthly events | Unlimited |
 | Websites | Unlimited |
-| Data retention | 24 months |
+| Data retention | Custom |
 | First-party tracking | Yes |
-| Cookie-fr
+| Cookie-free mod
 
-... [Read full document at https://docs.sealmetrics.com/billing/plans/scale]
-
-
-
-## Pro Plan
-
-
-URL: https://docs.sealmetrics.com/billing/plans/pro
-
-
-# Pro Plan
-
-The Pro plan is designed for large retail groups with high traffic volumes and demanding performance requirements.
-
-## Pricing
-
-| Billing | Price | Per Month |
-|---------|-------|-----------|
-| Monthly | €1,724/month | €1,724 |
-| Annual | €17,988/year | €1,499 (save €2,700) |
-
-## What's Included
-
-### Events & Tracking
-
-| Feature | Included |
-|---------|----------|
-| Monthly events | 100,000,000 |
-| Websites | Unlimited |
-| Data retention | 24 months |
-| First-party tracking | Yes |
-|
-
-... [Read full document at https://docs.sealmetrics.com/billing/plans/pro]
+... [Read full document at https://docs.sealmetrics.com/billing/plans/enterprise]
 
 
 
@@ -7029,25 +7041,27 @@ URL: https://docs.sealmetrics.com/billing/usage-limits
 
 # Usage & Limits
 
-Learn how Sealmetrics tracks usage, what counts toward your limits, and how to manage overages.
+Learn how Sealmetrics tracks usage, what counts toward your limits, and how the no-overage billing model works.
 
 ## Event Limits
 
 Each plan includes a monthly event allowance:
 
-| Plan | Monthly Events | Overage per 100K |
-|------|---------------|-----------------|
-| Starter | 1,000,000 | €20 |
-| Growth | 5,000,000 | €15 |
-| Scale | 25,000,000 | €10 |
-| Pro | 100,000,000 | €8 |
-| Enterprise | Unlimited | - |
+| Plan | Monthly Events |
+|------|---------------|
+| Growth | 5,000,000 |
+| Scale | 15,000,000 |
+| Enterprise | Unlimited |
 
 ### What Counts as an Event
 
 All tracked interactions count toward your event limit:
 
-|
+| Event Type | Counts? | Notes |
+|------------|:-------:|-------|
+| Pageview | Yes | Standard page load |
+| Virtual pageview (SPA) | Yes | Single-page app navigation |
+| Custo
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -7089,36 +7103,6 @@ Add more AI questions for LENS.
 
 
 
-## Enterprise Plan
-
-
-URL: https://docs.sealmetrics.com/billing/plans/enterprise
-
-
-# Enterprise Plan
-
-The Enterprise plan is designed for large organizations with custom requirements, unlimited events, and dedicated support.
-
-## Pricing
-
-Custom pricing based on your organization's needs. [Contact sales](mailto:sales@sealmetrics.com) for a personalized quote.
-
-## What's Included
-
-### Events & Tracking
-
-| Feature | Included |
-|---------|----------|
-| Monthly events | Unlimited |
-| Websites | Unlimited |
-| Data retention | Custom |
-| First-party tracking | Yes |
-| Cookie-free mod
-
-... [Read full document at https://docs.sealmetrics.com/billing/plans/enterprise]
-
-
-
 ## Invoices & Payments
 
 
@@ -7142,10 +7126,10 @@ Invoices
 
 Invoice       Date         Amount      Status
 ─────────────────────────────────────────────
-INV-2024-01   Jan 15       €591.69     ✅ Paid
-INV-2023-12   Dec 15       €555.39     ✅ Paid
-INV-2023-11   Nov 15       €555.39     ✅ Paid
-INV-2023-10   Oct 15       €555.39     ✅ Paid
+INV-2024-01   Jan 15       €760.59     ✅ Paid
+INV-2023-12   Dec 15       €724.39     ✅ Paid
+INV-2023-11   Nov 15       €724.39     ✅ Paid
+INV-2023-10   Oct 15       €724.39     ✅ Paid
 
 [Download All] [Filter by Date]
 ```
@@ -7182,17 +7166,17 @@ Common questions about plans, pricing, and billing.
 
 | Your Situation | Recommended Plan |
 |----------------|------------------|
-| Small e-commerce, up to 1M events | Starter |
-| Growing team, need BigQuery, up to 5M events | Growth |
-| Multi-brand retailer, up to 25M events | Scale |
-| Large retail group, up to 100M events | Pro |
+| Growing team, up to 5M events | Growth |
+| Multi-brand retailer, up to 15M events | Scale |
 | Unlimited events, custom requirements | Enterprise |
 
 ### Can I try before I buy?
 
-Yes! All plans include a **14-day free trial** with full features. A credit card is required to start your trial, but your card will not be charged during the 14-day trial period.
+Yes! All plans include a **14-day free trial** with full features. No credit card required.
 
 ### Is there a free plan?
+
+No, but our 14-day free trial gives you full access to evaluate the platform. We also offer special pricing for nonprofits and early-stage startups.
 
 ... [Read full document at https://docs.sealmetrics.com/billing/faq]
 
@@ -7234,7 +7218,7 @@ You should see:
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
 2. Go to **Real-time** report
 3. Visit your website in another tab
-4. Your v
+4. Your visi
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7650,6 +7634,8 @@ Traditional cookie-based analytics (including Google Analytics) stores a persist
 4. Each subsequent visit references that same cookie
 5. Platform links all visits to same user ID
 
+Cookieless analytics eliminates this dependency. Instead, it might use:
+
 ... [Read full document at https://docs.sealmetrics.com/guides/complete-guide-cookieless-analytics]
 
 
@@ -7689,7 +7675,7 @@ After months of development and feedback from hundreds of customers, we've rebui
 - **Faster, cleaner dashboard** — redesigned for clarity and speed
 - **Smarter attribution** — understand exactly where your conversions come from
 - **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and the upcoming EU Digital Omnibus
-- **New API** — mor
+- **New API** — more p
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 
