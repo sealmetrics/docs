@@ -543,7 +543,7 @@ Monitor visitor volume and patterns.
 | `new_traffic_source` | New Traffic Source | New source contributing >5% of traffic | >5% share |
 | `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
 | `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35% drop |
-| `organic_traffic_change` | Organic Traffic Change | Significant organic search change | >
+| `organic_traffic_change` | Organic Traffic Change | Significant organic search change |
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -986,7 +986,7 @@ Shows traffic grouped by UTM Source and Medium combination.
 | **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
 | **Entrances** | Sessions from this source |
 | **Pageviews** | Total page views |
-| **Bounce Rate** | Single-page session pe
+| **Bounce Rate** | Single-page session p
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -1018,7 +1018,7 @@ Interactive choropleth map showing traffic distribution by country.
 | Feature | Description |
 |---------|-------------|
 | **Color intensity** | Darker colors indicate more traffic |
-| **Hover tooltip** | S
+| **Hover tooltip** | 
 
 ... [Read full document at https://docs.sealmetrics.com/reports/geography]
 
@@ -1131,7 +1131,7 @@ Funnels are configured in Settings. Common examples:
 | E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
 | Lead Generation | Landing Page → Form View → Form Submit → Thank You |
 | SaaS Signup | Homepage → Pricing → Sign Up → Verify Email |
-| Content Engagement | Article View →
+| Content Engagement | Article View
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1258,7 +1258,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Conversions](#conversions) | Count of conversion events | Higher |
 | [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
 | [Revenue](#revenue) | Sum of conversion amounts | Higher |
-| [AOV](#average-order-value-aov) | Revenue / Conv
+| [AOV](#average-order-value-aov) | Revenue / Co
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1978,7 +1978,7 @@ Simply add the standard tracker script to your site:
 That's it. The tracker automatically:
 
 1. **Tracks initial pageview** on first load
-2. **Detects `pushState` calls** when navigating to new route
+2. **Detects `pushState` calls** when navigating to new rout
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites]
 
@@ -2544,6 +2544,22 @@ Event properties extend the standard conversion payload with information such as
 
 
 
+## Why Use the Defer Attribute on the SealMetrics Pixel
+
+
+URL: https://docs.sealmetrics.com/implementation/defer-attribute-pixel-script
+
+
+Adding `defer` to your SealMetrics pixel script is a small change with a measurable impact on page load performance. This page explains what `defer` does, why it matters for analytics scripts, and how to apply it correctly.
+
+## What Is the Defer Attribute
+
+The `defer` attribute is a standard HTML attribute for `<script>` tags. It tells the browser to download the script in the background while continuing to parse the rest of the HTML, and to execute the script only after the document has been fu
+
+... [Read full document at https://docs.sealmetrics.com/implementation/defer-attribute-pixel-script]
+
+
+
 ---
 
 # Integrations
@@ -2696,7 +2712,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
-        <SealMetri
+        <SealMetr
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -3254,7 +3270,7 @@ Include the key in the `X-API-Key` header:
 
 ```bash
 curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
-  -H "X-API-Key: sm_your_api_ke
+  -H "X-API-Key: sm_your_api_k
 
 ... [Read full document at https://docs.sealmetrics.com/api/authentication]
 
@@ -3452,11 +3468,6 @@ Returns all organizations the current user belongs to.
   }
 }
 ```
-
-| Field | Description |
-|-------|-------------|
-| `can_create_org` | `true` if user can create a new organization |
-| `user_role` | Current user's role in this organization |
 
 ... [Read full document at https://docs.sealmetrics.com/api/organizations]
 
@@ -4577,8 +4588,6 @@ This isn't a marketing claim. It's architecturally impossible for Sealmetrics to
 
 ### The Four-Variable System
 
-Every interaction on your website is captured using exactly four data points:
-
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/overview]
 
 
@@ -4730,7 +4739,7 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 ### Traditional Analytics (❌ Requires Consent)
 - Uses cookies to store visitor IDs  
 - Reconstructs individual user journeys  
-- Builds detailed behavioral pr
+- Builds detailed behavioral p
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4779,7 +4788,7 @@ This document details everything Sealmetrics *does* and *does not* track, why, a
 # What We DO Track  
 ## The Four-Variable System (Isolated Hits)
 
-Sealmetrics processes each page view (“hit”) independently using **only four n
+Sealmetrics processes each page view (“hit”) independently using **only four 
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/what-we-track]
 
@@ -6771,7 +6780,7 @@ By default, Sealmetrics uses **DeepSeek Local** via Ollama:
 |--------|---------|
 | **Provider** | Self-hosted DeepSeek (via Ollama) |
 | **Cost** | Free (included in your plan) |
-| **Privacy** | Maximum - data never leaves Sealmetri
+| **Privacy** | Maximum - data never leaves Sealmetr
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -7071,7 +7080,7 @@ Each plan includes a monthly event allowance:
 
 All tracked interactions count toward your event limit:
 
-| Event
+| Even
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -7258,7 +7267,7 @@ You should see:
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
 2. Go to **Real-time** report
 3. Visit your website in another tab
-4. Your visit sh
+4. Your visit s
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7715,7 +7724,7 @@ After months of development and feedback from hundreds of customers, we've rebui
 - **Faster, cleaner dashboard** — redesigned for clarity and speed
 - **Smarter attribution** — understand exactly where your conversions come from
 - **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and the upcoming EU Digital Omnibus
-- **New API** — more power
+- **New API** — more powe
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 
