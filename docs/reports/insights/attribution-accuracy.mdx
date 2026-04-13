@@ -1,0 +1,184 @@
+---
+title: How Attribution Accuracy Works
+sidebar_label: Attribution Accuracy
+description: Understand the two levels of attribution accuracy in SealMetrics — why total conversions are always exact, how channel-level attribution works, and what trade-offs make consentless measurement possible.
+sidebar_position: 2
+keywords:
+  - attribution accuracy
+  - conversion attribution
+  - consentless attribution
+  - channel accuracy
+  - session window
+  - rejoined traffic
+---
+
+# How Attribution Accuracy Works
+
+SealMetrics operates with two distinct levels of accuracy, and understanding both is essential for interpreting your reports correctly.
+
+| Level | What it measures | Accuracy |
+|-------|-----------------|----------|
+| **Total account** | All conversions and revenue | **Exact** — no sampling, no loss |
+| **By channel / source** | Split across SEO, Paid, Email, Social, etc. | **High** — with a small, bounded bias |
+| **Per individual conversion** | Row-by-row traceability | **Not guaranteed** — direct consequence of consentless measurement |
+
+This is not a limitation to work around. It is the result of a deliberate design — one that makes it possible to measure 100% of your traffic without a cookie banner.
+
+---
+
+## Level 1: Total Conversions Are Always Exact
+
+Every conversion that fires on your site is recorded. Always.
+
+SealMetrics does not sample, model, or estimate conversions. There is no consent gate that filters out a portion of your visitors before measurement begins. The conversion count you see in your dashboard reflects the full reality of what happened on your site — and it should match your payment processor or CRM to within the margin of duplicate pixel fires.
+
+**What this means in practice:**
+
+- A purchase that happens at 2 AM from a visitor who never accepted any consent prompt: counted.
+- A lead form submitted from a visitor using a strict ad blocker: counted (assuming first-party tracking is configured).
+- A conversion from a visitor on an obscure browser with privacy extensions: counted.
+
+No other approach — cookie-based, consent-gated, or modeled — captures all of these. They either require consent to fire (and miss everyone who declines), or they model what they cannot see (introducing estimation error at the total level). SealMetrics measures them all.
+
+---
+
+## Level 2: Channel Attribution — High, With a Bounded Bias
+
+Attributing a conversion to the right channel requires knowing which traffic source brought the visitor who converted. In a world without persistent user identifiers, this is done by maintaining the origin of each active session.
+
+When a visitor arrives from a campaign — through UTM parameters, a referrer domain, or a recognized click ID — that source is associated with their current session. If they convert within that session, the conversion inherits the same origin. This is last-touch attribution: the channel that brought the visitor to the site gets credit for the conversion that happens during that visit.
+
+**This works well the vast majority of the time.**
+
+However, because SealMetrics does not use individual identifiers, there are rare scenarios where two visitors with very similar device profiles are active at the same time and one of them converts. In those cases, the attribution may reflect the most recently detected source for that profile group rather than the source that actually drove the converting visit.
+
+### The bilateral compensation effect
+
+This is the key property that keeps channel-level reporting reliable at scale:
+
+When an attribution exchange occurs — where a conversion from Source A is credited to Source B — the reverse also tends to happen at some point: a conversion from Source B gets credited to Source A. These exchanges are bidirectional and symmetrical. They do not systematically favor any one channel.
+
+At the account level, the net effect per channel tends toward zero. The more traffic you have, the more exchanges occur — but also the more compensation, because the bilateral nature of the effect scales with volume.
+
+```
+Channel A → conversion credited to B
+Channel B → conversion credited to A
+                ↓
+Net effect per channel ≈ balanced
+```
+
+The residual bias that remains after compensation depends on the spread between your channels' conversion rates. When all your channels convert at roughly similar rates, the residual bias is negligible. When one channel has a dramatically higher conversion rate than others, a small net bias in its favor is possible — but it remains bounded and predictable.
+
+---
+
+## Why This Bias Exists: A Deliberate Privacy Trade-off
+
+The attribution bias at channel level exists for one reason: SealMetrics does not use IP addresses — not in full, not truncated, not hashed — at any point in session identification.
+
+IP addresses are classified as personal data under GDPR (Court of Justice of the EU, *Breyer* ruling, C-582/14). Processing them — even in anonymized form — constitutes personal data processing and triggers consent requirements under ePrivacy. Any analytics tool that uses IP addresses in its session identification, regardless of how they are processed afterward, is operating in a gray area of privacy law.
+
+SealMetrics made the opposite choice: build a measurement system that truly does not depend on the IP address. This means the session identifier has lower entropy — it groups visitors rather than pinpointing individuals — and that is precisely what makes it consentless.
+
+**The bias is the price of genuine consentless operation.** It is small, bounded, and self-correcting at scale. And it comes with the benefit of measuring 100% of your traffic — including every visitor who would have rejected a consent banner.
+
+---
+
+## The Session Window: Built for Real Purchase Journeys
+
+SealMetrics uses a **2-hour session window**.
+
+The industry standard for most analytics tools is 30 minutes of inactivity. SealMetrics uses a 2-hour window by design, based on observed behavior in real e-commerce environments.
+
+A visitor who arrives from a paid campaign does not always convert immediately. They browse product pages, compare options, check reviews, look at sizing guides, leave the tab open while they do something else, and come back. In categories like apparel, electronics, travel, or B2B software, the window between arrival and purchase often stretches well beyond 30 minutes.
+
+With a 30-minute session window, a visitor who arrives from a Google Ads campaign and converts 45 minutes later would have their session expire mid-journey. When they interact with the site again, there is no active UTM and no referrer — so the conversion gets attributed to Direct traffic. The original campaign gets no credit for a conversion it drove.
+
+With a 2-hour session window, the origin of the visit remains active throughout the decision process. The conversion is attributed to the campaign that actually brought the visitor to the site.
+
+---
+
+## Rejoined Traffic: When Sessions Expire Before Conversion
+
+For visits that extend beyond the 2-hour window — multi-day research cycles, B2B evaluations, high-consideration purchases — SealMetrics uses a dedicated channel called **Rejoined**.
+
+Rejoined traffic represents visitors who returned to your site after their session expired, without arriving through a new campaign link or referrer. Rather than misclassifying this traffic as Direct (which would inflate that channel and obscure what is actually happening), SealMetrics labels it explicitly.
+
+This distinction matters for reporting:
+
+- **Direct** means someone typed your URL or used an untracked bookmark.
+- **Rejoined** means someone came back to a tab or site they had already visited, after the original session closed.
+
+These represent different behaviors and should be analyzed differently. For more detail, see [What is Rejoined Traffic?](/reports/insights/rejoined-traffic).
+
+---
+
+## What Each Conversion Record Contains
+
+Every conversion stored in SealMetrics includes the following attribution fields:
+
+| Field | Description |
+|-------|-------------|
+| **Date and time** | When the conversion was recorded |
+| **Conversion type** | e.g. `purchase`, `lead`, `signup` |
+| **Value** | Revenue amount (if passed) |
+| **Source** | UTM source or referring domain |
+| **Medium** | UTM medium |
+| **Campaign** | UTM campaign name |
+| **Content** | UTM content (if passed) |
+| **Term** | UTM term (if passed) |
+| **Grouped channel** | Organic Search, Paid Search, Email, Direct, Social, Referral, etc. |
+| **Landing page** | The first page the visitor saw in that session |
+| **Country** | Derived from a one-time geolocation lookup |
+| **Device type** | Desktop, tablet, mobile |
+| **Browser** | Chrome, Safari, Firefox, etc. |
+| **Operating system** | Windows, macOS, iOS, Android, etc. |
+| **Extended properties** | Product-level data if passed (brand, category, SKU, etc.) |
+
+**What each conversion record does not contain:**
+
+- IP address (not stored in any form)
+- Email address or any user identifier
+- Cookie ID or device fingerprint
+- Any data that traces the conversion to a specific individual
+
+This means you can analyze conversions by channel, campaign, landing page, device, and geography — with full precision at the aggregate level — without any personal data being involved.
+
+---
+
+## Payment Gateway Attribution
+
+SealMetrics recognizes return traffic from known payment gateways (PayPal, Stripe redirect flows, and similar) and handles it correctly.
+
+When a visitor completes a purchase and the browser is redirected through a payment gateway before returning to your confirmation page, the referrer on that final page would normally appear as the payment gateway's domain. SealMetrics detects these patterns and preserves the original session origin, so the conversion is attributed to the actual campaign or channel that drove the visit — not to the payment processor.
+
+---
+
+## Summary: Three Levels of Precision
+
+Understanding these three levels helps you use SealMetrics data with the right expectations:
+
+### Total conversions and revenue
+**Exact.** Every conversion fires and is recorded. No sampling. No modeled estimates. The total in your SealMetrics dashboard is the ground truth for what happened on your site.
+
+Use this for: reporting to stakeholders, reconciling with your payment processor, evaluating overall business performance.
+
+### Channel and campaign attribution
+**High accuracy.** The split across channels is reliable and directionally correct. The bilateral compensation effect means that errors at the individual level tend to cancel out at the reporting level. Minor bounded bias may be present, particularly for accounts with high traffic concentration and large conversion rate spreads between channels.
+
+Use this for: budget allocation, campaign optimization, channel performance comparison, ROAS evaluation.
+
+### Individual conversion traceability
+**Not guaranteed.** SealMetrics does not provide a verified link between a specific conversion row and the specific visitor who generated it. This is a direct consequence of not using individual identifiers.
+
+Any system that offers individual conversion traceability without consent is either using personal data (IP, fingerprint, or login) — which requires consent — or making probabilistic inferences. SealMetrics does neither.
+
+Use aggregate channel data for decisions. Do not use individual conversion rows as ground truth for per-person analysis.
+
+---
+
+## Related Articles
+
+- [What is Rejoined Traffic?](/reports/insights/rejoined-traffic) — How SealMetrics handles sessions that extend beyond the active window
+- [Attribution Without a User-ID](/security-privacy/attribution-without-userid) — The mechanics of source-based attribution in a consentless system
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — The legal and technical foundations of measuring without consent
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — Technical overview of the session-based measurement system
