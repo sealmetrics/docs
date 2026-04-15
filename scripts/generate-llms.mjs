@@ -203,7 +203,14 @@ function walkDir(dir) {
   return files;
 }
 
-function docPathToUrl(filePath) {
+function docPathToUrl(filePath, slug) {
+  // If frontmatter has a slug override, use it
+  if (slug) {
+    const cleanSlug = slug.startsWith('/') ? slug.slice(1) : slug;
+    if (!cleanSlug) return BASE_URL;
+    return `${BASE_URL}/${cleanSlug}`;
+  }
+
   let rel = relative(DOCS_DIR, filePath);
   // Remove extension
   rel = rel.replace(/\.(mdx?|md)$/, '');
@@ -232,7 +239,7 @@ function discoverDocs() {
       filePath,
       relativePath: rel,
       topDir,
-      url: docPathToUrl(filePath),
+      url: docPathToUrl(filePath, frontmatter.slug),
       title: frontmatter.title || basename(filePath, extname(filePath)),
       description: frontmatter.description || '',
       sidebarPosition: typeof frontmatter.sidebar_position === 'number'

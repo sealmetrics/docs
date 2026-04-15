@@ -1,0 +1,356 @@
+# BigQuery
+
+URL: https://docs.sealmetrics.com/integrations/bigquery
+
+# BigQuery
+
+Connect SealMetrics to Google BigQuery to unlock advanced SQL analysis, custom reporting, and seamless integration with your data warehouse and BI tools.
+
+---
+
+## Why BigQuery?
+
+SealMetrics dashboards cover the most common analytics needs. But when you need to go deeper, BigQuery gives you:
+
+- **Custom SQL queries** on raw pageview, session, and conversion data
+- **BI tool integration** with Looker, Data Studio, Tableau, or Power BI
+- **Cross-platform joins** combining analytics with CRM, ad spend, or backend data
+- **Machine learning** using BigQuery ML on your traffic and conversion patterns
+- **Long-term storage** with flexible retention beyond your SealMetrics plan limits
+
+**Tip:**
+
+---
+
+## How It Works
+
+SealMetrics automatically exports your analytics data to a BigQuery dataset on a schedule you configure. The sync process:
+
+1. Extracts data from your SealMetrics account
+2. Transforms it into structured BigQuery tables
+3. Loads it into your GCP project on your chosen schedule (hourly, daily, or weekly)
+
+Your data stays in **your** Google Cloud project — SealMetrics never stores copies outside your account.
+
+---
+
+## Prerequisites
+
+Before starting, make sure you have:
+
+1. Any **SealMetrics plan** (Growth, Scale, or Enterprise)
+2. A **Google Cloud Platform (GCP) account** with billing enabled
+3. The **BigQuery API** enabled in your GCP project
+4. A **GCP service account** (you'll create this in the next steps)
+
+---
+
+## Step-by-Step Connection Guide
+
+### 1. Create a GCP Project (if needed)
+
+If you don't have a GCP project yet:
+
+1. Go to [console.cloud.google.com](https://console.cloud.google.com)
+2. Click **Select a project → New Project**
+3. Name it (e.g., `sealmetrics-analytics`) and click **Create**
+4. Make sure billing is enabled for the project
+
+### 2. Enable the BigQuery API
+
+1. In Google Cloud Console, go to **APIs & Services → Library**
+2. Search for **BigQuery API**
+3. Click **Enable** (if not already enabled)
+
+### 3. Create a Service Account
+
+The service account allows SealMetrics to write data to your BigQuery dataset securely.
+
+1. Go to **IAM & Admin → Service Accounts**
+2. Click **+ Create Service Account**
+3. Fill in the details:
+
+```
+Service Account Details:
+  Name: sealmetrics-export
+  ID: sealmetrics-export
+  Description: Service account for SealMetrics BigQuery export
+```
+
+4. Click **Create and Continue**
+
+### 4. Grant BigQuery Permissions
+
+Assign the following roles to the service account:
+
+| Role | ID | Purpose |
+|------|----|---------|
+| BigQuery Data Editor | `roles/bigquery.dataEditor` | Create tables and insert data |
+| BigQuery Job User | `roles/bigquery.jobUser` | Run data load jobs |
+
+Click **Continue** and then **Done**.
+
+**Note:**
+
+### 5. Generate the JSON Key
+
+1. Click on the service account you just created
+2. Go to the **Keys** tab
+3. Click **Add Key → Create new key**
+4. Select **JSON** format
+5. Click **Create**
+
+A `.json` file will download automatically. **Keep this file secure** — it grants access to your BigQuery dataset.
+
+### 6. Configure in SealMetrics
+
+1. Log in to your SealMetrics account
+2. Go to **Settings → Integrations → BigQuery**
+3. Upload your JSON key file (or paste its contents)
+4. Configure your dataset:
+
+```
+Dataset Configuration
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GCP Project:  your-project-id (detected from credentials)
+
+Dataset Name: [sealmetrics_analytics       ]
+              (created automatically if it doesn't exist)
+
+Location:     [EU (europe-west1)              ▼]
+
+Table Prefix: [sm_                            ]
+              Tables: sm_pageviews, sm_conversions, etc.
+```
+
+5. Choose your sync schedule:
+
+```
+Sync Schedule
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sync Frequency:
+  ○ Hourly
+  ● Daily at [03:00] UTC
+  ○ Weekly on [Sunday] at [03:00] UTC
+
+Data to Export:
+  ☑ Pageviews
+  ☑ Events
+  ☑ Conversions
+  ☑ Sessions (aggregated)
+  ☐ Raw hits (high volume)
+
+Historical Backfill:
+  ☑ Export historical data
+    From: [2024-01-01] (max 24 months)
+```
+
+6. Click **Activate Integration**
+
+### 7. Verify the Connection
+
+After activation, the initial sync will start. You can monitor progress in the integration status panel:
+
+```
+BigQuery Integration Status
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status: ✅ Active
+
+Last Sync:     Today at 03:15 UTC
+Records Synced: 1,234,567
+Next Sync:     Tomorrow at 03:00 UTC
+
+Tables:
+  sm_pageviews     1,023,456 rows
+  sm_events          156,789 rows
+  sm_conversions      34,567 rows
+  sm_sessions         89,012 rows
+
+[View in BigQuery]  [Sync Now]  [Pause]
+```
+
+**Caution:**
+
+---
+
+## Data Available in BigQuery
+
+SealMetrics exports four main tables:
+
+### Pageviews (`sm_pageviews`)
+
+Every page view with URL, title, referrer, UTM parameters, device info, and geographic data.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | STRING | Unique pageview ID |
+| `timestamp` | TIMESTAMP | When the pageview occurred |
+| `session_id` | STRING | Session identifier |
+| `page_url` | STRING | Full page URL |
+| `page_path` | STRING | URL path |
+| `page_title` | STRING | Page title |
+| `referrer` | STRING | Referring URL |
+| `utm_source` | STRING | UTM source |
+| `utm_medium` | STRING | UTM medium |
+| `utm_campaign` | STRING | UTM campaign |
+| `device_type` | STRING | mobile / desktop / tablet |
+| `browser` | STRING | Browser name |
+| `country` | STRING | ISO country code |
+| `content_group` | STRING | Content group |
+| `custom_dimensions` | JSON | Custom dimensions |
+
+### Sessions (`sm_sessions`)
+
+Aggregated session data with engagement metrics.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `session_id` | STRING | Unique session ID |
+| `started_at` | TIMESTAMP | Session start |
+| `landing_page` | STRING | Entry page path |
+| `utm_source` | STRING | Traffic source |
+| `utm_medium` | STRING | Traffic medium |
+| `country` | STRING | Country code |
+| `device_type` | STRING | Device type |
+| `page_views` | INTEGER | Pages viewed |
+| `duration_seconds` | INTEGER | Session duration |
+| `is_bounce` | BOOLEAN | Bounce flag |
+
+### Conversions (`sm_conversions`)
+
+Conversion events with attribution and revenue data.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | STRING | Unique conversion ID |
+| `timestamp` | TIMESTAMP | When it occurred |
+| `session_id` | STRING | Session identifier |
+| `conversion_type` | STRING | Conversion label |
+| `amount` | FLOAT | Conversion value |
+| `currency` | STRING | Currency code |
+| `utm_source` | STRING | Attributed source |
+| `attribution_model` | STRING | Attribution model used |
+
+### Microconversions (`sm_microconversions`)
+
+Lightweight engagement events (scroll depth, video plays, CTA clicks, etc.).
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `event_id` | STRING | Unique event ID |
+| `session_id` | STRING | Session identifier |
+| `event_type` | STRING | Event type |
+| `event_data` | JSON | Event metadata |
+| `occurred_at` | TIMESTAMP | Event timestamp |
+
+---
+
+## Example Queries
+
+Once your data is flowing, try these queries in the [BigQuery Console](https://console.cloud.google.com/bigquery):
+
+### Daily Traffic Overview
+
+```sql
+SELECT
+  DATE(timestamp) AS date,
+  COUNT(*) AS pageviews,
+  COUNT(DISTINCT session_id) AS sessions,
+  COUNT(DISTINCT user_id) AS users
+FROM `your-project.sealmetrics_analytics.sm_pageviews`
+WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+GROUP BY date
+ORDER BY date DESC
+```
+
+### Revenue by Traffic Source
+
+```sql
+SELECT
+  utm_source,
+  utm_medium,
+  COUNT(*) AS conversions,
+  SUM(amount) AS revenue,
+  ROUND(AVG(amount), 2) AS avg_order_value
+FROM `your-project.sealmetrics_analytics.sm_conversions`
+WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+GROUP BY utm_source, utm_medium
+ORDER BY revenue DESC
+```
+
+### Top Landing Pages by Engagement
+
+```sql
+SELECT
+  s.landing_page,
+  COUNT(*) AS sessions,
+  ROUND(AVG(s.duration_seconds), 0) AS avg_duration,
+  ROUND(SUM(CASE WHEN s.is_bounce THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) AS bounce_rate
+FROM `your-project.sealmetrics_analytics.sm_sessions` s
+WHERE s.started_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 7 DAY)
+GROUP BY s.landing_page
+HAVING sessions >= 10
+ORDER BY sessions DESC
+LIMIT 20
+```
+
+---
+
+## Troubleshooting
+
+### "Permission Denied" Error
+
+- Verify the service account has **BigQuery Data Editor** and **BigQuery Job User** roles
+- Confirm the service account belongs to the correct GCP project
+- Check that GCP billing is active
+
+### Sync Not Running
+
+1. Confirm the integration status is **Active** in **Settings → Integrations → BigQuery**
+2. Verify your service account credentials haven't been revoked
+3. Check the sync logs for error details
+
+### Missing Data
+
+- Data syncs with a 1-2 hour delay from collection
+- Verify your date range covers the expected period
+- Check that the relevant data types are enabled in your export settings
+
+### Reducing BigQuery Costs
+
+- Tables are **partitioned by date** by default — always filter by date in your queries
+- Use `SELECT` only the columns you need instead of `SELECT *`
+- Avoid scanning full tables — use `WHERE timestamp >= ...` clauses
+- Set up [BigQuery budget alerts](https://cloud.google.com/billing/docs/how-to/budgets) in GCP
+
+---
+
+## Costs
+
+### SealMetrics Side
+
+BigQuery integration is **included at no extra cost** with all plans (Growth, Scale, and Enterprise).
+
+### Google Cloud Side
+
+You pay Google directly for storage and queries:
+
+| Resource | Approximate Cost | Notes |
+|----------|-----------------|-------|
+| Storage | ~$0.02/GB/month | Typically $1-2/month for mid-size sites |
+| Queries | ~$5/TB scanned | Depends on query complexity and frequency |
+
+For a site with ~1M events/month, expect approximately **$5-20/month** in GCP costs depending on query usage.
+
+**Tip:**
+
+---
+
+## Next Steps
+
+- **Advanced configuration**: See [BigQuery Settings](/platform/settings/integrations/bigquery) for data retention, sync options, and detailed schema
+- **API access**: Use the [BigQuery API](/api/bigquery) to manage the integration programmatically
+- **Build dashboards**: Connect [Looker Studio](https://lookerstudio.google.com) to your BigQuery dataset for custom visualizations

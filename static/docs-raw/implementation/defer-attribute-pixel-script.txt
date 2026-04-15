@@ -1,0 +1,11 @@
+# Why Use the Defer Attribute on the SealMetrics Pixel
+
+URL: https://docs.sealmetrics.com/implementation/defer-attribute-pixel-script
+
+Adding `defer` to your SealMetrics pixel script is a small change with a measurable impact on page load performance. This page explains what `defer` does, why it matters for analytics scripts, and how to apply it correctly.
+
+## What Is the Defer Attribute
+
+The `defer` attribute is a standard HTML attribute for `<script>` tags. It tells the browser to download the script in the background while continuing to parse the rest of the HTML, and to execute the script only after the document has been fully parsed.
+
+Without `defer`, a `<script>` tag is **render-blocking** by default: the browser stops parsing HTML, waits for the script to download and execute, and only then continues building the page.

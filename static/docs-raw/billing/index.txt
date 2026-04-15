@@ -4,15 +4,15 @@ URL: https://docs.sealmetrics.com/billing
 
 # Plans & Pricing
 
-Sealmetrics offers five volume-based plans designed to scale with your business needs. All plans include unlimited websites, unlimited users, privacy-first tracking, attribution modeling, and core reporting features.
+Sealmetrics offers three volume-based plans designed to scale with your business needs. All plans include unlimited websites, unlimited users, privacy-first tracking, attribution modeling, and core reporting features.
 
 ## Plan Comparison
 
-| Feature | Starter | Growth | Scale | Pro | Enterprise |
-|---------|:-------:|:------:|:-----:|:---:|:----------:|
-| **Monthly Price** | €229 | €459 | €919 | €1,724 | Custom |
-| **Annual Price (per month)** | €199 | €399 | €799 | €1,499 | Custom |
-| **Monthly Events** | 1M | 5M | 25M | 100M | Unlimited |
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| **Monthly Price** | €599 | €1,079 | Custom |
+| **Annual Price (per month)** | €499 | €899 | Custom |
+| **Monthly Events** | 5M | 15M | Unlimited |
 
 ### Core Features (All Plans)
 
@@ -20,69 +20,56 @@ All plans include:
 - Unlimited websites
 - Unlimited users
 - 24 months data retention
-- API access
+- Full API access
+- MCP Server
+- BigQuery export
+- CSV/JSON export
 - LENS AI (Chat + Insights)
-- Agent Analytics (AI agent detection)
 - Conversion tracking
 - Funnel analysis
 - Bot detection & fraud protection
 - Consentless tracking
+- Real-time data (< 2 min)
 - Email reports & alerts
+- Multi-site portfolio view
 
 ### Plan Differences
 
-| Feature | Starter | Growth | Scale | Pro | Enterprise |
-|---------|:-------:|:------:|:-----:|:---:|:----------:|
-| Monthly events | 1M | 5M | 25M | 100M | Unlimited |
-| AI questions/month | 500 | 1,000 | 2,000 | 5,000 | Custom |
-| BigQuery export | - | Yes | Yes | Yes | Yes |
-| Webhooks | - | - | Yes | Yes | Yes |
-| Audit logs | - | - | Yes | Yes | Yes |
-| SSO (SAML) | - | - | - | - | Yes |
-| SLA | 99% | 99% | 99.5% | 99.9% | 99.9% |
-| Support | Email | Email + Chat | Priority | Priority | Dedicated AM |
-| Onboarding | Docs | Docs | 1 session | 3 sessions | White-glove |
-| Overage per 100K | €20 | €15 | €10 | €8 | - |
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Monthly events | 5M | 15M | Unlimited |
+| AI questions/month | 1,000 | 2,000 | Custom |
+| Agent AI Analytics | - | Coming Soon | Coming Soon |
+| Webhooks | - | Yes | Yes |
+| Audit logs | - | Yes | Yes |
+| Role-based access | Basic | Advanced | Full |
+| SSO (SAML) | - | - | Yes |
+| SLA | 99% | 99.5% | 99.9% |
+| Support | Email + Chat | Priority | Dedicated AM |
+| Onboarding | Docs | 1 session | White-glove |
 
 ## Choosing the Right Plan
 
-### Starter (€229/month, €199 annual)
+### Growth (€599/month, €499 annual)
 
-**Best for:** Small e-commerce businesses and startups
-
-Choose Starter if you:
-- Are getting started with privacy-first analytics
-- Have up to 1M monthly events
-- Need all core features without BigQuery
-
-### Growth (€459/month, €399 annual)
-
-**Best for:** Growing teams that need BigQuery export
+**Best for:** Growing teams and mid-size e-commerce businesses
 
 Choose Growth if you:
-- Need BigQuery integration for custom analysis
 - Have up to 5M monthly events
-- Want chat support and more AI questions
+- Need BigQuery integration for custom analysis
+- Want full API access and MCP Server
+- Need all core analytics and reporting features
 
-### Scale (€919/month, €799 annual)
+### Scale (€1,079/month, €899 annual)
 
-**Best for:** Multi-brand retailers
+**Best for:** Multi-brand retailers and larger organizations
 
 Choose Scale if you:
+- Have up to 15M monthly events
 - Need webhooks and audit logs
-- Have up to 25M monthly events
+- Want Agent AI Analytics to track AI bot traffic (coming soon)
 - Require advanced role-based access control
 - Need priority support
-
-### Pro (€1,724/month, €1,499 annual)
-
-**Best for:** Large retail groups
-
-Choose Pro if you:
-- Have up to 100M monthly events
-- Need 99.9% SLA guarantee
-- Want maximum API throughput (960 req/min)
-- Need dedicated onboarding sessions
 
 ### Enterprise (Custom pricing)
 
@@ -93,6 +80,19 @@ Choose Enterprise if you:
 - Require SSO (SAML) integration
 - Want a dedicated account manager
 - Need isolated data processing
+- Require 99.9% SLA guarantee
+
+## Event Limits & Upgrades
+
+Sealmetrics uses a **no overage** billing model:
+
+- **No surprise charges** — your monthly price is fixed
+- **Tracking never stops** — if you exceed your event limit, data collection continues
+- **Free overage month** — one month per year of overage is absorbed at no extra cost
+- **Auto-upgrade** — if you exceed 120% of your limit for 2+ consecutive months, you'll be upgraded to the next tier
+- **Downgrade suggestions** — if your usage drops below 50% for 3+ months, we'll suggest a more suitable plan
+
+**Tip:**
 
 ## Getting Started
 
@@ -106,15 +106,15 @@ Yes, you can upgrade or downgrade at any time. Changes take effect immediately:
 
 ### Is there a free trial?
 
-Yes, all plans include a 14-day free trial with full features. A credit card is required at signup, but your card will not be charged during the 14-day trial period.
+Yes, all plans include a 14-day free trial with full features. No credit card required.
 
 ### What happens if I exceed my event limit?
 
-Tracking continues without interruption. Overage is billed per 100,000 additional events at your plan's overage rate. You'll receive notifications at 80% and 100% usage.
+Tracking continues without interruption. There are no overage charges — your monthly price stays fixed. If you consistently exceed your limit, you'll be automatically upgraded to the next plan tier.
 
 ### Do you offer discounts?
 
-- **Annual billing:** Save approximately 15% compared to monthly
+- **Annual billing:** Save approximately 17% compared to monthly (2 months free)
 - **Nonprofits:** 50% discount (contact us)
 - **Startups:** Special pricing available (contact us)
 
@@ -126,9 +126,8 @@ Yes, cancel anytime with no penalties. You'll retain access until the end of you
 
 ## More Information
 
-- [Starter Plan Details](./plans/starter)
-- [Growth Plan Details](./plans/growth)
-- [Scale Plan Details](./plans/scale)
-- [Pro Plan Details](./plans/pro)
-- [Enterprise Plan Details](./plans/enterprise)
-- [Usage & Limits](./usage-limits)
+- [Growth Plan Details](/billing/plans/growth)
+- [Scale Plan Details](/billing/plans/scale)
+- [Enterprise Plan Details](/billing/plans/enterprise)
+- [Features Comparison](/billing/features-comparison)
+- [Usage & Limits](/billing/usage-limits)

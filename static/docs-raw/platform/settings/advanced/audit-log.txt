@@ -273,12 +273,11 @@ Review account security posture:
 
 ## Log Retention
 
-Audit logs are available on Scale, Pro, and Enterprise plans.
+Audit logs are available on Scale and Enterprise plans.
 
 | Plan | Retention Period |
 |------|------------------|
 | Scale | 90 days |
-| Pro | 1 year |
 | Enterprise | Custom |
 
 Logs are automatically deleted after the retention period. Export regularly if you need longer retention.
@@ -288,7 +287,7 @@ Logs are automatically deleted after the retention period. Export regularly if y
 Query audit logs programmatically (Scale plan and above):
 
 ```bash
-curl https://app.sealmetrics.com/api/audit-log \
+curl https://my.sealmetrics.com/api/audit-log \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -d "start_date=2024-01-01" \
   -d "end_date=2024-01-31" \
