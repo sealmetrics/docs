@@ -68,7 +68,7 @@ Create a file called `.mcp.json` in your project root:
   "mcpServers": {
     "sealmetrics": {
       "command": "npx",
-      "args": ["-y", "@sealmetrics/mcp-server"],
+      "args": ["-y", "@sealmetrics/mcp"],
       "env": {
         "SEALMETRICS_API_KEY": "sm_your_key_here",
         "SEALMETRICS_SITE_ID": "your-site-id"
@@ -94,7 +94,7 @@ To make SealMetrics available in **all your projects**, add the same config to `
   "mcpServers": {
     "sealmetrics": {
       "command": "npx",
-      "args": ["-y", "@sealmetrics/mcp-server"],
+      "args": ["-y", "@sealmetrics/mcp"],
       "env": {
         "SEALMETRICS_API_KEY": "sm_your_key_here",
         "SEALMETRICS_SITE_ID": "your-site-id"
@@ -199,7 +199,7 @@ Install Node.js from [nodejs.org](https://nodejs.org/). npx is bundled with Node
 You can verify the server starts correctly from your terminal:
 
 ```bash
-SEALMETRICS_API_KEY="sm_your_key_here" npx -y @sealmetrics/mcp-server
+SEALMETRICS_API_KEY="sm_your_key_here" npx -y @sealmetrics/mcp
 ```
 
 If it starts without errors, the server is working. Press Ctrl+C to stop it.
@@ -216,7 +216,7 @@ Your machine                             SealMetrics cloud
 │                          │            │                      │
 │  Claude Code / Desktop   │            │  my.sealmetrics.com  │
 │          |               │            │                      │
-│  @sealmetrics/mcp-server │── HTTPS ──>│  /api/v1/*           │
+│  @sealmetrics/mcp │── HTTPS ──>│  /api/v1/*           │
 │  (runs locally via npx)  │<── JSON ───│                      │
 │          |               │            │                      │
 │  Claude reads the data   │            └──────────────────────┘
@@ -234,7 +234,7 @@ Your machine                             SealMetrics cloud
 
 ## Resources
 
-- **npm**: [@sealmetrics/mcp-server](https://www.npmjs.com/package/@sealmetrics/mcp-server)
+- **npm**: [@sealmetrics/mcp](https://www.npmjs.com/package/@sealmetrics/mcp)
 - **Source code**: [github.com/adinton/sealmetrics2/tree/main/mcp-server](https://github.com/adinton/sealmetrics2/tree/main/mcp-server)
 - **MCP Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io/)
 - **API Reference**: [API Documentation](/api)

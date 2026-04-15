@@ -158,14 +158,6 @@ Your command center for instant insights. See pageviews, sessions, conversions, 
 ### Acquisition Analysis
 Understand exactly where your traffic comes from and which channels drive results. Track performance across:
 
-- **Organic Search** - SEO traffic from Google, Bing, and other search engines
-- **Paid Search** - Google Ads and other PPC campaigns
-- **Social Media** - Facebook, Instagram, LinkedIn, Twitter, and more
-- **Referral Traffic** - Links from other websites
-- **Direct Visits** - Bookmarks and direct URL entries
-- **Email Campaigns** - Newsletter and email marketing performance
-- **Display Advertising** - Banner ads and retargeting campaigns
-
 ... [Read full document at https://docs.sealmetrics.com/getting-started/features]
 
 
@@ -542,7 +534,7 @@ Monitor visitor volume and patterns.
 | `new_traffic_source` | New Traffic Source | New source contributing >5% of traffic | >5% share |
 | `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
 | `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35% drop |
-| `organic_traffic_change` | Organic Traffic Change | Significant organic search cha
+| `organic_traffic_change` | Organic Traffic Change | Significant organic 
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -629,8 +621,6 @@ Projected end-of-day: €4,200
 ```
 
 ### System Alerts
-
-Triggered by technical issues:
 
 ... [Read full document at https://docs.sealmetrics.com/lens/reports/email-alerts]
 
@@ -838,6 +828,38 @@ This binary classification forms the foundation of Sealmetrics’ traffic attrib
 
 
 
+## How Attribution Accuracy Works
+
+
+URL: https://docs.sealmetrics.com/reports/insights/attribution-accuracy
+
+
+# How Attribution Accuracy Works
+
+SealMetrics operates with two distinct levels of accuracy, and understanding both is essential for interpreting your reports correctly.
+
+| Level | What it measures | Accuracy |
+|-------|-----------------|----------|
+| **Total account** | All conversions and revenue | **Exact** — no sampling, no loss |
+| **By channel / source** | Split across SEO, Paid, Email, Social, etc. | **High** — with a small, bounded bias |
+| **Per individual conversion** | Row-by-row traceability | **Not guaranteed** — direct consequence of consentless measurement |
+
+This is not a limitation to work around. It is the result of a deliberate design — one that makes it possible to measure 100% of your traffic without a cookie banner.
+
+---
+
+## Level 1: Total Conversions Are Always Exact
+
+Every conversion that fires on your site is recorded. Always.
+
+SealMetrics does not sample, model, or estimate conversions. There is no consent gate that filters out a portion of your visitors before measurement begins. The conversion count you see in your dashboard reflects the full reality of what happened on your site — and it should match your payment processor or CRM to within the margin of duplicate pixel fires.
+
+**What this means in practice:**
+
+... [Read full document at https://docs.sealmetrics.com/reports/insights/attribution-accuracy]
+
+
+
 ## Overview Report
 
 
@@ -983,7 +1005,7 @@ Shows traffic grouped by UTM Source and Medium combination.
 | **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
 | **Entrances** | Sessions from this source |
 | **Pageviews** | Total page views |
-| **Bounce Rate** | Single-page sessi
+| **Bounce Rate** | Single-page
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -1015,7 +1037,7 @@ Interactive choropleth map showing traffic distribution by country.
 | Feature | Description |
 |---------|-------------|
 | **Color intensity** | Darker colors indicate more traffic |
-| **Hover tooltip** 
+| **Hover tool
 
 ... [Read full document at https://docs.sealmetrics.com/reports/geography]
 
@@ -1126,7 +1148,7 @@ Funnels are configured in Settings. Common examples:
 | E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
 | Lead Generation | Landing Page → Form View → Form Submit → Thank You |
 | SaaS Signup | Homepage → Pricing → Sign Up → Verify Email |
-| Content Engagement | Article 
+| Content Engagement | A
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1253,7 +1275,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Conversions](#conversions) | Count of conversion events | Higher |
 | [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
 | [Revenue](#revenue) | Sum of conversion amounts | Higher |
-| [AOV](#average-order-value-aov) | Revenu
+| [AOV](#average-order-value-ao
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1772,8 +1794,6 @@ Track the complete customer journey:
 
 ---
 
-## Step-by-Step Implementation
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide]
 
 
@@ -1873,10 +1893,6 @@ Add this single line to your website's ``
 
 Type in console:
 
-```javascript
-typeof sealmetrics
-```
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/step-by-step-guide]
 
 
@@ -1973,7 +1989,7 @@ Simply add the standard tracker script to your site:
 That's it. The tracker automatically:
 
 1. **Tracks initial pageview** on first load
-2. **Detects `pushState` calls** when navigating to new r
+2. **Detects `pushState` calls** when navigating to 
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites]
 
@@ -2201,21 +2217,6 @@ sealmetrics.conv('purchase', 99.99);
 
 Add custom properties to capture detailed conversion data:
 
-```javascript
-// Conversion tracking with detailed properties
-sealmetrics.conv('purchase', 95.99, {
-  product_id: '12345',
-  product_category: 'electronics',
-  currency: 'EUR',
-  payment_method: 'credit_card',
-  shipping_country: 'Germany',
-  discount_code: 'SPRING2024',
-  customer_type: 'returning',
-  color: 'red',
-  size: 'XL'
-});
-```
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties-guide]
 
 
@@ -2258,8 +2259,6 @@ sealmetrics.micro(type, properties);
 ```javascript
 sealmetrics.micro('add_to_cart');
 ```
-
-### Add to Cart with Properties
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/microconversions]
 
@@ -2364,8 +2363,6 @@ Works out of the box with:
 | Remix | @remix-run/react | Yes |
 
 Any router that uses the History API is automatically supported.
-
-## Installation
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/spa-support]
 
@@ -2505,7 +2502,7 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 | `adin` parameter | Supported | Removed |
 | Cookies | Used | None |
 | localStorage | Used | None |
-| Size | ~15 KB | 1,313 bytes (gzipped) |
+| Size | ~15 KB | 1,313 bytes (gzip
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/migration-from-v1]
 
@@ -2707,7 +2704,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
-        <SealM
+        
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2786,7 +2783,7 @@ Privacy-first, cookieless analytics for Webflow sites with automatic event track
 3. Add the script to **Inside \<head\> tag**
 4. Publish
 
-## Configurat
+## Confi
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/website-builders/webflow]
 
@@ -3186,8 +3183,6 @@ SealMetrics automatically exports your analytics data to a BigQuery dataset on a
 
 Your data stays in **your** Google Cloud project — SealMetrics never stores copies outside your account.
 
----
-
 ... [Read full document at https://docs.sealmetrics.com/integrations/bigquery]
 
 
@@ -3307,7 +3302,7 @@ Include the key in the `X-API-Key` header:
 
 ```bash
 curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
-  -H "X-API-Key: sm_your_ap
+  -H "X-API-Key: sm_yo
 
 ... [Read full document at https://docs.sealmetrics.com/api/authentication]
 
@@ -4753,7 +4748,7 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 ### Traditional Analytics (❌ Requires Consent)
 - Uses cookies to store visitor IDs  
 - Reconstructs individual user journeys  
-- Builds detailed behavior
+- Builds detailed be
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4802,7 +4797,7 @@ This document details everything Sealmetrics *does* and *does not* track, why, a
 # What We DO Track  
 ## The Four-Variable System (Isolated Hits)
 
-Sealmetrics processes each page view (“hit”) independently using **only fo
+Sealmetrics processes each page view (“hit”) independently using **on
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/what-we-track]
 
@@ -4931,8 +4926,6 @@ The Digital Omnibus proposal (procedure 2025/0360(COD)) has been assigned to **j
 | **LIBE** (Civil Liberties, Justice and Home Affairs) | Joint lead committee |
 
 **Rapporteurs**: Not yet appointed (as of January 2026)
-
-### Open Feedback Periods
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus]
 
@@ -5075,10 +5068,6 @@ The Omnibus amends **Article 4** to codify the Court of Justice of the European 
 **Key principle**: Data that is personal for one entity may NOT be personal for another.
 
 **Example scenario:**
-
-A hospital shares pseudonymized medical records with a research institution:
-- **For the hospital**: Personal data (they have the key to re-identify)
-- **For the researcher**: NOT personal data (they cannot re-identify)
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/gdpr-changes]
 
@@ -5306,12 +5295,6 @@ Before the Omnibus, organizations navigating EU data regulation must comply with
 
 **Scope**: Public sector information re-use
 
-**Focus**:
-- Open data by default
-- High-value datasets publication
-- Charging principles
-- Exclusive arrangements prohibition
-
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/data-consolidation]
 
 
@@ -5372,8 +5355,6 @@ The Digital Omnibus transforms data intermediation from a mandatory compliance b
 - Professional data cooperatives (freelancers share skills/availability data)
 
 **Value**: Collective bargaining power, shared benefits, democratic governance
-
-#### 4. Personal Data Intermediaries
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/data-intermediation]
 
@@ -6646,14 +6627,6 @@ Custom dimensions let you add your own fields:
 
 Attached to individual events. Pass as properties in your tracking calls:
 
-```javascript
-// Conversion with custom dimensions as properties
-sealmetrics.conv('purchase', 149.99, {
-  product_category: 'Electronics',
-  page_type: 'product-detail',
-  payment_method: 'credit_card'
-});
-
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/tracking/custom-dimensions]
 
 
@@ -6792,7 +6765,7 @@ By default, Sealmetrics uses **DeepSeek Local** via Ollama:
 |--------|---------|
 | **Provider** | Self-hosted DeepSeek (via Ollama) |
 | **Cost** | Free (included in your plan) |
-| **Privacy** | Maximum - data never leaves Seal
+| **Privacy** | Maximum - data never leave
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -6997,7 +6970,7 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 
 | Feature | Growth | Scale | Enterprise |
 |---------|:------:|:-----:|:----------:|
-| Monthly events | 5M |
+| Monthly events 
 
 ... [Read full document at https://docs.sealmetrics.com/billing/features-comparison]
 
@@ -7061,7 +7034,7 @@ All tracked interactions count toward your event limit:
 |------------|:-------:|-------|
 | Pageview | Yes | Standard page load |
 | Virtual pageview (SPA) | Yes | Single-page app navigation |
-| Custom event |
+| Custom e
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -7218,7 +7191,7 @@ You should see:
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
 2. Go to **Real-time** report
 3. Visit your website in another tab
-4. Your visi
+4. You
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7634,8 +7607,6 @@ Traditional cookie-based analytics (including Google Analytics) stores a persist
 4. Each subsequent visit references that same cookie
 5. Platform links all visits to same user ID
 
-Cookieless analytics eliminates this dependency. Instead, it might use:
-
 ... [Read full document at https://docs.sealmetrics.com/guides/complete-guide-cookieless-analytics]
 
 
@@ -7675,7 +7646,7 @@ After months of development and feedback from hundreds of customers, we've rebui
 - **Faster, cleaner dashboard** — redesigned for clarity and speed
 - **Smarter attribution** — understand exactly where your conversions come from
 - **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and the upcoming EU Digital Omnibus
-- **New API** — more p
+- **New API** — 
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 
