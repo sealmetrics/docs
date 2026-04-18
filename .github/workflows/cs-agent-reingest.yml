@@ -1,0 +1,47 @@
+name: cs-agent re-ingest
+  on:
+    push:
+      branches: [main]
+      paths:
+        - 'docs/**'
+        - 'blog/**'
+        - 'integrations/**'
+    workflow_dispatch:
+
+  concurrency:
+    group: cs-agent-reingest
+    cancel-in-progress: false
+
+  jobs:
+    trigger:
+      runs-on: ubuntu-latest
+      timeout-minutes: 10
+      steps:
+        - name: Trigger ingest via SSH
+          env:
+            SSH_HOST: ${{ secrets.HETZNER_SSH_HOST }}
+            SSH_USER: ${{ secrets.HETZNER_SSH_USER }}
+            SSH_KEY:  ${{ secrets.HETZNER_SSH_KEY }}
+          run: |
+            # Enmascara host/user por si GitHub no los detecta automáticamente
+            # (repo público → logs públicos).
+            echo "::add-mask::$SSH_HOST"
+            echo "::add-mask::$SSH_USER"
+
+            mkdir -p ~/.ssh
+            printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+            chmod 600 ~/.ssh/id_ed25519
+
+            # -q silencia mensajes informativos, BatchMode evita prompts
+            # interactivos, ConnectTimeout evita colgarse.
+            # Redirigimos stdout/stderr a /dev/null: el único dato que
+            # exponemos en el log público es el exit code.
+            ssh -q \
+                -o BatchMode=yes \
+                -o StrictHostKeyChecking=accept-new \
+                -o ConnectTimeout=15 \
+                -o ServerAliveInterval=30 \
+                -i ~/.ssh/id_ed25519 \
+                "$SSH_USER@$SSH_HOST" \
+                > /dev/null 2>&1
+            echo "ingest triggered, exit=$?"
