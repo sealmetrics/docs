@@ -1,5 +1,5 @@
 name: cs-agent re-ingest
-  on:
+on:
     push:
       branches: [main]
       paths:
@@ -8,11 +8,11 @@ name: cs-agent re-ingest
         - 'integrations/**'
     workflow_dispatch:
 
-  concurrency:
+concurrency:
     group: cs-agent-reingest
     cancel-in-progress: false
 
-  jobs:
+jobs:
     trigger:
       runs-on: ubuntu-latest
       timeout-minutes: 10
@@ -23,8 +23,6 @@ name: cs-agent re-ingest
             SSH_USER: ${{ secrets.HETZNER_SSH_USER }}
             SSH_KEY:  ${{ secrets.HETZNER_SSH_KEY }}
           run: |
-            # Enmascara host/user por si GitHub no los detecta automáticamente
-            # (repo público → logs públicos).
             echo "::add-mask::$SSH_HOST"
             echo "::add-mask::$SSH_USER"
 
@@ -32,10 +30,6 @@ name: cs-agent re-ingest
             printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
             chmod 600 ~/.ssh/id_ed25519
 
-            # -q silencia mensajes informativos, BatchMode evita prompts
-            # interactivos, ConnectTimeout evita colgarse.
-            # Redirigimos stdout/stderr a /dev/null: el único dato que
-            # exponemos en el log público es el exit code.
             ssh -q \
                 -o BatchMode=yes \
                 -o StrictHostKeyChecking=accept-new \
