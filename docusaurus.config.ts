@@ -24,13 +24,37 @@ const config: Config = {
     locales: ['en'],
   },
 
-  // 🚀 META TAGS PARA LLMs - Robots directives
+  // Site-wide meta + Organization/WebSite JSON-LD only.
+  // SoftwareApplication is injected on the homepage only via src/pages or docs/index.mdx <Head>.
   headTags: [
     {
       tagName: 'meta',
       attributes: {
         name: 'robots',
         content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preload',
+        as: 'image',
+        href: '/img/logo.svg',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://pixel.sealmetrics.com',
+        crossorigin: 'anonymous',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'theme-color',
+        content: '#00A47C',
       },
     },
     {
@@ -48,13 +72,22 @@ const config: Config = {
             url: 'https://sealmetrics.com',
             logo: {
               '@type': 'ImageObject',
-              url: 'https://docs.sealmetrics.com/img/logo.svg',
+              url: 'https://docs.sealmetrics.com/img/logo.png',
             },
+            description:
+              'Consentless web analytics that captures 100% of traffic without cookies or consent banners, fully GDPR and ePrivacy compliant.',
+            foundingDate: '2020',
             sameAs: [
               'https://www.linkedin.com/company/sealmetrics',
               'https://x.com/sealmetrics',
               'https://github.com/sealmetrics',
             ],
+            contactPoint: {
+              '@type': 'ContactPoint',
+              contactType: 'customer support',
+              url: 'https://sealmetrics.com/contact',
+              availableLanguage: ['English', 'Spanish'],
+            },
           },
           {
             '@type': 'WebSite',
@@ -63,22 +96,15 @@ const config: Config = {
             name: 'Sealmetrics Documentation',
             publisher: { '@id': 'https://sealmetrics.com/#organization' },
             inLanguage: 'en-US',
-          },
-          {
-            '@type': 'SoftwareApplication',
-            name: 'Sealmetrics',
-            applicationCategory: 'BusinessApplication',
-            operatingSystem: 'Web',
-            description: 'Consentless web analytics platform that captures 100% of traffic without cookies or consent banners, fully GDPR compliant.',
-            url: 'https://sealmetrics.com',
-            offers: {
-              '@type': 'Offer',
-              price: '199',
-              priceCurrency: 'EUR',
-              priceValidUntil: '2026-12-31',
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: {
+                '@type': 'EntryPoint',
+                urlTemplate:
+                  'https://docs.sealmetrics.com/search?q={search_term_string}',
+              },
+              'query-input': 'required name=search_term_string',
             },
-            aggregateRating: undefined,
-            provider: { '@id': 'https://sealmetrics.com/#organization' },
           },
         ],
       }),
@@ -87,7 +113,7 @@ const config: Config = {
 
   scripts: [
     {
-      src: 'https://pixel-pre.sealmetrics.com/t.js?id=sealmetrics2&group=docs',
+      src: 'https://pixel.sealmetrics.com/t.js?id=sealmetrics2&group=docs',
       defer: true,
     },
   ],
@@ -120,11 +146,20 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
-        // 🚀 SITEMAP optimizado
         sitemap: {
-          changefreq: 'weekly',
-          priority: 0.5,
-          ignorePatterns: ['/tags/**'],
+          lastmod: 'date',
+          changefreq: null,
+          priority: null,
+          ignorePatterns: [
+            '/tags/**',
+            '/blog/tags/**',
+            '/blog/page/**',
+            '/blog/archive',
+            '/blog/authors',
+            '/search',
+            '/markdown-page',
+            '/category/**',
+          ],
           filename: 'sitemap.xml',
         },
       } satisfies Preset.Options,
@@ -177,10 +212,12 @@ const config: Config = {
     },
 
     navbar: {
-      title: '',
+      title: 'Sealmetrics',
       logo: {
         alt: 'Sealmetrics Logo',
         src: 'img/logo.svg',
+        width: 32,
+        height: 32,
       },
       items: [
         { label: 'Documentation', to: '/intro', position: 'left' },

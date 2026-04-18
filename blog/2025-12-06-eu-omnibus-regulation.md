@@ -1,8 +1,8 @@
 ---
 slug: eu-digital-omnibus-regulation-cookie-consent-changes
 title: "EU Digital Omnibus: The End of Cookie Banner Fatigue?"
-authors: [rafa]
-tags: [EU regulation, GDPR, cookies, ePrivacy, analytics, compliance]
+authors: [rafael-jimenez]
+tags: [eu-regulation, gdpr, eprivacy, compliance, cookies]
 description: "The EU Digital Omnibus proposes to eliminate cookie banners for 60% of websites. Here's what it means for web analytics."
 ---
 
