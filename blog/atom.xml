@@ -2,11 +2,254 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docs.sealmetrics.com/blog</id>
     <title>Sealmetrics Docs Blog</title>
-    <updated>2025-12-06T00:00:00.000Z</updated>
+    <updated>2026-03-10T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docs.sealmetrics.com/blog"/>
     <subtitle>Sealmetrics Docs Blog</subtitle>
     <icon>https://docs.sealmetrics.com/img/favicon.png</icon>
+    <entry>
+        <title type="html"><![CDATA[Long-Term Analytics: 24-Month Data Retention Without Consent]]></title>
+        <id>https://docs.sealmetrics.com/blog/long-term-analytics-data-retention</id>
+        <link href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention"/>
+        <updated>2026-03-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[24-month analytics data retention without consent. How cookieless tracking enables long-term analysis while staying GDPR compliant.]]></summary>
+        <content type="html"><![CDATA[<p>Understanding long-term user behavior is crucial for business growth, but traditional analytics platforms face a critical limitation: <strong>GDPR requires deleting data after consent expires, typically forcing 6-13 month retention limits</strong>. Sealmetrics solves this with cookieless tracking that enables <strong>24-month data retention without requiring user consent</strong>.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-takeaways">Key Takeaways<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#key-takeaways" class="hash-link" aria-label="Direct link to Key Takeaways" title="Direct link to Key Takeaways" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>24-month retention without consent</strong>: Sealmetrics stores analytics data for over 2 years under GDPR Article 6(1)(f) legitimate interest</li>
+<li class=""><strong>No consent expiration risk</strong>: Unlike cookie-based analytics, your data won't be deleted when consent expires</li>
+<li class=""><strong>Complete historical analysis</strong>: Track seasonal trends, year-over-year growth, and long-term user behavior</li>
+<li class=""><strong>GDPR compliant by design</strong>: Cookieless tracking with zero IP storage meets data minimization requirements</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-data-retention-problem-in-traditional-analytics">The Data Retention Problem in Traditional Analytics<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#the-data-retention-problem-in-traditional-analytics" class="hash-link" aria-label="Direct link to The Data Retention Problem in Traditional Analytics" title="Direct link to The Data Retention Problem in Traditional Analytics" translate="no">​</a></h2>
+<p>Most analytics platforms face a fundamental challenge with GDPR compliance: <strong>cookie consent expires, and when it does, you must delete all associated data</strong>.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-cookie-based-analytics-lose-historical-data">Why Cookie-Based Analytics Lose Historical Data<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#why-cookie-based-analytics-lose-historical-data" class="hash-link" aria-label="Direct link to Why Cookie-Based Analytics Lose Historical Data" title="Direct link to Why Cookie-Based Analytics Lose Historical Data" translate="no">​</a></h3>
+<p>Google Analytics and similar cookie-based platforms require user consent under GDPR Article 5(3) of the ePrivacy Directive. This creates several problems:</p>
+<ol>
+<li class=""><strong>Consent expires after 6-13 months</strong> (depending on implementation)</li>
+<li class=""><strong>Data deletion is mandatory</strong> when consent expires or is withdrawn</li>
+<li class=""><strong>Historical analysis becomes impossible</strong> beyond the consent window</li>
+<li class=""><strong>Year-over-year comparisons fail</strong> because data older than consent period must be deleted</li>
+</ol>
+<p>According to CNIL guidelines from 2024, cookie-based analytics platforms must implement consent expiration and data deletion mechanisms. This means businesses lose valuable historical insights simply because the legal basis (consent) expires.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-business-impact-of-short-data-retention">The Business Impact of Short Data Retention<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#the-business-impact-of-short-data-retention" class="hash-link" aria-label="Direct link to The Business Impact of Short Data Retention" title="Direct link to The Business Impact of Short Data Retention" translate="no">​</a></h3>
+<p>Limited data retention affects critical business decisions:</p>
+<ul>
+<li class=""><strong>Seasonal analysis</strong>: Can't compare Q4 2023 to Q4 2024 if consent expired</li>
+<li class=""><strong>Customer lifecycle</strong>: Incomplete view of customer journey beyond consent period</li>
+<li class=""><strong>Attribution modeling</strong>: Can't track conversions that occur 12+ months after first visit</li>
+<li class=""><strong>Trend identification</strong>: Missing long-term patterns that only emerge over years</li>
+<li class=""><strong>ROI calculation</strong>: Incomplete data for marketing channels with long conversion cycles</li>
+</ul>
+<p>In B2B SaaS, where sales cycles often exceed 6 months, this data retention limitation can cripple analytics entirely.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-sealmetrics-enables-25-month-data-retention">How Sealmetrics Enables 25-Month Data Retention<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#how-sealmetrics-enables-25-month-data-retention" class="hash-link" aria-label="Direct link to How Sealmetrics Enables 25-Month Data Retention" title="Direct link to How Sealmetrics Enables 25-Month Data Retention" translate="no">​</a></h2>
+<p>Sealmetrics operates under <strong>GDPR Article 6(1)(f) - legitimate interest</strong> rather than consent, fundamentally changing the data retention equation.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-legal-basis-legitimate-interest">The Legal Basis: Legitimate Interest<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#the-legal-basis-legitimate-interest" class="hash-link" aria-label="Direct link to The Legal Basis: Legitimate Interest" title="Direct link to The Legal Basis: Legitimate Interest" translate="no">​</a></h3>
+<p>Under GDPR Article 6(1)(f), processing is lawful when:</p>
+<blockquote>
+<p>"Processing is necessary for the purposes of the legitimate interests pursued by the controller or by a third party, except where such interests are overridden by the interests or fundamental rights and freedoms of the data subject."</p>
+</blockquote>
+<p>Sealmetrics qualifies for legitimate interest because:</p>
+<ol>
+<li class=""><strong>No personal data collection</strong>: We don't store IP addresses, fingerprints, or cross-site identifiers</li>
+<li class=""><strong>Session-based tracking</strong>: Each visit generates a unique, temporary identifier</li>
+<li class=""><strong>Data minimization</strong>: Only aggregate behavioral data, no individual profiles</li>
+<li class=""><strong>Transparent processing</strong>: Clear privacy policy explains data usage</li>
+</ol>
+<p>As confirmed by CNIL's 2020 guidance, cookieless analytics that doesn't create persistent user profiles can operate under legitimate interest, not requiring consent.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-implementation-zero-personal-data">Technical Implementation: Zero Personal Data<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#technical-implementation-zero-personal-data" class="hash-link" aria-label="Direct link to Technical Implementation: Zero Personal Data" title="Direct link to Technical Implementation: Zero Personal Data" translate="no">​</a></h3>
+<p>Unlike competitors that hash or pseudonymize IP addresses, Sealmetrics uses a dual tracking approach:</p>
+<p><strong>Session-Based Tracking</strong>:</p>
+<ul>
+<li class="">Each visit = unique Session-ID</li>
+<li class="">Session-ID expires after 30 minutes of inactivity</li>
+<li class="">No cross-session tracking by default</li>
+<li class="">Zero personal data in the identifier</li>
+</ul>
+<p><strong>Isolated Hit Recording</strong>:</p>
+<ul>
+<li class="">Each pageview = independent data point</li>
+<li class="">No IP address storage (not even hashed)</li>
+<li class="">No device fingerprinting</li>
+<li class="">Aggregate patterns only</li>
+</ul>
+<p>This architecture means the data we retain for 24 months contains <strong>zero personal identifiers</strong>, making it fundamentally different from cookie-based systems that must delete data when consent expires.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-25-months-specifically">Why 25 Months Specifically?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#why-25-months-specifically" class="hash-link" aria-label="Direct link to Why 25 Months Specifically?" title="Direct link to Why 25 Months Specifically?" translate="no">​</a></h3>
+<p>The 24-month retention period is strategically chosen:</p>
+<ol>
+<li class=""><strong>Two full years of data</strong>: Enables year-over-year comparisons</li>
+<li class=""><strong>Plus one quarter buffer</strong>: Covers full seasonal cycles</li>
+<li class=""><strong>GDPR proportionality</strong>: Long enough for legitimate business needs, not excessive</li>
+<li class=""><strong>CNIL compliance</strong>: Within reasonable retention for aggregated analytics data</li>
+</ol>
+<p>After 24 months, data is automatically purged from Sealmetrics systems. This automatic deletion demonstrates compliance with GDPR's storage limitation principle while providing maximum analytical value.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="comparison-data-retention-across-analytics-platforms">Comparison: Data Retention Across Analytics Platforms<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#comparison-data-retention-across-analytics-platforms" class="hash-link" aria-label="Direct link to Comparison: Data Retention Across Analytics Platforms" title="Direct link to Comparison: Data Retention Across Analytics Platforms" translate="no">​</a></h2>
+<p>Here's how long-term analytics capabilities compare across major platforms:</p>
+<table><thead><tr><th>Feature</th><th>Google Analytics</th><th>Plausible</th><th>Matomo</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Legal Basis</strong></td><td>Consent (Article 6(1)(a))</td><td>Legitimate Interest</td><td>Legitimate Interest</td><td>Legitimate Interest</td></tr><tr><td><strong>Requires Consent Banner</strong></td><td>Yes</td><td>No</td><td>Depends</td><td>No</td></tr><tr><td><strong>Maximum Retention (With Consent)</strong></td><td>14-26 months</td><td>Unlimited</td><td>Unlimited</td><td><strong>24 months</strong></td></tr><tr><td><strong>Maximum Retention (Without Consent)</strong></td><td>0 months</td><td>26 months</td><td>26 months</td><td><strong>24 months</strong></td></tr><tr><td><strong>Data Deletion on Consent Withdrawal</strong></td><td>Required</td><td>Not required</td><td>Not required</td><td>Not required</td></tr><tr><td><strong>Stores IP Addresses</strong></td><td>Yes</td><td>Hashed</td><td>Hashed</td><td><strong>Zero IPs</strong></td></tr><tr><td><strong>Cross-Session Tracking</strong></td><td>Yes (cookies)</td><td>Optional</td><td>Optional</td><td>Session-only</td></tr><tr><td><strong>Personal Data Risk</strong></td><td>High</td><td>Medium</td><td>Medium</td><td><strong>Zero</strong></td></tr><tr><td><strong>Year-Over-Year Analysis</strong></td><td>If consent maintained</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td><strong>Setup Complexity</strong></td><td>High (consent mgmt)</td><td>Low</td><td>Medium</td><td><strong>2 minutes</strong></td></tr></tbody></table>
+<p><strong>Key Insight</strong>: Sealmetrics is the only platform that combines zero IP storage with 24-month retention, providing long-term analytics without any personal data collection.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="implementation-guide-enabling-long-term-analytics">Implementation Guide: Enabling Long-Term Analytics<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#implementation-guide-enabling-long-term-analytics" class="hash-link" aria-label="Direct link to Implementation Guide: Enabling Long-Term Analytics" title="Direct link to Implementation Guide: Enabling Long-Term Analytics" translate="no">​</a></h2>
+<p>Setting up Sealmetrics for 24-month data retention takes less than 5 minutes.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-1-install-tracking-script">Step 1: Install Tracking Script<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#step-1-install-tracking-script" class="hash-link" aria-label="Direct link to Step 1: Install Tracking Script" title="Direct link to Step 1: Install Tracking Script" translate="no">​</a></h3>
+<p>Add the Sealmetrics script to your site:</p>
+<div class="language-html codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-html codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">defer</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://cdn.sealmetrics.com/v1/track.js</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag" style="color:#00009f"> </span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f">        </span><span class="token tag attr-name" style="color:#00a4db">data-site-id</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">YOUR_SITE_ID</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script language-javascript"></span><br></span><span class="token-line" style="color:#393A34"><span class="token script language-javascript"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
+<p>That's it. No consent banner configuration needed.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-2-configure-data-retention-optional">Step 2: Configure Data Retention (Optional)<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#step-2-configure-data-retention-optional" class="hash-link" aria-label="Direct link to Step 2: Configure Data Retention (Optional)" title="Direct link to Step 2: Configure Data Retention (Optional)" translate="no">​</a></h3>
+<p>By default, Sealmetrics retains data for 24 months. If you need a shorter period for specific compliance requirements:</p>
+<div class="language-javascript codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-javascript codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">// Custom retention (in months)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token dom variable" style="color:#36acaa">window</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">sealmetrics</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token dom variable" style="color:#36acaa">window</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">sealmetrics</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">||</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token dom variable" style="color:#36acaa">window</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">sealmetrics</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">dataRetention</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">18</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"> </span><span class="token comment" style="color:#999988;font-style:italic">// Custom: 18 months</span><br></span></code></pre></div></div>
+<p>However, since Sealmetrics doesn't collect personal data, there's typically no reason to reduce the default 24-month retention.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-3-access-historical-data">Step 3: Access Historical Data<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#step-3-access-historical-data" class="hash-link" aria-label="Direct link to Step 3: Access Historical Data" title="Direct link to Step 3: Access Historical Data" translate="no">​</a></h3>
+<p>Query data from the full 24-month period via API or dashboard:</p>
+<div class="language-javascript codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-javascript codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">// API example: Get pageviews for last 2 years</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">fetch</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">'https://api.sealmetrics.com/v1/stats/pageviews'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token literal-property property" style="color:#36acaa">method</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'POST'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token literal-property property" style="color:#36acaa">headers</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string-property property" style="color:#36acaa">'Authorization'</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'Bearer YOUR_API_KEY'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string-property property" style="color:#36acaa">'Content-Type'</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'application/json'</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token literal-property property" style="color:#36acaa">body</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token known-class-name class-name">JSON</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">stringify</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">site_id</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'YOUR_SITE_ID'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">date_from</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'2022-06-01'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">date_to</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'2024-06-01'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">period</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'month'</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">then</span><span class="token punctuation" style="color:#393A34">(</span><span class="token parameter">response</span><span class="token plain"> </span><span class="token arrow operator" style="color:#393A34">=&gt;</span><span class="token plain"> response</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">json</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">then</span><span class="token punctuation" style="color:#393A34">(</span><span class="token parameter">data</span><span class="token plain"> </span><span class="token arrow operator" style="color:#393A34">=&gt;</span><span class="token plain"> </span><span class="token console class-name">console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">log</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">'24-month pageview trend:'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> data</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-4-verify-compliance">Step 4: Verify Compliance<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#step-4-verify-compliance" class="hash-link" aria-label="Direct link to Step 4: Verify Compliance" title="Direct link to Step 4: Verify Compliance" translate="no">​</a></h3>
+<p>Check your privacy policy includes:</p>
+<div class="language-markdown codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-markdown codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">We use Sealmetrics, a cookieless analytics platform, to understand </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">how visitors use our website. Sealmetrics:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Does not use cookies or require consent banners</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Does not store IP addresses or personal identifiers</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Retains aggregated analytics data for 24 months</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Operates under legitimate interest (GDPR Article 6(1)(f))</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">No personal data is collected. For more: https://sealmetrics.com/privacy</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="use-cases-when-long-term-analytics-matter">Use Cases: When Long-Term Analytics Matter<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#use-cases-when-long-term-analytics-matter" class="hash-link" aria-label="Direct link to Use Cases: When Long-Term Analytics Matter" title="Direct link to Use Cases: When Long-Term Analytics Matter" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="seasonal-business-analysis">Seasonal Business Analysis<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#seasonal-business-analysis" class="hash-link" aria-label="Direct link to Seasonal Business Analysis" title="Direct link to Seasonal Business Analysis" translate="no">​</a></h3>
+<p>E-commerce sites with strong seasonal patterns need multi-year data:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Q4 2022 revenue: €150,000</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Q4 2023 revenue: €180,000 (+20%)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Q4 2024 revenue: €225,000 (+25%)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">With consent-based analytics: Can't compare 2022 data if consent expired</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">With Sealmetrics: Full 24-month view shows accelerating holiday growth</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="b2b-saas-customer-lifecycle">B2B SaaS Customer Lifecycle<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#b2b-saas-customer-lifecycle" class="hash-link" aria-label="Direct link to B2B SaaS Customer Lifecycle" title="Direct link to B2B SaaS Customer Lifecycle" translate="no">​</a></h3>
+<p>B2B companies with 12-18 month sales cycles need to track:</p>
+<ul>
+<li class="">First touch → Lead → MQL → SQL → Customer (often 12+ months)</li>
+<li class="">Free trial → Paid conversion tracking over extended periods</li>
+<li class="">Feature adoption patterns across customer lifetime</li>
+</ul>
+<p>Sealmetrics retains the entire journey without consent expiration destroying attribution data.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="content-marketing-roi">Content Marketing ROI<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#content-marketing-roi" class="hash-link" aria-label="Direct link to Content Marketing ROI" title="Direct link to Content Marketing ROI" translate="no">​</a></h3>
+<p>Blog posts and content assets generate traffic for years. Long-term analytics show:</p>
+<ul>
+<li class="">Which 2-year-old articles still drive conversions</li>
+<li class="">SEO traffic growth patterns over 24 months</li>
+<li class="">Content decay rates and refresh opportunities</li>
+</ul>
+<p>This insight is impossible with consent-based analytics that delete data after 6-13 months.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="product-led-growth-tracking">Product-Led Growth Tracking<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#product-led-growth-tracking" class="hash-link" aria-label="Direct link to Product-Led Growth Tracking" title="Direct link to Product-Led Growth Tracking" translate="no">​</a></h3>
+<p>SaaS products need to understand:</p>
+<ul>
+<li class="">User activation patterns over first 12-18 months</li>
+<li class="">Feature adoption timelines (what features users adopt after 6, 12, 18 months)</li>
+<li class="">Cohort retention beyond consent expiration periods</li>
+</ul>
+<p>With 24-month retention, Sealmetrics captures the complete product-led growth story.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="gdpr-compliance-why-25-months-is-legal">GDPR Compliance: Why 25 Months is Legal<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#gdpr-compliance-why-25-months-is-legal" class="hash-link" aria-label="Direct link to GDPR Compliance: Why 25 Months is Legal" title="Direct link to GDPR Compliance: Why 25 Months is Legal" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-minimization-principle">Data Minimization Principle<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#data-minimization-principle" class="hash-link" aria-label="Direct link to Data Minimization Principle" title="Direct link to Data Minimization Principle" translate="no">​</a></h3>
+<p>GDPR Article 5(1)(c) requires data minimization:</p>
+<blockquote>
+<p>"Personal data shall be adequate, relevant and limited to what is necessary."</p>
+</blockquote>
+<p>Sealmetrics achieves this by:</p>
+<ol>
+<li class=""><strong>Not collecting personal data</strong>: No IPs, no cookies, no persistent identifiers</li>
+<li class=""><strong>Aggregate data only</strong>: Session-based metrics, not individual profiles</li>
+<li class=""><strong>Automatic purge</strong>: 24-month deletion ensures data isn't kept indefinitely</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="storage-limitation-principle">Storage Limitation Principle<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#storage-limitation-principle" class="hash-link" aria-label="Direct link to Storage Limitation Principle" title="Direct link to Storage Limitation Principle" translate="no">​</a></h3>
+<p>GDPR Article 5(1)(e) requires storage limitation:</p>
+<blockquote>
+<p>"Personal data shall be kept in a form which permits identification of data subjects for no longer than is necessary."</p>
+</blockquote>
+<p>Sealmetrics complies because:</p>
+<ol>
+<li class=""><strong>Data cannot identify individuals</strong>: Session-IDs are temporary and non-linkable</li>
+<li class=""><strong>24 months is proportionate</strong>: Reasonable for business analytics needs</li>
+<li class=""><strong>Automatic deletion</strong>: Built-in expiration prevents indefinite storage</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="legitimate-interest-assessment">Legitimate Interest Assessment<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#legitimate-interest-assessment" class="hash-link" aria-label="Direct link to Legitimate Interest Assessment" title="Direct link to Legitimate Interest Assessment" translate="no">​</a></h3>
+<p>Under Article 6(1)(f), three tests must pass:</p>
+<p><strong>Purpose Test</strong>: Is the processing necessary for legitimate interests?<br>
+<!-- -->Yes - Website analytics is a recognized legitimate business interest</p>
+<p><strong>Necessity Test</strong>: Is the processing necessary for that purpose?<br>
+<!-- -->Yes - Analytics requires data retention for pattern identification</p>
+<p><strong>Balancing Test</strong>: Do user interests override business interests?<br>
+<!-- -->No - Zero personal data means minimal user impact, business needs prevail</p>
+<p>CNIL's 2020 guidance explicitly confirms cookieless analytics can operate under legitimate interest when no personal data is collected.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="best-practices-for-long-term-analytics">Best Practices for Long-Term Analytics<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#best-practices-for-long-term-analytics" class="hash-link" aria-label="Direct link to Best Practices for Long-Term Analytics" title="Direct link to Best Practices for Long-Term Analytics" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-leverage-full-historical-data">1. Leverage Full Historical Data<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#1-leverage-full-historical-data" class="hash-link" aria-label="Direct link to 1. Leverage Full Historical Data" title="Direct link to 1. Leverage Full Historical Data" translate="no">​</a></h3>
+<p>Don't limit queries to recent months out of habit:</p>
+<div class="language-javascript codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-javascript codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">// Bad: Only checking last 3 months</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">const</span><span class="token plain"> recentData </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword control-flow" style="color:#00009f">await</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">getAnalytics</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"> </span><span class="token literal-property property" style="color:#36acaa">months</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">3</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">// Good: Using full 24-month history</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">const</span><span class="token plain"> fullHistory </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword control-flow" style="color:#00009f">await</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">getAnalytics</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"> </span><span class="token literal-property property" style="color:#36acaa">months</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">25</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">const</span><span class="token plain"> yearOverYear </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">compareYears</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">fullHistory</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-build-year-over-year-dashboards">2. Build Year-Over-Year Dashboards<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#2-build-year-over-year-dashboards" class="hash-link" aria-label="Direct link to 2. Build Year-Over-Year Dashboards" title="Direct link to 2. Build Year-Over-Year Dashboards" translate="no">​</a></h3>
+<p>Create dashboards that automatically compare:</p>
+<ul>
+<li class="">This month vs. same month last year</li>
+<li class="">This quarter vs. same quarter last year</li>
+<li class="">Rolling 12-month trends</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-track-cohort-behavior-long-term">3. Track Cohort Behavior Long-Term<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#3-track-cohort-behavior-long-term" class="hash-link" aria-label="Direct link to 3. Track Cohort Behavior Long-Term" title="Direct link to 3. Track Cohort Behavior Long-Term" translate="no">​</a></h3>
+<p>Follow user cohorts through their entire lifecycle:</p>
+<ul>
+<li class="">Users from Q1 2023: What happened after 12, 18, 24 months?</li>
+<li class="">Traffic sources from 2023: Which generated best 2-year ROI?</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-identify-long-tail-content-value">4. Identify Long-Tail Content Value<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#4-identify-long-tail-content-value" class="hash-link" aria-label="Direct link to 4. Identify Long-Tail Content Value" title="Direct link to 4. Identify Long-Tail Content Value" translate="no">​</a></h3>
+<p>Find content that generates value long after publication:</p>
+<ul>
+<li class="">Articles from 2022 still driving traffic in 2024</li>
+<li class="">Evergreen content that compounds over years</li>
+<li class="">Historical posts that become more valuable over time</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-plan-for-data-purge-at-25-months">5. Plan for Data Purge at 25 Months<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#5-plan-for-data-purge-at-25-months" class="hash-link" aria-label="Direct link to 5. Plan for Data Purge at 25 Months" title="Direct link to 5. Plan for Data Purge at 25 Months" translate="no">​</a></h3>
+<p>When data reaches 24 months:</p>
+<ul>
+<li class="">Export critical insights before deletion</li>
+<li class="">Document key trends and patterns</li>
+<li class="">Update forecasting models with latest complete cycles</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="frequently-asked-questions">Frequently Asked Questions<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#frequently-asked-questions" class="hash-link" aria-label="Direct link to Frequently Asked Questions" title="Direct link to Frequently Asked Questions" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="is-24-month-retention-gdpr-compliant">Is 24-month retention GDPR compliant?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#is-24-month-retention-gdpr-compliant" class="hash-link" aria-label="Direct link to Is 24-month retention GDPR compliant?" title="Direct link to Is 24-month retention GDPR compliant?" translate="no">​</a></h3>
+<p>Yes. Sealmetrics operates under legitimate interest (Article 6(1)(f)) and doesn't collect personal data (no IPs, no cookies). The 24-month period is proportionate for business analytics needs and includes automatic deletion, satisfying GDPR's storage limitation principle.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-not-unlimited-retention-like-some-competitors">Why not unlimited retention like some competitors?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#why-not-unlimited-retention-like-some-competitors" class="hash-link" aria-label="Direct link to Why not unlimited retention like some competitors?" title="Direct link to Why not unlimited retention like some competitors?" translate="no">​</a></h3>
+<p>While technically possible (since we don't collect personal data), 24 months provides the optimal balance between analytical value and demonstrating GDPR compliance through reasonable storage limits. It covers two full years plus seasonal buffer, which satisfies 99% of business analytics needs.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-happens-to-data-after-24-months">What happens to data after 24 months?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#what-happens-to-data-after-24-months" class="hash-link" aria-label="Direct link to What happens to data after 24 months?" title="Direct link to What happens to data after 24 months?" translate="no">​</a></h3>
+<p>Data older than 24 months is automatically and permanently deleted from Sealmetrics systems. This cannot be reversed. Export any critical historical analysis before the 24-month mark if you need records beyond this period.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="do-i-need-consent-banners-with-24-month-retention">Do I need consent banners with 24-month retention?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#do-i-need-consent-banners-with-24-month-retention" class="hash-link" aria-label="Direct link to Do I need consent banners with 24-month retention?" title="Direct link to Do I need consent banners with 24-month retention?" translate="no">​</a></h3>
+<p>No. Sealmetrics operates under legitimate interest, not consent. You don't need cookie banners, consent management platforms, or consent tracking. Your privacy policy should mention Sealmetrics usage, but no active user consent is required.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-i-reduce-retention-to-less-than-24-months">Can I reduce retention to less than 24 months?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#can-i-reduce-retention-to-less-than-24-months" class="hash-link" aria-label="Direct link to Can I reduce retention to less than 24 months?" title="Direct link to Can I reduce retention to less than 24 months?" translate="no">​</a></h3>
+<p>Yes, you can configure shorter retention periods if your organization's data policy requires it. However, since Sealmetrics doesn't collect personal data, there's typically no compliance reason to reduce retention below 24 months.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-does-this-compare-to-google-analytics-data-retention">How does this compare to Google Analytics data retention?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#how-does-this-compare-to-google-analytics-data-retention" class="hash-link" aria-label="Direct link to How does this compare to Google Analytics data retention?" title="Direct link to How does this compare to Google Analytics data retention?" translate="no">​</a></h3>
+<p>Google Analytics requires consent (cookie-based) and typically allows 14-26 month retention. However, when users withdraw consent or consent expires, Google Analytics must delete all associated data. Sealmetrics' 24-month retention is guaranteed regardless of user actions because no consent is required.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-i-track-individual-users-across-24-months">Can I track individual users across 24 months?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#can-i-track-individual-users-across-24-months" class="hash-link" aria-label="Direct link to Can I track individual users across 24 months?" title="Direct link to Can I track individual users across 24 months?" translate="no">​</a></h3>
+<p>No. Sealmetrics uses session-based tracking, not persistent user tracking. Each visit generates a new Session-ID. This means you can see aggregate patterns over 24 months (traffic trends, popular pages, etc.) but cannot track individual users across sessions or time periods.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-if-my-business-needs-longer-than-24-months">What if my business needs longer than 24 months?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#what-if-my-business-needs-longer-than-24-months" class="hash-link" aria-label="Direct link to What if my business needs longer than 24 months?" title="Direct link to What if my business needs longer than 24 months?" translate="no">​</a></h3>
+<p>For specific use cases requiring longer retention, contact Sealmetrics support. Extended retention may be possible for specific aggregated metrics that demonstrate business necessity and continued GDPR compliance. However, 24 months covers seasonal analysis, year-over-year comparisons, and most B2B sales cycles.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="does-plausible-or-matomo-offer-better-retention">Does Plausible or Matomo offer better retention?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#does-plausible-or-matomo-offer-better-retention" class="hash-link" aria-label="Direct link to Does Plausible or Matomo offer better retention?" title="Direct link to Does Plausible or Matomo offer better retention?" translate="no">​</a></h3>
+<p>Plausible and Matomo offer longer retention options (unlimited in some configurations), but they store hashed IP addresses, creating higher personal data risk. Sealmetrics' zero-IP approach with 24-month retention provides the best balance of long-term analytics capability and privacy protection.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-do-i-access-my-24-month-historical-data">How do I access my 24-month historical data?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#how-do-i-access-my-24-month-historical-data" class="hash-link" aria-label="Direct link to How do I access my 24-month historical data?" title="Direct link to How do I access my 24-month historical data?" translate="no">​</a></h3>
+<p>All Sealmetrics dashboard views and API endpoints automatically include the full 24-month history. No special configuration needed. Simply set your date range in queries to span up to 24 months, and Sealmetrics will return the complete dataset.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="is-data-deleted-exactly-at-24-months-or-gradually">Is data deleted exactly at 24 months or gradually?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#is-data-deleted-exactly-at-24-months-or-gradually" class="hash-link" aria-label="Direct link to Is data deleted exactly at 24 months or gradually?" title="Direct link to Is data deleted exactly at 24 months or gradually?" translate="no">​</a></h3>
+<p>Data is purged on a rolling basis. When analytics data reaches exactly 24 months old (measured from the date of collection), it's automatically deleted. This means your oldest data is always approaching the 24-month mark, and you always have approximately 24 months of history available.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-competitors-see-my-historical-data">Can competitors see my historical data?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#can-competitors-see-my-historical-data" class="hash-link" aria-label="Direct link to Can competitors see my historical data?" title="Direct link to Can competitors see my historical data?" translate="no">​</a></h3>
+<p>No. Sealmetrics data is completely private to your account. Unlike some analytics platforms that aggregate data across customers, your 24-month historical data is isolated and accessible only to users with your account credentials.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="conclusion-the-strategic-advantage-of-long-term-analytics">Conclusion: The Strategic Advantage of Long-Term Analytics<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#conclusion-the-strategic-advantage-of-long-term-analytics" class="hash-link" aria-label="Direct link to Conclusion: The Strategic Advantage of Long-Term Analytics" title="Direct link to Conclusion: The Strategic Advantage of Long-Term Analytics" translate="no">​</a></h2>
+<p>In a privacy-first world where consent-based analytics platforms lose historical data to consent expiration, <strong>Sealmetrics' 24-month retention provides a strategic competitive advantage</strong>.</p>
+<p>Businesses using Sealmetrics can:</p>
+<ul>
+<li class=""><strong>Make better decisions</strong> with complete historical context</li>
+<li class=""><strong>Identify long-term trends</strong> that short-retention analytics miss</li>
+<li class=""><strong>Calculate true ROI</strong> for marketing channels with long sales cycles</li>
+<li class=""><strong>Optimize seasonally</strong> using multi-year comparison data</li>
+<li class=""><strong>Track customer lifecycles</strong> beyond consent expiration limits</li>
+</ul>
+<p>All while maintaining <strong>zero personal data collection</strong> and <strong>full GDPR compliance</strong>.</p>
+<p>Unlike Google Analytics (which deletes data when consent expires), Plausible (which stores hashed IPs), or Matomo (which requires complex configuration), Sealmetrics provides the simplest path to long-term, privacy-first analytics.</p>
+<p><strong>Ready to gain 24 months of insight without consent banners?</strong></p>
+<p>Start your free trial at <a href="https://sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">sealmetrics.com</a> and experience analytics that doesn't expire with user consent.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>
+<ul>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Guide to Cookieless Analytics</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework">GDPR Compliant Analytics Framework</a> — Legal bases for long-term data retention</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/how-consentless-works">How Consentless Tracking Works</a> — Technical architecture behind privacy-compliant analytics</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics">Sealmetrics vs Google Analytics</a> — Why businesses switch from GA4's limited data retention</li>
+</ul>]]></content>
+        <author>
+            <name>Rafael Jimenez</name>
+            <uri>https://www.linkedin.com/in/rafajimenez</uri>
+        </author>
+        <category label="Data Retention" term="Data Retention"/>
+        <category label="Long-term Analytics" term="Long-term Analytics"/>
+        <category label="GDPR" term="GDPR"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
+        <category label="Privacy" term="Privacy"/>
+    </entry>
     <entry>
         <title type="html"><![CDATA[EU Digital Omnibus: The End of Cookie Banner Fatigue?]]></title>
         <id>https://docs.sealmetrics.com/blog/eu-digital-omnibus-regulation-cookie-consent-changes</id>
@@ -205,15 +448,14 @@
 </ul>
 <p><strong>Questions about how the Omnibus affects your analytics?</strong> Reach out to our team or explore the detailed documentation above.</p>]]></content>
         <author>
-            <name>Rafa Jimenez</name>
+            <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
         <category label="EU Regulation" term="EU Regulation"/>
         <category label="GDPR" term="GDPR"/>
-        <category label="Cookies" term="Cookies"/>
         <category label="ePrivacy" term="ePrivacy"/>
-        <category label="Analytics" term="Analytics"/>
         <category label="Compliance" term="Compliance"/>
+        <category label="Cookies" term="Cookies"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[How Session-Based Tracking Works: Cookieless Architecture Explained]]></title>
@@ -556,7 +798,7 @@
 <ul>
 <li class="">Open-source (AGPL license)</li>
 <li class="">Self-hosted or cloud-hosted options</li>
-<li class="">Lightweight script (less 1KB)</li>
+<li class="">Lightweight script (less than 1KB)</li>
 <li class="">No cookies by default</li>
 <li class="">European-owned (Estonia-based)</li>
 <li class="">Simple, minimalist dashboard</li>
@@ -602,8 +844,8 @@
 </ul>
 <p><strong>Cons</strong>:</p>
 <ul>
-<li class="">Less number of clients and community.</li>
-<li class="">It's not as easy to use than Plausible.</li>
+<li class="">Smaller customer base and community than Plausible.</li>
+<li class="">Slightly steeper learning curve for teams migrating from Google Analytics.</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ip-address-handling">IP Address Handling<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#ip-address-handling" class="hash-link" aria-label="Direct link to IP Address Handling" title="Direct link to IP Address Handling" translate="no">​</a></h3>
 <p>This is the most critical technical difference.</p>
@@ -1018,11 +1260,10 @@ If you had consent banner with Plausible:</p>
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
         <category label="Comparison" term="Comparison"/>
         <category label="Plausible" term="Plausible"/>
-        <category label="Sealmetrics" term="Sealmetrics"/>
-        <category label="Privacy Analytics" term="Privacy Analytics"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
+        <category label="Privacy" term="Privacy"/>
         <category label="GDPR" term="GDPR"/>
     </entry>
     <entry>
@@ -1496,11 +1737,9 @@ If you had consent banner with Plausible:</p>
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="Privacy-First Analytics" term="Privacy-First Analytics"/>
+        <category label="Privacy" term="Privacy"/>
         <category label="Cookieless Analytics" term="Cookieless Analytics"/>
         <category label="GDPR" term="GDPR"/>
-        <category label="Consentless Analytics" term="Consentless Analytics"/>
-        <category label="Data Privacy" term="Data Privacy"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Cookie Banner Ghosting: Why 80-90% of Your Analytics Data Disappears]]></title>
@@ -2315,7 +2554,6 @@ If you had consent banner with Plausible:</p>
         <category label="GDPR" term="GDPR"/>
         <category label="Privacy" term="Privacy"/>
         <category label="Data Loss" term="Data Loss"/>
-        <category label="Analytics" term="Analytics"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Sealmetrics vs Google Analytics: Complete Comparison 2026]]></title>
@@ -2578,7 +2816,7 @@ If you're a startup, small business, or lean team without dedicated analytics en
 <p><strong>4. You Don't Need Google Ads Attribution</strong>:
 For B2B companies, content sites, SaaS products, or any business not heavily reliant on Google Ads, Sealmetrics provides everything needed without Google Analytics' complexity.</p>
 <p><strong>5. You Want Predictable Costs</strong>:
-Sealmetrics' transparent pricing—99 EUR/month for 1M pageviews with no hidden costs—is easier to budget than Google Analytics' "free" product with $10,000+ in associated costs.</p>
+Sealmetrics' transparent pricing—229 EUR/month for 1M events with no hidden costs—is easier to budget than Google Analytics' "free" product with $10,000+ in associated costs.</p>
 <p><strong>6. You Can't Pass DPO Review with Google Analytics</strong>:
 Many Data Protection Officers reject Google Analytics due to Schrems II, IP storage, or consent complexity. Sealmetrics passes DPO review because it's designed for legitimate interest operation under GDPR Article 6(1)(f).</p>
 <hr>
@@ -2832,10 +3070,10 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
-        <category label="Google Analytics" term="Google Analytics"/>
         <category label="Comparison" term="Comparison"/>
-        <category label="GDPR Compliance" term="GDPR Compliance"/>
+        <category label="Google Analytics" term="Google Analytics"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
+        <category label="GDPR" term="GDPR"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[GDPR Compliant Analytics: Complete Framework 2026]]></title>
@@ -3295,12 +3533,12 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="GDPR Compliance" term="GDPR Compliance"/>
+        <category label="GDPR" term="GDPR"/>
         <category label="Cookieless Analytics" term="Cookieless Analytics"/>
         <category label="Privacy" term="Privacy"/>
-        <category label="Analytics" term="Analytics"/>
         <category label="Legitimate Interest" term="Legitimate Interest"/>
         <category label="CNIL" term="CNIL"/>
+        <category label="Compliance" term="Compliance"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Cookie-Based vs Cookieless Analytics: Technical Comparison]]></title>
@@ -3688,10 +3926,10 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="GDPR Compliance" term="GDPR Compliance"/>
+        <category label="Comparison" term="Comparison"/>
         <category label="Cookieless Analytics" term="Cookieless Analytics"/>
+        <category label="GDPR" term="GDPR"/>
         <category label="Privacy" term="Privacy"/>
-        <category label="Analytics" term="Analytics"/>
         <category label="Cookies" term="Cookies"/>
     </entry>
     <entry>
@@ -3835,12 +4073,11 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="Analytics" term="Analytics"/>
+        <category label="Cookieless Analytics" term="Cookieless Analytics"/>
         <category label="GDPR" term="GDPR"/>
         <category label="Privacy" term="Privacy"/>
-        <category label="Cookieless" term="Cookieless"/>
-        <category label="Consentless" term="Consentless"/>
         <category label="Compliance" term="Compliance"/>
+        <category label="CNIL" term="CNIL"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Cookieless Analytics: Complete Guide 2026]]></title>
@@ -4251,252 +4488,9 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
             <name>Rafael Jimenez</name>
             <uri>https://www.linkedin.com/in/rafajimenez</uri>
         </author>
-        <category label="Analytics" term="Analytics"/>
-        <category label="GDPR" term="GDPR"/>
-        <category label="Privacy" term="Privacy"/>
-        <category label="Cookieless" term="Cookieless"/>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Long-Term Analytics: 24-Month Data Retention Without Consent]]></title>
-        <id>https://docs.sealmetrics.com/blog/long-term-analytics-data-retention</id>
-        <link href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention"/>
-        <updated>2024-06-13T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[24-month analytics data retention without consent. How cookieless tracking enables long-term analysis while staying GDPR compliant.]]></summary>
-        <content type="html"><![CDATA[<p>Understanding long-term user behavior is crucial for business growth, but traditional analytics platforms face a critical limitation: <strong>GDPR requires deleting data after consent expires, typically forcing 6-13 month retention limits</strong>. Sealmetrics solves this with cookieless tracking that enables <strong>24-month data retention without requiring user consent</strong>.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-takeaways">Key Takeaways<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#key-takeaways" class="hash-link" aria-label="Direct link to Key Takeaways" title="Direct link to Key Takeaways" translate="no">​</a></h2>
-<ul>
-<li class=""><strong>24-month retention without consent</strong>: Sealmetrics stores analytics data for over 2 years under GDPR Article 6(1)(f) legitimate interest</li>
-<li class=""><strong>No consent expiration risk</strong>: Unlike cookie-based analytics, your data won't be deleted when consent expires</li>
-<li class=""><strong>Complete historical analysis</strong>: Track seasonal trends, year-over-year growth, and long-term user behavior</li>
-<li class=""><strong>GDPR compliant by design</strong>: Cookieless tracking with zero IP storage meets data minimization requirements</li>
-</ul>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-data-retention-problem-in-traditional-analytics">The Data Retention Problem in Traditional Analytics<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#the-data-retention-problem-in-traditional-analytics" class="hash-link" aria-label="Direct link to The Data Retention Problem in Traditional Analytics" title="Direct link to The Data Retention Problem in Traditional Analytics" translate="no">​</a></h2>
-<p>Most analytics platforms face a fundamental challenge with GDPR compliance: <strong>cookie consent expires, and when it does, you must delete all associated data</strong>.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-cookie-based-analytics-lose-historical-data">Why Cookie-Based Analytics Lose Historical Data<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#why-cookie-based-analytics-lose-historical-data" class="hash-link" aria-label="Direct link to Why Cookie-Based Analytics Lose Historical Data" title="Direct link to Why Cookie-Based Analytics Lose Historical Data" translate="no">​</a></h3>
-<p>Google Analytics and similar cookie-based platforms require user consent under GDPR Article 5(3) of the ePrivacy Directive. This creates several problems:</p>
-<ol>
-<li class=""><strong>Consent expires after 6-13 months</strong> (depending on implementation)</li>
-<li class=""><strong>Data deletion is mandatory</strong> when consent expires or is withdrawn</li>
-<li class=""><strong>Historical analysis becomes impossible</strong> beyond the consent window</li>
-<li class=""><strong>Year-over-year comparisons fail</strong> because data older than consent period must be deleted</li>
-</ol>
-<p>According to CNIL guidelines from 2024, cookie-based analytics platforms must implement consent expiration and data deletion mechanisms. This means businesses lose valuable historical insights simply because the legal basis (consent) expires.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-business-impact-of-short-data-retention">The Business Impact of Short Data Retention<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#the-business-impact-of-short-data-retention" class="hash-link" aria-label="Direct link to The Business Impact of Short Data Retention" title="Direct link to The Business Impact of Short Data Retention" translate="no">​</a></h3>
-<p>Limited data retention affects critical business decisions:</p>
-<ul>
-<li class=""><strong>Seasonal analysis</strong>: Can't compare Q4 2023 to Q4 2024 if consent expired</li>
-<li class=""><strong>Customer lifecycle</strong>: Incomplete view of customer journey beyond consent period</li>
-<li class=""><strong>Attribution modeling</strong>: Can't track conversions that occur 12+ months after first visit</li>
-<li class=""><strong>Trend identification</strong>: Missing long-term patterns that only emerge over years</li>
-<li class=""><strong>ROI calculation</strong>: Incomplete data for marketing channels with long conversion cycles</li>
-</ul>
-<p>In B2B SaaS, where sales cycles often exceed 6 months, this data retention limitation can cripple analytics entirely.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-sealmetrics-enables-25-month-data-retention">How Sealmetrics Enables 25-Month Data Retention<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#how-sealmetrics-enables-25-month-data-retention" class="hash-link" aria-label="Direct link to How Sealmetrics Enables 25-Month Data Retention" title="Direct link to How Sealmetrics Enables 25-Month Data Retention" translate="no">​</a></h2>
-<p>Sealmetrics operates under <strong>GDPR Article 6(1)(f) - legitimate interest</strong> rather than consent, fundamentally changing the data retention equation.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-legal-basis-legitimate-interest">The Legal Basis: Legitimate Interest<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#the-legal-basis-legitimate-interest" class="hash-link" aria-label="Direct link to The Legal Basis: Legitimate Interest" title="Direct link to The Legal Basis: Legitimate Interest" translate="no">​</a></h3>
-<p>Under GDPR Article 6(1)(f), processing is lawful when:</p>
-<blockquote>
-<p>"Processing is necessary for the purposes of the legitimate interests pursued by the controller or by a third party, except where such interests are overridden by the interests or fundamental rights and freedoms of the data subject."</p>
-</blockquote>
-<p>Sealmetrics qualifies for legitimate interest because:</p>
-<ol>
-<li class=""><strong>No personal data collection</strong>: We don't store IP addresses, fingerprints, or cross-site identifiers</li>
-<li class=""><strong>Session-based tracking</strong>: Each visit generates a unique, temporary identifier</li>
-<li class=""><strong>Data minimization</strong>: Only aggregate behavioral data, no individual profiles</li>
-<li class=""><strong>Transparent processing</strong>: Clear privacy policy explains data usage</li>
-</ol>
-<p>As confirmed by CNIL's 2020 guidance, cookieless analytics that doesn't create persistent user profiles can operate under legitimate interest, not requiring consent.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-implementation-zero-personal-data">Technical Implementation: Zero Personal Data<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#technical-implementation-zero-personal-data" class="hash-link" aria-label="Direct link to Technical Implementation: Zero Personal Data" title="Direct link to Technical Implementation: Zero Personal Data" translate="no">​</a></h3>
-<p>Unlike competitors that hash or pseudonymize IP addresses, Sealmetrics uses a dual tracking approach:</p>
-<p><strong>Session-Based Tracking</strong>:</p>
-<ul>
-<li class="">Each visit = unique Session-ID</li>
-<li class="">Session-ID expires after 30 minutes of inactivity</li>
-<li class="">No cross-session tracking by default</li>
-<li class="">Zero personal data in the identifier</li>
-</ul>
-<p><strong>Isolated Hit Recording</strong>:</p>
-<ul>
-<li class="">Each pageview = independent data point</li>
-<li class="">No IP address storage (not even hashed)</li>
-<li class="">No device fingerprinting</li>
-<li class="">Aggregate patterns only</li>
-</ul>
-<p>This architecture means the data we retain for 24 months contains <strong>zero personal identifiers</strong>, making it fundamentally different from cookie-based systems that must delete data when consent expires.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-25-months-specifically">Why 25 Months Specifically?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#why-25-months-specifically" class="hash-link" aria-label="Direct link to Why 25 Months Specifically?" title="Direct link to Why 25 Months Specifically?" translate="no">​</a></h3>
-<p>The 24-month retention period is strategically chosen:</p>
-<ol>
-<li class=""><strong>Two full years of data</strong>: Enables year-over-year comparisons</li>
-<li class=""><strong>Plus one quarter buffer</strong>: Covers full seasonal cycles</li>
-<li class=""><strong>GDPR proportionality</strong>: Long enough for legitimate business needs, not excessive</li>
-<li class=""><strong>CNIL compliance</strong>: Within reasonable retention for aggregated analytics data</li>
-</ol>
-<p>After 24 months, data is automatically purged from Sealmetrics systems. This automatic deletion demonstrates compliance with GDPR's storage limitation principle while providing maximum analytical value.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="comparison-data-retention-across-analytics-platforms">Comparison: Data Retention Across Analytics Platforms<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#comparison-data-retention-across-analytics-platforms" class="hash-link" aria-label="Direct link to Comparison: Data Retention Across Analytics Platforms" title="Direct link to Comparison: Data Retention Across Analytics Platforms" translate="no">​</a></h2>
-<p>Here's how long-term analytics capabilities compare across major platforms:</p>
-<table><thead><tr><th>Feature</th><th>Google Analytics</th><th>Plausible</th><th>Matomo</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Legal Basis</strong></td><td>Consent (Article 6(1)(a))</td><td>Legitimate Interest</td><td>Legitimate Interest</td><td>Legitimate Interest</td></tr><tr><td><strong>Requires Consent Banner</strong></td><td>Yes</td><td>No</td><td>Depends</td><td>No</td></tr><tr><td><strong>Maximum Retention (With Consent)</strong></td><td>14-26 months</td><td>Unlimited</td><td>Unlimited</td><td><strong>24 months</strong></td></tr><tr><td><strong>Maximum Retention (Without Consent)</strong></td><td>0 months</td><td>26 months</td><td>26 months</td><td><strong>24 months</strong></td></tr><tr><td><strong>Data Deletion on Consent Withdrawal</strong></td><td>Required</td><td>Not required</td><td>Not required</td><td>Not required</td></tr><tr><td><strong>Stores IP Addresses</strong></td><td>Yes</td><td>Hashed</td><td>Hashed</td><td><strong>Zero IPs</strong></td></tr><tr><td><strong>Cross-Session Tracking</strong></td><td>Yes (cookies)</td><td>Optional</td><td>Optional</td><td>Session-only</td></tr><tr><td><strong>Personal Data Risk</strong></td><td>High</td><td>Medium</td><td>Medium</td><td><strong>Zero</strong></td></tr><tr><td><strong>Year-Over-Year Analysis</strong></td><td>If consent maintained</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td><strong>Setup Complexity</strong></td><td>High (consent mgmt)</td><td>Low</td><td>Medium</td><td><strong>2 minutes</strong></td></tr></tbody></table>
-<p><strong>Key Insight</strong>: Sealmetrics is the only platform that combines zero IP storage with 24-month retention, providing long-term analytics without any personal data collection.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="implementation-guide-enabling-long-term-analytics">Implementation Guide: Enabling Long-Term Analytics<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#implementation-guide-enabling-long-term-analytics" class="hash-link" aria-label="Direct link to Implementation Guide: Enabling Long-Term Analytics" title="Direct link to Implementation Guide: Enabling Long-Term Analytics" translate="no">​</a></h2>
-<p>Setting up Sealmetrics for 24-month data retention takes less than 5 minutes.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-1-install-tracking-script">Step 1: Install Tracking Script<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#step-1-install-tracking-script" class="hash-link" aria-label="Direct link to Step 1: Install Tracking Script" title="Direct link to Step 1: Install Tracking Script" translate="no">​</a></h3>
-<p>Add the Sealmetrics script to your site:</p>
-<div class="language-html codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-html codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">defer</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://cdn.sealmetrics.com/v1/track.js</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag" style="color:#00009f"> </span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f">        </span><span class="token tag attr-name" style="color:#00a4db">data-site-id</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">YOUR_SITE_ID</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script language-javascript"></span><br></span><span class="token-line" style="color:#393A34"><span class="token script language-javascript"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
-<p>That's it. No consent banner configuration needed.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-2-configure-data-retention-optional">Step 2: Configure Data Retention (Optional)<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#step-2-configure-data-retention-optional" class="hash-link" aria-label="Direct link to Step 2: Configure Data Retention (Optional)" title="Direct link to Step 2: Configure Data Retention (Optional)" translate="no">​</a></h3>
-<p>By default, Sealmetrics retains data for 24 months. If you need a shorter period for specific compliance requirements:</p>
-<div class="language-javascript codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-javascript codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">// Custom retention (in months)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token dom variable" style="color:#36acaa">window</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">sealmetrics</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token dom variable" style="color:#36acaa">window</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">sealmetrics</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">||</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token dom variable" style="color:#36acaa">window</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">sealmetrics</span><span class="token punctuation" style="color:#393A34">.</span><span class="token property-access">dataRetention</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">18</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"> </span><span class="token comment" style="color:#999988;font-style:italic">// Custom: 18 months</span><br></span></code></pre></div></div>
-<p>However, since Sealmetrics doesn't collect personal data, there's typically no reason to reduce the default 24-month retention.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-3-access-historical-data">Step 3: Access Historical Data<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#step-3-access-historical-data" class="hash-link" aria-label="Direct link to Step 3: Access Historical Data" title="Direct link to Step 3: Access Historical Data" translate="no">​</a></h3>
-<p>Query data from the full 24-month period via API or dashboard:</p>
-<div class="language-javascript codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-javascript codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">// API example: Get pageviews for last 2 years</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">fetch</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">'https://api.sealmetrics.com/v1/stats/pageviews'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token literal-property property" style="color:#36acaa">method</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'POST'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token literal-property property" style="color:#36acaa">headers</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string-property property" style="color:#36acaa">'Authorization'</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'Bearer YOUR_API_KEY'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string-property property" style="color:#36acaa">'Content-Type'</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'application/json'</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token literal-property property" style="color:#36acaa">body</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token known-class-name class-name">JSON</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">stringify</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">site_id</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'YOUR_SITE_ID'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">date_from</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'2022-06-01'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">date_to</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'2024-06-01'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token literal-property property" style="color:#36acaa">period</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'month'</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">then</span><span class="token punctuation" style="color:#393A34">(</span><span class="token parameter">response</span><span class="token plain"> </span><span class="token arrow operator" style="color:#393A34">=&gt;</span><span class="token plain"> response</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">json</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">then</span><span class="token punctuation" style="color:#393A34">(</span><span class="token parameter">data</span><span class="token plain"> </span><span class="token arrow operator" style="color:#393A34">=&gt;</span><span class="token plain"> </span><span class="token console class-name">console</span><span class="token punctuation" style="color:#393A34">.</span><span class="token method function property-access" style="color:#d73a49">log</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">'24-month pageview trend:'</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> data</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-4-verify-compliance">Step 4: Verify Compliance<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#step-4-verify-compliance" class="hash-link" aria-label="Direct link to Step 4: Verify Compliance" title="Direct link to Step 4: Verify Compliance" translate="no">​</a></h3>
-<p>Check your privacy policy includes:</p>
-<div class="language-markdown codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-markdown codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">We use Sealmetrics, a cookieless analytics platform, to understand </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">how visitors use our website. Sealmetrics:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Does not use cookies or require consent banners</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Does not store IP addresses or personal identifiers</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Retains aggregated analytics data for 24 months</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token list punctuation" style="color:#393A34">-</span><span class="token plain"> Operates under legitimate interest (GDPR Article 6(1)(f))</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">No personal data is collected. For more: https://sealmetrics.com/privacy</span><br></span></code></pre></div></div>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="use-cases-when-long-term-analytics-matter">Use Cases: When Long-Term Analytics Matter<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#use-cases-when-long-term-analytics-matter" class="hash-link" aria-label="Direct link to Use Cases: When Long-Term Analytics Matter" title="Direct link to Use Cases: When Long-Term Analytics Matter" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="seasonal-business-analysis">Seasonal Business Analysis<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#seasonal-business-analysis" class="hash-link" aria-label="Direct link to Seasonal Business Analysis" title="Direct link to Seasonal Business Analysis" translate="no">​</a></h3>
-<p>E-commerce sites with strong seasonal patterns need multi-year data:</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Q4 2022 revenue: €150,000</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Q4 2023 revenue: €180,000 (+20%)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Q4 2024 revenue: €225,000 (+25%)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">With consent-based analytics: Can't compare 2022 data if consent expired</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">With Sealmetrics: Full 24-month view shows accelerating holiday growth</span><br></span></code></pre></div></div>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="b2b-saas-customer-lifecycle">B2B SaaS Customer Lifecycle<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#b2b-saas-customer-lifecycle" class="hash-link" aria-label="Direct link to B2B SaaS Customer Lifecycle" title="Direct link to B2B SaaS Customer Lifecycle" translate="no">​</a></h3>
-<p>B2B companies with 12-18 month sales cycles need to track:</p>
-<ul>
-<li class="">First touch → Lead → MQL → SQL → Customer (often 12+ months)</li>
-<li class="">Free trial → Paid conversion tracking over extended periods</li>
-<li class="">Feature adoption patterns across customer lifetime</li>
-</ul>
-<p>Sealmetrics retains the entire journey without consent expiration destroying attribution data.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="content-marketing-roi">Content Marketing ROI<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#content-marketing-roi" class="hash-link" aria-label="Direct link to Content Marketing ROI" title="Direct link to Content Marketing ROI" translate="no">​</a></h3>
-<p>Blog posts and content assets generate traffic for years. Long-term analytics show:</p>
-<ul>
-<li class="">Which 2-year-old articles still drive conversions</li>
-<li class="">SEO traffic growth patterns over 24 months</li>
-<li class="">Content decay rates and refresh opportunities</li>
-</ul>
-<p>This insight is impossible with consent-based analytics that delete data after 6-13 months.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="product-led-growth-tracking">Product-Led Growth Tracking<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#product-led-growth-tracking" class="hash-link" aria-label="Direct link to Product-Led Growth Tracking" title="Direct link to Product-Led Growth Tracking" translate="no">​</a></h3>
-<p>SaaS products need to understand:</p>
-<ul>
-<li class="">User activation patterns over first 12-18 months</li>
-<li class="">Feature adoption timelines (what features users adopt after 6, 12, 18 months)</li>
-<li class="">Cohort retention beyond consent expiration periods</li>
-</ul>
-<p>With 24-month retention, Sealmetrics captures the complete product-led growth story.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="gdpr-compliance-why-25-months-is-legal">GDPR Compliance: Why 25 Months is Legal<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#gdpr-compliance-why-25-months-is-legal" class="hash-link" aria-label="Direct link to GDPR Compliance: Why 25 Months is Legal" title="Direct link to GDPR Compliance: Why 25 Months is Legal" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-minimization-principle">Data Minimization Principle<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#data-minimization-principle" class="hash-link" aria-label="Direct link to Data Minimization Principle" title="Direct link to Data Minimization Principle" translate="no">​</a></h3>
-<p>GDPR Article 5(1)(c) requires data minimization:</p>
-<blockquote>
-<p>"Personal data shall be adequate, relevant and limited to what is necessary."</p>
-</blockquote>
-<p>Sealmetrics achieves this by:</p>
-<ol>
-<li class=""><strong>Not collecting personal data</strong>: No IPs, no cookies, no persistent identifiers</li>
-<li class=""><strong>Aggregate data only</strong>: Session-based metrics, not individual profiles</li>
-<li class=""><strong>Automatic purge</strong>: 24-month deletion ensures data isn't kept indefinitely</li>
-</ol>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="storage-limitation-principle">Storage Limitation Principle<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#storage-limitation-principle" class="hash-link" aria-label="Direct link to Storage Limitation Principle" title="Direct link to Storage Limitation Principle" translate="no">​</a></h3>
-<p>GDPR Article 5(1)(e) requires storage limitation:</p>
-<blockquote>
-<p>"Personal data shall be kept in a form which permits identification of data subjects for no longer than is necessary."</p>
-</blockquote>
-<p>Sealmetrics complies because:</p>
-<ol>
-<li class=""><strong>Data cannot identify individuals</strong>: Session-IDs are temporary and non-linkable</li>
-<li class=""><strong>24 months is proportionate</strong>: Reasonable for business analytics needs</li>
-<li class=""><strong>Automatic deletion</strong>: Built-in expiration prevents indefinite storage</li>
-</ol>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="legitimate-interest-assessment">Legitimate Interest Assessment<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#legitimate-interest-assessment" class="hash-link" aria-label="Direct link to Legitimate Interest Assessment" title="Direct link to Legitimate Interest Assessment" translate="no">​</a></h3>
-<p>Under Article 6(1)(f), three tests must pass:</p>
-<p><strong>Purpose Test</strong>: Is the processing necessary for legitimate interests?<br>
-<!-- -->Yes - Website analytics is a recognized legitimate business interest</p>
-<p><strong>Necessity Test</strong>: Is the processing necessary for that purpose?<br>
-<!-- -->Yes - Analytics requires data retention for pattern identification</p>
-<p><strong>Balancing Test</strong>: Do user interests override business interests?<br>
-<!-- -->No - Zero personal data means minimal user impact, business needs prevail</p>
-<p>CNIL's 2020 guidance explicitly confirms cookieless analytics can operate under legitimate interest when no personal data is collected.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="best-practices-for-long-term-analytics">Best Practices for Long-Term Analytics<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#best-practices-for-long-term-analytics" class="hash-link" aria-label="Direct link to Best Practices for Long-Term Analytics" title="Direct link to Best Practices for Long-Term Analytics" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-leverage-full-historical-data">1. Leverage Full Historical Data<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#1-leverage-full-historical-data" class="hash-link" aria-label="Direct link to 1. Leverage Full Historical Data" title="Direct link to 1. Leverage Full Historical Data" translate="no">​</a></h3>
-<p>Don't limit queries to recent months out of habit:</p>
-<div class="language-javascript codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-javascript codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">// Bad: Only checking last 3 months</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">const</span><span class="token plain"> recentData </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword control-flow" style="color:#00009f">await</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">getAnalytics</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"> </span><span class="token literal-property property" style="color:#36acaa">months</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">3</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">// Good: Using full 24-month history</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">const</span><span class="token plain"> fullHistory </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token keyword control-flow" style="color:#00009f">await</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">getAnalytics</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"> </span><span class="token literal-property property" style="color:#36acaa">months</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">25</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">const</span><span class="token plain"> yearOverYear </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">compareYears</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">fullHistory</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre></div></div>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-build-year-over-year-dashboards">2. Build Year-Over-Year Dashboards<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#2-build-year-over-year-dashboards" class="hash-link" aria-label="Direct link to 2. Build Year-Over-Year Dashboards" title="Direct link to 2. Build Year-Over-Year Dashboards" translate="no">​</a></h3>
-<p>Create dashboards that automatically compare:</p>
-<ul>
-<li class="">This month vs. same month last year</li>
-<li class="">This quarter vs. same quarter last year</li>
-<li class="">Rolling 12-month trends</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-track-cohort-behavior-long-term">3. Track Cohort Behavior Long-Term<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#3-track-cohort-behavior-long-term" class="hash-link" aria-label="Direct link to 3. Track Cohort Behavior Long-Term" title="Direct link to 3. Track Cohort Behavior Long-Term" translate="no">​</a></h3>
-<p>Follow user cohorts through their entire lifecycle:</p>
-<ul>
-<li class="">Users from Q1 2023: What happened after 12, 18, 24 months?</li>
-<li class="">Traffic sources from 2023: Which generated best 2-year ROI?</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-identify-long-tail-content-value">4. Identify Long-Tail Content Value<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#4-identify-long-tail-content-value" class="hash-link" aria-label="Direct link to 4. Identify Long-Tail Content Value" title="Direct link to 4. Identify Long-Tail Content Value" translate="no">​</a></h3>
-<p>Find content that generates value long after publication:</p>
-<ul>
-<li class="">Articles from 2022 still driving traffic in 2024</li>
-<li class="">Evergreen content that compounds over years</li>
-<li class="">Historical posts that become more valuable over time</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-plan-for-data-purge-at-25-months">5. Plan for Data Purge at 25 Months<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#5-plan-for-data-purge-at-25-months" class="hash-link" aria-label="Direct link to 5. Plan for Data Purge at 25 Months" title="Direct link to 5. Plan for Data Purge at 25 Months" translate="no">​</a></h3>
-<p>When data reaches 24 months:</p>
-<ul>
-<li class="">Export critical insights before deletion</li>
-<li class="">Document key trends and patterns</li>
-<li class="">Update forecasting models with latest complete cycles</li>
-</ul>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="frequently-asked-questions">Frequently Asked Questions<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#frequently-asked-questions" class="hash-link" aria-label="Direct link to Frequently Asked Questions" title="Direct link to Frequently Asked Questions" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="is-24-month-retention-gdpr-compliant">Is 24-month retention GDPR compliant?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#is-24-month-retention-gdpr-compliant" class="hash-link" aria-label="Direct link to Is 24-month retention GDPR compliant?" title="Direct link to Is 24-month retention GDPR compliant?" translate="no">​</a></h3>
-<p>Yes. Sealmetrics operates under legitimate interest (Article 6(1)(f)) and doesn't collect personal data (no IPs, no cookies). The 24-month period is proportionate for business analytics needs and includes automatic deletion, satisfying GDPR's storage limitation principle.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-not-unlimited-retention-like-some-competitors">Why not unlimited retention like some competitors?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#why-not-unlimited-retention-like-some-competitors" class="hash-link" aria-label="Direct link to Why not unlimited retention like some competitors?" title="Direct link to Why not unlimited retention like some competitors?" translate="no">​</a></h3>
-<p>While technically possible (since we don't collect personal data), 24 months provides the optimal balance between analytical value and demonstrating GDPR compliance through reasonable storage limits. It covers two full years plus seasonal buffer, which satisfies 99% of business analytics needs.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-happens-to-data-after-24-months">What happens to data after 24 months?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#what-happens-to-data-after-24-months" class="hash-link" aria-label="Direct link to What happens to data after 24 months?" title="Direct link to What happens to data after 24 months?" translate="no">​</a></h3>
-<p>Data older than 24 months is automatically and permanently deleted from Sealmetrics systems. This cannot be reversed. Export any critical historical analysis before the 24-month mark if you need records beyond this period.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="do-i-need-consent-banners-with-24-month-retention">Do I need consent banners with 24-month retention?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#do-i-need-consent-banners-with-24-month-retention" class="hash-link" aria-label="Direct link to Do I need consent banners with 24-month retention?" title="Direct link to Do I need consent banners with 24-month retention?" translate="no">​</a></h3>
-<p>No. Sealmetrics operates under legitimate interest, not consent. You don't need cookie banners, consent management platforms, or consent tracking. Your privacy policy should mention Sealmetrics usage, but no active user consent is required.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-i-reduce-retention-to-less-than-24-months">Can I reduce retention to less than 24 months?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#can-i-reduce-retention-to-less-than-24-months" class="hash-link" aria-label="Direct link to Can I reduce retention to less than 24 months?" title="Direct link to Can I reduce retention to less than 24 months?" translate="no">​</a></h3>
-<p>Yes, you can configure shorter retention periods if your organization's data policy requires it. However, since Sealmetrics doesn't collect personal data, there's typically no compliance reason to reduce retention below 24 months.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-does-this-compare-to-google-analytics-data-retention">How does this compare to Google Analytics data retention?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#how-does-this-compare-to-google-analytics-data-retention" class="hash-link" aria-label="Direct link to How does this compare to Google Analytics data retention?" title="Direct link to How does this compare to Google Analytics data retention?" translate="no">​</a></h3>
-<p>Google Analytics requires consent (cookie-based) and typically allows 14-26 month retention. However, when users withdraw consent or consent expires, Google Analytics must delete all associated data. Sealmetrics' 24-month retention is guaranteed regardless of user actions because no consent is required.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-i-track-individual-users-across-24-months">Can I track individual users across 24 months?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#can-i-track-individual-users-across-24-months" class="hash-link" aria-label="Direct link to Can I track individual users across 24 months?" title="Direct link to Can I track individual users across 24 months?" translate="no">​</a></h3>
-<p>No. Sealmetrics uses session-based tracking, not persistent user tracking. Each visit generates a new Session-ID. This means you can see aggregate patterns over 24 months (traffic trends, popular pages, etc.) but cannot track individual users across sessions or time periods.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-if-my-business-needs-longer-than-24-months">What if my business needs longer than 24 months?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#what-if-my-business-needs-longer-than-24-months" class="hash-link" aria-label="Direct link to What if my business needs longer than 24 months?" title="Direct link to What if my business needs longer than 24 months?" translate="no">​</a></h3>
-<p>For specific use cases requiring longer retention, contact Sealmetrics support. Extended retention may be possible for specific aggregated metrics that demonstrate business necessity and continued GDPR compliance. However, 24 months covers seasonal analysis, year-over-year comparisons, and most B2B sales cycles.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="does-plausible-or-matomo-offer-better-retention">Does Plausible or Matomo offer better retention?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#does-plausible-or-matomo-offer-better-retention" class="hash-link" aria-label="Direct link to Does Plausible or Matomo offer better retention?" title="Direct link to Does Plausible or Matomo offer better retention?" translate="no">​</a></h3>
-<p>Plausible and Matomo offer longer retention options (unlimited in some configurations), but they store hashed IP addresses, creating higher personal data risk. Sealmetrics' zero-IP approach with 24-month retention provides the best balance of long-term analytics capability and privacy protection.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-do-i-access-my-24-month-historical-data">How do I access my 24-month historical data?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#how-do-i-access-my-24-month-historical-data" class="hash-link" aria-label="Direct link to How do I access my 24-month historical data?" title="Direct link to How do I access my 24-month historical data?" translate="no">​</a></h3>
-<p>All Sealmetrics dashboard views and API endpoints automatically include the full 24-month history. No special configuration needed. Simply set your date range in queries to span up to 24 months, and Sealmetrics will return the complete dataset.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="is-data-deleted-exactly-at-24-months-or-gradually">Is data deleted exactly at 24 months or gradually?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#is-data-deleted-exactly-at-24-months-or-gradually" class="hash-link" aria-label="Direct link to Is data deleted exactly at 24 months or gradually?" title="Direct link to Is data deleted exactly at 24 months or gradually?" translate="no">​</a></h3>
-<p>Data is purged on a rolling basis. When analytics data reaches exactly 24 months old (measured from the date of collection), it's automatically deleted. This means your oldest data is always approaching the 24-month mark, and you always have approximately 24 months of history available.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-competitors-see-my-historical-data">Can competitors see my historical data?<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#can-competitors-see-my-historical-data" class="hash-link" aria-label="Direct link to Can competitors see my historical data?" title="Direct link to Can competitors see my historical data?" translate="no">​</a></h3>
-<p>No. Sealmetrics data is completely private to your account. Unlike some analytics platforms that aggregate data across customers, your 24-month historical data is isolated and accessible only to users with your account credentials.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="conclusion-the-strategic-advantage-of-long-term-analytics">Conclusion: The Strategic Advantage of Long-Term Analytics<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#conclusion-the-strategic-advantage-of-long-term-analytics" class="hash-link" aria-label="Direct link to Conclusion: The Strategic Advantage of Long-Term Analytics" title="Direct link to Conclusion: The Strategic Advantage of Long-Term Analytics" translate="no">​</a></h2>
-<p>In a privacy-first world where consent-based analytics platforms lose historical data to consent expiration, <strong>Sealmetrics' 24-month retention provides a strategic competitive advantage</strong>.</p>
-<p>Businesses using Sealmetrics can:</p>
-<ul>
-<li class=""><strong>Make better decisions</strong> with complete historical context</li>
-<li class=""><strong>Identify long-term trends</strong> that short-retention analytics miss</li>
-<li class=""><strong>Calculate true ROI</strong> for marketing channels with long sales cycles</li>
-<li class=""><strong>Optimize seasonally</strong> using multi-year comparison data</li>
-<li class=""><strong>Track customer lifecycles</strong> beyond consent expiration limits</li>
-</ul>
-<p>All while maintaining <strong>zero personal data collection</strong> and <strong>full GDPR compliance</strong>.</p>
-<p>Unlike Google Analytics (which deletes data when consent expires), Plausible (which stores hashed IPs), or Matomo (which requires complex configuration), Sealmetrics provides the simplest path to long-term, privacy-first analytics.</p>
-<p><strong>Ready to gain 24 months of insight without consent banners?</strong></p>
-<p>Start your free trial at <a href="https://sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">sealmetrics.com</a> and experience analytics that doesn't expire with user consent.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="https://docs.sealmetrics.com/blog/long-term-analytics-data-retention#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>
-<ul>
-<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Guide to Cookieless Analytics</a></li>
-<li class=""><a class="" href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework">GDPR Compliant Analytics Framework</a> — Legal bases for long-term data retention</li>
-<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/how-consentless-works">How Consentless Tracking Works</a> — Technical architecture behind privacy-compliant analytics</li>
-<li class=""><a class="" href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics">Sealmetrics vs Google Analytics</a> — Why businesses switch from GA4's limited data retention</li>
-</ul>]]></content>
-        <author>
-            <name>Rafael Jimenez</name>
-            <uri>https://www.linkedin.com/in/rafajimenez</uri>
-        </author>
-        <category label="Data Retention" term="Data Retention"/>
-        <category label="Long-term Analytics" term="Long-term Analytics"/>
-        <category label="GDPR" term="GDPR"/>
         <category label="Cookieless Analytics" term="Cookieless Analytics"/>
+        <category label="GDPR" term="GDPR"/>
         <category label="Privacy" term="Privacy"/>
+        <category label="Implementation" term="Implementation"/>
     </entry>
 </feed>
