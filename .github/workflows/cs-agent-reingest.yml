@@ -23,6 +23,10 @@ jobs:
           SSH_USER: ${{ secrets.HETZNER_SSH_USER }}
           SSH_KEY:  ${{ secrets.HETZNER_SSH_KEY }}
         run: |
+          # bash -e por defecto tumba al primer fallo; desactivado para
+          # poder diagnosticar errores SSH sin que el paso se corte en seco.
+          set +e
+
           echo "::add-mask::$SSH_HOST"
           echo "::add-mask::$SSH_USER"
 
@@ -30,12 +34,37 @@ jobs:
           printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-          ssh -q \
-              -o BatchMode=yes \
+          # Diagnóstico del formato de la key (sin exponer su contenido).
+          KEY_BYTES=$(wc -c < ~/.ssh/id_ed25519)
+          KEY_LINES=$(wc -l < ~/.ssh/id_ed25519)
+          echo "key file: bytes=$KEY_BYTES lines=$KEY_LINES"
+          if ssh-keygen -l -f ~/.ssh/id_ed25519 > /tmp/keychk 2>&1; then
+            # ssh-keygen -l imprime "256 SHA256:... user@host (ED25519)";
+            # nos interesan sólo los 2 últimos campos para confirmar tipo
+            # sin leakear el fingerprint exacto.
+            echo "key format: OK (type $(awk '{print $NF}' /tmp/keychk))"
+          else
+            echo "key format: INVALID"
+            cat /tmp/keychk
+            exit 1
+          fi
+
+          # Conexión. Capturamos stderr en /tmp/sshlog para diagnóstico
+          # selectivo si falla. stdout del forced-command (logs de ingest)
+          # se descarta — no queremos que aparezca en logs públicos.
+          ssh -o BatchMode=yes \
               -o StrictHostKeyChecking=accept-new \
               -o ConnectTimeout=15 \
               -o ServerAliveInterval=30 \
               -i ~/.ssh/id_ed25519 \
               "$SSH_USER@$SSH_HOST" \
-              > /dev/null 2>&1
-          echo "ingest triggered, exit=$?"
+              > /dev/null 2> /tmp/sshlog
+          EXIT=$?
+          echo "ssh exit=$EXIT"
+          if [ "$EXIT" -ne 0 ]; then
+            # Sólo imprimimos líneas de diagnóstico estándar de ssh, no el
+            # output completo (podría leakear banners del servidor).
+            grep -iE "permission denied|connection refused|timed out|refused|no route|bad configuration|invalid|failed|warning" /tmp/sshlog | head -5
+            exit $EXIT
+          fi
+          echo "ingest triggered OK"
