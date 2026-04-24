@@ -240,11 +240,10 @@ const config: Config = {
     },
 
     navbar: {
-      title: 'Sealmetrics',
       logo: {
-        alt: 'Sealmetrics Logo',
+        alt: 'Sealmetrics',
         src: 'img/logo.svg',
-        width: 32,
+        width: 191,
         height: 32,
       },
       items: [
