@@ -8,6 +8,16 @@ keywords:
   - cookieless measurement
 ---
 
+import Head from '@docusaurus/Head';
+
+{/* AUTO-FAQ-SCHEMA:START */}
+<Head>
+  <script type="application/ld+json">
+    {"{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"What data does Sealmetrics collect?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Only four variables: Timestamp URL Referral URL User Agent (not stored) No IP address. No unique identifiers. No cookies or local storage.\"}},{\"@type\":\"Question\",\"name\":\"Do you use fingerprinting?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"No. No techniques that might identify or re-identify individuals.\"}},{\"@type\":\"Question\",\"name\":\"Can Sealmetrics reconstruct user journeys?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"No. Hits are isolated by design.\"}},{\"@type\":\"Question\",\"name\":\"How can the country of origin of my visitors be determined without knowing their IP and while respecting user privacy?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Sealmetrics estimates the country using the timezone configured in the visitor’s browser, a technical value that does not identify the user and does not require processing IP addresses. Each timezone is mapped to the countries that use it. For unique timezones, the estimation is highly accurate; for shared timezones, the most likely country is selected. This method is reliable for aggregated analytics and fully aligns with privacy and data-minimization principles, as no IPs or personal identifiers are collected.\"}},{\"@type\":\"Question\",\"name\":\"Why doesn’t Sealmetrics use IP addresses for geolocation?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Because processing IP addresses involves handling personal data under the GDPR. Sealmetrics is built with a privacy-first approach: we do not track individuals or use data that could identify them. Using the timezone allows us to provide useful insights without relying on personal information.\"}},{\"@type\":\"Question\",\"name\":\"Is the browser timezone considered personal data?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"No. The timezone is a technical value exposed automatically by the browser and does not identify an individual or allow profiling. On its own, it cannot be used for tracking and aligns with data-minimization principles established by privacy regulations.\"}},{\"@type\":\"Question\",\"name\":\"How does timezone-based detection affect the accuracy of my reports?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Reports show a country estimation based on the browser’s timezone. This is more than adequate for traffic analysis, marketing, attribution, and global trends. It does not provide city- or region-level accuracy, but it avoids processing personal data and keeps analytics within strict privacy compliance.\"}}]}"}
+  </script>
+</Head>
+{/* AUTO-FAQ-SCHEMA:END */}
+
 # Technical Privacy FAQ
 
 ## What data does Sealmetrics collect?

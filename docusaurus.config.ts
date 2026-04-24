@@ -132,6 +132,9 @@ const config: Config = {
         blog: {
           showReadingTime: true,
           routeBasePath: '/blog',
+          blogTitle: 'Sealmetrics Blog',
+          blogDescription:
+            'Privacy-first analytics insights — cookieless tracking, GDPR compliance, Google Analytics alternatives, and the consentless analytics playbook for European markets.',
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,
@@ -141,7 +144,7 @@ const config: Config = {
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
           showLastUpdateAuthor: false,
-          showLastUpdateTime: false,
+          showLastUpdateTime: true,
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -156,6 +159,8 @@ const config: Config = {
             '/blog/page/**',
             '/blog/archive',
             '/blog/authors',
+            '/blog/authors/*/authors/**',
+            '/guides',
             '/search',
             '/markdown-page',
             '/category/**',

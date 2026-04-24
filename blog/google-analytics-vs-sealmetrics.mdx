@@ -20,9 +20,14 @@ hide_table_of_contents: false
 
 Google Analytics has dominated web analytics for nearly two decades, but **2025 marks a turning point**. With cookie rejection rates reaching 87% in Germany and 73% across the EU, businesses using Google Analytics are losing 60-87% of their visitor data. This isn't a minor tracking gap—it's a business intelligence crisis.
 
-Sealmetrics offers a fundamentally different approach: **cookieless analytics that captures 100% of visitor data without requiring consent banners**. Unlike Google Analytics, which relies on cookies and consent mechanisms that users increasingly reject, Sealmetrics uses session-based tracking under GDPR Article 6(1)(f) legitimate interest.
+Sealmetrics offers a fundamentally different approach: [**cookieless analytics that captures 100% of visitor data without requiring consent banners**](/intro). Unlike Google Analytics, which relies on cookies and consent mechanisms that users increasingly reject, Sealmetrics uses session-based tracking under [GDPR Article 6(1)(f) legitimate interest](/compliance).
 
 <!-- truncate -->
+
+<!-- AUTO-TLDR:START -->
+> **TL;DR** — Sealmetrics vs Google Analytics compared: data accuracy, GDPR compliance, pricing, and migration. See why businesses capture 5-8x more data.
+<!-- AUTO-TLDR:END -->
+
 
 This comparison examines both platforms across privacy compliance, data accuracy, features, implementation, and cost. Whether you're evaluating Google Analytics alternatives or considering a migration, this guide provides the technical and legal details you need.
 
@@ -226,7 +231,7 @@ Because Sealmetrics operates under legitimate interest and processes minimal dat
 | Data Export | Yes | CSV |
 | **Cost** | | |
 | Free Tier | Up to 10M events/month | No free tier |
-| Paid Plans | Google Analytics 360: $50K+/yr | From 29 EUR/month |
+| Paid Plans | Google Analytics 360: $50K+/yr | From 229 EUR/month |
 | Hidden Costs | Tag Manager, Consent tools | None |
 
 ---
@@ -403,12 +408,12 @@ Many Data Protection Officers reject Google Analytics due to Schrems II, IP stor
 ### Step 2: Set Up Sealmetrics
 
 **Account creation** (2 minutes):
-1. Sign up at sealmetrics.com
+1. Sign up at sealmetrics.com (see [Getting Started →](/getting-started) for the full walkthrough)
 2. Add your domain
 3. Copy script tag
 
 **Installation** (2 minutes):
-1. Add script tag to `<head>` section on all pages
+1. Add script tag to `<head>` section on all pages — full options in the [Implementation guide](/implementation)
 2. If using Google Tag Manager:
    - Create new Custom HTML tag
    - Paste Sealmetrics script
@@ -424,7 +429,7 @@ Total setup time: 5 minutes.
 
 ### Step 3: Configure Custom Events (Optional)
 
-Sealmetrics tracks pageviews automatically. For custom events:
+Sealmetrics tracks pageviews automatically. For custom events (and the full event reference, including server-side ingestion), see the [API Quick Start →](/api/quick-start):
 
 **Example: Track button clicks**:
 ```javascript
