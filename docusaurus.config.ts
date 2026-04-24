@@ -58,6 +58,29 @@ const config: Config = {
       },
     },
     {
+      tagName: 'meta',
+      attributes: {
+        name: 'referrer',
+        content: 'strict-origin-when-cross-origin',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        'http-equiv': 'Permissions-Policy',
+        content:
+          'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), accelerometer=(), gyroscope=()',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        'http-equiv': 'Content-Security-Policy',
+        content:
+          "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pixel.sealmetrics.com https://*.algolia.net https://*.algolianet.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self' https://sealmetrics.com;",
+      },
+    },
+    {
       tagName: 'script',
       attributes: {
         type: 'application/ld+json',
@@ -127,7 +150,7 @@ const config: Config = {
           routeBasePath: '/',
           editUrl: undefined,
           showLastUpdateAuthor: false,
-          showLastUpdateTime: false,
+          showLastUpdateTime: true,
         },
         blog: {
           showReadingTime: true,
