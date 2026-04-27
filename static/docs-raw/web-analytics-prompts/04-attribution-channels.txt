@@ -1,0 +1,112 @@
+# Attribution & Channels
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/04-attribution-channels
+
+# Attribution & Channels
+
+True channel performance using SealMetrics last-click data — no GA4 modeling, no sampling.
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-021 — Channel revenue ranking, last 90 days
+
+```text
+Using SealMetrics MCP for site {site_id}, return the channel ranking by real revenue for the last 90 days.
+
+Group by utm_source / utm_medium pair (or by SealMetrics channel rule if more meaningful). For each row: channel, entrances, conversions, conversion rate, revenue, revenue per session, % of total revenue, 90-day vs prior-90-day delta.
+
+Sort by revenue desc. Highlight the top 3 growing channels and the top 3 shrinking channels.
+End with one-line recommendations for budget reallocation.
+```
+
+---
+
+## WAP-022 — Best and worst utm_source by CR
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 60 days.
+
+For every utm_source with at least 500 entrances:
+- Entrances, conversions, CR, revenue, AOV, bounce rate, % bot.
+
+Rank from highest CR to lowest. Split the list into 3 tiers: top, middle, bottom.
+
+For the top tier, recommend which to scale (more budget, more landing variants).
+For the bottom tier, recommend which to pause and which to fix (label each: pause / fix).
+```
+
+---
+
+## WAP-023 — Best and worst utm_term keywords
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 90 days.
+
+Top 10 utm_term values by conversions (best performers): term, entrances, conversions, CR, revenue.
+Bottom 10 utm_term values among those with at least 200 entrances and 0 or near-zero conversions (worst performers): same columns.
+
+For each bottom-10 term suggest: pause, change match type, or rewrite the landing page that receives most of its traffic.
+```
+
+---
+
+## WAP-024 — Zero-conversion campaigns to pause
+
+```text
+Using SealMetrics MCP for site {site_id}, list every utm_campaign with more than 1000 entrances in the last 30 days and zero macro conversions.
+
+For each: campaign name, source, medium, entrances, micro-conversions, top landing pages, average bounce rate.
+
+Output a "candidates to pause" table. For each candidate, indicate whether to "pause immediately" (no micros either) or "investigate landing fit" (micros present but no macros).
+```
+
+---
+
+## WAP-025 — Campaign cannibalization detector
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 60 days.
+
+Find every pair of utm_campaigns that share more than 60% of the same landing pages in their traffic distribution.
+
+For each pair return: campaign A, campaign B, % of landings shared, entrances each, conversions each, plausible cannibalization risk (high/medium/low based on overlap and source-medium).
+
+End with: which campaign in each pair should be kept, which should be paused or repositioned.
+```
+
+---
+
+## WAP-026 — Direct traffic spike investigation
+
+```text
+Using SealMetrics MCP for site {site_id}, check whether direct traffic (utm_source = direct or null) increased by more than 25% week over week.
+
+If yes:
+1. List the top 20 landing pages receiving the extra direct traffic.
+2. For each, pull the top referrers and top user-agents.
+3. Detect dark social patterns (Slack, Discord, internal tools) or possible UTM stripping.
+
+Output: "Yes/No spike" verdict + investigation table + 3 hypotheses for what is generating it.
+```
+
+---
+
+## WAP-027 — Channel decay month over month
+
+```text
+For site {site_id}, query SealMetrics MCP and compare entrances and conversions by channel for current month vs previous month.
+
+List channels where entrances dropped more than 20% MoM. For each, pull the top 5 utm_campaigns responsible for the decline.
+
+Output: 1 main "decay" table + a nested list of campaigns to investigate per channel. End with a 3-bullet executive summary.
+```
+
+---
+
+## See also
+
+- [Spend Efficiency](./spend-efficiency)
+- [SealMetrics + Google Ads](./google-ads)
+- [Cross-platform](./cross-platform)

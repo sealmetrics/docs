@@ -1,0 +1,113 @@
+---
+sidebar_position: 1
+title: Revenue Leak Detection
+description: Find invisible revenue loss caused by bot traffic, broken pages, weak landing pages, and channel decay. SealMetrics MCP prompts for ICPs in hospitality and ecommerce.
+tags: [revenue, leak, bots, landing-pages, conversion, sealmetrics-mcp, ecommerce, hotels]
+keywords:
+  - revenue leak detection
+  - hidden revenue loss
+  - bot revenue impact
+  - landing page optimization
+  - high bounce rate analysis
+---
+
+# Revenue Leak Detection
+
+Surface hidden revenue loss caused by broken landing pages, bot traffic, and decaying channels. All prompts use the SealMetrics MCP server only.
+
+**MCPs required:** SealMetrics MCP
+**Best for:** CMOs, Ecommerce Managers, Sales & Direct Directors
+**Difficulty:** Basic to intermediate
+
+---
+
+## WAP-001 — High-bounce landing pages with traffic
+
+```text
+You are a senior web analyst with access to the SealMetrics MCP for site {site_id}.
+
+Context:
+- Today is {today}.
+- Time range: last 30 days vs previous 30 days.
+- We want to surface landing pages that are bleeding revenue because of poor first impression.
+
+Task:
+1. List every landing page that received more than 500 entrances in the last 30 days AND has a bounce rate above 70%.
+2. For each page, return: URL, entrances, bounce rate, conversion rate, conversions, micro-conversions, % delta vs previous 30 days.
+3. Rank by "lost entrances" = entrances × bounce_rate.
+4. For the top 10, propose 3 plausible hypotheses for the high bounce (intent mismatch, slow load, broken layout, weak headline, irrelevant traffic source).
+
+Output format: a markdown table sorted by lost entrances desc, followed by the top 10 hypotheses block.
+```
+
+---
+
+## WAP-002 — Pages with traffic but zero conversions
+
+```text
+Using SealMetrics MCP for site {site_id}, find every page that received more than 200 visits in the last 14 days and has zero conversions AND zero micro-conversions.
+
+For each page return:
+- URL, page type (landing or internal), entrances, pageviews, bounce rate, average time on page, top 3 traffic sources.
+
+After the table, propose 2 optimization hypotheses per page (CTA clarity, content depth, intent mismatch, technical issue).
+
+Order the table by entrances desc. Limit output to 25 pages max.
+```
+
+---
+
+## WAP-003 — Bot and agent traffic cost estimate
+
+```text
+For site {site_id}, retrieve bot and agent-suspected traffic from SealMetrics MCP for the last quarter (last 90 days).
+
+Compute and report:
+1. Total sessions classified as bot or agent_suspected.
+2. Distribution of those sessions by traffic source (top 10 sources).
+3. % of total entrances that were bot/agent.
+4. % of paid traffic (utm_medium = cpc/paid/ppc) that was bot/agent.
+5. If I tell you my average paid CPC ({avg_cpc}€), estimate the wasted ad spend on bot traffic alone.
+
+Format: 1 summary table + 1 narrative paragraph with the wasted spend estimate flagged in bold.
+```
+
+---
+
+## WAP-004 — Channel decay alert
+
+```text
+Using SealMetrics MCP for site {site_id}, compare conversions and revenue by channel (utm_source / utm_medium) for the last 30 days vs the prior 30 days.
+
+For each channel return:
+- Channel name, entrances current vs previous, conversions current vs previous, revenue current vs previous, % delta on each metric.
+
+Highlight every channel with a conversion drop greater than 20%. For each highlighted channel, also list the campaigns (utm_campaign) responsible for the bulk of the drop.
+
+Output: 1 main table sorted by revenue lost desc, plus a "campaigns to investigate" section underneath.
+```
+
+---
+
+## WAP-005 — Catastrophic landing pages audit
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 30 days and return every page with ALL of the following:
+- More than 100 visits
+- Bounce rate above 85%
+- Zero micro-conversions
+
+Columns: URL, entrances, bounce rate, average time on page, top traffic source, content group (if available).
+
+Sort by entrances desc. Mark with "🔴 KILL" any page with zero conversions across the last 90 days, "🟡 FIX" the rest.
+
+Then propose: a) which pages to deindex/redirect, b) which pages to rewrite, c) which pages to test with a different audience.
+```
+
+---
+
+## See also
+
+- [Conversion Optimization](./conversion-optimization)
+- [Spend Efficiency](./spend-efficiency)
+- [Forecasting](./forecasting)

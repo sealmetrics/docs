@@ -1,0 +1,102 @@
+# Geography & Segmentation
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/05-geography
+
+# Geography & Segmentation
+
+Where is your revenue coming from, where could it come from, and where are you leaking?
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-028 — Country revenue with monthly trend
+
+```text
+Using SealMetrics MCP for site {site_id}, return revenue by country for the last 6 full months.
+
+Output: one row per country, one column per month, plus columns for: total revenue 6m, % share of total, MoM trend (up/flat/down), CAGR over the 6 months.
+
+Limit to the top 20 countries by revenue. End with a 3-bullet summary: top growing markets, top shrinking markets, surprise findings.
+```
+
+---
+
+## WAP-029 — Top 5 fastest-growing entrance countries
+
+```text
+For site {site_id}, query SealMetrics MCP and compute entrances by country for the last 90 days vs the prior 90 days.
+
+Identify the top 5 countries with the largest absolute entrance growth. For each, return: entrances current, entrances previous, % growth, conversions, conversion rate, revenue, dominant traffic source.
+
+Flag any country whose entrance growth comes with a CR drop greater than 20% (low-quality acquisition).
+
+End with a recommendation: which growth markets deserve localized landing pages or campaigns.
+```
+
+---
+
+## WAP-030 — Countries with traffic but zero conversions
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 90 days:
+
+List every country with more than 500 entrances and zero macro conversions.
+
+For each return: entrances, micro-conversions, bounce rate, top traffic source, top device, top language.
+
+Diagnose plausible blockers per country: language, payment method, shipping policy, currency, regulatory. End with a prioritized list of "fix first" countries based on entrance volume.
+```
+
+---
+
+## WAP-031 — Best country per active campaign
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 60 days.
+
+For every active utm_campaign with more than 200 entrances:
+- Top 3 countries by conversion rate
+- Top 3 countries by revenue
+- Country with the worst CR (candidate to exclude from targeting)
+
+Output: a nested table grouped by campaign. End with 3 cross-campaign patterns you observe.
+```
+
+---
+
+## WAP-032 — Hotels: direct booking countries vs OTA-coming countries
+
+```text
+Using SealMetrics MCP for site {site_id} (a hotel site), for the last 90 days:
+
+1. Identify the top 10 countries by direct conversions (utm_source = direct or null, organic, brand search).
+2. Identify the top 10 countries arriving via OTA-style referrers (booking.com, expedia.com, hotels.com, agoda, kayak, trivago).
+3. Build a side-by-side table: country, direct conversions, OTA referrer entrances, ratio direct / OTA.
+
+Highlight countries with high OTA arrivals but low direct conversions — potential targets for paid brand defense and direct-booking incentives.
+```
+
+---
+
+## WAP-033 — Geo conversion mismatch (under-converted markets)
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 90 days.
+
+Compute two rankings:
+- Top 20 countries by entrances
+- Top 20 countries by conversion rate (with at least 200 entrances)
+
+Find countries that appear in the entrances top 20 but NOT in the CR top 20. These are markets with attention but weak conversion.
+
+For each, pull entrances, CR, revenue, dominant device, dominant language. Propose 1 hypothesis per country (UX, payment, currency, language, shipping). End with the top 3 countries to optimize first.
+```
+
+---
+
+## See also
+
+- [Hotels prompts](./hotels)
+- [Ecommerce prompts](./ecommerce)
+- [SealMetrics + Google Ads](./google-ads)

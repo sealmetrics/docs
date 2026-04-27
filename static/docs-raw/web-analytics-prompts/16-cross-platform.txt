@@ -1,0 +1,220 @@
+# Cross-platform — All MCPs
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/16-cross-platform
+
+# Cross-platform — All MCPs
+
+The most powerful prompts in the library. Combine SealMetrics with two or more platform MCPs (Google Ads, Meta Ads, GSC) to triangulate truth, expose waste, and reallocate budget.
+
+**MCPs required:** SealMetrics MCP + at least 2 of: Google Ads MCP, Meta Ads MCP, GSC MCP
+
+---
+
+## WAP-125 — Triangulation per top landing
+
+```text
+You have access to: SealMetrics MCP for site {site_id}, Google Ads MCP for {google_ads_account}, Meta Ads MCP for {meta_account}, GSC MCP for {gsc_property}.
+
+For the top 30 landing pages by total entrances last 30 days, build a triangulation table:
+- URL
+- Google Ads spend sending traffic to that URL
+- Meta Ads spend sending traffic to that URL
+- GSC organic clicks landing on that URL
+- Real conversions and revenue (SealMetrics)
+- Blended ROAS = revenue_sealmetrics / (spend_google + spend_meta)
+- Organic contribution = organic_clicks × site_median_organic_CR × AOV
+
+Rank by blended ROAS desc. Highlight the 5 highest blended ROAS landings (winners) and the 5 lowest (waste candidates).
+```
+
+---
+
+## WAP-126 — Channel cannibalization on shared landings
+
+```text
+Using SealMetrics MCP for site {site_id}, Google Ads MCP {google_ads_account}, Meta Ads MCP {meta_account}, and GSC MCP {gsc_property}:
+
+Find landing pages receiving traffic from all four sources simultaneously (Google Ads, Meta Ads, organic GSC, direct).
+
+For each: split conversions and revenue by channel. Compute share of conversions per channel.
+
+Identify pages where paid (Google + Meta) accounts for most spend but conversions skew heavily to organic / direct — likely cannibalization. For those, recommend pausing paid and reallocating budget elsewhere.
+
+Output: top 20 cannibalization candidates with estimated savings.
+```
+
+---
+
+## WAP-127 — Total waste audit
+
+```text
+For site {site_id}: SealMetrics MCP. For paid: Google Ads MCP {google_ads_account} and Meta Ads MCP {meta_account}.
+
+Last 30 days:
+- Total spend Google Ads + Meta Ads
+- Total real conversions and revenue from SealMetrics matching those paid sources
+- % of paid spend that resulted in zero conversions (campaigns with spend > 0 and SealMetrics conversions = 0)
+- % of paid spend that resulted in conversions below break-even ROAS = {breakeven_roas}
+
+Output: 1 summary table with absolute and % values. End with a "first 10 campaigns to pause" list ordered by absolute waste.
+```
+
+---
+
+## WAP-128 — Top products: best channel per ROAS
+
+```text
+Using SealMetrics MCP for site {site_id}, Google Ads MCP {google_ads_account}, Meta Ads MCP {meta_account}, GSC MCP {gsc_property}:
+
+For the top 10 products / SKUs by revenue last 60 days:
+- Per channel (Google Ads, Meta Ads, organic GSC, direct), real revenue from SealMetrics conversion_items mapped to that channel
+- Spend per channel where applicable
+- Real ROAS per channel
+
+Per product, indicate the best-performing channel and the worst. End with 3 reallocation recommendations (which products to push more on which channel).
+```
+
+---
+
+## WAP-129 — Severe ROAS discrepancy
+
+```text
+For site {site_id} (SealMetrics MCP), Google Ads {google_ads_account}, Meta Ads {meta_account}:
+
+Per campaign, last 30 days:
+- ROAS reported by the platform (Google or Meta)
+- ROAS computed from SealMetrics revenue
+- Delta
+
+Highlight campaigns where the platform reports ROAS > 3 but SealMetrics computes ROAS < 1.5. Those are severely overstated.
+
+Output: ranked by absolute spend wasted (= spend × (ROAS_platform - ROAS_real) / ROAS_platform). End with a 3-bullet recommendation: revisit conversion setup, switch optimization mode, or pause.
+```
+
+---
+
+## WAP-130 — Incrementality test design (Google Ads pause)
+
+```text
+Using SealMetrics MCP for site {site_id}, Google Ads MCP {google_ads_account}, GSC MCP {gsc_property}:
+
+I am about to pause campaign {campaign_name} for 7 days as an incrementality test. Before pausing:
+- Pull baseline: organic + direct conversions for the targeted geos / queries last 14 days.
+- Identify expected organic / direct lift if paid is truly cannibalizing.
+- Suggest control geos / queries that should NOT be affected so I can compare.
+
+After 7 days, I will rerun this prompt asking you to compare actual organic / direct lift vs baseline. Output the test plan now.
+```
+
+---
+
+## WAP-131 — Cross-channel executive report
+
+```text
+For site {site_id} (SealMetrics MCP), Google Ads MCP {google_ads_account}, Meta Ads MCP {meta_account}, GSC MCP {gsc_property}:
+
+Build a monthly executive report comparing:
+- Real revenue from SealMetrics (the truth)
+- Sum of revenue reported by Google Ads + Meta Ads (the platforms)
+- Organic-attributed revenue from GSC clicks × site_organic_CR × AOV
+
+Compute the delta and indicate where the gap is concentrated (which channel overstates the most, which under-credits organic).
+
+Output: 1 summary paragraph + 3 bullet insights for the C-level. Tone: factual, no hedging.
+```
+
+---
+
+## WAP-132 — Budget reallocation recommendation
+
+```text
+Using SealMetrics MCP for site {site_id}, Google Ads MCP {google_ads_account}, Meta Ads MCP {meta_account}:
+
+Given my current spend ({google_spend}€/month on Google Ads, {meta_spend}€/month on Meta Ads) and the real ROAS per campaign from SealMetrics, recommend how to redistribute a hypothetical extra {extra_budget}€ to maximize incremental real revenue.
+
+Rules:
+- Do not increase spend on campaigns with real ROAS < 2.
+- Cap any single campaign at 30% growth to avoid saturation.
+- Reserve 10% for testing 2 new campaigns ideas (you suggest the targeting based on top-performing audiences/segments).
+
+Output: a reallocation table with current spend, recommended spend, expected real revenue lift per campaign.
+```
+
+---
+
+## WAP-133 — Paid keywords cannibalizing organic
+
+```text
+For site {site_id} (SealMetrics MCP), Google Ads {google_ads_account} (Google Ads MCP), GSC {gsc_property} (GSC MCP):
+
+Find every keyword where I rank organically in positions 1-3 AND I currently pay for Google Ads to bid on it.
+
+Per keyword: organic clicks, paid clicks, paid spend, total conversions in SealMetrics, % attributed to paid vs organic.
+
+Estimate annual savings if I pause paid bidding on those keywords (assume 80% of paid clicks would have come organically anyway, conservatively). Output ranked savings list.
+```
+
+---
+
+## WAP-134 — Cross-platform alert
+
+```text
+Using SealMetrics MCP for site {site_id}, Google Ads MCP {google_ads_account}, Meta Ads MCP {meta_account}:
+
+Compare last 7 days vs prior 7 days:
+- Total paid spend (Google + Meta)
+- Real revenue from SealMetrics
+- Real blended ROAS
+
+If paid spend grew more than 20% and real revenue grew less than 5%, trigger an alert.
+
+Alert payload: % spend delta, % revenue delta, blended ROAS delta, which campaigns drove the spend growth, which campaigns failed to convert. End with a 3-bullet "what to pause first" recommendation.
+```
+
+---
+
+## WAP-135 — Master landing scorecard
+
+```text
+Using all available MCPs (SealMetrics for {site_id}, Google Ads {google_ads_account}, Meta Ads {meta_account}, GSC {gsc_property}):
+
+For the top 50 landing pages by total entrances last 60 days, build a master scorecard with columns:
+- URL
+- Total entrances (SealMetrics)
+- Organic clicks (GSC) and average position
+- Google Ads spend and clicks
+- Meta Ads spend and clicks
+- Direct entrances (SealMetrics)
+- Real conversions and revenue (SealMetrics)
+- Blended ROAS
+- A 1-line "verdict" (scale, fix, pause, deindex, ignore) with reasoning
+
+Rank by potential lift = (site_median_CR − landing_CR) × entrances × AOV. The top 5 deserve immediate optimization sprints.
+```
+
+---
+
+## WAP-136 — Weekly CMO cross-platform digest
+
+```text
+For site {site_id} with all MCPs connected, every Monday:
+
+Build a weekly digest covering last full week:
+1. Total paid spend (Google + Meta), week vs prior week.
+2. Real revenue (SealMetrics), week vs prior week.
+3. Blended ROAS, week vs prior week.
+4. Organic clicks (GSC), week vs prior week.
+5. Top 3 cross-channel opportunities (e.g. underspent winners, overspent losers, organic queries to amplify with content).
+6. Top 3 risks (creative fatigue, ranking drops, channel decay).
+
+Format: clean markdown email, English, max 350 words. End with one strict priority for the team this week.
+```
+
+---
+
+## See also
+
+- [Attribution & Channels](./attribution-channels)
+- [Spend Efficiency](./spend-efficiency)
+- [Executive Reporting](./executive-reporting)
+- [Forecasting](./forecasting)

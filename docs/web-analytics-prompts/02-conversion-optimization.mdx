@@ -1,0 +1,154 @@
+---
+sidebar_position: 2
+title: Conversion Optimization
+description: Funnel drop-off, micro-to-macro conversion ratios, mobile-vs-desktop gaps, content group performance, and search-term opportunities. SealMetrics MCP prompts for revenue lift.
+tags: [conversion, cro, funnel, micro-conversions, content-groups, sealmetrics-mcp, ecommerce, hotels]
+keywords:
+  - conversion rate optimization
+  - funnel drop-off
+  - micro conversion ratio
+  - mobile conversion gap
+  - content group conversion
+---
+
+# Conversion Optimization
+
+Find where users drop off, which devices underperform, and which content groups deserve more investment.
+
+**MCPs required:** SealMetrics MCP
+**Best for:** CMOs, Ecommerce Managers, Sales & Direct Directors
+
+---
+
+## WAP-006 — Weekly funnel drop-off alert
+
+```text
+Using SealMetrics MCP for site {site_id}, compute the main conversion funnel week over week for the last 8 weeks.
+
+Funnel steps (adjust if my actual funnel differs — ask me first if unclear):
+1. Landing page entrance
+2. View product / view room
+3. Add to cart / start booking
+4. Checkout / payment step
+5. Purchase / booking confirmation
+
+For each step return: sessions in step, % conversion to next step, week-over-week delta.
+
+Alert me on any step where the step-to-step conversion dropped more than 15% vs the previous week. For each alerted step, give me the top 3 traffic sources that worsened in the same period.
+
+Output: a 5-row × 8-week matrix + an "Alerts" section underneath.
+```
+
+---
+
+## WAP-007 — Micro-to-macro conversion ratio
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 30 days.
+
+For every micro-conversion type (add_to_cart, view_product, search, signup, view_room, etc.):
+- Total micro events
+- Sessions that fired the micro AND completed a macro conversion afterwards
+- Ratio macro / micro
+- Average revenue per macro that started with that micro
+
+Rank micro-conversions by absolute volume of macros generated. Flag the ones with high volume but low ratio (high intent leak) and the ones with low volume but high ratio (under-exposed funnels).
+
+Output: 1 table + a 3-bullet "what to amplify, what to fix" summary.
+```
+
+---
+
+## WAP-008 — Top 10 landing pages and shared patterns
+
+```text
+Using SealMetrics MCP for site {site_id}, return the top 10 landing pages by conversion rate in the last 90 days, with at least 200 entrances each.
+
+For every page provide: URL, entrances, conversions, CR, revenue, top traffic source, top device, content group, average time on page.
+
+Then analyze the list and extract 3 to 5 shared patterns (URL structure, source, content group, device skew, time on page). Phrase them as "rules of thumb" I can apply to other pages.
+
+Final block: pick 3 pages from the rest of the catalog that violate these rules and propose A/B tests.
+```
+
+---
+
+## WAP-009 — Mobile vs desktop conversion gap
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 30 days.
+
+Per landing page (top 50 by entrances), return CR for desktop and CR for mobile, side by side, with the absolute gap and the relative gap.
+
+Flag every page where mobile CR is more than 30% lower than desktop CR. For each flagged page, also pull bounce rate and time on page split by device.
+
+Output: a sortable markdown table + a top-5 list of "mobile experience suspects" with a one-line hypothesis each.
+```
+
+---
+
+## WAP-010 — Conversions by content group
+
+```text
+Using SealMetrics MCP for site {site_id}, give me a full breakdown of conversions and revenue by content group for the last 90 days.
+
+For every content group: entrances, conversions, conversion rate, revenue, AOV (revenue / conversions), share of total revenue.
+
+Rank by revenue. Highlight content groups that capture more than 10% of entrances but less than 5% of revenue (overexposed losers) and content groups under 5% of entrances but more than 10% of revenue (underexposed winners).
+
+End with a recommendation: which content groups should get more SEO/Ads/email investment next quarter.
+```
+
+---
+
+## WAP-011 — Top SKUs per landing page (ecommerce)
+
+```text
+For site {site_id}, query SealMetrics MCP using property breakdown on conversion_items.
+
+For each of the top 30 landing pages by revenue last 30 days, return:
+- Landing URL, conversions, revenue
+- Top 5 SKUs purchased after landing on that page (sku, units, revenue)
+
+Identify "landing-SKU" pairs where the top-converting SKU is NOT featured on the landing page (likely thanks to internal navigation). Suggest pinning that SKU above the fold.
+
+Output: nested table grouped by landing page + a "missed merchandising opportunities" list at the end.
+```
+
+---
+
+## WAP-012 — Cart-to-purchase ratio per category (ecommerce)
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 30 days:
+
+1. For every product category (property `category` on micro-conversion add_to_cart and on conversion_items): count add_to_cart events and count purchases.
+2. Compute cart-to-purchase ratio per category.
+3. Compute the abandonment delta vs site average.
+
+Rank categories by absolute leak (add_to_cart events that did not turn into a purchase). Highlight the 5 worst.
+
+For each of the top 5 leaks, suggest 2 likely causes (price, shipping, stock, payment friction) and what data point I should pull next to confirm.
+```
+
+---
+
+## WAP-013 — High-intent search terms without dedicated landings
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 90 days.
+
+List every utm_term (paid keyword) or organic search term with 3 or more conversions that did NOT land on a URL containing the term as a slug fragment.
+
+For each term return: term, conversions, revenue, current top landing page URL, current CR.
+
+Prioritize by potential lift (conversions × current CR vs site-best CR). End with a list of "landing pages to build" sorted by expected revenue impact.
+```
+
+---
+
+## See also
+
+- [Revenue Leak Detection](./revenue-leak)
+- [Product Properties](./product-properties)
+- [Attribution & Channels](./attribution-channels)

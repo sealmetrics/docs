@@ -1,0 +1,175 @@
+---
+sidebar_position: 14
+title: SealMetrics + Meta Ads
+description: iOS attribution gap, audience ROAS, creative fatigue, placement optimization, retargeting cannibalization. Cross-MCP prompts combining SealMetrics with Meta Ads.
+tags: [meta-ads, facebook, instagram, ios-att, roas, multi-mcp, sealmetrics-mcp, meta-ads-mcp]
+keywords:
+  - meta ads roas
+  - ios 14.5 attribution
+  - facebook ads gap
+  - audience roas analysis
+  - creative fatigue detection
+---
+
+# SealMetrics + Meta Ads
+
+Meta's reported numbers are an estimate, especially post-iOS 14.5. SealMetrics gives you the deterministic baseline. These prompts compare the two.
+
+**MCPs required:** SealMetrics MCP + Meta Ads MCP
+
+---
+
+## WAP-106 — Meta ROAS vs real ROAS
+
+```text
+You have access to SealMetrics MCP for site {site_id} and Meta Ads MCP for account {meta_account}.
+
+Last 30 days per ad set:
+- Spend (Meta Ads)
+- Conversions and revenue reported by Meta
+- Conversions and revenue captured by SealMetrics (matched on utm_campaign + utm_source = facebook|instagram + utm_medium = paidsocial|cpc)
+- ROAS_meta and ROAS_real
+- Delta
+
+Highlight ad sets where Meta ROAS overstates real ROAS by more than 0.5x. Those are likely benefiting from modeling on iOS users.
+
+Output: 1 ranking table + 3-bullet bidding recommendation.
+```
+
+---
+
+## WAP-107 — Conversion gap post-iOS 14.5
+
+```text
+Using SealMetrics MCP for site {site_id} and Meta Ads MCP for account {meta_account}:
+
+Per ad set, last 30 days:
+- Conversions reported by Meta (split by iOS / Android / Web if available)
+- Conversions in SealMetrics by source = facebook|instagram, broken down by device platform
+
+Compute % under-reporting on iOS vs Android. Highlight ad sets where the iOS gap is larger than 30% — those are where Meta's modeling matters most.
+
+End with a recommendation on which ad sets to optimize using SealMetrics conversions instead of Meta's reported.
+```
+
+---
+
+## WAP-108 — High CPM, low quality traffic
+
+```text
+For site {site_id} (SealMetrics MCP) and Meta account {meta_account} (Meta Ads MCP):
+
+Per campaign, last 30 days:
+- CPM (Meta)
+- Bounce rate of incoming SealMetrics traffic
+- % bot/agent_suspected from that source
+
+List campaigns with above-account-median CPM AND above-site-median bounce rate AND above 5% bot share. Those are paying premium for low quality.
+
+Output: ranked table by spend + a 3-bullet recommendation: pause, change audience, change placement.
+```
+
+---
+
+## WAP-109 — Audience ROAS ranking
+
+```text
+Using SealMetrics MCP for site {site_id} and Meta Ads MCP for account {meta_account}:
+
+Per audience (saved or custom), last 60 days:
+- Spend (Meta)
+- Real conversions and revenue (SealMetrics)
+- Real ROAS = revenue_sealmetrics / spend
+- Revenue per session
+
+Rank audiences by real ROAS desc. Highlight top 3 to scale and bottom 3 to retire.
+End with a 3-bullet recommendation including 2 lookalike candidates to test based on the top performers.
+```
+
+---
+
+## WAP-110 — Creative fatigue detector
+
+```text
+For site {site_id} (SealMetrics MCP) and Meta account {meta_account} (Meta Ads MCP):
+
+Per ad creative, last 14 days:
+- Frequency (Meta)
+- CTR trend (Meta)
+- Real CR trend on the destination landing (SealMetrics)
+
+Identify creatives with frequency above 3 AND declining real CR over the last 2 weeks (more than 15% drop). Those are fatigued.
+
+Output: list of fatigued creatives with absolute spend and lost potential revenue. Recommend swap or refresh per creative.
+```
+
+---
+
+## WAP-111 — Best creative + landing combination
+
+```text
+Using SealMetrics MCP for site {site_id} and Meta Ads MCP for account {meta_account}:
+
+Cross every active creative with the landing page it sends to. Last 30 days:
+- Spend
+- Real conversions (SealMetrics)
+- Real ROAS
+
+Output the top 10 creative-landing combinations by ROAS and the bottom 10. End with a "test plan": 3 new combinations to launch based on what's working.
+```
+
+---
+
+## WAP-112 — Adsets with high frequency and high bounce
+
+```text
+For site {site_id} (SealMetrics MCP) and Meta account {meta_account} (Meta Ads MCP):
+
+Per ad set, last 14 days:
+- Frequency (Meta)
+- Bounce rate of incoming SealMetrics traffic from that ad set
+- Real CR
+
+Find ad sets with frequency greater than 4 AND bounce rate above 65% AND real CR below site median. Those are over-saturated and the audience is no longer responsive.
+
+Output: ranked table + a 3-bullet rotation plan.
+```
+
+---
+
+## WAP-113 — Placement performance
+
+```text
+Using SealMetrics MCP for site {site_id} and Meta Ads MCP for account {meta_account}:
+
+Split last 30 days by placement (Reels, Feed, Stories, Marketplace, Audience Network, etc.):
+- Spend
+- Real conversions and revenue from SealMetrics, mapped via utm_content or campaign naming convention I provide
+- Real ROAS per placement
+
+Output: ranked table. End with a 3-bullet placement reallocation suggestion.
+```
+
+---
+
+## WAP-114 — Cold vs retargeting cannibalization
+
+```text
+For site {site_id} (SealMetrics MCP) and Meta account {meta_account} (Meta Ads MCP):
+
+Split campaigns into prospecting (cold) and retargeting based on naming convention or audience type.
+
+Per group: spend (Meta), real conversions (SealMetrics), real revenue, share of total social conversions.
+
+Estimate cannibalization risk: % of retargeting conversions that are also from users who arrived initially via prospecting in the same lookback window.
+
+Output: a verdict (high / medium / low cannibalization) + a 3-bullet budget reallocation suggestion.
+```
+
+---
+
+## See also
+
+- [Cross-platform prompts](./cross-platform)
+- [Spend Efficiency](./spend-efficiency)
+- [Attribution & Channels](./attribution-channels)

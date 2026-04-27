@@ -1,0 +1,104 @@
+# Executive Reporting
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/08-executive-reporting
+
+# Executive Reporting
+
+For ICPs who do not want dashboards — they want one paragraph and three bullets. These prompts produce ready-to-share natural-language reports.
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-045 — Monthly C-level digest
+
+```text
+Using SealMetrics MCP for site {site_id}, build a C-level monthly report for {month}.
+
+Sections (each one paragraph max):
+1. Headline — total revenue, conversions, entrances vs previous month and vs same month last year.
+2. Top 3 channels by revenue, with delta vs previous month.
+3. Top 3 conversions / wins of the month (best landing, best campaign, best country).
+4. Top 3 leaks / risks (worst funnel step, worst campaign, worst landing).
+5. One forecast-style sentence: "If current run-rate holds, next month will be X / Y / Z".
+
+Tone: factual, executive, no jargon, no emojis, English. Output as clean markdown ready to paste into an email.
+```
+
+---
+
+## WAP-046 — Quarter-over-quarter KPI report
+
+```text
+For site {site_id}, query SealMetrics MCP and compare the current quarter (Q-to-date) vs the previous full quarter on:
+- Entrances, conversions, conversion rate, revenue, AOV, % bot share, top 5 channels, top 5 landings.
+
+Output: a single KPI table with two columns (current Q, previous Q) plus a delta column.
+
+Underneath, write 3 actionable insights: one growth driver, one risk, one untapped opportunity. Length: 1 line each.
+```
+
+---
+
+## WAP-047 — Silent winners detection
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 90 days:
+
+Find pages and channels that grew consistently month over month for the past 3 months but are NOT in the top 10 by absolute revenue. These are "silent winners".
+
+For each: name, 3-month growth rate, current revenue, current rank, projected rank in 90 days if growth continues.
+
+End with a recommendation: which 3 silent winners deserve dedicated investment now to accelerate them into the top 10.
+```
+
+---
+
+## WAP-048 — Weekly natural-language digest
+
+```text
+Using SealMetrics MCP for site {site_id}, generate a weekly digest for last full week.
+
+Format strictly:
+- The good (3 bullets, max 12 words each)
+- The bad (3 bullets, max 12 words each)
+- The urgent (1 bullet, max 20 words, with explicit owner suggestion: "Marketing", "Tech", "Revenue ops")
+
+No tables. No charts. Plain English. Tone: tight, opinionated, no hedging.
+```
+
+---
+
+## WAP-049 — Friday weekly report
+
+```text
+For site {site_id}, query SealMetrics MCP for the week ending {friday}.
+
+Build a Friday recap with:
+1. Numbers — entrances, conversions, revenue, top 3 channels with % share.
+2. Top 3 wins — concrete (a campaign, a page, a country, a SKU).
+3. Top 3 leaks — concrete (a funnel step, a campaign, a referrer).
+4. Suggested action for next week — exactly one priority.
+
+Output as markdown email-ready. Sign off as "SealMetrics analyst".
+```
+
+---
+
+## WAP-050 — Daily anomaly digest (3 most relevant)
+
+```text
+Using SealMetrics MCP for site {site_id}, scan the last 24 hours for anomalies on entrances, conversions, revenue, bot share, channel mix, and landing pages.
+
+Pick exactly 3 anomalies, ranked by business impact (estimated revenue affected). For each:
+- Metric, magnitude, % delta vs trailing 7-day baseline, plausible cause, suggested action, owner (Marketing / Tech / Revenue ops).
+
+Format: 3 short cards. No padding. No charts. Suitable for a morning Slack digest.
+```
+
+---
+
+## See also
+
+- [Forecasting](./forecasting)
+- [Alerts & Monitoring](./alerts-monitoring)

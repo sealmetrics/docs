@@ -1,0 +1,112 @@
+---
+sidebar_position: 7
+title: Alerts & Monitoring
+description: Build daily, weekly, and threshold-based alert rules. Pull-style MCP prompts for review plus configuration ideas for SealMetrics native Alerts + webhooks.
+tags: [alerts, monitoring, anomalies, webhooks, sealmetrics-mcp, sealmetrics-alerts]
+keywords:
+  - daily analytics alerts
+  - threshold alerts
+  - bot share alert
+  - webhook alerts
+  - on-call analytics
+---
+
+# Alerts & Monitoring
+
+These prompts run on demand via the MCP. To get **push** notifications without asking the agent, configure SealMetrics native Alerts and Webhooks (see [Alerts API](/api/alerts)). Use these prompts to design and review them.
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-039 — Daily conversion drop check
+
+```text
+Using SealMetrics MCP for site {site_id}, compare conversions for yesterday vs the trailing 7-day mean.
+
+If yesterday's conversions are more than 25% below that mean, return:
+- Yesterday total, baseline mean, % delta
+- Top 5 channels with the biggest absolute drop
+- Top 5 landing pages with the biggest absolute drop
+- Whether the drop is concentrated in a specific device or country
+
+If the drop is below threshold, just say "All clear" with the actual delta.
+```
+
+---
+
+## WAP-040 — Channel halving alert
+
+```text
+For site {site_id}, query SealMetrics MCP and compare entrances by channel for yesterday vs the day before.
+
+Flag any channel that lost more than 50% entrances day over day.
+
+For each flagged channel: entrances yesterday, entrances day-before, top 5 campaigns affected, plausible causes (campaign paused, daily budget exhausted, tracking break, weekend).
+
+Output: alert message + investigation block. If nothing flagged, return "All clear" with the smallest day-over-day delta logged.
+```
+
+---
+
+## WAP-041 — New high-volume campaign alert
+
+```text
+Using SealMetrics MCP for site {site_id}, list every utm_campaign that crossed 100 entrances for the first time in the last 24 hours.
+
+For each: campaign, source, medium, entrances, micro-conversions, conversions, top landing pages, % bot.
+
+Verdict per new campaign: HEALTHY, AUDIT (high bot share or high bounce), or REVIEW (low conversion despite high intent). End with a 3-item review checklist for the marketer.
+```
+
+---
+
+## WAP-042 — Bot share threshold alert
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 24 hours.
+
+Compute % of bot/agent_suspected sessions. If above 15%, trigger an alert.
+
+Alert payload:
+- % bot last 24h vs trailing 7-day mean
+- Top 5 sources contributing
+- Top 5 user-agents
+- Top 5 IP prefixes if available
+- Suggested rules to add to the SealMetrics blocklist or rate limiter
+
+If below threshold, return "All clear, X% bot share".
+```
+
+---
+
+## WAP-043 — Channel rules fired in 24h
+
+```text
+Using SealMetrics MCP for site {site_id}, list every channel rule that fired in the last 24 hours.
+
+Per rule: rule name, times triggered, total entrances reclassified, revenue impact (if computable).
+
+End with a one-paragraph summary for a marketing standup: which rules are doing the heavy lifting, which never fire (candidates to retire).
+```
+
+---
+
+## WAP-044 — Failed webhook deliveries (last 7 days)
+
+```text
+For site {site_id}, query SealMetrics MCP webhooks for the last 7 days.
+
+List every webhook delivery that failed. Group by webhook endpoint and by failure reason (timeout, 4xx, 5xx, network).
+
+Per endpoint: total deliveries, failed deliveries, failure rate, top 3 failure reasons, last successful delivery timestamp.
+
+End with a 3-bullet recommendation: which endpoints to investigate, which to disable, which to retry manually.
+```
+
+---
+
+## See also
+
+- [Traffic & Quality Control](./traffic-quality)
+- [Executive Reporting](./executive-reporting)

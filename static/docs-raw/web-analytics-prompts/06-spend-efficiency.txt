@@ -1,0 +1,96 @@
+# Spend Efficiency
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/06-spend-efficiency
+
+# Spend Efficiency
+
+Cut waste before scaling. These prompts surface candidates to pause, fix, or deindex.
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-034 — Pages with traffic but no conversion contribution
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 90 days:
+
+List every page with more than 1000 pageviews that contributed to zero conversions (neither as a landing nor as a path step). Include both landing pages and internal pages.
+
+Columns: URL, pageviews, entrances, bounce rate, top traffic source, content group.
+
+Tag each page with one of:
+- DEINDEX: candidate to remove from search engines
+- AUDIT: low conversion contribution, may have other purposes (legal, support)
+- TEST: enough traffic to A/B test a CTA before deindexing
+
+End with a count by tag and a "first 10 to deindex" list.
+```
+
+---
+
+## WAP-035 — Active campaigns with no micro-conversions
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 14 days.
+
+List every active utm_campaign with more than 200 entrances and zero micro-conversions (no add_to_cart, no signup, no view_product, no view_room, etc.).
+
+For each: campaign name, source, medium, entrances, conversions, top landing pages, average bounce rate, % bot.
+
+Verdict per campaign: PAUSE NOW (low intent traffic), FIX LANDING (intent OK but landing fails), or BLOCK BOTS (high % bot share). End with the recommended actions list.
+```
+
+---
+
+## WAP-036 — Worst entrance-to-conversion ratio landings
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 30 days:
+
+List the 10 landing pages with the worst entrance-to-conversion ratio AND more than 500 entrances.
+
+Columns: URL, entrances, conversions, CR, average bounce rate, top traffic source, dominant device.
+
+For each, classify the loss as: traffic quality issue (high % bot), intent mismatch (CR low across all sources), UX issue (high bounce, low time on page), or pricing issue (high add_to_cart but low purchase).
+
+End with a prioritized fix list ordered by lost revenue potential = entrances × (site_avg_CR − landing_CR) × AOV.
+```
+
+---
+
+## WAP-037 — Indexed pages with no conversions in 90 days
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 90 days:
+
+List every URL that received at least 1 organic visit and contributed zero conversions.
+
+Columns: URL, organic entrances, total entrances, last conversion date if any, content group.
+
+Recommend an action per URL: KEEP (informational, supports brand), NOINDEX (eats crawl budget), 301 (consolidate to a stronger URL), DELETE (out of catalog).
+
+Sort by organic entrances desc to prioritize the high-traffic noisy ones.
+```
+
+---
+
+## WAP-038 — Channel micro-conversion efficiency
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 30 days.
+
+For every channel (utm_source / utm_medium): entrances, micro-conversions, macro conversions, micro-to-macro ratio, revenue per session.
+
+Highlight channels that deliver many cheap micros but rarely close (low ratio) and channels that deliver fewer micros but high closing rate (high ratio).
+
+End with a budget reallocation suggestion in 3 bullets: where to spend more, where to spend less, where to test.
+```
+
+---
+
+## See also
+
+- [Attribution & Channels](./attribution-channels)
+- [SealMetrics + Google Ads](./google-ads)
+- [Cross-platform](./cross-platform)

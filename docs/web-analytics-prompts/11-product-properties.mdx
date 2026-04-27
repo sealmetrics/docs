@@ -1,0 +1,313 @@
+---
+sidebar_position: 11
+title: Product Properties — SKU, Size, Color, Room Type
+description: Use the property breakdown of conversion_items and micro-conversions to find SKU, variant, size, color, room type, and length-of-stay opportunities.
+tags: [properties, sku, variant, size, color, room-type, conversion-items, sealmetrics-mcp]
+keywords:
+  - sku analysis
+  - variant analysis
+  - color sales analysis
+  - size sales analysis
+  - hotel room type analysis
+  - length of stay analysis
+---
+
+# Product Properties — SKU, Size, Color, Room Type
+
+The most powerful prompts in the library. They lean on SealMetrics' `conversion_items` table (one row per product, denormalized properties) and on `Map(String, String)` properties on micro-conversions like `add_to_cart`, `view_product`, `view_room`.
+
+**MCPs required:** SealMetrics MCP
+**Pre-flight check:** before running these, confirm which properties your site actually captures. Use `list_property_keys` and `get_property_values` to validate.
+
+---
+
+## Ecommerce property prompts
+
+### WAP-061 — SKUs viewed vs purchased
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 30 days:
+
+For every SKU that received at least 100 view_product events:
+- view_product count, add_to_cart count, purchases (from conversion_items), view-to-purchase ratio.
+
+Rank by view-to-purchase ratio ascending (worst at the top). Take the worst 50 with high view volume.
+
+For each, classify the leak hypothesis: price too high, out of stock, weak product description, missing reviews, slow load.
+
+Output: 1 sortable table + a "investigate first" top-10 list.
+```
+
+---
+
+### WAP-062 — Add-to-cart without purchase by SKU
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 30 days.
+
+Per SKU with more than 30 add_to_cart events:
+- Add-to-cart count, purchases, cart-to-purchase ratio.
+
+Rank by cart-to-purchase ratio ascending. Take the bottom 30.
+
+For each, identify whether the leak is shipping cost (compare AOV vs free-shipping threshold), payment method friction, or pricing. End with a 3-bullet "fixes likely to recover X% revenue" summary.
+```
+
+---
+
+### WAP-063 — Worst-converting sizes (per top product)
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 60 days:
+
+For the top 20 products by add_to_cart, break down view-to-purchase ratio by `size` variant.
+
+Highlight sizes that are frequently added to cart but rarely purchased — likely stock-out or sizing issues. Highlight sizes purchased at high rate but rarely viewed — likely under-merchandised.
+
+Output: a nested table per product. End with a "stock or size guide" recommendation per flagged product.
+```
+
+---
+
+### WAP-064 — Color winners and losers per category
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 90 days.
+
+Per product category: distribution of view_product events by `color`, distribution of purchases by `color`.
+
+Compute exposure share vs purchase share per color. Flag overexposed colors (high view share, low purchase share) and underexposed colors (low view share, high purchase share).
+
+Output: 1 nested table by category × color. End with a 5-bullet merchandising brief: which colors to push to homepage, which to retire from hero placements.
+```
+
+---
+
+### WAP-065 — Price sensitivity by category
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 90 days:
+
+Per product category, distribute purchases by price bucket (0-25, 25-50, 50-100, 100-200, 200-500, 500+ in store currency).
+
+For each category, identify which bucket leads in revenue. Compare to which bucket leads in add_to_cart (intent). Mismatches indicate price-objection risk.
+
+End with a 3-bullet pricing recommendation per top-3 categories.
+```
+
+---
+
+### WAP-066 — Hidden cross-sell opportunities
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 90 days.
+
+For every conversion that includes more than one item in conversion_items, identify SKU pairs that co-occur. Compute pair frequency and pair lift (observed pair frequency / expected if independent).
+
+Output: top 20 pairs by lift with at least 30 co-occurrences. Mark pairs that already form an official bundle in the catalog (if I provide {existing_bundles}) and pairs that are organic only.
+
+End with 5 cross-sell pairs to promote on PDP and at checkout.
+```
+
+---
+
+### WAP-067 — SKUs in cart but never bought
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 30 days:
+
+List every SKU with more than 50 add_to_cart events and zero purchases.
+
+For each: SKU, category, add_to_cart count, average price, top traffic source, % of carts containing only this SKU vs mixed carts.
+
+Recommendation per SKU: pause exposure / lower price / improve PDP / check stock. Sort by add_to_cart volume desc.
+```
+
+---
+
+### WAP-068 — Orphan size-color variants
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 60 days.
+
+For every (size, color) variant combination across the catalog: view events, purchases.
+
+List combinations with views but zero purchases. Flag those likely to be stock-out (low view count and abrupt drop) vs likely failed (high view count and sustained zero purchases).
+
+Output: 1 ranking table. End with a "discontinue / restock / reprice" verdict per combination.
+```
+
+---
+
+### WAP-069 — Discount lift per SKU
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 90 days:
+
+Per SKU, compare conversions with `discount_code` present vs without. Compute lift in CR and lift in revenue per session.
+
+Identify SKUs where discount usage does NOT increase conversion meaningfully (lift below 5%). Those are margin-bleeders.
+
+Output: ranked list of SKUs by lift, marking the bleeders. End with a 3-bullet recommendation on which SKUs should be excluded from discount campaigns.
+```
+
+---
+
+### WAP-070 — AOV by landing page and source
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 60 days.
+
+Compute AOV per landing page (top 50 by entrances) and per utm_source (top 20).
+
+Identify the landing pages and sources that systematically deliver above-average AOV — those deserve more investment.
+Identify those that systematically deliver below-average AOV — those need cross-sell prompts at checkout.
+
+Output: two tables (landing × AOV, source × AOV) + a 3-bullet brief.
+```
+
+---
+
+### WAP-071 — Stock-out detection (proxy)
+
+```text
+Using SealMetrics MCP for site {site_id}, scan the last 14 days for SKUs with a sudden drop in view_product events without a corresponding drop in upstream traffic (search, listing, ads).
+
+A drop is sudden if 7-day average drops more than 60% vs prior 14-day average.
+
+Output: candidate SKUs likely hidden by stock-zero rules in the storefront. Cross-check with last purchase date.
+```
+
+---
+
+### WAP-072 — Returning category buyers
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 90 days.
+
+Per category, % of purchases made by returning customers (sessions with login micro-conversion before purchase) vs new customers.
+
+Rank categories by retention strength. Top categories deserve loyalty / email investment. Bottom categories need acquisition.
+
+Output: 1 ranking + 3 retention bullets.
+```
+
+---
+
+### WAP-073 — Cart abandonment by payment method
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 30 days:
+
+If `payment_method` is captured on the reach_payment micro-conversion or on the conversion macro:
+Per payment method: reach_payment events, conversions, completion ratio, average AOV.
+
+Identify payment methods with abnormally low completion ratio (>20% below site average) — likely friction or gateway issue.
+
+Output: 1 table + a 3-bullet recommendation.
+```
+
+---
+
+### WAP-074 — Currency mix vs country
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 60 days.
+
+Cross `currency` from conversions with the country of origin of the session. Identify users buying in a currency that is NOT their country's default — opportunity for currency localization.
+
+Output: top 10 country-currency mismatches by lost revenue potential. End with the top 3 countries to add native currency to.
+```
+
+---
+
+### WAP-075 — Pareto of revenue by SKU
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 180 days:
+
+Build a Pareto curve of revenue by SKU. Compute how many SKUs produce 80% of total revenue and how many produce the long tail.
+
+For the bottom 40% of SKUs by revenue (catalog drag), output the count, % of total catalog, and a 3-bullet recommendation on whether to deindex, deprioritize, or merge.
+```
+
+---
+
+## Hotels property prompts
+
+### WAP-076 — Room type oversold vs undersold
+
+```text
+For site {site_id} (a hotel), query SealMetrics MCP for the last 90 days.
+
+Per `room_type`: view_room count, bookings, view-to-book ratio, revenue, average ADR.
+
+Identify room types with high view share but low booking share (oversold in marketing) and low view share but high booking share (undersold in marketing).
+
+End with a 3-bullet brief: which room type to feature on the homepage, which to push in remarketing, which to repackage.
+```
+
+---
+
+### WAP-077 — Pickup curve by days-to-check-in
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 90 days:
+
+For every booking, compute days-to-check-in = check_in - booking date (using the property `check_in` on conversions). Bucket: same-day, 1-3, 4-7, 8-14, 15-30, 31-60, 60+.
+
+Per bucket: bookings, revenue, ADR, share of total bookings.
+
+Compare to same-period last year if data exists. Flag any bucket whose share moved more than 5 percentage points.
+End with a 3-bullet revenue management recommendation.
+```
+
+---
+
+### WAP-078 — Length-of-stay opportunities
+
+```text
+For site {site_id} (a hotel), query SealMetrics MCP for the last 90 days.
+
+Distribution of bookings by `nights` (length of stay), per month and per country of origin.
+
+Identify country-month segments where average length of stay is below site median and total volume is meaningful — those are candidates for "minimum 3 nights" promos or stay-longer-save bundles.
+
+Output: 1 heatmap-style table country × month. End with 3 specific package ideas (target country, ideal LOS, hero room type).
+```
+
+---
+
+### WAP-079 — Rate plan winners
+
+```text
+Using SealMetrics MCP for site {site_id}, if `rate_plan` or `board` (BB, HB, FB, AI) is captured:
+For the last 90 days, per rate plan: view-to-book ratio, bookings, revenue, ADR, average length of stay.
+
+Identify rate plans frequently viewed but rarely booked (priced wrong or competing with cheaper plan in same flow) and rate plans rarely viewed but frequently booked (under-merchandised).
+
+Output: 1 ranking + 3-bullet packaging recommendation.
+```
+
+---
+
+### WAP-080 — Channel × room type matrix
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 90 days.
+
+Cross utm_source / channel with `room_type` purchased. Per channel: distribution of bookings by room type, ADR per channel, revenue contribution.
+
+Identify channels that systematically bring low-margin room types (low ADR) — they may not deserve more spend even if booking count is high.
+Identify channels that bring premium room types — they deserve more investment.
+
+Output: 1 channel × room type matrix + a 3-bullet bidding recommendation.
+```
+
+---
+
+## See also
+
+- [Hotels](./hotels)
+- [Ecommerce](./ecommerce)
+- [Forecasting (Black Friday SKU prediction)](./forecasting)
