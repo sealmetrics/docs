@@ -703,7 +703,7 @@ Unique Users         38,420         +10%            +25%
 Conversions             892          +8%            +45%
 Revenue             €44,600         +15%            +52%
 Conversion Rate       1.97%       -0.07pp          +0.3pp
-Avg Order
+Avg Orde
 
 ... [Read full document at https://docs.sealmetrics.com/lens/reports/executive-summary]
 
@@ -6790,7 +6790,7 @@ All tracked interactions count toward your event limit:
 | Event Type | Counts? | Notes |
 |------------|:-------:|-------|
 | Pageview | Yes | Standard page load |
-| Virtual pageview (SPA)
+| Virtual pageview (SPA
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -7403,14 +7403,14 @@ Surface hidden revenue loss caused by broken landing pages, bot traffic, and dec
 
 ---
 
-## WAP-001 — High-bounce landing pages with traffic
+## SEAL-001 — High-bounce landing pages with traffic
 
 ```text
 You are a senior web analyst with access to the SealMetrics MCP for site {site_id}.
 
 Context:
 - Today is {today}.
-- Time ra
+- Time r
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/01-revenue-leak]
 
@@ -7431,7 +7431,7 @@ Find where users drop off, which devices underperform, and which content groups 
 
 ---
 
-## WAP-006 — Weekly funnel drop-off alert
+## SEAL-006 — Weekly funnel drop-off alert
 
 ```text
 Using SealMetrics MCP for site {site_id}, compute the main conversion funnel week over week for the last 8 weeks.
@@ -7439,7 +7439,7 @@ Using SealMetrics MCP for site {site_id}, compute the main conversion funnel wee
 Funnel steps (adjust if my actual funnel differs — ask me first if unclear):
 1. Landing page entrance
 2. View product / view room
-3. Add to cart / start 
+3. Add to cart / start
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization]
 
@@ -7459,7 +7459,7 @@ Keep your data clean: detect anomalies, suspicious traffic, broken UTMs, and tra
 
 ---
 
-## WAP-014 — Daily traffic anomaly digest
+## SEAL-014 — Daily traffic anomaly digest
 
 ```text
 You are an analytics on-call engineer. Using SealMetrics MCP for site {site_id}, run a daily anomaly check for {today} vs the trailing 30-day baseline.
@@ -7469,7 +7469,7 @@ Check anomalies on:
 - Conversions
 - Revenue
 - % bot/agent traffic
-- Top 10 cha
+- Top 10 ch
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/03-traffic-quality]
 
@@ -7489,12 +7489,12 @@ True channel performance using SealMetrics last-click data — no GA4 modeling, 
 
 ---
 
-## WAP-021 — Channel revenue ranking, last 90 days
+## SEAL-021 — Channel revenue ranking, last 90 days
 
 ```text
 Using SealMetrics MCP for site {site_id}, return the channel ranking by real revenue for the last 90 days.
 
-Group by utm_source / utm_medium pair (or by SealMetrics channel rule if more meaningful). For each row: channel, entrances, conversions, conversion rate, revenue, revenue p
+Group by utm_source / utm_medium pair (or by SealMetrics channel rule if more meaningful). For each row: channel, entrances, conversions, conversion rate, revenue, revenue 
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/04-attribution-channels]
 
@@ -7514,14 +7514,14 @@ Where is your revenue coming from, where could it come from, and where are you l
 
 ---
 
-## WAP-028 — Country revenue with monthly trend
+## SEAL-028 — Country revenue with monthly trend
 
 ```text
 Using SealMetrics MCP for site {site_id}, return revenue by country for the last 6 full months.
 
 Output: one row per country, one column per month, plus columns for: total revenue 6m, % share of total, MoM trend (up/flat/down), CAGR over the 6 months.
 
-Limit to the top 20 countries by
+Limit to the top 20 countries b
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/05-geography]
 
@@ -7541,14 +7541,14 @@ Cut waste before scaling. These prompts surface candidates to pause, fix, or dei
 
 ---
 
-## WAP-034 — Pages with traffic but no conversion contribution
+## SEAL-034 — Pages with traffic but no conversion contribution
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 90 days:
 
 List every page with more than 1000 pageviews that contributed to zero conversions (neither as a landing nor as a path step). Include both landing pages and internal pages.
 
-Columns: URL, pageviews, entrances, bounc
+Columns: URL, pageviews, entrances, boun
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/06-spend-efficiency]
 
@@ -7568,12 +7568,12 @@ These prompts run on demand via the MCP. To get **push** notifications without a
 
 ---
 
-## WAP-039 — Daily conversion drop check
+## SEAL-039 — Daily conversion drop check
 
 ```text
 Using SealMetrics MCP for site {site_id}, compare conversions for yesterday vs the trailing 7-day mean.
 
-If yesterday's conversions are more than 25% below that 
+If yesterday's conversions are more than 25% below that
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/07-alerts-monitoring]
 
@@ -7593,14 +7593,14 @@ For ICPs who do not want dashboards — they want one paragraph and three bullet
 
 ---
 
-## WAP-045 — Monthly C-level digest
+## SEAL-045 — Monthly C-level digest
 
 ```text
 Using SealMetrics MCP for site {site_id}, build a C-level monthly report for {month}.
 
 Sections (each one paragraph max):
 1. Headline — total revenue, conversions, entrances vs previous month and vs same month last year.
-2. Top 3 channels by reve
+2. Top 3 channels by rev
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/08-executive-reporting]
 
@@ -7621,12 +7621,12 @@ Built for hotels and chains that want more direct bookings, less OTA dependency,
 
 ---
 
-## WAP-051 — Direct booking funnel by step and device
+## SEAL-051 — Direct booking funnel by step and device
 
 ```text
 Using SealMetrics MCP for site {site_id} (a hotel), build the direct booking funnel for the last 30 days.
 
-Funnel steps (adju
+Funnel steps (adj
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/09-hotels]
 
@@ -7647,13 +7647,13 @@ Prompts crafted for online stores that need to grow revenue, defend margin, and 
 
 ---
 
-## WAP-056 — Cart-to-purchase ratio by category
+## SEAL-056 — Cart-to-purchase ratio by category
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 30 days:
 
 For every product category (property `category` on add_to_cart and on conversion_items):
-- Add-to-cart events, purchas
+- Add-to-cart events, purcha
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/10-ecommerce]
 
@@ -7676,7 +7676,7 @@ The most powerful prompts in the library. They lean on SealMetrics' `conversion_
 
 ## Ecommerce property prompts
 
-### WAP-061 — SKUs viewed vs purchased
+### SEAL-061 — SKUs viewed vs purchased
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 30 days:
@@ -7709,7 +7709,7 @@ These prompts combine current run-rate, historical seasonality, and YoY comparis
 
 ## Period close forecasts
 
-### WAP-081 — Month-end forecast
+### SEAL-081 — Month-end forecast
 
 ```text
 Using SealMetrics MCP for site {site_id}:
@@ -7735,7 +7735,7 @@ Cross what Google says happened with what actually happened. These prompts assum
 
 ---
 
-## WAP-096 — Click-to-entrance discrepancy
+## SEAL-096 — Click-to-entrance discrepancy
 
 ```text
 You have access to SealMetrics MCP for site {site_id} and Google Ads MCP for account {google_ads_account}.
@@ -7763,7 +7763,7 @@ Meta's reported numbers are an estimate, especially post-iOS 14.5. SealMetrics g
 
 ---
 
-## WAP-106 — Meta ROAS vs real ROAS
+## SEAL-106 — Meta ROAS vs real ROAS
 
 ```text
 You have access to SealMetrics MCP for site {site_id} and Meta Ads MCP for account {meta_account}.
@@ -7791,7 +7791,7 @@ GSC tells you what people searched. SealMetrics tells you what they did after cl
 
 ---
 
-## WAP-115 — High-impression queries with low real CR
+## SEAL-115 — High-impression queries with low real CR
 
 ```text
 You have access to SealMetrics MCP for site {site_id} and Google Search Console MCP for property {gsc_property}.
@@ -7819,7 +7819,7 @@ The most powerful prompts in the library. Combine SealMetrics with two or more p
 
 ---
 
-## WAP-125 — Triangulation per top landing
+## SEAL-125 — Triangulation per top landing
 
 ```text
 You have access to: SealMetrics MCP for site {site_id}, Google Ads MCP for {google_ads_account}, Meta Ads MCP for {meta_account}, GSC MCP for {gsc_property}.

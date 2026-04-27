@@ -13,7 +13,7 @@ The most powerful prompts in the library. They lean on SealMetrics' `conversion_
 
 ## Ecommerce property prompts
 
-### WAP-061 — SKUs viewed vs purchased
+### SEAL-061 — SKUs viewed vs purchased
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 30 days:
@@ -30,7 +30,7 @@ Output: 1 sortable table + a "investigate first" top-10 list.
 
 ---
 
-### WAP-062 — Add-to-cart without purchase by SKU
+### SEAL-062 — Add-to-cart without purchase by SKU
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 30 days.
@@ -45,7 +45,7 @@ For each, identify whether the leak is shipping cost (compare AOV vs free-shippi
 
 ---
 
-### WAP-063 — Worst-converting sizes (per top product)
+### SEAL-063 — Worst-converting sizes (per top product)
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 60 days:
@@ -59,7 +59,7 @@ Output: a nested table per product. End with a "stock or size guide" recommendat
 
 ---
 
-### WAP-064 — Color winners and losers per category
+### SEAL-064 — Color winners and losers per category
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 90 days.
@@ -73,7 +73,7 @@ Output: 1 nested table by category × color. End with a 5-bullet merchandising b
 
 ---
 
-### WAP-065 — Price sensitivity by category
+### SEAL-065 — Price sensitivity by category
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 90 days:
@@ -87,7 +87,7 @@ End with a 3-bullet pricing recommendation per top-3 categories.
 
 ---
 
-### WAP-066 — Hidden cross-sell opportunities
+### SEAL-066 — Hidden cross-sell opportunities
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 90 days.
@@ -101,7 +101,7 @@ End with 5 cross-sell pairs to promote on PDP and at checkout.
 
 ---
 
-### WAP-067 — SKUs in cart but never bought
+### SEAL-067 — SKUs in cart but never bought
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 30 days:
@@ -115,7 +115,7 @@ Recommendation per SKU: pause exposure / lower price / improve PDP / check stock
 
 ---
 
-### WAP-068 — Orphan size-color variants
+### SEAL-068 — Orphan size-color variants
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 60 days.
@@ -129,7 +129,7 @@ Output: 1 ranking table. End with a "discontinue / restock / reprice" verdict pe
 
 ---
 
-### WAP-069 — Discount lift per SKU
+### SEAL-069 — Discount lift per SKU
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 90 days:
@@ -143,7 +143,7 @@ Output: ranked list of SKUs by lift, marking the bleeders. End with a 3-bullet r
 
 ---
 
-### WAP-070 — AOV by landing page and source
+### SEAL-070 — AOV by landing page and source
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 60 days.
@@ -158,7 +158,7 @@ Output: two tables (landing × AOV, source × AOV) + a 3-bullet brief.
 
 ---
 
-### WAP-071 — Stock-out detection (proxy)
+### SEAL-071 — Stock-out detection (proxy)
 
 ```text
 Using SealMetrics MCP for site {site_id}, scan the last 14 days for SKUs with a sudden drop in view_product events without a corresponding drop in upstream traffic (search, listing, ads).
@@ -170,7 +170,7 @@ Output: candidate SKUs likely hidden by stock-zero rules in the storefront. Cros
 
 ---
 
-### WAP-072 — Returning category buyers
+### SEAL-072 — Returning category buyers
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 90 days.
@@ -184,7 +184,7 @@ Output: 1 ranking + 3 retention bullets.
 
 ---
 
-### WAP-073 — Cart abandonment by payment method
+### SEAL-073 — Cart abandonment by payment method
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 30 days:
@@ -199,7 +199,7 @@ Output: 1 table + a 3-bullet recommendation.
 
 ---
 
-### WAP-074 — Currency mix vs country
+### SEAL-074 — Currency mix vs country
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 60 days.
@@ -211,7 +211,7 @@ Output: top 10 country-currency mismatches by lost revenue potential. End with t
 
 ---
 
-### WAP-075 — Pareto of revenue by SKU
+### SEAL-075 — Pareto of revenue by SKU
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 180 days:
@@ -225,7 +225,7 @@ For the bottom 40% of SKUs by revenue (catalog drag), output the count, % of tot
 
 ## Hotels property prompts
 
-### WAP-076 — Room type oversold vs undersold
+### SEAL-076 — Room type oversold vs undersold
 
 ```text
 For site {site_id} (a hotel), query SealMetrics MCP for the last 90 days.
@@ -239,7 +239,7 @@ End with a 3-bullet brief: which room type to feature on the homepage, which to 
 
 ---
 
-### WAP-077 — Pickup curve by days-to-check-in
+### SEAL-077 — Pickup curve by days-to-check-in
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 90 days:
@@ -254,7 +254,7 @@ End with a 3-bullet revenue management recommendation.
 
 ---
 
-### WAP-078 — Length-of-stay opportunities
+### SEAL-078 — Length-of-stay opportunities
 
 ```text
 For site {site_id} (a hotel), query SealMetrics MCP for the last 90 days.
@@ -268,7 +268,7 @@ Output: 1 heatmap-style table country × month. End with 3 specific package idea
 
 ---
 
-### WAP-079 — Rate plan winners
+### SEAL-079 — Rate plan winners
 
 ```text
 Using SealMetrics MCP for site {site_id}, if `rate_plan` or `board` (BB, HB, FB, AI) is captured:
@@ -281,7 +281,7 @@ Output: 1 ranking + 3-bullet packaging recommendation.
 
 ---
 
-### WAP-080 — Channel × room type matrix
+### SEAL-080 — Channel × room type matrix
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 90 days.
