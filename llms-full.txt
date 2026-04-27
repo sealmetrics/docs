@@ -225,13 +225,6 @@ Call `sealmetrics.conv()` when a conversion happens:
 // Track a purchase
 sealmetrics.conv('purchase', 99.99);
 
-// Track a purchase with additional data
-sealmetrics.conv('purchase', 99.99, {
-  order_id: 'ORD-12345',
-  currency: 'EUR'
-});
-```
-
 ... [Read full document at https://docs.sealmetrics.com/getting-started/measure-conversions]
 
 
@@ -421,8 +414,6 @@ Ask the LENS AI assistant a question about your data.
 POST /api/lens/chat
 ```
 
-#### Request Body
-
 ... [Read full document at https://docs.sealmetrics.com/lens/api/lens-endpoints]
 
 
@@ -533,8 +524,7 @@ Monitor visitor volume and patterns.
 | `traffic_source_shift` | Traffic Source Shift | Major change in source distribution | >25% shift |
 | `new_traffic_source` | New Traffic Source | New source contributing >5% of traffic | >5% share |
 | `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
-| `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35% drop |
-| `organic_traffic_change` | Organic Traffic Change | Significant o
+| `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -615,13 +605,6 @@ Target:   €5,000
 Current:  €3,450 (as of 6 PM)
 Gap:      €1,550
 
-Projected end-of-day: €4,200
-
-[View Details]
-```
-
-### System Alerts
-
 ... [Read full document at https://docs.sealmetrics.com/lens/reports/email-alerts]
 
 
@@ -655,10 +638,6 @@ Get more accurate, actionable insights by following these best practices when as
 ### Specify Metrics
 
 ❌ **Ambiguous:** *"How are we performing?"*
-
-✅ **Clear:** *"What's our conversion rate, average order value, and total revenue for this month?"*
-
-### Name Your Segments
 
 ... [Read full document at https://docs.sealmetrics.com/lens/ai-assistant/best-practices]
 
@@ -695,15 +674,6 @@ Use custom rules when:
 
 Select what to monitor:
 
-```yaml
-# Example: Monitor a specific product category
-metric_type: conversion_rate
-filters:
-  - field: product_category
-    operator: equals
-    value: "electronics"
-```
-
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/custom-rules]
 
 
@@ -733,8 +703,7 @@ Unique Users         38,420         +10%            +25%
 Conversions             892          +8%            +45%
 Revenue             €44,600         +15%            +52%
 Conversion Rate       1.97%       -0.07pp          +0.3pp
-Avg Order Value      €50.00          +6%             +5%
-```
+Avg Order
 
 ... [Read full document at https://docs.sealmetrics.com/lens/reports/executive-summary]
 
@@ -768,8 +737,6 @@ A threshold defines the boundary between "normal" and "anomalous":
 ## Threshold Types
 
 ### Percentage Thresholds
-
-Most common type. Alert when metric changes by a percentage:
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/thresholds]
 
@@ -851,10 +818,6 @@ This is not a limitation to work around. It is the result of a deliberate design
 ## Level 1: Total Conversions Are Always Exact
 
 Every conversion that fires on your site is recorded. Always.
-
-SealMetrics does not sample, model, or estimate conversions. There is no consent gate that filters out a portion of your visitors before measurement begins. The conversion count you see in your dashboard reflects the full reality of what happened on your site — and it should match your payment processor or CRM to within the margin of duplicate pixel fires.
-
-**What this means in practice:**
 
 ... [Read full document at https://docs.sealmetrics.com/reports/insights/attribution-accuracy]
 
@@ -1004,8 +967,7 @@ Shows traffic grouped by UTM Source and Medium combination.
 |--------|-------------|
 | **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
 | **Entrances** | Sessions from this source |
-| **Pageviews** | Total page views |
-| **Bounce Rate** | Single
+| **Pageviews*
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -1037,7 +999,7 @@ Interactive choropleth map showing traffic distribution by country.
 | Feature | Description |
 |---------|-------------|
 | **Color intensity** | Darker colors indicate more traffic |
-| **Hover t
+| **
 
 ... [Read full document at https://docs.sealmetrics.com/reports/geography]
 
@@ -1111,8 +1073,7 @@ Shows completed conversion events (primary goals).
 | **Count** | Total number of conversions (with progress bar) |
 | **Unique Users** | Distinct users who converted |
 | **Revenue** | Total revenue attributed (with progress bar) |
-| **Avg. Value** | Average revenue per conversion |
-| **Conv. Rate** | Conversions / Total Entrances × 100 |
+| **Avg. Value** | Average revenue per conversion
 
 ... [Read full document at https://docs.sealmetrics.com/reports/conversions]
 
@@ -1147,8 +1108,7 @@ Funnels are configured in Settings. Common examples:
 |--------|---------------|
 | E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
 | Lead Generation | Landing Page → Form View → Form Submit → Thank You |
-| SaaS Signup | Homepage → Pricing → Sign Up → Verify Email |
-| Content Engagemen
+| SaaS Signup | Homepage 
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1170,9 +1130,7 @@ When you track conversions with custom properties (like `product_category`, `pla
 
 - Which property values perform best across different traffic sources
 - How conversions distribute across property values by campaign
-- Which traffic sources drive specific property outcomes
-
-## Accessing the Report
+- Which traffic sources drive specific property outcome
 
 ... [Read full document at https://docs.sealmetrics.com/reports/properties]
 
@@ -1274,8 +1232,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Pages per Session](#pages-per-session) | Pageviews / Entrances | Higher |
 | [Conversions](#conversions) | Count of conversion events | Higher |
 | [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
-| [Revenue](#revenue) | Sum of conversion amounts | Higher |
-| [AOV](#average-order-
+
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1693,10 +1650,6 @@ Content grouping enables:
 - Traffic distribution across page types
 - Funnel analysis by content type
 
-## Two Ways to Set Up Content Grouping
-
-### Method 1: URL Parameter (Recommended)
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/content-site-structure/content-grouping]
 
 
@@ -1782,17 +1735,6 @@ That's the minimum setup. The `items` array is optional but recommended for deta
 ## The E-commerce Funnel
 
 Track the complete customer journey:
-
-| Step | Event Type | Function |
-|------|------------|----------|
-| Product View | Microconversion | `sealmetrics.micro('view_product', {...})` |
-| Add to Cart | Microconversion | `sealmetrics.micro('add_to_cart', {...})` |
-| View Cart | Microconversion | `sealmetrics.micro('view_cart', {...})` |
-| Begin Checkout | Microconversion | `sealmetrics.micro('begin_checkout', {...})` |
-| Add Payment Info | Microconversion | `sealmetrics.micro('add_payment_info', {...})` |
-| Purchase | Conversion | `sealmetrics.conv('purchase', amount, {...})` |
-
----
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide]
 
@@ -1885,14 +1827,6 @@ Add this single line to your website's ``
 
 ### 2.1 Open Browser DevTools
 
-1. Visit your website
-2. Press `F12` (or right-click → Inspect)
-3. Go to **Console** tab
-
-### 2.2 Check the Tracker Loaded
-
-Type in console:
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/step-by-step-guide]
 
 
@@ -1925,10 +1859,6 @@ Event: add_to_cart (microconversion)
     ├── price: 49.99
     └── category: electronics
 ```
-
-## Adding Properties to Events
-
-### Conversions
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/event-properties]
 
@@ -1989,7 +1919,7 @@ Simply add the standard tracker script to your site:
 That's it. The tracker automatically:
 
 1. **Tracks initial pageview** on first load
-2. **Detects `pushState` calls** when navigating
+2. **Detects `
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites]
 
@@ -2014,8 +1944,7 @@ Include user-related attributes as properties when tracking conversions and micr
 sealmetrics.conv('purchase', 149.99, {
   customer_type: 'premium',
   plan: 'pro',
-  currency: 'EUR'
-});
+  currency: 
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/user-properties]
 
@@ -2118,23 +2047,6 @@ Add the tracker script to your `index.html` or use React's Script handling:
 ```jsx
 import { Helmet } from 'react-helmet';
 
-function App() {
-  return (
-    <>
-      <Helmet>
-        <script
-          src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID"
-          defer
-        />
-      </Helmet>
-      {/* Your app content */}
-    </>
-  );
-}
-```
-
----
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-react]
 
 
@@ -2160,8 +2072,6 @@ Set the group directly in the tracker script URL:
 ```
 
 **Best for:** Static sites, CMS templates, server-rendered pages
-
-[See full Content Grouping guide →](/implementation/content-site-structure/content-grouping)
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/content-groups]
 
@@ -2253,10 +2163,6 @@ sealmetrics.micro(type, properties);
 ## Examples
 
 ### Add to Cart
-
-```javascript
-sealmetrics.micro('add_to_cart');
-```
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/microconversions]
 
@@ -2359,8 +2265,6 @@ Works out of the box with:
 | Nuxt.js | nuxt/router | Yes |
 | Svelte | svelte-routing, SvelteKit | Yes |
 | Remix | @remix-run/react | Yes |
-
-Any router that uses the History API is automatically supported.
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/spa-support]
 
@@ -2466,13 +2370,6 @@ sealmetrics();
 sealmetrics(options);
 ```
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `options` | object | No | Configuration options |
-| `options.group` | string | No | Content grouping for this page |
-
-**Examples:**
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/api-reference]
 
 
@@ -2498,9 +2395,7 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 | Microconversions | `sm('event', 'type', {...})` | `sealmetrics.micro('type', {...})` |
 | Content grouping | `content_grouping` in options | `?group=xxx` in URL or `sealmetrics({ group: 'xxx' })` |
 | `adin` parameter | Supported | Removed |
-| Cookies | Used | None |
-| localStorage | Used | None |
-| Size | ~15 KB | 1,313 bytes 
+| Cookies | Used | None 
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/migration-from-v1]
 
@@ -2699,10 +2594,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        {children}
-    
+    <html lang=
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2749,7 +2641,7 @@ This template includes all the tags, triggers, and variables you need. Just impo
 2. Go to **Google Tag Manager > Admin > Import Container**
 3. Upload the JSON file
 4. Choose **"Merge"** and select **"Rename conflicting tags"**
-5. Go to **Variables** and update `SealMetrics Site ID` with your Site ID
+5. Go to **Variables** and update `
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/tag-management/gtm-template]
 
@@ -2781,7 +2673,6 @@ Privacy-first, cookieless analytics for Webflow sites with automatic event track
 3. Add the script to **Inside \<head\> tag**
 4. Publish
 
-## Co
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/website-builders/webflow]
 
@@ -2894,8 +2785,6 @@ function App() {
 ```
 
 ### Option 2: Script Only
-
-Just load the tracker script:
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/react]
 
@@ -3299,8 +3188,7 @@ API keys are the recommended method for server-to-server integrations.
 Include the key in the `X-API-Key` header:
 
 ```bash
-curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
-  -H "X-API-Key: s
+curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stat
 
 ... [Read full document at https://docs.sealmetrics.com/api/authentication]
 
@@ -3337,10 +3225,6 @@ API tokens can be granted the following permissions:
 | `stats:read` | Read analytics data (traffic, conversions, pages) |
 | `sites:read` | Read site configuration (domains, settings) |
 | `accounts:read` | Read account information |
-
-**Note:** API tokens have read-only access. Write operations require JWT authentication via the dashboard.
-
-### List Available Scopes
 
 ... [Read full document at https://docs.sealmetrics.com/api/api-tokens]
 
@@ -3409,12 +3293,6 @@ Returns all sites accessible by the current user.
 POST /sites
 ```
 
-Creates a new analytics site within your organization.
-
-**Required scope:** `write`
-
-**Request Body:**
-
 ... [Read full document at https://docs.sealmetrics.com/api/sites]
 
 
@@ -3475,29 +3353,6 @@ GET /organizations
 Returns all organizations the current user belongs to.
 
 **Response:**
-
-```json
-{
-  "success": true,
-  "data": {
-    "organizations": [
-      {
-        "id": "550e8400-e29b-41d4-a716-446655440000",
-        "name": "ACME Corporation",
-        "slug": "acme-corporation",
-        "is_active": true,
-        "member_count": 5,
-        "site_count": 3,
-        "user_role": "owner",
-        "created_at": "2024-01-15T10:00:00Z",
-        "updated_at": "2025-01-08T09:15:00Z"
-      }
-    ],
-    "total": 1,
-    "can_create_org": true
-  }
-}
-```
 
 ... [Read full document at https://docs.sealmetrics.com/api/organizations]
 
@@ -3564,10 +3419,6 @@ curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d" \
 ```
 
 **With Comparison:**
-
-```bash
-curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d&compare=previous"
-```
 
 ... [Read full document at https://docs.sealmetrics.com/api/stats]
 
@@ -3715,11 +3566,6 @@ All paginated endpoints return a consistent response structure:
 | `has_prev` | boolean | `true` if pages exist before this one |
 
 ### Pagination Examples
-
-**First page (default):**
-```http
-GET /stats/pages?site_id=my-site&period=30d
-```
 
 ... [Read full document at https://docs.sealmetrics.com/api/pagination-sorting]
 
@@ -3973,11 +3819,7 @@ The Exports API allows you to:
 | `conversions` | Conversion events |
 | `microconversions` | Microconversion events |
 | `time_series` | Daily time series data |
-| `landing_pages` | Landing page metrics |
-
----
-
-## Export Formats
+| `landing_pages` | Landing 
 
 ... [Read full document at https://docs.sealmetrics.com/api/exports]
 
@@ -4115,14 +3957,6 @@ GET /ip-allowlist/settings?site_id={site_id}
 | `enforce_on_dashboard` | Check IPs for dashboard login |
 | `allow_owner_bypass` | Organization owners bypass restrictions |
 | `patterns_count` | Number of configured patterns |
-
-### Update Settings
-
-```http
-PUT /ip-allowlist/settings?site_id={site_id}
-```
-
-**Request Body:**
 
 ... [Read full document at https://docs.sealmetrics.com/api/ip-allowlist]
 
@@ -4322,8 +4156,6 @@ Consentless analytics solves this by measuring aggregate behavior rather than tr
 
 ## How It Works: The Four-Variable System
 
-Sealmetrics pioneered a consentless tracking approach built on four anonymous variables per event:
-
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/consentless-analytics]
 
 
@@ -4353,9 +4185,7 @@ Use a backup code when:
 - Your phone is dead and you can't charge it
 - You're traveling without your usual device
 - Your authenticator app was deleted
-- You got a new phone and forgot to transfer 2FA
-
-## Viewing Your Backup Codes
+- You got a new phone and forgot to
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/account-security/backup-codes]
 
@@ -4420,11 +4250,6 @@ Check IP Address
 ## Who Should Use It?
 
 IP allowlisting is ideal for:
-
-- **Organizations with static IPs** (office networks)
-- **High-security environments** (financial, healthcare)
-- **Compliance requirements** (SOC 2, PCI-DSS)
-- **Restricting vendor/contractor access**
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/account-security/ip-allowlist]
 
@@ -4591,10 +4416,6 @@ Sealmetrics is built on what we **don't** track:
 - **No cross-site tracking** - Only measures your website, never follows users elsewhere
 - **No sensitive data** - No health information, financial data, political views, religious beliefs
 
-This isn't a marketing claim. It's architecturally impossible for Sealmetrics to identify individual users.
-
-### The Four-Variable System
-
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/overview]
 
 
@@ -4649,7 +4470,7 @@ Known malicious IPs are blocked at the edge:
 - **Per-account blocklist** — Custom IPs you want to exclude
 - **Real-time updates** — Blocklist refreshed automatically
 
-### Layer 2: User-Agent Filtering
+### Layer 2: User-Agent F
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/bot-detection]
 
@@ -4745,8 +4566,7 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 
 ### Traditional Analytics (❌ Requires Consent)
 - Uses cookies to store visitor IDs  
-- Reconstructs individual user journeys  
-- Builds detail
+- Reconst
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4918,11 +4738,6 @@ On February 10, 2026, the European Data Protection Board and European Data Prote
 
 The Digital Omnibus proposal (procedure 2025/0360(COD)) has been assigned to **joint committee responsibility**:
 
-| Committee | Role |
-|-----------|------|
-| **ITRE** (Industry, Research and Energy) | Joint lead committee |
-| **LIBE** (Civil Liberties, Justice and Home Affairs) | Joint lead committee |
-
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus]
 
 
@@ -4970,8 +4785,6 @@ To qualify for consent exemption, **all three** conditions must be met:
 
 #### 1. User Notification
 
-**Requirement**: Inform users of analytics cookie use through privacy policy
-
 ... [Read full document at https://docs.sealmetrics.com/compliance/analytics-cookies-exemption]
 
 
@@ -5018,9 +4831,6 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 **Evidence:** Sealmetrics tracks pageviews, load events, and technical errors exclusively for performance analysis.
 
 ---
-
-### Objective 2: Navigation Problem Detection
-**Requirement:** Identify navigation issues affecting user experience.
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/cnil-self-assessment]
 
@@ -5142,10 +4952,6 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **Not recommended**: High-profile Google Analytics enforcement (Austria, France, Italy) demonstrates authorities are serious.
 
 ## The Cookieless Solution
-
-### What is Cookieless Analytics?
-
-**Definition**: Web analytics that do not use cookies or similar persistent identifiers to track users across sessions.
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics]
 
@@ -5289,8 +5095,6 @@ Before the Omnibus, organizations navigating EU data regulation must comply with
 #### 4. Open Data Directive (ODD)
 **Directive (EU) 2019/1024**
 
-**Scope**: Public sector information re-use
-
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/data-consolidation]
 
 
@@ -5344,13 +5148,6 @@ The Digital Omnibus transforms data intermediation from a mandatory compliance b
 #### 3. Data Cooperatives
 
 **Function**: Member-owned organizations pooling and sharing data on behalf of members
-
-**Examples**:
-- Agricultural cooperatives (farmers share equipment/weather data)
-- Consumer data cooperatives (pooled shopping data for collective benefit)
-- Professional data cooperatives (freelancers share skills/availability data)
-
-**Value**: Collective bargaining power, shared benefits, democratic governance
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/data-intermediation]
 
@@ -5409,12 +5206,6 @@ AI developers faced uncertainty about lawful basis for processing personal data 
 **Article 6(1)(b) Contract**:
 - Not applicable (no contractual relationship with training data subjects)
 
-**Article 6(1)(f) Legitimate interest**:
-- Unclear if AI development qualified
-- Balance test uncertain
-- Regulatory guidance lacking
-- Risk of enforcement action
-
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/ai-act-amendments]
 
 
@@ -5472,13 +5263,6 @@ Organizations operating in the EU face a fragmented landscape of incident report
 
 **What to report**: Major ICT-related incidents
 
-**Timeline**:
-- Initial notification: As soon as possible
-- Intermediate reports: As investigation progresses
-- Final report: Within specified timeframes
-
-**To whom**: Financial supervisory authorities (EBA, EIOPA, ESMA)
-
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/incident-reporting]
 
 
@@ -5531,8 +5315,6 @@ Under current EU law, businesses enjoy lighter regulatory treatment while they q
 ## The Solution: Small Mid-Caps (SMCs)
 
 ### New Category: SMCs
-
-The Digital Omnibus creates an intermediate category between SMEs and large enterprises:
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/smes-small-midcaps]
 
@@ -5678,17 +5460,6 @@ On February 10, 2026, the **European Data Protection Board (EDPB)** and the **Eu
 The Joint Opinion is a **consultative document**—it expresses the regulators' position but does not change the legislative proposal. The European Parliament and Council may consider these recommendations during negotiations, but are not bound by them. The original Commission proposal (COM(2025) 837) remains the basis for legislation.
 
 ## Document Details
-
-| | |
-|---|---|
-| **Title** | EDPB-EDPS Joint Opinion 2/2026 on the Proposal for a Regulation as regards the simplification of the digital legislative framework (Digital Omnibus) |
-| **Adopted** | 10 February 2026 |
-| **Published** | 11 February 2026 |
-| **Official page** | [EDPB Website](https://www.edpb.europa.eu/our-work-tools/our-documents/edpbedps-joint-opinion/edpb-edps-joint-opinion-22026-proposal_en) |
-| **PDF** | [Full document (PDF)](https://www.edpb.europa.eu/system/files/2026-02/edpb_edps_jointopinion_202602_digitalomnibus_en.pdf) |
-| **Press release** | [EDPB News](https://www.edpb.europa.eu/news/news/2026/digital-omnibus-edpb-and-edps-support-simplification-and-competitiveness-while_en) |
-
-## Overall Position
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/edpb-edps-opinion]
 
@@ -5932,16 +5703,6 @@ Add the tracking script to your marketing site and app:
 
 <!-- App (logged in) -->
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=app" defer></script>
-
-<!-- Onboarding -->
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=onboarding" defer></script>
-```
-
----
-
-## Step 2: Track Pricing Page Interactions
-
-### Plan Selection
 
 ... [Read full document at https://docs.sealmetrics.com/use-cases/saas]
 
@@ -6302,15 +6063,6 @@ Export your Sealmetrics data to Google BigQuery for custom SQL analysis, machine
 3. Navigate to **IAM & Admin → Service Accounts**
 4. Click **+ Create Service Account**
 
-```
-Service Account Details:
-  Name: sealmetrics-export
-  ID: sealmetrics-export
-  Description: Service account for Sealmetrics BigQuery export
-```
-
-5. Click **Create and Continue**
-
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/integrations/bigquery]
 
 
@@ -6334,7 +6086,7 @@ The Pixel Builder helps you generate tracking code for your website without writ
 
 ### Step 1: Name and Description
 
-Give your pixel a descriptive name (e.g., "Purchase Tracking", "Newsletter Signup") and an optional description.
+Give your pixel a descriptive name (e.g., "Purchase Tracking", "Newsletter Signup") and an optional descriptio
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder]
 
@@ -6493,9 +6245,7 @@ Your server processes data
 | `anomaly.detected` | LENS detects anomaly | Alert systems, incident management |
 | `anomaly.resolved` | Anomaly returns to normal | Close incident tickets |
 | `report.generated` | Scheduled report ready | Notify team, archive report |
-| `threshold.exceeded` | Metric crosses threshold | Real-time alerting |
-
-## Creating a Webhook
+| `threshold.exceeded` | Metric crosses thre
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/integrations/webhooks]
 
@@ -6537,8 +6287,6 @@ Blog                           892 views
 Company Pages                  345 views
 Support                        234 views
 ```
-
-## Accessing Content Grouping
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/tracking/content-grouping]
 
@@ -6775,8 +6523,7 @@ By default, Sealmetrics uses **DeepSeek Local** via Ollama:
 | Aspect | Details |
 |--------|---------|
 | **Provider** | Self-hosted DeepSeek (via Ollama) |
-| **Cost** | Free (included in your plan) |
-| **Privacy** | Maximum - data never l
+| **Cost** | Free (included in your
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -6980,8 +6727,7 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 ## Events & Data
 
 | Feature | Growth | Scale | Enterprise |
-|---------|:------:|:-----:|:----------:|
-| Monthly eve
+|---------|
 
 ... [Read full document at https://docs.sealmetrics.com/billing/features-comparison]
 
@@ -7044,8 +6790,7 @@ All tracked interactions count toward your event limit:
 | Event Type | Counts? | Notes |
 |------------|:-------:|-------|
 | Pageview | Yes | Standard page load |
-| Virtual pageview (SPA) | Yes | Single-page app navigation |
-| Cust
+| Virtual pageview (SPA)
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -7126,10 +6871,6 @@ Click on any invoice to view details:
 Invoice INV-2024-01
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Invoice Date:    January 15, 2024
-Due Date:        January 15, 2024
-Status:          Paid
-
 ... [Read full document at https://docs.sealmetrics.com/billing/invoices]
 
 
@@ -7160,7 +6901,7 @@ Yes! All plans include a **14-day free trial** with full features. No credit car
 
 ### Is there a free plan?
 
-No, but our 14-day free trial gives you full access to evaluate the platform. We also offer special pricing for nonprofits and early-stage startups.
+No, but our 14-day free trial gives you full access to evaluate the platform. We also offer special pricing for n
 
 ... [Read full document at https://docs.sealmetrics.com/billing/faq]
 
@@ -7200,9 +6941,7 @@ You should see:
 ### Verify Data Collection
 
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
-2. Go to **Real-time** report
-3. Visit your website in another tab
-4.
+2. Go to **Real-time** re
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7585,6 +7324,29 @@ These docs cover everything you need to implement, operate, and build on top of 
 
 
 
+## Web Analytics Prompts
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts
+
+
+# Web Analytics Prompts
+
+A curated library of production-ready prompts for the **SealMetrics MCP server** and cross-platform combinations with **Google Ads MCP**, **Meta Ads MCP**, and **Google Search Console MCP**.
+
+Every prompt in this section is designed for two ideal customer profiles:
+
+- **Sales & Direct Directors** of hotels (independent and chains).
+- **CMOs and Ecommerce Managers** of online stores.
+
+## How to use these prompts
+
+1. Open Claude Desktop, Claude Code, or any MCP-compatible 
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts]
+
+
+
 ## Complete Guide to Cookieless Analytics 2026
 
 
@@ -7604,12 +7366,6 @@ Cookieless analytics is a method of tracking website visitors and their behavior
 ### The Core Difference from Cookie-Based Analytics
 
 Traditional cookie-based analytics (including Google Analytics) stores a persistent identifier in the user's browser. This cookie follows the user across sessions, allowing platforms to build comprehensive visitor profiles. The process works like this:
-
-1. User visits website
-2. Analytics code creates a cookie in browser
-3. Cookie persists for months or years
-4. Each subsequent visit references that same cookie
-5. Platform links all visits to same user ID
 
 ... [Read full document at https://docs.sealmetrics.com/complete-guide-cookieless-analytics]
 
@@ -7631,6 +7387,447 @@ Welcome to the Sealmetrics guides section. Here you'll find step-by-step tutoria
 
 
 
+## Revenue Leak Detection
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/01-revenue-leak
+
+
+# Revenue Leak Detection
+
+Surface hidden revenue loss caused by broken landing pages, bot traffic, and decaying channels. All prompts use the SealMetrics MCP server only.
+
+**MCPs required:** SealMetrics MCP
+**Best for:** CMOs, Ecommerce Managers, Sales & Direct Directors
+**Difficulty:** Basic to intermediate
+
+---
+
+## WAP-001 — High-bounce landing pages with traffic
+
+```text
+You are a senior web analyst with access to the SealMetrics MCP for site {site_id}.
+
+Context:
+- Today is {today}.
+- Time ra
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/01-revenue-leak]
+
+
+
+## Conversion Optimization
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization
+
+
+# Conversion Optimization
+
+Find where users drop off, which devices underperform, and which content groups deserve more investment.
+
+**MCPs required:** SealMetrics MCP
+**Best for:** CMOs, Ecommerce Managers, Sales & Direct Directors
+
+---
+
+## WAP-006 — Weekly funnel drop-off alert
+
+```text
+Using SealMetrics MCP for site {site_id}, compute the main conversion funnel week over week for the last 8 weeks.
+
+Funnel steps (adjust if my actual funnel differs — ask me first if unclear):
+1. Landing page entrance
+2. View product / view room
+3. Add to cart / start 
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization]
+
+
+
+## Traffic & Quality Control
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/03-traffic-quality
+
+
+# Traffic & Quality Control
+
+Keep your data clean: detect anomalies, suspicious traffic, broken UTMs, and tracking regressions before they corrupt decisions.
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-014 — Daily traffic anomaly digest
+
+```text
+You are an analytics on-call engineer. Using SealMetrics MCP for site {site_id}, run a daily anomaly check for {today} vs the trailing 30-day baseline.
+
+Check anomalies on:
+- Total entrances
+- Conversions
+- Revenue
+- % bot/agent traffic
+- Top 10 cha
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/03-traffic-quality]
+
+
+
+## Attribution & Channels
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/04-attribution-channels
+
+
+# Attribution & Channels
+
+True channel performance using SealMetrics last-click data — no GA4 modeling, no sampling.
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-021 — Channel revenue ranking, last 90 days
+
+```text
+Using SealMetrics MCP for site {site_id}, return the channel ranking by real revenue for the last 90 days.
+
+Group by utm_source / utm_medium pair (or by SealMetrics channel rule if more meaningful). For each row: channel, entrances, conversions, conversion rate, revenue, revenue p
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/04-attribution-channels]
+
+
+
+## Geography & Segmentation
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/05-geography
+
+
+# Geography & Segmentation
+
+Where is your revenue coming from, where could it come from, and where are you leaking?
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-028 — Country revenue with monthly trend
+
+```text
+Using SealMetrics MCP for site {site_id}, return revenue by country for the last 6 full months.
+
+Output: one row per country, one column per month, plus columns for: total revenue 6m, % share of total, MoM trend (up/flat/down), CAGR over the 6 months.
+
+Limit to the top 20 countries by
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/05-geography]
+
+
+
+## Spend Efficiency
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/06-spend-efficiency
+
+
+# Spend Efficiency
+
+Cut waste before scaling. These prompts surface candidates to pause, fix, or deindex.
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-034 — Pages with traffic but no conversion contribution
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 90 days:
+
+List every page with more than 1000 pageviews that contributed to zero conversions (neither as a landing nor as a path step). Include both landing pages and internal pages.
+
+Columns: URL, pageviews, entrances, bounc
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/06-spend-efficiency]
+
+
+
+## Alerts & Monitoring
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/07-alerts-monitoring
+
+
+# Alerts & Monitoring
+
+These prompts run on demand via the MCP. To get **push** notifications without asking the agent, configure SealMetrics native Alerts and Webhooks (see [Alerts API](/api/alerts)). Use these prompts to design and review them.
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-039 — Daily conversion drop check
+
+```text
+Using SealMetrics MCP for site {site_id}, compare conversions for yesterday vs the trailing 7-day mean.
+
+If yesterday's conversions are more than 25% below that 
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/07-alerts-monitoring]
+
+
+
+## Executive Reporting
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/08-executive-reporting
+
+
+# Executive Reporting
+
+For ICPs who do not want dashboards — they want one paragraph and three bullets. These prompts produce ready-to-share natural-language reports.
+
+**MCPs required:** SealMetrics MCP
+
+---
+
+## WAP-045 — Monthly C-level digest
+
+```text
+Using SealMetrics MCP for site {site_id}, build a C-level monthly report for {month}.
+
+Sections (each one paragraph max):
+1. Headline — total revenue, conversions, entrances vs previous month and vs same month last year.
+2. Top 3 channels by reve
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/08-executive-reporting]
+
+
+
+## Hotels — Sales & Direct Director
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/09-hotels
+
+
+# Hotels — Sales & Direct Director
+
+Built for hotels and chains that want more direct bookings, less OTA dependency, and a clear view of country mix and pickup behavior.
+
+**MCPs required:** SealMetrics MCP
+**Best for:** Sales & Direct Directors, Revenue Managers, Marketing Directors of hospitality groups
+
+---
+
+## WAP-051 — Direct booking funnel by step and device
+
+```text
+Using SealMetrics MCP for site {site_id} (a hotel), build the direct booking funnel for the last 30 days.
+
+Funnel steps (adju
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/09-hotels]
+
+
+
+## Ecommerce — CMO & Ecommerce Manager
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/10-ecommerce
+
+
+# Ecommerce — CMO & Ecommerce Manager
+
+Prompts crafted for online stores that need to grow revenue, defend margin, and understand customer behavior with clean, unmodeled data.
+
+**MCPs required:** SealMetrics MCP
+**Best for:** CMOs and Ecommerce Managers
+
+---
+
+## WAP-056 — Cart-to-purchase ratio by category
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 30 days:
+
+For every product category (property `category` on add_to_cart and on conversion_items):
+- Add-to-cart events, purchas
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/10-ecommerce]
+
+
+
+## Product Properties — SKU, Size, Color, Room Type
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/11-product-properties
+
+
+# Product Properties — SKU, Size, Color, Room Type
+
+The most powerful prompts in the library. They lean on SealMetrics' `conversion_items` table (one row per product, denormalized properties) and on `Map(String, String)` properties on micro-conversions like `add_to_cart`, `view_product`, `view_room`.
+
+**MCPs required:** SealMetrics MCP
+**Pre-flight check:** before running these, confirm which properties your site actually captures. Use `list_property_keys` and `get_property_values` to validate.
+
+---
+
+## Ecommerce property prompts
+
+### WAP-061 — SKUs viewed vs purchased
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 30 days:
+
+For every SKU that received at least 100 view_product events:
+- view_product count, add_to_cart count, purchases (from conversion_items), view-to-purchase ratio.
+
+Rank by view-to-purchase ratio ascending (worst at the top). Take the worst 50 with high view volume.
+
+For each, classify the leak hypothesis: price too high, out of stock, weak product description, missing reviews, slow load.
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/11-product-properties]
+
+
+
+## Forecasting
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/12-forecasting
+
+
+# Forecasting
+
+These prompts combine current run-rate, historical seasonality, and YoY comparisons to project where you will end the period. The MCP returns the data; the agent extrapolates.
+
+**MCPs required:** SealMetrics MCP
+**Note:** for reliable forecasts, you need at least 12 months of historical data. For Black Friday and hotel pickup, ideally 2 full cycles.
+
+---
+
+## Period close forecasts
+
+### WAP-081 — Month-end forecast
+
+```text
+Using SealMetrics MCP for site {site_id}:
+
+We are on day {day_of_month} of {month}. Pull entrances, conversions, and revenue for this month so far. Pull the same metrics for the previous full month and the same month last year.
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/12-forecasting]
+
+
+
+## SealMetrics + Google Ads
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/13-google-ads
+
+
+# SealMetrics + Google Ads
+
+Cross what Google says happened with what actually happened. These prompts assume both MCPs are connected.
+
+**MCPs required:** SealMetrics MCP + Google Ads MCP
+**Best for:** CMOs, performance marketers, Ecommerce Managers
+
+---
+
+## WAP-096 — Click-to-entrance discrepancy
+
+```text
+You have access to SealMetrics MCP for site {site_id} and Google Ads MCP for account {google_ads_account}.
+
+For the last 30 days, per Google Ads campaign:
+- Clicks reported by Google Ads
+- Real entrances captured by SealMetrics (matched on utm_campaign + utm_source = google + utm_medium = cpc)
+- % discrepancy = (clicks - entrances) / clicks
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/13-google-ads]
+
+
+
+## SealMetrics + Meta Ads
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/14-meta-ads
+
+
+# SealMetrics + Meta Ads
+
+Meta's reported numbers are an estimate, especially post-iOS 14.5. SealMetrics gives you the deterministic baseline. These prompts compare the two.
+
+**MCPs required:** SealMetrics MCP + Meta Ads MCP
+
+---
+
+## WAP-106 — Meta ROAS vs real ROAS
+
+```text
+You have access to SealMetrics MCP for site {site_id} and Meta Ads MCP for account {meta_account}.
+
+Last 30 days per ad set:
+- Spend (Meta Ads)
+- Conversions and revenue reported by Meta
+- Conversions and revenue captured by SealMetrics (matched on u
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/14-meta-ads]
+
+
+
+## SealMetrics + Google Search Console
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/15-search-console
+
+
+# SealMetrics + Google Search Console
+
+GSC tells you what people searched. SealMetrics tells you what they did after clicking. Combine them.
+
+**MCPs required:** SealMetrics MCP + Google Search Console MCP
+
+---
+
+## WAP-115 — High-impression queries with low real CR
+
+```text
+You have access to SealMetrics MCP for site {site_id} and Google Search Console MCP for property {gsc_property}.
+
+For the last 90 days, list every query with:
+- More than 1000 impressions in GSC
+- A clear primary destination URL (top URL by clicks for that query)
+- Below-site-median conversion rate of that landing in SealMetrics
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/15-search-console]
+
+
+
+## Cross-platform — All MCPs
+
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/16-cross-platform
+
+
+# Cross-platform — All MCPs
+
+The most powerful prompts in the library. Combine SealMetrics with two or more platform MCPs (Google Ads, Meta Ads, GSC) to triangulate truth, expose waste, and reallocate budget.
+
+**MCPs required:** SealMetrics MCP + at least 2 of: Google Ads MCP, Meta Ads MCP, GSC MCP
+
+---
+
+## WAP-125 — Triangulation per top landing
+
+```text
+You have access to: SealMetrics MCP for site {site_id}, Google Ads MCP for {google_ads_account}, Meta Ads MCP for {meta_account}, GSC MCP for {gsc_property}.
+
+... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/16-cross-platform]
+
+
+
 ## Release Notes
 
 
@@ -7649,8 +7846,7 @@ After months of development and feedback from hundreds of customers, we've rebui
 
 - **Faster, cleaner dashboard** — redesigned for clarity and speed
 - **Smarter attribution** — understand exactly where your conversions come from
-- **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and the upcoming EU Digital Omnibus
-- **New API*
+- **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and t
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 

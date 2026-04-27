@@ -1,0 +1,248 @@
+# Forecasting
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/12-forecasting
+
+# Forecasting
+
+These prompts combine current run-rate, historical seasonality, and YoY comparisons to project where you will end the period. The MCP returns the data; the agent extrapolates.
+
+**MCPs required:** SealMetrics MCP
+**Note:** for reliable forecasts, you need at least 12 months of historical data. For Black Friday and hotel pickup, ideally 2 full cycles.
+
+---
+
+## Period close forecasts
+
+### WAP-081 — Month-end forecast
+
+```text
+Using SealMetrics MCP for site {site_id}:
+
+We are on day {day_of_month} of {month}. Pull entrances, conversions, and revenue for this month so far. Pull the same metrics for the previous full month and the same month last year.
+
+Project the close of {month} using three scenarios:
+1. Worst case: this month's daily run-rate continues flat.
+2. Expected case: apply the historical share-of-month curve from the last 12 months to current month-to-date.
+3. Best case: apply YoY growth rate observed in {month-1} to {month}.
+
+Output: 1 table with metric × scenario × value. End with a confidence verdict (low / medium / high) based on consistency of the three scenarios.
+```
+
+---
+
+### WAP-082 — Quarter pacing
+
+```text
+For site {site_id}, query SealMetrics MCP and compute revenue achieved this quarter vs the proportional target if I tell you the quarterly goal is {q_goal}.
+
+Return:
+- % of quarter elapsed (calendar)
+- % of goal achieved
+- Gap: behind / on track / ahead, with magnitude
+- Run-rate projection of close-of-quarter revenue
+- Run-rate projection of close-of-quarter conversions
+
+Add a 3-bullet recommendation: if behind, where to pull levers (channel, landing, geo). If ahead, where to invest to compound.
+```
+
+---
+
+### WAP-083 — Year-end run rate
+
+```text
+Using SealMetrics MCP for site {site_id}, build a year-end forecast.
+
+YTD numbers: entrances, conversions, revenue. Compare with same period last year and full last year.
+
+Three scenarios for full-year close:
+1. Run-rate flat (multiply current daily average by remaining days).
+2. Apply historical seasonality share of remaining months from the last 2 years.
+3. Apply current YoY growth rate to last year's full revenue.
+
+Output: 1 scenario table + 1 narrative paragraph with the most plausible figure highlighted.
+```
+
+---
+
+### WAP-084 — Daily pacing tracker
+
+```text
+For site {site_id}, every day:
+
+Compute % of monthly revenue goal achieved vs % of month elapsed. If gap is greater than 10 percentage points behind, alert.
+
+Alert payload: today's date, % goal, % month, daily run-rate, run-rate-projected close, % shortfall, top 3 levers based on this month's data (e.g. push channel X, fix landing Y, restart paused campaign Z).
+
+If on track or ahead, return "On pace, projected close X €" in one line.
+```
+
+---
+
+### WAP-085 — Weekly burn vs target
+
+```text
+Using SealMetrics MCP for site {site_id}:
+
+Pull weekly revenue for the last 4 full weeks. Compare to a weekly target that I will tell you ({weekly_target}).
+
+Per week: actual revenue, target, delta, cumulative delta.
+
+Trend analysis: is the gap narrowing or widening? Project cumulative end-of-month delta.
+
+Output: 1 burn-down chart described in plain text + 1 paragraph executive summary.
+```
+
+---
+
+## Black Friday and seasonal peaks
+
+### WAP-086 — Black Friday forecast based on history
+
+```text
+Using SealMetrics MCP for site {site_id}:
+
+Pull November and early December data for the last 2 years (entrances, conversions, revenue daily). Identify the Black Friday week and Cyber Monday peaks each year.
+
+Compute uplift ratios: BF-week revenue / average non-BF November week, for each year.
+
+Apply the latest uplift ratio (or a blended average) to this year's current November baseline to project this year's BF-week revenue, conversions, and entrances.
+
+Output: 3 scenarios (last year's uplift, blended uplift, conservative uplift -20%). Add a 3-bullet recommendation on stock and ad budget given the projection.
+```
+
+---
+
+### WAP-087 — Pre-Black Friday momentum check
+
+```text
+For site {site_id}, query SealMetrics MCP and compare the last 2 weeks pre-BF this year vs the same 2 weeks last year.
+
+Per metric (entrances, conversions, revenue): this year, last year, % delta.
+
+If we are tracking above last year, scale last year's BF actual by the delta to project this year's BF.
+If below, scale down accordingly and flag risk.
+
+Output: a momentum verdict (ahead / on track / behind) + projected BF-week numbers + recommended actions.
+```
+
+---
+
+### WAP-088 — Black Friday channel mix forecast
+
+```text
+Using SealMetrics MCP for site {site_id}, compute the channel share of revenue during Black Friday week of the last 2 years.
+
+Apply that historical share to this year's BF revenue projection (use {projected_bf_revenue} or compute it via WAP-086).
+
+Output: per channel, projected revenue and projected share. End with budget reallocation suggestions for the days leading into BF.
+```
+
+---
+
+### WAP-089 — Black Friday top SKUs prediction
+
+```text
+For site {site_id}, query SealMetrics MCP:
+
+Pull top 30 SKUs by revenue during Black Friday week of the last 2 years. For each, compare to current 30-day view_product and add_to_cart trends.
+
+Compute a "BF likelihood score" per SKU = historical BF rank × current intent rank.
+
+Output: ranked list of 30 SKUs likely to be top performers this BF, with confidence level. End with a 3-bullet inventory + ad creative recommendation.
+```
+
+---
+
+### WAP-090 — Post-Black Friday tail forecast
+
+```text
+Using SealMetrics MCP for site {site_id}:
+
+Pull December data for the last 2 years and compute the tail-off after BF: % of BF week revenue retained in week+1, week+2, week+3.
+
+Apply that tail to this year's BF-week projection to forecast December weekly revenue.
+
+Output: a 4-week December projection table. End with a recommendation: which retention or post-purchase campaigns extend the tail.
+```
+
+---
+
+## Hotel pickup forecasting
+
+### WAP-091 — On-the-books vs pickup curve
+
+```text
+For site {site_id} (a hotel), query SealMetrics MCP:
+
+Pull current confirmed bookings for the next 30, 60, 90 days (using `check_in` property on conversions).
+
+Compare against the historical pickup curve: at this lead time, what % of final occupancy was already on the books in the last 2 years?
+
+Project final occupancy and final revenue per period.
+
+Output: 3 projection rows (30 / 60 / 90 days out) with on-the-books, projected final, % gap. Highlight any period where projection is more than 10% below last year's actual.
+```
+
+---
+
+### WAP-092 — Booking pace alert by date range
+
+```text
+Using SealMetrics MCP for site {site_id}:
+
+For a target date range I will provide ({date_range}, e.g. August 2026), pull current bookings on the books vs same point in time last year.
+
+If pace is more than X% behind ({threshold} default 10%), alert.
+
+Alert payload: target range, current bookings, last-year bookings at same lead time, % gap, top channels under-pacing, top countries under-pacing, suggested levers (paid push, partner agreements, package launch).
+```
+
+---
+
+### WAP-093 — Country mix forecast
+
+```text
+For site {site_id} (a hotel), query SealMetrics MCP for the last 24 months.
+
+Compute the historical country mix of bookings for the next quarter (same quarter prior years). Apply that mix to a projected total revenue for next quarter (use {next_q_projection} or run WAP-082 first).
+
+Output: projected revenue per country for next quarter. End with a 3-bullet marketing brief: where to spend, where to localize, where to maintain.
+```
+
+---
+
+## Campaign forecasting
+
+### WAP-094 — Campaign trajectory projection
+
+```text
+Using SealMetrics MCP for site {site_id}, for every active utm_campaign:
+
+Compute daily run-rate of conversions and revenue since launch. Identify the campaign curve shape (front-loaded, steady, ramping, decaying) using the last 14 days of data.
+
+For each campaign, project end-of-campaign totals based on its current curve and a comparison to past campaigns of similar source and medium (if any).
+
+Output: 1 table per campaign with projected close. Highlight campaigns where projection underperforms the average historical campaign in the same source-medium.
+```
+
+---
+
+### WAP-095 — Goal probability estimator
+
+```text
+For site {site_id}, query SealMetrics MCP and estimate the probability of hitting a goal I will provide ({goal} conversions or {goal} revenue) by {goal_date}.
+
+Method: compare current run-rate vs needed run-rate, and weight by historical seasonality of the remaining days.
+
+Output: probability bucket (high / medium / low), projected actual close, days needed at the required pace, and 3 levers to close the gap if probability is medium or low.
+
+Disclaimer: this is a heuristic estimate, not a statistical model.
+```
+
+---
+
+## See also
+
+- [Executive Reporting](./executive-reporting)
+- [Ecommerce](./ecommerce)
+- [Hotels](./hotels)

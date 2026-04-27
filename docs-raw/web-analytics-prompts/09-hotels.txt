@@ -1,0 +1,99 @@
+# Hotels — Sales & Direct Director
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/09-hotels
+
+# Hotels — Sales & Direct Director
+
+Built for hotels and chains that want more direct bookings, less OTA dependency, and a clear view of country mix and pickup behavior.
+
+**MCPs required:** SealMetrics MCP
+**Best for:** Sales & Direct Directors, Revenue Managers, Marketing Directors of hospitality groups
+
+---
+
+## WAP-051 — Direct booking funnel by step and device
+
+```text
+Using SealMetrics MCP for site {site_id} (a hotel), build the direct booking funnel for the last 30 days.
+
+Funnel steps (adjust if my booking flow differs):
+1. Landing entrance
+2. Search availability (micro-conversion: search_availability)
+3. View room (micro-conversion: view_room)
+4. Start booking / select dates (micro-conversion: start_booking)
+5. Reach payment step (micro-conversion: reach_payment)
+6. Booking confirmed (macro: conversion)
+
+Per step, return: sessions in step, % to next step, split by desktop / mobile / tablet.
+
+Highlight the worst-performing step per device. End with one optimization hypothesis per device and a "test first" suggestion.
+```
+
+---
+
+## WAP-052 — BAR / rates page diagnostics
+
+```text
+For site {site_id}, query SealMetrics MCP for the last 90 days.
+
+Pull metrics for the BAR / rates / "best available rate" page (URL pattern: {bar_url_pattern}):
+- Entrances, pageviews, bounce rate, time on page, conversion rate from this page, revenue attributed.
+- Trend month by month over the last 90 days.
+- Top 5 traffic sources and their CR on this page.
+
+Compare to site averages. Flag any metric more than 30% worse than site average. End with a 3-bullet diagnosis.
+```
+
+---
+
+## WAP-053 — Top countries by direct conversions
+
+```text
+Using SealMetrics MCP for site {site_id} (hotel), for the last 90 days:
+
+Top 10 countries by direct booking conversions (utm_source = direct or null, organic, brand search):
+- Country, conversions, revenue, AOV, average length of stay (if `nights` property is captured), top room type purchased.
+
+Top 10 countries that browse but do not book (high entrances, near-zero conversions):
+- Country, entrances, bounce rate, top device, top language.
+
+End with: 3 countries to push direct campaigns to (high direct intent already), 3 countries to localize first (browsing but not booking).
+```
+
+---
+
+## WAP-054 — Last-minute vs early-booking distribution
+
+```text
+For site {site_id}, query SealMetrics MCP and use the property `check_in` on macro conversions (or `days_to_check_in` if pre-computed) for the last 90 days.
+
+Compute days-to-check-in = check_in - conversion_date. Bucket into:
+- Same-day, 1-3 days, 4-7 days, 8-14 days, 15-30 days, 31-60 days, 60+ days.
+
+For each bucket: number of bookings, total revenue, average ADR if `room_rate` is captured, top country of origin.
+
+Compare distribution vs same period last year if data exists. Flag any bucket whose share dropped more than 5 percentage points.
+End with a 3-bullet revenue-management recommendation.
+```
+
+---
+
+## WAP-055 — Geo mix of high-revenue direct guests
+
+```text
+Using SealMetrics MCP for site {site_id}, for the last 6 months:
+
+Identify the top 10 countries that generated the most direct revenue. For each: bookings, revenue, AOV, average length of stay, average days-to-check-in, dominant room type.
+
+Build a geo-targeting brief: which 5 countries deserve a dedicated paid campaign in their language, with a specific room type as the hero, and the right booking window for the creative.
+
+Output: 1 ranking table + 5 campaign briefs (1 per country) of 3 lines each.
+```
+
+---
+
+## See also
+
+- [Geography & Segmentation](./geography)
+- [Product Properties (room types, length of stay)](./product-properties)
+- [Forecasting (pickup curve)](./forecasting)

@@ -1,0 +1,189 @@
+# SealMetrics + Google Ads
+
+URL: https://docs.sealmetrics.com/web-analytics-prompts/13-google-ads
+
+# SealMetrics + Google Ads
+
+Cross what Google says happened with what actually happened. These prompts assume both MCPs are connected.
+
+**MCPs required:** SealMetrics MCP + Google Ads MCP
+**Best for:** CMOs, performance marketers, Ecommerce Managers
+
+---
+
+## WAP-096 — Click-to-entrance discrepancy
+
+```text
+You have access to SealMetrics MCP for site {site_id} and Google Ads MCP for account {google_ads_account}.
+
+For the last 30 days, per Google Ads campaign:
+- Clicks reported by Google Ads
+- Real entrances captured by SealMetrics (matched on utm_campaign + utm_source = google + utm_medium = cpc)
+- % discrepancy = (clicks - entrances) / clicks
+
+Sort by absolute click loss desc. Highlight campaigns where Google reports more than 20% extra clicks vs real arrivals — that is bot, accidental, or wasted traffic.
+
+End with an estimated wasted spend per campaign = avg CPC × (clicks - entrances).
+```
+
+---
+
+## WAP-097 — ROAS as Google reports vs real
+
+```text
+Using SealMetrics MCP for site {site_id} and Google Ads MCP for account {google_ads_account}:
+
+Per campaign, last 30 days:
+- Spend from Google Ads
+- Conversions and revenue as Google Ads reports them
+- Conversions and revenue as SealMetrics records them
+- ROAS_google = revenue_google / spend
+- ROAS_real = revenue_sealmetrics / spend
+- Delta ROAS_google − ROAS_real
+
+Highlight campaigns where Google overstates ROAS by more than 0.5x. Those are over-credited campaigns and likely fooling the optimization model.
+
+Output: 1 ranking table + a 3-bullet recommendation on which campaigns to recheck conversion setup or switch optimization mode.
+```
+
+---
+
+## WAP-098 — Real CPA per campaign
+
+```text
+For site {site_id} (SealMetrics MCP) and Google Ads account {google_ads_account} (Google Ads MCP):
+
+Last 30 days per campaign:
+- Spend, conversions in SealMetrics, real CPA = spend / conversions_sealmetrics
+- Compare to CPA reported by Google Ads
+- % over-credit = (CPA_google_reported / CPA_real) - 1
+
+Sort by spend desc. Flag campaigns with real CPA more than 50% above target ({target_cpa}) — those are losing money.
+
+End with a "pause / refine / scale" verdict per campaign in the top 20 by spend.
+```
+
+---
+
+## WAP-099 — Wasted spend on bot traffic
+
+```text
+Using SealMetrics MCP for site {site_id} and Google Ads MCP for account {google_ads_account}:
+
+For the last 30 days, per campaign and per keyword:
+- Clicks (Google Ads)
+- Spend (Google Ads)
+- Real entrances (SealMetrics)
+- Of those entrances, % classified as bot/agent_suspected
+- Estimated wasted spend = spend × (% bot / 100)
+
+Output: top 30 keywords by wasted spend. End with a list of negative keywords or audience exclusions to add.
+```
+
+---
+
+## WAP-100 — High CTR but low conversion landings
+
+```text
+For site {site_id} (SealMetrics MCP) and Google Ads account {google_ads_account} (Google Ads MCP):
+
+Per ad group, last 30 days: CTR (Google Ads), bounce rate of the destination landing (SealMetrics), conversion rate of the destination landing (SealMetrics).
+
+Identify ad groups with CTR above account median AND landing CR more than 30% below site median. Those are query-landing mismatch problems: people click but bounce.
+
+Output: ranked table by ad spend on those mismatched ad groups + a fix list (rewrite landing, change destination URL, change ad copy, narrow keywords).
+```
+
+---
+
+## WAP-101 — Device performance: Google Ads vs SealMetrics
+
+```text
+Using SealMetrics MCP for site {site_id} and Google Ads MCP for account {google_ads_account}:
+
+Per device (mobile, desktop, tablet), last 30 days:
+- Conversions reported by Google Ads
+- Conversions captured by SealMetrics
+- Delta and % over-credit
+
+Identify the device where Google overstates conversions the most. That's where attribution modeling is most aggressive.
+
+End with a 3-bullet recommendation on device bid modifiers based on real CR per device.
+```
+
+---
+
+## WAP-102 — Search Lost IS opportunity check
+
+```text
+For site {site_id} (SealMetrics MCP) and Google Ads account {google_ads_account} (Google Ads MCP):
+
+List campaigns with Search Lost Impression Share due to budget greater than 20%. For each, pull from SealMetrics:
+- Real CR of the campaign's traffic
+- Revenue per session
+- Bot share
+
+Highlight campaigns where Lost IS is high AND real CR is above account median. Those are budget-starved winners.
+
+End with a recommended budget increase per campaign and the expected incremental conversions if Lost IS is recovered.
+```
+
+---
+
+## WAP-103 — Geo bid optimization
+
+```text
+Using SealMetrics MCP for site {site_id} and Google Ads MCP for account {google_ads_account}:
+
+Per campaign and per country, last 60 days:
+- Spend, clicks, CPA reported by Google Ads
+- Real conversions and CR from SealMetrics
+- Real CPA = spend / sealmetrics_conversions
+
+For each campaign, identify countries where:
+- Real CPA is more than 30% below target → recommend bid up
+- Real CPA is more than 30% above target → recommend bid down or exclude
+
+Output: bid recommendations table.
+```
+
+---
+
+## WAP-104 — Brand vs non-brand cannibalization
+
+```text
+For site {site_id} (SealMetrics MCP) and Google Ads account {google_ads_account} (Google Ads MCP):
+
+Separate brand campaigns from non-brand campaigns (use campaign naming convention or keyword list I will provide).
+
+For brand campaigns: spend, conversions reported, conversions in SealMetrics from organic + direct (which would have happened anyway).
+
+Estimate cannibalization rate = SealMetrics direct/organic brand conversions during paid hours / SealMetrics direct/organic brand conversions during paid-paused hours, if such a comparison is feasible. If not, use a heuristic: cannibalization risk = (brand-direct + brand-organic) / brand-paid.
+
+Output: estimated cannibalized revenue + a recommendation on whether to keep or pause brand paid.
+```
+
+---
+
+## WAP-105 — Quality Score vs real CR
+
+```text
+Using SealMetrics MCP for site {site_id} and Google Ads MCP for account {google_ads_account}:
+
+Per ad, last 30 days:
+- Quality Score (Google Ads)
+- Landing CR (SealMetrics)
+- Bounce rate of landing (SealMetrics)
+
+Find ads with low Quality Score (≤5) but landing CR above site median. Those are "underrated by Google" — improve the ad copy or expected CTR signal to reduce CPC.
+
+End with rewriting suggestions for the top 5 candidates.
+```
+
+---
+
+## See also
+
+- [Cross-platform prompts](./cross-platform)
+- [Spend Efficiency](./spend-efficiency)
+- [Attribution & Channels](./attribution-channels)
