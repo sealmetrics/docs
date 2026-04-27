@@ -19,7 +19,7 @@ Keep your data clean: detect anomalies, suspicious traffic, broken UTMs, and tra
 
 ---
 
-## WAP-014 — Daily traffic anomaly digest
+## SEAL-014 — Daily traffic anomaly digest
 
 ```text
 You are an analytics on-call engineer. Using SealMetrics MCP for site {site_id}, run a daily anomaly check for {today} vs the trailing 30-day baseline.
@@ -39,7 +39,7 @@ Output: a "Today's anomalies" markdown report ready to paste in Slack. Maximum 8
 
 ---
 
-## WAP-015 — Top suspicious sessions of the week
+## SEAL-015 — Top suspicious sessions of the week
 
 ```text
 Using SealMetrics MCP for site {site_id}, return the top 50 most suspicious sessions in the last 7 days based on the bot suspicion score.
@@ -51,7 +51,7 @@ Group by source. End with a "candidates to block" list: IPs and user-agent patte
 
 ---
 
-## WAP-016 — Bot share weekly trend
+## SEAL-016 — Bot share weekly trend
 
 ```text
 Using SealMetrics MCP for site {site_id}, compute the weekly share of bot/agent_suspected traffic for the last 12 weeks.
@@ -65,7 +65,7 @@ Add a section listing the top 5 sources contributing to the bot share this week 
 
 ---
 
-## WAP-017 — Suspicious new referrers in top 20
+## SEAL-017 — Suspicious new referrers in top 20
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 7 days.
@@ -79,7 +79,7 @@ Output: 1 table + a "new this week" subsection.
 
 ---
 
-## WAP-018 — Pageview-to-conversion ratio drift
+## SEAL-018 — Pageview-to-conversion ratio drift
 
 ```text
 Using SealMetrics MCP for site {site_id}, compute the daily ratio of pageviews to macro conversions for the last 30 days.
@@ -94,7 +94,7 @@ End with a verdict per flagged day: tracking incident, real performance shift, o
 
 ---
 
-## WAP-019 — UTM hygiene audit
+## SEAL-019 — UTM hygiene audit
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 30 days.
@@ -112,7 +112,7 @@ End with a recommended fix list (which campaigns/templates to update first).
 
 ---
 
-## WAP-020 — Suspicious sessions by device and country
+## SEAL-020 — Suspicious sessions by device and country
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 14 days:

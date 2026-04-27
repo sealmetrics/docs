@@ -10,7 +10,7 @@ True channel performance using SealMetrics last-click data — no GA4 modeling, 
 
 ---
 
-## WAP-021 — Channel revenue ranking, last 90 days
+## SEAL-021 — Channel revenue ranking, last 90 days
 
 ```text
 Using SealMetrics MCP for site {site_id}, return the channel ranking by real revenue for the last 90 days.
@@ -23,7 +23,7 @@ End with one-line recommendations for budget reallocation.
 
 ---
 
-## WAP-022 — Best and worst utm_source by CR
+## SEAL-022 — Best and worst utm_source by CR
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 60 days.
@@ -39,7 +39,7 @@ For the bottom tier, recommend which to pause and which to fix (label each: paus
 
 ---
 
-## WAP-023 — Best and worst utm_term keywords
+## SEAL-023 — Best and worst utm_term keywords
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 90 days.
@@ -52,7 +52,7 @@ For each bottom-10 term suggest: pause, change match type, or rewrite the landin
 
 ---
 
-## WAP-024 — Zero-conversion campaigns to pause
+## SEAL-024 — Zero-conversion campaigns to pause
 
 ```text
 Using SealMetrics MCP for site {site_id}, list every utm_campaign with more than 1000 entrances in the last 30 days and zero macro conversions.
@@ -64,7 +64,7 @@ Output a "candidates to pause" table. For each candidate, indicate whether to "p
 
 ---
 
-## WAP-025 — Campaign cannibalization detector
+## SEAL-025 — Campaign cannibalization detector
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 60 days.
@@ -78,7 +78,7 @@ End with: which campaign in each pair should be kept, which should be paused or 
 
 ---
 
-## WAP-026 — Direct traffic spike investigation
+## SEAL-026 — Direct traffic spike investigation
 
 ```text
 Using SealMetrics MCP for site {site_id}, check whether direct traffic (utm_source = direct or null) increased by more than 25% week over week.
@@ -93,7 +93,7 @@ Output: "Yes/No spike" verdict + investigation table + 3 hypotheses for what is 
 
 ---
 
-## WAP-027 — Channel decay month over month
+## SEAL-027 — Channel decay month over month
 
 ```text
 For site {site_id}, query SealMetrics MCP and compare entrances and conversions by channel for current month vs previous month.

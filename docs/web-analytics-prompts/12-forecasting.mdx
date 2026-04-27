@@ -22,7 +22,7 @@ These prompts combine current run-rate, historical seasonality, and YoY comparis
 
 ## Period close forecasts
 
-### WAP-081 — Month-end forecast
+### SEAL-081 — Month-end forecast
 
 ```text
 Using SealMetrics MCP for site {site_id}:
@@ -39,7 +39,7 @@ Output: 1 table with metric × scenario × value. End with a confidence verdict 
 
 ---
 
-### WAP-082 — Quarter pacing
+### SEAL-082 — Quarter pacing
 
 ```text
 For site {site_id}, query SealMetrics MCP and compute revenue achieved this quarter vs the proportional target if I tell you the quarterly goal is {q_goal}.
@@ -56,7 +56,7 @@ Add a 3-bullet recommendation: if behind, where to pull levers (channel, landing
 
 ---
 
-### WAP-083 — Year-end run rate
+### SEAL-083 — Year-end run rate
 
 ```text
 Using SealMetrics MCP for site {site_id}, build a year-end forecast.
@@ -73,7 +73,7 @@ Output: 1 scenario table + 1 narrative paragraph with the most plausible figure 
 
 ---
 
-### WAP-084 — Daily pacing tracker
+### SEAL-084 — Daily pacing tracker
 
 ```text
 For site {site_id}, every day:
@@ -87,7 +87,7 @@ If on track or ahead, return "On pace, projected close X €" in one line.
 
 ---
 
-### WAP-085 — Weekly burn vs target
+### SEAL-085 — Weekly burn vs target
 
 ```text
 Using SealMetrics MCP for site {site_id}:
@@ -105,7 +105,7 @@ Output: 1 burn-down chart described in plain text + 1 paragraph executive summar
 
 ## Black Friday and seasonal peaks
 
-### WAP-086 — Black Friday forecast based on history
+### SEAL-086 — Black Friday forecast based on history
 
 ```text
 Using SealMetrics MCP for site {site_id}:
@@ -121,7 +121,7 @@ Output: 3 scenarios (last year's uplift, blended uplift, conservative uplift -20
 
 ---
 
-### WAP-087 — Pre-Black Friday momentum check
+### SEAL-087 — Pre-Black Friday momentum check
 
 ```text
 For site {site_id}, query SealMetrics MCP and compare the last 2 weeks pre-BF this year vs the same 2 weeks last year.
@@ -136,19 +136,19 @@ Output: a momentum verdict (ahead / on track / behind) + projected BF-week numbe
 
 ---
 
-### WAP-088 — Black Friday channel mix forecast
+### SEAL-088 — Black Friday channel mix forecast
 
 ```text
 Using SealMetrics MCP for site {site_id}, compute the channel share of revenue during Black Friday week of the last 2 years.
 
-Apply that historical share to this year's BF revenue projection (use {projected_bf_revenue} or compute it via WAP-086).
+Apply that historical share to this year's BF revenue projection (use {projected_bf_revenue} or compute it via SEAL-086).
 
 Output: per channel, projected revenue and projected share. End with budget reallocation suggestions for the days leading into BF.
 ```
 
 ---
 
-### WAP-089 — Black Friday top SKUs prediction
+### SEAL-089 — Black Friday top SKUs prediction
 
 ```text
 For site {site_id}, query SealMetrics MCP:
@@ -162,7 +162,7 @@ Output: ranked list of 30 SKUs likely to be top performers this BF, with confide
 
 ---
 
-### WAP-090 — Post-Black Friday tail forecast
+### SEAL-090 — Post-Black Friday tail forecast
 
 ```text
 Using SealMetrics MCP for site {site_id}:
@@ -178,7 +178,7 @@ Output: a 4-week December projection table. End with a recommendation: which ret
 
 ## Hotel pickup forecasting
 
-### WAP-091 — On-the-books vs pickup curve
+### SEAL-091 — On-the-books vs pickup curve
 
 ```text
 For site {site_id} (a hotel), query SealMetrics MCP:
@@ -194,7 +194,7 @@ Output: 3 projection rows (30 / 60 / 90 days out) with on-the-books, projected f
 
 ---
 
-### WAP-092 — Booking pace alert by date range
+### SEAL-092 — Booking pace alert by date range
 
 ```text
 Using SealMetrics MCP for site {site_id}:
@@ -208,12 +208,12 @@ Alert payload: target range, current bookings, last-year bookings at same lead t
 
 ---
 
-### WAP-093 — Country mix forecast
+### SEAL-093 — Country mix forecast
 
 ```text
 For site {site_id} (a hotel), query SealMetrics MCP for the last 24 months.
 
-Compute the historical country mix of bookings for the next quarter (same quarter prior years). Apply that mix to a projected total revenue for next quarter (use {next_q_projection} or run WAP-082 first).
+Compute the historical country mix of bookings for the next quarter (same quarter prior years). Apply that mix to a projected total revenue for next quarter (use {next_q_projection} or run SEAL-082 first).
 
 Output: projected revenue per country for next quarter. End with a 3-bullet marketing brief: where to spend, where to localize, where to maintain.
 ```
@@ -222,7 +222,7 @@ Output: projected revenue per country for next quarter. End with a 3-bullet mark
 
 ## Campaign forecasting
 
-### WAP-094 — Campaign trajectory projection
+### SEAL-094 — Campaign trajectory projection
 
 ```text
 Using SealMetrics MCP for site {site_id}, for every active utm_campaign:
@@ -236,7 +236,7 @@ Output: 1 table per campaign with projected close. Highlight campaigns where pro
 
 ---
 
-### WAP-095 — Goal probability estimator
+### SEAL-095 — Goal probability estimator
 
 ```text
 For site {site_id}, query SealMetrics MCP and estimate the probability of hitting a goal I will provide ({goal} conversions or {goal} revenue) by {goal_date}.

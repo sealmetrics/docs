@@ -12,7 +12,7 @@ Surface hidden revenue loss caused by broken landing pages, bot traffic, and dec
 
 ---
 
-## WAP-001 — High-bounce landing pages with traffic
+## SEAL-001 — High-bounce landing pages with traffic
 
 ```text
 You are a senior web analyst with access to the SealMetrics MCP for site {site_id}.
@@ -33,7 +33,7 @@ Output format: a markdown table sorted by lost entrances desc, followed by the t
 
 ---
 
-## WAP-002 — Pages with traffic but zero conversions
+## SEAL-002 — Pages with traffic but zero conversions
 
 ```text
 Using SealMetrics MCP for site {site_id}, find every page that received more than 200 visits in the last 14 days and has zero conversions AND zero micro-conversions.
@@ -48,7 +48,7 @@ Order the table by entrances desc. Limit output to 25 pages max.
 
 ---
 
-## WAP-003 — Bot and agent traffic cost estimate
+## SEAL-003 — Bot and agent traffic cost estimate
 
 ```text
 For site {site_id}, retrieve bot and agent-suspected traffic from SealMetrics MCP for the last quarter (last 90 days).
@@ -65,7 +65,7 @@ Format: 1 summary table + 1 narrative paragraph with the wasted spend estimate f
 
 ---
 
-## WAP-004 — Channel decay alert
+## SEAL-004 — Channel decay alert
 
 ```text
 Using SealMetrics MCP for site {site_id}, compare conversions and revenue by channel (utm_source / utm_medium) for the last 30 days vs the prior 30 days.
@@ -80,7 +80,7 @@ Output: 1 main table sorted by revenue lost desc, plus a "campaigns to investiga
 
 ---
 
-## WAP-005 — Catastrophic landing pages audit
+## SEAL-005 — Catastrophic landing pages audit
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 30 days and return every page with ALL of the following:

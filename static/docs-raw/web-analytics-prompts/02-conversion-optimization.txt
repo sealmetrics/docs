@@ -11,7 +11,7 @@ Find where users drop off, which devices underperform, and which content groups 
 
 ---
 
-## WAP-006 — Weekly funnel drop-off alert
+## SEAL-006 — Weekly funnel drop-off alert
 
 ```text
 Using SealMetrics MCP for site {site_id}, compute the main conversion funnel week over week for the last 8 weeks.
@@ -32,7 +32,7 @@ Output: a 5-row × 8-week matrix + an "Alerts" section underneath.
 
 ---
 
-## WAP-007 — Micro-to-macro conversion ratio
+## SEAL-007 — Micro-to-macro conversion ratio
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 30 days.
@@ -50,7 +50,7 @@ Output: 1 table + a 3-bullet "what to amplify, what to fix" summary.
 
 ---
 
-## WAP-008 — Top 10 landing pages and shared patterns
+## SEAL-008 — Top 10 landing pages and shared patterns
 
 ```text
 Using SealMetrics MCP for site {site_id}, return the top 10 landing pages by conversion rate in the last 90 days, with at least 200 entrances each.
@@ -64,7 +64,7 @@ Final block: pick 3 pages from the rest of the catalog that violate these rules 
 
 ---
 
-## WAP-009 — Mobile vs desktop conversion gap
+## SEAL-009 — Mobile vs desktop conversion gap
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 30 days.
@@ -78,7 +78,7 @@ Output: a sortable markdown table + a top-5 list of "mobile experience suspects"
 
 ---
 
-## WAP-010 — Conversions by content group
+## SEAL-010 — Conversions by content group
 
 ```text
 Using SealMetrics MCP for site {site_id}, give me a full breakdown of conversions and revenue by content group for the last 90 days.
@@ -92,7 +92,7 @@ End with a recommendation: which content groups should get more SEO/Ads/email in
 
 ---
 
-## WAP-011 — Top SKUs per landing page (ecommerce)
+## SEAL-011 — Top SKUs per landing page (ecommerce)
 
 ```text
 For site {site_id}, query SealMetrics MCP using property breakdown on conversion_items.
@@ -108,7 +108,7 @@ Output: nested table grouped by landing page + a "missed merchandising opportuni
 
 ---
 
-## WAP-012 — Cart-to-purchase ratio per category (ecommerce)
+## SEAL-012 — Cart-to-purchase ratio per category (ecommerce)
 
 ```text
 Using SealMetrics MCP for site {site_id}, for the last 30 days:
@@ -124,7 +124,7 @@ For each of the top 5 leaks, suggest 2 likely causes (price, shipping, stock, pa
 
 ---
 
-## WAP-013 — High-intent search terms without dedicated landings
+## SEAL-013 — High-intent search terms without dedicated landings
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 90 days.

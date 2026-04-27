@@ -10,7 +10,7 @@ These prompts run on demand via the MCP. To get **push** notifications without a
 
 ---
 
-## WAP-039 — Daily conversion drop check
+## SEAL-039 — Daily conversion drop check
 
 ```text
 Using SealMetrics MCP for site {site_id}, compare conversions for yesterday vs the trailing 7-day mean.
@@ -26,7 +26,7 @@ If the drop is below threshold, just say "All clear" with the actual delta.
 
 ---
 
-## WAP-040 — Channel halving alert
+## SEAL-040 — Channel halving alert
 
 ```text
 For site {site_id}, query SealMetrics MCP and compare entrances by channel for yesterday vs the day before.
@@ -40,7 +40,7 @@ Output: alert message + investigation block. If nothing flagged, return "All cle
 
 ---
 
-## WAP-041 — New high-volume campaign alert
+## SEAL-041 — New high-volume campaign alert
 
 ```text
 Using SealMetrics MCP for site {site_id}, list every utm_campaign that crossed 100 entrances for the first time in the last 24 hours.
@@ -52,7 +52,7 @@ Verdict per new campaign: HEALTHY, AUDIT (high bot share or high bounce), or REV
 
 ---
 
-## WAP-042 — Bot share threshold alert
+## SEAL-042 — Bot share threshold alert
 
 ```text
 For site {site_id}, query SealMetrics MCP for the last 24 hours.
@@ -71,7 +71,7 @@ If below threshold, return "All clear, X% bot share".
 
 ---
 
-## WAP-043 — Channel rules fired in 24h
+## SEAL-043 — Channel rules fired in 24h
 
 ```text
 Using SealMetrics MCP for site {site_id}, list every channel rule that fired in the last 24 hours.
@@ -83,7 +83,7 @@ End with a one-paragraph summary for a marketing standup: which rules are doing 
 
 ---
 
-## WAP-044 — Failed webhook deliveries (last 7 days)
+## SEAL-044 — Failed webhook deliveries (last 7 days)
 
 ```text
 For site {site_id}, query SealMetrics MCP webhooks for the last 7 days.
