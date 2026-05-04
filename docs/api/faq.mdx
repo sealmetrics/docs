@@ -1,0 +1,109 @@
+---
+sidebar_position: 21
+title: API FAQ
+description: Answers to common API integration questions — account_id vs site_id, event-level conversions, JWT scopes, and working /exports/stream examples.
+---
+
+# API FAQ
+
+Quick answers to the questions integrators ask most. Each entry is self-contained and links to the canonical reference.
+
+---
+
+## How do I get event-level conversions (one row per conversion)?
+
+Use **`GET /api/v1/stats/conversions/raw`**. It returns one row per conversion with all dimensions: UTM parameters, country, device, channel group, custom properties, and timestamps.
+
+**Constraints:**
+
+- Maximum date range: **31 days**
+- Maximum `page_size`: **10,000**
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/conversions/raw?site_id=YOUR_SITE&start_date=2026-04-01&end_date=2026-04-30&page_size=1000" \
+  -H "X-API-Key: sm_your_api_key"
+```
+
+For **aggregated** conversion totals (count, revenue, avg value per conversion type), use [`/stats/conversions`](./stats#conversions) instead. For bulk dumps to file, use [`/exports/stream`](./exports#stream-export-small-datasets) with `export_type: "conversions"`.
+
+---
+
+## What value do I pass for `account_id`? My `site_id` is being rejected.
+
+Both parameters refer to **the same value: the site slug** (the identifier shown in the dashboard URL, e.g. `acme` in `my.sealmetrics.com/acme/...`).
+
+The naming differs by route:
+
+| Route group | Accepts | Notes |
+|-------------|---------|-------|
+| `/stats/*` | `site_id` **or** `account_id` | Either works |
+| `/exports/*` | `account_id` only | `site_id` is rejected |
+| `/batch` | `account_id` only | Used inside the `params` of each query |
+
+If you got a 400 on `/exports/*` with `site_id`, switch the parameter name to `account_id` and keep the same value.
+
+---
+
+## Why does `/exports/stream` return an empty file (or used to return 403)?
+
+If you saw **403 with an API key** on `/exports/*` or `/batch`: that was a permission bug — those routes were checking for a scope that API keys don't carry. **It's fixed and deployed.** Your existing API key now works without changes.
+
+If you're still getting an **empty file**, check:
+
+1. The `account_id` matches the site slug exactly (see question above).
+2. `date_from` / `date_to` cover a period where conversions actually exist (verify with `GET /stats/conversions`).
+3. `export_type` is one of the values listed in the [Export Types table](./exports#export-types).
+
+---
+
+## Do JWT tokens issued by `/auth/token` inherit all scopes? Do I need to request extras?
+
+Scopes are **assigned automatically based on the user's role** — you don't request them.
+
+A standard user has `read` + `write`, which already covers every endpoint integrators typically need:
+
+- All `/stats/*`
+- All `/exports/*`
+- `/batch`
+- All `/sites/*`
+
+No extra scope parameters in the `/auth/token` request body. If you hit a 403 with a valid JWT, the issue is the user's **role**, not missing scopes — check the role in the dashboard or use an API key bound to the site.
+
+See [Authentication → JWT scopes](./authentication#jwt-scopes) for the full role → scope mapping.
+
+---
+
+## Working `curl` example for `/exports/stream` with `conversions`
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/exports/stream?account_id=YOUR_SITE" \
+  -H "X-API-Key: sm_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "export_type": "conversions",
+    "format": "csv",
+    "date_from": "2026-04-01",
+    "date_to": "2026-04-30"
+  }'
+```
+
+The response is a CSV stream with the header `date, conversion_type, amount, properties`.
+
+If you need additional dimensions (UTMs, country, device, channel group), use **`/stats/conversions/raw`** instead — see the first question on this page.
+
+**Response codes you may see:**
+
+| Code | Meaning | Action |
+|------|---------|--------|
+| 200 | CSV stream | Save the body to a file |
+| 400 | Bad request | Check `account_id` and date format |
+| 413 | Too large for streaming | Switch to `POST /exports` (background job) |
+
+---
+
+## Related
+
+- [Exports API reference](./exports)
+- [Stats endpoints](./stats)
+- [Authentication](./authentication)
+- [Batch API](./batch)

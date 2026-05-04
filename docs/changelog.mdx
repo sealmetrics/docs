@@ -9,6 +9,14 @@ tags: [changelog, releases, updates]
 
 ---
 
+## API: `/exports/*` and `/batch` 403 with API keys — fixed (May 2026)
+
+Fixed a permission check on `/exports/*` and `/batch` that required a scope API keys don't carry, returning `403 insufficient_scope` for valid keys. The fix is deployed in production. **No action required** — your existing API key now works on these routes without changes.
+
+See the new [API FAQ](/api/faq) for the canonical answers on `account_id` vs `site_id`, event-level conversions, and `/exports/stream` examples.
+
+---
+
 ## Sealmetrics V2 is Here (February 9, 2026)
 
 **We're thrilled to announce the launch of Sealmetrics V2** — the most significant update since we started.

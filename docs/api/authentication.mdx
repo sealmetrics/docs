@@ -100,8 +100,21 @@ The access token contains:
 | `sub` | User ID |
 | `email` | User email |
 | `account_ids` | List of accessible site IDs |
+| `scopes` | Scopes derived from the user's role |
 | `exp` | Expiration timestamp |
 | `iat` | Issued at timestamp |
+
+### JWT Scopes
+
+Scopes are **assigned automatically based on the user's role** — you do not request them in the `/auth/token` body and you cannot add them at runtime. To change what a token can do, change the user's role.
+
+| Role | Scopes | Covers |
+|------|--------|--------|
+| Standard user | `read`, `write` | All `/stats/*`, `/exports/*`, `/batch`, `/sites/*` |
+| Admin | `read`, `write`, `admin` | Everything above plus org/member management |
+| Read-only | `read` | All `GET` endpoints; rejects writes and exports |
+
+If a request returns `403 insufficient_scope` with a valid JWT, the user's role doesn't include the required scope — switch to a user with the right role, or use an [API key](#api-keys) bound to the site.
 
 ## Authentication Errors
 
