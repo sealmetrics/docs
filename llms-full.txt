@@ -524,7 +524,7 @@ Monitor visitor volume and patterns.
 | `traffic_source_shift` | Traffic Source Shift | Major change in source distribution | >25% shift |
 | `new_traffic_source` | New Traffic Source | New source contributing >5% of traffic | >5% share |
 | `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
-| `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic | >35
+| `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic 
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -703,7 +703,7 @@ Unique Users         38,420         +10%            +25%
 Conversions             892          +8%            +45%
 Revenue             €44,600         +15%            +52%
 Conversion Rate       1.97%       -0.07pp          +0.3pp
-Avg Orde
+Avg 
 
 ... [Read full document at https://docs.sealmetrics.com/lens/reports/executive-summary]
 
@@ -967,7 +967,7 @@ Shows traffic grouped by UTM Source and Medium combination.
 |--------|-------------|
 | **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
 | **Entrances** | Sessions from this source |
-| **Pageviews*
+| **Pagevi
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -1073,7 +1073,7 @@ Shows completed conversion events (primary goals).
 | **Count** | Total number of conversions (with progress bar) |
 | **Unique Users** | Distinct users who converted |
 | **Revenue** | Total revenue attributed (with progress bar) |
-| **Avg. Value** | Average revenue per conversion
+| **Avg. Value** | Average revenue per conve
 
 ... [Read full document at https://docs.sealmetrics.com/reports/conversions]
 
@@ -1108,7 +1108,7 @@ Funnels are configured in Settings. Common examples:
 |--------|---------------|
 | E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
 | Lead Generation | Landing Page → Form View → Form Submit → Thank You |
-| SaaS Signup | Homepage 
+| SaaS Signup | Home
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1130,7 +1130,7 @@ When you track conversions with custom properties (like `product_category`, `pla
 
 - Which property values perform best across different traffic sources
 - How conversions distribute across property values by campaign
-- Which traffic sources drive specific property outcome
+- Which traffic sources drive specific property outc
 
 ... [Read full document at https://docs.sealmetrics.com/reports/properties]
 
@@ -1231,8 +1231,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Engagement Rate](#engagement-rate) | Engaged / Entrances × 100 | Higher |
 | [Pages per Session](#pages-per-session) | Pageviews / Entrances | Higher |
 | [Conversions](#conversions) | Count of conversion events | Higher |
-| [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
-
+| [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Hi
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1944,7 +1943,7 @@ Include user-related attributes as properties when tracking conversions and micr
 sealmetrics.conv('purchase', 149.99, {
   customer_type: 'premium',
   plan: 'pro',
-  currency: 
+  curren
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/user-properties]
 
@@ -2161,8 +2160,6 @@ sealmetrics.micro(type, properties);
 | Example | Purchase, lead, signup | Add to cart, video play, scroll |
 
 ## Examples
-
-### Add to Cart
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/microconversions]
 
@@ -2395,7 +2392,7 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 | Microconversions | `sm('event', 'type', {...})` | `sealmetrics.micro('type', {...})` |
 | Content grouping | `content_grouping` in options | `?group=xxx` in URL or `sealmetrics({ group: 'xxx' })` |
 | `adin` parameter | Supported | Removed |
-| Cookies | Used | None 
+| Cookies | Used | 
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/migration-from-v1]
 
@@ -2594,7 +2591,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang=
+    <html la
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2641,7 +2638,7 @@ This template includes all the tags, triggers, and variables you need. Just impo
 2. Go to **Google Tag Manager > Admin > Import Container**
 3. Upload the JSON file
 4. Choose **"Merge"** and select **"Rename conflicting tags"**
-5. Go to **Variables** and update `
+5. Go to **Variables** and updat
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/tag-management/gtm-template]
 
@@ -3188,7 +3185,9 @@ API keys are the recommended method for server-to-server integrations.
 Include the key in the `X-API-Key` header:
 
 ```bash
-curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stat
+curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
 
 ... [Read full document at https://docs.sealmetrics.com/api/authentication]
 
@@ -3420,6 +3419,10 @@ curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d" \
 
 **With Comparison:**
 
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d&compare=previous"
+```
+
 ... [Read full document at https://docs.sealmetrics.com/api/stats]
 
 
@@ -3564,8 +3567,6 @@ All paginated endpoints return a consistent response structure:
 | `page_size` | integer | Items per page |
 | `has_next` | boolean | `true` if more pages exist after this one |
 | `has_prev` | boolean | `true` if pages exist before this one |
-
-### Pagination Examples
 
 ... [Read full document at https://docs.sealmetrics.com/api/pagination-sorting]
 
@@ -3801,25 +3802,12 @@ The Exports API allows you to:
 
 **Base path:** `/exports`
 
+**Info:**
+All `/exports/*` routes require the `account_id` query parameter — `site_id` is rejected. The value is the **site slug** (the identifier in your dashboard URL), the same value you'd pass as `site_id` to `/stats/*`. See the [API FAQ](./faq) for details.
+
 ---
 
 ## Export Types
-
-| Type | Description |
-|------|-------------|
-| `pages` | Page-level metrics (path, views, entrances, conversions) |
-| `sources` | Traffic by UTM source |
-| `mediums` | Traffic by UTM medium |
-| `campaigns` | Traffic by UTM campaign |
-| `terms` | Traffic by UTM term (keywords) |
-| `countries` | Traffic by country |
-| `devices` | Traffic by device type |
-| `browsers` | Traffic by browser |
-| `os` | Traffic by operating system |
-| `conversions` | Conversion events |
-| `microconversions` | Microconversion events |
-| `time_series` | Daily time series data |
-| `landing_pages` | Landing 
 
 ... [Read full document at https://docs.sealmetrics.com/api/exports]
 
@@ -3950,14 +3938,6 @@ GET /ip-allowlist/settings?site_id={site_id}
 }
 ```
 
-| Field | Description |
-|-------|-------------|
-| `enabled` | Allowlist is active |
-| `enforce_on_api` | Check IPs for API requests |
-| `enforce_on_dashboard` | Check IPs for dashboard login |
-| `allow_owner_bypass` | Organization owners bypass restrictions |
-| `patterns_count` | Number of configured patterns |
-
 ... [Read full document at https://docs.sealmetrics.com/api/ip-allowlist]
 
 
@@ -4085,6 +4065,34 @@ POST /api/v1/batch
 
 
 
+## API FAQ
+
+
+URL: https://docs.sealmetrics.com/api/faq
+
+
+# API FAQ
+
+Quick answers to the questions integrators ask most. Each entry is self-contained and links to the canonical reference.
+
+---
+
+## How do I get event-level conversions (one row per conversion)?
+
+Use **`GET /api/v1/stats/conversions/raw`**. It returns one row per conversion with all dimensions: UTM parameters, country, device, channel group, custom properties, and timestamps.
+
+**Constraints:**
+
+- Maximum date range: **31 days**
+- Maximum `page_size`: **10,000**
+
+```bash
+curl "https://my.
+
+... [Read full document at https://docs.sealmetrics.com/api/faq]
+
+
+
 ---
 
 # Security & Privacy
@@ -4185,7 +4193,7 @@ Use a backup code when:
 - Your phone is dead and you can't charge it
 - You're traveling without your usual device
 - Your authenticator app was deleted
-- You got a new phone and forgot to
+- You got a new phone and forgot
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/account-security/backup-codes]
 
@@ -4566,7 +4574,7 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 
 ### Traditional Analytics (❌ Requires Consent)
 - Uses cookies to store visitor IDs  
-- Reconst
+- Rec
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -5313,8 +5321,6 @@ Under current EU law, businesses enjoy lighter regulatory treatment while they q
 **Economic inefficiency**: A company with 250 employees is not fundamentally different from one with 249, yet faces drastically different regulatory treatment.
 
 ## The Solution: Small Mid-Caps (SMCs)
-
-### New Category: SMCs
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/smes-small-midcaps]
 
@@ -6245,7 +6251,7 @@ Your server processes data
 | `anomaly.detected` | LENS detects anomaly | Alert systems, incident management |
 | `anomaly.resolved` | Anomaly returns to normal | Close incident tickets |
 | `report.generated` | Scheduled report ready | Notify team, archive report |
-| `threshold.exceeded` | Metric crosses thre
+| `threshold.exceeded` | Metric crosse
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/integrations/webhooks]
 
@@ -6523,7 +6529,7 @@ By default, Sealmetrics uses **DeepSeek Local** via Ollama:
 | Aspect | Details |
 |--------|---------|
 | **Provider** | Self-hosted DeepSeek (via Ollama) |
-| **Cost** | Free (included in your
+| **Cost** | Free (included in y
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -6727,7 +6733,7 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 ## Events & Data
 
 | Feature | Growth | Scale | Enterprise |
-|---------|
+|-------
 
 ... [Read full document at https://docs.sealmetrics.com/billing/features-comparison]
 
@@ -6790,7 +6796,7 @@ All tracked interactions count toward your event limit:
 | Event Type | Counts? | Notes |
 |------------|:-------:|-------|
 | Pageview | Yes | Standard page load |
-| Virtual pageview (SPA
+| Virtual pageview (
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -6901,7 +6907,7 @@ Yes! All plans include a **14-day free trial** with full features. No credit car
 
 ### Is there a free plan?
 
-No, but our 14-day free trial gives you full access to evaluate the platform. We also offer special pricing for n
+No, but our 14-day free trial gives you full access to evaluate the platform. We also offer special pricing f
 
 ... [Read full document at https://docs.sealmetrics.com/billing/faq]
 
@@ -6941,7 +6947,7 @@ You should see:
 ### Verify Data Collection
 
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
-2. Go to **Real-time** re
+2. Go to **Real-time**
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7439,7 +7445,7 @@ Using SealMetrics MCP for site {site_id}, compute the main conversion funnel wee
 Funnel steps (adjust if my actual funnel differs — ask me first if unclear):
 1. Landing page entrance
 2. View product / view room
-3. Add to cart / start
+3. Add to cart / st
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization]
 
@@ -7771,7 +7777,7 @@ You have access to SealMetrics MCP for site {site_id} and Meta Ads MCP for accou
 Last 30 days per ad set:
 - Spend (Meta Ads)
 - Conversions and revenue reported by Meta
-- Conversions and revenue captured by SealMetrics (matched on u
+- Conversions and revenue captured by SealMetrics (matched 
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/14-meta-ads]
 
@@ -7838,15 +7844,15 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
+## API: `/exports/*` and `/batch` 403 with API keys — fixed (May 2026)
+
+Fixed a permission check on `/exports/*` and `/batch` that required a scope API keys don't carry, returning `403 insufficient_scope` for valid keys. The fix is deployed in production. **No action required** — your existing API key now works on these routes without changes.
+
+See the new [API FAQ](/api/faq) for the canonical answers on `account_id` vs `site_id`, event-level conversions, and `/exports/stream` examples.
+
+---
+
 ## Sealmetrics V2 is Here (February 9, 2026)
-
-**We're thrilled to announce the launch of Sealmetrics V2** — the most significant update since we started.
-
-After months of development and feedback from hundreds of customers, we've rebuilt Sealmetrics from the ground up to deliver:
-
-- **Faster, cleaner dashboard** — redesigned for clarity and speed
-- **Smarter attribution** — understand exactly where your conversions come from
-- **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and t
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 
