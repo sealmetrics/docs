@@ -41,7 +41,7 @@ The default **Page View** trigger is tied to `gtm.js`, which runs *after* the DO
 |---|---|
 | **Single-Page Applications** (Next.js, React Router, Vue Router, Nuxt) | The first Page View depends on when the framework marks the route as ready. In some setups, `gtm.js` fires *after* the client-side render, not the initial HTML. |
 | **Sites with heavy synchronous JS** | Blocking scripts in `<head>` delay everything after them, including `gtm.js`. |
-| **Users who bounce in <1s** | If the visitor leaves before `gtm.js` runs, the hit never reaches Sealmetrics. Initialization fires almost immediately when the GTM container loads. |
+| **Users who bounce in under 1 second** | If the visitor leaves before `gtm.js` runs, the hit never reaches Sealmetrics. Initialization fires almost immediately when the GTM container loads. |
 
 ### Race condition at a glance
 
