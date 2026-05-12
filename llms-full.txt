@@ -410,10 +410,6 @@ See [Authentication](/api/authentication) for details on obtaining tokens.
 
 Ask the LENS AI assistant a question about your data.
 
-```
-POST /api/lens/chat
-```
-
 ... [Read full document at https://docs.sealmetrics.com/lens/api/lens-endpoints]
 
 
@@ -524,7 +520,7 @@ Monitor visitor volume and patterns.
 | `traffic_source_shift` | Traffic Source Shift | Major change in source distribution | >25% shift |
 | `new_traffic_source` | New Traffic Source | New source contributing >5% of traffic | >5% share |
 | `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
-| `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traffic 
+| `referral_traffic_drop` | Referral Traffic Drop | Drop in referral traf
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -703,7 +699,7 @@ Unique Users         38,420         +10%            +25%
 Conversions             892          +8%            +45%
 Revenue             €44,600         +15%            +52%
 Conversion Rate       1.97%       -0.07pp          +0.3pp
-Avg 
+A
 
 ... [Read full document at https://docs.sealmetrics.com/lens/reports/executive-summary]
 
@@ -967,7 +963,7 @@ Shows traffic grouped by UTM Source and Medium combination.
 |--------|-------------|
 | **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
 | **Entrances** | Sessions from this source |
-| **Pagevi
+| **Page
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -1073,7 +1069,7 @@ Shows completed conversion events (primary goals).
 | **Count** | Total number of conversions (with progress bar) |
 | **Unique Users** | Distinct users who converted |
 | **Revenue** | Total revenue attributed (with progress bar) |
-| **Avg. Value** | Average revenue per conve
+| **Avg. Value** | Average revenue per co
 
 ... [Read full document at https://docs.sealmetrics.com/reports/conversions]
 
@@ -1108,7 +1104,7 @@ Funnels are configured in Settings. Common examples:
 |--------|---------------|
 | E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
 | Lead Generation | Landing Page → Form View → Form Submit → Thank You |
-| SaaS Signup | Home
+| SaaS Signup | Ho
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1130,7 +1126,7 @@ When you track conversions with custom properties (like `product_category`, `pla
 
 - Which property values perform best across different traffic sources
 - How conversions distribute across property values by campaign
-- Which traffic sources drive specific property outc
+- Which traffic sources drive specific property o
 
 ... [Read full document at https://docs.sealmetrics.com/reports/properties]
 
@@ -1231,7 +1227,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Engagement Rate](#engagement-rate) | Engaged / Entrances × 100 | Higher |
 | [Pages per Session](#pages-per-session) | Pageviews / Entrances | Higher |
 | [Conversions](#conversions) | Count of conversion events | Higher |
-| [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Hi
+| [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1943,7 +1939,7 @@ Include user-related attributes as properties when tracking conversions and micr
 sealmetrics.conv('purchase', 149.99, {
   customer_type: 'premium',
   plan: 'pro',
-  curren
+  curr
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/user-properties]
 
@@ -2261,7 +2257,7 @@ Works out of the box with:
 | Next.js | App Router, Pages Router | Yes |
 | Nuxt.js | nuxt/router | Yes |
 | Svelte | svelte-routing, SvelteKit | Yes |
-| Remix | @remix-run/react | Yes |
+| Remix | @remix-run/react | Yes
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/spa-support]
 
@@ -2392,7 +2388,7 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 | Microconversions | `sm('event', 'type', {...})` | `sealmetrics.micro('type', {...})` |
 | Content grouping | `content_grouping` in options | `?group=xxx` in URL or `sealmetrics({ group: 'xxx' })` |
 | `adin` parameter | Supported | Removed |
-| Cookies | Used | 
+| Cookies | Used
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/migration-from-v1]
 
@@ -2591,7 +2587,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html la
+    <html 
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2638,7 +2634,7 @@ This template includes all the tags, triggers, and variables you need. Just impo
 2. Go to **Google Tag Manager > Admin > Import Container**
 3. Upload the JSON file
 4. Choose **"Merge"** and select **"Rename conflicting tags"**
-5. Go to **Variables** and updat
+5. Go to **Variables** and upd
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/tag-management/gtm-template]
 
@@ -2805,11 +2801,16 @@ The **Sealmetrics GTM Template** allows you to install and configure Sealmetrics
 - **Cookieless tracking** — GDPR-compliant analytics without consent banners
 - **Automatic SPA support** — The tracker detects History API navigation automatically
 
-## Installation Options
+## Recommended Trigger: Initialization
 
-You have two ways to install the Sealmetrics template:
+**Tip:**
+For the pageview tag, configure the **Initialization** trigger (event ID `gtm.init`) instead of the default **All Pages** / **Page View** trigger. This is the single most important configuration choice when installing Sealmetrics via GTM.
 
-### Option 1: Community Template Gallery (Recommended)
+### Why this matters
+
+The Sealmetrics tracker is under 1 KB, cookieless, and does not block rendering. Because of that, the best place to load it is **as early as possible** in the page lifecycle, so it can capture users who bounce in under a second.
+
+GTM's event hierarchy fires in this order during page load:
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/google-tag-manager]
 
@@ -4193,7 +4194,7 @@ Use a backup code when:
 - Your phone is dead and you can't charge it
 - You're traveling without your usual device
 - Your authenticator app was deleted
-- You got a new phone and forgot
+- You got a new phone and for
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/account-security/backup-codes]
 
@@ -4574,7 +4575,7 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 
 ### Traditional Analytics (❌ Requires Consent)
 - Uses cookies to store visitor IDs  
-- Rec
+- R
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4959,8 +4960,6 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 **Not recommended**: High-profile Google Analytics enforcement (Austria, France, Italy) demonstrates authorities are serious.
 
-## The Cookieless Solution
-
 ... [Read full document at https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics]
 
 
@@ -5099,9 +5098,6 @@ Before the Omnibus, organizations navigating EU data regulation must comply with
 - European data innovation board
 
 **Current problem**: Only 27 registered data intermediaries despite expectations of 100-150; heavy compliance burden
-
-#### 4. Open Data Directive (ODD)
-**Directive (EU) 2019/1024**
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/data-consolidation]
 
@@ -6251,7 +6247,7 @@ Your server processes data
 | `anomaly.detected` | LENS detects anomaly | Alert systems, incident management |
 | `anomaly.resolved` | Anomaly returns to normal | Close incident tickets |
 | `report.generated` | Scheduled report ready | Notify team, archive report |
-| `threshold.exceeded` | Metric crosse
+| `threshold.exceeded` | Metric cr
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/integrations/webhooks]
 
@@ -6529,7 +6525,7 @@ By default, Sealmetrics uses **DeepSeek Local** via Ollama:
 | Aspect | Details |
 |--------|---------|
 | **Provider** | Self-hosted DeepSeek (via Ollama) |
-| **Cost** | Free (included in y
+| **Cost** | Free (included in
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -6733,7 +6729,7 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 ## Events & Data
 
 | Feature | Growth | Scale | Enterprise |
-|-------
+|-----
 
 ... [Read full document at https://docs.sealmetrics.com/billing/features-comparison]
 
@@ -6796,7 +6792,7 @@ All tracked interactions count toward your event limit:
 | Event Type | Counts? | Notes |
 |------------|:-------:|-------|
 | Pageview | Yes | Standard page load |
-| Virtual pageview (
+| Virtual pageview
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -6907,7 +6903,7 @@ Yes! All plans include a **14-day free trial** with full features. No credit car
 
 ### Is there a free plan?
 
-No, but our 14-day free trial gives you full access to evaluate the platform. We also offer special pricing f
+No, but our 14-day free trial gives you full access to evaluate the platform. We also offer special pricing
 
 ... [Read full document at https://docs.sealmetrics.com/billing/faq]
 
@@ -6947,7 +6943,7 @@ You should see:
 ### Verify Data Collection
 
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
-2. Go to **Real-time**
+2. Go to **Real-time
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7445,7 +7441,7 @@ Using SealMetrics MCP for site {site_id}, compute the main conversion funnel wee
 Funnel steps (adjust if my actual funnel differs — ask me first if unclear):
 1. Landing page entrance
 2. View product / view room
-3. Add to cart / st
+3. Add to cart / 
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization]
 
@@ -7749,7 +7745,7 @@ You have access to SealMetrics MCP for site {site_id} and Google Ads MCP for acc
 For the last 30 days, per Google Ads campaign:
 - Clicks reported by Google Ads
 - Real entrances captured by SealMetrics (matched on utm_campaign + utm_source = google + utm_medium = cpc)
-- % discrepancy = (clicks - entrances) / clicks
+- % discrepancy = (clicks - entrances) / click
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/13-google-ads]
 
@@ -7777,7 +7773,7 @@ You have access to SealMetrics MCP for site {site_id} and Meta Ads MCP for accou
 Last 30 days per ad set:
 - Spend (Meta Ads)
 - Conversions and revenue reported by Meta
-- Conversions and revenue captured by SealMetrics (matched 
+- Conversions and revenue captured by SealMetrics (matche
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/14-meta-ads]
 
