@@ -14,6 +14,62 @@ The **Sealmetrics GTM Template** allows you to install and configure Sealmetrics
 - **Cookieless tracking** — GDPR-compliant analytics without consent banners
 - **Automatic SPA support** — The tracker detects History API navigation automatically
 
+**Info:**
+If you need to pass a `content_grouping` (or any other value) from `dataLayer` variables into the **initial** pageview, or you fire conversions before the script finishes loading, see the [Advanced GTM Integration](./google-tag-manager-advanced) guide. It covers the `?auto=0` manual mode and the buffer stub.
+
+## Recommended Trigger: Initialization
+
+**Tip:**
+For the pageview tag, configure the **Initialization** trigger (event ID `gtm.init`) instead of the default **All Pages** / **Page View** trigger. This is the single most important configuration choice when installing Sealmetrics via GTM.
+
+### Why this matters
+
+The Sealmetrics tracker is under 1 KB, cookieless, and does not block rendering. Because of that, the best place to load it is **as early as possible** in the page lifecycle, so it can capture users who bounce in under a second.
+
+GTM's event hierarchy fires in this order during page load:
+
+```
+1. gtm.init           ← Initialization        (earliest)
+2. gtm.js             ← Page View / All Pages
+3. gtm.dom            ← DOM Ready
+4. gtm.load           ← Window Loaded         (latest)
+```
+
+The default **Page View** trigger is tied to `gtm.js`, which runs *after* the DOM starts parsing. On most sites the gap between `gtm.init` and `gtm.js` is a few milliseconds and the difference is invisible. But in three common scenarios, Page View loses hits:
+
+| Scenario | Why Page View arrives too late |
+|---|---|
+| **Single-Page Applications** (Next.js, React Router, Vue Router, Nuxt) | The first Page View depends on when the framework marks the route as ready. In some setups, `gtm.js` fires *after* the client-side render, not the initial HTML. |
+| **Sites with heavy synchronous JS** | Blocking scripts in `<head>` delay everything after them, including `gtm.js`. |
+| **Users who bounce in under 1 second** | If the visitor leaves before `gtm.js` runs, the hit never reaches Sealmetrics. Initialization fires almost immediately when the GTM container loads. |
+
+### Race condition at a glance
+
+```
+Time →
+
+GTM container loads
+│
+├─ gtm.init  ────► [Sealmetrics fires here]   ✅ Hit captured
+│
+│  (DOM starts parsing)
+│  (synchronous scripts may block here)
+│
+├─ gtm.js    ────► [Default Page View fires here]
+│                   If the user already left:  ❌ Hit lost
+│
+├─ gtm.dom
+└─ gtm.load
+```
+
+For traffic from paid ads, social, or push notifications — where sub-second bounce rates can hit 5–15% — moving the tag from Page View to Initialization recovers that lost segment.
+
+### About SPAs
+
+The Sealmetrics tracker auto-detects SPA navigation via `history.pushState`, `replaceState`, and `popstate`. With the Initialization trigger, the tracker loads once and handles every subsequent route change inside your app — **you do not need to add an "All Pages" or "History Change" trigger** for pageviews. Adding one would cause duplicate hits on the initial load.
+
+The only exception is if your setup removes and re-injects the GTM container between routes (rare). In that case, add a **History Change** trigger pointing to the same tag.
+
 ## Installation Options
 
 You have two ways to install the Sealmetrics template:
@@ -67,8 +123,11 @@ Once the template is installed, you can create tags using it.
 3. Click on **Tag Configuration**
 4. Select **Sealmetrics Tracking** from the list
 5. Configure the tag settings (see below)
-6. Add a **Trigger** (e.g., "All Pages" for pageviews)
-7. **Save** the tag
+6. Add a **Trigger**:
+   - For the pageview tag, use **Initialization — All Pages** (event `gtm.init`). See [Recommended Trigger: Initialization](#recommended-trigger-initialization) above for the rationale.
+   - For conversions and microconversions, use the relevant Custom Event or Form/Click trigger.
+7. (Optional but recommended for the pageview tag) Open **Advanced Settings → Consent Settings** and select **No additional consent required**. Sealmetrics is cookieless and consentless by design, so a CMP should not block it.
+8. **Save** the tag
 
 ### Tag Settings
 
@@ -150,9 +209,11 @@ Track all page loads on your website:
 - **Site ID:** Your account ID
 - **Content Grouping:** (optional) Use a variable like `{{Page Type}}`
 
-**Trigger:** All Pages
+**Trigger:** Initialization — All Pages (`gtm.init`)
 
-The tracker automatically handles SPA (Single Page Application) navigation. You only need one pageview tag — the tracker detects URL changes via the History API and tracks them automatically.
+**Consent Settings:** No additional consent required
+
+The tracker automatically handles SPA (Single Page Application) navigation. You only need one pageview tag — the tracker detects URL changes via the History API and tracks subsequent route changes automatically. Do **not** add an "All Pages" / Page View trigger alongside Initialization — it would double-count the initial hit.
 
 ### Example 2: E-commerce Purchase Tracking
 
@@ -251,9 +312,30 @@ Reference variables in your tag configuration:
 
 ## Troubleshooting
 
+### Sealmetrics reports fewer hits than my server logs or GA4
+
+This is almost always caused by the pageview tag being assigned to the **Page View** / **All Pages** trigger instead of **Initialization**. In SPAs, sites with heavy synchronous JS, or traffic with high sub-second bounce rates (paid ads, social), Page View fires too late and the user is already gone.
+
+**Fix:**
+1. Open the Sealmetrics pageview tag in GTM
+2. Remove the "All Pages" / Page View trigger
+3. Add the **Initialization** trigger (event `gtm.init`) — listed under built-in triggers as "Initialization — All Pages"
+4. Verify in Preview mode that the tag now appears in the **Tags Fired** column under the `Initialization` event, not under `Page View`
+5. Publish the container
+
+See [Recommended Trigger: Initialization](#recommended-trigger-initialization) for the full rationale.
+
+### A consent banner (Cookiebot, OneTrust, etc.) blocks the tag
+
+Sealmetrics is cookieless and consentless by design, so a CMP should not block it. If yours does:
+
+1. Open the tag → **Advanced Settings → Consent Settings**
+2. Select **No additional consent required**
+3. Save and republish
+
 ### Tag not firing
 
-1. Check your **Trigger** configuration
+1. Check your **Trigger** configuration — the pageview tag should be on Initialization, not Page View
 2. Verify the trigger conditions match the page/event
 3. Use GTM Preview mode to debug
 
@@ -262,6 +344,9 @@ Reference variables in your tag configuration:
 1. Verify Data Layer variables are configured correctly
 2. Check that data is pushed **before** the tag fires
 3. Test variable values in Preview mode
+
+**Warning:**
+If you push values to the Data Layer **after** the GTM snippet, those values are **not available** at `gtm.init`. For the pageview tag, prefer **Constant Variables** (static values set in GTM) over Data Layer Variables. If you must pass dynamic data on the first hit, push it to the Data Layer in a `<script>` block placed **above** the GTM container snippet in your HTML.
 
 ### No data in Sealmetrics
 

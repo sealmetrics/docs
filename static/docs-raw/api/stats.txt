@@ -404,6 +404,62 @@ curl "https://my.sealmetrics.com/api/v1/stats/conversions?site_id=acme&period=30
 
 ---
 
+## Raw Conversions (event-level)
+
+### GET /stats/conversions/raw
+
+Returns **one row per conversion** with all dimensions attached: UTM parameters, country, device, channel group, custom properties, and timestamp. Use this when you need event-level granularity instead of aggregated counts.
+
+**Constraints:**
+
+| Limit | Value |
+|-------|-------|
+| Max date range | 31 days |
+| Max `page_size` | 10,000 |
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/conversions/raw?site_id=acme&start_date=2026-04-01&end_date=2026-04-30&page_size=1000" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "timestamp": "2026-04-15T14:32:11Z",
+      "conversion_type": "purchase",
+      "amount": 89.50,
+      "country": "ES",
+      "device_type": "mobile",
+      "channel_group": "Paid Search",
+      "utm_source": "google",
+      "utm_medium": "cpc",
+      "utm_campaign": "spring-sale",
+      "utm_term": "running shoes",
+      "utm_content": "banner_a",
+      "properties": {
+        "product_category": "footwear",
+        "order_id": "ORD-10245"
+      }
+    }
+  ],
+  "total": 12453,
+  "page": 1,
+  "page_size": 1000,
+  "has_next": true,
+  "has_prev": false
+}
+```
+
+**Tip:**
+- **`/stats/conversions/raw`** — one row per conversion with full dimensions. Use for analysis, attribution, or feeding a warehouse incrementally.
+- **`/stats/conversions`** — aggregated totals by conversion type. Use for dashboards and KPIs.
+- **`/exports/stream` with `export_type: "conversions"`** — bulk CSV dump (`date, conversion_type, amount, properties` only). Use for spreadsheets.
+
+---
+
 ## Funnel Report
 
 ### GET /stats/funnel
