@@ -16,6 +16,10 @@ The **Sealmetrics GTM Template** allows you to install and configure Sealmetrics
 - **Cookieless tracking** — GDPR-compliant analytics without consent banners
 - **Automatic SPA support** — The tracker detects History API navigation automatically
 
+:::info Need dynamic values on the first pageview?
+If you need to pass a `content_grouping` (or any other value) from `dataLayer` variables into the **initial** pageview, or you fire conversions before the script finishes loading, see the [Advanced GTM Integration](./google-tag-manager-advanced) guide. It covers the `?auto=0` manual mode and the buffer stub.
+:::
+
 ## Recommended Trigger: Initialization
 
 :::tip Use the Initialization trigger, not Page View / All Pages
