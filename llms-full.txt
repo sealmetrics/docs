@@ -1898,22 +1898,34 @@ URL: https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-s
 
 # How to Track SPA Sites
 
-SealMetrics automatically tracks Single Page Applications (SPAs) without any additional configuration. The tracker detects URL changes via the History API and fires pageview events automatically.
+SealMetrics tracks Single Page Applications (SPAs) **automatically**. The tracker hooks the History API, fires a pageview on initial load and on every route change, and de-duplicates same-URL events. No router-specific code is needed for any framework that uses `pushState` / `replaceState`.
 
 ---
 
-## Automatic SPA Tracking
+## Quick Start
 
-Simply add the standard tracker script to your site:
+Add the standard tracker script to your site (once, in the document `<head>`):
 
 ```html
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
-That's it. The tracker automatically:
+That's it. From this point on the tracker will:
 
-1. **Tracks initial pageview** on first load
-2. **Detects `
+1. Fire a pageview on initial load.
+2. Fire a pageview when your router calls `history.pushState()`.
+3. Fire a pageview when your router calls `history.replaceState()`.
+4. Fire a pageview when the user clicks **Back** / **Forward** (`popstate`).
+5. Skip duplicates: if the new URL is identical to the previous one, no event is sent.
+6. Update the `referrer` of each SPA pageview to the previous in-app URL — so internal navigation flows are preserved in reports.
+
+The tracker exposes itself as three global aliases — use whichever you prefer:
+
+```js
+window.sealmetrics === window.sm === window._sm
+```
+
+---
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites]
 
@@ -2981,16 +2993,6 @@ If you don't need dynamic values on the first pageview, stick with the standard 
 ## When to use this guide
 
 Use the advanced pattern if **any** of the following applies:
-
-- You need the first pageview to carry a `content_grouping` that lives in the `dataLayer` (page type, section, vertical, etc.).
-- You fire conversions or microconversions from above-the-fold elements (CTAs, hero buttons) that a user could click before the tracker finishes downloading.
-- Your team owns the GTM container but not the site HTML, and you need a workaround for the timing window between requesting the script and the browser executing it.
-
-If none of these apply, the [standard template installation](./google-tag-manager) is simpler and equally accurate.
-
----
-
-## Standard install (recap)
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/google-tag-manager-advanced]
 
