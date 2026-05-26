@@ -7860,13 +7860,14 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
-## API: `/exports/*` and `/batch` 403 with API keys — fixed (May 2026)
+## Attribution: internal hits with UTMs no longer create new sessions (May 25, 2026)
 
-Fixed a permission check on `/exports/*` and `/batch` that required a scope API keys don't carry, returning `403 insufficient_scope` for valid keys. The fix is deployed in production. **No action required** — your existing API key now works on these routes without changes.
+We improved how Sealmetrics handles internal navigation that carries UTM parameters.
 
-See the new [API FAQ](/api/faq) for the canonical answers on `account_id` vs `site_id`, event-level conversions, and `/exports/stream` examples.
+### What was happening before
+When a hit on your site contained UTM parameters **and** the referrer was your own domain (i.e. internal navigation), the system treated it as a **new session** and attributed that hit to the traffic source declared in the UTMs.
 
----
+This could inflate session counts and misattribute traffic to campaigns when users were simply navigating across your own pages with UTM-tagged internal links.
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 
