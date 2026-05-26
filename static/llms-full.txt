@@ -2994,6 +2994,16 @@ If you don't need dynamic values on the first pageview, stick with the standard 
 
 Use the advanced pattern if **any** of the following applies:
 
+- You need the first pageview to carry a `content_grouping` that lives in the `dataLayer` (page type, section, vertical, etc.).
+- You fire conversions or microconversions from above-the-fold elements (CTAs, hero buttons) that a user could click before the tracker finishes downloading.
+- Your team owns the GTM container but not the site HTML, and you need a workaround for the timing window between requesting the script and the browser executing it.
+
+If none of these apply, the [standard template installation](./google-tag-manager) is simpler and equally accurate.
+
+---
+
+## Standard install (recap)
+
 ... [Read full document at https://docs.sealmetrics.com/integrations/google-tag-manager-advanced]
 
 

@@ -19,6 +19,9 @@ The Exports API allows you to:
 
 **Base path:** `/exports`
 
+**Info:**
+All `/exports/*` routes require the `account_id` query parameter — `site_id` is rejected. The value is the **site slug** (the identifier in your dashboard URL), the same value you'd pass as `site_id` to `/stats/*`. See the [API FAQ](./faq) for details.
+
 ---
 
 ## Export Types
@@ -53,7 +56,7 @@ The Exports API allows you to:
 ## Create Export
 
 ```http
-POST /exports?site_id={site_id}
+POST /exports?account_id={site_slug}
 ```
 
 Create a new export job.
@@ -155,7 +158,7 @@ Create a new export job.
 ## Estimate Export Size
 
 ```http
-POST /exports/estimate?site_id={site_id}
+POST /exports/estimate?account_id={site_slug}
 ```
 
 Get size estimate without creating a job.
@@ -187,7 +190,7 @@ Get size estimate without creating a job.
 ## List Exports
 
 ```http
-GET /exports?site_id={site_id}
+GET /exports?account_id={site_slug}
 ```
 
 List all exports for an account.
@@ -226,7 +229,7 @@ List all exports for an account.
 ## Get Export Status
 
 ```http
-GET /exports/{job_id}?site_id={site_id}
+GET /exports/{job_id}?account_id={site_slug}
 ```
 
 Get status of a specific export job.
@@ -257,7 +260,7 @@ Content-Disposition: attachment; filename="sealmetrics_sources_20250101_20250110
 ## Stream Export (Small Datasets)
 
 ```http
-POST /exports/stream?site_id={site_id}
+POST /exports/stream?account_id={site_slug}
 ```
 
 Stream export directly for small datasets (&lt;10K rows).
@@ -265,6 +268,22 @@ Stream export directly for small datasets (&lt;10K rows).
 **Request Body:** Same as create export.
 
 **Response:** File stream with appropriate content type.
+
+**Working example — `conversions` export:**
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/exports/stream?account_id=YOUR_SITE" \
+  -H "X-API-Key: sm_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "export_type": "conversions",
+    "format": "csv",
+    "date_from": "2026-04-01",
+    "date_to": "2026-04-30"
+  }'
+```
+
+The response is a CSV stream with header `date, conversion_type, amount, properties`. For richer dimensions per conversion (UTMs, country, device, channel group, custom properties) use [`/stats/conversions/raw`](./stats#raw-conversions-event-level) instead.
 
 **Error (413 - Too Large):**
 
@@ -279,7 +298,7 @@ Stream export directly for small datasets (&lt;10K rows).
 ## Cancel/Delete Export
 
 ```http
-DELETE /exports/{job_id}?site_id={site_id}
+DELETE /exports/{job_id}?account_id={site_slug}
 ```
 
 Cancel a pending export or delete a completed one.
@@ -332,14 +351,14 @@ import time
 API_KEY = "sm_your_api_key"
 BASE_URL = "https://api.sealmetrics.com/api/v1"
 
-def export_data(site_id, export_type, date_from, date_to, filters=None):
+def export_data(account_id, export_type, date_from, date_to, filters=None):
     """Create export and return download URL."""
 
     # Create export
     response = requests.post(
         f"{BASE_URL}/exports",
         headers={"X-API-Key": API_KEY},
-        params={"site_id": site_id},
+        params={"account_id": account_id},
         json={
             "export_type": export_type,
             "format": "csv",
@@ -360,7 +379,7 @@ def export_data(site_id, export_type, date_from, date_to, filters=None):
         response = requests.get(
             f"{BASE_URL}/exports/{job_id}",
             headers={"X-API-Key": API_KEY},
-            params={"site_id": site_id}
+            params={"account_id": account_id}
         )
         job = response.json()
 
@@ -380,7 +399,7 @@ def download_file(download_url, output_path):
 
 # Usage
 url = export_data(
-    site_id="my-site",
+    account_id="my-site",
     export_type="sources",
     date_from="2025-01-01",
     date_to="2025-01-10",
@@ -394,7 +413,7 @@ download_file(url, "sources_export.csv")
 ```javascript
 async function streamExport(accountId, exportType, dateFrom, dateTo) {
   const response = await fetch(
-    `${BASE_URL}/exports/stream?site_id=${accountId}`,
+    `${BASE_URL}/exports/stream?account_id=${accountId}`,
     {
       method: 'POST',
       headers: {
@@ -422,13 +441,13 @@ async function streamExport(accountId, exportType, dateFrom, dateTo) {
 ### Check Estimate Before Export
 
 ```python
-def estimate_first(site_id, export_config):
+def estimate_first(account_id, export_config):
     """Check size before creating export."""
 
     response = requests.post(
         f"{BASE_URL}/exports/estimate",
         headers={"X-API-Key": API_KEY},
-        params={"site_id": site_id},
+        params={"account_id": account_id},
         json=export_config
     )
     estimate = response.json()
@@ -444,5 +463,5 @@ def estimate_first(site_id, export_config):
             return None
 
     # Proceed with export
-    return export_data(site_id, **export_config)
+    return export_data(account_id, **export_config)
 ```
