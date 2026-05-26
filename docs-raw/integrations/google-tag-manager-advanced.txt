@@ -100,7 +100,7 @@ Properties of the stub:
 | Location | Recommendation |
 |---|---|
 | **Inline in `<head>`** (a `<script>` block directly in your HTML) | **Recommended.** Runs before anything else and offers maximum reliability. |
-| Tag inside GTM with `Initialization` trigger | Works in practice, but depends on the GTM container loading before the tag that loads the tracker. Use only if you cannot edit the HTML `<head>`. |
+| Tag inside GTM with `Initialization` trigger | **Fully supported.** Available a few milliseconds later than inline (when GTM boots). If you cannot edit the site's `<head>`, use the "Stub + Loader" variant below — it is the canonical pattern adapted to live entirely inside GTM. |
 
 ---
 
@@ -144,6 +144,64 @@ sealmetrics({ group: {{dlv.content_grouping}} });
 - Step 3 can fire **before or after** Step 2 finishes. If the stub is in place, the call is queued; if the library is already loaded, it executes immediately. **Order does not matter.**
 - When the tracker finishes loading, it drains the queue (1 pageview with the correct grouping) and does **not** fire its automatic pageview (because `?auto=0` is set).
 - Result: **exactly one pageview** per page load, with the correct grouping, regardless of which tag arrives first.
+
+---
+
+## Variant: stub inside GTM (when you cannot edit the HTML)
+
+If your team owns the GTM container but not the `<head>` of the site's HTML, you can keep the **same canonical behaviour** by combining the stub and the loader into a single GTM tag. This is the recommended option when inline HTML editing is not possible — it is, in fact, the exact pattern used by the Sealmetrics marketing site (`sealmetrics.com`).
+
+### Step 1 — GTM Tag "Sealmetrics — Stub + Loader" (trigger: `Initialization`)
+
+Create a **Custom HTML** tag with the following content:
+
+```html
+<script>
+(function (w, d) {
+  // 1. Buffer stub — defines window.sealmetrics synchronously
+  w.sealmetrics = w.sealmetrics || function () {
+    (w.sealmetrics.q = w.sealmetrics.q || []).push(['pv', arguments]);
+  };
+  w.sealmetrics.q = w.sealmetrics.q || [];
+  w.sealmetrics.conv = w.sealmetrics.conv || function () {
+    w.sealmetrics.q.push(['cv', arguments]);
+  };
+  w.sealmetrics.micro = w.sealmetrics.micro || function () {
+    w.sealmetrics.q.push(['mc', arguments]);
+  };
+  // 2. Load the tracker in manual mode
+  var s = d.createElement('script');
+  s.async = true;
+  s.src = 'https://t.sealmetrics.com/t.js?id={{ACCOUNT_ID}}&auto=0';
+  d.head.appendChild(s);
+})(window, document);
+</script>
+```
+
+Trigger: **Initialization — All Pages** (event `gtm.init`).
+
+### Step 2 — GTM Tag "Sealmetrics — Pageview" (trigger: `All Pages` or your dataLayer-ready event)
+
+```javascript
+sealmetrics({ group: {{dlv.content_grouping}} });
+```
+
+### How it works
+
+- `Initialization` is the earliest event in the GTM lifecycle — it fires before any other tag. The stub is defined **synchronously** inside that tag, so any subsequent tag that calls `sealmetrics(...)` already finds the stub in place.
+- The tracker download starts immediately (`async`, non-blocking).
+- The pageview tag runs after that. By then, either the real library has already loaded (the call goes straight to its API) or it hasn't yet (the stub queues it, and the library drains the queue once it finishes loading). **Order does not matter.**
+- Result: the same guarantees as the canonical pattern with the inline `<head>` stub — exactly one pageview with the correct grouping — **without touching the site's HTML**.
+
+### Trade-off vs the inline `<head>` stub
+
+- The stub becomes available a few milliseconds later, when GTM boots and fires `Initialization`, instead of at HTML parse time. In practice this window is invisible: no real user clicks a CTA in the first few milliseconds of page load.
+- If the GTM container itself is delayed — uncommon, but possible with some consent management platforms that gate GTM behind a banner click — the stub is delayed with it. The inline `<head>` variant is immune to that.
+
+**Which to choose:**
+
+- If you **can** edit the HTML, prefer the canonical pattern with the inline `<head>` stub (slightly more robust against container-loading delays).
+- If you **cannot**, this fully in-GTM variant is completely functional and matches the canonical pattern's guarantees.
 
 ---
 
@@ -258,7 +316,8 @@ In a SPA, the behaviour of each event depends on **who** fires it:
 | Multi-page site, no advanced GTM needs | Standard install (no `auto`, no stub) — see the [GTM Template guide](./google-tag-manager) |
 | Multi-page site with `content_grouping` from `dataLayer` (typical GTM case) | Canonical pattern (stub + `?auto=0` + manual pageview tag) |
 | You only need to queue early conv/micro calls (above-the-fold buttons) | Stub **without** `?auto=0` |
-| You cannot edit the HTML `<head>` | `?auto=0` + GTM loader tag with `s.onload` + custom event |
+| You cannot edit the HTML `<head>` | **"Stub + Loader" GTM variant** (canonical pattern, run entirely from a GTM `Initialization` tag) |
+| Same as above, but Custom HTML tags are disabled in your GTM container | `?auto=0` + GTM loader tag with `s.onload` + custom event (fallback) |
 | SPA with conv/micro only (no dynamic grouping) | Canonical pattern — works fully for conv/micro |
 | SPA with a fixed site-wide grouping | `?group=my-site` in the script URL (no `?auto=0` required) |
 | SPA with dynamic per-route grouping | Wait for `?auto=manual` *(on the roadmap)* |
