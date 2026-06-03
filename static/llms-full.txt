@@ -7860,14 +7860,15 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
-## Attribution: internal hits with UTMs no longer create new sessions (May 25, 2026)
+## Bot-blocking algorithm update — fewer false positives (June 2, 2026)
 
-We improved how Sealmetrics handles internal navigation that carries UTM parameters.
+On **Tuesday, June 2, 2026 at 20:00 CET**, we deployed an update to our bot-blocking algorithm to stop filtering out legitimate human traffic that was previously being misidentified as bot activity.
 
-### What was happening before
-When a hit on your site contained UTM parameters **and** the referrer was your own domain (i.e. internal navigation), the system treated it as a **new session** and attributed that hit to the traffic source declared in the UTMs.
+### What changed
+The algorithm is now more precise at distinguishing real users from automated traffic, reducing false positives without weakening bot detection.
 
-This could inflate session counts and misattribute traffic to campaigns when users were simply navigating across your own pages with UTM-tagged internal links.
+### Impact on your reports
+Starting June 2, 2026, you should expect:
 
 ... [Read full document at https://docs.sealmetrics.com/changelog]
 
