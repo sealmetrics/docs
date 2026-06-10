@@ -302,6 +302,7 @@ const config: Config = {
       apiKey: '379d9732cb8663ed4de3e2d0d59ce1b0',
       indexName: 'Sealmetrics Docs',
       contextualSearch: true,
+      insights: true,
     },
   } satisfies Preset.ThemeConfig,
 };
