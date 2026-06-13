@@ -13,11 +13,11 @@ The Devices report analyzes traffic by device type, browser, and operating syste
 
 **URL pattern:** `/sites/{site_id}/devices`
 
-## Tabs
+## Report Sections
 
-The report has three tabs for different device dimensions:
+The report stacks three tables on a single page, one per device dimension: **Device Types**, **Browsers**, and **Operating Systems**. Each table has its own filter, export button, totals row, and (for Browsers and Operating Systems) a search box.
 
-### 1. Device Types Tab
+### Device Types
 
 Shows traffic grouped by device category.
 
@@ -32,26 +32,21 @@ Shows traffic grouped by device category.
 | Column | Description |
 |--------|-------------|
 | **Device** | Device type name |
-| **Entrances** | Sessions from this device type (with progress bar) |
+| **Entrances** | Sessions from this device type |
 | **Pageviews** | Total page views |
 | **Bounce Rate** | Single-page session percentage |
 | **Events** | Microconversions |
-| **Conversions** | Completed conversions (with progress bar) |
-| **Conv. Rate** | Conversion rate |
+| **Conv.** | Completed conversions |
 | **Revenue** | Total revenue |
+| **Conv. Rate** | Conversion rate |
 
-#### Charts
-
-- **Pie Chart**: Distribution of traffic by device type
-- **Bar Chart**: Conversion rate comparison across devices
-
-### 2. Browsers Tab
+### Browsers
 
 Shows traffic grouped by web browser.
 
 | Common Browsers | Description |
 |-----------------|-------------|
-| Chrome | Google Chrome (all versions) |
+| Chrome | Google Chrome |
 | Safari | Apple Safari |
 | Firefox | Mozilla Firefox |
 | Edge | Microsoft Edge |
@@ -67,21 +62,17 @@ Shows traffic grouped by web browser.
 | **Pageviews** | Total page views |
 | **Bounce Rate** | Bounce rate |
 | **Events** | Microconversions |
-| **Conversions** | Conversions |
-| **Conv. Rate** | Conversion rate |
+| **Conv.** | Conversions |
 | **Revenue** | Revenue |
+| **Conv. Rate** | Conversion rate |
 
-#### Browser Versions
-
-Browser names include major version when relevant (e.g., "Chrome 120", "Safari 17").
-
-### 3. Operating Systems Tab
+### Operating Systems
 
 Shows traffic grouped by operating system.
 
 | Common OS | Description |
 |-----------|-------------|
-| Windows | Microsoft Windows (10, 11) |
+| Windows | Microsoft Windows |
 | macOS | Apple macOS |
 | iOS | Apple iPhone/iPad |
 | Android | Google Android |
@@ -90,37 +81,41 @@ Shows traffic grouped by operating system.
 
 #### Columns
 
-Same metrics as Browsers tab, with OS name instead of browser.
+Same metrics as the Browsers table, with the **Operating System** name instead of browser.
 
 ## Charts
 
-Each tab includes visual representations:
+At the top of the report there are three charts:
 
 ### Device Types Pie Chart
 
-- Shows percentage distribution
+- Shows distribution of entrances by device type
 - Desktop vs Mobile vs Tablet
 - Quick visual of audience composition
 
-### Conversion Rate Bar Chart
+### Top Browsers Bar Chart
 
-- Horizontal bars per device/browser/OS
-- Compare conversion performance
-- Identify underperforming segments
+- Horizontal bars for the top browsers by entrances
+
+### Operating Systems Bar Chart
+
+- Bars for operating systems by entrances
 
 ## Filtering
 
 ### Table Filter Builder
 
-Each tab has its own filter builder:
+Each table has its own filter builder:
 
 **Available fields:**
-- Device/Browser/OS (name)
+- Device / Browser / Operating System (name)
 - Entrances
 - Pageviews
 - Bounce Rate
+- Events
 - Conversions
 - Revenue
+- Conv. Rate
 
 **Example filters:**
 
@@ -174,7 +169,7 @@ Issues to investigate when a browser shows poor metrics:
 
 ### Identifying Mobile Issues
 
-1. Go to **Device Types** tab
+1. Go to the **Device Types** table
 2. Compare Mobile vs Desktop:
    - Bounce Rate difference
    - Conv. Rate difference
@@ -186,7 +181,7 @@ Issues to investigate when a browser shows poor metrics:
 
 ### Browser Compatibility Testing
 
-1. Go to **Browsers** tab
+1. Go to the **Browsers** table
 2. Sort by **Bounce Rate** (descending)
 3. Filter: Entrances > 100 (significant sample)
 4. High bounce on specific browser indicates:
@@ -196,7 +191,7 @@ Issues to investigate when a browser shows poor metrics:
 
 ### OS Market Share Tracking
 
-1. Go to **Operating Systems** tab
+1. Go to the **Operating Systems** table
 2. Note distribution percentages
 3. Compare with development testing:
    - Are you testing on top 3 OS?
@@ -204,7 +199,7 @@ Issues to investigate when a browser shows poor metrics:
 
 ### Revenue by Device
 
-1. Go to **Device Types** tab
+1. Go to the **Device Types** table
 2. Sort by **Revenue** (descending)
 3. Calculate revenue per entrance for each
 4. Prioritize optimization for highest-value devices
@@ -213,7 +208,7 @@ Issues to investigate when a browser shows poor metrics:
 
 Due to ITP (Intelligent Tracking Prevention):
 
-1. Go to **Browsers** tab
+1. Go to the **Browsers** table
 2. Compare Safari metrics with Chrome
 3. If Safari shows unusual patterns:
    - Very low conversion rate
@@ -252,8 +247,8 @@ If you have a mobile app:
 
 ## Export
 
-Click **Export** to download:
-- Current tab data only
+Each table has its own **Export** button to download:
+- That table's data only
 - All visible columns
 - Respects active filters
-- CSV format
+- Choose **CSV** or **PDF** format

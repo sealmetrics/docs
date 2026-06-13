@@ -74,7 +74,7 @@ sealmetrics.micro('add_payment_info', {
 });
 
 // Step 5: Purchase (use conversion, not microconversion)
-sealmetrics.conv('purchase', 249.99, { order_id: 'ORD-123' });
+sealmetrics.conv('purchase', 249.99, { currency: 'EUR' });
 ```
 
 ### Video Engagement
@@ -297,9 +297,11 @@ All property values are transmitted as strings. Numbers and booleans are automat
 
 ## Timing
 
-### Microconversions Count as Pageviews
+### Microconversions Are Their Own Event Type
 
-Every microconversion event also counts as a pageview. This is intentional: it allows tracking user engagement without requiring additional pageview calls.
+A microconversion is **not** counted as a pageview. The server classifies each hit by its payload: a hit that carries an event type with the micro flag is recorded as a microconversion, while only hits **without** those fields are counted as pageviews.
+
+The initial pageview is tracked automatically when the tracker loads (unless you use `?auto=0`), so firing a microconversion does not also create a pageview — and you do not need to call `sealmetrics()` to "register" engagement. Each microconversion is recorded independently.
 
 ### Multiple Events Per Page
 

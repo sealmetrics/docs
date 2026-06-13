@@ -12,4 +12,47 @@ Adding `defer` to your SealMetrics pixel script is a small change with a measura
 
 The `defer` attribute is a standard HTML attribute for `<script>` tags. It tells the browser to download the script in the background while continuing to parse the rest of the HTML, and to execute the script only after the document has been fully parsed.
 
-Without `defer`, a `<script>` tag is **render-blocking** by default: the browser stops parsing HTML, waits for the script to download and execute, and only then continues building the page.
+Without `defer`, a `<script src="...">` tag is **render-blocking** by default: the browser stops parsing HTML, waits for the script to download and execute, and only then continues building the page.
+
+## Why It Matters for the SealMetrics Pixel
+
+The SealMetrics tracker is a tiny script (around 1 KB gzipped) that runs once on load, hooks the History API for SPA navigation, and sends the initial pageview. None of this work needs to happen before the page renders, so making it render-blocking only delays your content for no benefit. Adding `defer` lets the browser paint your page first and run the tracker afterward, with no loss of tracking accuracy.
+
+`defer` does **not** change what the tracker does or measures. It only changes *when* the script executes:
+
+- The script downloads in parallel while the HTML is parsed.
+- It executes after the document is fully parsed, but before `DOMContentLoaded`.
+- Multiple deferred scripts execute in document order.
+
+## How to Apply It
+
+Add the `defer` attribute to the tracker `<script>` tag:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+`defer` works alongside the other tracker URL parameters, such as content grouping or manual pageview mode:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog" defer></script>
+```
+
+## A Note on Timing
+
+Because the tracker executes after the HTML is parsed, the global `sealmetrics` object is not guaranteed to exist during the very first synchronous render of an SSR or hydration-heavy app. If you fire a conversion or microconversion early in the page lifecycle, always guard the call:
+
+```javascript
+if (typeof sealmetrics !== 'undefined') {
+  sealmetrics.conv('lead', 0, { form_name: 'contact' });
+}
+```
+
+## `defer` vs `async`
+
+For an analytics pixel, prefer `defer` over `async`:
+
+- **`defer`** preserves execution order and runs after the document is parsed — predictable, and the page DOM is fully available.
+- **`async`** executes as soon as the script finishes downloading, which can happen mid-parse and in an unpredictable order relative to other scripts.
+
+Both are non-render-blocking, but `defer` gives the more reliable behavior for the SealMetrics tracker.

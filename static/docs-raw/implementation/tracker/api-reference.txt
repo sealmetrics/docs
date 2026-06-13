@@ -75,7 +75,7 @@ sealmetrics.conv(type, amount, properties);
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `type` | string | Yes | Conversion type (e.g., `'purchase'`, `'lead'`, `'signup'`) |
-| `amount` | number | Yes | Monetary value. Use `0` for non-monetary conversions |
+| `amount` | number | No | Monetary value. Omit or use `0` for non-monetary conversions. Only sent when it is a number |
 | `properties` | object | No | Custom key-value data |
 
 **Examples:**
@@ -86,7 +86,6 @@ sealmetrics.conv('purchase', 99.99);
 
 // Purchase with properties
 sealmetrics.conv('purchase', 149.99, {
-  order_id: 'ORD-12345',
   currency: 'EUR',
   payment_method: 'credit_card'
 });
@@ -163,7 +162,6 @@ sealmetrics.conv('purchase', 99, { quantity: '3' });
 
 | Property | Description | Example |
 |----------|-------------|---------|
-| `order_id` | Unique order identifier | `'ORD-12345'` |
 | `currency` | ISO 4217 currency code | `'EUR'`, `'USD'` |
 | `product_id` | Product SKU or ID | `'SKU-123'` |
 | `product_name` | Product name | `'Blue Shoes'` |
@@ -180,7 +178,7 @@ sealmetrics.conv('purchase', 99, { quantity: '3' });
 - Maximum properties per event: No hard limit, but keep reasonable
 - Property name max length: 100 characters
 - Property value max length: 500 characters
-- Total payload max: 64KB
+- Total request body max: **15 KB**. The server reads at most 15 KB of the POST body; anything beyond that is silently ignored (the request still returns 204).
 
 ---
 
@@ -193,6 +191,9 @@ Content grouping categorizes pages into sections for analysis.
 ```html
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=blog" defer></script>
 ```
+
+**Warning:**
+When set via the `group` URL parameter, the value is validated against the regular expression `^[a-zA-Z0-9_-]{0,64}$` (letters, digits, `_` and `-`, up to 64 characters). An invalid `group` value makes the `/t.js` request return **HTTP 400** and the script is not served. The same constraint applies to the value passed to `sealmetrics({ group })`.
 
 ### Setting via JavaScript
 
@@ -225,12 +226,8 @@ sealmetrics({ group: 'product' });
   "a": "YOUR_ACCOUNT_ID",
   "s": "1abc123def456",
   "t": "hmac_token",
-  "u": "https://example.com/page",
+  "u": "https://example.com/page?utm_source=google&utm_medium=cpc",
   "r": "https://google.com/search",
-  "p": {
-    "utm_source": "google",
-    "utm_medium": "cpc"
-  },
   "z": "Europe/Madrid",
   "c": 1703001234567,
   "g": "blog"
@@ -244,10 +241,12 @@ sealmetrics({ group: 'product' });
 | `t` | HMAC anti-spam token |
 | `u` | Current URL |
 | `r` | Referrer URL |
-| `p` | URL parameters (UTM, etc.) |
 | `z` | IANA timezone |
 | `c` | Timestamp (milliseconds) |
 | `g` | Content group (optional) |
+
+**Note:**
+The tracker does **not** send a separate parameters field. UTM tags (`utm_source`, `utm_medium`, …) and ad click IDs (`gclid`, `fbclid`, …) are extracted **server-side** from the current URL (`u`), so they must be present in the page URL for attribution to work.
 
 ### Conversion Payload
 
@@ -258,7 +257,6 @@ Includes all pageview fields plus:
   "e": "purchase",
   "v": 149.99,
   "x": {
-    "order_id": "ORD-12345",
     "currency": "EUR"
   }
 }
@@ -267,8 +265,8 @@ Includes all pageview fields plus:
 | Field | Description |
 |-------|-------------|
 | `e` | Event type |
-| `v` | Monetary value |
-| `x` | Custom properties |
+| `v` | Monetary value (optional — only present when `amount` is a number) |
+| `x` | Custom properties (optional) |
 
 ### Microconversion Payload
 
@@ -321,7 +319,101 @@ Events are sent using `navigator.sendBeacon()` with a fallback to `fetch()`:
 1. **sendBeacon** (preferred): Works even when closing the tab
 2. **fetch with keepalive**: Fallback if sendBeacon fails
 
-Content-Type is `text/plain` to avoid CORS preflight requests.
+Events are sent as a POST with `Content-Type: application/x-www-form-urlencoded`. The JSON payload travels in the form field `d` (`d=<json>`). This avoids CORS preflight requests and WAF blocks.
+
+---
+
+## Read-only Properties
+
+Beyond the methods, the global object exposes a few read-only properties, useful for debugging or for forwarding the session ID to other systems:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `sealmetrics.sessionId` | string | The fingerprint-based session ID for the current visitor |
+| `sealmetrics.accountId` | string | The account/site ID embedded in the served script |
+| `sealmetrics.tz` | string | The visitor's IANA timezone (e.g., `'Europe/Madrid'`) |
+| `sealmetrics.autoMode` | string | `'1'` if the auto-pageview is enabled, `'0'` if loaded with `?auto=0` |
+
+```javascript
+console.log(sealmetrics.sessionId); // "1abc123def456"
+console.log(sealmetrics.autoMode);  // "1"
+```
+
+---
+
+## Manual Pageview Mode (`?auto=0`)
+
+By default the tracker fires the initial pageview as soon as the script runs. Loading the tracker with `?auto=0` keeps everything wired up (SPA listeners, `conv()`, `micro()`) but **skips** the automatic initial pageview — you are then responsible for firing it manually:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&auto=0" defer></script>
+<script>
+  window.addEventListener('load', function () {
+    // Fire the pageview yourself, e.g. with a custom group after your dataLayer is ready
+    sealmetrics({ group: 'checkout' });
+  });
+</script>
+```
+
+| `?auto=` value | Behavior |
+|----------------|----------|
+| missing / empty / `1` | Auto-pageview ON (default) |
+| `0` | Auto-pageview OFF (manual mode) |
+| any other value | Auto-pageview ON (defensive default) |
+
+SPA navigation listeners (`pushState` / `replaceState` / `popstate`) stay active in both modes; only the **initial** pageview is suppressed by `?auto=0`.
+
+---
+
+## Pre-load Queue (stub)
+
+For integrations where the tracker may load **after** the first `sealmetrics(...)` call (e.g., Google Tag Manager with several tags, or deferred loading), inject this tiny fbq-style stub **before** the real library. It buffers calls in `sealmetrics.q` until the library boots, then replays them in FIFO order:
+
+```html
+<script>
+!function(w){w.sealmetrics=w.sealmetrics||function(){(w.sealmetrics.q=w.sealmetrics.q||[]).push(['pv',arguments])};w.sealmetrics.q=w.sealmetrics.q||[];w.sealmetrics.conv=w.sealmetrics.conv||function(){w.sealmetrics.q.push(['cv',arguments])};w.sealmetrics.micro=w.sealmetrics.micro||function(){w.sealmetrics.q.push(['mc',arguments])}}(window);
+</script>
+```
+
+- Each queued entry is `[marker, arguments]`, where the marker is `'pv'` (pageview), `'cv'` (conversion) or `'mc'` (microconversion). These markers are a stable, permanent contract.
+- The stub is idempotent (`||` guards): pasting it twice is a no-op.
+- The queue is drained **before** the optional auto-pageview, so order is: queued calls (FIFO) → auto-pageview (if enabled).
+
+**Warning:**
+If you enqueue a pageview through the stub **and** leave the auto-pageview on, both will fire and you get two pageviews per session. The canonical pattern is the **stub + `?auto=0`**, firing the pageview yourself from the queue.
+
+---
+
+## Behavior Inside Iframes
+
+The tracker checks whether it runs at the top level (`window.self === window.top`):
+
+- **Top-level page:** auto-pageview + SPA navigation listeners + `conv()` / `micro()` — everything works normally.
+- **Inside an iframe** (e.g., the Shopify Web Pixel sandbox): the tracker exposes `conv()` and `micro()` only. It does **not** fire an auto-pageview and does **not** install SPA navigation hooks.
+
+This prevents duplicate pageviews when the tracker runs both on the real page and inside an embedded sandbox. In iframe contexts (Shopify), call `sealmetrics.conv()` / `sealmetrics.micro()` directly and do **not** inject the pre-load stub inside the iframe.
+
+---
+
+## Automatically Detected Click IDs
+
+Ad click IDs do not need any configuration. When present in the page URL, the server detects them and infers source/medium automatically:
+
+| Click ID | Platform | Inferred source / medium |
+|----------|----------|--------------------------|
+| `gclid` | Google Ads | google / cpc |
+| `gbraid` | Google Ads (iOS) | google / cpc |
+| `wbraid` | Google Ads (Web-to-App) | google / cpc |
+| `fbclid` | Meta / Facebook | facebook / social |
+| `msclkid` | Microsoft / Bing Ads | bing / cpc |
+| `yclid` | Yandex | yandex / cpc |
+| `ttclid` | TikTok | tiktok / cpc |
+| `twclid` | Twitter / X | twitter / cpc |
+| `li_fat_id` | LinkedIn | linkedin / cpc |
+| `ScCid` | Snapchat | snapchat / cpc |
+| `rdt_cid` | Reddit | reddit / cpc |
+
+Explicit UTM parameters in the URL always take precedence over the values inferred from a click ID.
 
 ---
 
@@ -337,8 +429,12 @@ interface SealmetricsOptions {
 
 interface SealmetricsFunction {
   (options?: SealmetricsOptions): void;
-  conv(type: string, amount: number, properties?: Record<string, string>): void;
+  conv(type: string, amount?: number, properties?: Record<string, string>): void;
   micro(type: string, properties?: Record<string, string>): void;
+  readonly sessionId: string;
+  readonly accountId: string;
+  readonly tz: string;
+  readonly autoMode: string;
 }
 
 declare global {
@@ -356,8 +452,8 @@ export {};
 
 | Specification | Value |
 |--------------|-------|
-| Size (minified) | 2,367 bytes |
-| Size (gzipped) | **1,313 bytes** |
+| Size (minified) | ~2,228 bytes |
+| Size (gzipped) | **~1,227 bytes** |
 | Dependencies | None (vanilla JavaScript) |
 | Browser Support | Chrome 60+, Firefox 55+, Safari 11.1+, Edge 79+ |
 | ES Version | ES5 compatible |

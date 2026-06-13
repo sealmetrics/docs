@@ -44,7 +44,7 @@ When enabled:
 ### Get Settings
 
 ```http
-GET /ip-allowlist/settings?site_id={site_id}
+GET /ip-allowlist/settings?account_id={account_id}
 ```
 
 **Response:**
@@ -52,38 +52,37 @@ GET /ip-allowlist/settings?site_id={site_id}
 ```json
 {
   "data": {
-    "enabled": true,
-    "enforce_on_api": true,
-    "enforce_on_dashboard": false,
-    "allow_owner_bypass": true,
-    "patterns_count": 5,
-    "last_updated_at": "2025-01-10T14:30:00Z"
+    "account_id": "my-site",
+    "is_enabled": true,
+    "enforce_for_api_tokens": true,
+    "enforce_for_dashboard": false,
+    "active_patterns_count": 5,
+    "created_at": "2025-01-01T10:00:00Z",
+    "updated_at": "2025-01-10T14:30:00Z"
   }
 }
 ```
 
 | Field | Description |
 |-------|-------------|
-| `enabled` | Allowlist is active |
-| `enforce_on_api` | Check IPs for API requests |
-| `enforce_on_dashboard` | Check IPs for dashboard login |
-| `allow_owner_bypass` | Organization owners bypass restrictions |
-| `patterns_count` | Number of configured patterns |
+| `is_enabled` | Allowlist is active |
+| `enforce_for_api_tokens` | Check IPs for API token authentication |
+| `enforce_for_dashboard` | Check IPs for dashboard/JWT login |
+| `active_patterns_count` | Number of active patterns |
 
 ### Update Settings
 
 ```http
-PUT /ip-allowlist/settings?site_id={site_id}
+PUT /ip-allowlist/settings?account_id={account_id}
 ```
 
 **Request Body:**
 
 ```json
 {
-  "enabled": true,
-  "enforce_on_api": true,
-  "enforce_on_dashboard": true,
-  "allow_owner_bypass": true
+  "is_enabled": true,
+  "enforce_for_api_tokens": true,
+  "enforce_for_dashboard": true
 }
 ```
 
@@ -92,17 +91,19 @@ PUT /ip-allowlist/settings?site_id={site_id}
 ```json
 {
   "data": {
-    "enabled": true,
-    "enforce_on_api": true,
-    "enforce_on_dashboard": true,
-    "allow_owner_bypass": true,
-    "message": "Settings updated successfully"
+    "account_id": "my-site",
+    "is_enabled": true,
+    "enforce_for_api_tokens": true,
+    "enforce_for_dashboard": true,
+    "active_patterns_count": 5,
+    "created_at": "2025-01-01T10:00:00Z",
+    "updated_at": "2025-01-10T14:30:00Z"
   }
 }
 ```
 
 :::warning
-Enabling `enforce_on_dashboard` without adding your current IP will lock you out. Always test with `enforce_on_api` first.
+Enabling `enforce_for_dashboard` without adding your current IP will lock you out. Always test with `enforce_for_api_tokens` first.
 :::
 
 ---
@@ -112,16 +113,14 @@ Enabling `enforce_on_dashboard` without adding your current IP will lock you out
 ### List Patterns
 
 ```http
-GET /ip-allowlist/patterns?site_id={site_id}
+GET /ip-allowlist/patterns?account_id={account_id}
 ```
 
 **Query Parameters:**
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `page` | integer | `1` | Page number |
-| `page_size` | integer | `50` | Items per page (1-100) |
-| `search` | string | - | Search in pattern or description |
+| `include_inactive` | boolean | `false` | Include inactive patterns |
 
 **Response:**
 
@@ -132,29 +131,28 @@ GET /ip-allowlist/patterns?site_id={site_id}
       {
         "id": 1,
         "pattern": "203.0.113.0/24",
-        "type": "cidr",
+        "pattern_type": "cidr",
+        "label": "Office network",
         "description": "Office network",
         "is_active": true,
-        "created_by": "admin@company.com",
+        "created_by": 42,
         "created_at": "2025-01-01T10:00:00Z",
-        "last_matched_at": "2025-01-10T14:30:00Z",
-        "match_count": 1542
+        "updated_at": "2025-01-10T14:30:00Z"
       },
       {
         "id": 2,
         "pattern": "198.51.100.50",
-        "type": "ip",
+        "pattern_type": "ip",
+        "label": "CI/CD server",
         "description": "CI/CD server",
         "is_active": true,
-        "created_by": "admin@company.com",
+        "created_by": 42,
         "created_at": "2025-01-05T09:00:00Z",
-        "last_matched_at": "2025-01-10T12:00:00Z",
-        "match_count": 890
+        "updated_at": "2025-01-05T09:00:00Z"
       }
     ],
     "total": 5,
-    "page": 1,
-    "page_size": 50
+    "active_count": 4
   }
 }
 ```
@@ -162,7 +160,7 @@ GET /ip-allowlist/patterns?site_id={site_id}
 ### Add Pattern
 
 ```http
-POST /ip-allowlist/patterns?site_id={site_id}
+POST /ip-allowlist/patterns?account_id={account_id}
 ```
 
 **Request Body:**
@@ -170,6 +168,8 @@ POST /ip-allowlist/patterns?site_id={site_id}
 ```json
 {
   "pattern": "203.0.113.0/24",
+  "pattern_type": "cidr",
+  "label": "Office network",
   "description": "Office network",
   "is_active": true
 }
@@ -177,18 +177,19 @@ POST /ip-allowlist/patterns?site_id={site_id}
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `pattern` | string | Yes | IP address or CIDR range |
-| `description` | string | No | Human-readable description |
+| `pattern` | string | Yes | IP address, CIDR range, or regex pattern |
+| `pattern_type` | enum | No | Pattern type: `ip`, `cidr`, or `regex` (default: `ip`) |
+| `label` | string | No | Human-readable label (e.g. `Office Network`) |
+| `description` | string | No | Optional description |
 | `is_active` | boolean | No | Enable pattern (default: true) |
 
-**Supported Formats:**
+**Supported Pattern Types:**
 
-| Format | Example | Description |
-|--------|---------|-------------|
-| IPv4 | `192.168.1.1` | Single IP address |
-| IPv4 CIDR | `192.168.1.0/24` | IP range (256 addresses) |
-| IPv6 | `2001:db8::1` | Single IPv6 address |
-| IPv6 CIDR | `2001:db8::/32` | IPv6 range |
+| Type | Example | Description |
+|------|---------|-------------|
+| `ip` | `192.168.1.100` or `2001:db8::1` | Exact IPv4 or IPv6 address |
+| `cidr` | `192.168.1.0/24` or `2001:db8::/32` | IPv4 or IPv6 CIDR range |
+| `regex` | `^192\.168\..*` | Regular expression matched against the client IP |
 
 **Response (201 Created):**
 
@@ -197,11 +198,13 @@ POST /ip-allowlist/patterns?site_id={site_id}
   "data": {
     "id": 3,
     "pattern": "203.0.113.0/24",
-    "type": "cidr",
+    "pattern_type": "cidr",
+    "label": "Office network",
     "description": "Office network",
     "is_active": true,
-    "created_by": "admin@company.com",
-    "created_at": "2025-01-10T15:00:00Z"
+    "created_by": 42,
+    "created_at": "2025-01-10T15:00:00Z",
+    "updated_at": "2025-01-10T15:00:00Z"
   }
 }
 ```
@@ -209,7 +212,7 @@ POST /ip-allowlist/patterns?site_id={site_id}
 ### Update Pattern
 
 ```http
-PATCH /ip-allowlist/patterns/{pattern_id}?site_id={site_id}
+PATCH /ip-allowlist/patterns/{pattern_id}?account_id={account_id}
 ```
 
 **Request Body:**
@@ -224,7 +227,7 @@ PATCH /ip-allowlist/patterns/{pattern_id}?site_id={site_id}
 ### Delete Pattern
 
 ```http
-DELETE /ip-allowlist/patterns/{pattern_id}?site_id={site_id}
+DELETE /ip-allowlist/patterns/{pattern_id}?account_id={account_id}
 ```
 
 **Response:** 204 No Content
@@ -236,7 +239,7 @@ DELETE /ip-allowlist/patterns/{pattern_id}?site_id={site_id}
 ### Add Multiple Patterns
 
 ```http
-POST /ip-allowlist/patterns/bulk?site_id={site_id}
+POST /ip-allowlist/patterns/bulk?account_id={account_id}
 ```
 
 **Request Body:**
@@ -271,7 +274,7 @@ POST /ip-allowlist/patterns/bulk?site_id={site_id}
 ### Delete Multiple Patterns
 
 ```http
-POST /ip-allowlist/patterns/bulk-delete?site_id={site_id}
+POST /ip-allowlist/patterns/bulk-delete?account_id={account_id}
 ```
 
 **Request Body:**
@@ -300,7 +303,7 @@ POST /ip-allowlist/patterns/bulk-delete?site_id={site_id}
 ### Export Patterns
 
 ```http
-GET /ip-allowlist/export?site_id={site_id}
+GET /ip-allowlist/export?account_id={account_id}
 ```
 
 Export all patterns as JSON for backup or transfer.
@@ -311,8 +314,8 @@ Export all patterns as JSON for backup or transfer.
 {
   "data": {
     "exported_at": "2025-01-10T15:00:00Z",
-    "site_id": "my-site",
-    "patterns_count": 5,
+    "account_id": "my-site",
+    "active_patterns_count": 5,
     "patterns": [
       {"pattern": "203.0.113.0/24", "description": "Office A", "is_active": true},
       {"pattern": "198.51.100.0/24", "description": "Office B", "is_active": true},
@@ -325,7 +328,7 @@ Export all patterns as JSON for backup or transfer.
 ### Import Patterns
 
 ```http
-POST /ip-allowlist/import?site_id={site_id}
+POST /ip-allowlist/import?account_id={account_id}
 ```
 
 Import patterns from a previous export.
@@ -367,7 +370,7 @@ Import patterns from a previous export.
 ### Check IP Address
 
 ```http
-POST /ip-allowlist/check?site_id={site_id}
+POST /ip-allowlist/check?account_id={account_id}
 ```
 
 Test if an IP would be allowed.
@@ -411,7 +414,7 @@ Test if an IP would be allowed.
 ### Check Current IP
 
 ```http
-GET /ip-allowlist/check-current?site_id={site_id}
+GET /ip-allowlist/check-current?account_id={account_id}
 ```
 
 Check if your current IP is allowed.
@@ -434,7 +437,7 @@ Check if your current IP is allowed.
 ```
 
 :::tip
-Always use `/check-current` before enabling `enforce_on_dashboard` to ensure you won't be locked out.
+Always use `/check-current` before enabling `enforce_for_dashboard` to ensure you won't be locked out.
 :::
 
 ---
@@ -444,7 +447,7 @@ Always use `/check-current` before enabling `enforce_on_dashboard` to ensure you
 ### Get Audit Log
 
 ```http
-GET /ip-allowlist/audit?site_id={site_id}
+GET /ip-allowlist/audit?account_id={account_id}
 ```
 
 View access attempts and configuration changes.
@@ -497,7 +500,6 @@ View access attempts and configuration changes.
 | `access_granted` | Request from allowed IP |
 | `access_denied` | Request from non-allowed IP |
 | `config_changed` | Settings or patterns modified |
-| `bypass_used` | Owner used bypass privilege |
 
 ---
 
@@ -510,7 +512,7 @@ import requests
 
 API_KEY = "sm_your_api_key"
 BASE_URL = "https://api.sealmetrics.com/api/v1"
-SITE_ID = "my-site"
+ACCOUNT_ID = "my-site"
 
 def setup_ip_allowlist(office_ips, vpn_ips):
     """Configure IP allowlist with office and VPN IPs."""
@@ -519,7 +521,7 @@ def setup_ip_allowlist(office_ips, vpn_ips):
     current_response = requests.get(
         f"{BASE_URL}/ip-allowlist/check-current",
         headers={"X-API-Key": API_KEY},
-        params={"site_id": SITE_ID}
+        params={"account_id": ACCOUNT_ID}
     )
     current_ip = current_response.json()["data"]["your_ip"]
 
@@ -540,7 +542,7 @@ def setup_ip_allowlist(office_ips, vpn_ips):
     requests.post(
         f"{BASE_URL}/ip-allowlist/patterns/bulk",
         headers={"X-API-Key": API_KEY},
-        params={"site_id": SITE_ID},
+        params={"account_id": ACCOUNT_ID},
         json={"patterns": patterns}
     )
 
@@ -548,12 +550,11 @@ def setup_ip_allowlist(office_ips, vpn_ips):
     requests.put(
         f"{BASE_URL}/ip-allowlist/settings",
         headers={"X-API-Key": API_KEY},
-        params={"site_id": SITE_ID},
+        params={"account_id": ACCOUNT_ID},
         json={
-            "enabled": True,
-            "enforce_on_api": True,
-            "enforce_on_dashboard": False,
-            "allow_owner_bypass": True
+            "is_enabled": True,
+            "enforce_for_api_tokens": True,
+            "enforce_for_dashboard": False
         }
     )
 
@@ -576,7 +577,7 @@ async function getRecentDeniedAccess(hours = 24) {
     .split('T')[0];
 
   const response = await fetch(
-    `${BASE_URL}/ip-allowlist/audit?site_id=${SITE_ID}&event_type=access_denied&date_from=${dateFrom}`,
+    `${BASE_URL}/ip-allowlist/audit?account_id=${ACCOUNT_ID}&event_type=access_denied&date_from=${dateFrom}`,
     {
       headers: { 'X-API-Key': API_KEY }
     }
@@ -609,13 +610,13 @@ def backup_allowlist(output_file):
     response = requests.get(
         f"{BASE_URL}/ip-allowlist/export",
         headers={"X-API-Key": API_KEY},
-        params={"site_id": SITE_ID}
+        params={"account_id": ACCOUNT_ID}
     )
 
     with open(output_file, "w") as f:
         json.dump(response.json()["data"], f, indent=2)
 
-    print(f"Exported {response.json()['data']['patterns_count']} patterns")
+    print(f"Exported {response.json()['data']['active_patterns_count']} patterns")
 
 
 def restore_allowlist(input_file, mode="merge"):
@@ -626,7 +627,7 @@ def restore_allowlist(input_file, mode="merge"):
     response = requests.post(
         f"{BASE_URL}/ip-allowlist/import",
         headers={"X-API-Key": API_KEY},
-        params={"site_id": SITE_ID},
+        params={"account_id": ACCOUNT_ID},
         json={
             "patterns": data["patterns"],
             "mode": mode
@@ -655,14 +656,14 @@ def restore_allowlist(input_file, mode="merge"):
 
 ### 1. Start with API Only
 
-Enable `enforce_on_api` first, test thoroughly, then enable `enforce_on_dashboard`.
+Enable `enforce_for_api_tokens` first, test thoroughly, then enable `enforce_for_dashboard`.
 
 ### 2. Always Include Your IP
 
 Before enabling, verify your current IP is covered:
 
 ```bash
-curl "https://api.sealmetrics.com/api/v1/ip-allowlist/check-current?site_id=my-site" \
+curl "https://api.sealmetrics.com/api/v1/ip-allowlist/check-current?account_id=my-site" \
   -H "X-API-Key: sm_your_api_key"
 ```
 
@@ -680,15 +681,11 @@ Instead of individual IPs, use CIDR ranges for office networks:
 192.168.1.0/24
 ```
 
-### 4. Keep Owner Bypass Enabled
-
-Leave `allow_owner_bypass: true` as a safety net to recover from misconfigurations.
-
-### 5. Monitor the Audit Log
+### 4. Monitor the Audit Log
 
 Regularly review `access_denied` events to detect unauthorized access attempts or legitimate users being blocked.
 
-### 6. Document Your Patterns
+### 5. Document Your Patterns
 
 Use the `description` field to document what each pattern is for:
 

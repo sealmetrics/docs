@@ -13,22 +13,20 @@ The Conversions report provides detailed analysis of your conversion and microco
 
 **URL pattern:** `/sites/{site_id}/conversions`
 
-## Tabs
+## View Toggle
 
-The report has two tabs for different event types:
+A toggle in the top-right switches between two views: **Conversions** and **Microconversions**.
 
-### 1. Conversions Tab
+### Conversions View
 
 Shows completed conversion events (primary goals).
 
 | Column | Description |
 |--------|-------------|
 | **Conversion Type** | Name/identifier of the conversion |
-| **Count** | Total number of conversions (with progress bar) |
-| **Unique Users** | Distinct users who converted |
-| **Revenue** | Total revenue attributed (with progress bar) |
+| **Conversions** | Total number of conversions (shown with a metric bar) |
+| **Revenue** | Total revenue attributed (shown with a metric bar) |
 | **Avg. Value** | Average revenue per conversion |
-| **Conv. Rate** | Conversions / Total Entrances × 100 |
 
 #### Conversion Types
 
@@ -43,16 +41,14 @@ Common conversion types include:
 | download | File download |
 | booking | Appointment/reservation |
 
-### 2. Microconversions Tab
+### Microconversions View
 
 Shows microconversion events (secondary goals/engagement metrics).
 
 | Column | Description |
 |--------|-------------|
 | **Event Type** | Name/identifier of the microconversion |
-| **Count** | Total number of events (with progress bar) |
-| **Unique Users** | Distinct users who triggered this event |
-| **Pages** | Number of unique pages where event occurred |
+| **Count** | Total number of events (shown with a metric bar) |
 
 #### Common Microconversions
 
@@ -67,59 +63,46 @@ Shows microconversion events (secondary goals/engagement metrics).
 
 ## Summary Cards
 
-Top section displays aggregate metrics:
+The cards shown depend on the active view.
+
+**Conversions view:**
 
 | Card | Description |
 |------|-------------|
 | **Total Conversions** | Sum of all conversion events |
 | **Total Revenue** | Sum of all revenue |
-| **Conversion Rate** | Overall conversion rate |
 | **Avg. Order Value** | Average revenue per conversion |
+| **Conversion Types** | Number of distinct conversion types |
 
-When comparison mode is enabled, cards show delta percentages.
+**Microconversions view:**
 
-## Charts
+| Card | Description |
+|------|-------------|
+| **Total Events** | Sum of all microconversion events |
+| **Event Types** | Number of distinct event types |
 
-### Conversions Over Time
+## Chart
 
-Line chart showing conversion count over the selected period.
+A single bar chart is shown below the summary cards:
 
-- Hover for daily/weekly values
-- Identify peaks and patterns
-- Comparison line when enabled
-
-### Revenue Over Time
-
-Area chart showing revenue accumulation.
-
-- Track revenue trends
-- Identify high-value periods
-- Spot anomalies
-
-### Conversion Type Distribution
-
-Pie chart showing distribution across conversion types.
-
-- Top 5 types shown individually
-- Remaining grouped as "Other"
-- Percentage labels
+- **Conversions view:** "Conversions by Type" — one bar per conversion type, by count
+- **Microconversions view:** "Microconversions by Type" — one bar per event type, by count
 
 ## Filtering
 
 ### Table Filter Builder
 
-Each tab has its own filter builder:
+Each view has its own filter builder:
 
-**Conversions tab fields:**
+**Conversions view fields:**
 - Conversion Type
-- Count
+- Conversions (count)
 - Revenue
-- Conv. Rate
+- Avg. Value
 
-**Microconversions tab fields:**
+**Microconversions view fields:**
 - Event Type
 - Count
-- Unique Users
 
 **Example filters:**
 
@@ -127,8 +110,8 @@ Each tab has its own filter builder:
 |------|--------|
 | High-value conversions | Revenue greater than 1000 |
 | Frequent events | Count greater than 100 |
-| Low-performing types | Conv. Rate less than 1 |
-| Specific conversion | Type equals "purchase" |
+| Low-value types | Avg. Value less than 10 |
+| Specific conversion | Conversion Type equals "purchase" |
 
 ### Global Filter Integration
 
@@ -180,7 +163,7 @@ See [Tracker Documentation](/implementation/tracker/conversions) for complete im
 For detailed product-level analytics from your e-commerce conversions, use the **Properties** report:
 
 1. Go to **Properties** in the sidebar
-2. Select the **Conv. Items** tab
+2. Set the Data Source toggle to **Conv. Items**
 3. Browse product fields (`product_name`, `category`, `brand`, `sku`, etc.)
 4. Select a field to see its values broken down by traffic source, medium, and campaign
 
@@ -195,7 +178,6 @@ This report shows individual product data from the `items` array sent with your 
 | Total Revenue | Sum of all conversion amounts | Overall performance |
 | Avg. Order Value | Total Revenue / Conversions | Transaction size |
 | Revenue per Entrance | Total Revenue / Entrances | Traffic value |
-| Revenue per User | Total Revenue / Unique Users | Customer value |
 
 ### Revenue by Source
 
@@ -226,14 +208,13 @@ Combine with Geography report:
 
 ### Identifying Top Conversion Types
 
-1. Go to **Conversions** tab
-2. Sort by **Count** or **Revenue**
+1. Switch to the **Conversions** view
+2. Sort by **Conversions** or **Revenue**
 3. Focus optimization on top types
-4. Monitor conversion rate per type
 
 ### Analyzing Microconversion Funnel
 
-1. Go to **Microconversions** tab
+1. Switch to the **Microconversions** view
 2. Sort by **Count** (descending)
 3. Track progression: view → add_to_cart → checkout → purchase
 4. Calculate drop-off rates between steps
@@ -245,21 +226,12 @@ Combine with Geography report:
 3. Compare conversion rates
 4. Low rate + high traffic = opportunity
 
-### Revenue Trend Analysis
-
-1. Set date range to 90 days
-2. Review Revenue Over Time chart
-3. Identify:
-   - Seasonal patterns
-   - Campaign impact periods
-   - Unusual spikes or drops
-
 ### Comparing Conversion Types
 
-1. Go to **Conversions** tab
-2. Sort by **Conv. Rate**
+1. Switch to the **Conversions** view
+2. Sort by **Conversions** or **Avg. Value**
 3. Compare:
-   - Which types convert best?
+   - Which types convert most?
    - Which have highest value?
    - Which need improvement?
 
@@ -279,7 +251,6 @@ For users who convert after multiple sessions:
 
 - Each session tracked independently
 - Conversion credited to the converting session
-- Use Unique Users to understand user-level conversion
 
 ## Best Practices
 
@@ -313,7 +284,7 @@ Before going live:
 ## Export
 
 Click **Export** to download:
-- Current tab data (Conversions or Microconversions)
+- The current view's data (Conversions or Microconversions)
 - All visible columns
 - Respects active filters
-- CSV format
+- Choose **CSV** or **PDF** format

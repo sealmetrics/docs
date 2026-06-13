@@ -209,9 +209,15 @@ This is the cleanest pattern. The group is sticky for **every** automatic pagevi
 
 The tracker has **no API to update the group of an already-fired pageview**. If you need a different group per route, you have two options:
 
-#### Option A — Suppress auto-tracking, fire manually
+#### Option A — Manual mode (`?auto=0`), fire pageviews yourself
 
-Best for apps where every route needs a specific group. Use a custom script tag without `defer` and short-circuit auto-tracking by deferring the script attribute. Then call `sealmetrics({ group: '...' })` yourself after each navigation:
+Best for apps where every route needs a specific group. Load the tracker with the `auto=0` query parameter on the script URL. This **suppresses only the initial auto-pageview**; the SPA listeners (`pushState` / `replaceState` / `popstate`) **stay active**, so route changes still fire pageviews automatically:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0" defer></script>
+```
+
+With `?auto=0` the tracker exposes the full API but does not fire the first pageview — you fire it (and pass the group) yourself once your router has resolved the initial route:
 
 ```jsx
 // after router resolves a route
@@ -221,7 +227,7 @@ useEffect(() => {
 }, [pathname]);
 ```
 
-⚠️ Because the tracker auto-fires on `pushState`, you'll get **two pageviews** for the same URL: the automatic one (no group) and your manual one (with group). Until a `disableAuto` flag exists, prefer Option B for most cases.
+⚠️ Note that `?auto=0` only suppresses the **initial** auto-pageview. The History API listeners remain hooked, so a real route change via `pushState`/`replaceState`/`popstate` still fires an automatic (group-less) pageview. If you also call `sealmetrics({ group })` after that navigation, you get **two pageviews** for the same URL. For most apps, Option B is simpler.
 
 #### Option B — Use a single global group per site
 
@@ -324,7 +330,7 @@ Most common causes, in order:
 
 1. **Script included twice.** Search the rendered HTML for `t.sealmetrics.com/t.js` — there should be exactly one match.
 2. **Manual `sealmetrics()` call after auto-tracking.** The tracker already fires on `pushState`/`replaceState`/`popstate`. Don't call it again in your router's `afterEach` unless you've confirmed auto-tracking isn't firing.
-3. **Per-route grouping pattern.** See [Option A above](#option-a--suppress-auto-tracking-fire-manually) — calling `sealmetrics({ group: '...' })` after an automatic pageview produces a second event.
+3. **Per-route grouping pattern.** See [Option A above](#option-a--manual-mode-auto0-fire-pageviews-yourself) — calling `sealmetrics({ group: '...' })` after an automatic pageview produces a second event. Note that `?auto=0` only suppresses the *initial* pageview, not SPA route-change pageviews.
 4. **Animations using `replaceState`.** Some libraries call `history.replaceState()` for non-navigation purposes (e.g. saving scroll position into the URL hash). This will trigger a pageview if the full URL changes. Use a query-param-only update where possible, or strip the param before tracking.
 
 ### Missing pageviews on route change

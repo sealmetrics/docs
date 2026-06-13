@@ -1,268 +1,95 @@
 ---
 sidebar_position: 9
 title: Funnel Report
-description: "Visualize user progression through conversion steps, showing drop-off rates and bottlenecks at each stage."
+description: "Visualize e-commerce conversion progression — from entrances through product views, cart, checkout and purchase — with drop-off at each step."
 ---
 
 # Funnel
 
-The Funnel report visualizes user progression through defined conversion steps, showing drop-off rates and bottlenecks.
+The Funnel report visualizes how visitors progress through the standard e-commerce purchase journey, showing the drop-off between each step. It is built automatically from your traffic and the e-commerce events you track — there is nothing to configure.
 
 ## Accessing the Report
 
 1. Select a site from the site selector
 2. Click **Funnel** in the sidebar
 
-**URL pattern:** `/sites/{site_id}/funnel`
+**URL pattern:** `/sites/{siteId}/funnel`
 
-## Funnel Selector
+## How the funnel is built
 
-Choose which funnel to analyze from the dropdown at the top of the report.
+The funnel is a **fixed e-commerce sequence**. Sealmetrics assembles it from the totals for the selected period:
 
-### Available Funnels
+| Step | Built from |
+|------|------------|
+| **Entrances** | All entrances in the period (the funnel entry point) |
+| **View Product** | `view_item` microconversion (legacy `view_product` also accepted) |
+| **Add to Cart** | `add_to_cart` microconversion |
+| **Begin Checkout** | `begin_checkout` microconversion (legacy `start_checkout` also accepted) |
+| **Purchase** | `purchase` conversion |
 
-Funnels are configured in Settings. Common examples:
+A step only appears if the corresponding event exists in your data for the selected period. If you don't track `add_to_cart`, for example, that step is omitted and the funnel goes straight from the previous step to the next one present.
 
-| Funnel | Typical Steps |
-|--------|---------------|
-| E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
-| Lead Generation | Landing Page → Form View → Form Submit → Thank You |
-| SaaS Signup | Homepage → Pricing → Sign Up → Verify Email |
-| Content Engagement | Article View → Scroll 50% → Scroll 100% → Share |
+:::tip Make the funnel work
+The funnel relies on the standard e-commerce event names above. Send them from your store or tag setup to populate every step. See [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking/) for the event names and how to fire them.
+:::
 
 ## Funnel Visualization
 
-### Bar Chart
-
-Vertical bar chart showing progression through steps.
+The **Conversion Funnel** chart shows one bar per step in order, from Entrances to Purchase.
 
 | Element | Description |
 |---------|-------------|
-| **Bars** | Height represents users at each step |
-| **Labels** | Step name and user count |
-| **Drop-off arrows** | Show percentage leaving between steps |
-| **Colors** | Gradient from first to last step |
+| **Bars** | Height represents the number of visitors who reached that step |
+| **Step label** | Step name and count |
+| **Conversion rate** | Percentage of the *previous* step that reached this step |
+| **Drop-off** | Percentage of the previous step that did not reach this step |
 
-### Reading the Funnel
+For each step after Entrances:
 
-From left to right:
-1. First bar = users who entered the funnel
-2. Each subsequent bar = users who completed that step
-3. Arrows between bars = users who dropped off
-4. Last bar = users who completed the entire funnel
+- **Conversion rate** = step count ÷ previous step count × 100
+- **Drop-off rate** = (previous step count − step count) ÷ previous step count × 100
 
-## Metrics Table
+## Country filter
 
-Detailed breakdown below the visualization.
+Use the **country selector** in the top-right of the report to recalculate the funnel for a single country (the top 20 countries by traffic are listed). Select **All Countries** to return to the global view. This is the funnel's built-in filter; [global filters](/reports/filters) (geography and devices) also apply.
+
+## Funnel by UTM table
+
+Below the chart, the **Funnel by UTM** table breaks the same period down by traffic source so you can see which campaigns drive each part of the journey.
 
 | Column | Description |
 |--------|-------------|
-| **Step** | Step name/number |
-| **Users** | Users who reached this step |
-| **Entry Rate** | Percentage of funnel entrants who reached this step |
-| **Completion Rate** | Percentage of previous step who completed this step |
-| **Drop-off** | Users who left at this step |
-| **Drop-off Rate** | Percentage who left at this step |
+| **UTM Source / Medium / Campaign** | The traffic source for the row |
+| **Entrances** | Entrances attributed to that source |
+| **Page Views** | Page views from that source |
+| *Microconversion columns* | One column per microconversion type present (e.g. `view_item`, `add_to_cart`, `begin_checkout`) |
+| *Conversion columns* | One column per conversion type present (e.g. `purchase`), showing count and revenue |
 
-### Example Metrics
-
-| Step | Users | Entry Rate | Completion | Drop-off |
-|------|-------|------------|------------|----------|
-| View Product | 10,000 | 100% | - | 3,000 |
-| Add to Cart | 7,000 | 70% | 70% | 4,000 |
-| Checkout | 3,000 | 30% | 43% | 1,500 |
-| Purchase | 1,500 | 15% | 50% | - |
-
-## Funnel Steps
-
-### Step Types
-
-Steps can be defined as:
-
-| Type | Trigger | Example |
-|------|---------|---------|
-| **Pageview** | User visits specific URL | /checkout |
-| **Event** | Microconversion fires | add_to_cart |
-| **Conversion** | Conversion fires | purchase |
-
-### Step Configuration
-
-Configure funnels in Settings → Funnels:
-
-1. Click **Create Funnel**
-2. Name the funnel
-3. Add steps in order
-4. For each step, define:
-   - Step name
-   - Step type (pageview/event/conversion)
-   - Matching criteria (URL pattern or event type)
-5. Save the funnel
-
-### URL Matching
-
-For pageview steps, URL patterns support:
-
-| Pattern | Matches |
-|---------|---------|
-| /checkout | Exact match |
-| /products/* | Any product page |
-| /blog/** | Blog and all subpaths |
-
-## Funnel Analysis
-
-### Key Metrics to Watch
-
-| Metric | Target | Action if Low |
-|--------|--------|---------------|
-| Overall Conversion Rate | Industry benchmark | Optimize worst step |
-| Step Completion Rate | \>70% | Investigate UX issues |
-| Time Between Steps | Reasonable for action | Reduce friction |
-
-### Identifying Bottlenecks
-
-1. Look for steps with completion rate \<50%
-2. Compare to expected behavior:
-   - Is the step too complex?
-   - Is there a technical issue?
-   - Is the value proposition clear?
-
-### Common Bottleneck Causes
-
-| Step | Common Issues |
-|------|---------------|
-| Add to Cart → Checkout | Price shock, shipping costs |
-| Checkout → Payment | Payment method issues, trust |
-| Form View → Submit | Too many fields, unclear CTA |
-| Landing → Signup | Weak value proposition |
+The table is sortable and paginated, and includes a **totals row** for Entrances and Page Views.
 
 ## Filtering
 
-### Global Filters
-
-Apply global filters to segment funnel analysis:
-
-**Example segments:**
-- Mobile users only
-- Traffic from Google Ads
-- Spanish visitors
-- First-time visitors
-
-### Comparing Segments
-
-1. Apply segment filter (e.g., Mobile)
-2. Note funnel metrics
-3. Remove filter, apply different segment (e.g., Desktop)
-4. Compare drop-off rates per step
-
-### Date Range
-
-Funnel respects the selected date range:
-- Users must complete steps within the date range
-- Useful for campaign-specific analysis
-- Compare different time periods
-
-## Use Cases
-
-### Checkout Optimization
-
-1. Select checkout funnel
-2. Identify step with highest drop-off
-3. Common findings:
-   - Cart → Checkout: Add guest checkout
-   - Checkout → Payment: Add payment methods
-   - Payment → Confirmation: Improve trust signals
-
-### Lead Form Analysis
-
-1. Create funnel: Page View → Form Start → Field 1 → ... → Submit
-2. Identify where users abandon
-3. Optimize:
-   - Reduce required fields
-   - Improve field labels
-   - Add progress indicator
-
-### Mobile vs Desktop Comparison
-
-1. Filter by Mobile
-2. Note overall conversion rate
-3. Filter by Desktop
-4. Compare:
-   - If Mobile significantly lower, prioritize mobile UX
-   - Identify which step has biggest gap
-
-### Campaign Effectiveness
-
-1. Filter by campaign UTMs
-2. Analyze funnel progression
-3. Compare campaigns:
-   - Same funnel entry, different completion?
-   - Traffic quality varies by campaign
-
-### A/B Test Validation
-
-1. Define same funnel for test and control
-2. Filter by test variant (via UTM or custom property)
-3. Compare funnel metrics
-4. Statistical significance if sample size adequate
-
-## Funnel Configuration
-
-### Creating a New Funnel
-
-1. Go to Settings → Funnels
-2. Click **Create Funnel**
-3. Enter funnel name
-4. Add steps (minimum 2):
-   - Step 1: Entry point
-   - Step 2-N: Progression steps
-   - Final step: Conversion goal
-5. Save
-
-### Editing Funnels
-
-1. Go to Settings → Funnels
-2. Click funnel name
-3. Modify steps
-4. Save changes
-
-Note: Historical data recalculates based on new definition.
-
-### Deleting Funnels
-
-1. Go to Settings → Funnels
-2. Click delete icon
-3. Confirm deletion
-
-Warning: This removes the funnel from reports.
-
-## Best Practices
-
-### Funnel Design
-
-| Do | Don't |
-|----|-------|
-| Keep steps sequential | Skip logical steps |
-| Use 3-6 steps | Create 10+ step funnels |
-| Name steps clearly | Use technical names |
-| Match real user journey | Create artificial paths |
-
-### Step Granularity
-
-- Too few steps: Miss where drop-off occurs
-- Too many steps: Overwhelming, hard to act on
-- Right balance: 4-6 steps for most funnels
-
-### Multiple Funnels
-
-Create separate funnels for:
-- Different user journeys (new vs returning)
-- Different products/services
-- Different entry points
+- **Country selector** — recalculates the whole funnel for one country (see above).
+- **Global filters** — geography and device filters from the [filter bar](/reports/filters) apply to the funnel.
+- **Table filters** — use the **filter builder** on the Funnel by UTM table to narrow rows by Source, Medium, Campaign, Term, Entrances or Page Views.
+- **Date range** — the funnel respects the selected [date range](/reports/date-range); events must occur within the period.
 
 ## Export
 
-Click **Export** to download:
-- All funnel step data
-- Users and rates per step
-- Respects active filters
-- CSV format
+Click **Export** to download the Funnel by UTM data:
+
+- Columns: Source, Medium, Campaign, Term, Entrances, Page Views, plus a column per microconversion type and per conversion type (count and revenue)
+- Respects the active country and table filters
+- Available as CSV and PDF
+
+## Analyzing the funnel
+
+1. Look for the step with the largest drop-off — that's where you're losing the most potential customers.
+2. Use the country selector to check whether the leak is concentrated in specific markets.
+3. Use the Funnel by UTM table to see whether certain campaigns convert through the journey better than others.
+
+| Transition | Common issues to investigate |
+|------------|------------------------------|
+| View Product → Add to Cart | Pricing, product page clarity, stock |
+| Add to Cart → Begin Checkout | Shipping costs, unexpected fees, account-required friction |
+| Begin Checkout → Purchase | Payment options, trust signals, checkout length |

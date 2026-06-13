@@ -98,11 +98,17 @@ sealmetrics.conv('lead', 0, {
 
 ## Property Limits
 
+The JavaScript tracker does not truncate individual property names or values. The only hard limit enforced by the `/event` endpoint is the **total request body size of 15 KB**. If the encoded payload (including properties) exceeds 15 KB, the request is silently dropped (the endpoint returns `204` and no event is recorded).
+
 | Attribute | Limit |
 |-----------|-------|
-| Property name max length | 100 characters |
-| Property value max length | 500 characters |
-| Total payload max | 64KB |
+| Total request body (all fields + properties) | 15 KB |
+| Property name length | No tracker-side limit (keep names short and stable) |
+| Property value length | No tracker-side limit (must fit within the 15 KB body) |
+
+:::note
+A 500-character truncation applies to product fields (`product_name`, `sku`, `product_id`) on **server-side Shopify conversions** sent via the Shopify webhook integration — it does **not** apply to properties sent by the JavaScript tracker.
+:::
 
 ## Reserved Properties
 

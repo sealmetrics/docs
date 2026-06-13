@@ -1,408 +1,153 @@
 ---
 sidebar_position: 2
 title: Email Alerts
-description: Configure real-time email notifications for anomalies and important changes.
+description: Configure email notifications for LENS insights and the weekly digest.
 ---
 
 # Email Alerts
 
-Receive instant notifications when LENS detects anomalies or important changes in your data.
+LENS notifies you by email when it detects important insights, and can send a weekly digest summarizing the week. Email is the only notification channel for LENS.
 
-## Alert Types
+## What LENS Sends
 
-### Anomaly Alerts
+LENS sends two kinds of email:
 
-Triggered when detection rules fire:
+### Insight Notifications
 
-```
-🔴 CRITICAL: Conversion Rate Drop Detected
-
-Your conversion rate dropped 35% in the last 4 hours.
-
-Current:  1.2% (was 1.85%)
-Change:   -35.1%
-Detected: 2024-01-15 14:32 UTC
-
-Affected segments:
-• Mobile traffic: -42%
-• Google Ads: -28%
-
-[View in Dashboard] [Investigate] [Dismiss]
-```
-
-### Threshold Alerts
-
-Triggered when metrics cross defined thresholds:
+When LENS detects a new insight, it can email the configured recipients. Each insight has a severity, and you choose which severities trigger an email (see [Configuring Notifications](#configuring-notifications)).
 
 ```
-⚠️ WARNING: Daily Revenue Below Target
-
-Today's revenue is tracking 30% below your daily target.
-
-Target:   €5,000
-Current:  €3,450 (as of 6 PM)
-Gap:      €1,550
-
-Projected end-of-day: €4,200
-
-[View Details]
-```
-
-### System Alerts
-
-Triggered by technical issues:
-
-```
-🔧 SYSTEM: Tracking Issues Detected
-
-We've detected potential tracking issues:
-
-• Pixel errors increased 500% in the last hour
-• 12% of sessions have missing page data
-• JavaScript errors on /checkout page
-
-[Investigate] [View Technical Details]
-```
-
-## Configuring Alerts
-
-### Global Alert Settings
-
-1. Go to **Settings → Notifications**
-2. Configure email preferences:
-
-```
-Email Alerts
-────────────────────────────────
-
-Primary email: you@company.com
-Additional emails: + Add email
-
-Alert frequency:
-● Real-time (as detected)
-○ Hourly digest
-○ Daily digest
-
-Severity filter:
-☑ Critical
-☑ High
-☑ Medium
-☐ Low (informational)
-
-Quiet hours:
-☑ Enable quiet hours
-   From: 10:00 PM  To: 7:00 AM
-   Timezone: Europe/Madrid
-
-   During quiet hours:
-   ○ Hold all alerts
-   ● Hold non-critical only
-```
-
-### Per-Rule Alert Settings
-
-Customize alerts for specific rules:
-
-1. Go to **LENS → Rules**
-2. Click on a rule
-3. Scroll to **Alert Settings**
-
-```
-Rule: conversion_rate_drop
-
-Alert when triggered:
-☑ Send email alert
-☑ Send Slack notification
-☐ Send webhook
-
-Recipients:
-+ marketing@company.com
-+ alerts@company.com
-
-Custom message:
-"Conversion rate dropped - please investigate immediately"
-
-Escalation:
-☑ Escalate if not acknowledged in 2 hours
-   Escalate to: manager@company.com
-```
-
-## Alert Email Format
-
-### Standard Format
-
-```
-From: LENS <alerts@sealmetrics.com>
+From: SealMetrics LENS
 Subject: 🔴 [Critical] Conversion Rate Drop - My Store
 
-────────────────────────────────────────
-
-ANOMALY DETECTED
-
-Rule: conversion_rate_drop
-Severity: Critical
-Account: My Store
-
-────────────────────────────────────────
-
-DETAILS
-
-Metric: Conversion Rate
-Current Value: 1.2%
-Baseline: 1.85%
-Change: -35.1%
-
-Time Detected: January 15, 2024 at 2:32 PM UTC
-Comparison Period: Previous 7 days
-
-────────────────────────────────────────
-
-BREAKDOWN
-
-By Device:
-• Mobile: 0.8% (was 1.4%) ↓ 43%
-• Desktop: 1.5% (was 1.9%) ↓ 21%
-
-By Source:
-• Google Ads: 1.0% (was 1.6%) ↓ 38%
-• Organic: 1.3% (was 1.7%) ↓ 24%
-
-────────────────────────────────────────
-
-SUGGESTED ACTIONS
-
-1. Check for recent website changes
-2. Verify checkout flow is working
-3. Review landing page performance
-
-────────────────────────────────────────
-
-[View in Dashboard]  [Investigate]  [Dismiss]
-
-────────────────────────────────────────
-You received this alert because you're subscribed
-to LENS alerts for My Store.
-
-Manage preferences: https://my.sealmetrics.com/settings/notifications
-```
-
-### Digest Format
-
-When using hourly or daily digest:
-
-```
-Subject: LENS Daily Digest - 3 anomalies detected
-
-────────────────────────────────────────
-LENS DAILY DIGEST
-January 15, 2024
-────────────────────────────────────────
-
-SUMMARY
-
-Total anomalies: 3
-• Critical: 1
-• High: 1
-• Medium: 1
-
-────────────────────────────────────────
-
-🔴 CRITICAL
+──────────────────────────────────────
+My Store
 
 Conversion Rate Drop
-Detected at 2:32 PM
-Change: -35%
-Status: Unacknowledged
-[View Details]
 
-────────────────────────────────────────
+Your conversion rate dropped 35% this period.
 
-🟡 HIGH
+Estimated impact: ~€2,100
 
-Traffic Spike - Direct
-Detected at 4:15 PM
-Change: +120%
-Status: Acknowledged
-[View Details]
+Recommendation:
+Check the checkout flow and any recent
+deployments affecting mobile.
 
-────────────────────────────────────────
-
-🔵 MEDIUM
-
-New Traffic Source Detected
-Detected at 11:00 AM
-Source: tiktok.com
-Status: Acknowledged
-[View Details]
-
-────────────────────────────────────────
-
-[View All in Dashboard]
+[View in Dashboard]
+──────────────────────────────────────
 ```
 
-## Managing Alert Fatigue
+The email includes the insight title, description, an optional recommendation, the estimated economic impact when available, and a link into the dashboard.
 
-### Smart Grouping
+### Weekly Digest
 
-LENS automatically groups related alerts:
+LENS can send a weekly digest email summarizing the week. The digest includes:
 
-```
-🟡 Multiple Related Anomalies Detected
-
-LENS detected 4 related anomalies that may have
-a common cause:
-
-1. Conversion rate dropped 25%
-2. Add-to-cart rate dropped 20%
-3. Mobile traffic dropped 30%
-4. Page load time increased 40%
-
-Likely cause: Performance degradation affecting
-mobile users.
-
-[Investigate Together]
-```
-
-### Alert Cooldown
-
-Prevent repeated alerts for the same issue:
-
-- **Default cooldown:** 4 hours
-- After an alert fires, same rule won't fire again for 4 hours
-- Cooldown resets when metric returns to normal
-
-Configure per rule in **LENS → Rules → [Rule] → Cooldown Period**.
-
-### Severity-Based Filtering
-
-Only receive alerts above certain severity:
+- A short summary of the week
+- Highlights
+- Concerns
+- Opportunities
+- Recommended actions
+- A link to open LENS in the dashboard
 
 ```
-Receive alerts for:
-☑ Critical - Immediate attention required
-☑ High - Review within hours
-☐ Medium - Review when convenient
-☐ Low - Informational only
+From: SealMetrics LENS
+Subject: Weekly LENS Digest - My Store (Jan 8 - Jan 14, 2024)
+
+──────────────────────────────────────
+WEEKLY DIGEST
+Jan 8 - Jan 14, 2024
+──────────────────────────────────────
+
+SUMMARY
+Revenue grew 15% week-over-week, but mobile
+conversion rate slipped and needs attention.
+
+HIGHLIGHTS
+• Email marketing revenue up 22%
+• Year-over-year revenue growth holding strong
+
+CONCERNS
+• Mobile conversion rate down 15%
+• Cart abandonment up 5 points
+
+OPPORTUNITIES
+• Scale email marketing investment
+
+RECOMMENDED ACTIONS
+• Investigate mobile performance
+• Review the cart abandonment flow
+
+[View in Dashboard]
+──────────────────────────────────────
 ```
 
-### Time-Based Rules
+## Insight Severity
 
-Different behavior during different times:
+Every insight has a severity that determines its color and whether it triggers an email, depending on your settings:
 
-```
-Business Hours (9 AM - 6 PM):
-• Real-time alerts for all severities
+| Severity | Meaning |
+|----------|---------|
+| 🔴 **Red** (Critical) | Urgent issues requiring immediate attention |
+| 🟡 **Yellow** (Warning) | Notable changes worth reviewing |
+| 🟢 **Green** (Info) | Positive trends and opportunities |
 
-Outside Business Hours:
-• Real-time for Critical only
-• Digest for High/Medium next morning
-```
+## Insight Types
 
-## Alert Actions
+The insights LENS can surface are not limited to anomalies. They include:
 
-### From Email
+| Type | Description |
+|------|-------------|
+| **Anomaly** | An unusual change versus expected behavior |
+| **Opportunity** | A potential area for improvement |
+| **Trend** | A directional change over time |
+| **Alert** | A condition that crossed a defined threshold |
+| **Health** | A check on the overall health of tracking or performance |
 
-Each alert email includes action buttons:
+## Configuring Notifications
 
-| Action | Description |
-|--------|-------------|
-| **View in Dashboard** | Open LENS in browser |
-| **Investigate** | Start guided investigation |
-| **Acknowledge** | Mark as seen, stop escalation |
-| **Dismiss** | Mark as false positive |
-| **Snooze** | Pause alerts for this rule temporarily |
+LENS notification settings live in the dashboard under **Settings → LENS**.
 
-### Quick Actions via Reply
+:::note
+**Settings → LENS** controls LENS insights and email notifications. This is different from configuring the AI assistant's model provider, which lives under **My Account → LLM Providers**. Don't confuse the two.
+:::
 
-Some actions available by replying:
+The LENS settings page has two areas: analysis and email notifications.
 
-- Reply "ACK" to acknowledge
-- Reply "DISMISS" to dismiss
-- Reply "SNOOZE 24H" to snooze
+### Analysis
 
-## Slack Integration
+| Setting | Description |
+|---------|-------------|
+| **Enable LENS** | When disabled, no new insights are generated for the site. |
+| **Analysis Frequency** | How often LENS analyzes the site: **Daily** (runs once per day at 4:00 AM plus proactive checks every 2 hours), **Weekly** (Mondays at 4:00 AM), or **Manual only** (insights are only generated when triggered manually). |
 
-Send alerts to Slack alongside email:
+### Email Notifications
 
-### Setup
+| Setting | Description |
+|---------|-------------|
+| **Enable email notifications** | Send email when new insights are detected. |
+| **Notify on Critical (red)** | Email when a red-severity insight is detected. |
+| **Notify on Warning (yellow)** | Email when a yellow-severity insight is detected. |
+| **Notify on Info (green)** | Email when a green-severity insight is detected. |
+| **Email Recipients** | A list of email addresses to notify. Leave empty to use the account owner's email. |
 
-1. Go to **Settings → Integrations → Slack**
-2. Click **Connect to Slack**
-3. Select workspace and channel
-4. Authorize Sealmetrics
+Email is only sent when LENS is enabled, email notifications are enabled, and the insight's severity is one you've opted into.
 
-### Slack Alert Format
+## Frequently Asked Questions
 
-```
-┌─────────────────────────────────────────────┐
-│ 🔴 Conversion Rate Drop Detected            │
-├─────────────────────────────────────────────┤
-│                                             │
-│ Your conversion rate dropped 35%            │
-│                                             │
-│ Current: 1.2%                               │
-│ Baseline: 1.85%                             │
-│ Detected: 2:32 PM UTC                       │
-│                                             │
-│ [Investigate] [Acknowledge] [Dismiss]       │
-│                                             │
-└─────────────────────────────────────────────┘
-```
+### Can LENS send alerts to Slack or a webhook?
 
-## Webhook Alerts
+No. LENS notifications are delivered by email only.
 
-Receive alerts via webhook for custom integrations:
+### How many recipients can I add?
 
-### Configuration
+You can add a list of email addresses per site. If you leave the list empty, LENS uses the account owner's email.
 
-1. Go to **Settings → Integrations → Webhooks**
-2. Click **Add Webhook**
-3. Enter URL and secret
+### Why am I not receiving emails?
 
-### Webhook Payload
+Check, in **Settings → LENS**, that:
 
-```json
-{
-  "event": "anomaly.detected",
-  "timestamp": "2024-01-15T14:32:00Z",
-  "anomaly": {
-    "id": "anom_abc123",
-    "rule_id": "conversion_rate_drop",
-    "severity": "critical",
-    "account_id": "acc_xyz789",
-    "metric": {
-      "name": "conversion_rate",
-      "current_value": 0.012,
-      "baseline_value": 0.0185,
-      "change_percentage": -35.1
-    },
-    "segments": {
-      "device": {"mobile": -42, "desktop": -21},
-      "source": {"google_ads": -38, "organic": -24}
-    }
-  },
-  "links": {
-    "dashboard": "https://my.sealmetrics.com/lens/anomaly/anom_abc123",
-    "investigate": "https://my.sealmetrics.com/lens/investigate/anom_abc123"
-  }
-}
-```
-
-### Webhook Security
-
-Verify webhook authenticity:
-
-```python
-import hmac
-import hashlib
-
-def verify_webhook(payload, signature, secret):
-    expected = hmac.new(
-        secret.encode(),
-        payload.encode(),
-        hashlib.sha256
-    ).hexdigest()
-    return hmac.compare_digest(signature, expected)
-```
-
-The signature is in the `X-Sealmetrics-Signature` header.
+1. LENS is enabled for the site.
+2. Email notifications are enabled.
+3. The severity of the insights you expect is switched on (Critical / Warning / Info).
+4. Your email address is in the recipients list (or the account owner's email is the one you're checking).

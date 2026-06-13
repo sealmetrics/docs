@@ -11,21 +11,20 @@ Privacy-first, cookieless analytics for Squarespace websites and Squarespace Com
 ## Installation
 
 1. Go to **Settings > Advanced > Code Injection**
-2. Paste the tracking script in the **Header** section
-3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Site ID
+2. Paste the entire contents of `sealmetrics-squarespace.js` (wrapped in `<script>` tags) in the **Header** section
+3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
 4. Click **Save** and **Publish**
 
 ## Configuration
 
-```html
-<script>
+Edit these values at the top of the pasted script:
+
+```javascript
 // Required: Your SealMetrics Account ID
 var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
 
 // Optional: Track contact forms as lead conversions (default: false)
 var SEALMETRICS_CONTACT_AS_LEAD = false;
-</script>
-<script src="https://cdn.sealmetrics.com/squarespace/sealmetrics-squarespace.js" async></script>
 ```
 
 ## Automatic Events
@@ -33,16 +32,8 @@ var SEALMETRICS_CONTACT_AS_LEAD = false;
 | Event | Description |
 |-------|-------------|
 | `pageview` | All page views with content grouping |
-| `form_submit` | Form block submissions |
+| `form_submit` | Form block submissions (non-newsletter) |
 | `newsletter_signup` | Newsletter block submissions |
-| `cta_click` | Button block clicks |
-| `outbound_click` | External link clicks |
-| `file_download` | PDF, ZIP, DOC downloads |
-| `scroll_depth` | 25%, 50%, 75%, 100% scroll |
-| `video_play` | Video starts |
-| `video_complete` | Video ends |
-| `gallery_click` | Gallery item clicks |
-| `lightbox_open` | Lightbox opens |
 
 ## Squarespace Commerce Events
 
@@ -89,14 +80,6 @@ Automatically detected and tracked as `newsletter_signup`:
 ### Contact Forms
 
 Tracked as `form_submit` or `lead` (if configured)
-
-## Button Tracking
-
-Button blocks are automatically tracked. Add `data-track` for custom tracking:
-
-```html
-<a href="/signup" class="cta-button" data-track="hero-cta">Get Started</a>
-```
 
 ## Custom Events
 

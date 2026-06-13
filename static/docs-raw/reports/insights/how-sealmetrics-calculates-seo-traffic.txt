@@ -13,26 +13,17 @@ This document explains how SEO (organic search) traffic is detected and how we a
 
 Sealmetrics attributes a visit to **SEO traffic** when the following two conditions are true:
 
-### ✅ **Condition 1: The referrer is Google**
+### ✅ **Condition 1: The referrer is a recognized search engine**
 
-Recognized Google domains include:
-
-- google.com  
-- google.\<country\> (e.g., google.es, google.fr, google.de)  
-- googleusercontent.com  
-- googleapis.com  
-
-Any hit from a Google domain *may* be considered SEO traffic.
+Sealmetrics classifies the referrer using configurable referrer mapping tables rather than a hardcoded list of domains. When the referrer domain matches a mapping entry categorized as organic search (for example, Google), the hit may be considered SEO traffic.
 
 ### ❌ **Condition 2: No advertising parameters are present**
 
 If the landing URL contains **any** of the following parameters, it is *not* SEO traffic:
 
 - `gclid` (Google Ads auto-tagging)
-- `gad`
-- `gbraid`
-- `wbraid`
-- Newly introduced Google Ads identifiers
+- `gbraid` (Google Ads, iOS)
+- `wbraid` (Google Ads, web-to-app)
 - Any `utm_` parameter (utm_source, utm_medium, utm_campaign, utm_term, etc.)
 
 ### 🟦 **If BOTH conditions are met → Sealmetrics classifies the hit as SEO traffic**
@@ -58,7 +49,7 @@ For misclassification to happen, TWO things must occur simultaneously:
 2. The landing URL must contain *no* advertising identifiers:
 
    - No `gclid`
-   - No `gad`, `gbraid`, or `wbraid`
+   - No `gbraid` or `wbraid`
    - No `utm_source`, `utm_medium`, etc.
    - No value-track parameters from templates
 
@@ -66,7 +57,7 @@ For misclassification to happen, TWO things must occur simultaneously:
 
 - Google Ads **auto-tagging almost always adds `gclid`**  
 - Manual UTM tagging is standard practice  
-- Google continuously introduces new ad identifiers, all of which Sealmetrics detects  
+- Sealmetrics detects the established Google Ads click identifiers (`gclid`, `gbraid`, `wbraid`)  
 
 ### Result:  
 If **any** ad-related parameter exists → Sealmetrics classifies the hit as **Paid Traffic**, not SEO.

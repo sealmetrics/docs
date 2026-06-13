@@ -17,9 +17,14 @@ List endpoints return paginated results to handle large datasets efficiently.
 | Parameter | Type | Default | Range | Description |
 |-----------|------|---------|-------|-------------|
 | `page` | integer | `1` | 1+ | Page number (1-indexed) |
-| `page_size` | integer | `50` | 1-1000 | Items per page |
+| `page_size` | integer | `50` | 1-1000 | Items per page (see per-endpoint maximum below) |
 
 **Note:**
+
+- **Up to 1000:** `/stats/pages`, `/stats/geo/countries`, `/stats/landing-pages`, `/stats/properties/values`
+- **Up to 100:** `/stats/sources`, `/stats/mediums`, `/stats/campaigns`, `/stats/terms`, `/stats/contents`, `/stats/referrers`, `/stats/channels`, `/stats/conversions`, `/stats/microconversions`
+
+Requesting a `page_size` above an endpoint's maximum returns a `422` validation error.
 
 ### Response Format
 
@@ -79,7 +84,7 @@ Control the order of results with `sort_by` and `sort_order` parameters.
 
 #### Traffic Endpoints
 
-For `/stats/pages`, `/stats/sources`, `/stats/campaigns`, `/stats/mediums`, `/stats/terms`, `/stats/contents`, `/stats/referrers`, `/stats/geo/countries`:
+For `/stats/sources`, `/stats/campaigns`, `/stats/mediums`, `/stats/terms`, `/stats/contents`, `/stats/referrers`, `/stats/geo/countries`:
 
 | Field | Description |
 |-------|-------------|
@@ -91,15 +96,14 @@ For `/stats/pages`, `/stats/sources`, `/stats/campaigns`, `/stats/mediums`, `/st
 
 #### Page Endpoints
 
-For `/stats/pages`:
+For `/stats/pages`, only two sort fields are accepted:
 
 | Field | Description |
 |-------|-------------|
 | `page_views` | Page views (default) |
 | `entrances` | Entry points to this page |
-| `engaged_entrances` | Engaged entries |
-| `conversions` | Conversions on this page |
-| `revenue` | Revenue from this page |
+
+Other values (such as `conversions`, `revenue`, or `engaged_entrances`) return a `422` validation error on this endpoint.
 
 #### Conversion Endpoints
 
@@ -126,9 +130,9 @@ For `/stats/microconversions`:
 GET /stats/sources?site_id=my-site&sort_by=revenue&sort_order=desc
 ```
 
-**Lowest bounce rate pages:**
+**Most-visited pages first:**
 ```http
-GET /stats/pages?site_id=my-site&sort_by=engaged_entrances&sort_order=desc
+GET /stats/pages?site_id=my-site&sort_by=page_views&sort_order=desc
 ```
 
 **Newest conversions first:**

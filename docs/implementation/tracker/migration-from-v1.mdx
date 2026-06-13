@@ -20,7 +20,7 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 | `adin` parameter | Supported | Removed |
 | Cookies | Used | None |
 | localStorage | Used | None |
-| Size | ~15 KB | 1,313 bytes (gzipped) |
+| Size | ~15 KB | ~1,227 bytes (gzipped) |
 
 ## Breaking Changes
 
@@ -121,13 +121,21 @@ sealmetrics({ group: 'blog' });
 
 The `adin` parameter is no longer supported. Ad click IDs are now detected automatically from URL parameters:
 
-| Click ID | Automatically Detected |
-|----------|----------------------|
-| `gclid` (Google Ads) | Yes |
-| `msclkid` (Microsoft Ads) | Yes |
-| `yclid` (Yandex) | Yes |
-| `ttclid` (TikTok) | Yes |
-| `fbclid` (Meta) | No (requires UTM parameters) |
+| Click ID | Platform | Automatically Detected |
+|----------|----------|----------------------|
+| `gclid` | Google Ads | Yes |
+| `gbraid` | Google Ads (iOS) | Yes |
+| `wbraid` | Google Ads (Web-to-App) | Yes |
+| `fbclid` | Meta / Facebook | Yes (mapped to facebook / social) |
+| `msclkid` | Microsoft / Bing Ads | Yes |
+| `yclid` | Yandex | Yes |
+| `ttclid` | TikTok | Yes |
+| `twclid` | Twitter / X | Yes |
+| `li_fat_id` | LinkedIn | Yes |
+| `ScCid` | Snapchat | Yes |
+| `rdt_cid` | Reddit | Yes |
+
+Explicit UTM parameters in the URL always take precedence over the source/medium inferred from a click ID.
 
 ### 6. Global Variable Names
 

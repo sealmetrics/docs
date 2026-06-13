@@ -1,184 +1,124 @@
-# LLM Settings
+# LLM Providers
 
 URL: https://docs.sealmetrics.com/platform/settings/llm
 
-# LLM Settings
+# LLM Providers
 
-Configure which AI model powers your LENS insights. By default, Sealmetrics uses a self-hosted DeepSeek model, but you can configure your own provider for potentially faster responses or specific model preferences.
+Configure which AI model powers the **Lens chat** assistant. LLM Providers is a **per-user, bring-your-own-key (BYOK)** setting: you add your own API key for a provider, and that configuration is used across every site you have access to.
 
-## Accessing LLM Settings
+**Info:**
+Your LLM Providers configuration belongs to **you**, not to a site or organization. The same key is applied to every site you can access, and **only you can see or modify it**. There is no per-account dropdown — other users configure their own keys independently.
 
-1. Click the gear icon to open **Settings**
-2. Click **LLM Settings** in the sidebar
+## Accessing LLM Providers
 
-## Default Configuration
+In the sidebar, open **My Account → LLM Providers** (`/account/llm`).
 
-By default, Sealmetrics uses **DeepSeek Local** via Ollama:
+**Note:**
+**LLM Providers** (My Account) controls which AI model the Lens chat uses, per user.
 
-| Aspect | Details |
-|--------|---------|
-| **Provider** | Self-hosted DeepSeek (via Ollama) |
-| **Cost** | Free (included in your plan) |
-| **Privacy** | Maximum - data never leaves Sealmetrics infrastructure |
-| **API Key** | Not required |
-
-This default configuration provides:
-- Zero API costs
-- Full data privacy (no external API calls)
-- Reliable availability
+**LENS Settings** (at `/settings/lens`) is a separate, per-site setting that controls the automated insights analysis frequency (daily / weekly / manual) and email notifications. Don't confuse the two.
 
 ## Available Providers
 
-| Provider | Type | API Key Required | Best For |
-|----------|------|------------------|----------|
-| **DeepSeek Local** | Self-hosted | No | Default, privacy-focused |
-| **DeepSeek Cloud** | Cloud | Yes | Faster responses |
-| **Anthropic (Claude)** | Cloud | Yes | Complex analysis, nuanced insights |
-| **OpenAI (GPT)** | Cloud | Yes | General-purpose, fast |
-| **Google Gemini** | Cloud | Yes | Multi-modal capabilities |
+LLM Providers is BYOK only — every provider requires your own API key. The self-hosted DeepSeek Local model used by shared infrastructure is **not** available here for the chat.
 
-## Configuring a Custom Provider
+| Provider | API Key Required | Notes |
+|----------|------------------|-------|
+| **Anthropic (Claude)** | Yes | Recommended |
+| **OpenAI (GPT)** | Yes | General-purpose |
+| **DeepSeek Cloud** | Yes | Optional custom base URL |
+| **Google (Gemini)** | Yes | Gemini models |
 
-### Step 1: Click Configure Custom Provider
+Anthropic is the recommended default provider.
 
-If you're using the default, click the **Configure Custom Provider** button.
+## Adding a Provider
 
-### Step 2: Select Provider
+### Step 1: Open the form
 
-Choose your preferred provider from the dropdown. Each provider shows:
-- Name and type (Self-hosted or Cloud)
-- Whether an API key is required
-- Link to obtain an API key
+If you have no providers configured yet, the **Configure LLM Provider** form appears automatically. Otherwise, click **Add Provider**.
 
-### Step 3: Enter API Key (if required)
+### Step 2: Select a provider
 
-For cloud providers, enter your API key:
+Choose a provider from the dropdown. Each provider shows a short description and a link to obtain an API key. The provider can't be changed after a configuration is created — to switch providers, add a new one or remove the existing one.
 
-1. Click the link to get an API key from the provider's website
-2. Copy your API key
-3. Paste it in the API Key field
+### Step 3: Enter your API key
 
-Your API key is encrypted and stored securely.
+All providers here require an API key. Paste it into the **API Key** field (use the eye toggle to reveal it). Your key is encrypted before storage and only the last 4 characters are ever shown afterwards (`****XXXX`).
 
-### Step 4: Configure Model Overrides (Optional)
+For **DeepSeek Cloud**, you can optionally set a custom **Base URL** (defaults to `https://api.deepseek.com/v1`).
 
-You can override the default models for different insight complexity levels:
+### Step 4: Configure model overrides (optional)
 
-| Level | Default Use | Example Override |
-|-------|-------------|------------------|
-| **Simple** | Quick summaries, basic alerts | `gpt-4o-mini` |
-| **Complex** | Trend analysis, recommendations | `gpt-4o` |
-| **Critical** | Executive summaries, strategic insights | `claude-3-opus` |
+You can override the default model used at three complexity levels. Leave a field blank to use the provider's default.
 
-Leave blank to use the provider's default models.
+| Level | Anthropic default | OpenAI default | Gemini default | DeepSeek Cloud default |
+|-------|-------------------|----------------|----------------|------------------------|
+| **Simple** | `claude-3-5-haiku-20241022` | `gpt-4o-mini` | `gemini-2.5-flash` | `deepseek-chat` |
+| **Complex** | `claude-sonnet-4-20250514` | `gpt-4o` | `gemini-2.5-flash` | `deepseek-chat` |
+| **Critical** | `claude-opus-4-20250514` | `gpt-4o` | `gemini-2.5-pro` | `deepseek-chat` |
 
-### Step 5: Test Connection
+Use **Reset to defaults** to clear all overrides.
 
-Before saving, click **Test Connection** to verify:
-- API key is valid
-- Provider is reachable
-- Response latency is acceptable
+### Step 5: Test the connection
 
-A successful test shows:
-- "Connection Successful" message
-- Response latency in milliseconds
+Click **Test Connection** to verify the key and provider are reachable before saving. A successful test shows a "Connection Successful" message with the response latency in milliseconds.
 
-### Step 6: Save Settings
+### Step 6: Save
 
-Click **Save Settings** to apply your configuration.
+Click **Save Settings** to store the configuration.
 
-## Managing Your Configuration
+## Managing Your Configurations
 
-### View Current Settings
+Each configured provider appears as a card showing:
 
-Your configuration card shows:
-- Provider name and type
-- API key status (configured or not required)
-- Enabled/disabled status
-- Model overrides (if any)
-- Custom base URL (if configured)
+- Provider name and whether it's the default
+- API key status (`****XXXX` when configured)
+- Enabled / disabled status
+- Any model overrides
 - Last updated timestamp
 
-### Edit Settings
+From a card you can:
 
-Click **Edit** to modify:
-- Switch providers
-- Update API key
-- Change model overrides
-- Toggle enabled status
+- **Set as Default** — make this provider the one Lens chat uses (only one default at a time)
+- **Edit** — update the API key, model overrides, base URL, or enabled status
+- **Remove** — delete the configuration (if it was the default, another configured provider becomes the default)
 
-### Remove Configuration
+### Enable / disable
 
-Click **Remove** to delete your custom configuration and revert to the default self-hosted DeepSeek.
-
-### Enable/Disable
-
-Use the **Enable Custom Configuration** toggle to:
-- **Enabled**: Use your custom provider
-- **Disabled**: Fall back to default self-hosted DeepSeek
-
-This lets you keep your configuration saved while temporarily using the default.
-
-## Advanced: Base URL Override
-
-For DeepSeek providers, you can specify a custom base URL:
-
-| Provider | Default URL | When to Override |
-|----------|-------------|------------------|
-| DeepSeek Local | `http://ollama:11434/v1` | Custom Ollama installation |
-| DeepSeek Cloud | `https://api.deepseek.com/v1` | Proxy or custom endpoint |
-
-## Multi-Account Configuration
-
-If you manage multiple accounts:
-
-1. Select the account from the dropdown at the top
-2. Configure LLM settings for that specific account
-3. Each account can have its own provider configuration
+Use the **Enable Configuration** toggle when editing a provider. When a configuration is disabled, that provider can't be used by Lens chat, but the saved key is kept so you can re-enable it later.
 
 ## Security
 
 ### API Key Storage
 
-- API keys are encrypted using AES-256-GCM before storage
+- API keys are encrypted at rest before storage
 - Only the last 4 characters are displayed (`****XXXX`)
-- Keys are never logged or exposed in API responses
+- Keys are never returned in API responses or logged
 
 ### Data Privacy
 
-| Provider | Data Sent | Privacy Level |
-|----------|-----------|---------------|
-| DeepSeek Local | None (self-hosted) | Maximum |
-| Cloud Providers | Analytics summaries for insight generation | Standard |
-
-Cloud providers receive aggregated analytics data (not raw events) to generate insights. No personally identifiable information is ever sent.
+When you use a cloud provider, aggregated analytics data (not raw events, no personally identifiable information) is sent to that provider to generate chat responses. Because this is BYOK, the data is processed under your own provider account and API key.
 
 ## Troubleshooting
 
-### "Connection Failed" Error
+### "Connection Failed" on test
 
 1. Verify your API key is correct and active
 2. Check the provider's status page for outages
 3. Ensure your network allows outbound API calls
-4. Try testing with a different provider
+4. Try a different provider
 
-### Slow Response Times
+### "API key is required" when saving
 
-If insights take too long:
-1. Check the test connection latency
-2. Consider switching to a provider with lower latency
-3. Cloud providers are typically faster than self-hosted
+Every provider here requires a key. Get one from:
 
-### "API Key Required" Error
-
-Cloud providers require an API key. Get one from:
-- **Anthropic**: https://console.anthropic.com/
-- **OpenAI**: https://platform.openai.com/api-keys
-- **Google**: https://aistudio.google.com/app/apikey
+- **Anthropic**: https://docs.anthropic.com/
+- **OpenAI**: https://platform.openai.com/docs
+- **Google (Gemini)**: https://ai.google.dev/docs
 - **DeepSeek**: https://platform.deepseek.com/
 
 ## Related Documentation
 
 - [LENS AI Overview](/lens) - How LENS generates insights
-- [AI Assistant](/lens/ai-assistant) - Using the chat interface
+- [AI Assistant](/lens/ai-assistant) - Using the Lens chat interface
 - [Anomaly Detection](/lens/anomaly-detection) - Automated alerts

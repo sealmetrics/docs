@@ -26,9 +26,9 @@ When you track conversions with custom properties (like `product_category`, `pla
 | Control | Description |
 |---------|-------------|
 | **View Mode** | Toggle between Totals (absolute numbers) and Rates (percentages) |
-| **Data Source** | Filter by All Events, Conversions Only, or Microconversions Only |
-| **Property Key** | Select which property to analyze (e.g., `currency`, `plan_type`) |
-| **Export** | Download the current view as CSV |
+| **Data Source** | Toggle between Conversions, Microconversions, and Conv. Items |
+| **Property Key** | Select which property to analyze (e.g., `currency`, `plan_type`). Each option shows its event count |
+| **Export** | Download the current view as CSV or PDF |
 
 ### Property Analysis Table
 
@@ -36,9 +36,11 @@ The main table shows:
 
 | Column | Description |
 |--------|-------------|
-| **Source / Medium / Campaign** | UTM attribution for this row |
-| **Total** | Sum of all events for this UTM combination |
+| **Source / Medium / Campaign** | UTM attribution for this row. In Rates mode, the entrance count is also shown |
+| **Total** / **Share %** | In Totals mode, the sum of all events for this UTM combination. In Rates mode, this column header changes to **Share %** |
 | **[Property Values]** | Dynamic columns for each unique value of the selected property |
+
+A summary above the table shows the selected property key, its number of distinct values, and the total events.
 
 ### Heatmap Visualization
 

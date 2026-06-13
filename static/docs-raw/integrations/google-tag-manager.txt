@@ -141,15 +141,15 @@ Choose what type of event to track:
 | **Microconversion** | Track intermediate actions | Add to cart, form start, video play |
 | **Conversion** | Track completed goals | Purchase, lead form submit, signup |
 
-#### Site ID (Required)
+#### Account ID (Required)
 
-Your Sealmetrics Site ID. Find it in your [Sealmetrics dashboard](https://my.sealmetrics.com) under **Settings**.
+Your Sealmetrics Account ID. Find it in your [Sealmetrics dashboard](https://my.sealmetrics.com) under **Settings**.
 
 **Tip:**
 1. Log in to Sealmetrics
 2. Go to **Settings → Sites**
 3. Click on your site
-4. Your Site ID is displayed in the **General** tab
+4. Your Account ID is displayed in the **General** tab
 
 #### Pixel URL
 
@@ -206,7 +206,7 @@ Track all page loads on your website:
 
 **Tag Configuration:**
 - **Event Type:** Pageview
-- **Site ID:** Your account ID
+- **Account ID:** Your account ID
 - **Content Grouping:** (optional) Use a variable like `{{Page Type}}`
 
 **Trigger:** Initialization — All Pages (`gtm.init`)
@@ -221,7 +221,7 @@ Track completed purchases with order value:
 
 **Tag Configuration:**
 - **Event Type:** Conversion
-- **Site ID:** Your account ID
+- **Account ID:** Your account ID
 - **Event Label:** `purchase`
 - **Conversion Value:** `{{Order Total}}` (Data Layer variable)
 - **Custom Properties:**
@@ -235,7 +235,7 @@ Track when users add products to their cart:
 
 **Tag Configuration:**
 - **Event Type:** Microconversion
-- **Site ID:** Your account ID
+- **Account ID:** Your account ID
 - **Event Label:** `add_to_cart`
 - **Custom Properties:**
   - `product-id` → `{{Product ID}}`
@@ -249,7 +249,7 @@ Track contact form submissions:
 
 **Tag Configuration:**
 - **Event Type:** Conversion
-- **Site ID:** Your account ID
+- **Account ID:** Your account ID
 - **Event Label:** `lead_form_submit`
 
 **Trigger:** Form Submission on contact page
@@ -350,7 +350,7 @@ If you push values to the Data Layer **after** the GTM snippet, those values are
 
 ### No data in Sealmetrics
 
-1. Verify your **Site ID** is correct
+1. Verify your **Account ID** is correct
 2. Check that tags are firing (use Preview mode)
 3. Wait a few minutes — data may take time to appear
 4. Ensure your website domain is registered in Sealmetrics

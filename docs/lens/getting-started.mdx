@@ -20,42 +20,40 @@ Get LENS configured and receiving insights in under 5 minutes.
 2. Click **LENS** in the main navigation
 3. You'll see the LENS overview with any detected anomalies
 
-## Step 2: Configure Alert Preferences
+## Step 2: Connect Your LLM Provider
 
-Set up how and when you want to receive notifications:
+The LENS assistant is **bring-your-own-key (BYOK)**: you connect your own LLM provider API key. This means there is no per-account question quota — you ask as much as you like and pay your provider directly.
 
-1. Go to **LENS → Settings**
-2. Configure your preferences:
+1. Go to **My Account → LLM Providers**
+2. Add an API key for one of the supported providers:
 
-| Setting | Options | Recommendation |
-|---------|---------|----------------|
-| Alert frequency | Real-time, Hourly, Daily | Real-time for critical metrics |
-| Alert channels | Email, Slack, Webhook | Enable at least email |
-| Sensitivity | Low, Medium, High | Start with Medium |
-| Quiet hours | Time range | Set business hours only |
+| Provider | Default model |
+|----------|---------------|
+| Anthropic | `claude-sonnet-4` |
+| OpenAI | `gpt-4o` |
+| DeepSeek | `deepseek-chat` |
+| Google Gemini | `gemini-2.5-flash` |
 
-3. Click **Save Preferences**
+3. Mark one provider as your default and save
 
-## Step 3: Review Active Rules
+## Step 3: Review LENS Insights
 
-LENS comes with pre-configured rules based on your plan:
+LENS analyzes your data on a configurable cadence and generates insights automatically:
 
-1. Go to **LENS → Rules**
-2. Review the active rules
-3. Toggle off any rules that aren't relevant to your business
+1. Go to **LENS** in the main navigation
+2. Review the detected insights
 
-### Recommended Starting Rules
+LENS produces five types of insight, so it's not just about anomalies:
 
-For e-commerce:
-- ✅ `conversion_rate_drop` - Alert when CR drops >20%
-- ✅ `revenue_anomaly` - Alert on unusual revenue changes
-- ✅ `traffic_drop_significant` - Alert when traffic drops >30%
-- ✅ `source_performance_change` - Alert on traffic source changes
+| Type | What it means |
+|------|---------------|
+| Anomaly | An unexpected change in a metric |
+| Opportunity | A potential improvement worth acting on |
+| Trend | A significant directional change over time |
+| Alert | A warning that needs attention |
+| Health | A tracking or data-quality issue |
 
-For lead generation:
-- ✅ `form_submission_drop` - Alert when form fills decrease
-- ✅ `traffic_quality_change` - Alert on bounce rate spikes
-- ✅ `campaign_ctr_anomaly` - Alert on CTR changes
+The launch set ("LENS Basic") includes around 25 active rules covering traffic drops and spikes, conversion drops, tracking health, device and landing-page performance, channel efficiency, and source-concentration risk — all without requiring e-commerce or microconversion setup.
 
 ## Step 4: Ask Your First Question
 
@@ -80,23 +78,19 @@ Try the AI assistant:
 
 **Less helpful:** *"Why is traffic down?"*
 
-## Step 5: Schedule Your First Report
+## Step 5: Review Your LENS Reports
 
-Set up automated reporting:
+LENS produces **weekly** and **monthly** reports — an executive summary plus key metrics, channel performance, top insights and action items. Reports are generated for a completed period (there are no custom templates or per-report recipient lists).
 
 1. Go to **LENS → Reports**
-2. Click **Create Report**
-3. Choose a template:
-   - **Executive Summary** - High-level KPIs and trends
-   - **Traffic Analysis** - Detailed traffic breakdown
-   - **Conversion Report** - Conversion funnel analysis
-4. Set the schedule (daily, weekly, monthly)
-5. Add recipients
-6. Click **Activate**
+2. Open the latest weekly or monthly report
+3. To receive a recurring summary by email, enable email notifications and set the analysis frequency in **Settings → LENS** (`daily`, `weekly`, or `manual`)
 
-## Understanding LENS Anomalies
+See [LENS Reports](/lens/reports/) for what each report contains.
 
-When LENS detects an anomaly, you'll see:
+## Understanding LENS Insights
+
+When LENS detects an insight, you'll see something like this (here, an anomaly):
 
 ```
 🔴 HIGH PRIORITY
@@ -115,7 +109,7 @@ Affected segment: All traffic
 [View Details] [Investigate] [Dismiss]
 ```
 
-### Anomaly Severity Levels
+### Insight Severity Levels
 
 | Level | Icon | Meaning | Action |
 |-------|------|---------|--------|
@@ -141,20 +135,7 @@ Affected segment: All traffic
   }}>
     <strong style={{ color: '#00825C' }}>Explore All Rules</strong>
     <p style={{ margin: '0.5rem 0 0', fontSize: '0.85rem' }}>
-      See the full catalog of 60+ detection rules.
-    </p>
-  </a>
-  <a href="./anomaly-detection/custom-rules" style={{
-    display: 'block',
-    border: '1px solid #e0e0e0',
-    borderRadius: '8px',
-    padding: '1rem',
-    textDecoration: 'none',
-    color: 'inherit'
-  }}>
-    <strong style={{ color: '#00825C' }}>Create Custom Rules</strong>
-    <p style={{ margin: '0.5rem 0 0', fontSize: '0.85rem' }}>
-      Build rules specific to your business.
+      See the active LENS Basic rules across all 11 categories.
     </p>
   </a>
   <a href="./ai-assistant/best-practices" style={{
@@ -179,21 +160,17 @@ Affected segment: All traffic
 This is normal if:
 - Your account is new (less than 7 days of data)
 - Your traffic patterns are stable
-- Detection sensitivity is set too low
+- LENS hasn't run its next analysis yet for the configured cadence
 
-Try adjusting sensitivity in **LENS → Settings**.
+### "Assistant not responding"
 
-### "Question limit reached"
+The assistant needs a working LLM provider key. Check:
+1. You've added an API key in **My Account → LLM Providers**
+2. A default provider is selected and enabled
+3. The key is still valid and hasn't expired or hit your provider's own rate limit
 
-You've used all AI questions for the month. Options:
-- Wait for the monthly reset
-- Upgrade your plan for more questions
-- Purchase a question pack add-on
-
-### Alerts not arriving
+### Email summaries not arriving
 
 Check:
 1. Email notifications are enabled in account settings
-2. Alerts aren't going to spam
-3. Quiet hours aren't blocking notifications
-4. At least one alert channel is configured
+2. Messages aren't going to spam

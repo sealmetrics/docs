@@ -14,7 +14,7 @@ If you're using WooCommerce, use the [WooCommerce plugin](/integrations/ecommerc
 
 ## Requirements
 
-- WordPress 5.0+
+- WordPress 5.8+
 - PHP 7.4+
 
 ## Installation
@@ -43,7 +43,14 @@ Download the latest version of the SealMetrics WordPress plugin:
 |---------|-------------|
 | **Account ID** | Your SealMetrics Account ID (required) |
 | **Pixel URL** | Custom pixel domain for first-party tracking (optional) |
-| **Track Contact Forms as Leads** | Convert contact form submissions to lead conversions |
+| **Search Tracking** | Track search queries as microconversions (default on) |
+| **404 Tracking** | Track 404 errors as microconversions (default on) |
+| **Author Tracking** | Include author name in post properties (default off) |
+| **Contact Forms as Lead** | Track contact form submissions as conversions (default on) |
+| **Contact Form 7** | Track Contact Form 7 submissions (default on) |
+| **Gravity Forms** | Track Gravity Forms submissions (default on) |
+| **WPForms** | Track WPForms submissions (default on) |
+| **Elementor Forms** | Track Elementor form submissions (default on) |
 
 ## Tracked Events
 
@@ -89,8 +96,6 @@ The plugin automatically tracks forms from these popular plugins:
 - Gravity Forms
 - WPForms
 - Elementor Forms
-- Ninja Forms
-- Formidable Forms
 - Generic HTML forms
 
 ### Newsletter Detection
