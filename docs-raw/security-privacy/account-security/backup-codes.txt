@@ -25,37 +25,21 @@ Use a backup code when:
 
 ## Viewing Your Backup Codes
 
-1. Go to **Settings → Security**
-2. Under **Two-Factor Authentication**, click **View Backup Codes**
-3. Enter your current 2FA code to confirm identity
+Backup codes are shown **only once** — when you first enable 2FA, and again each time you regenerate them. For security, Sealmetrics does not let you re-view an existing set later.
+
+In **My Account → Security**, the **Two-Factor Authentication** section shows how many codes you have left (for example, "8 of 10 codes remaining"), but it does not list the codes themselves or which specific codes were used.
 
 ```
-Your Backup Codes
+Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-These codes can be used to access your account
-if you lose your authenticator device.
+Backup Codes
+8 of 10 codes remaining
 
-⚠️ Each code can only be used once.
-
-Available codes (8 remaining):
-┌─────────────────────────────────────────┐
-│  mno90-pqr12                            │
-│  stu34-vwx56                            │
-│  yza78-bcd90                            │
-│  efg12-hij34                            │
-│  klm56-nop78                            │
-│  qrs90-tuv12                            │
-│  wxy34-zab56                            │
-│  cde78-fgh90                            │
-└─────────────────────────────────────────┘
-
-Used codes:
-  • abc12-def34 (used January 10, 2024)
-  • ghi56-jkl78 (used January 12, 2024)
-
-[Download as Text] [Copy All] [Regenerate Codes]
+[Regenerate Codes]
 ```
+
+If you can't find the codes you saved, generate a new set with **Regenerate Codes** (see below).
 
 ## Using a Backup Code
 
@@ -83,17 +67,7 @@ Enter backup code:
 
 ### After Using a Code
 
-```
-✅ Signed in successfully
-
-You used backup code ending in ...r12
-
-Remaining backup codes: 7 of 10
-
-⚠️ Consider regenerating your codes soon.
-
-[Regenerate Now] [Remind Me Later]
-```
+Once a backup code is used, it can't be used again. The remaining-codes count in **My Account → Security** decreases accordingly. When you're running low, regenerate a fresh set so you always have codes available.
 
 ## Regenerating Codes
 
@@ -104,9 +78,9 @@ Generate new codes when:
 
 ### How to Regenerate
 
-1. Go to **Settings → Security → Two-Factor Authentication**
-2. Click **Regenerate Codes**
-3. Enter your current 2FA code
+1. Go to **My Account → Security**
+2. In **Two-Factor Authentication**, click **Regenerate Codes**
+3. Enter your current 6-digit 2FA code
 4. Save the new codes
 
 ```
@@ -177,49 +151,9 @@ Save these new codes securely.
 - ❌ Store in same place as password
 - ❌ Share with others
 
-## Code Format
-
-Backup codes follow this format:
-
-```
-xxxxx-yyyyy
-
-Where:
-  x = lowercase letter or number
-  y = lowercase letter or number
-
-Example: abc12-def34
-```
-
-Codes are case-insensitive (abc12-def34 = ABC12-DEF34).
-
 ## Running Low on Codes
 
-### Warning at 3 Remaining
-
-When you have 3 or fewer codes left:
-
-```
-⚠️ Low Backup Codes Warning
-
-You only have 3 backup codes remaining.
-
-We recommend regenerating your codes to
-ensure you always have access to your account.
-
-[Regenerate Now] [Dismiss]
-```
-
-### Warning at Login
-
-If you sign in with a backup code and few remain:
-
-```
-⚠️ Only 2 backup codes remaining
-
-You should regenerate your codes soon to
-avoid losing access to your account.
-```
+There's no automatic alert when you're down to your last few codes. Check the remaining count in **My Account → Security** periodically, and regenerate a new set before you run out so you always have a way back into your account.
 
 ## Troubleshooting
 

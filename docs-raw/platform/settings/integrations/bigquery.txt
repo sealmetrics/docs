@@ -20,7 +20,7 @@ Export your Sealmetrics data to Google BigQuery for custom SQL analysis, machine
 3. Generate and download credentials
 4. Configure in Sealmetrics
 5. Choose sync settings
-6. Verify data export
+6. Create the dataset and verify the export
 
 ## Step 1: Create GCP Service Account
 
@@ -86,169 +86,143 @@ Alternatively, create a custom role with these permissions:
 
 ## Step 4: Configure in Sealmetrics
 
-1. Go to **Settings → Integrations → BigQuery**
-2. Upload your credentials:
+1. Open the site you want to export, then go to **Site Config → Integrations → BigQuery** in the sidebar
+2. Upload your **Service Account JSON** key file (drag-and-drop or click to select)
 
-```
-BigQuery Integration
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+When you upload the file, Sealmetrics validates that it is a Google Cloud Service Account key (`"type": "service_account"`) and automatically fills in the **GCP Project ID** from the file.
 
-Status: Not Connected
-
-Step 1: Upload Credentials
-
-  [Upload JSON Key File]
-
-  Or paste JSON content:
-  ┌─────────────────────────────────────────┐
-  │ {                                       │
-  │   "type": "service_account",            │
-  │   ...                                   │
-  │ }                                       │
-  └─────────────────────────────────────────┘
-
-[Verify Credentials]
-```
-
-3. Verify credentials are valid
+3. Confirm the GCP Project ID matches the project where the dataset should be created
 
 ## Step 5: Configure Sync Settings
 
 ### Dataset Settings
 
-```
-Dataset Configuration
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+| Setting | Details |
+|---------|---------|
+| **GCP Project ID** | Pre-filled from your Service Account JSON |
+| **Dataset Name** | Defaults to `sealmetrics`. Letters, numbers, and underscores only; must start with a letter or underscore. Created automatically if it doesn't exist. |
+| **Dataset Location** | `EU (European Union)` or `US (United States)` |
 
-GCP Project: your-project-id (from credentials)
+Tables are created with fixed star-schema names (for example, `fact_traffic_daily`). There is no table prefix to configure.
 
-Dataset Name: [sealmetrics_analytics       ]
-              (will be created if doesn't exist)
+### Sync Frequency
 
-Location: [EU (europe-west1)              ▼]
+Choose how often Sealmetrics pushes data to BigQuery:
 
-Table Prefix: [sm_                         ]
-              Tables will be named: sm_pageviews, sm_conversions, etc.
-```
+| Option | Behavior |
+|--------|----------|
+| **Hourly** | Syncs every hour |
+| **Daily** | Syncs once per day (default) |
+| **Manual only** | No automatic sync; you trigger it with **Sync Now** |
 
-### Sync Schedule
+### Data Types to Sync
 
-```
-Sync Schedule
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Select which datasets to export. Each maps to a dedicated BigQuery table:
 
-Sync Frequency:
-○ Hourly
-● Daily at [03:00] UTC
-○ Weekly on [Sunday] at [03:00] UTC
+| Data Type | Table | Recommended |
+|-----------|-------|-------------|
+| **Daily Traffic** | `fact_traffic_daily` | Yes |
+| **Hourly Traffic** | `fact_traffic_hourly` (90-day retention, higher storage cost) | No |
+| **Conversions** | `fact_conversions` | Yes |
+| **Microconversions** | `fact_microconversions` | Yes |
+| **Pages** | `fact_pages` | Yes |
+| **Landing Pages** | `fact_landing_pages` | Yes |
+| **Account Metadata** | `dim_accounts` | No |
 
-Data to Export:
-☑ Pageviews
-☑ Events
-☑ Conversions
-☑ Sessions (aggregated)
-☐ Raw hits (high volume)
+The lookup table `dim_countries` and a `sync_metadata` table are always created.
 
-Historical Backfill:
-☑ Export historical data
-  From: [2024-01-01] (max 24 months)
-```
+### Initial Data Export
 
-### Data Options
+On first run, choose how much history to load:
 
-```
-Data Options
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- **Last X days** — backfill a preset (30, 60, or 90 days) or a custom number of days
+- **Custom date range** — pick an explicit start and end date
 
-☑ Include UTM parameters
-☑ Include device information
-☑ Include geographic data
-☐ Include IP addresses (privacy consideration)
-☑ Include custom dimensions
-☑ Include custom properties
-```
+After setup, data syncs automatically from today onward at the chosen frequency. You can run larger historical loads later from the **Historical Data Backfill** card.
 
-## Step 6: Activate and Verify
+## Step 6: Create the Dataset and Verify
 
-1. Click **Activate Integration**
-2. Wait for initial sync (may take several hours for historical data)
-3. Check status:
+1. Click **Configure BigQuery Integration** to save your configuration
+2. If prompted with **Setup Required**, click **Setup Dataset** to create the dataset and tables in your project
+3. Click **Sync Now** to run the first sync (historical backfills may take a while)
+4. The integration dashboard shows the current status, last sync time, number of tables created, and a **Recent Sync History** card with rows and bytes synced per run
 
-```
-BigQuery Integration Status
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Status: ✅ Active
-
-Last Sync: Today at 03:15 UTC
-Records Synced: 1,234,567
-Next Sync: Tomorrow at 03:00 UTC
-
-Tables:
-  sm_pageviews     1,023,456 rows    Updated 03:15
-  sm_events          156,789 rows    Updated 03:15
-  sm_conversions      34,567 rows    Updated 03:15
-  sm_sessions         89,012 rows    Updated 03:15
-
-[View in BigQuery] [Sync Now] [Pause Integration]
-```
+From the dashboard you can **Pause/Resume Sync**, run **Sync Now**, edit the selected data types, start a **Backfill**, or **Delete** the integration. Deleting removes the configuration from Sealmetrics but never deletes the data already in your BigQuery project.
 
 ## BigQuery Schema
 
-### Pageviews Table (`sm_pageviews`)
+Tables follow a star-schema design. Below are two of the most-used fact tables. The exact, authoritative schema for every table is also available from the integration screen.
+
+### Daily Traffic Table (`fact_traffic_daily`)
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `id` | STRING | Unique pageview ID |
-| `timestamp` | TIMESTAMP | When pageview occurred |
-| `session_id` | STRING | Session identifier |
-| `user_id` | STRING | Anonymous user ID |
-| `page_url` | STRING | Full page URL |
-| `page_path` | STRING | URL path only |
-| `page_title` | STRING | HTML page title |
-| `referrer` | STRING | Referring URL |
+| `sync_id` | STRING | Identifier of the sync that wrote the row |
+| `synced_at` | TIMESTAMP | When the row was synced |
+| `account_id` | STRING | Sealmetrics account (site) ID |
+| `date` | DATE | Day of the metrics |
 | `utm_source` | STRING | UTM source |
 | `utm_medium` | STRING | UTM medium |
 | `utm_campaign` | STRING | UTM campaign |
-| `device_type` | STRING | mobile/desktop/tablet |
+| `utm_term` | STRING | UTM term |
+| `utm_content` | STRING | UTM content |
+| `channel_group` | STRING | Marketing channel group |
+| `country` | STRING | ISO country code |
+| `device_type` | STRING | desktop/mobile/tablet |
 | `browser` | STRING | Browser name |
 | `os` | STRING | Operating system |
-| `country` | STRING | ISO country code |
-| `region` | STRING | Region/state |
-| `city` | STRING | City name |
-| `content_group` | STRING | Content group assignment |
-| `custom_dimensions` | JSON | Custom dimensions object |
+| `day_of_week` | INT64 | ISO weekday (1=Mon, 7=Sun) |
+| `entrances` | INT64 | Sessions started |
+| `engaged_entrances` | INT64 | Sessions with more than one pageview |
+| `page_views` | INT64 | Page views |
+| `microconversions` | INT64 | Microconversions |
+| `conversions` | INT64 | Conversions |
+| `revenue` | NUMERIC | Revenue |
 
-### Conversions Table (`sm_conversions`)
+Partitioned by `date`; clustered by `account_id`, `utm_source`, `country`.
+
+### Conversions Table (`fact_conversions`)
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `id` | STRING | Unique conversion ID |
-| `timestamp` | TIMESTAMP | When conversion occurred |
-| `session_id` | STRING | Session identifier |
-| `user_id` | STRING | Anonymous user ID |
-| `conversion_type` | STRING | Type/label |
-| `amount` | FLOAT | Conversion value |
-| `currency` | STRING | Currency code |
-| `order_id` | STRING | Order/transaction ID |
+| `sync_id` | STRING | Identifier of the sync that wrote the row |
+| `synced_at` | TIMESTAMP | When the row was synced |
+| `account_id` | STRING | Sealmetrics account (site) ID |
+| `date` | DATE | Day of the conversion |
+| `conversion_type` | STRING | Conversion type/label |
 | `utm_source` | STRING | Attributed source |
 | `utm_medium` | STRING | Attributed medium |
 | `utm_campaign` | STRING | Attributed campaign |
-| `attribution_model` | STRING | Model used |
-| `custom_properties` | JSON | Custom properties |
+| `utm_term` | STRING | Attributed term |
+| `utm_content` | STRING | Attributed content |
+| `channel_group` | STRING | Marketing channel group |
+| `country` | STRING | ISO country code |
+| `device_type` | STRING | desktop/mobile/tablet |
+| `browser` | STRING | Browser name |
+| `os` | STRING | Operating system |
+| `landing_page` | STRING | Landing page path |
+| `click_id` | STRING | Ad platform click ID (gclid, fbclid, etc.) |
+| `count` | INT64 | Number of conversions |
+| `amount` | NUMERIC | Per-conversion value |
+| `revenue` | NUMERIC | Total revenue |
+| `properties` | JSON | Custom conversion properties |
+
+Partitioned by `date`; clustered by `account_id`, `conversion_type`, `utm_source`.
 
 ## Example Queries
+
+Replace `your-project` and `sealmetrics` with your GCP project ID and dataset name.
 
 ### Daily Traffic Summary
 
 ```sql
 SELECT
-  DATE(timestamp) as date,
-  COUNT(*) as pageviews,
-  COUNT(DISTINCT session_id) as sessions,
-  COUNT(DISTINCT user_id) as users
-FROM `your-project.sealmetrics_analytics.sm_pageviews`
-WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+  date,
+  SUM(entrances) AS entrances,
+  SUM(page_views) AS page_views,
+  SUM(conversions) AS conversions
+FROM `your-project.sealmetrics.fact_traffic_daily`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
 GROUP BY date
 ORDER BY date DESC
 ```
@@ -259,44 +233,40 @@ ORDER BY date DESC
 SELECT
   utm_source,
   utm_medium,
-  COUNT(*) as conversions,
-  SUM(amount) as revenue,
-  AVG(amount) as avg_order_value
-FROM `your-project.sealmetrics_analytics.sm_conversions`
-WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+  SUM(count) AS conversions,
+  SUM(revenue) AS revenue,
+  SAFE_DIVIDE(SUM(revenue), SUM(count)) AS avg_order_value
+FROM `your-project.sealmetrics.fact_conversions`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
 GROUP BY utm_source, utm_medium
 ORDER BY revenue DESC
 ```
 
-### Traffic by Content Group
+### Traffic by Content Grouping
 
 ```sql
 SELECT
-  content_group,
-  COUNT(*) as pageviews,
-  COUNT(DISTINCT user_id) as unique_users,
-  ROUND(AVG(time_on_page), 1) as avg_time_seconds
-FROM `your-project.sealmetrics_analytics.sm_pageviews`
-WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 7 DAY)
-  AND content_group IS NOT NULL
-GROUP BY content_group
-ORDER BY pageviews DESC
+  content_grouping,
+  SUM(page_views) AS page_views,
+  SUM(entrances) AS entrances
+FROM `your-project.sealmetrics.fact_pages`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+  AND content_grouping IS NOT NULL
+GROUP BY content_grouping
+ORDER BY page_views DESC
 ```
 
-### Custom Dimension Analysis
+### Custom Conversion Properties
 
 ```sql
 SELECT
-  JSON_VALUE(custom_dimensions, '$.customer_type') as customer_type,
-  COUNT(DISTINCT p.session_id) as sessions,
-  COUNT(c.id) as conversions,
-  SAFE_DIVIDE(COUNT(c.id), COUNT(DISTINCT p.session_id)) * 100 as conversion_rate
-FROM `your-project.sealmetrics_analytics.sm_pageviews` p
-LEFT JOIN `your-project.sealmetrics_analytics.sm_conversions` c
-  ON p.session_id = c.session_id
-WHERE p.timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+  JSON_VALUE(properties, '$.customer_type') AS customer_type,
+  SUM(count) AS conversions,
+  SUM(revenue) AS revenue
+FROM `your-project.sealmetrics.fact_conversions`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
 GROUP BY customer_type
-ORDER BY sessions DESC
+ORDER BY conversions DESC
 ```
 
 ## Troubleshooting
@@ -310,43 +280,31 @@ Verify service account has:
 
 ### Sync Not Running
 
-1. Check integration status is "Active"
+1. Check the integration status is "Active" (not paused)
 2. Verify credentials haven't expired
 3. Check GCP project billing is active
-4. Review error logs in **Settings → Integrations → BigQuery → Logs**
+4. Review the **Recent Sync History** card on the integration screen for failed runs and error details
 
 ### Missing Data
 
-1. Check date range matches expected data
-2. Verify data options include needed fields
+1. Check the date range matches expected data
+2. Verify the data type you expect is selected in **Data Types to Sync**
 3. Check if data is still processing (1-2 hour delay)
-4. Ensure table wasn't manually modified in BigQuery
+4. Ensure the table wasn't manually modified in BigQuery
 
 ### High Costs
 
 To reduce BigQuery costs:
-- Use partitioned tables (enabled by default)
-- Limit historical backfill
-- Use aggregated tables instead of raw hits
+- Tables are partitioned by `date` and clustered by default — filter queries on `date` to scan less data
+- Limit the initial historical backfill
+- Only sync the data types you need; skip Hourly Traffic unless you need intraday analysis
 - Set up BigQuery budget alerts
 
 ## Data Retention
 
-BigQuery data retention follows your settings:
+Once data is synced to your BigQuery project, you own it and control retention. Sealmetrics only pushes data — it never deletes data from your dataset.
 
-```
-Data Retention in BigQuery
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-● Match Sealmetrics retention (24 months)
-  Old data automatically deleted
-
-○ Custom retention
-  Keep data for: [36] months
-
-○ Keep indefinitely
-  Data never auto-deleted (you manage)
-```
+The only exception is the **Hourly Traffic** table (`fact_traffic_hourly`), which is created with a 90-day partition expiration to keep storage costs down. All other tables retain data indefinitely until you remove it yourself.
 
 ## Costs
 

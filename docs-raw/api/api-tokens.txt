@@ -120,10 +120,10 @@ POST /api-tokens
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `name` | string | Yes | Token name (1-255 chars) |
+| `name` | string | Yes | Token name (1-100 chars) |
 | `scopes` | string[] | Yes | Permission scopes |
 | `account_ids` | string[] | No | Restrict to specific accounts |
-| `expires_in_days` | int | No | Days until expiration (default: 365) |
+| `expires_in_days` | int | No | Days until expiration, 1-365 (default: none — never expires) |
 
 **Response (201 Created):**
 
@@ -277,12 +277,17 @@ API_KEY = os.environ["SEALMETRICS_API_KEY"]
 
 ## Token Errors
 
-| HTTP Code | Error | Description |
-|-----------|-------|-------------|
-| 401 | `invalid_api_key` | Token not found or revoked |
-| 401 | `token_expired` | Token has expired |
-| 403 | `insufficient_scope` | Token lacks required scope |
-| 403 | `account_not_allowed` | Account not in token's allowed list |
+The `error.code` is derived from the HTTP status (`401` → `unauthorized`,
+`403` → `forbidden`). The specific reason is carried in the human-readable
+`error.message`.
+
+| HTTP Code | Error Code | Example message |
+|-----------|------------|-----------------|
+| 401 | `unauthorized` | `Invalid API key` (token not found or revoked) |
+| 401 | `unauthorized` | `API key has expired` |
+| 401 | `unauthorized` | `Invalid API key format` (missing `sm_` prefix) |
+| 403 | `forbidden` | `Required scope: <scope>` (token lacks required scope) |
+| 403 | `forbidden` | `Access denied to account: <id>` (account not in token's allowed list) |
 
 ---
 

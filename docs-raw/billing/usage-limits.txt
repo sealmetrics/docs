@@ -29,7 +29,7 @@ All tracked interactions count toward your event limit:
 | Micro-conversion | Yes | Add-to-cart, etc. |
 | AI Agent events | No | Detected agents are tracked but not billed |
 
-**Agent Analytics (coming soon):** AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) will be detected and tracked separately and will **not** count toward your event limit. Agent Analytics will be available on Scale and Enterprise plans.
+**Agent Analytics:** AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) is detected and tracked separately and does **not** count toward your event limit. Agent Analytics is included on all plans.
 
 ### Events Are Pooled
 
@@ -57,18 +57,23 @@ Sealmetrics uses a **fixed-price billing model** with no surprise overage charge
 
 ### Auto-Upgrade Policy
 
-If you exceed **120% of your event limit for 2 or more consecutive months**, you will be automatically upgraded to the next plan tier:
+If you **exceed your event limit (over 100%) for two consecutive months** that are not forgiven, your plan is moved up to the next tier:
 
-| Current Plan | Auto-Upgrade To | Trigger |
-|--------------|----------------|---------|
-| Growth (5M) | Scale (15M) | 6M+ events for 2+ months |
-| Scale (15M) | Enterprise | 18M+ events for 2+ months |
+| Current Plan | Behavior when over limit for 2 consecutive months |
+|--------------|----------------------------------------------------|
+| Growth (5M) | Automatically upgraded to Scale (15M) |
+| Scale (15M) | **Not** auto-upgraded — you receive an email to discuss an Enterprise plan |
 
-You'll be notified before any upgrade takes effect.
+A single month over your limit triggers a warning email (or uses your free overage month for the year), not an upgrade. Auto-upgrade only applies to Stripe-billed accounts; if you subscribed through the Shopify App Store, you'll receive an email to upgrade manually from your Shopify Admin instead (see [Billing channels](#billing-channels)).
 
-### Downgrade Suggestions
+## Billing channels
 
-If your usage drops below **50% of your plan limit for 3 or more consecutive months**, we'll suggest a more cost-effective plan. Downgrades are always optional and never automatic.
+Sealmetrics can be billed through one of two channels (never both at once):
+
+- **Stripe** — for accounts that sign up directly on sealmetrics.com. Prices are in EUR. This is the only channel where the auto-upgrade described above applies.
+- **Shopify App Store** — for merchants who installed Sealmetrics from Shopify. Billing is managed from your **Shopify Admin** and prices are shown in USD. Sealmetrics cannot upgrade your plan automatically here; if you stay over your limit, you'll receive an email asking you to approve the new plan in Shopify Admin.
+
+After your free trial, accounts that haven't selected a paid plan fall back to an internal **free** tier, which is not subject to event-limit usage tracking or auto-upgrade.
 
 ## Monitoring Usage
 
@@ -86,7 +91,9 @@ You'll receive notifications at:
 |-----------|-------------------|
 | 80% | Email warning |
 | 100% | Email + Dashboard alert |
-| 120% (2+ months) | Auto-upgrade notification |
+| 120% | Email alert (you are well over your limit) |
+
+These percentages are email alert thresholds only — reaching 120% in a single month does not trigger an upgrade. Auto-upgrade is a separate process based on two consecutive months over your limit (see [Auto-Upgrade Policy](#auto-upgrade-policy)).
 
 ## Other Limits
 
@@ -100,15 +107,7 @@ You'll receive notifications at:
 
 ### LENS AI Questions
 
-| Plan | Questions/month |
-|------|-----------------|
-| Growth | 1,000 |
-| Scale | 2,000 |
-| Enterprise | Custom |
-
-Additional question packs available: €99 per 500 questions (one-time purchase, never expires).
-
-[More about LENS limits](/lens/ai-assistant/question-limits)
+LENS AI uses a **bring-your-own-key (BYOK)** model: you connect your own LLM provider API key (Anthropic, OpenAI, DeepSeek, or Gemini) under **My Account → LLM Providers**. There is **no monthly question quota** imposed by Sealmetrics — questions are billed directly by your chosen provider. See the [AI Assistant docs](/lens/ai-assistant/) for setup.
 
 ### Websites and Users
 
@@ -122,7 +121,7 @@ If you're approaching limits, consider:
 
 1. **Exclude internal traffic** — Don't install pixel on staging/development environments
 2. **Filter bot traffic** — Enabled by default, removes known bots
-3. **Agent Analytics (coming soon)** — AI agent events will be excluded from your event count (Scale and Enterprise)
+3. **Agent Analytics** — AI agent events are excluded from your event count automatically
 
 ### Monitor by Website
 
@@ -142,18 +141,17 @@ Consider upgrading when:
 |---------|----------------|
 | Approaching 80%+ usage regularly | Consider upgrading proactively |
 | Need webhooks/audit logs | Upgrade to Scale |
-| Want Agent AI Analytics (coming soon) | Scale or Enterprise |
 | Need SSO or unlimited events | Contact Enterprise sales |
 
 ## FAQ
 
 ### Do AI agent events count toward my limit?
 
-When available, Agent Analytics will detect AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) and track them separately. These events will not count toward your monthly event limit. Agent Analytics is coming soon on Scale and Enterprise plans.
+Agent Analytics detects AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) and tracks it separately. These events do not count toward your monthly event limit, and the feature is included on all plans.
 
 ### What happens if I hit my limit mid-month?
 
-Tracking continues uninterrupted. There are no overage charges. If you exceed 120% of your limit for 2+ consecutive months, you'll be auto-upgraded to the next tier.
+Tracking continues uninterrupted. There are no overage charges. If you exceed your limit for two consecutive months that aren't forgiven, a Growth plan is auto-upgraded to Scale; a Scale plan instead receives an email to discuss Enterprise (it is not auto-upgraded).
 
 ### Do unused events roll over?
 

@@ -2,308 +2,129 @@
 
 URL: https://docs.sealmetrics.com/lens/reports/executive-summary
 
-# Executive Summary Report
+# Executive Summary
 
-The Executive Summary is a weekly AI-generated report that provides leadership with a clear picture of business performance without requiring them to log into the dashboard.
+The Executive Summary is the opening section of every LENS report. It gives a clear, narrative picture of how the period performed, followed by structured sections that back up the summary with data.
+
+Reports are generated for a **weekly** or **monthly** period. See [LENS Reports](/lens/reports) for how to generate them.
 
 ## What's Included
 
-### Key Metrics Overview
+A LENS report is built from the following sections. Each is populated when data is available for the period.
+
+### Executive Summary
+
+A short AI-written narrative of the period, followed by a list of **key takeaways** — the most important points distilled into a few lines.
+
+### Key Metrics
 
 ```
-📊 PERFORMANCE SNAPSHOT
+KEY METRICS
 Week of January 8-14, 2024
 
-                    This Week    vs Last Week    vs Last Year
-─────────────────────────────────────────────────────────────
-Sessions             45,230         +12%            +28%
-Unique Users         38,420         +10%            +25%
-Conversions             892          +8%            +45%
-Revenue             €44,600         +15%            +52%
-Conversion Rate       1.97%       -0.07pp          +0.3pp
-Avg Order Value      €50.00          +6%             +5%
+                    Current      vs Previous
+──────────────────────────────────────────────
+Revenue             €44,600         +15%
+Conversions             892          +8%
+Entrances            45,230         +12%
+Pageviews           148,500         +12%
+Conversion Rate       1.97%       -0.07pp
+Bounce Rate           42.0%        -1.2pp
+Avg Order Value      €50.00          +6%
 ```
 
-### Trend Visualization
+Each metric shows the current value and the change versus the previous period.
 
-The report includes embedded charts showing:
-- 12-week traffic and conversion trends
-- Revenue vs. same period last year
-- Conversion rate over time
-
-### Top Performers
+### Channel Performance
 
 ```
-🏆 TOP PERFORMING CHANNELS
+CHANNEL PERFORMANCE
 
-Rank  Channel              Revenue    ROAS    Trend
-────────────────────────────────────────────────────
-1     Google Ads - Brand   €12,400    5.2     ↑ +15%
-2     Email Marketing       €8,900    8.1     ↑ +22%
-3     Organic Search        €7,200    N/A     → +2%
-4     Facebook Retarget     €6,100    3.1     ↓ -5%
-5     Direct                €5,400    N/A     ↑ +8%
+Channel              Revenue    Conv.   Rev. Share   Trend
+──────────────────────────────────────────────────────────
+Google Ads - Brand   €12,400     210       28%       ↑ +15%
+Email Marketing       €8,900     180       20%       ↑ +22%
+Organic Search        €7,200     150       16%       → +2%
+Facebook Retarget     €6,100      95       14%       ↓ -5%
+Direct                €5,400      85       12%       ↑ +8%
 ```
 
-### Issues & Alerts
+LENS highlights the **top performer** and the **biggest decline** for the period.
+
+### Funnel Health
 
 ```
-⚠️ ATTENTION REQUIRED
+FUNNEL HEALTH
 
-1. Mobile Conversion Rate
-   Dropped 15% this week. Correlates with 200ms
-   increase in mobile page load time.
-   Impact: ~€2,100 estimated lost revenue
-
-2. Cart Abandonment
-   Increased from 68% to 73%. Highest abandonment
-   on payment step.
-   Impact: ~45 lost orders
-
-3. Google Ads - Prospecting
-   ROAS dropped below 1.0. Currently unprofitable.
-   Recommendation: Pause or restructure.
+Stage              Count    Drop-off   vs Previous
+──────────────────────────────────────────────────
+Entrances        148,500       -          +12%
+Product Views     89,100      40%         +15%
+Add to Cart       22,275      75%         +10%
+Checkout Start     8,910      60%          +8%
+Purchase           3,564      60%         +12%
+──────────────────────────────────────────────────
+Overall conversion rate: 2.40%
 ```
 
-### AI Insights
+The section identifies the **biggest leak** in the funnel and includes a recommendation.
+
+### Audience Insights
+
+Breakdowns of the period's audience by **device**, **country**, and **browser**, each with its share and change. LENS also flags notable **audience shifts** — for example, a meaningful move toward mobile traffic.
+
+### Top Insights
 
 ```
-💡 AI-GENERATED INSIGHTS
+TOP INSIGHTS
 
-Based on this week's data, here are key observations:
+🔴 Mobile conversion rate dropped 15%
+   Estimated impact: ~€2,100
 
-1. "Email marketing outperformed all paid channels
-    with 8.1 ROAS. Consider increasing email
-    frequency or list-building investment."
+🟡 Cart abandonment increased from 68% to 73%
 
-2. "The 15% mobile conversion drop accounts for
-    approximately €2,100 in lost revenue. With
-    mobile representing 62% of traffic, this
-    should be prioritized."
-
-3. "Year-over-year growth of 52% in revenue
-    outpaces the 28% traffic growth, indicating
-    improved monetization efficiency."
+🟢 Email marketing revenue up 22%
 ```
 
-### Recommendations
+Insights are grouped by severity (🔴 red, 🟡 yellow, 🟢 green) and the section reports the total economic impact across them.
+
+### Action Items
 
 ```
-📋 RECOMMENDED ACTIONS
+ACTION ITEMS
 
-Priority  Action                           Impact
-─────────────────────────────────────────────────────
-HIGH      Investigate mobile performance   +€2K/week
-HIGH      Review cart abandonment flow     +€1.5K/week
-MEDIUM    Scale email marketing            +€1K/week
-LOW       Pause underperforming campaigns  +€500/week
+Priority  Owner       Action
+──────────────────────────────────────────────────────
+HIGH      Tech        Investigate mobile performance
+HIGH      Marketing   Review cart abandonment flow
+MEDIUM    Marketing   Scale email marketing
+LOW       Marketing   Pause underperforming campaigns
 ```
 
-## Setting Up Executive Summary
+Each action item has a **priority** (high, medium, low) and a suggested **owner** (marketing, tech, product, or leadership).
 
-### Create New Report
+## Insight Types
 
-1. Go to **LENS → Reports**
-2. Click **Create Report**
-3. Select **Executive Summary** template
+The insights surfaced in a report can be of several types:
 
-### Configure Recipients
+| Type | Description |
+|------|-------------|
+| **Anomaly** | An unusual change versus expected behavior |
+| **Opportunity** | A potential area for improvement |
+| **Trend** | A directional change over time |
+| **Alert** | A condition that crossed a defined threshold |
+| **Health** | A check on the overall health of tracking or performance |
 
-```
-Recipients
-──────────────────────────────
+## How Reports Are Generated
 
-Primary recipients (see full report):
-+ ceo@company.com
-+ cmo@company.com
+When you generate a report for a period, LENS:
 
-Summary-only recipients (condensed version):
-+ board@company.com
+1. **Analyzes the period's data** across metrics, channels, funnel, and audience.
+2. **Compares to the previous period** (previous week for weekly reports, previous month for monthly reports).
+3. **Surfaces insights**, grouped by severity.
+4. **Writes the executive summary and key takeaways** based on the analysis.
+5. **Proposes action items**, prioritized and assigned to a suggested owner.
 
-Delivery:
-● Monday at 8:00 AM
-○ Custom day and time
+## Email Delivery
 
-Include:
-☑ PDF attachment
-☑ Inline preview in email
-☐ Raw data CSV
-```
-
-### Customize Content
-
-```
-Sections to Include
-──────────────────────────────
-
-☑ Key Metrics Overview
-☑ Trend Charts (12-week)
-☑ Top Performing Channels
-☑ Issues & Alerts
-☑ AI Insights
-☑ Recommendations
-☐ Detailed Campaign Breakdown
-☐ Geographic Performance
-☐ Device Breakdown
-```
-
-### Set Comparison Periods
-
-```
-Comparisons
-──────────────────────────────
-
-Compare to:
-☑ Previous week
-☑ Same week last year
-☐ Same week last month
-☐ Custom baseline period
-
-Highlight changes greater than: 10%
-```
-
-## Customization Options
-
-### Add Custom KPIs
-
-Include business-specific metrics:
-
-```
-Custom Metrics
-──────────────────────────────
-
-+ Add Custom Metric
-
-Metric Name: Customer Acquisition Cost
-Calculation: Total Ad Spend / New Customers
-Format: Currency (€)
-Goal: < €25
-Show trend: Yes
-```
-
-### Add Annotations
-
-Mark important events:
-
-```
-Annotations
-──────────────────────────────
-
-+ Add Annotation
-
-Date: January 10, 2024
-Event: New homepage launched
-Impact: Expected traffic increase
-
-[Save]
-```
-
-Annotations appear in the report to provide context for data changes.
-
-### Branding (Growth Plan)
-
-Customize the report appearance:
-
-```
-Branding
-──────────────────────────────
-
-Company logo: [Upload]
-Primary color: #00825C
-Report title: Weekly Business Intelligence
-
-Header text:
-"Confidential - Internal Use Only"
-
-Footer text:
-"Generated by Sealmetrics LENS"
-```
-
-## Understanding the AI Insights
-
-### How Insights Are Generated
-
-1. **Data Analysis** - LENS analyzes all metrics from the week
-2. **Pattern Detection** - Identifies significant changes and correlations
-3. **Context Gathering** - Considers historical patterns and seasonality
-4. **Insight Generation** - AI formulates actionable observations
-5. **Prioritization** - Ranks insights by potential business impact
-
-### Insight Types
-
-| Type | Description | Example |
-|------|-------------|---------|
-| **Opportunity** | Potential for improvement | "Email ROAS suggests scaling" |
-| **Risk** | Issues requiring attention | "Mobile conversion declining" |
-| **Trend** | Directional changes | "YoY growth accelerating" |
-| **Anomaly** | Unusual patterns | "Traffic spike from unknown source" |
-| **Correlation** | Related changes | "Page speed affecting conversion" |
-
-### Providing Feedback
-
-Help improve insight quality:
-
-1. In the dashboard, view the report
-2. For each insight, click 👍 or 👎
-3. Optionally add comments
-
-Your feedback trains the model for better future insights.
-
-## Delivery Options
-
-### Email
-
-```
-Subject: 📊 Weekly Executive Summary - January 8-14
-
-Preview text: Revenue +15%, 3 items need attention
-```
-
-### Slack
-
-```
-#executive-updates
-
-📊 Weekly Executive Summary is ready
-
-Key highlights:
-• Revenue: €44,600 (+15%)
-• Conversions: 892 (+8%)
-• Items needing attention: 3
-
-[View Full Report]
-```
-
-### PDF Export
-
-The PDF includes:
-- All sections formatted for printing
-- Charts as high-resolution images
-- Table of contents for long reports
-- Page numbers and date stamps
-
-## Best Practices
-
-### For Maximum Impact
-
-1. **Keep recipient list focused** - Only those who will act on insights
-2. **Set appropriate delivery time** - Before weekly meetings
-3. **Review and refine** - Adjust metrics shown based on feedback
-4. **Add context** - Use annotations for known events
-
-### For Busy Executives
-
-1. **Use summary-only option** - Condensed to key metrics
-2. **Highlight thresholds** - Only show significant changes
-3. **Include recommendations** - Actionable next steps
-4. **Mobile-friendly** - Readable on phone
-
-## Report Sections
-
-A typical Executive Summary includes:
-
-1. **Performance Overview** - Key metrics vs previous period
-2. **Traffic Analysis** - Sources, channels, campaigns
-3. **Conversion Summary** - Goals, revenue, transactions
-4. **LENS Insights** - AI-detected patterns and anomalies
-5. **Recommendations** - Suggested actions for improvement
+LENS can deliver a **weekly digest** by email summarizing the week's highlights, concerns, opportunities, and recommended actions. Email is the only delivery channel. See [Email Alerts](./email-alerts) for details and for how to configure recipients in **Settings → LENS**.

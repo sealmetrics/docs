@@ -32,6 +32,20 @@ Works out of the box with:
 
 Any router that uses the History API is automatically supported.
 
+## Manual Initial Pageview (`?auto=0`)
+
+If you need to control the first pageview yourself (for example, to set a content group once your app has hydrated), load the tracker with `?auto=0`:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0" defer></script>
+```
+
+This suppresses **only** the automatic initial pageview. The SPA navigation listeners (`pushState` / `replaceState` / `popstate`) stay active, so subsequent route changes are still tracked automatically. Fire the first pageview yourself when ready:
+
+```javascript
+sealmetrics({ group: 'home' });
+```
+
 ## Installation
 
 Same as regular installation:
@@ -316,8 +330,12 @@ interface SealmetricsOptions {
 
 interface SealmetricsFunction {
   (options?: SealmetricsOptions): void;
-  conv(type: string, amount: number, properties?: Record<string, string>): void;
+  conv(type: string, amount?: number, properties?: Record<string, string>): void;
   micro(type: string, properties?: Record<string, string>): void;
+  readonly sessionId: string;
+  readonly accountId: string;
+  readonly tz: string;
+  readonly autoMode: string;
 }
 
 declare global {

@@ -134,7 +134,8 @@ This guide walks you through **account setup**, **tracking installation**, and y
 
 ## Step 1: Sign Up
 
-1. Visit [sealmetrics.com](ht
+1. Visit [sealmetrics.com](https://sealmetrics.com)
+2. Click **"Try Sealmetrics"** or **"Sign Up"**
 
 ... [Read full document at https://docs.sealmetrics.com/getting-started/quick-start]
 
@@ -219,11 +220,7 @@ First, add the tracker to your website:
 
 ### 2. Track a Conversion
 
-Call `sealmetrics.conv()` when a conversion happens:
-
-```javascript
-// Track a purchase
-sealmetrics.conv('purchase', 99.99);
+Call `sealmetrics.conv()` when a conversion happens. The signature is `sealmetrics.conv('type', amount?, { ...props })` — the `amount` is optional (only added to the event when it's a number), and the properties object is o
 
 ... [Read full document at https://docs.sealmetrics.com/getting-started/measure-conversions]
 
@@ -343,24 +340,13 @@ URL: https://docs.sealmetrics.com/lens/anomaly-detection
 
 # How Anomaly Detection Works
 
-LENS continuously monitors your analytics data to detect unusual patterns that could indicate problems or opportunities.
+LENS continuously monitors your analytics data to detect unusual patterns that could indicate problems or opportunities. It does this with a fixed library of detection rules — see the [rules catalog](/lens/anomaly-detection/rule-types) for the active set.
 
-## Detection Methods
+## Detection methods
 
-LENS uses multiple techniques to identify anomalies:
+### 1. Statistical comparison against a baseline
 
-### 1. Statistical Thresholds
-
-Compares current values against historical baselines:
-
-```
-Current Value vs. Historical Average
-─────────────────────────────────────
-If deviation > threshold → Anomaly detected
-
-Example:
-- 7-day average conversion rate: 2.5%
-- Today's conv
+Each rule compares a current period against a historical baseline and measures the percentage change. If the change exceeds the rule's thres
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection]
 
@@ -376,39 +362,48 @@ URL: https://docs.sealmetrics.com/lens/api/lens-endpoints
 
 Access LENS features programmatically via the REST API.
 
+LENS exposes three groups of endpoints:
+
+- **Insights** (`/lens/insights/*`) — AI-generated insights (anomalies, opportunities, trends, alerts, health), plus per-insight actions.
+- **Settings & usage** (`/lens/settings`, `/lens/chat/usage`) — notification configuration and chat usage.
+- **Reports** (`/lens/reports/*`) — structured weekly/monthly executive reports.
+- **AI Assistant** (`/assistant/*`) — conversational chat over your analytics data.
+
 ## Authentication
 
 All LENS endpoints require authentication via Bearer token:
 
 ```bash
 curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-  https://my.sealmetrics.com/api/lens/...
+  https://my.sealmetrics.com/api/v1/lens/insights?account_id=YOUR_ACCOUNT_ID
 ```
 
 See [Authentication](/api/authentication) for details on obtaining tokens.
 
+All paths below are relative to the API base URL `https://my.sealmetrics.com/api/v1`.
+
+Most endpoints require an `account_id` query parameter and verify that the
+authenticated user has access to that account. Write actions (mark read,
+dismiss, submit feedback, update settings, generate reports, delete
+conversations) additionally require a token with the `write` scope.
+
 ## Endpoints Overview
+
+### Insights
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/lens/chat` | POST | Send a question to the AI assistant |
-| `/lens/anomalies` | GET | List detected anomalies |
-| `/lens/anomalies/{id}` | GET | Get anomaly details |
-| `/lens/anomalies/{id}/acknowledge` | POST | Acknowledge an anomaly |
-| `/lens/rules` | GET | List detection rules |
-| `/lens/rules/{id}` | GET | Get rule details |
-| `/lens/rules` | POST | Create custom rule |
-| `/lens/rules/{id}` | PATCH | Update a rule |
-| `/lens/reports` | GET | List generated reports |
-| `/lens/usage` | GET | Get question usage stats |
+| `/lens/insights` | GET | List insights (paginated, filterable) |
+| `/lens/insights/summary` | GET | Counts by severity / read status |
+| `/lens/insights/grouped` | GET | Insights grouped by a common attribute |
+| `/lens/insights/{insight_id}` | GET | Get a single insight |
+| `/lens/insights/{insight_id}/read` | PATCH | Mark insight as read |
+| `/lens/insights/{insight_id}/unread` | PATCH | Mark insight as unread |
+| `/lens/insights/{insight_id}/dismiss` | PATCH | Dismiss an insight |
+| `/lens/insights/{insight_id}/feedback` | POST | Submit feedback on an insight |
+| `/lens/insights/{insight_id}/send-email` | POST | Email an insight report |
 
----
-
-## AI Assistant
-
-### Send a Question
-
-Ask the LENS AI assistant a question about your data.
+### Settings & usage
 
 ... [Read full document at https://docs.sealmetrics.com/lens/api/lens-endpoints]
 
@@ -422,14 +417,14 @@ URL: https://docs.sealmetrics.com/lens
 
 # LENS AI
 
-LENS is Sealmetrics' AI-powered analytics assistant that proactively monitors your data, detects anomalies, and provides actionable insights.
+LENS is Sealmetrics' AI layer that analyzes your data on a configurable cadence, surfaces insights, and lets you ask questions in natural language.
 
 ## What is LENS?
 
-LENS (Learning Engine for Notifications & Signals) combines rule-based anomaly detection with advanced AI to help you:
+LENS (Learning Engine for Notifications & Signals) combines rule-based detection with large language models to help you:
 
-- **Detect problems before they impact your business** - Get alerts when traffic drops, conversion rates change, or campaigns underperform
-- **Understand your data faster** - Ask questions in natural language
+- **Detect problems before they impact your business** - Get notified when traffic drops, conversion rates change, or tracking breaks
+- **Spot opportunities and trends** - Surface where you're leaving
 
 ... [Read full document at https://docs.sealmetrics.com/lens]
 
@@ -443,59 +438,23 @@ URL: https://docs.sealmetrics.com/lens/reports
 
 # LENS Reports
 
-LENS generates automated reports that summarize your analytics data and deliver insights without you needing to ask.
+LENS generates structured executive reports that summarize your analytics data for a period and surface the insights that matter, so you get the big picture without building dashboards by hand.
 
 ## Report Types
 
-### Executive Summary
+LENS produces two types of structured report:
 
-A high-level overview designed for stakeholders who need the big picture.
+### Weekly Report
 
-**Includes:**
-- Key metrics snapshot (traffic, conversions, revenue)
-- Week-over-week and month-over-month trends
-- Top performing channels and campaigns
-- Notable anomalies or issues
-- AI-generated insights and recommendations
+A summary of the last completed week (Monday–Sunday).
 
-**Best for:** Leadership, weekly team updates, stakeholder communication
+**Best for:** Weekly team updates, marketing reviews, and stakeholder communication.
 
-### Performance Report
+### Monthly Report
 
-Detailed analysis of your marketing and site performance.
+A summary of the last completed calendar mont
 
 ... [Read full document at https://docs.sealmetrics.com/lens/reports]
-
-
-
-## Question Limits
-
-
-URL: https://docs.sealmetrics.com/lens/ai-assistant/question-limits
-
-
-# Question Limits
-
-Each Sealmetrics plan includes a monthly allocation of LENS AI questions. This page explains how limits work and your options when you need more.
-
-## Limits by Plan
-
-| Plan | Questions/Month |
-|------|-----------------|
-| **Growth** | 1,000 |
-| **Scale** | 2,000 |
-| **Enterprise** | Custom |
-
-Questions reset on the first day of each billing cycle.
-
-## What Counts as a Question
-
-### Counts as 1 question:
-- Asking a new question
-- Requesting a follow-up analysis
-- Asking for mor
-
-... [Read full document at https://docs.sealmetrics.com/lens/ai-assistant/question-limits]
 
 
 
@@ -507,20 +466,13 @@ URL: https://docs.sealmetrics.com/lens/anomaly-detection/rule-types
 
 # Detection Rules Catalog
 
-LENS includes 60+ pre-built detection rules across six categories. This page documents all available rules.
+LENS ships with a curated set of **25 active detection rules** that run on your account. Each rule has a stable internal **ID** (used in the API and in alerts), belongs to one of LENS's categories, and follows one of two execution models:
 
-## Traffic Rules
+- **Reactive** — analyzes historical data in daily/weekly/monthly batches.
+- **Proactive** — near real-time checks that surface changes happening right now.
 
-Monitor visitor volume and patterns.
-
-| Rule ID | Name | Description | Default Threshold |
-|---------|------|-------------|-------------------|
-| `traffic_drop_significant` | Significant Traffic Drop | Alerts when overall traffic drops significantly | >30% drop |
-| `traffic_spike_unusual` | Unusual Traffic Spike | Alerts on unexpected traffic increases | >50% increase |
-| `traffic_source_shift` | Traffic Source Shift | Major change in source distribution | >25% shift |
-| `new_traffic_source` | New Traffic Source | New source contributing >5% of traffic | >5% share |
-| `direct_traffic_spike` | Direct Traffic Spike | Unusual increase in direct traffic | >40% increase |
-| `referral_traffic_drop` | Referral Traffic Drop | Drop in ref
+**Info:**
+LENS includes a much larger internal library of rules, but most require data many accounts don't have (e-commerce product properties, microconversion funnels, content groups, multi-site portfolios, or year-o
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -548,9 +500,9 @@ Get LENS configured and receiving insights in under 5 minutes.
 2. Click **LENS** in the main navigation
 3. You'll see the LENS overview with any detected anomalies
 
-## Step 2: Configure Alert Preferences
+## Step 2: Connect Your LLM Provider
 
-Set up how an
+The LENS assist
 
 ... [Read full document at https://docs.sealmetrics.com/lens/getting-started]
 
@@ -564,42 +516,18 @@ URL: https://docs.sealmetrics.com/lens/reports/email-alerts
 
 # Email Alerts
 
-Receive instant notifications when LENS detects anomalies or important changes in your data.
+LENS notifies you by email when it detects important insights, and can send a weekly digest summarizing the week. Email is the only notification channel for LENS.
 
-## Alert Types
+## What LENS Sends
 
-### Anomaly Alerts
+LENS sends two kinds of email:
 
-Triggered when detection rules fire:
+### Insight Notifications
 
-```
-🔴 CRITICAL: Conversion Rate Drop Detected
-
-Your conversion rate dropped 35% in the last 4 hours.
-
-Current:  1.2% (was 1.85%)
-Change:   -35.1%
-Detected: 2024-01-15 14:32 UTC
-
-Affected segments:
-• Mobile traffic: -42%
-• Google Ads: -28%
-
-[View in Dashboard] [Investigate] [Dismiss]
-```
-
-### Threshold Alerts
-
-Triggered when metrics cross defined thresholds:
+When LENS detects a new insight, it can email the configured recipients. Each insight has a severity, and you choose which severities trigger an email (see [Configuring Notifications](#configuring-notifications)).
 
 ```
-⚠️ WARNING: Daily Revenue Below Target
-
-Today's revenue is tracking 30% below your daily target.
-
-Target:   €5,000
-Current:  €3,450 (as of 6 PM)
-Gap:      €1,550
+From: SealMetrics LENS
 
 ... [Read full document at https://docs.sealmetrics.com/lens/reports/email-alerts]
 
@@ -639,99 +567,45 @@ Get more accurate, actionable insights by following these best practices when as
 
 
 
-## Custom Rules
-
-
-URL: https://docs.sealmetrics.com/lens/anomaly-detection/custom-rules
-
-
-# Custom Rules
-
-Create detection rules specific to your business metrics and thresholds. Custom rules are available on all plans.
-
-## When to Create Custom Rules
-
-Use custom rules when:
-
-- Standard rules don't cover your specific KPIs
-- You need different thresholds than defaults
-- You want to monitor custom event properties
-- You need combined metric conditions
-
-## Creating a Custom Rule
-
-### Step 1: Access Rule Builder
-
-1. Go to **LENS → Rules**
-2. Click **Create Custom Rule**
-3. Choose a rule template or start from scratch
-
-### Step 2: Define the Metric
-
-Select what to monitor:
-
-... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/custom-rules]
-
-
-
 ## Executive Summary
 
 
 URL: https://docs.sealmetrics.com/lens/reports/executive-summary
 
 
-# Executive Summary Report
+# Executive Summary
 
-The Executive Summary is a weekly AI-generated report that provides leadership with a clear picture of business performance without requiring them to log into the dashboard.
+The Executive Summary is the opening section of every LENS report. It gives a clear, narrative picture of how the period performed, followed by structured sections that back up the summary with data.
+
+Reports are generated for a **weekly** or **monthly** period. See [LENS Reports](/lens/reports) for how to generate them.
 
 ## What's Included
 
-### Key Metrics Overview
+A LENS report is built from the following sections. Each is populated when data is available for the period.
 
-```
-📊 PERFORMANCE SNAPSHOT
-Week of January 8-14, 2024
+### Executive Summary
 
-                    This Week    vs Last Week    vs Last Year
-─────────────────────────────────────────────────────────────
-Sessions             45,230         +12%            +28%
-Unique Users         38,420         +10%            +25%
-Conversions             892          +8%            +45%
-Revenue             €44,600         +15%            +52%
-Conversion Rate       1.97%       -0.07pp          +
+A 
 
 ... [Read full document at https://docs.sealmetrics.com/lens/reports/executive-summary]
 
 
 
-## Configuring Thresholds
+## How Thresholds Work
 
 
 URL: https://docs.sealmetrics.com/lens/anomaly-detection/thresholds
 
 
-# Configuring Thresholds
+# How Thresholds Work
 
-Thresholds determine when LENS triggers an alert. Setting them correctly balances catching real issues against avoiding alert fatigue.
+A threshold is the boundary between a "normal" fluctuation and an anomaly worth surfacing. In LENS, thresholds are **not** a single static percentage you pick from a menu. Each rule starts from a base threshold and then **adjusts it automatically** based on how much data is available and on seasonality.
 
-## Understanding Thresholds
+This page explains that mechanism so you understand why LENS alerts when it does.
 
-A threshold defines the boundary between "normal" and "anomalous":
+## The base threshold
 
-```
-                    Normal Range
-         ◄─────────────────────────────►
-    ─────┬───────────────┬───────────────┬─────
-         │               │               │
-   -30%  │     -20%      │      +20%     │  +30%
-         │               │               │
-         └── Alert ──────┴───── Alert ───┘
-           (drop)                 (spike)
-```
-
-## Threshold Types
-
-### Percentage Thresholds
+Every rule defines a base threshold (a percentage change). For mo
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/thresholds]
 
@@ -750,15 +624,13 @@ URL: https://docs.sealmetrics.com/reports
 
 # Reports
 
-Sealmetrics provides 9 specialized reports to analyze your website traffic, conversions, and user behavior.
+Sealmetrics provides 9 specialized reports to analyze your website traffic, conversions, and user behavior. The Analytics sidebar lists them in this order, plus **Lens** at the top — the AI assistant (routes `/sites/{site_id}/lens` and `/lens/chat`), which is a conversational assistant rather than a tabular report.
 
 ## Available Reports
 
 | Report | Purpose | Key Metrics |
 |--------|---------|-------------|
-| [Overview](/reports/overview) | Real-time dashboard summary | Entrances, Pageviews, Conversions, Revenue |
-| [Evolution](/reports/evolution) | Temporal trends analysis | Metrics over time, grouped by day/week/month |
-| [Pages](/reports/pages) | Page performance analysis | Top pages, la
+| [Overview](/reports/overview) | Real-time dashboard summary | Entrances, Page
 
 ... [Read full document at https://docs.sealmetrics.com/reports]
 
@@ -867,12 +739,11 @@ The Evolution report shows how your metrics change over time, with flexible grou
 
 ## Time Grouping
 
-Control how data is aggregated using the grouping selector:
+Control how data is aggregated using the grouping selector (By Hour, By Day, By Week, By Month):
 
 | Grouping | Best For |
 |----------|----------|
-| **Day** | Short periods (7-30 days), daily patterns |
-| **Week** | Medium periods (1-3 months), weekly
+| **By Hour** | Very short periods, intraday patterns. Rows are gro
 
 ... [Read full document at https://docs.sealmetrics.com/reports/evolution]
 
@@ -919,7 +790,7 @@ URL: https://docs.sealmetrics.com/reports/insights/rejoined-traffic
 
 # What is Rejoined Traffic?
 
-These visits have resumed browsing on your website after more than **6 hours of inactivity**.
+These visits have resumed browsing on your website after the session window has expired (**2 hours of inactivity** by default).
 
 Instead of counting this traffic as a new session and assigning it to **Direct traffic**, as GA4 and other tools typically do—creating chaos in Direct Traffic—Sealmetrics labels it as **"rejoined traffic."**
 
@@ -941,7 +812,7 @@ URL: https://docs.sealmetrics.com/reports/sources
 
 # Sources
 
-The Sources report provides complete analysis of traffic sources using UTM parameters and referrers.
+The Sources report provides complete analysis of traffic sources using channel grouping, UTM parameters, and referrers.
 
 ## Accessing the Report
 
@@ -952,17 +823,11 @@ The Sources report provides complete analysis of traffic sources using UTM param
 
 ## Tabs
 
-The report has 6 tabs for different levels of UTM analysis:
+The report has 7 tabs for different levels of analysis. **Channels** is the first tab and is selected by default:
 
-### 1. Sources Tab
+### 1. Channels Tab
 
-Shows traffic grouped by UTM Source and Medium combination.
-
-| Column | Description |
-|--------|-------------|
-| **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
-| **Entrances** | Sessions from this source |
-| 
+The default tab. Shows traffic grouped into high-level **channels** (GA4-style channel grouping). Instead of looking at raw source/medium values one by one, traffic is bucketed into marketing channels such as Paid Search, Organic Social, or Email.
 
 ... [Read full document at https://docs.sealmetrics.com/reports/sources]
 
@@ -983,7 +848,7 @@ The Geography report shows where your visitors come from, with country-level met
 1. Select a site from the site selector
 2. Click **Geography** in the sidebar
 
-**URL pattern:** `/sites/{site_id}/geography`
+**URL pattern:** `/sites/{site_id}/geo`
 
 ## World Map
 
@@ -994,7 +859,7 @@ Interactive choropleth map showing traffic distribution by country.
 | Feature | Description |
 |---------|-------------|
 | **Color intensity** | Darker colors indicate more traffic |
-| **
+| **Hover 
 
 ... [Read full document at https://docs.sealmetrics.com/reports/geography]
 
@@ -1017,21 +882,13 @@ The Devices report analyzes traffic by device type, browser, and operating syste
 
 **URL pattern:** `/sites/{site_id}/devices`
 
-## Tabs
+## Report Sections
 
-The report has three tabs for different device dimensions:
+The report stacks three tables on a single page, one per device dimension: **Device Types**, **Browsers**, and **Operating Systems**. Each table has its own filter, export button, totals row, and (for Browsers and Operating Systems) a search box.
 
-### 1. Device Types Tab
+### Device Types
 
 Shows traffic grouped by device category.
-
-| Device Type | Description |
-|-------------|-------------|
-| **Desktop** | Computers and laptops |
-| **Mobile** | Smartphones |
-| **Tablet** | Tablets and iPads |
-
-#### Columns
 
 ... [Read full document at https://docs.sealmetrics.com/reports/devices]
 
@@ -1054,21 +911,13 @@ The Conversions report provides detailed analysis of your conversion and microco
 
 **URL pattern:** `/sites/{site_id}/conversions`
 
-## Tabs
+## View Toggle
 
-The report has two tabs for different event types:
+A toggle in the top-right switches between two views: **Conversions** and **Microconversions**.
 
-### 1. Conversions Tab
+### Conversions View
 
 Shows completed conversion events (primary goals).
-
-| Column | Description |
-|--------|-------------|
-| **Conversion Type** | Name/identifier of the conversion |
-| **Count** | Total number of conversions (with progress bar) |
-| **Unique Users** | Distinct users who converted |
-| **Revenue** | Total revenue attributed (with progress bar) |
-| **Avg. Value** | Average reven
 
 ... [Read full document at https://docs.sealmetrics.com/reports/conversions]
 
@@ -1082,28 +931,18 @@ URL: https://docs.sealmetrics.com/reports/funnel
 
 # Funnel
 
-The Funnel report visualizes user progression through defined conversion steps, showing drop-off rates and bottlenecks.
+The Funnel report visualizes how visitors progress through the standard e-commerce purchase journey, showing the drop-off between each step. It is built automatically from your traffic and the e-commerce events you track — there is nothing to configure.
 
 ## Accessing the Report
 
 1. Select a site from the site selector
 2. Click **Funnel** in the sidebar
 
-**URL pattern:** `/sites/{site_id}/funnel`
+**URL pattern:** `/sites/{siteId}/funnel`
 
-## Funnel Selector
+## How the funnel is built
 
-Choose which funnel to analyze from the dropdown at the top of the report.
-
-### Available Funnels
-
-Funnels are configured in Settings. Common examples:
-
-| Funnel | Typical Steps |
-|--------|---------------|
-| E-commerce Checkout | View Product → Add to Cart → Checkout → Purchase |
-| Lead Generation | Landing Page → Form View → Form Submit → Thank You |
-| SaaS Sign
+The funnel is a **fixed e-commerce sequence**. Sealmetrics asse
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1125,7 +964,9 @@ When you track conversions with custom properties (like `product_category`, `pla
 
 - Which property values perform best across different traffic sources
 - How conversions distribute across property values by campaign
-- Which traffic sources drive specific prope
+- Which traffic sources drive specific property outcomes
+
+## Accessing the Report
 
 ... [Read full document at https://docs.sealmetrics.com/reports/properties]
 
@@ -1141,28 +982,26 @@ URL: https://docs.sealmetrics.com/reports/filters
 
 Sealmetrics provides two types of filters: global filters that apply across all reports, and local filters specific to individual tables.
 
-## Global Filters
+## Global Filters (Segment)
 
-Global filters appear in the filter bar below the header and affect all reports in the current session.
+Global filters are configured from the **Segment** panel in the filter bar below the header. They affect all report pages.
 
 ### Accessing Global Filters
 
-1. Click **Add Filter** in the filter bar
-2. Select a filter category
-3. Choose or enter filter values
-4. Filter applies immediately
+1. Click **Segment** in the filter bar
+2. Choose values in the available filter sections
+3. Click **Apply Segment**
+4. The selected filters apply across all reports
 
 ### Available Global Filters
+
+The Segment panel offers two filter categories: Geography and Devices.
 
 #### Geography
 
 | Filter | Options | Description |
 |--------|---------|-------------|
 | **Countries** | Multi-select list | Filter by visitor country |
-
-Example: Select Spain and Portugal to see only traffic from the Iberian Peninsula.
-
-#### Devices
 
 ... [Read full document at https://docs.sealmetrics.com/reports/filters]
 
@@ -1180,23 +1019,21 @@ The date range picker controls which time period data is displayed for across al
 
 ## Accessing the Date Picker
 
-Click the date range button in the header (shows current selection like "Last 7 Days").
+Click the date range button in the header (shows the current selection, e.g. "Last 7 days").
 
 ## Preset Ranges
 
-Quick selection options:
+Quick selection options, grouped in the picker as **Quick Select**, **This Period**, and **Last Period**.
 
-### Relative Presets
+### Quick Select
 
 | Preset | Description |
 |--------|-------------|
 | **Today** | Current day (midnight to now) |
 | **Yesterday** | Previous complete day |
-| **Last 7 Days** | Past 7 days including today |
-| **Last 30 Days** | Past 30 days including today |
-| **Last 90 Days** | Past 90 days including today |
-
-### Period Presets
+| **Last 7 days** | Past 7 days including today |
+| **Last 30 days** | Past 30 days including today |
+| **Last 90 days** | Past 90 days including today |
 
 ... [Read full document at https://docs.sealmetrics.com/reports/date-range]
 
@@ -1226,7 +1063,8 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Engagement Rate](#engagement-rate) | Engaged / Entrances × 100 | Higher |
 | [Pages per Session](#pages-per-session) | Pageviews / Entrances | Higher |
 | [Conversions](#conversions) | Count of conversion events | Higher |
-| [Conversion Rate](#conversion-rate) | Conversions / Entran
+| [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
+| [Revenue]
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1402,11 +1240,9 @@ This document explains how SEO (organic search) traffic is detected and how we a
 
 Sealmetrics attributes a visit to **SEO traffic** when the following two conditions are true:
 
-### ✅ **Condition 1: The referrer is Google**
+### ✅ **Condition 1: The referrer is a recognized search engine**
 
-Recognized Google domains include:
-
-- goo
+Sealmetrics classifie
 
 ... [Read full document at https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-seo-traffic]
 
@@ -1746,8 +1582,8 @@ Ultra-lightweight JavaScript tracker for collecting analytics data.
 
 | Specification | Value |
 |---------------|-------|
-| Size (minified) | 2,367 bytes |
-| Size (gzipped) | **1,313 bytes** |
+| Size (minified) | ~2,228 bytes |
+| Size (gzipped) | **~1,227 bytes** |
 | Dependencies | None (vanilla JavaScript) |
 | Cookies | None |
 | localStorage | None |
@@ -1759,7 +1595,7 @@ Ultra-lightweight JavaScript tracker for collecting analytics data.
 
 ### Privacy-First Analytics
 
-| Platform | Minified | Gzipped | v
+| Platform | Minified | Gzipped |
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker]
 
@@ -1854,6 +1690,10 @@ Event: add_to_cart (microconversion)
     └── category: electronics
 ```
 
+## Adding Properties to Events
+
+### Conversions
+
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/event-properties]
 
 
@@ -1927,6 +1767,8 @@ window.sealmetrics === window.sm === window._sm
 
 ---
 
+## Supported Frameworks
+
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites]
 
 
@@ -1950,7 +1792,7 @@ Include user-related attributes as properties when tracking conversions and micr
 sealmetrics.conv('purchase', 149.99, {
   customer_type: 'premium',
   plan: 'pro',
-
+  currency: 'EUR
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/user-properties]
 
@@ -1976,7 +1818,7 @@ sealmetrics.conv(type, amount, properties);
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `type` | string | Yes | Conversion name (e.g., `'purchase'`, `'lead'`, `'signup'`) |
-| `amount` | number | Yes | Monetary value. Use `0` for non-monetary conversions |
+| `amount` | number | No | Monetary value. Omit or use `0` for non-monetary conversions |
 | `properties` | object | No | Custom key-value data |
 
 ## Examples
@@ -2168,6 +2010,8 @@ sealmetrics.micro(type, properties);
 
 ## Examples
 
+### Add to Cart
+
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/microconversions]
 
 
@@ -2268,7 +2112,9 @@ Works out of the box with:
 | Next.js | App Router, Pages Router | Yes |
 | Nuxt.js | nuxt/router | Yes |
 | Svelte | svelte-routing, SvelteKit | Yes |
-| Remix | @remix-run/rea
+| Remix | @remix-run/react | Yes |
+
+Any router that uses the History API is automatically supported.
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/spa-support]
 
@@ -2374,6 +2220,34 @@ sealmetrics();
 sealmetrics(options);
 ```
 
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `options` | object | No | Configuration options |
+| `options.group` | string | No | Content grouping for this page |
+
+**Examples:**
+
+```javascript
+// Manual pageview (rarely needed)
+sealmetrics();
+
+// Pageview with content grouping
+sealmetrics({ group: 'blog' });
+sealmetrics({ group: 'product' });
+sealmetrics({ group: 'checkout' });
+```
+
+**When to call manually:**
+- Rarely needed — pageviews are automatic
+- Use when you need to override the content group
+- Use for hash-based routing where automatic detection doesn't work
+
+---
+
+### sealmetrics.conv()
+
+Track a conversion (goal completion with monetary value).
+
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/api-reference]
 
 
@@ -2399,7 +2273,8 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 | Microconversions | `sm('event', 'type', {...})` | `sealmetrics.micro('type', {...})` |
 | Content grouping | `content_grouping` in options | `?group=xxx` in URL or `sealmetrics({ group: 'xxx' })` |
 | `adin` parameter | Supported | Removed |
-| Cookie
+| Cookies | Used | None |
+| localStorage | Used | None 
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/migration-from-v1]
 
@@ -2511,7 +2386,7 @@ If you're using WooCommerce, use the [WooCommerce plugin](/integrations/ecommerc
 
 ## Requirements
 
-- WordPress 5.0+
+- WordPress 5.8+
 - PHP 7.4+
 
 ## Installation
@@ -2540,8 +2415,8 @@ Privacy-first, cookieless analytics for WordPress + WooCommerce stores with comp
 
 ## Requirements
 
-- WordPress 5.0+
-- WooCommerce 5.0+
+- WordPress 5.8+
+- WooCommerce 6.0+
 - PHP 7.4+
 
 ## Installation
@@ -2598,7 +2473,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    
+    <html l
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2622,6 +2497,30 @@ The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open 
 
 Once connected, you can ask questions like:
 
+- *"Show me an overview of my site for the last 7 days"*
+- *"What are the top traffic sources this month?"*
+- *"Compare this month's conversions with last month"*
+- *"Which landing pages have the highest bounce rate?"*
+- *"Show me revenue by country for the last quarter"*
+- *"What devices do my visitors use?"*
+- *"Analyze my top 3 campaigns and tell me which has the best conversion rate"*
+
+---
+
+## Setup (step by step)
+
+### Step 1: Verify Node.js is installed
+
+Open your terminal and run:
+
+```bash
+node --version
+```
+
+You need **v18 or higher**. If you don't have it, download it from [nodejs.org](https://nodejs.org/).
+
+### Step 2: Get your API Key
+
 ... [Read full document at https://docs.sealmetrics.com/integrations/mcp-server]
 
 
@@ -2637,7 +2536,7 @@ URL: https://docs.sealmetrics.com/integrations/tag-management/gtm-template
 Ready-to-import GTM container template with pre-configured tags for SealMetrics tracking.
 
 **Tip:**
-This template includes all the tags, triggers, and variables you need. Just import, configure your Site ID, and publish.
+This template includes all the tags, triggers, and variables you need. Just import, configure your Account ID, and publish.
 
 ## Installation
 
@@ -2666,17 +2565,14 @@ Privacy-first, cookieless analytics for Webflow sites with automatic event track
 ### Method 1: Project-wide (Recommended)
 
 1. Go to **Project Settings > Custom Code**
-2. In the **Head Code** section, paste the tracking script
-3. Replace `YOUR_ACCOUNT_ID` with your Site ID
+2. In the **Head Code** section, paste the entire contents of `sealmetrics-webflow.js` wrapped in `<script>` tags
+3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
 4. Publish your site
 
-### Method 2: Specific Pages
-
-1. Open the page in the Designer
-2. Go to **Page Settings > Custom Code**
-3. Add the script to **Inside \<head\> tag**
-4. Publish
-
+```html
+<script>
+// Paste the contents of sealmetrics-webflow.js here
+// Replace YOUR_ACCO
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/website-builders/webflow]
 
@@ -2695,7 +2591,6 @@ Privacy-first, cookieless analytics for Drupal 9, 10, and 11.
 ## Requirements
 
 - Drupal 9.x, 10.x, or 11.x
-- PHP 8.0 or higher
 
 ## Installation
 
@@ -2710,7 +2605,8 @@ Privacy-first, cookieless analytics for Drupal 9, 10, and 11.
 ### Option 2: Composer
 
 ```bash
-composer require
+composer require drupal/sealmetrics
+
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/cms/drupal]
 
@@ -2842,15 +2738,13 @@ Privacy-first, cookieless analytics for Wix websites and Wix Stores.
 
 1. Go to **Settings > Custom Code** (or **Marketing & SEO > Custom Code**)
 2. Click **"+ Add Custom Code"**
-3. Paste the tracking script (see below)
-4. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Site ID
+3. Paste the entire contents of `sealmetrics-wix.js` inside `<script>` tags
+4. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
 5. Set **Placement** to **Head**
 6. Set **Pages** to **All pages**
 7. Click **Apply** and **Publish**
 
-### Method 2: Embed Code Element
-
-1. Add a
+### 
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/website-builders/wix]
 
@@ -2873,7 +2767,7 @@ Privacy-first, cookieless analytics for Joomla 4.x and 5.x.
 
 ## Installation
 
-1. Download `plg_system_sealmetrics.zip`
+1. Download `sealmetrics-joomla.zip`
 2. Go to **System > Install > Extensions**
 3. Upload and install the ZIP file
 4. Go to **System > Manage > Plugins**
@@ -2884,7 +2778,7 @@ Privacy-first, cookieless analytics for Joomla 4.x and 5.x.
 
 | Setting | Description |
 |---------|-------------|
-| **A
+| **Accou
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/cms/joomla]
 
@@ -2907,10 +2801,10 @@ Privacy-first, cookieless analytics for Magento 2.4+ (Adobe Commerce).
 
 ## Installation
 
-### Option 1: Manual Installation
+Install the module by copying its files into `app/code`:
 
 1. Create directory: `app/code/SealMetrics/Analytics`
-2. Copy extension files to that directory
+2. Copy the module files into that directory
 3. Run commands:
 
 ```bash
@@ -2919,10 +2813,9 @@ bin/magento setup:upgrade
 bin/magento cache:clean
 ```
 
-### Option 2: Composer
+## Configuration
 
-```bash
-composer require sealmetrics/module-analy
+1. Go to **Admin > Stores > C
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/ecommerce/magento]
 
@@ -3021,18 +2914,16 @@ Privacy-first, cookieless analytics for Squarespace websites and Squarespace Com
 ## Installation
 
 1. Go to **Settings > Advanced > Code Injection**
-2. Paste the tracking script in the **Header** section
-3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Site ID
+2. Paste the entire contents of `sealmetrics-squarespace.js` (wrapped in `<script>` tags) in the **Header** section
+3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
 4. Click **Save** and **Publish**
 
 ## Configuration
 
-```html
-<script>
-// Required: Your SealMetrics Account ID
-var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
+Edit these values at the top of the pasted script:
 
-// Optional: Track contact forms as lead con
+```javascript
+// Required: Your Sea
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/website-builders/squarespace]
 
@@ -3085,6 +2976,27 @@ In the meantime, you can track a BigCommerce storefront with the generic [JavaSc
 
 
 
+## Shopify
+
+
+URL: https://docs.sealmetrics.com/integrations/ecommerce/shopify
+
+
+# Shopify Integration
+
+Privacy-first, cookieless analytics for Shopify stores. SealMetrics tracks the e-commerce funnel through a Shopify app and a **Theme App Extension** (an "app embed"), with purchases confirmed server-side via a Shopify webhook.
+
+## How it works
+
+The integration has two parts:
+
+- **The SealMetrics Pixel app** — a Shopify app you install on your store. It handles the connection (OAuth), registers the conversion webhook, and manages billing.
+- **The "Sealmetrics Analytics" app embed** — a Theme App Extension you enable in your theme. It injects the SealMetrics loader, which loads the tracker (`t.js`), writes cart attributes, and fires the e-commerce microconve
+
+... [Read full document at https://docs.sealmetrics.com/integrations/ecommerce/shopify]
+
+
+
 ## BigQuery
 
 
@@ -3101,7 +3013,7 @@ Connect SealMetrics to Google BigQuery to unlock advanced SQL analysis, custom r
 
 SealMetrics dashboards cover the most common analytics needs. But when you need to go deeper, BigQuery gives you:
 
-- **Custom SQL queries** on raw pageview, session, and conversion data
+- **Custom SQL queries** on aggregated traffic, page, and conversion data
 - **BI tool integration** with Looker, Data Studio, Tableau, or Power BI
 - **Cross-platform joins** combining analytics with CRM, ad spend, or backend data
 - **Machine learning** using BigQuery ML on your traffic and conversion patterns
@@ -3114,6 +3026,18 @@ SealMetrics dashboards cover the most common analytics needs. But when you need 
 ## How It Works
 
 SealMetrics automatically exports your analytics data to a BigQuery dataset on a schedule you configure. The sync process:
+
+1. Extracts data from your SealMetrics account
+2. Transforms it into structured BigQuery tables
+3. Loads it into your GCP project on your chosen schedule (hourly, daily, or manual)
+
+Your data stays in **your** Google Cloud project — SealMetrics never stores copies outside your account.
+
+---
+
+## Prerequisites
+
+Before starting, make sure you have:
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/bigquery]
 
@@ -3151,24 +3075,6 @@ curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_SITE_
 ```
 
 Response:
-
-```json
-{
-  "data": {
-    "entrances": 12543,
-    "page_views": 28976,
-    "engaged_entrances": 7234,
-    "bounce_rate": 42.3,
-    "conversions": 156,
-    "revenue": 12450.00,
-    "microconversions": 892
-  }
-}
-```
-
-## API Sections
-
-### Analytics Data
 
 ... [Read full document at https://docs.sealmetrics.com/api]
 
@@ -3237,6 +3143,14 @@ curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
+### API Key Format
+
+All API keys use the `sm_` prefix:
+
+```
+sm_abc123def456ghi789...
+```
+
 ... [Read full document at https://docs.sealmetrics.com/api/authentication]
 
 
@@ -3272,6 +3186,8 @@ API tokens can be granted the following permissions:
 | `stats:read` | Read analytics data (traffic, conversions, pages) |
 | `sites:read` | Read site configuration (domains, settings) |
 | `accounts:read` | Read account information |
+
+**Note:** API tokens have read-only access. Write operations require JWT authentication via the dashboard.
 
 ... [Read full document at https://docs.sealmetrics.com/api/api-tokens]
 
@@ -3449,26 +3365,34 @@ curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d" \
 
 ```json
 {
+  "success": true,
   "data": {
     "date_range": {
-      "start": "2025-01-01",
-      "end": "2025-01-07"
+      "start_date": "2025-01-01",
+      "end_date": "2025-01-07",
+      "days": 7
     },
-    "entrances": 12543,
-    "page_views": 28976,
-    "engaged_entrances": 7234,
-    "bounce_rate": 42.3,
-    "conversions": 156,
-    "revenue": 12450.00,
-    "microconversions": 892
-  }
+    "traffic": {
+      "entrances": 12543,
+      "engaged_entrances": 7234,
+      "page_views": 28976,
+      "microconversions": 892,
+      "conversions": 156,
+      "revenue": 12450.00,
+      "bounce_rate": 42.3,
+      "pages_per_session": 2.31
+    },
+    "conversions": {
+      "conversions": 156,
+      "revenue": 12450.00,
+      "microconversions": 892,
+      "conversion_rate": 1.24,
+      "average_order_value": 79.81
+    }
+  },
+  "meta": {},
+  "timestamp": "2025-01-08T00:00:00Z"
 }
-```
-
-**With Comparison:**
-
-```bash
-curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d&compare=previous"
 ```
 
 ... [Read full document at https://docs.sealmetrics.com/api/stats]
@@ -3588,9 +3512,14 @@ List endpoints return paginated results to handle large datasets efficiently.
 | Parameter | Type | Default | Range | Description |
 |-----------|------|---------|-------|-------------|
 | `page` | integer | `1` | 1+ | Page number (1-indexed) |
-| `page_size` | integer | `50` | 1-1000 | Items per page |
+| `page_size` | integer | `50` | 1-1000 | Items per page (see per-endpoint maximum below) |
 
 **Note:**
+
+- **Up to 1000:** `/stats/pages`, `/stats/geo/countries`, `/stats/landing-pages`, `/stats/properties/values`
+- **Up to 100:** `/stats/sources`, `/stats/mediums`, `/stats/campaigns`, `/stats/terms`, `/stats/contents`, `/stats/referrers`, `/stats/channels`, `/stats/conversions`, `/stats/microconversions`
+
+Requesting a `page_size` above an endpoint's maximum returns a `422` validation error.
 
 ### Response Format
 
@@ -3606,15 +3535,6 @@ All paginated endpoints return a consistent response structure:
   "has_prev": false
 }
 ```
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `data` | array | Array of result items |
-| `total` | integer | Total count of items matching the query |
-| `page` | integer | Current page number |
-| `page_size` | integer | Items per page |
-| `has_next` | boolean | `true` if more pages exist after this one |
-| `has_prev` | boolean | `true` if pages exist before this one |
 
 ... [Read full document at https://docs.sealmetrics.com/api/pagination-sorting]
 
@@ -3671,6 +3591,12 @@ GET /stats/overview?site_id=my-site&period=30d&compare=previous
 Compares with the same duration immediately before the selected range.
 
 **Examples:**
+
+| Selected Period | Comparison Period |
+|-----------------|-------------------|
+| Jan 15-21 (7 days) | Jan 8-14 (7 days) |
+| Last 30 days | Previous 30 days |
+| This month (Jan 1-10) | Dec 2-11 (same duration) |
 
 ... [Read full document at https://docs.sealmetrics.com/api/comparison]
 
@@ -3766,14 +3692,14 @@ All webhooks are:
 ### List Webhook Endpoints
 
 ```http
-GET /webhooks?site_id={site_id}
+GET /webhooks?account_id={account_id}
 ```
 
 **Query Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `site_id` | string | Required. Site ID |
+| `account_id` | string | Required. Account ID |
 | `include_inactive` | boolean | Include disabled endpoints |
 | `limit` | int | Max results (default: 50) |
 | `offset` | int | Pagination offset |
@@ -3798,11 +3724,18 @@ Create alert rules to get notified when traffic anomalies occur.
 
 The Alerts API allows you to:
 - Create rules for traffic anomaly detection
-- Configure notification channels (email, webhook)
+- Configure notifications (email, Slack, webhook)
 - View alert history and statistics
 - Acknowledge and manage triggered alerts
 
 **Base path:** `/alerts`
+
+**Note:**
+Read endpoints (`GET /alerts/rules`, `/alerts/history`, `/alerts/stats`)
+require the `read` scope. Endpoints that create, update, delete, test, or
+acknowledge alerts require the `write` scope. API keys are **read-only**, so
+those write operations must be performed with a user session that holds the
+`write` scope — an API key alone cannot create or modify alert rules.
 
 ---
 
@@ -3811,14 +3744,14 @@ The Alerts API allows you to:
 ### List Alert Rules
 
 ```http
-GET /alerts/rules?site_id={site_id}
+GET /alerts/rules?account_id={account_id}
 ```
 
 **Query Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `site_id` | string | Required. Site ID |
+| `account_id` | string | Required. Account ID |
 | `include_inactive` | boolean | Include disabled rules |
 
 **Response:**
@@ -3891,9 +3824,9 @@ The BigQuery integration allows you to:
 ## Setup Flow
 
 1. Create a Google Cloud service account with BigQuery permissions
-2. Configure the integration with your credentials
-3. Run initial setup to create tables
-4. Enable automatic sync or trigger manual syncs
+2. Configure the integration by uploading the service account JSON file
+3. The dataset and tables are created automatically during setup
+4. Enable automatic sync or trigger manual/backfill syncs
 
 ---
 
@@ -3902,22 +3835,26 @@ The BigQuery integration allows you to:
 ### Create Integration
 
 ```http
-POST /integrations/bigquery?site_id={site_id}
+POST /integrations/bigquery?account_id={account_id}
 ```
 
-**Request Body:**
+This endpoint uses **query parameters** for configuration and a **multipart/form-data** body to upload the Google Cloud service account JSON file. The dataset and tables are created in BigQuery as part of this call.
 
-```json
-{
-  "project_id": "my-gcp-project",
-  "dataset_id": "sealmetrics_data",
-  "credentials_json": "{...service account JSON...}",
-  "sync_frequency": "daily",
-  "sync_hour_utc": 3,
-  "enabled": true,
-  "tables": ["sessions", "pageviews", "conversions"]
-}
-```
+**Query Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+| `gcp_project_id` | string | Yes | Google Cloud project ID (6-30 chars, lowercase letters, digits and hyphens, starts with a letter) |
+| `dataset_id` | string | No | BigQuery dataset name (alphanumeric and underscores). Default: `sealmetrics` |
+| `location` | enum | No | Dataset location: `EU` (default), `US`, `europe-west1`, `us-central1`, `us-east1` |
+| `sync_frequency` | enum | No | `hourly`, `daily` (default), `manual` |
+| `data_types` | string[] | No | Data types to sync. Default: `traffic`, `conversions`, `microconversions`, `pages`, `landing_pages`. Also valid: `traffic_hourly`, `accounts` |
+| `backfill_days` | integer | No | Days of historical data to sync initially (0-365). Default: `30` |
+| `initial_date_from` | date | No | Custom initial sync start date (overrides `backfill_days`; must be set with `initial_date_to`) |
+| `initial_date_to` | date | No | Custom initial sync end date (must be set with `initial_date_from`) |
+
+**Form Data (multipart):**
 
 ... [Read full document at https://docs.sealmetrics.com/api/bigquery]
 
@@ -3968,7 +3905,7 @@ When enabled:
 ### Get Settings
 
 ```http
-GET /ip-allowlist/settings?site_id={site_id}
+GET /ip-allowlist/settings?account_id={account_id}
 ```
 
 **Response:**
@@ -3976,12 +3913,13 @@ GET /ip-allowlist/settings?site_id={site_id}
 ```json
 {
   "data": {
-    "enabled": true,
-    "enforce_on_api": true,
-    "enforce_on_dashboard": false,
-    "allow_owner_bypass": true,
-    "patterns_count": 5,
-    "last_updated_at": "2025-01-10T14:30:00Z"
+    "account_id": "my-site",
+    "is_enabled": true,
+    "enforce_for_api_tokens": true,
+    "enforce_for_dashboard": false,
+    "active_patterns_count": 5,
+    "created_at": "2025-01-01T10:00:00Z",
+    "updated_at": "2025-01-10T14:30:00Z"
   }
 }
 ```
@@ -4063,14 +4001,11 @@ Every API response includes these headers:
 
 | Header | Description | Example |
 |--------|-------------|---------|
-| `X-RateLimit-Limit` | Max requests per minute for your plan | `120` |
-| `X-RateLimit-Remaining` | Requests remaining in current window | `95` |
+| `X-RateLimit-Limit` | Max requests per minute for your plan | `240` |
+| `X-RateLimit-Remaining` | Requests remaining in current window | `235` |
 | `X-RateLimit-Reset` | Unix timestamp when window resets | `1704067200` |
 
-Example response headers:
-
-```http
-HTTP/1.1 
+The value of `X-RateLimit-Limit` depends on
 
 ... [Read full document at https://docs.sealmetrics.com/api/rate-limits]
 
@@ -4141,6 +4076,55 @@ curl "https://my.
 
 
 
+## Python SDK
+
+
+URL: https://docs.sealmetrics.com/api/sdk-python
+
+
+# Python SDK
+
+The **Sealmetrics Python SDK** is the official, type-safe client for the Sealmetrics Analytics API, designed for data scientists and analytics professionals. It wraps the [REST API](/api) with Pydantic models, native pandas/polars DataFrame conversion, magic date shortcuts, automatic pagination, and retries.
+
+**Note:**
+
+## Features
+
+- **Type-safe**: full Pydantic models with IDE autocompletion
+- **DataFrame integration**: native pandas and polars support
+- **Sync and async**: both clients built on `httpx`
+- **Magic dates**: shortcuts like `"30d"`, `"mtd"`, `"ytd"`
+- **Automatic pagination**: fetches all results seamlessly
+- **Automatic retries**: exponential backoff for reliability
+- **Bulk exports**: download large datasets efficiently
+- **Batch queries**: multiple queries in a single request
+
+## Installation
+
+The package is published as `sealmetrics` and requires Python 3.10+.
+
+```bash
+pip install sealmetrics
+
+# With pandas support (recommended for data scientists)
+pip install sealmetrics[pandas]
+
+# With Jupyter support (pandas + progress bars)
+pip install sealmetrics[jupyter]
+
+# With polars support
+pip install sealmetrics[polars]
+
+# All optional dependencies
+pip install sealmetrics[all]
+```
+
+## Authentication
+
+... [Read full document at https://docs.sealmetrics.com/api/sdk-python]
+
+
+
 ---
 
 # Security & Privacy
@@ -4184,10 +4168,6 @@ With 2FA enabled, attackers need both your password AND physical access to your 
 
 Sealmetrics uses TOTP, the industry standard for 2FA:
 
-- 6-digit codes that change every 30 seconds
-- Works offline (no SMS needed)
-- Compatible with all major authenticator apps
-
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/account-security/two-factor-auth]
 
 
@@ -4207,6 +4187,8 @@ Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpan
 Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Every visitor is measured. Every page view is counted. Every conversion is attributed to its source. No consent is needed because no personal data is involved.
 
 ---
+
+## How It Works: The Four-Variable System
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/consentless-analytics]
 
@@ -4235,9 +4217,7 @@ Backup codes are:
 Use a backup code when:
 - Your phone is lost or stolen
 - Your phone is dead and you can't charge it
-- You're traveling without your usual device
-- Your authenticator app was deleted
-- You got a new phone a
+- You're traveling without your usual de
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/account-security/backup-codes]
 
@@ -4280,28 +4260,15 @@ URL: https://docs.sealmetrics.com/security-privacy/account-security/ip-allowlist
 
 # IP Allowlist
 
-IP allowlisting restricts access to your Sealmetrics account to specific IP addresses, adding another layer of security beyond passwords and 2FA.
+IP allowlisting restricts access to a Sealmetrics **site (account)** to a defined set of IP patterns, adding a network-level control on top of passwords and 2FA.
+
+The allowlist is configured **per site** in the dashboard under **Site Config → Settings → IP Allowlist**, and is also available through the [IP Allowlist API](/api/ip-allowlist) for automation.
+
+**Info:**
 
 ## What Is IP Allowlisting?
 
-When enabled, only users connecting from approved IP addresses can access your account. Requests from other IPs are blocked, even with valid credentials.
-
-```
-User Request
-     ↓
-Check IP Address
-     ↓
-┌──────────────────┐
-│ IP in allowlist? │
-└────────┬─────────┘
-         │
-    Yes ↙   ↘ No
-   Allow    Block
-```
-
-## Who Should Use It?
-
-IP allowlisting is ideal for:
+When an account's allowlist is enabled, requests from an IP that doesn't match any ac
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/account-security/ip-allowlist]
 
@@ -4367,12 +4334,14 @@ URL: https://docs.sealmetrics.com/security-privacy/account-security/session-mana
 
 # Session Management
 
-Session management lets you see all devices and locations where your account is currently signed in, and remotely sign out of sessions you don't recognize.
+Session management lets you see the devices where **your own account** is currently signed in, and sign out of sessions you don't recognize.
 
 ## Viewing Active Sessions
 
-1. Go to **Settings → Security → Sessions**
-2. View all active sessions
+1. In the sidebar, go to **My Account → Security**
+2. Find the **Active Sessions** section
+
+Your current session is highlighted, and any other sessions are listed below it.
 
 ```
 Active Sessions
@@ -4380,12 +4349,7 @@ Active Sessions
 
 Current Session:
 ┌─────────────────────────────────────────┐
-│ 🟢 Chrome on macOS                      │
-│    Madrid, Spain                        │
-│    IP: 192.168.1.50                     │
-│    Active now                           │
-│                           [This Device] │
-└─────────────────────────────────────────┘
+│ 🟢 macO
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/account-security/session-management]
 
@@ -4617,7 +4581,8 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 ### Aggregate Measurement Instead of Individual Tracking
 
 ### Traditional Analytics (❌ Requires Consent)
-- Uses cookies to store visitor IDs
+- Uses cookies to store visitor IDs  
+- Rec
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4834,6 +4799,8 @@ Data protection authorities across the EU have developed guidance on when analyt
 
 To qualify for consent exemption, **all three** conditions must be met:
 
+#### 1. User Notification
+
 ... [Read full document at https://docs.sealmetrics.com/compliance/analytics-cookies-exemption]
 
 
@@ -4998,6 +4965,8 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - Reputational damage
 - User complaints
 
+**Not recommended**: High-profile Google Analytics enforcement (Austria, France, Italy) demonstrates authorities are serious.
+
 ... [Read full document at https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics]
 
 
@@ -5034,6 +5003,8 @@ The current Article 5(3) of the ePrivacy Directive, dating from 2009, has create
 - **26% randomly reject** without understanding implications
 - "Consent fatigue" means users make uninformed decisions
 - The very goal of informed consent is defeated
+
+### Why the Current System Fails
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy]
 
@@ -5134,6 +5105,9 @@ Before the Omnibus, organizations navigating EU data regulation must comply with
 - European data innovation board
 
 **Current problem**: Only 27 registered data intermediaries despite expectations of 100-150; heavy compliance burden
+
+#### 4. Open Data Directive (ODD)
+**Directive (EU) 2019/1024**
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/data-consolidation]
 
@@ -5243,6 +5217,9 @@ AI developers faced uncertainty about lawful basis for processing personal data 
 - Cannot obtain consent from all individuals in web-scraped data
 - Consent withdrawal would require model retraining
 
+**Article 6(1)(b) Contract**:
+- Not applicable (no contractual relationship with training data subjects)
+
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/ai-act-amendments]
 
 
@@ -5349,6 +5326,8 @@ Under current EU law, businesses enjoy lighter regulatory treatment while they q
 
 **Economic inefficiency**: A company with 250 employees is not fundamentally different from one with 249, yet faces drastically different regulatory treatment.
 
+## The Solution: Small Mid-Caps (SMCs)
+
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/smes-small-midcaps]
 
 
@@ -5405,6 +5384,8 @@ The proposal (procedure 2025/0360(COD)) has been assigned to **joint committee r
 Organizations can submit formal positions during these periods.
 
 ### Q1-Q2 2026: Parliamentary and Council Review 🔄
+
+**Status**: In progress
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/timeline-implementation]
 
@@ -5915,16 +5896,18 @@ URL: https://docs.sealmetrics.com/platform/account-setup/how-to-delete-account
 
 ## Steps
 
-1. Go to **Settings → Sites** in the sidebar.
+1. In the left sidebar, expand **Organization** and click **Sites** (`/settings/sites`).
 2. Find the site you want to delete in the **Your Sites** list.
 3. Click the **trash icon** on the right side of the site row.
-4. Confirm the deletion in the dialog that appears.
+4. Confirm in the browser dialog ("Are you sure you want to delete this site?").
 
 The site will be removed from your list immediately.
 
 ---
 
-Only users with the appropriate permissions (Owner or Admin role) can delete sites. If you don't see the delete button, contact your organization owner.
+Only users with the appropriate permissions (Owner or Admin role) can delete sites. If you don'
+
+... [Read full document at https://docs.sealmetrics.com/platform/account-setup/how-to-delete-account]
 
 
 
@@ -5958,75 +5941,57 @@ Organization
 
 
 
-## General Settings
+## Site Settings
 
 
 URL: https://docs.sealmetrics.com/platform/settings/account/general
 
 
-# General Settings
+# Site Settings
 
-Configure the basic settings for your Sealmetrics account.
+Each site in Sealmetrics has its own basic settings: a name, a timezone, and a default currency.
 
-## Accessing General Settings
+## Accessing Site Settings
 
-1. Click the **gear icon** in the main navigation
-2. Select **Account → General**
+1. Open the sidebar and go to the **Site Config** group
+2. Click **Settings**
 
-## Account Information
+This opens the settings page for the currently selected site. The **General** tab is shown first.
 
-### Account Name
+**Info:**
 
-The display name for your account, shown in the dashboard and reports.
+## General Tab
 
-```
-Account Name: [My E-commerce Store          ]
+The General tab contains the core configuration for the site.
 
-This name appears in:
-• Dashboard header
-• Reports and exports
-• Email notifications
-• Team member invitations
-```
+### Site Name
 
-### Account ID
+The display name for the site, shown across the dashboard and in reports.
 
-Your uniq
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/account/general]
 
 
 
-## Audit Log
+## Audit Logs
 
 
 URL: https://docs.sealmetrics.com/platform/settings/advanced/audit-log
 
 
-# Audit Log
+# Audit Logs
 
-The Audit Log records all significant actions taken in your Sealmetrics account, providing a complete trail for security and compliance purposes.
+Audit Logs record significant actions taken across your Sealmetrics organization, providing a trail of who did what and when.
 
-## Accessing Audit Log
+## Accessing Audit Logs
 
-1. Go to **Settings → Advanced → Audit Log**
-2. View chronological list of all actions
+In the sidebar, go to **Organization → Audit Logs**.
+
+Visibility is scoped to your organization: you see entries generated by members of the organization(s) you belong to. Access requires permission to manage members.
 
 ## What's Logged
 
-### User Actions
-
-| Action | Details Recorded |
-|--------|------------------|
-| Login | User, IP, device, location |
-| Logout | User, session duration |
-| Failed login | Email attempted, IP, reason |
-| Password change | User (not the password) |
-| 2FA enabled/disabled | User |
-| API key created | User, key name, permissions |
-| API key revoked | User, key name |
-
-### Account Changes
+Each entry is a single action with an actor, a resource it affected, and the time it happened. Th
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/advanced/audit-log]
 
@@ -6040,20 +6005,15 @@ URL: https://docs.sealmetrics.com/platform/settings
 
 # Settings Overview
 
-The Settings area lets you configure every aspect of your Sealmetrics account. Access it by clicking the gear icon in the main navigation.
+The Settings area lets you configure every aspect of your Sealmetrics account. Settings live in the left sidebar, organized into three collapsible groups:
+
+- **My Account** -- your personal settings: Profile, Security, API Keys, and LLM Providers.
+- **Organization** (owners and admins only) -- Settings, Members, Billing, Sites, Pixels, and Audit Logs.
+- **Site Config** (per selected site) -- Settings, Integrations, and Properties.
 
 ## Settings Categories
 
-### Account Settings
-
-Configure your account and organization.
-
-| Setting | Description |
-|---------|-------------|
-| [General](/platform/settings/account/general) | Account name, timezone, default date range |
-| [Users & Teams](/platform/settings/account/users) | Manage team members and permissions |
-
-### Trackin
+### Account Setting
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings]
 
@@ -6083,7 +6043,7 @@ Export your Sealmetrics data to Google BigQuery for custom SQL analysis, machine
 3. Generate and download credentials
 4. Configure in Sealmetrics
 5. Choose sync settings
-6. Verify data export
+6. Create the dataset and verify the export
 
 ## Step 1: Create GCP Service Account
 
@@ -6093,6 +6053,19 @@ Export your Sealmetrics data to Google BigQuery for custom SQL analysis, machine
 2. Select your project (or create one)
 3. Navigate to **IAM & Admin → Service Accounts**
 4. Click **+ Create Service Account**
+
+```
+Service Account Details:
+  Name: sealmetrics-export
+  ID: sealmetrics-export
+  Description: Service account for Sealmetrics BigQuery export
+```
+
+5. Click **Create and Continue**
+
+## Step 2: Grant Permissions
+
+Grant the service account BigQuery access:
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/integrations/bigquery]
 
@@ -6106,18 +6079,14 @@ URL: https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder
 
 # Pixel Builder
 
-The Pixel Builder helps you generate tracking code for your website without writing code manually. It creates ready-to-copy snippets for conversions, microconversions, and pageviews.
+The Pixel Builder helps you generate tracking code for your website without writing it by hand. It produces ready-to-copy snippets for conversions and microconversions, and lets you save reusable pixel configurations per site.
+
+It lives inside the **Pixels** (Pixel Management) page, alongside the installation guide and pixel status monitoring.
 
 ## Accessing Pixel Builder
 
-1. Go to **Settings → Pixels** in the sidebar
-2. In the **Saved Pixels** section, click **Create Pixel**
-
-## Creating a Pixel
-
-### Step 1: Name and Description
-
-Give your pixel a descriptive name (e.g., "Purchase Tracking", "Newsletter Signup") and an optional descriptio
+1. Open **Organization → Pixels** in the sidebar
+2. Select the account/site you want to work with from the *
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder]
 
@@ -6133,16 +6102,10 @@ URL: https://docs.sealmetrics.com/platform/user-management/roles-management
 
 Sealmetrics uses a two-tier role system to give you fine-grained control over who can access what:
 
-1. **Organization roles** control what a user can do across the organization (manage members, billing, settings).
-2. **Site-level roles** control what a user can do within a specific site (edit configuration or view only).
+1. **Organization roles** (Owner, Admin, Member) determine what a user can do across the organization — manage members, billing, settings, and which sites they can see.
+2. **Site access roles** (Editor, Viewer) determine the access level a Member is granted when they are added to a specific site.
 
-These two layers are independent and combine together to determine a user's full set of permissions.
-
----
-
-## Organization Roles
-
-Every member of an orga
+The user's effective management permissions are driven by their **organization
 
 ... [Read full document at https://docs.sealmetrics.com/platform/user-management/roles-management]
 
@@ -6166,7 +6129,7 @@ Sealmetrics counts a new **entrance** when the referrer is empty or comes from a
 
 When you create a new site, you can add one or more domains in the creation form:
 
-1. Go to **Settings → Sites** in 
+1. In the left sidebar, expand **
 
 ... [Read full document at https://docs.sealmetrics.com/platform/account-setup/how-to-add-domains]
 
@@ -6188,11 +6151,10 @@ Manage who has access to your Sealmetrics organization and control what they can
 
 To see all members in your organization:
 
-1. Go to **Settings** (gear icon in the navigation)
-2. Navigate to **Organization** and select your organization
-3. Open the **Members** tab
+1. Open the sidebar and go to the **Organization** group
+2. Click **Members**
 
-You will see a list of all current members, their email, organization role, and status.
+You will see a list of all current members, their name, email, organization role, the number of assigned sites (for Members), and when they joined.
 
 ---
 
@@ -6200,7 +6162,7 @@ You will see a list of all current members, their email, organization role, and 
 
 Owners and Admins can invite new members to the organization.
 
-##
+### H
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/account/users]
 
@@ -6243,36 +6205,10 @@ URL: https://docs.sealmetrics.com/platform/settings/integrations/webhooks
 
 # Webhooks
 
-Webhooks allow Sealmetrics to send real-time data to your servers or third-party services when specific events occur.
+Webhooks let Sealmetrics notify your servers in real time when something happens in your account — for example, when an alert triggers or a data export finishes. Sealmetrics sends an HTTP `POST` to a URL you control, signed so you can verify it came from us.
 
-## What Are Webhooks?
-
-Webhooks are HTTP callbacks that send data when events happen:
-
-```
-Event occurs in Sealmetrics
-         ↓
-Webhook triggered
-         ↓
-HTTP POST to your URL
-         ↓
-Your server processes data
-```
-
-## Accessing Webhook Settings
-
-1. Go to **Settings → Integrations → Webhooks**
-2. View configured webhooks
-
-## Available Webhook Events
-
-| Event | Trigger | Use Case |
-|-------|---------|----------|
-| `conversion.created` | New conversion recorded | Update CRM, send to ad platforms |
-| `anomaly.detected` | LENS detects anomaly | Alert systems, incident management |
-| `anomaly.resolved` | Anomaly returns to normal | Close incident tickets |
-| `report.generated` | Scheduled report ready | Notify team, archive report |
-| `threshold.exceeded` | 
+**Info:**
+Webhooks are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect endpoints with the API calls shown below. See the [Webhooks API reference](/api/webhooks) for the 
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/integrations/webhooks]
 
@@ -6286,7 +6222,7 @@ URL: https://docs.sealmetrics.com/platform/settings/tracking/content-grouping
 
 # Content Grouping
 
-Content Grouping lets you organize your pages into logical categories, making it easier to analyze performance by section rather than individual URLs.
+Content Grouping lets you organize your pages into logical categories, making it easier to analyze performance by section rather than individual URLs in the Pages report.
 
 ## What is Content Grouping?
 
@@ -6299,12 +6235,7 @@ Before Content Grouping:
 /products/widget-b           189 views
 /products/gadget-x           167 views
 /blog/how-to-use-widgets     145 views
-/blog/widget-comparison      132 views
-/about                        89 views
-... (hundreds more)
-```
-
-You can analyze by content type:
+/blog/widget-com
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/tracking/content-grouping]
 
@@ -6325,15 +6256,11 @@ An Admin can:
 - Access all sites in the organization
 - Add, remove, and manage members
 - Assign sites to Members
-- View organization settings
+- Manage integrations, pixels, properties, and API tokens
 
-Admins **cannot** manage billing or delete the organization -- only the Owner can do that.
+Admins **cannot** manage billing, edit or delete the organization, delete sites, manage LLM providers, or promote a member to Owner -- only the Owner can do those.
 
-## Steps
-
-1. Go to **Settings > Organization > Members**
-2. Click **Invite Member**
-3. Enter the person's ema
+## Step
 
 ... [Read full document at https://docs.sealmetrics.com/platform/user-management/create-admin-user]
 
@@ -6355,15 +6282,11 @@ The Site ID is set when the site is created and **cannot be changed** afterwards
 
 ## Steps to Find Your Site ID
 
-### 1. Go to **Settings**
+### 1. Open **Organization → Sites**
 
-Click the **Settings** icon (gear) in the sidebar.
+In the left sidebar, expand the **Organization** group and click **Sites** to open the **Site Management** page (`/settings/sites`).
 
-### 2. Open **Sites**
-
-In the Settings menu, click on **Sites** to see your list of sites.
-
-### 3. Select
+### 2. Open 
 
 ... [Read full document at https://docs.sealmetrics.com/platform/account-setup/find-account-id]
 
@@ -6377,32 +6300,10 @@ URL: https://docs.sealmetrics.com/platform/settings/tracking/custom-dimensions
 
 # Custom Dimensions
 
-Custom dimensions let you capture additional data beyond standard analytics fields, enabling business-specific analysis.
+Custom dimensions let you capture data beyond the standard analytics fields (page, referrer, device, country) for business-specific analysis — for example customer tier, product category, A/B test variant or subscription plan.
 
-## What Are Custom Dimensions?
-
-Standard tracking captures common fields:
-- Page URL
-- Referrer
-- Device type
-- Country
-
-Custom dimensions let you add your own fields:
-- Customer type (free/premium)
-- Product category
-- A/B test variant
-- Subscription plan
-
-## Accessing Custom Dimensions
-
-1. Click the **gear icon** in the main navigation
-2. Select **Tracking → Custom Dimensions**
-
-## Dimension Scopes
-
-### Hit-Level Dimensions
-
-Attached to individual events. Pass as properties in your tracking calls:
+**Info:**
+Sealmetrics does **not** have a settings screen where you pre-declare dimensions (with scopes, data types or default values). Instead, a custom dimension is simply a **custom property** you send with your tracking calls. The first time you s
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/tracking/custom-dimensions]
 
@@ -6420,22 +6321,21 @@ Follow these steps to update your password securely.
 
 ## 1. Open Your Profile
 
-Click on your username in the top-right corner and select **My profile**.
+In the sidebar, open the **My Account** group and click **Profile**.
 
-![Change Password Step 1](/img/change-password-1.png)
+The Profile page shows your account information and a **Change Password** section.
 
 ## 2. Update Your Password
 
-Inside the **User** section, update:
+In the **Change Password** section, fill in:
 
-- Password  
-- Password confirmation  
+- **Current Password**
+- **New Password** (must be at least 12 characters)
+- **Confirm New Password**
 
-Click **Update** to save your changes.
+Click **Change Password** to save your changes. A confirmat
 
----
-
-If you cannot access your account, you can request a reset link from the login screen.
+... [Read full document at https://docs.sealmetrics.com/platform/user-management/change-password]
 
 
 
@@ -6451,17 +6351,12 @@ Each site represents a website you want to track with Sealmetrics. Sites belong 
 
 ## Steps
 
-1. Go to **Sites** in the sidebar
-2. Click **Add Site**
-3. Enter the site name (e.g., "My Blog" or "company.com")
-4. Set the site's **timezone** — this determines how dates are calculated in your reports
-5. Set the **currency** for conversion tracking (default: EUR)
-6. Click **Create**
-
-Your new site will appear in the Sites list with a unique **Site ID**.
-
----
-
+1. In the left sidebar, expand **Organization** and click **Sites** (`/settings/sites`)
+2. Click **New Site**
+3. Enter the **Site Name** (e.g., "My Blog" or "company.com")
+4. Optionally enter a **Primary Domain** to track (you can add more later)
+5. Set the site's **Timezone** — this determines how dates are calculated in your reports (default: Europe/Madrid)
+6.
 
 ... [Read full document at https://docs.sealmetrics.com/platform/account-setup/how-to-add-new-account]
 
@@ -6479,15 +6374,14 @@ Owners and Admins can invite new members to the organization at any time.
 
 ## Steps
 
-1. Go to **Settings > Organization > Members**
+1. In the sidebar, open the **Organization** group and click **Members**
 2. Click **Invite Member**
 3. Enter the person's email address
 4. Choose their organization role:
-   - **Owner** -- full access including billing
    - **Admin** -- manage members and all sites, no billing
    - **Member** -- access only to assigned sites
-5. If you selected **Member**, choose which sites they should have access to
-6. Cli
+5. If you selected **Member**, select at least one site they should have access to (this is required)
+6. 
 
 ... [Read full document at https://docs.sealmetrics.com/platform/user-management/how-to-add-new-user]
 
@@ -6505,45 +6399,57 @@ The timezone determines how dates and times are calculated in your reports.
 
 ## Steps
 
-1. Go to **Settings → Sites** in the sidebar.
-2. Click on the site you want to configure.
-3. In the **General** tab, find the **Timezone** field.
-4. Select your timezone from the dropdown (you can search by name).
-5. Click **Save** to apply the change.
+1. In the left sidebar, expand **Site Config** and click **Settings** (`/settings/sites/{siteId}`).
+2. Stay on the **General** tab and find the **Timezone** field.
+3. Open the timezone selector and pick your timezone (you can search by name or country).
+4. Click **Save Changes** to apply the change.
 
 ---
 
-By default, new sites use **Europe/Madrid**. The timezone list is grouped by region (America, Europe, Asia, etc.) for easi
+By default, new sites use **Europe/Madrid**. The timezone selector lets yo
 
 ... [Read full document at https://docs.sealmetrics.com/platform/account-setup/how-to-change-timezone]
 
 
 
-## LLM Settings
+## LLM Providers
 
 
 URL: https://docs.sealmetrics.com/platform/settings/llm
 
 
-# LLM Settings
+# LLM Providers
 
-Configure which AI model powers your LENS insights. By default, Sealmetrics uses a self-hosted DeepSeek model, but you can configure your own provider for potentially faster responses or specific model preferences.
+Configure which AI model powers the **Lens chat** assistant. LLM Providers is a **per-user, bring-your-own-key (BYOK)** setting: you add your own API key for a provider, and that configuration is used across every site you have access to.
 
-## Accessing LLM Settings
-
-1. Click the gear icon to open **Settings**
-2. Click **LLM Settings** in the sidebar
-
-## Default Configuration
-
-By default, Sealmetrics uses **DeepSeek Local** via Ollama:
-
-| Aspect | Details |
-|--------|---------|
-| **Provider** | Self-hosted DeepSeek (via Ollama) |
-| **Cost** | Free (inclu
+**Info:**
+Your LLM Providers configuration belongs to **you**, not to a site or organization. The same key is applied to every site you can access, and **only you can see or modify it**. There is no per-account dropdown — other users configure their own keys independently.
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
+
+
+
+## Referrer Mappings
+
+
+URL: https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/referrer-mappings
+
+
+# Referrer Mappings
+
+**Referrer Mappings** let you assign a specific source, medium, and campaign to traffic that arrives from a known referrer domain. When a visit comes from a domain you have mapped **and the URL carries no UTM parameters**, SealMetrics applies the UTM values you configured automatically.
+
+This is useful for properly attributing traffic from:
+
+- Partner sites
+- Affiliates
+- Internal domains
+- Any referrer you want to label with a consistent source/medium
+
+**Note:**
+Referrer Ma
+
+... [Read full document at https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/referrer-mappings]
 
 
 
@@ -6563,46 +6469,32 @@ This feature is ideal for organizations requiring strict access control.
 
 ## How It Works
 
-An Admin can define **authorized IP addresses**. Only devices connecting from those IPs can log into the platform.
+The IP allowlist is configured **per site**. When it is enabled, only users whose login originates from an allowed IP can access that site. Access to the user's other sites is not affected.
 
 Benefits:
 
-- **Full access control**: Only trusted networks can access the platform.
-- **Protection from unauthorized access**.
-- **Extra security layer*
+- **Full access control**: Only trusted networks can access the sit
 
 ... [Read full document at https://docs.sealmetrics.com/platform/user-management/authorized-ips]
 
 
 
-## How to Share Your Affiliate Link
+## Passthrough Referrers
 
 
-URL: https://docs.sealmetrics.com/platform/affiliates-and-partners/how-to-share-your-affiliate-link
+URL: https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/passthrough-referrers
 
 
-# How to Share Your Affiliate Link
+# Passthrough Referrers
 
-Sealmetrics includes a simple affiliate system that lets you earn recurring commissions by referring new paid users.  
-Follow the steps below to generate and share your unique affiliate link.
+A **passthrough referrer** is an external domain that your visitors temporarily pass through during a journey — and then return to your site. Instead of treating the return as a brand-new visit, SealMetrics keeps the **original session source** intact.
 
----
+This is the right setting whenever a journey leaves your domain and comes back, for example:
 
-## Steps to Create Your Affiliate Link
+- **Payment gateways** — Stripe, PayPal, Redsys, or a POS/checkout domain.
+- **External authentication / SSO** — an identity pr
 
-1. Go to **Setup**
-2. Select **Affiliate**
-3. Enter the name you'd like to include in your affiliate link
-4. Click **Create**
-5. Share the generated link
-
----
-
-## How Commissions Work
-
-Every time someone becomes a **Paid User*
-
-... [Read full document at https://docs.sealmetrics.com/platform/affiliates-and-partners/how-to-share-your-affiliate-link]
+... [Read full document at https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/passthrough-referrers]
 
 
 
@@ -6723,7 +6615,7 @@ URL: https://docs.sealmetrics.com/billing/plans/scale
 
 # Scale Plan
 
-The Scale plan is designed for multi-brand retailers and larger organizations that need webhooks, audit logs, and higher event volumes. Agent AI Analytics is coming soon. This is our most popular plan.
+The Scale plan is designed for multi-brand retailers and larger organizations that need webhooks, audit logs, and higher event volumes. This is our most popular plan.
 
 ## Pricing
 
@@ -6739,7 +6631,8 @@ The Scale plan is designed for multi-brand retailers and larger organizations th
 | Feature | Included |
 |---------|----------|
 | Monthly events | 15,000,000 |
-
+| Websites | Unlimited |
+| Data ret
 
 ... [Read full document at https://docs.sealmetrics.com/billing/plans/scale]
 
@@ -6769,7 +6662,7 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 ## Events & Data
 
 | Feature | Growth | Scale | Enterprise |
-
+|---------|:------:|:---
 
 ... [Read full document at https://docs.sealmetrics.com/billing/features-comparison]
 
@@ -6832,7 +6725,9 @@ All tracked interactions count toward your event limit:
 | Event Type | Counts? | Notes |
 |------------|:-------:|-------|
 | Pageview | Yes | Standard page load |
-| Virtual pa
+| Virtual pageview (SPA) | Yes | Single-page app navigation |
+| Custom event | Yes | User-defined events |
+| Conversion | Yes | Purchase, s
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -6846,29 +6741,10 @@ URL: https://docs.sealmetrics.com/billing/add-ons
 
 # Add-ons & Extras
 
-Extend your Sealmetrics plan with additional AI questions. All plans already include unlimited websites and unlimited users.
+All plans already include unlimited websites and unlimited users, plus full access to LENS AI through your own LLM provider key. The add-ons below cover the remaining custom needs.
 
-## Available Add-ons
-
-### LENS AI Question Packs
-
-Add more AI questions for LENS.
-
-| Pack | Questions | Price |
-|------|-----------|-------|
-| Standard | 500 | €99 (one-time) |
-
-**Features:**
-- Questions never expire
-- Roll over month to month
-- Shared across all team members
-- Purchase multiple packs at once
-
-## How to Add
-
-### Via Dashboard
-
-1. Go to
+**Note:**
+LENS AI runs on a **bring-your-own-key (BYOK)** model — you connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key, and your questions are billed directly by that provider. Sealmetrics does **not** impose a monthly question quota, so there is no "question allowance" to top up. S
 
 ... [Read full document at https://docs.sealmetrics.com/billing/add-ons]
 
@@ -6913,6 +6789,10 @@ Click on any invoice to view details:
 Invoice INV-2024-01
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+Invoice Date:    January 15, 2024
+Due Date:        January 15, 2024
+Status:          Paid
+
 ... [Read full document at https://docs.sealmetrics.com/billing/invoices]
 
 
@@ -6943,7 +6823,9 @@ Yes! All plans include a **14-day free trial** with full features. No credit car
 
 ### Is there a free plan?
 
-No, but our 14-day free trial gives you full access to evaluate the platform. We also offer special 
+No, but our 14-day free trial gives you full access to evaluate the platform. We also offer special pricing for nonprofits and early-stage startups.
+
+### Do you offer discounts?
 
 ... [Read full document at https://docs.sealmetrics.com/billing/faq]
 
@@ -6983,7 +6865,7 @@ You should see:
 ### Verify Data Collection
 
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
-2. Go to **Real
+2. Go to **Real-time**
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -7481,7 +7363,7 @@ Using SealMetrics MCP for site {site_id}, compute the main conversion funnel wee
 Funnel steps (adjust if my actual funnel differs — ask me first if unclear):
 1. Landing page entrance
 2. View product / view room
-3. Add to c
+3. Add to cart / s
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization]
 
@@ -7785,7 +7667,7 @@ You have access to SealMetrics MCP for site {site_id} and Google Ads MCP for acc
 For the last 30 days, per Google Ads campaign:
 - Clicks reported by Google Ads
 - Real entrances captured by SealMetrics (matched on utm_campaign + utm_source = google + utm_medium = cpc)
-- % discrepancy = (clicks - entrances) /
+- % discrepancy = (clicks - entrances) / clicks
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/13-google-ads]
 
@@ -7813,7 +7695,7 @@ You have access to SealMetrics MCP for site {site_id} and Meta Ads MCP for accou
 Last 30 days per ad set:
 - Spend (Meta Ads)
 - Conversions and revenue reported by Meta
-- Conversions and revenue captured by SealMetrics (m
+- Conversions and revenue captured by SealMetrics (matched 
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/14-meta-ads]
 
@@ -7841,7 +7723,7 @@ You have access to SealMetrics MCP for site {site_id} and Google Search Console 
 For the last 90 days, list every query with:
 - More than 1000 impressions in GSC
 - A clear primary destination URL (top URL by clicks for that query)
-- Below-site-median conversion rate of that landing in SealMetri
+- Below-site-median conversion rate of that landing in SealMetrics
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/15-search-console]
 

@@ -4,7 +4,11 @@ URL: https://docs.sealmetrics.com/platform/settings
 
 # Settings Overview
 
-The Settings area lets you configure every aspect of your Sealmetrics account. Access it by clicking the gear icon in the main navigation.
+The Settings area lets you configure every aspect of your Sealmetrics account. Settings live in the left sidebar, organized into three collapsible groups:
+
+- **My Account** -- your personal settings: Profile, Security, API Keys, and LLM Providers.
+- **Organization** (owners and admins only) -- Settings, Members, Billing, Sites, Pixels, and Audit Logs.
+- **Site Config** (per selected site) -- Settings, Integrations, and Properties.
 
 ## Settings Categories
 
@@ -62,8 +66,8 @@ Access to settings depends on your organization role and site-level role:
 
 ### Set Up Tracking
 
-1. Go to **Settings → Tracking → Pixel Builder**
-2. Configure your pixel options
+1. In the sidebar, expand **Site Config** and click **Settings**
+2. Open the **Pixel Code** tab and configure your pixel options
 3. Copy the generated code
 4. Install on your website
 
@@ -71,16 +75,16 @@ Access to settings depends on your organization role and site-level role:
 
 ### Add Team Members
 
-1. Go to **Settings → Organization → Members**
-2. Click **Add Member**
+1. In the sidebar, expand **Organization** and click **Members**
+2. Click **Invite Member**
 3. Enter email and select role
-4. User receives invitation email
+4. Click **Send Invitation** -- the user receives an invitation email
 
 [User management guide →](/platform/settings/account/users)
 
 ### Connect BigQuery
 
-1. Go to **Settings → Integrations → BigQuery**
+1. In the sidebar, expand **Site Config** and click **Integrations**
 2. Create a GCP service account
 3. Upload credentials
 4. Configure sync options
@@ -89,7 +93,7 @@ Access to settings depends on your organization role and site-level role:
 
 ### View Activity History
 
-1. Go to **Settings → Advanced → Audit Log**
+1. In the sidebar, expand **Organization** and click **Audit Logs**
 2. Browse or search activity
 3. Filter by user, action, or date
 

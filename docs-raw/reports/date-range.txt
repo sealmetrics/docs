@@ -8,43 +8,48 @@ The date range picker controls which time period data is displayed for across al
 
 ## Accessing the Date Picker
 
-Click the date range button in the header (shows current selection like "Last 7 Days").
+Click the date range button in the header (shows the current selection, e.g. "Last 7 days").
 
 ## Preset Ranges
 
-Quick selection options:
+Quick selection options, grouped in the picker as **Quick Select**, **This Period**, and **Last Period**.
 
-### Relative Presets
+### Quick Select
 
 | Preset | Description |
 |--------|-------------|
 | **Today** | Current day (midnight to now) |
 | **Yesterday** | Previous complete day |
-| **Last 7 Days** | Past 7 days including today |
-| **Last 30 Days** | Past 30 days including today |
-| **Last 90 Days** | Past 90 days including today |
+| **Last 7 days** | Past 7 days including today |
+| **Last 30 days** | Past 30 days including today |
+| **Last 90 days** | Past 90 days including today |
 
-### Period Presets
+### This Period
 
 | Preset | Description |
 |--------|-------------|
-| **This Week** | Current week (Monday to today) |
-| **This Month** | Current month (1st to today) |
-| **This Quarter** | Current quarter (Q1/Q2/Q3/Q4 to today) |
-| **This Year** | January 1st to today |
-| **Last Week** | Previous complete week (Mon-Sun) |
-| **Last Month** | Previous complete month |
-| **Last Quarter** | Previous complete quarter |
-| **Last Year** | Previous complete year |
+| **This week** | Current week (Monday to today) |
+| **This month** | Current month (1st to today) |
+| **This quarter** | Current quarter (Q1/Q2/Q3/Q4 to today) |
+| **This year** | January 1st to today |
+
+### Last Period
+
+| Preset | Description |
+|--------|-------------|
+| **Last week** | Previous complete week (Mon-Sun) |
+| **Last month** | Previous complete month |
+| **Last quarter** | Previous complete quarter |
+| **Last year** | Previous complete year |
 
 ### Custom Range
 
-1. Click **Custom** tab
-2. Select start date from calendar
-3. Select end date from calendar
-4. Click Apply
+1. Click **Custom range**
+2. Select start date from the calendar
+3. Select end date from the calendar
+4. Click **Apply**
 
-Maximum range: 2 years
+Future dates are disabled, so you cannot select a range that extends past today.
 
 ## Keyboard Shortcuts
 
@@ -66,20 +71,22 @@ Compare current period with a previous period to track changes over time.
 
 ### Enabling Comparison
 
-1. Open date range picker
-2. Toggle **Compare** switch
-3. Select comparison type:
-   - Previous Period
-   - Previous Year
-   - Custom
+1. Click the **Compare** button next to the date range
+2. Select a comparison type:
+   - No comparison
+   - Previous period
+   - Previous year
+   - Custom comparison
+
+To turn comparison off, choose **No comparison** or click the X on the Compare button. Pressing `C` toggles between no comparison and Previous period.
 
 ### Comparison Types
 
 | Type | Description | Example |
 |------|-------------|---------|
-| **Previous Period** | Same duration before selected range | Jan 15-21 compares to Jan 8-14 |
-| **Previous Year** | Same dates in prior year | Jan 15-21, 2025 compares to Jan 15-21, 2024 |
-| **Custom** | Manually selected comparison range | Any dates you choose |
+| **Previous period** | Same duration immediately before the selected range | Jan 15-21 compares to Jan 8-14 |
+| **Previous year** | Same dates in the prior year | Jan 15-21, 2025 compares to Jan 15-21, 2024 |
+| **Custom comparison** | Manually selected comparison range | Any dates you choose |
 
 ### Comparison Display
 
@@ -159,26 +166,15 @@ Sealmetrics colors deltas appropriately based on metric type.
 - Older data may be aggregated (daily instead of hourly)
 - Export includes raw timestamps
 
-## URL Parameters
+## Selection Persistence
 
-Date range is reflected in URL for sharing:
+Your selected date range and comparison mode are saved locally in your browser (using `localStorage`), not in the page URL.
 
-```
-/sites/123/overview?dateRange=30d
-/sites/123/overview?from=2025-01-01&to=2025-01-31
-/sites/123/overview?dateRange=30d&compare=previousPeriod
-```
+This means:
 
-### Parameters
-
-| Parameter | Values | Description |
-|-----------|--------|-------------|
-| `dateRange` | 7d, 30d, 90d, thisWeek, thisMonth, etc. | Preset selection |
-| `from` | YYYY-MM-DD | Custom start date |
-| `to` | YYYY-MM-DD | Custom end date |
-| `compare` | previousPeriod, previousYear, off | Comparison mode |
-| `compareFrom` | YYYY-MM-DD | Custom comparison start |
-| `compareTo` | YYYY-MM-DD | Custom comparison end |
+- Your last selection is remembered when you return in the **same browser**, even after closing the tab
+- The selection is **not** shared via the URL: copying or bookmarking a report link does not carry your date range or comparison mode
+- The selection is **per browser and per device**
 
 ## Use Cases
 
