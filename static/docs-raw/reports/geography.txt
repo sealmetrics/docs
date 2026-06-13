@@ -11,7 +11,7 @@ The Geography report shows where your visitors come from, with country-level met
 1. Select a site from the site selector
 2. Click **Geography** in the sidebar
 
-**URL pattern:** `/sites/{site_id}/geography`
+**URL pattern:** `/sites/{site_id}/geo`
 
 ## World Map
 
@@ -43,19 +43,13 @@ Detailed breakdown of metrics by country.
 | Column | Description |
 |--------|-------------|
 | **Country** | Country name with flag icon |
-| **Entrances** | Sessions from this country (with progress bar) |
+| **Entrances** | Sessions from this country |
 | **Pageviews** | Total page views |
 | **Bounce Rate** | Single-page session percentage |
-| **Events** | Microconversions |
-| **Conversions** | Completed conversions (with progress bar) |
-| **Conv. Rate** | Conversion rate |
+| **Conversions** | Completed conversions |
 | **Revenue** | Total revenue |
 
-### Progress Bars
-
-Entrances and Conversions columns include relative progress bars:
-- Width represents proportion of total
-- Quickly identify top countries visually
+The table is sortable, paginated, and shows a totals row at the bottom.
 
 ## Filtering
 
@@ -64,7 +58,8 @@ Entrances and Conversions columns include relative progress bars:
 Click the filter icon to open the filter builder:
 
 **Available fields:**
-- Country (name)
+- Country Code
+- Country Name
 - Entrances
 - Pageviews
 - Bounce Rate
@@ -76,7 +71,7 @@ Click the filter icon to open the filter builder:
 | Goal | Filter |
 |------|--------|
 | Countries with significant traffic | Entrances greater than 100 |
-| High-converting countries | Conv. Rate greater than 5 |
+| High-converting countries | Conversions greater than 5 |
 | Countries with revenue | Revenue greater than 0 |
 | Problem countries | Bounce Rate greater than 70 |
 
@@ -101,7 +96,7 @@ Use the global Countries filter to focus on specific regions:
 |--------|-------------------|
 | Entrances | Where your audience is located |
 | Bounce Rate | Content relevance by region |
-| Conv. Rate | Market fit by country |
+| Conversions | Market fit by country |
 | Revenue | Highest-value markets |
 
 ### Identifying Patterns
@@ -119,14 +114,14 @@ Look for:
 1. Sort table by **Entrances** (descending)
 2. Note top 5-10 countries
 3. Compare with business priorities
-4. Check Conv. Rate for each
+4. Check Conversions and Revenue for each
 
 ### Finding Expansion Opportunities
 
-1. Sort by **Conv. Rate** (descending)
+1. Sort by **Conversions** (descending)
 2. Filter: Entrances greater than 50 (statistically significant)
 3. Look for countries with:
-   - High conversion rate
+   - High conversions relative to entrances
    - Low current volume
    - Business expansion potential
 
@@ -183,4 +178,4 @@ Click **Export** to download:
 - All countries with data
 - All metric columns
 - Respects active filters
-- CSV format
+- Choose **CSV** or **PDF** format

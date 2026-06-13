@@ -6,6 +6,47 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
+## Bot-blocking algorithm update — fewer false positives (June 2, 2026)
+
+On **Tuesday, June 2, 2026 at 20:00 CET**, we deployed an update to our bot-blocking algorithm to stop filtering out legitimate human traffic that was previously being misidentified as bot activity.
+
+### What changed
+The algorithm is now more precise at distinguishing real users from automated traffic, reducing false positives without weakening bot detection.
+
+### Impact on your reports
+Starting June 2, 2026, you should expect:
+
+- A **slight increase in entries and pageviews**, as human visits previously blocked are now counted
+- A **more noticeable increase in conversions and microconversions**, since affected users were often further along in the funnel
+- No changes to historical data
+
+No action is required on your side.
+
+---
+
+## Attribution: internal hits with UTMs no longer create new sessions (May 25, 2026)
+
+We improved how Sealmetrics handles internal navigation that carries UTM parameters.
+
+### What was happening before
+When a hit on your site contained UTM parameters **and** the referrer was your own domain (i.e. internal navigation), the system treated it as a **new session** and attributed that hit to the traffic source declared in the UTMs.
+
+This could inflate session counts and misattribute traffic to campaigns when users were simply navigating across your own pages with UTM-tagged internal links.
+
+### What changed
+Starting **May 25, 2026**, when a hit has UTMs **and** the referrer is the same domain:
+
+- The system now **prioritizes the referrer over the UTMs**
+- The hit is counted as a **pageview** within the existing session
+- The **UTM information is ignored**
+
+### Impact on your reports
+- More accurate session counts — no duplicate sessions caused by internal UTM-tagged links
+- Cleaner attribution — campaign sources only reflect genuine external entries
+- Historical data remains unchanged
+
+---
+
 ## API: `/exports/*` and `/batch` 403 with API keys — fixed (May 2026)
 
 Fixed a permission check on `/exports/*` and `/batch` that required a scope API keys don't carry, returning `403 insufficient_scope` for valid keys. The fix is deployed in production. **No action required** — your existing API key now works on these routes without changes.

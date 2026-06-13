@@ -14,11 +14,10 @@ Manage who has access to your Sealmetrics organization and control what they can
 
 To see all members in your organization:
 
-1. Go to **Settings** (gear icon in the navigation)
-2. Navigate to **Organization** and select your organization
-3. Open the **Members** tab
+1. Open the sidebar and go to the **Organization** group
+2. Click **Members**
 
-You will see a list of all current members, their email, organization role, and status.
+You will see a list of all current members, their name, email, organization role, the number of assigned sites (for Members), and when they joined.
 
 ---
 
@@ -32,13 +31,16 @@ Owners and Admins can invite new members to the organization.
 2. Click **Invite Member**
 3. Enter the person's email address
 4. Choose their organization role:
-   - **Owner** -- full access to everything including billing
    - **Admin** -- manage members and all sites, no billing
    - **Member** -- access only to assigned sites
-5. If you selected **Member**, choose which sites they should have access to
+5. If you selected **Member**, select at least one site they should have access to (this is required)
 6. Click **Send Invitation**
 
 The invited person will receive an email with a link to accept the invitation. If they do not already have a Sealmetrics account, they will be asked to create one.
+
+:::note
+Invitations can only be sent for the **Admin** or **Member** role. To make someone an Owner, invite them first and then promote them from the Members list (only an existing Owner can do this).
+:::
 
 ### Pending invitations
 
@@ -57,11 +59,12 @@ Members can only see the sites you explicitly assign to them. Owners and Admins 
 
 1. Go to the **Members** page
 2. Find the member in the list
-3. Click on their name or the manage option
-4. Select the sites they should have access to
-5. Save changes
+3. Click the **site access** (globe) button next to them
+4. In the panel that opens, toggle the sites they should have access to
 
-You can add or remove site access at any time without affecting the member's organization role.
+Changes apply immediately, and you can add or remove site access at any time without affecting the member's organization role.
+
+The access level (Editor or Viewer) for each assigned site is managed from the **Team** tab of that site's settings. See [Roles & Permissions](../../user-management/roles-management) for details.
 
 ---
 
@@ -103,7 +106,7 @@ All Sealmetrics plans include **unlimited users**. There is no limit on the numb
 
 Sealmetrics uses a two-tier role system:
 
-- **Organization roles** (Owner, Admin, Member) control access at the organization level
-- **Site-level roles** (Editor, Viewer) control what a user can do within a specific site
+- **Organization roles** (Owner, Admin, Member) drive a user's management permissions across the organization
+- **Site access roles** (Editor, Viewer) set whether a Member has edit or view-only access to an assigned site
 
 For a full breakdown of permissions, see [Roles & Permissions](../../user-management/roles-management).

@@ -203,21 +203,15 @@ If you see `"undefined"`, the script hasn't loaded yet. Check:
 
 **Status 204** = Success! The event was received.
 
-### 2.4 Enable Debug Mode
+### 2.4 Inspect the Request Payload
 
-Add `?debug=1` to any page URL:
+To confirm what is being sent, click the `/event` request in the Network tab and look at the request payload. It is a form-encoded body with a single field `d` containing the JSON (account ID `a`, session ID `s`, current URL `u`, timezone `z`, etc.). For a pageview there is no `e`/`m`/`v` field; those only appear on conversions and microconversions.
 
-```
-https://yoursite.com/page?debug=1
-```
+You can also read the tracker's own state from the console:
 
-Open console to see detailed tracking information:
-
-```
-[Sealmetrics] Pageview tracked
-  URL: https://yoursite.com/page
-  Session: 1abc123def
-  Referrer: https://google.com
+```javascript
+sealmetrics.sessionId; // current session ID
+sealmetrics.autoMode;  // "1" (auto-pageview on) or "0" (manual)
 ```
 
 ---
@@ -603,12 +597,13 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 | Double conversions | Implement deduplication (Step 4.5) |
 | Amount is 0 | Ensure amount is a number, not string |
 
-### Debug mode not working
+### No request appears in the Network tab
 
-Add `?debug=1` to URL and check console. If nothing appears:
-1. Clear browser cache
-2. Disable browser extensions
-3. Try incognito mode
+If you do not see a POST to `/event`:
+1. Clear browser cache and reload
+2. Disable browser extensions (ad/tracker blockers)
+3. Try an incognito window
+4. Confirm `typeof sealmetrics === 'function'` in the console
 
 ---
 

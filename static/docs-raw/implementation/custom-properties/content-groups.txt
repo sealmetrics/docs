@@ -233,8 +233,8 @@ function getContentGroup() {
 
 ### Content Group Not Appearing
 
-1. Add `?debug=1` to the page URL to enable debug mode
-2. Check the browser console for tracking events
+1. Open DevTools → Network and look for the request to `t.sealmetrics.com/event`
+2. Confirm the payload includes a `g` field with your group value
 3. Verify `sealmetrics` is defined before calling it
 4. Wait 5 minutes for data processing
 

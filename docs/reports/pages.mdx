@@ -25,11 +25,9 @@ Shows all pages that received traffic during the selected period.
 
 | Column | Description |
 |--------|-------------|
-| **Page** | URL path and page title |
-| **Trend** | 7-day sparkline showing recent traffic pattern |
-| **Pageviews** | Total views (with relative progress bar) |
-| **Unique Visitors** | Distinct visitors (with relative progress bar) |
-| **Content Group** | Assigned content group (if configured) |
+| **Page** | URL path and page title. When a content group is assigned, it appears as a badge next to the path |
+| **Pageviews** | Total views |
+| **Entrances** | Sessions that started on this page |
 
 ### Landing Pages Tab
 
@@ -37,11 +35,12 @@ Shows pages where sessions started (entry points to your site).
 
 | Column | Description |
 |--------|-------------|
-| **Page** | URL path and page title |
-| **Entrances** | Sessions that started on this page (with progress bar) |
+| **Landing Page** | URL path. When a content group is assigned, it appears as a badge next to the path |
+| **Entrances** | Sessions that started on this page |
 | **Bounce Rate** | Percentage of single-page sessions |
-| **Conversions** | Conversions attributed to this landing page (with progress bar) |
-| **Content Group** | Assigned content group (if configured) |
+| **Microconv.** | Microconversions attributed to this landing page |
+| **Conversions** | Conversions attributed to this landing page |
+| **Revenue** | Revenue attributed to this landing page |
 
 #### Bounce Rate Colors
 
@@ -50,14 +49,6 @@ Shows pages where sessions started (entry points to your site).
 | Green | < 40% | Good engagement |
 | Yellow | 40-70% | Average |
 | Red | > 70% | May need attention |
-
-## Top Pages Chart
-
-Horizontal bar chart showing the 10 most visited pages.
-
-- Bars represent pageview count
-- Hover for exact values
-- URLs truncated if too long
 
 ## Content Groups
 
@@ -76,9 +67,10 @@ Instead of analyzing individual URLs, group related pages:
 
 ### Filtering by Content Group
 
-1. Click the content group filter above the table
-2. Select one or more groups
-3. Table shows only pages in selected groups
+On the **All Pages** tab, content group quick-filter buttons appear above the table:
+
+1. Click a content group button above the table (or **All**)
+2. The table shows only pages in the selected group
 
 ### Configuring Content Groups
 
@@ -90,15 +82,23 @@ See [Content Grouping](../implementation/content-site-structure/content-grouping
 
 ### Table Filter Builder
 
-Click the filter icon to open the filter builder:
+Click the filter icon to open the filter builder. Each tab has its own fields:
 
-**Available fields:**
-- Path (URL path)
-- Title (page title)
+**All Pages fields:**
+- Path
+- Title
+- Content Group
 - Pageviews
-- Unique Visitors
+- Entrances
+
+**Landing Pages fields:**
+- Path
+- Content Group
+- Entrances
 - Bounce Rate
+- Microconversions
 - Conversions
+- Revenue
 
 **Operators:**
 - Text: contains, starts with, equals
@@ -106,12 +106,12 @@ Click the filter icon to open the filter builder:
 
 **Example filters:**
 
-| Goal | Filter |
-|------|--------|
-| Blog pages only | Path starts with "/blog" |
-| High traffic pages | Pageviews greater than 1000 |
-| Problem pages | Bounce Rate greater than 70 |
-| Converting pages | Conversions greater than 0 |
+| Goal | Filter (tab) |
+|------|--------------|
+| Blog pages only | Path starts with "/blog" (All Pages) |
+| High traffic pages | Pageviews greater than 1000 (All Pages) |
+| Problem landing pages | Bounce Rate greater than 70 (Landing Pages) |
+| Converting landing pages | Conversions greater than 0 (Landing Pages) |
 
 ### Combining with Global Filters
 
@@ -120,14 +120,6 @@ Page report respects global filters:
 1. Global filter: Country = Spain
 2. Table filter: Path contains "products"
 3. Result: Product pages viewed by Spanish visitors
-
-## Trend Sparklines
-
-Each row includes a 7-day trend sparkline:
-
-- Shows relative traffic pattern
-- Identify growing vs declining pages
-- Quick visual for recent performance
 
 ## Use Cases
 
@@ -155,9 +147,9 @@ Each row includes a 7-day trend sparkline:
 
 ### Finding Conversion Opportunities
 
-1. Go to **All Pages** tab
-2. Filter: Pageviews > 500 AND Conversions = 0
-3. These high-traffic pages aren't converting
+1. Go to **Landing Pages** tab
+2. Filter: Entrances > 500 AND Conversions = 0
+3. These high-traffic entry pages aren't converting
 4. Consider adding CTAs or conversion elements
 
 ### Tracking New Page Performance
@@ -167,12 +159,11 @@ Each row includes a 7-day trend sparkline:
 3. Search for the page path
 4. Monitor:
    - Initial traffic ramp
-   - Bounce rate vs site average
-   - Trend direction
+   - Bounce rate vs site average (Landing Pages tab)
 
 ## Export
 
-Click **Export** to download:
+Each tab has its own **Export** button to download:
 - All visible rows (respecting filters)
-- All columns including content group
-- CSV format
+- All columns, including the content group
+- Choose **CSV** or **PDF** format

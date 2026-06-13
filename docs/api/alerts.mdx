@@ -12,11 +12,19 @@ Create alert rules to get notified when traffic anomalies occur.
 
 The Alerts API allows you to:
 - Create rules for traffic anomaly detection
-- Configure notification channels (email, webhook)
+- Configure notifications (email, Slack, webhook)
 - View alert history and statistics
 - Acknowledge and manage triggered alerts
 
 **Base path:** `/alerts`
+
+:::note Scopes and API keys
+Read endpoints (`GET /alerts/rules`, `/alerts/history`, `/alerts/stats`)
+require the `read` scope. Endpoints that create, update, delete, test, or
+acknowledge alerts require the `write` scope. API keys are **read-only**, so
+those write operations must be performed with a user session that holds the
+`write` scope — an API key alone cannot create or modify alert rules.
+:::
 
 ---
 
@@ -25,14 +33,14 @@ The Alerts API allows you to:
 ### List Alert Rules
 
 ```http
-GET /alerts/rules?site_id={site_id}
+GET /alerts/rules?account_id={account_id}
 ```
 
 **Query Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `site_id` | string | Required. Site ID |
+| `account_id` | string | Required. Account ID |
 | `include_inactive` | boolean | Include disabled rules |
 
 **Response:**
@@ -42,17 +50,30 @@ GET /alerts/rules?site_id={site_id}
   "rules": [
     {
       "id": 1,
-      "site_id": "acme",
+      "account_id": "acme",
       "name": "Traffic Drop Alert",
       "description": "Alert when traffic drops significantly",
+      "alert_type": "traffic_drop",
       "metric": "entrances",
-      "condition": "decrease",
-      "threshold_percent": 25,
-      "comparison_period": "previous_week",
-      "notification_channels": ["email", "webhook"],
-      "is_active": true,
+      "condition_type": "percentage_change",
+      "threshold_value": 25,
+      "threshold_direction": "decrease",
+      "baseline_period": "7d",
+      "comparison_window": "1h",
+      "custom_condition": null,
+      "notify_email": true,
+      "notify_slack": false,
+      "notify_webhook": true,
+      "email_recipients": ["alerts@company.com"],
+      "slack_webhook_url": null,
+      "custom_webhook_url": "https://hooks.example.com/abc",
+      "cooldown_minutes": 60,
       "last_triggered_at": "2025-01-05T10:30:00Z",
-      "created_at": "2024-12-01T10:00:00Z"
+      "is_active": true,
+      "trigger_count": 4,
+      "created_by": 12,
+      "created_at": "2024-12-01T10:00:00Z",
+      "updated_at": null
     }
   ],
   "total": 1
@@ -64,74 +85,139 @@ GET /alerts/rules?site_id={site_id}
 ### Create Alert Rule
 
 ```http
-POST /alerts/rules?site_id={site_id}
+POST /alerts/rules?account_id={account_id}
 ```
 
 **Request Body:**
 
 ```json
 {
-  "name": "Revenue Drop",
-  "description": "Alert when revenue drops more than 30%",
-  "metric": "revenue",
-  "condition": "decrease",
-  "threshold_percent": 30,
-  "comparison_period": "previous_week",
-  "filters": {
-    "utm_medium": "cpc"
-  },
-  "notification_channels": ["email"],
+  "name": "Conversions Drop",
+  "description": "Alert when conversions drop more than 30%",
+  "alert_type": "conversion_change",
+  "metric": "conversions",
+  "condition_type": "percentage_change",
+  "threshold_value": 30,
+  "threshold_direction": "decrease",
+  "baseline_period": "7d",
+  "comparison_window": "1h",
+  "notify_email": true,
+  "notify_slack": false,
+  "notify_webhook": false,
   "email_recipients": ["alerts@company.com"],
-  "webhook_endpoint_id": "550e8400-e29b-41d4-a716-446655440000"
+  "cooldown_minutes": 60
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | string | Yes | Rule name (1-255 chars) |
-| `description` | string | No | Rule description |
-| `metric` | enum | Yes | Metric to monitor |
-| `condition` | enum | Yes | `increase` or `decrease` |
-| `threshold_percent` | number | Yes | Threshold percentage (1-100) |
-| `comparison_period` | enum | Yes | Comparison period |
-| `filters` | object | No | Filter conditions |
-| `notification_channels` | string[] | Yes | `email`, `webhook`, or both |
-| `email_recipients` | string[] | No | Email addresses for notifications |
-| `webhook_endpoint_id` | uuid | No | Webhook endpoint to notify |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `name` | string | Yes | — | Rule name (1-255 chars) |
+| `description` | string | No | `null` | Rule description (max 1000 chars) |
+| `alert_type` | enum | No | `traffic_spike` | Type of alert |
+| `metric` | enum | No | `pageviews` | Metric to monitor |
+| `condition_type` | enum | No | `percentage_change` | How to detect the anomaly |
+| `threshold_value` | number | No | `50.0` | Threshold value, e.g. `50` for 50% change (0–10000) |
+| `threshold_direction` | enum | No | `both` | `increase`, `decrease`, or `both` |
+| `baseline_period` | enum | No | `7d` | Period for baseline calculation |
+| `comparison_window` | enum | No | `1h` | Window for the current value |
+| `custom_condition` | object | No | `null` | Custom condition config |
+| `notify_email` | boolean | No | `true` | Send email notifications |
+| `notify_slack` | boolean | No | `false` | Send Slack notifications |
+| `notify_webhook` | boolean | No | `false` | Send webhook notifications |
+| `email_recipients` | string[] | No | `[]` | Email addresses (max 10) |
+| `slack_webhook_url` | string | No | `null` | Slack webhook URL (max 500 chars) |
+| `custom_webhook_url` | string | No | `null` | Custom webhook URL (max 500 chars) |
+| `cooldown_minutes` | int | No | `60` | Minutes between alerts (5–1440) |
+
+### Alert Types
+
+| Type | Description |
+|------|-------------|
+| `traffic_spike` | Traffic spike |
+| `traffic_drop` | Traffic drop |
+| `conversion_change` | Conversion change |
+| `error_rate` | Error rate |
+| `source_change` | Source change |
+| `goal_reached` | Goal reached |
+| `custom` | Custom |
 
 ### Available Metrics
 
 | Metric | Description |
 |--------|-------------|
+| `pageviews` | Total pageviews |
+| `sessions` | Sessions |
+| `visitors` | Unique visitors |
 | `entrances` | Session starts |
-| `page_views` | Total pageviews |
-| `conversions` | Conversion count |
-| `revenue` | Total revenue |
 | `bounce_rate` | Bounce rate percentage |
-| `engaged_entrances` | Engaged sessions |
+| `conversions` | Conversion count |
+| `conversion_rate` | Conversion rate |
+| `custom` | Custom metric |
 
-### Comparison Periods
+### Condition Types
+
+| Condition | Description |
+|-----------|-------------|
+| `percentage_change` | Percentage change vs baseline |
+| `absolute_threshold` | Absolute threshold value |
+| `std_deviation` | Standard deviation from baseline |
+| `rate_of_change` | Rate of change |
+
+### Threshold Directions
+
+| Direction | Description |
+|-----------|-------------|
+| `increase` | Alert on increases only |
+| `decrease` | Alert on decreases only |
+| `both` | Alert on either direction |
+
+### Baseline Periods
 
 | Period | Description |
 |--------|-------------|
-| `previous_day` | Same time yesterday |
-| `previous_week` | Same day last week |
-| `previous_month` | Same day last month |
-| `previous_year` | Same day last year |
+| `24h` | Last 24 hours |
+| `7d` | Last 7 days |
+| `30d` | Last 30 days |
+| `90d` | Last 90 days |
+
+### Comparison Windows
+
+| Window | Description |
+|--------|-------------|
+| `15m` | Last 15 minutes |
+| `1h` | Last hour |
+| `6h` | Last 6 hours |
+| `24h` | Last 24 hours |
 
 **Response (201 Created):**
 
 ```json
 {
   "id": 2,
-  "site_id": "acme",
-  "name": "Revenue Drop",
-  "metric": "revenue",
-  "condition": "decrease",
-  "threshold_percent": 30,
-  "comparison_period": "previous_week",
+  "account_id": "acme",
+  "name": "Conversions Drop",
+  "description": "Alert when conversions drop more than 30%",
+  "alert_type": "conversion_change",
+  "metric": "conversions",
+  "condition_type": "percentage_change",
+  "threshold_value": 30,
+  "threshold_direction": "decrease",
+  "baseline_period": "7d",
+  "comparison_window": "1h",
+  "custom_condition": null,
+  "notify_email": true,
+  "notify_slack": false,
+  "notify_webhook": false,
+  "email_recipients": ["alerts@company.com"],
+  "slack_webhook_url": null,
+  "custom_webhook_url": null,
+  "cooldown_minutes": 60,
+  "last_triggered_at": null,
   "is_active": true,
-  "created_at": "2025-01-10T14:30:00Z"
+  "trigger_count": 0,
+  "created_by": 12,
+  "created_at": "2025-01-10T14:30:00Z",
+  "updated_at": null
 }
 ```
 
@@ -140,7 +226,7 @@ POST /alerts/rules?site_id={site_id}
 ### Get Alert Rule
 
 ```http
-GET /alerts/rules/{rule_id}?site_id={site_id}
+GET /alerts/rules/{rule_id}?account_id={account_id}
 ```
 
 ---
@@ -148,7 +234,7 @@ GET /alerts/rules/{rule_id}?site_id={site_id}
 ### Update Alert Rule
 
 ```http
-PATCH /alerts/rules/{rule_id}?site_id={site_id}
+PATCH /alerts/rules/{rule_id}?account_id={account_id}
 ```
 
 **Request Body:**
@@ -156,20 +242,24 @@ PATCH /alerts/rules/{rule_id}?site_id={site_id}
 ```json
 {
   "name": "Updated Name",
-  "threshold_percent": 40,
+  "threshold_value": 40,
   "is_active": false
 }
 ```
 
-All fields are optional. Only provided fields are updated.
+All fields are optional. Only provided fields are updated. In addition to the
+creation fields, the update accepts `is_active` (boolean) to enable or disable
+the rule.
 
 ---
 
 ### Delete Alert Rule
 
 ```http
-DELETE /alerts/rules/{rule_id}?site_id={site_id}
+DELETE /alerts/rules/{rule_id}?account_id={account_id}
 ```
+
+Returns `204 No Content` on success.
 
 ---
 
@@ -178,7 +268,7 @@ DELETE /alerts/rules/{rule_id}?site_id={site_id}
 ### Test Alert Rule
 
 ```http
-POST /alerts/rules/{rule_id}/test?site_id={site_id}
+POST /alerts/rules/{rule_id}/test?account_id={account_id}
 ```
 
 Test a rule without triggering actual notifications.
@@ -197,13 +287,13 @@ Set `send_notification: true` to send a real test notification.
 
 ```json
 {
-  "would_trigger": true,
+  "success": true,
   "current_value": 650,
-  "comparison_value": 1000,
-  "change_percent": -35.0,
-  "threshold_percent": 25,
-  "message": "Rule would trigger: entrances decreased 35% vs previous week",
-  "notification_sent": false
+  "baseline_value": 1000,
+  "would_trigger": true,
+  "change_percentage": -35.0,
+  "notification_sent": false,
+  "message": "Rule would trigger: entrances decreased 35% vs baseline"
 }
 ```
 
@@ -214,27 +304,27 @@ Set `send_notification: true` to send a real test notification.
 ### Get Alert History
 
 ```http
-GET /alerts/history?site_id={site_id}
+GET /alerts/history?account_id={account_id}
 ```
 
 **Query Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `site_id` | string | Required. Site ID |
+| `account_id` | string | Required. Account ID |
 | `rule_id` | int | Filter by specific rule |
 | `status` | string | Filter by status |
-| `limit` | int | Max results (default: 50) |
+| `limit` | int | Max results (default: 50, range 1–200) |
 | `offset` | int | Pagination offset |
 
 ### Alert Statuses
 
 | Status | Description |
 |--------|-------------|
-| `triggered` | Alert fired, awaiting acknowledgment |
+| `active` | Alert fired, awaiting acknowledgment |
 | `acknowledged` | User acknowledged the alert |
 | `resolved` | Alert condition no longer active |
-| `dismissed` | User dismissed without action |
+| `false_positive` | Alert was a false positive |
 
 **Response:**
 
@@ -245,16 +335,23 @@ GET /alerts/history?site_id={site_id}
       "id": 123,
       "rule_id": 1,
       "rule_name": "Traffic Drop Alert",
-      "status": "triggered",
+      "account_id": "acme",
+      "alert_type": "traffic_drop",
       "metric": "entrances",
       "current_value": 650,
-      "comparison_value": 1000,
-      "change_percent": -35.0,
-      "threshold_percent": 25,
+      "baseline_value": 1000,
+      "change_percentage": -35.0,
       "triggered_at": "2025-01-10T10:30:00Z",
+      "period_start": "2025-01-10T09:30:00Z",
+      "period_end": "2025-01-10T10:30:00Z",
+      "context": null,
+      "notification_sent": true,
+      "notification_channels": ["email"],
+      "notification_error": null,
       "acknowledged_at": null,
       "acknowledged_by": null,
-      "notes": null
+      "notes": null,
+      "status": "active"
     }
   ],
   "total": 45
@@ -266,7 +363,7 @@ GET /alerts/history?site_id={site_id}
 ### Acknowledge Alert
 
 ```http
-PATCH /alerts/history/{alert_id}?site_id={site_id}
+PATCH /alerts/history/{alert_id}?account_id={account_id}
 ```
 
 **Request Body:**
@@ -278,19 +375,22 @@ PATCH /alerts/history/{alert_id}?site_id={site_id}
 }
 ```
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `status` | enum | `acknowledged`, `resolved`, or `dismissed` |
-| `notes` | string | Optional notes about the action taken |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `status` | enum | `acknowledged` | `acknowledged`, `resolved`, or `false_positive` |
+| `notes` | string | `null` | Optional notes about the action taken (max 1000 chars) |
 
-**Response:**
+**Response:** the full alert history entry with updated status, for example:
 
 ```json
 {
   "id": 123,
+  "rule_id": 1,
+  "rule_name": "Traffic Drop Alert",
+  "account_id": "acme",
   "status": "acknowledged",
   "acknowledged_at": "2025-01-10T14:30:00Z",
-  "acknowledged_by": "user@company.com",
+  "acknowledged_by": 12,
   "notes": "Investigating the traffic drop"
 }
 ```
@@ -302,30 +402,32 @@ PATCH /alerts/history/{alert_id}?site_id={site_id}
 ### Get Alert Statistics
 
 ```http
-GET /alerts/stats?site_id={site_id}
+GET /alerts/stats?account_id={account_id}
 ```
 
 **Response:**
 
 ```json
 {
-  "total_rules": 5,
   "active_rules": 4,
-  "alerts_last_7_days": 12,
-  "alerts_last_30_days": 45,
-  "by_status": {
-    "triggered": 3,
-    "acknowledged": 5,
-    "resolved": 30,
-    "dismissed": 7
-  },
-  "by_metric": {
-    "entrances": 25,
-    "revenue": 15,
-    "conversions": 5
-  }
+  "total_triggers_24h": 3,
+  "total_triggers_7d": 12,
+  "total_triggers_30d": 45,
+  "unacknowledged_alerts": 3,
+  "most_triggered_rule": "Traffic Drop Alert",
+  "last_trigger": "2025-01-10T10:30:00Z"
 }
 ```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `active_rules` | int | Number of active rules |
+| `total_triggers_24h` | int | Triggers in the last 24 hours |
+| `total_triggers_7d` | int | Triggers in the last 7 days |
+| `total_triggers_30d` | int | Triggers in the last 30 days |
+| `unacknowledged_alerts` | int | Alerts still awaiting acknowledgment |
+| `most_triggered_rule` | string | Name of the most-triggered rule |
+| `last_trigger` | datetime | Timestamp of the most recent trigger |
 
 ---
 
@@ -345,14 +447,16 @@ def create_alert_rule(name: str, metric: str, threshold: int) -> dict:
     response = requests.post(
         f"{BASE_URL}/alerts/rules",
         headers={"X-API-Key": API_KEY},
-        params={"site_id": ACCOUNT_ID},
+        params={"account_id": ACCOUNT_ID},
         json={
             "name": name,
             "metric": metric,
-            "condition": "decrease",
-            "threshold_percent": threshold,
-            "comparison_period": "previous_week",
-            "notification_channels": ["email"],
+            "condition_type": "percentage_change",
+            "threshold_value": threshold,
+            "threshold_direction": "decrease",
+            "baseline_period": "7d",
+            "comparison_window": "1h",
+            "notify_email": True,
             "email_recipients": ["alerts@company.com"]
         }
     )
@@ -360,13 +464,13 @@ def create_alert_rule(name: str, metric: str, threshold: int) -> dict:
     return response.json()
 
 def get_active_alerts() -> list:
-    """Get all triggered alerts."""
+    """Get all active (unacknowledged) alerts."""
     response = requests.get(
         f"{BASE_URL}/alerts/history",
         headers={"X-API-Key": API_KEY},
         params={
-            "site_id": ACCOUNT_ID,
-            "status": "triggered"
+            "account_id": ACCOUNT_ID,
+            "status": "active"
         }
     )
     response.raise_for_status()
@@ -377,7 +481,7 @@ def acknowledge_alert(alert_id: int, notes: str):
     response = requests.patch(
         f"{BASE_URL}/alerts/history/{alert_id}",
         headers={"X-API-Key": API_KEY},
-        params={"site_id": ACCOUNT_ID},
+        params={"account_id": ACCOUNT_ID},
         json={
             "status": "acknowledged",
             "notes": notes
@@ -391,7 +495,7 @@ print(f"Created rule: {rule['id']}")
 
 alerts = get_active_alerts()
 for alert in alerts:
-    print(f"Alert: {alert['rule_name']} - {alert['change_percent']}%")
+    print(f"Alert: {alert['rule_name']} - {alert['change_percentage']}%")
 ```
 
 ### JavaScript - React Hook for Alerts
@@ -406,7 +510,7 @@ function useAlerts(accountId) {
   useEffect(() => {
     async function fetchAlerts() {
       const response = await fetch(
-        `${BASE_URL}/alerts/history?site_id=${accountId}&status=triggered`,
+        `${BASE_URL}/alerts/history?account_id=${accountId}&status=active`,
         { headers: { 'X-API-Key': API_KEY } }
       );
       const data = await response.json();
@@ -422,7 +526,7 @@ function useAlerts(accountId) {
 
   const acknowledgeAlert = async (alertId, notes) => {
     await fetch(
-      `${BASE_URL}/alerts/history/${alertId}?site_id=${accountId}`,
+      `${BASE_URL}/alerts/history/${alertId}?account_id=${accountId}`,
       {
         method: 'PATCH',
         headers: {
@@ -450,36 +554,34 @@ Begin with higher thresholds to avoid alert fatigue:
 
 ```json
 {
-  "threshold_percent": 40
+  "threshold_value": 40
 }
 ```
 
 Adjust lower as you understand normal traffic patterns.
 
-### 2. Use Filters for Specific Segments
+### 2. Use Cooldowns to Avoid Alert Fatigue
 
-Create targeted alerts for important traffic sources:
+Set a `cooldown_minutes` window so a noisy rule doesn't fire repeatedly:
 
 ```json
 {
   "name": "Paid Traffic Drop",
-  "filters": {
-    "utm_medium": "cpc"
-  }
+  "cooldown_minutes": 120
 }
 ```
 
-### 3. Combine with Webhooks
+### 3. Combine with Slack and Webhooks
 
-Integrate with Slack or other tools:
-
-1. Create a webhook endpoint
-2. Reference it in alert rules:
+Integrate with Slack or other tools by enabling the relevant notification
+flags and providing the webhook URLs:
 
 ```json
 {
-  "notification_channels": ["webhook"],
-  "webhook_endpoint_id": "550e8400-..."
+  "notify_slack": true,
+  "slack_webhook_url": "https://hooks.slack.com/services/...",
+  "notify_webhook": true,
+  "custom_webhook_url": "https://hooks.example.com/alerts"
 }
 ```
 
@@ -488,8 +590,8 @@ Integrate with Slack or other tools:
 Don't let alerts pile up:
 
 ```python
-# Auto-resolve old alerts
-old_alerts = get_alerts(status="triggered", older_than_days=7)
+# Auto-resolve old active alerts
+old_alerts = get_alerts(status="active", older_than_days=7)
 for alert in old_alerts:
     acknowledge_alert(alert["id"], "Auto-resolved after 7 days")
 ```

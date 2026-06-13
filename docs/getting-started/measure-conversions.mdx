@@ -29,16 +29,19 @@ First, add the tracker to your website:
 
 ### 2. Track a Conversion
 
-Call `sealmetrics.conv()` when a conversion happens:
+Call `sealmetrics.conv()` when a conversion happens. The signature is `sealmetrics.conv('type', amount?, { ...props })` — the `amount` is optional (only added to the event when it's a number), and the properties object is optional too:
 
 ```javascript
 // Track a purchase
 sealmetrics.conv('purchase', 99.99);
 
+// Track a conversion with no monetary value
+sealmetrics.conv('lead');
+
 // Track a purchase with additional data
 sealmetrics.conv('purchase', 99.99, {
-  order_id: 'ORD-12345',
-  currency: 'EUR'
+  currency: 'EUR',
+  payment_method: 'credit_card'
 });
 ```
 
@@ -64,7 +67,7 @@ sealmetrics.micro('add_to_cart', {
 | Aspect | Conversion | Microconversion |
 |--------|------------|-----------------|
 | **Purpose** | Goal completion | Progress/engagement |
-| **Monetary value** | Yes (amount parameter) | No |
+| **Monetary value** | Optional (amount parameter) | No |
 | **Function** | `sealmetrics.conv()` | `sealmetrics.micro()` |
 | **Examples** | Purchase, signup, lead | Add to cart, video play, scroll |
 
@@ -76,7 +79,6 @@ sealmetrics.micro('add_to_cart', {
 
 ```javascript
 sealmetrics.conv('purchase', 149.99, {
-  order_id: 'ORD-2025-001234',
   currency: 'EUR',
   payment_method: 'credit_card'
 });
@@ -85,6 +87,7 @@ sealmetrics.conv('purchase', 149.99, {
 ### Lead Form Submission
 
 ```javascript
+// Properties live in the third argument; pass 0 as the amount when there is no monetary value
 sealmetrics.conv('lead', 0, {
   form_name: 'contact_form',
   source: 'homepage'
@@ -163,7 +166,6 @@ document.querySelector('.cta-button').addEventListener('click', function() {
 <script>
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', 149.99, {
-      order_id: 'ORD-12345',
       currency: 'EUR'
     });
   });
@@ -178,7 +180,7 @@ document.querySelector('.cta-button').addEventListener('click', function() {
 <script>
   function trackConversion() {
     sealmetrics.conv('purchase', 99.99, {
-      order_id: 'ORD-12345'
+      currency: 'EUR'
     });
   }
 </script>
@@ -210,12 +212,10 @@ document.querySelector('.cta-button').addEventListener('click', function() {
 ```javascript
 var orderData = {
   total: 149.99,
-  id: 'ORD-12345',
   currency: 'EUR'
 };
 
 sealmetrics.conv('purchase', orderData.total, {
-  order_id: orderData.id,
   currency: orderData.currency
 });
 ```
@@ -226,7 +226,6 @@ sealmetrics.conv('purchase', orderData.total, {
 <script>
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', <?php echo $order->total; ?>, {
-      order_id: '<?php echo $order->id; ?>',
       currency: '<?php echo $order->currency; ?>'
     });
   });

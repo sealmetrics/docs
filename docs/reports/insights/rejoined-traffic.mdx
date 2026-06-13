@@ -1,13 +1,13 @@
 ---
 title: What is Rejoined Traffic?
 sidebar_label: Rejoined Traffic
-description: Understanding how Sealmetrics classifies traffic returning after 6+ hours of inactivity without inflating Direct traffic.
+description: Understanding how Sealmetrics classifies traffic returning after the session window expires without inflating Direct traffic.
 sidebar_position: 5
 ---
 
 # What is Rejoined Traffic?
 
-These visits have resumed browsing on your website after more than **6 hours of inactivity**.
+These visits have resumed browsing on your website after the session window has expired (**2 hours of inactivity** by default).
 
 Instead of counting this traffic as a new session and assigning it to **Direct traffic**, as GA4 and other tools typically do—creating chaos in Direct Traffic—Sealmetrics labels it as **"rejoined traffic."**
 
@@ -50,7 +50,7 @@ Traditional analytics creates major issues:
 
 ### **How Rejoined Traffic Works**
 
-When a user returns after **6+ hours**, Sealmetrics:
+When a user returns after the session window expires (**2 hours of inactivity** by default), Sealmetrics:
 
 - Recognizes the pattern  
 - Preserves context  
@@ -59,7 +59,7 @@ When a user returns after **6+ hours**, Sealmetrics:
 
 ---
 
-## Why the 6-Hour Threshold?
+## Why a Session Window Threshold?
 
 It balances:
 
@@ -67,7 +67,7 @@ It balances:
 - Work breaks or daily routines  
 - Multi-visit research and buying cycles  
 
-Examples of 6+ hour gaps:
+Examples of activity gaps that exceed the session window:
 
 - Morning research, evening purchase  
 - Workday browsing → after-hours return  
@@ -168,7 +168,7 @@ Useful ratios to monitor:
 Sealmetrics automatically:
 
 - Monitors inactivity periods  
-- Applies the 6-hour threshold  
+- Applies the session window threshold (2 hours by default)  
 - Classifies traffic accordingly  
 
 ### **No Setup Needed**

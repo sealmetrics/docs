@@ -20,26 +20,31 @@ The assistant can answer questions about your analytics data, including:
 - **Source analysis**: "Which campaigns are performing best?"
 - **Conversion insights**: "What are my top converting landing pages?"
 
-The assistant supports both English and Spanish.
+The assistant replies in Spanish (`es`) or English (`en`). Spanish is the default, and the chat picks the language per conversation.
+
+## How it works
+
+To answer your question, the assistant calls a set of analytics tools against your account data (overview metrics, top sources and pages, conversions, funnels, geography, referrers, real-time and anomaly detection, among others). It selects the right tools for each question, runs them, and composes the answer from the results — so responses are grounded in your actual data rather than generic estimates.
 
 ## Response types
 
-The assistant doesn't just return text. Responses can include:
+The assistant doesn't just return text. A single response can include:
 
-- **Charts**: Visual bar charts and trend lines embedded in the conversation
-- **Tables**: Structured data tables with your metrics
-- **Insights**: AI-generated analysis and recommendations
+- **Charts**: Line, bar, or pie charts rendered inline from your data
+- **Tables**: Structured data tables with columns and rows
+- **Insights**: AI-generated analysis and recommendations in the text reply
 
 ## Sessions
 
-- Conversations are organized into sessions
-- Sessions expire after 4 hours of inactivity
+- Conversations are persisted, so you can return to them later
+- Each session stays active with a 4-hour sliding window: every new message extends it another 4 hours, and a session goes inactive after 4 hours without activity
 - You can browse previous conversations in the sidebar
 - Start a new session anytime by clicking "New conversation"
+- You can delete a conversation when you no longer need it
 
-## Usage limits
+## Bring your own AI provider
 
-Each plan includes a monthly quota of AI questions. Your remaining questions are shown in the chat interface. The counter resets at the beginning of each billing period.
+The AI Assistant runs on the LLM provider you configure under **My Account → LLM Providers** (bring-your-own-key). You connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key, and questions are billed by that provider — Sealmetrics does not impose a monthly question quota.
 
-- [Question limits by plan →](/lens/ai-assistant/question-limits)
+- [Configure your LLM provider →](/platform/settings/llm)
 - [Best practices for better answers →](/lens/ai-assistant/best-practices)

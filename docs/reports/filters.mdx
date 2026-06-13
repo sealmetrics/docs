@@ -8,18 +8,20 @@ description: "Apply global and local filters to narrow down analytics data by ge
 
 Sealmetrics provides two types of filters: global filters that apply across all reports, and local filters specific to individual tables.
 
-## Global Filters
+## Global Filters (Segment)
 
-Global filters appear in the filter bar below the header and affect all reports in the current session.
+Global filters are configured from the **Segment** panel in the filter bar below the header. They affect all report pages.
 
 ### Accessing Global Filters
 
-1. Click **Add Filter** in the filter bar
-2. Select a filter category
-3. Choose or enter filter values
-4. Filter applies immediately
+1. Click **Segment** in the filter bar
+2. Choose values in the available filter sections
+3. Click **Apply Segment**
+4. The selected filters apply across all reports
 
 ### Available Global Filters
+
+The Segment panel offers two filter categories: Geography and Devices.
 
 #### Geography
 
@@ -34,37 +36,19 @@ Example: Select Spain and Portugal to see only traffic from the Iberian Peninsul
 | Filter | Options | Description |
 |--------|---------|-------------|
 | **Device Type** | Desktop, Mobile, Tablet | Filter by device category |
-| **Browser** | Chrome, Safari, Firefox, Edge, etc. | Filter by browser |
-| **Operating System** | Windows, macOS, iOS, Android, etc. | Filter by OS |
+| **Browser** | Chrome, Safari, Firefox, Edge, Opera | Filter by browser |
+| **Operating System** | Windows, macOS, iOS, Android, Linux | Filter by OS |
 
 Example: Select Mobile + iOS to see only iPhone/iPad traffic.
 
-#### Traffic Sources
-
-| Filter | Options | Description |
-|--------|---------|-------------|
-| **UTM Source** | Dynamic list from your data | google, facebook, newsletter, etc. |
-| **UTM Medium** | Dynamic list from your data | cpc, organic, email, referral, etc. |
-| **UTM Campaign** | Dynamic list from your data | Your campaign names |
-
-Example: Select Medium = "cpc" to see only paid traffic.
-
-#### Pages
-
-| Filter | Options | Description |
-|--------|---------|-------------|
-| **Path contains** | Text input | URLs containing the text |
-| **Path starts with** | Text input | URLs starting with the text |
-
-Example: Path starts with "/blog" to see only blog traffic.
+For filtering by traffic source (UTM source/medium/campaign) or by page path, use the per-table [local filters](#local-filters-filter-builder) described below.
 
 ### Filter Bar Behavior
 
 - Active filters appear as chips in the filter bar
 - Click the X on a chip to remove that filter
 - Multiple filters combine with AND logic
-- Filters persist across reports until removed
-- Filters reset when changing sites
+- Filters persist across reports until removed or cleared
 
 ### Combining Filters
 
@@ -73,8 +57,8 @@ Filters combine with AND logic:
 | Filter 1 | Filter 2 | Result |
 |----------|----------|--------|
 | Country = Spain | Device = Mobile | Spanish mobile visitors |
-| Medium = cpc | Source = google | Google Ads traffic |
 | Browser = Safari | Country = USA | US Safari users |
+| OS = iOS | Country = Mexico | iPhone/iPad users in Mexico |
 
 ## Local Filters (Filter Builder)
 
@@ -184,14 +168,14 @@ Save filter combinations for quick access.
 
 ### Creating a Segment
 
-1. Apply desired global filters
-2. Click **Save as Segment**
-3. Enter segment name
-4. Click Save
+1. Apply the desired global filters
+2. Click **Save Segment** (or **Save current as segment** from the Segments dropdown)
+3. Enter a name (and optional description and color)
+4. Click **Save Segment**
 
 ### Using Segments
 
-1. Click the Segments dropdown in the filter bar
+1. Click the **Segments** dropdown in the filter bar
 2. Select a saved segment
 3. Filters apply immediately
 
@@ -200,18 +184,18 @@ Save filter combinations for quick access.
 | Segment Name | Filters |
 |--------------|---------|
 | Mobile Spain | Country = Spain, Device = Mobile |
-| Paid Traffic | Medium = cpc |
-| Blog Visitors | Path starts with "/blog" |
-| High-Value Users | (Created after filtering by conversions \> 0) |
+| US Safari | Country = United States, Browser = Safari |
+| iOS Visitors | OS = iOS |
+| German Desktop | Country = Germany, Device = Desktop |
 
 ### Managing Segments
 
-1. Click Segments dropdown
-2. Click the settings icon
-3. Options:
-   - Rename segment
-   - Delete segment
-   - View filters in segment
+1. Open the **Segments** dropdown
+2. From each segment entry you can:
+   - Apply the segment (click it)
+   - Delete the segment (click the X)
+
+Saved segments are stored in your browser. See [Filter Persistence](#filter-persistence) for details.
 
 ## Filter Strategies
 
@@ -254,29 +238,27 @@ Analyze specific markets:
 
 | Element | Behavior |
 |---------|----------|
-| Global filters | Persist across reports, reset on site change |
+| Global filters | Persist across reports until cleared |
 | Local filters | Reset when leaving the report |
-| Segments | Saved permanently until deleted |
+| Segments | Saved until deleted |
 | Date range | Persists across reports |
 
-### URL Parameters
+### How Persistence Works
 
-Filters are reflected in URL parameters:
-- Shareable links include active filters
-- Bookmarks preserve filter state
-- Direct links to filtered views
+Global filters and saved segments are stored locally in your browser (using `localStorage`), not in the page URL.
 
-Example URL:
-```
-/sites/123/sources?country=ES&medium=cpc&dateRange=30d
-```
+This means:
+
+- Filters and segments are remembered when you return to Sealmetrics in the **same browser**, even after closing the tab
+- They are **not** shared via the URL: copying or bookmarking a report link does not carry your active filters
+- They are **per browser and per device**: filters set on your laptop will not appear on your phone or in another browser
+- Clearing your browser data removes saved filters and segments
 
 ## Best Practices
 
 ### Use Global Filters For
 
-- Segmenting by user attributes (country, device)
-- Filtering by traffic source
+- Segmenting by visitor attributes (country, device type, browser, OS)
 - Consistent analysis across reports
 
 ### Use Local Filters For

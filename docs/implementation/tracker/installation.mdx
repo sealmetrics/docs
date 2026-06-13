@@ -55,7 +55,33 @@ For self-hosted deployments or custom domains:
 | Parameter | Required | Description | Example |
 |-----------|----------|-------------|---------|
 | `id` | Yes | Your Sealmetrics Site ID | `id=67a1d6c0bb10b861397fdd3a` |
-| `group` | No | Content grouping for this page | `group=blog` |
+| `group` | No | Content grouping for this page. Must match `^[a-zA-Z0-9_-]{0,64}$`; an invalid value makes `/t.js` return HTTP 400 | `group=blog` |
+| `auto` | No | Set `auto=0` to suppress the automatic initial pageview (manual mode). Any other value keeps it on | `auto=0` |
+
+### Manual Pageview Mode (`auto=0`)
+
+By default the tracker fires the initial pageview as soon as it loads. Add `auto=0` to keep everything wired up (SPA listeners, `conv()`, `micro()`) while firing the pageview yourself — useful when you need to set a content group after your dataLayer is ready:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID&auto=0" defer></script>
+<script>
+  window.addEventListener('load', function () {
+    sealmetrics({ group: 'checkout' });
+  });
+</script>
+```
+
+### Deferred Loading / GTM (pre-load queue)
+
+If a `sealmetrics(...)` call may run **before** the library finishes loading (e.g., Google Tag Manager), inject this fbq-style stub **before** the script tag. It buffers calls in `sealmetrics.q` and replays them once the library boots:
+
+```html
+<script>
+!function(w){w.sealmetrics=w.sealmetrics||function(){(w.sealmetrics.q=w.sealmetrics.q||[]).push(['pv',arguments])};w.sealmetrics.q=w.sealmetrics.q||[];w.sealmetrics.conv=w.sealmetrics.conv||function(){w.sealmetrics.q.push(['cv',arguments])};w.sealmetrics.micro=w.sealmetrics.micro||function(){w.sealmetrics.q.push(['mc',arguments])}}(window);
+</script>
+```
+
+When using the stub to enqueue a pageview, load the tracker with `auto=0` so the queued pageview and the automatic one do not both fire. See the [API Reference](/implementation/tracker/api-reference#pre-load-queue-stub) for details.
 
 ## What Happens After Installation
 
@@ -83,15 +109,15 @@ typeof sealmetrics === 'function'
 3. Reload the page
 4. Look for a POST request to `/event` with status 204
 
-### Option 3: Debug Mode
+### Option 3: Inspect Tracker State
 
-Add `?debug=1` to any page URL:
+In the console you can read the tracker's own state to confirm it initialized correctly:
 
+```javascript
+sealmetrics.sessionId; // current session ID
+sealmetrics.accountId; // your site ID
+sealmetrics.autoMode;  // "1" (auto-pageview) or "0" (manual mode)
 ```
-https://yoursite.com/page?debug=1
-```
-
-This logs all tracking events to the browser console.
 
 ## Common Installation Patterns
 

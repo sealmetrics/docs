@@ -13,16 +13,18 @@ Every API response includes these headers:
 
 | Header | Description | Example |
 |--------|-------------|---------|
-| `X-RateLimit-Limit` | Max requests per minute for your plan | `120` |
-| `X-RateLimit-Remaining` | Requests remaining in current window | `95` |
+| `X-RateLimit-Limit` | Max requests per minute for your plan | `240` |
+| `X-RateLimit-Remaining` | Requests remaining in current window | `235` |
 | `X-RateLimit-Reset` | Unix timestamp when window resets | `1704067200` |
+
+The value of `X-RateLimit-Limit` depends on your plan tier (see [Plan Limits](#plan-limits) below). The examples here use the Growth tier value of `240`.
 
 Example response headers:
 
 ```http
 HTTP/1.1 200 OK
-X-RateLimit-Limit: 120
-X-RateLimit-Remaining: 95
+X-RateLimit-Limit: 240
+X-RateLimit-Remaining: 235
 X-RateLimit-Reset: 1704067200
 Content-Type: application/json
 ```
@@ -34,7 +36,7 @@ When you exceed the limit, you receive:
 ```http
 HTTP/1.1 429 Too Many Requests
 Retry-After: 15
-X-RateLimit-Limit: 120
+X-RateLimit-Limit: 240
 X-RateLimit-Remaining: 0
 X-RateLimit-Reset: 1704067200
 Content-Type: application/json
@@ -52,27 +54,29 @@ Content-Type: application/json
 
 The `Retry-After` header indicates how many seconds to wait.
 
-## Soft Limiting Behavior
+There is no soft-limiting, warning, or throttling phase: requests within the limit return normally, and once the limit is exceeded the API returns `429 Too Many Requests` directly. Use the `X-RateLimit-Remaining` header to track how close you are to the limit.
 
-Before rejecting requests, the API applies soft limiting:
+## Plan Limits
 
-| Usage | Behavior |
-|-------|----------|
-| 0-80% | Normal response |
-| 80-100% | Normal response + `X-RateLimit-Warning: approaching_limit` |
-| >100% | Requests delayed (throttled) |
-| Sustained >100% | 429 Too Many Requests |
+Rate limits are applied per minute, based on your account's plan tier:
 
-This gives you time to reduce request rate before hitting hard limits.
+| Plan tier | Requests per minute |
+|-----------|---------------------|
+| Free | 240 |
+| Growth | 240 |
+| Scale | 480 |
+| Enterprise | 10000 (effectively unlimited) |
+
+Requests that are not authenticated (or where the plan tier can't be resolved) fall back to a default limit of **60 requests per minute**, applied per IP address.
 
 ## Per-Endpoint Adjustments
 
-Some endpoints have lower limits due to query complexity:
+Stats endpoints (`/api/v1/stats/*`) run heavier queries, so requests authenticated with an **API key** are limited to **50% of the plan limit** (with a floor of 30 requests per minute). Requests authenticated via a dashboard session (JWT Bearer token or cookie) keep the full plan limit.
 
-| Endpoint Pattern | Limit Adjustment |
-|------------------|------------------|
-| `/sites/{id}/stats` | 50% of plan limit |
-| `/sites/{id}/funnel` | 50% of plan limit |
+| Request type | Limit on `/api/v1/stats/*` |
+|--------------|-----------------------------|
+| API key (`X-API-Key`) | 50% of plan limit (minimum 30/min) |
+| Dashboard session (JWT / cookie) | 100% of plan limit |
 | All other endpoints | 100% of plan limit |
 
 ## Endpoints Without Rate Limits
