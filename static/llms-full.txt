@@ -137,7 +137,6 @@ This guide walks you through **account setup**, **tracking installation**, and y
 1. Visit [sealmetrics.com](https://sealmetrics.com)
 2. Click **"Try Sealmetrics"** or **"Sign Up"**
 
-
 ... [Read full document at https://docs.sealmetrics.com/getting-started/quick-start]
 
 
@@ -221,7 +220,7 @@ First, add the tracker to your website:
 
 ### 2. Track a Conversion
 
-Call `sealmetrics.conv()` when a conversion happens. The signature is `sealmetrics.conv('type', amount?, { ...props })` — the `amount` is optional (only added to the event when it's a number), and the properties object is op
+Call `sealmetrics.conv()` when a conversion happens. The signature is `sealmetrics.conv('type', amount?, { ...props })` — the `amount` is optional (only added to the event when it's a number), and the properties object is o
 
 ... [Read full document at https://docs.sealmetrics.com/getting-started/measure-conversions]
 
@@ -1065,7 +1064,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Pages per Session](#pages-per-session) | Pageviews / Entrances | Higher |
 | [Conversions](#conversions) | Count of conversion events | Higher |
 | [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
-| [Revenue](
+| [Revenue]
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1793,7 +1792,7 @@ Include user-related attributes as properties when tracking conversions and micr
 sealmetrics.conv('purchase', 149.99, {
   customer_type: 'premium',
   plan: 'pro',
-  currency: 'EUR'
+  currency: 'EUR
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/user-properties]
 
@@ -2474,7 +2473,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html la
+    <html l
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -3857,10 +3856,6 @@ This endpoint uses **query parameters** for configuration and a **multipart/form
 
 **Form Data (multipart):**
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `service_account_file` | file | Yes | Google Cloud service account JSON file (must end in `.json` and have `"type": "service_account"`) |
-
 ... [Read full document at https://docs.sealmetrics.com/api/bigquery]
 
 
@@ -4222,7 +4217,7 @@ Backup codes are:
 Use a backup code when:
 - Your phone is lost or stolen
 - Your phone is dead and you can't charge it
-- You're traveling without your usual dev
+- You're traveling without your usual de
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/account-security/backup-codes]
 
@@ -6198,10 +6193,6 @@ Looker Studio → SealMetrics Connector → SealMetrics API → Your analytics d
 
 Data is cached for 5 minutes to ensure fast loading. Looker Studio may also apply its own caching.
 
-## Setup
-
-### Step 1: Get Your API Key
-
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/integrations/looker-studio]
 
 
@@ -6671,7 +6662,7 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 ## Events & Data
 
 | Feature | Growth | Scale | Enterprise |
-|---------|:------:|:----
+|---------|:------:|:---
 
 ... [Read full document at https://docs.sealmetrics.com/billing/features-comparison]
 
@@ -6736,7 +6727,7 @@ All tracked interactions count toward your event limit:
 | Pageview | Yes | Standard page load |
 | Virtual pageview (SPA) | Yes | Single-page app navigation |
 | Custom event | Yes | User-defined events |
-| Conversion | Yes | Purchase, si
+| Conversion | Yes | Purchase, s
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -7372,7 +7363,7 @@ Using SealMetrics MCP for site {site_id}, compute the main conversion funnel wee
 Funnel steps (adjust if my actual funnel differs — ask me first if unclear):
 1. Landing page entrance
 2. View product / view room
-3. Add to cart / st
+3. Add to cart / s
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization]
 
