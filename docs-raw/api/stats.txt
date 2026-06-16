@@ -530,6 +530,108 @@ curl "https://my.sealmetrics.com/api/v1/stats/conversions/raw?site_id=acme&start
 
 ---
 
+## Raw Microconversions (event-level)
+
+### GET /stats/microconversions/raw
+
+Returns **one row per microconversion** with all dimensions attached: UTM parameters, country, device, channel group, custom properties, and timestamp. Same shape as `/stats/conversions/raw` but **without `amount` and `clid`** (microconversions don't carry revenue or click IDs).
+
+Use this when you need to filter or count microconversions by **combinations of custom property values** (e.g. `hotel + checkin_date + duration + country`) — server-side aggregation in `/stats/properties/breakdown` operates on a single property at a time, so combination logic happens on the client over this raw stream.
+
+**Constraints:**
+
+| Limit | Value |
+|-------|-------|
+| Max date range | 31 days |
+| Max `page_size` | 10,000 |
+| Data retention | 2 years (ClickHouse TTL) |
+
+**Multi-value filters** (repeat the query param to OR values, e.g. `?country=ES&country=FR`):
+
+`conversion_type`, `country`, `device_type`, `browser`, `os`, `channel_group`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/microconversions/raw?site_id=acme&start_date=2026-04-01&end_date=2026-04-30&conversion_type=availability_search&page_size=1000" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "date": "2026-04-15",
+      "hour": 14,
+      "timestamp_utc": "2026-04-15T14:32:11.482Z",
+      "timestamp_local": "2026-04-15T16:32:11.482+02:00",
+      "conversion_type": "availability_search",
+      "country": "ES",
+      "device_type": "mobile",
+      "channel_group": "Paid Search",
+      "utm_source": "google",
+      "utm_medium": "cpc",
+      "utm_campaign": "spring-sale",
+      "utm_term": "",
+      "utm_content": "",
+      "landing_page": "/hotels/ibiza",
+      "browser": "Chrome",
+      "os": "iOS",
+      "properties": {
+        "hotel": "TRS Ibiza Hotel",
+        "checkin_date": "2026-07-12",
+        "number_of_nights": "5",
+        "number_of_adults": "2",
+        "number_of_children": "1",
+        "result": "available"
+      }
+    }
+  ],
+  "total": 8421,
+  "page": 1,
+  "page_size": 1000,
+  "has_next": true,
+  "has_prev": false
+}
+```
+
+**`properties` content** is whatever your tracker pushes when emitting the microconversion. There is no server-side whitelist — avoid putting PII (raw emails, government IDs, payment details) into properties, since anyone with `stats:read` on the site can read them back.
+
+---
+
+## Raw Conversion Items (event-level)
+
+### GET /stats/conversion-items/raw
+
+Returns **one row per item** of a conversion from `sealmetrics.conversion_items` — useful when a single purchase contains multiple products and you need product-level attribution. Each item carries its own `properties` Map (`product_id`, `sku`, `quantity`, etc.) plus the conversion's full attribution context (UTMs, country, device, channel group, `clid`).
+
+To reconstruct purchase + items, **join on the client side** using either:
+
+1. `timestamp_utc` (millisecond precision — unique for events ingested after 2026-05-03), or
+2. A property the tracker placed on both rows (e.g. `order_id`).
+
+**Constraints, filters and response shape** are the same as `/stats/microconversions/raw`, plus a `clid` column (click ID).
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/conversion-items/raw?site_id=acme&period=30d&page_size=10000" \
+  -H "X-API-Key: sm_your_key"
+```
+
+---
+
+## Timestamp & timezone caveats (raw endpoints)
+
+Applies to all three raw endpoints (`/conversions/raw`, `/microconversions/raw`, `/conversion-items/raw`):
+
+- `date` and `hour` are in the **account timezone** (pre-calculated at ingestion).
+- `timestamp_utc` is ISO 8601 with `Z` suffix (true UTC, millisecond precision).
+- `timestamp_local` is the same instant converted to the account timezone, ISO 8601 with explicit offset (e.g. `+02:00`).
+- For accounts in a non-UTC timezone, `date`/`hour` match `timestamp_local`, **not** `timestamp_utc`. A conversion at 02:00 Sydney (UTC+10) on 2026-05-03 has `date=2026-05-03 hour=2` and `timestamp_utc=2026-05-02T16:00:00.000Z`.
+
+**Pre-2026-05-03 rows:** `timestamp_utc` was added on that date. Older rows are returned with a synthesized hourly-precision timestamp derived from `date + hour` in the account's timezone. To distinguish synthesized vs real, check whether `seconds == 0 AND milliseconds == 0`.
+
+---
+
 ## Funnel Report
 
 ### GET /stats/funnel

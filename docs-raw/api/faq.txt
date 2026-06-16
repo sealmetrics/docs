@@ -26,6 +26,18 @@ For **aggregated** conversion totals (count, revenue, avg value per conversion t
 
 ---
 
+## How do I get event-level microconversions (with their custom `properties`)?
+
+Use **`GET /api/v1/stats/microconversions/raw`** — same shape as `/stats/conversions/raw` but without `amount` / `clid`. Each row carries the full `properties` Map so you can filter or count by **combinations of property values** (e.g. `hotel + checkin_date + duration + country`) client-side.
+
+If you only need to break down by **one** property at a time and want server-side aggregation, use [`/stats/properties/breakdown`](./stats#properties-report) instead.
+
+For per-item attribution on conversions (one row per product in a purchase, joinable by `timestamp_utc` or a shared property like `order_id`), use **`GET /api/v1/stats/conversion-items/raw`**.
+
+Both endpoints share the same constraints as `/stats/conversions/raw` (31-day max range, `page_size` up to 10,000, 2-year ClickHouse TTL).
+
+---
+
 ## What value do I pass for `account_id`? My `site_id` is being rejected.
 
 Both parameters refer to **the same value: the site slug** (the identifier shown in the dashboard URL, e.g. `acme` in `my.sealmetrics.com/acme/...`).
