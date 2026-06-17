@@ -14,3 +14,7 @@ Proper e-commerce tracking enables you to calculate accurate ROI, understand whi
 - [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) - Step-by-step instructions for implementing purchase and revenue tracking
 - [Event Properties Guide](/implementation/ecommerce-conversion-tracking/event-properties) - Learn which data fields to send with conversion events for maximum insight
 
+## Reconciling Against Your ERP / CRM
+
+If SealMetrics shows substantially fewer conversions than your ERP, CRM, or internal database, the cause is almost always the same: the **base pixel must fire and register the pageview before `sealmetrics.conv(...)` is called** on the confirmation page. See [Reconciling SealMetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) for the full diagnostic — firing order, off-domain confirmation pages, payment methods that skip the thank-you page, and the rest of the secondary causes.
+
