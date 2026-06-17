@@ -135,7 +135,7 @@ This guide walks you through **account setup**, **tracking installation**, and y
 ## Step 1: Sign Up
 
 1. Visit [sealmetrics.com](https://sealmetrics.com)
-2. Click **"Try Sealmetrics"** or **"Sign Up"
+2. Click **"Try Sealmetrics"** or **"Sign 
 
 ... [Read full document at https://docs.sealmetrics.com/getting-started/quick-start]
 
@@ -220,7 +220,7 @@ First, add the tracker to your website:
 
 ### 2. Track a Conversion
 
-Call `sealmetrics.conv()` when a conversion happens. The signature is `sealmetrics.conv('type', amount?, { ...props })` — the `amount` is optional (only added to the event when it's a number), and the properties object is
+Call `sealmetrics.conv()` when a conversion happens. The signature is `sealmetrics.conv('type', amount?, { ...props })` — the `amount` is optional (only added to the event when it's a number), and the properties objec
 
 ... [Read full document at https://docs.sealmetrics.com/getting-started/measure-conversions]
 
@@ -472,7 +472,7 @@ LENS ships with a curated set of **25 active detection rules** that run on your 
 - **Proactive** — near real-time checks that surface changes happening right now.
 
 **Info:**
-LENS includes a much larger internal library of rules, but most require data many accounts don't have (e-commerce product properties, microconversion funnels, content groups, multi-site portfolios, or yea
+LENS includes a much larger internal library of rules, but most require data many accounts don't have (e-commerce product properties, microconversion funnels, content groups, multi-site portfolios, or
 
 ... [Read full document at https://docs.sealmetrics.com/lens/anomaly-detection/rule-types]
 
@@ -798,7 +798,7 @@ This reflects traffic originating from any source, which has been reactivated af
 
 ---
 
-## How Other Platforms Handle Returning Users
+## How Other Platforms Handle Returning User
 
 ... [Read full document at https://docs.sealmetrics.com/reports/insights/rejoined-traffic]
 
@@ -1062,7 +1062,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Pages per Session](#pages-per-session) | Pageviews / Entrances | Higher |
 | [Conversions](#conversions) | Count of conversion events | Higher |
 | [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
-| [Reve
+
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -1690,8 +1690,6 @@ Event: add_to_cart (microconversion)
 
 ## Adding Properties to Events
 
-### Conversions
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/event-properties]
 
 
@@ -1790,7 +1788,7 @@ Include user-related attributes as properties when tracking conversions and micr
 sealmetrics.conv('purchase', 149.99, {
   customer_type: 'premium',
   plan: 'pro',
-  currency: 'E
+  currency
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/custom-properties/user-properties]
 
@@ -2112,8 +2110,6 @@ Works out of the box with:
 | Svelte | svelte-routing, SvelteKit | Yes |
 | Remix | @remix-run/react | Yes |
 
-Any router that uses the History API is automatically supported.
-
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/spa-support]
 
 
@@ -2272,7 +2268,7 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 | Content grouping | `content_grouping` in options | `?group=xxx` in URL or `sealmetrics({ group: 'xxx' })` |
 | `adin` parameter | Supported | Removed |
 | Cookies | Used | None |
-| localStorage | Used | No
+| localStorage | Used
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/migration-from-v1]
 
@@ -2471,7 +2467,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
+    <h
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2542,7 +2538,7 @@ This template includes all the tags, triggers, and variables you need. Just impo
 2. Go to **Google Tag Manager > Admin > Import Container**
 3. Upload the JSON file
 4. Choose **"Merge"** and select **"Rename conflicting tags"**
-5. Go to **Variables** and u
+5. Go to **Variables** and 
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/tag-management/gtm-template]
 
@@ -2989,7 +2985,7 @@ Privacy-first, cookieless analytics for Shopify stores. SealMetrics tracks the e
 The integration has two parts:
 
 - **The SealMetrics Pixel app** — a Shopify app you install on your store. It handles the connection (OAuth), registers the conversion webhook, and manages billing.
-- **The "Sealmetrics Analytics" app embed** — a Theme App Extension you enable in your theme. It injects the SealMetrics loader, which loads the tracker (`t.js`), writes cart attributes, and fires the e-commerce microco
+- **The "Sealmetrics Analytics" app embed** — a Theme App Extension you enable in your theme. It injects the SealMetrics loader, which loads the tracker (`t.js`), writes cart attributes, and fires the e-commerce mic
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/ecommerce/shopify]
 
@@ -4221,7 +4217,7 @@ Backup codes are:
 Use a backup code when:
 - Your phone is lost or stolen
 - Your phone is dead and you can't charge it
-- You're traveling without your usual 
+- You're traveling without your usu
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/account-security/backup-codes]
 
@@ -4586,7 +4582,6 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 
 ### Traditional Analytics (❌ Requires Consent)
 - Uses cookies to store visitor IDs  
-- 
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -5218,9 +5213,6 @@ AI developers faced uncertainty about lawful basis for processing personal data 
 - Cannot obtain consent from all individuals in web-scraped data
 - Consent withdrawal would require model retraining
 
-**Article 6(1)(b) Contract**:
-- Not applicable (no contractual relationship with training data subjects)
-
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/ai-act-amendments]
 
 
@@ -5326,8 +5318,6 @@ Under current EU law, businesses enjoy lighter regulatory treatment while they q
 - Competitive disadvantage vs. companies that stayed below threshold
 
 **Economic inefficiency**: A company with 250 employees is not fundamentally different from one with 249, yet faces drastically different regulatory treatment.
-
-## The Solution: Small Mid-Caps (SMCs)
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/smes-small-midcaps]
 
@@ -6066,8 +6056,6 @@ Service Account Details:
 
 ## Step 2: Grant Permissions
 
-Grant the service account BigQuery access:
-
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/integrations/bigquery]
 
 
@@ -6424,7 +6412,7 @@ URL: https://docs.sealmetrics.com/platform/settings/llm
 Configure which AI model powers the **Lens chat** assistant. LLM Providers is a **per-user, bring-your-own-key (BYOK)** setting: you add your own API key for a provider, and that configuration is used across every site you have access to.
 
 **Info:**
-Your LLM Providers configuration belongs to **you**, not to a site or organization. The same key is applied to every site you can access, and **only you can see or modify it**. There is no per-account dropdown — other users configure their own keys independentl
+Your LLM Providers configuration belongs to **you**, not to a site or organization. The same key is applied to every site you can access, and **only you can see or modify it**. There is no per-account dropdown — other users configure their own keys independe
 
 ... [Read full document at https://docs.sealmetrics.com/platform/settings/llm]
 
@@ -6663,7 +6651,7 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 ## Events & Data
 
 | Feature | Growth | Scale | Enterprise |
-|---------|:------:|:-
+|---------|:------:
 
 ... [Read full document at https://docs.sealmetrics.com/billing/features-comparison]
 
@@ -6728,7 +6716,7 @@ All tracked interactions count toward your event limit:
 | Pageview | Yes | Standard page load |
 | Virtual pageview (SPA) | Yes | Single-page app navigation |
 | Custom event | Yes | User-defined events |
-| Conversion | Yes | Purchase,
+| Conversion | Yes | Purch
 
 ... [Read full document at https://docs.sealmetrics.com/billing/usage-limits]
 
@@ -6866,9 +6854,25 @@ You should see:
 ### Verify Data Collection
 
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
-2. Go to **Real-time
+2. Go to **Real-
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
+
+
+
+## Reconciling SealMetrics with Your ERP, CRM, or Database
+
+
+URL: https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy
+
+
+# Reconciling SealMetrics with Your ERP, CRM, or Database
+
+Your **ERP, CRM, or internal database is the source of truth** for what actually happened in your business: the orders that were placed, the leads that were captured, the contracts that were signed. SealMetrics is the measurement layer on top of that reality.
+
+When both systems are correctly wired, **SealMetrics should reconcile with your source of truth with only a minimal discrepancy** — typically a small percentage caused by edge cases (users disabling JavaScript, network failures at the exact moment of the request, manual orders entered directly into the back office, refunds, etc.).
+
+... [Read full document at https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy]
 
 
 
@@ -7364,7 +7368,7 @@ Using SealMetrics MCP for site {site_id}, compute the main conversion funnel wee
 Funnel steps (adjust if my actual funnel differs — ask me first if unclear):
 1. Landing page entrance
 2. View product / view room
-3. Add to cart /
+3. Add to car
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization]
 
@@ -7668,7 +7672,7 @@ You have access to SealMetrics MCP for site {site_id} and Google Ads MCP for acc
 For the last 30 days, per Google Ads campaign:
 - Clicks reported by Google Ads
 - Real entrances captured by SealMetrics (matched on utm_campaign + utm_source = google + utm_medium = cpc)
-- % discrepancy = (clicks - entrances) / click
+- % discrepancy = (clicks - entrances) / c
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/13-google-ads]
 
@@ -7696,7 +7700,7 @@ You have access to SealMetrics MCP for site {site_id} and Meta Ads MCP for accou
 Last 30 days per ad set:
 - Spend (Meta Ads)
 - Conversions and revenue reported by Meta
-- Conversions and revenue captured by SealMetrics (matche
+- Conversions and revenue captured by SealMetrics (mat
 
 ... [Read full document at https://docs.sealmetrics.com/web-analytics-prompts/14-meta-ads]
 
