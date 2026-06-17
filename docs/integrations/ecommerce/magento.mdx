@@ -15,22 +15,13 @@ Privacy-first, cookieless analytics for Magento 2.4+ (Adobe Commerce).
 
 ## Installation
 
-### Option 1: Manual Installation
+Install the module by copying its files into `app/code`:
 
 1. Create directory: `app/code/SealMetrics/Analytics`
-2. Copy extension files to that directory
+2. Copy the module files into that directory
 3. Run commands:
 
 ```bash
-bin/magento module:enable SealMetrics_Analytics
-bin/magento setup:upgrade
-bin/magento cache:clean
-```
-
-### Option 2: Composer
-
-```bash
-composer require sealmetrics/module-analytics
 bin/magento module:enable SealMetrics_Analytics
 bin/magento setup:upgrade
 bin/magento cache:clean

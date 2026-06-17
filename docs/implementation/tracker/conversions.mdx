@@ -17,7 +17,7 @@ sealmetrics.conv(type, amount, properties);
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `type` | string | Yes | Conversion name (e.g., `'purchase'`, `'lead'`, `'signup'`) |
-| `amount` | number | Yes | Monetary value. Use `0` for non-monetary conversions |
+| `amount` | number | No | Monetary value. Omit or use `0` for non-monetary conversions |
 | `properties` | object | No | Custom key-value data |
 
 ## Examples
@@ -32,7 +32,6 @@ sealmetrics.conv('purchase', 99.99);
 
 ```javascript
 sealmetrics.conv('purchase', 149.99, {
-  order_id: 'ORD-2025-001234',
   currency: 'EUR',
   payment_method: 'credit_card',
   coupon: 'SAVE10',
@@ -87,7 +86,6 @@ Place on your order confirmation page:
   // Wait for tracker to load
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', 189.99, {
-      order_id: 'ORD-2025-001234',
       currency: 'EUR',
       payment_method: 'credit_card',
       items: [
@@ -106,7 +104,6 @@ Place on your order confirmation page:
 <script>
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', <?php echo $order->total; ?>, {
-      order_id: '<?php echo $order->id; ?>',
       currency: '<?php echo $order->currency; ?>'
     });
   });
@@ -135,7 +132,6 @@ add_action('woocommerce_thankyou', function($order_id) {
   <script>
     window.addEventListener('load', function() {
       sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
-        order_id: '<?php echo $order_id; ?>',
         currency: '<?php echo $order->get_currency(); ?>',
         payment_method: '<?php echo $order->get_payment_method(); ?>',
         items: <?php echo json_encode($items); ?>
@@ -154,7 +150,6 @@ In your `checkout.liquid` or via Shopify Additional Scripts:
 <script>
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
-      order_id: '{{ order.name }}',
       currency: '{{ checkout.currency }}',
       items: [
         {% for item in checkout.line_items %}
@@ -212,7 +207,6 @@ Common properties to include:
 
 | Property | Type | Description | Example |
 |----------|------|-------------|---------|
-| `order_id` | string | Unique order identifier | `'ORD-2025-001234'` |
 | `currency` | string | ISO 4217 currency code | `'EUR'`, `'USD'`, `'GBP'` |
 | `payment_method` | string | Payment type | `'credit_card'`, `'paypal'` |
 | `coupon` | string | Discount code used | `'SAVE10'` |
@@ -248,9 +242,11 @@ Once tracked, product items appear in the **Properties** report under the **Conv
 
 ## Timing
 
-### Conversions Count as Pageviews
+### Conversions Are Their Own Event Type
 
-Every conversion event also counts as a pageview. Do not call `sealmetrics()` separately on the same page.
+A conversion is **not** counted as a pageview. The server classifies each hit by its payload: a hit carrying a conversion type (`e`) is recorded as a conversion (or a microconversion when the micro flag is set), and only hits **without** those fields are counted as pageviews.
+
+The initial pageview is already tracked automatically when the tracker loads (unless you use `?auto=0`), so on a thank-you page you typically get one automatic pageview **plus** the conversion you fire — they are two separate events. You do not need to call `sealmetrics()` yourself just to "register" the conversion.
 
 ### Wait for Tracker to Load
 
@@ -283,7 +279,7 @@ Example with localStorage (client-side):
 ```javascript
 var orderId = 'ORD-2025-001234';
 if (!localStorage.getItem('tracked_' + orderId)) {
-  sealmetrics.conv('purchase', 99.99, { order_id: orderId });
+  sealmetrics.conv('purchase', 99.99);
   localStorage.setItem('tracked_' + orderId, 'true');
 }
 ```

@@ -1,0 +1,82 @@
+---
+title: Passthrough Referrers
+sidebar_label: Passthrough Referrers
+sidebar_position: 6
+description: Learn what a passthrough referrer is and how to preserve the original traffic source when visitors return from external domains such as payment gateways, SSO providers, or booking engines.
+keywords:
+  - passthrough referrer
+  - referral exclusion
+  - preserve attribution
+  - payment gateway
+  - booking engine
+  - sso attribution
+---
+
+# Passthrough Referrers
+
+A **passthrough referrer** is an external domain that your visitors temporarily pass through during a journey — and then return to your site. Instead of treating the return as a brand-new visit, SealMetrics keeps the **original session source** intact.
+
+This is the right setting whenever a journey leaves your domain and comes back, for example:
+
+- **Payment gateways** — Stripe, PayPal, Redsys, or a POS/checkout domain.
+- **External authentication / SSO** — an identity provider or a shared accounts domain.
+- **Booking and ticketing engines** — hotel booking engines, external ticketing, third-party checkout flows.
+
+Without this configuration, when the visitor returns SealMetrics may detect the external domain as the referrer, count a new entrance, and overwrite the real acquisition source (Google Ads, Facebook, Email…) with **Referral** or **payment**.
+
+---
+
+## How a Passthrough Referrer Works
+
+When a passthrough referrer is configured and a visit arrives from that domain:
+
+- **If the original session still exists**, SealMetrics treats the hit as a continuation (a pageview) and **preserves the session's original UTMs** — source, medium, campaign, term, content. The external domain is *not* counted as a new source.
+- **If no session exists** (for example, the visitor's session has expired), SealMetrics falls back to the UTM values you configured for that passthrough domain so the visit is still attributed sensibly instead of becoming an unknown referral.
+
+This is the same preservation behavior used for payment gateways, applied per account to any external domain you choose.
+
+---
+
+## Relationship to the Session Window
+
+Preservation depends on the original session still being active when the visitor returns:
+
+- **2-hour session window** — the origin of the visit stays active for 2 hours, which covers virtually all checkout, login, and booking flows. See [Attribution Accuracy](/reports/insights/attribution-accuracy).
+- If the visitor returns after the session has expired, there is no original session to preserve, so the configured fallback UTMs are used instead.
+
+---
+
+## How to Configure It: Referral Exclusion List
+
+In the production app (`my.sealmetrics.com`), passthrough referrers are managed through the **Referral Exclusion List**:
+
+1. Open the settings menu in the top toolbar and click **Accounts**.
+2. In the accounts table, find your account and click the **POS Referral Bypass** action in its row.
+3. On the **Referral Exclusion List** screen, type the external domain to exclude (e.g. a payment provider, your SSO/auth domain, or a booking engine) in the **Domain** field.
+4. Click **Add referral** to add another domain field if needed.
+5. Click **Update** to save.
+
+To remove a domain, click **Delete** next to it.
+
+Add **only** the external domains that visitors legitimately pass through — payment, auth, or booking domains. Do not add your own domains.
+
+---
+
+## When to Use Which Guide
+
+This page is the canonical reference for the passthrough referrer concept. Two related guides cover specific scenarios that use the same Referral Exclusion List:
+
+- [Bypass POS or Referrer](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer) — step-by-step for excluding **payment gateway / POS** domains.
+- [Preserve Attribution Through External Login or SSO Flows](/platform/tracking-and-attribution-settings/external-auth-sso-attribution) — step-by-step for excluding **external authentication / SSO** domains.
+
+If you are mapping a known referrer domain to a custom source/medium (rather than preserving the original session), see [Referrer Mappings](/platform/tracking-and-attribution-settings/referrer-mappings) instead.
+
+---
+
+## Result
+
+With the passthrough referrer configured:
+
+✔ The session keeps its original acquisition source when the visitor returns
+✔ Conversions on the thank-you / post-flow page inherit the real channel (SEO, Paid, Email…)
+❌ No more conversions miscategorized as **Referral** or **payment** from a domain the visitor merely passed through

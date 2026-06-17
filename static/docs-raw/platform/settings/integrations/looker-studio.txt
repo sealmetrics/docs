@@ -21,11 +21,14 @@ Looker Studio → SealMetrics Connector → SealMetrics API → Your analytics d
 
 Data is cached for 5 minutes to ensure fast loading. Looker Studio may also apply its own caching.
 
+**Note:**
+The SealMetrics Looker Studio connector is currently pending listing in the Looker Studio Partner Connector Gallery. While the listing is being reviewed, your Google account must be granted **Viewer** access to the underlying connector. If the authorization page redirects you to the Looker Studio home with no error, contact us at [support@sealmetrics.com](mailto:support@sealmetrics.com) with the Google email you want whitelisted and we'll grant access within one business day.
+
 ## Setup
 
 ### Step 1: Get Your API Key
 
-1. In SealMetrics, go to **Settings > API Keys**
+1. In SealMetrics, go to **My Account > API Keys**
 2. Create a new API key or copy an existing one
 3. Keep it handy — you'll need it in the next step
 
@@ -35,7 +38,7 @@ Data is cached for 5 minutes to ensure fast loading. Looker Studio may also appl
 
 1. Click the link below to open the SealMetrics connector in Looker Studio:
 
-   **[Open SealMetrics Connector](https://lookerstudio.google.com/datasources/create?connectorId=AKfycbzhN1OwX6QR0kgdE28bUtCFsWSOMMPmmkAcnPkb0G_0ikjNhDqbBkwDQmg_Iv5Yqa-Y)**
+   **[Open SealMetrics Connector](https://lookerstudio.google.com/datasources/create?connectorId=AKfycbz0OeJk_X454_DijtnmO12DZeFBRL_u_-anvWX_f5oTvxUDlxdc6yIADlcRzOr2aOPAcg)**
 
 2. You'll be asked to authorize the connector on first use — click **Authorize**
 
@@ -189,7 +192,7 @@ The connector respects Looker Studio's date range controls. Add a date range pic
 
 ### "Invalid API Key" Error
 
-1. Verify your API key is correct in **Settings > API Keys**
+1. Verify your API key is correct in **My Account > API Keys**
 2. Make sure the key hasn't been revoked or expired
 3. Re-enter the key in the data source: **Resource > Manage added data sources > Edit**
 
@@ -220,3 +223,23 @@ If you also use the [BigQuery integration](/platform/settings/integrations/bigqu
 - **BigQuery as data source in Looker Studio** — best for custom SQL queries, cross-table joins, and advanced analysis
 
 You can use BigQuery as a Looker Studio data source by selecting **BigQuery** instead of the SealMetrics connector when creating a data source, and pointing it to your SealMetrics BigQuery dataset.
+
+## Support
+
+Need help with the connector? Email **[support@sealmetrics.com](mailto:support@sealmetrics.com)** and include:
+
+- Your SealMetrics account email
+- The report type that fails
+- A screenshot of the error message
+- The Looker Studio data source URL (visible in the address bar)
+
+We aim to respond within one business day.
+
+## Legal
+
+By using the SealMetrics Looker Studio connector, you agree to:
+
+- [SealMetrics Privacy Policy](https://sealmetrics.com/privacy/)
+- [SealMetrics Terms of Service](https://sealmetrics.com/terms/)
+
+The connector reads analytics data from your SealMetrics account via the SealMetrics REST API. It does not write to or modify your account. Your API key is stored by Looker Studio in your data source configuration; rotate it from **Settings > API Keys** at any time.

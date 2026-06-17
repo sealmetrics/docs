@@ -12,8 +12,8 @@ Privacy-first, cookieless analytics for Wix websites and Wix Stores.
 
 1. Go to **Settings > Custom Code** (or **Marketing & SEO > Custom Code**)
 2. Click **"+ Add Custom Code"**
-3. Paste the tracking script (see below)
-4. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Site ID
+3. Paste the entire contents of `sealmetrics-wix.js` inside `<script>` tags
+4. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
 5. Set **Placement** to **Head**
 6. Set **Pages** to **All pages**
 7. Click **Apply** and **Publish**
@@ -27,15 +27,14 @@ Privacy-first, cookieless analytics for Wix websites and Wix Stores.
 
 ## Configuration
 
-```html
-<script>
+Edit these values at the top of the pasted script:
+
+```javascript
 // Required: Your SealMetrics Account ID
 var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
 
 // Optional: Track contact forms as lead conversions (default: false)
 var SEALMETRICS_CONTACT_AS_LEAD = false;
-</script>
-<script src="https://cdn.sealmetrics.com/wix/sealmetrics-wix.js" async></script>
 ```
 
 ## Automatic Events
@@ -43,13 +42,8 @@ var SEALMETRICS_CONTACT_AS_LEAD = false;
 | Event | Description |
 |-------|-------------|
 | `pageview` | All page views with content grouping |
-| `form_submit` | Wix form submissions |
+| `form_submit` | Wix form submissions (non-newsletter) |
 | `newsletter_signup` | Newsletter form submissions |
-| `cta_click` | Button clicks |
-| `outbound_click` | External link clicks |
-| `scroll_depth` | 25%, 50%, 75%, 100% scroll |
-| `video_play` | Video starts |
-| `video_complete` | Video ends |
 
 ## Wix Stores Events
 
@@ -59,12 +53,6 @@ var SEALMETRICS_CONTACT_AS_LEAD = false;
 | `add_to_cart` | Add to cart button clicks |
 | `begin_checkout` | Checkout button clicks |
 | `purchase` | Order confirmation (conversion) |
-
-## Wix Bookings Events
-
-| Event | Description |
-|-------|-------------|
-| `booking_started` | Book now button clicks |
 
 ## Content Groups
 
@@ -100,14 +88,6 @@ Tracked as `newsletter_signup`:
 ### Contact Forms
 
 Tracked as `form_submit` or `lead` (if configured)
-
-## CTA Button Tracking
-
-Add `data-track` attribute or use specific classes:
-
-```html
-<a href="/signup" class="cta-button">Get Started</a>
-```
 
 ## Custom Events with Wix Velo
 

@@ -42,21 +42,37 @@ curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d" \
 
 ```json
 {
+  "success": true,
   "data": {
     "date_range": {
-      "start": "2025-01-01",
-      "end": "2025-01-07"
+      "start_date": "2025-01-01",
+      "end_date": "2025-01-07",
+      "days": 7
     },
-    "entrances": 12543,
-    "page_views": 28976,
-    "engaged_entrances": 7234,
-    "bounce_rate": 42.3,
-    "conversions": 156,
-    "revenue": 12450.00,
-    "microconversions": 892
-  }
+    "traffic": {
+      "entrances": 12543,
+      "engaged_entrances": 7234,
+      "page_views": 28976,
+      "microconversions": 892,
+      "conversions": 156,
+      "revenue": 12450.00,
+      "bounce_rate": 42.3,
+      "pages_per_session": 2.31
+    },
+    "conversions": {
+      "conversions": 156,
+      "revenue": 12450.00,
+      "microconversions": 892,
+      "conversion_rate": 1.24,
+      "average_order_value": 79.81
+    }
+  },
+  "meta": {},
+  "timestamp": "2025-01-08T00:00:00Z"
 }
 ```
+
+The `traffic` object carries the core traffic metrics; `conversions` carries the conversion-focused metrics. Both `bounce_rate` and `pages_per_session` (under `traffic`) are computed from `entrances`/`engaged_entrances`/`page_views`.
 
 **With Comparison:**
 
@@ -64,18 +80,72 @@ curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d" \
 curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d&compare=previous"
 ```
 
+When `compare` is set, the response adds `traffic_change` and `conversions_change` (same shape as `traffic` and `conversions`, holding the previous period's values), plus time series objects (`entrances_series`, `page_views_series`, `conversions_series`, etc.) and their comparison overlays (`entrances_series_compare`, `page_views_series_compare`, `conversions_series_compare`):
+
 ```json
 {
+  "success": true,
   "data": {
-    "entrances": 12543,
-    "entrances_previous": 11234,
-    "entrances_change": 11.7,
-    "page_views": 28976,
-    "page_views_previous": 25432,
-    "page_views_change": 13.9
-  }
+    "date_range": { "start_date": "2025-01-01", "end_date": "2025-01-07", "days": 7 },
+    "traffic": {
+      "entrances": 12543,
+      "engaged_entrances": 7234,
+      "page_views": 28976,
+      "microconversions": 892,
+      "conversions": 156,
+      "revenue": 12450.00,
+      "bounce_rate": 42.3,
+      "pages_per_session": 2.31
+    },
+    "conversions": {
+      "conversions": 156,
+      "revenue": 12450.00,
+      "microconversions": 892,
+      "conversion_rate": 1.24,
+      "average_order_value": 79.81
+    },
+    "traffic_change": {
+      "entrances": 11234,
+      "engaged_entrances": 6498,
+      "page_views": 25432,
+      "microconversions": 780,
+      "conversions": 138,
+      "revenue": 10980.00,
+      "bounce_rate": 42.2,
+      "pages_per_session": 2.26
+    },
+    "conversions_change": {
+      "conversions": 138,
+      "revenue": 10980.00,
+      "microconversions": 780,
+      "conversion_rate": 1.23,
+      "average_order_value": 79.57
+    },
+    "entrances_series": {
+      "metric": "entrances",
+      "points": [
+        { "date": "2025-01-01", "value": 1800 },
+        { "date": "2025-01-02", "value": 1750 }
+      ],
+      "total": 12543,
+      "average": 1791.86
+    },
+    "entrances_series_compare": {
+      "metric": "entrances",
+      "points": [
+        { "date": "2024-12-25", "value": 1600 },
+        { "date": "2024-12-26", "value": 1580 }
+      ],
+      "total": 11234,
+      "average": 1604.86
+    }
+  },
+  "meta": {},
+  "timestamp": "2025-01-08T00:00:00Z"
 }
 ```
+
+The API returns the raw values for both periods; compute percentage changes client-side. There are no `comparison`/`deltas` keys.
 
 ---
 
@@ -463,6 +533,108 @@ curl "https://my.sealmetrics.com/api/v1/stats/conversions/raw?site_id=acme&start
 
 ---
 
+## Raw Microconversions (event-level)
+
+### GET /stats/microconversions/raw
+
+Returns **one row per microconversion** with all dimensions attached: UTM parameters, country, device, channel group, custom properties, and timestamp. Same shape as `/stats/conversions/raw` but **without `amount` and `clid`** (microconversions don't carry revenue or click IDs).
+
+Use this when you need to filter or count microconversions by **combinations of custom property values** (e.g. `hotel + checkin_date + duration + country`) — server-side aggregation in `/stats/properties/breakdown` operates on a single property at a time, so combination logic happens on the client over this raw stream.
+
+**Constraints:**
+
+| Limit | Value |
+|-------|-------|
+| Max date range | 31 days |
+| Max `page_size` | 10,000 |
+| Data retention | 2 years (ClickHouse TTL) |
+
+**Multi-value filters** (repeat the query param to OR values, e.g. `?country=ES&country=FR`):
+
+`conversion_type`, `country`, `device_type`, `browser`, `os`, `channel_group`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/microconversions/raw?site_id=acme&start_date=2026-04-01&end_date=2026-04-30&conversion_type=availability_search&page_size=1000" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "date": "2026-04-15",
+      "hour": 14,
+      "timestamp_utc": "2026-04-15T14:32:11.482Z",
+      "timestamp_local": "2026-04-15T16:32:11.482+02:00",
+      "conversion_type": "availability_search",
+      "country": "ES",
+      "device_type": "mobile",
+      "channel_group": "Paid Search",
+      "utm_source": "google",
+      "utm_medium": "cpc",
+      "utm_campaign": "spring-sale",
+      "utm_term": "",
+      "utm_content": "",
+      "landing_page": "/hotels/ibiza",
+      "browser": "Chrome",
+      "os": "iOS",
+      "properties": {
+        "hotel": "TRS Ibiza Hotel",
+        "checkin_date": "2026-07-12",
+        "number_of_nights": "5",
+        "number_of_adults": "2",
+        "number_of_children": "1",
+        "result": "available"
+      }
+    }
+  ],
+  "total": 8421,
+  "page": 1,
+  "page_size": 1000,
+  "has_next": true,
+  "has_prev": false
+}
+```
+
+**`properties` content** is whatever your tracker pushes when emitting the microconversion. There is no server-side whitelist — avoid putting PII (raw emails, government IDs, payment details) into properties, since anyone with `stats:read` on the site can read them back.
+
+---
+
+## Raw Conversion Items (event-level)
+
+### GET /stats/conversion-items/raw
+
+Returns **one row per item** of a conversion from `sealmetrics.conversion_items` — useful when a single purchase contains multiple products and you need product-level attribution. Each item carries its own `properties` Map (`product_id`, `sku`, `quantity`, etc.) plus the conversion's full attribution context (UTMs, country, device, channel group, `clid`).
+
+To reconstruct purchase + items, **join on the client side** using either:
+
+1. `timestamp_utc` (millisecond precision — unique for events ingested after 2026-05-03), or
+2. A property the tracker placed on both rows (e.g. `order_id`).
+
+**Constraints, filters and response shape** are the same as `/stats/microconversions/raw`, plus a `clid` column (click ID).
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/conversion-items/raw?site_id=acme&period=30d&page_size=10000" \
+  -H "X-API-Key: sm_your_key"
+```
+
+---
+
+## Timestamp & timezone caveats (raw endpoints)
+
+Applies to all three raw endpoints (`/conversions/raw`, `/microconversions/raw`, `/conversion-items/raw`):
+
+- `date` and `hour` are in the **account timezone** (pre-calculated at ingestion).
+- `timestamp_utc` is ISO 8601 with `Z` suffix (true UTC, millisecond precision).
+- `timestamp_local` is the same instant converted to the account timezone, ISO 8601 with explicit offset (e.g. `+02:00`).
+- For accounts in a non-UTC timezone, `date`/`hour` match `timestamp_local`, **not** `timestamp_utc`. A conversion at 02:00 Sydney (UTC+10) on 2026-05-03 has `date=2026-05-03 hour=2` and `timestamp_utc=2026-05-02T16:00:00.000Z`.
+
+**Pre-2026-05-03 rows:** `timestamp_utc` was added on that date. Older rows are returned with a synthesized hourly-precision timestamp derived from `date + hour` in the account's timezone. To distinguish synthesized vs real, check whether `seconds == 0 AND milliseconds == 0`.
+
+---
+
 ## Funnel Report
 
 ### GET /stats/funnel
@@ -695,8 +867,8 @@ def get_traffic_sources(site_id: str, period: str = "30d"):
 
 # Usage
 overview = get_overview("my-account")
-print(f"Entrances: {overview['entrances']}")
-print(f"Revenue: ${overview['revenue']}")
+print(f"Entrances: {overview['traffic']['entrances']}")
+print(f"Revenue: ${overview['traffic']['revenue']}")
 ```
 
 ### JavaScript
@@ -725,6 +897,6 @@ async function getStats(accountId, period = '7d') {
 
 // Usage
 const stats = await getStats('my-account', '30d');
-console.log(`Conversions: ${stats.conversions}`);
-console.log(`Revenue: $${stats.revenue}`);
+console.log(`Conversions: ${stats.conversions.conversions}`);
+console.log(`Revenue: $${stats.conversions.revenue}`);
 ```

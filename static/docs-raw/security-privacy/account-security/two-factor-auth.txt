@@ -40,11 +40,12 @@ Sealmetrics uses TOTP, the industry standard for 2FA:
 
 ### Step 1: Access Security Settings
 
-1. Click your profile icon in the top right
-2. Select **Settings → Security**
-3. Find **Two-Factor Authentication**
+1. In the sidebar, go to **My Account → Security**
+2. Find the **Two-Factor Authentication** section
 
 ### Step 2: Start Setup
+
+Click **Enable 2FA**. You'll be asked to enter your current password to begin setup.
 
 ```
 Two-Factor Authentication
@@ -59,7 +60,7 @@ phone in addition to your password.
 [Enable 2FA]
 ```
 
-### Step 3: Scan QR Code
+### Step 3: Scan QR Code and Save Backup Codes
 
 ```
 Set Up Two-Factor Authentication
@@ -78,44 +79,42 @@ Step 1: Scan this QR code with your authenticator app
 
 Can't scan? Enter this code manually:
 XXXX-XXXX-XXXX-XXXX (your unique secret)
+```
 
-Step 2: Enter the 6-digit code from your app
+On the same screen, Sealmetrics shows your **10 backup codes**. Save them somewhere safe before continuing — you'll use them to sign in if you lose your authenticator device. Each code can be used once.
+
+```
+Backup Codes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ Save these codes somewhere safe!
+
+┌─────────────────────────────────────────┐
+│  abc12-def34          ghi56-jkl78       │
+│  mno90-pqr12          stu34-vwx56       │
+│  yza78-bcd90          efg12-hij34       │
+│  klm56-nop78          qrs90-tuv12       │
+│  wxy34-zab56          cde78-fgh90       │
+└─────────────────────────────────────────┘
+
+[Copy All Codes]
+
+[I've saved my backup codes]
+```
+
+### Step 4: Verify the Code
+
+Enter the 6-digit code from your authenticator app to confirm setup.
+
+```
+Verify Setup
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Enter the 6-digit code from your authenticator app
 
 [______]
 
-[Verify and Enable]
-```
-
-### Step 4: Save Backup Codes
-
-```
-Save Your Backup Codes
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-⚠️ IMPORTANT: Save these codes somewhere safe!
-
-If you lose access to your authenticator app,
-you can use these backup codes to sign in.
-Each code can only be used once.
-
-┌─────────────────────────────────────────┐
-│  abc12-def34                            │
-│  ghi56-jkl78                            │
-│  mno90-pqr12                            │
-│  stu34-vwx56                            │
-│  yza78-bcd90                            │
-│  efg12-hij34                            │
-│  klm56-nop78                            │
-│  qrs90-tuv12                            │
-│  wxy34-zab56                            │
-│  cde78-fgh90                            │
-└─────────────────────────────────────────┘
-
-[Download Codes] [Copy to Clipboard]
-
-☑ I have saved my backup codes
-
-[Complete Setup]
+[Verify & Enable]
 ```
 
 ### Step 5: Confirm Enabled
@@ -127,11 +126,10 @@ Two-Factor Authentication
 Status: ✅ Enabled
 
 Enabled on: January 15, 2024
-Last used: Never
 
 Backup codes remaining: 10 of 10
 
-[View Backup Codes] [Disable 2FA]
+[Regenerate Codes] [Disable 2FA]
 ```
 
 ## Signing In with 2FA
@@ -177,34 +175,18 @@ After signing in, generate new codes if running low.
 
 ## Managing 2FA
 
-### View Backup Codes
+The **Two-Factor Authentication** section in **My Account → Security** shows your status, the number of backup codes remaining (e.g. "8 of 10 codes remaining"), and buttons to **Regenerate Codes** and **Disable 2FA**.
 
-See remaining codes:
-
-```
-Backup Codes
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Remaining: 8 of 10 codes
-
-Used codes:
-  • abc12-def34 (used Jan 10)
-  • ghi56-jkl78 (used Jan 12)
-
-[Regenerate All Codes]
-
-Warning: Regenerating will invalidate all
-existing codes, including unused ones.
-```
+**Note:**
 
 ### Regenerate Codes
 
 When running low on backup codes:
 
-1. Go to **Settings → Security → 2FA**
-2. Click **Regenerate All Codes**
-3. Enter your current 2FA code to confirm
-4. Save new codes securely
+1. Go to **My Account → Security**
+2. In **Two-Factor Authentication**, click **Regenerate Codes**
+3. Enter your current 6-digit 2FA code to confirm
+4. Save the new codes securely — the old codes stop working immediately
 
 ### Change Authenticator App
 
@@ -217,15 +199,17 @@ To switch to a different authenticator:
 
 ### Disable 2FA
 
+Disabling 2FA requires **both** your password and a current verification code (a 6-digit code from your authenticator app, or a backup code).
+
 ```
 Disable Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ⚠️ This will make your account less secure.
 
-Enter your current 2FA code to confirm:
-
-[______]
+Password:          [________________]
+Verification code: [______]
+(6-digit code or a backup code)
 
 [Disable 2FA]
 ```
@@ -235,8 +219,8 @@ Enter your current 2FA code to confirm:
 ### If You Have Backup Codes
 
 1. Sign in with backup code
-2. Go to **Settings → Security**
-3. Disable 2FA
+2. Go to **My Account → Security**
+3. Disable 2FA (requires your password and a backup code)
 4. Re-enable with new device
 
 ### If You Don't Have Backup Codes
@@ -251,45 +235,6 @@ Contact support for account recovery:
 3. Support will verify and assist
 
 **Warning:**
-
-## 2FA for Teams
-
-### Requiring 2FA (Growth Plan)
-
-Admins can enforce 2FA for all team members:
-
-```
-Security Policy
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-☑ Require 2FA for all users
-
-Users without 2FA:
-  • mike@company.com (invited to set up)
-  • guest@agency.com (invited to set up)
-
-Grace period: [7] days
-
-After grace period, users without 2FA
-will be unable to access the account.
-```
-
-### Monitoring 2FA Adoption
-
-```
-Team Security Status
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-2FA Enabled: 4 of 5 users (80%)
-
-User                    2FA Status    Last Login
-─────────────────────────────────────────────────
-admin@company.com       ✅ Enabled    Today
-sarah@company.com       ✅ Enabled    Today
-mike@company.com        ⚠️ Pending    Yesterday
-john@company.com        ✅ Enabled    3 days ago
-guest@agency.com        ❌ Not set    1 week ago
-```
 
 ## Security Best Practices
 

@@ -75,26 +75,26 @@ You can add more sites later from the **Sites** page. To learn more about organi
 
 #### Manual Installation
 
-Add this code to your website’s `<head>` section:
+Add this single script tag to your website’s `<head>` section, replacing `YOUR_ACCOUNT_ID` with your account ID:
 
 ```html
-<script>
- (function(s,e,a,l,m,t,r,i,c,s){
-    // Sealmetrics tracking code
-    // Your unique code will be provided in the dashboard
- })(window,document,'script','sealmetrics');
-</script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
 
-### WordPress Plugin
-	1.	Install the Sealmetrics WordPress plugin
-	2.	Enter your tracking ID in the plugin settings
-	3.	Activate tracking across your site
+The tracker fires the initial pageview automatically as soon as it loads, and exposes the global `sealmetrics` object for tracking conversions and microconversions.
 
-### Google Tag Manager
-	1.	Create a new Custom HTML tag
-	2.	Paste your Sealmetrics tracking code
-	3.	Set trigger to All Pages
-	4.	Publish your container
+#### WordPress Plugin
+
+1. Install the Sealmetrics WordPress plugin
+2. Enter your account ID in the plugin settings
+3. Activate tracking across your site
+
+#### Google Tag Manager
+
+1. Create a new Custom HTML tag
+2. Paste your Sealmetrics tracking code
+3. Set trigger to All Pages
+4. Publish your container
 
 ## Step 4: Verify Installation
 

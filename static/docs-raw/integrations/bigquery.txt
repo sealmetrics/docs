@@ -12,7 +12,7 @@ Connect SealMetrics to Google BigQuery to unlock advanced SQL analysis, custom r
 
 SealMetrics dashboards cover the most common analytics needs. But when you need to go deeper, BigQuery gives you:
 
-- **Custom SQL queries** on raw pageview, session, and conversion data
+- **Custom SQL queries** on aggregated traffic, page, and conversion data
 - **BI tool integration** with Looker, Data Studio, Tableau, or Power BI
 - **Cross-platform joins** combining analytics with CRM, ad spend, or backend data
 - **Machine learning** using BigQuery ML on your traffic and conversion patterns
@@ -28,7 +28,7 @@ SealMetrics automatically exports your analytics data to a BigQuery dataset on a
 
 1. Extracts data from your SealMetrics account
 2. Transforms it into structured BigQuery tables
-3. Loads it into your GCP project on your chosen schedule (hourly, daily, or weekly)
+3. Loads it into your GCP project on your chosen schedule (hourly, daily, or manual)
 
 Your data stays in **your** Google Cloud project — SealMetrics never stores copies outside your account.
 
@@ -115,14 +115,15 @@ Dataset Configuration
 
 GCP Project:  your-project-id (detected from credentials)
 
-Dataset Name: [sealmetrics_analytics       ]
+Dataset Name: [sealmetrics                    ]
               (created automatically if it doesn't exist)
 
 Location:     [EU (europe-west1)              ▼]
-
-Table Prefix: [sm_                            ]
-              Tables: sm_pageviews, sm_conversions, etc.
 ```
+
+The dataset uses a fixed star-schema layout: fact tables
+(fact_traffic_daily, fact_conversions, etc.) and dimension tables
+(dim_accounts, dim_countries). Table names are not configurable.
 
 5. Choose your sync schedule:
 
@@ -132,19 +133,21 @@ Sync Schedule
 
 Sync Frequency:
   ○ Hourly
-  ● Daily at [03:00] UTC
-  ○ Weekly on [Sunday] at [03:00] UTC
+  ● Daily
+  ○ Manual (sync on demand only)
 
 Data to Export:
-  ☑ Pageviews
-  ☑ Events
+  ☑ Traffic (daily)
+  ☐ Traffic (hourly)
   ☑ Conversions
-  ☑ Sessions (aggregated)
-  ☐ Raw hits (high volume)
+  ☑ Microconversions
+  ☑ Pages
+  ☑ Landing pages
+  ☐ Accounts (metadata)
 
 Historical Backfill:
   ☑ Export historical data
-    From: [2024-01-01] (max 24 months)
+    Backfill: [30] days (max 365)
 ```
 
 6. Click **Activate Integration**
@@ -164,10 +167,11 @@ Records Synced: 1,234,567
 Next Sync:     Tomorrow at 03:00 UTC
 
 Tables:
-  sm_pageviews     1,023,456 rows
-  sm_events          156,789 rows
-  sm_conversions      34,567 rows
-  sm_sessions         89,012 rows
+  fact_traffic_daily      1,023,456 rows
+  fact_pages                156,789 rows
+  fact_landing_pages         89,012 rows
+  fact_conversions           34,567 rows
+  fact_microconversions      12,345 rows
 
 [View in BigQuery]  [Sync Now]  [Pause]
 ```
@@ -178,73 +182,124 @@ Tables:
 
 ## Data Available in BigQuery
 
-SealMetrics exports four main tables:
+SealMetrics exports a **star schema**: pre-aggregated daily fact tables plus dimension tables for context and JOINs. There are no raw-hit or session tables — data is aggregated by day across UTM, geo, and device dimensions. Every fact table is partitioned by `date` and carries `sync_id`/`synced_at` columns for auditing.
 
-### Pageviews (`sm_pageviews`)
+### Traffic (`fact_traffic_daily`)
 
-Every page view with URL, title, referrer, UTM parameters, device info, and geographic data.
+Unified daily traffic broken down by source, geo, and device.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `id` | STRING | Unique pageview ID |
-| `timestamp` | TIMESTAMP | When the pageview occurred |
-| `session_id` | STRING | Session identifier |
-| `page_url` | STRING | Full page URL |
-| `page_path` | STRING | URL path |
-| `page_title` | STRING | Page title |
-| `referrer` | STRING | Referring URL |
+| `account_id` | STRING | SealMetrics account ID |
+| `date` | DATE | Aggregation day (partition key) |
 | `utm_source` | STRING | UTM source |
 | `utm_medium` | STRING | UTM medium |
 | `utm_campaign` | STRING | UTM campaign |
+| `utm_term` | STRING | UTM term |
+| `utm_content` | STRING | UTM content |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | ISO country code |
 | `device_type` | STRING | mobile / desktop / tablet |
 | `browser` | STRING | Browser name |
+| `os` | STRING | Operating system |
+| `entrances` | INT64 | Entrances |
+| `engaged_entrances` | INT64 | Engaged entrances |
+| `page_views` | INT64 | Page views |
+| `microconversions` | INT64 | Microconversion count |
+| `conversions` | INT64 | Conversion count |
+| `revenue` | NUMERIC | Revenue |
+
+### Hourly Traffic (`fact_traffic_hourly`)
+
+Optional intraday granularity (opt-in). Same dimensions as `fact_traffic_daily` plus an `hour` column (0–23). This table has a 90-day partition expiration.
+
+### Pages (`fact_pages`)
+
+Page-level daily metrics.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `account_id` | STRING | SealMetrics account ID |
+| `date` | DATE | Aggregation day (partition key) |
+| `page_path` | STRING | URL path |
+| `content_grouping` | STRING | Content grouping |
 | `country` | STRING | ISO country code |
-| `content_group` | STRING | Content group |
-| `custom_dimensions` | JSON | Custom dimensions |
+| `channel_group` | STRING | Channel grouping |
+| `entrances` | INT64 | Entrances |
+| `engaged_entrances` | INT64 | Engaged entrances |
+| `page_views` | INT64 | Page views |
 
-### Sessions (`sm_sessions`)
+### Landing Pages (`fact_landing_pages`)
 
-Aggregated session data with engagement metrics.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `session_id` | STRING | Unique session ID |
-| `started_at` | TIMESTAMP | Session start |
-| `landing_page` | STRING | Entry page path |
-| `utm_source` | STRING | Traffic source |
-| `utm_medium` | STRING | Traffic medium |
-| `country` | STRING | Country code |
-| `device_type` | STRING | Device type |
-| `page_views` | INTEGER | Pages viewed |
-| `duration_seconds` | INTEGER | Session duration |
-| `is_bounce` | BOOLEAN | Bounce flag |
-
-### Conversions (`sm_conversions`)
-
-Conversion events with attribution and revenue data.
+Landing-page performance by source and geo.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `id` | STRING | Unique conversion ID |
-| `timestamp` | TIMESTAMP | When it occurred |
-| `session_id` | STRING | Session identifier |
+| `account_id` | STRING | SealMetrics account ID |
+| `date` | DATE | Aggregation day (partition key) |
+| `landing_page` | STRING | Landing page path |
+| `content_grouping` | STRING | Content grouping |
+| `utm_source` | STRING | UTM source |
+| `utm_medium` | STRING | UTM medium |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | ISO country code |
+| `entrances` | INT64 | Entrances |
+| `engaged_entrances` | INT64 | Engaged entrances |
+| `microconversions` | INT64 | Microconversion count |
+| `conversions` | INT64 | Conversion count |
+| `revenue` | NUMERIC | Revenue |
+
+### Conversions (`fact_conversions`)
+
+Conversion events with full attribution and revenue data.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `account_id` | STRING | SealMetrics account ID |
+| `date` | DATE | Aggregation day (partition key) |
 | `conversion_type` | STRING | Conversion label |
-| `amount` | FLOAT | Conversion value |
-| `currency` | STRING | Currency code |
 | `utm_source` | STRING | Attributed source |
-| `attribution_model` | STRING | Attribution model used |
+| `utm_medium` | STRING | Attributed medium |
+| `utm_campaign` | STRING | Campaign |
+| `utm_term` | STRING | UTM term |
+| `utm_content` | STRING | UTM content |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | ISO country code |
+| `device_type` | STRING | Device type |
+| `browser` | STRING | Browser name |
+| `os` | STRING | Operating system |
+| `landing_page` | STRING | Landing page path |
+| `click_id` | STRING | Ad-platform click ID (gclid, fbclid, …) |
+| `count` | INT64 | Conversion count |
+| `amount` | NUMERIC | Per-conversion value |
+| `revenue` | NUMERIC | Total revenue |
+| `properties` | JSON | Custom properties |
 
-### Microconversions (`sm_microconversions`)
+### Microconversions (`fact_microconversions`)
 
-Lightweight engagement events (scroll depth, video plays, CTA clicks, etc.).
+Lightweight engagement events (form fills, clicks, etc.).
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `event_id` | STRING | Unique event ID |
-| `session_id` | STRING | Session identifier |
-| `event_type` | STRING | Event type |
-| `event_data` | JSON | Event metadata |
-| `occurred_at` | TIMESTAMP | Event timestamp |
+| `account_id` | STRING | SealMetrics account ID |
+| `date` | DATE | Aggregation day (partition key) |
+| `conversion_type` | STRING | Event type |
+| `utm_source` | STRING | UTM source |
+| `utm_medium` | STRING | UTM medium |
+| `utm_campaign` | STRING | UTM campaign |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | ISO country code |
+| `device_type` | STRING | Device type |
+| `count` | INT64 | Event count |
+| `properties` | JSON | Event metadata |
+
+### Dimension & metadata tables
+
+| Table | Description |
+|-------|-------------|
+| `dim_accounts` | Account metadata (name, timezone, currency, plan tier) for context and JOINs. Synced only if the **Accounts** data type is enabled. |
+| `dim_countries` | Static ISO 3166-1 country lookup (`country_code`, `country_name`, `continent`, `region`). Always created. |
+| `sync_metadata` | Sync audit log (sync type, date range, tables synced, row counts, duration). Always created. |
 
 ---
 
@@ -256,12 +311,12 @@ Once your data is flowing, try these queries in the [BigQuery Console](https://c
 
 ```sql
 SELECT
-  DATE(timestamp) AS date,
-  COUNT(*) AS pageviews,
-  COUNT(DISTINCT session_id) AS sessions,
-  COUNT(DISTINCT user_id) AS users
-FROM `your-project.sealmetrics_analytics.sm_pageviews`
-WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+  date,
+  SUM(page_views) AS pageviews,
+  SUM(entrances) AS entrances,
+  SUM(conversions) AS conversions
+FROM `your-project.sealmetrics.fact_traffic_daily`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
 GROUP BY date
 ORDER BY date DESC
 ```
@@ -272,11 +327,11 @@ ORDER BY date DESC
 SELECT
   utm_source,
   utm_medium,
-  COUNT(*) AS conversions,
-  SUM(amount) AS revenue,
-  ROUND(AVG(amount), 2) AS avg_order_value
-FROM `your-project.sealmetrics_analytics.sm_conversions`
-WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+  SUM(count) AS conversions,
+  SUM(revenue) AS revenue,
+  ROUND(SAFE_DIVIDE(SUM(revenue), SUM(count)), 2) AS avg_order_value
+FROM `your-project.sealmetrics.fact_conversions`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
 GROUP BY utm_source, utm_medium
 ORDER BY revenue DESC
 ```
@@ -285,15 +340,15 @@ ORDER BY revenue DESC
 
 ```sql
 SELECT
-  s.landing_page,
-  COUNT(*) AS sessions,
-  ROUND(AVG(s.duration_seconds), 0) AS avg_duration,
-  ROUND(SUM(CASE WHEN s.is_bounce THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) AS bounce_rate
-FROM `your-project.sealmetrics_analytics.sm_sessions` s
-WHERE s.started_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 7 DAY)
-GROUP BY s.landing_page
-HAVING sessions >= 10
-ORDER BY sessions DESC
+  landing_page,
+  SUM(entrances) AS entrances,
+  SUM(engaged_entrances) AS engaged_entrances,
+  ROUND(SAFE_DIVIDE(SUM(engaged_entrances), SUM(entrances)) * 100, 1) AS engagement_rate
+FROM `your-project.sealmetrics.fact_landing_pages`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+GROUP BY landing_page
+HAVING entrances >= 10
+ORDER BY entrances DESC
 LIMIT 20
 ```
 
@@ -323,7 +378,7 @@ LIMIT 20
 
 - Tables are **partitioned by date** by default — always filter by date in your queries
 - Use `SELECT` only the columns you need instead of `SELECT *`
-- Avoid scanning full tables — use `WHERE timestamp >= ...` clauses
+- Avoid scanning full tables — use `WHERE date >= ...` clauses (the partition column)
 - Set up [BigQuery budget alerts](https://cloud.google.com/billing/docs/how-to/budgets) in GCP
 
 ---

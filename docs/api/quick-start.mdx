@@ -87,17 +87,37 @@ A successful response looks like:
 
 ```json
 {
+  "success": true,
   "data": {
-    "entrances": 12543,
-    "page_views": 28976,
-    "engaged_entrances": 7234,
-    "bounce_rate": 42.3,
-    "conversions": 156,
-    "revenue": 12450.00,
-    "microconversions": 892
-  }
+    "date_range": {
+      "start_date": "2025-01-01",
+      "end_date": "2025-01-07",
+      "days": 7
+    },
+    "traffic": {
+      "entrances": 12543,
+      "engaged_entrances": 7234,
+      "page_views": 28976,
+      "microconversions": 892,
+      "conversions": 156,
+      "revenue": 12450.00,
+      "bounce_rate": 42.3,
+      "pages_per_session": 2.31
+    },
+    "conversions": {
+      "conversions": 156,
+      "revenue": 12450.00,
+      "microconversions": 892,
+      "conversion_rate": 1.24,
+      "average_order_value": 79.81
+    }
+  },
+  "meta": {},
+  "timestamp": "2025-01-08T00:00:00Z"
 }
 ```
+
+Traffic metrics live under `data.traffic` and conversion metrics under `data.conversions`.
 
 Check the rate limit headers:
 

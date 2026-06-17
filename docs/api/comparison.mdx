@@ -95,45 +95,63 @@ Use `yoy` for seasonal businesses where comparing to last year is more meaningfu
 
 ### Overview Endpoint
 
-The `/stats/overview` endpoint includes comparison data inline:
+The `/stats/overview` endpoint includes comparison data inline. Current-period metrics live under `data.traffic` and `data.conversions`; the previous period is returned under `data.traffic_change` and `data.conversions_change` (same shapes). Time series for the current period are returned per metric (`data.entrances_series`, etc.) with comparison overlays under `*_series_compare`:
 
 ```json
 {
   "success": true,
   "data": {
-    "entrances": 15420,
-    "engaged_entrances": 12336,
-    "page_views": 45780,
-    "conversions": 245,
-    "revenue": 18650.00,
-    "bounce_rate": 20.0,
-    "comparison": {
+    "date_range": { "start_date": "2025-01-01", "end_date": "2025-01-31", "days": 31 },
+    "traffic": {
+      "entrances": 15420,
+      "engaged_entrances": 12336,
+      "page_views": 45780,
+      "microconversions": 1820,
+      "conversions": 245,
+      "revenue": 18650.00,
+      "bounce_rate": 20.0,
+      "pages_per_session": 2.97
+    },
+    "conversions": {
+      "conversions": 245,
+      "revenue": 18650.00,
+      "microconversions": 1820,
+      "conversion_rate": 1.59,
+      "average_order_value": 76.12
+    },
+    "traffic_change": {
       "entrances": 14200,
       "engaged_entrances": 11360,
       "page_views": 42500,
+      "microconversions": 1650,
       "conversions": 210,
       "revenue": 16800.00,
-      "bounce_rate": 20.0
+      "bounce_rate": 20.0,
+      "pages_per_session": 2.99
     },
-    "deltas": {
-      "entrances": 8.59,
-      "engaged_entrances": 8.59,
-      "page_views": 7.72,
-      "conversions": 16.67,
-      "revenue": 11.01,
-      "bounce_rate": 0.0
+    "conversions_change": {
+      "conversions": 210,
+      "revenue": 16800.00,
+      "microconversions": 1650,
+      "conversion_rate": 1.48,
+      "average_order_value": 80.00
     },
-    "time_series": [...],
-    "comparison_time_series": [...]
-  }
+    "entrances_series": { "metric": "entrances", "points": [], "total": 15420, "average": 497.42 },
+    "entrances_series_compare": { "metric": "entrances", "points": [], "total": 14200, "average": 458.06 }
+  },
+  "meta": {},
+  "timestamp": "2025-02-01T00:00:00Z"
 }
 ```
 
 | Field | Description |
 |-------|-------------|
-| `comparison` | Raw metrics from the comparison period |
-| `deltas` | Percentage change from comparison to current |
-| `comparison_time_series` | Daily data points for the comparison period |
+| `traffic` / `conversions` | Current-period traffic and conversion metrics |
+| `traffic_change` / `conversions_change` | Raw metrics from the comparison period (same shape as `traffic` / `conversions`) |
+| `entrances_series`, `page_views_series`, `conversions_series`, … | Time series for the current period (one object per metric) |
+| `entrances_series_compare`, `page_views_series_compare`, `conversions_series_compare` | Time series for the comparison period |
+
+There are no `comparison` or `deltas` keys; the API returns raw values for both periods and you compute the percentage changes client-side.
 
 ### List Endpoints
 
@@ -185,8 +203,8 @@ function calculateDelta(current, previous) {
 }
 
 // Example
-const currentEntrances = response.data.entrances;
-const previousEntrances = response.data.comparison.entrances;
+const currentEntrances = response.data.traffic.entrances;
+const previousEntrances = response.data.traffic_change.entrances;
 const delta = calculateDelta(currentEntrances, previousEntrances);
 // Result: 8.59 (8.59% increase)
 ```
@@ -228,7 +246,10 @@ When displaying deltas, consider inverting colors for bounce rate.
 | `/stats/referrers` | none | Totals only |
 | `/stats/geo/countries` | none | Totals only |
 | `/stats/conversions` | none | Totals only |
+| `/stats/conversions/raw` | none | Event-level rows |
 | `/stats/microconversions` | none | Totals only |
+| `/stats/microconversions/raw` | none | Event-level rows |
+| `/stats/conversion-items/raw` | none | One row per item |
 | `/stats/landing-pages` | none | Totals only |
 
 ---
@@ -274,19 +295,21 @@ The API automatically adjusts to February 28.
 
 ### New Accounts
 
-If the comparison period is before the account existed:
+If the comparison period is before the account existed, the overview's `traffic_change` / `conversions_change` objects come back with zero values:
 
 ```json
 {
-  "comparison": {
-    "entrances": 0,
-    "conversions": 0,
-    "revenue": 0.00
+  "data": {
+    "traffic_change": {
+      "entrances": 0,
+      "conversions": 0,
+      "revenue": 0.00
+    }
   }
 }
 ```
 
-All comparison values will be zero.
+All comparison values will be zero. (For list endpoints, the aggregate `comparison` totals object is zeroed the same way.)
 
 ### Missing Data Days
 
@@ -320,14 +343,15 @@ def calculate_delta(current, previous):
 
 # Get data
 data = get_stats_with_comparison("my-site", "30d", "previous")
-comparison = data["comparison"]
+current = data["traffic"]
+previous = data["traffic_change"]
 
-# Calculate deltas
+# Calculate deltas (entrances, revenue and bounce_rate all live under traffic)
 metrics = ["entrances", "conversions", "revenue", "bounce_rate"]
 for metric in metrics:
-    current = data[metric]
-    previous = comparison[metric]
-    delta = calculate_delta(current, previous)
+    current_value = current[metric]
+    previous_value = previous[metric]
+    delta = calculate_delta(current_value, previous_value)
 
     # Invert display for bounce_rate (lower is better)
     if metric == "bounce_rate":
@@ -335,7 +359,7 @@ for metric in metrics:
     else:
         direction = "up" if delta > 0 else "down"
 
-    print(f"{metric}: {current} ({delta:+.1f}% {direction})")
+    print(f"{metric}: {current_value} ({delta:+.1f}% {direction})")
 ```
 
 ### JavaScript - Display Comparison Card
@@ -377,17 +401,17 @@ function formatDelta(current, previous, inverse = false) {
 const { data } = await fetchWithComparison('my-site', '30d', 'yoy');
 
 const entrancesDelta = formatDelta(
-  data.entrances,
-  data.comparison.entrances
+  data.traffic.entrances,
+  data.traffic_change.entrances
 );
-console.log(`Entrances: ${data.entrances} (${entrancesDelta.text})`);
+console.log(`Entrances: ${data.traffic.entrances} (${entrancesDelta.text})`);
 
 const bounceDelta = formatDelta(
-  data.bounce_rate,
-  data.comparison.bounce_rate,
+  data.traffic.bounce_rate,
+  data.traffic_change.bounce_rate,
   true // inverse = true for bounce rate
 );
-console.log(`Bounce Rate: ${data.bounce_rate}% (${bounceDelta.text})`);
+console.log(`Bounce Rate: ${data.traffic.bounce_rate}% (${bounceDelta.text})`);
 ```
 
 ### Build Trend Analysis
@@ -402,17 +426,17 @@ def analyze_trend(site_id, periods=["7d", "30d", "90d"]):
 
         results[period] = {
             "entrances": {
-                "current": data["entrances"],
+                "current": data["traffic"]["entrances"],
                 "delta": calculate_delta(
-                    data["entrances"],
-                    data["comparison"]["entrances"]
+                    data["traffic"]["entrances"],
+                    data["traffic_change"]["entrances"]
                 )
             },
             "revenue": {
-                "current": data["revenue"],
+                "current": data["traffic"]["revenue"],
                 "delta": calculate_delta(
-                    data["revenue"],
-                    data["comparison"]["revenue"]
+                    data["traffic"]["revenue"],
+                    data["traffic_change"]["revenue"]
                 )
             }
         }

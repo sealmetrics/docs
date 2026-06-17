@@ -43,6 +43,7 @@ Keys are 64 characters long and contain only alphanumeric characters after the p
 - Keys can be revoked at any time from the dashboard
 - Set expiration dates for temporary access
 - Each key is scoped to specific sites
+- API keys are **read-only**: they can only hold the `stats:read`, `sites:read`, and `accounts:read` scopes. Write operations require a JWT session. See [API Tokens](/api/api-tokens) for details.
 
 ## JWT Bearer Tokens
 
@@ -63,12 +64,27 @@ Response:
 
 ```json
 {
-  "access_token": "<access_token>",
-  "token_type": "bearer",
-  "expires_in": 900,
-  "refresh_token": "<refresh_token>"
+  "success": true,
+  "data": {
+    "access_token": "<access_token>",
+    "token_type": "bearer",
+    "expires_in": 900,
+    "user": {
+      "id": 123,
+      "email": "user@example.com",
+      "name": "John Doe",
+      "role": "admin",
+      "account_ids": ["acme-corp"]
+    },
+    "ip_filtered_accounts": [],
+    "client_ip": "203.0.113.45"
+  }
 }
 ```
+
+The refresh token is **not** returned in the response body. It is set as an
+HttpOnly cookie named `sm_refresh_token` (the access token is also mirrored in
+the `sm_access_token` cookie).
 
 ### Using JWT Tokens
 
@@ -81,15 +97,19 @@ curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
 
 ### Token Refresh
 
-Access tokens expire after 15 minutes. Use the refresh token to obtain a new access token:
+Access tokens expire after 15 minutes. Use the refresh endpoint to obtain a new
+access token. The refresh token is read from the `sm_refresh_token` HttpOnly
+cookie that was set during login — there is no request body. Send the cookie
+back with the request (`--cookie` in curl, `credentials: 'include'` in fetch):
 
 ```bash
 curl -X POST "https://api.sealmetrics.com/api/v1/auth/refresh" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "refresh_token": "<your_refresh_token>"
-  }'
+  --cookie "sm_refresh_token=<your_refresh_token>"
 ```
+
+On success, a new access token is returned in the response body (wrapped in
+`data`) and the rotated refresh token is set again as the `sm_refresh_token`
+cookie (session rotation).
 
 ### JWT Claims
 
@@ -108,31 +128,42 @@ The access token contains:
 
 Scopes are **assigned automatically based on the user's role** — you do not request them in the `/auth/token` body and you cannot add them at runtime. To change what a token can do, change the user's role.
 
-| Role | Scopes | Covers |
-|------|--------|--------|
-| Standard user | `read`, `write` | All `/stats/*`, `/exports/*`, `/batch`, `/sites/*` |
-| Admin | `read`, `write`, `admin` | Everything above plus org/member management |
-| Read-only | `read` | All `GET` endpoints; rejects writes and exports |
+| Role | Scopes |
+|------|--------|
+| Standard user | `read`, `write` |
+| Superadmin | `read`, `write`, `admin`, `superadmin`, `billing:manage` |
 
-If a request returns `403 insufficient_scope` with a valid JWT, the user's role doesn't include the required scope — switch to a user with the right role, or use an [API key](#api-keys) bound to the site.
+Organization owners additionally receive the `billing:manage` scope so they can
+reach billing endpoints. Most authorization is enforced through organization
+roles (owner / admin / member) rather than JWT scopes.
+
+If a request returns `403 forbidden` with a valid JWT, the user's role doesn't
+include the required scope — switch to a user with the right role, or use an
+[API key](#api-keys) bound to the site.
 
 ## Authentication Errors
 
-| HTTP Code | Error Code | Description |
-|-----------|------------|-------------|
-| 401 | `missing_credentials` | No API key or token provided |
-| 401 | `invalid_api_key` | API key not found or revoked |
-| 401 | `invalid_token` | JWT token is malformed |
-| 401 | `token_expired` | JWT token has expired |
-| 403 | `insufficient_scope` | Valid auth but no access to this resource |
+The `error.code` is derived from the HTTP status (`401` → `unauthorized`,
+`403` → `forbidden`, `429` → `rate_limit_exceeded`). The specific reason is
+carried in the human-readable `error.message`.
+
+| HTTP Code | Error Code | Example message |
+|-----------|------------|-----------------|
+| 401 | `unauthorized` | `Authentication required` (no API key or token provided) |
+| 401 | `unauthorized` | `Invalid API key` (key not found or revoked) |
+| 401 | `unauthorized` | `Invalid token` (JWT is malformed) |
+| 401 | `unauthorized` | `Token has expired` |
+| 401 | `unauthorized` | `Session has been revoked` |
+| 403 | `forbidden` | `Required scope: <scope>` (valid auth, missing scope) |
+| 403 | `forbidden` | `Access denied to account: <id>` |
 
 Example error response:
 
 ```json
 {
   "error": {
-    "code": "invalid_api_key",
-    "message": "The provided API key is invalid or has been revoked"
+    "code": "unauthorized",
+    "message": "Invalid API key"
   },
   "request_id": "req_abc123"
 }

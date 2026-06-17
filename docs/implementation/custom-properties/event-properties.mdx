@@ -237,15 +237,9 @@ sealmetrics.micro('search', {
 
 ## Debugging Properties
 
-### Debug Mode
+### Inspect the network request
 
-Add `?debug=1` to any page URL to see tracking events in the browser console:
-
-```
-https://yoursite.com/checkout?debug=1
-```
-
-The console will show all events being sent, including their properties.
+The tracker does not have a console debug mode. To verify what is being sent, open your browser's DevTools, go to the **Network** tab, and filter for requests to `t.sealmetrics.com/event` (sent via `sendBeacon` or `fetch`). The request body contains a single `d` field with the URL-encoded JSON payload — your properties are under the `x` key. A successful request returns `204 No Content`.
 
 ### Verify in Dashboard
 
@@ -261,13 +255,13 @@ Check properties arrived correctly:
 
 1. **Check property names** — Use alphanumeric characters and underscores
 2. **Wait for processing** — Data can take a few minutes to appear
-3. **Verify with debug mode** — Add `?debug=1` to see events in console
+3. **Inspect the network request** — Check the DevTools Network tab for the request to `t.sealmetrics.com/event` and confirm your properties appear under the `x` key in the payload
 
 ### Wrong Values
 
 1. **Check data types** — All values are stored as strings
 2. **Check encoding** — Ensure valid UTF-8 characters
-3. **Check value length** — Values over 500 chars are truncated
+3. **Check total payload size** — The `/event` request body is capped at 15 KB; if your event (including all properties) exceeds that, the whole event is dropped
 
 ### Missing on Some Events
 

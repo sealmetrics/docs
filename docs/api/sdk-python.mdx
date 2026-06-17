@@ -1,0 +1,397 @@
+---
+sidebar_position: 22
+title: Python SDK
+description: Official Python SDK for the Sealmetrics Analytics API — type-safe client with pandas/polars DataFrame integration, magic dates, automatic pagination, bulk exports, and batch queries.
+---
+
+# Python SDK
+
+The **Sealmetrics Python SDK** is the official, type-safe client for the Sealmetrics Analytics API, designed for data scientists and analytics professionals. It wraps the [REST API](/api) with Pydantic models, native pandas/polars DataFrame conversion, magic date shortcuts, automatic pagination, and retries.
+
+:::note
+There is also a Node.js SDK, but it is **deprecated** and no longer recommended. The Python SDK is the supported path for programmatic access.
+:::
+
+## Features
+
+- **Type-safe**: full Pydantic models with IDE autocompletion
+- **DataFrame integration**: native pandas and polars support
+- **Sync and async**: both clients built on `httpx`
+- **Magic dates**: shortcuts like `"30d"`, `"mtd"`, `"ytd"`
+- **Automatic pagination**: fetches all results seamlessly
+- **Automatic retries**: exponential backoff for reliability
+- **Bulk exports**: download large datasets efficiently
+- **Batch queries**: multiple queries in a single request
+
+## Installation
+
+The package is published as `sealmetrics` and requires Python 3.10+.
+
+```bash
+pip install sealmetrics
+
+# With pandas support (recommended for data scientists)
+pip install sealmetrics[pandas]
+
+# With Jupyter support (pandas + progress bars)
+pip install sealmetrics[jupyter]
+
+# With polars support
+pip install sealmetrics[polars]
+
+# All optional dependencies
+pip install sealmetrics[all]
+```
+
+## Authentication
+
+The SDK authenticates with a Sealmetrics **API key**. Generate one in **Settings → API Keys** (it starts with the `sm_` prefix and is shown only once).
+
+API keys are **read-only**: they hold the `stats:read`, `sites:read`, and `accounts:read` scopes, which is exactly what the analytics methods below require. Write operations (such as creating or updating segments) need a JWT session instead. See [Authentication](/api/authentication) and [API Tokens](/api/api-tokens) for details.
+
+```python
+from sealmetrics import SealMetrics
+
+client = SealMetrics(
+    api_key="sm_live_xxxxx",   # Settings → API Keys
+    account_id="acc_123"
+)
+```
+
+## Client initialization
+
+The main entry point is the `SealMetrics` class.
+
+```python
+from sealmetrics import SealMetrics
+
+client = SealMetrics(
+    api_key="sm_live_xxxxx",
+    account_id="acc_123",
+    base_url="https://api.sealmetrics.com",  # Default
+    timeout=30.0,                            # Request timeout (seconds)
+    max_retries=3,                           # Retry attempts
+    show_progress=True,                      # Progress bars (requires tqdm)
+)
+
+# Use as a context manager for proper cleanup
+with SealMetrics(api_key="...", account_id="...") as client:
+    df = client.pages("30d").to_df()
+```
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `api_key` | — | Sealmetrics API key (required) |
+| `account_id` | — | Account to query (required) |
+| `base_url` | `https://api.sealmetrics.com` | API base URL |
+| `timeout` | `30.0` | Per-request timeout in seconds |
+| `max_retries` | `3` | Retry attempts with exponential backoff |
+| `show_progress` | `True` | Show pagination progress bars (if `tqdm` is installed) |
+
+## Magic dates
+
+Most methods accept a period as the first argument. You can use a shortcut, a `Period` enum, or an explicit date range.
+
+```python
+# Relative periods
+client.pages("today")       # Today
+client.pages("yesterday")   # Yesterday
+client.pages("7d")          # Last 7 days
+client.pages("30d")         # Last 30 days
+client.pages("90d")         # Last 90 days
+client.pages("12m")         # Last 12 months
+
+# To-date periods
+client.pages("wtd")         # Week to date
+client.pages("mtd")         # Month to date
+client.pages("qtd")         # Quarter to date
+client.pages("ytd")         # Year to date
+
+# Named periods
+client.pages("this_month")
+client.pages("last_month")
+client.pages("this_year")
+client.pages("last_year")
+
+# Explicit date range
+client.pages("2025-01-01", "2025-01-31")
+```
+
+## Analytics methods
+
+Query methods return a `QueryResult` (see below) unless noted otherwise. They accept the period arguments plus optional filters (`utm_source`, `utm_medium`, `segment`, `sort_by`, `page_size`, `max_pages`, …).
+
+### Traffic analytics
+
+| Method | Description | Returns |
+|--------|-------------|---------|
+| `overview()` | Dashboard metrics with time series | `OverviewData` |
+| `pages()` | Page-level metrics | `QueryResult[PageMetrics]` |
+| `landing_pages()` | Entry page metrics | `QueryResult[LandingPageMetrics]` |
+| `time_series()` | Daily time series | `QueryResult[TimeSeriesPoint]` |
+| `realtime()` | Real-time visitors (last 5 min) | `dict` |
+
+### Traffic sources (UTM)
+
+| Method | Description | Returns |
+|--------|-------------|---------|
+| `sources()` | By `utm_source` | `QueryResult[SourceMetrics]` |
+| `mediums()` | By `utm_medium` | `QueryResult[MediumMetrics]` |
+| `campaigns()` | By `utm_campaign` | `QueryResult[CampaignMetrics]` |
+| `channels()` | GA4-style channels | `QueryResult[ChannelMetrics]` |
+
+### Geographic and device
+
+| Method | Description | Returns |
+|--------|-------------|---------|
+| `countries()` | By country (ISO codes) | `QueryResult[GeoMetrics]` |
+| `devices()` | Device / browser / OS breakdown | `DeviceBreakdown` |
+
+### Conversions
+
+| Method | Description | Returns |
+|--------|-------------|---------|
+| `conversions()` | Conversions by type | `QueryResult[ConversionMetrics]` |
+| `microconversions()` | Microconversions | `QueryResult[MicroconversionMetrics]` |
+| `funnel()` | Funnel analysis | `FunnelReport` |
+
+### Example
+
+```python
+from sealmetrics import CompareMode, Period, SealMetrics
+
+client = SealMetrics(api_key="sm_live_xxxxx", account_id="acc_123")
+
+# Dashboard overview with year-over-year comparison
+overview = client.overview("30d", compare="yoy")
+print(f"Pageviews: {overview.traffic.page_views}")
+print(f"Bounce rate: {overview.traffic.bounce_rate}%")
+if overview.comparison:
+    print(f"YoY change in entrances: {overview.traffic.entrances_change}%")
+
+# Pages as a DataFrame (automatic pagination)
+df_pages = client.pages("30d").to_df()
+print(df_pages.head())
+
+# Filter to paid traffic only
+df_paid = client.sources("mtd", utm_medium="cpc").to_df()
+
+# Top countries
+df_countries = client.countries("30d").to_df()
+top10 = df_countries.nlargest(10, "entrances")
+
+# Device breakdown
+devices = client.devices("30d")
+print([(d.device_type, d.entrances) for d in devices.devices])
+
+# Funnel analysis
+funnel = client.funnel("30d")
+print(f"Overall conversion rate: {funnel.overall_conversion_rate}%")
+
+# Real-time visitors
+realtime = client.realtime()
+print(f"Active visitors (5 min): {realtime['active_visitors']}")
+
+# Type-safe period and comparison enums
+overview_typed = client.overview(Period.MONTH_TO_DATE, compare=CompareMode.PREVIOUS)
+```
+
+### Generic query
+
+For endpoints without a dedicated method, use `query()`:
+
+```python
+data = client.query(
+    "/stats/properties/breakdown",
+    start="30d",
+    property_key="plan",
+)
+```
+
+## QueryResult
+
+Query methods return a `QueryResult`, which behaves like a list of typed models and adds DataFrame conversion.
+
+```python
+result = client.pages("30d")
+
+# Metadata
+print(result.total)
+print(result.has_more)
+
+# Conversions
+df = result.to_df()           # pandas DataFrame
+df_pl = result.to_polars()    # polars DataFrame
+dicts = result.to_dicts()     # list of dicts
+
+# Iterate directly
+for page in result:
+    print(f"{page.path}: {page.page_views} views")
+```
+
+## Segments
+
+Segments are saved filter configurations exposed via `client.segments`. Reading segments works with a read-only API key; creating or modifying them requires a write-capable session (see [Authentication](/api/authentication)).
+
+```python
+# List all available segments (including built-in system segments)
+for seg in client.segments.list_all():
+    print(f"{seg.name}: {seg.display_name}")
+
+# list() is an alias for list_all()
+custom = client.segments.list_all(include_system=False)
+
+# Get details by ID or name slug
+segment = client.segments.get("paid-spain")
+
+# Use a segment in a query
+df = client.pages("30d", segment="paid-spain").to_df()
+df = client.sources("mtd", segment="paid-spain").to_df()
+```
+
+Segment management methods (write scope required):
+
+```python
+# Create a segment
+segment = client.segments.create(
+    name="paid-spain",
+    display_name="Paid Traffic Spain",
+    filters=[
+        {"field": "utm_medium", "operator": "eq", "value": "cpc"},
+        {"field": "country", "operator": "eq", "value": "ES"},
+    ],
+    color="#F59E0B",
+)
+
+# Update, duplicate, delete
+client.segments.update("paid-spain", display_name="Paid Traffic Spain (CPC)")
+my_organic = client.segments.duplicate("organic-search", "my-organic")
+client.segments.delete("paid-spain")
+```
+
+See [Segments](/api/segments) for the underlying REST resource.
+
+## Bulk exports
+
+For large datasets, use `client.exports` instead of paginating.
+
+```python
+# Estimate export size first
+estimate = client.exports.estimate("pages", "30d")
+print(f"Estimated rows: {estimate.estimated_rows}")
+
+if estimate.can_stream:
+    # Stream small exports (< 10K rows) directly
+    df = client.exports.stream_df("pages", "30d")
+else:
+    # Create an async export job
+    job = client.exports.create("pages", "30d", format="csv")
+
+    # Wait and download as a DataFrame
+    df = client.exports.download_df(job.job_id)
+
+# Or download raw bytes
+content = client.exports.download(job.job_id)
+with open("export.csv", "wb") as f:
+    f.write(content)
+```
+
+Export types: `pages`, `sources`, `mediums`, `campaigns`, `countries`, `devices`, `browsers`, `os`, `conversions`, `microconversions`, `time_series`, `landing_pages`.
+
+Other export helpers: `estimate()`, `create()`, `get_status()`, `list_all()`, `cancel()`, `wait()`, `download()`, `download_df()`, `stream()`, `stream_df()`. See [Exports](/api/exports).
+
+## Batch queries
+
+Reduce latency by fetching multiple datasets in one request via `client.batch`.
+
+```python
+# Execute arbitrary batch queries
+results = client.batch.execute([
+    {"id": "overview", "endpoint": "/stats/overview", "params": {"period": "30d"}},
+    {"id": "pages", "endpoint": "/stats/pages", "params": {"period": "30d", "page_size": 100}},
+    {"id": "sources", "endpoint": "/stats/sources", "params": {"period": "30d"}},
+])
+overview = results["overview"]
+
+# Dashboard shortcut: overview + top pages + top sources + channels + devices
+dashboard = client.batch.dashboard("30d", compare="previous")
+print(dashboard["overview"])
+print(dashboard["top_pages"])
+print(dashboard["channels"])
+```
+
+`client.batch` also exposes `validate()` to check queries without executing them. See [Batch Requests](/api/batch).
+
+## Async support
+
+Use the async methods (prefixed with `async_`) for concurrent operations.
+
+```python
+import asyncio
+from sealmetrics import SealMetrics
+
+async def analyze():
+    async with SealMetrics(api_key="...", account_id="...") as client:
+        overview, pages, sources = await asyncio.gather(
+            client.async_overview("30d"),
+            client.async_pages("30d"),
+            client.async_sources("30d"),
+        )
+        return overview, pages, sources
+
+overview, pages, sources = asyncio.run(analyze())
+```
+
+## Error handling
+
+All SDK errors inherit from `SealMetricsError`.
+
+```python
+from sealmetrics import (
+    SealMetrics,
+    AuthenticationError,
+    AuthorizationError,
+    RateLimitError,
+    ValidationError,
+    NotFoundError,
+    SealMetricsError,
+)
+
+try:
+    data = client.pages("30d")
+except AuthenticationError:
+    print("Invalid or missing API key")
+except AuthorizationError:
+    print("No access to this account")
+except RateLimitError as e:
+    print(f"Rate limited, retry after {e.retry_after}s")
+except ValidationError as e:
+    print(f"Invalid parameters: {e.message}")
+except NotFoundError:
+    print("Resource not found")
+except SealMetricsError as e:
+    print(f"API error: {e.message} (status={e.status_code}, request_id={e.request_id})")
+```
+
+The full exception hierarchy: `SealMetricsError` (base), `AuthenticationError`, `AuthorizationError`, `RateLimitError` (with `retry_after`), `ValidationError`, `NotFoundError`, `ConflictError`, `ExportError`, `NetworkError`, `TimeoutError`, and `ServerError`.
+
+## Pagination
+
+Paginated query methods fetch **all** pages automatically by default. You can control this behavior with arguments:
+
+```python
+# Default: fetch everything (auto-pagination)
+all_pages = client.pages("30d")
+
+# Top 100 only — a single page
+top_pages = client.pages("30d", max_pages=1, page_size=100, sort_by="page_views")
+```
+
+The returned `QueryResult` exposes `total` and `has_more` so you can inspect the result set. For very large datasets, prefer [bulk exports](#bulk-exports). See [Pagination & Sorting](/api/pagination-sorting) for the REST-level details.
+
+## See also
+
+- [Authentication](/api/authentication) — API keys, scopes, and JWT sessions
+- [Stats Endpoints](/api/stats) — the REST endpoints the SDK wraps
+- [Segments](/api/segments), [Exports](/api/exports), [Batch Requests](/api/batch)
+- [Rate Limits](/api/rate-limits)
