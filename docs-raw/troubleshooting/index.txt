@@ -147,6 +147,7 @@ SealMetrics is designed to work with ad blockers. If blocked:
 
 1. **First-party tracking** — Set up [first-party tracking](/implementation/tracker/first-party)
 2. **Custom domain** — Use your own subdomain for the pixel
+3. **Avoid `ReferenceError: sealmetrics is not defined`** — When the script is blocked, direct calls to `sealmetrics.*` throw a `ReferenceError` that can break the page. See [Fixing `ReferenceError: sealmetrics is not defined`](/troubleshooting/sealmetrics-is-not-defined) for the recommended stub buffer (and the fallback per-call guard).
 
 ### CORS Errors
 
