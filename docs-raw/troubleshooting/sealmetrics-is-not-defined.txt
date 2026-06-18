@@ -15,7 +15,7 @@ When a visitor has an ad blocker, privacy extension, corporate firewall, or DNS 
 If your code (for example, a GTM tag) calls the API directly:
 
 ```javascript
-sealmetrics.micro("browsing_peticion_cita_paso_1", { ... });
+sealmetrics.micro("Add_to_cart", { ... });
 ```
 
 the browser throws `ReferenceError: sealmetrics is not defined`. That error halts execution of the JavaScript block where the call lives. If that block also contains UI, form, or navigation logic, the page breaks for the user.
@@ -68,7 +68,7 @@ If for any reason you cannot inject the stub (restrictive policies, no access to
 
 ```javascript
 if (typeof window.sealmetrics !== "undefined" && typeof window.sealmetrics.micro === "function") {
-  sealmetrics.micro("browsing_peticion_cita_paso_1", {
+  sealmetrics.micro("Add_to_cart", {
     module_title:     google_tag_manager["rm"]["208828905"](16),
     click_text:       google_tag_manager["rm"]["208828905"](17),
     page_title:       google_tag_manager["rm"]["208828905"](18),
