@@ -6844,7 +6844,8 @@ You should see:
 
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
 2. Go to **Real-time** report
-3. Visit your website 
+3. Visit your website in another tab
+4. Your visit shoul
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting]
 
@@ -6865,6 +6866,32 @@ When both systems are correctly wired, **SealMetrics should reconcile with your 
 If the gap you are seeing is **substantial** — for example, your ERP shows 1,000 orders this month and SealMetrics shows 600 — this is almost never a measurement bug on the platform side. In our experience, it comes down to one of two implementation problems on the website, with a long tail of secondary causes.
 
 ... [Read full document at https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy]
+
+
+
+## Fixing ReferenceError: sealmetrics is not defined
+
+
+URL: https://docs.sealmetrics.com/troubleshooting/sealmetrics-is-not-defined
+
+
+# Fixing `ReferenceError: sealmetrics is not defined`
+
+A guide for the customer's IT / development team. It resolves the `ReferenceError: sealmetrics is not defined` that appears when a blocker prevents the tracker from loading.
+
+---
+
+## The problem
+
+When a visitor has an ad blocker, privacy extension, corporate firewall, or DNS filter active (uBlock Origin, AdGuard, Brave Shields, NextDNS, Pi-hole, etc.), the browser will not download `t.sealmetrics.com/t.js`. The `window.sealmetrics` variable is never created.
+
+If your code (for example, a GTM tag) calls the API directly:
+
+```javascript
+sealmetrics.micro("Add_to_cart", { ... });
+```
+
+... [Read full document at https://docs.sealmetrics.com/troubleshooting/sealmetrics-is-not-defined]
 
 
 
