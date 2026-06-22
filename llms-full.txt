@@ -4155,6 +4155,24 @@ pip install sealmetrics[all]
 
 
 
+## AI Assistant
+
+
+URL: https://docs.sealmetrics.com/api/assistant
+
+
+# AI Assistant API
+
+Chat-style interface to the SealMetrics analytics assistant. The assistant uses the **BYOK** LLM provider the user has configured (see [LLM Settings](./llm-settings)) to answer natural-language questions about traffic, conversions, and trends, and returns structured `charts`/`tables` so a frontend can render visualizations.
+
+**Base path:** `/assistant`
+
+Required scope: `read` for chat/sessions/conversations/tools; `write` to delete conversations. Every endpoint is **blocked d
+
+... [Read full document at https://docs.sealmetrics.com/api/assistant]
+
+
+
 ## Audit Logs
 
 
@@ -4184,6 +4202,26 @@ GET /audit/logs
 | `action` | string | - | Filter by action type (e.g. `segment.create`, `user.deact
 
 ... [Read full document at https://docs.sealmetrics.com/api/audit]
+
+
+
+## Billing
+
+
+URL: https://docs.sealmetrics.com/api/billing
+
+
+# Billing API
+
+Manage subscriptions, invoices, usage, and checkout for your organization. These endpoints are a thin proxy that forwards cookie-authenticated dashboard requests to the internal billing microservice. The exact response shapes come from that service — treat the fields below as the contract surface and consult the live response for the canonical schema.
+
+**Base path:** `/billing`
+
+Scopes:
+- `/billing/plans` is **public** (no authentication).
+- `/billing/coupons/validate` and `/billi
+
+... [Read full document at https://docs.sealmetrics.com/api/billing]
 
 
 
@@ -4466,6 +4504,27 @@ Required scope: `read` to list/get owned dashboards; `write` to create, update, 
 ## Create Shared Dashboard
 
 ... [Read full document at https://docs.sealmetrics.com/api/shared-dashboards]
+
+
+
+## Shopify Integration
+
+
+URL: https://docs.sealmetrics.com/api/shopify
+
+
+# Shopify Integration API
+
+Endpoints used by the SealMetrics Shopify app — the per-site connection status, the install link generator, and the disconnect action. The OAuth callback, GDPR, and uninstall webhooks live under the same router but are called **by Shopify**, not by your code, and are not documented here.
+
+**Base path:** `/shopify`
+
+Required scope: standard session for read; `write` for disconnect.
+
+**Info:**
+Stores installed via the Shopify app go through Shopify's **Managed Pricing** 
+
+... [Read full document at https://docs.sealmetrics.com/api/shopify]
 
 
 
