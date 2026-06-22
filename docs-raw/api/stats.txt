@@ -151,12 +151,36 @@ The API returns the raw values for both periods; compute percentage changes clie
 
 ### GET /stats/pages
 
-Page-level metrics with pagination.
+Page-level metrics with pagination, grouped by `path` and `content_grouping`. Backed by the `report_pages` table — this endpoint only carries traffic metrics (`page_views`, `entrances`). For bounce/conversion/revenue per page see [`/stats/landing-pages`](./stats-advanced#landing-pages).
 
 ```bash
 curl "https://my.sealmetrics.com/api/v1/stats/pages?site_id=acme&period=30d&page=1&page_size=20" \
   -H "X-API-Key: sm_your_key"
 ```
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `site_id` | string | required | Site identifier |
+| `start_date` / `end_date` / `period` | date / string | - | Date range (see [Date Periods](./stats-advanced#date-periods)) |
+| `segment` | string | - | Apply saved segment (ID or name) |
+| `content_grouping` | string | - | Filter by content group |
+| `path_filter` | string | - | Filter by path (LIKE search) |
+| `country` | string[] | - | Filter by country (ISO 2-letter, repeat for OR) |
+| `utm_source` / `utm_medium` / `utm_campaign` / `utm_term` | string[] | - | Filter by UTM (repeat for OR) |
+| `device_type` / `browser` / `os` | string[] | - | Filter by device dimension (repeat for OR) |
+| `channel_group` | string[] | - | Filter by channel group. Use `""` for pre-migration rows |
+| `include` | string[] | - | Add dimensions to GROUP BY and response. Allowed: `device`, `browser`, `os`, `channel_group` |
+| `filters` | string | - | Advanced filters `field:op:value,...`. Operators: `eq`, `ne`, `contains`, `not_contains`, `regex`, `in`, `not_in` |
+| `sort_by` | string | `page_views` | `page_views` or `entrances` |
+| `sort_order` | string | `desc` | `asc` or `desc` |
+| `page` | integer | `1` | Page number |
+| `page_size` | integer | `50` | Items per page (1-1000) |
+| `compare` | string | - | `previous` or `yoy` — adds `comparison` totals to response |
+| `include_utm` | boolean | `false` | Group results by UTM and include `utm_*` fields in each row |
+
+Unknown `include` values return **422 Unprocessable Entity**.
 
 **Response:**
 
@@ -164,22 +188,16 @@ curl "https://my.sealmetrics.com/api/v1/stats/pages?site_id=acme&period=30d&page
 {
   "data": [
     {
-      "page_path": "/",
+      "path": "/",
+      "content_grouping": "Home",
       "page_views": 5432,
-      "entrances": 3211,
-      "engaged_entrances": 1890,
-      "bounce_rate": 41.2,
-      "conversions": 45,
-      "revenue": 4500.00
+      "entrances": 3211
     },
     {
-      "page_path": "/products",
+      "path": "/products",
+      "content_grouping": "Products",
       "page_views": 3421,
-      "entrances": 1256,
-      "engaged_entrances": 987,
-      "bounce_rate": 21.4,
-      "conversions": 89,
-      "revenue": 8900.00
+      "entrances": 1256
     }
   ],
   "total": 156,
@@ -190,29 +208,86 @@ curl "https://my.sealmetrics.com/api/v1/stats/pages?site_id=acme&period=30d&page
 }
 ```
 
+When `include_utm=true`, each row also includes `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`. When `include` is set, each row carries the requested dimension column(s) (`device_type`, `browser`, `os`, `channel_group`). When `compare` is set, response adds a `comparison` object with the previous period totals.
+
 ### GET /stats/pages/top
 
-Quick endpoint for top pages.
+Top pages by page views. Includes `engaged_entrances` and a computed `bounce_rate` (not available on the paginated `/stats/pages`).
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/pages/top?site_id=acme&period=7d&limit=10"
+curl "https://my.sealmetrics.com/api/v1/stats/pages/top?site_id=acme&period=7d&limit=10" \
+  -H "X-API-Key: sm_your_key"
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `site_id` | string | required | Site identifier |
+| `start_date` / `end_date` / `period` | date / string | - | Date range |
+| `country` | string | - | Filter by country (single value) |
+| `utm_source` / `utm_medium` / `utm_campaign` / `utm_term` | string | - | UTM filters (single value) |
+| `limit` | integer | `10` | Number of results (1-100) |
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "path": "/",
+      "page_views": 5432,
+      "entrances": 3211,
+      "engaged_entrances": 1890,
+      "bounce_rate": 41.14
+    }
+  ]
+}
 ```
 
 ### GET /stats/pages/content-groups
 
-Pages grouped by content group.
+Page metrics rolled up by content group. Returns one row per content group with `unique_pages` count.
 
 ```bash
-curl "https://my.sealmetrics.com/api/v1/stats/pages/content-groups?site_id=acme&period=30d"
+curl "https://my.sealmetrics.com/api/v1/stats/pages/content-groups?site_id=acme&period=30d" \
+  -H "X-API-Key: sm_your_key"
 ```
 
-### GET /stats/landing-pages
+**Query Parameters:**
 
-Landing page performance.
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `site_id` | string | required |
+| `start_date` / `end_date` / `period` | date / string | Date range |
+| `country` | string | Filter by country |
+| `utm_source` / `utm_medium` / `utm_campaign` / `utm_term` | string | UTM filters (single value) |
 
-```bash
-curl "https://my.sealmetrics.com/api/v1/stats/landing-pages?site_id=acme&period=30d"
+Pages without a content group (`content_grouping = ''`) are excluded.
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "content_grouping": "Blog",
+      "unique_pages": 142,
+      "page_views": 28930,
+      "entrances": 18421
+    },
+    {
+      "content_grouping": "Products",
+      "unique_pages": 56,
+      "page_views": 15234,
+      "entrances": 6890
+    }
+  ]
+}
 ```
+
+**Tip:**
+For conversion/revenue per entry page, see [`GET /stats/landing-pages`](./stats-advanced#landing-pages). It pulls from `report_landing_pages` and exposes `bounce_rate`, `conversions`, `conversion_rate`, `microconversions`, and `revenue`.
 
 ---
 

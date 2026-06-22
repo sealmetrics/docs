@@ -3394,6 +3394,8 @@ The `traffic` object carries the core traffic metrics; `conversions` carries the
 curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d&compare=previous"
 ```
 
+When `compare` is set, the response adds `traffic_change` and `conversions_change` (same shape as `traffic` and `conversions`, holding the previous period's values), plus time series objects (`entrances_series`, `page_views_series`, `conversions_series`, etc.) and their comparison overlays (`entrances_series_compare`, `page_views_series_compare`, `conversions_series_compare`):
+
 ... [Read full document at https://docs.sealmetrics.com/api/stats]
 
 
@@ -3435,6 +3437,23 @@ GET /stats/mediums
 Get traffic metrics grouped by UTM medium.
 
 **Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `site_id` | string | required | Site ID |
+| `period` | string | `30d` | Date period (see [Periods](#date-periods)) |
+| `start_date` | date | - | Custom start date (YYYY-MM-DD) |
+| `end_date` | date | - | Custom end date (YYYY-MM-DD) |
+| `segment` | string | - | Apply saved segment filters |
+| `country` | string | - | Filter by country code (ISO 2-letter) |
+| `filters` | string | - | Advanced filters (see [Filtering](./pagination-sorting#advanced-filters)) |
+| `sort_by` | string | `entrances` | Sort field |
+| `sort_order` | string | `desc` | Sort order (`asc`/`desc`) |
+| `page` | integer | `1` | Page number |
+| `page_size` | integer | `50` | Items per page (1-100) |
+| `compare` | string | - | Comparison mode (`previous`/`yoy`) |
+
+**Response:**
 
 ... [Read full document at https://docs.sealmetrics.com/api/stats-advanced]
 

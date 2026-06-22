@@ -248,17 +248,115 @@ GET /stats/referrers/top
 GET /stats/landing-pages
 ```
 
-Get metrics for entry pages (first page of session).
+Get metrics for entry pages (first page of session). Backed by `report_landing_pages`, which carries conversion and engagement data per entry page.
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `site_id` | string | required | Site identifier |
+| `start_date` / `end_date` / `period` | date / string | - | Date range (see [Date Periods](#date-periods)) |
+| `segment` | string | - | Apply saved segment (ID or name) |
+| `content_grouping` | string | - | Filter by content group |
+| `path_filter` | string | - | Filter by path (LIKE search) |
+| `country` | string[] | - | Filter by country (ISO 2-letter, repeat for OR) |
+| `utm_source` / `utm_medium` / `utm_campaign` / `utm_term` | string[] | - | Filter by UTM (repeat for OR) |
+| `device_type` / `browser` / `os` | string[] | - | Filter by device dimension (repeat for OR) |
+| `channel_group` | string[] | - | Filter by channel group. Use `""` for pre-migration rows |
+| `include` | string[] | - | Add dimensions to GROUP BY and response. Allowed: `device`, `browser`, `os`, `channel_group` |
+| `filters` | string | - | Advanced filters `field:op:value,...` (`eq`, `ne`, `contains`, `not_contains`, `regex`, `in`, `not_in`) |
+| `sort_by` | string | `entrances` | `entrances`, `engaged_entrances`, `microconversions`, `conversions`, `revenue`, `bounce_rate` |
+| `sort_order` | string | `desc` | `asc` or `desc` |
+| `page` | integer | `1` | Page number |
+| `page_size` | integer | `50` | Items per page (1-1000) |
+| `compare` | string | - | `previous` or `yoy` — adds `comparison` totals + per-row `_prev` fields |
+| `include_totals` | boolean | `false` | Add aggregated `totals` for the current period to the response |
+| `include_utm` | boolean | `false` | Group by UTM and include `utm_*` fields in each row |
+
+Unknown `include` values return **422 Unprocessable Entity**.
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "landing_page": "/products/running-shoes",
+      "content_grouping": "Products",
+      "entrances": 8500,
+      "engaged_entrances": 6800,
+      "bounce_rate": 20.0,
+      "microconversions": 1200,
+      "conversions": 85,
+      "conversion_rate": 1.0,
+      "revenue": 7650.00
+    }
+  ],
+  "total": 450,
+  "page": 1,
+  "page_size": 50,
+  "has_next": true,
+  "has_prev": false
+}
+```
+
+When `include_utm=true`, each row also includes `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`. When `include` is set, each row carries the requested dimension column(s). When `compare` is set, the response includes a top-level `comparison` object with previous-period totals and each row gets `_prev` metric fields. When `include_totals=true`, the response includes a `totals` object aggregating the current period.
+
+### Top Landing Pages
+
+```http
+GET /stats/landing-pages/top
+```
+
+Top landing pages by entrances. Returns the same metric shape as `/stats/landing-pages` rows.
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `site_id` | string | required | Site identifier |
+| `start_date` / `end_date` / `period` | date / string | - | Date range |
+| `utm_source` / `utm_medium` | string | - | UTM filters (single value) |
+| `country` | string | - | Filter by country |
+| `content_grouping` | string | - | Filter by content group |
+| `filters` | string | - | Advanced filters `field:op:value,...` |
+| `limit` | integer | `10` | Number of results (1-100) |
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "landing_page": "/products/running-shoes",
+      "content_grouping": "Products",
+      "entrances": 8500,
+      "engaged_entrances": 6800,
+      "bounce_rate": 20.0,
+      "microconversions": 1200,
+      "conversions": 85,
+      "conversion_rate": 1.0,
+      "revenue": 7650.00
+    }
+  ]
+}
+```
+
+### Landing Pages by Content Group
+
+```http
+GET /stats/landing-pages/by-content-group
+```
+
+Aggregate landing page metrics by content group. Returns one row per group with `unique_pages` count and the full engagement/conversion metric set.
 
 **Query Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `segment` | string | Apply saved segment |
-| `content_grouping` | string | Filter by content group |
-| `utm_medium` | string | Filter by medium |
-| `utm_source` | string | Filter by source |
-| `utm_campaign` | string | Filter by campaign |
+| `site_id` | string | required |
+| `start_date` / `end_date` / `period` | date / string | Date range |
+| `utm_source` / `utm_medium` | string | UTM filters (single value) |
 | `country` | string | Filter by country |
 
 **Response:**
@@ -267,38 +365,19 @@ Get metrics for entry pages (first page of session).
 {
   "data": [
     {
-      "path": "/products/running-shoes",
-      "entrances": 8500,
-      "engaged_entrances": 6800,
-      "microconversions": 1200,
-      "conversions": 85,
-      "revenue": 7650.00,
-      "bounce_rate": 20.0
+      "content_grouping": "Products",
+      "unique_pages": 56,
+      "entrances": 24500,
+      "engaged_entrances": 19200,
+      "bounce_rate": 21.6,
+      "microconversions": 3400,
+      "conversions": 245,
+      "conversion_rate": 1.0,
+      "revenue": 21500.00
     }
-  ],
-  "total": 450,
-  "page": 1,
-  "page_size": 50
+  ]
 }
 ```
-
-### Top Landing Pages
-
-```http
-GET /stats/landing-pages/top
-```
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `limit` | integer | `10` | Number of results (1-100) |
-
-### Landing Pages by Content Group
-
-```http
-GET /stats/landing-pages/by-content-group
-```
-
-Aggregate landing page metrics by content group.
 
 ---
 
