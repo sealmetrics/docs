@@ -1,0 +1,157 @@
+---
+sidebar_position: 16.2
+title: Channel Groups
+---
+
+# Channel Groups API
+
+Manage the rules that classify traffic into channels (GA4-style channel grouping). Each rule matches against `utm_source`, `utm_medium`, and `utm_campaign` via regex; the rule with the highest priority that matches wins.
+
+**Base path:** `/channel-groups`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+---
+
+## List Rules
+
+```http
+GET /channel-groups?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `include_inactive` | boolean | `false` | Include inactive rules |
+| `include_defaults` | boolean | `true` | Include system-default rules |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "rules": [
+      {
+        "id": 12,
+        "account_id": "acme",
+        "channel_name": "Paid Search",
+        "source_pattern": "google|bing",
+        "medium_pattern": "cpc|ppc|paid",
+        "campaign_pattern": null,
+        "priority": 100,
+        "is_default": false,
+        "is_active": true,
+        "created_at": "2025-01-05T10:00:00Z",
+        "updated_at": "2025-01-05T10:00:00Z"
+      }
+    ],
+    "total": 18,
+    "default_count": 12,
+    "custom_count": 6
+  }
+}
+```
+
+Default rules have `account_id = null` and `is_default = true`. They cannot be modified or deleted, only overridden via higher-priority custom rules.
+
+---
+
+## Create Rule
+
+```http
+POST /channel-groups?account_id={account_id}
+```
+
+**Required scope:** `write` (editor or higher)
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `channel_name` | string | Yes | Channel name (1-50 chars, e.g. `"Paid Social"`) |
+| `source_pattern` | string | No | Regex against `utm_source` (max 255). Null matches any |
+| `medium_pattern` | string | No | Regex against `utm_medium` (max 255). Null matches any |
+| `campaign_pattern` | string | No | Regex against `utm_campaign` (max 255). Null matches any |
+| `priority` | integer | No | Evaluation priority 0-1000 (default `50`). Higher wins |
+| `is_active` | boolean | No | Default `true` |
+
+**Response (201 Created):** full rule object (same shape as list response items).
+
+---
+
+## Get Rule
+
+```http
+GET /channel-groups/{rule_id}?account_id={account_id}
+```
+
+Returns the rule or `404` if not found.
+
+---
+
+## Update Rule
+
+```http
+PATCH /channel-groups/{rule_id}?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+All fields from create are optional. Default (system) rules cannot be modified — attempting returns `403`.
+
+---
+
+## Delete Rule
+
+```http
+DELETE /channel-groups/{rule_id}?account_id={account_id}
+```
+
+**Required scope:** `write`. Default rules cannot be deleted (`403`). Returns `204 No Content`.
+
+---
+
+## Get Channel Metrics
+
+```http
+GET /channel-groups/stats/channels?account_id={account_id}
+```
+
+Traffic metrics rolled up by the channels resolved through the current rule set.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `start_date` / `end_date` | date | - | Local dates in account timezone |
+| `period` | string | - | Period shortcut (overrides explicit dates). Default `30d` when nothing provided |
+| `country` | string | - | Filter by country (ISO 2-letter) |
+| `page` | integer | `1` | Page number |
+| `page_size` | integer | `50` | Items per page (1-100) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "channels": [
+      {
+        "channel": "Organic Search",
+        "entrances": 25000,
+        "engaged_entrances": 20000,
+        "bounces": 5000,
+        "bounce_rate": 20.0,
+        "page_views": 75000,
+        "microconversions": 3400,
+        "conversions": 350,
+        "conversion_rate": 1.4,
+        "revenue": 28000.00
+      }
+    ],
+    "total": 8
+  }
+}
+```
+
+This is similar to [`GET /stats/channels`](./stats-advanced#channel-groups) but limited to the current rule set's channels and without comparison/sort options.

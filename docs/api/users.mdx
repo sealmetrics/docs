@@ -1,0 +1,170 @@
+---
+sidebar_position: 6.5
+title: Users
+---
+
+# Users API
+
+Manage the current user's profile and password. Most CRUD endpoints under `/users` are **superadmin-only** — for adding people to an organization use the [Organizations API](./organizations) (`/organizations/{slug}/invitations`); for granting them access to a specific site use [`/sites/{site_id}/users`](./sites#site-user-endpoints).
+
+**Base path:** `/users`
+
+Required scope: `read` for GETs, `write` for mutations.
+
+---
+
+## Current User
+
+### Get Current User
+
+```http
+GET /users/me
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 42,
+    "email": "alice@acme.com",
+    "name": "Alice",
+    "role": "user",
+    "is_active": true,
+    "email_verified_at": "2024-12-15T08:00:00Z",
+    "last_login_at": "2025-01-08T13:55:00Z",
+    "created_at": "2024-12-10T10:00:00Z",
+    "account_ids": ["acme", "acme-staging"],
+    "two_factor_enabled": true,
+    "two_factor_enabled_at": "2024-12-20T17:30:00Z"
+  }
+}
+```
+
+### Update Current User
+
+```http
+PATCH /users/me
+```
+
+**Required scope:** `write`
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | 1-255 chars |
+
+Returns the updated `UserInfo`.
+
+### Change Password
+
+```http
+POST /users/me/password
+```
+
+**Required scope:** `write`
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `current_password` | string | Yes | Current password (for re-authentication) |
+| `new_password` | string | Yes | 12-128 chars, must satisfy the platform password policy |
+
+**Response:**
+
+```json
+{ "success": true, "data": { "message": "Password changed successfully" } }
+```
+
+---
+
+## Admin Endpoints (superadmin only)
+
+The endpoints below require the superadmin role. Regular tokens get `403`.
+
+### List Users
+
+```http
+GET /users
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `page` | integer | `1` | Page number |
+| `page_size` | integer | `50` | Items per page (1-100) |
+| `include_inactive` | boolean | `false` | Include inactive accounts |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "users": [ /* UserInfo objects */ ],
+    "total": 1284
+  }
+}
+```
+
+### Get User
+
+```http
+GET /users/{user_id}
+```
+
+Returns `UserInfo` or `404`.
+
+### Create User
+
+```http
+POST /users
+```
+
+**Required scope:** `write`
+
+For inviting people into a workspace, prefer org invitations. This endpoint creates a user record directly (used for tooling / bulk provisioning).
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `email` | string | Yes | Valid email |
+| `name` | string | Yes | 1-255 chars |
+| `role` | enum | No | `user` (default) or `superadmin` |
+| `password` | string | Yes | 12-128 chars |
+| `account_ids` | string[] | No | Sites the user should have access to (default `[]`) |
+
+**Response (201 Created):** `UserInfo` object.
+
+### Update User
+
+```http
+PATCH /users/{user_id}
+```
+
+**Required scope:** `write`
+
+**Request Body (all optional):**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | string | New name (1-255) |
+| `role` | enum | `user` or `superadmin` |
+| `is_active` | boolean | Activate / deactivate |
+
+### Deactivate User
+
+```http
+DELETE /users/{user_id}
+```
+
+**Required scope:** `write`. Soft-deletes the user (sets `is_active = false`).
+
+**Response:**
+
+```json
+{ "success": true, "data": { "message": "User deactivated successfully" } }
+```

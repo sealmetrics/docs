@@ -1,0 +1,108 @@
+---
+sidebar_position: 16.6
+title: Passthrough Referrers
+---
+
+# Passthrough Referrers API
+
+Register external domains (booking engines, payment processors, sandboxed iframes) that should **preserve the visitor's session attribution** instead of becoming a new referral. When the tracker sees a passthrough referrer, it keeps the existing UTMs; if no session exists, it falls back to the UTMs declared on the rule.
+
+**Base path:** `/passthrough-referrers`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+---
+
+## List Passthrough Referrers
+
+```http
+GET /passthrough-referrers?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `include_inactive` | boolean | `false` | Include inactive referrers |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "referrers": [
+      {
+        "id": 4,
+        "account_id": "acme",
+        "domain": "booking.mirai.com",
+        "utm_source": "mirai",
+        "utm_medium": "passthrough",
+        "utm_campaign": "",
+        "utm_term": "",
+        "service_name": "Mirai Booking Engine",
+        "is_active": true,
+        "created_at": "2025-01-05T10:00:00Z",
+        "updated_at": "2025-01-05T10:00:00Z"
+      }
+    ],
+    "total": 3,
+    "active_count": 3
+  }
+}
+```
+
+---
+
+## Create Passthrough Referrer
+
+```http
+POST /passthrough-referrers?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `domain` | string | Yes | Domain (1-255 chars, e.g. `"booking.mirai.com"`). Protocol is stripped; must match a domain regex |
+| `utm_source` | string | Yes | Fallback UTM source when no session exists (1-255 chars) |
+| `utm_medium` | string | No | Default `"passthrough"` (max 100) |
+| `utm_campaign` | string | No | Default `""` (max 255) |
+| `utm_term` | string | No | Default `""` (max 255) |
+| `service_name` | string | No | Friendly name (max 100, e.g. `"Mirai Booking Engine"`) |
+| `is_active` | boolean | No | Default `true` |
+
+**Response (201 Created):** full referrer object. Returns `409` if the domain already exists.
+
+---
+
+## Get Passthrough Referrer
+
+```http
+GET /passthrough-referrers/{referrer_id}?account_id={account_id}
+```
+
+Returns the referrer or `404` if not found.
+
+---
+
+## Update Passthrough Referrer
+
+```http
+PATCH /passthrough-referrers/{referrer_id}?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+All fields from create are optional. Returns `409` if the new domain would conflict with another referrer.
+
+---
+
+## Delete Passthrough Referrer
+
+```http
+DELETE /passthrough-referrers/{referrer_id}?account_id={account_id}
+```
+
+**Required scope:** `write`. Returns `204 No Content`.

@@ -1,0 +1,116 @@
+---
+sidebar_position: 16.4
+title: Referrer Mappings
+---
+
+# Referrer Mappings API
+
+Map incoming referrer domains to UTM values. When a visit lacks UTM parameters but arrives from a recognized referrer, the matching rule's UTMs are applied — useful for partner traffic, vendor portals, and external platforms that don't tag links.
+
+**Base path:** `/referrer-mappings`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+---
+
+## List Mappings
+
+```http
+GET /referrer-mappings?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `include_inactive` | boolean | `false` | Include inactive mappings |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "mappings": [
+      {
+        "id": 7,
+        "account_id": "acme",
+        "referrer_pattern": "partner-site.com",
+        "match_type": "exact",
+        "utm_source": "partner-site",
+        "utm_medium": "referral",
+        "utm_campaign": "",
+        "utm_term": "",
+        "utm_content": "",
+        "label": "Partner Site Traffic",
+        "description": null,
+        "priority": 100,
+        "is_active": true,
+        "created_at": "2025-01-05T10:00:00Z",
+        "updated_at": "2025-01-05T10:00:00Z"
+      }
+    ],
+    "total": 12,
+    "active_count": 11
+  }
+}
+```
+
+---
+
+## Create Mapping
+
+```http
+POST /referrer-mappings?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `referrer_pattern` | string | Yes | Pattern to match against referrer domain (1-255 chars). Protocol is stripped, comparison is lowercase |
+| `match_type` | enum | No | `exact` (default), `contains`, `starts_with`, `ends_with`, `regex` |
+| `utm_source` | string | Yes | UTM source to apply (1-255 chars) |
+| `utm_medium` | string | No | Default `"referral"` (max 100) |
+| `utm_campaign` | string | No | Default `""` (max 255) |
+| `utm_term` | string | No | Default `""` (max 255) |
+| `utm_content` | string | No | Default `""` (max 255) |
+| `label` | string | No | Human-readable label (max 100) |
+| `description` | string | No | Optional description (max 500) |
+| `priority` | integer | No | Higher priority is checked first (0-1000, default `0`) |
+| `is_active` | boolean | No | Default `true` |
+
+**Response (201 Created):** full mapping object. Returns `409` if a mapping with the same pattern already exists.
+
+---
+
+## Get Mapping
+
+```http
+GET /referrer-mappings/{mapping_id}?account_id={account_id}
+```
+
+Returns the mapping or `404` if not found.
+
+---
+
+## Update Mapping
+
+```http
+PATCH /referrer-mappings/{mapping_id}?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+All fields from create are optional. Returns `409` if the new pattern would conflict with another mapping.
+
+---
+
+## Delete Mapping
+
+```http
+DELETE /referrer-mappings/{mapping_id}?account_id={account_id}
+```
+
+**Required scope:** `write`. Returns `204 No Content`.
