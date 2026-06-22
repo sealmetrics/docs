@@ -3247,6 +3247,12 @@ Returns all sites accessible by the current user.
 POST /sites
 ```
 
+Creates a new analytics site within your organization.
+
+**Required scope:** `write`
+
+**Request Body:**
+
 ... [Read full document at https://docs.sealmetrics.com/api/sites]
 
 
@@ -3440,18 +3446,20 @@ Get traffic metrics grouped by UTM medium.
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `site_id` | string | required | Site ID |
-| `period` | string | `30d` | Date period (see [Periods](#date-periods)) |
+| `site_id` | string | required | Site ID (alias: `account_id`) |
+| `period` | string | - | Date period (see [Periods](#date-periods)) |
 | `start_date` | date | - | Custom start date (YYYY-MM-DD) |
 | `end_date` | date | - | Custom end date (YYYY-MM-DD) |
 | `segment` | string | - | Apply saved segment filters |
 | `country` | string | - | Filter by country code (ISO 2-letter) |
 | `filters` | string | - | Advanced filters (see [Filtering](./pagination-sorting#advanced-filters)) |
-| `sort_by` | string | `entrances` | Sort field |
+| `search` | string | - | Case-insensitive search on `utm_medium` (max 200 chars) |
+| `sort_by` | string | `entrances` | Sort field (see [Sort Fields](#sort-fields)) |
 | `sort_order` | string | `desc` | Sort order (`asc`/`desc`) |
 | `page` | integer | `1` | Page number |
 | `page_size` | integer | `50` | Items per page (1-100) |
-| `compare` | string | - | Comparison mode (`previous`/`yoy`) |
+| `compare` | string | - | Comparison mode (`previous`/`yoy`) — adds top-level `comparison` totals |
+| `include_totals` | boolean | `false` | Add aggregated `totals` for the current period to the response |
 
 **Response:**
 
@@ -3652,7 +3660,7 @@ A segment consists of a name, display name, and filter conditions:
 ```json
 {
   "id": "seg_abc123",
-  "site_id": "my-site",
+  "account_id": "my-site",
   "name": "paid-spain",
   "display_name": "Paid Traffic Spain",
   "description": "CPC traffic from Spain",
