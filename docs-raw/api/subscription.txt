@@ -8,7 +8,7 @@ Return the current subscription state for an organization. The dashboard calls t
 
 **Base path:** `/subscription`
 
-Not gated by the standard scope guard — any authenticated session that can access the org may call it.
+Authentication is required: the caller must be a member of the requested `org_id` (or be a superadmin). Returns `403` otherwise. No specific scope is required beyond a valid session.
 
 ---
 

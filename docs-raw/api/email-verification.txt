@@ -1,0 +1,116 @@
+# Email Verification
+
+URL: https://docs.sealmetrics.com/api/email-verification
+
+# Email Verification API
+
+Endpoints that drive the post-registration email-confirmation flow. New users land here after clicking the verification link in their welcome email; the `/verify` endpoint also performs an auto-login so the user is signed in immediately after confirming.
+
+**Base path:** `/email`
+
+---
+
+## Get Verification Status
+
+```http
+GET /email/verification-status
+```
+
+Requires an authenticated session (JWT or cookie). API keys are rejected — the endpoint is scoped to user accounts.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "verified": true,
+    "email": "alice@acme.com"
+  }
+}
+```
+
+Returns `400` if the caller is not a user account, `404` if the user record cannot be loaded.
+
+---
+
+## Resend Verification Email
+
+```http
+POST /email/resend-verification
+```
+
+Can be called by an authenticated user (omit the body) **or** by an unauthenticated caller passing the target email. To prevent enumeration, the unauthenticated path always returns a generic success message even when the email does not exist.
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `email` | string | Cond. | Required only when unauthenticated |
+
+**Response:**
+
+```json
+{ "success": true, "data": { "message": "Verification email sent. Please check your inbox." } }
+```
+
+Possible status codes:
+
+- `200` — email queued, or generic "if exists" message for unauthenticated calls
+- `200` with `"Email is already verified"` — the user has already confirmed
+- `400` — neither authentication nor email provided
+- `429` — too many resend attempts (per-user rate limit)
+
+---
+
+## Verify Email and Auto-Login
+
+```http
+POST /email/verify
+```
+
+Confirms the verification token from the email link and immediately creates an authenticated session. Sets refresh / access auth cookies on the response and returns the access token in the body for SPA bootstrapping.
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `token` | string | Yes | Verification token (≥20 chars) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Email verified successfully.",
+    "verified": true,
+    "access_token": "eyJhbGciOi...",
+    "expires_in": 3600
+  }
+}
+```
+
+The response also sets the standard auth cookies (`access_token`, `refresh_token`). Returns `400` on invalid or expired tokens.
+
+---
+
+## Send Verification Email (admin)
+
+```http
+POST /email/send-verification?user_id={user_id}
+```
+
+Trigger a verification email for a specific user. **Requires the `admin` scope** — regular tokens get `403`.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `user_id` | integer | Yes | Target user ID |
+
+**Response:**
+
+```json
+{ "success": true, "data": { "message": "Verification email sent" } }
+```
+
+Returns `200` with `"Email is already verified"` when applicable, `404` if the user does not exist, `500` if the email service fails.

@@ -3144,6 +3144,10 @@ All API keys use the `sm_` prefix:
 sm_abc123def456ghi789...
 ```
 
+Keys are 64 characters long and contain only alphanumeric characters after the prefix.
+
+### API Key Security
+
 ... [Read full document at https://docs.sealmetrics.com/api/authentication]
 
 
@@ -4292,6 +4296,77 @@ POST /email-reports?account_id={account_id}
 
 
 
+## Email Verification
+
+
+URL: https://docs.sealmetrics.com/api/email-verification
+
+
+# Email Verification API
+
+Endpoints that drive the post-registration email-confirmation flow. New users land here after clicking the verification link in their welcome email; the `/verify` endpoint also performs an auto-login so the user is signed in immediately after confirming.
+
+**Base path:** `/email`
+
+---
+
+## Get Verification Status
+
+```http
+GET /email/verification-status
+```
+
+Requires an authenticated session (JWT or cookie). API keys are rejected — the endpoint is scoped to user accounts.
+
+
+... [Read full document at https://docs.sealmetrics.com/api/email-verification]
+
+
+
+## Organization Invitations
+
+
+URL: https://docs.sealmetrics.com/api/invitations
+
+
+# Organization Invitations API
+
+Public endpoints for **accepting** invitations sent via the [Organizations API](./organizations#send-invitation). The invitation token itself is the authentication for `GET /invitations/{token}` and `POST /invitations/accept` — no other credentials needed. `POST /invitations/accept-existing` is for users who already have a SealMetrics account and just need to join the new org.
+
+**Base path:** `/invitations`
+
+---
+
+## Get Invitation Details
+
+```http
+GET /invitations
+
+... [Read full document at https://docs.sealmetrics.com/api/invitations]
+
+
+
+## LLM Settings (BYOK)
+
+
+URL: https://docs.sealmetrics.com/api/llm-settings
+
+
+# LLM Settings API
+
+Manage the current user's **Bring-Your-Own-Key** (BYOK) LLM provider configuration. Keys are stored per-user (not per-site) and reused across every site the user can access. LENS AI uses these keys to call OpenAI, Anthropic, Gemini, or DeepSeek Cloud on the user's behalf.
+
+**Base path:** `/users/me/llm-settings`
+
+Required scope: `read` for listing, `write` for create/update/delete/test/set-default.
+
+**Info:**
+Stored API keys are never echoed back. Responses include `api_key_c
+
+... [Read full document at https://docs.sealmetrics.com/api/llm-settings]
+
+
+
 ## Passthrough Referrers
 
 
@@ -4406,18 +4481,14 @@ Return the current subscription state for an organization. The dashboard calls t
 
 **Base path:** `/subscription`
 
-Not gated by the standard scope guard — any authenticated session that can access the org may call it.
+Authentication is required: the caller must be a member of the requested `org_id` (or be a superadmin). Returns `403` otherwise. No specific scope is required beyond a valid session.
 
 ---
 
 ## Get Subscription Status
 
 ```http
-GET /subscription/status?org_id={org_id}
-```
-
-| Parameter | Type | Required | Description |
-|--------
+GET /subscription/sta
 
 ... [Read full document at https://docs.sealmetrics.com/api/subscription]
 

@@ -45,9 +45,9 @@ GET /bot-stats/overview?account_id={account_id}
       "suspicious_percentage": 1.07
     },
     "top_flags": [
-      { "flag": "missing_accept_language", "count": 1820, "description": "Request lacks Accept-Language header" },
-      { "flag": "headless_user_agent", "count": 1245, "description": "User-agent matches a known headless browser" },
-      { "flag": "no_js_challenge", "count": 980, "description": "JavaScript challenge was not executed" }
+      { "flag": "missing_accept_language", "count": 1820, "description": "Request missing Accept-Language header" },
+      { "flag": "known_bot_pattern", "count": 1245, "description": "User-Agent matches known bot/scraper pattern" },
+      { "flag": "missing_sec_fetch", "count": 980, "description": "Modern browser missing Sec-Fetch headers" }
     ],
     "daily_trend": [
       { "date": "2025-01-30", "total_hits": 16234, "suspicious_hits": 178, "avg_score": 2.51 }
@@ -57,6 +57,21 @@ GET /bot-stats/overview?account_id={account_id}
 ```
 
 `suspicious_percentage` is the share of hits with score > 30. `top_flags[].description` is enriched from the server's `FLAG_DESCRIPTIONS` mapping.
+
+**Flag values currently emitted by the scoring engine:**
+
+| Flag | Description |
+|------|-------------|
+| `missing_client_hints` | Browser claims to be Chrome but doesn't send Client Hints |
+| `platform_mismatch` | User-Agent platform doesn't match Client Hints platform |
+| `mobile_mismatch` | User-Agent mobile flag doesn't match Client Hints |
+| `missing_accept_language` | Request missing Accept-Language header |
+| `incomplete_accept_encoding` | Accept-Encoding missing common compression formats |
+| `missing_sec_fetch` | Modern browser missing Sec-Fetch headers |
+| `sec_fetch_inconsistent` | Sec-Fetch headers inconsistent with request type |
+| `suspicious_user_agent` | User-Agent contains suspicious patterns |
+| `empty_user_agent` | Request has empty User-Agent |
+| `known_bot_pattern` | User-Agent matches known bot/scraper pattern |
 
 ---
 
