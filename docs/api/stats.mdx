@@ -505,48 +505,74 @@ curl "https://my.sealmetrics.com/api/v1/stats/operating-systems?site_id=acme&per
 
 ### GET /stats/conversions
 
-Conversion metrics by type.
+Paginated breakdown of conversions grouped by `conversion_type`. Each row carries totals plus optional attribution arrays (`by_source`, `by_country`). For aggregated dashboard-style totals across all types, see [`/stats/overview`](#get-statsoverview). For one row per event, see [`/stats/conversions/raw`](#get-statsconversionsraw).
 
 ```bash
 curl "https://my.sealmetrics.com/api/v1/stats/conversions?site_id=acme&period=30d" \
   -H "X-API-Key: sm_your_key"
 ```
 
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `site_id` | string | required | Site identifier (alias: `account_id`) |
+| `start_date` / `end_date` / `period` | date / string | - | Date range |
+| `segment` | string | - | Apply saved segment |
+| `utm_source` / `utm_medium` / `utm_campaign` | string | - | UTM filters (single value) |
+| `country` | string | - | Filter by country (ISO 2-letter) |
+| `filters` | string | - | Advanced filters `field:op:value,...` |
+| `sort_by` | string | `count` | `count`, `revenue`, or `avg_value` |
+| `sort_order` | string | `desc` | `asc` or `desc` |
+| `page` | integer | `1` | Page number |
+| `page_size` | integer | `20` | Items per page (1-100) |
+| `compare` | string | - | `previous` or `yoy` — adds top-level `comparison` totals |
+
 **Response:**
 
 ```json
 {
-  "data": {
-    "conversions": [
-      {
-        "conversion_type": "purchase",
-        "count": 456,
-        "revenue": 45600.50,
-        "avg_value": 100.00
-      },
-      {
-        "conversion_type": "lead",
-        "count": 89,
-        "revenue": 0,
-        "avg_value": 0
-      }
-    ],
-    "microconversions": [
-      {
-        "microconversion_type": "add_to_cart",
-        "count": 1234
-      },
-      {
-        "microconversion_type": "checkout_start",
-        "count": 567
-      }
-    ],
-    "totals": {
-      "conversions": 545,
+  "data": [
+    {
+      "conversion_type": "purchase",
+      "count": 456,
       "revenue": 45600.50,
-      "microconversions": 1801
+      "avg_value": 100.00,
+      "by_source": [
+        {
+          "utm_source": "google",
+          "utm_medium": "cpc",
+          "utm_campaign": "spring-sale",
+          "utm_term": "",
+          "utm_content": "",
+          "conversions": 234,
+          "revenue": 23400.00,
+          "percentage": 51.32
+        }
+      ],
+      "by_country": [
+        {
+          "country": "ES",
+          "conversions": 180,
+          "revenue": 18000.00,
+          "percentage": 39.47
+        }
+      ]
+    },
+    {
+      "conversion_type": "lead",
+      "count": 89,
+      "revenue": 0,
+      "avg_value": 0,
+      "by_source": [],
+      "by_country": []
     }
-  }
+  ],
+  "total": 4,
+  "page": 1,
+  "page_size": 20,
+  "has_next": false,
+  "has_prev": false
 }
 ```
 
@@ -763,6 +789,47 @@ curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=acme&period=30d" \
     },
     "microconversion_types": ["view_product", "add_to_cart", "checkout_start"],
     "conversion_types": ["purchase", "lead"]
+  }
+}
+```
+
+### POST /stats/funnel
+
+Analyze a custom funnel with arbitrary ordered steps. Each step can be a page path (e.g. `/checkout`), a microconversion type (e.g. `add_to_cart`), or a conversion type (e.g. `purchase`).
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=acme&period=30d" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Checkout funnel",
+    "steps": ["/products", "add_to_cart", "/checkout", "purchase"]
+  }'
+```
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `steps` | string[] | Yes | Ordered list of funnel steps (2-10 items) |
+| `name` | string | No | Funnel name (default: `"Custom Funnel"`) |
+
+**Response:**
+
+```json
+{
+  "data": {
+    "name": "Checkout funnel",
+    "date_range": { "start_date": "2025-01-01", "end_date": "2025-01-30", "days": 30 },
+    "steps": [
+      { "step_number": 1, "name": "/products", "count": 5234, "conversion_rate": 100.0, "drop_off_rate": 0.0 },
+      { "step_number": 2, "name": "add_to_cart", "count": 1820, "conversion_rate": 34.78, "drop_off_rate": 65.22 },
+      { "step_number": 3, "name": "/checkout", "count": 920, "conversion_rate": 50.55, "drop_off_rate": 49.45 },
+      { "step_number": 4, "name": "purchase", "count": 312, "conversion_rate": 33.91, "drop_off_rate": 66.09 }
+    ],
+    "total_entries": 5234,
+    "total_completions": 312,
+    "overall_conversion_rate": 5.96
   }
 }
 ```
