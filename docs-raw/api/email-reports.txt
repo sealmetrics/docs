@@ -1,0 +1,200 @@
+# Email Reports
+
+URL: https://docs.sealmetrics.com/api/email-reports
+
+# Email Reports API
+
+Schedule recurring email reports (daily, weekly, monthly) that summarize key analytics for an account. Each report can include selected sections (overview, sources, pages, geography, devices, conversions) and is delivered at a fixed hour in a chosen timezone.
+
+**Base path:** `/email-reports`
+
+Required scope: `read` to list/get; `write` to create, update, send, or delete.
+
+---
+
+## Create Email Report
+
+```http
+POST /email-reports?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Report name (1-255 chars) |
+| `frequency` | enum | No | `daily`, `weekly`, `monthly` (default `weekly`) |
+| `day_of_week` | integer | No | 0-6 (0 = Sunday) — required for weekly |
+| `day_of_month` | integer | No | 1-28 — required for monthly |
+| `hour_utc` | integer | No | 0-23, default `9` |
+| `timezone` | string | No | Display timezone (max 64), default `"UTC"` |
+| `report_type` | enum | No | `summary` (default), `detailed`, `custom` |
+| `include_overview` | boolean | No | Default `true` |
+| `include_sources` | boolean | No | Default `true` |
+| `include_pages` | boolean | No | Default `true` |
+| `include_geo` | boolean | No | Default `false` |
+| `include_devices` | boolean | No | Default `false` |
+| `include_conversions` | boolean | No | Default `true` |
+| `compare_previous` | boolean | No | Default `true` |
+| `recipients` | string[] | Yes | 1-20 valid email addresses |
+| `config` | object | No | Custom configuration (default `{}`) |
+
+**Response (201 Created):**
+
+```json
+{
+  "id": 42,
+  "account_id": "acme",
+  "name": "Weekly summary",
+  "frequency": "weekly",
+  "day_of_week": 1,
+  "day_of_month": null,
+  "hour_utc": 9,
+  "timezone": "Europe/Madrid",
+  "report_type": "summary",
+  "include_overview": true,
+  "include_sources": true,
+  "include_pages": true,
+  "include_geo": false,
+  "include_devices": false,
+  "include_conversions": true,
+  "compare_previous": true,
+  "recipients": ["alice@acme.com", "bob@acme.com"],
+  "config": {},
+  "is_active": true,
+  "last_sent_at": null,
+  "next_scheduled_at": "2025-01-13T09:00:00Z",
+  "send_count": 0,
+  "created_by": 7,
+  "created_at": "2025-01-08T14:23:00Z",
+  "updated_at": null
+}
+```
+
+---
+
+## List Email Reports
+
+```http
+GET /email-reports?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `include_inactive` | boolean | `false` | Include inactive reports |
+
+**Response:**
+
+```json
+{
+  "reports": [ /* EmailReportInfo objects */ ],
+  "total": 3
+}
+```
+
+---
+
+## Get Email Report
+
+```http
+GET /email-reports/{report_id}?account_id={account_id}
+```
+
+Returns the report or `404` if not found.
+
+---
+
+## Update Email Report
+
+```http
+PATCH /email-reports/{report_id}?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+All fields from create are optional. Returns the updated `EmailReportInfo`.
+
+---
+
+## Delete Email Report
+
+```http
+DELETE /email-reports/{report_id}?account_id={account_id}
+```
+
+**Required scope:** `write`. Returns `204 No Content`.
+
+---
+
+## Send Report Now
+
+```http
+POST /email-reports/{report_id}/send?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+Send a one-off render of the report immediately. Useful for previews or ad-hoc deliveries without modifying the schedule.
+
+**Request Body (optional):**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `period` | string | No | `7d`, `30d`, `month`, or `custom` (default `7d`) |
+| `custom_start` / `custom_end` | date | No | Required when `period=custom` |
+| `recipient_override` | string[] | No | Send only to these recipients (max 20). When omitted, uses the report's saved recipients |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "history_id": 318,
+  "recipients_count": 2,
+  "message": "Report sent successfully"
+}
+```
+
+Returns `500` if the underlying send fails.
+
+---
+
+## Report History
+
+```http
+GET /email-reports/{report_id}/history?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `limit` | integer | `20` | Max results (1-100) |
+| `offset` | integer | `0` | Pagination offset |
+
+**Response:**
+
+```json
+{
+  "history": [
+    {
+      "id": 318,
+      "report_id": 42,
+      "report_period_start": "2025-01-01",
+      "report_period_end": "2025-01-07",
+      "recipients_sent_to": ["alice@acme.com", "bob@acme.com"],
+      "recipient_count": 2,
+      "status": "sent",
+      "error_message": null,
+      "report_stats": { "entrances": 15420, "conversions": 245 },
+      "created_at": "2025-01-08T09:00:00Z",
+      "completed_at": "2025-01-08T09:00:14Z"
+    }
+  ],
+  "total": 12
+}
+```
+
+`status` values: `pending`, `generating`, `sending`, `sent`, `failed`, `partial`.

@@ -1,0 +1,201 @@
+# Shared Dashboards
+
+URL: https://docs.sealmetrics.com/api/shared-dashboards
+
+# Shared Dashboards API
+
+Create public or password-protected shareable dashboards, and configure embed parameters for iframe usage. Each dashboard gets a `share_token` for public access and an optional `EmbedConfig` controlling allowed domains, theme, and dimensions.
+
+**Base path:** `/shared-dashboards`
+
+Required scope: `read` to list/get owned dashboards; `write` to create, update, delete, or configure embeds. The two `/public/{share_token}` endpoints are unauthenticated.
+
+---
+
+## Create Shared Dashboard
+
+```http
+POST /shared-dashboards?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Dashboard name (1-255) |
+| `slug` | string | Yes | URL-friendly slug (1-100, `[a-z0-9][a-z0-9-]*[a-z0-9]`) |
+| `dashboard_type` | enum | No | `overview` (default), `sources`, `pages`, `geo`, `devices`, `conversions`, `custom` |
+| `is_public` | boolean | No | Default `false` |
+| `password` | string | No | Optional password (4-100 chars) |
+| `fixed_date_range` | string | No | `7d`, `30d`, `90d`, `month`, `year`, or `custom` |
+| `config` | object | No | Custom dashboard configuration (default `{}`) |
+| `show_branding` | boolean | No | Default `true` |
+| `custom_logo_url` | string | No | Custom logo URL (max 500) |
+| `expires_at` | datetime | No | Optional expiration |
+
+**Response (201 Created):**
+
+```json
+{
+  "id": 17,
+  "account_id": "acme",
+  "share_token": "tok_8sf2k3...",
+  "name": "Marketing report",
+  "slug": "marketing-report",
+  "dashboard_type": "overview",
+  "is_public": true,
+  "has_password": false,
+  "fixed_date_range": "30d",
+  "config": {},
+  "show_branding": true,
+  "custom_logo_url": null,
+  "view_count": 0,
+  "last_viewed_at": null,
+  "share_url": "https://my.sealmetrics.com/share/tok_8sf2k3...",
+  "embed_url": "https://my.sealmetrics.com/embed/tok_8sf2k3...",
+  "is_active": true,
+  "expires_at": null,
+  "created_by": 7,
+  "created_at": "2025-01-08T14:23:00Z",
+  "updated_at": null
+}
+```
+
+Returns `409` if the slug already exists for the account.
+
+---
+
+## List Shared Dashboards
+
+```http
+GET /shared-dashboards?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `include_inactive` | boolean | `false` | Include inactive dashboards |
+
+**Response:**
+
+```json
+{
+  "dashboards": [ /* SharedDashboardInfo objects */ ],
+  "total": 5
+}
+```
+
+---
+
+## Get / Update / Delete Dashboard
+
+```http
+GET    /shared-dashboards/{dashboard_id}?account_id={account_id}
+PATCH  /shared-dashboards/{dashboard_id}?account_id={account_id}
+DELETE /shared-dashboards/{dashboard_id}?account_id={account_id}
+```
+
+`GET` requires `read`; `PATCH`/`DELETE` require `write`.
+
+`PATCH` accepts the same fields as create, all optional, plus:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `remove_password` | boolean | Remove the password protection (default `false`) |
+| `is_active` | boolean | Activate / deactivate |
+
+`PATCH` returns `409` if the new slug is already taken. `DELETE` returns `204 No Content`.
+
+---
+
+## Embed Configuration
+
+### Get Embed Config
+
+```http
+GET /shared-dashboards/{dashboard_id}/embed?account_id={account_id}
+```
+
+**Required scope:** `read`
+
+**Response:**
+
+```json
+{
+  "dashboard_id": 17,
+  "allowed_domains": ["acme.com", "marketing.acme.com"],
+  "show_header": true,
+  "show_filters": false,
+  "theme": "auto",
+  "min_width": 320,
+  "min_height": 400,
+  "embed_code": "<iframe src=\"https://my.sealmetrics.com/embed/tok_8sf2k3...\" ...></iframe>"
+}
+```
+
+Returns `404` if no embed config exists yet.
+
+### Create or Update Embed Config
+
+```http
+PUT /shared-dashboards/{dashboard_id}/embed?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+Upsert — creates the embed config if missing, otherwise updates it.
+
+**Request Body:**
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `allowed_domains` | string[] | `null` | Domains allowed to embed. `null` means all |
+| `show_header` | boolean | `true` | Show dashboard header in the iframe |
+| `show_filters` | boolean | `false` | Show date-range filters in the iframe |
+| `theme` | enum | `auto` | `light`, `dark`, `auto` |
+| `min_width` | integer | `320` | Min iframe width (200-2000) |
+| `min_height` | integer | `400` | Min iframe height (200-2000) |
+
+---
+
+## Public Access (unauthenticated)
+
+### Get Public Info
+
+```http
+GET /shared-dashboards/public/{share_token}
+```
+
+No authentication. Returns metadata needed by the public viewer to decide whether to prompt for a password.
+
+**Response:**
+
+```json
+{
+  "name": "Marketing report",
+  "dashboard_type": "overview",
+  "show_branding": true,
+  "custom_logo_url": null,
+  "requires_password": false,
+  "fixed_date_range": "30d",
+  "account_name": "Acme Corp"
+}
+```
+
+### Access Dashboard
+
+```http
+POST /shared-dashboards/public/{share_token}/access
+```
+
+No authentication. Validates an optional password and logs the access (IP, user-agent, referer).
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `password` | string | No | Required only if `requires_password` is `true` (1-100 chars) |
+
+Returns `401` if the password is invalid, `404` if the dashboard does not exist.

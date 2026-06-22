@@ -1,0 +1,60 @@
+# Subscription Status
+
+URL: https://docs.sealmetrics.com/api/subscription
+
+# Subscription Status API
+
+Return the current subscription state for an organization. The dashboard calls this on every layout load to decide whether to render the paywall, the trial banner, or the free-tier usage gauge.
+
+**Base path:** `/subscription`
+
+Not gated by the standard scope guard — any authenticated session that can access the org may call it.
+
+---
+
+## Get Subscription Status
+
+```http
+GET /subscription/status?org_id={org_id}
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "billing_enabled": true,
+    "has_subscription": true,
+    "status": "active",
+    "plan_tier": "pro",
+    "trial_ends_at": null,
+    "current_period_end": "2025-02-08T00:00:00Z",
+    "cancel_at_period_end": false,
+    "is_blocked": false,
+    "block_reason": null,
+    "source": "stripe",
+    "usage": null
+  }
+}
+```
+
+**Field reference:**
+
+| Field | Description |
+|-------|-------------|
+| `billing_enabled` | `true` when the billing feature is enabled for this org. `false` for self-hosted / grandfathered installs |
+| `has_subscription` | Whether the org currently has an active paid subscription |
+| `status` | Raw status (e.g. `active`, `trialing`, `past_due`, `canceled`, `free`) |
+| `plan_tier` | Plan tier name (e.g. `free`, `pro`, `business`) or `null` |
+| `trial_ends_at` | Trial end timestamp or `null` |
+| `current_period_end` | When the current paid period ends, or `null` |
+| `cancel_at_period_end` | `true` if cancellation is scheduled |
+| `is_blocked` | `true` when the dashboard should show a hard paywall |
+| `block_reason` | Human-readable block reason (e.g. `"trial_expired"`) or `null` |
+| `source` | Where the entitlement comes from: `stripe`, `free`, `grandfathered`, or `none` |
+| `usage` | For free orgs: `{ events_used, event_limit, percentage }`. Otherwise `null` |

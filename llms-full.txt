@@ -4151,6 +4151,306 @@ pip install sealmetrics[all]
 
 
 
+## Audit Logs
+
+
+URL: https://docs.sealmetrics.com/api/audit
+
+
+# Audit Logs API
+
+Query the audit trail of mutating actions across your organization. Superadmins see every entry; regular users see only entries authored by members of organizations they belong to.
+
+**Base path:** `/audit`
+
+Required scope: `read`.
+
+---
+
+## List Audit Logs
+
+```http
+GET /audit/logs
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `action` | string | - | Filter by action type (e.g. `segment.create`, `user.deact
+
+... [Read full document at https://docs.sealmetrics.com/api/audit]
+
+
+
+## IP Blocklist
+
+
+URL: https://docs.sealmetrics.com/api/blocklist-ips
+
+
+# IP Blocklist API
+
+Block individual IPs or CIDR ranges from tracking. Useful for excluding internal traffic, known bots, competitor monitoring, or test infrastructure.
+
+**Base path:** `/blocklist-ips`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+**Tip:**
+This endpoint **blocks** traffic. To **restrict dashboard access** by IP, see the [IP Allowlist API](./ip-allowlist).
+
+---
+
+## List Blocklist Entries
+
+```http
+GET /blocklist-ips?account_id={account_id}
+```
+
+| Parameter
+
+... [Read full document at https://docs.sealmetrics.com/api/blocklist-ips]
+
+
+
+## Bot Stats
+
+
+URL: https://docs.sealmetrics.com/api/bot-stats
+
+
+# Bot Stats API
+
+Inspect the bot detection signals emitted by the tracker. The scoring engine assigns each hit a suspicion score (0-100) based on header fingerprinting, JavaScript challenges, and behavioral flags. These endpoints expose the score distribution, top flag reasons, daily trend, and let you drill into high-score sessions.
+
+**Base path:** `/bot-stats`
+
+Required scope: `read`.
+
+**Info:**
+The hits log is retained for 14 days (ClickHouse TTL). The `suspicious-sessions` endpoint additiona
+
+... [Read full document at https://docs.sealmetrics.com/api/bot-stats]
+
+
+
+## Channel Groups
+
+
+URL: https://docs.sealmetrics.com/api/channel-groups
+
+
+# Channel Groups API
+
+Manage the rules that classify traffic into channels (GA4-style channel grouping). Each rule matches against `utm_source`, `utm_medium`, and `utm_campaign` via regex; the rule with the highest priority that matches wins.
+
+**Base path:** `/channel-groups`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+---
+
+## List Rules
+
+```http
+GET /channel-groups?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|
+
+... [Read full document at https://docs.sealmetrics.com/api/channel-groups]
+
+
+
+## Email Reports
+
+
+URL: https://docs.sealmetrics.com/api/email-reports
+
+
+# Email Reports API
+
+Schedule recurring email reports (daily, weekly, monthly) that summarize key analytics for an account. Each report can include selected sections (overview, sources, pages, geography, devices, conversions) and is delivered at a fixed hour in a chosen timezone.
+
+**Base path:** `/email-reports`
+
+Required scope: `read` to list/get; `write` to create, update, send, or delete.
+
+---
+
+## Create Email Report
+
+```http
+POST /email-reports?account_id={account_id}
+```
+
+**Required scope:*
+
+... [Read full document at https://docs.sealmetrics.com/api/email-reports]
+
+
+
+## Passthrough Referrers
+
+
+URL: https://docs.sealmetrics.com/api/passthrough-referrers
+
+
+# Passthrough Referrers API
+
+Register external domains (booking engines, payment processors, sandboxed iframes) that should **preserve the visitor's session attribution** instead of becoming a new referral. When the tracker sees a passthrough referrer, it keeps the existing UTMs; if no session exists, it falls back to the UTMs declared on the rule.
+
+**Base path:** `/passthrough-referrers`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+---
+
+## List Passthrough Referrers
+
+`
+
+... [Read full document at https://docs.sealmetrics.com/api/passthrough-referrers]
+
+
+
+## Referrer Mappings
+
+
+URL: https://docs.sealmetrics.com/api/referrer-mappings
+
+
+# Referrer Mappings API
+
+Map incoming referrer domains to UTM values. When a visit lacks UTM parameters but arrives from a recognized referrer, the matching rule's UTMs are applied — useful for partner traffic, vendor portals, and external platforms that don't tag links.
+
+**Base path:** `/referrer-mappings`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+---
+
+## List Mappings
+
+```http
+GET /referrer-mappings?account_id={account_id}
+```
+
+| Parameter | Type | Default | Descri
+
+... [Read full document at https://docs.sealmetrics.com/api/referrer-mappings]
+
+
+
+## Saved Pixels
+
+
+URL: https://docs.sealmetrics.com/api/saved-pixels
+
+
+# Saved Pixels API
+
+Save reusable pixel/event configurations (page views, conversions, microconversions) and generate the corresponding installation code for JavaScript, Google Tag Manager, or Tealium. Each saved pixel bundles a `type`, optional `conversion_type`, and custom properties.
+
+**Base path:** `/saved-pixels`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+---
+
+## List Saved Pixels
+
+```http
+GET /saved-pixels?account_id={account_id}
+```
+
+| Parameter | Type | Defaul
+
+... [Read full document at https://docs.sealmetrics.com/api/saved-pixels]
+
+
+
+## Shared Dashboards
+
+
+URL: https://docs.sealmetrics.com/api/shared-dashboards
+
+
+# Shared Dashboards API
+
+Create public or password-protected shareable dashboards, and configure embed parameters for iframe usage. Each dashboard gets a `share_token` for public access and an optional `EmbedConfig` controlling allowed domains, theme, and dimensions.
+
+**Base path:** `/shared-dashboards`
+
+Required scope: `read` to list/get owned dashboards; `write` to create, update, delete, or configure embeds. The two `/public/{share_token}` endpoints are unauthenticated.
+
+---
+
+## Create Shared Dashboard
+
+... [Read full document at https://docs.sealmetrics.com/api/shared-dashboards]
+
+
+
+## Subscription Status
+
+
+URL: https://docs.sealmetrics.com/api/subscription
+
+
+# Subscription Status API
+
+Return the current subscription state for an organization. The dashboard calls this on every layout load to decide whether to render the paywall, the trial banner, or the free-tier usage gauge.
+
+**Base path:** `/subscription`
+
+Not gated by the standard scope guard — any authenticated session that can access the org may call it.
+
+---
+
+## Get Subscription Status
+
+```http
+GET /subscription/status?org_id={org_id}
+```
+
+| Parameter | Type | Required | Description |
+|--------
+
+... [Read full document at https://docs.sealmetrics.com/api/subscription]
+
+
+
+## Users
+
+
+URL: https://docs.sealmetrics.com/api/users
+
+
+# Users API
+
+Manage the current user's profile and password. Most CRUD endpoints under `/users` are **superadmin-only** — for adding people to an organization use the [Organizations API](./organizations) (`/organizations/{slug}/invitations`); for granting them access to a specific site use [`/sites/{site_id}/users`](./sites#site-user-endpoints).
+
+**Base path:** `/users`
+
+Required scope: `read` for GETs, `write` for mutations.
+
+---
+
+## Current User
+
+### Get Current User
+
+```http
+GET /users/me
+```
+
+... [Read full document at https://docs.sealmetrics.com/api/users]
+
+
+
 ---
 
 # Security & Privacy
