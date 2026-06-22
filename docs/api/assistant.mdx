@@ -1,0 +1,177 @@
+---
+sidebar_position: 9.2
+title: AI Assistant
+---
+
+# AI Assistant API
+
+Chat-style interface to the SealMetrics analytics assistant. The assistant uses the **BYOK** LLM provider the user has configured (see [LLM Settings](./llm-settings)) to answer natural-language questions about traffic, conversions, and trends, and returns structured `charts`/`tables` so a frontend can render visualizations.
+
+**Base path:** `/assistant`
+
+Required scope: `read` for chat/sessions/conversations/tools; `write` to delete conversations. Every endpoint is **blocked during admin impersonation** — support engineers viewing a customer's session cannot trigger LLM calls that would consume the customer's API key.
+
+---
+
+## Chat
+
+```http
+POST /assistant/chat
+```
+
+Send a message and receive an answer with optional structured data (charts, tables) attached.
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `message` | string | Yes | User message (1-1000 chars) |
+| `account_id` | string | Yes | Account ID to query data for |
+| `conversation_id` | string | No | Continue an existing conversation. Omit to start a new one |
+| `language` | string | No | `"es"` (default) or `"en"` |
+| `provider` | enum | No | Override the user's default LLM provider for this call (`anthropic`, `openai`, `deepseek_cloud`, `gemini`) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "response": "Traffic last week was 12,543 entrances, up 11.7% vs the previous week.",
+    "conversation_id": "conv_a1b2c3",
+    "tools_used": [
+      { "tool_name": "get_overview", "success": true, "duration_ms": 142 }
+    ],
+    "charts": [
+      {
+        "type": "line",
+        "title": "Entrances — last 14 days",
+        "data": [{ "date": "2025-01-01", "value": 1800 }],
+        "x_key": "date",
+        "y_key": "value",
+        "y_label": "Entrances"
+      }
+    ],
+    "tables": [],
+    "input_tokens": 1240,
+    "output_tokens": 380
+  }
+}
+```
+
+`type` for charts is one of `line`, `bar`, `pie`. Errors:
+
+- `403` — caller cannot access `account_id`, or impersonation is active.
+- `400` / `429` / `502` — propagated from the underlying LLM provider (auth, rate limit, network).
+- `400` `error_code: "provider_not_configured"` — no API key stored for the requested provider; configure one via [LLM Settings](./llm-settings).
+
+---
+
+## List Recent Sessions
+
+```http
+GET /assistant/sessions?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `limit` | integer | `10` | Max sessions to return (1-50) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "sessions": [
+      {
+        "id": "conv_a1b2c3",
+        "title": "Last week traffic",
+        "message_count": 8,
+        "created_at": "2025-01-07T10:32:00Z",
+        "updated_at": "2025-01-07T10:48:14Z",
+        "is_active": true
+      }
+    ],
+    "total": 1
+  }
+}
+```
+
+---
+
+## Get Conversation History
+
+```http
+GET /assistant/conversations/{conversation_id}
+```
+
+Returns the full message history (user + assistant) for a conversation, including any previously rendered charts and tables.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "conversation_id": "conv_a1b2c3",
+    "account_id": "acme",
+    "title": "Last week traffic",
+    "messages": [
+      {
+        "role": "user",
+        "content": "How did traffic change last week?",
+        "timestamp": "2025-01-07T10:32:00Z",
+        "charts": [],
+        "tables": []
+      },
+      {
+        "role": "assistant",
+        "content": "Traffic last week was 12,543 entrances...",
+        "timestamp": "2025-01-07T10:32:05Z",
+        "charts": [ /* ChartData[] */ ],
+        "tables": []
+      }
+    ],
+    "created_at": "2025-01-07T10:32:00Z",
+    "updated_at": "2025-01-07T10:48:14Z"
+  }
+}
+```
+
+Returns `404` if the conversation does not exist for the caller.
+
+---
+
+## Delete Conversation
+
+```http
+DELETE /assistant/conversations/{conversation_id}
+```
+
+**Required scope:** `write`. Removes the session and its message history. Returns `404` if not found.
+
+---
+
+## List Available Tools
+
+```http
+GET /assistant/tools
+```
+
+Returns the set of analytics tools the assistant can call internally (e.g. `get_overview`, `get_pages`, `get_funnel`). Each tool has `name`, `description`, and `category`. Use this for an "About the assistant" UI panel.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "tools": [
+      { "name": "get_overview", "description": "Fetch traffic and conversion overview", "category": "stats" }
+    ],
+    "total": 1
+  }
+}
+```
