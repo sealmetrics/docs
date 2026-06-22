@@ -462,6 +462,36 @@ POST /2fa/verify-login
 
 ---
 
+## Impersonation Status
+
+Sealmetrics support engineers can impersonate a customer session (via the internal admin tooling). When that happens, the active JWT carries an `impersonated_by` claim. The dashboard polls this endpoint on layout mount to decide whether to render the "you are being impersonated" banner.
+
+### GET /auth/impersonation-status
+
+Authentication: standard session (JWT or cookie).
+
+**Response when no impersonation is active:**
+
+```json
+{ "active": false }
+```
+
+**Response during an impersonation:**
+
+```json
+{
+  "active": true,
+  "impersonated_by_user_id": 1,
+  "impersonated_by_email": "support@sealmetrics.com",
+  "impersonated_by_name": "SealMetrics Support",
+  "started_at": "2025-01-08T13:55:00Z"
+}
+```
+
+The exact field set inside the active payload may evolve — treat the response as opaque metadata for the banner, and rely only on `active` for behavior decisions.
+
+---
+
 ## Error Codes
 
 The `error.code` is derived from the HTTP status (`400` → `bad_request`,

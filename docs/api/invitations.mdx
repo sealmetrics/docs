@@ -1,0 +1,108 @@
+---
+sidebar_position: 6.7
+title: Organization Invitations
+---
+
+# Organization Invitations API
+
+Public endpoints for **accepting** invitations sent via the [Organizations API](./organizations#send-invitation). The invitation token itself is the authentication for `GET /invitations/{token}` and `POST /invitations/accept` — no other credentials needed. `POST /invitations/accept-existing` is for users who already have a SealMetrics account and just need to join the new org.
+
+**Base path:** `/invitations`
+
+---
+
+## Get Invitation Details
+
+```http
+GET /invitations/{token}
+```
+
+Public — no auth required. The token itself is treated as the credential. Use this on the "accept invitation" landing page to render the org name, the invited email, and the proposed role.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "org_name": "Acme Corp",
+    "email": "alice@acme.com",
+    "role": "member",
+    "invited_by_name": "Bob (Owner)"
+  }
+}
+```
+
+| Status | Meaning |
+|--------|---------|
+| `404` | Invitation token not found |
+| `410` | Invitation expired or already accepted |
+
+---
+
+## Accept Invitation (new user)
+
+```http
+POST /invitations/accept
+```
+
+Creates a new user account, joins the org, and auto-logs the user in (sets auth cookies and returns an access token in the body). The email on the new account is taken from the invitation, not the request body — so users cannot register with a different email.
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `token` | string | Yes | Invitation token |
+| `name` | string | Yes | Full name for the new account (1-255 chars) |
+| `password` | string | Yes | At least 8 chars (must satisfy the platform password policy) |
+
+**Response (201 Created):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Invitation accepted.",
+    "org_name": "Acme Corp",
+    "access_token": "eyJhbGciOi...",
+    "expires_in": 3600
+  }
+}
+```
+
+Auth cookies are set on the response. The new user has `can_create_org = false` (invited users can't create new orgs) and their email is auto-verified (the invitation email is treated as proof of ownership).
+
+Errors: `404` invitation not found, `410` expired/already accepted, `409` user already exists or already a member, `422` invalid name/password.
+
+---
+
+## Accept Invitation (existing user)
+
+```http
+POST /invitations/accept-existing
+```
+
+For authenticated users who already have a SealMetrics account. The endpoint verifies the invitation's email matches the caller's email before adding them to the org.
+
+Authentication: regular session (JWT or cookie).
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `token` | string | Yes | Invitation token |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Invitation accepted.",
+    "org_name": "Acme Corp",
+    "org_slug": "acme"
+  }
+}
+```
+
+Errors: `403` invitation email doesn't match the logged-in user, `404`/`410`/`409` as above.

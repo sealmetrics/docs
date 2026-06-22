@@ -329,7 +329,7 @@ Top landing pages by entrances. Returns the same metric shape as `/stats/landing
 |-----------|------|---------|-------------|
 | `site_id` | string | required | Site identifier |
 | `start_date` / `end_date` / `period` | date / string | - | Date range |
-| `utm_source` / `utm_medium` | string | - | UTM filters (single value) |
+| `utm_source` / `utm_medium` | string | - | UTM filters (single value). `utm_campaign` and `utm_term` are **not** accepted on this endpoint — use `/stats/landing-pages` if you need to filter by them |
 | `country` | string | - | Filter by country |
 | `content_grouping` | string | - | Filter by content group |
 | `filters` | string | - | Advanced filters `field:op:value,...` |
