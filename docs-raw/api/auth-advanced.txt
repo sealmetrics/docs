@@ -482,16 +482,6 @@ Authentication: standard session (JWT or cookie).
 
 The exact field set inside the active payload may evolve — treat the response as opaque metadata for the banner, and rely only on `active` for behavior decisions.
 
-### DELETE /admin/impersonate-user
-
-Ends the current impersonation session. The endpoint sits under `/admin` but is intentionally **not gated by superadmin** — at this point the JWT belongs to the impersonated user, and only they (technically: anyone holding that JWT) can call it. The handler:
-
-1. Verifies the JWT carries an `impersonated_by` claim (400 otherwise).
-2. Terminates the impersonation session (so the JWT can't be reused).
-3. Mints a fresh access token + refresh token for the original superadmin and sets them as cookies.
-
-Returns the superadmin's new credentials in the body for SPA bootstrapping. Returns `400` when there is no active impersonation.
-
 ---
 
 ## Error Codes
