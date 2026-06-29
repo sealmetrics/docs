@@ -96,7 +96,7 @@ export default function DocItemLayout({children}) {
   const {metadata} = useDoc();
   return (
     <div className="row">
-      <div className={clsx('col', !docTOC.hidden && styles.docItemCol)}>
+      <div className={clsx('col', 'docMainCol', !docTOC.hidden && styles.docItemCol)}>
         <ContentVisibility metadata={metadata} />
         <TechArticleStructuredData />
         <DocVersionBanner />

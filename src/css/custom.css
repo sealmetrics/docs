@@ -7,6 +7,18 @@
   --ifm-navbar-background-color: #f8f6f1;
   --ifm-background-color: #f8f6f1;
   --ifm-toc-border-color: #f0f0f0;
+  /* Central docs column: two tones darker than the page background (#f8f6f1) */
+  --seal-doc-col-bg: #ece8de;
+}
+
+[data-theme='dark'] {
+  /* Two tones darker than Infima's dark page background (#1b1b1d) */
+  --seal-doc-col-bg: #141416;
+}
+
+/* Background of the central content column on all docs pages */
+.docMainCol {
+  background-color: var(--seal-doc-col-bg);
 }
 
 body {
