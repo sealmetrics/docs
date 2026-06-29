@@ -1,0 +1,209 @@
+# AI Agentic Package (Claude & Codex)
+
+URL: https://docs.sealmetrics.com/integrations/agentic-package
+
+# AI Agentic Package (Claude & Codex)
+
+The **SealMetrics Agentic Package** lets an AI assistant set up analytics for you end to end — **from a chat, with no terminal and no dashboard login required to start**. Once installed, your assistant can:
+
+1. **Create a free SealMetrics account** for your site.
+2. **Give you the tracking pixel** (and place it for you if it has access to your code).
+3. **Query your traffic and conversions** through ~47 read-only analytics tools.
+
+It ships as a one-click **extension for Claude Desktop** (a `.mcpb` bundle) and runs via `npx` in **Codex and other MCP clients**.
+
+**Info:**
+- **Don't have an account yet?** Use this page — the package creates one for you from the chat.
+- **Already have an account and just want to query data?** Use the [MCP Server](/integrations/mcp-server) page instead (manual config with your API key).
+
+---
+
+## What you need
+
+- **[Claude Desktop](https://claude.ai/download)** (latest version) — for the one-click extension, **or** **[Codex CLI](https://developers.openai.com/codex/cli)** for the plugin.
+- An **email address** — you'll receive a link to claim the account and set a password.
+- *(Optional)* Access to your website's code, so the assistant can place the pixel for you. Not required — you can paste the snippet yourself.
+
+You do **not** need an existing SealMetrics account, an API key, or the terminal to get started.
+
+---
+
+## Option A — Claude Desktop (one-click extension)
+
+### Step 1: Download and install the extension
+
+1. Download the extension: **[Download SealMetrics for Claude Desktop](https://cdn.jsdelivr.net/npm/@sealmetrics/mcp/dist/sealmetrics.mcpb)** &nbsp;*(`sealmetrics.mcpb`)*.
+2. Open **Claude Desktop → Settings → Extensions**.
+3. Drag the `sealmetrics.mcpb` file into the window (or click **Install extension** and select it).
+4. Click **Install**.
+
+**Tip:**
+On the extension's settings screen, **leave the “SealMetrics API key” field empty**. That's what tells the package to **register a brand-new site from the chat**. (You'd only paste a key here if you already have one and want to query existing data right away.)
+
+5. Make sure the extension is **enabled**, then close Settings.
+
+### Step 2: Create your account from the chat
+
+Open a new chat and just ask, for example:
+
+> *"Create a SealMetrics analytics site for myshop.com"*
+
+Claude will:
+
+1. Show you the [SealMetrics Terms of Service](https://sealmetrics.com/terms) and ask you to **confirm you accept them** (it will not accept on your behalf).
+2. Ask for your **email** (and optionally a site name and your name).
+3. Run the `provision_site` tool, which creates the account and returns:
+   - your **account ID**,
+   - the **tracking snippet** to install,
+   - a **claim link sent to your email** to set a password.
+
+That's it — the account exists and the read-only analytics tools turn on **for this session**.
+
+### Step 3: Install the tracking pixel
+
+Claude gives you a `<script>` snippet. Place it **once, inside the `<head>` of every page** of your site.
+
+- **If Claude (or Claude Code) has access to your repository**, ask it to place the snippet for you — it detects your framework (Next.js, Astro, WordPress, plain HTML, etc.) and puts it in the right file.
+- **Otherwise**, copy the snippet and paste it into your site's `<head>` yourself, or via your CMS / tag manager.
+
+Then confirm it's live:
+
+> *"Verify my SealMetrics pixel is installed"*
+
+Claude runs `verify_setup`, which polls until a real pageview reaches the backend. Load a page of your site if it reports no hits yet, then re-run it.
+
+### Step 4: Ask questions about your data
+
+Once the pixel is verified, ask anything:
+
+- *"Show me an overview of my site for the last 7 days"*
+- *"What are my top traffic sources this month?"*
+- *"How many conversions did I get yesterday, and from which campaigns?"*
+- *"Which landing pages have the highest bounce rate?"*
+
+See the full list of analytics tools and example questions on the [MCP Server](/integrations/mcp-server#available-tools) page.
+
+---
+
+## After setup: two things to remember
+
+### Keep access after restarting Claude Desktop
+
+The read-only tools are enabled **for the current session**. To keep them available after you quit and reopen Claude Desktop:
+
+1. Open your **welcome email** and copy the **API key**.
+2. Go to **Settings → Extensions → SealMetrics**.
+3. Paste it into the **SealMetrics API key** field and save.
+
+### Claim your account (set a password)
+
+Provisioning emails you a **claim link**. Click it to **set a password** — this unlocks the full **[web dashboard](https://my.sealmetrics.com)**.
+
+**Note:**
+
+---
+
+## Option B — Codex CLI
+
+Codex runs the same SealMetrics MCP server via `npx` — no download needed. Add this to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.sealmetrics]
+command = "npx"
+args = ["-y", "@sealmetrics/mcp"]
+```
+
+Leaving out the API key is what tells the server to **create a new account from the chat**. Restart Codex, then ask:
+
+> *"Create a SealMetrics site for myshop.com"*
+
+From here the flow is identical to Claude — see **Steps 2–4** above: accept the Terms, give your email, place the pixel, and run verify.
+
+**Tip:**
+Once you receive your API key in the welcome email, add it to the same block so the read-only tools stay enabled:
+
+```toml
+[mcp_servers.sealmetrics]
+command = "npx"
+args = ["-y", "@sealmetrics/mcp"]
+env = { SEALMETRICS_API_KEY = "sm_your_key_here" }
+```
+
+### Other MCP clients (Cursor, Windsurf, VS Code…)
+
+Any MCP-compatible client works with the same server. Add this block to your client's MCP config (in Cursor, `~/.cursor/mcp.json`) — leave `SEALMETRICS_API_KEY` empty to provision a new account, or fill it to query an existing one:
+
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "command": "npx",
+      "args": ["-y", "@sealmetrics/mcp"],
+      "env": {
+        "SEALMETRICS_API_KEY": "sm_your_key_here",
+        "SEALMETRICS_SITE_ID": "your-site-id"
+      }
+    }
+  }
+}
+```
+
+---
+
+## Prefer a single command?
+
+If you don't have an account yet and want registration **and** client configuration handled automatically, run:
+
+```bash
+npx sealmetrics init
+```
+
+It creates your account and wires up your MCP client in one step.
+
+---
+
+## What the package can do (tools)
+
+| Tool | What it does |
+|------|--------------|
+| `provision_site` | Registers a **new** free SealMetrics site from the chat. Returns the snippet and emails a claim link. |
+| `verify_setup` | Polls until the pixel is confirmed installed (a real pageview reached the backend). |
+| `get_setup_status` | Reports whether a site is provisioned and whether its pixel is verified. |
+| `detect_framework` | Best-effort detects your framework/CMS so the snippet is placed correctly. |
+| `get_instrumentation_guide` | The canonical event-instrumentation guide for your account. |
+| `verify_event_instrumented` | Confirms a conversion/microconversion event reached the backend (and validates it has no PII). |
+| **~47 read-only analytics tools** | Traffic, pages, conversions, audience, channels, funnels, bot detection and more — see the [MCP Server reference](/integrations/mcp-server#available-tools). |
+
+---
+
+## Privacy & safety
+
+- The package runs **locally** (inside Claude Desktop / Codex) and talks to the SealMetrics API over HTTPS. **No analytics data is stored on your machine.**
+- The API key it uses is **read-only** and scoped to your account.
+- `provision_site` is the **only** tool that writes anything — and it only creates an account after you explicitly accept the Terms of Service. Everything else is read-only.
+- SealMetrics is **cookieless and GDPR-compliant by design** — see [Security & Privacy](/security-privacy).
+
+---
+
+## Troubleshooting
+
+### The extension installed but Claude won't create an account
+Make sure the **API key field is empty** — a key present makes the package assume you already have an account and skips provisioning. Clear it, save, and ask again.
+
+### "accept_terms must be true"
+The assistant is waiting for you to confirm you accept the [Terms of Service](https://sealmetrics.com/terms). Reply confirming, and it will continue.
+
+### `verify_setup` says "No hits yet"
+The snippet isn't live, or no page has been loaded since you placed it. Confirm the `<script>` is inside the `<head>` of a **published** page, open that page in a browser, then run verify again.
+
+### Tools disappeared after restarting Claude Desktop
+That's expected if you never saved an API key. Paste the key from your welcome email into the extension settings (see [Keep access after restarting](#keep-access-after-restarting-claude-desktop)).
+
+---
+
+## Resources
+
+- **MCP Server (manual setup with an existing key)**: [MCP Server for AI Assistants](/integrations/mcp-server)
+- **Web dashboard**: [my.sealmetrics.com](https://my.sealmetrics.com)
+- **Terms of Service**: [sealmetrics.com/terms](https://sealmetrics.com/terms)
+- **Need help?** [support@sealmetrics.com](mailto:support@sealmetrics.com)
