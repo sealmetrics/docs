@@ -2364,6 +2364,34 @@ Install SealMetrics on any platform with our official integrations. All integrat
 
 
 
+## AI Agentic Package (Claude & Codex)
+
+
+URL: https://docs.sealmetrics.com/integrations/agentic-package
+
+
+# AI Agentic Package (Claude & Codex)
+
+The **SealMetrics Agentic Package** lets an AI assistant set up analytics for you end to end — **from a chat, with no terminal and no dashboard login required to start**. Once installed, your assistant can:
+
+1. **Create a free SealMetrics account** for your site.
+2. **Give you the tracking pixel** (and place it for you if it has access to your code).
+3. **Query your traffic and conversions** through ~47 read-only analytics tools.
+
+It ships as a one-click **extension for Claude Desktop** (a `.mcpb` bundle) and runs via `npx` in **Codex and other MCP clients**.
+
+**Info:**
+- **Don't have an account yet?** Use this page — the package creates one for you from the chat.
+- **Already have an account and just want to query data?** Use the [MCP Server](/integrations/mcp-server) page instead (manual config with your API key).
+
+---
+
+## What you need
+
+... [Read full document at https://docs.sealmetrics.com/integrations/agentic-package]
+
+
+
 ## WordPress
 
 
@@ -2469,52 +2497,6 @@ export default function RootLayout({
     
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
-
-
-
-## MCP Server for AI Assistants
-
-
-URL: https://docs.sealmetrics.com/integrations/mcp-server
-
-
-# MCP Server for AI Assistants
-
-The **SealMetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your traffic, conversions, campaigns, and more — directly from your AI assistant.
-
-## What is MCP?
-
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server runs locally on your machine and acts as a bridge between Claude and your SealMetrics analytics data.
-
-## What can you ask Claude?
-
-Once connected, you can ask questions like:
-
-- *"Show me an overview of my site for the last 7 days"*
-- *"What are the top traffic sources this month?"*
-- *"Compare this month's conversions with last month"*
-- *"Which landing pages have the highest bounce rate?"*
-- *"Show me revenue by country for the last quarter"*
-- *"What devices do my visitors use?"*
-- *"Analyze my top 3 campaigns and tell me which has the best conversion rate"*
-
----
-
-## Setup (step by step)
-
-### Step 1: Verify Node.js is installed
-
-Open your terminal and run:
-
-```bash
-node --version
-```
-
-You need **v18 or higher**. If you don't have it, download it from [nodejs.org](https://nodejs.org/).
-
-### Step 2: Get your API Key
-
-... [Read full document at https://docs.sealmetrics.com/integrations/mcp-server]
 
 
 
@@ -2636,6 +2618,25 @@ Privacy-first, cookieless analytics for OpenCart stores.
 ### OpenCart
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/ecommerce/opencart]
+
+
+
+## Desktop Extension (.mcpb)
+
+
+URL: https://docs.sealmetrics.com/integrations/extensions
+
+
+# Desktop Extension (.mcpb)
+
+The **SealMetrics Desktop Extension** is a one-click bundle (`.mcpb`) that adds SealMetrics analytics to **Claude Desktop** — no terminal, no `npx`, no JSON config. Download it, double-click, and you're done.
+
+This page is the **reference** for the extension itself (install, settings, updates). For the guided flows, see:
+
+- **[AI Agentic Package (Claude & Codex)](/integrations/agentic-package)** — create a free account from the chat and place your pixel, step by step.
+- **[MCP Server for AI Assistants](/integrations/mcp-server)** — manual setup for Claude Code, Codex, Cursor, and other MCP clients (using an API key + `npx`).
+
+... [Read full document at https://docs.sealmetrics.com/integrations/extensions]
 
 
 
@@ -2891,6 +2892,51 @@ If none of these apply, the [standard template installation](./google-tag-manage
 ## Standard install (recap)
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/google-tag-manager-advanced]
+
+
+
+## MCP Server for AI Assistants
+
+
+URL: https://docs.sealmetrics.com/integrations/mcp-server
+
+
+# MCP Server for AI Assistants
+
+The **SealMetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your traffic, conversions, campaigns, and more — directly from your AI assistant.
+
+**Tip:**
+This page is the **manual setup** for when you already have a SealMetrics API key. If you want your AI assistant to **create the account for you from the chat** (no key, no terminal), use the one-click [AI Agentic Package (Claude & Codex)](/integrations/agentic-package) instead.
+
+## What is MCP?
+
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server runs locally on your machine and acts as a bridge between Claude and your SealMetrics analytics data.
+
+## What can you ask Claude?
+
+Once connected, you can ask questions like:
+
+- *"Show me an overview of my site for the last 7 days"*
+- *"What are the top traffic sources this month?"*
+- *"Compare this month's conversions with last month"*
+- *"Which landing pages have the highest bounce rate?"*
+- *"Show me revenue by country for the last quarter"*
+- *"What devices do my visitors use?"*
+- *"Analyze my top 3 campaigns and tell me which has the best conversion rate"*
+
+---
+
+## Setup (step by step)
+
+### Step 1: Verify Node.js is installed
+
+Open your terminal and run:
+
+```bash
+node --version
+```
+
+... [Read full document at https://docs.sealmetrics.com/integrations/mcp-server]
 
 
 
