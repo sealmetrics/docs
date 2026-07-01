@@ -22,7 +22,7 @@ Document the following from your current GA4 property:
 - Custom events and the parameters they carry.
 - E-commerce tracking implementation (GA4 events or GTM-based).
 - Audiences and custom definitions.
-- Connected integrations (Google Ads, Search Console, Looker Studio, BigQuery export).
+- Connected integrations (Google Ads, Search Console, Data Studio, BigQuery export).
 - Retention settings and historical data you need to export before shutdown.
 
 ## How GA4 concepts map to Sealmetrics
@@ -46,7 +46,7 @@ Document the following from your current GA4 property:
 3. **Configure attribution.** Set channel groupings, attribution windows, and excluded domains via the Platform settings — see [Bypass POS or referrer](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer).
 4. **Validate in parallel** for 2–4 weeks. Expect Sealmetrics to report **5–8× more traffic** in EU markets because it captures consent-rejected visitors.
 5. **Export GA4 history** you want to keep — raw events via BigQuery, reports via CSV. Sealmetrics retains data for 24 months without consent; GA4 maxes out at 14 months under consent-free operation.
-6. **Update dashboards.** Rebuild Looker Studio / BI reports against [Sealmetrics exports](/api/exports) or the [Batch API](/api/batch).
+6. **Update dashboards.** Rebuild Data Studio / BI reports against [Sealmetrics exports](/api/exports) or the [Batch API](/api/batch).
 7. **Cut GA4 off** once parallel validation passes your QA.
 
 ## What's different
