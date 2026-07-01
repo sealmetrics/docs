@@ -1,30 +1,30 @@
 ---
 sidebar_position: 2
-title: Looker Studio Integration
-description: Connect SealMetrics to Google Looker Studio for custom dashboards and visual reports.
+title: Data Studio Integration
+description: Connect SealMetrics to Google Data Studio for custom dashboards and visual reports.
 ---
 
-# Looker Studio Integration
+# Data Studio Integration
 
-Build custom dashboards and visual reports in Google Looker Studio using your SealMetrics analytics data. The official SealMetrics connector pulls traffic, sources, pages, conversions, and more directly into Looker Studio charts and tables.
+Build custom dashboards and visual reports in Google Data Studio using your SealMetrics analytics data. The official SealMetrics connector pulls traffic, sources, pages, conversions, and more directly into Data Studio charts and tables.
 
 ## Prerequisites
 
 - SealMetrics account with an active API key
-- Google account with access to [Looker Studio](https://lookerstudio.google.com)
+- Google account with access to [Data Studio](https://lookerstudio.google.com)
 
 ## How It Works
 
-The SealMetrics connector for Looker Studio fetches data in real-time from the SealMetrics API using your API key. Each time you view a dashboard, Looker Studio requests the latest data for your selected date range.
+The SealMetrics connector for Data Studio fetches data in real-time from the SealMetrics API using your API key. Each time you view a dashboard, Data Studio requests the latest data for your selected date range.
 
 ```
-Looker Studio → SealMetrics Connector → SealMetrics API → Your analytics data
+Data Studio → SealMetrics Connector → SealMetrics API → Your analytics data
 ```
 
-Data is cached for 5 minutes to ensure fast loading. Looker Studio may also apply its own caching.
+Data is cached for 5 minutes to ensure fast loading. Data Studio may also apply its own caching.
 
 :::note Access during gallery review
-The SealMetrics Looker Studio connector is currently pending listing in the Looker Studio Partner Connector Gallery. While the listing is being reviewed, your Google account must be granted **Viewer** access to the underlying connector. If the authorization page redirects you to the Looker Studio home with no error, contact us at [support@sealmetrics.com](mailto:support@sealmetrics.com) with the Google email you want whitelisted and we'll grant access within one business day.
+The SealMetrics Data Studio connector is currently pending listing in the Data Studio Partner Connector Gallery. While the listing is being reviewed, your Google account must be granted **Viewer** access to the underlying connector. If the authorization page redirects you to the Data Studio home with no error, contact us at [support@sealmetrics.com](mailto:support@sealmetrics.com) with the Google email you want whitelisted and we'll grant access within one business day.
 :::
 
 ## Setup
@@ -36,12 +36,12 @@ The SealMetrics Looker Studio connector is currently pending listing in the Look
 3. Keep it handy — you'll need it in the next step
 
 :::tip
-Use a dedicated API key for Looker Studio so you can rotate it independently without affecting other integrations.
+Use a dedicated API key for Data Studio so you can rotate it independently without affecting other integrations.
 :::
 
-### Step 2: Open the Connector in Looker Studio
+### Step 2: Open the Connector in Data Studio
 
-1. Click the link below to open the SealMetrics connector in Looker Studio:
+1. Click the link below to open the SealMetrics connector in Data Studio:
 
    **[Open SealMetrics Connector](https://lookerstudio.google.com/datasources/create?connectorId=AKfycbz0OeJk_X454_DijtnmO12DZeFBRL_u_-anvWX_f5oTvxUDlxdc6yIADlcRzOr2aOPAcg)**
 
@@ -56,7 +56,7 @@ The setup is a two-step configuration:
 3. **Choose a report type** — this determines which dimensions and metrics are available
 4. Click **Connect**
 
-You now have a data source ready to use in any Looker Studio report.
+You now have a data source ready to use in any Data Studio report.
 
 ## Available Report Types
 
@@ -157,7 +157,7 @@ Traffic grouped by marketing channel.
 
 ### Creating Your First Report
 
-1. Go to [Looker Studio](https://lookerstudio.google.com) and click **+ Create > Report**
+1. Go to [Data Studio](https://lookerstudio.google.com) and click **+ Create > Report**
 2. Select your SealMetrics data source (created during setup)
 3. Start adding charts, tables, and scorecards using the available fields
 
@@ -179,7 +179,7 @@ To add a new data source to an existing report:
 
 ### Using Date Range Controls
 
-The connector respects Looker Studio's date range controls. Add a date range picker to let viewers filter all charts at once:
+The connector respects Data Studio's date range controls. Add a date range picker to let viewers filter all charts at once:
 
 1. Click **Add a control > Date range control**
 2. Place it at the top of your report
@@ -187,11 +187,11 @@ The connector respects Looker Studio's date range controls. Add a date range pic
 
 ## Tips
 
-- **Data caching**: Data is cached for 5 minutes on the connector side. Looker Studio may also cache on its side. To force a refresh, click the refresh button in the report viewer.
+- **Data caching**: Data is cached for 5 minutes on the connector side. Data Studio may also cache on its side. To force a refresh, click the refresh button in the report viewer.
 - **Multiple sites**: Create separate data sources for each site you want to report on. You can combine them in the same dashboard.
-- **API key rotation**: If you rotate your API key, update it in each Looker Studio data source by going to **Resource > Manage added data sources > Edit** for each SealMetrics source.
-- **Sharing**: When you share a Looker Studio report, viewers use the data source owner's API key — they don't need their own.
-- **Blending data**: Use Looker Studio's [data blending](https://support.google.com/looker-studio/answer/9061421) to combine metrics from different report types in a single chart (e.g., join Traffic Sources with Landing Pages by a common dimension).
+- **API key rotation**: If you rotate your API key, update it in each Data Studio data source by going to **Resource > Manage added data sources > Edit** for each SealMetrics source.
+- **Sharing**: When you share a Data Studio report, viewers use the data source owner's API key — they don't need their own.
+- **Blending data**: Use Data Studio's [data blending](https://support.google.com/looker-studio/answer/9061421) to combine metrics from different report types in a single chart (e.g., join Traffic Sources with Landing Pages by a common dimension).
 
 ## Troubleshooting
 
@@ -220,14 +220,14 @@ The connector handles rate limits automatically with retry logic. If you experie
 - Avoid refreshing multiple reports simultaneously
 - Data is cached for 5 minutes, so repeated views load faster
 
-## Looker Studio + BigQuery
+## Data Studio + BigQuery
 
 If you also use the [BigQuery integration](/platform/settings/integrations/bigquery), you can combine both approaches:
 
-- **Looker Studio connector** — best for quick dashboards with standard metrics, no setup required beyond an API key
-- **BigQuery as data source in Looker Studio** — best for custom SQL queries, cross-table joins, and advanced analysis
+- **Data Studio connector** — best for quick dashboards with standard metrics, no setup required beyond an API key
+- **BigQuery as data source in Data Studio** — best for custom SQL queries, cross-table joins, and advanced analysis
 
-You can use BigQuery as a Looker Studio data source by selecting **BigQuery** instead of the SealMetrics connector when creating a data source, and pointing it to your SealMetrics BigQuery dataset.
+You can use BigQuery as a Data Studio data source by selecting **BigQuery** instead of the SealMetrics connector when creating a data source, and pointing it to your SealMetrics BigQuery dataset.
 
 ## Support
 
@@ -236,15 +236,15 @@ Need help with the connector? Email **[support@sealmetrics.com](mailto:support@s
 - Your SealMetrics account email
 - The report type that fails
 - A screenshot of the error message
-- The Looker Studio data source URL (visible in the address bar)
+- The Data Studio data source URL (visible in the address bar)
 
 We aim to respond within one business day.
 
 ## Legal
 
-By using the SealMetrics Looker Studio connector, you agree to:
+By using the SealMetrics Data Studio connector, you agree to:
 
 - [SealMetrics Privacy Policy](https://sealmetrics.com/privacy/)
 - [SealMetrics Terms of Service](https://sealmetrics.com/terms/)
 
-The connector reads analytics data from your SealMetrics account via the SealMetrics REST API. It does not write to or modify your account. Your API key is stored by Looker Studio in your data source configuration; rotate it from **Settings > API Keys** at any time.
+The connector reads analytics data from your SealMetrics account via the SealMetrics REST API. It does not write to or modify your account. Your API key is stored by Data Studio in your data source configuration; rotate it from **Settings > API Keys** at any time.
