@@ -4413,6 +4413,24 @@ Stored API keys are never echoed back. Responses include `api_key_c
 
 
 
+## Migration from v1
+
+
+URL: https://docs.sealmetrics.com/api/migration-from-v1
+
+
+# Migration from v1
+
+Guide for data analysts and integrations moving from the legacy **API Seal Metrics v1.0** (documented in the public Postman collection `TzRVdkVu`) to the current REST API at `my.sealmetrics.com/api/v1`.
+
+The v1 surface exposed 9 endpoints under `/api/auth/*` and `/api/report/*` with a 1 request per minute rate limit. The current API exposes 100+ endpoints organized by domain, per-plan rate limits, refresh-based auth, event-level data, batch queries, webhooks, exports and organizations. **All v1 URLs must be rewritten** — no v1 path is preserved verbatim.
+
+## Structural changes
+
+... [Read full document at https://docs.sealmetrics.com/api/migration-from-v1]
+
+
+
 ## Passthrough Referrers
 
 
