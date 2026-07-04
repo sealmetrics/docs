@@ -45,6 +45,24 @@ const config: Config = {
     {
       tagName: 'link',
       attributes: {
+        rel: 'alternate',
+        type: 'text/plain',
+        href: 'https://docs.sealmetrics.com/llms.txt',
+        title: 'LLM-friendly documentation index',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'alternate',
+        type: 'text/plain',
+        href: 'https://docs.sealmetrics.com/llms-full.txt',
+        title: 'Full documentation content for LLMs',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
         rel: 'preconnect',
         href: 'https://pixel.sealmetrics.com',
         crossorigin: 'anonymous',
@@ -139,6 +157,54 @@ const config: Config = {
       src: 'https://pixel.sealmetrics.com/t.js?id=sealmetrics2&group=docs',
       defer: true,
     },
+  ],
+
+  // 301-equivalent client redirects for URLs renamed since launch.
+  // Old trees (pre-Feb-2026 IA migration) → current locations.
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          { from: '/api/accounts', to: '/api/sites' },
+          { from: '/product/features', to: '/getting-started/features' },
+          { from: '/product/how-it-works', to: '/getting-started/how-it-works' },
+          { from: '/privacy-and-consentless/faq', to: '/faq/privacy-security' },
+          { from: '/first-steps/first-steps-with-sealmetrics', to: '/getting-started/quick-start' },
+          { from: '/first-steps/setting-up-trackers', to: '/implementation/tracker/setup' },
+          { from: '/first-steps/first-party-tracker', to: '/implementation/tracker/first-party' },
+          {
+            from: '/features/event-tracking-and-custom-data/understanding-event-properties',
+            to: '/implementation/event-tracking',
+          },
+          {
+            from: '/features/privacy-first-tracking/why-sealmetrics-not-blocked-by-adblockers',
+            to: '/security-privacy/adblocker-bypass',
+          },
+          {
+            from: '/features/privacy-first-tracking/if-no-userid-how-attribution-works',
+            to: '/security-privacy/attribution-without-userid',
+          },
+        ],
+        createRedirects(existingPath: string) {
+          // GDPR-and-ePrivacy pages kept their /legal/... slugs, so they
+          // never enter these branches (their existingPath is /legal/...).
+          if (existingPath.startsWith('/compliance')) {
+            return [existingPath.replace('/compliance', '/legal')];
+          }
+          if (existingPath.startsWith('/implementation/tracker')) {
+            return [existingPath.replace('/implementation/tracker', '/tracker')];
+          }
+          if (existingPath.startsWith('/reports/insights')) {
+            return [existingPath.replace('/reports/insights', '/metrics-insights')];
+          }
+          if (existingPath.startsWith('/getting-started')) {
+            return [existingPath.replace('/getting-started', '/first-steps')];
+          }
+          return undefined;
+        },
+      },
+    ],
   ],
 
   presets: [

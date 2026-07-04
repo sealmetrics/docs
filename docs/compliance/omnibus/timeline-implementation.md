@@ -1,7 +1,7 @@
 ---
 sidebar_position: 9
 title: "Implementation Timeline"
-description: "Key dates and milestones for Digital Omnibus implementation"
+description: "Key dates and milestones for the EU Digital Omnibus: proposal publication, committee assignments, feedback periods, and the expected GDPR change timeline."
 keywords: [Digital Omnibus timeline, EU regulation implementation, GDPR changes timeline]
 ---
 
