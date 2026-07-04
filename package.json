@@ -14,7 +14,7 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
     "generate:llms": "node scripts/generate-llms.mjs",
-    "prebuild": "node scripts/generate-llms.mjs",
+    "prebuild": "node scripts/generate-faq-schema.mjs && node scripts/inject-blog-tldr.mjs && node scripts/generate-llms.mjs",
     "publish": "./scripts/publish.sh"
   },
   "dependencies": {

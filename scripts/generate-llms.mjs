@@ -352,6 +352,14 @@ function generateLlmsTxt(sections) {
   // Curated examples and differentiators
   parts.push(loadTemplate('quick-examples.md'));
   parts.push(loadTemplate('differentiators.md'));
+
+  // Pointer to the full-content variant so crawlers can discover it
+  parts.push(
+    '## Full Documentation\n\n' +
+      `Complete page-by-page content in a single file: ${BASE_URL}/llms-full.txt\n` +
+      'Each page above also links a plain-text version under "Raw:".',
+  );
+
   parts.push(loadTemplate('footer.md'));
 
   return parts.join('\n\n');

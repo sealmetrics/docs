@@ -27,41 +27,47 @@ const splitFrontmatter = (raw) => {
 };
 
 const getDescription = (fm) => {
-  const m =
+  const quoted =
     fm.match(/^description:\s*"([^"]+)"/m) ||
-    fm.match(/^description:\s*'([^']+)'/m) ||
-    fm.match(/^description:\s*(.+)$/m);
+    fm.match(/^description:\s*'([^']+)'/m);
+  if (quoted) return quoted[1].replace(/\s+/g, ' ').trim();
+  // Unquoted value, possibly YAML line-folded across indented continuation lines.
+  const m = fm.match(/^description:\s*(.+(?:\n[ \t]+\S.*)*)$/m);
   if (!m) return null;
-  return m[1].trim().replace(/^["']|["']$/g, '');
+  return m[1].replace(/\s+/g, ' ').trim().replace(/^["']|["']$/g, '');
 };
 
 const renderBlock = (text) =>
   `${START}\n> **TL;DR** — ${text}\n${END}`;
 
 const stripExisting = (body) => {
+  // Also consume the block's surrounding blank lines so repeated runs
+  // don't accumulate whitespace (idempotent).
   const re = new RegExp(
-    `${escape(START)}[\\s\\S]*?${escape(END)}\\n?`,
+    `\\n*${escape(START)}[\\s\\S]*?${escape(END)}\\n*`,
     'g',
   );
-  return body.replace(re, '');
+  return body.replace(re, '\n');
 };
 
 const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const insertBlock = (body, block) => {
   const cleaned = stripExisting(body);
-  // Prefer post-truncate marker
+  // Prefer inserting right after the post-truncate marker.
   if (cleaned.includes('<!-- truncate -->')) {
     return cleaned.replace(
-      /<!--\s*truncate\s*-->\n?/,
-      (m) => `${m}\n${block}\n\n`,
+      /(<!--\s*truncate\s*-->)\n*/,
+      (_m, marker) => `${marker}\n\n${block}\n\n`,
     );
   }
-  // Otherwise top of body, after any leading whitespace/imports
-  return cleaned.replace(
-    /^((?:\s*\n)*(?:import[^\n]*\n)*)/,
-    (lead) => `${lead}\n${block}\n\n`,
-  );
+  // Otherwise top of body: keep any leading MDX imports, drop blank lines,
+  // then place the block. Left-trimming `rest` keeps this idempotent.
+  const m = cleaned.match(/^(\s*(?:import[^\n]*\n)+)?([\s\S]*)$/);
+  const imports = (m[1] || '').replace(/^\s+/, '').replace(/\n*$/, '');
+  const rest = m[2].replace(/^\s+/, '');
+  const prefix = imports ? `${imports}\n\n` : '';
+  return `${prefix}\n${block}\n\n${rest}`;
 };
 
 let touched = 0;

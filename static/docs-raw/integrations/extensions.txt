@@ -1,0 +1,134 @@
+# Desktop Extension (.mcpb)
+
+URL: https://docs.sealmetrics.com/integrations/extensions
+
+# Desktop Extension (.mcpb)
+
+The **SealMetrics Desktop Extension** is a one-click bundle (`.mcpb`) that adds SealMetrics analytics to **Claude Desktop** — no terminal, no `npx`, no JSON config. Download it, double-click, and you're done.
+
+This page is the **reference** for the extension itself (install, settings, updates). For the guided flows, see:
+
+- **[AI Agentic Package (Claude & Codex)](/integrations/agentic-package)** — create a free account from the chat and place your pixel, step by step.
+- **[MCP Server for AI Assistants](/integrations/mcp-server)** — manual setup for Claude Code, Codex, Cursor, and other MCP clients (using an API key + `npx`).
+
+**Tip:**
+- **Claude Desktop, easiest path** → this extension.
+- **Any other client (Claude Code, Codex, Cursor, VS Code…)** → [MCP Server](/integrations/mcp-server).
+
+---
+
+## What it is
+
+| | |
+|---|---|
+| **Name** | SealMetrics Analytics |
+| **Type** | Claude Desktop Extension — MCP bundle (`.mcpb`) |
+| **Latest version** | `1.3.0` |
+| **Package** | [`@sealmetrics/mcp`](https://www.npmjs.com/package/@sealmetrics/mcp) (npm) |
+| **License** | MIT |
+| **Runs** | Locally inside Claude Desktop, over HTTPS to the SealMetrics API. No data stored on your machine. |
+
+A `.mcpb` (MCP bundle) packages the SealMetrics MCP server plus its manifest so Claude Desktop can install and run it with a single click — the same server you'd otherwise wire up manually with `npx -y @sealmetrics/mcp`.
+
+---
+
+## Requirements
+
+- **Claude Desktop** `0.10.0` or newer (latest recommended — [download](https://claude.ai/download)).
+- Works on **macOS, Windows, and Linux**.
+- Node.js **18+** — bundled with Claude Desktop's extension runtime, so you usually don't need to install anything.
+
+---
+
+## Install
+
+1. **Download the extension:** **[Download SealMetrics for Claude Desktop](https://cdn.jsdelivr.net/npm/@sealmetrics/mcp/dist/sealmetrics.mcpb)** &nbsp;*(`sealmetrics.mcpb`)*.
+2. Open **Claude Desktop → Settings → Extensions**.
+3. **Drag** the `sealmetrics.mcpb` file into the window (or click **Install extension** and pick the file).
+4. Click **Install**, then make sure the extension is **enabled**.
+
+That's it. Next, configure it (below) or jump straight to [creating an account from the chat](/integrations/agentic-package#step-2-create-your-account-from-the-chat).
+
+---
+
+## Settings reference
+
+On the extension's settings screen you'll find two fields:
+
+| Setting | Required | What it does |
+|---------|----------|--------------|
+| **SealMetrics API key** | No | **Leave empty to register a brand-new site from the chat** (the read-only analytics tools turn on automatically after you provision). Paste an **existing read-only key** to query your data immediately. Find it in your welcome email or at **Settings → API Tokens**. The key is **read-only** and scoped to your account. |
+| **API base URL** *(advanced)* | No | SealMetrics API base URL. Default: `https://my.sealmetrics.com/api/v1`. Leave as-is unless instructed otherwise. |
+
+**Info:**
+- **Empty** → "I don't have an account yet, create one for me." → see [Agentic Package](/integrations/agentic-package).
+- **Filled** → "I already have an account, let me query it now."
+
+---
+
+## What the extension can do
+
+The extension registers the setup tools plus **~47 read-only analytics tools**. Claude calls them automatically — you never invoke them by hand.
+
+| Tool | Purpose |
+|------|---------|
+| `provision_site` | Register a **new** free SealMetrics site from the chat. Returns the tracker snippet and emails a claim link. |
+| `verify_setup` | Poll until the pixel is confirmed installed (a real pageview reached the backend). |
+| `get_setup_status` | Report whether a site is provisioned and its pixel verified. |
+| `detect_framework` | Best-effort detect your framework/CMS so the snippet is placed correctly. |
+| `get_instrumentation_guide` | The canonical event-instrumentation guide for your account. |
+| `verify_event_instrumented` | Confirm a conversion/microconversion event reached the backend (and validate it has no PII). |
+| **~47 read-only analytics tools** | Traffic, pages, conversions, audience, channels, funnels, bot detection, and more. |
+
+See the complete tool catalog and parameters in the **[MCP Server reference](/integrations/mcp-server#available-tools)**.
+
+---
+
+## Update
+
+To update to a newer version:
+
+1. Download the latest **[`sealmetrics.mcpb`](https://cdn.jsdelivr.net/npm/@sealmetrics/mcp/dist/sealmetrics.mcpb)** (the jsDelivr link always serves the latest published build).
+2. Install it the same way — Claude Desktop replaces the existing extension and keeps your settings.
+
+You can check the installed version under **Settings → Extensions → SealMetrics Analytics**.
+
+---
+
+## Uninstall
+
+Go to **Settings → Extensions → SealMetrics Analytics** and click **Remove** (or toggle it off to disable temporarily). Your SealMetrics account and data are unaffected — removing the extension only disconnects Claude Desktop.
+
+---
+
+## Privacy & safety
+
+- The extension runs **locally** and talks to the SealMetrics API over HTTPS. **No analytics data is stored on your machine.**
+- The API key it uses is **read-only** and scoped to your account.
+- `provision_site` is the **only** tool that writes anything, and only after you explicitly accept the [Terms of Service](https://sealmetrics.com/terms). Everything else is read-only.
+- SealMetrics is **cookieless and GDPR-compliant by design** — see [Security & Privacy](/security-privacy).
+
+---
+
+## Troubleshooting
+
+### The extension installed but Claude won't create an account
+Make sure the **API key field is empty** — a key present makes the extension assume you already have an account and skips provisioning. Clear it, save, and ask again.
+
+### Tools disappeared after restarting Claude Desktop
+Expected if you never saved an API key. Paste the key from your welcome email into the extension settings so the read-only tools persist.
+
+### The extension won't install
+Confirm you're on **Claude Desktop 0.10.0+** and that you downloaded the `.mcpb` file (not the raw source). Re-download from the link above and try again.
+
+More fixes in the [Agentic Package troubleshooting](/integrations/agentic-package#troubleshooting) and [MCP Server troubleshooting](/integrations/mcp-server#troubleshooting) sections.
+
+---
+
+## Resources
+
+- **Create an account from the chat**: [AI Agentic Package](/integrations/agentic-package)
+- **Other MCP clients (Codex, Cursor, VS Code…)**: [MCP Server](/integrations/mcp-server)
+- **npm package**: [@sealmetrics/mcp](https://www.npmjs.com/package/@sealmetrics/mcp)
+- **Web dashboard**: [my.sealmetrics.com](https://my.sealmetrics.com)
+- **Need help?** [support@sealmetrics.com](mailto:support@sealmetrics.com)

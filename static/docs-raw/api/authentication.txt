@@ -4,7 +4,7 @@ URL: https://docs.sealmetrics.com/api/authentication
 
 # Authentication
 
-The API supports two authentication methods: API Keys and JWT tokens.
+The Sealmetrics API supports two authentication methods. **API keys** (prefixed `sm_`, sent in the `X-API-Key` header) are read-only and intended for server-to-server integrations; **JWT bearer tokens** (obtained by logging in, sent in the `Authorization: Bearer` header) carry a user's role-based scopes and are used for authenticated sessions like the dashboard and mobile apps.
 
 ## API Keys
 
@@ -43,6 +43,63 @@ Keys are 64 characters long and contain only alphanumeric characters after the p
 - Set expiration dates for temporary access
 - Each key is scoped to specific sites
 - API keys are **read-only**: they can only hold the `stats:read`, `sites:read`, and `accounts:read` scopes. Write operations require a JWT session. See [API Tokens](/api/api-tokens) for details.
+
+## Registration
+
+### POST /auth/register
+
+Public endpoint for self-service signup. Creates a new user account, sends a verification email, and (when billing is enabled) creates a temporary session so the user can proceed to plan selection / Stripe checkout without having verified their email first.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/auth/register" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "alice@acme.com",
+    "name": "Alice",
+    "password": "a-strong-password-12+chars",
+    "accept_terms": true
+  }'
+```
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `email` | string | Yes | Valid email |
+| `name` | string | Yes | 1-255 chars |
+| `password` | string | Yes | 12-128 chars; must satisfy the platform password policy |
+| `accept_terms` | boolean | Yes | Must be `true`. Otherwise `400` |
+
+**Response (200 OK):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "user_id": 42,
+    "email": "alice@acme.com",
+    "name": "Alice",
+    "access_token": "eyJhbGciOi...",
+    "token_type": "bearer",
+    "expires_in": 3600,
+    "requires_email_verification": true,
+    "requires_subscription": true,
+    "email_sent": true,
+    "message": "Registration successful. Choose your plan to continue."
+  }
+}
+```
+
+**Status code:** Always `200 OK` (not `201`) — the user is created but not yet fully provisioned (email pending).
+
+**Notable behavior:**
+
+- **Rate limited:** 3 registrations per hour per IP.
+- **Enumeration-safe:** if the email already exists, the response is identical to a successful signup (`user_id: 0`, generic message), and a one-time security notification is sent to the existing user.
+- **Auth cookies:** when billing is enabled, the response sets `access_token` and `refresh_token` cookies and includes the access token in the body (scopes: `read`, `write`, `billing:checkout`). When billing is disabled, no session is created and the token fields stay empty.
+- **Email verification:** verifies via the [`POST /email/verify`](./email-verification#verify-email-and-auto-login) endpoint, which then performs the auto-login.
+
+---
 
 ## JWT Bearer Tokens
 

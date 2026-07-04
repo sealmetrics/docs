@@ -36,18 +36,20 @@ Get traffic metrics grouped by UTM medium.
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `site_id` | string | required | Site ID |
-| `period` | string | `30d` | Date period (see [Periods](#date-periods)) |
+| `site_id` | string | required | Site ID (alias: `account_id`) |
+| `period` | string | - | Date period (see [Periods](#date-periods)) |
 | `start_date` | date | - | Custom start date (YYYY-MM-DD) |
 | `end_date` | date | - | Custom end date (YYYY-MM-DD) |
 | `segment` | string | - | Apply saved segment filters |
 | `country` | string | - | Filter by country code (ISO 2-letter) |
 | `filters` | string | - | Advanced filters (see [Filtering](./pagination-sorting#advanced-filters)) |
-| `sort_by` | string | `entrances` | Sort field |
+| `search` | string | - | Case-insensitive search on `utm_medium` (max 200 chars) |
+| `sort_by` | string | `entrances` | Sort field (see [Sort Fields](#sort-fields)) |
 | `sort_order` | string | `desc` | Sort order (`asc`/`desc`) |
 | `page` | integer | `1` | Page number |
 | `page_size` | integer | `50` | Items per page (1-100) |
-| `compare` | string | - | Comparison mode (`previous`/`yoy`) |
+| `compare` | string | - | Comparison mode (`previous`/`yoy`) — adds top-level `comparison` totals |
+| `include_totals` | boolean | `false` | Add aggregated `totals` for the current period to the response |
 
 **Response:**
 
@@ -89,13 +91,13 @@ Get traffic metrics grouped by UTM medium.
 GET /stats/sources
 ```
 
-Get traffic metrics grouped by UTM source.
-
-**Additional Parameters:**
+Get traffic metrics grouped by UTM source. Same query params as [`/stats/mediums`](#traffic-by-medium), with one addition:
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `utm_medium` | string | Filter by specific medium |
+
+`search` matches on `utm_source` instead of `utm_medium`.
 
 **Response:**
 
@@ -140,20 +142,26 @@ Get top sources by entrances.
 GET /stats/campaigns
 ```
 
-Get traffic metrics grouped by UTM campaign.
-
-**Additional Parameters:**
+Get traffic metrics grouped by UTM campaign. Same query params as [`/stats/mediums`](#traffic-by-medium), with these additions:
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `utm_medium` | string | Filter by medium |
 | `utm_source` | string | Filter by source |
 
+`search` matches on `utm_campaign`.
+
 ### Top Campaigns
 
 ```http
 GET /stats/campaigns/top
 ```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `limit` | integer | `10` | Number of results (1-100) |
+| `utm_medium` / `utm_source` | string | - | UTM filters |
+| `country` | string | - | Filter by country |
 
 ---
 
@@ -163,9 +171,7 @@ GET /stats/campaigns/top
 GET /stats/terms
 ```
 
-Get traffic metrics grouped by UTM term (search keywords).
-
-**Additional Parameters:**
+Get traffic metrics grouped by UTM term (search keywords). Same query params as [`/stats/mediums`](#traffic-by-medium), with these additions:
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -173,11 +179,15 @@ Get traffic metrics grouped by UTM term (search keywords).
 | `utm_source` | string | Filter by source |
 | `utm_campaign` | string | Filter by campaign |
 
+`search` matches on `utm_term`.
+
 ### Top Terms
 
 ```http
 GET /stats/terms/top
 ```
+
+Same params as `/stats/campaigns/top`, accepts `utm_campaign` filter.
 
 ---
 
@@ -187,9 +197,7 @@ GET /stats/terms/top
 GET /stats/contents
 ```
 
-Get traffic by UTM content parameter (ad variations, link types).
-
-**Additional Parameters:**
+Get traffic by UTM content parameter (ad variations, link types). Same query params as [`/stats/mediums`](#traffic-by-medium), with these additions:
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -197,11 +205,15 @@ Get traffic by UTM content parameter (ad variations, link types).
 | `utm_source` | string | Filter by source |
 | `utm_campaign` | string | Filter by campaign |
 
+`search` matches on `utm_content`.
+
 ### Top Contents
 
 ```http
 GET /stats/contents/top
 ```
+
+Same params as `/stats/campaigns/top`, accepts `utm_campaign` filter.
 
 ---
 
@@ -248,17 +260,115 @@ GET /stats/referrers/top
 GET /stats/landing-pages
 ```
 
-Get metrics for entry pages (first page of session).
+Get metrics for entry pages (first page of session). Backed by `report_landing_pages`, which carries conversion and engagement data per entry page.
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `site_id` | string | required | Site identifier |
+| `start_date` / `end_date` / `period` | date / string | - | Date range (see [Date Periods](#date-periods)) |
+| `segment` | string | - | Apply saved segment (ID or name) |
+| `content_grouping` | string | - | Filter by content group |
+| `path_filter` | string | - | Filter by path (LIKE search) |
+| `country` | string[] | - | Filter by country (ISO 2-letter, repeat for OR) |
+| `utm_source` / `utm_medium` / `utm_campaign` / `utm_term` | string[] | - | Filter by UTM (repeat for OR) |
+| `device_type` / `browser` / `os` | string[] | - | Filter by device dimension (repeat for OR) |
+| `channel_group` | string[] | - | Filter by channel group. Use `""` for pre-migration rows |
+| `include` | string[] | - | Add dimensions to GROUP BY and response. Allowed: `device`, `browser`, `os`, `channel_group` |
+| `filters` | string | - | Advanced filters `field:op:value,...` (`eq`, `ne`, `contains`, `not_contains`, `regex`, `in`, `not_in`) |
+| `sort_by` | string | `entrances` | `entrances`, `engaged_entrances`, `microconversions`, `conversions`, `revenue`, `bounce_rate` |
+| `sort_order` | string | `desc` | `asc` or `desc` |
+| `page` | integer | `1` | Page number |
+| `page_size` | integer | `50` | Items per page (1-1000) |
+| `compare` | string | - | `previous` or `yoy` — adds `comparison` totals + per-row `_prev` fields |
+| `include_totals` | boolean | `false` | Add aggregated `totals` for the current period to the response |
+| `include_utm` | boolean | `false` | Group by UTM and include `utm_*` fields in each row |
+
+Unknown `include` values return **422 Unprocessable Entity**.
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "landing_page": "/products/running-shoes",
+      "content_grouping": "Products",
+      "entrances": 8500,
+      "engaged_entrances": 6800,
+      "bounce_rate": 20.0,
+      "microconversions": 1200,
+      "conversions": 85,
+      "conversion_rate": 1.0,
+      "revenue": 7650.00
+    }
+  ],
+  "total": 450,
+  "page": 1,
+  "page_size": 50,
+  "has_next": true,
+  "has_prev": false
+}
+```
+
+When `include_utm=true`, each row also includes `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`. When `include` is set, each row carries the requested dimension column(s). When `compare` is set, the response includes a top-level `comparison` object with previous-period totals and each row gets `_prev` metric fields. When `include_totals=true`, the response includes a `totals` object aggregating the current period.
+
+### Top Landing Pages
+
+```http
+GET /stats/landing-pages/top
+```
+
+Top landing pages by entrances. Returns the same metric shape as `/stats/landing-pages` rows.
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `site_id` | string | required | Site identifier |
+| `start_date` / `end_date` / `period` | date / string | - | Date range |
+| `utm_source` / `utm_medium` | string | - | UTM filters (single value). `utm_campaign` and `utm_term` are **not** accepted on this endpoint — use `/stats/landing-pages` if you need to filter by them |
+| `country` | string | - | Filter by country |
+| `content_grouping` | string | - | Filter by content group |
+| `filters` | string | - | Advanced filters `field:op:value,...` |
+| `limit` | integer | `10` | Number of results (1-100) |
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "landing_page": "/products/running-shoes",
+      "content_grouping": "Products",
+      "entrances": 8500,
+      "engaged_entrances": 6800,
+      "bounce_rate": 20.0,
+      "microconversions": 1200,
+      "conversions": 85,
+      "conversion_rate": 1.0,
+      "revenue": 7650.00
+    }
+  ]
+}
+```
+
+### Landing Pages by Content Group
+
+```http
+GET /stats/landing-pages/by-content-group
+```
+
+Aggregate landing page metrics by content group. Returns one row per group with `unique_pages` count and the full engagement/conversion metric set.
 
 **Query Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `segment` | string | Apply saved segment |
-| `content_grouping` | string | Filter by content group |
-| `utm_medium` | string | Filter by medium |
-| `utm_source` | string | Filter by source |
-| `utm_campaign` | string | Filter by campaign |
+| `site_id` | string | required |
+| `start_date` / `end_date` / `period` | date / string | Date range |
+| `utm_source` / `utm_medium` | string | UTM filters (single value) |
 | `country` | string | Filter by country |
 
 **Response:**
@@ -267,38 +377,19 @@ Get metrics for entry pages (first page of session).
 {
   "data": [
     {
-      "path": "/products/running-shoes",
-      "entrances": 8500,
-      "engaged_entrances": 6800,
-      "microconversions": 1200,
-      "conversions": 85,
-      "revenue": 7650.00,
-      "bounce_rate": 20.0
+      "content_grouping": "Products",
+      "unique_pages": 56,
+      "entrances": 24500,
+      "engaged_entrances": 19200,
+      "bounce_rate": 21.6,
+      "microconversions": 3400,
+      "conversions": 245,
+      "conversion_rate": 1.0,
+      "revenue": 21500.00
     }
-  ],
-  "total": 450,
-  "page": 1,
-  "page_size": 50
+  ]
 }
 ```
-
-### Top Landing Pages
-
-```http
-GET /stats/landing-pages/top
-```
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `limit` | integer | `10` | Number of results (1-100) |
-
-### Landing Pages by Content Group
-
-```http
-GET /stats/landing-pages/by-content-group
-```
-
-Aggregate landing page metrics by content group.
 
 ---
 
@@ -323,6 +414,23 @@ Sealmetrics automatically classifies traffic into channels based on UTM paramete
 | Referral | Has referrer, no UTM |
 | Affiliate | `medium=affiliate` |
 
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `site_id` | string | required | Site ID (alias: `account_id`) |
+| `start_date` / `end_date` / `period` | date / string | - | Date range |
+| `segment` | string | - | Apply saved segment |
+| `country` | string | - | Filter by country (ISO 2-letter) |
+| `filters` | string | - | Advanced filters |
+| `search` | string | - | Case-insensitive search on channel name (max 200 chars) |
+| `sort_by` | string | `entrances` | `entrances`, `engaged_entrances`, `page_views`, `conversions`, `revenue` |
+| `sort_order` | string | `desc` | `asc` or `desc` |
+| `page` | integer | `1` | Page number |
+| `page_size` | integer | `50` | Items per page (1-100) |
+| `compare` | string | - | `previous` or `yoy` — adds row-level `_prev` fields and top-level `comparison` |
+| `include_totals` | boolean | `false` | Include aggregated totals for the current period |
+
 **Response:**
 
 ```json
@@ -333,12 +441,17 @@ Sealmetrics automatically classifies traffic into channels based on UTM paramete
       "entrances": 25000,
       "engaged_entrances": 20000,
       "page_views": 75000,
+      "microconversions": 3400,
       "conversions": 350,
       "revenue": 28000.00,
       "bounce_rate": 20.0
     }
   ],
-  "total": 8
+  "total": 8,
+  "page": 1,
+  "page_size": 50,
+  "has_next": false,
+  "has_prev": false
 }
 ```
 
@@ -347,6 +460,17 @@ Sealmetrics automatically classifies traffic into channels based on UTM paramete
 ```http
 GET /stats/top-channels
 ```
+
+Top channels by entrances.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `site_id` | string | required | Site ID |
+| `start_date` / `end_date` / `period` | date / string | - | Date range |
+| `country` | string | - | Filter by country |
+| `limit` | integer | `10` | Number of results (1-50) |
+
+**Response:** `APIResponse<Channel[]>` with the same metric shape as `/stats/channels` rows.
 
 ---
 
