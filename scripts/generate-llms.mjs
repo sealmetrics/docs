@@ -21,7 +21,7 @@ const DOCS_RAW_DIR = join(STATIC_DIR, 'docs-raw');
 const TEMPLATES_DIR = join(__dirname, 'llms-templates');
 const BASE_URL = 'https://docs.sealmetrics.com';
 
-const MAX_FULL_SIZE = 200 * 1024; // 200KB target
+const MAX_FULL_SIZE = 2048 * 1024; // 2MB target — fits the full doc set untruncated (currently ~1.7MB) with room to grow
 const MAX_CODE_BLOCK_LINES = 30;
 const MAX_DOC_CHARS_INITIAL = 3000; // Layer 3 starting threshold
 const MIN_DOC_CHARS = 500; // never truncate below this
