@@ -12,45 +12,45 @@ This document details everything Sealmetrics *does* and *does not* track, why, a
 
 ---
 
-# What We DO Track  
-## The Four-Variable System (Isolated Hits)
+## What We DO Track  
+### The Four-Variable System (Isolated Hits)
 
 Sealmetrics processes each page view (“hit”) independently using **only four non-identifying data points**:
 
-### 1. Timestamp  
+#### 1. Timestamp  
 - **Purpose:** time-based analysis and trend insights  
 - **Privacy:** cannot identify an individual  
 
-### 2. User Agent (Not Stored)  
+#### 2. User Agent (Not Stored)  
 - **Used for:** browser/device category detection  
 - **Not stored:** complete user agent strings are discarded  
 - **Result:** anonymous device classification  
 
-### 3. Current URL  
+#### 3. Current URL  
 - Page path  
 - Page popularity  
 - Anonymous content performance  
 
-### 4. Referral URL  
+#### 4. Referral URL  
 - Anonymous attribution  
 - Campaign performance  
 - Traffic source identification  
 
 ---
 
-# What This Allows Us to Measure
+## What This Allows Us to Measure
 
-## 1. Page Analytics
+### 1. Page Analytics
 - Pageviews (aggregated)
 - Top pages
 - Anonymous navigation patterns
 
-## 2. Traffic Analytics
+### 2. Traffic Analytics
 - Entrances (anonymous hits)
 - Traffic volume trends
 - Marketing channel performance
 
-## 3. Engagement Behavior (Custom Events)
+### 3. Engagement Behavior (Custom Events)
 - Click events  
 - Scroll depth  
 - Form interactions  
@@ -59,37 +59,37 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 ALL aggregated — no user-level behavior.
 
-## 4. Navigation Patterns
+### 4. Navigation Patterns
 - Entry pages  
 - Exit pages  
 - Internal search (anonymous; via events)
 
-## 5. Campaign & Marketing Analytics
+### 5. Campaign & Marketing Analytics
 - UTM campaign tracking  
 - Referrer attribution  
 - Search traffic  
 - Social media traffic  
 - Revenue attribution (aggregated)
 
-## 6. Conversion Tracking
+### 6. Conversion Tracking
 - Goal completions  
 - E-commerce events  
 - Lead generation  
 - Micro-conversions  
 - Channel-level revenue attribution  
 
-## 7. Anonymous Device Data
+### 7. Anonymous Device Data
 - Browser category  
 - OS category  
 - Desktop / mobile / tablet  
 - Screen-size buckets  
 - Language  
 
-## 8. Geographic Data
+### 8. Geographic Data
 - Country (derived from time zone)  
 ❌ Region / City — **not collected**
 
-## 9. Business Intelligence Metrics
+### 9. Business Intelligence Metrics
 - Conversion rate  
 - Average order value  
 - ROAS  
@@ -97,9 +97,9 @@ ALL aggregated — no user-level behavior.
 
 ---
 
-# What We DO NOT Track
+## What We DO NOT Track
 
-## No Personal Data
+### No Personal Data
 ❌ IP addresses  
 ❌ User IDs  
 ❌ Emails  
@@ -108,33 +108,33 @@ ALL aggregated — no user-level behavior.
 ❌ Persistent identifiers  
 ❌ Exact user agent strings  
 
-## No Behavioral Identification
+### No Behavioral Identification
 ❌ User journeys  
 ❌ Session reconstruction  
 ❌ Returning users  
 ❌ Individual preferences  
 ❌ Personal browsing behavior  
 
-## No Cross-Site Tracking
+### No Cross-Site Tracking
 ❌ Third-party cookies  
 ❌ Advertising identifiers  
 ❌ Cross-domain identification  
 ❌ Social media identifiers  
 
-## No Sensitive Personal Data
+### No Sensitive Personal Data
 ❌ Health  
 ❌ Financial  
 ❌ Political  
 ❌ Religious  
 ❌ Demographic profiling  
 
-## No Device-Level Identifiers
+### No Device-Level Identifiers
 ❌ Device IDs  
 ❌ MAC addresses  
 ❌ Hardware fingerprints  
 ❌ Advertising IDs  
 
-## No Tracking Technologies
+### No Tracking Technologies
 ❌ Cookies  
 ❌ LocalStorage  
 ❌ SessionStorage  
@@ -142,7 +142,7 @@ ALL aggregated — no user-level behavior.
 ❌ Terminal code  
 ❌ Web beacons  
 
-## No Private Communications or Content
+### No Private Communications or Content
 ❌ Email contents  
 ❌ Chat messages  
 ❌ Form personal data (only event counts)  
@@ -152,29 +152,29 @@ ALL aggregated — no user-level behavior.
 
 ---
 
-# Compliance Framework
+## Compliance Framework
 
-## GDPR
+### GDPR
 - European company  
 - Servers in Dublin  
 - No personal data  
 - Isolated hit processing  
 - Avoids all identifiers  
 
-## ePrivacy Directive
+### ePrivacy Directive
 - No terminal code  
 - No personal data  
 - No user-level tracking  
 - Consent **not required**
 
-## CCPA / PECR / Global Compliance
+### CCPA / PECR / Global Compliance
 - No personal information  
 - Anonymous by design  
 - Future-proof data architecture  
 
 ---
 
-# How We Decide What to Track
+## How We Decide What to Track
 
 Before tracking any metric, we evaluate:
 
@@ -188,7 +188,7 @@ Sealmetrics always chooses the **more restrictive option**.
 
 ---
 
-# Summary: Privacy-First Analytics, Without Compromising Insights
+## Summary: Privacy-First Analytics, Without Compromising Insights
 
 Sealmetrics proves that advanced web analytics **does not require personal data**.
 
