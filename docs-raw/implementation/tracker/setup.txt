@@ -4,34 +4,7 @@ URL: https://docs.sealmetrics.com/implementation/tracker/setup
 
 # Setting Up Tracking in Sealmetrics
 
-Sealmetrics uses a single tracking pixel to collect all data: pageviews, conversions, and microconversions.
-This guide walks you through configuring your tracking from the dashboard.
-
----
-
-## Step 1: Find Your Pixel Code
-
-1. Log in to your [Sealmetrics Dashboard](https://my.sealmetrics.com).
-2. Go to **Settings → Pixels** in the sidebar.
-3. Select your site from the **Pixel Status** section.
-4. Copy the tracking script displayed on the page.
-
-The pixel code looks like this:
-
-```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
-```
-
-Replace `YOUR_SITE_ID` with your actual Site ID (found in **Settings → Sites → [your site]**).
-
----
-
-## Step 2: Install the Pixel
-
-The **Pixels** page shows platform-specific installation guides for:
-
-- **WordPress** — Use the Theme Editor or a plugin like "Insert Headers and Footers"
-- **Shopify** — Edit `theme.liquid` and paste before `</head>`
+To set up tracking, copy your pixel script from **Settings → Pixels** in the dashboard and install it in your site's ``
 - **Wix** — Go to Settings → Custom Code
 - **Next.js** — Use the `Script` component with `strategy="afterInteractive"`
 - **Google Tag Manager** — Create a Custom HTML tag with trigger "All Pages"
