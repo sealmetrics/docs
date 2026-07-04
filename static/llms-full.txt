@@ -51,8 +51,7 @@ URL: https://docs.sealmetrics.com/intro
 
 # Sealmetrics Documentation
 
-Welcome to the official **Sealmetrics Documentation** —  
-your complete guide to privacy-first analytics and cookieless data measurement.
+This documentation covers everything you need to run **Sealmetrics**, the consentless web analytics platform that captures 100% of your traffic without cookies, fingerprinting, or consent banners. It spans getting started, tracker implementation, reports, the API reference, and legal compliance — so you can install tracking, measure conversions, and stay GDPR compliant by design.
 
 ## Explore the Docs
 
@@ -60,7 +59,7 @@ your complete guide to privacy-first analytics and cookieless data measurement.
 
 ## About Sealmetrics
 
-Sealmetrics is a **consentless web analytics platform** that captures 100% of your traffic without cookies, fingerprinting, or consent banners. Traditional analytics tools like Google Analytics lose 30-60% of visitor data in EU markets because users reject cookie consent. Sealmetrics
+Sealmetrics is a **consentless web anal
 
 ... [Read full document at https://docs.sealmetrics.com/intro]
 
@@ -98,11 +97,11 @@ URL: https://docs.sealmetrics.com/getting-started/how-it-works
 
 # How Sealmetrics Works
 
-Sealmetrics is built on a simple principle: **measure everything, identify no one**. Our privacy-first analytics platform captures 100% of your website traffic without cookies, consent banners, or personal data collection.
+Sealmetrics measures 100% of your website traffic without cookies, consent banners, or personal data collection, built on a simple principle: **measure everything, identify no one**. It works by capturing just four non-identifying data points per interaction — timestamp, user agent, current URL, and referral URL — so there is nothing to consent to and nothing ad blockers can strip out.
 
 ## The Challenge We Solve
 
-Traditional analytics tools lose 60-87% of visitor data in EU markets because users reject cookies. That means you're making business decisions with incomplete information. Sealmetrics captures every visitor while staying fu
+Traditional analytics tools lose 60-87% of visitor data in
 
 ... [Read full document at https://docs.sealmetrics.com/getting-started/how-it-works]
 
@@ -116,8 +115,7 @@ URL: https://docs.sealmetrics.com/getting-started/quick-start
 
 # First Steps with Sealmetrics
 
-Get up and running with **Sealmetrics** in under five minutes.  
-This guide walks you through **account setup**, **tracking installation**, and your **first analytics insights**.
+You can get **Sealmetrics** running in under five minutes: create an account, add your site, install a single tracking script in your page `<head>`, and verify data collection. From there you set up conversion goals and explore your dashboard — all without cookies or a consent banner.
 
 ---
 
@@ -132,11 +130,6 @@ This guide walks you through **account setup**, **tracking installation**, and y
 
 ---
 
-## Step 1: Sign Up
-
-1. Visit [sealmetrics.com](https://sealmetrics.com)
-2. Click **"Try Sealmetrics"** or **"Sig
-
 ... [Read full document at https://docs.sealmetrics.com/getting-started/quick-start]
 
 
@@ -149,7 +142,7 @@ URL: https://docs.sealmetrics.com/getting-started/features
 
 # Features
 
-Sealmetrics delivers enterprise-grade analytics without the privacy trade-offs. Here's what you get when you measure traffic the right way.
+Sealmetrics delivers enterprise-grade analytics without the privacy trade-offs: core reports (dashboard, acquisition, ROAS, funnels, page performance, real-time), conversion and e-commerce tracking, custom event tracking, UTM attribution, a full REST API with CSV export, and 24 months of data retention. Every feature works cookielessly, requires no consent banner, and runs on EU-only infrastructure.
 
 ## Core Analytics Reports
 
@@ -204,7 +197,7 @@ URL: https://docs.sealmetrics.com/getting-started/measure-conversions
 
 # How to Measure Conversions
 
-SealMetrics allows you to track both **conversions** (goal completions with monetary value) and **microconversions** (user interactions and funnel steps).
+To measure conversions in SealMetrics, install the tracker and call `sealmetrics.conv('type', amount?, { ...props })` when a goal completes — for example `sealmetrics.conv('purchase', 99.99)`. Use `sealmetrics.conv()` for **conversions** (goal completions with an optional monetary value like purchases, signups, and leads) and `sealmetrics.micro()` for **microconversions** (user interactions and funnel steps such as add-to-cart or video plays).
 
 ---
 
@@ -213,14 +206,6 @@ SealMetrics allows you to track both **conversions** (goal completions with mone
 ### 1. Install the Tracker
 
 First, add the tracker to your website:
-
-```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
-```
-
-### 2. Track a Conversion
-
-Call `sealmetrics.conv()` when a conversion happens. The signature is `sealmetrics.conv('type', amount?, { ...props })` — the `amount` is optional (only added to the event when it's a number), and the properties obj
 
 ... [Read full document at https://docs.sealmetrics.com/getting-started/measure-conversions]
 
@@ -698,23 +683,12 @@ URL: https://docs.sealmetrics.com/reports/overview
 
 # Overview
 
-The Overview report is the main dashboard showing real-time summary statistics for your site.
+The Overview report answers "how is my site doing right now?" at a glance: the main dashboard where stat cards summarize entrances, pageviews, bounce rate, events, conversions, conversion rate, and revenue for the selected period, alongside a live counter of active visitors, a trend chart, and top pages and sources. It loads by default when you open a site and is the starting point for daily monitoring.
 
 ## Accessing the Report
 
 1. Select a site from the site selector
-2. Click **Overview** in the sidebar (or it loads by default)
-
-**URL pattern:** `/sites/{site_id}`
-
-## Metrics Summary
-
-The top section displays key metrics in stat cards:
-
-| Metric | Description |
-|--------|-------------|
-| **Entrances** | Number of sessions started (unique visits) |
-| **Pageviews** | Total page views across 
+2. Click **Over
 
 ... [Read full document at https://docs.sealmetrics.com/reports/overview]
 
@@ -902,7 +876,7 @@ URL: https://docs.sealmetrics.com/reports/conversions
 
 # Conversions
 
-The Conversions report provides detailed analysis of your conversion and microconversion events, including revenue tracking and performance metrics.
+The Conversions report tells you which goals visitors complete and what they're worth, with a top-right toggle between **Conversions** (primary goals like purchases and signups, showing count, revenue, and average value) and **Microconversions** (engagement events like add-to-cart, shown by count). Use it to see your top-performing conversion types and total revenue for the selected period.
 
 ## Accessing the Report
 
@@ -931,7 +905,7 @@ URL: https://docs.sealmetrics.com/reports/funnel
 
 # Funnel
 
-The Funnel report visualizes how visitors progress through the standard e-commerce purchase journey, showing the drop-off between each step. It is built automatically from your traffic and the e-commerce events you track — there is nothing to configure.
+The Funnel report shows where you lose potential customers along the e-commerce purchase journey — Entrances → View Product → Add to Cart → Begin Checkout → Purchase — with the conversion and drop-off rate at each step. It is built automatically from your traffic and the e-commerce events you track, so there is nothing to configure.
 
 ## Accessing the Report
 
@@ -940,9 +914,7 @@ The Funnel report visualizes how visitors progress through the standard e-commer
 
 **URL pattern:** `/sites/{siteId}/funnel`
 
-## How the funnel is built
-
-The funnel is a **fixed e-commerce sequence**. Sealmetrics asse
+## How the
 
 ... [Read full document at https://docs.sealmetrics.com/reports/funnel]
 
@@ -1701,9 +1673,7 @@ URL: https://docs.sealmetrics.com/implementation/tracker/installation
 
 # Installation
 
-## Basic Installation
-
-Add this script tag to your HTML, preferably in ``:
+Installing the Sealmetrics tracker adds cookieless, consentless analytics to your site — it fires the initial pageview automatically and exposes the `sealmetrics` object for tracking conversions and microconversions. The method is a single `<script>` tag with your Site ID, placed in your page's ``:
 ```html
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
@@ -1712,14 +1682,7 @@ Add this script tag to your HTML, preferably in ``:
 
 ### Script not loading
 
-1. Check that `YOUR_SITE_ID` is replaced with your actual Site ID
-2. Verify the site is active in Sealmetrics dashboard
-3. Check browser console for errors
-
-### Events not appearing in dashboard
-
-1. Events are processed in batches; wait 2-5 minutes
-2. Verify the domain is re
+1. Check that `YOUR_SITE_ID` is replaced with your
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/installation]
 
@@ -2057,19 +2020,13 @@ URL: https://docs.sealmetrics.com/implementation/tracker/setup
 
 # Setting Up Tracking in Sealmetrics
 
-Sealmetrics uses a single tracking pixel to collect all data: pageviews, conversions, and microconversions.
-This guide walks you through configuring your tracking from the dashboard.
+To set up tracking, copy your pixel script from **Settings → Pixels** in the dashboard and install it in your site's ``
+- **Wix** — Go to Settings → Custom Code
+- **Next.js** — Use the `Script` component with `strategy="afterInteractive"`
+- **Google Tag Manager** — Create a Custom HTML tag with trigger "All Pages"
+- **Manual HTML** — Paste the script in the `<head>` of every page
 
----
-
-## Step 1: Find Your Pixel Code
-
-1. Log in to your [Sealmetrics Dashboard](https://my.sealmetrics.com).
-2. Go to **Settings → Pixels** in the sidebar.
-3. Select your site from the **Pixel Status** section.
-4. Copy the tracking script displayed on the page.
-
-The pixel code 
+For detailed installation instructions, see the [Installation Guide](/implemen
 
 ... [Read full document at https://docs.sealmetrics.com/implementation/tracker/setup]
 
@@ -2903,7 +2860,7 @@ URL: https://docs.sealmetrics.com/integrations/mcp-server
 
 # MCP Server for AI Assistants
 
-The **SealMetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your traffic, conversions, campaigns, and more — directly from your AI assistant.
+The **SealMetrics MCP Server** lets AI assistants like Claude (Claude Code, Claude Desktop), Cursor, Windsurf, and other MCP clients query your SealMetrics analytics — traffic, conversions, campaigns, and more — in plain natural language. To get it, add one npx-based entry to your client's MCP config (e.g. `npx -y @sealmetrics/mcp` with your API key), and your assistant can start answering questions about your data.
 
 **Tip:**
 This page is the **manual setup** for when you already have a SealMetrics API key. If you want your AI assistant to **create the account for you from the chat** (no key, no terminal), use the one-click [AI Agentic Package (Claude & Codex)](/integrations/agentic-package) instead.
@@ -2915,26 +2872,6 @@ The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open 
 ## What can you ask Claude?
 
 Once connected, you can ask questions like:
-
-- *"Show me an overview of my site for the last 7 days"*
-- *"What are the top traffic sources this month?"*
-- *"Compare this month's conversions with last month"*
-- *"Which landing pages have the highest bounce rate?"*
-- *"Show me revenue by country for the last quarter"*
-- *"What devices do my visitors use?"*
-- *"Analyze my top 3 campaigns and tell me which has the best conversion rate"*
-
----
-
-## Setup (step by step)
-
-### Step 1: Verify Node.js is installed
-
-Open your terminal and run:
-
-```bash
-node --version
-```
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/mcp-server]
 
@@ -3127,26 +3064,12 @@ URL: https://docs.sealmetrics.com/api/quick-start
 
 # Quick Start
 
-Get your first API call working in 5 minutes.
+To make your first Sealmetrics API call, create an API key under **Settings → API Keys** (it starts with `sm_`), grab your Site ID from **Settings → Sites**, then send a `GET` request to `https://my.sealmetrics.com/api/v1/stats/overview` with the key in the `X-API-Key` header and your `site_id` as a query parameter. The three steps below get you a JSON response in about 5 minutes.
 
 ## Prerequisites
 
 1. A Sealmetrics account with at least one site
-2. An API key (generate in Settings → API Keys)
-3. Your Site ID (found in Settings → Sites → [your site])
-
-## Step 1: Get Your API Key
-
-1. Log in to [Sealmetrics Dashboard](https://my.sealmetrics.com)
-2. Go to **Settings** → **API Keys**
-3. Click **Create Token**
-4. Copy the token (starts with `sm_`)
-
-**Warning:**
-
-## Step 2: Find Your Site ID
-
-1. Go to **Settings** → *
+2. An API key (generate in Setting
 
 ... [Read full document at https://docs.sealmetrics.com/api/quick-start]
 
@@ -3160,7 +3083,7 @@ URL: https://docs.sealmetrics.com/api/authentication
 
 # Authentication
 
-The API supports two authentication methods: API Keys and JWT tokens.
+The Sealmetrics API supports two authentication methods. **API keys** (prefixed `sm_`, sent in the `X-API-Key` header) are read-only and intended for server-to-server integrations; **JWT bearer tokens** (obtained by logging in, sent in the `Authorization: Bearer` header) carry a user's role-based scopes and are used for authenticated sessions like the dashboard and mobile apps.
 
 ## API Keys
 
@@ -3185,14 +3108,6 @@ curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
 ### API Key Format
 
 All API keys use the `sm_` prefix:
-
-```
-sm_abc123def456ghi789...
-```
-
-Keys are 64 characters long and contain only alphanumeric characters after the prefix.
-
-### API Key Security
 
 ... [Read full document at https://docs.sealmetrics.com/api/authentication]
 
@@ -4903,21 +4818,13 @@ URL: https://docs.sealmetrics.com/security-privacy/why-no-consent
 
 # Why Sealmetrics Can Measure Without Consent
 
-The question we’re asked most often is:  
-**“Why can Sealmetrics measure without user consent?”**
-
-The answer is simple — and 100% compliant.
+Sealmetrics needs **no consent** because it collects no personal data and sets no cookies — it processes only anonymous, non-identifying signals (isolated "hits"), which falls outside the consent requirements of GDPR and the ePrivacy Directive. It's the question we're asked most often, and the answer is simple and 100% compliant.
 
 ---
 
 ## Full Legal Compliance
 
-Sealmetrics operates **fully within current privacy regulations** and adheres to the strictest guidelines set by both:
-
-- 🇪🇸 **AEPD** (Agencia Española de Protección de Datos)  
-- 🇫🇷 **CNIL** (Commission Nationale de l’Informatique et des Libertés)
-
-These organizations expli
+Sealmetrics operates **fully within current privacy regulations** and adheres to the stri
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/why-no-consent]
 
@@ -5078,18 +4985,14 @@ URL: https://docs.sealmetrics.com/security-privacy/what-we-track
 
 # What We Track vs What We Don’t
 
-Sealmetrics is built on one foundational principle:
-
-> **If tracking a metric could compromise user privacy, we do not track it — even if regulations allow it.**
-
-This document details everything Sealmetrics *does* and *does not* track, why, and how this enables full GDPR/ePrivacy compliance without requiring user consent.
+Sealmetrics records only **four non-identifying variables** per page view ("hit") — timestamp, user agent (used for aggregation, never stored), current URL, and referral URL — and never collects personal data or sets cookies. No IP addresses, user IDs, device fingerprints, or persistent identifiers are involved, which is what enables full GDPR/ePrivacy compliance without user consent.
 
 ---
 
 ## What We DO Track  
 ### The Four-Variable System (Isolated Hits)
 
-Sealmetrics processes each page view (“hit”) independently using **
+Seal
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/what-we-track]
 
@@ -6059,7 +5962,7 @@ URL: https://docs.sealmetrics.com/use-cases/ecommerce
 
 # E-commerce Implementation Guide
 
-Complete guide to implement Sealmetrics tracking on your online store. Track the full customer journey from landing to purchase.
+To track an online store with Sealmetrics, add the tracking script to your store's header, then instrument three event types across the funnel: **pageviews** (automatic, for product and category pages), **microconversions** via `sealmetrics.micro()` (add to cart, begin checkout), and **conversions** via `sealmetrics.conv()` (purchase, with revenue and items). This guide covers each step with copy-paste examples for WooCommerce, Shopify, Magento, and PrestaShop.
 
 ## What You'll Track
 
@@ -6092,21 +5995,6 @@ Use different groups for different page types:
 
 <!-- Product pages -->
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=product" defer></script>
-
-<!-- Cart -->
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=cart" defer></script>
-
-<!-- Checkout -->
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=checkout" defer></script>
-```
-
----
-
-## Step 2: Track Add to Cart
-
-Track when users add products to their cart.
-
-### Basic Implementation
 
 ... [Read full document at https://docs.sealmetrics.com/use-cases/ecommerce]
 

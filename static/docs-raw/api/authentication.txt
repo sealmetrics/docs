@@ -4,7 +4,7 @@ URL: https://docs.sealmetrics.com/api/authentication
 
 # Authentication
 
-The API supports two authentication methods: API Keys and JWT tokens.
+The Sealmetrics API supports two authentication methods. **API keys** (prefixed `sm_`, sent in the `X-API-Key` header) are read-only and intended for server-to-server integrations; **JWT bearer tokens** (obtained by logging in, sent in the `Authorization: Bearer` header) carry a user's role-based scopes and are used for authenticated sessions like the dashboard and mobile apps.
 
 ## API Keys
 
