@@ -508,6 +508,8 @@ The Digital Omnibus establishes a **unified incident reporting system** operated
 - [GDPR Amendments](./gdpr-changes.md) - Details on Article 33 threshold change
 - [Timeline and Implementation](./timeline-implementation.md) - When single entry point launches
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
+- [EDPB-EDPS Joint Opinion on the Digital Omnibus](./edpb-edps-opinion.md) - Regulators' view on the raised breach-notification threshold
+- [Compliance Overview](/compliance/compliance-overview) - Sealmetrics' overall privacy and security posture
 
 ## Key Takeaways
 

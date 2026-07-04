@@ -207,6 +207,10 @@ To measure conversions in SealMetrics, install the tracker and call `sealmetrics
 
 First, add the tracker to your website:
 
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
 ... [Read full document at https://docs.sealmetrics.com/getting-started/measure-conversions]
 
 
@@ -772,7 +776,7 @@ This reflects traffic originating from any source, which has been reactivated af
 
 ---
 
-## How Other Platforms Handle Returning Us
+## How Other Platforms Handle Returning Users
 
 ... [Read full document at https://docs.sealmetrics.com/reports/insights/rejoined-traffic]
 
@@ -973,6 +977,8 @@ The Segment panel offers two filter categories: Geography and Devices.
 |--------|---------|-------------|
 | **Countries** | Multi-select list | Filter by visitor country |
 
+Example: Select Spain and Portugal to see only traffic from the Iberian Peninsula.
+
 ... [Read full document at https://docs.sealmetrics.com/reports/filters]
 
 
@@ -1005,6 +1011,8 @@ Quick selection options, grouped in the picker as **Quick Select**, **This Perio
 | **Last 30 days** | Past 30 days including today |
 | **Last 90 days** | Past 90 days including today |
 
+### This Period
+
 ... [Read full document at https://docs.sealmetrics.com/reports/date-range]
 
 
@@ -1033,7 +1041,8 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | [Engagement Rate](#engagement-rate) | Engaged / Entrances × 100 | Higher |
 | [Pages per Session](#pages-per-session) | Pageviews / Entrances | Higher |
 | [Conversions](#conversions) | Count of conversion events | Higher |
-| [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher
+| [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
+| [Revenue](#revenue) | Sum of conversion a
 
 ... [Read full document at https://docs.sealmetrics.com/reports/definitions]
 
@@ -2375,7 +2384,8 @@ Download the latest version of the SealMetrics WordPress plugin:
 
 ### Step 2: Upload to WordPress
 
-1. Go to **WordPress Admin > Plugins > Add New > Upl
+1. Go to **WordPress Admin > Plugins > Add New > Upload Plugin**
+
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/cms/wordpress]
 
@@ -2451,7 +2461,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    
+    <html lang="en">
+      <body>
+        {children}
+       
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/nextjs]
 
@@ -2476,7 +2489,7 @@ This template includes all the tags, triggers, and variables you need. Just impo
 2. Go to **Google Tag Manager > Admin > Import Container**
 3. Upload the JSON file
 4. Choose **"Merge"** and select **"Rename conflicting tags"**
-5. Go to **Variables** and 
+5. Go to **Variables** and update `SealMetrics Account ID` with your Account ID
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/tag-management/gtm-template]
 
@@ -2636,6 +2649,8 @@ function App() {
 ```
 
 ### Option 2: Script Only
+
+Just load the tracker script:
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/frameworks/react]
 
@@ -2950,6 +2965,12 @@ The native BigCommerce integration is currently in private beta.
 
 In the meantime, you can track a BigCommerce storefront with the generic [JavaScript tracker](/implementation/tracker/installation) plus [manual e-commerce events](/implementation/ecommerce-conversion-tracking). Contact [support](https://sealmetrics.com/contact) to join the beta.
 
+## Related documentation
+
+- [Installation](/implementation/tracker/installation) — install the generic JavaScript tracker on your storefr
+
+... [Read full document at https://docs.sealmetrics.com/integrations/ecommerce/bigcommerce]
+
 
 
 ## Shopify
@@ -2967,7 +2988,7 @@ Privacy-first, cookieless analytics for Shopify stores. SealMetrics tracks the e
 The integration has two parts:
 
 - **The SealMetrics Pixel app** — a Shopify app you install on your store. It handles the connection (OAuth), registers the conversion webhook, and manages billing.
-- **The "Sealmetrics Analytics" app embed** — a Theme App Extension you enable in your theme. It injects the SealMetrics loader, which loads the tracker (`t.js`), writes cart attributes, and fires the e-commerce 
+- **The "Sealmetrics Analytics" app embed** — a Theme App Extension you enable in your theme. It injects the SealMetrics loader, which loads the tracker (`t.js`), writes cart attributes, and fires the e-commerce microconversions.
 
 ... [Read full document at https://docs.sealmetrics.com/integrations/ecommerce/shopify]
 
@@ -4564,6 +4585,8 @@ Consentless analytics solves this by measuring aggregate behavior rather than tr
 
 ---
 
+## How It Works: The Four-Variable System
+
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/consentless-analytics]
 
 
@@ -4806,6 +4829,10 @@ Sealmetrics is built on what we **don't** track:
 - **No cross-site tracking** - Only measures your website, never follows users elsewhere
 - **No sensitive data** - No health information, financial data, political views, religious beliefs
 
+This isn't a marketing claim. It's architecturally impossible for Sealmetrics to identify individual users.
+
+### The Four-Variable System
+
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/overview]
 
 
@@ -4852,7 +4879,7 @@ Known malicious IPs are blocked at the edge:
 - **Per-account blocklist** — Custom IPs you want to exclude
 - **Real-time updates** — Blocklist refreshed automatically
 
-### Layer 2: User-Agent F
+### Layer 2: User-Agent Filteri
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/bot-detection]
 
@@ -4947,7 +4974,9 @@ Sealmetrics pioneered this approach through dual tracking technologies designed 
 ### Aggregate Measurement Instead of Individual Tracking
 
 ### Traditional Analytics (❌ Requires Consent)
-- Uses cookies to store visitor IDs
+- Uses cookies to store visitor IDs  
+- Reconstructs individual user journeys  
+- Builds detaile
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/how-consentless-works]
 
@@ -4992,7 +5021,7 @@ Sealmetrics records only **four non-identifying variables** per page view ("hit"
 ## What We DO Track  
 ### The Four-Variable System (Isolated Hits)
 
-Seal
+Sealmetrics processes each page v
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/what-we-track]
 
@@ -5160,6 +5189,8 @@ Data protection authorities across the EU have developed guidance on when analyt
 
 To qualify for consent exemption, **all three** conditions must be met:
 
+#### 1. User Notification
+
 ... [Read full document at https://docs.sealmetrics.com/compliance/analytics-cookies-exemption]
 
 
@@ -5206,6 +5237,9 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 **Evidence:** Sealmetrics tracks pageviews, load events, and technical errors exclusively for performance analysis.
 
 ---
+
+### Objective 2: Navigation Problem Detection
+**Requirement:** Identify navigation issues affecting user experience.
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/cnil-self-assessment]
 
@@ -5324,6 +5358,10 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - Reputational damage
 - User complaints
 
+**Not recommended**: High-profile Google Analytics enforcement (Austria, France, Italy) demonstrates authorities are serious.
+
+## The Cookieless Solution
+
 ... [Read full document at https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics]
 
 
@@ -5360,6 +5398,8 @@ The current Article 5(3) of the ePrivacy Directive, dating from 2009, has create
 - **26% randomly reject** without understanding implications
 - "Consent fatigue" means users make uninformed decisions
 - The very goal of informed consent is defeated
+
+### Why the Current System Fails
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy]
 
@@ -5569,6 +5609,9 @@ AI developers faced uncertainty about lawful basis for processing personal data 
 - Cannot obtain consent from all individuals in web-scraped data
 - Consent withdrawal would require model retraining
 
+**Article 6(1)(b) Contract**:
+- Not applicable (no contractual relationship with training data subjects)
+
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/ai-act-amendments]
 
 
@@ -5675,6 +5718,8 @@ Under current EU law, businesses enjoy lighter regulatory treatment while they q
 
 **Economic inefficiency**: A company with 250 employees is not fundamentally different from one with 249, yet faces drastically different regulatory treatment.
 
+## The Solution: Small Mid-Caps (SMCs)
+
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/smes-small-midcaps]
 
 
@@ -5731,6 +5776,8 @@ The proposal (procedure 2025/0360(COD)) has been assigned to **joint committee r
 Organizations can submit formal positions during these periods.
 
 ### Q1-Q2 2026: Parliamentary and Council Review 🔄
+
+**Status**: In progress
 
 ... [Read full document at https://docs.sealmetrics.com/compliance/omnibus/timeline-implementation]
 
@@ -5996,6 +6043,9 @@ Use different groups for different page types:
 <!-- Product pages -->
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=product" defer></script>
 
+<!-- Cart -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=cart" defer></script>
+
 ... [Read full document at https://docs.sealmetrics.com/use-cases/ecommerce]
 
 
@@ -6045,6 +6095,12 @@ Add the tracking script to your marketing site and app:
 
 <!-- App (logged in) -->
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=app" defer></script>
+
+<!-- Onboarding -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=onboarding" defer></script>
+```
+
+---
 
 ... [Read full document at https://docs.sealmetrics.com/use-cases/saas]
 

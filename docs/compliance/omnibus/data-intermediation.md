@@ -549,6 +549,7 @@ Even under voluntary regime:
 - [SME and Small Mid-Cap Exemptions](./smes-small-midcaps.md) - Additional relief for SMC intermediaries
 - [Timeline and Implementation](./timeline-implementation.md) - When changes take effect
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
+- [EDPB-EDPS Joint Opinion on the Digital Omnibus](./edpb-edps-opinion.md) - Regulators' position on intermediation oversight
 
 ## Key Takeaways
 

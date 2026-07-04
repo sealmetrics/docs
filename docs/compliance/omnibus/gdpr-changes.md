@@ -389,6 +389,8 @@ The **European Data Protection Board (EDPB)** will create:
 - [Impact on Web Analytics](./impact-analytics.md) - How amendments affect analytics
 - [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory position on these amendments
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
+- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) - How cookieless measurement satisfies GDPR principles
+- [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) - Consent-exemption rules that apply today
 
 ## Key Takeaways
 

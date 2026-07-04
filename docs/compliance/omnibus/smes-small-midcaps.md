@@ -451,6 +451,8 @@ The Digital Omnibus creates an intermediate category between SMEs and large ente
 - [Data Intermediation Services](./data-intermediation.md) - How SMCs benefit from voluntary regime
 - [Timeline and Implementation](./timeline-implementation.md) - When SMC exemptions take effect
 - [GDPR Amendments](./gdpr-changes.md) - GDPR changes that may affect SMCs
+- [AI Act Amendments in the Digital Omnibus](./ai-act-amendments.md) - SMC extensions delivered via the parallel AI Omnibus
+- [EDPB-EDPS Joint Opinion on the Digital Omnibus](./edpb-edps-opinion.md) - Regulators' position on the wider proposal
 
 ## Key Takeaways
 
