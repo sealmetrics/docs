@@ -496,3 +496,11 @@ The transition period (2026-2030) provides ample time to adapt. Those who prepar
 **Stay Updated**: This documentation will be updated as the Omnibus proceeds through the legislative process and implementing acts are adopted.
 
 **Questions?** Explore the detailed analyses linked above or consult with privacy counsel on your specific situation.
+
+## Related documentation
+
+- [Cookie Consent Reform: The End of Banner Fatigue](/compliance/omnibus/cookies-eprivacy) — how Article 88a moves cookie consent under the GDPR.
+- [Impact on Web Analytics and Tracking](/compliance/omnibus/impact-analytics) — what the Omnibus means for consentless measurement.
+- [EDPB-EDPS Joint Opinion on the Digital Omnibus](/compliance/omnibus/edpb-edps-opinion) — the regulators' position on the proposal.
+- [Compliance Overview](/compliance/compliance-overview) — how Sealmetrics maps to GDPR, ePrivacy, CCPA, and PECR today.
+- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — the technical basis for consentless analytics.

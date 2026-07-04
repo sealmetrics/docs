@@ -126,3 +126,11 @@ Plans and prices are presented through Shopify's Managed Pricing flow in Shopify
 1. `view_product` only fires on `/products/{handle}` pages — confirm you are testing a product page.
 2. `add_to_cart` relies on standard `/cart/add` requests; heavily customized themes that bypass the standard cart endpoints may not be detected.
 3. Verify no JavaScript errors in the browser console interrupt the loader.
+
+## Related documentation
+
+- [Installation](/implementation/tracker/installation) — how the Sealmetrics tracker (`t.js`) that this app embed loads works under the hood.
+- [E-commerce Conversion Tracking](/implementation/ecommerce-conversion-tracking) — the funnel-event model behind the microconversions and purchase webhook.
+- [WooCommerce](/integrations/ecommerce/woocommerce) — the equivalent integration for WordPress + WooCommerce stores.
+- [BigCommerce](/integrations/ecommerce/bigcommerce) — another hosted-store platform integration.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

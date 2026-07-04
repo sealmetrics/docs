@@ -563,6 +563,8 @@ If you need individual user tracking, cross-device tracking, or behavioral profi
 - [GDPR Amendments](./gdpr-changes.md) - Other GDPR changes in the Omnibus
 - [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory validation of analytics exemption
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
+- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) - The GDPR basis for first-party, aggregated measurement
+- [What We Track vs What We Don’t](/security-privacy/what-we-track) - Exactly what Sealmetrics collects under the exemption
 
 ## Key Takeaways
 

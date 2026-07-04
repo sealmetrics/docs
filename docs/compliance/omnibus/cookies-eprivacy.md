@@ -317,6 +317,8 @@ Until browsers widely support automated signals (~2029-2031), manual consent mec
 - [Impact on Web Analytics](./impact-analytics.md) - What this means for analytics providers
 - [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory support for cookie consent reform
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
+- [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) - How analytics already qualifies for exemption today
+- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) - The technical basis for banner-free analytics
 
 ## Key Takeaways
 
