@@ -1,0 +1,168 @@
+# LLM Settings (BYOK)
+
+URL: https://docs.sealmetrics.com/api/llm-settings
+
+# LLM Settings API
+
+Manage the current user's **Bring-Your-Own-Key** (BYOK) LLM provider configuration. Keys are stored per-user (not per-site) and reused across every site the user can access. LENS AI uses these keys to call OpenAI, Anthropic, Gemini, or DeepSeek Cloud on the user's behalf.
+
+**Base path:** `/users/me/llm-settings`
+
+Required scope: `read` for listing, `write` for create/update/delete/test/set-default.
+
+**Info:**
+Stored API keys are never echoed back. Responses include `api_key_configured` (boolean) and `api_key_last_4` (last 4 chars) only.
+
+---
+
+## List Providers
+
+```http
+GET /users/me/llm-settings/providers
+```
+
+No auth scope required beyond a valid session. Returns the BYOK-capable providers (`anthropic`, `openai`, `deepseek_cloud`, `gemini`) along with display metadata used by the settings UI.
+
+**Response:**
+
+```json
+{
+  "providers": [
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "default_model": "claude-sonnet-4-5",
+      "requires_api_key": true
+    }
+  ],
+  "default_provider": "anthropic"
+}
+```
+
+---
+
+## List My LLM Configs
+
+```http
+GET /users/me/llm-settings
+```
+
+**Required scope:** `read`
+
+**Response:**
+
+```json
+{
+  "configs": [
+    {
+      "id": 12,
+      "provider": "anthropic",
+      "api_key_configured": true,
+      "api_key_last_4": "abcd",
+      "is_default": true,
+      "model": "claude-sonnet-4-5",
+      "base_url": null,
+      "created_at": "2025-01-05T10:00:00Z",
+      "updated_at": "2025-01-05T10:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## Create or Update Config
+
+```http
+POST /users/me/llm-settings
+```
+
+**Required scope:** `write`. Returns `201 Created`.
+
+There is at most one config per provider per user; calling `POST` again for the same provider updates the existing row.
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `provider` | enum | Yes | `anthropic`, `openai`, `deepseek_cloud`, `gemini`, or `deepseek_local` |
+| `api_key` | string | Cond. | Required for every provider except `deepseek_local` |
+| `model` | string | No | Override the provider's default model |
+| `base_url` | string | No | Custom endpoint (useful for OpenAI-compatible gateways) |
+| `is_default` | boolean | No | When `true`, marks this as the user's default provider |
+
+Validation errors return `400`.
+
+**Response:** `LLMSettingsResponse` (same shape as list items).
+
+---
+
+## Update Config
+
+```http
+PATCH /users/me/llm-settings/{config_id}
+```
+
+**Required scope:** `write`
+
+Partial update. **Cannot** change `provider` (delete + recreate instead) or `is_default` (use the `/set-default` endpoint).
+
+Returns `404` if the config doesn't belong to the caller, `400` on validation errors.
+
+---
+
+## Delete Config
+
+```http
+DELETE /users/me/llm-settings/{config_id}
+```
+
+**Required scope:** `write`. Returns `204 No Content`, or `404` if the config doesn't exist for the caller.
+
+---
+
+## Set Default Provider
+
+```http
+POST /users/me/llm-settings/{config_id}/set-default
+```
+
+**Required scope:** `write`
+
+Marks the given config as the default; clears the flag on any other config for the same user.
+
+**Response:** Updated `LLMSettingsResponse`.
+
+---
+
+## Test Connection
+
+```http
+POST /users/me/llm-settings/test
+```
+
+**Required scope:** `write`
+
+Validate a provider configuration without saving it. Pass `api_key` to test a fresh key, or omit it to test the currently saved key for that provider.
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `provider` | enum | Yes | Provider to test |
+| `api_key` | string | No | Override the stored key for this test |
+| `base_url` | string | No | Override the stored base URL |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "provider": "anthropic",
+  "message": "Connection OK",
+  "latency_ms": 420,
+  "model_available": "claude-sonnet-4-5"
+}
+```
+
+Returns `404` with `error_code: "provider_not_configured"` when no key is stored and none is passed in the body.

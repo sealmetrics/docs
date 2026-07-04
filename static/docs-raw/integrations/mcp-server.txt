@@ -6,6 +6,9 @@ URL: https://docs.sealmetrics.com/integrations/mcp-server
 
 The **SealMetrics MCP Server** enables AI assistants like Claude to access your analytics data through natural language queries. Ask questions about your traffic, conversions, campaigns, and more — directly from your AI assistant.
 
+**Tip:**
+This page is the **manual setup** for when you already have a SealMetrics API key. If you want your AI assistant to **create the account for you from the chat** (no key, no terminal), use the one-click [AI Agentic Package (Claude & Codex)](/integrations/agentic-package) instead.
+
 ## What is MCP?
 
 The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server runs locally on your machine and acts as a bridge between Claude and your SealMetrics analytics data.
@@ -61,27 +64,19 @@ Choose the client you use:
 
 #### Claude Code
 
-Create a file called `.mcp.json` in your project root:
+Add the server with a single command (run inside your project):
 
-```json
-{
-  "mcpServers": {
-    "sealmetrics": {
-      "command": "npx",
-      "args": ["-y", "@sealmetrics/mcp-server"],
-      "env": {
-        "SEALMETRICS_API_KEY": "sm_your_key_here",
-        "SEALMETRICS_SITE_ID": "your-site-id"
-      }
-    }
-  }
-}
+```bash
+claude mcp add sealmetrics \
+  -e SEALMETRICS_API_KEY=sm_your_key_here \
+  -e SEALMETRICS_SITE_ID=your-site-id \
+  -- npx -y @sealmetrics/mcp
 ```
 
 Replace `sm_your_key_here` with your API key from Step 2, and `your-site-id` with your Site ID from Step 3.
 
 **Tip:**
-To make SealMetrics available in **all your projects**, add the same config to `~/.claude/settings.json` instead of a project-level `.mcp.json`.
+By default the server is added for the current project. Add `-s user` to make SealMetrics available in **all your projects**.
 
 #### Claude Desktop
 
@@ -94,7 +89,7 @@ To make SealMetrics available in **all your projects**, add the same config to `
   "mcpServers": {
     "sealmetrics": {
       "command": "npx",
-      "args": ["-y", "@sealmetrics/mcp-server"],
+      "args": ["-y", "@sealmetrics/mcp"],
       "env": {
         "SEALMETRICS_API_KEY": "sm_your_key_here",
         "SEALMETRICS_SITE_ID": "your-site-id"
@@ -105,6 +100,41 @@ To make SealMetrics available in **all your projects**, add the same config to `
 ```
 
 4. Save and **restart Claude Desktop** completely (Cmd+Q on macOS, then reopen)
+
+**Tip:**
+You can skip the JSON entirely with the [SealMetrics Claude Desktop extension](/integrations/agentic-package) — download, double-click, paste your key. The same extension can also **create an account for you** if you don't have one yet.
+
+#### Codex (OpenAI)
+
+Add this to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.sealmetrics]
+command = "npx"
+args = ["-y", "@sealmetrics/mcp"]
+env = { SEALMETRICS_API_KEY = "sm_your_key_here", SEALMETRICS_SITE_ID = "your-site-id" }
+```
+
+Restart Codex after saving.
+
+#### Cursor, Windsurf, VS Code & other MCP clients
+
+Any MCP-compatible client uses the same server. Add this block to your client's MCP config (in Cursor, `~/.cursor/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "command": "npx",
+      "args": ["-y", "@sealmetrics/mcp"],
+      "env": {
+        "SEALMETRICS_API_KEY": "sm_your_key_here",
+        "SEALMETRICS_SITE_ID": "your-site-id"
+      }
+    }
+  }
+}
+```
 
 ### Step 5: Verify it works
 
@@ -309,7 +339,7 @@ Install Node.js from [nodejs.org](https://nodejs.org/). npx is bundled with Node
 You can verify the server starts correctly from your terminal:
 
 ```bash
-SEALMETRICS_API_KEY="sm_your_key_here" npx -y @sealmetrics/mcp-server
+SEALMETRICS_API_KEY="sm_your_key_here" npx -y @sealmetrics/mcp
 ```
 
 If it starts without errors, the server is working. Press Ctrl+C to stop it.
@@ -326,7 +356,7 @@ Your machine                             SealMetrics cloud
 │                          │            │                      │
 │  Claude Code / Desktop   │            │  my.sealmetrics.com  │
 │          |               │            │                      │
-│  @sealmetrics/mcp-server  │─ HTTPS ─>│  /api/v1/*          │
+│  @sealmetrics/mcp  │─ HTTPS ─>│  /api/v1/*          │
 │  (runs locally via npx)  │<── JSON ───│                      │
 │          |               │            │                      │
 │  Claude reads the data   │            └──────────────────────┘
@@ -344,7 +374,7 @@ Your machine                             SealMetrics cloud
 
 ## Resources
 
-- **npm**: [@sealmetrics/mcp-server](https://www.npmjs.com/package/@sealmetrics/mcp-server)
+- **npm**: [@sealmetrics/mcp](https://www.npmjs.com/package/@sealmetrics/mcp)
 - **Source code**: [github.com/adinton/sealmetrics2/tree/main/mcp-server](https://github.com/adinton/sealmetrics2/tree/main/mcp-server)
 - **MCP Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io/)
 - **API Reference**: [API Documentation](/api)

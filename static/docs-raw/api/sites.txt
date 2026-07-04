@@ -362,9 +362,95 @@ DELETE /sites/{site_id}/utm-mappings/{custom_param}
 
 ---
 
-## Pixel Code Endpoints
+## Site User Endpoints
 
-**Note:** To manage user access to sites, use the [Organizations API](/api/organizations). Users are added to organizations and then granted access to specific sites.
+Manage user access to a specific site. Org-level membership is managed via the [Organizations API](/api/organizations); these endpoints control which users in the org can see and act on this site, with a per-site role.
+
+**Info:**
+List operations require any read scope. Mutations (POST/PATCH/DELETE) require the `sites:write` scope **and** the `accounts:manage_users` permission (or admin).
+
+### List Site Users
+
+```http
+GET /sites/{site_id}/users
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "users": [
+      {
+        "user_id": 42,
+        "email": "alice@acme.com",
+        "name": "Alice",
+        "role": "admin",
+        "created_at": "2025-01-05T10:00:00Z"
+      },
+      {
+        "user_id": 87,
+        "email": "bob@acme.com",
+        "name": "Bob",
+        "role": "viewer",
+        "created_at": "2025-02-12T09:30:00Z"
+      }
+    ],
+    "total": 2
+  }
+}
+```
+
+### Add User to Site
+
+```http
+POST /sites/{site_id}/users
+```
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `user_id` | integer | Yes | ID of the user to add |
+| `role` | string | No | `viewer`, `editor`, or `admin` (default: `viewer`) |
+
+**Response (201 Created):** Single `AccountUserInfo` object (same shape as items in List response).
+
+Returns `404` if the user does not exist, `409` if the user already has access.
+
+### Update User Role
+
+```http
+PATCH /sites/{site_id}/users/{user_id}
+```
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `role` | string | Yes | `viewer`, `editor`, or `admin` |
+
+**Response:** Updated `AccountUserInfo` object.
+
+### Remove User from Site
+
+```http
+DELETE /sites/{site_id}/users/{user_id}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": { "removed": true, "user_id": 87 }
+}
+```
+
+---
+
+## Pixel Code Endpoints
 
 ### Get Pixel Code
 

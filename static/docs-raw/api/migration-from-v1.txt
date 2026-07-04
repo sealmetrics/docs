@@ -1,0 +1,278 @@
+# Migration from v1
+
+URL: https://docs.sealmetrics.com/api/migration-from-v1
+
+# Migration from v1
+
+Guide for data analysts and integrations moving from the legacy **API Seal Metrics v1.0** (documented in the public Postman collection `TzRVdkVu`) to the current REST API at `my.sealmetrics.com/api/v1`.
+
+The v1 surface exposed 9 endpoints under `/api/auth/*` and `/api/report/*` with a 1 request per minute rate limit. The current API exposes 100+ endpoints organized by domain, per-plan rate limits, refresh-based auth, event-level data, batch queries, webhooks, exports and organizations. **All v1 URLs must be rewritten** — no v1 path is preserved verbatim.
+
+## Structural changes
+
+| Aspect | v1 (legacy) | Current |
+|---|---|---|
+| Host | `app.sealmetrics.com/api/...` | `my.sealmetrics.com/api/v1/...` |
+| Version prefix | none | `/api/v1/` on every path |
+| Login | `POST /api/auth/login` with `multipart/form-data` (`email`, `password`) | `POST /api/v1/auth/token` with JSON body |
+| Access token | Long-lived JWT (≈1 year) | Short-lived JWT (15 min) + rotating refresh token in `sm_refresh_token` HttpOnly cookie |
+| Refresh | Not available | `POST /api/v1/auth/refresh` |
+| Alternative auth | Bearer JWT only | **New**: read-only API Keys via `X-API-Key` header (scopes `stats:read`, `sites:read`, `accounts:read`); CRUD under `/api/v1/api-tokens` |
+| Rate limit | 1 request/minute per user or IP | 240–10,000 req/min per plan; `/stats/*` at 50% of quota for API keys |
+| Pagination | `skip` + `limit` | `page` (1-indexed) + `page_size` (max varies per endpoint, 100–1,000) |
+| Date filter | `date_range=20230601,20230630` or aliases (`this_month`) | `date_from` + `date_to` (ISO `YYYY-MM-DD`) **and** aliases (`today`, `7d`, `30d`, `this_month`, `mtd`, `ytd`, `12m`, `last_quarter`, …) |
+| Period comparison | Not available | `compare=previous \| yoy` |
+| Multi-tenancy | Flat `account_id` on every request | Organizations → sites model (`/organizations/{slug}`, `/sites/{site_id}`); `account_id` still accepted on stats endpoints |
+
+## Endpoint-by-endpoint mapping
+
+Every v1 endpoint and its current replacement. All require code changes:
+
+| v1 (deprecated) | Current replacement | Migration notes |
+|---|---|---|
+| `POST /api/auth/login` (form-data) | `POST /api/v1/auth/token` (JSON `{email, password}`) → returns `access_token` + refresh cookie | Switch `Content-Type` to `application/json`. Store `expires_in` (900 s) and call `/auth/refresh` before expiry. |
+| `GET /api/auth/accounts` | `GET /api/v1/users/me` (field `account_ids`) **or** `GET /api/v1/organizations` + `GET /api/v1/organizations/{slug}/sites` | The account model became "organizations → sites". A v1 `account_id` typically maps to a current `site_id`. |
+| `GET /api/report/acquisition?report_type=Source` | `GET /api/v1/stats/sources` (also `/mediums`, `/campaigns`, `/terms`, `/contents`) **or** `POST /api/v1/stats/query` with `dimensions=["utm_source"]` | `report_type` is gone: use one endpoint per UTM dimension, or the multi-dim `/stats/query` which accepts up to 10 combined dimensions. |
+| `GET /api/report/pages` | `GET /api/v1/stats/pages` (paginated 1–1,000), plus `GET /api/v1/stats/pages/top` (ranking) and `GET /api/v1/stats/pages/content-groups` | v1 was traffic-only. Three views now: full list, top-N, and grouped by content group. |
+| `GET /api/report/conversions` | `GET /api/v1/stats/conversions` (aggregated) **+ new** `GET /api/v1/stats/conversions/raw` (event-level, ≤31 days, 10,000 rows/page) | Raw is the biggest analytics upgrade: one row per conversion with timestamp, UTMs, country, device, channel group and custom `properties`. |
+| `GET /api/report/microconversions` | `GET /api/v1/stats/microconversions` (+ detail `/microconversions/{type}`) **+ new** `GET /api/v1/stats/microconversions/raw` + `GET /api/v1/stats/microconversions-types` | Same aggregated + raw pattern. `microconversions-types` replaces the implicit filter. |
+| `GET /api/report/roas-evolution?time_unit=daily` | **No dedicated endpoint.** Reproduce with `POST /api/v1/stats/query` requesting dimensions `date` + `utm_source`/`campaign` and metrics `revenue`, `cost`, `roas` with `time_unit=daily\|weekly\|monthly` | Most disruptive change. Consumers plotting ROAS curves must rewrite as a multi-dim query. |
+| `GET /api/report/funnel?exclude_countries=pt,es` | `GET /api/v1/stats/funnel` (predefined UTM funnel) **and new** `POST /api/v1/stats/funnel` (custom funnel with 2–10 steps: page paths, microconversion types, or conversion types) | The new `POST` is far more powerful. `exclude_countries` becomes the standard filter `filters=country:not_in:pt,es`. |
+| `POST /api/auth/v1.0/set-click` (offline ingestion, `offline-leads` scope) | **No public REST equivalent.** Event ingestion (offline and online) now goes through the tracking pixel (`GET /api/v1/sites/{site_id}/pixel` to fetch the snippet) or dedicated pipelines. | **Blocking** for clients pushing offline conversions via API. Open a ticket with product before deprecating; see [Bot & event ingestion](/api/bot-stats). |
+
+## Concrete migration example
+
+```bash
+# v1 (legacy, 1 req/min)
+curl "https://app.sealmetrics.com/api/report/conversions?\
+account_id=000000000000000000001234&date_range=this_month&skip=0&limit=1000" \
+  -H "Authorization: Bearer <long-lived-jwt>"
+
+# Current — same question, aggregated
+curl "https://my.sealmetrics.com/api/v1/stats/conversions?\
+account_id=000000000000000000001234&date_from=2026-07-01&date_to=2026-07-31&\
+page=1&page_size=100&compare=previous" \
+  -H "X-API-Key: sm_live_..."
+
+# Current — event-level (new capability, key for analytics)
+curl "https://my.sealmetrics.com/api/v1/stats/microconversions/raw?\
+account_id=...&date_from=2026-07-01&date_to=2026-07-31&page_size=10000" \
+  -H "X-API-Key: sm_live_..."
+```
+
+Same shape in Python:
+
+```python
+import requests
+
+BASE = "https://my.sealmetrics.com/api/v1"
+HEADERS = {"X-API-Key": "sm_live_..."}
+
+# v1 report_type=Source → current /stats/sources
+r = requests.get(
+    f"{BASE}/stats/sources",
+    params={
+        "account_id": "000000000000000000001234",
+        "date_from": "2026-07-01",
+        "date_to": "2026-07-31",
+        "page": 1,
+        "page_size": 100,
+        "sort_by": "entrances",
+        "sort_order": "desc",
+    },
+    headers=HEADERS,
+)
+r.raise_for_status()
+```
+
+## New capabilities gained on migration
+
+Endpoints without any v1 equivalent — the upside of switching:
+
+- **`POST /api/v1/stats/query`** — multi-dim engine (up to 10 dimensions, `field:op:value` filters, comparison, pagination). The "SQL" of the new API. See [Query](/api/stats-query).
+- **`POST /api/v1/stats/query/export`** — streaming CSV export up to 100,000 rows.
+- **`POST /api/v1/batch`** — up to 50 queries per call with dependencies and `parallel_limit`. Ideal for dashboards. See [Batch](/api/batch).
+- **Event-level raw**: `/stats/conversions/raw`, `/stats/microconversions/raw`, `/stats/conversion-items/raw` (line items of a purchase).
+- **Custom properties**: `/stats/properties/keys`, `/values`, `/breakdown` (UTM × property pivot).
+- **GA4-style channel groups**: `/stats/channels`, `/stats/top-channels`.
+- **Dedicated landing pages**: `/stats/landing-pages` + `/top` + `/by-content-group`.
+- **Alerts**: rules, history, test, stats under `/alerts/*`. See [Alerts](/api/alerts).
+- **HMAC-signed webhooks**: `/webhooks/*` for delivery, replay, rotate-secret. See [Webhooks](/api/webhooks).
+- **Async exports**: `/exports`, `/exports/estimate`, `/exports/stream`, `/exports/download/{token}`. See [Exports](/api/exports).
+- **Bot detection**: `/bot-stats/overview`, `/bot-stats/suspicious-sessions`.
+- **IP allowlist**: `/ip-allowlist/*` (settings, patterns, import, export, check, audit).
+- **Organizations + invitations**: `/organizations/*` (17 endpoints).
+- **Audit log**: `GET /audit/logs`.
+- **BigQuery integration**: `/integrations/bigquery`.
+- **LENS (BYOK LLM)**: `/lens/insights`, `/lens/settings`, `/lens/custom-rules`, `/lens/reports`.
+- **Data migration**: `/migration/test-connection`, `/quick-preview`, `/preview`.
+- **Saved pixels**, **email verification & reports**, **passthrough referrers**, **referrer mappings**, **shared dashboards**, **segments**, **channel groups CRUD**.
+
+## Migration checklist
+
+1. **Change host**: `app.sealmetrics.com/api` → `my.sealmetrics.com/api/v1`.
+2. **Replace login**: form-data → JSON. Implement refresh every 15 min, or switch to an API Key for read-only jobs (recommended for ETL and notebooks).
+3. **Replace pagination**: `skip` / `limit` → `page` / `page_size` (per-endpoint max varies).
+4. **Replace date filters**: `date_range=YYYYMMDD,YYYYMMDD` → `date_from` + `date_to` in ISO (`YYYY-MM-DD`). Aliases (`this_month`, `7d`, …) still work.
+5. **Rewrite `acquisition?report_type=X`** → dedicated endpoint per dimension, or `/stats/query`.
+6. **Rewrite `roas-evolution`** → `/stats/query` with `time_unit` + `revenue`/`cost`/`roas` metrics.
+7. **Consolidate multiple reports** → a single `POST /batch`.
+8. **Adopt `*/raw` endpoints** for event-level analytics (retire in-house CSV exports).
+9. **Blocker to raise with product**: if you use `set-click` for offline ingestion, open a ticket before shutting down v1 — there is no public REST equivalent today.
+10. **Adjust retry logic**: aggressive back-off is no longer needed (1/min is gone). Still implement exponential back-off on `429` and honor the `Retry-After` header.
+
+## Practical porting notes
+
+The high-level mapping is not enough for a code port. These are the details that break scripts in production if you skip them.
+
+### Response envelope changed
+
+v1 returned bare payloads with report-specific field names. The current API wraps every response in an envelope, and pagination is standardized.
+
+**Non-paginated endpoints** (`/stats/overview`, `/auth/*`, etc.):
+
+```json
+{
+  "success": true,
+  "data": { ... },
+  "meta": {},
+  "timestamp": "2026-07-02T00:00:00Z"
+}
+```
+
+**Paginated endpoints** (`/stats/pages`, `/stats/sources`, `/stats/conversions`, etc.):
+
+```json
+{
+  "data": [ ... ],
+  "total": 250,
+  "page": 1,
+  "page_size": 50,
+  "has_next": true,
+  "has_prev": false
+}
+```
+
+**Errors** (any 4xx/5xx):
+
+```json
+{
+  "error": { "code": "unauthorized", "message": "Invalid API key" },
+  "request_id": "req_abc123"
+}
+```
+
+If your v1 parser does `r.json()["results"]` or reads the response as a bare array, it will break. Update to read `r.json()["data"]`.
+
+### Metric and field names to verify
+
+The current API uses standardized metric names aligned with modern web analytics conventions. Common metrics on stats endpoints:
+
+`entrances`, `engaged_entrances`, `page_views`, `bounce_rate`, `pages_per_session`, `conversions`, `revenue`, `conversion_rate`, `average_order_value`, `microconversions`.
+
+Before deploying the port, capture one v1 response and the equivalent current response side-by-side and diff field names. Legacy names like `visits`, `bounces`, `conversions_count` — if you had them — have been replaced. Full field lists per endpoint live in [Stats endpoints](/api/stats) and [Advanced stats](/api/stats-advanced).
+
+### Resolve your v1 `account_id` to a current `site_id`
+
+Legacy `account_id` values (24-char ObjectId like `000000000000000000001234`) are not accepted as `site_id` in the current API. Map them once per integration:
+
+```bash
+# 1. List your organizations
+curl "https://my.sealmetrics.com/api/v1/organizations" \
+  -H "X-API-Key: sm_live_..."
+
+# 2. List sites in the org and match by domain
+curl "https://my.sealmetrics.com/api/v1/organizations/my-org/sites" \
+  -H "X-API-Key: sm_live_..."
+```
+
+Save the `site_id` (short slug like `acme-corp`) as a constant next to your legacy `account_id`. Some `/stats/*` endpoints still accept `account_id` as a query parameter for backward compatibility — check the per-endpoint reference.
+
+### `report_type` enum → dedicated endpoints
+
+v1 accepted a capitalized `report_type` on `/api/report/acquisition` and `/api/report/funnel`. Case matters — analysts porting query strings mechanically often keep the wrong casing.
+
+| v1 `report_type` (capitalized) | Current endpoint | Current dimension in `/stats/query` |
+|---|---|---|
+| `Source` | `GET /stats/sources` | `utm_source` |
+| `Medium` | `GET /stats/mediums` | `utm_medium` |
+| `Campaign` | `GET /stats/campaigns` | `utm_campaign` |
+| `Term` | `GET /stats/terms` | `utm_term` |
+| `Content` | `GET /stats/contents` | `utm_content` |
+
+All current dimension values are **lowercase snake_case**. Do not send `Source` — you get a `422`.
+
+### `skip`/`limit` → `page`/`page_size` formula
+
+Direct translation:
+
+```
+page      = (skip / limit) + 1
+page_size = limit
+```
+
+Examples:
+
+| v1 | Current |
+|---|---|
+| `skip=0&limit=100` | `page=1&page_size=100` |
+| `skip=100&limit=100` | `page=2&page_size=100` |
+| `skip=1000&limit=1000` | `page=2&page_size=1000` |
+
+Per-endpoint max: **1000** for `/stats/pages`, `/stats/geo/countries`, `/stats/landing-pages`, `/stats/properties/values`; **100** for `/stats/sources`, `/stats/mediums`, `/stats/campaigns`, `/stats/terms`, `/stats/contents`, `/stats/referrers`, `/stats/channels`, `/stats/conversions`, `/stats/microconversions`. Exceeding the max returns `422`. Full rules in [Pagination & Filtering](/api/pagination-sorting).
+
+### `exclude_countries` → advanced filter
+
+v1's `exclude_countries=pt,es` becomes the standard filter syntax `field:operator:value`, URL-encoded:
+
+```
+# v1
+&exclude_countries=pt,es
+
+# Current
+&filters=country:not_in:pt,es
+
+# URL-encoded (what you actually send)
+&filters=country%3Anot_in%3Apt%2Ces
+```
+
+Same syntax powers many operators: `eq`, `ne`, `in`, `not_in`, `contains`, `not_contains`, `regex`, `not_regex`. Multiple filters can be repeated. See [Pagination & Filtering](/api/pagination-sorting).
+
+### `429` response and retry logic
+
+v1 returned a JSON `{"message": "Rate limit exceeded..."}` with no headers, and you retried after ≥60 s blindly. The current API sends structured headers on every response:
+
+```http
+HTTP/1.1 429 Too Many Requests
+Retry-After: 15
+X-RateLimit-Limit: 240
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1783026000
+```
+
+Retry logic should:
+
+1. Read `Retry-After` (seconds) — sleep exactly that long, not a hard-coded 60.
+2. Use `X-RateLimit-Remaining` for pre-emptive back-off (throttle when it drops below ~5).
+3. Use `X-RateLimit-Reset` (Unix timestamp) if you need window alignment.
+
+Full reference and sample retry code in [Rate Limits](/api/rate-limits).
+
+### Token compatibility across hosts
+
+Legacy JWTs issued by `/api/auth/login` on `app.sealmetrics.com` **do not** authenticate against `my.sealmetrics.com/api/v1`, and vice versa. You must issue a new credential when you port each script:
+
+- **Read-only ETL / notebooks:** create an API Key at Settings → API Keys → **Create Token**, scope it to `stats:read`, use header `X-API-Key: sm_live_...`. This is the recommended path for data analysts.
+- **Read-write scripts:** call `POST /api/v1/auth/token` with your email/password and implement the 15-min refresh loop against `/api/v1/auth/refresh`.
+
+If you need a mapping of legacy user → new API Key at cutover, contact support with your list of active integrations.
+
+## Coexistence period
+
+Both APIs may run in parallel during the transition:
+
+- Legacy v1 tokens continue to authenticate against `app.sealmetrics.com` until formal shutdown.
+- New tokens (API Key or JWT from `/auth/token`) authenticate against `my.sealmetrics.com/api/v1`.
+- Rate limits are counted independently — a v1 client and a current client using the same user do **not** share the 1/min bucket with the new plan-based bucket.
+
+For questions or a per-integration migration plan, contact support with your current v1 endpoint list and target usage volume.

@@ -1,0 +1,137 @@
+# Fixing ReferenceError: sealmetrics is not defined
+
+URL: https://docs.sealmetrics.com/troubleshooting/sealmetrics-is-not-defined
+
+# Fixing `ReferenceError: sealmetrics is not defined`
+
+A guide for the customer's IT / development team. It resolves the `ReferenceError: sealmetrics is not defined` that appears when a blocker prevents the tracker from loading.
+
+---
+
+## The problem
+
+When a visitor has an ad blocker, privacy extension, corporate firewall, or DNS filter active (uBlock Origin, AdGuard, Brave Shields, NextDNS, Pi-hole, etc.), the browser will not download `t.sealmetrics.com/t.js`. The `window.sealmetrics` variable is never created.
+
+If your code (for example, a GTM tag) calls the API directly:
+
+```javascript
+sealmetrics.micro("Add_to_cart", { ... });
+```
+
+the browser throws `ReferenceError: sealmetrics is not defined`. That error halts execution of the JavaScript block where the call lives. If that block also contains UI, form, or navigation logic, the page breaks for the user.
+
+This is **not a tracker bug**. It is the normal consequence of invoking any third-party library (GA4, Meta Pixel, Hotjar, SealMetrics…) without protecting yourself against the "script blocked" case.
+
+---
+
+## The solution: stub buffer in `<head>` (RECOMMENDED)
+
+Inject this snippet once, inline in the `<head>`, **before any call to `sealmetrics.*`** and **before** the main tracker script:
+
+```html
+<script>
+!function(w){w.sealmetrics=w.sealmetrics||function(){(w.sealmetrics.q=w.sealmetrics.q||[]).push(['pv',arguments])};w.sealmetrics.q=w.sealmetrics.q||[];w.sealmetrics.conv=w.sealmetrics.conv||function(){w.sealmetrics.q.push(['cv',arguments])};w.sealmetrics.micro=w.sealmetrics.micro||function(){w.sealmetrics.q.push(['mc',arguments])}}(window);
+</script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+### What it does
+
+- Creates `window.sealmetrics`, `sealmetrics.conv`, and `sealmetrics.micro` as empty functions that enqueue calls into `sealmetrics.q`.
+- If the real script loads: it drains the queue in FIFO order and sends every pending event.
+- If the real script is blocked: the calls are absorbed silently. Zero console errors. Zero broken pages.
+
+### Characteristics
+
+- **Size:** ~180 bytes gzipped. No Core Web Vitals impact.
+- **Idempotent:** pasting it twice does nothing. The `||` guards take care of that.
+- **No dependencies:** ES5, compatible with every browser.
+- **Industry-standard pattern**, same as `fbq` (Meta Pixel), `gtag` (Google), `_paq` (Matomo).
+
+### Installing it from GTM
+
+If you do not have access to the site HTML and everything is managed from GTM:
+
+1. Create a new **Custom HTML** tag.
+2. Paste the stub snippet (the `` block).
+3. **Trigger:** `Initialization - All Pages` (`gtm.init`). This is the earliest GTM event.
+4. **Priority:** maximum (for example, `1000`). This guarantees the stub runs before any other tag that calls `sealmetrics.*`.
+5. Publish the container.
+
+From that point on, every other tag can call `sealmetrics.micro(...)` or `sealmetrics.conv(...)` directly, without wrapping each call in a `typeof` guard.
+
+---
+
+## Alternative solution: per-call guard
+
+If for any reason you cannot inject the stub (restrictive policies, no access to `<head>`, etc.), wrap each tracker call with a check:
+
+```javascript
+if (typeof window.sealmetrics !== "undefined" && typeof window.sealmetrics.micro === "function") {
+  sealmetrics.micro("Add_to_cart", {
+    module_title:     google_tag_manager["rm"]["208828905"](16),
+    click_text:       google_tag_manager["rm"]["208828905"](17),
+    page_title:       google_tag_manager["rm"]["208828905"](18),
+    page_subcategory: google_tag_manager["rm"]["208828905"](19),
+    cookies:          google_tag_manager["rm"]["208828905"](20),
+    type_appointment: google_tag_manager["rm"]["208828905"](21)
+  });
+}
+```
+
+For conversions:
+
+```javascript
+if (typeof window.sealmetrics !== "undefined" && typeof window.sealmetrics.conv === "function") {
+  sealmetrics.conv("purchase", 89.99, { currency: "EUR" });
+}
+```
+
+### When to use this option
+
+- Only when you cannot inject the stub.
+- Assume the `if` has to be repeated in **every** GTM tag that calls the tracker. With many events, the maintenance cost grows fast.
+
+---
+
+## Summary table
+
+| Aspect                                         | Stub buffer (HEAD)         | Per-call guard                             |
+|------------------------------------------------|----------------------------|--------------------------------------------|
+| Install effort                                 | Once                       | Once per call                              |
+| Maintenance                                    | None                       | High (every new tag needs the `if`)        |
+| Events lost if the script loads late           | No (queued and drained)    | Yes (calls before load are lost)           |
+| Size                                           | ~180 bytes gzip            | 0                                          |
+| Recommended                                    | Yes                        | Only as a fallback                         |
+
+---
+
+## What NOT to do
+
+- **Do not disable the tracker.** The error does not come from the tracker — it comes from invoking it without protection. Disabling it fixes nothing structurally and leaves you without measurement.
+- **Do not wrap every call in `try/catch`.** It works, but it hides other legitimate errors in the same block. The `typeof` guard is cleaner.
+- **Do not load the tracker with `async` and assume it is available immediately.** Even when it loads, there is a window of time during which `window.sealmetrics` does not exist yet. The stub solves this without effort.
+- **Do not paste the stub inside an iframe** (for example, a Shopify Web Pixel). The stub must live on the host page so the queued calls are drained by the tracker loaded in the same context.
+
+---
+
+## Verification
+
+After installing the stub:
+
+1. Open the site in a browser with uBlock Origin (or any blocker) active and filtering `sealmetrics.com`.
+2. Open the browser console.
+3. Navigate and fire events (clicks, conversions, etc.).
+4. `ReferenceError: sealmetrics is not defined` must **not** appear.
+5. The page must continue working normally (forms, navigation, UI).
+
+Then disable the blocker and repeat: the calls must reach the SealMetrics backend exactly as before.
+
+---
+
+## Related
+
+- [Tracker installation](/implementation/tracker/installation) — base setup, including the pre-load queue stub for deferred loading.
+- [Tracker API reference](/implementation/tracker/api-reference) — full `sealmetrics()`, `conv()`, and `micro()` signatures.
+- [Google Tag Manager integration](/integrations/google-tag-manager) — recommended setup for GTM.
+- [Reconciling SealMetrics with your ERP, CRM, or database](/troubleshooting/erp-crm-database-discrepancy) — diagnose substantial discrepancies between SealMetrics and your source of truth.

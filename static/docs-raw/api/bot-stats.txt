@@ -1,0 +1,110 @@
+# Bot Stats
+
+URL: https://docs.sealmetrics.com/api/bot-stats
+
+# Bot Stats API
+
+Inspect the bot detection signals emitted by the tracker. The scoring engine assigns each hit a suspicion score (0-100) based on header fingerprinting, JavaScript challenges, and behavioral flags. These endpoints expose the score distribution, top flag reasons, daily trend, and let you drill into high-score sessions.
+
+**Base path:** `/bot-stats`
+
+Required scope: `read`.
+
+**Info:**
+The hits log is retained for 14 days (ClickHouse TTL). The `suspicious-sessions` endpoint additionally limits queries to the last 7 days for performance.
+
+---
+
+## Bot Stats Overview
+
+```http
+GET /bot-stats/overview?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `days` | integer | `30` | Look-back window (1-90) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "period_start": "2025-01-01",
+    "period_end": "2025-01-30",
+    "distribution": {
+      "score_0": 458120,
+      "score_1_30": 28340,
+      "score_31_60": 4120,
+      "score_61_80": 890,
+      "score_81_100": 245,
+      "total_hits": 491715,
+      "avg_score": 2.43,
+      "suspicious_percentage": 1.07
+    },
+    "top_flags": [
+      { "flag": "missing_accept_language", "count": 1820, "description": "Request missing Accept-Language header" },
+      { "flag": "known_bot_pattern", "count": 1245, "description": "User-Agent matches known bot/scraper pattern" },
+      { "flag": "missing_sec_fetch", "count": 980, "description": "Modern browser missing Sec-Fetch headers" }
+    ],
+    "daily_trend": [
+      { "date": "2025-01-30", "total_hits": 16234, "suspicious_hits": 178, "avg_score": 2.51 }
+    ]
+  }
+}
+```
+
+`suspicious_percentage` is the share of hits with score > 30. `top_flags[].description` is enriched from the server's `FLAG_DESCRIPTIONS` mapping.
+
+**Flag values currently emitted by the scoring engine:**
+
+| Flag | Description |
+|------|-------------|
+| `missing_client_hints` | Browser claims to be Chrome but doesn't send Client Hints |
+| `platform_mismatch` | User-Agent platform doesn't match Client Hints platform |
+| `mobile_mismatch` | User-Agent mobile flag doesn't match Client Hints |
+| `missing_accept_language` | Request missing Accept-Language header |
+| `incomplete_accept_encoding` | Accept-Encoding missing common compression formats |
+| `missing_sec_fetch` | Modern browser missing Sec-Fetch headers |
+| `sec_fetch_inconsistent` | Sec-Fetch headers inconsistent with request type |
+| `suspicious_user_agent` | User-Agent contains suspicious patterns |
+| `empty_user_agent` | Request has empty User-Agent |
+| `known_bot_pattern` | User-Agent matches known bot/scraper pattern |
+
+---
+
+## Suspicious Sessions
+
+```http
+GET /bot-stats/suspicious-sessions?account_id={account_id}
+```
+
+Drill into sessions whose maximum score exceeds a threshold. Returns up to `limit` sessions ordered by `max_score` descending. Restricted to the **last 7 days**.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `min_score` | integer | `50` | Minimum score threshold (1-100) |
+| `limit` | integer | `20` | Max sessions to return (1-100) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "session_id": "ses_a1b2c3",
+      "max_score": 87,
+      "flags": ["headless_user_agent", "missing_accept_language"],
+      "hit_count": 14,
+      "first_seen": "2025-01-28T09:32:11.000Z",
+      "last_seen": "2025-01-28T09:41:55.000Z",
+      "user_agent": "Mozilla/5.0 (...) HeadlessChrome/...",
+      "country": "ES"
+    }
+  ]
+}
+```
