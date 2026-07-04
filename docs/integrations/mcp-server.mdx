@@ -1,20 +1,32 @@
 ---
 sidebar_position: 3
 title: MCP Server for AI Assistants
-description: Connect Claude Code, Claude Desktop, and other AI assistants to your SealMetrics analytics data using the Model Context Protocol (MCP) server.
+description: Connect Claude, ChatGPT, Cursor, Codex, and other AI assistants to your SealMetrics analytics using the Model Context Protocol (MCP) — either the hosted remote server (one URL, no install) or the local npx server.
 ---
 
 # MCP Server for AI Assistants
 
-The **SealMetrics MCP Server** lets AI assistants like Claude (Claude Code, Claude Desktop), Cursor, Windsurf, and other MCP clients query your SealMetrics analytics — traffic, conversions, campaigns, and more — in plain natural language. To get it, add one npx-based entry to your client's MCP config (e.g. `npx -y @sealmetrics/mcp` with your API key), and your assistant can start answering questions about your data.
+The **SealMetrics MCP Server** lets AI assistants like Claude (Claude Code, Claude Desktop, Claude.ai), ChatGPT, Cursor, Codex, Windsurf, VS Code, and other MCP clients query your SealMetrics analytics — traffic, conversions, campaigns, and more — in plain natural language.
+
+There are **two ways to connect**, and you only need one:
+
+| | **Remote MCP (hosted)** | **Local MCP (npx)** |
+|---|---|---|
+| Setup | Paste **one URL** — no install | Add an `npx` command with your API key |
+| Runs on | SealMetrics servers | Your machine |
+| Auth | Log in once in the browser (OAuth) | `SEALMETRICS_API_KEY` in the config |
+| Node.js required | No | Yes (v18+) |
+| Best for | **Codex, Cursor, Claude, ChatGPT** and any client that supports remote MCP | Offline / air-gapped setups, or pinning a specific version |
+
+**We recommend the remote MCP** for most people — it takes about two minutes per client and there's nothing to install or keep updated. [Jump to the remote setup ↓](#remote-mcp-server-recommended)
 
 :::tip Don't have an account yet?
-This page is the **manual setup** for when you already have a SealMetrics API key. If you want your AI assistant to **create the account for you from the chat** (no key, no terminal), use the one-click [AI Agentic Package (Claude & Codex)](/integrations/agentic-package) instead.
+Both options assume you already have a SealMetrics account and API key. If you want your AI assistant to **create the account for you from the chat** (no key, no terminal), use the one-click [AI Agentic Package (Claude & Codex)](/integrations/agentic-package) instead.
 :::
 
 ## What is MCP?
 
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server runs locally on your machine and acts as a bridge between Claude and your SealMetrics analytics data.
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server exposes your analytics — traffic, conversions, campaigns, and more — as tools your assistant can call in plain language, with no SQL and no dashboard. You can run it two ways: as the **hosted remote server** (SealMetrics runs it; you just point your client at a URL) or as the **local server** (it runs on your machine via `npx`).
 
 ## What can you ask Claude?
 
@@ -30,7 +42,122 @@ Once connected, you can ask questions like:
 
 ---
 
-## Setup (step by step)
+## Remote MCP server (recommended)
+
+The **hosted remote server** is the fastest way to connect. There's nothing to install and nothing to keep updated — you point your AI client at a single URL and log in to SealMetrics once in your browser. It works with Claude, ChatGPT, Cursor, Codex, VS Code, and any client that supports remote (Streamable HTTP) MCP.
+
+**Endpoint:**
+
+```
+https://mcp.sealmetrics.com/mcp
+```
+
+The first time a client connects, it opens a browser window to sign in to SealMetrics and authorize access. Your existing account permissions apply — the assistant can only see the sites your login can see. No API key is pasted into the client.
+
+:::tip Fewer tools, lower token use
+Append `?discovery=progressive` to the endpoint (`https://mcp.sealmetrics.com/mcp?discovery=progressive`) to load tool definitions on demand instead of all at once. Every tool stays callable; your assistant just discovers them as needed, which lowers token usage on clients with tight context limits.
+:::
+
+### Claude Code
+
+Add the remote server with the HTTP transport (run inside your project, or add `-s user` to make it available in every project):
+
+```bash
+claude mcp add --transport http sealmetrics https://mcp.sealmetrics.com/mcp
+```
+
+The first time you use a SealMetrics tool, Claude Code prompts you to authenticate in the browser. You can also run `/mcp` inside Claude Code to check the connection and sign in.
+
+### Claude.ai & Claude Desktop
+
+1. Open **Settings → Connectors**.
+2. Click **Add custom connector**.
+3. Name it `SealMetrics` and paste the URL: `https://mcp.sealmetrics.com/mcp`
+4. Click **Add**, then **Connect** and sign in to SealMetrics when the browser opens.
+
+The SealMetrics tools now appear in the connectors menu of any chat.
+
+### ChatGPT
+
+Remote MCP connectors are available on ChatGPT plans that support connectors (and via developer mode).
+
+1. Open **Settings → Connectors** (or **Settings → Connectors → Advanced → Developer mode**).
+2. Click **Create** / **Add custom connector**.
+3. Name it `SealMetrics` and set the **MCP Server URL** to `https://mcp.sealmetrics.com/mcp`.
+4. Choose **OAuth** for authentication, save, and click **Connect** to sign in.
+
+Once connected, enable the SealMetrics connector in the composer's tools/connectors menu before asking about your data.
+
+### Cursor
+
+Add this to your MCP config (`~/.cursor/mcp.json` for all projects, or `.cursor/mcp.json` in a project):
+
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "url": "https://mcp.sealmetrics.com/mcp"
+    }
+  }
+}
+```
+
+Reload Cursor, open **Settings → MCP**, and click **Connect / Sign in** next to SealMetrics to authorize in the browser.
+
+### Codex (OpenAI)
+
+Add this to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.sealmetrics]
+url = "https://mcp.sealmetrics.com/mcp"
+```
+
+Restart Codex. On first use it opens a browser to sign in to SealMetrics.
+
+### VS Code (Copilot) & other MCP clients
+
+Any client that supports remote MCP uses the same URL. In VS Code, add a `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "sealmetrics": {
+      "type": "http",
+      "url": "https://mcp.sealmetrics.com/mcp"
+    }
+  }
+}
+```
+
+:::note Client only supports local (stdio) servers?
+A few older clients can't connect to a remote URL directly. Bridge to it with [`mcp-remote`](https://www.npmjs.com/package/mcp-remote):
+
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.sealmetrics.com/mcp"]
+    }
+  }
+}
+```
+:::
+
+### Verify it works
+
+Open your assistant and ask:
+
+> "List my SealMetrics sites"
+
+It should respond with your sites. If it does, you're all set — skip ahead to [Available tools](#available-tools).
+
+---
+
+## Local MCP server (npx)
+
+Prefer to run the server on your own machine — for offline setups, or to pin a specific version? The **local server** runs via `npx` and authenticates with your API key instead of the browser. The steps below cover it end to end.
 
 ### Step 1: Verify Node.js is installed
 
@@ -320,7 +447,19 @@ These are the only accepted `period` values (the full set is validated by the se
 
 ## Troubleshooting
 
-### Claude doesn't see the SealMetrics tools
+### Remote MCP: the browser sign-in didn't complete
+
+Reconnect from your client's connector/MCP settings and complete the SealMetrics login in the browser window it opens. If the window never appears, check that pop-ups aren't blocked, then retry. In Claude Code, run `/mcp` to re-trigger authentication.
+
+### Remote MCP: connected, but no tools or "access denied"
+
+The account you signed in with doesn't have access to the site you're asking about. Sign in with an account that can see it, or ask "list my sites" to confirm which sites are available to your login.
+
+### Remote MCP: client won't accept a URL
+
+Some older clients only support local (stdio) servers. Bridge to the remote endpoint with `mcp-remote` — see [the note above](#vs-code-copilot--other-mcp-clients).
+
+### Local MCP: Claude doesn't see the SealMetrics tools
 
 1. **Claude Code**: Make sure `.mcp.json` is in your project root and restart Claude Code
 2. **Claude Desktop**: Save the config file and restart the app completely (Cmd+Q on macOS)
@@ -356,7 +495,9 @@ If it starts without errors, the server is working. Press Ctrl+C to stop it.
 
 ## How it works
 
-The MCP server runs locally on your machine and communicates with the SealMetrics API over HTTPS. No analytics data is stored locally.
+**Remote server:** SealMetrics hosts the MCP server at `https://mcp.sealmetrics.com/mcp`. Your client connects to it over HTTPS (Streamable HTTP), you authorize once via browser OAuth, and your existing account permissions decide what the assistant can read. Nothing runs on your machine.
+
+**Local server:** the MCP server runs on your machine via `npx` and communicates with the SealMetrics API over HTTPS. No analytics data is stored locally.
 
 ```
 Your machine                             SealMetrics cloud
@@ -382,7 +523,8 @@ Your machine                             SealMetrics cloud
 
 ## Resources
 
-- **npm**: [@sealmetrics/mcp](https://www.npmjs.com/package/@sealmetrics/mcp)
+- **Remote MCP endpoint**: `https://mcp.sealmetrics.com/mcp`
+- **npm (local server)**: [@sealmetrics/mcp](https://www.npmjs.com/package/@sealmetrics/mcp)
 - **Source code**: [github.com/adinton/sealmetrics2/tree/main/mcp-server](https://github.com/adinton/sealmetrics2/tree/main/mcp-server)
 - **MCP Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io/)
 - **API Reference**: [API Documentation](/api)

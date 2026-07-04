@@ -2875,14 +2875,26 @@ URL: https://docs.sealmetrics.com/integrations/mcp-server
 
 # MCP Server for AI Assistants
 
-The **SealMetrics MCP Server** lets AI assistants like Claude (Claude Code, Claude Desktop), Cursor, Windsurf, and other MCP clients query your SealMetrics analytics — traffic, conversions, campaigns, and more — in plain natural language. To get it, add one npx-based entry to your client's MCP config (e.g. `npx -y @sealmetrics/mcp` with your API key), and your assistant can start answering questions about your data.
+The **SealMetrics MCP Server** lets AI assistants like Claude (Claude Code, Claude Desktop, Claude.ai), ChatGPT, Cursor, Codex, Windsurf, VS Code, and other MCP clients query your SealMetrics analytics — traffic, conversions, campaigns, and more — in plain natural language.
+
+There are **two ways to connect**, and you only need one:
+
+| | **Remote MCP (hosted)** | **Local MCP (npx)** |
+|---|---|---|
+| Setup | Paste **one URL** — no install | Add an `npx` command with your API key |
+| Runs on | SealMetrics servers | Your machine |
+| Auth | Log in once in the browser (OAuth) | `SEALMETRICS_API_KEY` in the config |
+| Node.js required | No | Yes (v18+) |
+| Best for | **Codex, Cursor, Claude, ChatGPT** and any client that supports remote MCP | Offline / air-gapped setups, or pinning a specific version |
+
+**We recommend the remote MCP** for most people — it takes about two minutes per client and there's nothing to install or keep updated. [Jump to the remote setup ↓](#remote-mcp-server-recommended)
 
 **Tip:**
-This page is the **manual setup** for when you already have a SealMetrics API key. If you want your AI assistant to **create the account for you from the chat** (no key, no terminal), use the one-click [AI Agentic Package (Claude & Codex)](/integrations/agentic-package) instead.
+Both options assume you already have a SealMetrics account and API key. If you want your AI assistant to **create the account for you from the chat** (no key, no terminal), use the one-click [AI Agentic Package (Claude & Codex)](/integrations/agentic-package) instead.
 
 ## What is MCP?
 
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server runs locally on your machine and acts as a bridge between Claude and your SealMetrics analytics data.
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server exposes your analytics — traffic, conversions, campaigns, and more — as tools your assistant can call in plain language, with no SQL and no dashboard. You can run it two ways: as the **hosted remote server** (SealMetrics runs it; you just point your client at a URL) or as the **local server** (it runs on your machine via `npx`).
 
 ## What can you ask Claude?
 
