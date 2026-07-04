@@ -13,7 +13,7 @@ keywords:
 
 # How to Measure Conversions
 
-SealMetrics allows you to track both **conversions** (goal completions with monetary value) and **microconversions** (user interactions and funnel steps).
+To measure conversions in SealMetrics, install the tracker and call `sealmetrics.conv('type', amount?, { ...props })` when a goal completes — for example `sealmetrics.conv('purchase', 99.99)`. Use `sealmetrics.conv()` for **conversions** (goal completions with an optional monetary value like purchases, signups, and leads) and `sealmetrics.micro()` for **microconversions** (user interactions and funnel steps such as add-to-cart or video plays).
 
 ---
 
