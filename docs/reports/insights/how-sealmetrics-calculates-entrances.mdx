@@ -12,15 +12,15 @@ Understanding how Entrances work is essential for interpreting your traffic accu
 
 ## What Is an Entrance?
 
-An **Entrance** is the **start of a session** on your website. A session groups a visitor's interactions together based on referrer context and inactivity — with a **30-minute inactivity timeout**, GA4-style — without ever attaching a persistent identifier to the visitor.
+An **Entrance** is the **start of a session** on your website. A session groups a visitor's interactions together based on referrer context and inactivity — with a **2-hour inactivity timeout**, GA4-style — without ever attaching a persistent identifier to the visitor.
 
 Concretely, Sealmetrics counts a new Entrance whenever a hit arrives with an **external referrer** (or no referrer at all) *and* the session doesn't already exist. Continuous browsing on the same site produces **Pageviews** within the same Entrance's session, not new Entrances.
 
 ### Example
 
-If the same visitor lands on your site at **9:00**, keeps browsing until **9:10**, and comes back at **3:00 PM** the same day:
+If the same visitor lands on your site at **9:00**, keeps browsing until **9:30**, and comes back at **3:00 PM** the same day:
 
-**➡️ 2 Entrances, one for each session** (the 3:00 PM return is a new session because the 30-min inactivity window elapsed).
+**➡️ 2 Entrances, one for each session** (the 3:00 PM return is a new session because the 2-hour inactivity window elapsed).
 
 If instead they lands, closes the tab and reopens the same landing page 30 seconds later within the same session context:
 

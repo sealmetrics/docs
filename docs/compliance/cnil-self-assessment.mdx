@@ -209,18 +209,20 @@ Maximum theoretical lifetime: Browser session only
 
 | Aspect | Compliance |
 |--------|------------|
-| IP processing | ✅ **IP addresses not collected** |
-| Geolocation method | ✅ Derived from timezone, not IP |
-| No IP storage | ✅ IP never stored or logged |
+| IP storage | ✅ **IP is never persisted in any database or log** |
+| Geolocation (default) | ✅ Country derived from browser timezone, not IP |
+| In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is discarded immediately after the lookup and is never associated with a hit that reaches ClickHouse. |
 
 **Technical Implementation:**
 ```javascript
-// Sealmetrics does NOT collect IP addresses
-// Country detection uses browser timezone API:
+// Country detection (default): browser timezone API
 Intl.DateTimeFormat().resolvedOptions().timeZone
+
+// Agent Analytics (opt-in only): in-memory GeoIP lookup returns
+// country + is_datacenter + agent_isp; the IP itself is discarded.
 ```
 
-**Note:** Sealmetrics exceeds this requirement by not processing IP addresses at all.
+**Note:** Sealmetrics goes beyond this requirement — no IP anonymization is needed because the IP is never persisted in the first place.
 
 ---
 

@@ -60,6 +60,7 @@ For self-hosted deployments or custom domains:
 | `id` | Yes | Your Sealmetrics Site ID | `id=67a1d6c0bb10b861397fdd3a` |
 | `group` | No | Content grouping for this page. Must match `^[a-zA-Z0-9_-]{0,64}$`; an invalid value makes `/t.js` return HTTP 400 | `group=blog` |
 | `auto` | No | Set `auto=0` to suppress the automatic initial pageview (manual mode). Any other value keeps it on | `auto=0` |
+| `spa` | No | Set `spa=0` to suppress automatic pageview on SPA navigation (pushState/replaceState/popstate). SPA listeners stay wired and URL state still updates. Independent from `auto`. | `spa=0` |
 
 ### Manual Pageview Mode (`auto=0`)
 

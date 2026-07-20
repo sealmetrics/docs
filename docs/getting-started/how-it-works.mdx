@@ -24,7 +24,7 @@ Traditional analytics tools lose 60-87% of visitor data in EU markets because us
 Every interaction on your website is captured using just four data points:
 
 1. **Timestamp** - When the visit happened
-2. **User Agent** - Browser and device type (detected but not stored)
+2. **User Agent** - Browser and device type (stored 24 months for anonymous device classification; never linked to a person)
 3. **Current URL** - Which page was viewed
 4. **Referral URL** - Where the visitor came from
 
@@ -47,7 +47,7 @@ The session ID is isolated to that one visit and can never be used to identify t
 A lightweight JavaScript snippet on your website detects page views and events. The script is asynchronous and won't slow down your site.
 
 **Step 2: Instant Anonymization**
-Data is immediately anonymized at the collection layer. User agents are parsed for insights but never stored. No IP addresses are captured at any point in the system.
+Data is immediately anonymized at the collection layer. User agents are parsed for anonymous device classification and stored 24 months alongside the hit, but never joined with any personal identifier (there isn't one). No IP addresses are persisted at any point in the system.
 
 **Step 3: Secure Processing**
 All data is processed on EU-based servers in Dublin, Ireland. We use encryption in transit and at rest, with strict access controls and complete audit trails.

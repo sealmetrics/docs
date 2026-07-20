@@ -40,7 +40,7 @@ This isn't a marketing claim. It's architecturally impossible for Sealmetrics to
 Every interaction on your website is captured using exactly four data points:
 
 1. **Timestamp** - When the event occurred
-2. **User Agent** - Browser and device type (parsed but never stored)
+2. **User Agent** - Browser and device type (stored 24 months for anonymous device classification; never linked to a person)
 3. **Current URL** - The page being viewed
 4. **Referral URL** - Where the visitor came from
 
@@ -49,8 +49,8 @@ That's the complete data set. Nothing more is collected. Nothing more is stored.
 ### How Anonymization Works
 
 **At Collection:**
-- User agent strings are immediately parsed for browser/device insights
-- The raw user agent is discarded and never stored
+- User agent strings are parsed for browser/device category insights (Chrome/Safari/Firefox, Windows/macOS/iOS/Android, desktop/mobile/tablet)
+- The user agent is stored alongside the hit for the standard 24-month retention; it is **never joined with a personal identifier** (there isn't one) and never used to reconstruct a user's history across sessions
 - No fingerprinting algorithms are applied
 - No attempt is made to create persistent identifiers
 
