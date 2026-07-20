@@ -636,6 +636,21 @@ All stats endpoints accept a `period` parameter with these values:
 | `qtd` | `this_quarter` |
 | `ytd` | `this_year` |
 
+### How "today" is resolved
+
+Every preset is resolved with **"today" in the account's timezone** (`accounts.timezone`), not in UTC or in the caller's browser. This matches how the data is stored — the pixel-service pre-computes each hit's local `date` using the account's timezone — and mirrors what GA4, Plausible and Matomo call the "reporting timezone".
+
+Consequences worth knowing:
+
+- Two accounts in different timezones will see different windows for `today` even at the exact same wall-clock instant.
+- Explicit `start_date` / `end_date` (ISO `YYYY-MM-DD`) are also interpreted as **local days in the account's timezone**.
+- The stats and query endpoints (`/stats/*`, `/stats/query`, `/batch`, `/channel-groups/stats/*`) all follow this rule. If you write your own tooling that pre-resolves a range client-side, use the account's timezone as your reference — don't use the server's UTC clock.
+- Changing a site's timezone in Settings takes effect on the API within ~5 min (the timezone cache TTL).
+
+### Period comparison
+
+Set `compare=previous` (or `yoy` where supported) on any endpoint that accepts `period` to also fetch the equivalent prior window. See each endpoint's response shape for how comparison fields are laid out.
+
 ---
 
 ## Sort Fields

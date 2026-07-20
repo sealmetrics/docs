@@ -19719,6 +19719,8 @@ Click **Continue** and then **Done**.
 
 **Note:**
 
+**Do not use `roles/bigquery.dataInserter`** — it lacks `bigquery.tables.update`, which Sealmetrics needs to add new columns to existing fact tables when the schema evolves (e.g. the `channel_group` column added in mid-2026). Without that permission, schema evolution falls back to silently dropping the new column from the sync: your data continues to flow, but the affected column stays NULL. Prefer `roles/bigquery.dataEditor` unless you have a specific reason otherwise.
+
 ### 5. Generate the JSON Key
 
 1. Click on the service account you just created
@@ -19997,9 +19999,43 @@ LIMIT 20
 
 ### Missing Data
 
-- Data syncs with a 1-2 hour delay from collection
-- Verify your date range covers the expected period
-- Check that the relevant data types are enabled in your export settings
+- **Data freshness.** Sealmetrics runs an incremental sync **every day at 02:00 UTC** (with hourly incremental syncs at `:05` past the hour for accounts on higher-frequency plans). New rows should appear within ~1 hour of the sync starting. If you don't see recent data:
+  - Query the `v_sync_status` view in your dataset for a per-table freshness readout (see [Monitoring freshness](#monitoring-freshness) below).
+  - Check the sync logs in **Settings → Integrations → BigQuery** — a sync in state `partial` means at least one table was skipped this pass (usually because BigQuery's streaming buffer was still holding rows; the next sync picks it up).
+- **Multi-site datasets.** If you have several Sealmetrics sites pointing at the same GCP project + dataset, they share the physical `fact_*` tables. A DELETE + INSERT sync for one site can be delayed by BigQuery's streaming buffer if another site inserted rows in the last 30–90 min. Sealmetrics handles this automatically (see [Multi-site datasets](#multi-site-datasets)), but the effect for you is that a sync may be classified `partial` and finish on the next pass.
+- **Verify the date range** covers what you expect. Filters must use the partition column: `WHERE date >= '2026-07-01'`.
+- **Check the enabled data types** in your export settings.
+
+### Integration in "degraded" state
+
+After **5 consecutive failed syncs**, Sealmetrics marks the integration as `degraded` and stops attempting syncs until it's reset. This is a safeguard against hammering BigQuery with a broken configuration.
+
+Symptoms:
+
+- The integration shows as **Active** in the dashboard but no new rows arrive.
+- Sync logs show 5 recent failures with the same error class.
+
+Resolution: contact support with your account ID. A degraded state requires a manual reset by a Sealmetrics operator (there is no self-service reset button). Once reset, the integration resumes on the next scheduled window.
+
+### Monitoring freshness
+
+Sealmetrics writes a view into your dataset called `v_sync_status`. Query it any time to see the freshness of each fact table without touching Sealmetrics internals:
+
+```sql
+SELECT table_name, last_sync_at, lag_hours, freshness_status
+FROM `<project>.<dataset>.v_sync_status`
+ORDER BY lag_hours DESC;
+```
+
+`freshness_status` buckets:
+
+| Value | Meaning |
+|-------|---------|
+| `fresh` | ≤ 6 hours since last sync |
+| `stale` | 6–24 hours since last sync |
+| `critical` | > 24 hours since last sync |
+
+This is the recommended way to build your own uptime / freshness alerts on top of Sealmetrics's BigQuery export.
 
 ### Reducing BigQuery Costs
 
@@ -20031,10 +20067,46 @@ For a site with ~1M events/month, expect approximately **$5-20/month** in GCP co
 
 ---
 
+## Multi-site datasets
+
+Several Sealmetrics sites can point at the **same GCP project and dataset**. In that case they share the physical `fact_*` tables (rows are distinguished by `account_id`). This is a supported topology — many organizations do this to keep all their analytics in one BI-ready location.
+
+You should be aware of one BigQuery-native limitation and how Sealmetrics mitigates it:
+
+- **Streaming buffer + DELETE.** Sealmetrics uses `DELETE + INSERT` for idempotent syncs. BigQuery blocks `DELETE` on any partition where its streaming buffer still holds rows (typically 30–90 min after the last insert on the whole table). In a shared dataset, one site's fresh insert can block another site's DELETE.
+- **Three guardrails** built into the sync worker to keep this invisible to you:
+  1. When a DELETE is blocked, the worker runs a lightweight `SELECT COUNT(*)` (which is never blocked by the buffer). If your account has 0 rows in the target window, the INSERT proceeds anyway — the buffer was a neighbor's problem, not yours.
+  2. Failed / partial windows are recorded and re-tried automatically on the next sync (via a `resync_from` marker on the integration).
+  3. Resync-pending integrations are processed **first** on each sync pass, so a stuck window doesn't wait a full day to retry.
+
+**What you'll see externally:** occasionally a sync ends in state `partial` (some tables OK, one skipped), and the next scheduled sync fills the gap. `v_sync_status` shows the current state per table.
+
+If you're operating a shared dataset and see systematic `partial` runs across multiple sites, split them into per-site datasets or contact support.
+
+## Sync API endpoints
+
+The BigQuery integration is manageable programmatically via REST. All endpoints are scoped by site.
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery` | Get current integration config |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery` | Create the integration (JSON key + project/dataset) |
+| `PATCH`  | `/api/v1/sites/{account_id}/integrations/bigquery` | Update settings (enabled data types, frequency…) |
+| `DELETE` | `/api/v1/sites/{account_id}/integrations/bigquery` | Remove the integration |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/setup` | Create the dataset and empty tables on GCP |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/sync` | Trigger a manual incremental sync (optional `date_from` / `date_to`) |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/backfill` | Chunked backfill of a large historical range (`chunk_days` default `7`, range 1-30) |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/retry/{log_id}` | Retry a specific failed sync log entry |
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery/logs` | Sync history for this site |
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery/logs/{id}` | Detail of a specific sync log |
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery/schema` | Table schemas as Sealmetrics writes them |
+
+All require a JWT session with the appropriate site role. Manual `sync` / `backfill` do not share the worker's incremental cursor — the next scheduled sync still runs its own window.
+
 ## Next Steps
 
 - **Advanced configuration**: See [BigQuery Settings](/platform/settings/integrations/bigquery) for data retention, sync options, and detailed schema
-- **API access**: Use the [BigQuery API](/api/bigquery) to manage the integration programmatically
+- **API access**: use the endpoints above to manage the integration programmatically.
 - **Build dashboards**: Connect [Looker Studio](https://lookerstudio.google.com) to your BigQuery dataset for custom visualizations
 
 ## Related documentation
@@ -20768,6 +20840,137 @@ roles (owner / admin / member) rather than JWT scopes.
 If a request returns `403 forbidden` with a valid JWT, the user's role doesn't
 include the required scope — switch to a user with the right role, or use an
 [API key](#api-keys) bound to the site.
+
+## Password reset
+
+### POST /auth/forgot-password
+
+Request a password reset email. **Always returns success** — even if the email doesn't exist — to prevent enumeration attacks.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/auth/forgot-password" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "alice@acme.com"}'
+```
+
+Rate limited to **3 requests / hour / IP**, plus a per-recipient budget of 3/hour across all email-sending endpoints (register / resend-verification / forgot-password). Turnstile token required when `TURNSTILE_ENABLED=true`.
+
+### POST /auth/reset-password
+
+Complete the password reset using the token from the email:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/auth/reset-password" \
+  -H "Content-Type: application/json" \
+  -d '{"token": "<from-email>", "new_password": "a-strong-password-12+chars"}'
+```
+
+On success, **all existing sessions of that user are terminated** — the count is returned in `data.sessions_terminated`. The user must log in again with the new password.
+
+## Email verification helpers
+
+### POST /auth/resend-verification
+
+Resend the verification email if the user hasn't received (or has lost) the original one. Rate limited to **3/hour/IP** and returns a **single generic response** for every branch (missing email / already verified / sent / cap exceeded) — deliberate anti-enumeration.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/auth/resend-verification" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "alice@acme.com"}'
+```
+
+## Session management
+
+Once logged in, users can inspect and revoke their own sessions. All endpoints require a JWT (API keys don't manage sessions).
+
+### GET /auth/sessions
+
+List active sessions for the current user. The current session is marked with `is_current: true`.
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/auth/sessions" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "sessions": [
+      {
+        "id": 42,
+        "created_at": "2026-07-01T10:00:00Z",
+        "last_used_at": "2026-07-20T09:00:00Z",
+        "ip_address": "203.0.113.7",
+        "user_agent": "Mozilla/5.0 ...",
+        "is_current": true
+      }
+    ],
+    "total": 1
+  }
+}
+```
+
+### DELETE /auth/sessions/&#123;session_id&#125;
+
+Revoke a specific session (e.g. logging out a device you've lost). The JWT associated with that session is invalidated immediately (session cache is flushed).
+
+### DELETE /auth/sessions
+
+**Logout from all devices.** Terminates every session for the current user. Query param `include_current=true` also revokes the calling session.
+
+```bash
+# Log out other devices, keep the current one
+curl -X DELETE "https://my.sealmetrics.com/api/v1/auth/sessions" --cookie "sm_access_token=<jwt>"
+
+# Log out everything, including this device
+curl -X DELETE "https://my.sealmetrics.com/api/v1/auth/sessions?include_current=true" --cookie "sm_access_token=<jwt>"
+```
+
+Response includes `sessions_terminated` (count).
+
+### POST /auth/logout
+
+Log out the current session (revokes both the access-token cache and the refresh cookie).
+
+## Two-Factor Authentication (2FA)
+
+If a user has 2FA enabled, `POST /auth/token` returns a **two-step response**: the first call succeeds only up to the point of requiring the second factor, and the client must exchange the returned challenge token via the 2FA endpoints to obtain a full session.
+
+See the dedicated [Two-Factor Authentication](/api/2fa) page for the full endpoint list (`/2fa/setup`, `/2fa/verify`, `/2fa/verify-login`, `/2fa/disable`, `/2fa/backup-codes`, `/2fa/status`).
+
+## Impersonation status
+
+### GET /auth/impersonation-status
+
+Returns whether the current session is a superadmin impersonating another user. Useful for the dashboard to render an "You are impersonating X" banner and gate destructive actions.
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/auth/impersonation-status" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+Response (regular session):
+
+```json
+{ "success": true, "data": { "is_impersonating": false } }
+```
+
+Response (superadmin impersonating):
+
+```json
+{
+  "success": true,
+  "data": {
+    "is_impersonating": true,
+    "impersonated_user_id": 123,
+    "impersonated_email": "target@customer.com",
+    "started_at": "2026-07-20T09:00:00Z"
+  }
+}
+```
 
 ## Authentication Errors
 
@@ -22610,6 +22813,67 @@ Joins the organization with an existing logged-in account.
 
 ---
 
+## Seal AI Usage
+
+For organizations with Seal AI (the platform-provided LLM), you can inspect monthly token usage — quota, consumption, and breakdowns by day / user / site. Counter data only, prompt content is never stored or returned.
+
+### GET /organizations/&#123;slug&#125;/seal-ai/usage
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/organizations/acme/seal-ai/usage?month=2026-07" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+**Query parameters:**
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `month` | string | current UTC month | Format `YYYY-MM`. Must not be in the future (`422` otherwise) |
+
+**Access rules:**
+
+- Endpoint is scoped by org membership (any org member can call it).
+- **Not gated by entitlement.** The response always includes `seal_ai_enabled` so the dashboard can render an appropriate empty state when Seal AI is off.
+- **Role-based redaction inside the service**:
+  - `member` role → the `by_user` breakdown is omitted; `by_site` only contains sites the caller has access to.
+  - `admin` / `owner` roles → full breakdowns.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "month": "2026-07",
+    "seal_ai_enabled": true,
+    "plan_tier": "growth",
+    "quota_tokens": 5000000,
+    "used_tokens": 1240355,
+    "resets_at": "2026-08-01T00:00:00Z",
+    "daily": [
+      { "date": "2026-07-01", "input_tokens": 12000, "output_tokens": 4000 },
+      { "date": "2026-07-02", "input_tokens": 15200, "output_tokens": 4900 }
+    ],
+    "by_user": [
+      { "user_id": 42, "email": "alice@acme.com", "input_tokens": 850000, "output_tokens": 280000 }
+    ],
+    "by_site": [
+      { "account_id": "acme", "input_tokens": 620000, "output_tokens": 220000 }
+    ]
+  }
+}
+```
+
+Special values you may see:
+
+| Value | Meaning |
+|-------|---------|
+| `by_user[].email == "LENS (automated)"` | Rows generated by LENS anomaly detection (no user) |
+| `by_user[].email == "Former member"` | The user no longer exists in this org |
+| `by_site[].account_id == null` | Site was deleted; kept as a bucket so historical totals stay accurate |
+
+---
+
 ## Error Codes
 
 | HTTP Code | Error Code | Description |
@@ -24386,6 +24650,21 @@ All stats endpoints accept a `period` parameter with these values:
 | `mtd` | `this_month` |
 | `qtd` | `this_quarter` |
 | `ytd` | `this_year` |
+
+### How "today" is resolved
+
+Every preset is resolved with **"today" in the account's timezone** (`accounts.timezone`), not in UTC or in the caller's browser. This matches how the data is stored — the pixel-service pre-computes each hit's local `date` using the account's timezone — and mirrors what GA4, Plausible and Matomo call the "reporting timezone".
+
+Consequences worth knowing:
+
+- Two accounts in different timezones will see different windows for `today` even at the exact same wall-clock instant.
+- Explicit `start_date` / `end_date` (ISO `YYYY-MM-DD`) are also interpreted as **local days in the account's timezone**.
+- The stats and query endpoints (`/stats/*`, `/stats/query`, `/batch`, `/channel-groups/stats/*`) all follow this rule. If you write your own tooling that pre-resolves a range client-side, use the account's timezone as your reference — don't use the server's UTC clock.
+- Changing a site's timezone in Settings takes effect on the API within ~5 min (the timezone cache TTL).
+
+### Period comparison
+
+Set `compare=previous` (or `yoy` where supported) on any endpoint that accepts `period` to also fetch the equivalent prior window. See each endpoint's response shape for how comparison fields are laid out.
 
 ---
 
@@ -31084,6 +31363,212 @@ The returned `QueryResult` exposes `total` and `has_more` so you can inspect the
 
 
 
+## Two-Factor Authentication
+
+
+URL: https://docs.sealmetrics.com/api/2fa
+
+
+# Two-Factor Authentication (2FA)
+
+Sealmetrics supports **TOTP-based** two-factor authentication (compatible with Google Authenticator, 1Password, Authy, Bitwarden, etc.) plus **single-use backup codes** for account recovery.
+
+Once 2FA is enabled for a user, the standard [`POST /auth/token`](/api/authentication#obtaining-a-token) login returns a **two-step response**: it does not issue a full session, only a challenge that the client must resolve with [`POST /2fa/verify-login`](#post-2faverify-login) before it can access the API.
+
+**Base path:** `/2fa`
+
+All endpoints below require a JWT session (from `/auth/token`), except `/2fa/verify-login` which uses the challenge token returned by the initial login.
+
+---
+
+## GET /2fa/status
+
+Return the current user's 2FA configuration state.
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/2fa/status" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "enabled": true,
+    "setup_pending": false,
+    "backup_codes_remaining": 8,
+    "enabled_at": "2026-07-01T12:00:00Z"
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `enabled` | 2FA is active for this user |
+| `setup_pending` | A `/2fa/setup` was started but never completed with `/2fa/setup/verify` |
+| `backup_codes_remaining` | How many unused backup codes are left (starts at 10) |
+
+---
+
+## POST /2fa/setup
+
+Start the enrollment flow. Generates a fresh TOTP secret and returns the QR code + provisioning URI. **Does not enable 2FA yet** — the user must scan the QR and then confirm a valid code via `/2fa/setup/verify`.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/setup" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "secret": "JBSWY3DPEHPK3PXP",
+    "qr_code_svg": "<svg>...</svg>",
+    "otpauth_uri": "otpauth://totp/Sealmetrics:alice@acme.com?secret=JBSWY3DPEHPK3PXP&issuer=Sealmetrics"
+  }
+}
+```
+
+The `otpauth_uri` and `qr_code_svg` are equivalent — pick whichever your client prefers to display.
+
+---
+
+## POST /2fa/setup/verify
+
+Complete enrollment by submitting a code from the authenticator app. On success, 2FA is enabled and the backup codes are returned **once** — store them safely, they can't be retrieved later.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/setup/verify" \
+  --cookie "sm_access_token=<jwt>" \
+  -H "Content-Type: application/json" \
+  -d '{"code": "123456"}'
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "enabled": true,
+    "backup_codes": [
+      "a1b2-c3d4",
+      "e5f6-g7h8",
+      "..."
+    ]
+  }
+}
+```
+
+If the code is wrong, `400 invalid_code`. If no setup is in progress, `400 no_setup_pending`.
+
+---
+
+## POST /2fa/setup/cancel
+
+Discard a pending enrollment without completing it. Useful if the user closed the QR modal.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/setup/cancel" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+---
+
+## POST /2fa/verify-login
+
+**Public endpoint used during login** — not authenticated by a full JWT, but by the short-lived challenge token returned by `/auth/token` when 2FA is required.
+
+Login flow with 2FA enabled:
+
+1. `POST /auth/token` (email + password) → response is `{ "requires_2fa": true, "challenge_token": "<short-lived>" }` (no full access token yet).
+2. Prompt the user for their TOTP code (or a backup code).
+3. `POST /2fa/verify-login` with the challenge + code.
+4. On success, receive the standard login response (access token in body + `sm_refresh_token` cookie).
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/verify-login" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "challenge_token": "<from-step-1>",
+    "code": "123456"
+  }'
+```
+
+The `code` accepts either a 6-digit TOTP code **or** one of the user's backup codes (format `xxxx-xxxx`). Backup codes are single-use — they're consumed on successful verification.
+
+Rate-limited per IP. Too many wrong codes → `429`.
+
+---
+
+## POST /2fa/disable
+
+Turn 2FA off. Requires the user's password + a valid TOTP code (or backup code) as final proof. Deleting the 2FA config also invalidates all backup codes.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/disable" \
+  --cookie "sm_access_token=<jwt>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "password": "<current password>",
+    "code": "123456"
+  }'
+```
+
+---
+
+## POST /2fa/backup-codes/regenerate
+
+Invalidate the existing backup codes and issue a fresh set of 10. Returned once — store them safely. Requires a valid TOTP code as proof.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/backup-codes/regenerate" \
+  --cookie "sm_access_token=<jwt>" \
+  -H "Content-Type: application/json" \
+  -d '{"code": "123456"}'
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "backup_codes": [
+      "z9y8-x7w6",
+      "..."
+    ]
+  }
+}
+```
+
+---
+
+## Error codes
+
+| HTTP | Code | Meaning |
+|------|------|---------|
+| 400 | `invalid_code` | The TOTP / backup code didn't match |
+| 400 | `no_setup_pending` | Trying to verify a setup that wasn't started |
+| 400 | `already_enabled` | Trying to start setup while 2FA is already on |
+| 401 | `invalid_challenge` | The challenge token expired or is invalid (`/2fa/verify-login`) |
+| 401 | `invalid_password` | Wrong password on `/2fa/disable` |
+| 429 | `rate_limit_exceeded` | Too many failed attempts on `/2fa/verify-login` |
+
+---
+
+## Related
+
+- [Authentication](/api/authentication) — login flow, JWT bearer tokens, API keys.
+- [Sessions](/api/authentication#session-management) — revoke devices from your account.
+
+
+
 ## Audit Logs
 
 
@@ -31265,6 +31750,19 @@ DELETE /blocklist-ips/{entry_id}?account_id={account_id}
 ```
 
 **Required scope:** `write`. Returns `204 No Content`.
+
+---
+
+## Limits and behavior
+
+- **Maximum 100 entries per site.** Enforced by the API: creating the 101st entry returns `422 max_entries_reached`. If you need more, prefer CIDR ranges over individual IPs (a `/24` covers a full office subnet in one entry).
+- **IPv4 and IPv6 both supported**, including CIDR ranges. The pixel matches on exact IP and on CIDR containment.
+- **Propagation delay: ~5 minutes.** The pixel refreshes its per-site cache every ~5 min, so a new entry or an `is_active` toggle takes effect on future traffic within that window.
+- **Discarded, not tagged.** Traffic from a blocked IP is dropped at the pixel with `204 No Content` — nothing is stored, and blocked hits are not visible anywhere in reports. There is no "internal traffic" segment; the traffic simply doesn't exist as far as your analytics are concerned.
+- **Not retroactive.** Removing an entry does not restore historical data from that IP. The block only applies to future traffic.
+- **Sealmetrics never stores visitor IPs.** The blocklist is the only place the pixel reads the incoming IP, and only in memory to decide whether to accept the hit.
+
+For the user-facing walkthrough (with worked examples, the "Add my current IP" shortcut, and the difference vs the IP Allowlist), see [IP Exclusions](/platform/settings/tracking/ip-exclusions).
 
 
 
@@ -31495,6 +31993,164 @@ DELETE /channel-groups/{rule_id}?account_id={account_id}
 ```
 
 **Required scope:** `write`. Default rules cannot be deleted (`403`). Returns `204 No Content`.
+
+### Draft-only guard (for MCP / automation)
+
+Both `PATCH` and `DELETE` accept `only_if_inactive=true` as a query parameter. When set, the mutation is applied **atomically** only if the rule is a draft (`is_active = false`). If the rule has gone live between your read and your write, the endpoint returns `409 Conflict` with `error.code = "rule_is_live"`. This is what the MCP `update_channel_rule` / `delete_channel_rule` tools use to guarantee they never touch a live rule.
+
+The dashboard omits this flag so live rules remain editable there.
+
+---
+
+## Export Rules
+
+```http
+GET /channel-groups/export?account_id={account_id}
+```
+
+Returns the account's custom rules **and** the current active defaults in a versioned JSON envelope suitable for import back into another site or for external storage.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "version": 1,
+    "rules": [
+      {
+        "channel_name": "Paid Social — Meta",
+        "source_pattern": "^(facebook|instagram|fb|ig)$",
+        "medium_pattern": "^(cpc|paid)$",
+        "campaign_pattern": null,
+        "priority": 110,
+        "is_active": true
+      }
+    ],
+    "default_rules": [ /* read-only, cannot be imported */ ]
+  }
+}
+```
+
+Only the entries in `rules` are importable. `default_rules` are surfaced for reference and to allow tooling to compute an "override" set.
+
+---
+
+## Import Rules
+
+```http
+POST /channel-groups/import?account_id={account_id}&dry_run={bool}&scope={all|drafts}
+```
+
+**Required scope:** `write`.
+
+Atomic replace-all import of custom rules. Body carries the same envelope as the export.
+
+| Query parameter | Type | Default | Description |
+|-----------------|------|---------|-------------|
+| `dry_run` | boolean | `false` | Validate and report per-rule errors without writing |
+| `scope` | string | `all` | `all` = replace every custom rule; `drafts` = replace only drafts (live rules kept intact) and force incoming rules to `is_active=false` (MCP draft-only invariant) |
+
+Rules:
+
+- **All-or-nothing.** Any invalid row → `422` with a per-row report; no partial writes.
+- **Replace-all semantics.** A successful `scope=all` import **removes** any custom rule not present in the payload. Passing `rules: []` returns the site to defaults-only.
+- Limits: **100 custom rules per account** (drafts included), body **≤ 256 KB**.
+- Regex validated in **RE2** (`google-re2`) — the same engine the pixel uses. Lookaheads / lookbehinds / backrefs are rejected at import time, so a rule that passes here matches identically in production.
+
+**Response (dry-run):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "dry_run": true,
+    "would_insert": 5,
+    "would_delete": 2,
+    "errors": []
+  }
+}
+```
+
+**Response (real import):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "inserted": 5,
+    "deleted": 2,
+    "total_after": 5
+  }
+}
+```
+
+---
+
+## Test a Visit (rule tester)
+
+```http
+POST /channel-groups/test?account_id={account_id}
+```
+
+Classifies a hypothetical visit using the **exact same matching engine as the pixel** (same RE2 library, same custom-before-default ordering). This is what powers the "Test a visit" panel in Site settings → Channels.
+
+**Request Body:**
+
+```json
+{
+  "source": "google",
+  "medium": "cpc",
+  "campaign": "brand-summer",
+  "include_inactive": true
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `source` | string | Value to test against `utm_source` (case-insensitive) |
+| `medium` | string | Value to test against `utm_medium` |
+| `campaign` | string | Value to test against `utm_campaign` |
+| `include_inactive` | boolean | If `true`, drafts are also evaluated (default `false`, i.e. only what the pixel is running today) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "channel": "Paid Search Brand",
+    "matched_rule": {
+      "id": 42,
+      "channel_name": "Paid Search Brand",
+      "source_pattern": "^(google|bing)$",
+      "medium_pattern": "^cpc$",
+      "campaign_pattern": "brand",
+      "priority": 110,
+      "is_active": true,
+      "is_default": false
+    }
+  }
+}
+```
+
+If nothing matches, `channel` is `"Unassigned"` and `matched_rule` is `null`.
+
+---
+
+## Helper: my IP
+
+Not on the channel-groups router, but paired with this feature set for the "Add my current IP" shortcut in Site settings → IP Exclusions:
+
+```http
+GET /utils/my-ip
+```
+
+Echoes the caller's public IP, resolved through the trusted-proxy chain. Used by the dashboard's "Add my current IP" button.
+
+```json
+{ "success": true, "data": { "ip": "203.0.113.7" } }
+```
 
 ---
 

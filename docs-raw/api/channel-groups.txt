@@ -109,6 +109,164 @@ DELETE /channel-groups/{rule_id}?account_id={account_id}
 
 **Required scope:** `write`. Default rules cannot be deleted (`403`). Returns `204 No Content`.
 
+### Draft-only guard (for MCP / automation)
+
+Both `PATCH` and `DELETE` accept `only_if_inactive=true` as a query parameter. When set, the mutation is applied **atomically** only if the rule is a draft (`is_active = false`). If the rule has gone live between your read and your write, the endpoint returns `409 Conflict` with `error.code = "rule_is_live"`. This is what the MCP `update_channel_rule` / `delete_channel_rule` tools use to guarantee they never touch a live rule.
+
+The dashboard omits this flag so live rules remain editable there.
+
+---
+
+## Export Rules
+
+```http
+GET /channel-groups/export?account_id={account_id}
+```
+
+Returns the account's custom rules **and** the current active defaults in a versioned JSON envelope suitable for import back into another site or for external storage.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "version": 1,
+    "rules": [
+      {
+        "channel_name": "Paid Social — Meta",
+        "source_pattern": "^(facebook|instagram|fb|ig)$",
+        "medium_pattern": "^(cpc|paid)$",
+        "campaign_pattern": null,
+        "priority": 110,
+        "is_active": true
+      }
+    ],
+    "default_rules": [ /* read-only, cannot be imported */ ]
+  }
+}
+```
+
+Only the entries in `rules` are importable. `default_rules` are surfaced for reference and to allow tooling to compute an "override" set.
+
+---
+
+## Import Rules
+
+```http
+POST /channel-groups/import?account_id={account_id}&dry_run={bool}&scope={all|drafts}
+```
+
+**Required scope:** `write`.
+
+Atomic replace-all import of custom rules. Body carries the same envelope as the export.
+
+| Query parameter | Type | Default | Description |
+|-----------------|------|---------|-------------|
+| `dry_run` | boolean | `false` | Validate and report per-rule errors without writing |
+| `scope` | string | `all` | `all` = replace every custom rule; `drafts` = replace only drafts (live rules kept intact) and force incoming rules to `is_active=false` (MCP draft-only invariant) |
+
+Rules:
+
+- **All-or-nothing.** Any invalid row → `422` with a per-row report; no partial writes.
+- **Replace-all semantics.** A successful `scope=all` import **removes** any custom rule not present in the payload. Passing `rules: []` returns the site to defaults-only.
+- Limits: **100 custom rules per account** (drafts included), body **≤ 256 KB**.
+- Regex validated in **RE2** (`google-re2`) — the same engine the pixel uses. Lookaheads / lookbehinds / backrefs are rejected at import time, so a rule that passes here matches identically in production.
+
+**Response (dry-run):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "dry_run": true,
+    "would_insert": 5,
+    "would_delete": 2,
+    "errors": []
+  }
+}
+```
+
+**Response (real import):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "inserted": 5,
+    "deleted": 2,
+    "total_after": 5
+  }
+}
+```
+
+---
+
+## Test a Visit (rule tester)
+
+```http
+POST /channel-groups/test?account_id={account_id}
+```
+
+Classifies a hypothetical visit using the **exact same matching engine as the pixel** (same RE2 library, same custom-before-default ordering). This is what powers the "Test a visit" panel in Site settings → Channels.
+
+**Request Body:**
+
+```json
+{
+  "source": "google",
+  "medium": "cpc",
+  "campaign": "brand-summer",
+  "include_inactive": true
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `source` | string | Value to test against `utm_source` (case-insensitive) |
+| `medium` | string | Value to test against `utm_medium` |
+| `campaign` | string | Value to test against `utm_campaign` |
+| `include_inactive` | boolean | If `true`, drafts are also evaluated (default `false`, i.e. only what the pixel is running today) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "channel": "Paid Search Brand",
+    "matched_rule": {
+      "id": 42,
+      "channel_name": "Paid Search Brand",
+      "source_pattern": "^(google|bing)$",
+      "medium_pattern": "^cpc$",
+      "campaign_pattern": "brand",
+      "priority": 110,
+      "is_active": true,
+      "is_default": false
+    }
+  }
+}
+```
+
+If nothing matches, `channel` is `"Unassigned"` and `matched_rule` is `null`.
+
+---
+
+## Helper: my IP
+
+Not on the channel-groups router, but paired with this feature set for the "Add my current IP" shortcut in Site settings → IP Exclusions:
+
+```http
+GET /utils/my-ip
+```
+
+Echoes the caller's public IP, resolved through the trusted-proxy chain. Used by the dashboard's "Add my current IP" button.
+
+```json
+{ "success": true, "data": { "ip": "203.0.113.7" } }
+```
+
 ---
 
 ## Get Channel Metrics

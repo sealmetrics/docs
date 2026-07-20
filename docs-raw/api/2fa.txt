@@ -1,0 +1,201 @@
+# Two-Factor Authentication
+
+URL: https://docs.sealmetrics.com/api/2fa
+
+# Two-Factor Authentication (2FA)
+
+Sealmetrics supports **TOTP-based** two-factor authentication (compatible with Google Authenticator, 1Password, Authy, Bitwarden, etc.) plus **single-use backup codes** for account recovery.
+
+Once 2FA is enabled for a user, the standard [`POST /auth/token`](/api/authentication#obtaining-a-token) login returns a **two-step response**: it does not issue a full session, only a challenge that the client must resolve with [`POST /2fa/verify-login`](#post-2faverify-login) before it can access the API.
+
+**Base path:** `/2fa`
+
+All endpoints below require a JWT session (from `/auth/token`), except `/2fa/verify-login` which uses the challenge token returned by the initial login.
+
+---
+
+## GET /2fa/status
+
+Return the current user's 2FA configuration state.
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/2fa/status" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "enabled": true,
+    "setup_pending": false,
+    "backup_codes_remaining": 8,
+    "enabled_at": "2026-07-01T12:00:00Z"
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `enabled` | 2FA is active for this user |
+| `setup_pending` | A `/2fa/setup` was started but never completed with `/2fa/setup/verify` |
+| `backup_codes_remaining` | How many unused backup codes are left (starts at 10) |
+
+---
+
+## POST /2fa/setup
+
+Start the enrollment flow. Generates a fresh TOTP secret and returns the QR code + provisioning URI. **Does not enable 2FA yet** — the user must scan the QR and then confirm a valid code via `/2fa/setup/verify`.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/setup" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "secret": "JBSWY3DPEHPK3PXP",
+    "qr_code_svg": "<svg>...</svg>",
+    "otpauth_uri": "otpauth://totp/Sealmetrics:alice@acme.com?secret=JBSWY3DPEHPK3PXP&issuer=Sealmetrics"
+  }
+}
+```
+
+The `otpauth_uri` and `qr_code_svg` are equivalent — pick whichever your client prefers to display.
+
+---
+
+## POST /2fa/setup/verify
+
+Complete enrollment by submitting a code from the authenticator app. On success, 2FA is enabled and the backup codes are returned **once** — store them safely, they can't be retrieved later.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/setup/verify" \
+  --cookie "sm_access_token=<jwt>" \
+  -H "Content-Type: application/json" \
+  -d '{"code": "123456"}'
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "enabled": true,
+    "backup_codes": [
+      "a1b2-c3d4",
+      "e5f6-g7h8",
+      "..."
+    ]
+  }
+}
+```
+
+If the code is wrong, `400 invalid_code`. If no setup is in progress, `400 no_setup_pending`.
+
+---
+
+## POST /2fa/setup/cancel
+
+Discard a pending enrollment without completing it. Useful if the user closed the QR modal.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/setup/cancel" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+---
+
+## POST /2fa/verify-login
+
+**Public endpoint used during login** — not authenticated by a full JWT, but by the short-lived challenge token returned by `/auth/token` when 2FA is required.
+
+Login flow with 2FA enabled:
+
+1. `POST /auth/token` (email + password) → response is `{ "requires_2fa": true, "challenge_token": "<short-lived>" }` (no full access token yet).
+2. Prompt the user for their TOTP code (or a backup code).
+3. `POST /2fa/verify-login` with the challenge + code.
+4. On success, receive the standard login response (access token in body + `sm_refresh_token` cookie).
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/verify-login" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "challenge_token": "<from-step-1>",
+    "code": "123456"
+  }'
+```
+
+The `code` accepts either a 6-digit TOTP code **or** one of the user's backup codes (format `xxxx-xxxx`). Backup codes are single-use — they're consumed on successful verification.
+
+Rate-limited per IP. Too many wrong codes → `429`.
+
+---
+
+## POST /2fa/disable
+
+Turn 2FA off. Requires the user's password + a valid TOTP code (or backup code) as final proof. Deleting the 2FA config also invalidates all backup codes.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/disable" \
+  --cookie "sm_access_token=<jwt>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "password": "<current password>",
+    "code": "123456"
+  }'
+```
+
+---
+
+## POST /2fa/backup-codes/regenerate
+
+Invalidate the existing backup codes and issue a fresh set of 10. Returned once — store them safely. Requires a valid TOTP code as proof.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/2fa/backup-codes/regenerate" \
+  --cookie "sm_access_token=<jwt>" \
+  -H "Content-Type: application/json" \
+  -d '{"code": "123456"}'
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "backup_codes": [
+      "z9y8-x7w6",
+      "..."
+    ]
+  }
+}
+```
+
+---
+
+## Error codes
+
+| HTTP | Code | Meaning |
+|------|------|---------|
+| 400 | `invalid_code` | The TOTP / backup code didn't match |
+| 400 | `no_setup_pending` | Trying to verify a setup that wasn't started |
+| 400 | `already_enabled` | Trying to start setup while 2FA is already on |
+| 401 | `invalid_challenge` | The challenge token expired or is invalid (`/2fa/verify-login`) |
+| 401 | `invalid_password` | Wrong password on `/2fa/disable` |
+| 429 | `rate_limit_exceeded` | Too many failed attempts on `/2fa/verify-login` |
+
+---
+
+## Related
+
+- [Authentication](/api/authentication) — login flow, JWT bearer tokens, API keys.
+- [Sessions](/api/authentication#session-management) — revoke devices from your account.

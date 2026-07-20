@@ -92,6 +92,8 @@ Click **Continue** and then **Done**.
 
 **Note:**
 
+**Do not use `roles/bigquery.dataInserter`** — it lacks `bigquery.tables.update`, which Sealmetrics needs to add new columns to existing fact tables when the schema evolves (e.g. the `channel_group` column added in mid-2026). Without that permission, schema evolution falls back to silently dropping the new column from the sync: your data continues to flow, but the affected column stays NULL. Prefer `roles/bigquery.dataEditor` unless you have a specific reason otherwise.
+
 ### 5. Generate the JSON Key
 
 1. Click on the service account you just created
@@ -370,9 +372,43 @@ LIMIT 20
 
 ### Missing Data
 
-- Data syncs with a 1-2 hour delay from collection
-- Verify your date range covers the expected period
-- Check that the relevant data types are enabled in your export settings
+- **Data freshness.** Sealmetrics runs an incremental sync **every day at 02:00 UTC** (with hourly incremental syncs at `:05` past the hour for accounts on higher-frequency plans). New rows should appear within ~1 hour of the sync starting. If you don't see recent data:
+  - Query the `v_sync_status` view in your dataset for a per-table freshness readout (see [Monitoring freshness](#monitoring-freshness) below).
+  - Check the sync logs in **Settings → Integrations → BigQuery** — a sync in state `partial` means at least one table was skipped this pass (usually because BigQuery's streaming buffer was still holding rows; the next sync picks it up).
+- **Multi-site datasets.** If you have several Sealmetrics sites pointing at the same GCP project + dataset, they share the physical `fact_*` tables. A DELETE + INSERT sync for one site can be delayed by BigQuery's streaming buffer if another site inserted rows in the last 30–90 min. Sealmetrics handles this automatically (see [Multi-site datasets](#multi-site-datasets)), but the effect for you is that a sync may be classified `partial` and finish on the next pass.
+- **Verify the date range** covers what you expect. Filters must use the partition column: `WHERE date >= '2026-07-01'`.
+- **Check the enabled data types** in your export settings.
+
+### Integration in "degraded" state
+
+After **5 consecutive failed syncs**, Sealmetrics marks the integration as `degraded` and stops attempting syncs until it's reset. This is a safeguard against hammering BigQuery with a broken configuration.
+
+Symptoms:
+
+- The integration shows as **Active** in the dashboard but no new rows arrive.
+- Sync logs show 5 recent failures with the same error class.
+
+Resolution: contact support with your account ID. A degraded state requires a manual reset by a Sealmetrics operator (there is no self-service reset button). Once reset, the integration resumes on the next scheduled window.
+
+### Monitoring freshness
+
+Sealmetrics writes a view into your dataset called `v_sync_status`. Query it any time to see the freshness of each fact table without touching Sealmetrics internals:
+
+```sql
+SELECT table_name, last_sync_at, lag_hours, freshness_status
+FROM `<project>.<dataset>.v_sync_status`
+ORDER BY lag_hours DESC;
+```
+
+`freshness_status` buckets:
+
+| Value | Meaning |
+|-------|---------|
+| `fresh` | ≤ 6 hours since last sync |
+| `stale` | 6–24 hours since last sync |
+| `critical` | > 24 hours since last sync |
+
+This is the recommended way to build your own uptime / freshness alerts on top of Sealmetrics's BigQuery export.
 
 ### Reducing BigQuery Costs
 
@@ -404,10 +440,46 @@ For a site with ~1M events/month, expect approximately **$5-20/month** in GCP co
 
 ---
 
+## Multi-site datasets
+
+Several Sealmetrics sites can point at the **same GCP project and dataset**. In that case they share the physical `fact_*` tables (rows are distinguished by `account_id`). This is a supported topology — many organizations do this to keep all their analytics in one BI-ready location.
+
+You should be aware of one BigQuery-native limitation and how Sealmetrics mitigates it:
+
+- **Streaming buffer + DELETE.** Sealmetrics uses `DELETE + INSERT` for idempotent syncs. BigQuery blocks `DELETE` on any partition where its streaming buffer still holds rows (typically 30–90 min after the last insert on the whole table). In a shared dataset, one site's fresh insert can block another site's DELETE.
+- **Three guardrails** built into the sync worker to keep this invisible to you:
+  1. When a DELETE is blocked, the worker runs a lightweight `SELECT COUNT(*)` (which is never blocked by the buffer). If your account has 0 rows in the target window, the INSERT proceeds anyway — the buffer was a neighbor's problem, not yours.
+  2. Failed / partial windows are recorded and re-tried automatically on the next sync (via a `resync_from` marker on the integration).
+  3. Resync-pending integrations are processed **first** on each sync pass, so a stuck window doesn't wait a full day to retry.
+
+**What you'll see externally:** occasionally a sync ends in state `partial` (some tables OK, one skipped), and the next scheduled sync fills the gap. `v_sync_status` shows the current state per table.
+
+If you're operating a shared dataset and see systematic `partial` runs across multiple sites, split them into per-site datasets or contact support.
+
+## Sync API endpoints
+
+The BigQuery integration is manageable programmatically via REST. All endpoints are scoped by site.
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery` | Get current integration config |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery` | Create the integration (JSON key + project/dataset) |
+| `PATCH`  | `/api/v1/sites/{account_id}/integrations/bigquery` | Update settings (enabled data types, frequency…) |
+| `DELETE` | `/api/v1/sites/{account_id}/integrations/bigquery` | Remove the integration |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/setup` | Create the dataset and empty tables on GCP |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/sync` | Trigger a manual incremental sync (optional `date_from` / `date_to`) |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/backfill` | Chunked backfill of a large historical range (`chunk_days` default `7`, range 1-30) |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/retry/{log_id}` | Retry a specific failed sync log entry |
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery/logs` | Sync history for this site |
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery/logs/{id}` | Detail of a specific sync log |
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery/schema` | Table schemas as Sealmetrics writes them |
+
+All require a JWT session with the appropriate site role. Manual `sync` / `backfill` do not share the worker's incremental cursor — the next scheduled sync still runs its own window.
+
 ## Next Steps
 
 - **Advanced configuration**: See [BigQuery Settings](/platform/settings/integrations/bigquery) for data retention, sync options, and detailed schema
-- **API access**: Use the [BigQuery API](/api/bigquery) to manage the integration programmatically
+- **API access**: use the endpoints above to manage the integration programmatically.
 - **Build dashboards**: Connect [Looker Studio](https://lookerstudio.google.com) to your BigQuery dataset for custom visualizations
 
 ## Related documentation
