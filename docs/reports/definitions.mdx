@@ -52,25 +52,20 @@ For a complete glossary of all terms (including privacy, platform, and technical
 
 **Example:** A user visits 5 pages in one session. This counts as 5 pageviews and 1 entrance.
 
-### Unique Visitors
+### Unique Visitors — not tracked
 
-**Definition:** The number of distinct users who visited during the selected period.
+Sealmetrics **does not calculate unique visitors**. Identifying a "unique visitor" requires a persistent per-user identifier (cookie, fingerprint, or hash), and any such identifier constitutes personal data under GDPR. Sealmetrics's consentless legal basis depends on **not** carrying an identifier across sessions.
 
-| Aspect | Description |
-|--------|-------------|
-| Identification | Cookieless (no cookies required) |
-| Cross-device | Same user on different devices counts as different visitors |
-| Use case | Measure audience size |
-
-**Example:** One user visits 3 times in a day. This counts as 1 unique visitor, 3 entrances.
+Use **entrances** as the audience-size signal instead — it measures unique sessions, which is what most product decisions actually need.
 
 ### Bounce Rate
 
-**Definition:** The percentage of sessions where the user viewed only one page and then left.
+**Definition:** The percentage of entrance sessions where the user viewed only one page before leaving. Computed in aggregate — no individual tracking required.
 
 | Aspect | Description |
 |--------|-------------|
-| Formula | (Single-page sessions / Total sessions) × 100 |
+| Formula | (Entrances − Engaged Entrances) / Entrances × 100 |
+| "Engaged" | A session with **more than one pageview** |
 | Range | 0% to 100% |
 | Lower is better | Generally indicates better engagement |
 

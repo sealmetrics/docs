@@ -20,21 +20,30 @@ Get LENS configured and receiving insights in under 5 minutes.
 2. Click **LENS** in the main navigation
 3. You'll see the LENS overview with any detected anomalies
 
-## Step 2: Connect Your LLM Provider
+## Step 2: Pick a provider
 
-The LENS assistant is **bring-your-own-key (BYOK)**: you connect your own LLM provider API key. This means there is no per-account question quota — you ask as much as you like and pay your provider directly.
+The LENS assistant supports two options:
 
-1. Go to **My Account → LLM Providers**
-2. Add an API key for one of the supported providers:
+- **Seal AI** — the platform LLM. **No API key needed**; usage counts against your organization's monthly token quota (allocated per plan tier). See your quota anytime in **Seal AI Usage** in the sidebar.
+- **Bring-your-own-key (BYOK)** — connect your own provider API key. No per-account quota; you pay your provider directly.
 
-| Provider | Default model |
-|----------|---------------|
-| Anthropic | `claude-sonnet-4` |
-| OpenAI | `gpt-4o` |
-| DeepSeek | `deepseek-chat` |
-| Google Gemini | `gemini-2.5-flash` |
+If your organization has Seal AI enabled, it's active by default. To use a BYOK provider, go to **My Account → LLM Providers** and add an API key.
 
-3. Mark one provider as your default and save
+**Supported providers** (LENS picks the model automatically based on task complexity):
+
+| Provider | Simple tasks | Complex / critical tasks |
+|----------|--------------|--------------------------|
+| **Seal AI** (platform) | Managed for you | Managed for you |
+| Anthropic (BYOK) | `claude-3-5-haiku` | `claude-sonnet-4` / `claude-opus-4` |
+| OpenAI (BYOK) | `gpt-4o-mini` | `gpt-4o` |
+| DeepSeek (BYOK) | `deepseek-chat` | `deepseek-chat` |
+| Google Gemini (BYOK) | `gemini-1.5-flash` | `gemini-1.5-pro` |
+
+Mark one provider as your default and save.
+
+:::info Seal AI quota
+Seal AI is scoped by monthly token quota per plan tier (Free / Growth / Scale / Enterprise). When you get close to your limit the dashboard shows an in-app warning; once exceeded, chat calls return a "quota exceeded" error until the next monthly reset. Switch to a BYOK provider (or upgrade the plan) if you need more headroom.
+:::
 
 ## Step 3: Review LENS Insights
 

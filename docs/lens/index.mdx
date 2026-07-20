@@ -50,7 +50,7 @@ Ask LENS questions about your data in natural language:
 - *"Which campaigns are performing best this month?"*
 - *"Compare traffic from Google vs Facebook"*
 
-The assistant is **bring-your-own-key (BYOK)**: you connect your own LLM provider API key, so there is no per-account question quota. Supported providers and their default models are Anthropic (`claude-sonnet-4`), OpenAI (`gpt-4o`), DeepSeek (`deepseek-chat`), and Google Gemini (`gemini-2.5-flash`).
+The assistant supports two provider modes: **Seal AI** (the platform LLM, no key required — usage counts against your org's monthly token quota) and **bring-your-own-key (BYOK)** with Anthropic (`claude-3-5-haiku` / `claude-sonnet-4`), OpenAI (`gpt-4o-mini` / `gpt-4o`), DeepSeek (`deepseek-chat`), or Google Gemini (`gemini-1.5-flash` / `gemini-1.5-pro`). BYOK has no quota — you pay your provider directly. LENS picks the appropriate model automatically based on task complexity.
 
 [Learn more about the AI assistant →](/lens/ai-assistant)
 

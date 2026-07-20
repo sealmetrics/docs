@@ -272,7 +272,15 @@ Stream export directly for small datasets (&lt;10K rows).
 
 **Request Body:** Same as create export.
 
-**Response:** File stream with appropriate content type.
+**Response:** A **direct file download**, not the usual JSON envelope. Headers:
+
+| Header | Value |
+|--------|-------|
+| `Content-Type` | `text/csv; charset=utf-8` (or `application/json`, `application/x-ndjson` depending on `format`) |
+| `Content-Disposition` | `attachment; filename="{export_type}_{date_from}_{date_to}.{ext}"` |
+| `Cache-Control` | `no-store` |
+
+Save the response body to a file (or pipe it) — do not try to `.json()` parse it.
 
 **Working example — `conversions` export:**
 

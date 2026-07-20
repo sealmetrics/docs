@@ -52,9 +52,10 @@ Document the following from your current GA4 property:
 ## What's different
 
 - **No cookies, no consent banner.** Sealmetrics captures 100% of traffic under GDPR legitimate interest (Article 6(1)(f)), audited by [Comply](https://app.comply.org/attest/sealmetrics).
-- **No Google Ads native integration.** If you rely on GA4 → Google Ads conversion import, keep GA4 for that flow alongside Sealmetrics, or use server-side conversion upload.
+- **Google Ads tracking, no audience sync.** Sealmetrics tracks Google Ads campaigns via UTM parameters end-to-end (source, medium, campaign, term, content) and provides ROAS reporting. What it does **not** do is push audience segments back to Google Ads for automated bidding — that requires GA4 with consented users. Teams commonly run both: GA4 for Ads audience/bidding, Sealmetrics as the source of truth for total traffic and conversions.
 - **No predictive metrics** (purchase probability, churn probability). Sealmetrics reports observed behavior.
 - **Simpler attribution model.** Last non-direct click by default; configurable.
+- **Reporting in the account's timezone, not UTC.** Every preset ("today", "7d", "this month") is resolved with "today in the account's timezone" — matching how GA4 calls it the "reporting timezone". Set it correctly in **Site settings → General** before you start validating side-by-side; a mismatch between GA4's reporting timezone and Sealmetrics's will shift daily rollups by up to a day at the seam.
 
 ## Related
 
