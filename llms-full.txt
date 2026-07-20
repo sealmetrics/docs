@@ -55094,6 +55094,28 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
+## Channel classification improvement — more accurate Direct and Referral reporting (July 20, 2026)
+
+Following feedback from customers who wanted a cleaner mapping between what our tracker captures and the channel groups shown in the dashboard, we've refined the default classification rules for two channels:
+
+- **Direct** — traffic with no referrer and no campaign parameters
+- **Referral** — visits coming from external sites without UTM tagging
+
+The updated rules align our default channel groups with the GA4-style conventions our tracker already uses internally, closing a small gap that had accumulated over successive iterations of the pixel.
+
+### Impact on your reports
+Starting July 20, 2026, a portion of the traffic previously reported under **Unassigned** now appears in **Direct** or **Referral** in your channel reports. It's the same traffic you were already receiving — simply labeled more accurately from now on.
+
+A few details worth knowing:
+
+- The change applies only to **new traffic** from the effective date onward. Historical rows keep their existing classification (channels are assigned at ingest time).
+- If your account uses custom channel rules, those continue to take priority — this update only affects the built-in defaults.
+- No action is required on your side.
+
+If you have automations, alerts or exports built on the exact volume of Unassigned traffic, this is a good moment to review them.
+
+---
+
 ## Bot-blocking algorithm update — fewer false positives (June 2, 2026)
 
 On **Tuesday, June 2, 2026 at 20:00 CET**, we deployed an update to our bot-blocking algorithm to stop filtering out legitimate human traffic that was previously being misidentified as bot activity.
