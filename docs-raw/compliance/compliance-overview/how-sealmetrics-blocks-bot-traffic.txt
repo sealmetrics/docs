@@ -94,10 +94,9 @@ This allows us to block automated traffic without relying on IP addresses.
 
 Using user agents for bot filtering is permitted because:
 
-- User agents are **not personal data** (when not stored raw).
-- Sealmetrics does **not store** user agent strings.
+- User agents are **not personal data** when they are used as anonymous device-category signals (browser family, OS family, mobile/desktop) rather than as identifiers.
+- Sealmetrics stores the user agent string alongside each hit for the standard 24-month retention window purely for aggregated device classification. It is **never linked to any personal identifier** (we don't have one) and **never used to reconstruct a user's history** across sessions.
 - No tracking identifiers are used.
-- No correlation between hits is possible.
 - No user or device profiling is performed.
 
 This means we can filter bot traffic **without consent** and without violating GDPR or ePrivacy rules.

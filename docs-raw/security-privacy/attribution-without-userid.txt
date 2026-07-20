@@ -27,14 +27,12 @@ Sealmetrics does **not** use any of these identifiers.
 
 Sealmetrics does **not**:
 
-❌ Track users  
-❌ Link page views  
-❌ Build sessions  
-❌ Store IP addresses  
-❌ Store user agents  
-❌ Use cookies or persistent identifiers  
+❌ Track individual users across sessions
+❌ Link a hit to a person (there is no personal identifier to link with)
+❌ Store IP addresses
+❌ Use cookies or persistent identifiers
 
-Each interaction (hit) is completely isolated and cannot be associated with an individual.
+The user agent is stored 24 months for anonymous device classification (browser/OS category), but it cannot be joined with anything that identifies the person — because no such identifier exists. Short-lived session context exists inside a single browsing session (~2-hour inactivity), never across sessions or devices.
 
 ---
 

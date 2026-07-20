@@ -122,7 +122,7 @@ Traditional analytics tools lose 60-87% of visitor data in EU markets because us
 Every interaction on your website is captured using just four data points:
 
 1. **Timestamp** - When the visit happened
-2. **User Agent** - Browser and device type (detected but not stored)
+2. **User Agent** - Browser and device type (stored 24 months for anonymous device classification; never linked to a person)
 3. **Current URL** - Which page was viewed
 4. **Referral URL** - Where the visitor came from
 
@@ -145,7 +145,7 @@ The session ID is isolated to that one visit and can never be used to identify t
 A lightweight JavaScript snippet on your website detects page views and events. The script is asynchronous and won't slow down your site.
 
 **Step 2: Instant Anonymization**
-Data is immediately anonymized at the collection layer. User agents are parsed for insights but never stored. No IP addresses are captured at any point in the system.
+Data is immediately anonymized at the collection layer. User agents are parsed for anonymous device classification and stored 24 months alongside the hit, but never joined with any personal identifier (there isn't one). No IP addresses are persisted at any point in the system.
 
 **Step 3: Secure Processing**
 All data is processed on EU-based servers in Dublin, Ireland. We use encryption in transit and at rest, with strict access controls and complete audit trails.
@@ -347,7 +347,7 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 ### Key Metrics Overview
 
-- **Visits:** Total unique visitors  
+- **Entrances:** Sessions started on your site (Sealmetrics does not count "unique visitors" — that would require identifying individuals)  
 - **Page Views:** Total pages viewed  
 - **Conversion Rate:** Goal completion percentage  
 - **Traffic Sources:** Where visitors come from  
@@ -7651,15 +7651,15 @@ Understanding how Entrances work is essential for interpreting your traffic accu
 
 ## What Is an Entrance?
 
-An **Entrance** is the **start of a session** on your website. A session groups a visitor's interactions together based on referrer context and inactivity — with a **30-minute inactivity timeout**, GA4-style — without ever attaching a persistent identifier to the visitor.
+An **Entrance** is the **start of a session** on your website. A session groups a visitor's interactions together based on referrer context and inactivity — with a **2-hour inactivity timeout**, GA4-style — without ever attaching a persistent identifier to the visitor.
 
 Concretely, Sealmetrics counts a new Entrance whenever a hit arrives with an **external referrer** (or no referrer at all) *and* the session doesn't already exist. Continuous browsing on the same site produces **Pageviews** within the same Entrance's session, not new Entrances.
 
 ### Example
 
-If the same visitor lands on your site at **9:00**, keeps browsing until **9:10**, and comes back at **3:00 PM** the same day:
+If the same visitor lands on your site at **9:00**, keeps browsing until **9:30**, and comes back at **3:00 PM** the same day:
 
-**➡️ 2 Entrances, one for each session** (the 3:00 PM return is a new session because the 30-min inactivity window elapsed).
+**➡️ 2 Entrances, one for each session** (the 3:00 PM return is a new session because the 2-hour inactivity window elapsed).
 
 If instead they lands, closes the tab and reopens the same landing page 30 seconds later within the same session context:
 
@@ -8518,9 +8518,6 @@ If your ERP shows fewer conversions, the explanation is simple:
 > The conversion pixel is firing more often than it should.
 
 By tightening pixel placement and adding safeguards, you can align metrics between Sealmetrics and your backend systems.
-
-If you want, puedo crear un artículo complementario:  
-**“Best Practices to Ensure Accurate Conversion Tracking in Sealmetrics”**. ¿Lo generamos?
 
 ## Related documentation
 
@@ -14462,14 +14459,17 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 **v1 (Old syntax):**
 
 ```javascript
-sm('event', 'purchase', { amount: 99.99, properties: { order_id: '123' } });
+sm('event', 'purchase', { amount: 99.99, properties: { currency: 'EUR' } });
 ```
 
 **v2 (New syntax):**
 
 ```javascript
-sealmetrics.conv('purchase', 99.99, { order_id: '123' });
+sealmetrics.conv('purchase', 99.99, { currency: 'EUR' });
 ```
+
+**Note:**
+Sealmetrics's privacy-first model recommends **not** sending the store's internal order identifier as a conversion property. It's an internal ID that provides no analytical value in aggregate reports and would enrich the hit with a per-transaction identifier — send only aggregation-friendly attributes (currency, coupon code, item category, etc.) instead.
 
 ### 3. Microconversions Now Separate
 
@@ -14578,12 +14578,12 @@ sealmetrics.conv('EVENT_NAME', VALUE, {...});
 
 **Before:**
 ```javascript
-sm('event', 'purchase', { amount: 149.99, properties: { order_id: 'ORD-123', currency: 'EUR' } });
+sm('event', 'purchase', { amount: 149.99, properties: { currency: 'EUR', coupon: 'SUMMER10' } });
 ```
 
 **After:**
 ```javascript
-sealmetrics.conv('purchase', 149.99, { order_id: 'ORD-123', currency: 'EUR' });
+sealmetrics.conv('purchase', 149.99, { currency: 'EUR', coupon: 'SUMMER10' });
 ```
 
 ### Step 3: Update Microconversion Tracking
@@ -14703,8 +14703,8 @@ document.querySelector('.add-to-cart').addEventListener('click', function() {
 <!-- Thank you page -->
 <script>
 sealmetrics.conv('purchase', 149.99, {
-  order_id: 'ORD-123',
-  currency: 'EUR'
+  currency: 'EUR',
+  coupon: 'SUMMER10'
 });
 </script>
 ```
@@ -34997,7 +34997,9 @@ Our platform is designed to protect users’ data beyond legal requirements.
 - Session-only identifiers (expire automatically)  
 
 ### No Personal Data Collection
-- No IPs, user agents, or fingerprints  
+- **No IP addresses** persisted (used in-memory only for bot filtering / GeoIP when opt-in)
+- **No device fingerprints** or cross-session identifiers
+- **User agent stored** for anonymous device classification only — never linked to any personal identifier
 - Only aggregated session data  
 
 ### Advanced Anonymization
@@ -35334,14 +35336,12 @@ Sealmetrics does **not** use any of these identifiers.
 
 Sealmetrics does **not**:
 
-❌ Track users  
-❌ Link page views  
-❌ Build sessions  
-❌ Store IP addresses  
-❌ Store user agents  
-❌ Use cookies or persistent identifiers  
+❌ Track individual users across sessions
+❌ Link a hit to a person (there is no personal identifier to link with)
+❌ Store IP addresses
+❌ Use cookies or persistent identifiers
 
-Each interaction (hit) is completely isolated and cannot be associated with an individual.
+The user agent is stored 24 months for anonymous device classification (browser/OS category), but it cannot be joined with anything that identifies the person — because no such identifier exists. Short-lived session context exists inside a single browsing session (~2-hour inactivity), never across sessions or devices.
 
 ---
 
@@ -35482,7 +35482,7 @@ This isn't a marketing claim. It's architecturally impossible for Sealmetrics to
 Every interaction on your website is captured using exactly four data points:
 
 1. **Timestamp** - When the event occurred
-2. **User Agent** - Browser and device type (parsed but never stored)
+2. **User Agent** - Browser and device type (stored 24 months for anonymous device classification; never linked to a person)
 3. **Current URL** - The page being viewed
 4. **Referral URL** - Where the visitor came from
 
@@ -35491,8 +35491,8 @@ That's the complete data set. Nothing more is collected. Nothing more is stored.
 ### How Anonymization Works
 
 **At Collection:**
-- User agent strings are immediately parsed for browser/device insights
-- The raw user agent is discarded and never stored
+- User agent strings are parsed for browser/device category insights (Chrome/Safari/Firefox, Windows/macOS/iOS/Android, desktop/mobile/tablet)
+- The user agent is stored alongside the hit for the standard 24-month retention; it is **never joined with a personal identifier** (there isn't one) and never used to reconstruct a user's history across sessions
 - No fingerprinting algorithms are applied
 - No attempt is made to create persistent identifiers
 
@@ -35849,7 +35849,7 @@ Each interaction is treated as an **independent event**, making it technically a
 For each hit (or page view), Sealmetrics records only four variables:
 
 - **Timestamp** — When the event occurred  
-- **User Agent** — Used temporarily for aggregation, never stored  
+- **User Agent** — Stored 24 months for anonymous device classification (browser/OS category); never linked to a person  
 - **Current URL** — The page where the event happened  
 - **Referral URL** — Where the visitor came from
 
@@ -36168,7 +36168,7 @@ Your analytics data:
 
 ---
 
-## Why 25 Months?
+## Why 24 Months?
 
 The 24-month retention allows:
 
@@ -36666,7 +36666,7 @@ Sealmetrics uses a privacy-preserving session tracking approach.
 Each hit includes:
 
 1. **Timestamp**  
-2. **User Agent** *(captured but NOT stored)*  
+2. **User Agent** *(stored 24 months, used for anonymous device classification; never linked to a person)*  
 3. **Current URL**  
 4. **Referral URL**
 
@@ -36918,7 +36918,7 @@ Sealmetrics proves that advanced business intelligence **does not require person
 
 #### Sealmetrics Transparency
 - Public documentation about the 4-variable system  
-- Full disclosure: timestamp, user agent (not stored), current URL, referral URL  
+- Full disclosure: timestamp, user agent (stored 24 months, aggregated device classification only), current URL, referral URL  
 - Technical documentation on isolated hits  
 - Regulatory compliance explained openly (GDPR, ePrivacy, CCPA, PECR)
 
@@ -36937,8 +36937,8 @@ Sealmetrics proves that advanced business intelligence **does not require person
 - No consent required (no personal data = no consent needed)  
 - Each hit processed independently  
 - No user-level tracking  
-- No reconstruction of journeys  
-- No storage of user agent strings  
+- No reconstruction of journeys across sessions  
+- User agent stored for anonymous device classification only — never linked to any personal identifier  
 
 #### Architecture
 - No device intrusion  
@@ -36973,7 +36973,7 @@ Sealmetrics proves that advanced business intelligence **does not require person
 ### The Four-Variable Architecture
 Sealmetrics tracks only:  
 1. **Timestamp**  
-2. **User agent** (captured, not stored)  
+2. **User agent** (stored 24 months, used for anonymous device classification — never linked to a person)  
 3. **Current URL**  
 4. **Referral URL**
 
@@ -37070,7 +37070,7 @@ URL: https://docs.sealmetrics.com/security-privacy/what-we-track
 
 # What We Track vs What We Don’t
 
-Sealmetrics records only **four non-identifying variables** per page view ("hit") — timestamp, user agent (used for aggregation, never stored), current URL, and referral URL — and never collects personal data or sets cookies. No IP addresses, user IDs, device fingerprints, or persistent identifiers are involved, which is what enables full GDPR/ePrivacy compliance without user consent.
+Sealmetrics records a small set of **non-identifying variables** per page view ("hit") — timestamp, user agent (for anonymous device classification), current URL, referral URL, and a short-lived contextual session marker — and never collects personal data or sets cookies. **No IP address, user ID, cross-session identifier, name, email or persistent device fingerprint is stored.** This minimal, aggregation-only dataset is what enables full GDPR/ePrivacy compliance without user consent.
 
 ---
 
@@ -37083,20 +37083,25 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 - **Purpose:** time-based analysis and trend insights  
 - **Privacy:** cannot identify an individual  
 
-#### 2. User Agent (Not Stored)  
-- **Used for:** browser/device category detection  
-- **Not stored:** complete user agent strings are discarded  
-- **Result:** anonymous device classification  
+#### 2. User Agent
+- **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
+- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. It is kept for the standard 24-month retention window with the rest of the hit.
+- **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
 
-#### 3. Current URL  
-- Page path  
-- Page popularity  
-- Anonymous content performance  
+#### 3. Current URL
+- Page path
+- Page popularity
+- Anonymous content performance
 
-#### 4. Referral URL  
-- Anonymous attribution  
-- Campaign performance  
-- Traffic source identification  
+#### 4. Referral URL
+- Anonymous attribution
+- Campaign performance
+- Traffic source identification
+
+#### 5. Session context marker
+- **What it is:** an in-memory, short-lived identifier scoped to a single browsing session (~2-hour inactivity timeout, GA4-style), derived from the visitor's browser context. It exists so that within one session we can distinguish "second pageview" from "new entrance".
+- **What it isn't:** a cross-session identifier. It is not a cookie, it is not stored in the browser (localStorage, sessionStorage, or otherwise), and it does not persist beyond the session. It cannot be used to recognize a returning visitor.
+- **Why it's compliant:** the identifier is context-derived and short-lived — it does not enable individual tracking under GDPR Article 4(1), which is why analytics without user identifiers qualify for consent-free operation under CNIL guidance (`analytics without consent`) and Article 6(1)(f).
 
 ---
 
@@ -37148,8 +37153,18 @@ ALL aggregated — no user-level behavior.
 - Language  
 
 ### 8. Geographic Data
-- Country (derived from time zone)  
-❌ Region / City — **not collected**
+- **Country — primary source: browser timezone.** Every visit's country comes from `Intl.DateTimeFormat().resolvedOptions().timeZone`, mapped to the country most represented by that IANA zone. No IP lookup involved.
+- **Optional GeoIP country — only when Agent Analytics is enabled on the site.** For customers who explicitly turn on the automated-traffic detector (a separate feature), the pixel does a **stateless** GeoLite2 lookup against the visitor's IP to derive a secondary country and datacenter/ISP signals used exclusively to score bot vs. human. The IP itself is **not stored**; only the derived country label and the boolean bot signals are kept.
+- ❌ Region / City — **not collected** in either mode.
+
+### 9. Automated-traffic detection signals (opt-in)
+
+Sites that enable Agent Analytics store aggregate, per-hit signals used to classify traffic as human vs. automated (browsers driven by Selenium, Playwright, AI assistants, etc.). These are **environmental** and **behavioral** signals about the browser and the interaction pattern — not about the person. Examples: WebDriver flag, whether the WebGL renderer is `SwiftShader`, screen size buckets, aggregate mouse-movement linearity, click-timing variance.
+
+- Never associated with an identifier.
+- Aggregate and per-hit; not tied to a user.
+- Purpose: filter bot traffic out of reports for accuracy. See [Bot Detection](/security-privacy/bot-detection) and the [agent detection integration](/integrations/agentic-package) for the full field list.
+- **This section is only active when the customer turns Agent Analytics on.** Standard privacy-first accounts don't collect these signals at all.
 
 ### 9. Business Intelligence Metrics
 - Conversion rate  
@@ -37161,21 +37176,20 @@ ALL aggregated — no user-level behavior.
 
 ## What We DO NOT Track
 
-### No Personal Data
-❌ IP addresses  
-❌ User IDs  
-❌ Emails  
-❌ Phone numbers  
-❌ Names  
-❌ Persistent identifiers  
-❌ Exact user agent strings  
+### No Personal Data Stored
+❌ IP addresses (used in memory only, never persisted)
+❌ User IDs
+❌ Emails
+❌ Phone numbers
+❌ Names
+❌ Persistent identifiers (no cross-session or cross-device linking)
 
-### No Behavioral Identification
-❌ User journeys  
-❌ Session reconstruction  
-❌ Returning users  
-❌ Individual preferences  
-❌ Personal browsing behavior  
+### No Individual-Level Tracking
+❌ User journeys across sessions
+❌ Returning-visitor recognition
+❌ Individual preferences
+❌ Personal browsing behavior
+❌ Any join between a hit and a person's identity
 
 ### No Cross-Site Tracking
 ❌ Third-party cookies  
@@ -38664,18 +38678,20 @@ Maximum theoretical lifetime: Browser session only
 
 | Aspect | Compliance |
 |--------|------------|
-| IP processing | ✅ **IP addresses not collected** |
-| Geolocation method | ✅ Derived from timezone, not IP |
-| No IP storage | ✅ IP never stored or logged |
+| IP storage | ✅ **IP is never persisted in any database or log** |
+| Geolocation (default) | ✅ Country derived from browser timezone, not IP |
+| In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is discarded immediately after the lookup and is never associated with a hit that reaches ClickHouse. |
 
 **Technical Implementation:**
 ```javascript
-// Sealmetrics does NOT collect IP addresses
-// Country detection uses browser timezone API:
+// Country detection (default): browser timezone API
 Intl.DateTimeFormat().resolvedOptions().timeZone
+
+// Agent Analytics (opt-in only): in-memory GeoIP lookup returns
+// country + is_datacenter + agent_isp; the IP itself is discarded.
 ```
 
-**Note:** Sealmetrics exceeds this requirement by not processing IP addresses at all.
+**Note:** Sealmetrics goes beyond this requirement — no IP anonymization is needed because the IP is never persisted in the first place.
 
 ---
 
@@ -44810,7 +44826,7 @@ We only collect four essential, non-personal variables:
 - Referral URL  
 - Timestamp  
 - UTMs  
-- User Agent (captured but **not stored**)  
+- User Agent (stored 24 months for anonymous device classification; never linked to a person)  
 
 All data is anonymous and isolated.
 
@@ -45051,10 +45067,9 @@ This allows us to block automated traffic without relying on IP addresses.
 
 Using user agents for bot filtering is permitted because:
 
-- User agents are **not personal data** (when not stored raw).
-- Sealmetrics does **not store** user agent strings.
+- User agents are **not personal data** when they are used as anonymous device-category signals (browser family, OS family, mobile/desktop) rather than as identifiers.
+- Sealmetrics stores the user agent string alongside each hit for the standard 24-month retention window purely for aggregated device classification. It is **never linked to any personal identifier** (we don't have one) and **never used to reconstruct a user's history** across sessions.
 - No tracking identifiers are used.
-- No correlation between hits is possible.
 - No user or device profiling is performed.
 
 This means we can filter bot traffic **without consent** and without violating GDPR or ePrivacy rules.
@@ -45159,7 +45174,7 @@ Instead, it measures **isolated page views (hits)** that are *never linked toget
 ### For each hit, Sealmetrics collects only four variables:
 
 1. **Timestamp**  
-2. **User Agent** *(captured but **not stored**)*  
+2. **User Agent** *(stored 24 months for anonymous device classification — never linked to a person)*  
 3. **Current URL**  
 4. **Referral URL**  
 
