@@ -2565,7 +2565,7 @@ Ask LENS questions about your data in natural language:
 - *"Which campaigns are performing best this month?"*
 - *"Compare traffic from Google vs Facebook"*
 
-The assistant is **bring-your-own-key (BYOK)**: you connect your own LLM provider API key, so there is no per-account question quota. Supported providers and their default models are Anthropic (`claude-sonnet-4`), OpenAI (`gpt-4o`), DeepSeek (`deepseek-chat`), and Google Gemini (`gemini-2.5-flash`).
+The assistant supports two provider modes: **Seal AI** (the platform LLM, no key required — usage counts against your org's monthly token quota) and **bring-your-own-key (BYOK)** with Anthropic (`claude-3-5-haiku` / `claude-sonnet-4`), OpenAI (`gpt-4o-mini` / `gpt-4o`), DeepSeek (`deepseek-chat`), or Google Gemini (`gemini-1.5-flash` / `gemini-1.5-pro`). BYOK has no quota — you pay your provider directly. LENS picks the appropriate model automatically based on task complexity.
 
 [Learn more about the AI assistant →](/lens/ai-assistant)
 
@@ -2821,21 +2821,29 @@ Get LENS configured and receiving insights in under 5 minutes.
 2. Click **LENS** in the main navigation
 3. You'll see the LENS overview with any detected anomalies
 
-## Step 2: Connect Your LLM Provider
+## Step 2: Pick a provider
 
-The LENS assistant is **bring-your-own-key (BYOK)**: you connect your own LLM provider API key. This means there is no per-account question quota — you ask as much as you like and pay your provider directly.
+The LENS assistant supports two options:
 
-1. Go to **My Account → LLM Providers**
-2. Add an API key for one of the supported providers:
+- **Seal AI** — the platform LLM. **No API key needed**; usage counts against your organization's monthly token quota (allocated per plan tier). See your quota anytime in **Seal AI Usage** in the sidebar.
+- **Bring-your-own-key (BYOK)** — connect your own provider API key. No per-account quota; you pay your provider directly.
 
-| Provider | Default model |
-|----------|---------------|
-| Anthropic | `claude-sonnet-4` |
-| OpenAI | `gpt-4o` |
-| DeepSeek | `deepseek-chat` |
-| Google Gemini | `gemini-2.5-flash` |
+If your organization has Seal AI enabled, it's active by default. To use a BYOK provider, go to **My Account → LLM Providers** and add an API key.
 
-3. Mark one provider as your default and save
+**Supported providers** (LENS picks the model automatically based on task complexity):
+
+| Provider | Simple tasks | Complex / critical tasks |
+|----------|--------------|--------------------------|
+| **Seal AI** (platform) | Managed for you | Managed for you |
+| Anthropic (BYOK) | `claude-3-5-haiku` | `claude-sonnet-4` / `claude-opus-4` |
+| OpenAI (BYOK) | `gpt-4o-mini` | `gpt-4o` |
+| DeepSeek (BYOK) | `deepseek-chat` | `deepseek-chat` |
+| Google Gemini (BYOK) | `gemini-1.5-flash` | `gemini-1.5-pro` |
+
+Mark one provider as your default and save.
+
+**Info:**
+Seal AI is scoped by monthly token quota per plan tier (Free / Growth / Scale / Enterprise). When you get close to your limit the dashboard shows an in-app warning; once exceeded, chat calls return a "quota exceeded" error until the next monthly reset. Switch to a BYOK provider (or upgrade the plan) if you need more headroom.
 
 ## Step 3: Review LENS Insights
 
@@ -4922,7 +4930,7 @@ SealMetrics ships with the following default channels, listed here from highest 
 | **SMS** | SMS mediums (sms, text, mms) |
 | **Push** | Push mediums (push, notification, web push, mobile push) |
 | **Audio** | Audio sources (spotify, apple podcasts, soundcloud, audible, etc.) |
-| **Referral** | `referral` medium |
+| **Referral** | medium matches `referral` or `referrer` |
 | **Direct** | `direct` source and medium |
 | **Unassigned** | Catch-all for traffic that matches no other rule |
 
@@ -5932,6 +5940,9 @@ URL: https://docs.sealmetrics.com/reports/funnel
 
 The Funnel report shows where you lose potential customers along the e-commerce purchase journey — Entrances → View Product → Add to Cart → Begin Checkout → Purchase — with the conversion and drop-off rate at each step. It is built automatically from your traffic and the e-commerce events you track, so there is nothing to configure.
 
+**Note:**
+This is a **built-in, fixed** e-commerce funnel; custom funnels with your own step sequence are not currently supported. If you need to analyze a non-e-commerce sequence (e.g., a lead-form flow), track each step as a microconversion and inspect them in the [Conversions report](/reports/conversions) instead.
+
 ## Accessing the Report
 
 1. Select a site from the site selector
@@ -6810,25 +6821,20 @@ For a complete glossary of all terms (including privacy, platform, and technical
 
 **Example:** A user visits 5 pages in one session. This counts as 5 pageviews and 1 entrance.
 
-### Unique Visitors
+### Unique Visitors — not tracked
 
-**Definition:** The number of distinct users who visited during the selected period.
+Sealmetrics **does not calculate unique visitors**. Identifying a "unique visitor" requires a persistent per-user identifier (cookie, fingerprint, or hash), and any such identifier constitutes personal data under GDPR. Sealmetrics's consentless legal basis depends on **not** carrying an identifier across sessions.
 
-| Aspect | Description |
-|--------|-------------|
-| Identification | Cookieless (no cookies required) |
-| Cross-device | Same user on different devices counts as different visitors |
-| Use case | Measure audience size |
-
-**Example:** One user visits 3 times in a day. This counts as 1 unique visitor, 3 entrances.
+Use **entrances** as the audience-size signal instead — it measures unique sessions, which is what most product decisions actually need.
 
 ### Bounce Rate
 
-**Definition:** The percentage of sessions where the user viewed only one page and then left.
+**Definition:** The percentage of entrance sessions where the user viewed only one page before leaving. Computed in aggregate — no individual tracking required.
 
 | Aspect | Description |
 |--------|-------------|
-| Formula | (Single-page sessions / Total sessions) × 100 |
+| Formula | (Entrances − Engaged Entrances) / Entrances × 100 |
+| "Engaged" | A session with **more than one pageview** |
 | Range | 0% to 100% |
 | Lower is better | Generally indicates better engagement |
 
@@ -7645,17 +7651,21 @@ Understanding how Entrances work is essential for interpreting your traffic accu
 
 ## What Is an Entrance?
 
-An **Entrance** represents an access to your website.  
-Every time a user lands on your site, Sealmetrics records a new Entrance — regardless of whether the user has visited recently.
+An **Entrance** is the **start of a session** on your website. A session groups a visitor's interactions together based on referrer context and inactivity — with a **30-minute inactivity timeout**, GA4-style — without ever attaching a persistent identifier to the visitor.
 
-### Example  
-If the same user visits your website **5 times in 10 minutes**, Sealmetrics records:
+Concretely, Sealmetrics counts a new Entrance whenever a hit arrives with an **external referrer** (or no referrer at all) *and* the session doesn't already exist. Continuous browsing on the same site produces **Pageviews** within the same Entrance's session, not new Entrances.
 
-**➡️ 5 Entrances**
+### Example
 
-Why?  
-Because Sealmetrics does **not** track individuals, sessions, or returning users.  
-Each access is counted independently to ensure full privacy compliance.
+If the same visitor lands on your site at **9:00**, keeps browsing until **9:10**, and comes back at **3:00 PM** the same day:
+
+**➡️ 2 Entrances, one for each session** (the 3:00 PM return is a new session because the 30-min inactivity window elapsed).
+
+If instead they lands, closes the tab and reopens the same landing page 30 seconds later within the same session context:
+
+**➡️ 1 Entrance** — the second hit is a pageview inside the same session.
+
+Sealmetrics tracks sessions **without** tracking the individual. Session boundaries are derived from referrer + inactivity, not from a cookie or fingerprint, which is what keeps the entire model consentless.
 
 ---
 
@@ -7663,14 +7673,13 @@ Each access is counted independently to ensure full privacy compliance.
 
 | Metric | How It Works | Requires Consent? | Why |
 |--------|--------------|-------------------|-----|
-| **Visits (GA4)** | Groups interactions into a *session* based on timing and user identity | ✔️ Yes | GA4 needs to identify the user to determine session boundaries |
-| **Entrances (Sealmetrics)** | Counts each access as a separate event | ❌ No | No user identifiers, no session stitching |
+| **Visits (GA4)** | Groups interactions into a session using a persistent client ID | ✔️ Yes | GA4 identifies the returning visitor across sessions to unify their history |
+| **Entrances (Sealmetrics)** | Starts a session on each external-referrer arrival; groups follow-up hits by referrer + 30-min inactivity | ❌ No | Sessions are derived from context, not from a per-user identifier |
 
-### Key Difference  
-GA4’s “Visit” is a **user-based** metric.  
-Sealmetrics’ “Entrance” is an **event-based** metric.
+### Key Difference
 
-Sealmetrics never identifies or reconstructs individual users, so each access is counted as its own independent Entrance.
+GA4's "Visit" attaches to a **persistent identity** that follows the user across days and devices.
+Sealmetrics' "Entrance" is bounded to a **single session**, defined only by the visitor's context on that day — no identity is carried forward, no cross-session join exists.
 
 ---
 
@@ -28326,7 +28335,15 @@ Stream export directly for small datasets (&lt;10K rows).
 
 **Request Body:** Same as create export.
 
-**Response:** File stream with appropriate content type.
+**Response:** A **direct file download**, not the usual JSON envelope. Headers:
+
+| Header | Value |
+|--------|-------|
+| `Content-Type` | `text/csv; charset=utf-8` (or `application/json`, `application/x-ndjson` depending on `format`) |
+| `Content-Disposition` | `attachment; filename="{export_type}_{date_from}_{date_to}.{ext}"` |
+| `Cache-Control` | `no-store` |
+
+Save the response body to a file (or pipe it) — do not try to `.json()` parse it.
 
 **Working example — `conversions` export:**
 
@@ -30756,6 +30773,12 @@ POST /api/v1/batch
 | `fail_fast` | false | Stop execution on first error |
 | `parallel_limit` | 5 | Maximum concurrent queries (1-10) |
 | `include_timing` | true | Include execution time per query |
+
+### Multi-account timezone handling
+
+Each query resolves date filters **using its own account's timezone**. So a batch containing one query for `account_id=acme` (Europe/Madrid) and another for `account_id=partner` (America/New_York) will interpret `period=30d` correctly for each site — no need to pre-resolve dates on your side or coerce all queries to UTC.
+
+This is important when you're building a multi-site dashboard: the `today` / `this_month` / `30d` presets each expand against the specific site they target, matching how the data is stored in ClickHouse (each hit is bucketed by the account's local `date` at ingest). See [Date periods and account timezone](/api/stats-advanced#how-today-is-resolved) for the full rule.
 
 ## Supported endpoints
 
@@ -33214,11 +33237,16 @@ URL: https://docs.sealmetrics.com/api/referrer-mappings
 
 # Referrer Mappings API
 
-Map incoming referrer domains to UTM values. When a visit lacks UTM parameters but arrives from a recognized referrer, the matching rule's UTMs are applied — useful for partner traffic, vendor portals, and external platforms that don't tag links.
+Map incoming referrer domains to UTM values. The idea: when a visit lacks UTM parameters but arrives from a recognized referrer, the matching rule's UTMs would be applied — useful for partner traffic, vendor portals, and external platforms that don't tag links.
 
 **Base path:** `/referrer-mappings`
 
 Default scope: `read`. Mutations require `write` (editor or higher).
+
+**Warning:**
+The CRUD endpoints on this router work — you can create, list, update and delete mappings and they are stored per-account. **However, the pixel-service does not yet read this table at ingest time.** Mappings you save today have no effect on the classification of incoming traffic. This is a documented gap (silent no-op) tracked for a future PRD.
+
+Until the pixel is wired to consume this table, treat these endpoints as configuration storage only. For traffic that needs to be re-attributed today, use [Channel Grouping rules](/api/channel-groups) (fully wired at ingest) or [UTM Mapping](/platform/settings/tracking/utm-mapping) for custom URL parameters.
 
 ---
 
@@ -47500,9 +47528,10 @@ Document the following from your current GA4 property:
 ## What's different
 
 - **No cookies, no consent banner.** Sealmetrics captures 100% of traffic under GDPR legitimate interest (Article 6(1)(f)), audited by [Comply](https://app.comply.org/attest/sealmetrics).
-- **No Google Ads native integration.** If you rely on GA4 → Google Ads conversion import, keep GA4 for that flow alongside Sealmetrics, or use server-side conversion upload.
+- **Google Ads tracking, no audience sync.** Sealmetrics tracks Google Ads campaigns via UTM parameters end-to-end (source, medium, campaign, term, content) and provides ROAS reporting. What it does **not** do is push audience segments back to Google Ads for automated bidding — that requires GA4 with consented users. Teams commonly run both: GA4 for Ads audience/bidding, Sealmetrics as the source of truth for total traffic and conversions.
 - **No predictive metrics** (purchase probability, churn probability). Sealmetrics reports observed behavior.
 - **Simpler attribution model.** Last non-direct click by default; configurable.
+- **Reporting in the account's timezone, not UTC.** Every preset ("today", "7d", "this month") is resolved with "today in the account's timezone" — matching how GA4 calls it the "reporting timezone". Set it correctly in **Site settings → General** before you start validating side-by-side; a mismatch between GA4's reporting timezone and Sealmetrics's will shift daily rollups by up to a day at the seam.
 
 ## Related
 
@@ -53116,10 +53145,10 @@ Industry data shows rejection rates vary significantly by country:
 | Content grouping | Yes | Yes |
 | AI insights | Limited | LENS AI (chat + anomaly detection) |
 | Unique visitors | Yes | No (requires individual tracking) |
-| Bounce rate | Yes | No (requires individual tracking) |
+| Bounce rate | Yes | Yes (aggregate-only, no individual tracking) |
 | Session duration | Yes | No (requires individual tracking) |
 
-**Why Sealmetrics does not track unique visitors, bounce rate, or session duration:** These metrics require identifying and following individual users across page loads, which constitutes personal data processing under GDPR. Sealmetrics deliberately excludes them to maintain its consentless legal basis. Instead, Sealmetrics provides *entrances*, *engaged entrances*, and *pages per session* as privacy-safe alternatives.
+**Why some metrics differ:** Metrics that require identifying and following individual users across page loads (unique visitors, session duration, individual user journeys) constitute personal data processing under GDPR — Sealmetrics deliberately excludes them. **Bounce rate is not one of them:** Sealmetrics computes it in aggregate as `(Entrances − Engaged Entrances) / Entrances × 100`, where "engaged" means a session with more than one pageview. No personal identifier is needed. Sealmetrics also exposes *entrances*, *engaged entrances*, and *pages per session* as additional privacy-safe traffic-quality signals.
 
 ### Privacy & Compliance
 
@@ -53254,7 +53283,7 @@ Sealmetrics tracks Google Ads campaigns via UTM parameters and provides ROAS rep
 
 ### Is Sealmetrics data less detailed than GA4?
 
-Sealmetrics intentionally does not track unique visitors, bounce rate, or individual user journeys because doing so requires personal data and consent. For aggregate traffic analysis, conversion tracking, attribution, and campaign performance, Sealmetrics provides equal or better accuracy since it captures 100% of traffic.
+Sealmetrics intentionally does not track unique visitors, session duration, or individual user journeys because doing so requires personal data and consent. **Bounce rate is calculated** — in aggregate, using entrances vs engaged entrances, without any individual tracking. For aggregate traffic analysis, conversion tracking, attribution, and campaign performance, Sealmetrics provides equal or better accuracy since it captures 100% of traffic.
 
 ### What about Google Consent Mode v2?
 

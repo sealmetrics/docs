@@ -59,10 +59,10 @@ Industry data shows rejection rates vary significantly by country:
 | Content grouping | Yes | Yes |
 | AI insights | Limited | LENS AI (chat + anomaly detection) |
 | Unique visitors | Yes | No (requires individual tracking) |
-| Bounce rate | Yes | No (requires individual tracking) |
+| Bounce rate | Yes | Yes (aggregate-only, no individual tracking) |
 | Session duration | Yes | No (requires individual tracking) |
 
-**Why Sealmetrics does not track unique visitors, bounce rate, or session duration:** These metrics require identifying and following individual users across page loads, which constitutes personal data processing under GDPR. Sealmetrics deliberately excludes them to maintain its consentless legal basis. Instead, Sealmetrics provides *entrances*, *engaged entrances*, and *pages per session* as privacy-safe alternatives.
+**Why some metrics differ:** Metrics that require identifying and following individual users across page loads (unique visitors, session duration, individual user journeys) constitute personal data processing under GDPR — Sealmetrics deliberately excludes them. **Bounce rate is not one of them:** Sealmetrics computes it in aggregate as `(Entrances − Engaged Entrances) / Entrances × 100`, where "engaged" means a session with more than one pageview. No personal identifier is needed. Sealmetrics also exposes *entrances*, *engaged entrances*, and *pages per session* as additional privacy-safe traffic-quality signals.
 
 ### Privacy & Compliance
 
@@ -197,7 +197,7 @@ Sealmetrics tracks Google Ads campaigns via UTM parameters and provides ROAS rep
 
 ### Is Sealmetrics data less detailed than GA4?
 
-Sealmetrics intentionally does not track unique visitors, bounce rate, or individual user journeys because doing so requires personal data and consent. For aggregate traffic analysis, conversion tracking, attribution, and campaign performance, Sealmetrics provides equal or better accuracy since it captures 100% of traffic.
+Sealmetrics intentionally does not track unique visitors, session duration, or individual user journeys because doing so requires personal data and consent. **Bounce rate is calculated** — in aggregate, using entrances vs engaged entrances, without any individual tracking. For aggregate traffic analysis, conversion tracking, attribution, and campaign performance, Sealmetrics provides equal or better accuracy since it captures 100% of traffic.
 
 ### What about Google Consent Mode v2?
 

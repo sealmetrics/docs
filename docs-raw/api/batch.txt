@@ -69,6 +69,12 @@ POST /api/v1/batch
 | `parallel_limit` | 5 | Maximum concurrent queries (1-10) |
 | `include_timing` | true | Include execution time per query |
 
+### Multi-account timezone handling
+
+Each query resolves date filters **using its own account's timezone**. So a batch containing one query for `account_id=acme` (Europe/Madrid) and another for `account_id=partner` (America/New_York) will interpret `period=30d` correctly for each site — no need to pre-resolve dates on your side or coerce all queries to UTC.
+
+This is important when you're building a multi-site dashboard: the `today` / `this_month` / `30d` presets each expand against the specific site they target, matching how the data is stored in ClickHouse (each hit is bucketed by the account's local `date` at ingest). See [Date periods and account timezone](/api/stats-advanced#how-today-is-resolved) for the full rule.
+
 ## Supported endpoints
 
 All `/stats/` endpoints are available:

@@ -10,17 +10,21 @@ Understanding how Entrances work is essential for interpreting your traffic accu
 
 ## What Is an Entrance?
 
-An **Entrance** represents an access to your website.  
-Every time a user lands on your site, Sealmetrics records a new Entrance — regardless of whether the user has visited recently.
+An **Entrance** is the **start of a session** on your website. A session groups a visitor's interactions together based on referrer context and inactivity — with a **30-minute inactivity timeout**, GA4-style — without ever attaching a persistent identifier to the visitor.
 
-### Example  
-If the same user visits your website **5 times in 10 minutes**, Sealmetrics records:
+Concretely, Sealmetrics counts a new Entrance whenever a hit arrives with an **external referrer** (or no referrer at all) *and* the session doesn't already exist. Continuous browsing on the same site produces **Pageviews** within the same Entrance's session, not new Entrances.
 
-**➡️ 5 Entrances**
+### Example
 
-Why?  
-Because Sealmetrics does **not** track individuals, sessions, or returning users.  
-Each access is counted independently to ensure full privacy compliance.
+If the same visitor lands on your site at **9:00**, keeps browsing until **9:10**, and comes back at **3:00 PM** the same day:
+
+**➡️ 2 Entrances, one for each session** (the 3:00 PM return is a new session because the 30-min inactivity window elapsed).
+
+If instead they lands, closes the tab and reopens the same landing page 30 seconds later within the same session context:
+
+**➡️ 1 Entrance** — the second hit is a pageview inside the same session.
+
+Sealmetrics tracks sessions **without** tracking the individual. Session boundaries are derived from referrer + inactivity, not from a cookie or fingerprint, which is what keeps the entire model consentless.
 
 ---
 
@@ -28,14 +32,13 @@ Each access is counted independently to ensure full privacy compliance.
 
 | Metric | How It Works | Requires Consent? | Why |
 |--------|--------------|-------------------|-----|
-| **Visits (GA4)** | Groups interactions into a *session* based on timing and user identity | ✔️ Yes | GA4 needs to identify the user to determine session boundaries |
-| **Entrances (Sealmetrics)** | Counts each access as a separate event | ❌ No | No user identifiers, no session stitching |
+| **Visits (GA4)** | Groups interactions into a session using a persistent client ID | ✔️ Yes | GA4 identifies the returning visitor across sessions to unify their history |
+| **Entrances (Sealmetrics)** | Starts a session on each external-referrer arrival; groups follow-up hits by referrer + 30-min inactivity | ❌ No | Sessions are derived from context, not from a per-user identifier |
 
-### Key Difference  
-GA4’s “Visit” is a **user-based** metric.  
-Sealmetrics’ “Entrance” is an **event-based** metric.
+### Key Difference
 
-Sealmetrics never identifies or reconstructs individual users, so each access is counted as its own independent Entrance.
+GA4's "Visit" attaches to a **persistent identity** that follows the user across days and devices.
+Sealmetrics' "Entrance" is bounded to a **single session**, defined only by the visitor's context on that day — no identity is carried forward, no cross-session join exists.
 
 ---
 
