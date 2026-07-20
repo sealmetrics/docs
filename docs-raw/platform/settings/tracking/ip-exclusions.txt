@@ -1,0 +1,129 @@
+# IP Exclusions
+
+URL: https://docs.sealmetrics.com/platform/settings/tracking/ip-exclusions
+
+# IP Exclusions
+
+IP Exclusions let you tell Sealmetrics to **ignore** traffic coming from IP addresses or ranges you control. Visits from your offices, QA environments, uptime monitors and internal tools are the classic case: they inflate every metric and skew every conversion rate, and they belong nowhere in your reports.
+
+Once an IP is excluded, hits from that IP are **discarded entirely at the edge**. They don't get tagged as "internal", they don't appear in a hidden segment, they don't affect any total, any breakdown, any cohort. They simply never enter your data.
+
+## When to use it
+
+Add an IP exclusion whenever:
+
+- Your team browses the site frequently — from the office, from home, from staging environments. Their sessions and conversions are noise, not signal.
+- A monitoring or uptime tool hits your pages on a schedule. Its traffic is predictable, non-human, and pollutes bounce rate and engagement metrics.
+- QA or automation runs synthetic journeys through the checkout on every deploy. Those runs generate fake conversions that skew revenue.
+
+If you can identify the traffic by IP or CIDR, you can exclude it here.
+
+## Where to find it
+
+1. Open **Site settings** (gear icon, top right).
+2. Go to the **IP Exclusions** tab.
+
+You'll see:
+
+- A form to add an entry: one input for the IP or CIDR, one for an optional reason, plus an **Add my current IP** shortcut.
+- A list of the entries currently configured for this site.
+- An amber note reminding you that excluded traffic is discarded entirely and that changes take effect within ~5 minutes.
+
+## Important: IP Exclusions vs IP Allowlist
+
+These are two different features. Don't confuse them:
+
+| Feature | What it controls | Who it affects |
+|---------|------------------|----------------|
+| **IP Exclusions** *(this page)* | Which visits get **tracked** on your site | Every visitor whose IP matches — internal or external |
+| **IP Allowlist** | Which IPs can **access the dashboard** | Only your team's IPs; nothing to do with tracking |
+
+If your goal is *"keep our office traffic out of the reports"*, this is the right tab. If your goal is *"only let our office IPs log in to the dashboard"*, that's the **IP Allowlist** tab next to this one.
+
+## What "excluded" actually means
+
+When a visit arrives from an excluded IP:
+
+- The pixel returns a **204 No Content** and **discards the hit before enqueuing it**. No message is published to the internal queue, no row lands in ClickHouse, no ID is generated.
+- **Nothing about the visit is stored** — no page view, no conversion, no session, no location, nothing. The visit is invisible to every part of Sealmetrics.
+- The visitor's browser is unaffected: they still see your website normally, ads still fire, your other analytics tools (if any) still capture them.
+
+Because the discard is total, **you can't "un-exclude" past traffic**. Removing an IP from the list doesn't recover historical hits — it only affects future traffic.
+
+## Adding an IP or CIDR
+
+In the **IP Exclusions** tab:
+
+1. Type the **IP or CIDR range** you want to exclude in the first field. Examples:
+   - `203.0.113.7` — a single IPv4 address (your office router's public IP).
+   - `198.51.100.0/24` — a /24 IPv4 block (256 addresses).
+   - `10.0.0.0/8` — a large private IPv4 block.
+   - `2001:db8::1` — a single IPv6 address.
+   - `2001:db8::/48` — an IPv6 block.
+2. **Optional: add a reason** in the second field (e.g. `Office London`, `QA runs`, `Uptime robot`). The dashboard suggests **Office**, **QA** and **Internal** as one-click options. Reasons are for your own bookkeeping — they don't affect behavior.
+3. Click **Add**. The entry is active for **future traffic within ~5 minutes** (the pixel refreshes its per-site cache on that interval).
+
+If you're at the machine you want to exclude right now, click **Add my current IP** — Sealmetrics detects your public IP (via a first-party endpoint, no third-party service involved) and pre-fills the input. This is the fastest way to exclude your own browsing from the reports.
+
+### The "broad range" warning
+
+If you enter a CIDR that covers a lot of the internet — smaller than `/16` for IPv4 or `/32` for IPv6 — the dashboard shows an amber warning before you save. It doesn't block the save, but it wants your attention: broad ranges are easy to type by accident (`10.0.0.0/8` = 16.7M addresses, `0.0.0.0/0` = everything). Confirm the range is really what you meant.
+
+## Managing entries
+
+Each entry in the list has two controls:
+
+- **Active toggle.** Turn an entry **off** to temporarily stop it from filtering traffic (e.g. during a specific test where you *do* want to be counted). It stays in your list and can be toggled back on later. Changes take effect within ~5 minutes.
+- **Delete (trash icon).** Removes the entry permanently. Ask for confirmation. Effective in ~5 minutes.
+
+You can toggle and delete entries at any time. There's no daily/monthly limit on changes.
+
+## Limits
+
+- **100 entries per site.** This is a hard limit. If you need more, you're likely using individual IPs where a CIDR range would work better — a `/24` covers a full office subnet in one entry.
+- **IPv4 and IPv6 both supported.** The format is standard CIDR notation. No workaround needed for either.
+- **Not retroactive.** Excluding an IP does not remove historical traffic from that IP. Past data stays as it is.
+- **Not tagged, just discarded.** Excluded traffic has no representation in reports — it's not "internal traffic" you can view separately. It doesn't exist.
+
+## Common patterns
+
+### Pattern 1 — Exclude your office
+
+Ask your IT team for the office's public egress IP (or IPs, if you have multiple ISPs / load-balanced connections). Add each as a separate entry with reason **Office**.
+
+If the office has a static /29 or /28 block, add the whole CIDR in one entry.
+
+### Pattern 2 — Exclude your team's home offices
+
+Get each team member's home public IP (they can check it from any "what's my IP" search). Add them individually. Warn the team that if their ISP rotates their IP, they'll need to update the entry.
+
+For remote teams working from ISPs with rotating IPs, IP exclusion isn't the best solution — consider tagging your internal test traffic with a query parameter and setting up a channel-grouping rule to route it to a distinct channel instead.
+
+### Pattern 3 — Exclude staging / QA environments
+
+If QA scripts run from a known set of servers, add each server's public IP. Reason: **QA**.
+
+Better yet, if your CI runners share a NAT gateway, add the gateway's IP once as a `/32` and cover them all.
+
+### Pattern 4 — Exclude uptime monitoring
+
+Uptime robots hit your site on a schedule from published IP lists. Take that vendor's IP list and add each range. Reason: **Uptime monitoring**.
+
+If the vendor uses many IPs, prefer CIDR ranges over individual IPs — you'll blow through the 100-entry limit fast otherwise.
+
+## What IP Exclusions do NOT do
+
+- **They do not identify who a visitor is.** Excluding an IP only filters that IP; it doesn't tell Sealmetrics who's behind it. If your CEO connects from a coffee shop, their traffic will be counted.
+- **They do not "hide" traffic in a segment.** Excluded traffic simply isn't stored. There's no way to view it later.
+- **They do not restrict dashboard access.** For that, see the [IP Allowlist tab](#important-ip-exclusions-vs-ip-allowlist) next to this one.
+- **They don't work across sites.** Exclusions are per-site. If you own multiple sites, you have to configure them on each one.
+
+## Privacy note
+
+Sealmetrics doesn't store visitor IPs in the database. IP Exclusions is the only place the pixel checks the incoming IP in memory — to decide whether to accept the hit or discard it. Either way, the IP is not persisted anywhere in your reports or in the underlying event stream. See [Security & Privacy](/security-privacy) for the full picture.
+
+## Related
+
+- [Channel Grouping](/platform/settings/tracking/channel-grouping) — if you'd rather **tag** internal traffic (e.g. from a shared cloud IP) into a distinct channel instead of discarding it entirely.
+- [UTM Mapping](/platform/settings/tracking/utm-mapping) — map your own URL parameters to standard UTMs.
+- [Security & Privacy](/security-privacy) — how Sealmetrics handles IPs and other visitor data.
