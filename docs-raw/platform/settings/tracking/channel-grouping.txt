@@ -1,0 +1,167 @@
+# Channel Grouping
+
+URL: https://docs.sealmetrics.com/platform/settings/tracking/channel-grouping
+
+# Channel Grouping
+
+Channel Grouping is how Sealmetrics buckets each visit into a marketing channel — **Paid Search**, **Organic Social**, **Email**, **Affiliates**, and so on — instead of showing a raw list of every `utm_source` / `utm_medium` combination. You see those channels in the **Sources → Channels** report.
+
+Sealmetrics ships with a set of GA4-style default channels that work out of the box. When those aren't enough (a paid-social alias you use internally, a partner network, a "Brand vs Non-Brand" split for paid search…), you can define your own rules from the dashboard, via CSV, or through the MCP.
+
+## Where to find it
+
+1. Open **Site settings** (gear icon, top right).
+2. Go to the **Channels** tab.
+
+You'll see three areas:
+
+- **Test a visit** — a live tester that classifies a `source / medium / campaign` combination exactly like the pixel would.
+- **Your rules** — custom rules for this site (initially empty).
+- **Default channels** — the GA4-style rules that ship with Sealmetrics. You can't edit or delete them, but you can override them (see below).
+
+## How rules are evaluated
+
+For every visit that comes in, the pixel checks the rules in this order:
+
+1. **Your custom rules first**, sorted by **priority (highest first)**.
+2. Then the **default channels**, also by priority.
+3. The **first rule that matches wins** — its `channel_name` is stored with the hit.
+4. If nothing matches, the hit is classified as **Unassigned**.
+
+A rule matches when **all its non-empty patterns match** the incoming values. An empty pattern is a wildcard — it matches anything.
+
+Matching is **case-insensitive** and applied to three fields:
+
+- **Source** — usually `utm_source` (e.g. `google`, `newsletter-june`, `partnerize`).
+- **Medium** — usually `utm_medium` (e.g. `cpc`, `email`, `referral`).
+- **Campaign** — usually `utm_campaign` (e.g. `summer-sale`, `brand`).
+
+Patterns are **regular expressions** in [RE2 syntax](https://github.com/google/re2/wiki/Syntax). Lookaheads, lookbehinds, and backreferences are not supported. The dashboard's rule tester uses the exact same engine as the pixel, so **if it matches in the tester, it will match in production**.
+
+**Info:**
+Channel classification happens **at ingest time**, when the visit is received. Editing, adding, or removing a rule affects **future traffic only** — historical rows keep the channel they were assigned when they came in.
+
+New rules become live in the pixel within roughly **5 minutes** (the pixel refreshes its rule cache on that interval).
+
+## The drafts → test → publish workflow
+
+Every rule you create — whether from the form, CSV import, or MCP — is born as a **draft** (labeled *Not live*). The pixel only loads live rules, so **drafts never affect any traffic**. This gives you a safe space to build and validate rules before they touch your reports.
+
+The typical flow:
+
+1. **Create** a rule from the form (or import a CSV, or ask your MCP-connected assistant to draft one).
+2. **Test** it against real visit values in the **Test a visit** panel. Toggle **"Include rules that are not live yet"** to include drafts in the evaluation.
+3. When the tester returns the channel you expected, flip the **Live** switch on the rule. It's live for new traffic within ~5 min.
+
+You can leave rules as drafts indefinitely — good for staging changes you plan to publish later.
+
+## Creating a rule from the form
+
+Click **Add rule**. Fill in:
+
+- **Channel name** — free text. If it matches an existing channel (e.g. `Paid Search`), the visit rolls up into that channel; if it's new (e.g. `Paid Search Brand`), a new channel appears in your reports.
+- **Source / Medium / Campaign patterns** — leave any of them empty for a wildcard. **At least one must be filled** (a rule with all three empty would match every visit and is rejected).
+- **Priority** — a number from `0` to `1000`. Only used to order your custom rules against each other. Leave it at `50` unless you need one rule to win over another.
+- **Live** switch — off by default. Turn it on after testing.
+
+Common patterns:
+
+| Goal | Source pattern | Medium pattern | Campaign pattern | Channel name |
+|------|----------------|----------------|------------------|--------------|
+| Split brand campaigns from generic paid search | `^(google\|bing)$` | `^cpc$` | `brand` | Paid Search Brand |
+| Map an internal alias like `fb` to Paid Social | `^fb$` | `^cpc$` | *(empty)* | Paid Social |
+| Legacy `adwords/cpc` traffic | `^adwords$` | `^cpc$` | *(empty)* | Paid Search |
+| Affiliate partners you use | `^(awin\|partnerize)$` | *(empty)* | *(empty)* | Affiliates |
+| Internal email tools | *(empty)* | `^(crm\|internal-mail)$` | *(empty)* | Email |
+
+## Overriding a default channel
+
+You can't disable or edit a default rule directly, but you can **override** one. Because your custom rules are evaluated before the defaults, a custom rule that matches the same values as a default rule effectively **replaces it**.
+
+To do this quickly:
+
+1. In the **Default channels** table, click **Override** on the row you want to change.
+2. The rule form opens **pre-filled** with the default's patterns.
+3. Change only the **Channel name** to the destination you want (or tweak patterns if needed).
+4. Test → publish.
+
+Example — you don't want an "AI" channel: click **Override** on the AI defaults → change the channel name to `Referral` (or any other) → publish. All future traffic that would have gone to "AI" now goes to your chosen channel.
+
+## Import / Export (CSV)
+
+For bulk changes or version-controlling your rules, use CSV.
+
+### Export
+
+Click **Export** — you get a `.csv` with all your custom rules. Defaults are not included (they can't be edited anyway).
+
+### Import
+
+Click **Import** and upload a `.csv` (or `.json`) file. Import is **replace-all and atomic**:
+
+- The file becomes your **new complete set of custom rules**. Anything not in the file is removed. An empty file returns the site to defaults-only.
+- If **any row is invalid**, nothing is imported (all-or-nothing) — you get a report telling you which row is wrong.
+- Maximum: **100 rules per site**.
+
+Live and draft rules can both be in the file — the `is_active` column controls it (see below).
+
+### CSV format
+
+The header row is mandatory. Order of columns is free, but all six must be present:
+
+```csv
+channel_name,source_pattern,medium_pattern,campaign_pattern,priority,is_active
+Paid Search Brand,^(google|bing)$,^cpc$,brand,110,true
+Paid Social,^fb$,^cpc$,,100,true
+Affiliates,^(awin|partnerize)$,,,80,false
+```
+
+- **`channel_name`** — required.
+- **`source_pattern` / `medium_pattern` / `campaign_pattern`** — RE2 regex. Empty = wildcard. At least one must be non-empty.
+- **`priority`** — `0`–`1000`. Empty defaults to `50`.
+- **`is_active`** — `true` or `false` (case-insensitive). Empty defaults to `true`. `false` = imported as a draft.
+
+Excel-friendly quirks handled automatically:
+
+- Delimiter can be `,` (standard) or `;` (Excel in Spanish/French locales).
+- Quoted values follow RFC 4180 — a regex containing a comma like `^a{1,2}$` needs quoting (`"^a{1,2}$"`); Excel handles this for you when you paste.
+- UTF-8 BOM and CRLF line endings are supported.
+- The exported CSV includes BOM and CRLF so it opens cleanly in Excel.
+
+## Using the MCP
+
+If you've connected Sealmetrics to Claude, ChatGPT, or another MCP-compatible assistant, five tools are available for channel rules:
+
+| Tool | What it does |
+|------|--------------|
+| `test_channel_rules` | Run the tester with any source/medium/campaign combination. Read-only. |
+| `create_channel_rule` | Create a new rule **as a draft**. |
+| `update_channel_rule` | Edit an existing rule — **drafts only**. |
+| `delete_channel_rule` | Delete a rule — **drafts only**. |
+| `import_channel_rules` | Bulk-import rules **as drafts**. Defaults to `dry_run=true` (validates without writing). |
+
+### The draft-only invariant
+
+To keep your live classification safe from anything an assistant might do (mistakes, prompt injection, misunderstood context), the MCP is subject to a strict invariant:
+
+- **The MCP can never touch a live rule.** Editing or deleting is only allowed on drafts. If a rule is live, the API rejects the operation.
+- **The MCP can never activate a rule.** Every rule it creates or imports is born as a draft.
+- **Publishing is always a human action** — you flip the **Live** switch from the dashboard.
+
+The worst case with the MCP is "too many drafts to review". Your live channels are never changed by an assistant.
+
+To use the write tools, your MCP connection must have an API key with the **write** scope. Read tools (like `test_channel_rules`) work with any API key.
+
+## Limits and edge cases
+
+- **Maximum 100 custom rules per site** (drafts included).
+- **Cache refresh: ~5 minutes.** After you activate or edit a rule, expect a few minutes before the pixel picks it up.
+- **Not retroactive.** Historical hits keep the channel they had at ingest time. A new rule only affects new traffic.
+- **Regex compile errors are surfaced immediately.** If you save an invalid pattern, the form (or import) rejects it with the exact error — you never end up with a rule that silently fails to match.
+- **Rejoined / rejoined-traffic** stays in `Unassigned` by design (GA4 parity). If you want to classify it, create your own rule.
+
+## Related
+
+- [Sources report](/reports/sources) — where the channels are shown.
+- [Referral vs direct traffic](/reports/insights/referral-vs-direct-traffic) — how those two default channels are decided.
+- [MCP Server](/integrations/mcp-server) — how to connect an AI assistant to your Sealmetrics data.
