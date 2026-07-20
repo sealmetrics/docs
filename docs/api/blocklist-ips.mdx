@@ -110,3 +110,16 @@ DELETE /blocklist-ips/{entry_id}?account_id={account_id}
 ```
 
 **Required scope:** `write`. Returns `204 No Content`.
+
+---
+
+## Limits and behavior
+
+- **Maximum 100 entries per site.** Enforced by the API: creating the 101st entry returns `422 max_entries_reached`. If you need more, prefer CIDR ranges over individual IPs (a `/24` covers a full office subnet in one entry).
+- **IPv4 and IPv6 both supported**, including CIDR ranges. The pixel matches on exact IP and on CIDR containment.
+- **Propagation delay: ~5 minutes.** The pixel refreshes its per-site cache every ~5 min, so a new entry or an `is_active` toggle takes effect on future traffic within that window.
+- **Discarded, not tagged.** Traffic from a blocked IP is dropped at the pixel with `204 No Content` — nothing is stored, and blocked hits are not visible anywhere in reports. There is no "internal traffic" segment; the traffic simply doesn't exist as far as your analytics are concerned.
+- **Not retroactive.** Removing an entry does not restore historical data from that IP. The block only applies to future traffic.
+- **Sealmetrics never stores visitor IPs.** The blocklist is the only place the pixel reads the incoming IP, and only in memory to decide whether to accept the hit.
+
+For the user-facing walkthrough (with worked examples, the "Add my current IP" shortcut, and the difference vs the IP Allowlist), see [IP Exclusions](/platform/settings/tracking/ip-exclusions).
