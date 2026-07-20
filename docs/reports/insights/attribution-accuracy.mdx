@@ -128,7 +128,7 @@ Every conversion stored in SealMetrics includes the following attribution fields
 | **Term** | UTM term (if passed) |
 | **Grouped channel** | Organic Search, Paid Search, Email, Direct, Social, Referral, etc. |
 | **Landing page** | The first page the visitor saw in that session |
-| **Country** | Derived from a one-time geolocation lookup |
+| **Country** | Derived from the browser timezone (`Intl.DateTimeFormat`), not from IP — see [country detection](/security-privacy/country-detection) |
 | **Device type** | Desktop, tablet, mobile |
 | **Browser** | Chrome, Safari, Firefox, etc. |
 | **Operating system** | Windows, macOS, iOS, Android, etc. |
