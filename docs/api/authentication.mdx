@@ -207,12 +207,12 @@ Full request/response details: [Advanced Authentication — Password Reset](/api
 
 ## Email verification helpers
 
-### POST /auth/resend-verification
+### POST /email/resend-verification
 
 Resend the verification email if the user hasn't received (or has lost) the original one. Rate limited to **3/hour/IP** and returns a **single generic response** for every branch (missing email / already verified / sent / cap exceeded) — deliberate anti-enumeration.
 
 ```bash
-curl -X POST "https://my.sealmetrics.com/api/v1/auth/resend-verification" \
+curl -X POST "https://my.sealmetrics.com/api/v1/email/resend-verification" \
   -H "Content-Type: application/json" \
   -d '{"email": "alice@acme.com"}'
 ```
