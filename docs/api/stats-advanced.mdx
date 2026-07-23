@@ -699,7 +699,7 @@ Different endpoints support different sort fields:
 import requests
 
 response = requests.get(
-    "https://api.sealmetrics.com/api/v1/stats/sources",
+    "https://my.sealmetrics.com/api/v1/stats/sources",
     headers={"X-API-Key": "sm_your_api_key"},
     params={
         "site_id": "my-site",
@@ -718,7 +718,7 @@ for source in response.json()["data"]:
 
 ```python
 response = requests.get(
-    "https://api.sealmetrics.com/api/v1/stats/campaigns",
+    "https://my.sealmetrics.com/api/v1/stats/campaigns",
     headers={"X-API-Key": "sm_your_api_key"},
     params={
         "site_id": "my-site",
@@ -735,7 +735,7 @@ response = requests.get(
 ```python
 # Get add_to_cart by source
 carts = requests.get(
-    "https://api.sealmetrics.com/api/v1/stats/microconversions",
+    "https://my.sealmetrics.com/api/v1/stats/microconversions",
     headers={"X-API-Key": "sm_your_api_key"},
     params={
         "site_id": "my-site",

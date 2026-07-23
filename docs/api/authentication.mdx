@@ -24,7 +24,7 @@ API keys are the recommended method for server-to-server integrations.
 Include the key in the `X-API-Key` header:
 
 ```bash
-curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_SITE_ID&period=7d" \
   -H "X-API-Key: sm_your_api_key_here"
 ```
 
@@ -110,7 +110,7 @@ JWT tokens are used for user-authenticated sessions (dashboard, mobile apps).
 ### Obtaining a Token
 
 ```bash
-curl -X POST "https://api.sealmetrics.com/api/v1/auth/token" \
+curl -X POST "https://my.sealmetrics.com/api/v1/auth/token" \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
@@ -149,7 +149,7 @@ the `sm_access_token` cookie).
 Include the token in the `Authorization` header:
 
 ```bash
-curl -X GET "https://api.sealmetrics.com/api/v1/sites/YOUR_SITE_ID/stats" \
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_SITE_ID&period=7d" \
   -H "Authorization: Bearer <your_access_token>"
 ```
 
@@ -161,7 +161,7 @@ cookie that was set during login — there is no request body. Send the cookie
 back with the request (`--cookie` in curl, `credentials: 'include'` in fetch):
 
 ```bash
-curl -X POST "https://api.sealmetrics.com/api/v1/auth/refresh" \
+curl -X POST "https://my.sealmetrics.com/api/v1/auth/refresh" \
   --cookie "sm_refresh_token=<your_refresh_token>"
 ```
 
@@ -382,13 +382,13 @@ Example error response:
 import requests
 
 API_KEY = "sm_your_api_key_here"
-BASE_URL = "https://api.sealmetrics.com/api/v1"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
 
 def get_stats(site_id: str, period: str = "7d"):
     response = requests.get(
-        f"{BASE_URL}/sites/{site_id}/stats",
+        f"{BASE_URL}/stats/overview",
         headers={"X-API-Key": API_KEY},
-        params={"period": period}
+        params={"site_id": site_id, "period": period}
     )
     response.raise_for_status()
     return response.json()
@@ -398,11 +398,11 @@ def get_stats(site_id: str, period: str = "7d"):
 
 ```javascript
 const API_KEY = 'sm_your_api_key_here';
-const BASE_URL = 'https://api.sealmetrics.com/api/v1';
+const BASE_URL = 'https://my.sealmetrics.com/api/v1';
 
 async function getStats(siteId, period = '7d') {
   const response = await fetch(
-    `${BASE_URL}/sites/${siteId}/stats?period=${period}`,
+    `${BASE_URL}/stats/overview?site_id=${siteId}&period=${period}`,
     {
       headers: { 'X-API-Key': API_KEY }
     }
@@ -421,13 +421,13 @@ async function getStats(siteId, period = '7d') {
 ```php
 <?php
 $apiKey = 'sm_your_api_key_here';
-$baseUrl = 'https://api.sealmetrics.com/api/v1';
+$baseUrl = 'https://my.sealmetrics.com/api/v1';
 
 function getStats($siteId, $period = '7d') {
     global $apiKey, $baseUrl;
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "$baseUrl/sites/$siteId/stats?period=$period");
+    curl_setopt($ch, CURLOPT_URL, "$baseUrl/stats/overview?site_id=$siteId&period=$period");
     curl_setopt($ch, CURLOPT_HTTPHEADER, ["X-API-Key: $apiKey"]);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 

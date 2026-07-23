@@ -73,7 +73,7 @@ A custom date range (`initial_date_from`/`initial_date_to`) cannot exceed 365 da
 **Example request:**
 
 ```bash
-curl -X POST "https://api.sealmetrics.com/api/v1/integrations/bigquery?account_id=my-account&gcp_project_id=my-analytics-project&dataset_id=sealmetrics&location=EU&sync_frequency=daily&data_types=traffic&data_types=conversions&backfill_days=30" \
+curl -X POST "https://my.sealmetrics.com/api/v1/integrations/bigquery?account_id=my-account&gcp_project_id=my-analytics-project&dataset_id=sealmetrics&location=EU&sync_frequency=daily&data_types=traffic&data_types=conversions&backfill_days=30" \
   -H "X-API-Key: sm_your_api_key" \
   -F "service_account_file=@service-account.json"
 ```
@@ -623,7 +623,7 @@ The service account needs these BigQuery permissions:
 import requests
 
 API_KEY = "sm_your_api_key"
-BASE_URL = "https://api.sealmetrics.com/api/v1"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
 ACCOUNT_ID = "my-account"
 
 def setup_bigquery(gcp_project_id, dataset_id, credentials_path):
