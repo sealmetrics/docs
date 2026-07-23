@@ -156,7 +156,7 @@ const config: Config = {
   // fired per-route with a section content group from src/clientModules/sealmetrics.js
   scripts: [
     {
-      src: 'https://t.sealmetrics.com/t.js?id=sealmetrics2&auto=0&spa=0',
+      src: 'https://pixel-pre.sealmetrics.com/t.js?id=sealmetrics2&auto=0&spa=0',
       defer: true,
     },
   ],
