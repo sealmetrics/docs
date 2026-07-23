@@ -1,29 +1,63 @@
+/**
+ * Sealmetrics docs theme.
+ * Rule: never hardcode a color on an element — define tokens per theme
+ * (:root = light, [data-theme='dark'] = dark) and let Infima variables flow.
+ */
+
 :root {
+  /* Brand */
   --ifm-color-primary: #00b67a;
-  --ifm-color-primary-dark: #009e67;
-  --ifm-color-primary-light: #00cc8a;
+  --ifm-color-primary-dark: #00a46e;
+  --ifm-color-primary-darker: #009b68;
+  --ifm-color-primary-darkest: #008056;
+  --ifm-color-primary-light: #00c886;
+  --ifm-color-primary-lighter: #00d18c;
+  --ifm-color-primary-lightest: #1fe6a3;
+
+  /* Type */
+  --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Helvetica, Arial, sans-serif;
   --ifm-font-size-base: 15px;
   --ifm-line-height-base: 1.6;
-  --ifm-navbar-background-color: #f8f6f1;
+  --ifm-heading-font-weight: 600;
+
+  /* Light surfaces (warm whites) */
   --ifm-background-color: #f8f6f1;
+  --ifm-navbar-background-color: #f8f6f1;
   --ifm-toc-border-color: #f0f0f0;
-  /* Central docs column: warm white, lighter than the page (#f8f6f1) and the sidebars (#f8f9fa) */
   --seal-doc-col-bg: #fffdf9;
+  --seal-sidebar-bg: #f8f9fa;
+  --seal-sidebar-border: #eee;
+  --seal-menu-hover-bg: #e9f8f1;
+  --seal-toc-link: #444;
+  --seal-img-border: rgba(0, 0, 0, 0.08);
 }
 
 [data-theme='dark'] {
-  /* Lighter than Infima's dark page background (#1b1b1d) so the column stands out */
+  /* Slightly brighter primary for contrast on dark */
+  --ifm-color-primary: #17c98d;
+  --ifm-color-primary-dark: #00b67a;
+  --ifm-color-primary-darker: #00a46e;
+  --ifm-color-primary-darkest: #008056;
+  --ifm-color-primary-light: #3bd49e;
+  --ifm-color-primary-lighter: #52d9a8;
+  --ifm-color-primary-lightest: #7ce3bd;
+
+  /* Dark surfaces (Infima defaults where sensible) */
+  --ifm-background-color: #1b1b1d;
+  --ifm-navbar-background-color: #1f1f21;
+  --ifm-toc-border-color: #2e2e32;
   --seal-doc-col-bg: #2a2a2e;
+  --seal-sidebar-bg: #202023;
+  --seal-sidebar-border: #2e2e32;
+  --seal-menu-hover-bg: rgba(23, 201, 141, 0.12);
+  --seal-toc-link: #b0b0b6;
+  --seal-img-border: rgba(255, 255, 255, 0.12);
 }
 
-/* Background of the central content column on all docs pages */
+/* Central content column stands out from page + sidebars in both themes */
 .docMainCol {
   background-color: var(--seal-doc-col-bg);
-}
-
-body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: #222;
 }
 
 .navbar__title {
@@ -32,51 +66,52 @@ body {
 
 .navbar__item {
   font-size: 0.95rem;
-  color: #222 !important;
 }
 
 .navbar__item:hover {
-  color: var(--ifm-color-primary) !important;
+  color: var(--ifm-color-primary);
 }
 
 .docSidebarContainer {
-  background-color: #f8f9fa;
-  border-right: 1px solid #eee;
+  background-color: var(--seal-sidebar-bg);
+  border-right: 1px solid var(--seal-sidebar-border);
 }
 
 .menu__link {
   font-size: 0.93rem;
-  color: #333 !important;
   border-radius: 8px;
   margin: 2px 0;
 }
 
 .menu__link:hover {
-  background-color: #e9f8f1;
-  color: var(--ifm-color-primary) !important;
+  background-color: var(--seal-menu-hover-bg);
+  color: var(--ifm-color-primary);
 }
 
 .markdown h1,
 .markdown h2,
 .markdown h3 {
-  color: #111;
   font-weight: 600;
 }
 
 .markdown p {
-  color: #333;
   font-size: 0.95rem;
   margin-bottom: 1rem;
 }
 
+/* Screenshots and content images: soft frame, consistent in both themes */
+.markdown img {
+  border: 1px solid var(--seal-img-border);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
 .footer {
-  background-color: #0f0f0f;
-  color: #fff;
   font-size: 0.9rem;
 }
 
-.footer__links {
-  color: #ccc;
+.footer--dark {
+  --ifm-footer-background-color: #0f0f0f;
 }
 
 .table-of-contents {
@@ -84,7 +119,7 @@ body {
 }
 
 .table-of-contents__link {
-  color: #444;
+  color: var(--seal-toc-link);
 }
 
 .table-of-contents__link:hover,
@@ -96,4 +131,24 @@ body {
 .table-of-contents__link--active code {
   color: var(--ifm-color-primary);
   font-weight: 600;
+}
+
+/* Algolia DocSearch button: match navbar surface in both themes */
+html[data-theme='light'] .DocSearch-Button {
+  background: #efece5;
+  color: #444;
+}
+
+html[data-theme='light'] .DocSearch-Button .DocSearch-Search-Icon {
+  color: #666;
+}
+
+html[data-theme='light'] .DocSearch-Button-Key {
+  background: #fffdf9;
+  color: #555;
+  box-shadow: inset 0 -1px 0 #d8d4cc;
+}
+
+html[data-theme='dark'] .DocSearch-Button {
+  background: #2a2a2e;
 }
