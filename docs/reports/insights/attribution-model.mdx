@@ -1,133 +1,51 @@
 ---
-title: Why Do I See More Conversions or Revenue in Sealmetrics Than in My ERP?
-sidebar_label: Sealmetrics vs ERP Conversions
-description: Understand why Sealmetrics may show more conversions or revenue than your ERP and how to properly configure your tracking to avoid discrepancies.
+title: "How Sealmetrics Attributes Conversions: The Attribution Model"
+sidebar_label: Attribution Model
+description: "Sealmetrics uses session-scoped last-click attribution: how a traffic source is chosen, how conversions inherit it, and why there is no cross-session lookback window."
 ---
 
-# Why Do I See More Conversions or Revenue in Sealmetrics Than in My ERP?
+# How Sealmetrics Attributes Conversions
 
-It’s common to see more conversions or revenue in Sealmetrics than in your ERP system.  
-Here’s why — and how to fix it.
-
----
-
-## Sealmetrics Counts Exactly What Fires
-
-Sealmetrics uses a **strict and transparent conversion pixel**:
-
-> **If the pixel fires, we count it. If it doesn’t fire, we don’t.**
-
-Sealmetrics does **not**:
-- Deduplicate conversions  
-- Validate orders on the backend  
-- Match data with your ERP  
-- Identify unique users  
-
-We only record the **event**, as triggered by your website.
+Sealmetrics uses **session-scoped last-click attribution**: every conversion is credited to the traffic source of the session in which it fires, and the source of a session is determined by how that session started. There is no cross-session lookback window — by design, because linking sessions would require a persistent user identifier, which is exactly what Sealmetrics never creates.
 
 ---
 
-## Why Discrepancies Happen
+## How a session gets its source
 
-### 1. Duplicate Pixel Fires  
-If the confirmation page reloads, the pixel fires again.
+When a hit arrives, Sealmetrics decides its type (entrance vs. pageview) and its source using a strict priority cascade:
 
-Examples:  
-- User refreshes the thank-you page  
-- User clicks the confirmation link from their email  
-- User returns via browser history  
+1. **Explicit UTM parameters** in the landing URL (external arrivals only) — a new entrance with those UTMs.
+2. **Ad click IDs** (`gclid`, `msclkid`, `ttclid`, `yclid`, and others) — a new entrance attributed to the ad platform. A repeated hit with the **same click ID does not create a second entrance** (atomic deduplication), so a reload of a tagged landing page doesn't double-count.
+3. **Payment-gateway referrers** — returns from Stripe, PayPal, and other PSPs are recognized so that the payment provider never steals attribution from the real source.
+4. **Passthrough referrers you configure** — same behavior as payment gateways, for domains you designate (e.g. your SSO or external checkout).
+5. **Referrer mappings** (yours, then Sealmetrics' global list) — known domains classified into their channel.
+6. **Any other external referrer** — a new entrance attributed as referral traffic.
+7. **Same-site navigation with an active session** — a pageview that **inherits the session's UTMs and source**.
+8. **Same-site navigation with no active session** — a "rejoined" entrance (see [Rejoined Traffic](/reports/insights/rejoined-traffic)).
+9. **No referrer, no session** — direct traffic.
 
-Each load = a new conversion.
+## Conversions inherit the session source
 
----
+A conversion fired during a session is attributed to that session's source — the **most recent entrance**. If a visitor arrives from Google Ads in the morning and converts within that session, Google Ads gets the conversion. If they come back later through a newsletter link and convert then, the newsletter gets it: the new arrival started a new entrance, and last click wins.
 
-### 2. Users Revisit the Confirmation Page
+Two properties follow from this:
 
-If a visitor bookmarks the confirmation page or returns to it later, the pixel fires again.
+- **Last click, always.** A new tagged arrival mid-journey (new UTMs or click ID from an external entry) starts a new entrance, and any subsequent conversion belongs to it.
+- **No lookback window.** Sessions are independent. A conversion today is never credited to a source from yesterday, because no identifier connects the two sessions. (GA4-style 30/90-day attribution windows require exactly the persistent identity Sealmetrics refuses to keep.)
 
-This results in:
-- Multiple conversions from the same order  
-- Inflated revenue if the pixel includes value parameters  
+## The session window
 
----
+A session groups hits through a short-lived, context-derived marker with a **~2-hour inactivity window**. It is not stored in the browser and cannot recognize a returning visitor — see [What We Track](/security-privacy/what-we-track) for the privacy details. When the window lapses, the next hit starts a fresh entrance with fresh attribution.
 
-### 3. Pixel Placed on the Wrong URL(s)
+## Why last-click only
 
-If the conversion pixel is placed on:
-- Multiple pages  
-- Cached pages  
-- Intermediary confirmation steps  
-
-…it may fire unintentionally.
-
-This is one of the most common causes of overcounting.
-
----
-
-### 4. No Server-Side Validation
-
-Your ERP validates:
-- Payment success  
-- Order status  
-- Customer details  
-
-Sealmetrics does **not** perform backend checks.
-
-If someone loads the confirmation page but payment fails, Sealmetrics counts the event — your ERP does not.
-
----
-
-## How to Fix These Issues
-
-### ✔ 1. Place the Pixel Only on the Final Thank-You Page  
-Avoid:
-- Cached pages  
-- Pages that users may revisit  
-
-Ensure the page is:
-- Unique  
-- Non-cacheable  
-- Only reachable after successful payment  
-
----
-
-### ✔ 2. Add Server-Side Conditions  
-Example condition logic:
-
-> Fire the pixel ONLY if the order is confirmed.
-
-This prevents:
-- Fake conversions  
-- Reloaded conversions  
-- Pre-payment hits  
-
----
-
-### ✔ 3. Fire the Pixel Only Once Per Session  
-Your developers can enforce session-based logic to avoid double counting.
-
-Example safeguards:
-- Fire only once per `order_id`  
-- Prevent firing on page refresh  
-- Block pixel firing if the same user reloads the page  
-
----
-
-## Summary
-
-Sealmetrics shows **exactly what fires**.  
-Nothing more, nothing less.
-
-If your ERP shows fewer conversions, the explanation is simple:
-
-> The conversion pixel is firing more often than it should.
-
-By tightening pixel placement and adding safeguards, you can align metrics between Sealmetrics and your backend systems.
+Multi-touch models (linear, time-decay, data-driven) need the full journey of an identified user across sessions — a persistent identifier, consent banners, and all the data loss that comes with them. Based on our legal analysis, session-scoped last-click is the attribution model that works **without consent**, on 100% of your traffic. Attribution computed on all of your visitors beats a fancier model computed on the 40–60% who accept cookies.
 
 ## Related documentation
 
-- [Reconciling SealMetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — Full reconciliation guide for backend discrepancies
-- [Conversions Report](/reports/conversions) — Where conversions and revenue appear in Sealmetrics
-- [Conversions](/implementation/tracker/conversions) — How the conversion pixel fires and is configured
-- [How Attribution Accuracy Works](/reports/insights/attribution-accuracy) — Why totals are exact in Sealmetrics
-- [Metrics Reference](/reports/definitions) — Definitions for conversions, revenue, and AOV
+- [Sources Report](/reports/sources) — where attributed traffic appears
+- [How Sealmetrics Calculates Entrances](/reports/insights/how-sealmetrics-calculates-entrances) — entrances vs. GA4 visits
+- [Rejoined Traffic](/reports/insights/rejoined-traffic) — same-site arrivals without an active session
+- [Referral vs. Direct Traffic](/reports/insights/referral-vs-direct-traffic) — how the two are told apart
+- [Why More Conversions Than Your ERP?](/reports/insights/why-more-conversions-than-erp) — reconciling conversion counts
+- [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — the privacy architecture behind the model
