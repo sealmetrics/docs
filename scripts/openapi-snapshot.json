@@ -1,858 +1,1820 @@
 {
  "generated_from": "sealmetrics_api 0.1.0 (main)",
  "paths": {
-  "/api/v1/2fa/backup-codes/regenerate": [
-   "POST"
-  ],
-  "/api/v1/2fa/disable": [
-   "POST"
-  ],
-  "/api/v1/2fa/setup": [
-   "POST"
-  ],
-  "/api/v1/2fa/setup/cancel": [
-   "POST"
-  ],
-  "/api/v1/2fa/setup/verify": [
-   "POST"
-  ],
-  "/api/v1/2fa/status": [
-   "GET"
-  ],
-  "/api/v1/2fa/verify-login": [
-   "POST"
-  ],
-  "/api/v1/admin/accounts": [
-   "GET"
-  ],
-  "/api/v1/admin/accounts/{account_id}": [
-   "GET"
-  ],
-  "/api/v1/admin/api-usage": [
-   "GET"
-  ],
-  "/api/v1/admin/api-usage/{account_id}": [
-   "GET"
-  ],
-  "/api/v1/admin/bigquery/{integration_id}/reset-degraded": [
-   "POST"
-  ],
-  "/api/v1/admin/billing": [
-   "GET"
-  ],
-  "/api/v1/admin/cleanup/api-usage": [
-   "POST"
-  ],
-  "/api/v1/admin/cleanup/sessions": [
-   "POST"
-  ],
-  "/api/v1/admin/dashboard": [
-   "GET"
-  ],
-  "/api/v1/admin/impersonate-user": [
-   "DELETE",
-   "POST"
-  ],
-  "/api/v1/admin/organizations/{org_id}/reactivate": [
-   "POST"
-  ],
-  "/api/v1/admin/organizations/{org_id}/suspend": [
-   "POST"
-  ],
-  "/api/v1/admin/overage": [
-   "GET"
-  ],
-  "/api/v1/admin/overage/{org_id}/forgive": [
-   "POST"
-  ],
-  "/api/v1/admin/users": [
-   "GET"
-  ],
-  "/api/v1/admin/users/{user_id}": [
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/alerts/history": [
-   "GET"
-  ],
-  "/api/v1/alerts/history/{alert_id}": [
-   "PATCH"
-  ],
-  "/api/v1/alerts/rules": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/alerts/rules/{rule_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/alerts/rules/{rule_id}/test": [
-   "POST"
-  ],
-  "/api/v1/alerts/stats": [
-   "GET"
-  ],
-  "/api/v1/api-tokens": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/api-tokens/scopes": [
-   "GET"
-  ],
-  "/api/v1/api-tokens/{token_id}": [
-   "DELETE",
-   "GET"
-  ],
-  "/api/v1/assistant/chat": [
-   "POST"
-  ],
-  "/api/v1/assistant/conversations/{conversation_id}": [
-   "DELETE",
-   "GET"
-  ],
-  "/api/v1/assistant/sessions": [
-   "GET"
-  ],
-  "/api/v1/assistant/tools": [
-   "GET"
-  ],
-  "/api/v1/audit/logs": [
-   "GET"
-  ],
-  "/api/v1/auth/forgot-password": [
-   "POST"
-  ],
-  "/api/v1/auth/impersonation-status": [
-   "GET"
-  ],
-  "/api/v1/auth/logout": [
-   "POST"
-  ],
-  "/api/v1/auth/me": [
-   "GET"
-  ],
-  "/api/v1/auth/refresh": [
-   "POST"
-  ],
-  "/api/v1/auth/register": [
-   "POST"
-  ],
-  "/api/v1/auth/reset-password": [
-   "POST"
-  ],
-  "/api/v1/auth/sessions": [
-   "DELETE",
-   "GET"
-  ],
-  "/api/v1/auth/sessions/{session_id}": [
-   "DELETE"
-  ],
-  "/api/v1/auth/token": [
-   "POST"
-  ],
-  "/api/v1/batch": [
-   "POST"
-  ],
-  "/api/v1/batch/validate": [
-   "POST"
-  ],
-  "/api/v1/billing/accounting-email": [
-   "GET",
-   "PUT"
-  ],
-  "/api/v1/billing/checkout": [
-   "POST"
-  ],
-  "/api/v1/billing/coupons/validate": [
-   "POST"
-  ],
-  "/api/v1/billing/invoices": [
-   "GET"
-  ],
-  "/api/v1/billing/overage-status": [
-   "GET"
-  ],
-  "/api/v1/billing/overview": [
-   "GET"
-  ],
-  "/api/v1/billing/plans": [
-   "GET"
-  ],
-  "/api/v1/billing/portal": [
-   "POST"
-  ],
-  "/api/v1/billing/seal-ai/subscribe": [
-   "POST"
-  ],
-  "/api/v1/billing/seal-ai/token-pack/checkout": [
-   "POST"
-  ],
-  "/api/v1/billing/seal-ai/unsubscribe": [
-   "POST"
-  ],
-  "/api/v1/billing/subscription": [
-   "GET"
-  ],
-  "/api/v1/billing/subscription/cancel": [
-   "POST"
-  ],
-  "/api/v1/billing/subscription/history": [
-   "GET"
-  ],
-  "/api/v1/billing/subscription/resume": [
-   "POST"
-  ],
-  "/api/v1/billing/usage/current": [
-   "GET"
-  ],
-  "/api/v1/billing/usage/history": [
-   "GET"
-  ],
-  "/api/v1/blocklist-ips": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/blocklist-ips/{entry_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/bot-stats/overview": [
-   "GET"
-  ],
-  "/api/v1/bot-stats/suspicious-sessions": [
-   "GET"
-  ],
-  "/api/v1/channel-groups": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/channel-groups/export": [
-   "GET"
-  ],
-  "/api/v1/channel-groups/import": [
-   "POST"
-  ],
-  "/api/v1/channel-groups/stats/channels": [
-   "GET"
-  ],
-  "/api/v1/channel-groups/test": [
-   "POST"
-  ],
-  "/api/v1/channel-groups/{rule_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/email-reports": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/email-reports/{report_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/email-reports/{report_id}/history": [
-   "GET"
-  ],
-  "/api/v1/email-reports/{report_id}/send": [
-   "POST"
-  ],
-  "/api/v1/email/resend-verification": [
-   "POST"
-  ],
-  "/api/v1/email/send-verification": [
-   "POST"
-  ],
-  "/api/v1/email/verification-status": [
-   "GET"
-  ],
-  "/api/v1/email/verify": [
-   "POST"
-  ],
-  "/api/v1/exports": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/exports/download/{download_token}": [
-   "GET"
-  ],
-  "/api/v1/exports/estimate": [
-   "POST"
-  ],
-  "/api/v1/exports/maintenance/cleanup": [
-   "POST"
-  ],
-  "/api/v1/exports/stream": [
-   "POST"
-  ],
-  "/api/v1/exports/{job_id}": [
-   "DELETE",
-   "GET"
-  ],
-  "/api/v1/integrations/bigquery": [
-   "DELETE",
-   "GET",
-   "PATCH",
-   "POST"
-  ],
-  "/api/v1/integrations/bigquery/backfill": [
-   "POST"
-  ],
-  "/api/v1/integrations/bigquery/logs": [
-   "GET"
-  ],
-  "/api/v1/integrations/bigquery/logs/{log_id}": [
-   "GET"
-  ],
-  "/api/v1/integrations/bigquery/retry/{log_id}": [
-   "POST"
-  ],
-  "/api/v1/integrations/bigquery/schema": [
-   "GET"
-  ],
-  "/api/v1/integrations/bigquery/setup": [
-   "POST"
-  ],
-  "/api/v1/integrations/bigquery/sync": [
-   "POST"
-  ],
-  "/api/v1/invitations/accept": [
-   "POST"
-  ],
-  "/api/v1/invitations/accept-existing": [
-   "POST"
-  ],
-  "/api/v1/invitations/{token}": [
-   "GET"
-  ],
-  "/api/v1/ip-allowlist/audit": [
-   "GET"
-  ],
-  "/api/v1/ip-allowlist/check": [
-   "POST"
-  ],
-  "/api/v1/ip-allowlist/check-current": [
-   "GET"
-  ],
-  "/api/v1/ip-allowlist/export": [
-   "GET"
-  ],
-  "/api/v1/ip-allowlist/import": [
-   "POST"
-  ],
-  "/api/v1/ip-allowlist/patterns": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/ip-allowlist/patterns/bulk": [
-   "POST"
-  ],
-  "/api/v1/ip-allowlist/patterns/bulk-delete": [
-   "POST"
-  ],
-  "/api/v1/ip-allowlist/patterns/{pattern_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/ip-allowlist/settings": [
-   "GET",
-   "PUT"
-  ],
-  "/api/v1/lens/chat/usage": [
-   "GET"
-  ],
-  "/api/v1/lens/chat/usage/increment": [
-   "POST"
-  ],
-  "/api/v1/lens/insights": [
-   "GET"
-  ],
-  "/api/v1/lens/insights/grouped": [
-   "GET"
-  ],
-  "/api/v1/lens/insights/summary": [
-   "GET"
-  ],
-  "/api/v1/lens/insights/{insight_id}": [
-   "GET"
-  ],
-  "/api/v1/lens/insights/{insight_id}/dismiss": [
-   "PATCH"
-  ],
-  "/api/v1/lens/insights/{insight_id}/feedback": [
-   "POST"
-  ],
-  "/api/v1/lens/insights/{insight_id}/read": [
-   "PATCH"
-  ],
-  "/api/v1/lens/insights/{insight_id}/send-email": [
-   "POST"
-  ],
-  "/api/v1/lens/insights/{insight_id}/unread": [
-   "PATCH"
-  ],
-  "/api/v1/lens/maintenance/cleanup": [
-   "POST"
-  ],
-  "/api/v1/lens/reports": [
-   "GET"
-  ],
-  "/api/v1/lens/reports/generate": [
-   "POST"
-  ],
-  "/api/v1/lens/reports/latest/{report_type}": [
-   "GET"
-  ],
-  "/api/v1/lens/reports/{report_id}": [
-   "GET"
-  ],
-  "/api/v1/lens/settings": [
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/migration/accounts/{account_id}/jobs": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/migration/accounts/{account_id}/preview": [
-   "POST"
-  ],
-  "/api/v1/migration/jobs/{job_id}": [
-   "GET"
-  ],
-  "/api/v1/migration/jobs/{job_id}/cancel": [
-   "POST"
-  ],
-  "/api/v1/migration/jobs/{job_id}/progress": [
-   "GET"
-  ],
-  "/api/v1/migration/org-jobs": [
-   "GET"
-  ],
-  "/api/v1/migration/test-connection": [
-   "POST"
-  ],
-  "/api/v1/oauth/authorize": [
-   "GET"
-  ],
-  "/api/v1/oauth/connections": [
-   "GET"
-  ],
-  "/api/v1/oauth/connections/{grant_id}": [
-   "DELETE"
-  ],
-  "/api/v1/oauth/consent/{request_id}": [
-   "GET"
-  ],
-  "/api/v1/oauth/consent/{request_id}/decision": [
-   "POST"
-  ],
-  "/api/v1/oauth/onboarding": [
-   "POST"
-  ],
-  "/api/v1/oauth/register": [
-   "POST"
-  ],
-  "/api/v1/oauth/revoke": [
-   "POST"
-  ],
-  "/api/v1/oauth/token": [
-   "POST"
-  ],
-  "/api/v1/organizations": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/organizations/{slug}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/organizations/{slug}/invitations": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/organizations/{slug}/invitations/{invitation_id}": [
-   "DELETE"
-  ],
-  "/api/v1/organizations/{slug}/invitations/{invitation_id}/resend": [
-   "POST"
-  ],
-  "/api/v1/organizations/{slug}/members": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/organizations/{slug}/members/{user_id}": [
-   "DELETE",
-   "PATCH"
-  ],
-  "/api/v1/organizations/{slug}/members/{user_id}/sites": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/organizations/{slug}/members/{user_id}/sites/{site_id}": [
-   "DELETE"
-  ],
-  "/api/v1/organizations/{slug}/seal-ai/usage": [
-   "GET"
-  ],
-  "/api/v1/organizations/{slug}/sites": [
-   "GET"
-  ],
-  "/api/v1/passthrough-referrers": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/passthrough-referrers/{referrer_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/provision": [
-   "POST"
-  ],
-  "/api/v1/referrer-mappings": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/referrer-mappings/{mapping_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/saved-pixels": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/saved-pixels/options": [
-   "GET"
-  ],
-  "/api/v1/saved-pixels/{pixel_id}": [
-   "DELETE",
-   "GET",
-   "PUT"
-  ],
-  "/api/v1/segments": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/segments/{segment_id}": [
-   "DELETE",
-   "GET",
-   "PUT"
-  ],
-  "/api/v1/segments/{segment_id}/duplicate": [
-   "POST"
-  ],
-  "/api/v1/shared-dashboards": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/shared-dashboards/public/{share_token}": [
-   "GET"
-  ],
-  "/api/v1/shared-dashboards/public/{share_token}/access": [
-   "POST"
-  ],
-  "/api/v1/shared-dashboards/{dashboard_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/shared-dashboards/{dashboard_id}/embed": [
-   "GET",
-   "PUT"
-  ],
-  "/api/v1/shopify/billing/pricing-page-url": [
-   "GET"
-  ],
-  "/api/v1/shopify/billing/status": [
-   "GET"
-  ],
-  "/api/v1/shopify/custom-apps": [
-   "POST"
-  ],
-  "/api/v1/shopify/sites/{site_id}": [
-   "DELETE"
-  ],
-  "/api/v1/shopify/sites/{site_id}/install-url": [
-   "GET"
-  ],
-  "/api/v1/shopify/sites/{site_id}/status": [
-   "GET"
-  ],
-  "/api/v1/sites": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/sites/config/timezones": [
-   "GET"
-  ],
-  "/api/v1/sites/{site_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/sites/{site_id}/domains": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/sites/{site_id}/domains/{domain}": [
-   "DELETE"
-  ],
-  "/api/v1/sites/{site_id}/pixel": [
-   "GET"
-  ],
-  "/api/v1/sites/{site_id}/pixel/status": [
-   "GET"
-  ],
-  "/api/v1/sites/{site_id}/users": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/sites/{site_id}/users/{user_id}": [
-   "DELETE",
-   "PATCH"
-  ],
-  "/api/v1/sites/{site_id}/utm-mappings": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/sites/{site_id}/utm-mappings/{custom_param}": [
-   "DELETE"
-  ],
-  "/api/v1/sites/{site_id}/utm-mappings/{mapping_id}": [
-   "PATCH"
-  ],
-  "/api/v1/stats/aggregate/conversions": [
-   "GET"
-  ],
-  "/api/v1/stats/aggregate/devices": [
-   "GET"
-  ],
-  "/api/v1/stats/aggregate/geo/countries": [
-   "GET"
-  ],
-  "/api/v1/stats/aggregate/landing-pages": [
-   "GET"
-  ],
-  "/api/v1/stats/aggregate/mediums": [
-   "GET"
-  ],
-  "/api/v1/stats/aggregate/overview": [
-   "GET"
-  ],
-  "/api/v1/stats/aggregate/pages": [
-   "GET"
-  ],
-  "/api/v1/stats/aggregate/sources": [
-   "GET"
-  ],
-  "/api/v1/stats/browsers": [
-   "GET"
-  ],
-  "/api/v1/stats/campaigns": [
-   "GET"
-  ],
-  "/api/v1/stats/campaigns/top": [
-   "GET"
-  ],
-  "/api/v1/stats/channels": [
-   "GET"
-  ],
-  "/api/v1/stats/contents": [
-   "GET"
-  ],
-  "/api/v1/stats/contents/top": [
-   "GET"
-  ],
-  "/api/v1/stats/conversion-items/raw": [
-   "GET"
-  ],
-  "/api/v1/stats/conversions": [
-   "GET"
-  ],
-  "/api/v1/stats/conversions/raw": [
-   "GET"
-  ],
-  "/api/v1/stats/devices": [
-   "GET"
-  ],
-  "/api/v1/stats/devices/types": [
-   "GET"
-  ],
-  "/api/v1/stats/funnel": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/stats/geo/countries": [
-   "GET"
-  ],
-  "/api/v1/stats/landing-pages": [
-   "GET"
-  ],
-  "/api/v1/stats/landing-pages/by-content-group": [
-   "GET"
-  ],
-  "/api/v1/stats/landing-pages/top": [
-   "GET"
-  ],
-  "/api/v1/stats/mediums": [
-   "GET"
-  ],
-  "/api/v1/stats/microconversions": [
-   "GET"
-  ],
-  "/api/v1/stats/microconversions-types": [
-   "GET"
-  ],
-  "/api/v1/stats/microconversions/raw": [
-   "GET"
-  ],
-  "/api/v1/stats/microconversions/{conversion_type}": [
-   "GET"
-  ],
-  "/api/v1/stats/operating-systems": [
-   "GET"
-  ],
-  "/api/v1/stats/overview": [
-   "GET"
-  ],
-  "/api/v1/stats/pages": [
-   "GET"
-  ],
-  "/api/v1/stats/pages/content-groups": [
-   "GET"
-  ],
-  "/api/v1/stats/pages/top": [
-   "GET"
-  ],
-  "/api/v1/stats/properties/breakdown": [
-   "GET"
-  ],
-  "/api/v1/stats/properties/keys": [
-   "GET"
-  ],
-  "/api/v1/stats/properties/values": [
-   "GET"
-  ],
-  "/api/v1/stats/query": [
-   "POST"
-  ],
-  "/api/v1/stats/query/export": [
-   "POST"
-  ],
-  "/api/v1/stats/referrers": [
-   "GET"
-  ],
-  "/api/v1/stats/referrers/top": [
-   "GET"
-  ],
-  "/api/v1/stats/sources": [
-   "GET"
-  ],
-  "/api/v1/stats/sources/top": [
-   "GET"
-  ],
-  "/api/v1/stats/terms": [
-   "GET"
-  ],
-  "/api/v1/stats/terms/top": [
-   "GET"
-  ],
-  "/api/v1/stats/top-channels": [
-   "GET"
-  ],
-  "/api/v1/subscription/status": [
-   "GET"
-  ],
-  "/api/v1/users": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/users/me": [
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/users/me/llm-settings": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/users/me/llm-settings/providers": [
-   "GET"
-  ],
-  "/api/v1/users/me/llm-settings/test": [
-   "POST"
-  ],
-  "/api/v1/users/me/llm-settings/{config_id}": [
-   "DELETE",
-   "PATCH"
-  ],
-  "/api/v1/users/me/llm-settings/{config_id}/set-default": [
-   "POST"
-  ],
-  "/api/v1/users/me/password": [
-   "POST"
-  ],
-  "/api/v1/users/{user_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/utils/my-ip": [
-   "GET"
-  ],
-  "/api/v1/webhooks": [
-   "GET",
-   "POST"
-  ],
-  "/api/v1/webhooks/bulk/replay": [
-   "POST"
-  ],
-  "/api/v1/webhooks/event-types": [
-   "GET"
-  ],
-  "/api/v1/webhooks/{endpoint_id}": [
-   "DELETE",
-   "GET",
-   "PATCH"
-  ],
-  "/api/v1/webhooks/{endpoint_id}/deliveries": [
-   "GET"
-  ],
-  "/api/v1/webhooks/{endpoint_id}/deliveries/{delivery_id}": [
-   "GET"
-  ],
-  "/api/v1/webhooks/{endpoint_id}/deliveries/{delivery_id}/logs": [
-   "GET"
-  ],
-  "/api/v1/webhooks/{endpoint_id}/deliveries/{delivery_id}/replay": [
-   "POST"
-  ],
-  "/api/v1/webhooks/{endpoint_id}/rotate-secret": [
-   "POST"
-  ],
-  "/api/v1/webhooks/{endpoint_id}/stats": [
-   "GET"
-  ],
-  "/api/v1/webhooks/{endpoint_id}/test": [
-   "POST"
-  ],
-  "/health": [
-   "GET"
-  ],
-  "/livez": [
-   "GET"
-  ],
-  "/readyz": [
-   "GET"
-  ],
-  "/t.js": [
-   "GET"
-  ]
+  "/api/v1/2fa/backup-codes/regenerate": {
+   "POST": []
+  },
+  "/api/v1/2fa/disable": {
+   "POST": []
+  },
+  "/api/v1/2fa/setup": {
+   "POST": []
+  },
+  "/api/v1/2fa/setup/cancel": {
+   "POST": []
+  },
+  "/api/v1/2fa/setup/verify": {
+   "POST": []
+  },
+  "/api/v1/2fa/status": {
+   "GET": []
+  },
+  "/api/v1/2fa/verify-login": {
+   "POST": []
+  },
+  "/api/v1/admin/accounts": {
+   "GET": [
+    "is_active",
+    "page",
+    "page_size",
+    "plan_tier",
+    "search",
+    "sort_by",
+    "sort_order"
+   ]
+  },
+  "/api/v1/admin/accounts/{account_id}": {
+   "GET": []
+  },
+  "/api/v1/admin/api-usage": {
+   "GET": [
+    "days",
+    "page",
+    "page_size"
+   ]
+  },
+  "/api/v1/admin/api-usage/{account_id}": {
+   "GET": [
+    "days"
+   ]
+  },
+  "/api/v1/admin/bigquery/{integration_id}/reset-degraded": {
+   "POST": []
+  },
+  "/api/v1/admin/billing": {
+   "GET": [
+    "page",
+    "page_size",
+    "plan_tier",
+    "status"
+   ]
+  },
+  "/api/v1/admin/cleanup/api-usage": {
+   "POST": [
+    "retention_days"
+   ]
+  },
+  "/api/v1/admin/cleanup/sessions": {
+   "POST": []
+  },
+  "/api/v1/admin/dashboard": {
+   "GET": []
+  },
+  "/api/v1/admin/impersonate-user": {
+   "DELETE": [],
+   "POST": []
+  },
+  "/api/v1/admin/organizations/{org_id}/reactivate": {
+   "POST": []
+  },
+  "/api/v1/admin/organizations/{org_id}/suspend": {
+   "POST": []
+  },
+  "/api/v1/admin/overage": {
+   "GET": []
+  },
+  "/api/v1/admin/overage/{org_id}/forgive": {
+   "POST": [
+    "period_start"
+   ]
+  },
+  "/api/v1/admin/users": {
+   "GET": [
+    "has_2fa",
+    "is_active",
+    "page",
+    "page_size",
+    "role",
+    "search",
+    "sort_by",
+    "sort_order"
+   ]
+  },
+  "/api/v1/admin/users/{user_id}": {
+   "GET": [],
+   "PATCH": []
+  },
+  "/api/v1/alerts/history": {
+   "GET": [
+    "account_id",
+    "limit",
+    "offset",
+    "rule_id",
+    "status"
+   ]
+  },
+  "/api/v1/alerts/history/{alert_id}": {
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/alerts/rules": {
+   "GET": [
+    "account_id",
+    "include_inactive"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/alerts/rules/{rule_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/alerts/rules/{rule_id}/test": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/alerts/stats": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/api-tokens": {
+   "GET": [
+    "include_inactive"
+   ],
+   "POST": []
+  },
+  "/api/v1/api-tokens/scopes": {
+   "GET": []
+  },
+  "/api/v1/api-tokens/{token_id}": {
+   "DELETE": [],
+   "GET": []
+  },
+  "/api/v1/assistant/chat": {
+   "POST": []
+  },
+  "/api/v1/assistant/conversations/{conversation_id}": {
+   "DELETE": [],
+   "GET": []
+  },
+  "/api/v1/assistant/sessions": {
+   "GET": [
+    "account_id",
+    "limit"
+   ]
+  },
+  "/api/v1/assistant/tools": {
+   "GET": []
+  },
+  "/api/v1/audit/logs": {
+   "GET": [
+    "action",
+    "from_date",
+    "page",
+    "page_size",
+    "resource_type",
+    "to_date",
+    "user_id"
+   ]
+  },
+  "/api/v1/auth/forgot-password": {
+   "POST": []
+  },
+  "/api/v1/auth/impersonation-status": {
+   "GET": []
+  },
+  "/api/v1/auth/logout": {
+   "POST": []
+  },
+  "/api/v1/auth/me": {
+   "GET": []
+  },
+  "/api/v1/auth/refresh": {
+   "POST": []
+  },
+  "/api/v1/auth/register": {
+   "POST": []
+  },
+  "/api/v1/auth/reset-password": {
+   "POST": []
+  },
+  "/api/v1/auth/sessions": {
+   "DELETE": [
+    "include_current"
+   ],
+   "GET": []
+  },
+  "/api/v1/auth/sessions/{session_id}": {
+   "DELETE": []
+  },
+  "/api/v1/auth/token": {
+   "POST": []
+  },
+  "/api/v1/batch": {
+   "POST": []
+  },
+  "/api/v1/batch/validate": {
+   "POST": []
+  },
+  "/api/v1/billing/accounting-email": {
+   "GET": [],
+   "PUT": []
+  },
+  "/api/v1/billing/checkout": {
+   "POST": []
+  },
+  "/api/v1/billing/coupons/validate": {
+   "POST": []
+  },
+  "/api/v1/billing/invoices": {
+   "GET": []
+  },
+  "/api/v1/billing/overage-status": {
+   "GET": []
+  },
+  "/api/v1/billing/overview": {
+   "GET": []
+  },
+  "/api/v1/billing/plans": {
+   "GET": []
+  },
+  "/api/v1/billing/portal": {
+   "POST": []
+  },
+  "/api/v1/billing/seal-ai/subscribe": {
+   "POST": []
+  },
+  "/api/v1/billing/seal-ai/token-pack/checkout": {
+   "POST": []
+  },
+  "/api/v1/billing/seal-ai/unsubscribe": {
+   "POST": []
+  },
+  "/api/v1/billing/subscription": {
+   "GET": []
+  },
+  "/api/v1/billing/subscription/cancel": {
+   "POST": []
+  },
+  "/api/v1/billing/subscription/history": {
+   "GET": []
+  },
+  "/api/v1/billing/subscription/resume": {
+   "POST": []
+  },
+  "/api/v1/billing/usage/current": {
+   "GET": []
+  },
+  "/api/v1/billing/usage/history": {
+   "GET": []
+  },
+  "/api/v1/blocklist-ips": {
+   "GET": [
+    "account_id",
+    "include_inactive"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/blocklist-ips/{entry_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/bot-stats/overview": {
+   "GET": [
+    "account_id",
+    "days"
+   ]
+  },
+  "/api/v1/bot-stats/suspicious-sessions": {
+   "GET": [
+    "account_id",
+    "limit",
+    "min_score"
+   ]
+  },
+  "/api/v1/channel-groups": {
+   "GET": [
+    "account_id",
+    "include_defaults",
+    "include_inactive"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/channel-groups/export": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/channel-groups/import": {
+   "POST": [
+    "account_id",
+    "dry_run",
+    "scope"
+   ]
+  },
+  "/api/v1/channel-groups/stats/channels": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "page",
+    "page_size",
+    "period",
+    "start_date"
+   ]
+  },
+  "/api/v1/channel-groups/test": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/channel-groups/{rule_id}": {
+   "DELETE": [
+    "account_id",
+    "only_if_inactive"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id",
+    "only_if_inactive"
+   ]
+  },
+  "/api/v1/email-reports": {
+   "GET": [
+    "account_id",
+    "include_inactive"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/email-reports/{report_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/email-reports/{report_id}/history": {
+   "GET": [
+    "account_id",
+    "limit",
+    "offset"
+   ]
+  },
+  "/api/v1/email-reports/{report_id}/send": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/email/resend-verification": {
+   "POST": []
+  },
+  "/api/v1/email/send-verification": {
+   "POST": [
+    "user_id"
+   ]
+  },
+  "/api/v1/email/verification-status": {
+   "GET": []
+  },
+  "/api/v1/email/verify": {
+   "POST": []
+  },
+  "/api/v1/exports": {
+   "GET": [
+    "account_id",
+    "include_expired",
+    "limit",
+    "offset"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/exports/download/{download_token}": {
+   "GET": []
+  },
+  "/api/v1/exports/estimate": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/exports/maintenance/cleanup": {
+   "POST": []
+  },
+  "/api/v1/exports/stream": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/exports/{job_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/integrations/bigquery": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id"
+   ],
+   "POST": [
+    "account_id",
+    "backfill_days",
+    "data_types",
+    "dataset_id",
+    "gcp_project_id",
+    "initial_date_from",
+    "initial_date_to",
+    "location",
+    "sync_frequency"
+   ]
+  },
+  "/api/v1/integrations/bigquery/backfill": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/integrations/bigquery/logs": {
+   "GET": [
+    "account_id",
+    "limit",
+    "offset"
+   ]
+  },
+  "/api/v1/integrations/bigquery/logs/{log_id}": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/integrations/bigquery/retry/{log_id}": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/integrations/bigquery/schema": {
+   "GET": []
+  },
+  "/api/v1/integrations/bigquery/setup": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/integrations/bigquery/sync": {
+   "POST": [
+    "account_id",
+    "date_from",
+    "date_to"
+   ]
+  },
+  "/api/v1/invitations/accept": {
+   "POST": []
+  },
+  "/api/v1/invitations/accept-existing": {
+   "POST": []
+  },
+  "/api/v1/invitations/{token}": {
+   "GET": []
+  },
+  "/api/v1/ip-allowlist/audit": {
+   "GET": [
+    "account_id",
+    "denied_only",
+    "limit",
+    "offset"
+   ]
+  },
+  "/api/v1/ip-allowlist/check": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/ip-allowlist/check-current": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/ip-allowlist/export": {
+   "GET": [
+    "account_id",
+    "include_inactive"
+   ]
+  },
+  "/api/v1/ip-allowlist/import": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/ip-allowlist/patterns": {
+   "GET": [
+    "account_id",
+    "include_inactive"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/ip-allowlist/patterns/bulk": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/ip-allowlist/patterns/bulk-delete": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/ip-allowlist/patterns/{pattern_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/ip-allowlist/settings": {
+   "GET": [
+    "account_id"
+   ],
+   "PUT": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/chat/usage": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/chat/usage/increment": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/insights": {
+   "GET": [
+    "account_id",
+    "include_dismissed",
+    "insight_type",
+    "page",
+    "page_size",
+    "severity",
+    "unread"
+   ]
+  },
+  "/api/v1/lens/insights/grouped": {
+   "GET": [
+    "account_id",
+    "group_by",
+    "include_dismissed"
+   ]
+  },
+  "/api/v1/lens/insights/summary": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/insights/{insight_id}": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/insights/{insight_id}/dismiss": {
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/insights/{insight_id}/feedback": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/insights/{insight_id}/read": {
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/insights/{insight_id}/send-email": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/insights/{insight_id}/unread": {
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/maintenance/cleanup": {
+   "POST": []
+  },
+  "/api/v1/lens/reports": {
+   "GET": [
+    "account_id",
+    "page",
+    "page_size",
+    "report_type"
+   ]
+  },
+  "/api/v1/lens/reports/generate": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/reports/latest/{report_type}": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/reports/{report_id}": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/lens/settings": {
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/migration/accounts/{account_id}/jobs": {
+   "GET": [],
+   "POST": []
+  },
+  "/api/v1/migration/accounts/{account_id}/preview": {
+   "POST": []
+  },
+  "/api/v1/migration/jobs/{job_id}": {
+   "GET": []
+  },
+  "/api/v1/migration/jobs/{job_id}/cancel": {
+   "POST": []
+  },
+  "/api/v1/migration/jobs/{job_id}/progress": {
+   "GET": []
+  },
+  "/api/v1/migration/org-jobs": {
+   "GET": []
+  },
+  "/api/v1/migration/test-connection": {
+   "POST": []
+  },
+  "/api/v1/oauth/authorize": {
+   "GET": [
+    "client_id",
+    "code_challenge",
+    "code_challenge_method",
+    "redirect_uri",
+    "resource",
+    "response_type",
+    "scope",
+    "state"
+   ]
+  },
+  "/api/v1/oauth/connections": {
+   "GET": []
+  },
+  "/api/v1/oauth/connections/{grant_id}": {
+   "DELETE": []
+  },
+  "/api/v1/oauth/consent/{request_id}": {
+   "GET": []
+  },
+  "/api/v1/oauth/consent/{request_id}/decision": {
+   "POST": []
+  },
+  "/api/v1/oauth/onboarding": {
+   "POST": []
+  },
+  "/api/v1/oauth/register": {
+   "POST": []
+  },
+  "/api/v1/oauth/revoke": {
+   "POST": []
+  },
+  "/api/v1/oauth/token": {
+   "POST": []
+  },
+  "/api/v1/organizations": {
+   "GET": [],
+   "POST": []
+  },
+  "/api/v1/organizations/{slug}": {
+   "DELETE": [],
+   "GET": [],
+   "PATCH": []
+  },
+  "/api/v1/organizations/{slug}/invitations": {
+   "GET": [],
+   "POST": []
+  },
+  "/api/v1/organizations/{slug}/invitations/{invitation_id}": {
+   "DELETE": []
+  },
+  "/api/v1/organizations/{slug}/invitations/{invitation_id}/resend": {
+   "POST": []
+  },
+  "/api/v1/organizations/{slug}/members": {
+   "GET": [],
+   "POST": []
+  },
+  "/api/v1/organizations/{slug}/members/{user_id}": {
+   "DELETE": [],
+   "PATCH": []
+  },
+  "/api/v1/organizations/{slug}/members/{user_id}/sites": {
+   "GET": [],
+   "POST": []
+  },
+  "/api/v1/organizations/{slug}/members/{user_id}/sites/{site_id}": {
+   "DELETE": []
+  },
+  "/api/v1/organizations/{slug}/seal-ai/usage": {
+   "GET": [
+    "month"
+   ]
+  },
+  "/api/v1/organizations/{slug}/sites": {
+   "GET": []
+  },
+  "/api/v1/passthrough-referrers": {
+   "GET": [
+    "account_id",
+    "include_inactive"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/passthrough-referrers/{referrer_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/provision": {
+   "POST": []
+  },
+  "/api/v1/referrer-mappings": {
+   "GET": [
+    "account_id",
+    "include_inactive"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/referrer-mappings/{mapping_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/saved-pixels": {
+   "GET": [
+    "account_id",
+    "pixel_type"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/saved-pixels/options": {
+   "GET": []
+  },
+  "/api/v1/saved-pixels/{pixel_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PUT": [
+    "account_id"
+   ]
+  },
+  "/api/v1/segments": {
+   "GET": [
+    "account_id",
+    "include_system"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/segments/{segment_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PUT": [
+    "account_id"
+   ]
+  },
+  "/api/v1/segments/{segment_id}/duplicate": {
+   "POST": [
+    "account_id",
+    "new_name"
+   ]
+  },
+  "/api/v1/shared-dashboards": {
+   "GET": [
+    "account_id",
+    "include_inactive"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/shared-dashboards/public/{share_token}": {
+   "GET": []
+  },
+  "/api/v1/shared-dashboards/public/{share_token}/access": {
+   "POST": []
+  },
+  "/api/v1/shared-dashboards/{dashboard_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/shared-dashboards/{dashboard_id}/embed": {
+   "GET": [
+    "account_id"
+   ],
+   "PUT": [
+    "account_id"
+   ]
+  },
+  "/api/v1/shopify/billing/pricing-page-url": {
+   "GET": [
+    "shop"
+   ]
+  },
+  "/api/v1/shopify/billing/status": {
+   "GET": [
+    "org_id"
+   ]
+  },
+  "/api/v1/shopify/custom-apps": {
+   "POST": []
+  },
+  "/api/v1/shopify/sites/{site_id}": {
+   "DELETE": []
+  },
+  "/api/v1/shopify/sites/{site_id}/install-url": {
+   "GET": [
+    "shop"
+   ]
+  },
+  "/api/v1/shopify/sites/{site_id}/status": {
+   "GET": []
+  },
+  "/api/v1/sites": {
+   "GET": [
+    "include_inactive"
+   ],
+   "POST": []
+  },
+  "/api/v1/sites/config/timezones": {
+   "GET": []
+  },
+  "/api/v1/sites/{site_id}": {
+   "DELETE": [],
+   "GET": [],
+   "PATCH": []
+  },
+  "/api/v1/sites/{site_id}/domains": {
+   "GET": [],
+   "POST": []
+  },
+  "/api/v1/sites/{site_id}/domains/{domain}": {
+   "DELETE": []
+  },
+  "/api/v1/sites/{site_id}/pixel": {
+   "GET": []
+  },
+  "/api/v1/sites/{site_id}/pixel/status": {
+   "GET": []
+  },
+  "/api/v1/sites/{site_id}/users": {
+   "GET": [],
+   "POST": []
+  },
+  "/api/v1/sites/{site_id}/users/{user_id}": {
+   "DELETE": [],
+   "PATCH": []
+  },
+  "/api/v1/sites/{site_id}/utm-mappings": {
+   "GET": [],
+   "POST": []
+  },
+  "/api/v1/sites/{site_id}/utm-mappings/{custom_param}": {
+   "DELETE": []
+  },
+  "/api/v1/sites/{site_id}/utm-mappings/{mapping_id}": {
+   "PATCH": []
+  },
+  "/api/v1/stats/aggregate/conversions": {
+   "GET": [
+    "account_ids",
+    "end_date",
+    "page",
+    "page_size",
+    "period",
+    "sort_by",
+    "sort_order",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/aggregate/devices": {
+   "GET": [
+    "account_ids",
+    "end_date",
+    "period",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/aggregate/geo/countries": {
+   "GET": [
+    "account_ids",
+    "end_date",
+    "page",
+    "page_size",
+    "period",
+    "sort_by",
+    "sort_order",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/aggregate/landing-pages": {
+   "GET": [
+    "account_ids",
+    "end_date",
+    "page",
+    "page_size",
+    "period",
+    "sort_by",
+    "sort_order",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/aggregate/mediums": {
+   "GET": [
+    "account_ids",
+    "end_date",
+    "page",
+    "page_size",
+    "period",
+    "sort_by",
+    "sort_order",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/aggregate/overview": {
+   "GET": [
+    "account_ids",
+    "compare",
+    "end_date",
+    "include_per_account",
+    "include_series",
+    "period",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/aggregate/pages": {
+   "GET": [
+    "account_ids",
+    "end_date",
+    "page",
+    "page_size",
+    "period",
+    "sort_by",
+    "sort_order",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/aggregate/sources": {
+   "GET": [
+    "account_ids",
+    "end_date",
+    "page",
+    "page_size",
+    "period",
+    "sort_by",
+    "sort_order",
+    "start_date",
+    "utm_medium"
+   ]
+  },
+  "/api/v1/stats/browsers": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "filters",
+    "page",
+    "page_size",
+    "period",
+    "site_id",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/campaigns": {
+   "GET": [
+    "account_id",
+    "compare",
+    "country",
+    "end_date",
+    "filters",
+    "include_totals",
+    "page",
+    "page_size",
+    "period",
+    "search",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date",
+    "utm_medium",
+    "utm_source"
+   ]
+  },
+  "/api/v1/stats/campaigns/top": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "limit",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_medium",
+    "utm_source"
+   ]
+  },
+  "/api/v1/stats/channels": {
+   "GET": [
+    "account_id",
+    "compare",
+    "country",
+    "end_date",
+    "filters",
+    "include_totals",
+    "page",
+    "page_size",
+    "period",
+    "search",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/contents": {
+   "GET": [
+    "account_id",
+    "compare",
+    "country",
+    "end_date",
+    "filters",
+    "include_totals",
+    "page",
+    "page_size",
+    "period",
+    "search",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source"
+   ]
+  },
+  "/api/v1/stats/contents/top": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "limit",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source"
+   ]
+  },
+  "/api/v1/stats/conversion-items/raw": {
+   "GET": [
+    "account_id",
+    "browser",
+    "channel_group",
+    "conversion_type",
+    "country",
+    "device_type",
+    "end_date",
+    "os",
+    "page",
+    "page_size",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_campaign",
+    "utm_content",
+    "utm_medium",
+    "utm_source",
+    "utm_term"
+   ]
+  },
+  "/api/v1/stats/conversions": {
+   "GET": [
+    "account_id",
+    "compare",
+    "country",
+    "end_date",
+    "filters",
+    "page",
+    "page_size",
+    "period",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source"
+   ]
+  },
+  "/api/v1/stats/conversions/raw": {
+   "GET": [
+    "account_id",
+    "browser",
+    "channel_group",
+    "conversion_type",
+    "country",
+    "device_type",
+    "end_date",
+    "os",
+    "page",
+    "page_size",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_campaign",
+    "utm_content",
+    "utm_medium",
+    "utm_source",
+    "utm_term"
+   ]
+  },
+  "/api/v1/stats/devices": {
+   "GET": [
+    "account_id",
+    "compare",
+    "country",
+    "end_date",
+    "filters",
+    "period",
+    "site_id",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/devices/types": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "filters",
+    "page",
+    "page_size",
+    "period",
+    "site_id",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/funnel": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "filters",
+    "period",
+    "site_id",
+    "start_date"
+   ],
+   "POST": [
+    "account_id",
+    "end_date",
+    "period",
+    "site_id",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/geo/countries": {
+   "GET": [
+    "account_id",
+    "compare",
+    "end_date",
+    "filters",
+    "include_totals",
+    "page",
+    "page_size",
+    "period",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source"
+   ]
+  },
+  "/api/v1/stats/landing-pages": {
+   "GET": [
+    "account_id",
+    "browser",
+    "channel_group",
+    "compare",
+    "content_grouping",
+    "country",
+    "device_type",
+    "end_date",
+    "filters",
+    "include",
+    "include_totals",
+    "include_utm",
+    "os",
+    "page",
+    "page_size",
+    "path_filter",
+    "period",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source",
+    "utm_term"
+   ]
+  },
+  "/api/v1/stats/landing-pages/by-content-group": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_medium",
+    "utm_source"
+   ]
+  },
+  "/api/v1/stats/landing-pages/top": {
+   "GET": [
+    "account_id",
+    "content_grouping",
+    "country",
+    "end_date",
+    "filters",
+    "limit",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_medium",
+    "utm_source"
+   ]
+  },
+  "/api/v1/stats/mediums": {
+   "GET": [
+    "account_id",
+    "compare",
+    "country",
+    "end_date",
+    "filters",
+    "include_totals",
+    "page",
+    "page_size",
+    "period",
+    "search",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/microconversions": {
+   "GET": [
+    "account_id",
+    "browser",
+    "compare",
+    "conversion_type",
+    "country",
+    "device_type",
+    "end_date",
+    "filters",
+    "os",
+    "page",
+    "page_size",
+    "period",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source",
+    "utm_term"
+   ]
+  },
+  "/api/v1/stats/microconversions-types": {
+   "GET": [
+    "account_id",
+    "end_date",
+    "period",
+    "site_id",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/microconversions/raw": {
+   "GET": [
+    "account_id",
+    "browser",
+    "channel_group",
+    "conversion_type",
+    "country",
+    "device_type",
+    "end_date",
+    "os",
+    "page",
+    "page_size",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_campaign",
+    "utm_content",
+    "utm_medium",
+    "utm_source",
+    "utm_term"
+   ]
+  },
+  "/api/v1/stats/microconversions/{conversion_type}": {
+   "GET": [
+    "account_id",
+    "browser",
+    "country",
+    "device_type",
+    "end_date",
+    "os",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source",
+    "utm_term"
+   ]
+  },
+  "/api/v1/stats/operating-systems": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "filters",
+    "page",
+    "page_size",
+    "period",
+    "site_id",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/overview": {
+   "GET": [
+    "account_id",
+    "compare",
+    "end_date",
+    "filters",
+    "granularity",
+    "period",
+    "site_id",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/pages": {
+   "GET": [
+    "account_id",
+    "browser",
+    "channel_group",
+    "compare",
+    "content_grouping",
+    "country",
+    "device_type",
+    "end_date",
+    "filters",
+    "include",
+    "include_utm",
+    "os",
+    "page",
+    "page_size",
+    "path_filter",
+    "period",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source",
+    "utm_term"
+   ]
+  },
+  "/api/v1/stats/pages/content-groups": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source",
+    "utm_term"
+   ]
+  },
+  "/api/v1/stats/pages/top": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "limit",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source",
+    "utm_term"
+   ]
+  },
+  "/api/v1/stats/properties/breakdown": {
+   "GET": [
+    "account_id",
+    "conversion_type",
+    "end_date",
+    "filters",
+    "period",
+    "property_key",
+    "site_id",
+    "start_date",
+    "table"
+   ]
+  },
+  "/api/v1/stats/properties/keys": {
+   "GET": [
+    "account_id",
+    "end_date",
+    "filters",
+    "period",
+    "site_id",
+    "start_date",
+    "table"
+   ]
+  },
+  "/api/v1/stats/properties/values": {
+   "GET": [
+    "account_id",
+    "conversion_type",
+    "end_date",
+    "filters",
+    "group_by",
+    "page",
+    "page_size",
+    "period",
+    "property_key",
+    "site_id",
+    "start_date",
+    "table"
+   ]
+  },
+  "/api/v1/stats/query": {
+   "POST": [
+    "account_id",
+    "site_id"
+   ]
+  },
+  "/api/v1/stats/query/export": {
+   "POST": [
+    "account_id",
+    "filename",
+    "site_id"
+   ]
+  },
+  "/api/v1/stats/referrers": {
+   "GET": [
+    "account_id",
+    "compare",
+    "country",
+    "end_date",
+    "filters",
+    "include_totals",
+    "page",
+    "page_size",
+    "period",
+    "search",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/referrers/top": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "limit",
+    "period",
+    "site_id",
+    "start_date"
+   ]
+  },
+  "/api/v1/stats/sources": {
+   "GET": [
+    "account_id",
+    "compare",
+    "country",
+    "end_date",
+    "filters",
+    "include_totals",
+    "page",
+    "page_size",
+    "period",
+    "search",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date",
+    "utm_medium"
+   ]
+  },
+  "/api/v1/stats/sources/top": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "filters",
+    "limit",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_medium"
+   ]
+  },
+  "/api/v1/stats/terms": {
+   "GET": [
+    "account_id",
+    "compare",
+    "country",
+    "end_date",
+    "filters",
+    "include_totals",
+    "page",
+    "page_size",
+    "period",
+    "search",
+    "segment",
+    "site_id",
+    "sort_by",
+    "sort_order",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source"
+   ]
+  },
+  "/api/v1/stats/terms/top": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "limit",
+    "period",
+    "site_id",
+    "start_date",
+    "utm_campaign",
+    "utm_medium",
+    "utm_source"
+   ]
+  },
+  "/api/v1/stats/top-channels": {
+   "GET": [
+    "account_id",
+    "country",
+    "end_date",
+    "limit",
+    "period",
+    "site_id",
+    "start_date"
+   ]
+  },
+  "/api/v1/subscription/status": {
+   "GET": [
+    "org_id"
+   ]
+  },
+  "/api/v1/users": {
+   "GET": [
+    "include_inactive",
+    "page",
+    "page_size"
+   ],
+   "POST": []
+  },
+  "/api/v1/users/me": {
+   "GET": [],
+   "PATCH": []
+  },
+  "/api/v1/users/me/llm-settings": {
+   "GET": [],
+   "POST": []
+  },
+  "/api/v1/users/me/llm-settings/providers": {
+   "GET": []
+  },
+  "/api/v1/users/me/llm-settings/test": {
+   "POST": []
+  },
+  "/api/v1/users/me/llm-settings/{config_id}": {
+   "DELETE": [],
+   "PATCH": []
+  },
+  "/api/v1/users/me/llm-settings/{config_id}/set-default": {
+   "POST": []
+  },
+  "/api/v1/users/me/password": {
+   "POST": []
+  },
+  "/api/v1/users/{user_id}": {
+   "DELETE": [],
+   "GET": [],
+   "PATCH": []
+  },
+  "/api/v1/utils/my-ip": {
+   "GET": []
+  },
+  "/api/v1/webhooks": {
+   "GET": [
+    "account_id",
+    "include_inactive",
+    "limit",
+    "offset"
+   ],
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/webhooks/bulk/replay": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/webhooks/event-types": {
+   "GET": []
+  },
+  "/api/v1/webhooks/{endpoint_id}": {
+   "DELETE": [
+    "account_id"
+   ],
+   "GET": [
+    "account_id"
+   ],
+   "PATCH": [
+    "account_id"
+   ]
+  },
+  "/api/v1/webhooks/{endpoint_id}/deliveries": {
+   "GET": [
+    "account_id",
+    "limit",
+    "offset",
+    "status"
+   ]
+  },
+  "/api/v1/webhooks/{endpoint_id}/deliveries/{delivery_id}": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/webhooks/{endpoint_id}/deliveries/{delivery_id}/logs": {
+   "GET": [
+    "account_id"
+   ]
+  },
+  "/api/v1/webhooks/{endpoint_id}/deliveries/{delivery_id}/replay": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/webhooks/{endpoint_id}/rotate-secret": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/api/v1/webhooks/{endpoint_id}/stats": {
+   "GET": [
+    "account_id",
+    "hours"
+   ]
+  },
+  "/api/v1/webhooks/{endpoint_id}/test": {
+   "POST": [
+    "account_id"
+   ]
+  },
+  "/health": {
+   "GET": []
+  },
+  "/livez": {
+   "GET": []
+  },
+  "/readyz": {
+   "GET": []
+  },
+  "/t.js": {
+   "GET": [
+    "group",
+    "id"
+   ]
+  }
  }
 }

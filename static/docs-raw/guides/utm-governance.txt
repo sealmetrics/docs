@@ -1,0 +1,224 @@
+# UTM Governance: Naming Conventions That Keep Attribution Clean
+
+URL: https://docs.sealmetrics.com/utm-governance
+
+Every marketing report you will ever read starts with a decision someone made while pasting a link: what to type after `utm_source=`. Get that decision right consistently and your Sources report tells you exactly which channels make money. Get it wrong — `Facebook` here, `facebook` there, `fb` in the ESP — and the same channel splinters into three rows, your channel grouping misfires, and every downstream decision is made on fragmented data.
+
+This is what UTM governance means: a small set of written rules, applied by everyone who creates a link, forever. This guide gives you the complete playbook — naming conventions, a source/medium taxonomy that matches Sealmetrics's default channel definitions, the errors that silently corrupt attribution, a spreadsheet template your team can adopt today, and a walkthrough of how Sealmetrics actually processes UTM parameters so you understand *why* the rules matter.
+
+It matters even more in Sealmetrics than in cookie-based tools. Sealmetrics reads UTM parameters **directly from the URL on every page load, without cookies** — attribution works for 100% of your visitors, including the ones who reject or ignore consent banners. That's the good news. The flip side: your UTMs are the primary attribution signal, so their quality *is* your attribution quality.
+
+## The Five UTM Parameters, and What Each Is Actually For
+
+Sealmetrics recognizes the five standard UTM parameters:
+
+| Parameter | URL format | Answers | Example values |
+|-----------|------------|---------|----------------|
+| Source | `utm_source=` | *Which site or platform sent the click?* | `google`, `facebook`, `newsletter` |
+| Medium | `utm_medium=` | *What kind of channel is it?* | `cpc`, `organic`, `email` |
+| Campaign | `utm_campaign=` | *Which initiative paid for or produced the link?* | `spring-sale`, `brand-2025` |
+| Term | `utm_term=` | *Which keyword (paid search)?* | `running+shoes` |
+| Content | `utm_content=` | *Which variant of the ad or link?* | `banner-a`, `text-link` |
+
+A fully tagged URL looks like this:
+
+```
+https://example.com/landing?utm_source=google&utm_medium=cpc&utm_campaign=spring-sale&utm_term=running+shoes&utm_content=banner-a
+```
+
+Two of these carry almost all the analytical weight. **Source** and **medium** together determine which row of the Sources report the visit lands in and — critically — which **channel** it's assigned to (more on that below). **Campaign** is how you compare initiatives against each other. **Term** and **content** are refinements: keyword-level analysis and creative A/B testing respectively.
+
+The most common conceptual mistake is blurring the source/medium boundary. A useful mental test:
+
+- **Source is a proper noun** — the name of a specific place: `google`, `facebook`, `mailchimp`, `partner-blog`.
+- **Medium is a category** — a type of traffic that many sources can share: `cpc`, `email`, `social`, `affiliate`.
+
+If you find yourself typing `utm_medium=facebook`, stop — Facebook is a source. The medium is `social` (organic posts) or `cpc`/`paid` (ads).
+
+## What happens when a parameter is missing
+
+When a UTM parameter is absent from the URL, Sealmetrics reports **"(not set)"** for that field — except `utm_medium`, which shows as **"(none)"**, aligned with GA4's convention. Untagged visits aren't lost: a visit arriving from an untagged external link is attributed to its **referring domain** with medium `referrer` (e.g. `reddit.com / referrer`), and a visit with no referrer at all is `direct`. See [Understanding the "(not set)" value](/reports/insights/understanding-not-set) and [Referral vs Direct Traffic](/reports/insights/referral-vs-direct-traffic).
+
+Governance implication: you only need to tag links **you control** (ads, emails, social posts, partner placements). Organic search, untagged referrals, and direct traffic classify themselves.
+
+## Naming Conventions: The Non-Negotiables
+
+These four rules prevent 90% of UTM chaos. Put them at the top of your governance doc.
+
+### 1. Always lowercase
+
+Sealmetrics reports group by the **exact string value**. `Facebook`, `facebook`, and `FACEBOOK` are three different sources — three separate rows in your report, three separate inputs to channel classification. There is no automatic case normalization at ingest (and deliberately so: silently rewriting your data would be its own problem).
+
+The fix is procedural, not technical: **every UTM value is lowercase, no exceptions.** It's the single highest-leverage rule in this guide because case errors are invisible in the URL bar and only surface weeks later as duplicate rows.
+
+### 2. snake_case or hyphens — pick one separator, never spaces
+
+Multi-word values need a separator. Use underscores (`black_friday_2026`) or hyphens (`black-friday-2026`) — both are fine; what matters is that your team picks **one** and uses it everywhere. Mixed separators (`black_friday` in email, `black-friday` in ads) split one campaign into two rows exactly like a case mismatch does.
+
+**Never use spaces.** A space in a URL gets encoded as `%20` or `+` depending on the tool that built the link, which means "summer sale" can arrive as `summer%20sale`, `summer+sale`, or break the URL entirely. Spaces are how you end up with unexplainable garbage values in the Campaigns tab.
+
+Avoid other special characters too (`&`, `?`, `#`, `=` have structural meaning in URLs). Stick to `a–z`, `0–9`, and your chosen separator.
+
+### 3. One canonical name per entity
+
+Decide the one true spelling of every recurring source and medium, write it down, and outlaw the synonyms:
+
+- `facebook` — not `fb`, not `facebook.com`, not `meta`
+- `google` — not `google.com`, not `adwords`
+- `newsletter` — not `news_letter`, not `nl`
+
+Domains make bad source values (`facebook.com` vs `facebook`) because they look plausible and thus survive review. Pick the bare platform name.
+
+### 4. Stable, structured campaign names
+
+Campaign names live forever in your historical data, so make them self-describing. A structure that scales well:
+
+```
+{year}_{initiative}_{detail}
+2026_black_friday_early_access
+2026_brand_awareness_q3
+2026_product_launch_alpine
+```
+
+Prefixing the year keeps recurring campaigns comparable across editions (`2025_black_friday` vs `2026_black_friday`) without ambiguity. Whatever structure you choose, the governance rule is the same: campaign names are **created in the spreadsheet first** (see below), never improvised in the ad platform at publish time.
+
+## A Source/Medium Taxonomy Aligned with Sealmetrics Channels
+
+Here's why medium discipline pays off directly in Sealmetrics: the **Channels** tab of the [Sources report](/reports/sources) buckets every session into a marketing channel by matching its `utm_source`, `utm_medium`, and `utm_campaign` against channel grouping rules. Sealmetrics ships with default channels — from **Paid Search** and **Paid Social** down to **Referral** and **Direct** — whose rules match on exactly the source and medium values in the canonical table on that page. Traffic that matches no rule lands in **Unassigned**.
+
+So the taxonomy below isn't arbitrary: each recommended medium is one the **default channel rules already recognize**. Use these values and your Channels tab works out of the box, with zero custom configuration.
+
+| Traffic type | `utm_source` (examples) | `utm_medium` | Default channel it lands in |
+|---|---|---|---|
+| Paid search ads | `google`, `bing` | `cpc` | **Paid Search** |
+| Paid social ads | `facebook`, `instagram`, `linkedin`, `tiktok` | `cpc` (or `paid`) | **Paid Social** |
+| Paid video ads | `youtube`, `vimeo`, `twitch` | `cpc` (or a paid/video medium) | **Paid Video** |
+| Display / banners | ad network name | `display` | **Display** |
+| Shopping ads | `google`, `bing` | `shopping` | **Paid Shopping** |
+| Organic social posts | `facebook`, `instagram`, `linkedin`, `x` | `social` | **Organic Social** |
+| Email campaigns | `newsletter`, `mailchimp`, `klaviyo` | `email` | **Email** |
+| AI assistants | `chatgpt`, `perplexity` | `ai` | **AI** |
+| Affiliate partners | partner name | `affiliate` | **Affiliates** |
+| SMS campaigns | your brand or tool name | `sms` | **SMS** |
+| Push notifications | your tool name | `push` | **Push** |
+| Podcast / audio | `spotify`, podcast name | audio medium | **Audio** |
+
+A few notes on using this table:
+
+- **Don't tag what classifies itself.** Organic search (`Organic Search`), untagged referrals (`Referral`), and direct visits (`Direct`) are detected without UTMs. Tagging is for the links you place.
+- **The default rules are forgiving; your taxonomy shouldn't be.** The Paid Search rule matches several paid mediums (`cpc`, `ppc`, `paid`, `sem`) precisely because teams are inconsistent. Pick **one** — we recommend `cpc` for all paid click inventory — so your Mediums tab stays clean even though the channel layer would have caught the synonyms.
+- The full, canonical channel-by-channel matching table lives in the [Sources report documentation](/reports/sources#default-channels). If you go beyond the defaults — Brand vs Non-Brand splits, per-partner affiliate channels — that's what custom [Channel Grouping](/platform/settings/tracking/channel-grouping) rules are for, with a safe draft → test → publish workflow.
+
+## The Errors That Silently Corrupt Attribution
+
+Every one of these comes from a real-world pattern. Screen your links against this list.
+
+### Case and synonym drift
+
+Covered above, but worth restating as the #1 offender: `utm_source=Facebook` vs `facebook`, `fb` vs `facebook`, `Email` vs `email`. Each variant is a separate row and a separate input to channel rules. The symptom is a Sources report where the same logical channel appears multiple times with split metrics.
+
+### Spaces and encoding surprises
+
+`utm_campaign=spring sale` becomes `spring%20sale` or `spring+sale` depending on which tool encoded it — potentially both, in the same campaign, from different tools. Use your separator instead.
+
+### UTMs on internal links — never
+
+UTM parameters describe **how a visitor arrived at your site from outside**. Putting them on internal links — a homepage banner tagged `utm_source=homepage_banner`, a menu item tagged `utm_campaign=nav_test` — is the most destructive mistake on this list: mid-visit, you're overwriting the *acquisition* signal with *navigation* trivia. The visitor who actually came from your expensive Google Ads campaign now shows up in reports attributed to "homepage_banner". Your acquisition data gets polluted by on-site behavior, and no report can un-mix them afterwards.
+
+For measuring internal elements, use [microconversions](/getting-started/measure-conversions) (`sealmetrics.micro('cta_click')`) or [Content Grouping](/platform/settings/tracking/content-grouping) — that's what they're for. UTMs are for external links only. No exceptions.
+
+### Medium/source role confusion
+
+`utm_medium=facebook` (a source in the medium slot), `utm_source=cpc` (a medium in the source slot). Both cause the channel rules to see nonsense — the Paid Social rule expects a social network in *source* and a paid medium in *medium*, so an inverted pair falls through to **Unassigned**. Apply the proper-noun/category test from above.
+
+### Redundant or overloaded parameters
+
+Stuffing everything into one parameter (`utm_campaign=facebook_cpc_black_friday_banner_a`) wastes the structure that makes reports filterable. That string contains a source, a medium, a campaign, and a content variant — put each in its own parameter and the Sources report's drill-downs (source → campaigns → terms) work for free.
+
+### Tagging your own domain in emails-to-site handoffs
+
+Watch out for tools that append their own tracking parameters (some affiliate networks and CMSes do). If a vendor's parameter carries real attribution value under a non-UTM name, don't rewrite your links — map it with [UTM Mapping](/platform/settings/tracking/utm-mapping) (see below).
+
+## The Governance Spreadsheet
+
+The difference between having conventions and having *governance* is a living document. One shared spreadsheet, one owner, and a rule: **no tagged link ships unless its campaign row exists in the sheet.**
+
+A battle-tested structure — one row per tagged link (or per link family):
+
+| Column | Example | Notes |
+|---|---|---|
+| Date created | `2026-07-23` | |
+| Owner | `maria` | Who to ask when the row is unclear |
+| Landing URL | `https://example.com/landing` | Without parameters |
+| `utm_source` | `facebook` | **Dropdown** from your canonical source list |
+| `utm_medium` | `cpc` | **Dropdown** from your canonical medium list |
+| `utm_campaign` | `2026_black_friday_early_access` | Free text, but validated against the naming pattern |
+| `utm_term` | `running_shoes` | Paid search only |
+| `utm_content` | `banner_a` | Only when A/B testing creatives |
+| Final URL | *(formula)* | Concatenated automatically — humans never hand-assemble URLs |
+| Status | `live` | `draft` / `live` / `ended` |
+
+Three practices make the sheet actually work:
+
+1. **Dropdown validation on source and medium.** Free-text fields are where `Facebook` sneaks in. Data-validation dropdowns make the canonical list the only possible input — the spreadsheet becomes your enforcement mechanism, not just your record.
+2. **A URL-building formula.** The Final URL column concatenates the landing URL and parameters (lowercasing on the way is cheap insurance). Marketers copy the finished URL; nobody types `?utm_` by hand.
+3. **A named owner.** Someone approves new campaign names, prunes ended rows, and owns the canonical value lists. Governance without an owner decays in about one quarter.
+
+Review the sheet against your live data monthly: open the Sources report, sort each tab, and look for rows that shouldn't exist — an unfamiliar source, a `(not set)` where a campaign should be, a near-duplicate value. Every anomaly traces back to either an untagged link (add it to the sheet) or a rule violation (fix the link, remind the human).
+
+## How Sealmetrics Processes Your UTMs
+
+Understanding the pipeline turns the rules above from dogma into engineering. When a visit arrives, Sealmetrics processes attribution in this order:
+
+```
+URL arrives  →  UTMs extracted  →  Your UTM Mappings applied
+             →  Channel rules evaluated (custom → default)
+             →  Channel assigned to the visit
+```
+
+### Stage 1: UTMs are read from the URL — every load, no cookies
+
+The tracker reads the query string on each page load. There is no consent gate and no cookie dependency, which is why Sealmetrics attributes campaigns correctly even for visitors that cookie-based tools lose entirely. Your tagged URL *is* the attribution record.
+
+### Stage 2: UTM Mappings translate custom parameters
+
+If your ESP, CRM, or ad platform emits its own parameter names — `campaign_id`, `email_source`, `ad_medium` — [UTM Mapping](/platform/settings/tracking/utm-mapping) lets you declare, per site, "treat `campaign_id` as `utm_campaign`". The mapping is applied at ingest, before classification, with well-defined semantics: **explicit UTMs always win** over mapped values, mappings copy (never move) the value, and empty parameters are a no-op. Mappings take effect in ~5 minutes and apply to future traffic only.
+
+Governance implication: UTM Mapping is your integration escape hatch, not an excuse to skip conventions. The *values* still need to follow your taxonomy — mapping renames the parameter, it never rewrites `Facebook` into `facebook`. There's deliberately no value transformation at ingest.
+
+### Stage 3: Channel rules classify the visit
+
+With final UTM values in hand, Sealmetrics evaluates [channel grouping rules](/platform/settings/tracking/channel-grouping) in priority order — your account's custom rules first, then the defaults — and the first match wins. This is where your source/medium discipline cashes out: rules are regex patterns over `utm_source`, `utm_medium`, and `utm_campaign`, so consistent values mean deterministic channels.
+
+Two governance-relevant features of the channel settings:
+
+- **Test before you trust.** The **Test a visit** tool in Channel Grouping settings lets you type any source/medium/campaign combination and see exactly which rule catches it — including draft rules that aren't live yet. Make it a habit: when you add a new taxonomy value, test it before the campaign launches, not after a week of Unassigned traffic.
+- **Drafts → test → publish.** Custom rules are created as drafts and only affect real classification when a human publishes them, so experimenting is safe. Rules can also be bulk-managed via CSV import/export.
+
+### Where it all shows up
+
+The [Sources report](/reports/sources) presents the result across seven tabs — Channels (the default view), Sources, Mediums, Campaigns, Terms, Content, and Referrers — each with entrances, bounce rate, conversions, and revenue per row. Clean UTMs in, clean seven-way breakdown out.
+
+## Your UTM Governance Checklist
+
+Condensed version to copy into your team wiki:
+
+- [ ] All UTM values are **lowercase**, always
+- [ ] One separator (`_` or `-`), no spaces, no special characters
+- [ ] One canonical name per source and medium — synonyms are outlawed in writing
+- [ ] Mediums come from the [default-channel-compatible taxonomy](/reports/sources#default-channels)
+- [ ] Campaign names follow a documented structure and are created in the spreadsheet first
+- [ ] **Zero UTMs on internal links** — use microconversions or Content Grouping instead
+- [ ] Links are generated by the spreadsheet formula, never hand-typed
+- [ ] Custom vendor parameters are handled via [UTM Mapping](/platform/settings/tracking/utm-mapping), values still follow the taxonomy
+- [ ] New values are checked in the [Channel Grouping "Test a visit" tool](/platform/settings/tracking/channel-grouping#using-test-a-visit) before launch
+- [ ] Monthly audit of the Sources report against the spreadsheet, with a named owner
+
+## Related documentation
+
+- [Sources Report](/reports/sources) — the canonical default-channel table and all seven analysis tabs
+- [UTM Mapping](/platform/settings/tracking/utm-mapping) — custom parameter names → standard UTMs at ingest
+- [Channel Grouping](/platform/settings/tracking/channel-grouping) — custom channels, the rule tester, and the draft workflow
+- [How to Track Google Ads Campaigns](/reports/insights/how-to-track-google-ads-campaigns) — UTM templates for paid search
+- [How to Track Social Ads Campaigns](/reports/insights/how-to-track-social-ads-campaigns) — UTM tagging for Meta Ads
+- [How to Change UTM Parameters](/reports/insights/how-to-change-utm-parameters) — the UTM Mappings UI walkthrough

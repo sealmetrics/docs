@@ -1,0 +1,87 @@
+---
+sidebar_position: 4
+title: GTM Consent Mode Is Blocking the Sealmetrics Tag
+sidebar_label: GTM Consent Mode Blocking
+description: Why gating the Sealmetrics tag behind a consent management platform silently drops most of your data, how to diagnose it in GTM Preview, and how to configure the tag correctly.
+tags: [troubleshooting, gtm, consent-mode, cmp, missing-data]
+keywords:
+  - gtm consent mode sealmetrics
+  - tag not firing consent
+  - cookiebot blocks sealmetrics
+  - onetrust blocks tag
+  - missing data consent banner
+  - sealmetrics no additional consent required
+---
+
+# GTM Consent Mode Is Blocking the Sealmetrics Tag
+
+The single most common cause of "Sealmetrics is missing data" is a Google Tag Manager container where the Sealmetrics tag is **gated behind consent** — either by GTM Consent Mode settings on the tag or by a consent management platform (Cookiebot, OneTrust, Usercentrics, Didomi, etc.) that blocks Custom HTML tags until the visitor clicks "Accept".
+
+Sealmetrics is **cookieless and consentless by design**: it sets no cookies and uses no persistent identifiers, so it does not require consent to run. Gating it behind a consent banner does not add any compliance benefit — it only removes from your reports every visitor who ignores or declines the banner, which is routinely 30–70% of traffic.
+
+---
+
+## Symptoms
+
+- Traffic in Sealmetrics dropped sharply the day a CMP or Consent Mode went live.
+- Sealmetrics shows far fewer entrances than your server logs or ad platform clicks.
+- Data only appears for visits where the tester clicked "Accept all" on the banner.
+- In GTM Preview, the Sealmetrics tag shows as not fired or waiting for consent on page load.
+
+---
+
+## Diagnosis
+
+1. **Open your site in a private window** (no prior consent choice stored).
+2. Open **Developer Tools → Network** and filter by `sealmetrics`.
+3. Load a page and **do not interact with the consent banner**.
+   - If no request to `t.js` appears until you click "Accept", the tag is consent-gated.
+4. Confirm in **GTM Preview mode**: select the pageview event and check the Sealmetrics tag's status. A tag held back by Consent Mode does not appear under **Tags Fired** on page load.
+5. Cross-check the dashboard: the **Last hit** timestamp on the **Overview** report updates within seconds of an unblocked hit. If it only moves after you grant consent, you have confirmed the cause.
+
+---
+
+## Solution
+
+### 1. Remove the consent gate from the Sealmetrics tag
+
+In GTM:
+
+1. Open the Sealmetrics tag (Custom HTML or template tag).
+2. Go to **Advanced Settings → Consent Settings**.
+3. Select **No additional consent required**.
+4. Make sure the tag's **trigger** is `Initialization - All Pages` (or `All Pages`) — not a custom "consent granted" event pushed by your CMP.
+5. If your CMP has its own "auto-blocking" feature that rewrites or blocks scripts by domain, add `t.sealmetrics.com` (or your [first-party tracker domain](/implementation/tracker/first-party)) to its allowlist of non-consent-required vendors.
+6. Publish the container.
+
+This is the configuration recommended in the [Google Tag Manager integration guide](/integrations/google-tag-manager): Sealmetrics is cookieless and consentless by design, so a CMP should not block it.
+
+### 2. Use the canonical GTM pattern (stub + `?auto=0`)
+
+If other tags in your container call `sealmetrics(...)` and the load order is not guaranteed, use the canonical pattern documented in [Advanced GTM Integration](/integrations/google-tag-manager-advanced): an inline **buffer stub** plus the tracker loaded with **`?auto=0`**, and a separate tag that fires the pageview manually.
+
+```html
+<script>
+!function(w){w.sealmetrics=w.sealmetrics||function(){(w.sealmetrics.q=w.sealmetrics.q||[]).push(['pv',arguments])};w.sealmetrics.q=w.sealmetrics.q||[];w.sealmetrics.conv=w.sealmetrics.conv||function(){w.sealmetrics.q.push(['cv',arguments])};w.sealmetrics.micro=w.sealmetrics.micro||function(){w.sealmetrics.q.push(['mc',arguments])}}(window);
+</script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0" defer></script>
+```
+
+The stub queues any call made before the library loads and the library drains the queue in order, so no event is lost and no duplicate pageview is sent. On a single-page application where you also fire SPA pageviews manually from GTM, add `&spa=0` to the script URL as well, so the tracker's automatic pageview on route changes does not double-count your manual one — see [Duplicate pageviews](/troubleshooting/duplicate-pageviews).
+
+---
+
+## What NOT to do
+
+- **Do not fire the Sealmetrics tag on your CMP's "consent granted" event.** That trigger structurally excludes everyone who declines or ignores the banner, and it fires late — after the pageview context you wanted to measure.
+- **Do not require `analytics_storage` consent for the tag.** Sealmetrics does not use cookies or any storage, so that consent signal is irrelevant to it.
+- **Do not delete the tag from GTM to "fix" a CMP conflict.** Configure the exception instead — otherwise you keep the banner problem and lose all measurement.
+
+---
+
+## Related
+
+- [Google Tag Manager integration](/integrations/google-tag-manager) — standard setup, including the recommended consent settings.
+- [Advanced GTM Integration](/integrations/google-tag-manager-advanced) — the stub + `?auto=0` canonical pattern in full detail.
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — why Sealmetrics does not need a consent gate.
+- [Fixing `ReferenceError: sealmetrics is not defined`](/troubleshooting/sealmetrics-is-not-defined) — protecting direct `sealmetrics.*` calls in GTM tags.

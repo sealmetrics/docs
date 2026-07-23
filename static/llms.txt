@@ -86,6 +86,10 @@ Base URL: https://docs.sealmetrics.com
 
   Raw: https://docs.sealmetrics.com/docs-raw/getting-started/migration-from-v1.txt
 
+- [Set Up Sealmetrics with Your AI Assistant](https://docs.sealmetrics.com/getting-started/install-with-ai): Let Claude, Codex, or any MCP-capable AI assistant install Sealmetrics for you — create the site, place the tracking snippet, verify the pixel, and instrument conversions, all from a chat.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/getting-started/install-with-ai.txt
+
 
 
 ### LENS AI
@@ -322,7 +326,7 @@ Base URL: https://docs.sealmetrics.com
 
   Raw: https://docs.sealmetrics.com/docs-raw/implementation/ecommerce-conversion-tracking/event-properties-guide.txt
 
-- [First Party Tracker](https://docs.sealmetrics.com/implementation/tracker/first-party): Learn how Sealmetrics’ first-party tracker works and how to install it for better privacy, compliance, and adblocker resistance.
+- [First-Party Tracker](https://docs.sealmetrics.com/implementation/tracker/first-party): Serve the Sealmetrics tracker from your own subdomain for maximum ad-blocker resistance: DNS setup, activation, and verification.
 
   Raw: https://docs.sealmetrics.com/docs-raw/implementation/tracker/first-party.txt
 
@@ -758,9 +762,17 @@ Base URL: https://docs.sealmetrics.com
 
   Raw: https://docs.sealmetrics.com/docs-raw/compliance/uk-pecr-self-assessment.txt
 
+- [Germany TTDSG/TDDDG Self-Assessment: Sealmetrics Compliance](https://docs.sealmetrics.com/compliance/germany-ttdsg-self-assessment): Self-assessment of Sealmetrics against §25 TDDDG (formerly TTDSG) — analytics in Germany without cookies, terminal storage access, or consent banners.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/compliance/germany-ttdsg-self-assessment.txt
+
 - [Data Intermediation Services: From Mandatory to Voluntary](https://docs.sealmetrics.com/compliance/omnibus/data-intermediation): Changes to data intermediation and data altruism rules under the Digital Omnibus
 
   Raw: https://docs.sealmetrics.com/docs-raw/compliance/omnibus/data-intermediation.txt
+
+- [Italy Garante Self-Assessment: Sealmetrics Compliance](https://docs.sealmetrics.com/compliance/italy-garante-self-assessment): Self-assessment of Sealmetrics against the Italian Garante's cookie guidelines and analytics decisions — consent-free audience measurement in Italy.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/compliance/italy-garante-self-assessment.txt
 
 - [AI Act Amendments in the Digital Omnibus](https://docs.sealmetrics.com/compliance/omnibus/ai-act-amendments): How the Digital Omnibus simplifies AI compliance and clarifies GDPR-AI intersection
 
@@ -770,9 +782,21 @@ Base URL: https://docs.sealmetrics.com
 
   Raw: https://docs.sealmetrics.com/docs-raw/compliance/omnibus/incident-reporting.txt
 
+- [Switzerland FADP Self-Assessment: Sealmetrics Compliance](https://docs.sealmetrics.com/compliance/switzerland-fadp-self-assessment): Self-assessment of Sealmetrics against the revised Swiss Federal Act on Data Protection (nFADP/revDSG) — no personal data, no transfers outside EU/CH-adequate territory.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/compliance/switzerland-fadp-self-assessment.txt
+
 - [SME and Small Mid-Cap Exemptions](https://docs.sealmetrics.com/compliance/omnibus/smes-small-midcaps): How the Digital Omnibus extends small business protections to companies with up to 749 employees
 
   Raw: https://docs.sealmetrics.com/docs-raw/compliance/omnibus/smes-small-midcaps.txt
+
+- [Subprocessors](https://docs.sealmetrics.com/compliance/subprocessors): The complete list of SealMetrics subprocessors — who touches what data, where they are located, and why customer analytics data never leaves the EU.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/compliance/subprocessors.txt
+
+- [Data Subject Rights (DSAR)](https://docs.sealmetrics.com/compliance/data-subject-rights): How data subject access requests work with SealMetrics — why visitor requests cannot be linked to any record, and how account-holder rights are handled.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/compliance/data-subject-rights.txt
 
 - [Implementation Timeline](https://docs.sealmetrics.com/compliance/omnibus/timeline-implementation): Key dates and milestones for the EU Digital Omnibus: proposal publication, committee assignments, feedback periods, and the expected GDPR change timeline.
 
@@ -1006,7 +1030,7 @@ Base URL: https://docs.sealmetrics.com
 
 ### Troubleshooting
 
-- [Troubleshooting](https://docs.sealmetrics.com/troubleshooting): Diagnose and fix common SealMetrics issues: verify tracker installation in DevTools, confirm real-time data collection, and resolve missing data.
+- [Troubleshooting](https://docs.sealmetrics.com/troubleshooting): Diagnose and fix common SealMetrics issues: verify tracker installation in DevTools, confirm data collection with the Last hit timestamp, and resolve missing data.
 
   Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/index.txt
 
@@ -1017,6 +1041,42 @@ Base URL: https://docs.sealmetrics.com
 - [Fixing ReferenceError: sealmetrics is not defined](https://docs.sealmetrics.com/troubleshooting/sealmetrics-is-not-defined): How to keep your site working when ad blockers, privacy extensions, or DNS filters prevent the SealMetrics tracker from loading.
 
   Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/sealmetrics-is-not-defined.txt
+
+- [GTM Consent Mode Is Blocking the Sealmetrics Tag](https://docs.sealmetrics.com/troubleshooting/gtm-consent-mode-blocking): Why gating the Sealmetrics tag behind a consent management platform silently drops most of your data, how to diagnose it in GTM Preview, and how to configure the tag correctly.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/gtm-consent-mode-blocking.txt
+
+- [Content Security Policy (CSP): Which Domains to Allow](https://docs.sealmetrics.com/troubleshooting/csp-errors-domains-to-allow): How to detect Content-Security-Policy blocks in the browser console and which directives (script-src, connect-src) must allow the Sealmetrics tracker domain.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/csp-errors-domains-to-allow.txt
+
+- [Duplicate Pageviews](https://docs.sealmetrics.com/troubleshooting/duplicate-pageviews): The three real causes of duplicated pageviews in Sealmetrics: the script included twice, a stub-queued pageview without ?auto=0, and manual SPA pageviews without ?spa=0.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/duplicate-pageviews.txt
+
+- [Report Dates Don't Match Another Tool](https://docs.sealmetrics.com/troubleshooting/dates-timezone-mismatch): Why daily totals in Sealmetrics can differ from another analytics tool or your backend — each hit's date is assigned at the site's timezone midnight — and how to change the site timezone.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/dates-timezone-mismatch.txt
+
+- [Hits From an Unauthorized Domain](https://docs.sealmetrics.com/troubleshooting/unauthorized-domain): What happens when the tracker fires from a domain that is not registered on your Sealmetrics site — the hit is silently rejected — and how to add domains from the Domains tab.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/unauthorized-domain.txt
+
+- [Data Taking Longer Than Expected to Appear](https://docs.sealmetrics.com/troubleshooting/data-delay): How long data normally takes to reach Sealmetrics reports (seconds, not hours), how to verify with the Last hit timestamp on Overview, and what to check when it seems delayed.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/data-delay.txt
+
+- [Conversions Not Appearing](https://docs.sealmetrics.com/troubleshooting/conversions-not-appearing): A checklist for conversions that never reach the Conversions report: correct conv() snippet, numeric amount, base pixel firing first, and how to verify the beacon payload.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/conversions-not-appearing.txt
+
+- [Numbers Lower Than Another Tool](https://docs.sealmetrics.com/troubleshooting/lower-numbers-than-other-tools): Why Sealmetrics can legitimately report fewer (or more) visits than GA4 or another tool: entrances vs sessions, bot filtering at ingest, and no sampling.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/lower-numbers-than-other-tools.txt
+
+- [Your Test Traffic Is Being Filtered as a Bot](https://docs.sealmetrics.com/troubleshooting/test-traffic-blocked-as-bot): Why visits generated with curl, Selenium, Playwright, headless Chrome, or load-testing tools never appear in Sealmetrics, how to diagnose it, and how to test without tripping the filters.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/troubleshooting/test-traffic-blocked-as-bot.txt
 
 
 
@@ -1086,9 +1146,17 @@ Base URL: https://docs.sealmetrics.com
 
   Raw: https://docs.sealmetrics.com/docs-raw/changelog.txt
 
+- [UTM Governance: Naming Conventions That Keep Attribution Clean](https://docs.sealmetrics.com/utm-governance): A practical UTM governance playbook: naming conventions, a source/medium taxonomy aligned with Sealmetrics default channels, the mistakes that silently corrupt attribution, a spreadsheet template, and how Sealmetrics processes UTMs end to end.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/guides/utm-governance.txt
+
 - [Conversion Optimization](https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization): Funnel drop-off, micro-to-macro conversion ratios, mobile-vs-desktop gaps, content group performance, and search-term opportunities. SealMetrics MCP prompts for revenue lift.
 
   Raw: https://docs.sealmetrics.com/docs-raw/web-analytics-prompts/02-conversion-optimization.txt
+
+- [GA4 to Sealmetrics: The Complete Migration Checklist](https://docs.sealmetrics.com/ga4-migration-checklist): A phase-by-phase checklist for migrating from Google Analytics 4 to Sealmetrics: audit your GA4 events, map them to conv()/micro(), install the tracker, run 30 days in parallel, know which data differences to expect, and switch GA4 off safely.
+
+  Raw: https://docs.sealmetrics.com/docs-raw/guides/ga4-migration-checklist.txt
 
 - [Traffic & Quality Control](https://docs.sealmetrics.com/web-analytics-prompts/03-traffic-quality): Daily anomaly detection, bot share, suspicious sessions, referrer spam, UTM hygiene, and tracking health checks. SealMetrics MCP prompts to keep your data clean.
 

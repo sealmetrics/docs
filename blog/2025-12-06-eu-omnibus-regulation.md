@@ -1,7 +1,7 @@
 ---
 authors:
 - rafael-jimenez
-date: '2026-05-08'
+date: '2025-12-06'
 description: The EU Digital Omnibus proposes to eliminate cookie banners for 60% of
   websites. Here's what it means for web analytics.
 slug: eu-digital-omnibus-regulation-cookie-consent-changes

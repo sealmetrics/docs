@@ -1,0 +1,77 @@
+---
+sidebar_position: 12
+title: Your Test Traffic Is Being Filtered as a Bot
+sidebar_label: Test Traffic Blocked as Bot
+description: "Why visits generated with curl, Selenium, Playwright, headless Chrome, or load-testing tools never appear in Sealmetrics, how to diagnose it, and how to test without tripping the filters."
+tags: [troubleshooting, bots, testing, user-agent, blocklist]
+keywords:
+  - sealmetrics test traffic not showing
+  - selenium not tracked
+  - playwright headless chrome analytics
+  - curl request not counted
+  - user agent blocklist
+  - bot filter own traffic
+---
+
+# Your Test Traffic Is Being Filtered as a Bot
+
+You are testing the tracker with an automation tool or a script, the beacon returns `204 No Content`, and yet nothing appears in the reports. In most cases nothing is broken: **the platform is doing its job**, filtering traffic that identifies itself as automated so it never pollutes your reports. Real visitors are unaffected — the filters below only catch tools and abnormal behavior.
+
+---
+
+## How your test traffic gets filtered
+
+### 1. The global User-Agent blocklist
+
+Every incoming hit is checked against a global blocklist of known non-human User-Agent patterns. It covers, among others:
+
+- **CLI and HTTP clients:** `curl/`, `Wget/`, `HTTPie/`, `python-requests`, `axios/`, `node-fetch`, `Go-http-client`, `okhttp/`…
+- **Headless and automation browsers:** `HeadlessChrome`, `PhantomJS`, `Puppeteer`, `Playwright`, `Selenium`, `webdriver`…
+- **Load-testing tools:** `JMeter`, `k6/`, `Locust`, `artillery`, `ApacheBench`, `wrk/`…
+- **Generic substrings:** any User-Agent containing `bot`, `crawler`, `spider`, or `scraper`.
+
+This is why a Playwright or Selenium run with the default User-Agent, a `curl` smoke test, or a custom UA like `MyCompany-TestBot` never shows up. The generic `bot` substring match is deliberately aggressive — it also catches home-made User-Agents you might not think of as "bots".
+
+### 2. The behavioral rate limit
+
+Independently of the User-Agent, a session that fires a burst of pageviews — more than a handful within a couple of seconds — is treated as a bot and blocked for a period. Scripted click-through tests that load pages as fast as possible trip this even with a legitimate browser User-Agent.
+
+Both filters reject silently: the browser (or script) still gets a normal `204` response, so nothing on the client side reveals the hit was discarded.
+
+---
+
+## Diagnosis
+
+1. **Check the User-Agent your tool sends.** In DevTools → Network, click the beacon request and inspect the `User-Agent` request header; in scripts, print the UA you configured. Compare it against the categories above — including the generic `bot`/`crawler`/`spider`/`scraper` substrings.
+2. **Repeat the test manually in a normal browser** (regular Chrome/Firefox/Safari window, no automation). If the manual visit appears within seconds — check the **Last hit** timestamp on the **Overview** report — ingestion is healthy and your automated traffic is being filtered, as designed.
+3. **Check the pace.** If your script navigates several pages per second with the same browser profile, slow it down to human speed and retry.
+
+---
+
+## Solution
+
+- **For install verification, use a real browser.** A normal browsing session is the ground truth for "does tracking work" — automation is unnecessary for that check.
+- **If you must automate, don't look like a bot:**
+  - Configure a standard desktop browser User-Agent instead of the tool's default (Playwright, Selenium, and Puppeteer all allow overriding the UA). Make sure the value contains none of the blocked substrings — in particular avoid `Headless` and the word `bot` anywhere in it.
+  - Pace navigation like a human: leave a few seconds between pageviews rather than firing them back-to-back.
+- **Accept that load tests will not appear in reports.** That is the desired outcome — a load test that inflated Entrances would be a data-quality incident. Verify load-test delivery at the HTTP level (`204` responses), not in the dashboard.
+
+:::tip The opposite problem: excluding real internal traffic
+If what you actually want is the reverse — your office or team's *genuine* browsing polluting the reports — don't fight the bot filters; exclude those IPs explicitly instead. See [IP Exclusions](/platform/settings/tracking/ip-exclusions).
+:::
+
+---
+
+## What NOT to do
+
+- **Do not benchmark "tracking accuracy" with automated traffic.** The filters make automated hits a biased sample by design; conclusions drawn from them are meaningless.
+- **Do not disguise sustained synthetic traffic as human to make it count.** You would be permanently polluting your own entrances, conversion rates, and attribution to win a test.
+
+---
+
+## Related
+
+- [Bot Detection & Traffic Quality](/security-privacy/bot-detection) — the full multi-layer filtering model.
+- [IP Exclusions](/platform/settings/tracking/ip-exclusions) — excluding your own team's real traffic.
+- [Data delay](/troubleshooting/data-delay) — distinguishing filtered traffic from delayed traffic.
+- [Troubleshooting overview](/troubleshooting) — quick installation diagnostics.

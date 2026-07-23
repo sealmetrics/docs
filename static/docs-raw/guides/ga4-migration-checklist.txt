@@ -1,0 +1,172 @@
+# GA4 to Sealmetrics: The Complete Migration Checklist
+
+URL: https://docs.sealmetrics.com/ga4-migration-checklist
+
+Migrating from Google Analytics 4 to Sealmetrics is not technically hard — the tracker is one script tag and conversions are one JavaScript call. What trips teams up is everything *around* the install: forgetting an event that a monthly report depends on, comparing metrics that aren't defined the same way, or switching GA4 off before anyone validated the new numbers.
+
+This guide is the antidote: a phase-by-phase checklist that takes you from a GA4 audit to a confident GA4 shutdown, with a full metric-equivalence table and a realistic picture of what the side-by-side data **should** look like — because if you don't know in advance that Sealmetrics will report substantially more traffic than GA4, the first parallel-running week will look like a bug instead of the whole point.
+
+Most teams complete the migration in **1–2 weeks of work spread over ~5 weeks of calendar time** (the parallel-validation month is deliberately slow). Both platforms coexist without conflict, so there is no risky cutover moment: GA4 keeps running until you choose to stop it.
+
+**Tip:**
+This checklist goes deep on process. For the concept-by-concept overview see the [GA4 Migration Guide](/ga4-migration), and for the full product comparison (features, pricing, compliance) see [GA4 vs Sealmetrics](/faq/ga4-vs-sealmetrics).
+
+## Phase 0 — Audit What You Actually Use in GA4 (2–4 hours)
+
+Before touching any code, inventory your GA4 property. The goal is a written list of everything the migration must preserve — and, just as valuable, everything it doesn't need to.
+
+- [ ] **List the core metrics your team reports on.** Sessions, users, pageviews, conversions, revenue — note which reports and dashboards consume each.
+- [ ] **Export the event inventory.** In GA4, list every event and which ones are marked as key events (conversions). For each: what triggers it, what parameters it carries, who looks at it.
+- [ ] **Flag the zombie events.** Most GA4 properties accumulate events nobody has looked at in a year. Mark them — you will *not* migrate them, and that's a feature.
+- [ ] **Document your e-commerce implementation.** Which e-commerce events fire (`purchase`, `add_to_cart`, `begin_checkout`, `view_item`), whether they're implemented via gtag or Google Tag Manager, and where the purchase value comes from.
+- [ ] **List audiences and custom definitions** (custom dimensions/metrics) that reports depend on.
+- [ ] **List connected integrations.** Google Ads links, Search Console, Looker Studio dashboards, BigQuery export. For each: who consumes it and what breaks without it.
+- [ ] **Note your GA4 reporting timezone.** You'll need it in Phase 2 — timezone mismatch is the most common cause of "the daily numbers don't line up".
+- [ ] **Note your data-retention settings** and decide what history you need to export before shutdown (Phase 5).
+
+One integration deserves a decision now, not later: **Google Ads audience sync**. Sealmetrics tracks Google Ads campaigns end to end via UTM parameters and provides ROAS reporting, but it does not push audience segments back to Google Ads for automated bidding — that requires GA4 with consented users. If your bidding strategy depends on GA4 audiences, plan to keep GA4 running for that single purpose while Sealmetrics becomes the source of truth for traffic and conversions. Many teams run exactly this split permanently.
+
+## Phase 1 — Map GA4 Events to `conv()` and `micro()` (half a day)
+
+Sealmetrics has a deliberately simpler event model than GA4. Instead of one undifferentiated event stream where anything can be promoted to a "key event", there are two explicit calls:
+
+- **`sealmetrics.conv(type, amount)`** — a **conversion**: a goal completion, optionally with monetary value.
+- **`sealmetrics.micro(type)`** — a **microconversion**: a funnel step or engagement signal on the way to a conversion.
+
+The mapping exercise is to sort your surviving GA4 events into those two buckets. The dividing line: *would you celebrate this event on its own?* Purchases, leads, signups — conversions. Add-to-carts, video plays, scroll milestones — microconversions.
+
+### Recommended event mapping
+
+| GA4 event | Sealmetrics call | Notes |
+|---|---|---|
+| `purchase` | `sealmetrics.conv('purchase', value)` | Pass the order total; it feeds Revenue and AOV |
+| `generate_lead` | `sealmetrics.conv('lead')` | Amount optional |
+| `sign_up` | `sealmetrics.conv('signup')` | |
+| Subscription started | `sealmetrics.conv('subscription', value)` | |
+| Booking / reservation | `sealmetrics.conv('booking', value)` | |
+| `view_item` | `sealmetrics.micro('view_item')` | |
+| `add_to_cart` | `sealmetrics.micro('add_to_cart')` | |
+| `begin_checkout` | `sealmetrics.micro('begin_checkout')` | |
+| Form submitted (non-lead) | `sealmetrics.micro('form_submit')` | |
+| Newsletter subscription | `sealmetrics.micro('newsletter_signup')` | |
+| CTA / button click | `sealmetrics.micro('cta_click')` | |
+| `video_start` | `sealmetrics.micro('video_play')` | |
+| `video_complete` | `sealmetrics.micro('video_complete')` | |
+| `scroll` (90% default) | `sealmetrics.micro('scroll_50')` / `sealmetrics.micro('scroll_100')` | Pick the milestones you care about |
+| `file_download` | `sealmetrics.micro('file_download')` | |
+| `view_search_results` | `sealmetrics.micro('search')` | |
+
+Naming rules (they matter for data continuity):
+
+- [ ] **snake_case, descriptive, stable.** `add_to_cart`, not `addToCart`; `begin_checkout`, not `step2`. Changing a name later breaks historical continuity.
+- [ ] **Never put personal data in events.** No order IDs, no user IDs, no emails — neither in the type name nor in properties. This is core to Sealmetrics's consentless model, and the platform's verification tooling actively rejects PII it detects.
+- [ ] **Write the mapping down** as a two-column table (GA4 event → Sealmetrics call) before writing any code. It becomes your Phase 3 test plan.
+
+- [ ] **Map custom dimensions to event properties.** GA4 custom dimensions become properties on the call: `sealmetrics.conv('purchase', 99.99, { currency: 'EUR', payment_method: 'card' })`. Only migrate the ones your reports actually use.
+- [ ] **Map audiences to Segments** and **data streams to Sites** — see the concept table in the [GA4 Migration Guide](/ga4-migration#how-ga4-concepts-map-to-sealmetrics).
+
+**Tip:**
+If you use Claude or another MCP-capable assistant, the [AI setup flow](/getting-started/install-with-ai) can drive this phase: the assistant fetches the canonical instrumentation guide for your account, writes the `conv()`/`micro()` calls, and verifies each event arrives — rejecting typos and PII automatically.
+
+## Phase 2 — Install Sealmetrics Alongside GA4 (1–2 hours)
+
+Do **not** remove GA4 yet. The two coexist cleanly — Sealmetrics's tracker is 1.3 KB, sets zero cookies, and doesn't interfere with gtag.
+
+- [ ] **Create your account and site** — [First Steps](/getting-started/quick-start) walks through it (or let [your AI assistant do it from a chat](/getting-started/install-with-ai)).
+- [ ] **Set the site timezone to match your GA4 reporting timezone** (Site settings → General) *before* collecting comparison data. Sealmetrics resolves every date preset in the site's timezone; a mismatch with GA4's reporting timezone shifts daily rollups by up to a day at the seams and will poison your Phase 3 comparison.
+- [ ] **Install the tracker** on every page — one script tag in the `<head>`, or via the [WordPress plugin, Google Tag Manager](/getting-started/quick-start#installation-methods), or your platform's [integration](/integrations).
+- [ ] **Verify the pixel:** open your site, then check the **Overview** report's *Last hit* timestamp — it updates within seconds.
+- [ ] **Instrument the mapped events** from your Phase 1 table with `sealmetrics.conv()` / `sealmetrics.micro()` — see [How to Measure Conversions](/getting-started/measure-conversions) for placement patterns (thank-you pages, form handlers, button clicks).
+- [ ] **Fire each event once and confirm it arrives** in the Conversions report with the date range set to today. Check the browser Network tab for requests to `t.sealmetrics.com` when the event fires.
+- [ ] **Configure attribution settings** if you customized them in GA4: [channel grouping rules](/platform/settings/tracking/channel-grouping), [UTM mappings](/platform/settings/tracking/utm-mapping) for any custom parameter names, and [IP exclusions](/platform/settings/tracking/ip-exclusions) for office/QA traffic.
+- [ ] **Keep your UTM conventions intact.** Sealmetrics reads standard UTMs automatically — no retagging needed. (This is also the ideal moment to clean up your taxonomy: see the [UTM Governance guide](/guides/utm-governance).)
+
+## Phase 3 — Run 30 Days in Parallel (calendar time, low effort)
+
+Now both platforms measure the same site. Give it **30 days** — enough to cover weekly cycles, at least one campaign, and enough conversion volume for stable ratios.
+
+- [ ] Week 1: confirm all pages are tracked (compare pageview coverage, spot-check key templates)
+- [ ] Week 1: confirm every mapped event fires in production, not just in your test
+- [ ] Weekly: record the GA4-vs-Sealmetrics ratio for entrances/sessions, conversions, and revenue
+- [ ] Weekly: compare the *shape* of traffic (top sources, top pages, device split) — shapes should correlate even where totals differ
+- [ ] Rebuild one key dashboard on Sealmetrics data early, so stakeholders acclimate before cutover
+
+### What the comparison SHOULD look like
+
+This is the phase where unprepared teams panic, because **the numbers will not match — by design**. Here's what to expect and why:
+
+**Sealmetrics will report substantially more traffic.** GA4 only records visitors who accept cookies; in EU markets, rejection plus banner-ghosting means GA4 typically captures only 15–50% of actual traffic. Sealmetrics requires no consent and captures everyone. EU-heavy sites commonly see Sealmetrics report **several times** GA4's session count. If Sealmetrics shows *more*, that's the migration working. If it shows *less*, something's wrong — check tracker coverage.
+
+**GA4's "Direct" share will look inflated by comparison.** When a visitor rejects cookies, GA4 loses the UTM/attribution context and often misfiles paid and organic traffic as "Direct / (none)". Sealmetrics reads UTMs from the URL on every load, consent or not, so campaign attribution stays intact for 100% of visits. Expect Sealmetrics to show more campaign-attributed traffic and proportionally less direct.
+
+**The ratio, not the absolute, is your validation metric.** You can't reconcile the totals — they measure different populations. What you *can* validate: the GA4:Sealmetrics ratio should be roughly **stable week over week**, and relative rankings (top campaigns, top landing pages) should broadly agree. A stable ratio plus consistent shapes means both tools are healthy; a swinging ratio means an instrumentation problem.
+
+**Some metrics won't exist to compare.** See the equivalence table below — GA4's users and session duration have no Sealmetrics counterpart, on purpose.
+
+**Engagement metrics use different formulas.** GA4 counts a session as engaged if it lasted 10+ seconds *or* had a key event *or* had 2+ pageviews. Sealmetrics defines engaged strictly as **2+ pageviews** — computed in aggregate, with no individual tracking. Expect Sealmetrics's bounce rate to read somewhat higher and engagement rate somewhat lower than GA4's on the same traffic. Neither is wrong; they answer with different yardsticks.
+
+### Metric equivalence table
+
+| GA4 metric | Sealmetrics metric | Comparable? | Notes |
+|---|---|---|---|
+| Sessions | **Entrances** | Roughly | Same idea — a visit. Sealmetrics starts a session on arrival with an external (or no) referrer and groups follow-up hits within a ~2-hour inactivity window, with **no persistent identifier**. Expect higher counts (no consent loss). See [How Sealmetrics Calculates Entrances](/reports/insights/how-sealmetrics-calculates-entrances) |
+| Users / Total users | **Not tracked** | No | Identifying unique visitors requires a persistent identifier — personal data under GDPR. Use Entrances as the audience-size signal. See [Metrics Reference](/reports/definitions#unique-visitors--not-tracked) |
+| Views (`page_view`) | **Pageviews** | Yes | Same definition: one page load = one pageview |
+| Engaged sessions | **Engaged Entrances** | Formula differs | Sealmetrics: strictly sessions with 2+ pageviews. GA4 also counts 10s duration or a key event |
+| Engagement rate | **Engagement Rate** | Formula differs | Engaged Entrances / Entrances × 100. Expect a lower reading than GA4's |
+| Bounce rate | **Bounce Rate** | Formula differs | (Entrances − Engaged Entrances) / Entrances × 100, aggregate-only. Expect a higher reading than GA4's |
+| Views per session | **Pages per Session** | Yes | Pageviews / Entrances |
+| Average engagement time / session duration | **Not tracked** | No | Requires following an individual across page loads — excluded by design |
+| Key events (conversions) | **Conversions** | Yes | Each `sealmetrics.conv()` call counts as 1; a session can convert more than once |
+| Events (non-key) | **Microconversions** | Yes | Each `sealmetrics.micro()` call counts as 1 |
+| Purchase revenue | **Revenue** | Yes | Sum of amounts passed to `sealmetrics.conv(type, amount)` |
+| — | **AOV** | — | Revenue / Conversions, built in |
+| Session conversion rate | **Conversion Rate** | Roughly | Conversions / Entrances × 100 — not deduplicated per session, capped at 100% |
+| Session default channel group | **Channels** | Yes | Default channel rules (Paid Search, Organic Social, Email, AI…) — see the [Sources report](/reports/sources#default-channels), customizable via [Channel Grouping](/platform/settings/tracking/channel-grouping) |
+| Audiences | **Segments** | Yes | Saved filter sets |
+| Custom dimensions | **Custom properties** | Yes | Properties on `conv()`/`micro()` calls, reported under [Properties](/reports/properties) |
+| Predictive metrics (purchase/churn probability) | **Not available** | No | Sealmetrics reports observed behavior only |
+
+### Sign-off criteria to exit Phase 3
+
+- [ ] Every event in the Phase 1 mapping table has produced production data
+- [ ] The GA4:Sealmetrics entrance ratio has been stable (±~10%) for 2+ consecutive weeks
+- [ ] Top-5 sources, campaigns, and landing pages broadly agree in ranking across both tools
+- [ ] Revenue totals are explainable (Sealmetrics ≥ GA4, with the gap consistent with your consent-rejection rate)
+- [ ] Stakeholders have seen a Sealmetrics-based version of their key report and accepted the definitional differences above
+
+## Phase 4 — Preserve GA4 History and Repoint Consumers (half a day)
+
+Sealmetrics starts collecting from day one; it does not import GA4 history. Whatever you'll want to reference later must be exported **while GA4 still works**.
+
+- [ ] **Export the reports you'll want as reference** — monthly traffic, top campaigns, conversion totals — via CSV, or raw events via BigQuery export if you have it. GA4's retention window (14 months on the free tier) means this history disappears on its own schedule anyway.
+- [ ] **Rebuild dashboards** (Looker Studio, BI) against Sealmetrics's [Exports API](/api/exports) or [Batch API](/api/batch), and use per-report CSV/PDF export for one-off needs.
+- [ ] **Repoint every consumer** from the Phase 0 integration list: dashboards, scheduled reports, internal tools.
+- [ ] **Brief the team on the new vocabulary** — entrances not sessions, no users metric, the engagement formula difference. The equivalence table above is the handout.
+
+## Phase 5 — Switch GA4 Off (1 hour, plus a decision)
+
+Only after Phase 3 sign-off and Phase 4 exports:
+
+- [ ] **Remove the GA4 tag** (gtag snippet or the GTM tag) from your site — unless you decided in Phase 0 to keep GA4 alive for Google Ads audience sync, in which case scope it to that and stop using it for reporting.
+- [ ] **Archive, don't delete, the GA4 property** — it costs nothing to keep and preserves whatever history remains accessible.
+- [ ] **Revisit your consent banner.** With GA4 gone, analytics no longer requires consent — Sealmetrics operates consentless under GDPR legitimate interest. If other cookie-setting tools remain (ad pixels, etc.) you still need consent for *those*; if analytics was the only reason for the banner, you can now remove it. See the [compliance overview](/compliance).
+- [ ] **Announce the cutover date** internally: from this date, Sealmetrics is the source of truth and GA4 numbers are historical reference only. Comparing across the boundary without the equivalence table above is banned in polite company.
+
+## Common Migration Pitfalls
+
+- **Comparing absolutes instead of ratios in Phase 3.** The totals will never match; the stability of the gap is the signal.
+- **Skipping the timezone alignment.** A GA4/Sealmetrics reporting-timezone mismatch shifts daily numbers at the day boundary and makes honest data look broken.
+- **Migrating every GA4 event.** The zombie events you flagged in Phase 0 stay dead. Migrate what reports consume.
+- **Putting IDs in events.** GA4 tolerated `purchase_12345`-style event data; Sealmetrics's model (and its verification tooling) forbids personal data and order/user IDs in events. Keep types stable and generic; details go in non-PII properties.
+- **Switching off GA4 before exporting.** Retention limits make this a one-way door.
+- **Expecting session duration or users.** They're not late features — they're deliberately excluded because they require individually tracking people. The privacy-safe substitutes are pages per session, engaged entrances, and entrances.
+
+## Related documentation
+
+- [GA4 Migration Guide](/ga4-migration) — concept-mapping overview and what's different
+- [GA4 vs Sealmetrics — Complete Comparison](/faq/ga4-vs-sealmetrics) — features, compliance, and pricing side by side
+- [First Steps with Sealmetrics](/getting-started/quick-start) — the installation walkthrough
+- [Set Up Sealmetrics with Your AI Assistant](/getting-started/install-with-ai) — let an AI agent run the install and event verification
+- [How to Measure Conversions](/getting-started/measure-conversions) — `conv()`/`micro()` implementation patterns
+- [Metrics Reference](/reports/definitions) — every formula behind the equivalence table

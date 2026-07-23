@@ -1,0 +1,120 @@
+---
+slug: seal-ai-private-launch
+title: "Introducing Seal AI Private: AI-Powered Analytics That Never Leaves the EU"
+authors: [rafael-jimenez]
+tags: [product-updates, ai, privacy, gdpr]
+description: "Seal AI Private is Sealmetrics' EU-hosted, platform-managed AI for LENS: chat and insights processed in Paris, no prompt retention, no API key required."
+date: 2026-07-23
+keywords:
+  - Seal AI Private
+  - EU-hosted AI
+  - LENS AI
+  - AI analytics
+  - GDPR compliant AI
+  - Sealmetrics
+  - privacy-first analytics
+hide_table_of_contents: false
+---
+
+<!-- AUTO-TLDR:START -->
+> **TL;DR** — Seal AI Private is Sealmetrics' EU-hosted, platform-managed AI for LENS: chat and insights processed in Paris, no prompt retention, no API key required.
+<!-- AUTO-TLDR:END -->
+
+Today we're launching **Seal AI Private**: a platform-managed AI provider for [LENS AI](/lens/) that processes every chat question and every automated insight entirely in the **EU (Paris)** — with **no prompt retention**, and without your data ever training third-party models.
+
+No API key. No account with an AI vendor. No data leaving Europe. It works out of the box.
+
+## Key Takeaways
+
+- **EU-hosted AI for LENS**: chat and insights processed in Paris, with no prompt retention
+- **Zero setup**: no API key or external AI account required
+- **Included in Scale and Enterprise** plans; available as a paid add-on on Growth
+- **5 million tokens per month**, with optional non-expiring token packs
+- **BYOK remains available** on every paid plan if you prefer your own OpenAI, Anthropic, Gemini, or DeepSeek key
+
+<!--truncate-->
+
+## Why we built this
+
+LENS — Sealmetrics' AI layer — lets you ask questions about your analytics in natural language and surfaces automated insights: anomalies, opportunities, trends, and alerts. Until now, powering it meant bringing your own LLM key (BYOK): creating an account with OpenAI, Anthropic, Google, or DeepSeek, managing that key, and accepting that your questions are processed on that provider's infrastructure under that provider's terms.
+
+For many teams that's fine. For others — especially European companies that chose Sealmetrics precisely because it keeps data handling simple and compliant — it's a blocker. Their DPO asks where prompts are processed. Procurement asks who the sub-processor is. IT asks who rotates the key.
+
+**Seal AI Private** removes all of that. Sealmetrics manages the AI provider for you, and the answer to "where does my data go?" becomes short:
+
+- Processing happens in the **EU (Paris)**
+- **Prompts are not retained**
+- Your data is **never used to train third-party models**
+- There is **no API key** to create, store, or rotate
+
+The same privacy posture you expect from your analytics, extended to the AI that sits on top of it.
+
+## Who it's for
+
+Seal AI Private follows your plan:
+
+| Plan | Seal AI Private |
+|------|-----------------|
+| Free | Not available |
+| Growth | Available as a paid add-on |
+| Scale | **Included** |
+| Enterprise | **Included** |
+
+If you're on **Scale or Enterprise**, there's nothing to buy — Seal AI Private is included in your plan and active for LENS chat and insights.
+
+If you're on **Growth**, you can activate it as an add-on, or keep using BYOK, which remains included and unmetered on every paid plan.
+
+## Pricing at a glance
+
+For Growth plans, the add-on is priced as follows:
+
+| Contract | Price |
+|----------|-------|
+| Annual contracts | **€299/month**, billed **€3,588/year upfront** |
+| Monthly contracts | **€358.80/month** |
+
+The add-on follows the billing interval of your base subscription. Activating it mid-cycle is not prorated — billing starts at your next billing cycle. Cancelling takes effect at the end of the current billing period.
+
+Only organization **owners** can activate the add-on; owners and admins can monitor consumption on the Seal AI Usage screen.
+
+## How the quota works
+
+Seal AI Private includes **5 million tokens per calendar month (UTC)**. Tokens are counted as prompt plus completion tokens of each AI request — chat questions and automated LENS insights draw from the same quota. Unused tokens don't roll over.
+
+You won't be surprised by the limit: your organization receives an email alert at **80%** and again at **100%** of consumption, and the chat shows an aggregate quota ring so everyone can see where the month stands.
+
+In practice, 5M tokens covers a lot of everyday use — but heavy months happen. When the monthly quota (and any pack balance) runs out, Seal AI Private stops rather than silently billing you more. From there you have two ways to keep going.
+
+### Option 1: Token packs
+
+You can buy extra capacity in **packs of 5,000,000 tokens at €358.80 per pack** (same price on all contracts, 1–10 packs per checkout). Two things make packs worth knowing about:
+
+- **They never expire.** Pack tokens are only consumed after the monthly 5M quota is exhausted, so a pack you buy in a spike month quietly waits for the next one.
+- **They're a one-time purchase.** No auto-recharge, no subscription — organization owners buy them from the Seal AI Usage screen via Stripe checkout when needed.
+
+### Option 2: Bring your own key
+
+BYOK isn't going anywhere. The chat's provider selector lets any user switch to their own **OpenAI, Anthropic, Gemini, or DeepSeek** key at any time — including as a fallback when the Seal AI Private quota is exhausted. With BYOK there's no Sealmetrics-side quota; you pay your provider directly.
+
+Seal AI Private and BYOK aren't mutually exclusive. Plenty of teams will use the managed EU provider as the default and keep a BYOK key configured as overflow.
+
+## Seal AI Private vs. BYOK
+
+| | Seal AI Private | BYOK |
+|---|---|---|
+| Setup | None — works out of the box | Create and manage your own provider key |
+| Processing location | EU (Paris) | Your provider's infrastructure |
+| Prompt retention | None | Per your provider's terms |
+| Cost model | Flat add-on (or included in plan) + optional packs | Pay your provider per use |
+| Usage limit | 5M tokens/month + packs | None from Sealmetrics |
+
+There's no wrong answer here. If your compliance requirements (or your patience for key management) point toward a managed EU option, Seal AI Private is for you. If you already have provider agreements and want unmetered usage, BYOK remains a first-class option.
+
+## Getting started
+
+- **Scale and Enterprise**: it's already included — open LENS and start asking questions.
+- **Growth**: your organization owner can activate the add-on from the billing settings; usage is visible to owners and admins on the Seal AI Usage screen.
+
+For the full details — quota mechanics, pack purchasing, roles and permissions, and the API endpoints for developers — see the [Seal AI Private documentation](/billing/seal-ai-private). To see what the AI can actually do with your analytics data, start with the [LENS AI overview](/lens/).
+
+Analytics without cookies, without consent banners — and now AI without data leaving the EU.

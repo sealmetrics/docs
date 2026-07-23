@@ -1,0 +1,80 @@
+---
+sidebar_position: 11
+title: Numbers Lower Than Another Tool
+sidebar_label: Lower Numbers Than Other Tools
+description: "Why Sealmetrics can legitimately report fewer (or more) visits than GA4 or another tool: entrances vs sessions, bot filtering at ingest, and no sampling."
+tags: [troubleshooting, discrepancy, ga4, entrances, bots, comparison]
+keywords:
+  - sealmetrics lower than ga4
+  - fewer sessions sealmetrics
+  - entrances vs sessions
+  - bot filtering difference
+  - analytics numbers dont match
+---
+
+# Numbers Lower Than Another Tool
+
+Two analytics tools measuring the same site **never report identical numbers** — they count different things, filter different traffic, and cut the day at different moments. Before treating a gap as a tracking bug, check whether it is explained by these three legitimate model differences. If, after accounting for them, the gap is still large and unexplained, then troubleshoot it as missing data.
+
+---
+
+## 1. Entrances are not GA4 sessions
+
+Sealmetrics' primary traffic metric is the **Entrance**: it counts a new entrance when a visitor arrives with an empty referrer or from a different domain than yours. There is no session timeout, no session re-opening after 30 minutes of inactivity, and no session splitting at midnight — because all of those require persistent identifiers Sealmetrics deliberately does not use.
+
+GA4's *session* is a different construct (timeout-based, identifier-based), so comparing Entrances to Sessions is comparing two different definitions — a stable percentage difference between them is expected and not a bug.
+
+Read the definition in full: [How Sealmetrics Calculates Entrances](/reports/insights/how-sealmetrics-calculates-entrances).
+
+**What to check:** compare like with like where possible (Pageviews against Pageviews is far closer to apples-to-apples than Entrances against Sessions), and compare **trends** rather than absolute values.
+
+## 2. Bots are filtered at ingest
+
+Sealmetrics rejects known bot and tool traffic **before it is stored**: hits from search engine crawlers, SEO tools, link-preview fetchers, uptime monitors, HTTP libraries, and headless/automation browsers never enter your reports, and burst behavior (many pageviews from one session within seconds) is rate-limited too. See [Bot Detection & Traffic Quality](/security-privacy/bot-detection).
+
+A tool with weaker (or different) bot filtering will report that traffic as visits. This inflates the *other* tool rather than shrinking Sealmetrics — but from your point of view it looks the same: "Sealmetrics shows less".
+
+**What to check:** in the other tool, look at the traffic Sealmetrics doesn't show — hostnames, user agents, datacenter-heavy geographies, sessions with zero engagement. Bot traffic usually concentrates in obvious pockets.
+
+## 3. No sampling, no consent loss — the gap can point the other way
+
+Sealmetrics processes **every hit** it receives: reports are never sampled or modeled. And because it is consentless, it also measures the visitors who decline or ignore a consent banner — traffic that consent-gated tools structurally lose. On sites with a consent banner, Sealmetrics typically reports **more** traffic than GA4, not less.
+
+So the *direction* of the gap is diagnostic:
+
+| Observation | Likely explanation |
+|---|---|
+| Sealmetrics moderately below the other tool, stable ratio over time | Definition differences (entrances vs sessions) and bot filtering — expected |
+| Sealmetrics above the other tool | Consent loss and ad blockers hitting the other tool — expected |
+| Sealmetrics drastically below, or the ratio suddenly changed | A real tracking problem — go to the checklist below |
+
+The full side-by-side comparison of both measurement models is in [GA4 vs Sealmetrics](/faq/ga4-vs-sealmetrics).
+
+---
+
+## Before comparing, normalize the comparison
+
+- **Same date window and same timezone** on both sides — see [Dates & timezone mismatch](/troubleshooting/dates-timezone-mismatch).
+- **Same scope**: one Sealmetrics site vs one GA4 property covering the same hostnames.
+- **Same metric family**: pageviews vs pageviews, conversions vs conversions.
+- **Closed periods**: compare finished days, not today-so-far.
+
+---
+
+## If the gap is still unexplained
+
+A sudden or very large deficit on the Sealmetrics side usually means hits are being lost before ingestion. Work through:
+
+1. [GTM Consent Mode blocking](/troubleshooting/gtm-consent-mode-blocking) — the number one cause of "Sealmetrics suddenly shows less".
+2. [CSP errors](/troubleshooting/csp-errors-domains-to-allow) — the tracker or its beacon blocked by policy.
+3. [Unauthorized domain](/troubleshooting/unauthorized-domain) — part of your traffic served from a domain the site doesn't authorize.
+4. [Reconciling with your ERP/CRM](/troubleshooting/erp-crm-database-discrepancy) — for conversion-count gaps specifically.
+
+---
+
+## Related
+
+- [GA4 vs Sealmetrics — Complete Comparison](/faq/ga4-vs-sealmetrics)
+- [How Sealmetrics Calculates Entrances](/reports/insights/how-sealmetrics-calculates-entrances)
+- [Bot Detection & Traffic Quality](/security-privacy/bot-detection)
+- [Data Discrepancy with Other Tools](/troubleshooting#data-discrepancy-with-other-tools) — the short version in the overview.

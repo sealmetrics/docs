@@ -1,0 +1,228 @@
+---
+title: "Germany TTDSG/TDDDG Self-Assessment: Sealmetrics Compliance"
+sidebar_label: "Germany TDDDG Auto-Evaluation"
+sidebar_position: 5
+description: "Self-assessment of Sealmetrics against §25 TDDDG (formerly TTDSG) — analytics in Germany without cookies, terminal storage access, or consent banners."
+---
+
+# Germany TTDSG/TDDDG Self-Assessment: Sealmetrics
+
+This document provides the self-assessment of Sealmetrics against the German **Telecommunications Digital Services Data Protection Act** — the **TDDDG** (*Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz*), known until May 2024 as the **TTDSG**. The central provision for analytics is **§25 TDDDG**, Germany's transposition of Article 5(3) of the ePrivacy Directive.
+
+:::info Important Notice
+This self-assessment follows the published legal framework and the guidance of the German Data Protection Conference (DSK), but **does not constitute certification** by the DSK, any German supervisory authority (Landesdatenschutzbehörde), or the BfDI. No such certification scheme for analytics tools currently exists in Germany. This document demonstrates how Sealmetrics meets the applicable requirements when properly configured.
+:::
+
+---
+
+## Executive Summary
+
+| Category | Status |
+|----------|--------|
+| **§25(1) TDDDG — storage of information on terminal equipment** | ✅ Not triggered — nothing is stored |
+| **§25(1) TDDDG — access to information stored on terminal equipment** | ✅ Not triggered — no stored information is read |
+| **GDPR layer (visitor data)** | ✅ No personal data stored; no identifiers |
+| **DSK Orientierungshilfe alignment** | ✅ Consistent |
+| **Consent banner required** | ✅ No |
+| **Last Assessment Date** | February 2026 |
+
+---
+
+## Background: Why Germany Is the Hard Case
+
+Germany is widely regarded as the strictest large EU market for analytics:
+
+1. **§25 TDDDG has no analytics exemption.** Unlike France (CNIL's audience-measurement exemption) or the UK (the DUAA 2025 analytics exemption), German law exempts only what is **strictly necessary** to provide the service the user requested (§25(2) Nr. 2). The DSK has consistently stated that audience measurement is *not* strictly necessary.
+2. **Cookie rejection rates in Germany are among the highest in Europe** (estimated 70–87%).
+3. **German supervisory authorities actively enforce** against cookie banners and tracking implementations.
+
+This means a tool can only operate consent-free in Germany by **not triggering §25(1) at all** — not by claiming an exemption. That is exactly Sealmetrics' approach.
+
+---
+
+## Part 1: §25(1) TDDDG — The Two Prohibited Acts
+
+§25(1) TDDDG requires consent for two acts:
+
+> "The storage of information in the terminal equipment of the end user, or the access to information already stored in the terminal equipment, is only permitted if the end user has consented on the basis of clear and comprehensive information."
+
+The provision is technology-neutral: it covers cookies, localStorage, sessionStorage, IndexedDB, cache-based identifiers, and fingerprinting techniques that read stored device information. Note that §25 applies **regardless of whether personal data is involved** — it protects the integrity of the terminal equipment itself.
+
+### Criterion 1: Storage of information in the terminal equipment
+
+**Requirement:** No information may be stored on the user's device without consent (unless strictly necessary).
+
+| Aspect | Sealmetrics Compliance |
+|--------|----------------------|
+| Cookies (first- or third-party) | ✅ None set |
+| localStorage / sessionStorage | ✅ Not used by the tracker |
+| IndexedDB, cache identifiers, ETags | ✅ Not used |
+| Any other write to the terminal | ✅ None |
+
+**Evidence:** The Sealmetrics tracker (~1 KB) writes nothing to the browser. Session continuity (~2-hour window) is handled **server-side**, not by placing any marker on the device. You can verify this yourself: load a page with Sealmetrics installed and inspect DevTools → Application → Cookies/Storage. Nothing appears.
+
+**Assessment:** ✅ The first prohibited act of §25(1) does not occur.
+
+---
+
+### Criterion 2: Access to information already stored in the terminal equipment
+
+**Requirement:** No reading of information stored on the user's device without consent.
+
+| Aspect | Sealmetrics Compliance |
+|--------|----------------------|
+| Reading cookies or storage APIs | ✅ Never — nothing was stored, nothing is read |
+| Fingerprinting via stored device data | ✅ Not performed |
+| Reading files, contacts, or device identifiers | ✅ Not performed |
+
+**The nuance, stated honestly:** the tracker does evaluate a small number of runtime browser parameters via standard JavaScript APIs — the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`, used for country detection) and screen size buckets. Whether reading such runtime environment parameters constitutes "access to information stored in the terminal equipment" under §25(1) is a debated question in German commentary.
+
+The DSK's *Orientierungshilfe für Anbieter von Telemedien* takes the position that information the browser transmits anyway as part of the communication (e.g., the User-Agent header in every HTTP request) is not "access" within the meaning of the provision, whereas *active* retrieval of stored information is. Sealmetrics' position, criterion by criterion:
+
+| Parameter | How obtained | §25 analysis |
+|-----------|--------------|--------------|
+| User agent | Transmitted by the browser in every HTTP request | Not "access" — part of the communication itself |
+| Referrer, URL | Transmitted by the browser / part of the page context | Not "access" |
+| Timezone | Standard JS runtime API; a configuration value, not stored user information | Reasonably outside §25; even under the strictest reading, it is a single non-identifying value used only for coarse (country-level) statistics, and no identifier is created or persisted |
+| Screen size (bucketed) | Standard JS runtime API | Same analysis as timezone |
+
+Crucially, even under the most restrictive interpretation, **the decisive risk factor that §25 targets — building or reading an identifier on the device — is absent**. No combination of these values is used to fingerprint, recognize, or re-identify a device or user, and nothing is ever written back to the terminal.
+
+**Assessment:** ✅ No access to stored terminal information in the sense targeted by §25(1); residual interpretive nuance is disclosed above and does not involve any identifier.
+
+---
+
+### Criterion 3: §25(2) exemptions — not needed, but noted
+
+**Requirement:** If §25(1) were triggered, consent-free operation would require the "strictly necessary" exemption (§25(2) Nr. 2), which the DSK does not extend to analytics.
+
+| Aspect | Sealmetrics Position |
+|--------|---------------------|
+| Does Sealmetrics rely on §25(2)? | ✅ No — §25(1) is not triggered in the first place |
+| Would analytics qualify as "strictly necessary"? | Per DSK guidance, generally no — which is why cookie-based analytics tools need banners in Germany and Sealmetrics does not |
+
+This is the structural difference from consent-managed tools: Sealmetrics does not need an exemption because it performs neither of the acts §25(1) regulates.
+
+---
+
+## Part 2: The GDPR Layer (Visitor Data)
+
+§25 TDDDG governs the terminal equipment; the GDPR governs any subsequent processing of personal data. The DSK's two-step model requires both to be assessed.
+
+### Criterion 4: No personal data stored about visitors
+
+| Aspect | Compliance |
+|--------|------------|
+| IP addresses | ✅ Never stored — used ephemerally in memory for anti-bot protection only |
+| User IDs / cross-session identifiers | ✅ None exist |
+| Device fingerprints | ✅ Not created |
+| Country detection | ✅ Derived from browser timezone, not IP geolocation |
+| Session handling | ✅ Server-side, short-lived (~2h), incapable of recognizing a returning visitor |
+| Retention | ✅ 24 months for aggregated analytics data, then automatic deletion |
+
+**Assessment:** ✅ Stored analytics records contain no data relating to an identified or identifiable natural person. Rights requests from visitors cannot be linked to any record — see [Data Subject Rights](/compliance/data-subject-rights).
+
+### Criterion 5: Transient processing of the IP address
+
+During request handling, the visitor's IP address is technically received (as with any web server) and used **in memory only** for rate limiting and abuse prevention, then discarded. To the extent this transient handling constitutes processing of personal data, it is supported by **Article 6(1)(f) GDPR** (legitimate interest in network and service security), satisfies data minimization (Article 5(1)(c)), and results in no stored personal data.
+
+For customers who explicitly opt in to **Agent Analytics** (bot detection), a stateless GeoLite2 lookup derives a country label and datacenter/ASN signals from the IP; the IP itself is discarded immediately and never stored. See [What We Track](/security-privacy/what-we-track).
+
+**Assessment:** ✅ Compliant — minimal, transient, security-purposed, never persisted.
+
+### Criterion 6: Data location and transfers
+
+| Aspect | Detail |
+|--------|--------|
+| Processing location | ✅ Dublin, Ireland (EU) |
+| Transfers outside the EU | ✅ None |
+| US cloud storage of analytics data | ✅ None |
+| Subprocessors | ✅ EU-only processing — see [Subprocessors](/compliance/subprocessors) |
+
+German authorities have scrutinized US-linked analytics transfers intensively since *Schrems II*. Sealmetrics avoids the issue entirely: there is no transfer.
+
+---
+
+## Part 3: DSK Orientierungshilfe Checklist
+
+The DSK's guidance for telemedia providers frames the questions a German controller should ask. Summary against Sealmetrics:
+
+| DSK question | Sealmetrics answer |
+|--------------|-------------------|
+| Is information stored on the terminal? | No |
+| Is stored information accessed? | No (see nuance in Criterion 2) |
+| Is consent under §25(1) required? | No — neither act occurs |
+| Is personal data processed afterwards? | Only transiently (IP in memory); nothing personal is stored |
+| Legal basis for that processing? | Art. 6(1)(f) GDPR (security); stored analytics are anonymous aggregates |
+| Are users informed? | Yes — via the publisher's privacy policy (template below) |
+| Joint controllership / third-party sharing? | No third-party data sharing; processor relationship under the [DPA](https://sealmetrics.com/dpa) |
+
+---
+
+## Part 4: Configuration Checklist for German Publishers
+
+### Required ✅
+
+- [ ] Standard tracking mode (default configuration)
+- [ ] No custom user IDs enabling cross-session tracking
+- [ ] No PII in custom event properties
+- [ ] Privacy policy (Datenschutzerklärung) updated to mention Sealmetrics
+
+**Recommended Privacy Policy Text (German):**
+```
+Diese Website verwendet Sealmetrics zur Reichweitenmessung. Sealmetrics
+setzt keine Cookies, speichert keine Informationen auf Ihrem Endgerät
+und greift nicht auf dort gespeicherte Informationen zu (§25 TDDDG wird
+nicht berührt). Es werden keine personenbezogenen Daten gespeichert;
+IP-Adressen werden nicht gespeichert. Die Daten werden ausschließlich
+in der EU (Dublin, Irland) verarbeitet.
+```
+
+### Prohibited ❌
+
+- [ ] Do NOT pass email addresses or other PII as properties
+- [ ] Do NOT combine Sealmetrics data with advertising or profiling tools
+- [ ] Do NOT implement custom device-storage workarounds around the tracker
+
+---
+
+## Part 5: Compliance Statement
+
+Sealmetrics declares that:
+
+1. Its standard configuration **stores no information on, and reads no stored information from, the end user's terminal equipment**, so the consent requirement of **§25(1) TDDDG is not triggered**
+2. Stored visitor analytics data **contains no personal data and no identifiers**
+3. All customer analytics data is processed **exclusively in the EU (Dublin, Ireland)** with no third-country transfers
+4. Publishers using Sealmetrics in Germany can measure their audience **without a consent banner** for the analytics function, when configured per this document
+
+Publishers **cannot** claim Sealmetrics is "certified" or "approved" by the DSK, the BfDI, or any Landesdatenschutzbehörde — no such certification exists.
+
+---
+
+## Part 6: Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | February 2026 | Initial self-assessment against §25 TDDDG and DSK guidance |
+
+---
+
+## References
+
+- [TDDDG (formerly TTDSG) — full text (gesetze-im-internet.de)](https://www.gesetze-im-internet.de/ttdsg/)
+- [DSK — Orientierungshilfe für Anbieter von Telemedien](https://www.datenschutzkonferenz-online.de/orientierungshilfen.html)
+- [Sealmetrics Privacy Policy](https://sealmetrics.com/privacy)
+- [Sealmetrics DPA](https://sealmetrics.com/dpa)
+
+## Contact
+
+- **Email:** privacy@sealmetrics.com
+- **DPO Contact:** dpo@sealmetrics.com
+
+## Related documentation
+
+- [CNIL Self-Assessment](/compliance/cnil-self-assessment) — the equivalent self-assessment for France
+- [UK PECR Self-Assessment](/compliance/uk-pecr-self-assessment) — the equivalent self-assessment for the UK
+- [Italy Garante Self-Assessment](/compliance/italy-garante-self-assessment) — the equivalent self-assessment for Italy
+- [Switzerland FADP Self-Assessment](/compliance/switzerland-fadp-self-assessment) — the equivalent self-assessment for Switzerland
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the full data inventory behind this assessment

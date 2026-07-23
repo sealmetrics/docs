@@ -1,0 +1,78 @@
+---
+sidebar_position: 8
+title: Hits From an Unauthorized Domain
+sidebar_label: Unauthorized Domain
+description: What happens when the tracker fires from a domain that is not registered on your Sealmetrics site — the hit is silently rejected — and how to add domains from the Domains tab.
+tags: [troubleshooting, domains, missing-data, domain-authorization]
+keywords:
+  - sealmetrics domain not authorized
+  - add domain sealmetrics
+  - no data staging domain
+  - domain validation tracking
+  - hits rejected domain
+---
+
+# Hits From an Unauthorized Domain
+
+Every Sealmetrics site has a list of **authorized domains** — the websites allowed to send tracking data to it. When a hit arrives from a page whose domain is not on that list, the platform **rejects it silently**: the browser still receives a normal `204 No Content` response, no error appears in the console, and nothing is stored. This is a common cause of "the snippet is installed but there is no data".
+
+---
+
+## How domain validation works
+
+For every incoming event (pageviews, conversions, and microconversions alike), the platform extracts the domain from the page URL the tracker reports and checks it against the site's authorized domains:
+
+- **Exact match** is accepted: `example.com` on the list authorizes `example.com`.
+- **Subdomains of an authorized domain** are accepted automatically: `example.com` on the list also authorizes `shop.example.com` and `reservations.example.com`.
+- A leading `www.` is normalized away, so `www.example.com` and `example.com` are equivalent at validation time.
+- **A site with no domains configured rejects everything.** At least one domain is required for tracking to work.
+- An event whose page URL yields no usable domain at all is also rejected.
+
+Rejection is deliberate and silent by design — the tracker never breaks the page or logs errors for the visitor.
+
+---
+
+## Symptoms
+
+- `t.js` loads with `200` and the `/event` beacon returns `204` in the Network tab, but the **Last hit** timestamp on the **Overview** report never updates.
+- Data flows from your main website but not from a **staging/preview environment** (`staging.example.com` works if `example.com` is listed — but `example-staging.com` or `preview.vercel.app` will not).
+- No data from a **second production domain**: a country-specific domain (`example.fr`), a landing page builder domain, or a checkout hosted on a different registrable domain.
+- Tracking stopped after a **domain migration or rebrand** (the site still lists only the old domain).
+
+---
+
+## Diagnosis
+
+1. Open the affected page and note its exact hostname.
+2. In the dashboard, open the site's **Domains** tab and compare the hostname against the list, remembering the matching rules above: subdomains of a listed domain pass; a *different* registrable domain does not.
+3. Check the other usual silent-drop suspects if the domain looks right: wrong Site ID in the snippet, or the page never firing the beacon at all (see [Quick Diagnostics](/troubleshooting#quick-diagnostics)).
+
+---
+
+## Solution: add the domain
+
+1. Open the site in the dashboard.
+2. Go to the **Domains** tab.
+3. Type the domain (e.g. `example.com` or `sub.example.com`) in the input field and add it.
+
+The domain appears in the list and tracking is authorized immediately — reload the affected page and confirm that the **Last hit** timestamp updates. Full walkthrough: [How to Add Domains to Your Site](/platform/account-setup/how-to-add-domains).
+
+:::tip Registrable domain vs subdomain
+You rarely need to list subdomains: adding `example.com` covers all its subdomains. You **do** need a separate entry for every distinct registrable domain — `example.fr`, `example-landing.com`, `checkout-partner.com` — that hosts pages with your tracker.
+:::
+
+---
+
+## Prevention
+
+- When creating a site, add **every domain that will carry the tracker**: production domains, country domains, landing page builder domains, and any externally hosted checkout or confirmation pages.
+- One Sealmetrics site is meant to track one domain (plus its subdomains) or one coherent set of your own domains — not arbitrary third-party sites. If a partner site needs measurement, give it its own site.
+- After a domain migration, update the Domains tab **before** the DNS switch so no traffic is dropped during the transition.
+
+---
+
+## Related
+
+- [How to Add Domains to Your Site](/platform/account-setup/how-to-add-domains) — adding, listing, and removing domains.
+- [Troubleshooting overview](/troubleshooting) — checking Site ID and script installation.
+- [Reconciling Sealmetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — off-domain confirmation pages as a cause of missing conversions.

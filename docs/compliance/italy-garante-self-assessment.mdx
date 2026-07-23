@@ -1,0 +1,223 @@
+---
+title: "Italy Garante Self-Assessment: Sealmetrics Compliance"
+sidebar_label: "Italy Garante Auto-Evaluation"
+sidebar_position: 6
+description: "Self-assessment of Sealmetrics against the Italian Garante's cookie guidelines and analytics decisions — consent-free audience measurement in Italy."
+---
+
+# Italy Garante Self-Assessment: Sealmetrics
+
+This document provides the self-assessment of Sealmetrics against the requirements of the Italian data protection authority (**Garante per la protezione dei dati personali**) for consent-free audience measurement, based on the Garante's **"Linee guida sui cookie e altri strumenti di tracciamento"** (Guidelines on cookies and other tracking tools, adopted 10 June 2021) and **Article 122 of the Italian Privacy Code** (d.lgs. 196/2003, as amended), Italy's transposition of Article 5(3) of the ePrivacy Directive.
+
+:::info Important Notice
+This self-assessment follows the Garante's published guidelines but **does not constitute certification or approval by the Garante**. No such certification scheme for analytics tools exists in Italy. This document demonstrates how Sealmetrics meets the published requirements when properly configured.
+:::
+
+---
+
+## Executive Summary
+
+| Category | Status |
+|----------|--------|
+| **Art. 122 Privacy Code — storage/access on terminal equipment** | ✅ Not triggered — no cookies, no terminal storage |
+| **Garante 2021 guidelines — analytics conditions** | ✅ Met (and exceeded — no cookie is used at all) |
+| **No US transfers (post-GA decisions of 2022)** | ✅ EU-only processing (Dublin, Ireland) |
+| **Consent banner required for analytics** | ✅ No |
+| **Last Assessment Date** | February 2026 |
+
+---
+
+## Background: The Italian Framework
+
+The Italian regime for analytics rests on three pillars:
+
+1. **Article 122 of the Privacy Code** requires consent for storing information on, or accessing information already stored in, a user's terminal equipment, unless strictly necessary for the requested service (the Italian equivalent of §25 TDDDG in Germany or PECR Regulation 6 in the UK).
+2. **The Garante's June 2021 cookie guidelines** distinguish technical cookies (no consent), profiling cookies (consent required), and **analytics cookies, which may be assimilated to technical cookies** — i.e., used without consent — only under specific minimization conditions.
+3. **The Garante's 2022 Google Analytics decisions** (starting with the ruling against Caffeina Media of 9 June 2022) found that using Google Analytics involved unlawful transfers of personal data to the United States, effectively putting US-hosted analytics implementations out of compliance in Italy.
+
+Sealmetrics addresses all three pillars structurally: it uses no cookies or terminal storage at all, produces only aggregate statistics without identifiers, and processes all data exclusively in the EU.
+
+---
+
+## Part 1: Article 122 — Terminal Equipment
+
+### Criterion 1: No storage of information on the terminal
+
+| Aspect | Sealmetrics Compliance |
+|--------|----------------------|
+| Cookies (technical, analytics, or profiling) | ✅ None set |
+| localStorage / sessionStorage | ✅ Not used |
+| Other terminal storage (IndexedDB, cache tricks) | ✅ Not used |
+
+**Evidence:** The tracker writes nothing to the browser. Session continuity (~2-hour window) is handled server-side. Verifiable in browser DevTools on any page running Sealmetrics.
+
+### Criterion 2: No access to stored information / no fingerprinting
+
+The 2021 guidelines explicitly extend to "other tracking tools", including **fingerprinting** as a cookie substitute — so-called "passive identifiers".
+
+| Aspect | Sealmetrics Compliance |
+|--------|----------------------|
+| Reading stored terminal information | ✅ Not performed |
+| Device fingerprinting | ✅ Not performed — no combination of parameters is used to identify or re-identify a device |
+| Cross-session recognition of any kind | ✅ Impossible by design — no persistent identifier exists |
+
+**Assessment:** ✅ Article 122 consent obligations are not triggered: neither prohibited act occurs, and no fingerprinting substitute is used.
+
+---
+
+## Part 2: The Garante's Analytics Conditions (2021 Guidelines)
+
+The guidelines allow analytics cookies to be treated like technical cookies (consent-free) only under minimization conditions. Sealmetrics does not use analytics cookies at all — but for completeness, here is the assessment against each condition, since the conditions express the Garante's substantive expectations for any audience-measurement tool.
+
+### Criterion 3: Aggregate statistics only
+
+**Requirement:** Analytics must be used only to produce aggregate statistics.
+
+| Aspect | Compliance |
+|--------|------------|
+| Reports show aggregated data only | ✅ Yes |
+| No individual user journeys across sessions | ✅ Not possible — no cross-session identifier |
+| No unique-visitor or user-level metrics | ✅ Deliberately excluded (no unique visitors, no session duration) |
+
+### Criterion 4: Minimized identifying power (IP masking)
+
+**Requirement:** For analytics cookies, the identifying power must be minimized — e.g., masking significant portions of the IP address.
+
+| Aspect | Compliance |
+|--------|------------|
+| IP masking | ✅ Exceeded — the IP is **never stored at all** (ephemeral in-memory use for anti-bot protection only) |
+| Geolocation method | ✅ Country from browser timezone, not IP; country-level only, no city/region |
+| Identifiers in stored data | ✅ None — no user ID, device ID, or fingerprint |
+
+**Note:** the Garante's masking condition presupposes a tool that stores IP-derived data. Sealmetrics goes beyond the condition: there is nothing to mask because nothing is persisted.
+
+### Criterion 5: No combination with other processing (no cross-referencing / enrichment)
+
+**Requirement:** Analytics data must not be combined with other data or cross-referenced with other processing operations.
+
+| Aspect | Compliance |
+|--------|------------|
+| Cross-referencing with CRM or advertising data | ✅ Not possible — no user-level key exists to join on |
+| Data enrichment from third parties | ✅ None |
+| Cross-site combination by the provider | ✅ None — each account's data is isolated |
+
+### Criterion 6: No transmission to third parties
+
+**Requirement:** Analytics data must not be disclosed to third parties.
+
+| Aspect | Compliance |
+|--------|------------|
+| Data sales or sharing | ✅ Never — contractually excluded by the [DPA](https://sealmetrics.com/dpa) |
+| Advertising network integrations | ✅ None exist in the product |
+| Provider reuse of client data | ✅ Prohibited by the [Terms of Service](https://sealmetrics.com/terms) |
+
+### Criterion 7: Per-publisher independence
+
+**Requirement:** Where one provider serves multiple publishers, measurement must remain independent per publisher (no unified cross-site view).
+
+| Aspect | Compliance |
+|--------|------------|
+| Account isolation | ✅ Each customer's dataset is fully isolated |
+| Shared identifiers across sites | ✅ None — no identifiers exist at all |
+| Cross-account analysis | ✅ Not performed |
+
+---
+
+## Part 3: International Transfers — the Google Analytics Precedent
+
+### Criterion 8: No transfers to the United States or other third countries
+
+In June 2022 the Garante ruled (Caffeina Media decision, and subsequent cases) that Google Analytics transferred personal data — including IP addresses and browser identifiers — to the US without adequate safeguards, in breach of Chapter V GDPR.
+
+| Aspect | Sealmetrics Compliance |
+|--------|----------------------|
+| Data processing location | ✅ Dublin, Ireland (EU) exclusively |
+| Transfers outside the EU | ✅ None — no SCCs or adequacy mechanisms needed because no transfer occurs |
+| US-hosted subprocessing of analytics data | ✅ None — see [Subprocessors](/compliance/subprocessors) |
+| Data that could be transferred | ✅ Even hypothetically minimal — stored records contain no personal identifiers |
+
+**Assessment:** ✅ The transfer problem that ended Google Analytics' compliant use in Italy does not arise for Sealmetrics.
+
+---
+
+## Part 4: Transparency Obligations
+
+### Criterion 9: User information
+
+**Requirement:** Users must be informed about the processing (Art. 13 GDPR; the guidelines require clear cookie/privacy notices).
+
+| Aspect | Compliance |
+|--------|------------|
+| Privacy policy template provided | ✅ Yes (below) |
+| Cookie banner required for Sealmetrics | ✅ No — no cookies or trackers requiring consent are used |
+| Cookie policy entry | ✅ Sealmetrics can be truthfully listed as "no cookies used" |
+
+**Recommended Privacy Policy Text (Italian):**
+```
+Questo sito utilizza Sealmetrics per la misurazione del traffico.
+Sealmetrics non utilizza cookie né altri strumenti di tracciamento,
+non memorizza informazioni sul dispositivo dell'utente e non raccoglie
+dati personali: gli indirizzi IP non vengono conservati e non esistono
+identificatori individuali. I dati, in forma aggregata e anonima, sono
+trattati esclusivamente nell'Unione Europea (Dublino, Irlanda).
+```
+
+---
+
+## Part 5: Configuration Checklist for Italian Publishers
+
+### Required ✅
+
+- [ ] Standard tracking mode (default configuration)
+- [ ] No custom user IDs enabling cross-session tracking
+- [ ] No PII in custom event properties
+- [ ] Privacy policy (informativa) updated to mention Sealmetrics
+
+### Prohibited ❌
+
+- [ ] Do NOT pass email addresses or other PII as properties
+- [ ] Do NOT combine Sealmetrics data with profiling or advertising tools and claim the analytics treatment
+- [ ] Do NOT export data for individual-level analysis
+
+---
+
+## Part 6: Compliance Statement
+
+Sealmetrics declares that:
+
+1. Its standard configuration **uses no cookies and no other tracking tools** within the meaning of Article 122 of the Privacy Code and the Garante's 2021 guidelines, so **no consent banner is required** for the analytics function
+2. It satisfies — and structurally exceeds — the Garante's minimization conditions for consent-free analytics (aggregate statistics, no stored IP, no cross-referencing, no third-party disclosure, per-publisher independence)
+3. All customer analytics data is processed **exclusively in the EU (Dublin, Ireland)**, avoiding the third-country transfer issues identified in the Garante's 2022 analytics decisions
+
+Publishers **cannot** claim Sealmetrics is "certified" or "approved" by the Garante — no such certification exists.
+
+---
+
+## Part 7: Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | February 2026 | Initial self-assessment against the Garante's 2021 guidelines and Art. 122 Privacy Code |
+
+---
+
+## References
+
+- [Garante — Linee guida sui cookie e altri strumenti di tracciamento (10 June 2021)](https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/9677876)
+- [Garante — Google Analytics decision (9 June 2022, doc. web 9782890)](https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/9782890)
+- [Codice Privacy (d.lgs. 196/2003), Art. 122](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-06-30;196)
+- [Sealmetrics Privacy Policy](https://sealmetrics.com/privacy)
+- [Sealmetrics DPA](https://sealmetrics.com/dpa)
+
+## Contact
+
+- **Email:** privacy@sealmetrics.com
+- **DPO Contact:** dpo@sealmetrics.com
+
+## Related documentation
+
+- [CNIL Self-Assessment](/compliance/cnil-self-assessment) — the equivalent self-assessment for France
+- [Germany TDDDG Self-Assessment](/compliance/germany-ttdsg-self-assessment) — the equivalent self-assessment for Germany
+- [Switzerland FADP Self-Assessment](/compliance/switzerland-fadp-self-assessment) — the equivalent self-assessment for Switzerland
+- [Subprocessors](/compliance/subprocessors) — EU-only processing chain
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the full data inventory behind this assessment

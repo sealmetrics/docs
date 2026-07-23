@@ -1,0 +1,68 @@
+# Report Dates Don't Match Another Tool
+
+URL: https://docs.sealmetrics.com/troubleshooting/dates-timezone-mismatch
+
+# Report Dates Don't Match Another Tool
+
+You compare "Tuesday" in Sealmetrics with "Tuesday" in another analytics tool, your ad platform, or your backend — and the numbers are shifted, especially around the start and end of the range. In most cases nothing is missing: **the two systems are cutting the day at a different midnight.**
+
+---
+
+## How Sealmetrics assigns dates
+
+Every hit is stamped with a **date calculated in your site's timezone** at the moment it is ingested. The day rolls over at **midnight local time for the site** — not at UTC midnight, and not at your server's timezone.
+
+Concretely: a hit at 23:30 New York time on Monday belongs to Monday in a site configured with `America/New_York`, even though in UTC it is already Tuesday 04:30. A tool that buckets by UTC would put that same hit on Tuesday.
+
+New sites default to **Europe/Madrid** unless you change it.
+
+---
+
+## Symptoms
+
+- Daily totals are consistently shifted by a few hours' worth of traffic against the other tool, but multi-day totals for the same window roughly match.
+- "Yesterday" disagrees between tools, while "last 30 days" is close.
+- Discrepancies concentrate on the **first and last day** of the compared range.
+- A campaign launched late in the evening shows on one day in Sealmetrics and the next day elsewhere.
+
+---
+
+## Diagnosis
+
+1. **Check both timezones.** Find the site's timezone in Sealmetrics (see below) and the property/report timezone of the other tool (GA4 property timezone, ad platform account timezone, your database's `GROUP BY` timezone).
+2. **Compare a wide window, not a single day.** Pick a closed multi-day range (e.g. the 1st to the 15th) in both tools. If the total converges but individual days don't, the mismatch is the day cutoff — not lost data.
+3. **Look at the edges.** With different timezones, each day boundary moves a fixed number of hours of traffic from one day to its neighbor. The size of the daily shift should be consistent with the hour offset between both timezones.
+
+If multi-day totals do **not** converge either, you are looking at a different problem — see [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) and [Reconciling with your ERP/CRM](/troubleshooting/erp-crm-database-discrepancy).
+
+---
+
+## Solution: align the timezones
+
+Ideally, set the same timezone in Sealmetrics and in the tools you reconcile against.
+
+To change the site's timezone in Sealmetrics:
+
+1. In the left sidebar, expand **Site Config** and click **Settings**.
+2. On the **General** tab, find the **Timezone** field.
+3. Pick your timezone (searchable by name or country) and click **Save Changes**.
+
+Full walkthrough: [How to Change Your Time Zone](/platform/account-setup/how-to-change-timezone).
+
+**Note:**
+The date of each hit is computed **at ingest time** with the timezone the site had at that moment, and stored. Changing the timezone re-buckets hits from that point forward; already-stored days are not recalculated. Expect one transition day with a slightly short or long bucket, then clean alignment.
+
+---
+
+## Prevention
+
+- Set the site timezone **when you create the site**, before collecting data, and match it to the timezone of the tools you report against.
+- When reconciling with a database or ERP, always state the timezone of both sides in the comparison query — this is one of the standard checklist items in the [ERP/CRM reconciliation guide](/troubleshooting/erp-crm-database-discrepancy).
+
+---
+
+## Related
+
+- [How to Change Your Time Zone](/platform/account-setup/how-to-change-timezone) — step-by-step with defaults.
+- [Date Range selection](/reports/date-range) — how report periods are defined.
+- [Reconciling Sealmetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — when the gap is more than a day-boundary shift.

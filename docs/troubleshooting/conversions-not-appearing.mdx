@@ -1,0 +1,96 @@
+---
+sidebar_position: 10
+title: Conversions Not Appearing
+sidebar_label: Conversions Not Appearing
+description: "A checklist for conversions that never reach the Conversions report: correct conv() snippet, numeric amount, base pixel firing first, and how to verify the beacon payload."
+tags: [troubleshooting, conversions, conv, missing-conversions]
+keywords:
+  - sealmetrics conversions not showing
+  - conv not working
+  - conversion not tracked
+  - amount not recorded
+  - verify conversion beacon
+---
+
+# Conversions Not Appearing
+
+Pageviews work, but a conversion you fired never shows up in the **Conversions** report. Run through this checklist in order — it covers the causes from most to least common, and each step tells you how to verify it objectively in the browser.
+
+---
+
+## 1. The snippet uses the correct signature
+
+```javascript
+sealmetrics.conv(type, amount, properties);
+```
+
+- **`type`** (string, required) — the conversion label you will see in the report, e.g. `'purchase'`, `'lead'`, `'signup'`. A missing or empty type is not a conversion.
+- **`amount`** (number, optional) — the monetary value. Omit it or pass `0` for non-monetary conversions.
+- **`properties`** (object, optional) — custom key-value data.
+
+```javascript
+// Purchase with value
+sealmetrics.conv('purchase', 99.99);
+
+// Lead without monetary value
+sealmetrics.conv('lead', 0);
+```
+
+Full syntax and examples: [Conversions](/implementation/tracker/conversions).
+
+## 2. The amount is a real number, not a string
+
+The tracker only attaches the value when `amount` is a JavaScript **number**. If your template interpolates it as a string — `sealmetrics.conv('purchase', "99.99")` — the conversion is sent **without a value**: it appears in the report but with no revenue.
+
+Watch out for locale formats too: `"1.299,00"` or `"99,99"` are not valid numbers. Convert server-side, or with `parseFloat()` on a dot-decimal string, before calling `conv()`.
+
+```javascript
+// Wrong — string amount, revenue is dropped
+sealmetrics.conv('purchase', '99.99');
+
+// Right — numeric amount
+sealmetrics.conv('purchase', 99.99);
+```
+
+## 3. The base pixel fires first on the same page
+
+The conversion call is not standalone: the base tracker (`t.js`) must be present **on the confirmation page** and its pageview must fire **before** `sealmetrics.conv(...)`. If the conversion code runs before the library loads, you either get a `ReferenceError` (call lost) or an unattributable conversion.
+
+This is the single most common root cause of substantial conversion gaps — the full explanation, firing-order diagram, and fixes are in [Reconciling Sealmetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy). To protect calls that may run before the library loads, use the stub buffer from [Fixing `ReferenceError: sealmetrics is not defined`](/troubleshooting/sealmetrics-is-not-defined).
+
+## 4. The conversion fires for every variant of the flow
+
+Verify the whole matrix, not just your happy path: every payment method (card, PayPal, bank transfer…), every language/country version, mobile and desktop themes, and confirmation pages hosted on external domains. Any variant that skips the page with the `conv()` call silently under-counts. Off-domain confirmation pages also need the domain authorized on the site — see [Unauthorized domain](/troubleshooting/unauthorized-domain).
+
+## 5. Verify the beacon in the Network tab
+
+1. Open **Developer Tools → Network**, filter by `sealmetrics`.
+2. Complete a test conversion (real flow, not just pasting into the console — though the console works for a first smoke test).
+3. On the confirmation page you should see, in this order:
+   - the base pixel's pageview beacon, then
+   - a second `/event` beacon whose payload contains `"e":"purchase"` (your type) and `"v":99.99` (your amount).
+4. Both should return `204 No Content`.
+
+If the conversion beacon has `"e"` but no `"v"`, you are hitting step 2 (string amount). If there is no conversion beacon at all, the call never executed — check for JavaScript errors in the Console and for consent-gated tags ([GTM Consent Mode blocking](/troubleshooting/gtm-consent-mode-blocking)).
+
+## 6. Check the report the right way
+
+1. Open the **Conversions** report (sidebar → **Conversions**).
+2. Make sure the top-right toggle is on **Conversions** — if you fired `sealmetrics.micro(...)`, the event lands in the **Microconversions** view instead.
+3. Set the date range to **today** (site timezone — see [Dates & timezone mismatch](/troubleshooting/dates-timezone-mismatch)).
+4. Wait 1–2 minutes and reload. The **Last hit** timestamp on the **Overview** report confirms hits are arriving at all.
+
+---
+
+## Still missing?
+
+If the beacon leaves the browser with the right payload, returns `204`, and the conversion still never appears, contact **support@sealmetrics.com** with the Site ID, the conversion type, and the timestamp of the test — that is enough to trace it.
+
+---
+
+## Related
+
+- [Conversions — tracker reference](/implementation/tracker/conversions) — full `conv()` syntax, properties, and item arrays.
+- [Conversions Report](/reports/conversions) — reading the report and the Conversions/Microconversions toggle.
+- [Reconciling Sealmetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — substantial gaps between real orders and reported conversions.
+- [Measure conversions](/getting-started/measure-conversions) — guided first-conversion setup.

@@ -1,0 +1,144 @@
+---
+sidebar_position: 2.5
+title: Set Up Sealmetrics with Your AI Assistant
+description: Let Claude, Codex, or any MCP-capable AI assistant install Sealmetrics for you — create the site, place the tracking snippet, verify the pixel, and instrument conversions, all from a chat.
+tags: [getting started, ai, mcp, claude, codex, setup, onboarding]
+keywords:
+  - sealmetrics ai setup
+  - install analytics with claude
+  - mcp onboarding
+  - ai assistant analytics installation
+  - cookieless analytics ai
+---
+
+# Set Up Sealmetrics with Your AI Assistant
+
+You don't have to install Sealmetrics by hand. If you use an AI assistant that speaks the **Model Context Protocol (MCP)** — Claude (Desktop, Code, claude.ai), ChatGPT, Cursor, Codex, and others — the assistant can do the whole onboarding for you: create the site, hand you (or place) the tracking snippet, confirm the pixel is live, and verify your conversion events one by one.
+
+This page explains what to ask your agent, and what actually happens under the hood at each step.
+
+---
+
+## Choose your connection
+
+There are two ways to wire Sealmetrics into your assistant, depending on where you're starting from:
+
+| Your situation | Use | Docs |
+|---|---|---|
+| **No Sealmetrics account yet** — you want the assistant to create one from the chat | The **AI Agentic Package** (Claude Desktop extension or `npx @sealmetrics/mcp` for Codex and other clients) | [AI Agentic Package](/integrations/agentic-package) |
+| **You already have an account** and want the assistant to fetch your tracking code and query your data | The **hosted remote MCP server** — paste one URL: `https://mcp.sealmetrics.com/mcp` | [MCP Server for AI Assistants](/integrations/mcp-server) |
+
+Both are covered in detail on their own pages — this page focuses on the **setup flow itself**, which is the same conversation either way.
+
+:::info Where the setup tools live
+The guided-setup tools described below (`provision_site`, `verify_setup`, `detect_framework`, …) ship with the **local MCP server** — the Claude Desktop extension or the `npx` package. The hosted remote server at `https://mcp.sealmetrics.com/mcp` exposes the **read-only analytics tools** (plus `get_tracking_code`) for an account you already have, with connections you can review and revoke anytime under [Connected Apps](/platform/settings/account/connected-apps).
+:::
+
+---
+
+## What you can ask your agent
+
+Once connected, plain natural language is enough. For example:
+
+- *"Create a Sealmetrics analytics site for myshop.com"*
+- *"Where should the Sealmetrics snippet go in this project?"*
+- *"Verify my Sealmetrics pixel is installed"*
+- *"Help me instrument a purchase conversion on the thank-you page"*
+- *"Check that my add_to_cart event is reaching Sealmetrics"*
+- *"What's the setup status of my site?"*
+- *"Give me the tracking code for my site"*
+
+The assistant picks the right tool for each request — you never call tools directly.
+
+---
+
+## The setup flow, step by step
+
+### 1. Create your site from the chat
+
+> *"Create a Sealmetrics analytics site for myshop.com"*
+
+**Under the hood:** the assistant calls **`provision_site`**. It needs a site name, your email, and — before anything happens — your explicit confirmation that you accept the [Terms of Service](https://sealmetrics.com/terms) (the tool refuses to accept them on your behalf). It then creates a free account and returns:
+
+- your **account ID**,
+- the **tracking snippet** to place in your site's `<head>`,
+- your dashboard URL, and
+- a note that a **claim link was emailed to you** (click it to set a password and unlock the [web dashboard](https://my.sealmetrics.com) — analytics work in the chat without it).
+
+Security by design: the API key and the claim link are **never shown to the model** — the key is adopted internally to enable the analytics tools for the session, and the claim link only travels by email.
+
+Already have an account? Skip this step — ask for the snippet instead and the assistant calls **`get_tracking_code`**, which returns your site-specific `<script>` tag plus the full JavaScript API reference and implementation examples.
+
+### 2. Find where the snippet goes
+
+> *"Where should the Sealmetrics snippet go in this project?"*
+
+**Under the hood:** **`detect_framework`** inspects your project (when the assistant has access to your repo) and reports the framework or CMS — Next.js, Astro, WordPress, plain HTML, etc. — with the recommended file and placement for the snippet. In a pure chat with no repo, it returns the manual placement guide instead.
+
+The MCP server itself **never edits your code**. Either your agent (if it has the repo) places the snippet, or you paste it yourself — once, inside the `<head>` of every page. See [First Steps](/getting-started/quick-start#step-3-install-tracking-code) for the manual methods (direct, WordPress, Google Tag Manager).
+
+### 3. Verify the pixel is live
+
+> *"Verify my Sealmetrics pixel is installed"*
+
+**Under the hood:** **`verify_setup`** polls the backend until a **real pageview** from your site arrives (by default it checks every couple of seconds for up to ~25 seconds). If it reports no hits yet, open a page of your live site in a browser and ask again.
+
+### 4. Instrument conversions
+
+> *"Help me instrument a purchase conversion on the thank-you page"*
+
+**Under the hood:** the assistant first calls **`get_instrumentation_guide`**, which returns the canonical Sealmetrics event-instrumentation guide with your account ID filled in — including the **closed event taxonomy** (conversion types like `purchase`, `lead`, `signup`, `subscription`, `booking`; microconversion types like `add_to_cart`, `begin_checkout`, `newsletter_signup`, `video_play`) and the privacy rules (no emails, no order IDs, no personal data in event properties — ever).
+
+Guided by that, the agent writes the `sealmetrics.conv()` / `sealmetrics.micro()` calls in your code — the guide steers it, the MCP doesn't write code itself. See [How to Measure Conversions](/getting-started/measure-conversions) for the JavaScript API.
+
+### 5. Verify each event
+
+> *"Check that my purchase event is reaching Sealmetrics"*
+
+**Under the hood:** after you trigger the event once (a test visit or action), **`verify_event_instrumented`** closes the loop. It:
+
+1. Validates the event name against the **closed taxonomy** (a typo like `purchse` gets rejected with a suggestion).
+2. Polls the backend until an event of that type arrives.
+3. Scans the event's properties for anything that looks like **PII** (emails, phone numbers, user/order IDs) and warns instead of confirming if it finds any.
+
+Only when the event has arrived clean does it report `verified`.
+
+### At any point: check where you are
+
+> *"What's the setup status of my site?"*
+
+**Under the hood:** **`get_setup_status`** reports whether a site has been provisioned in this session and whether its pixel has been verified — useful if you paused mid-setup.
+
+---
+
+## Setup tools at a glance
+
+| Tool | What it does |
+|------|--------------|
+| `provision_site` | Creates a new free site from the chat (after you accept the Terms). Returns account ID + snippet; emails you a claim link. |
+| `detect_framework` | Detects your framework/CMS and tells the agent exactly where the snippet belongs. Read-only. |
+| `get_tracking_code` | Returns the site's `<script>` tag plus the full JS API reference and examples (for existing accounts). |
+| `verify_setup` | Polls until a real pageview confirms the pixel is installed. |
+| `get_instrumentation_guide` | Returns the canonical conversion/microconversion guide (closed taxonomy + privacy rules) for your account. |
+| `verify_event_instrumented` | Confirms a specific `conv`/`micro` event reached the backend — and rejects out-of-taxonomy names and PII. |
+| `get_setup_status` | Reports provisioned / pixel-verified state for the session. |
+
+---
+
+## Final verification
+
+You're done when all three of these are true:
+
+1. **`verify_setup` reports "verified"** — the pixel is sending pageviews.
+2. **Each business-critical event passes `verify_event_instrumented`** — conversions and microconversions arrive with valid names and no PII.
+3. **Your data answers questions** — ask *"Show me an overview of my site for the last 7 days"* and the assistant reads live numbers back to you. You can also double-check in the dashboard: the **Overview** report's *Last hit* timestamp updates within seconds of a tracked hit.
+
+---
+
+## Next steps
+
+- [First Steps with Sealmetrics](/getting-started/quick-start) — the same setup done manually, step by step
+- [How to Measure Conversions](/getting-started/measure-conversions) — the `conv()`/`micro()` JavaScript API in depth
+- [MCP Server for AI Assistants](/integrations/mcp-server) — all ~47 analytics tools you can query once set up
+- [AI Agentic Package](/integrations/agentic-package) — install reference for the Claude Desktop extension and Codex
+- [Connected Apps](/platform/settings/account/connected-apps) — review and revoke AI connections to your account

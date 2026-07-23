@@ -1,47 +1,62 @@
-# First Party Tracker
+# First-Party Tracker
 
 URL: https://docs.sealmetrics.com/implementation/tracker/first-party
 
-# First Party Tracker
+# First-Party Tracker
 
-## How 1st Party Tracking Works
+Serve the Sealmetrics tracker from a subdomain of **your own domain** (e.g. `metrics.yourstore.com`) instead of `t.sealmetrics.com`.
 
-### Why Install a First-Party Tracker Instead of a Third-Party Tracker?
+## Why first-party?
 
-By using our **first-party tracker**, you’ll be better protected against ad blockers.  
-Ad blockers often block scripts from third-party domains. However, when you upgrade to a **first-party tracker**, ad blockers will recognize that the JavaScript is loaded from **your own domain** and, as a rule, it won’t be blocked.
+Ad blockers work mostly from lists of known third-party tracking domains. When the script and its requests load from **your own domain**, they are far less likely to be blocked — which means fewer gaps in your data. It also keeps the entire measurement flow within your domain's context, consistent with Sealmetrics' first-party, consentless design. See [Ad-blocker resistance](/security-privacy/adblocker-bypass) for the full picture.
 
-To access the tracker setup:
+## Setup
+
+The process takes two minutes of your time plus a confirmation from our team.
+
+### 1. Get your subdomain from the dashboard
 
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
 2. Go to **Settings → Pixels**
 
 ![Sealmetrics First Party Tracker navigation screenshot](/img/first-party-tracker-navigation.png)
 
----
-
-Below is an example of the **1st Party Tracker Code** screen you’ll see in your Sealmetrics account:
+The **1st Party Tracker Code** screen shows the subdomain to create and the snippet you'll use later:
 
 ![Sealmetrics tracker code setup screenshot](/img/first-party-tracker-code.png)
 
----
+If you track multiple domains in one site, create the same subdomain on each of them.
 
-## How to Install Sealmetrics’ First-Party Tracker
+### 2. Create the DNS record
 
-Before installing Sealmetrics’ first-party tracker, complete the following steps:
+In your DNS manager, add an **A record** for that subdomain pointing to:
 
-1. The setup screen will display the subdomain you need to create.  
-   If you plan to track multiple domains, create the same subdomain for each domain.
+```
+45.148.1.221
+```
 
-2. Add an **A record** in your DNS Manager with the following value: 45.148.1.221 
-3. Notify us at [hello@sealmetrics.com](mailto:hello@sealmetrics.com) once you’ve completed the two tasks above.
+DNS changes can take from a few minutes up to 24–48 hours to propagate, depending on your provider and TTL.
 
-4. When you receive the confirmation email from [hello@sealmetrics.com](mailto:hello@sealmetrics.com),  
-copy and paste the provided **Tracker Code** snippet into the `<head>` section of your website.
+### 3. Tell us, and we finish the server side
 
-And then — the magic starts! ✨  
-Sealmetrics will begin tracking immediately.
+Email [hello@sealmetrics.com](mailto:hello@sealmetrics.com) once the record is in place. We complete the server-side setup for your subdomain and confirm by email.
 
----
+### 4. Install the snippet
 
-If you have any questions, contact us at [hello@sealmetrics.com](mailto:hello@sealmetrics.com).
+When you receive the confirmation, copy the **Tracker Code** snippet from the same screen into the `<head>` of your website — it's the standard tracker, just served from your subdomain. All tracker options ([`?auto=0`, `?spa=0`](/implementation/tracker/spa-support), [content grouping](/implementation/content-site-structure/content-grouping)) work exactly the same.
+
+## Verify it works
+
+Visit your site and check that **Last hit** updates on the [Overview report](/reports/overview) within seconds. If it doesn't:
+
+- Confirm the A record has propagated (`dig your-subdomain.yourdomain.com`)
+- Confirm you replaced the old `t.sealmetrics.com` snippet (don't run both — you'd count pageviews twice)
+- Check the browser console for blocked requests
+
+## Related documentation
+
+- [Tracker Installation](/implementation/tracker/installation) — standard installation and script options
+- [Ad-blocker resistance](/security-privacy/adblocker-bypass) — why first-party loading matters
+- [Troubleshooting](/troubleshooting/) — common installation issues
+
+Questions? [hello@sealmetrics.com](mailto:hello@sealmetrics.com)
