@@ -1,0 +1,97 @@
+---
+sidebar_position: 5
+title: "Content Security Policy (CSP): Which Domains to Allow"
+sidebar_label: CSP Errors
+description: How to detect Content-Security-Policy blocks in the browser console and which directives (script-src, connect-src) must allow the Sealmetrics tracker domain.
+tags: [troubleshooting, csp, content-security-policy, script-src, connect-src]
+keywords:
+  - sealmetrics csp
+  - content security policy sealmetrics
+  - refused to load the script
+  - script-src t.sealmetrics.com
+  - connect-src sealmetrics
+  - csp blocks tracker
+---
+
+# Content Security Policy (CSP): Which Domains to Allow
+
+If your site sends a `Content-Security-Policy` header (or meta tag) that does not include the Sealmetrics tracker domain, the browser will refuse to load the script and/or refuse to send the tracking beacon — and you will see **zero data**, even though the snippet is installed correctly.
+
+---
+
+## Symptoms
+
+- No requests to `t.sealmetrics.com` in the Network tab, even though the `<script>` tag is in the HTML.
+- Console errors mentioning **"Refused to load the script"** or **"Refused to connect"** together with **"because it violates the following Content Security Policy directive"**, naming `script-src`, `script-src-elem`, or `connect-src`.
+- In the Network tab, the request appears with a blocked status (Chrome shows `(blocked:csp)` in the status column).
+- `typeof sealmetrics` in the console returns `"undefined"` (the script never executed).
+
+---
+
+## How the tracker uses the network
+
+Two different CSP directives are involved, and **both** must allow the tracker host:
+
+| Request | What it is | CSP directive that governs it |
+|---|---|---|
+| `GET https://t.sealmetrics.com/t.js?id=...` | The tracker library itself | `script-src` (or `script-src-elem`) |
+| `POST https://t.sealmetrics.com/event` | The tracking beacon (one per pageview, conversion, or microconversion) | `connect-src` |
+
+The beacon is sent with `navigator.sendBeacon` (with a `fetch` fallback), and both are governed by `connect-src`. The beacon always goes to the **same host the script was loaded from**, so one hostname covers both directives.
+
+A common partial failure: `script-src` allows the domain but `connect-src` does not. The script loads and `sealmetrics` is defined, but every beacon is blocked — the console shows "Refused to connect" errors and no data arrives.
+
+---
+
+## Solution
+
+Add the tracker host to both directives in your CSP:
+
+```
+Content-Security-Policy:
+  script-src 'self' https://t.sealmetrics.com;
+  connect-src 'self' https://t.sealmetrics.com;
+```
+
+(Keep whatever other sources your policy already lists — the example only shows the Sealmetrics additions.)
+
+### If you use the first-party tracker
+
+With the [first-party tracker](/implementation/tracker/first-party), the script is served from a subdomain of **your own domain** (e.g. `metrics.yourstore.com`) instead of `t.sealmetrics.com`. Allow that subdomain instead:
+
+```
+Content-Security-Policy:
+  script-src 'self' https://metrics.yourstore.com;
+  connect-src 'self' https://metrics.yourstore.com;
+```
+
+If your policy uses `'self'` and the tracker subdomain shares your registrable domain, you still need to list the subdomain explicitly — `'self'` only matches the exact origin of the page.
+
+### If your policy uses `default-src` only
+
+`script-src` and `connect-src` fall back to `default-src` when not declared. In that case adding the tracker host to `default-src` is enough — but explicit `script-src`/`connect-src` entries are clearer and safer to maintain.
+
+---
+
+## Verification
+
+1. Deploy the updated policy.
+2. Hard-reload the page (Cmd/Ctrl+Shift+R) with DevTools open.
+3. **Console:** no CSP violation mentioning `sealmetrics`.
+4. **Network** (filter `sealmetrics`): `t.js` returns `200` and the `/event` beacon returns `204 No Content`.
+5. **Dashboard:** the **Last hit** timestamp on the **Overview** report updates within seconds.
+
+---
+
+## What NOT to do
+
+- **Do not add `'unsafe-inline'` or wildcards (`*`) just to make the tracker work.** Only the tracker host is needed; loosening the whole policy trades real security for nothing.
+- **Do not move the snippet inline to bypass `script-src`.** The library must still be downloaded from the tracker host, and the beacon still needs `connect-src` — an inline copy solves neither and breaks updates.
+
+---
+
+## Related
+
+- [Tracker installation](/implementation/tracker/installation) — the exact script URL for your site.
+- [First-Party Tracker](/implementation/tracker/first-party) — serving the tracker from your own subdomain.
+- [Troubleshooting overview](/troubleshooting) — quick installation diagnostics.

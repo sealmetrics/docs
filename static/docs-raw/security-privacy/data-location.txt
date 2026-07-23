@@ -10,7 +10,9 @@ SealMetrics is committed to data sovereignty and transparent retention policies.
 
 ## Data Location
 
-### Primary Infrastructure
+### Customer Analytics Data: Dublin, Ireland
+
+All customer analytics data — every hit, report, and backup — is stored and processed in **Dublin, Ireland (EU)**:
 
 | Component | Location | Provider |
 |-----------|----------|----------|
@@ -18,10 +20,13 @@ SealMetrics is committed to data sovereignty and transparent retention policies.
 | Analytics database | Dublin, Ireland | EU data center |
 | Backups | Dublin, Ireland | EU data center |
 
+**Note:**
+SealMetrics also operates its own infrastructure with Hetzner (Germany/Finland) for **internal company workloads** — development, testing, and internal tooling. This infrastructure does **not** process or store customer analytics data. Earlier versions of this page listed Hetzner in a way that could be misread as customer-data hosting — to be clear: customer analytics data hosting is Dublin, Ireland, exclusively.
+
 ### Why EU?
 
 - **GDPR compliance** — Data stays within EU jurisdiction
-- **Data sovereignty** — No US CLOUD Act concerns
+- **Data sovereignty** — No US CLOUD Act concerns for stored data
 - **Low latency** — Fast response times for European users
 - **Legal clarity** — Single regulatory framework
 
@@ -30,8 +35,8 @@ SealMetrics is committed to data sovereignty and transparent retention policies.
 Your analytics data:
 
 - Never leaves EU borders
-- Is not processed by US companies
-- Is not subject to foreign data requests
+- Is stored and processed exclusively on EU infrastructure
+- Is not transferred to any third country
 - Remains under EU data protection law
 
 ---
@@ -162,18 +167,21 @@ When you close your account:
 
 ## Subprocessors
 
-SealMetrics uses minimal subprocessors:
+SealMetrics keeps its subprocessor list deliberately short. Customer analytics data is stored only in Dublin, Ireland:
 
-| Subprocessor | Purpose | Location |
-|--------------|---------|----------|
-| Hetzner | Infrastructure | Germany/Finland |
-| Cloudflare | CDN/DDoS protection | EU edge |
+| Subprocessor | Role | Data touched | Location |
+|--------------|------|--------------|----------|
+| Cloudflare | CDN / DDoS protection at the network edge | Traffic in transit (TLS-encrypted requests) | EU edge locations |
+
+Hetzner is **not** a subprocessor of customer analytics data — it hosts SealMetrics' own internal infrastructure only (see the note under [Data Location](#data-location) above).
 
 All subprocessors:
 
 - Sign data processing agreements
 - Are GDPR compliant
-- Process data only in EU
+- Process customer data only in the EU
+
+Full details: [Subprocessors](/compliance/subprocessors)
 
 ---
 
@@ -199,6 +207,8 @@ Export your data anytime:
 
 - [Privacy Overview](/security-privacy/overview)
 - [What We Track](/security-privacy/what-we-track)
+- [Subprocessors](/compliance/subprocessors)
+- [Data Subject Rights (DSAR)](/compliance/data-subject-rights)
 - [GDPR Compliance](/compliance/compliance-overview/legal-faq)
 - [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent)
 - [Frequently Asked Questions](/faq/privacy-security)

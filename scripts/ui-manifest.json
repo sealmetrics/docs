@@ -1,0 +1,250 @@
+{
+ "generated_with": "scripts/generate-ui-manifest.mjs",
+ "generated_from": "dashboard src: /Users/rafa/code/sealmetrics2/.claude/worktrees/vibrant-sammet-be5e3c/dashboard/src",
+ "routes": [
+  "/",
+  "/account/llm",
+  "/admin",
+  "/admin/accounts",
+  "/admin/accounts/{accountId}",
+  "/admin/api-usage",
+  "/admin/billing",
+  "/admin/users",
+  "/admin/users/{userId}",
+  "/create-org",
+  "/forgot-password",
+  "/invite/{token}",
+  "/lens",
+  "/lens/report/{id}",
+  "/login",
+  "/oauth/consent",
+  "/org-inactive",
+  "/register",
+  "/register/plan",
+  "/register/success",
+  "/resend-verification",
+  "/reset-password",
+  "/select-org",
+  "/settings",
+  "/settings/api-keys",
+  "/settings/audit",
+  "/settings/billing",
+  "/settings/connections",
+  "/settings/integrations",
+  "/settings/integrations/bigquery",
+  "/settings/integrations/looker-studio",
+  "/settings/integrations/shopify",
+  "/settings/lens",
+  "/settings/migration",
+  "/settings/organizations",
+  "/settings/organizations/{slug}",
+  "/settings/organizations/{slug}/members",
+  "/settings/pixels",
+  "/settings/properties",
+  "/settings/seal-ai-usage",
+  "/settings/security",
+  "/settings/sites",
+  "/settings/sites/{siteId}",
+  "/settings/team",
+  "/settings/wizard",
+  "/sites",
+  "/sites/{siteId}",
+  "/sites/{siteId}/conversions",
+  "/sites/{siteId}/devices",
+  "/sites/{siteId}/evolution",
+  "/sites/{siteId}/funnel",
+  "/sites/{siteId}/geo",
+  "/sites/{siteId}/lens",
+  "/sites/{siteId}/lens/chat",
+  "/sites/{siteId}/lens/report/{id}",
+  "/sites/{siteId}/overview",
+  "/sites/{siteId}/pages",
+  "/sites/{siteId}/properties",
+  "/sites/{siteId}/settings",
+  "/sites/{siteId}/sources",
+  "/unauthorized",
+  "/verify-email"
+ ],
+ "sidebar": [
+  {
+   "section": "analytics",
+   "label": "Lens",
+   "href": "/lens/chat",
+   "path": "/sites/{siteId}/lens/chat"
+  },
+  {
+   "section": "analytics",
+   "label": "Overview",
+   "href": "/overview",
+   "path": "/sites/{siteId}/overview"
+  },
+  {
+   "section": "analytics",
+   "label": "Evolution",
+   "href": "/evolution",
+   "path": "/sites/{siteId}/evolution"
+  },
+  {
+   "section": "analytics",
+   "label": "Pages",
+   "href": "/pages",
+   "path": "/sites/{siteId}/pages"
+  },
+  {
+   "section": "analytics",
+   "label": "Sources",
+   "href": "/sources",
+   "path": "/sites/{siteId}/sources"
+  },
+  {
+   "section": "analytics",
+   "label": "Geography",
+   "href": "/geo",
+   "path": "/sites/{siteId}/geo"
+  },
+  {
+   "section": "analytics",
+   "label": "Devices",
+   "href": "/devices",
+   "path": "/sites/{siteId}/devices"
+  },
+  {
+   "section": "analytics",
+   "label": "Conversions",
+   "href": "/conversions",
+   "path": "/sites/{siteId}/conversions"
+  },
+  {
+   "section": "analytics",
+   "label": "Properties",
+   "href": "/properties",
+   "path": "/sites/{siteId}/properties"
+  },
+  {
+   "section": "analytics",
+   "label": "Funnel",
+   "href": "/funnel",
+   "path": "/sites/{siteId}/funnel"
+  },
+  {
+   "section": "my-account",
+   "label": "Profile",
+   "href": "",
+   "path": "/settings"
+  },
+  {
+   "section": "my-account",
+   "label": "Security",
+   "href": "/security",
+   "path": "/settings/security"
+  },
+  {
+   "section": "my-account",
+   "label": "API Keys",
+   "href": "/api-keys",
+   "path": "/settings/api-keys"
+  },
+  {
+   "section": "my-account",
+   "label": "LLM Providers",
+   "href": "/account/llm",
+   "path": "/account/llm"
+  },
+  {
+   "section": "my-account",
+   "label": "Connected Apps",
+   "href": "/connections",
+   "path": "/settings/connections"
+  },
+  {
+   "section": "organization",
+   "label": "Settings",
+   "href": "/organizations/{slug}",
+   "path": "/settings/organizations/{slug}"
+  },
+  {
+   "section": "organization",
+   "label": "Members",
+   "href": "/organizations/{slug}/members",
+   "path": "/settings/organizations/{slug}/members"
+  },
+  {
+   "section": "organization",
+   "label": "Sites",
+   "href": "/sites",
+   "path": "/settings/sites"
+  },
+  {
+   "section": "organization",
+   "label": "Pixels",
+   "href": "/pixels",
+   "path": "/settings/pixels"
+  },
+  {
+   "section": "organization",
+   "label": "Audit Logs",
+   "href": "/audit",
+   "path": "/settings/audit"
+  },
+  {
+   "section": "organization",
+   "label": "Billing",
+   "href": "/billing",
+   "path": "/settings/billing"
+  },
+  {
+   "section": "organization",
+   "label": "Seal AI Private",
+   "href": "/seal-ai-usage",
+   "path": "/settings/seal-ai-usage"
+  },
+  {
+   "section": "site-config",
+   "label": "Settings",
+   "href": "/sites/{siteId}",
+   "path": "/settings/sites/{siteId}"
+  },
+  {
+   "section": "site-config",
+   "label": "Integrations",
+   "href": "/integrations",
+   "path": "/settings/integrations"
+  },
+  {
+   "section": "site-config",
+   "label": "Properties",
+   "href": "/properties",
+   "path": "/settings/properties"
+  }
+ ],
+ "siteSettingsTabs": [
+  {
+   "value": "general",
+   "label": "General"
+  },
+  {
+   "value": "domains",
+   "label": "Domains"
+  },
+  {
+   "value": "utm",
+   "label": "UTM Mappings"
+  },
+  {
+   "value": "channels",
+   "label": "Channels"
+  },
+  {
+   "value": "pixel",
+   "label": "Pixel Code"
+  },
+  {
+   "value": "ip-exclusions",
+   "label": "IP Exclusions"
+  },
+  {
+   "value": "ip-allowlist",
+   "label": "IP Allowlist"
+  }
+ ]
+}

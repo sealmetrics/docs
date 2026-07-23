@@ -1,25 +1,32 @@
 name: API contract check
 
-# Fails if any endpoint documented under docs/api/ or docs/lens/api/ does not
-# exist in the real API surface (scripts/openapi-snapshot.json).
-# Refresh the snapshot with the command in scripts/check-api-contract.mjs's
-# header whenever the API adds/renames endpoints.
+# contract: fails if any endpoint documented under docs/api/ or docs/lens/api/
+#   does not exist in the real API surface, or a curl example uses an unknown
+#   query param (scripts/openapi-snapshot.json).
+#   Refresh the snapshot with the command in scripts/check-api-contract.mjs's
+#   header whenever the API adds/renames endpoints or query params.
+# ui-claims: fails if docs reference dashboard routes or Site Settings tabs
+#   that don't exist in the dashboard (scripts/ui-manifest.json — committed;
+#   CI never needs the dashboard repo). Refresh it locally with
+#   `npm run generate:ui-manifest` (see scripts/generate-ui-manifest.mjs).
 # Security note: no untrusted event data is interpolated in run commands.
 
 on:
   push:
     branches: [main]
     paths:
-      - 'docs/api/**'
-      - 'docs/lens/api/**'
+      - 'docs/**'
       - 'scripts/check-api-contract.mjs'
       - 'scripts/openapi-snapshot.json'
+      - 'scripts/check-ui-claims.mjs'
+      - 'scripts/ui-manifest.json'
   pull_request:
     paths:
-      - 'docs/api/**'
-      - 'docs/lens/api/**'
+      - 'docs/**'
       - 'scripts/check-api-contract.mjs'
       - 'scripts/openapi-snapshot.json'
+      - 'scripts/check-ui-claims.mjs'
+      - 'scripts/ui-manifest.json'
   workflow_dispatch:
 
 jobs:
@@ -32,3 +39,13 @@ jobs:
           node-version: 20
       - name: Check documented endpoints against the API spec
         run: node scripts/check-api-contract.mjs
+
+  ui-claims:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check documented dashboard routes and tabs against the UI manifest
+        run: node scripts/check-ui-claims.mjs

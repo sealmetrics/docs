@@ -152,12 +152,16 @@ const config: Config = {
     },
   ],
 
+  // Dogfooding: v2 tracker in fully-manual mode (auto=0&spa=0); pageviews are
+  // fired per-route with a section content group from src/clientModules/sealmetrics.js
   scripts: [
     {
-      src: 'https://pixel.sealmetrics.com/t.js?id=sealmetrics2&group=docs',
+      src: 'https://t.sealmetrics.com/t.js?id=sealmetrics2&auto=0&spa=0',
       defer: true,
     },
   ],
+
+  clientModules: ['./src/clientModules/sealmetrics.js'],
 
   // 301-equivalent client redirects for URLs renamed since launch.
   // Old trees (pre-Feb-2026 IA migration) → current locations.
@@ -256,7 +260,6 @@ const config: Config = {
             '/blog/archive',
             '/blog/authors',
             '/blog/authors/*/authors/**',
-            '/guides',
             '/search',
             '/markdown-page',
             '/category/**',

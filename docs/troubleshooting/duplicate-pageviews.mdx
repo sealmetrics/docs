@@ -1,0 +1,98 @@
+---
+sidebar_position: 6
+title: Duplicate Pageviews
+sidebar_label: Duplicate Pageviews
+description: "The three real causes of duplicated pageviews in Sealmetrics: the script included twice, a stub-queued pageview without ?auto=0, and manual SPA pageviews without ?spa=0."
+tags: [troubleshooting, pageviews, duplicates, spa, gtm]
+keywords:
+  - duplicate pageviews sealmetrics
+  - two pageviews per load
+  - double counting pageviews
+  - spa double pageview
+  - auto=0 spa=0
+  - gtm and hardcoded tracker
+---
+
+# Duplicate Pageviews
+
+If your Pageviews (or Entrances) roughly **doubled** overnight, or every navigation produces two hits in the Network tab, one of three implementation patterns is almost always responsible. All three are easy to confirm and fix.
+
+---
+
+## Diagnosis in 60 seconds
+
+1. Open your site with **Developer Tools → Network**, filter by `sealmetrics`.
+2. Reload a page and count:
+   - How many times **`t.js` is downloaded** (one script include = one download).
+   - How many **`/event` beacons** fire for that single page load.
+3. Navigate (in a SPA: click an internal link) and count the `/event` beacons again.
+
+One page load or navigation should produce **exactly one** pageview beacon. Two beacons → match your setup against the causes below.
+
+---
+
+## Cause 1: The script is included twice
+
+Typical scenario: the tracker was hardcoded in the site template **and** later added through Google Tag Manager (or a CMS plugin), and nobody removed the old copy. Each `<script src=".../t.js?id=...">` include executes independently and each one fires its own automatic pageview.
+
+**How to confirm:** the Network tab shows `t.js` requested twice per page load, or "View source" / GTM Preview reveals both a hardcoded snippet and a GTM tag.
+
+**Fix:** keep exactly one installation path. If you standardize on GTM, delete the hardcoded snippet from the template (and vice versa).
+
+---
+
+## Cause 2: Stub-queued pageview without `?auto=0`
+
+The [buffer stub](/integrations/google-tag-manager-advanced) queues calls made before the library loads. If you queue a pageview — e.g. `sealmetrics({ group: 'checkout' })` — but load the tracker **without** `?auto=0`:
+
+1. The tracker loads and drains the queue → 1 pageview.
+2. The tracker also fires its automatic pageview → a 2nd pageview.
+
+**Fix:** if you queue pageviews through the stub, always load the tracker with `?auto=0`:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0" defer></script>
+```
+
+If you only queue `conv()` / `micro()` calls (never pageviews), you don't need `?auto=0` — the automatic pageview is the only one and is what you want. This anti-pattern is described in detail in [Advanced GTM Integration](/integrations/google-tag-manager-advanced#anti-pattern-stub-without-auto0).
+
+---
+
+## Cause 3: Manual SPA pageviews without `?spa=0`
+
+On single-page applications the tracker detects route changes by itself (it hooks `pushState`, `replaceState`, and `popstate`) and fires an automatic pageview on every URL change. That automatic firing is deduplicated **only against the URL not changing** — the tracker skips a hit when `location.href` is still the same, but it has no way of knowing that *you* also fired a pageview manually for that same navigation.
+
+So if your own code (for example a GTM tag on a `virtualPageView` / History Change trigger) calls `sealmetrics({ group: ... })` on each route change **and** the script URL does not include `?spa=0`, every SPA navigation is counted twice:
+
+- the tracker's automatic pageview (without your dynamic grouping), plus
+- your manual pageview (with the grouping).
+
+**Fix:** add `&spa=0` to the script URL. The SPA listeners stay installed and keep the internal URL/referrer state up to date — only the *automatic* pageview on navigation is suppressed, so your manual call still carries the correct URL and referrer:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0&spa=0" defer></script>
+```
+
+`auto` and `spa` are independent flags: `?auto=0` governs only the **initial** pageview, `?spa=0` only the **navigation** pageviews. Full GTM instrumentation with per-page grouping uses the stub plus both flags.
+
+---
+
+## What is already protected (don't chase these)
+
+- **Iframes.** The tracker only auto-fires pageviews and installs SPA listeners in the top-level window, so an embed (e.g. a Shopify Web Pixel sandbox) does not add duplicate pageviews.
+- **Reloading the same URL in a SPA.** The automatic SPA pageview only fires when the URL actually changed, so `replaceState` calls to the same URL do not double-count.
+
+---
+
+## Verification
+
+After the fix, repeat the [60-second diagnosis](#diagnosis-in-60-seconds): exactly one `/event` beacon per load and per navigation. Then watch the **Overview** report — Pageviews per Entrance should drop back to its historical ratio.
+
+---
+
+## Related
+
+- [Advanced GTM Integration](/integrations/google-tag-manager-advanced) — the canonical stub + `?auto=0` pattern and its anti-patterns.
+- [SPA Support](/implementation/tracker/spa-support) — how automatic SPA navigation tracking works.
+- [Tracker installation](/implementation/tracker/installation) — the standard, single-include setup.
+- [Duplicate conversions](/troubleshooting#duplicate-conversions) — the equivalent problem for `conv()` calls.

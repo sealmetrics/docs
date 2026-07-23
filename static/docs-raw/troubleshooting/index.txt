@@ -6,6 +6,22 @@ URL: https://docs.sealmetrics.com/troubleshooting
 
 Solutions for common issues with SealMetrics tracking and reporting.
 
+## Guides
+
+| Guide | Use it when… |
+|---|---|
+| [GTM Consent Mode blocking the tag](/troubleshooting/gtm-consent-mode-blocking) | Data dropped after a CMP/consent banner went live, or only consenting visitors are tracked |
+| [CSP errors: domains to allow](/troubleshooting/csp-errors-domains-to-allow) | The console shows "Refused to load the script" / "Refused to connect" policy errors |
+| [Duplicate pageviews](/troubleshooting/duplicate-pageviews) | Pageviews doubled: script included twice, stub without `?auto=0`, or SPA without `?spa=0` |
+| [Dates & timezone mismatch](/troubleshooting/dates-timezone-mismatch) | Daily totals don't line up with another tool or your backend |
+| [Unauthorized domain](/troubleshooting/unauthorized-domain) | The snippet is installed but hits from a domain are silently rejected |
+| [Data delay](/troubleshooting/data-delay) | Data seems to take longer than seconds to appear |
+| [Conversions not appearing](/troubleshooting/conversions-not-appearing) | Pageviews work but a conversion never reaches the Conversions report |
+| [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) | SealMetrics reports fewer visits than GA4 or another tool |
+| [Test traffic blocked as bot](/troubleshooting/test-traffic-blocked-as-bot) | Your own automated test visits (Selenium, Playwright, curl…) never show up |
+| [Reconciling with your ERP, CRM, or database](/troubleshooting/erp-crm-database-discrepancy) | Substantial conversion gaps against your source of truth |
+| [Fixing `ReferenceError: sealmetrics is not defined`](/troubleshooting/sealmetrics-is-not-defined) | Ad blockers break pages that call `sealmetrics.*` directly |
+
 ---
 
 ## Quick Diagnostics
@@ -25,9 +41,9 @@ You should see:
 ### Verify Data Collection
 
 1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
-2. Go to **Real-time** report
+2. Open the **Overview** report
 3. Visit your website in another tab
-4. Your visit should appear within seconds
+4. The **Last hit** timestamp at the top right should update within seconds
 
 ---
 
@@ -52,7 +68,7 @@ You should see:
 
 3. **Check domain authorization**
    - Go to Settings → Sites → [your site] → Domains
-   - Ensure your website domain is listed
+   - Ensure your website domain is listed — see [Unauthorized domain](/troubleshooting/unauthorized-domain)
 
 4. **Check for JavaScript errors**
    - Open browser console (F12 → Console)
@@ -79,6 +95,8 @@ You should see:
 3. **Timing issues**
    - Ensure `sealmetrics.conv()` is called AFTER the script loads
    - Use `window.addEventListener('load', ...)` for page load events
+
+4. **Full checklist** — [Conversions not appearing](/troubleshooting/conversions-not-appearing) covers snippet signature, numeric amounts, flow variants, and report verification step by step
 
 For substantial discrepancies between SealMetrics and your ERP / CRM / internal database (missing conversions when reconciling totals), see [Reconciling SealMetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — it walks through the firing-order requirement of the base pixel vs. the conversion pixel and the long tail of secondary causes.
 
@@ -123,6 +141,7 @@ The tracker automatically detects History API navigation. If it's not working:
 
 2. **Custom routing**
    - If using a custom router, call `sealmetrics()` on route changes
+   - If you fire pageviews manually on History API navigation, load the tracker with `?spa=0` to avoid double counting — see [Duplicate pageviews](/troubleshooting/duplicate-pageviews)
 
 ### Data Discrepancy with Other Tools
 
@@ -135,7 +154,7 @@ This is expected. SealMetrics differs because:
 3. **Session definition** — Different session timeout rules
 4. **Ad blocker immunity** — SealMetrics tracks users blocked by ad blockers
 
-See [GA4 vs SealMetrics](/faq/ga4-vs-sealmetrics) for detailed comparison.
+See [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) for the diagnosis guide and [GA4 vs SealMetrics](/faq/ga4-vs-sealmetrics) for the detailed comparison.
 
 ---
 
@@ -153,8 +172,12 @@ SealMetrics is designed to work with ad blockers. If blocked:
 
 You shouldn't see CORS errors. If you do:
 
-1. **Check Content-Type** — Tracker uses `text/plain` to avoid preflight
+1. **Check Content-Type** — Tracker sends form-encoded beacons to avoid preflight
 2. **Verify script URL** — Use the exact URL from your dashboard
+
+### CSP Errors
+
+If the console shows "Refused to load the script" or "Refused to connect" errors naming a `Content-Security-Policy` directive, your site's CSP is blocking the tracker. See [CSP errors: domains to allow](/troubleshooting/csp-errors-domains-to-allow).
 
 ### 429 Too Many Requests
 
@@ -166,19 +189,17 @@ API rate limiting. Solutions:
 
 ---
 
-## Real-Time Report Issues
+## Data Freshness Issues
 
 ### Data Appears Delayed
 
-Real-time data has minimal delay (< 5 seconds). If delayed:
+Hits normally reach reports within seconds. If data seems delayed:
 
-1. **Check system time** — Ensure your server clock is accurate
-2. **Network latency** — Verify internet connection
+1. **Check the Last hit timestamp** — Top right of the Overview report; it updates within seconds of a tracked hit
+2. **Check the date range and timezone** — "Today" is defined by the site's timezone
 3. **Processing queue** — During traffic spikes, brief delays are normal
 
-### Visitors Disappear Quickly
-
-Real-time shows visitors active in the last 5 minutes. This is expected behavior.
+See [Data delay](/troubleshooting/data-delay) for the full decision tree.
 
 ---
 
@@ -204,11 +225,16 @@ Real-time shows visitors active in the last 5 minutes. This is expected behavior
 
 ### Tags Not Firing
 
-1. **Verify trigger** — Check GTM Preview mode
-2. **Check tag type** — Use Custom HTML tag
-3. **Timing** — Ensure tag fires before page unload
+1. **Consent gating** — The number one cause: the tag waits for consent it doesn't need. See [GTM Consent Mode blocking](/troubleshooting/gtm-consent-mode-blocking)
+2. **Verify trigger** — Check GTM Preview mode
+3. **Check tag type** — Use Custom HTML tag
+4. **Timing** — Ensure tag fires before page unload
 
 See [Google Tag Manager integration](/integrations/google-tag-manager) for detailed setup.
+
+### Duplicate Pageviews with GTM
+
+If the tracker is both hardcoded and loaded via GTM, or a stub-queued pageview runs without `?auto=0`, every load counts twice. See [Duplicate pageviews](/troubleshooting/duplicate-pageviews).
 
 ---
 
