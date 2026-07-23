@@ -130,14 +130,14 @@ That's it. No IP addresses, no cookies, no persistent identifiers. This minimal 
 
 ## Session-Based Tracking
 
-Sealmetrics creates a temporary session ID that expires when the browser closes. This allows you to:
+Sealmetrics groups the hits of a single visit using a temporary session marker derived from the browser context — nothing is stored on the device (no cookies, no local storage). A session ends after roughly two hours of inactivity. This allows you to:
 
 - Track page views within a single visit
 - Measure session duration and engagement
 - Follow navigation patterns through your site
 - Identify conversion paths
 
-The session ID is isolated to that one visit and can never be used to identify the person or link visits together.
+The session marker contains no persistent identifier and Sealmetrics never recognizes visitors across sessions — separate visits are never linked together, so no browsing profile of any person can be built.
 
 ## How Data Flows Through Sealmetrics
 
@@ -159,9 +159,9 @@ Sealmetrics uses **last-click attribution** at the channel level. When someone c
 
 This gives you the marketing intelligence you need—which channels drive results—without the privacy risks of user-level tracking.
 
-## Real-Time Visibility
+## Data in Seconds
 
-See live visitors on your site right now. Monitor conversion events as they happen. Verify your tracking implementation instantly. All in real-time, without compromising anyone's privacy.
+Hits reach your reports within seconds of happening. The **Last hit** timestamp on the Overview report shows exactly when the most recent hit arrived, so you can verify your tracking implementation instantly — without compromising anyone's privacy.
 
 ## Integration Made Simple
 
@@ -169,7 +169,7 @@ Getting started takes two minutes:
 
 1. Add one script tag to your website's `<head>` section
 2. Start seeing data immediately
-3. Configure goals and events as needed
+3. Instrument conversions and events as needed with `sealmetrics.conv()`
 
 Works with any framework: WordPress, React, Vue, standard HTML. Use our native plugins or integrate via Google Tag Manager.
 
@@ -213,7 +213,7 @@ URL: https://docs.sealmetrics.com/getting-started/quick-start
 
 # First Steps with Sealmetrics
 
-You can get **Sealmetrics** running in under five minutes: create an account, add your site, install a single tracking script in your page `<head>`, and verify data collection. From there you set up conversion goals and explore your dashboard — all without cookies or a consent banner.
+You can get **Sealmetrics** running in under five minutes: create an account, add your site, install a single tracking script in your page `<head>`, and verify data collection. From there you instrument conversion tracking and explore your reports — all without cookies or a consent banner.
 
 ---
 
@@ -223,8 +223,8 @@ You can get **Sealmetrics** running in under five minutes: create an account, ad
 2. Create your organization and add a site
 3. Install the tracking code on your website
 4. Verify data collection
-5. Set up conversion goals
-6. Explore your dashboard
+5. Instrument conversion tracking
+6. Explore your reports
 
 ---
 
@@ -264,9 +264,9 @@ Your site is now ready for tracking code installation.
 
 ### Getting Your Tracking Code
 
-1. Navigate to **Settings → Installation**  
-2. Copy your unique tracking code  
-3. Choose your preferred installation method  
+1. Open your site and go to **Site Config → Settings**, then select the **Pixel Code** tab — the Pixel Builder there generates your snippet
+2. Alternatively, run the **Setup Wizard** (under **Settings → Pixels**) for a guided installation
+3. Copy your unique tracking code and choose your preferred installation method
 
 ### Installation Methods
 
@@ -295,12 +295,10 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 ## Step 4: Verify Installation
 
-### Real-Time Verification
-
 1. Visit your website in a new browser tab  
-2. Go to the **Sealmetrics Dashboard**  
-3. Check the **Real-Time** section for active visitors  
-4. Confirm your visit appears in the data  
+2. Open your site's **Overview** report in the Sealmetrics dashboard  
+3. Check the **Last hit** timestamp at the top right — it updates within seconds of a tracked hit  
+4. Confirm your visit shows up in the Entrances and Pageviews numbers  
 
 ### Testing Checklist
 
@@ -311,60 +309,51 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 ---
 
-## Step 5: Set Up Conversion Goals
+## Step 5: Instrument Conversion Tracking
 
-### Types of Goals
+Conversions are not configured in the dashboard — you instrument them on your website with a single JavaScript call. Once the tracker is installed, the global `sealmetrics` object is available:
 
-#### Page View Goals
-- Thank you pages  
-- Confirmation pages  
-- Specific landing pages  
-- Download completions  
+```javascript
+// Track a purchase (amount is optional)
+sealmetrics.conv('purchase', 99.99);
 
-#### Event Goals
-- Button clicks  
-- Form submissions  
-- Video plays  
-- File downloads  
+// Track a conversion with no monetary value
+sealmetrics.conv('lead');
 
-#### E-commerce Goals
-- Purchase completions  
-- Add-to-cart events  
-- Checkout initiations  
-- Revenue tracking  
+// Track a microconversion (funnel step or interaction)
+sealmetrics.micro('add_to_cart');
+```
 
-### Goal Configuration
+Place the `sealmetrics.conv()` call wherever your goal completes — typically a thank-you or confirmation page, a form submit handler, or a button click. Use `sealmetrics.micro()` for intermediate steps like add-to-cart or video plays.
 
-1. Navigate to **Goals → Create New Goal**  
-2. Choose goal type: *Page View, Event, or E-commerce*  
-3. Define goal conditions  
-4. Set goal value *(optional)*  
-5. Save and activate the goal  
+See [How to Measure Conversions](/getting-started/measure-conversions) for complete examples (e-commerce, leads, signups, dynamic values).
 
 ---
 
-## Step 6: Explore Your Dashboard
+## Step 6: Explore Your Reports
 
 ### Key Metrics Overview
 
+The **Overview** report shows your core KPIs at a glance:
+
 - **Entrances:** Sessions started on your site (Sealmetrics does not count "unique visitors" — that would require identifying individuals)  
-- **Page Views:** Total pages viewed  
-- **Conversion Rate:** Goal completion percentage  
-- **Traffic Sources:** Where visitors come from  
+- **Pageviews:** Total pages viewed  
+- **Pages/Entrance and Bounce Rate:** Engagement at a glance  
+- **Conversions and Revenue:** Goal completions and their value  
 
-### Important Reports
+A chart lets you toggle between Entrances, Pageviews, and Conversions over time.
 
-- **Acquisition:** Traffic source analysis  
-- **Behavior:** Page performance and user flow  
-- **Conversions:** Goal tracking  
-- **Real-Time:** Live visitor activity  
+### Reports in the Sidebar
 
-### Dashboard Customization
-
-- Pin important metrics to the overview  
-- Create custom date ranges  
-- Set automated reports  
-- Configure alert notifications  
+- **Overview:** KPIs, trend chart, and the "Last hit" timestamp  
+- **Evolution:** Performance over time  
+- **Pages:** Page-level performance  
+- **Sources:** Where visitors come from  
+- **Geography:** Country-level breakdown  
+- **Devices:** Device, browser, and OS data  
+- **Conversions:** Tracked conversions and revenue  
+- **Properties:** Custom event properties  
+- **Funnel:** E-commerce funnel from entrance to purchase  
 
 ---
 
@@ -389,12 +378,12 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 ### Missing Conversions
 
-**Symptoms:** Goals not recording properly  
+**Symptoms:** Conversions not recording properly  
 **Solutions:**
-- Verify goal setup  
-- Test triggers manually  
-- Check page URL matching  
-- Confirm event firing  
+- Verify the `sealmetrics.conv()` call is present where the goal completes  
+- Check the browser Network tab for requests to `t.sealmetrics.com` when the conversion fires  
+- Make sure the tracker is loaded before calling it (`typeof sealmetrics !== 'undefined'`)  
+- Check the **Conversions** report with the date range set to today  
 
 ---
 
@@ -403,19 +392,19 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 ### Week 1: Foundation
 - Monitor basic metrics daily  
 - Verify all pages are tracked  
-- Set up essential conversion goals  
+- Instrument your essential conversions with `sealmetrics.conv()`  
 - Familiarize yourself with the dashboard  
 
 ### Week 2: Optimization
 - Analyze traffic sources  
 - Identify top-performing content  
-- Add advanced goals  
-- Create custom segments  
+- Add microconversions for key interactions  
+- Use UTM parameters for campaign attribution  
 
 ### Month 1: Advanced Features
 - Implement e-commerce tracking  
-- Set up funnel analysis  
-- Create custom reports  
+- Review the Funnel report  
+- Export reports to CSV or PDF  
 - Integrate with other tools  
 
 ---
@@ -424,7 +413,7 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 ### Data Quality
 - **Consistent Tracking:** Add Sealmetrics to all pages  
-- **Goal Alignment:** Match goals to business KPIs  
+- **Goal Alignment:** Track the conversions that match your business KPIs  
 - **Regular Monitoring:** Review data weekly  
 - **Team Training:** Educate your marketing and analytics teams  
 
@@ -450,7 +439,7 @@ URL: https://docs.sealmetrics.com/getting-started/features
 
 # Features
 
-Sealmetrics delivers enterprise-grade analytics without the privacy trade-offs: core reports (dashboard, acquisition, ROAS, funnels, page performance, real-time), conversion and e-commerce tracking, custom event tracking, UTM attribution, a full REST API with CSV export, and 24 months of data retention. Every feature works cookielessly, requires no consent banner, and runs on EU-only infrastructure.
+Sealmetrics delivers enterprise-grade analytics without the privacy trade-offs: core reports (Overview, Evolution, Pages, Sources, Geography, Devices, Conversions, Properties, Funnel), conversion and e-commerce tracking, custom event tracking, UTM attribution, AI agent traffic detection, a full REST API with CSV export, and 24 months of data retention. Every feature works cookielessly, requires no consent banner, and runs on EU-only infrastructure.
 
 ## Core Analytics Reports
 
@@ -470,19 +459,19 @@ Understand exactly where your traffic comes from and which channels drive result
 
 Every source is automatically categorized. Use UTM parameters for granular campaign tracking and attribution.
 
-### ROAS Evolution
-Track Return on Ad Spend over time. See which campaigns, channels, and sources generate revenue and which ones drain your budget. Make data-driven decisions about where to invest your marketing dollars.
+### Evolution
+Track performance over time with the Evolution report. See which campaigns, channels, and sources generate revenue and which ones drain your budget. Make data-driven decisions about where to invest your marketing dollars.
 
 ### Funnel Analysis
-Build custom conversion funnels to visualize the customer journey from first visit to final conversion. Identify exactly where users drop off and optimize those critical steps. Track:
+Visualize the e-commerce customer journey with the Funnel report. It follows a fixed sequence of steps:
 
-- Multi-step signup flows
-- E-commerce checkout processes
-- Lead generation forms
-- Content engagement paths
-- Any sequential user journey
+1. Entrances
+2. View Product
+3. Add To Cart
+4. Begin Checkout
+5. Purchase
 
-Customize funnels with up to 10 steps. See drop-off rates between each stage and overall conversion rates.
+Instrument the intermediate steps as microconversions (`sealmetrics.micro('add_to_cart')`, etc.) and the report fills in automatically. See drop-off rates between each stage, and filter by country with the selector at the top right.
 
 ### Page Performance
 Deep insights into how individual pages perform:
@@ -495,27 +484,19 @@ Deep insights into how individual pages perform:
 
 Identify your highest-performing content and optimize underperforming pages.
 
-### Real-Time Monitoring
-See who's on your site right now. Live visibility into:
-
-- Active visitors this minute
-- Pages being viewed in real-time
-- Incoming traffic sources
-- Conversions as they happen
-- Geographic distribution of current visitors
-
-Perfect for verifying tracking implementation, monitoring campaign launches, or watching live events unfold.
+### Fast Data Pipeline
+Your data arrives in seconds, not hours. Hits flow from the pixel to your reports almost instantly, and the **Last hit** timestamp on the Overview report shows exactly when the most recent hit was received. Perfect for verifying tracking implementation or monitoring campaign launches.
 
 ## Conversion Tracking
 
-### Goal Configuration
-Set up unlimited conversion goals without complex configuration:
+### Conversion Instrumentation
+Track unlimited conversion types with a single JavaScript call — no dashboard configuration required. Call `sealmetrics.conv('type', amount)` wherever a goal completes:
 
-- **Pageview Goals** - Thank you pages, confirmations, downloads
-- **Event Goals** - Button clicks, form submissions, video plays
-- **Custom Events** - Any interaction you want to measure
+- **Purchases** - Thank-you and confirmation pages
+- **Leads and signups** - Form submissions
+- **Custom conversions** - Any goal you want to measure
 
-Each goal tracks:
+Each conversion type tracks:
 - Conversion count
 - Conversion rate
 - Revenue attribution (optional)
@@ -600,30 +581,26 @@ All detected from user agent strings without storing personal information.
 Country-level visitor attribution derived from time zone data, not IP addresses. Know where your audience is located without privacy risks.
 
 ### Session Analytics
-When using GlobalTracker mode:
 - Session duration measurement
 - Pages per session tracking
-- Return visitor identification (within same session)
 - Navigation path analysis
 
-All session data expires when the browser closes and can never be linked across visits.
+Sessions are identified by a temporary, non-persistent marker derived from the browser context — nothing is stored in cookies or local storage. A session ends after roughly two hours of inactivity, and Sealmetrics never recognizes visitors across sessions: separate visits can never be linked together.
 
 ## Data Access & Export
 
 ### API Access
 Full REST API with bearer token authentication. Access all your analytics data programmatically:
 
-- Acquisition data
+- Traffic and source data
 - Page performance metrics
 - Conversion statistics
-- ROAS calculations
 - Funnel analysis results
-- Real-time visitor data
 
 Automate reporting, or integrate with your existing tools.
 
-### CSV Export
-Export any report to CSV format for offline analysis, custom reporting, or presentation building.
+### CSV & PDF Export
+Export any report to CSV or PDF format for offline analysis, custom reporting, or presentation building.
 
 ### Data Retention
 24 months of historical data without requiring user consent. Analyze long-term trends and year-over-year performance.
@@ -672,6 +649,9 @@ Infrastructure scales automatically with your traffic. Handle traffic spikes wit
 
 ### Bot Filtering
 Sophisticated bot detection removes scrapers, search engine crawlers, and monitoring tools. Only see real human visitors.
+
+### AI & Agent Traffic Analytics
+Detect and analyze traffic from AI agents and automated browsers visiting your site. Sealmetrics classifies sessions as human or agent traffic so you can understand how much of your traffic comes from AI tools — a growing share of the modern web. Learn more in [Bot & Agent Detection](/security-privacy/bot-detection) and the [Agentic Package](/integrations/agentic-package).
 
 ## Account Management
 
@@ -1216,7 +1196,7 @@ window.addEventListener('load', function() {
 
 1. Check the browser Network tab for requests to `t.sealmetrics.com`
 2. Verify your Site ID is correct
-3. Wait 1-2 minutes and check the Real-time report
+3. Wait 1-2 minutes and check the **Conversions** report (set the date range to today); the **Last hit** timestamp on the **Overview** report confirms hits are arriving
 4. Ensure the domain is authorized in your SealMetrics account
 
 ### Duplicate conversions
@@ -1251,24 +1231,22 @@ Here’s how simple it is with Sealmetrics.
 
 ---
 
-## The 3-Step Real-Time Magic
+## The 3-Step Flow
 
-1. **Deploy your pixels** — Install the Sealmetrics tracking code on your site  
-2. **Enable real-time tracking** — Turn on live monitoring in your dashboard  
-3. **Generate events** — Let users interact with your site  
+1. **Deploy your pixel** — Install the Sealmetrics tracking code on your site  
+2. **Visit your website** — Open your site in another browser tab and browse around  
+3. **Watch the data arrive** — Open the **Overview** report in your dashboard  
 
 **Result:**  
-Your events appear on screen in seconds.  
-**Maximum delay:** under 10 seconds.  
+Within seconds, the **Last hit** timestamp at the top right of the Overview updates, and your visit shows up in the Entrances and Pageviews numbers and in the other reports. No configuration needed — data flows in as soon as the pixel is installed.
 
 ---
 
-## Why Real-Time Matters
+## Why Fast Data Matters
 
-- **Immediate validation:** Know your tracking works instantly  
-- **Live campaign monitoring:** Watch conversions happen as they occur  
+- **Immediate validation:** Know your tracking works within seconds of installing it  
+- **Fast campaign feedback:** See conversions in the Conversions report shortly after they happen  
 - **Faster debugging:** Spot issues before they impact your data  
-- **Enhanced user experience:** Personalize content based on live behavior  
 
 ---
 
@@ -1278,14 +1256,14 @@ While most analytics tools make you wait **minutes or even hours** for data proc
 
 **No cookies. No consent banners. No delays.**
 
-Just **pure, real-time, consentless analytics** that works the moment you need it.
+Just **pure, fast, consentless analytics** that works the moment you need it.
 
 ## Related documentation
 
 - [First Steps with Sealmetrics](/getting-started/quick-start) — get set up before watching data flow in
-- [Installation](/implementation/tracker/installation) — deploy the pixels that feed real-time tracking
-- [How to Measure Conversions](/getting-started/measure-conversions) — generate the conversion events you'll watch live
-- [Overview Report](/reports/overview) — move from real-time monitoring to aggregate reporting
+- [Installation](/implementation/tracker/installation) — deploy the pixel that feeds your reports
+- [How to Measure Conversions](/getting-started/measure-conversions) — generate the conversion events you'll see arrive
+- [Overview Report](/reports/overview) — where your data (and the "Last hit" timestamp) appears
 - [Setup Wizard](/getting-started/setup-wizard) — verify your pixel is firing correctly
 
 
@@ -1420,96 +1398,6 @@ Once the job reaches `completed`, imported data is available immediately in your
 - [Installation](/implementation/tracker/installation) — install the current tracking script.
 - [How to Measure Conversions](/getting-started/measure-conversions) — configure conversions in v2.
 - [Conversions Report](/reports/conversions) — verify imported conversions in your reports.
-
-
-
-## Quick Journey through the Platform
-
-
-URL: https://docs.sealmetrics.com/getting-started/quick-journey
-
-
-# Quick Journey through the Platform
-
-In this quick walkthrough of Sealmetrics, we explore its key features designed for efficient user and account management.
-
----
-
-## User Management
-
-Easily create, edit, and delete users.  
-Assign roles, manage permissions, and determine access to specific accounts directly from the dashboard.
-
----
-
-## Account Monitoring
-
-Add or remove accounts effortlessly.  
-You can also edit account details like **time zones**, **notification emails**, and **domain configurations** for each account.
-
----
-
-## Referral Tracking
-
-Track all referral sources and link them to specific **UTM sources**, **mediums**, or **campaigns**.  
-This allows you to understand which channels are driving performance and conversions.
-
----
-
-## Cost Calculator
-
-The cost calculator helps manage paid media campaigns by assigning costs to different channels (e.g., Google Ads, Facebook, LinkedIn).  
-It enables real **ROAS (Return on Ad Spend)** calculation per source and campaign.
-
----
-
-## Conversion Synchronization
-
-Easily sync conversions from advertising platforms like **Google Ads** and **Bing Ads**.  
-Sealmetrics provides step-by-step guides for setup and synchronization.
-
-> Note: Conversion synchronization requires the user's consent to comply with advertising platform policies.
-
----
-
-## Pixel Implementation
-
-Sealmetrics supports flexible tracking options:
-- **Session-ID tracking** — measures sessions anonymously without cookies or consent.
-- **Isolated hits tracking** — captures events independently for advanced analysis.
-
-Pixels can be implemented directly in your website’s code or through **Google Tag Manager**.
-
----
-
-## E-commerce Tracking
-
-Easily track purchases and conversions, assigning **fixed** or **dynamic values** (e.g., product price or revenue).  
-This enables full **conversion value** and **revenue analysis** across all sources and campaigns.
-
----
-
-## User Profile Management
-
-Manage your credentials, account type, and access permissions in the **My Profile** section.
-
----
-
-## Platform Walkthrough Video
-
-Watch the full walkthrough of the Sealmetrics platform:
-
----
-
-If you have any questions, feel free to reach out to [hello@sealmetrics.com](mailto:hello@sealmetrics.com).
-
-## Related documentation
-
-- [First Steps with Sealmetrics](/getting-started/quick-start) — the guided path to your first data
-- [Installation](/implementation/tracker/installation) — implement the pixel described in this walkthrough
-- [How to Measure Conversions](/getting-started/measure-conversions) — set up the conversion tracking shown above
-- [Pixel Builder](/platform/settings/tracking/pixel-builder) — configure Session-ID and isolated-hit pixels
-- [Overview Report](/reports/overview) — start exploring your reports
 
 
 
@@ -3669,7 +3557,7 @@ Save filter combinations for quick access:
 
 ### Export
 
-Most reports include an **Export** button to download data as CSV.
+Most reports include an **Export** button to download data as CSV or PDF.
 
 ## Report Details
 
@@ -4937,6 +4825,7 @@ SealMetrics ships with the following default channels, listed here from highest 
 | **Organic Social** | Social networks with a social/organic-social medium |
 | **Organic Video** | Video platforms with a video/organic medium |
 | **Organic Shopping** | Shopping comparison sites (google shopping, idealo, kelkoo, etc.) |
+| **AI** | Traffic from AI assistants (ChatGPT, Gemini, Claude, Perplexity, Copilot, etc.) — medium `ai` |
 | **Email** | Email mediums (email, newsletter, mailchimp, sendgrid, klaviyo) |
 | **Affiliates** | Affiliate mediums (affiliate, partner, aff, cpa) |
 | **SMS** | SMS mediums (sms, text, mms) |
@@ -4950,6 +4839,9 @@ SealMetrics ships with the following default channels, listed here from highest 
 
 Shows traffic grouped by UTM Source and Medium combination.
 
+**Info:**
+Since July 21, 2026, visits arriving from an untagged external link are shown in this tab as their **referring domain** with medium `referrer` (e.g. `reddit.com / referrer`), GA4-style — including historical data. To analyze the full referring URLs, use the [Referrers tab](#7-referrers-tab).
+
 | Column | Description |
 |--------|-------------|
 | **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
@@ -4960,6 +4852,8 @@ Shows traffic grouped by UTM Source and Medium combination.
 | **Conv.** | Completed conversions |
 | **Conv. Rate** | Conversion rate |
 | **Revenue** | Total revenue |
+
+**Drill-down:** source names in the table are clickable — click a source to see its **campaigns**, and a campaign to see its **terms**, with breadcrumbs to navigate back. Each table also has a **search box** (server-side, works across all pages of results).
 
 **Charts included:**
 - **Stacked Bar Chart**: Traffic volume by source
@@ -5043,11 +4937,11 @@ This tab shows a table only (no charts). Useful for:
 
 ### 7. Referrers Tab
 
-Shows traffic from referring websites (not UTM-based).
+Shows traffic from referring websites (not UTM-based), **one row per full referring URL** — this is where you see exactly which page linked to you. (The domain-level view lives in the [Sources tab](#2-sources-tab), where referral traffic is grouped as `domain / referrer`.)
 
 | Column | Description |
 |--------|-------------|
-| **Referrer Domain** | Domain of referring website |
+| **Referrer Domain** | The full referring URL (the column groups by URL; e.g. `reddit.com/r/analytics/comments/...`) |
 | **Entrances** | Sessions from this referrer |
 | **Page Views** | Page views from this referrer |
 | **Bounce Rate** | Bounce rate |
@@ -5088,23 +4982,23 @@ Shows efficiency comparison:
 
 ## Filtering
 
-Each tab has its own filter builder:
-
-### Common Filters
+Each tab has its own filter builder. Filters in the Sources report are **dimension-only** — you filter by what the traffic *is* (channel, source, medium, campaign, domain), not by metric values:
 
 | Field | Use Case |
 |-------|----------|
+| Channel is "Paid Search" | One channel only |
 | Source contains "google" | All Google traffic |
 | Medium equals "cpc" | Paid traffic only |
-| Conversions greater than 10 | High-performing sources |
-| Bounce Rate less than 50 | Engaged traffic |
+| Campaign contains "spring" | One campaign family |
+
+To spot high- or low-performing rows by metric (conversions, bounce rate…), **sort by the metric column** instead — every numeric column is sortable.
 
 ### Combining Filters
 
-Example: Find underperforming paid sources
-1. Medium equals "cpc"
-2. AND Conversions less than 5
-3. AND Entrances greater than 100
+Example: isolate paid Google traffic for one campaign
+1. Source contains "google"
+2. AND Medium equals "cpc"
+3. AND Campaign contains "spring-sale"
 
 ## UTM Parameter Reference
 
@@ -5174,7 +5068,7 @@ Each tab has its own export:
 - Exports current tab data only
 - Respects active filters
 - Includes all visible columns
-- CSV format
+- CSV or PDF format
 
 ## Related documentation
 
@@ -6349,49 +6243,9 @@ All conditions combine with AND logic.
 
 ### Filter Builder by Report
 
-Each report's tables have different available fields:
+Each report's tables expose their own filter fields — in the [Sources report](/reports/sources#filtering) they are **dimension-only** (channel, source, medium, campaign, domain), while other reports may also offer metric fields. The authoritative field list for each report lives in its own page:
 
-#### Overview
-
-- Page path
-- Source/Medium
-
-#### Pages Report
-
-| Tab | Fields |
-|-----|--------|
-| All Pages | Path, Title, Pageviews, Unique Visitors |
-| Landing Pages | Path, Title, Entrances, Bounce Rate, Conversions |
-
-#### Sources Report
-
-| Tab | Fields |
-|-----|--------|
-| Sources | Source, Medium, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
-| Mediums | Medium, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
-| Campaigns | Campaign, Source, Medium, Entrances, Conversions, Revenue |
-| Terms | Term, Campaign, Source, Entrances, Conversions |
-| Content | Content, Campaign, Source, Entrances, Conversions |
-| Referrers | Referrer, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
-
-#### Geography Report
-
-- Country, Entrances, Pageviews, Bounce Rate, Conversions, Revenue
-
-#### Devices Report
-
-| Tab | Fields |
-|-----|--------|
-| Device Types | Device, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
-| Browsers | Browser, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
-| Operating Systems | OS, Entrances, Pageviews, Bounce Rate, Conversions, Revenue |
-
-#### Conversions Report
-
-| Tab | Fields |
-|-----|--------|
-| Conversions | Type, Count, Revenue, Conv. Rate |
-| Microconversions | Type, Count, Unique Users |
+- [Pages](/reports/pages) · [Sources](/reports/sources#filtering) · [Geography](/reports/geography) · [Devices](/reports/devices) · [Conversions](/reports/conversions)
 
 ## Segments
 
@@ -6768,7 +6622,7 @@ For reliable comparisons:
 | Comparing partial weeks | Use complete week presets |
 | Ignoring seasonality | Use Previous Year comparison |
 | Too short a range | Ensure statistical significance |
-| Misreading bounce rate delta | Red decrease = improvement |
+| Misreading bounce rate delta | A bounce-rate *decrease* shows in green because it's an improvement |
 
 ## Related documentation
 
@@ -8254,9 +8108,9 @@ This allows you to understand:
 ---
 
 ### 🌐 **2. Referrer Traffic**
-**TERM = Referrer URL**
+**TERM = Referrer URL** (stored, but analyzed in the Referrers tab)
 
-For any external website linking to you, the TERM reflects the **exact URL** that sent the visitor.
+For any external website linking to you, Sealmetrics stores the **exact URL** that sent the visitor. Since July 2026, these referral rows are **excluded from the Terms tab** — analyze them in the [Referrers tab](/reports/sources#7-referrers-tab), which lists one row per referring URL.
 
 This helps you identify:
 
@@ -9027,7 +8881,6 @@ On your thank-you/confirmation page:
 <script>
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', 149.99, {
-      order_id: 'ORD-12345',
       currency: 'EUR',
       items: [
         { product_name: 'Blue Running Shoes', price: 89.99, quantity: 1, category: 'footwear' },
@@ -9120,7 +8973,6 @@ Track completed purchases with product details:
 ```javascript
 // On thank-you page
 sealmetrics.conv('purchase', 267.97, {
-  order_id: 'ORD-12345',
   currency: 'EUR',
   payment_method: 'credit_card',
   items: [
@@ -9165,13 +9017,13 @@ add_action('woocommerce_thankyou', function($order_id) {
     window.addEventListener('load', function() {
       if (typeof sealmetrics !== 'undefined') {
         sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
-          order_id: '<?php echo $order_id; ?>',
           currency: '<?php echo $order->get_currency(); ?>',
           payment_method: '<?php echo $order->get_payment_method(); ?>',
           items: <?php echo json_encode($items); ?>
         });
       }
     });
+  </script>
 // ... see full example at https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide
 ```
 
@@ -9199,7 +9051,6 @@ In your **checkout.liquid** or via **Additional Scripts** (Settings → Checkout
   window.addEventListener('load', function() {
     if (typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
-        order_id: '{{ order.name }}',
         currency: '{{ checkout.currency }}',
         items: [
           {% for item in checkout.line_items %}
@@ -9258,7 +9109,6 @@ foreach ($order->getAllVisibleItems() as $item) {
   window.addEventListener('load', function() {
     if (typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', <?php echo $order->getGrandTotal(); ?>, {
-        order_id: '<?php echo $order->getIncrementId(); ?>',
         currency: '<?php echo $order->getOrderCurrencyCode(); ?>',
         items: <?php echo json_encode($items); ?>
       });
@@ -9277,7 +9127,6 @@ In your order confirmation template:
   window.addEventListener('load', function() {
     if (typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', {$order.total_paid|floatval}, {
-        order_id: '{$order.reference|escape:'javascript'}',
         currency: '{$currency.iso_code|escape:'javascript'}',
         items: [
           {foreach from=$order.products item=product name=items}
@@ -9310,7 +9159,6 @@ Pass values from your backend:
 <script>
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', <?= json_encode($order['total']) ?>, {
-      order_id: <?= json_encode($order['id']) ?>,
       currency: <?= json_encode($order['currency']) ?>
     });
   });
@@ -9343,7 +9191,6 @@ If using Google Tag Manager's data layer:
 
     if (purchaseData && typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', purchaseData.ecommerce.value, {
-        order_id: purchaseData.ecommerce.transaction_id,
         currency: purchaseData.ecommerce.currency
       });
     }
@@ -9379,7 +9226,6 @@ Recommended properties for e-commerce events:
 
 | Property | Description | Example |
 |----------|-------------|---------|
-| `order_id` | Unique order identifier | `'ORD-12345'` |
 | `currency` | ISO 4217 currency code | `'EUR'`, `'USD'` |
 | `payment_method` | Payment type | `'credit_card'` |
 | `coupon` | Discount code | `'SAVE10'` |
@@ -9448,9 +9294,10 @@ if (!$order->isTracked()) {
 Use localStorage for simple deduplication:
 
 ```javascript
+// Use your order ID only as a local deduplication key — do not send it in the payload
 var orderId = 'ORD-12345';
 if (!localStorage.getItem('tracked_' + orderId)) {
-  sealmetrics.conv('purchase', 149.99, { order_id: orderId });
+  sealmetrics.conv('purchase', 149.99);
   localStorage.setItem('tracked_' + orderId, 'true');
 }
 ```
@@ -9467,11 +9314,11 @@ if (!localStorage.getItem('tracked_' + orderId)) {
 4. Navigate through pages and complete a test purchase
 5. Verify requests are sent with correct data
 
-### Check Real-Time Data
+### Check Data Is Arriving
 
 1. Log in to [SealMetrics dashboard](https://my.sealmetrics.com)
-2. Go to Real-time report
-3. Your test events should appear within seconds
+2. Open your site's **Overview** report
+3. Within seconds, the **Last hit** timestamp at the top right updates and your test events are reflected in the numbers
 
 ### Verify Conversion Data
 
@@ -10003,27 +9850,12 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 
 ## Step 6: Verify in Dashboard
 
-### 6.1 Check Real-time Data
+### 6.1 Check Data Is Arriving
 
 1. Go to [my.sealmetrics.com](https://my.sealmetrics.com)
-2. Open **Real-time** report
+2. Open your site's **Overview** report
 3. Visit your website in another tab
-4. You should see your visit appear within seconds
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  Real-time                                    🟢 Live    │
-├─────────────────────────────────────────────────────────┤
-│                                                          │
-│  Active visitors: 1                                      │
-│                                                          │
-│  Recent pageviews:                                       │
-│  ─────────────────────────────────────────────────────  │
-│  /products/blue-sneakers    2 seconds ago               │
-│  /                          45 seconds ago              │
-│                                                          │
-└─────────────────────────────────────────────────────────┘
-```
+4. Within seconds, the **Last hit** timestamp at the top right of the Overview updates and your visit is reflected in the Entrances and Pageviews numbers
 
 ### 6.2 Check Conversions
 
@@ -10047,7 +9879,7 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 - [ ] Correct Site ID in script URL
 - [ ] Verified `typeof sealmetrics === 'function'` in console
 - [ ] Verified 204 response in Network tab
-- [ ] Data appearing in Real-time dashboard
+- [ ] "Last hit" updating on the Overview report
 
 ### Conversions
 - [ ] Conversion tracking on thank-you/confirmation page
@@ -10463,11 +10295,7 @@ That's it. From this point on the tracker will:
 5. Skip duplicates: if the new URL is identical to the previous one, no event is sent.
 6. Update the `referrer` of each SPA pageview to the previous in-app URL — so internal navigation flows are preserved in reports.
 
-The tracker exposes itself as three global aliases — use whichever you prefer:
-
-```js
-window.sealmetrics === window.sm === window._sm
-```
+The canonical global is **`window.sealmetrics`** — always use it in your integrations. (`window.sm` and `window._sm` exist as best-effort aliases, but they are only claimed when free — e.g. during a v1→v2 migration `window.sm` is the *old* tracker — so don't rely on them.)
 
 ---
 
@@ -10506,7 +10334,6 @@ export default function CheckoutSuccess({ order }) {
     if (typeof sealmetrics === 'undefined') return;
 
     sealmetrics.conv('purchase', order.total, {
-      order_id: order.id,
       currency: order.currency,
       payment_method: order.paymentMethod,
     });
@@ -10528,7 +10355,6 @@ onMounted(() => {
   if (typeof sealmetrics === 'undefined') return;
 
   sealmetrics.conv('purchase', props.order.total, {
-    order_id: props.order.id,
     currency: props.order.currency,
   });
 });
@@ -10562,7 +10388,6 @@ export class CheckoutSuccessComponent implements OnInit {
     if (typeof window.sealmetrics === 'undefined') return;
 
     window.sealmetrics.conv('purchase', this.order.total, {
-      order_id: this.order.id,
       currency: this.order.currency,
     });
   }
@@ -10585,7 +10410,6 @@ export default function SuccessPage({ searchParams }: { searchParams: { order: s
       .then((r) => r.json())
       .then((order) => {
         sealmetrics.conv('purchase', order.total, {
-          order_id: order.id,
           currency: order.currency,
         });
       });
@@ -11476,7 +11300,6 @@ function ThankYouPage({ order }) {
     // Track conversion after component mounts
     if (typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', order.total, {
-        order_id: order.id,
         currency: order.currency,
         payment_method: order.paymentMethod
       });
@@ -11591,7 +11414,6 @@ function CheckoutSuccess({ order }) {
 
   useEffect(() => {
     trackConversion('purchase', order.total, {
-      order_id: order.id,
       currency: order.currency
     });
   }, [order]);
@@ -11795,7 +11617,7 @@ if (typeof sealmetrics !== 'undefined') {
 
 1. Check the browser Network tab for requests to `t.sealmetrics.com`
 2. Verify your Site ID is correct
-3. Check the Real-time report in your SealMetrics dashboard
+3. Check the **Last hit** timestamp on the **Overview** report in your SealMetrics dashboard — it updates within seconds of a tracked hit; conversions appear in the **Conversions** report
 
 ---
 
@@ -13336,7 +13158,6 @@ function CheckoutSuccess({ order }) {
     // Pageview is automatic, just track conversion
     if (typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', order.total, {
-        order_id: order.id,
         currency: order.currency
       });
     }
@@ -14702,158 +14523,6 @@ If you encounter issues during migration, contact support with:
 
 
 
-## Understanding Event Properties in Sealmetrics
-
-
-URL: https://docs.sealmetrics.com/implementation/event-tracking
-
-
-# Understanding Event Properties in Sealmetrics
-
-Event Properties in Sealmetrics are customizable **key-value pairs** that you can attach to any conversion or micro-conversion event. They enrich events with additional metadata, enabling deeper segmentation, more granular reporting, and more powerful business insights.
-
----
-
-## What Are Event Properties?
-
-Event properties extend the standard conversion payload with information such as:
-
-- Event metadata  
-- Product or service context  
-- Commercial attributes  
-- Custom business logic  
-- Any custom dimensions required  
-
----
-
-## How Properties Work
-
-By default, Sealmetrics tracks:
-
-- Event type  
-- Event label  
-- Basic contextual information  
-
-Event Properties expand this with custom dimensions.
-
-```js
-properties: {
-  'custom-name-1': 'value-1',
-  'custom-name-2': 'value-2',
-  'product-id': '12345',
-  'price': '99.99',
-  'category': 'electronics'
-}
-```
-
----
-
-## Benefits of Using Properties
-
-### **1. Richer Analytics**
-Capture more detailed context for every conversion.
-
-### **2. Better Segmentation**
-Filter and group reports based on property values.
-
-### **3. Marketing Attribution**
-Attach business-relevant parameters to understand conversion variations.
-
-### **4. Business-Specific Metrics**
-Adapt analytics to your product, business model or reporting needs.
-
----
-
-## Implementation Examples
-
-### **E-commerce Purchase Tracking**
-
-```js
-properties: {
-  'items-count': '3',
-  'payment-method': 'credit-card',
-  'shipping-country': 'Germany'
-}
-```
-
----
-
-### **SaaS Subscription Tracking**
-
-> **[CODE PLACEHOLDER — SaaS subscription properties example]**
-
-```js
-properties: {
-  'plan-type': 'premium',
-  'subscription-term': 'annual',
-  'discount-applied': 'SPRING25',
-  'previous-plan': 'basic',
-  'account-size': 'team'
-}
-```
-
----
-
-### **Lead Generation Tracking**
-
-```js
-properties: {
-  'lead-source': 'blog-post',
-  'interested-in': 'analytics-solution',
-  'company-size': '50-100',
-  'industry': 'healthcare'
-}
-```
-
----
-
-## How to Add Properties in Sealmetrics
-
-1. Navigate to the event creation or conversion setup panel.  
-2. Select **“Add properties to your event.”**  
-3. Define custom property names and values.  
-4. Deploy the updated tracking code on your website.
-
----
-
-## Best Practices
-
-### **1. Use Consistent Naming**
-Standardize property naming conventions.
-
-### **2. Track Only What’s Needed**
-Add properties that have real business value.
-
-### **3. Use Descriptive Names**
-Clear labels make reporting simpler and more accurate.
-
-### **4. Standardize Value Types**
-Stick to stable formats—preferably strings.
-
-### **5. Document Your Properties**
-Maintain internal documentation to ensure data consistency.
-
----
-
-## Accessing Properties Data
-
-Event properties are accessible only via:
-
-### **1. API Access**
-Retrieve conversion and micro-conversion properties programmatically.
-
-### **2. BigQuery Integration**
-Query, process, and analyze property-level event data.
-
-If you'd like early access to dashboard-level property reporting, contact:  
-📩 **hello@sealmetrics.com**
-
----
-
-By using event properties effectively, Sealmetrics becomes a more powerful analytics and business-intelligence platform—while remaining fully privacy-first and consentless.
-
-
-
 ## Why Use the Defer Attribute on the SealMetrics Pixel
 
 
@@ -15366,7 +15035,7 @@ Custom post types are automatically tracked with their own content group. For ex
 ## Related documentation
 
 - [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads and how to set a custom pixel domain.
-- [Understanding Event Properties in Sealmetrics](/implementation/event-tracking) — the model behind the form, search, and 404 microconversions this plugin fires.
+- [Understanding Event Properties in Sealmetrics](/implementation/custom-properties/event-properties) — the model behind the form, search, and 404 microconversions this plugin fires.
 - [Joomla](/integrations/cms/joomla) — the equivalent integration for Joomla sites.
 - [Drupal](/integrations/cms/drupal) — the equivalent integration for Drupal sites.
 - [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.
@@ -16039,7 +15708,7 @@ SealMetrics does not use cookies or store personal data. No consent banner requi
 - [Google Tag Manager Template](/integrations/google-tag-manager) — the no-code template guide with the recommended Initialization trigger.
 - [Advanced GTM Integration](/integrations/google-tag-manager-advanced) — the `?auto=0` manual mode and buffer stub for dynamic values on the first pageview.
 - [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads outside of GTM.
-- [Understanding Event Properties in Sealmetrics](/implementation/event-tracking) — the event and property model behind the conversion and microconversion tags.
+- [Understanding Event Properties in Sealmetrics](/implementation/custom-properties/event-properties) — the event and property model behind the conversion and microconversion tags.
 - [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.
 
 
@@ -16371,7 +16040,7 @@ function mymodule_track_purchase($order) {
 ## Related documentation
 
 - [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads.
-- [Understanding Event Properties in Sealmetrics](/implementation/event-tracking) — the model behind the form, search, and 404 events this module fires.
+- [Understanding Event Properties in Sealmetrics](/implementation/custom-properties/event-properties) — the model behind the form, search, and 404 events this module fires.
 - [WordPress](/integrations/cms/wordpress) — the equivalent integration for WordPress sites.
 - [Joomla](/integrations/cms/joomla) — the equivalent integration for Joomla sites.
 - [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.
@@ -17744,7 +17413,7 @@ $currency = 'EUR';
 ## Related documentation
 
 - [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads.
-- [Understanding Event Properties in Sealmetrics](/implementation/event-tracking) — the model behind the form, search, and 404 events this plugin fires.
+- [Understanding Event Properties in Sealmetrics](/implementation/custom-properties/event-properties) — the model behind the form, search, and 404 events this plugin fires.
 - [WordPress](/integrations/cms/wordpress) — the equivalent integration for WordPress sites.
 - [Drupal](/integrations/cms/drupal) — the equivalent integration for Drupal sites.
 - [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.
@@ -36017,7 +35686,8 @@ For accounts requiring deeper analysis, SealMetrics offers advanced agent detect
 |----------------|---------|
 | `human` | Confirmed human behavior |
 | `agent_suspected` | Automated behavior detected |
-| `unclassified` | Insufficient data |
+
+Classification happens at session level: the entrance is classified and its pageviews inherit the result. For non-human sessions, Sealmetrics additionally identifies the **automation tool** where possible (`selenium`, `playwright`, `puppeteer`, `browser_use`, `headless_chrome`, `webmcp`) and, via network heuristics, the **AI provider** behind known agents (e.g. OpenAI, Anthropic). See the [agent detection integration](/integrations/agentic-package) for the full signal list.
 
 ### Enabling Agent Detection
 
@@ -45266,7 +44936,7 @@ These guides cover the most common scenarios. For custom implementations:
 ## Related documentation
 
 - [Installation](/implementation/tracker/installation) — add the tracking script before following any use-case guide
-- [Understanding Event Properties in Sealmetrics](/implementation/event-tracking) — the event and property model shared by every guide
+- [Understanding Event Properties in Sealmetrics](/implementation/custom-properties/event-properties) — the event and property model shared by every guide
 - [E-commerce Conversion Tracking](/implementation/ecommerce-conversion-tracking) — reference for the purchase and revenue events
 - [Conversions Report](/reports/conversions) — where your tracked conversions appear
 - [Funnel Report](/reports/funnel) — build the funnels described in each guide
@@ -46315,7 +45985,7 @@ After implementing, analyze:
 
 ## Related documentation
 
-- [Understanding Event Properties in Sealmetrics](/implementation/event-tracking) — enrich signup, onboarding, and upgrade events with custom properties
+- [Understanding Event Properties in Sealmetrics](/implementation/custom-properties/event-properties) — enrich signup, onboarding, and upgrade events with custom properties
 - [Installation](/implementation/tracker/installation) — add the tracking script to your marketing site and app
 - [Funnel Report](/reports/funnel) — visualize the trial-to-paid and onboarding funnels
 - [Conversions Report](/reports/conversions) — analyze subscriptions, upgrades, and MRR by channel
@@ -46851,7 +46521,7 @@ After implementing:
 
 ## Related documentation
 
-- [Understanding Event Properties in Sealmetrics](/implementation/event-tracking) — attach lead-scoring signals like budget and company size to your conversions
+- [Understanding Event Properties in Sealmetrics](/implementation/custom-properties/event-properties) — attach lead-scoring signals like budget and company size to your conversions
 - [Installation](/implementation/tracker/installation) — add the tracking script to your service site
 - [Conversions Report](/reports/conversions) — see leads and demo bookings attributed by source
 - [Funnel Report](/reports/funnel) — pinpoint where multi-step forms lose prospects
@@ -47439,7 +47109,7 @@ After implementing, analyze in your dashboard:
 
 ## Related documentation
 
-- [Understanding Event Properties in Sealmetrics](/implementation/event-tracking) — tag engagement events with article, author, and category properties
+- [Understanding Event Properties in Sealmetrics](/implementation/custom-properties/event-properties) — tag engagement events with article, author, and category properties
 - [Installation](/implementation/tracker/installation) — add the tracking script to your publishing platform
 - [Content Grouping](/implementation/content-grouping) — organize articles, categories, and video into groups for reporting
 - [Funnel Report](/reports/funnel) — measure the path from article read to newsletter or paid subscription
@@ -47565,7 +47235,7 @@ The site will be removed from your list immediately.
 
 ---
 
-Only users with the appropriate permissions (Owner or Admin role) can delete sites. If you don't see the delete button, contact your organization owner.
+Only the organization **Owner** can delete sites — Admins and Members cannot. If you don't see the delete button, contact your organization owner.
 
 
 
@@ -47635,11 +47305,12 @@ Share access with your team by inviting members to your organization.
 1. In the left sidebar, expand **Organization** and click **Members** (`/settings/organizations/{slug}/members`)
 2. Click **Invite Member**
 3. Enter their email address and choose a role:
-   - **Owner** -- full access to everything, including billing
    - **Admin** -- manage members and all sites, no billing access
    - **Member** -- access only to specific sites you assign
 4. For Members, select which sites they can see
 5. Click **Send Invitation**
+
+Invitations can only be sent with the **Admin** or **Member** role. To make someone an **Owner**, invite them first and then promote them from the Members list (only an existing Owner can do this).
 
 The invited person will receive an email with a link to join. If they do not have a Sealmetrics account yet, they can create one as part of the invitation process.
 
@@ -47763,10 +47434,12 @@ The Site Settings page also includes additional tabs beyond General:
 
 - **Domains** — domains authorized to send tracking data to this site
 - **UTM Mappings** — map custom URL parameters to standard UTM fields
-- **Team** — users with access to this site and their site role (editor / viewer)
+- **Channels** — custom channel grouping rules for this site
 - **Pixel Code** — installation code and conversion tracking snippets
-- **API Keys** — programmatic access keys
-- **IP Allowlist** — restrict access by IP address (Enterprise plan)
+- **IP Exclusions** — exclude traffic from specific IP addresses (e.g. your office)
+- **IP Allowlist** — restrict tracking to specific IP addresses (Enterprise plan)
+
+Team members and their access are managed at the organization level, under **Organization → Members** — see [Users & Teams](./users). API keys are managed under **My Account → API Keys**.
 
 
 
@@ -48503,7 +48176,7 @@ When an Owner or Admin grants a Member access to a site, they assign a **site ac
 | **Editor** | View reports and modify the site's configuration and settings |
 | **Viewer** | Read-only access to reports and analytics |
 
-These roles are offered when adding a user to a site from the **Team** tab of the Site Settings page.
+Site access itself is granted from **Organization → Members**: click the site access (globe) button next to a member and toggle the sites they should see. Choosing between the Editor and Viewer levels is currently done through the [Site Users API](/api/sites#site-user-endpoints), not from a dashboard screen.
 
 **Info:**
 
@@ -48658,7 +48331,7 @@ Members can only see the sites you explicitly assign to them. Owners and Admins 
 
 Changes apply immediately, and you can add or remove site access at any time without affecting the member's organization role.
 
-The access level (Editor or Viewer) for each assigned site is managed from the **Team** tab of that site's settings. See [Roles & Permissions](../../user-management/roles-management) for details.
+There is currently no dashboard screen to choose between the Editor and Viewer access levels — per-site roles are managed through the [Site Users API](/api/sites#site-user-endpoints). See [Roles & Permissions](../../user-management/roles-management) for details.
 
 ---
 
@@ -50148,6 +49821,9 @@ This is useful for properly attributing traffic from:
 **Note:**
 Referrer Mappings act on the **referrer domain** of an incoming visit. They are different from **UTM Mappings**, which rename or group UTM values that are already present in the URL. See [How to change UTM parameters](/reports/insights/how-to-change-utm-parameters) for UTM Mappings.
 
+**Warning:**
+The API endpoints work and mappings are stored per account, but the tracking pipeline **does not yet read this table** when classifying incoming traffic — saved mappings have no effect on attribution today. For traffic that needs to be re-attributed now, use [Channel Grouping rules](/api/channel-groups) or [UTM Mappings](/reports/insights/how-to-change-utm-parameters) instead. See the [Referrer Mappings API reference](/api/referrer-mappings) for details.
+
 ---
 
 ## How It Works
@@ -50160,19 +49836,31 @@ Referrer Mappings act on the **referrer domain** of an incoming visit. They are 
 
 ## How to Set It Up
 
-Referrer Mappings are configured per account, in the site settings:
+**Info:**
+Referrer Mappings are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect mappings with the API calls shown below. See the [Referrer Mappings API reference](/api/referrer-mappings) for the complete request/response schema.
 
-1. Open **Settings → Sites** and select the site (account) you want to configure.
-2. Open the **Referrer Mappings** tab.
-3. Fill in the fields:
-   - **Referrer Domain** — the domain to match (e.g. `partner-site.com`).
-   - **Match Type** — how the referrer domain is compared to the pattern (see below).
-   - **UTM Source** — required; the source to apply (e.g. `partner`).
-   - **UTM Medium** — defaults to `referral`.
-   - Under **Show advanced options**: **UTM Campaign** and an optional **Label** (a human-readable name such as `Partner Site Traffic`).
-4. Click **Add Mapping** to save.
+Mappings are scoped to an account. Create one with your API key:
 
-Each saved mapping is listed below the form. To remove one, click the delete (trash) icon next to it.
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/referrer-mappings?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "referrer_pattern": "partner-site.com",
+    "match_type": "exact",
+    "utm_source": "partner-site",
+    "utm_medium": "referral",
+    "label": "Partner Site Traffic"
+  }'
+```
+
+All management is done through the API:
+
+- **List** mappings (`GET /referrer-mappings?account_id=...`), optionally including inactive ones
+- **Create, update, and delete** mappings
+- **Deactivate** a mapping (`is_active: false`) without deleting it
+
+See the [Referrer Mappings API reference](/api/referrer-mappings) for every endpoint and example. Creating or modifying mappings requires editor-or-higher (write) permissions.
 
 ---
 
@@ -50209,12 +49897,6 @@ A referrer mapping stores the following fields:
 | `description` | No | — | Optional description |
 | `priority` | No | `0` | Higher priority mappings are checked first (`0`–`1000`) |
 | `is_active` | No | `true` | Whether the mapping is applied |
-
----
-
-## API
-
-Referrer Mappings can also be managed through the API under the `/referrer-mappings` endpoint (scoped per account with the `account_id` query parameter). It supports listing, creating, retrieving, updating, and deleting mappings. Creating or modifying mappings requires editor-or-higher (write) permissions.
 
 ---
 
@@ -50509,17 +50191,29 @@ Preservation depends on the original session still being active when the visitor
 
 ---
 
-## How to Configure It: Referral Exclusion List
+## How to Configure It
 
-In the production app (`my.sealmetrics.com`), passthrough referrers are managed through the **Referral Exclusion List**:
+**Info:**
+Passthrough referrers are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect them with the API calls shown below. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete request/response schema.
 
-1. Open the settings menu in the top toolbar and click **Accounts**.
-2. In the accounts table, find your account and click the **POS Referral Bypass** action in its row.
-3. On the **Referral Exclusion List** screen, type the external domain to exclude (e.g. a payment provider, your SSO/auth domain, or a booking engine) in the **Domain** field.
-4. Click **Add referral** to add another domain field if needed.
-5. Click **Update** to save.
+Passthrough referrers are scoped to an account. Register one with your API key:
 
-To remove a domain, click **Delete** next to it.
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "checkout.stripe.com",
+    "utm_source": "stripe",
+    "service_name": "Stripe Checkout"
+  }'
+```
+
+- `domain` is the external domain to exclude (protocol is stripped automatically).
+- `utm_source` (required) and the optional `utm_medium` / `utm_campaign` fields are the **fallback UTMs** applied when no original session exists.
+- `service_name` is an optional human-readable label.
+
+All management is done through the API — list, create, update, deactivate (`is_active: false`), and delete. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for every endpoint and example. Creating or modifying entries requires editor-or-higher (write) permissions.
 
 Add **only** the external domains that visitors legitimately pass through — payment, auth, or booking domains. Do not add your own domains.
 
@@ -50527,7 +50221,7 @@ Add **only** the external domains that visitors legitimately pass through — pa
 
 ## When to Use Which Guide
 
-This page is the canonical reference for the passthrough referrer concept. Two related guides cover specific scenarios that use the same Referral Exclusion List:
+This page is the canonical reference for the passthrough referrer concept. Two related guides cover specific scenarios that use the same configuration:
 
 - [Bypass POS or Referrer](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer) — step-by-step for excluding **payment gateway / POS** domains.
 - [Preserve Attribution Through External Login or SSO Flows](/platform/tracking-and-attribution-settings/external-auth-sso-attribution) — step-by-step for excluding **external authentication / SSO** domains.
@@ -50583,7 +50277,7 @@ So when the user returns from a third-party payment domain:
 - SealMetrics creates a new session  
 - And assigns its domain as the referrer  
 
-Unless you add it to your **referral bypass list**.
+Unless you register it as a **passthrough referrer**.
 
 ---
 
@@ -50605,11 +50299,20 @@ Example:
 
 ## How to Fix It
 
-### Step 1: Add the Payment Domain to the Exclusion List
+Register the payment domain as a **passthrough referrer** through the Sealmetrics API — there is no dashboard screen for this:
 
-![Referral Exclusion Setup](/img/platform/bypass-pos-referrer-1.png)
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "payments.xyz.com",
+    "utm_source": "payment-gateway",
+    "service_name": "Payment Gateway"
+  }'
+```
 
-![Referral Exclusion List](/img/platform/bypass-pos-referrer-2.png)
+See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema, and [Bypass POS or Referrer](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer) for the step-by-step guide.
 
 Add **only your payment provider domain**, not internal domains.
 
@@ -50644,25 +50347,25 @@ You can configure Sealmetrics to **ignore specific referrers**, ensuring that on
 
 ## How to Set It Up
 
-1. Open the settings menu in the top toolbar and click **Accounts**
-2. In the accounts table, find your account and click the **POS Referral Bypass** action in its row
-3. On the **Referral Exclusion List** screen, type a domain to exclude (e.g. a payment provider) in the **Domain** field
-4. Click **Add referral** to add another domain field if needed
-5. Click **Update** to save
+**Info:**
+Payment/POS domains are excluded by registering them as **passthrough referrers** through the **Sealmetrics API** — there is no dashboard screen for this. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema.
 
-To remove a domain, click **Delete** next to it.
+Register the payment domain for your account with your API key:
 
----
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "payments.example-psp.com",
+    "utm_source": "example-psp",
+    "service_name": "Payment Gateway"
+  }'
+```
 
-## Example Screenshots
+Repeat for each payment domain your checkout flow passes through. You can list, update, deactivate, or delete entries through the same API — see the [Passthrough Referrers API reference](/api/passthrough-referrers).
 
-Open the settings menu, choose **Accounts**, then click **POS Referral Bypass** on the account's row:
-
-![Accounts table with the POS Referral Bypass action](/img/platform/bypass-pos-referrer-1.png)
-
-The Referral Exclusion List, where you add the domains to exclude:
-
-![Referral Exclusion List screen](/img/platform/bypass-pos-referrer-2.png)
+For the full concept and behavior details, see [Passthrough Referrers](/platform/tracking-and-attribution-settings/passthrough-referrers).
 
 ---
 
@@ -50714,15 +50417,25 @@ The problem is never the subdomain change — it is the external domain in the m
 
 ---
 
-## The Fix: Referral Exclusion List
+## The Fix: Register the Auth Domain as a Passthrough Referrer
 
-Add the external authentication domain to your **Referral Exclusion List**:
+**Info:**
+Passthrough referrers are currently managed through the **Sealmetrics API**, not from a dashboard screen. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema.
 
-1. Open the settings menu in the top toolbar and click **Accounts**
-2. In the accounts table, click the **POS Referral Bypass** action in your account's row
-3. On the **Referral Exclusion List** screen, enter the auth domain (e.g. `yourcompany.com` or `accounts.yourcompany.com`) in the **Domain** field
-4. Use **Add referral** to add more domains if needed
-5. Click **Update** to save
+Register the external authentication domain (e.g. `accounts.yourcompany.com`) as a passthrough referrer for your account:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "accounts.yourcompany.com",
+    "utm_source": "sso",
+    "service_name": "Company SSO"
+  }'
+```
+
+Add every external domain in the journey the same way. Entries can be listed, updated, and deleted through the same API — see the [Passthrough Referrers API reference](/api/passthrough-referrers).
 
 Once excluded, SealMetrics ignores that domain as a referrer. When the user returns from the auth flow, the original session source remains active, and the conversion inherits the real acquisition channel.
 
@@ -50735,7 +50448,7 @@ This is the same mechanism used to [avoid conversions attributed to payment gate
 To attribute conversions correctly when acquisition happens on your public website and conversion happens in your app:
 
 1. **Same Account ID everywhere** — install the same SealMetrics pixel on the public site (`www.`) and the app (`app.`). See the [SaaS implementation guide](/use-cases/saas).
-2. **Exclude external auth domains** — add every third-party domain in the journey (SSO, identity provider, payment gateway) to the Referral Exclusion List.
+2. **Exclude external auth domains** — register every third-party domain in the journey (SSO, identity provider, payment gateway) as a [passthrough referrer](/api/passthrough-referrers).
 3. **Differentiate areas with content grouping** — use `group=marketing`, `group=app`, etc., to keep reports readable. See [Content Grouping](/platform/settings/tracking/content-grouping).
 4. **Track signup as a conversion** — fire the conversion on the post-signup page (e.g. email verification completed) so it inherits the session source.
 
@@ -51645,8 +51358,8 @@ Manage your billing, view invoices, update payment methods, and handle billing-r
 
 ### Access Invoice History
 
-1. Go to **Settings → Billing → Invoices**
-2. View list of all invoices
+1. Go to **Organization → Billing** in the sidebar
+2. Scroll to the **Invoices** section, which lists your billing history
 
 ```
 Invoices
@@ -51654,24 +51367,24 @@ Invoices
 
 Invoice       Date         Amount      Status
 ─────────────────────────────────────────────
-INV-2024-01   Jan 15       €760.59     ✅ Paid
-INV-2023-12   Dec 15       €724.39     ✅ Paid
-INV-2023-11   Nov 15       €724.39     ✅ Paid
-INV-2023-10   Oct 15       €724.39     ✅ Paid
-
-[Download All] [Filter by Date]
+INV-2026-04   Apr 15       €724.79     ✅ Paid
+INV-2026-03   Mar 15       €724.79     ✅ Paid
+INV-2026-02   Feb 15       €724.79     ✅ Paid
+INV-2026-01   Jan 15       €724.79     ✅ Paid
 ```
+
+Each invoice row shows the invoice number, date, amount, and payment status.
 
 ### Invoice Details
 
-Click on any invoice to view details:
+A typical invoice breaks down like this:
 
 ```
-Invoice INV-2024-01
+Invoice INV-2026-01
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Invoice Date:    January 15, 2024
-Due Date:        January 15, 2024
+Invoice Date:    January 15, 2026
+Due Date:        January 15, 2026
 Status:          Paid
 
 Bill To:
@@ -51685,7 +51398,7 @@ Bill To:
 Description                          Amount
 ───────────────────────────────────────────
 Sealmetrics Growth (Monthly)       €599.00
-  Jan 15 - Feb 14, 2024
+  Jan 15 - Feb 14, 2026
 
 ───────────────────────────────────────────
 Subtotal                           €599.00
@@ -51694,16 +51407,11 @@ VAT (21%)                          €125.79
 Total                              €724.79
 Amount Paid                        €724.79
 Balance Due                          €0.00
-
-[Download PDF] [Download CSV]
 ```
 
 ### Download Options
 
-| Format | Use Case |
-|--------|----------|
-| PDF | Official invoice for records |
-| CSV | Import to accounting software |
+Each invoice in the list has a **download icon** to save the invoice as a **PDF**, and a link to open the invoice online in Stripe. There is no CSV export of invoices — if you need data in another format for your accounting software, contact billing@sealmetrics.com.
 
 ## Invoice issuer & VAT
 
@@ -51715,8 +51423,8 @@ Your official invoices are issued through **Quaderno**, which Sealmetrics uses f
 
 Sealmetrics uses **Stripe** for secure payment processing (cards). Official invoices are issued through **Quaderno** for VAT compliance — see [Invoice issuer & VAT](#invoice-issuer--vat). To manage your payment methods:
 
-1. Go to **Settings → Billing**
-2. Click **Manage Payment Methods**
+1. Go to **Organization → Billing**
+2. Click **Manage** next to your current plan
 3. This opens the **Stripe Customer Portal** where you can:
    - Add new cards
    - Update existing cards
@@ -51727,8 +51435,8 @@ Sealmetrics uses **Stripe** for secure payment processing (cards). Official invo
 
 To update or replace your credit card:
 
-1. Go to **Settings → Billing**
-2. Click **Manage Payment Methods**
+1. Go to **Organization → Billing**
+2. Click **Manage** to open the Stripe Customer Portal
 3. In the Stripe portal:
    - Click **Add payment method** to add a new card
    - Or click on an existing card to update it
@@ -51743,14 +51451,14 @@ Payment Methods (Stripe Portal)
 Primary:
 ┌─────────────────────────────────────────┐
 │ 💳 Visa ending in 4242                  │
-│    Expires 12/2025                      │
+│    Expires 12/2027                      │
 │    [Default]                            │
 └─────────────────────────────────────────┘
 
 Backup:
 ┌─────────────────────────────────────────┐
 │ 💳 Mastercard ending in 5555            │
-│    Expires 08/2026                      │
+│    Expires 08/2028                      │
 │    [Make Default] [Remove]              │
 └─────────────────────────────────────────┘
 
@@ -51781,7 +51489,7 @@ Bank transfer, SEPA Direct Debit, and PayPal are not currently supported.
 When your card is expiring:
 
 1. You'll receive email notification 30 days before
-2. Go to **Settings → Billing → Payment Methods**
+2. Go to **Organization → Billing** and click **Manage** to open the Stripe portal
 3. Click on the expiring card
 4. Update details or add new card
 5. Set new card as default if needed
@@ -51790,30 +51498,9 @@ When your card is expiring:
 
 ### Company Details
 
-Update your billing information:
-
-1. Go to **Settings → Billing → Billing Info**
-2. Edit details:
-
-```
-Billing Information
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Company Name:    [Your Company S.L.        ]
-VAT Number:      [ES12345678A              ]
-
-Billing Address:
-Street:          [Calle Example 123        ]
-City:            [Madrid                   ]
-Postal Code:     [28001                    ]
-Country:         [Spain                  ▼ ]
-
-Billing Email:   [billing@company.com      ]
-  ☑ Send invoices to this email
-  ☑ Send payment receipts
-
-[Save Changes]
-```
+- **Invoice email**: on **Organization → Billing** you can set an **accounting email** so invoices are also sent to your accounting department.
+- **Company name, billing address, and payment details**: managed in the **Stripe Customer Portal** — click **Manage** on the Billing page.
+- **VAT number and other invoice details**: contact **billing@sealmetrics.com** to add or correct them.
 
 ### VAT/Tax Information
 
@@ -51925,7 +51612,7 @@ Credits may be issued for:
 Credits appear on next invoice:
 
 ```
-Invoice INV-2024-02
+Invoice INV-2026-02
 ───────────────────────────────────────────
 Sealmetrics Growth (Monthly)       €599.00
 Credit: January SLA compensation   -€59.90
@@ -51954,12 +51641,7 @@ Receipts are sent automatically after each payment:
 
 ### Annual Tax Summary
 
-Request annual summary for tax purposes:
-
-1. Go to **Settings → Billing → Documents**
-2. Click **Generate Annual Summary**
-3. Select year
-4. Download PDF
+If you need an annual summary of your payments for tax purposes, email **billing@sealmetrics.com** with your account email and the year you need. There is no self-service annual summary in the dashboard.
 
 ### VAT Invoices
 
@@ -52171,7 +51853,7 @@ Invoices are issued through Quaderno for VAT compliance, with EU VAT numbers val
 
 ### Can I add a PO number to invoices?
 
-Yes. Go to **Settings > Billing > Billing Info** and add your PO number. It will appear on all future invoices.
+There is no self-service field for PO numbers in the dashboard. Contact **billing@sealmetrics.com** with your PO number and we will include it on your invoices.
 
 ---
 
@@ -52242,10 +51924,7 @@ After cancellation your account becomes read-only and your data is retained for 
 
 ### How do I add my VAT number?
 
-1. Go to **Settings > Billing > Billing Info**
-2. Enter your VAT number
-3. System validates automatically
-4. Future invoices show reverse charge
+Provide your VAT ID during signup, or contact **billing@sealmetrics.com** to add it to your account. VAT numbers are validated against VIES, and future invoices then show the reverse charge treatment.
 
 ### Can I get a VAT refund for past invoices?
 
@@ -53018,7 +52697,7 @@ The number of sessions (visits) that started during the selected period. Each ne
 
 ### Event Tracking
 
-Capturing specific user actions such as clicks, form submissions, scroll depth, or video plays. See [Event Tracking guide](/implementation/event-tracking).
+Capturing specific user actions such as clicks, form submissions, scroll depth, or video plays. See [Microconversions guide](/implementation/tracker/microconversions).
 
 ---
 
@@ -53082,7 +52761,7 @@ SealMetrics' AI-powered analytics insights engine. LENS analyzes your data and s
 
 ### Microconversion
 
-A small user interaction tracked as an event, such as scroll depth reached, button clicks, form starts, add-to-cart actions, or video plays. Tracked with `sealmetrics.micro()`. Useful for measuring funnel progression before a full conversion. See [Event Tracking guide](/implementation/event-tracking).
+A small user interaction tracked as an event, such as scroll depth reached, button clicks, form starts, add-to-cart actions, or video plays. Tracked with `sealmetrics.micro()`. Useful for measuring funnel progression before a full conversion. See [Microconversions guide](/implementation/tracker/microconversions).
 
 ---
 
@@ -53515,7 +53194,7 @@ Sealmetrics includes built-in [bot detection](/compliance/compliance-overview/ho
 | **Consent required** | Yes | No |
 | **Legal risk** | Moderate (GDPR, Schrems II) | None (privacy by design) |
 | **Script size** | 129.6 KB | 1.3 KB |
-| **Pricing** | Free (with hidden costs) | From €199/mo |
+| **Pricing** | Free (with hidden costs) | From €499/mo (annual billing) |
 
 The question is not whether GA4 or Sealmetrics has more features. The question is whether you can make business decisions based on 15–50% of your actual data.
 

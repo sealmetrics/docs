@@ -84,7 +84,6 @@ function ThankYouPage({ order }) {
     // Track conversion after component mounts
     if (typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', order.total, {
-        order_id: order.id,
         currency: order.currency,
         payment_method: order.paymentMethod
       });
@@ -199,7 +198,6 @@ function CheckoutSuccess({ order }) {
 
   useEffect(() => {
     trackConversion('purchase', order.total, {
-      order_id: order.id,
       currency: order.currency
     });
   }, [order]);
@@ -380,7 +378,6 @@ function ThankYouPage({ order }) {
 
   useEffect(() => {
     trackConversion('purchase', order.total, {
-      order_id: order.id,
       currency: order.currency,
       items_count: String(order.items.length)
     });
@@ -414,7 +411,7 @@ if (typeof sealmetrics !== 'undefined') {
 
 1. Check the browser Network tab for requests to `t.sealmetrics.com`
 2. Verify your Site ID is correct
-3. Check the Real-time report in your SealMetrics dashboard
+3. Check the **Last hit** timestamp on the **Overview** report in your SealMetrics dashboard — it updates within seconds of a tracked hit; conversions appear in the **Conversions** report
 
 ---
 

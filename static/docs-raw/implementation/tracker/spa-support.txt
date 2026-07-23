@@ -101,7 +101,6 @@ function CheckoutSuccess({ order }) {
     // Pageview is automatic, just track conversion
     if (typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', order.total, {
-        order_id: order.id,
         currency: order.currency
       });
     }

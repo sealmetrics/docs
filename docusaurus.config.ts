@@ -173,9 +173,11 @@ const config: Config = {
           { from: '/first-steps/first-steps-with-sealmetrics', to: '/getting-started/quick-start' },
           { from: '/first-steps/setting-up-trackers', to: '/implementation/tracker/setup' },
           { from: '/first-steps/first-party-tracker', to: '/implementation/tracker/first-party' },
+          { from: '/implementation/event-tracking', to: '/implementation/custom-properties/event-properties' },
+          { from: '/getting-started/quick-journey', to: '/getting-started/quick-start' },
           {
             from: '/features/event-tracking-and-custom-data/understanding-event-properties',
-            to: '/implementation/event-tracking',
+            to: '/implementation/custom-properties/event-properties',
           },
           {
             from: '/features/privacy-first-tracking/why-sealmetrics-not-blocked-by-adblockers',

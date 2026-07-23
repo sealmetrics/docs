@@ -32,14 +32,14 @@ That's it. No IP addresses, no cookies, no persistent identifiers. This minimal 
 
 ## Session-Based Tracking
 
-Sealmetrics creates a temporary session ID that expires when the browser closes. This allows you to:
+Sealmetrics groups the hits of a single visit using a temporary session marker derived from the browser context — nothing is stored on the device (no cookies, no local storage). A session ends after roughly two hours of inactivity. This allows you to:
 
 - Track page views within a single visit
 - Measure session duration and engagement
 - Follow navigation patterns through your site
 - Identify conversion paths
 
-The session ID is isolated to that one visit and can never be used to identify the person or link visits together.
+The session marker contains no persistent identifier and Sealmetrics never recognizes visitors across sessions — separate visits are never linked together, so no browsing profile of any person can be built.
 
 ## How Data Flows Through Sealmetrics
 
@@ -61,9 +61,9 @@ Sealmetrics uses **last-click attribution** at the channel level. When someone c
 
 This gives you the marketing intelligence you need—which channels drive results—without the privacy risks of user-level tracking.
 
-## Real-Time Visibility
+## Data in Seconds
 
-See live visitors on your site right now. Monitor conversion events as they happen. Verify your tracking implementation instantly. All in real-time, without compromising anyone's privacy.
+Hits reach your reports within seconds of happening. The **Last hit** timestamp on the Overview report shows exactly when the most recent hit arrived, so you can verify your tracking implementation instantly — without compromising anyone's privacy.
 
 ## Integration Made Simple
 
@@ -71,7 +71,7 @@ Getting started takes two minutes:
 
 1. Add one script tag to your website's `<head>` section
 2. Start seeing data immediately
-3. Configure goals and events as needed
+3. Instrument conversions and events as needed with `sealmetrics.conv()`
 
 Works with any framework: WordPress, React, Vue, standard HTML. Use our native plugins or integrate via Google Tag Manager.
 

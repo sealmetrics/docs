@@ -66,6 +66,7 @@ SealMetrics ships with the following default channels, listed here from highest 
 | **Organic Social** | Social networks with a social/organic-social medium |
 | **Organic Video** | Video platforms with a video/organic medium |
 | **Organic Shopping** | Shopping comparison sites (google shopping, idealo, kelkoo, etc.) |
+| **AI** | Traffic from AI assistants (ChatGPT, Gemini, Claude, Perplexity, Copilot, etc.) — medium `ai` |
 | **Email** | Email mediums (email, newsletter, mailchimp, sendgrid, klaviyo) |
 | **Affiliates** | Affiliate mediums (affiliate, partner, aff, cpa) |
 | **SMS** | SMS mediums (sms, text, mms) |
@@ -79,6 +80,10 @@ SealMetrics ships with the following default channels, listed here from highest 
 
 Shows traffic grouped by UTM Source and Medium combination.
 
+:::info Referral traffic appears here as domains (July 2026)
+Since July 21, 2026, visits arriving from an untagged external link are shown in this tab as their **referring domain** with medium `referrer` (e.g. `reddit.com / referrer`), GA4-style — including historical data. To analyze the full referring URLs, use the [Referrers tab](#7-referrers-tab).
+:::
+
 | Column | Description |
 |--------|-------------|
 | **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
@@ -89,6 +94,8 @@ Shows traffic grouped by UTM Source and Medium combination.
 | **Conv.** | Completed conversions |
 | **Conv. Rate** | Conversion rate |
 | **Revenue** | Total revenue |
+
+**Drill-down:** source names in the table are clickable — click a source to see its **campaigns**, and a campaign to see its **terms**, with breadcrumbs to navigate back. Each table also has a **search box** (server-side, works across all pages of results).
 
 **Charts included:**
 - **Stacked Bar Chart**: Traffic volume by source
@@ -172,11 +179,11 @@ This tab shows a table only (no charts). Useful for:
 
 ### 7. Referrers Tab
 
-Shows traffic from referring websites (not UTM-based).
+Shows traffic from referring websites (not UTM-based), **one row per full referring URL** — this is where you see exactly which page linked to you. (The domain-level view lives in the [Sources tab](#2-sources-tab), where referral traffic is grouped as `domain / referrer`.)
 
 | Column | Description |
 |--------|-------------|
-| **Referrer Domain** | Domain of referring website |
+| **Referrer Domain** | The full referring URL (the column groups by URL; e.g. `reddit.com/r/analytics/comments/...`) |
 | **Entrances** | Sessions from this referrer |
 | **Page Views** | Page views from this referrer |
 | **Bounce Rate** | Bounce rate |
@@ -217,23 +224,23 @@ Shows efficiency comparison:
 
 ## Filtering
 
-Each tab has its own filter builder:
-
-### Common Filters
+Each tab has its own filter builder. Filters in the Sources report are **dimension-only** — you filter by what the traffic *is* (channel, source, medium, campaign, domain), not by metric values:
 
 | Field | Use Case |
 |-------|----------|
+| Channel is "Paid Search" | One channel only |
 | Source contains "google" | All Google traffic |
 | Medium equals "cpc" | Paid traffic only |
-| Conversions greater than 10 | High-performing sources |
-| Bounce Rate less than 50 | Engaged traffic |
+| Campaign contains "spring" | One campaign family |
+
+To spot high- or low-performing rows by metric (conversions, bounce rate…), **sort by the metric column** instead — every numeric column is sortable.
 
 ### Combining Filters
 
-Example: Find underperforming paid sources
-1. Medium equals "cpc"
-2. AND Conversions less than 5
-3. AND Entrances greater than 100
+Example: isolate paid Google traffic for one campaign
+1. Source contains "google"
+2. AND Medium equals "cpc"
+3. AND Campaign contains "spring-sale"
 
 ## UTM Parameter Reference
 
@@ -303,7 +310,7 @@ Each tab has its own export:
 - Exports current tab data only
 - Respects active filters
 - Includes all visible columns
-- CSV format
+- CSV or PDF format
 
 ## Related documentation
 

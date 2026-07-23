@@ -26,7 +26,6 @@ On your thank-you/confirmation page:
 <script>
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', 149.99, {
-      order_id: 'ORD-12345',
       currency: 'EUR',
       items: [
         { product_name: 'Blue Running Shoes', price: 89.99, quantity: 1, category: 'footwear' },
@@ -119,7 +118,6 @@ Track completed purchases with product details:
 ```javascript
 // On thank-you page
 sealmetrics.conv('purchase', 267.97, {
-  order_id: 'ORD-12345',
   currency: 'EUR',
   payment_method: 'credit_card',
   items: [
@@ -164,7 +162,6 @@ add_action('woocommerce_thankyou', function($order_id) {
     window.addEventListener('load', function() {
       if (typeof sealmetrics !== 'undefined') {
         sealmetrics.conv('purchase', <?php echo $order->get_total(); ?>, {
-          order_id: '<?php echo $order_id; ?>',
           currency: '<?php echo $order->get_currency(); ?>',
           payment_method: '<?php echo $order->get_payment_method(); ?>',
           items: <?php echo json_encode($items); ?>
@@ -200,7 +197,6 @@ In your **checkout.liquid** or via **Additional Scripts** (Settings → Checkout
   window.addEventListener('load', function() {
     if (typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', {{ checkout.total_price | money_without_currency | remove: ',' }}, {
-        order_id: '{{ order.name }}',
         currency: '{{ checkout.currency }}',
         items: [
           {% for item in checkout.line_items %}
@@ -259,7 +255,6 @@ foreach ($order->getAllVisibleItems() as $item) {
   window.addEventListener('load', function() {
     if (typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', <?php echo $order->getGrandTotal(); ?>, {
-        order_id: '<?php echo $order->getIncrementId(); ?>',
         currency: '<?php echo $order->getOrderCurrencyCode(); ?>',
         items: <?php echo json_encode($items); ?>
       });
@@ -278,7 +273,6 @@ In your order confirmation template:
   window.addEventListener('load', function() {
     if (typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', {$order.total_paid|floatval}, {
-        order_id: '{$order.reference|escape:'javascript'}',
         currency: '{$currency.iso_code|escape:'javascript'}',
         items: [
           {foreach from=$order.products item=product name=items}
@@ -311,7 +305,6 @@ Pass values from your backend:
 <script>
   window.addEventListener('load', function() {
     sealmetrics.conv('purchase', <?= json_encode($order['total']) ?>, {
-      order_id: <?= json_encode($order['id']) ?>,
       currency: <?= json_encode($order['currency']) ?>
     });
   });
@@ -344,7 +337,6 @@ If using Google Tag Manager's data layer:
 
     if (purchaseData && typeof sealmetrics !== 'undefined') {
       sealmetrics.conv('purchase', purchaseData.ecommerce.value, {
-        order_id: purchaseData.ecommerce.transaction_id,
         currency: purchaseData.ecommerce.currency
       });
     }
@@ -380,7 +372,6 @@ Recommended properties for e-commerce events:
 
 | Property | Description | Example |
 |----------|-------------|---------|
-| `order_id` | Unique order identifier | `'ORD-12345'` |
 | `currency` | ISO 4217 currency code | `'EUR'`, `'USD'` |
 | `payment_method` | Payment type | `'credit_card'` |
 | `coupon` | Discount code | `'SAVE10'` |
@@ -449,9 +440,10 @@ if (!$order->isTracked()) {
 Use localStorage for simple deduplication:
 
 ```javascript
+// Use your order ID only as a local deduplication key — do not send it in the payload
 var orderId = 'ORD-12345';
 if (!localStorage.getItem('tracked_' + orderId)) {
-  sealmetrics.conv('purchase', 149.99, { order_id: orderId });
+  sealmetrics.conv('purchase', 149.99);
   localStorage.setItem('tracked_' + orderId, 'true');
 }
 ```
@@ -468,11 +460,11 @@ if (!localStorage.getItem('tracked_' + orderId)) {
 4. Navigate through pages and complete a test purchase
 5. Verify requests are sent with correct data
 
-### Check Real-Time Data
+### Check Data Is Arriving
 
 1. Log in to [SealMetrics dashboard](https://my.sealmetrics.com)
-2. Go to Real-time report
-3. Your test events should appear within seconds
+2. Open your site's **Overview** report
+3. Within seconds, the **Last hit** timestamp at the top right updates and your test events are reflected in the numbers
 
 ### Verify Conversion Data
 

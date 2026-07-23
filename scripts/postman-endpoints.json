@@ -1,0 +1,265 @@
+{
+  "collectionName": "API Seal Metrics v1.0",
+  "collectionDescription": "To ensure fair use and protect server resources, this API enforces a rate limit of 1 request per minute per user or IP address (depending on authentication method). If this limit is exceeded, the API will respond with a 429 Too Many Requests status code and a message indicating that the rate limit has been reached: { \"message\": \"Rate limit exceeded. You can only make 1 request per minute.\" } We recommend implementing retry logic on the client side to handle this response gracefully. The Retry-After header may also be present in the response, indicating how many seconds to wait before making another request.",
+  "totalEndpoints": 9,
+  "endpoints": [
+    {
+      "name": "Login",
+      "method": "POST",
+      "rawUrl": "https://app.sealmetrics.com/api/auth/login",
+      "cleanPath": "/",
+      "query": [],
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "bodyMode": "formdata",
+      "bodyPreview": "email=demo@sealmetrics.com\npassword=demo",
+      "description": ""
+    },
+    {
+      "name": "Acquisition",
+      "method": "GET",
+      "rawUrl": "https://app.sealmetrics.com/api/report/acquisition?account_id=000000000000000000001234&report_type=Source&date_range=20230601,20230630&skip=0&limit=1000",
+      "cleanPath": "/",
+      "query": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjYyMmRmNmY2ZmUwMzJhZmIzNGZmZTYwOGRiY2JhZTg1MzU2MzkzYjk2YjcyYzRkZDUxOGVmODM4NGFmZDA4NWU4NDE4YThjNTBjNGFkZjFkIn0.eyJhdWQiOiI2NTY3ODdhNDk1YWVkMDRkNzYxYzFhMzIiLCJqdGkiOiI2MjJkZjZmNmZlMDMyYWZiMzRmZmU2MDhkYmNiYWU4NTM1NjM5M2I5NmI3MmM0ZGQ1MThlZjgzODRhZmQwODVlODQxOGE4YzUwYzRhZGYxZCIsImlhdCI6MTcyMTA1NjQ3OCwibmJmIjoxNzIxMDU2NDc4LCJleHAiOjE3NTI1OTI0NzgsInN1YiI6IjYxNjdlY2UyNDhmOGQxMjYyODcyYTkxMiIsInNjb3BlcyI6WyJhdHRyaWJ1dGlvbiIsInNjb3JpbmciLCJvZmZsaW5lLWxlYWRzIl19.CVB585uhSZyxMY9ydNU9UBAiZUZ6kZmWO81gseHVf0RiD62_Rx6dRv2bDHFKsaq-1jwhmF_WisPfesTpHo5GIRauZ4claCIl3zrROijY_oyZxHlsbS6KF3vLzoZuGn_R_EPhdLgItX51h9jvMUvBai7UxQfjdiqvYs1y7mvk_MDb96uHRpx3E0ZbTsk7NYXYTie4jNOdUJGGx6GPlcBvxNwhRWDnhBOGKx6czQpzTnsAW-l0vrSTwSFmVL0gP_Bgkf8wY1l4nYtIm5AVlHAHCTEmffowZ4v1TnnygZjdLtZPqHWVfzan69pN96h6MJDGJieHt_DMBRTe5PVNzYPGLJ-eJZJ-n4dG9bdoUoNK1axqP1JXXsVk3255YzL9cOQnRmBhI_Y_3qTzFaAojUXGYzbsIr6hela2JaWxqldEUKyi1S6JOey3pX7ik7wXWSwGZO9Mg-GApATq9mwhuSxF911CUVZN5L_aQhxgCapQ0sParcKOxd1dozqTUurO-iRzfdTRoaD3RQgv0M6o31BaZe7PTC1l0p3s_MDmkHZy4ygTEJxM-09zqOBmj0B9O_JvEA4qbha3jlaIxoMPAA9eVJb8J_AlgMdkJc5tiCBThWS3tVNogiddO3FJ6u2Lhse91dAIg_YAAGz3EL_0M_RfmcDchZqYEwYv988hlnpzm2w",
+          "disabled": false
+        },
+        {
+          "key": "Accept",
+          "value": "application/json",
+          "disabled": false
+        },
+        {
+          "key": "Connection",
+          "value": "keep-alive",
+          "disabled": false
+        },
+        {
+          "key": "Accept-Encoding",
+          "value": "gzip, deflate, br",
+          "disabled": false
+        }
+      ],
+      "bodyMode": null,
+      "bodyPreview": null,
+      "description": ""
+    },
+    {
+      "name": "Accounts",
+      "method": "GET",
+      "rawUrl": "https://app.sealmetrics.com/api/auth/accounts",
+      "cleanPath": "/",
+      "query": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer {{token}}",
+          "disabled": false
+        },
+        {
+          "key": "Accept",
+          "value": "application/json",
+          "disabled": false
+        },
+        {
+          "key": "Connection",
+          "value": "keep-alive",
+          "disabled": false
+        },
+        {
+          "key": "Accept-Encoding",
+          "value": "gzip, deflate, br",
+          "disabled": false
+        }
+      ],
+      "bodyMode": null,
+      "bodyPreview": null,
+      "description": ""
+    },
+    {
+      "name": "Pages",
+      "method": "GET",
+      "rawUrl": "https://app.sealmetrics.com/api/report/pages?account_id=000000000000000000001234&date_range=this_month&skip=0&limit=1000",
+      "cleanPath": "/",
+      "query": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer {{token}}",
+          "disabled": false
+        },
+        {
+          "key": "Accept",
+          "value": "application/json",
+          "disabled": false
+        },
+        {
+          "key": "Connection",
+          "value": "keep-alive",
+          "disabled": false
+        },
+        {
+          "key": "Accept-Encoding",
+          "value": "gzip, deflate, br",
+          "disabled": false
+        }
+      ],
+      "bodyMode": null,
+      "bodyPreview": null,
+      "description": ""
+    },
+    {
+      "name": "Conversions",
+      "method": "GET",
+      "rawUrl": "https://app.sealmetrics.com/api/report/conversions?date_range=this_month&skip=0&limit=1000&account_id=000000000000000000001234",
+      "cleanPath": "/",
+      "query": [],
+      "headers": [
+        {
+          "key": "Accept",
+          "value": "application/json",
+          "disabled": false
+        },
+        {
+          "key": "Connection",
+          "value": "keep-alive",
+          "disabled": false
+        },
+        {
+          "key": "Accept-Encoding",
+          "value": "gzip, deflate, br",
+          "disabled": false
+        }
+      ],
+      "bodyMode": null,
+      "bodyPreview": null,
+      "description": ""
+    },
+    {
+      "name": "Microconversions",
+      "method": "GET",
+      "rawUrl": "https://app.sealmetrics.com/api/report/microconversions?account_id=000000000000000000001234&date_range=this_month&skip=0&limit=1000",
+      "cleanPath": "/",
+      "query": [],
+      "headers": [
+        {
+          "key": "Accept",
+          "value": "application/json",
+          "disabled": false
+        },
+        {
+          "key": "Connection",
+          "value": "keep-alive",
+          "disabled": false
+        },
+        {
+          "key": "Accept-Encoding",
+          "value": "gzip, deflate, br",
+          "disabled": false
+        }
+      ],
+      "bodyMode": null,
+      "bodyPreview": null,
+      "description": ""
+    },
+    {
+      "name": "ROAS Evolution",
+      "method": "GET",
+      "rawUrl": "https://app.sealmetrics.com/api/report/roas-evolution?account_id=000000000000000000001234&date_range=this_month&skip=0&limit=1000&time_unit=daily",
+      "cleanPath": "/",
+      "query": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer {{token}}",
+          "disabled": false
+        },
+        {
+          "key": "Accept",
+          "value": "application/json",
+          "disabled": false
+        },
+        {
+          "key": "Connection",
+          "value": "keep-alive",
+          "disabled": false
+        },
+        {
+          "key": "Accept-Encoding",
+          "value": "gzip, deflate, br",
+          "disabled": false
+        }
+      ],
+      "bodyMode": null,
+      "bodyPreview": null,
+      "description": ""
+    },
+    {
+      "name": "Funnel",
+      "method": "GET",
+      "rawUrl": "https://app.sealmetrics.com/api/report/funnel?account_id=000000000000000000001234&report_type=Source&date_range=20230601,20230630&skip=0&limit=1000&exclude_countries=pt,es",
+      "cleanPath": "/",
+      "query": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer {{token}}",
+          "disabled": false
+        },
+        {
+          "key": "Accept",
+          "value": "application/json",
+          "disabled": false
+        },
+        {
+          "key": "Connection",
+          "value": "keep-alive",
+          "disabled": false
+        },
+        {
+          "key": "Accept-Encoding",
+          "value": "gzip, deflate, br",
+          "disabled": false
+        }
+      ],
+      "bodyMode": null,
+      "bodyPreview": null,
+      "description": ""
+    },
+    {
+      "name": "set-click",
+      "method": "POST",
+      "rawUrl": "https://app.sealmetrics.com/api/auth/v1.0/set-click",
+      "cleanPath": "/",
+      "query": [],
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1N[..]",
+          "disabled": false
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/x-www-form-urlencoded",
+          "disabled": false
+        },
+        {
+          "key": "Accept",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "bodyMode": "urlencoded",
+      "bodyPreview": "account_id=60a52f6ac660b269d13c3f53&url_parameters={ \"utm_medium\":\"my-medium-01\",\"utm_source\":\"my-source-01\"}&click_time=1634707888&settings={\"email\":\"david.navarro@adinton.com\", \"conversion\": 1, \"conversion_type\": \"venta-test-1\"}&referrer_url=https://facebook.com/&current_url=https://sealmetrics.com/&adin=2",
+      "description": "You have to specify: account_id → This parameter must match with your client_id. You can get it on your credentials to connect with Adinton API. lead, Conversion parameters as string: {\"conversion_type\":\"offline\", “email”:”customer@email.com”}, per example. If you want to create a microconversion you have to include \"microconversion\":\"1\" in lead parameter. This resource applies a conversion to the last click of the journey. You need offline-leads scope enabled in your Adinton user to use this method."
+    }
+  ]
+}

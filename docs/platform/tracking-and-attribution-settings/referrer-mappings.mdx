@@ -26,6 +26,10 @@ This is useful for properly attributing traffic from:
 Referrer Mappings act on the **referrer domain** of an incoming visit. They are different from **UTM Mappings**, which rename or group UTM values that are already present in the URL. See [How to change UTM parameters](/reports/insights/how-to-change-utm-parameters) for UTM Mappings.
 :::
 
+:::warning Not yet applied at ingest
+The API endpoints work and mappings are stored per account, but the tracking pipeline **does not yet read this table** when classifying incoming traffic — saved mappings have no effect on attribution today. For traffic that needs to be re-attributed now, use [Channel Grouping rules](/api/channel-groups) or [UTM Mappings](/reports/insights/how-to-change-utm-parameters) instead. See the [Referrer Mappings API reference](/api/referrer-mappings) for details.
+:::
+
 ---
 
 ## How It Works
@@ -38,19 +42,32 @@ Referrer Mappings act on the **referrer domain** of an incoming visit. They are 
 
 ## How to Set It Up
 
-Referrer Mappings are configured per account, in the site settings:
+:::info Configured via the API
+Referrer Mappings are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect mappings with the API calls shown below. See the [Referrer Mappings API reference](/api/referrer-mappings) for the complete request/response schema.
+:::
 
-1. Open **Settings → Sites** and select the site (account) you want to configure.
-2. Open the **Referrer Mappings** tab.
-3. Fill in the fields:
-   - **Referrer Domain** — the domain to match (e.g. `partner-site.com`).
-   - **Match Type** — how the referrer domain is compared to the pattern (see below).
-   - **UTM Source** — required; the source to apply (e.g. `partner`).
-   - **UTM Medium** — defaults to `referral`.
-   - Under **Show advanced options**: **UTM Campaign** and an optional **Label** (a human-readable name such as `Partner Site Traffic`).
-4. Click **Add Mapping** to save.
+Mappings are scoped to an account. Create one with your API key:
 
-Each saved mapping is listed below the form. To remove one, click the delete (trash) icon next to it.
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/referrer-mappings?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "referrer_pattern": "partner-site.com",
+    "match_type": "exact",
+    "utm_source": "partner-site",
+    "utm_medium": "referral",
+    "label": "Partner Site Traffic"
+  }'
+```
+
+All management is done through the API:
+
+- **List** mappings (`GET /referrer-mappings?account_id=...`), optionally including inactive ones
+- **Create, update, and delete** mappings
+- **Deactivate** a mapping (`is_active: false`) without deleting it
+
+See the [Referrer Mappings API reference](/api/referrer-mappings) for every endpoint and example. Creating or modifying mappings requires editor-or-higher (write) permissions.
 
 ---
 
@@ -87,12 +104,6 @@ A referrer mapping stores the following fields:
 | `description` | No | — | Optional description |
 | `priority` | No | `0` | Higher priority mappings are checked first (`0`–`1000`) |
 | `is_active` | No | `true` | Whether the mapping is applied |
-
----
-
-## API
-
-Referrer Mappings can also be managed through the API under the `/referrer-mappings` endpoint (scoped per account with the `account_id` query parameter). It supports listing, creating, retrieving, updating, and deleting mappings. Creating or modifying mappings requires editor-or-higher (write) permissions.
 
 ---
 

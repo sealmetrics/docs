@@ -12,8 +12,8 @@ Manage your billing, view invoices, update payment methods, and handle billing-r
 
 ### Access Invoice History
 
-1. Go to **Settings → Billing → Invoices**
-2. View list of all invoices
+1. Go to **Organization → Billing** in the sidebar
+2. Scroll to the **Invoices** section, which lists your billing history
 
 ```
 Invoices
@@ -21,24 +21,24 @@ Invoices
 
 Invoice       Date         Amount      Status
 ─────────────────────────────────────────────
-INV-2024-01   Jan 15       €760.59     ✅ Paid
-INV-2023-12   Dec 15       €724.39     ✅ Paid
-INV-2023-11   Nov 15       €724.39     ✅ Paid
-INV-2023-10   Oct 15       €724.39     ✅ Paid
-
-[Download All] [Filter by Date]
+INV-2026-04   Apr 15       €724.79     ✅ Paid
+INV-2026-03   Mar 15       €724.79     ✅ Paid
+INV-2026-02   Feb 15       €724.79     ✅ Paid
+INV-2026-01   Jan 15       €724.79     ✅ Paid
 ```
+
+Each invoice row shows the invoice number, date, amount, and payment status.
 
 ### Invoice Details
 
-Click on any invoice to view details:
+A typical invoice breaks down like this:
 
 ```
-Invoice INV-2024-01
+Invoice INV-2026-01
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Invoice Date:    January 15, 2024
-Due Date:        January 15, 2024
+Invoice Date:    January 15, 2026
+Due Date:        January 15, 2026
 Status:          Paid
 
 Bill To:
@@ -52,7 +52,7 @@ Bill To:
 Description                          Amount
 ───────────────────────────────────────────
 Sealmetrics Growth (Monthly)       €599.00
-  Jan 15 - Feb 14, 2024
+  Jan 15 - Feb 14, 2026
 
 ───────────────────────────────────────────
 Subtotal                           €599.00
@@ -61,16 +61,11 @@ VAT (21%)                          €125.79
 Total                              €724.79
 Amount Paid                        €724.79
 Balance Due                          €0.00
-
-[Download PDF] [Download CSV]
 ```
 
 ### Download Options
 
-| Format | Use Case |
-|--------|----------|
-| PDF | Official invoice for records |
-| CSV | Import to accounting software |
+Each invoice in the list has a **download icon** to save the invoice as a **PDF**, and a link to open the invoice online in Stripe. There is no CSV export of invoices — if you need data in another format for your accounting software, contact billing@sealmetrics.com.
 
 ## Invoice issuer & VAT
 
@@ -82,8 +77,8 @@ Your official invoices are issued through **Quaderno**, which Sealmetrics uses f
 
 Sealmetrics uses **Stripe** for secure payment processing (cards). Official invoices are issued through **Quaderno** for VAT compliance — see [Invoice issuer & VAT](#invoice-issuer--vat). To manage your payment methods:
 
-1. Go to **Settings → Billing**
-2. Click **Manage Payment Methods**
+1. Go to **Organization → Billing**
+2. Click **Manage** next to your current plan
 3. This opens the **Stripe Customer Portal** where you can:
    - Add new cards
    - Update existing cards
@@ -94,8 +89,8 @@ Sealmetrics uses **Stripe** for secure payment processing (cards). Official invo
 
 To update or replace your credit card:
 
-1. Go to **Settings → Billing**
-2. Click **Manage Payment Methods**
+1. Go to **Organization → Billing**
+2. Click **Manage** to open the Stripe Customer Portal
 3. In the Stripe portal:
    - Click **Add payment method** to add a new card
    - Or click on an existing card to update it
@@ -110,14 +105,14 @@ Payment Methods (Stripe Portal)
 Primary:
 ┌─────────────────────────────────────────┐
 │ 💳 Visa ending in 4242                  │
-│    Expires 12/2025                      │
+│    Expires 12/2027                      │
 │    [Default]                            │
 └─────────────────────────────────────────┘
 
 Backup:
 ┌─────────────────────────────────────────┐
 │ 💳 Mastercard ending in 5555            │
-│    Expires 08/2026                      │
+│    Expires 08/2028                      │
 │    [Make Default] [Remove]              │
 └─────────────────────────────────────────┘
 
@@ -148,7 +143,7 @@ Bank transfer, SEPA Direct Debit, and PayPal are not currently supported.
 When your card is expiring:
 
 1. You'll receive email notification 30 days before
-2. Go to **Settings → Billing → Payment Methods**
+2. Go to **Organization → Billing** and click **Manage** to open the Stripe portal
 3. Click on the expiring card
 4. Update details or add new card
 5. Set new card as default if needed
@@ -157,30 +152,9 @@ When your card is expiring:
 
 ### Company Details
 
-Update your billing information:
-
-1. Go to **Settings → Billing → Billing Info**
-2. Edit details:
-
-```
-Billing Information
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Company Name:    [Your Company S.L.        ]
-VAT Number:      [ES12345678A              ]
-
-Billing Address:
-Street:          [Calle Example 123        ]
-City:            [Madrid                   ]
-Postal Code:     [28001                    ]
-Country:         [Spain                  ▼ ]
-
-Billing Email:   [billing@company.com      ]
-  ☑ Send invoices to this email
-  ☑ Send payment receipts
-
-[Save Changes]
-```
+- **Invoice email**: on **Organization → Billing** you can set an **accounting email** so invoices are also sent to your accounting department.
+- **Company name, billing address, and payment details**: managed in the **Stripe Customer Portal** — click **Manage** on the Billing page.
+- **VAT number and other invoice details**: contact **billing@sealmetrics.com** to add or correct them.
 
 ### VAT/Tax Information
 
@@ -292,7 +266,7 @@ Credits may be issued for:
 Credits appear on next invoice:
 
 ```
-Invoice INV-2024-02
+Invoice INV-2026-02
 ───────────────────────────────────────────
 Sealmetrics Growth (Monthly)       €599.00
 Credit: January SLA compensation   -€59.90
@@ -321,12 +295,7 @@ Receipts are sent automatically after each payment:
 
 ### Annual Tax Summary
 
-Request annual summary for tax purposes:
-
-1. Go to **Settings → Billing → Documents**
-2. Click **Generate Annual Summary**
-3. Select year
-4. Download PDF
+If you need an annual summary of your payments for tax purposes, email **billing@sealmetrics.com** with your account email and the year you need. There is no self-service annual summary in the dashboard.
 
 ### VAT Invoices
 

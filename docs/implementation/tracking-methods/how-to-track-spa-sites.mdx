@@ -35,11 +35,7 @@ That's it. From this point on the tracker will:
 5. Skip duplicates: if the new URL is identical to the previous one, no event is sent.
 6. Update the `referrer` of each SPA pageview to the previous in-app URL — so internal navigation flows are preserved in reports.
 
-The tracker exposes itself as three global aliases — use whichever you prefer:
-
-```js
-window.sealmetrics === window.sm === window._sm
-```
+The canonical global is **`window.sealmetrics`** — always use it in your integrations. (`window.sm` and `window._sm` exist as best-effort aliases, but they are only claimed when free — e.g. during a v1→v2 migration `window.sm` is the *old* tracker — so don't rely on them.)
 
 ---
 
@@ -78,7 +74,6 @@ export default function CheckoutSuccess({ order }) {
     if (typeof sealmetrics === 'undefined') return;
 
     sealmetrics.conv('purchase', order.total, {
-      order_id: order.id,
       currency: order.currency,
       payment_method: order.paymentMethod,
     });
@@ -100,7 +95,6 @@ onMounted(() => {
   if (typeof sealmetrics === 'undefined') return;
 
   sealmetrics.conv('purchase', props.order.total, {
-    order_id: props.order.id,
     currency: props.order.currency,
   });
 });
@@ -134,7 +128,6 @@ export class CheckoutSuccessComponent implements OnInit {
     if (typeof window.sealmetrics === 'undefined') return;
 
     window.sealmetrics.conv('purchase', this.order.total, {
-      order_id: this.order.id,
       currency: this.order.currency,
     });
   }
@@ -157,7 +150,6 @@ export default function SuccessPage({ searchParams }: { searchParams: { order: s
       .then((r) => r.json())
       .then((order) => {
         sealmetrics.conv('purchase', order.total, {
-          order_id: order.id,
           currency: order.currency,
         });
       });
