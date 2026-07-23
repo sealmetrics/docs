@@ -44,9 +44,12 @@ The assistant doesn't just return text. A single response can include:
 - Start a new session anytime by clicking "New conversation"
 - You can delete a conversation when you no longer need it
 
-## Bring your own AI provider
+## Choosing the AI provider
 
-The AI Assistant runs on the LLM provider you configure under **My Account → LLM Providers** (bring-your-own-key). You connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key, and questions are billed by that provider — Sealmetrics does not impose a monthly question quota.
+The AI Assistant runs on the provider you configure under **My Account → LLM Providers**, in one of two modes:
+
+- **[Seal AI Private](/billing/seal-ai-private)** (default when your plan includes it): managed by Sealmetrics, EU-hosted, no API key. Usage draws from the organization's monthly 5M-token quota plus purchased packs; when it runs out, the chat returns a "token limit reached" message until the reset or a pack purchase.
+- **Bring-your-own-key (BYOK)**: connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key. Questions are billed by that provider and Sealmetrics does not meter them. The chat's provider selector lets you switch to BYOK at any time — including as a fallback when the Seal AI quota is exhausted.
 
 - [Configure your LLM provider →](/platform/settings/llm)
 - [Best practices for better answers →](/lens/ai-assistant/best-practices)

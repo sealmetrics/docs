@@ -568,9 +568,11 @@ can render.
 | Status | Condition |
 |--------|-----------|
 | `403` | No access to the account or to the conversation |
+| `403` | `detail.error_code: "seal_ai_not_in_plan"` — the org's plan doesn't include [Seal AI Private](/billing/seal-ai-private) |
+| `403` | `detail.error_code: "seal_ai_quota_exceeded"` — monthly tokens + pack balance exhausted. The detail payload includes `quota_tokens`, `used_tokens`, `pack_balance_tokens`, `effective_quota_tokens`, `can_buy_pack`, `entitlement_source`, and `resets_at` so clients can render a purchase CTA; users can switch the chat to a BYOK provider |
 | `401` | Provider authentication failed (invalid API key) |
 | `409` | No LLM provider/API key configured (`detail.error_code` indicates the cause) |
-| `429` | Provider rate limit reached (includes a `Retry-After` header) |
+| `429` | Provider rate limit reached, or `detail.error_code: "seal_ai_rate_limited"` (both include a `Retry-After` header) |
 
 #### Example
 

@@ -107,9 +107,14 @@ These percentages are email alert thresholds only — reaching 120% in a single 
 | Scale | 24 months |
 | Enterprise | Custom |
 
-### LENS AI Questions
+### LENS AI usage
 
-LENS AI uses a **bring-your-own-key (BYOK)** model: you connect your own LLM provider API key (Anthropic, OpenAI, DeepSeek, or Gemini) under **My Account → LLM Providers**. There is **no monthly question quota** imposed by Sealmetrics — questions are billed directly by your chosen provider. See the [AI Assistant docs](/lens/ai-assistant/) for setup.
+LENS AI works in two modes, with different limits:
+
+- **[Seal AI Private](/billing/seal-ai-private)** (managed, EU-hosted, no API key — add-on on Growth, included in Scale/Enterprise): **5M tokens per calendar month**, plus any non-expiring token packs you purchase. When quota and packs run out, Seal AI stops until the monthly reset or a pack purchase (you can always fall back to BYOK).
+- **Bring-your-own-key (BYOK)**: connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key under **My Account → LLM Providers**. Sealmetrics imposes **no quota** — usage is billed directly by your provider.
+
+See the [AI Assistant docs](/lens/ai-assistant/) for setup.
 
 ### Websites and Users
 

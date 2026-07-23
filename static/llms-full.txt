@@ -1564,9 +1564,12 @@ The assistant doesn't just return text. A single response can include:
 - Start a new session anytime by clicking "New conversation"
 - You can delete a conversation when you no longer need it
 
-## Bring your own AI provider
+## Choosing the AI provider
 
-The AI Assistant runs on the LLM provider you configure under **My Account → LLM Providers** (bring-your-own-key). You connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key, and questions are billed by that provider — Sealmetrics does not impose a monthly question quota.
+The AI Assistant runs on the provider you configure under **My Account → LLM Providers**, in one of two modes:
+
+- **[Seal AI Private](/billing/seal-ai-private)** (default when your plan includes it): managed by Sealmetrics, EU-hosted, no API key. Usage draws from the organization's monthly 5M-token quota plus purchased packs; when it runs out, the chat returns a "token limit reached" message until the reset or a pack purchase.
+- **Bring-your-own-key (BYOK)**: connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key. Questions are billed by that provider and Sealmetrics does not meter them. The chat's provider selector lets you switch to BYOK at any time — including as a fallback when the Seal AI quota is exhausted.
 
 - [Configure your LLM provider →](/platform/settings/llm)
 - [Best practices for better answers →](/lens/ai-assistant/best-practices)
@@ -2260,9 +2263,11 @@ can render.
 | Status | Condition |
 |--------|-----------|
 | `403` | No access to the account or to the conversation |
+| `403` | `detail.error_code: "seal_ai_not_in_plan"` — the org's plan doesn't include [Seal AI Private](/billing/seal-ai-private) |
+| `403` | `detail.error_code: "seal_ai_quota_exceeded"` — monthly tokens + pack balance exhausted. The detail payload includes `quota_tokens`, `used_tokens`, `pack_balance_tokens`, `effective_quota_tokens`, `can_buy_pack`, `entitlement_source`, and `resets_at` so clients can render a purchase CTA; users can switch the chat to a BYOK provider |
 | `401` | Provider authentication failed (invalid API key) |
 | `409` | No LLM provider/API key configured (`detail.error_code` indicates the cause) |
-| `429` | Provider rate limit reached (includes a `Retry-After` header) |
+| `429` | Provider rate limit reached, or `detail.error_code: "seal_ai_rate_limited"` (both include a `Retry-After` header) |
 
 #### Example
 
@@ -2565,7 +2570,7 @@ Ask LENS questions about your data in natural language:
 - *"Which campaigns are performing best this month?"*
 - *"Compare traffic from Google vs Facebook"*
 
-The assistant supports two provider modes: **Seal AI** (the platform LLM, no key required — usage counts against your org's monthly token quota) and **bring-your-own-key (BYOK)** with Anthropic (`claude-3-5-haiku` / `claude-sonnet-4`), OpenAI (`gpt-4o-mini` / `gpt-4o`), DeepSeek (`deepseek-chat`), or Google Gemini (`gemini-1.5-flash` / `gemini-1.5-pro`). BYOK has no quota — you pay your provider directly. LENS picks the appropriate model automatically based on task complexity.
+The assistant supports two provider modes: **[Seal AI Private](/billing/seal-ai-private)** (the managed EU platform LLM, no key required — usage counts against your org's monthly 5M-token quota plus any purchased packs) and **bring-your-own-key (BYOK)** with Anthropic (`claude-3-5-haiku` / `claude-sonnet-4` / `claude-opus-4`), OpenAI (`gpt-4o-mini` / `gpt-4o`), DeepSeek (`deepseek-chat`), or Google Gemini (`gemini-2.5-flash` / `gemini-2.5-pro`). BYOK has no quota — you pay your provider directly. LENS picks the appropriate model automatically based on task complexity.
 
 [Learn more about the AI assistant →](/lens/ai-assistant)
 
@@ -2580,9 +2585,16 @@ Email is currently the only delivery channel for LENS notifications.
 
 ## Availability by Plan
 
-LENS AI is included in all plans. SealMetrics offers five volume-based tiers — **Starter, Growth, Scale, Pro, and Enterprise** — and all LENS insight categories are available on every tier. Plans differ by data volume and account limits, not by which insights you can access.
+LENS AI (chat + insights) is included in every paid plan — **Growth, Scale, and Enterprise** — and all LENS insight categories are available on every tier. Plans differ in how the AI is powered:
 
-Because the AI assistant is BYOK (you supply your own LLM provider key), there is no per-plan cap on the number of questions you can ask.
+| Plan | BYOK (your own key) | [Seal AI Private](/billing/seal-ai-private) (managed, EU) |
+|------|---------------------|------------------------------------------------------------|
+| Free | — | Not available |
+| Growth | Yes, unmetered | Available as a paid add-on |
+| Scale | Yes, unmetered | **Included** (5M tokens/month) |
+| Enterprise | Yes, unmetered | **Included** (5M tokens/month) |
+
+With BYOK there is no per-plan cap on questions — you pay your provider directly. With Seal AI Private, usage draws from the monthly token quota (plus optional non-expiring packs).
 
 ## Getting Started
 
@@ -2825,25 +2837,25 @@ Get LENS configured and receiving insights in under 5 minutes.
 
 The LENS assistant supports two options:
 
-- **Seal AI** — the platform LLM. **No API key needed**; usage counts against your organization's monthly token quota (allocated per plan tier). See your quota anytime in **Seal AI Usage** in the sidebar.
-- **Bring-your-own-key (BYOK)** — connect your own provider API key. No per-account quota; you pay your provider directly.
+- **[Seal AI Private](/billing/seal-ai-private)** — the managed platform LLM (EU-hosted, no prompt retention). **No API key needed**; usage counts against your organization's quota of **5M tokens per month**, plus any non-expiring token packs. Owners/admins can check consumption anytime in **Organization → Seal AI Usage**.
+- **Bring-your-own-key (BYOK)** — connect your own provider API key. No quota imposed by Sealmetrics; you pay your provider directly.
 
-If your organization has Seal AI enabled, it's active by default. To use a BYOK provider, go to **My Account → LLM Providers** and add an API key.
+If your organization is entitled to Seal AI Private (included in Scale/Enterprise, add-on on Growth), it's active by default. To use a BYOK provider, go to **My Account → LLM Providers** and add an API key.
 
 **Supported providers** (LENS picks the model automatically based on task complexity):
 
 | Provider | Simple tasks | Complex / critical tasks |
 |----------|--------------|--------------------------|
-| **Seal AI** (platform) | Managed for you | Managed for you |
+| **Seal AI Private** (platform) | Managed for you | Managed for you |
 | Anthropic (BYOK) | `claude-3-5-haiku` | `claude-sonnet-4` / `claude-opus-4` |
 | OpenAI (BYOK) | `gpt-4o-mini` | `gpt-4o` |
 | DeepSeek (BYOK) | `deepseek-chat` | `deepseek-chat` |
-| Google Gemini (BYOK) | `gemini-1.5-flash` | `gemini-1.5-pro` |
+| Google Gemini (BYOK) | `gemini-2.5-flash` | `gemini-2.5-pro` |
 
 Mark one provider as your default and save.
 
 **Info:**
-Seal AI is scoped by monthly token quota per plan tier (Free / Growth / Scale / Enterprise). When you get close to your limit the dashboard shows an in-app warning; once exceeded, chat calls return a "quota exceeded" error until the next monthly reset. Switch to a BYOK provider (or upgrade the plan) if you need more headroom.
+Seal AI Private includes **5M tokens per calendar month** for the whole organization, plus any [token packs](/billing/seal-ai-private#extra-token-packs) you've purchased (packs never expire). The org gets an email at 80% and 100% consumption; once quota and packs are exhausted, Seal AI stops with a "token limit reached" message until the monthly reset — the owner can buy a pack from the [Seal AI Usage screen](/platform/settings/seal-ai-usage), and any user can switch the chat to a BYOK provider for immediate headroom.
 
 ## Step 3: Review LENS Insights
 
@@ -22786,10 +22798,11 @@ curl -X GET "https://my.sealmetrics.com/api/v1/organizations/acme/seal-ai/usage?
 **Access rules:**
 
 - Endpoint is scoped by org membership (any org member can call it).
-- **Not gated by entitlement.** The response always includes `seal_ai_enabled` so the dashboard can render an appropriate empty state when Seal AI is off.
+- **Not gated by entitlement.** The response always includes `seal_ai_enabled` and `entitlement_source` so the dashboard can render an appropriate empty state when Seal AI is off.
 - **Role-based redaction inside the service**:
-  - `member` role → the `by_user` breakdown is omitted; `by_site` only contains sites the caller has access to.
+  - `member` role → org-level aggregates only: the `by_user` and `packs` lists are **empty** (billing information is owner/admin-only); `by_site` only contains sites the caller has access to.
   - `admin` / `owner` roles → full breakdowns.
+- **Emails are never returned** — user rows carry `user_id` and display `name` only.
 
 **Response:**
 
@@ -22798,31 +22811,50 @@ curl -X GET "https://my.sealmetrics.com/api/v1/organizations/acme/seal-ai/usage?
   "success": true,
   "data": {
     "month": "2026-07",
-    "seal_ai_enabled": true,
     "plan_tier": "growth",
     "quota_tokens": 5000000,
     "used_tokens": 1240355,
+    "remaining_tokens": 8759645,
+    "used_pct": 12.4,
     "resets_at": "2026-08-01T00:00:00Z",
+    "seal_ai_enabled": true,
+    "entitlement_source": "addon",
+    "grandfathered_until": null,
+    "pack_purchased_tokens": 5000000,
+    "pack_consumed_tokens": 0,
+    "pack_balance_tokens": 5000000,
+    "effective_quota_tokens": 10000000,
+    "packs": [
+      { "id": 1, "tokens": 5000000, "price_cents": 35880, "currency": "EUR", "purchased_at": "2026-07-10T09:12:00Z" }
+    ],
     "daily": [
-      { "date": "2026-07-01", "input_tokens": 12000, "output_tokens": 4000 },
-      { "date": "2026-07-02", "input_tokens": 15200, "output_tokens": 4900 }
+      { "date": "2026-07-01", "input_tokens": 12000, "output_tokens": 4000, "requests": 18 },
+      { "date": "2026-07-02", "input_tokens": 15200, "output_tokens": 4900, "requests": 22 }
     ],
     "by_user": [
-      { "user_id": 42, "email": "alice@acme.com", "input_tokens": 850000, "output_tokens": 280000 }
+      { "user_id": 42, "name": "Alice", "tokens": 1130000, "requests": 210 }
     ],
     "by_site": [
-      { "account_id": "acme", "input_tokens": 620000, "output_tokens": 220000 }
+      { "account_id": "acme", "name": "Acme", "tokens": 840000, "requests": 160 }
     ]
-  }
-}
+// ... see full example at https://docs.sealmetrics.com/api/organizations
 ```
+
+**Field notes (PRD-036):**
+
+| Field | Meaning |
+|-------|---------|
+| `quota_tokens` | Flat monthly included quota (5M) |
+| `pack_balance_tokens` | Remaining tokens from purchased [token packs](/billing/seal-ai-private#extra-token-packs) (never expire; consumed after the monthly quota) |
+| `effective_quota_tokens` | `quota_tokens + pack_balance_tokens` — what `remaining_tokens`/`used_pct` are relative to |
+| `entitlement_source` | How the org is entitled: `included_in_plan`, `addon`, `grandfathered`, `billing_disabled`, or `none` |
+| `grandfathered_until` | End date of temporary legacy access, when applicable |
 
 Special values you may see:
 
 | Value | Meaning |
 |-------|---------|
-| `by_user[].email == "LENS (automated)"` | Rows generated by LENS anomaly detection (no user) |
-| `by_user[].email == "Former member"` | The user no longer exists in this org |
+| `by_user[].user_id == null`, `name == "LENS (automated)"` | Rows generated by LENS automated insights (no user) |
 | `by_site[].account_id == null` | Site was deleted; kept as a bucket so historical totals stay accurate |
 
 ---
@@ -49820,7 +49852,10 @@ URL: https://docs.sealmetrics.com/platform/settings/llm
 
 # LLM Providers
 
-Configure which AI model powers the **Lens chat** assistant. LLM Providers is a **per-user, bring-your-own-key (BYOK)** setting: you add your own API key for a provider, and that configuration is used across every site you have access to.
+Configure which AI model powers the **Lens chat** assistant. Two kinds of provider are available:
+
+- **Seal AI Private** — Sealmetrics' managed provider. Runs entirely in the EU (Paris), no prompt retention, **no API key needed**. Subject to plan entitlement and a monthly token quota — see [Seal AI Private](/billing/seal-ai-private).
+- **Bring-your-own-key (BYOK)** — you add your own API key for Anthropic, OpenAI, Gemini, or DeepSeek Cloud. Per-user: your configuration is used across every site you have access to, unmetered by Sealmetrics.
 
 **Info:**
 Your LLM Providers configuration belongs to **you**, not to a site or organization. The same key is applied to every site you can access, and **only you can see or modify it**. There is no per-account dropdown — other users configure their own keys independently.
@@ -49836,16 +49871,19 @@ In the sidebar, open **My Account → LLM Providers** (`/account/llm`).
 
 ## Available Providers
 
-LLM Providers is BYOK only — every provider requires your own API key. The self-hosted DeepSeek Local model used by shared infrastructure is **not** available here for the chat.
-
 | Provider | API Key Required | Notes |
 |----------|------------------|-------|
-| **Anthropic (Claude)** | Yes | Recommended |
-| **OpenAI (GPT)** | Yes | General-purpose |
-| **DeepSeek Cloud** | Yes | Optional custom base URL |
-| **Google (Gemini)** | Yes | Gemini models |
+| **Seal AI (Private, EU)** | **No** | Managed by Sealmetrics; plan entitlement + 5M tokens/month quota |
+| **Anthropic (Claude)** | Yes | BYOK |
+| **OpenAI (GPT)** | Yes | BYOK |
+| **DeepSeek Cloud** | Yes | BYOK; optional custom base URL |
+| **Google (Gemini)** | Yes | BYOK |
 
-Anthropic is the recommended default provider.
+The self-hosted DeepSeek Local model used by shared infrastructure is **not** available here for the chat.
+
+### Seal AI Private
+
+When available on your plan, the **Seal AI (Private, EU)** card appears first, marked **Default**. Its card shows the **Monthly token quota** gauge with the percentage used this month and a **View usage** link to the [Seal AI Usage screen](/platform/settings/seal-ai-usage). If your plan doesn't include it, the card shows an upgrade badge instead — see [availability by plan](/billing/seal-ai-private#availability-by-plan).
 
 ## Adding a Provider
 
@@ -49857,9 +49895,9 @@ If you have no providers configured yet, the **Configure LLM Provider** form app
 
 Choose a provider from the dropdown. Each provider shows a short description and a link to obtain an API key. The provider can't be changed after a configuration is created — to switch providers, add a new one or remove the existing one.
 
-### Step 3: Enter your API key
+### Step 3: Enter your API key (BYOK providers)
 
-All providers here require an API key. Paste it into the **API Key** field (use the eye toggle to reveal it). Your key is encrypted before storage and only the last 4 characters are ever shown afterwards (`****XXXX`).
+Every BYOK provider requires an API key — Seal AI does not. Paste it into the **API Key** field (use the eye toggle to reveal it). Your key is encrypted before storage and only the last 4 characters are ever shown afterwards (`****XXXX`).
 
 For **DeepSeek Cloud**, you can optionally set a custom **Base URL** (defaults to `https://api.deepseek.com/v1`).
 
@@ -49935,6 +49973,8 @@ Every provider here requires a key. Get one from:
 
 ## Related Documentation
 
+- [Seal AI Private](/billing/seal-ai-private) - Pricing, quota, and plan availability of the managed provider
+- [Seal AI Usage screen](/platform/settings/seal-ai-usage) - Token consumption dashboard
 - [LENS AI Overview](/lens) - How LENS generates insights
 - [AI Assistant](/lens/ai-assistant) - Using the Lens chat interface
 - [Anomaly Detection](/lens/anomaly-detection) - Automated alerts
@@ -50241,6 +50281,57 @@ When adding an entry you choose a pattern type and, optionally, a label:
 ---
 
 Using IP restrictions is one of the strongest ways to protect sensitive analytics data.
+
+
+
+## Seal AI Usage
+
+
+URL: https://docs.sealmetrics.com/platform/settings/seal-ai-usage
+
+
+# Seal AI Usage
+
+The **Seal AI Usage** screen shows your organization's monthly [Seal AI Private](/billing/seal-ai-private) token consumption and is where owners buy extra token packs.
+
+## Accessing the screen
+
+In the sidebar, open **Organization → Seal AI Usage** (`/settings/seal-ai-usage`).
+
+**Info:**
+The screen is visible to the organization **owner** and **admins**. Members don't see the menu entry (they still see the aggregate quota ring in the chat). Purchase and cancellation actions are **owner-only** — admins see the screen read-only.
+
+## What you'll see
+
+- **Monthly gauge** — tokens used vs. your effective quota (the 5M monthly allowance plus any pack balance), the percentage used, and the quota reset date (the 1st of the next month, UTC).
+- **Month selector** — switch between recent months.
+- **Plan badge** — how your org is entitled (e.g. included in Scale, active add-on, or grandfathered access with its end date).
+- **Daily chart** — input vs. output tokens per day (UTC).
+- **Pack balance and purchase history** — packs bought, their price, and remaining pack tokens (pack tokens never expire and are consumed only after the monthly 5M).
+- **Breakdown by site and by user** — where the tokens went. User rows show names, never emails; automated LENS insight runs appear as "LENS (automated)".
+
+## Buying token packs
+
+Owners can buy **5M-token packs** (€358.80 each, 1–10 per checkout) directly from this screen via Stripe checkout. The new balance is reflected as soon as the payment completes, and a confirmation email is sent. See [Seal AI Private — token packs](/billing/seal-ai-private#extra-token-packs).
+
+## States you may encounter
+
+| State | What it means |
+|-------|---------------|
+| "Not available on Free" | Seal AI Private requires Growth (add-on) or Scale/Enterprise — the screen shows upgrade options |
+| Activation card with pricing | Your org is not yet entitled: the owner can activate the add-on (€299/mo billed annually · €358.80/mo monthly) |
+| Grandfathering banner | Your org has temporary access; the banner shows the end date |
+| "Token limit reached" in chat | Quota + packs exhausted: owner sees a purchase CTA, members see "contact your admin"; anyone can switch the chat to their own key ([BYOK](/platform/settings/llm)) |
+
+## Email alerts
+
+The organization receives an email when monthly consumption crosses **80%** and **100%** of the effective quota (once per month each), and a confirmation email on each pack purchase.
+
+## Related documentation
+
+- [Seal AI Private](/billing/seal-ai-private) — pricing, quota model, and plan availability
+- [LLM Providers](/platform/settings/llm) — choosing Seal AI vs. your own key
+- [Organizations API — Seal AI usage](/api/organizations#seal-ai-usage) — the same data via API
 
 
 
@@ -50715,13 +50806,14 @@ All plans include:
 | Feature | Growth | Scale | Enterprise |
 |---------|:------:|:-----:|:----------:|
 | Monthly events | 5M | 15M | Unlimited |
-| LENS AI assistant | Included (your own LLM key) | Included (your own LLM key) | Included (your own LLM key) |
+| LENS AI assistant (your own LLM key) | Included | Included | Included |
+| [Seal AI Private](/billing/seal-ai-private) (managed, EU) | Add-on | Included | Included |
 | Webhooks | - | Yes | Yes |
 | Audit logs | - | Yes | Yes |
 | Role-based access | Basic | Advanced | Full |
 | SSO (SAML) | - | - | Yes |
 | SLA | 99.5% | 99.5% | 99.9% |
-| Support | Email + Chat | Priority | Dedicated AM |
+| Support | Email | Email + Chat + Priority | Priority + Dedicated AM |
 | Onboarding | Docs | 1 session | White-glove |
 
 ## Choosing the Right Plan
@@ -50855,9 +50947,10 @@ The Growth plan is designed for growing teams and mid-size e-commerce businesses
 
 | Feature | Included |
 |---------|----------|
-| AI questions | 1,000/month |
 | LENS Chat | Yes |
 | LENS Insights | Yes |
+| AI with your own key (BYOK) | Yes — unmetered, billed by your provider |
+| [Seal AI Private](/billing/seal-ai-private) | Available as add-on (€299/mo billed annually · €358.80/mo monthly) |
 
 ### Integrations
 
@@ -50876,7 +50969,6 @@ The Growth plan is designed for growing teams and mid-size e-commerce businesses
 | Feature | Included |
 |---------|----------|
 | Email support | Yes |
-| Chat support | Yes |
 | Documentation | Yes |
 | SLA | 99.5% uptime |
 
@@ -50966,9 +51058,10 @@ The Scale plan is designed for multi-brand retailers and larger organizations th
 
 | Feature | Included |
 |---------|----------|
-| AI questions | 2,000/month |
 | LENS Chat | Yes |
 | LENS Insights | Yes |
+| AI with your own key (BYOK) | Yes — unmetered, billed by your provider |
+| [Seal AI Private](/billing/seal-ai-private) | **Included** (5M tokens/month, EU-hosted, no API key needed) |
 
 ### Integrations
 
@@ -51012,7 +51105,7 @@ One free overage month per year is included. Annual plans absorb mid-year overag
 | Audit logs | - | **Yes** |
 | Advanced RBAC | - | **Yes** |
 | API rate limit | 240/min | **480/min** |
-| AI questions | 1,000 | **2,000** |
+| [Seal AI Private](/billing/seal-ai-private) | Paid add-on | **Included** |
 | Priority support | - | **Yes** |
 | Onboarding | - | **1 session** |
 | SLA | 99.5% | 99.5% |
@@ -51113,9 +51206,10 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 |---------|:------:|:-----:|:----------:|
 | LENS Chat | Yes | Yes | Yes |
 | LENS Insights | Yes | Yes | Yes |
-| AI questions | Unlimited (your own LLM key) | Unlimited (your own LLM key) | Unlimited (your own LLM key) |
+| AI with your own key (BYOK) | Unmetered | Unmetered | Unmetered |
+| [Seal AI Private](/billing/seal-ai-private) (EU-hosted, no key) | Paid add-on | **Included** | **Included** |
 
-LENS AI runs on a bring-your-own-key (BYOK) model: you connect your own LLM provider API key, so there is no per-account question quota and nothing extra to buy. Questions are billed directly by your provider.
+LENS AI works two ways: **[Seal AI Private](/billing/seal-ai-private)** (managed, EU-hosted, no API key; 5M tokens/month plus optional packs — add-on on Growth, included in Scale/Enterprise) or **bring-your-own-key** (connect your own LLM provider API key; unmetered by Sealmetrics, billed directly by your provider).
 
 ---
 
@@ -51180,7 +51274,7 @@ LENS AI runs on a bring-your-own-key (BYOK) model: you connect your own LLM prov
 |---------|:------:|:-----:|:----------:|
 | Documentation | Yes | Yes | Yes |
 | Email support | Yes | Yes | Yes |
-| Chat support | Yes | Yes | Yes |
+| Chat support | - | Yes | Yes |
 | Priority support | - | Yes | Yes |
 | Dedicated account manager | - | - | Yes |
 
@@ -51271,9 +51365,10 @@ Custom pricing based on your organization's needs. [Contact sales](mailto:sales@
 
 | Feature | Included |
 |---------|----------|
-| AI questions | Custom |
 | LENS Chat | Yes |
 | LENS Insights | Yes |
+| AI with your own key (BYOK) | Yes — unmetered, billed by your provider |
+| [Seal AI Private](/billing/seal-ai-private) | **Included** (5M tokens/month, EU-hosted, no API key needed) |
 
 ### Integrations
 
@@ -51422,9 +51517,14 @@ These percentages are email alert thresholds only — reaching 120% in a single 
 | Scale | 24 months |
 | Enterprise | Custom |
 
-### LENS AI Questions
+### LENS AI usage
 
-LENS AI uses a **bring-your-own-key (BYOK)** model: you connect your own LLM provider API key (Anthropic, OpenAI, DeepSeek, or Gemini) under **My Account → LLM Providers**. There is **no monthly question quota** imposed by Sealmetrics — questions are billed directly by your chosen provider. See the [AI Assistant docs](/lens/ai-assistant/) for setup.
+LENS AI works in two modes, with different limits:
+
+- **[Seal AI Private](/billing/seal-ai-private)** (managed, EU-hosted, no API key — add-on on Growth, included in Scale/Enterprise): **5M tokens per calendar month**, plus any non-expiring token packs you purchase. When quota and packs run out, Seal AI stops until the monthly reset or a pack purchase (you can always fall back to BYOK).
+- **Bring-your-own-key (BYOK)**: connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key under **My Account → LLM Providers**. Sealmetrics imposes **no quota** — usage is billed directly by your provider.
+
+See the [AI Assistant docs](/lens/ai-assistant/) for setup.
 
 ### Websites and Users
 
@@ -51488,10 +51588,23 @@ URL: https://docs.sealmetrics.com/billing/add-ons
 
 # Add-ons & Extras
 
-All plans already include unlimited websites and unlimited users, plus full access to LENS AI through your own LLM provider key. The add-ons below cover the remaining custom needs.
+All plans already include unlimited websites and unlimited users. The add-ons below cover AI capacity and Enterprise custom needs.
+
+## Seal AI Private
+
+Sealmetrics' EU-hosted, platform-managed AI for [LENS](/lens/) — no API key needed, no prompt retention, processed entirely in the EU.
+
+| | |
+|---|---|
+| Price | €299/month billed annually upfront (€3,588/year) · €358.80/month on monthly contracts |
+| Included quota | 5M tokens per calendar month |
+| Extra capacity | 5M token packs at €358.80 each (1–10 per checkout, **never expire**) |
+| Availability | Add-on on Growth · **Included** in Scale and Enterprise · Not available on Free |
+
+Full details: **[Seal AI Private](/billing/seal-ai-private)**.
 
 **Note:**
-LENS AI runs on a **bring-your-own-key (BYOK)** model — you connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key, and your questions are billed directly by that provider. Sealmetrics does **not** impose a monthly question quota, so there is no "question allowance" to top up. See the [AI Assistant docs](/lens/ai-assistant/) for setup.
+Instead of (or alongside) Seal AI Private, you can connect your **own** Anthropic, OpenAI, DeepSeek, or Gemini API key. With BYOK your AI usage is billed directly by that provider and Sealmetrics does not meter it. See [LLM Providers](/platform/settings/llm).
 
 ## Enterprise Add-ons
 
@@ -51508,9 +51621,9 @@ Contact sales@sealmetrics.com for these options.
 
 ## Frequently Asked Questions
 
-### Do I pay Sealmetrics extra for LENS AI usage?
+### Do I pay Sealmetrics extra for AI usage?
 
-No. LENS AI uses a bring-your-own-key model with no monthly quota set by Sealmetrics, so there is nothing to buy or top up — your AI usage is billed by the LLM provider whose key you connect.
+Only if you use **Seal AI Private** (the managed EU provider): it's a paid add-on on Growth and included in Scale/Enterprise, with a 5M token/month quota and optional token packs. If you use **your own LLM key (BYOK)** instead, Sealmetrics doesn't charge or meter anything — your usage is billed by your provider.
 
 ### Are there volume discounts?
 
@@ -51869,6 +51982,94 @@ Common requests:
 - Payment receipts
 - VAT corrections
 - Custom billing arrangements
+
+
+
+## Seal AI Private
+
+
+URL: https://docs.sealmetrics.com/billing/seal-ai-private
+
+
+# Seal AI Private
+
+**Seal AI Private** is Sealmetrics' platform-managed AI provider for [LENS AI](/lens/): your chat questions and AI insights are processed entirely in the **EU (Paris)**, with **no prompt retention**, and your data never trains third-party models. No API key required — it works out of the box.
+
+It is available as a paid **add-on** on Growth plans and is **included** in Scale and Enterprise plans.
+
+---
+
+## Pricing
+
+| Contract | Price |
+|----------|-------|
+| Annual contracts | **€299/month**, billed **€3,588/year upfront** |
+| Monthly contracts | **€358.80/month** |
+
+Activating the add-on mid-cycle is **not prorated** — billing starts at your next billing cycle. The add-on follows the billing interval of your base subscription.
+
+## Availability by plan
+
+| Plan | Seal AI Private |
+|------|-----------------|
+| Free | Not available |
+| Growth | Available as a paid add-on |
+| Scale | **Included** |
+| Enterprise | **Included** |
+
+## The token quota
+
+- Seal AI Private includes **5 million tokens per calendar month (UTC)**. Unused tokens do **not** roll over.
+- Tokens are counted as prompt + completion tokens of each AI request (chat questions and automated LENS insights both draw from the same quota).
+- At **80%** and **100%** consumption, the organization receives an email alert (once per month each).
+
+### When the quota runs out
+
+When the monthly quota and any pack balance are exhausted, Seal AI Private **stops** (hard stop) for both chat and insights, and the product shows a message with a purchase option. Two ways to keep going:
+
+1. **Buy a token pack** (below), or
+2. **Switch to your own key (BYOK)** — the chat's provider selector lets any user fall back to their own OpenAI, Anthropic, Gemini, or DeepSeek key at any time. See [LLM Providers](/platform/settings/llm).
+
+## Extra token packs
+
+| | |
+|---|---|
+| Size | **5,000,000 tokens** per pack |
+| Price | **€358.80 per pack** (same price on all contracts) |
+| Quantity | 1–10 packs per checkout |
+| Expiry | **Packs never expire** — pack tokens are consumed only after the monthly 5M quota is exhausted |
+
+Packs are a **one-time purchase** (no auto-recharge) made from the [Seal AI Usage screen](/platform/settings/seal-ai-usage) via Stripe checkout. Only organization **owners** can purchase.
+
+## Who can manage it
+
+| Action | Who |
+|--------|-----|
+| View the [Seal AI Usage screen](/platform/settings/seal-ai-usage) | Organization **owner** and **admins** |
+| Activate the add-on / buy packs / cancel | Organization **owner** only |
+| Members | No menu entry; the chat still shows the aggregate quota ring, and on exhaustion members see "contact your admin" |
+
+Cancelling the add-on takes effect at the end of the current billing period.
+
+## For developers
+
+Seal AI Private is managed through these API endpoints (JWT with `billing:manage` — organization owners):
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /billing/seal-ai/subscribe` | Add the add-on to the org's subscription (no proration; `403` on Free, `409` if already included in plan or already active) |
+| `POST /billing/seal-ai/unsubscribe` | Remove the add-on at period end |
+| `POST /billing/seal-ai/token-pack/checkout` | Stripe checkout for 1–10 token packs (entitled orgs only) |
+| `GET /organizations/{slug}/seal-ai/usage` | Monthly usage summary — see [Organizations API](/api/organizations#seal-ai-usage) |
+
+When the quota is exhausted, AI endpoints return `403` with `error_code: "seal_ai_quota_exceeded"` and a structured payload (`used_tokens`, `pack_balance_tokens`, `effective_quota_tokens`, `can_buy_pack`, `entitlement_source`, `resets_at`). See [LENS API](/lens/api/lens-endpoints).
+
+## Related documentation
+
+- [Seal AI Usage screen](/platform/settings/seal-ai-usage) — the consumption dashboard
+- [LLM Providers](/platform/settings/llm) — Seal AI Private vs. bring-your-own-key
+- [LENS AI](/lens/) — what the AI can do
+- [Plans & Pricing](/billing/) — base plan pricing
 
 
 
@@ -56587,6 +56788,28 @@ URL: https://docs.sealmetrics.com/changelog
 
 
 # Release Notes
+
+---
+
+## Seal AI Private — EU-hosted AI with token packs (July 22, 2026)
+
+**Seal AI Private** is now generally available: Sealmetrics' managed AI provider for [LENS](/lens/) — processed entirely in the EU (Paris), no prompt retention, and no API key to manage.
+
+### What's new
+
+- **Add-on on Growth, included in Scale and Enterprise.** €299/month billed annually upfront (€3,588/year), or €358.80/month on monthly contracts. Not available on Free.
+- **5M tokens per calendar month** for the whole organization (chat + automated insights), with email alerts at 80% and 100% consumption.
+- **Token packs**: extra 5M-token packs at €358.80 each (1–10 per checkout) that **never expire** — consumed only after the monthly quota.
+- **Seal AI Usage screen** (Organization → Seal AI Usage, owner/admin): monthly gauge, daily input/output chart, pack balance and history, and per-site / per-user breakdown.
+- **BYOK fallback**: when the quota runs out, any user can switch the chat to their own Anthropic, OpenAI, Gemini, or DeepSeek key.
+
+Full details: [Seal AI Private](/billing/seal-ai-private) · [LLM Providers](/platform/settings/llm).
+
+---
+
+## Sources report — referral traffic now grouped by domain, GA4-style (July 21, 2026)
+
+The **Sources** tab now shows referral traffic as source domains (e.g. `reddit.com / referrer`), unifying historical data under the same convention. The **Referrers** tab keeps its URL-level detail: one row per referring URL. If you query the API, referral rows now appear in `/stats/sources` as domains and are excluded from `/stats/terms`.
 
 ---
 
