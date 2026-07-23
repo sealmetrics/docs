@@ -1,136 +1,92 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
-import {useColorMode} from '@docusaurus/theme-common';
+import styles from './HomeCards.module.css';
 
-const HomeCards: React.FC = () => {
-  const {colorMode} = useColorMode();
-  const isDark = colorMode === 'dark';
-
-  const cards = [
-    {
-      title: 'Getting Started',
-      description:
-        'Learn the basics of Sealmetrics — installation, setup, and how cookieless analytics works.',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#00A47C" viewBox="0 0 24 24">
-          <path d="M3 13h18v-2H3v2zm0 6h12v-2H3v2zm0-12h18V5H3v2z" />
-        </svg>
-      ),
-      link: '/getting-started',
-    },
-    {
-      title: 'Reports',
-      description:
-        'Explore reports for traffic sources, funnels, ROAS, and conversions — all privacy-compliant.',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#00A47C" viewBox="0 0 24 24">
-          <path d="M2 3h20l-8 9v5l-4 4v-9L2 3z" />
-        </svg>
-      ),
-      link: '/reports',
-    },
-    {
-      title: 'API Reference',
-      description:
-        'Full API documentation — endpoints, authentication, and examples for developers.',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#00A47C" viewBox="0 0 24 24">
-          <path d="M10 4v3H5v10h14V7h-5V4h7v16H3V4h7z" />
-        </svg>
-      ),
-      link: '/api',
-    },
-    {
-      title: 'Legal & Compliance',
-      description:
-        'Understand how Sealmetrics meets GDPR, CNIL, and ePrivacy standards — no cookies required.',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#00A47C" viewBox="0 0 24 24">
-          <path d="M12 1l8 4v6c0 5.25-3.5 10.74-8 12-4.5-1.26-8-6.75-8-12V5l8-4z" />
-        </svg>
-      ),
-      link: '/compliance',
-    },
-    {
-      title: 'Changelog',
-      description:
-        'Track the latest updates, feature releases, and improvements across Sealmetrics.',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#00A47C" viewBox="0 0 24 24">
-          <path d="M12 8v5h5v-2h-3V8h-2zm0-6C6.48 2 2 6.48 2 12s4.48 10 10 10 
-          10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 
-          0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 
-          8-3.59 8-8 8z" />
-        </svg>
-      ),
-      link: '/changelog',
-    },
-  ];
-
-  return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-        gap: '1.5rem',
-        marginTop: '2rem',
-      }}
-    >
-      {cards.map((card) => (
-        <div
-          key={card.title}
-          style={{
-            border: isDark ? '1px solid #2F2F2F' : '1px solid #E5E5E5',
-            borderRadius: '12px',
-            padding: '1.5rem',
-            backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
-            boxShadow: isDark
-              ? '0 2px 8px rgba(0,0,0,0.6)'
-              : '0 2px 8px rgba(0,0,0,0.05)',
-            transition: 'all 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-4px)';
-            e.currentTarget.style.boxShadow = isDark
-              ? '0 4px 12px rgba(0,0,0,0.8)'
-              : '0 4px 12px rgba(0,0,0,0.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = isDark
-              ? '0 2px 8px rgba(0,0,0,0.6)'
-              : '0 2px 8px rgba(0,0,0,0.05)';
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
-            {card.icon}
-            <h3
-              style={{
-                color: '#00A47C',
-                marginLeft: '0.5rem',
-                fontSize: '1rem',
-                marginBottom: 0,
-                fontWeight: 600,
-              }}
-            >
-              <Link to={card.link} style={{ textDecoration: 'none', color: '#00A47C' }}>
-                {card.title}
-              </Link>
-            </h3>
-          </div>
-          <p
-            style={{
-              fontSize: '0.85rem',
-              color: isDark ? '#E0E0E0' : '#333',
-              lineHeight: '1.5rem',
-            }}
-          >
-            {card.description}
-          </p>
-        </div>
-      ))}
-    </div>
-  );
+type PersonaCard = {
+  audience: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  link: string;
+  cta: string;
+  secondary?: {
+    prefix: string;
+    label: string;
+    link: string;
+  };
 };
+
+const cards: PersonaCard[] = [
+  {
+    audience: 'Marketers & site owners',
+    title: 'Install the pixel',
+    description:
+      'Add the tracker to your site and verify your first event in under 5 minutes — no cookies, no consent banner.',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M13 2L3 14h7v8l10-12h-7l0-8z" />
+      </svg>
+    ),
+    link: '/getting-started/quick-start',
+    cta: 'Quick start →',
+    secondary: {
+      prefix: 'Or let your AI assistant do it:',
+      label: 'Install with AI',
+      link: '/getting-started/install-with-ai',
+    },
+  },
+  {
+    audience: 'Developers',
+    title: 'Explore the API',
+    description:
+      'Generate a token, find your Site ID, and pull traffic data via REST — your first API call in three steps.',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
+      </svg>
+    ),
+    link: '/api/quick-start',
+    cta: 'API quick start →',
+  },
+  {
+    audience: 'Legal & privacy teams',
+    title: 'Compliance for your DPO',
+    description:
+      'Regulator-by-regulator self-assessments — GDPR, ePrivacy, CNIL, UK PECR — plus subprocessors and data subject rights.',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 1l8 4v6c0 5.25-3.5 10.74-8 12-4.5-1.26-8-6.75-8-12V5l8-4z" />
+      </svg>
+    ),
+    link: '/compliance',
+    cta: 'Compliance hub →',
+  },
+];
+
+const HomeCards: React.FC = () => (
+  <div className={styles.grid}>
+    {cards.map((card) => (
+      <div key={card.title} className={styles.card}>
+        <span className={styles.iconChip}>{card.icon}</span>
+        <p className={styles.audience}>{card.audience}</p>
+        <h3 className={styles.cardTitle}>
+          <Link to={card.link}>{card.title}</Link>
+        </h3>
+        <p className={styles.cardDescription}>{card.description}</p>
+        <div className={styles.cardActions}>
+          <Link to={card.link} className={styles.cta}>
+            {card.cta}
+          </Link>
+          {card.secondary && (
+            <span className={styles.secondary}>
+              {card.secondary.prefix}{' '}
+              <Link to={card.secondary.link}>{card.secondary.label}</Link>
+            </span>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 export default HomeCards;

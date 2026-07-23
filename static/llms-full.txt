@@ -38506,13 +38506,14 @@ This page answers the most common legal and compliance questions related to Seal
 
 ---
 
-## **Audits & External Validation**
+## **Compliance Validation**
 
-### **Does an independent company audit Sealmetrics?**
-Yes. Sealmetrics is independently audited by **Comply.org**.  
-You can view our official compliance profile here:
+### **How can I validate Sealmetrics' compliance claims?**
+Sealmetrics publishes detailed, criterion-by-criterion **self-assessments** against the published frameworks of European regulators, so your DPO can verify every claim directly:
 
-👉 [Sealmetrics compliance profile on Comply.org](https://app.comply.org/attest/sealmetrics)
+👉 [CNIL (France)](/compliance/cnil-self-assessment) · [ICO PECR (UK)](/compliance/uk-pecr-self-assessment) · [TDDDG (Germany)](/compliance/germany-ttdsg-self-assessment) · [Garante (Italy)](/compliance/italy-garante-self-assessment) · [FADP (Switzerland)](/compliance/switzerland-fadp-self-assessment)
+
+Technical claims (what is collected, what is never stored) are documented in [What We Track](/security-privacy/what-we-track) and can be verified from the browser: every request the tracker sends is visible in your own DevTools.
 
 ---
 
@@ -38523,8 +38524,8 @@ You can review our full **Privacy Notice** for our role as a B2B Data Controller
 
 👉 [Sealmetrics Privacy Notice](https://sealmetrics.com/privacy)
 
-We’re also audited as Data Processors where applicable:  
-👉 [Data Processing Agreement (DPA)](https://sealmetrics.com/dpa) · [Comply.org audit profile](https://app.comply.org/attest/sealmetrics)
+For our role as Data Processor:  
+👉 [Data Processing Agreement (DPA)](https://sealmetrics.com/dpa) · [Subprocessors](/compliance/subprocessors)
 
 ---
 
@@ -48842,7 +48843,7 @@ Document the following from your current GA4 property:
 
 ## What's different
 
-- **No cookies, no consent banner.** Sealmetrics captures 100% of traffic under GDPR legitimate interest (Article 6(1)(f)), audited by [Comply](https://app.comply.org/attest/sealmetrics).
+- **No cookies, no consent banner.** Sealmetrics captures 100% of traffic under GDPR legitimate interest (Article 6(1)(f)).
 - **Google Ads tracking, no audience sync.** Sealmetrics tracks Google Ads campaigns via UTM parameters end-to-end (source, medium, campaign, term, content) and provides ROAS reporting. What it does **not** do is push audience segments back to Google Ads for automated bidding — that requires GA4 with consented users. Teams commonly run both: GA4 for Ads audience/bidding, Sealmetrics as the source of truth for total traffic and conversions.
 - **No predictive metrics** (purchase probability, churn probability). Sealmetrics reports observed behavior.
 - **Simpler attribution model.** Last non-direct click by default; configurable.
@@ -56086,26 +56087,27 @@ URL: https://docs.sealmetrics.com
 
 These docs cover everything you need to implement, operate, and build on top of Sealmetrics: tracker installation, the HTTP and JavaScript APIs, every built-in report, compliance posture, and CMS/framework integrations.
 
-## Start here
-
-- **[Getting started →](/getting-started)** — install the tracker and verify your first event in under 5 minutes.
-- **[Implementation guide →](/implementation)** — tracking methods, server-side collection, e-commerce, and framework-specific recipes.
-- **[API reference →](/api)** — authentication, batch endpoints, exports, alerts, and tokens.
-- **[Compliance →](/compliance)** — GDPR, ePrivacy, CNIL self-assessment, UK PECR, and the EU Omnibus.
-- **[Changelog →](/changelog)** — what shipped, when.
+## Choose your path
 
 ## Reports at a glance
 
----
+Every report shares one definition layer — the same entrances, conversions, and revenue whether you read them in the dashboard, the API, or a raw export.
 
 ## Why Sealmetrics
 
 - **100% privacy-compliant** — no cookies, no consent banner, no data loss from banner rejection.
-- **Legitimate interest by design** — audited by [Comply](https://app.comply.org/attest/sealmetrics).
+- **Legitimate interest by design** — validated criterion by criterion in our public [regulator self-assessments](/compliance).
 - **Unified metrics** — dashboard, ROAS, funnels, attribution, and raw exports share one definition layer.
 - **24-month retention** without consent, within GDPR bounds.
 
 > Sealmetrics gives you actionable insights — without cookies, consent banners, or data loss.
+
+## Keep exploring
+
+- **[Implementation guide →](/implementation)** — tracking methods, server-side collection, e-commerce, and framework-specific recipes.
+- **[Guides →](/guides)** — long-form playbooks: cookieless analytics, GA4 migration, UTM governance.
+- **[Troubleshooting →](/troubleshooting)** — fix missing conversions, CSP errors, data delays, and timezone mismatches.
+- **[Changelog →](/changelog)** — what shipped, when.
 
 
 

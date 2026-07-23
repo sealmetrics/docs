@@ -1,0 +1,77 @@
+/**
+ * Card / CardGrid tokens.
+ * Rule: no hardcoded colors on elements — per-theme tokens
+ * (light values on .card, dark overrides under [data-theme='dark']).
+ * Aesthetic mirrors ReportCards.module.css.
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  /* Light theme tokens */
+  --seal-card-border: var(--ifm-color-emphasis-200);
+  --seal-card-bg: var(--ifm-card-background-color, var(--ifm-background-surface-color));
+  --seal-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --seal-card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --seal-card-title: var(--ifm-color-primary-dark);
+
+  border: 1px solid var(--seal-card-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background-color: var(--seal-card-bg);
+  box-shadow: var(--seal-card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+[data-theme='dark'] .card {
+  /* Dark theme tokens */
+  --seal-card-bg: var(--ifm-background-surface-color);
+  --seal-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  --seal-card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.8);
+  --seal-card-title: var(--ifm-color-primary-light);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--seal-card-shadow-hover);
+  text-decoration: none;
+  color: inherit;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--seal-card-title);
+}
+
+.cardTitle {
+  margin-bottom: 0;
+  font-size: 1rem;
+  color: var(--seal-card-title);
+}
+
+.cardBody {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.5rem;
+}
+
+.cardBody p:last-child {
+  margin-bottom: 0;
+}

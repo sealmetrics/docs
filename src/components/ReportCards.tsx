@@ -24,7 +24,7 @@ const cards: Card[] = [
   {
     title: 'Traffic Source Analysis',
     description:
-      'Analyze acquisition sources, ROAS, and performance by medium, campaign, and device.',
+      'Analyze acquisition channels, sources, campaigns, and referrers — with conversions and revenue per row.',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M3 13h18v-2H3v2zm0 6h12v-2H3v2zm0-12h18V5H3v2z" />
@@ -33,9 +33,9 @@ const cards: Card[] = [
     link: '/reports/sources',
   },
   {
-    title: 'ROAS Evolution Report',
+    title: 'Evolution Report',
     description:
-      'Measure Return on Ad Spend over time and compare performance by source, medium, or campaign.',
+      'Track entrances, conversions, and revenue over time and spot trends across periods.',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M3 17h2v-2H3v2zm4 0h2v-6H7v6zm4 0h2V9h-2v8zm4 0h2V5h-2v12zm4 0h2v-9h-2v9z" />

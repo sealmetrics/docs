@@ -166,6 +166,8 @@ const config: Config = {
   // 301-equivalent client redirects for URLs renamed since launch.
   // Old trees (pre-Feb-2026 IA migration) → current locations.
   plugins: [
+    // Click-to-zoom on all markdown/screenshot images (medium-zoom).
+    'docusaurus-plugin-image-zoom',
     [
       '@docusaurus/plugin-client-redirects',
       {
@@ -315,6 +317,19 @@ const config: Config = {
       disableSwitch: false,
     },
 
+    // docusaurus-plugin-image-zoom: overlay backgrounds match each theme's
+    // page surface (light = warm white --ifm-background-color, dark = #1b1b1d).
+    zoom: {
+      selector: '.markdown img',
+      background: {
+        light: 'rgba(248, 246, 241, 0.95)',
+        dark: 'rgba(27, 27, 29, 0.95)',
+      },
+      config: {
+        margin: 24,
+      },
+    },
+
     navbar: {
       logo: {
         alt: 'Sealmetrics',
@@ -339,26 +354,39 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Product',
           items: [
-            { label: 'Consentless Analytics', href: 'https://sealmetrics.com' },
-            { label: 'Legal Audit', href: 'https://app.comply.org/attest/sealmetrics' },
-            { label: 'Server Status', href: 'https://sealmetrics.instatus.com/' },
+            { label: 'Getting Started', to: '/getting-started' },
+            { label: 'Install with AI', to: '/getting-started/install-with-ai' },
+            { label: 'Reports', to: '/reports' },
+            { label: 'LENS AI', to: '/lens' },
           ],
         },
         {
-          title: 'Community',
+          title: 'Developers',
           items: [
-            { label: 'GitHub', href: 'https://github.com/sealmetrics' },
-            { label: 'LinkedIn', href: 'https://linkedin.com/company/sealmetrics' },
-            { label: 'X (Twitter)', href: 'https://x.com/sealmetrics' },
+            { label: 'API Quick Start', to: '/api/quick-start' },
+            { label: 'Stats API', to: '/api/stats' },
+            { label: 'Webhooks', to: '/api/webhooks' },
+            { label: 'MCP Server', to: '/integrations/mcp-server' },
           ],
         },
         {
-          title: 'More',
+          title: 'Compliance',
           items: [
-            { label: 'Changelog', to: '/changelog' },
+            { label: 'CNIL Self-Assessment', to: '/compliance/cnil-self-assessment' },
+            { label: 'UK PECR', to: '/compliance/uk-pecr-self-assessment' },
+            { label: 'Subprocessors', to: '/compliance/subprocessors' },
+            { label: 'Data Subject Rights (DSAR)', to: '/compliance/data-subject-rights' },
+          ],
+        },
+        {
+          title: 'Resources',
+          items: [
             { label: 'Guides', to: '/guides' },
+            { label: 'Troubleshooting', to: '/troubleshooting' },
+            { label: 'Blog', to: '/blog' },
+            { label: 'Changelog', to: '/changelog' },
           ],
         },
       ],

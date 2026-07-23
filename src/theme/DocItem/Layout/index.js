@@ -13,6 +13,7 @@ import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import ContentVisibility from '@theme/ContentVisibility';
+import DocFeedback from '@site/src/components/DocFeedback';
 import styles from './styles.module.css';
 
 const TECH_ARTICLE_PREFIXES = [
@@ -107,6 +108,7 @@ export default function DocItemLayout({children}) {
             {docTOC.mobile}
             <DocItemContent>{children}</DocItemContent>
             <DocItemFooter />
+            <DocFeedback />
           </article>
           <DocItemPaginator />
         </div>
