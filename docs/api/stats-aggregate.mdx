@@ -1,0 +1,432 @@
+---
+sidebar_position: 9
+title: Multi-Site Aggregate Stats
+description: Portfolio-level analytics — aggregate traffic, conversions, pages, sources, geo, and devices across multiple sites in a single query
+---
+
+# Multi-Site Aggregate Stats
+
+Consolidated analytics across **multiple sites at once**. Instead of querying `/stats/*` once per site and merging the results yourself, the `/stats/aggregate/*` endpoints return portfolio-level totals — total entrances, revenue, top pages, top sources — summed across every site you pass in.
+
+Typical use case: an internal or agency dashboard that shows "all my properties" in one view.
+
+**Base path:** `/stats/aggregate`
+
+---
+
+## Access Requirements
+
+These endpoints are more restricted than the regular stats endpoints:
+
+- **Superadmin role required.** Only users with the global `superadmin` role can call multi-site aggregation. Any other role receives `403`.
+- **`read` scope required** on the token (same as other stats endpoints).
+- The caller must have access to **all** requested `account_ids` — if any is denied, the whole request fails with `403` listing the denied accounts.
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/aggregate/overview?account_ids=site-a&account_ids=site-b&period=30d" \
+  -H "Authorization: Bearer YOUR_JWT"
+```
+
+---
+
+## Common Parameters
+
+All aggregate endpoints accept these parameters:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_ids` | string (repeated) | Yes | Site IDs to aggregate. **Repeat the parameter** for each site (`?account_ids=a&account_ids=b`). Minimum 2 distinct IDs; duplicates are removed |
+| `start_date` | date | No | Start date (YYYY-MM-DD) |
+| `end_date` | date | No | End date (YYYY-MM-DD) |
+| `period` | string | No | Period shortcut (e.g. `30d`, `this_month`) — overrides explicit dates |
+
+Passing fewer than 2 `account_ids` returns `400` ("Multi-site aggregation requires at least 2 account_ids").
+
+**Timezone note:** period shortcuts (`30d`, `this_month`, ...) are resolved using the timezone of the **first** `account_id` in the list. Explicit `start_date`/`end_date` are passed through unchanged.
+
+The paginated endpoints (`pages`, `mediums`, `sources`, `geo/countries`, `landing-pages`, `conversions`) additionally accept:
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `page` | int | `1` | Page number (min 1) |
+| `page_size` | int | `50` | Items per page (1-100) |
+| `sort_by` | string | `entrances` | Sort field (`count` for `/conversions`) |
+| `sort_order` | string | `desc` | `asc` or `desc` |
+
+---
+
+## Aggregated Overview
+
+```http
+GET /stats/aggregate/overview
+```
+
+Consolidated dashboard overview: traffic totals, conversion totals, previous-period comparison, and time series — all summed across the requested sites.
+
+**Extra parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `compare` | string | `previous` | Comparison mode: `previous`, `yoy`, or `none` |
+| `include_series` | bool | `true` | Include time series data for charts |
+| `include_per_account` | bool | `false` | Include per-site breakdown inside `traffic.by_account` |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "account_ids": ["site-a", "site-b"],
+    "account_count": 2,
+    "date_range": {
+      "start_date": "2025-01-01",
+      "end_date": "2025-01-30"
+    },
+    "traffic": {
+      "account_count": 2,
+      "entrances": 45230,
+      "engaged_entrances": 26890,
+      "page_views": 112450,
+      "microconversions": 3120,
+      "conversions": 587,
+      "revenue": 48120.50,
+      "by_account": [
+        {
+          "account_id": "site-a",
+          "entrances": 30150,
+          "engaged_entrances": 18200,
+          "page_views": 76300,
+          "microconversions": 2100,
+          "conversions": 402,
+          "revenue": 33400.00,
+          "bounce_rate": 39.64,
+          "conversion_rate": 1.33
+        }
+      ],
+      "bounce_rate": 40.55,
+      "pages_per_session": 2.49,
+      "conversion_rate": 1.3
+    },
+    "conversions": {
+      "conversions": 587,
+      "revenue": 48120.50,
+      "microconversions": 3120,
+      "conversion_rate": 1.3,
+      "average_order_value": 81.98
+    },
+    "comparison": {
+      "date_range": {
+        "start_date": "2024-12-02",
+        "end_date": "2024-12-31"
+      },
+      "entrances": 41800,
+      "engaged_entrances": 24500,
+      "page_views": 103900,
+      "microconversions": 2890,
+      "conversions": 531,
+      "revenue": 43050.00,
+      "bounce_rate": 41.39,
+      "conversion_rate": 1.27
+    },
+    "entrances_series": {
+      "metric": "entrances",
+      "points": [
+        { "date": "2025-01-01", "value": 1420 },
+        { "date": "2025-01-02", "value": 1585 }
+      ],
+      "total": 45230
+    },
+    "page_views_series": { "metric": "page_views", "points": [], "total": 0 },
+    "conversions_series": { "metric": "conversions", "points": [], "total": 0 }
+  },
+  "meta": {},
+  "timestamp": "2025-01-31T00:00:00Z"
+}
+```
+
+`by_account` is `null` unless `include_per_account=true`; the three `*_series` fields are `null` when `include_series=false`; `comparison` is `null` when `compare=none`.
+
+---
+
+## Aggregated Pages
+
+```http
+GET /stats/aggregate/pages
+```
+
+Page metrics summed across sites. Pages with the same path on different sites merge into a single row; `account_count` says how many sites contributed to it.
+
+**Response** (paginated):
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "path": "/pricing",
+      "content_grouping": "marketing",
+      "account_count": 2,
+      "entrances": 8420,
+      "engaged_entrances": 5210,
+      "page_views": 15300,
+      "conversions": 214,
+      "bounce_rate": 38.12
+    }
+  ],
+  "total": 342,
+  "page": 1,
+  "page_size": 50,
+  "has_next": true,
+  "has_prev": false,
+  "comparison": null,
+  "totals": null,
+  "timestamp": "2025-01-31T00:00:00Z"
+}
+```
+
+---
+
+## Aggregated Mediums
+
+```http
+GET /stats/aggregate/mediums
+```
+
+Traffic grouped by UTM medium across all requested sites.
+
+**Response** (paginated, items share the `AggregatedSourceMetrics` shape):
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "name": "organic",
+      "utm_source": "",
+      "utm_medium": "organic",
+      "utm_campaign": "",
+      "account_count": 2,
+      "entrances": 19800,
+      "engaged_entrances": 12400,
+      "page_views": 52100,
+      "microconversions": 1340,
+      "conversions": 265,
+      "revenue": 21500.00,
+      "bounce_rate": 37.37,
+      "conversion_rate": 1.34
+    }
+  ],
+  "total": 8,
+  "page": 1,
+  "page_size": 50,
+  "has_next": false,
+  "has_prev": false,
+  "comparison": null,
+  "totals": null,
+  "timestamp": "2025-01-31T00:00:00Z"
+}
+```
+
+---
+
+## Aggregated Sources
+
+```http
+GET /stats/aggregate/sources
+```
+
+Traffic grouped by UTM source across all requested sites.
+
+**Extra parameter:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `utm_medium` | string | No | Filter sources to a single UTM medium |
+
+Response items use the same `AggregatedSourceMetrics` shape as `/mediums`, with `name`/`utm_source` set to the source value (e.g. `"google"`).
+
+---
+
+## Aggregated Countries
+
+```http
+GET /stats/aggregate/geo/countries
+```
+
+Geographic breakdown across all requested sites.
+
+**Response** (paginated):
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "country": "ES",
+      "country_name": "Spain",
+      "account_count": 2,
+      "entrances": 15230,
+      "engaged_entrances": 9400,
+      "page_views": 38900,
+      "microconversions": 1020,
+      "conversions": 198,
+      "revenue": 16800.00,
+      "bounce_rate": 38.28
+    }
+  ],
+  "total": 64,
+  "page": 1,
+  "page_size": 50,
+  "has_next": true,
+  "has_prev": false,
+  "comparison": null,
+  "totals": null,
+  "timestamp": "2025-01-31T00:00:00Z"
+}
+```
+
+---
+
+## Aggregated Devices
+
+```http
+GET /stats/aggregate/devices
+```
+
+Device-type breakdown across all requested sites. Not paginated — returns the full list (there are only a handful of device types).
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "name": "desktop",
+      "entrances": 24900,
+      "engaged_entrances": 15800,
+      "page_views": 65400,
+      "microconversions": 1900,
+      "conversions": 362,
+      "revenue": 30200.00,
+      "percentage": 55.05,
+      "bounce_rate": 36.55,
+      "conversion_rate": 1.45
+    },
+    {
+      "name": "mobile",
+      "entrances": 18100,
+      "engaged_entrances": 9800,
+      "page_views": 41200,
+      "microconversions": 1100,
+      "conversions": 201,
+      "revenue": 15900.00,
+      "percentage": 40.02,
+      "bounce_rate": 45.86,
+      "conversion_rate": 1.11
+    }
+  ],
+  "meta": {},
+  "timestamp": "2025-01-31T00:00:00Z"
+}
+```
+
+`percentage` is each device's share of total entrances (0-100).
+
+---
+
+## Aggregated Landing Pages
+
+```http
+GET /stats/aggregate/landing-pages
+```
+
+Landing page metrics summed across sites.
+
+**Response** (paginated):
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "landing_page": "/lp/spring-sale",
+      "content_grouping": "campaigns",
+      "account_count": 2,
+      "entrances": 6200,
+      "engaged_entrances": 4100,
+      "microconversions": 480,
+      "conversions": 121,
+      "revenue": 9800.00,
+      "bounce_rate": 33.87,
+      "conversion_rate": 1.95
+    }
+  ],
+  "total": 87,
+  "page": 1,
+  "page_size": 50,
+  "has_next": true,
+  "has_prev": false,
+  "comparison": null,
+  "totals": null,
+  "timestamp": "2025-01-31T00:00:00Z"
+}
+```
+
+---
+
+## Aggregated Conversions
+
+```http
+GET /stats/aggregate/conversions
+```
+
+Conversions grouped by conversion type across all requested sites. Default sort field is `count` (not `entrances`).
+
+**Response** (paginated):
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "conversion_type": "purchase",
+      "account_count": 2,
+      "count": 587,
+      "revenue": 48120.50,
+      "avg_value": 81.98
+    },
+    {
+      "conversion_type": "signup",
+      "account_count": 2,
+      "count": 1240,
+      "revenue": 0,
+      "avg_value": 0
+    }
+  ],
+  "total": 4,
+  "page": 1,
+  "page_size": 50,
+  "has_next": false,
+  "has_prev": false,
+  "comparison": null,
+  "totals": null,
+  "timestamp": "2025-01-31T00:00:00Z"
+}
+```
+
+---
+
+## Errors
+
+| HTTP Code | Cause |
+|-----------|-------|
+| 400 | Fewer than 2 `account_ids`, invalid `compare` mode, or invalid date range |
+| 403 | Caller is not superadmin, or lacks access to one or more of the requested accounts |
+
+## See Also
+
+- [Stats Endpoints](/api/stats) — single-site metrics
+- [Advanced Stats](/api/stats-advanced) — UTM hierarchy, landing pages, channels
+- [Pagination & Sorting](/api/pagination-sorting)

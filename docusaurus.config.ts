@@ -175,6 +175,11 @@ const config: Config = {
           { from: '/first-steps/first-party-tracker', to: '/implementation/tracker/first-party' },
           { from: '/implementation/event-tracking', to: '/implementation/custom-properties/event-properties' },
           { from: '/getting-started/quick-journey', to: '/getting-started/quick-start' },
+          { from: '/implementation/content-grouping', to: '/implementation/content-site-structure/content-grouping' },
+          { from: '/security-privacy/key-benefits', to: '/security-privacy/consentless-benefits' },
+          { from: '/faq/legal-compliance', to: '/compliance/compliance-overview/legal-faq' },
+          { from: '/compliance/compliance-overview/cnil-compliance', to: '/compliance/cnil-self-assessment' },
+          { from: '/security-privacy/first-party-tracking', to: '/implementation/tracker/first-party' },
           {
             from: '/features/event-tracking-and-custom-data/understanding-event-properties',
             to: '/implementation/custom-properties/event-properties',

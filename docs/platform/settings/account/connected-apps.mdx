@@ -1,0 +1,59 @@
+---
+sidebar_position: 4
+title: Connected Apps
+description: Review and revoke the AI assistants (claude.ai, ChatGPT…) authorized to read your analytics through the Sealmetrics remote MCP server.
+---
+
+# Connected Apps
+
+The Connected Apps screen lists the **remote MCP clients** — AI assistants such as claude.ai or ChatGPT — that you have granted **read-only** access to your analytics via OAuth, and lets you revoke that access at any time.
+
+## Accessing Connected Apps
+
+In the sidebar, open **My Account → Connected Apps** (`/settings/connections`).
+
+:::info Not the same as API Keys or sessions
+Connected Apps only covers OAuth grants created through the **Sealmetrics remote MCP server**. Personal API tokens live under **My Account → API Keys**, and browser logins are managed on the [Security screen](/platform/settings/account/security).
+:::
+
+## How a connection is created
+
+An entry appears here when you connect the Sealmetrics remote MCP server from an AI client:
+
+1. In claude.ai, ChatGPT, or another MCP-capable client, add the connector URL `https://mcp.sealmetrics.com/mcp`.
+2. The client redirects you to the Sealmetrics **consent screen**, which shows the app's name and the domain it will return to.
+3. You approve access for **one specific site** — each connection is scoped to a single site. Connecting the same client to another site creates a separate entry.
+
+The full setup flow (per client) is described in the [MCP Server guide](/integrations/mcp-server).
+
+## Authorized connections
+
+Each connection is shown as a row with:
+
+| Column | Meaning |
+|--------|---------|
+| **App** | The client's name as registered during authorization (e.g. Claude, ChatGPT) |
+| **Site** | The site the connection can read |
+| **Access** | Always **Read-only** — remote MCP connections are granted the `analytics:read` scope and can never modify anything |
+| **Connected** | When you approved the connection |
+| **Last used** | When the app last accessed your data |
+
+If you have never connected an AI client, the list shows "No connected apps yet."
+
+## Revoking access
+
+1. Click the trash icon on the connection's row.
+2. A confirmation dialog explains that the app will lose access to that site **within a minute**, and that reconnecting requires going through the authorization flow again.
+3. Click **Revoke access**.
+
+Revocation invalidates the connection's tokens on the server immediately; because access checks are cached for at most 60 seconds, the app is effectively cut off **within 60 seconds** — usually sooner. There is no way to "pause" a connection: revoke it and re-authorize later if needed.
+
+:::tip Periodic review
+Check this screen occasionally and revoke connections you no longer use — especially after trying out a new AI tool.
+:::
+
+## Related Documentation
+
+- [MCP Server for AI Assistants](/integrations/mcp-server) - Setting up the Sealmetrics connector in Claude, ChatGPT, and other clients
+- [Security](/platform/settings/account/security) - 2FA and browser session management
+- [API Tokens](/api/api-tokens) - Personal API keys, scopes, and token management
