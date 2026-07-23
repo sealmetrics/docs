@@ -333,7 +333,7 @@ Most common causes, in order:
 
 1. **Script included twice.** Search the rendered HTML for `t.sealmetrics.com/t.js` — there should be exactly one match.
 2. **Manual `sealmetrics()` call after auto-tracking.** The tracker already fires on `pushState`/`replaceState`/`popstate`. Don't call it again in your router's `afterEach` unless you've confirmed auto-tracking isn't firing.
-3. **Per-route grouping pattern.** See [Option A above](#option-a--manual-mode-auto0-fire-pageviews-yourself) — calling `sealmetrics({ group: '...' })` after an automatic pageview produces a second event. Note that `?auto=0` only suppresses the *initial* pageview, not SPA route-change pageviews.
+3. **Per-route grouping pattern.** See [Option A above](#option-a--full-manual-mode-auto0spa0-fire-pageviews-yourself) — calling `sealmetrics({ group: '...' })` after an automatic pageview produces a second event. Use `?auto=0&spa=0` together: `?auto=0` alone only suppresses the *initial* pageview, not SPA route-change pageviews.
 4. **Animations using `replaceState`.** Some libraries call `history.replaceState()` for non-navigation purposes (e.g. saving scroll position into the URL hash). This will trigger a pageview if the full URL changes. Use a query-param-only update where possible, or strip the param before tracking.
 
 ### Missing pageviews on route change
