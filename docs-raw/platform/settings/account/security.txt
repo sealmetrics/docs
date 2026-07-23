@@ -1,0 +1,84 @@
+# Security
+
+URL: https://docs.sealmetrics.com/platform/settings/account/security
+
+# Security
+
+The Security screen manages your personal account security: **two-factor authentication (2FA)** with an authenticator app, **backup codes**, and the list of **active sessions** (devices where you are logged in), each of which can be revoked.
+
+## Accessing Security
+
+In the sidebar, open **My Account → Security** (`/settings/security`).
+
+**Info:**
+Everything on this screen belongs to **your user**, not to a site or organization. Changing your password is done on the **My Account → Profile** screen, not here.
+
+## Security Status
+
+The top card summarizes your account: it shows how many devices are currently logged in. When there is more than one session, a **Logout All Other Sessions** button appears — see [Active Sessions](#active-sessions) below.
+
+## Two-Factor Authentication
+
+2FA adds a second verification step at login using a **TOTP authenticator app** (Google Authenticator, 1Password, Authy, etc.).
+
+### Enabling 2FA
+
+If 2FA is not enabled, the card shows **2FA Not Enabled** with an **Enable 2FA** button. Setup is a guided four-step dialog:
+
+1. **Password** — enter your account password to begin.
+2. **Scan QR code** — scan the QR code with your authenticator app. If you can't scan, copy the secret shown below the code and enter it manually. This step also displays your **backup codes** — save them before continuing (there is a **Copy All Codes** button). Click **I've saved my backup codes** to proceed.
+3. **Verify** — enter the 6-digit code from your authenticator app and click **Verify & Enable**.
+4. **Success** — 2FA is now active on your account.
+
+Cancelling the dialog before verification aborts the setup — nothing is enabled until the code is verified.
+
+Once enabled, the next login asks for a 6-digit code (or a backup code) after your password.
+
+### Backup codes
+
+Backup codes let you log in if you lose your authenticator device. **10 codes** are generated at setup; each one is single-use. The card shows how many remain ("X of 10 codes remaining").
+
+To generate a fresh set, click **Regenerate Codes**, enter a 6-digit code from your authenticator app, and click **Generate New Codes**. The new codes are displayed once with a **Copy All Codes** button.
+
+**Warning:**
+Regenerating backup codes **invalidates all previous codes** immediately.
+
+### Disabling 2FA
+
+Click **Disable 2FA**. The confirmation dialog requires **both**:
+
+- Your account password
+- A verification code — either a 6-digit code from your authenticator app or a backup code
+
+After disabling, only your password is required to log in.
+
+## Active Sessions
+
+The **Active Sessions** card lists every device with a valid login session. For each session it shows:
+
+- **Device and browser** — operating system (Windows, macOS, Linux, Android, iOS) and browser (Chrome, Firefox, Safari, Edge), derived from the user agent
+- **Last active** — relative time of last use ("5 minutes ago", "2 days ago")
+- **IP address** — where the session was created, when available
+
+Your current session is highlighted with a **Current session** badge and cannot be terminated from the list.
+
+### Revoking a single session
+
+Each other session has a trash icon. Clicking it terminates that session immediately — the device is logged out and must authenticate again.
+
+### Logout all other sessions
+
+The **Logout All Other Sessions** button (in the Security Status card) opens a confirmation dialog. Confirming will:
+
+- Log out every session except the current one
+- Invalidate all existing tokens on those devices
+- Require re-authentication on those devices
+
+Use this if you suspect a session you don't recognize — and consider changing your password on the Profile screen as well.
+
+## Related Documentation
+
+- [2FA API](/api/2fa) - Full API reference for TOTP setup, verification, and backup codes
+- [Advanced Authentication API](/api/auth-advanced) - Session listing/termination and the 2FA login flow
+- [Connected Apps](/platform/settings/account/connected-apps) - AI assistants authorized via OAuth (separate from browser sessions)
+- [Users & Teams](/platform/settings/account/users) - Organization roles and member access

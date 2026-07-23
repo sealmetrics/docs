@@ -33,7 +33,7 @@ Sealmetrics tracks sessions **without** tracking the individual. Session boundar
 | Metric | How It Works | Requires Consent? | Why |
 |--------|--------------|-------------------|-----|
 | **Visits (GA4)** | Groups interactions into a session using a persistent client ID | ✔️ Yes | GA4 identifies the returning visitor across sessions to unify their history |
-| **Entrances (Sealmetrics)** | Starts a session on each external-referrer arrival; groups follow-up hits by referrer + 30-min inactivity | ❌ No | Sessions are derived from context, not from a per-user identifier |
+| **Entrances (Sealmetrics)** | Starts a session on the first arrival; groups follow-up hits within the session's ~2-hour inactivity window | ❌ No | Sessions are derived from context, not from a per-user identifier |
 
 ### Key Difference
 

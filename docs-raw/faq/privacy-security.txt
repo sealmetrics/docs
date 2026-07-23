@@ -20,17 +20,14 @@ Sealmetrics does not suffer from this issue because it does not depend on cookie
 
 ## Why compare sessions (GA4) with clicks (Sealmetrics)?
 
-Because Sealmetrics cannot track visits or sessions.
+Because Sealmetrics does not identify people across sessions.
 
-GA4 *groups* multiple visits from the same person into a single session.  
-Sealmetrics does not track individuals, so:
+GA4 uses a **persistent client ID** to group everything one person does — across visits, days, and devices — into unified sessions and user counts. Sealmetrics deliberately has no such identifier:
 
-- If a user accesses your site 3 times within 30 minutes  
-  **GA4 counts 1 session**  
-  **Sealmetrics counts 3 entrances (hits)**
+- **Within a single browsing session** (a short-lived, context-derived marker with a ~2-hour inactivity window), Sealmetrics can tell a follow-up pageview apart from a new entrance — this is what powers aggregate metrics like Bounce Rate.
+- **Across sessions there is no join**: if the same person comes back tomorrow, that is a brand-new entrance. No history is carried forward, so no consent is needed.
 
-Every return to the website must be treated as a new visit to respect ePrivacy and GDPR rules.  
-This is why Sealmetrics measures **hits/entrances**, not “visits”.
+This is why Sealmetrics measures **entrances**, not GA4-style "visits" tied to a persistent identity — and why the two numbers can differ for the same traffic.
 
 ---
 
@@ -112,5 +109,3 @@ This means:
 
 Sealmetrics delivers accurate analytics without tracking individuals, without cookies, and without needing consent.  
 This FAQ covers the core differences between traditional tools and consentless analytics, and explains why Sealmetrics is a compliant and fully privacy-first solution.
-
-If you need to expand this FAQ in the future, you can safely continue adding more questions to this file.

@@ -1,0 +1,536 @@
+# Billing API
+
+URL: https://docs.sealmetrics.com/api/billing
+
+# Billing API
+
+Billing operations — plans, checkout, subscription lifecycle, invoices, usage, and the Seal AI Private add-on — exposed through the main API as a **proxy** to the internal billing service. The dashboard (and any cookie-authenticated client) calls these endpoints; the API validates the session and forwards the request to the billing service with internal trust headers.
+
+**Base path:** `/billing`
+
+---
+
+## Access Control
+
+| Who | What they can call |
+|-----|--------------------|
+| Anyone (no auth) | `GET /billing/plans` |
+| `billing:checkout` **or** `billing:manage` scope | `POST /billing/checkout`, `POST /billing/coupons/validate` (registration-flow tokens carry `billing:checkout`) |
+| `billing:manage` scope (org **owner**) or superadmin | Everything else |
+
+Requests without the required scope receive `403` ("Billing access denied. Requires billing:manage scope."). Org owners get `billing:manage` automatically via their org role; superadmins always pass. On top of the scope check, the billing service re-validates that the requested `org_id` belongs to the caller.
+
+If the billing service is unreachable or fails internally, the proxy returns `502` (`"Billing service unavailable"` / `"Billing service error"`). Query parameters are whitelisted per endpoint — unknown parameters are silently dropped before forwarding.
+
+Most endpoints take the target organization as an `org_id` query parameter (GET/lifecycle endpoints) or body field (POST endpoints with a JSON body).
+
+---
+
+## Plans
+
+### GET /billing/plans
+
+Public — no authentication. Lists the available pricing plans.
+
+**Response** (array of plans; prices are in **cents**):
+
+```json
+[
+  {
+    "tier": "growth",
+    "name": "Growth",
+    "description": "For growing businesses",
+    "price_monthly": 59900,
+    "price_yearly": 598800,
+    "seats": 5,
+    "accounts": 10,
+    "data_retention_days": 730,
+    "api_requests_per_minute": 240,
+    "features": ["Consentless analytics", "Unlimited reports"],
+    "is_popular": false
+  },
+  {
+    "tier": "scale",
+    "name": "Scale",
+    "description": "For scaling teams",
+    "price_monthly": 107900,
+    "price_yearly": 1078800,
+    "seats": 15,
+    "accounts": 30,
+    "data_retention_days": 730,
+    "api_requests_per_minute": 480,
+    "features": ["Consentless analytics", "Unlimited reports"],
+    "is_popular": true
+  }
+]
+```
+
+---
+
+## Overview
+
+### GET /billing/overview
+
+Complete billing summary for an organization: subscription, current usage, upcoming invoice, and payment method.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID |
+
+**Response:**
+
+```json
+{
+  "subscription": {
+    "id": "42",
+    "status": "active",
+    "plan_tier": "growth",
+    "billing_interval": "monthly",
+    "current_period_start": "2025-01-08T00:00:00Z",
+    "current_period_end": "2025-02-08T00:00:00Z",
+    "cancel_at_period_end": false,
+    "trial_end": null
+  },
+  "usage": {
+    "human_events": 1240500,
+    "agent_events": 88210,
+    "event_limit": 5000000,
+    "percentage": 24.8,
+    "days_remaining": 12,
+    "is_unlimited": false
+  },
+  "upcoming_invoice": null,
+  "payment_method": {
+    "brand": "visa",
+    "last4": "4242",
+    "exp_month": 12,
+    "exp_year": 2027
+  }
+}
+```
+
+---
+
+## Invoices
+
+### GET /billing/invoices
+
+List invoices for an organization.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID |
+| `limit` | int | No | Max invoices to return |
+| `starting_after` | string | No | Cursor for pagination |
+
+**Response** (array; amounts in cents):
+
+```json
+[
+  {
+    "id": "in_1QaBcD...",
+    "number": "SM-2025-0042",
+    "status": "paid",
+    "amount_due": 59900,
+    "amount_paid": 59900,
+    "currency": "eur",
+    "created_at": "2025-01-08T00:00:00Z",
+    "due_date": null,
+    "paid_at": "2025-01-08T00:05:12Z",
+    "pdf_url": "https://pay.stripe.com/invoice/.../pdf",
+    "hosted_invoice_url": "https://invoice.stripe.com/i/..."
+  }
+]
+```
+
+---
+
+## Accounting Email
+
+### GET /billing/accounting-email
+
+Get the accounting department email that receives invoice copies.
+
+**Response:**
+
+```json
+{ "accounting_email": "finance@acme.com" }
+```
+
+### PUT /billing/accounting-email
+
+Update the accounting email.
+
+**Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `email` | string (email) | Yes | New accounting email |
+
+**Response:** same shape as the GET.
+
+---
+
+## Customer Portal
+
+### POST /billing/portal
+
+Create a Stripe customer portal session where the user can manage payment methods and view billing history.
+
+**Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `return_url` | string | No | URL to return to after the portal (max 500 chars) |
+| `org_id` | string | No | Organization ID to scope the portal session |
+
+**Response:**
+
+```json
+{ "portal_url": "https://billing.stripe.com/p/session/..." }
+```
+
+---
+
+## Subscription
+
+### GET /billing/subscription
+
+Current subscription details. Returns `null` if the org has no subscription.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID |
+
+**Response:**
+
+```json
+{
+  "id": "42",
+  "status": "active",
+  "plan_tier": "growth",
+  "billing_interval": "yearly",
+  "current_period_start": "2025-01-08T00:00:00Z",
+  "current_period_end": "2026-01-08T00:00:00Z",
+  "cancel_at_period_end": false,
+  "trial_end": null
+}
+```
+
+### POST /billing/subscription/cancel
+
+Schedule cancellation at the end of the current period.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID (query parameter) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Subscription will be canceled at the end of the billing period",
+  "subscription": {
+    "id": "42",
+    "status": "active",
+    "plan_tier": "growth",
+    "billing_interval": "monthly",
+    "current_period_start": "2025-01-08T00:00:00Z",
+    "current_period_end": "2025-02-08T00:00:00Z",
+    "cancel_at_period_end": true,
+    "trial_end": null
+  },
+  "cancels_at": "2025-02-08T00:00:00Z"
+}
+```
+
+### POST /billing/subscription/resume
+
+Undo a scheduled cancellation (only while `cancel_at_period_end` is `true`).
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID (query parameter) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Subscription resumed",
+  "subscription": { "cancel_at_period_end": false, "...": "..." }
+}
+```
+
+### GET /billing/subscription/history
+
+Audit trail of subscription changes (checkouts, cancellations, plan changes, webhook events).
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID |
+| `limit` | int | No | Max entries |
+| `offset` | int | No | Pagination offset |
+
+**Response** (array):
+
+```json
+[
+  {
+    "id": 118,
+    "subscription_id": 42,
+    "org_id": "9f6e1a2b-...",
+    "user_id": 7,
+    "user_email": "owner@acme.com",
+    "user_name": "Jane Doe",
+    "action": "cancel_scheduled",
+    "source": "dashboard",
+    "previous_state": { "cancel_at_period_end": false },
+    "new_state": { "cancel_at_period_end": true },
+    "success": true,
+    "error_message": null,
+    "error_code": null,
+    "ip_address": "203.0.113.10",
+    "created_at": "2025-01-15T10:24:00Z"
+  }
+]
+```
+
+---
+
+## Usage
+
+### GET /billing/usage/current
+
+Event usage for the current billing period. Returns `null` if there is no usage record yet.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID |
+
+**Response:**
+
+```json
+{
+  "org_id": "9f6e1a2b-...",
+  "plan_tier": "growth",
+  "status": "active",
+  "period_start": "2025-01-08",
+  "period_end": "2025-02-08",
+  "human_events": 1240500,
+  "agent_events": 88210,
+  "event_limit": 5000000,
+  "percentage": 24.8,
+  "days_remaining": 12,
+  "last_synced_at": "2025-01-27T03:00:00Z",
+  "is_unlimited": false
+}
+```
+
+### GET /billing/usage/history
+
+Event usage for past periods.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID |
+| `limit` | int | No | Max entries |
+
+**Response** (array):
+
+```json
+[
+  {
+    "period_start": "2024-12-08",
+    "period_end": "2025-01-08",
+    "human_events": 4120300,
+    "agent_events": 210040
+  }
+]
+```
+
+### GET /billing/overage-status
+
+Overage history (last 12 periods) and whether the yearly one-time forgiveness is still available.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID |
+
+**Response:**
+
+```json
+{
+  "org_id": "9f6e1a2b-...",
+  "history": [
+    {
+      "period_start": "2024-12-01",
+      "period_end": "2024-12-31",
+      "plan_tier": "growth",
+      "event_limit": 5000000,
+      "total_events": 5430000,
+      "overage_percent": 8.6,
+      "is_forgiven": true,
+      "action_taken": "forgiven"
+    }
+  ],
+  "forgiveness_available": false,
+  "forgiveness_year": 2025
+}
+```
+
+---
+
+## Coupons
+
+### POST /billing/coupons/validate
+
+Validate a discount code before checkout. Accepts `billing:checkout` **or** `billing:manage` scope (registration-flow tokens can call it).
+
+**Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `code` | string | Yes | Coupon code (max 100 chars) |
+| `plan_tier` | string | No | Plan the coupon will apply to |
+| `billing_interval` | string | No | `monthly` or `yearly` (for the price preview) |
+
+**Response** (prices in cents):
+
+```json
+{
+  "valid": true,
+  "coupon": {
+    "code": "LAUNCH20",
+    "name": "Launch discount",
+    "description": null,
+    "discount_type": "percent",
+    "discount_value": 20,
+    "discount_display": "20% off",
+    "applicable_tiers": null,
+    "valid_until": "2025-06-30T23:59:59Z",
+    "duration": "once",
+    "duration_in_months": null
+  },
+  "error": null,
+  "original_price": 59900,
+  "discounted_price": 47920,
+  "savings": 11980
+}
+```
+
+---
+
+## Checkout
+
+### POST /billing/checkout
+
+Create a Stripe Checkout session for a plan subscription. Accepts `billing:checkout` **or** `billing:manage` scope — the registration flow uses `billing:checkout` so a brand-new user can subscribe before verifying email.
+
+**Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `org_id` | string | Yes | Organization ID to subscribe |
+| `plan_tier` | string | Yes | `growth` or `scale` (`free` is rejected; `enterprise` is contact-sales) |
+| `billing_interval` | string | Yes | `monthly` or `yearly` |
+| `success_url` | string | No | Redirect after successful payment (max 500 chars) |
+| `cancel_url` | string | No | Redirect if the user abandons checkout |
+| `company_name` | string | No | Company name for the invoice |
+| `country` | string | No | Country code (VAT) |
+| `tax_id` | string | No | VAT/tax ID |
+| `coupon_code` | string | No | Discount code |
+
+**Response:**
+
+```json
+{
+  "checkout_url": "https://checkout.stripe.com/c/pay/cs_live_...",
+  "session_id": "cs_live_a1B2c3..."
+}
+```
+
+Returns `409` if the org is billed through Shopify (`shopify_subscription_active`) — Shopify merchants manage their plan in Shopify Admin.
+
+---
+
+## Seal AI Private Add-on
+
+Billing actions for the [Seal AI Private](/billing/seal-ai-private) add-on — the platform-hosted, EU-private LLM for chat and LENS. All three require `billing:manage` (org owner or superadmin); the billing service re-validates org membership and plan eligibility.
+
+### POST /billing/seal-ai/subscribe
+
+Activate the add-on on the org's existing Stripe subscription (billing starts on the next invoice, no proration).
+
+**Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `org_id` | string | Yes | Organization ID |
+
+**Response:**
+
+```json
+{
+  "status": "active",
+  "billing_interval": "yearly",
+  "ends_at": null
+}
+```
+
+Errors: `403` for Free/no-subscription orgs (`seal_ai_not_available_free`), `409` if the plan already includes it (`seal_ai_included_in_plan`, Scale/Enterprise), if it is already active, or if the org is Shopify-billed.
+
+### POST /billing/seal-ai/unsubscribe
+
+Remove the add-on. No refund — access continues until the already-paid period ends.
+
+**Body:** same as subscribe (`org_id`).
+
+**Response:**
+
+```json
+{
+  "status": "cancelled",
+  "billing_interval": "yearly",
+  "ends_at": "2026-01-08"
+}
+```
+
+### POST /billing/seal-ai/token-pack/checkout
+
+One-time Stripe Checkout for extra 5M-token packs (non-expiring). Only orgs entitled to Seal AI Private can buy packs.
+
+**Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `org_id` | string | Yes | Organization ID to credit the tokens to |
+| `quantity` | int | No | Number of 5M packs, 1-10 (default 1) |
+
+**Response:**
+
+```json
+{
+  "checkout_url": "https://checkout.stripe.com/c/pay/cs_live_...",
+  "session_id": "cs_live_x9Y8z7..."
+}
+```
+
+See [Seal AI Private](/billing/seal-ai-private) for pricing, quotas, and how token packs interact with the monthly 5M allowance.
+
+---
+
+## Errors
+
+| HTTP Code | Cause |
+|-----------|-------|
+| 403 | Missing `billing:manage` (or `billing:checkout` where accepted) scope, or org access denied |
+| 404 | No subscription / resource for the org |
+| 409 | Conflicting state (Shopify-billed org, add-on already active or included in plan) |
+| 502 | Billing service unreachable or internal billing error |
+
+## See Also
+
+- [Subscription Status](/api/subscription) — lightweight read-only subscription state for paywall checks
+- [Seal AI Private](/billing/seal-ai-private) — product context for the add-on

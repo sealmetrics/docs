@@ -562,7 +562,7 @@ Returns all available IANA timezone identifiers.
 import requests
 
 API_KEY = "sm_your_api_key"
-BASE_URL = "https://api.sealmetrics.com/api/v1"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
 
 # Create site
 response = requests.post(
@@ -596,7 +596,7 @@ print(pixel["script_tag"])
 
 ```javascript
 const API_KEY = 'sm_your_api_key';
-const BASE_URL = 'https://api.sealmetrics.com/api/v1';
+const BASE_URL = 'https://my.sealmetrics.com/api/v1';
 
 // Create site
 const response = await fetch(`${BASE_URL}/sites`, {

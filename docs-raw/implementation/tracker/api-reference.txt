@@ -333,10 +333,12 @@ Beyond the methods, the global object exposes a few read-only properties, useful
 | `sealmetrics.accountId` | string | The account/site ID embedded in the served script |
 | `sealmetrics.tz` | string | The visitor's IANA timezone (e.g., `'Europe/Madrid'`) |
 | `sealmetrics.autoMode` | string | `'1'` if the auto-pageview is enabled, `'0'` if loaded with `?auto=0` |
+| `sealmetrics.spaMode` | string | `'1'` if automatic SPA route-change pageviews are enabled, `'0'` if loaded with `?spa=0` |
 
 ```javascript
 console.log(sealmetrics.sessionId); // "1abc123def456"
 console.log(sealmetrics.autoMode);  // "1"
+console.log(sealmetrics.spaMode);   // "1"
 ```
 
 ---
@@ -362,6 +364,24 @@ By default the tracker fires the initial pageview as soon as the script runs. Lo
 | any other value | Auto-pageview ON (defensive default) |
 
 SPA navigation listeners (`pushState` / `replaceState` / `popstate`) stay active in both modes; only the **initial** pageview is suppressed by `?auto=0`.
+
+---
+
+## Manual SPA Mode (`?spa=0`)
+
+`?spa=0` is the SPA counterpart of `?auto=0`: it suppresses the **automatic pageview on SPA route changes**. The History API listeners still update the tracker's internal URL/referrer state (so manual pageviews carry the correct referrer chain), but no pageview fires unless you call `sealmetrics()` yourself.
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&auto=0&spa=0" defer></script>
+```
+
+| `?spa=` value | Behavior |
+|---------------|----------|
+| missing / empty / `1` | Automatic SPA pageviews ON (default) |
+| `0` | Automatic SPA pageviews OFF (manual SPA mode) |
+| any other value | Automatic SPA pageviews ON (defensive default) |
+
+Combine `?auto=0&spa=0` for fully manual control — the pattern to use with Google Tag Manager or per-route [content grouping](/implementation/content-site-structure/content-grouping). ⚠️ Manual calls are **never de-duplicated**: if you fire pageviews manually on route changes without `spa=0`, each navigation is counted twice.
 
 ---
 
@@ -435,6 +455,7 @@ interface SealmetricsFunction {
   readonly accountId: string;
   readonly tz: string;
   readonly autoMode: string;
+  readonly spaMode: string;
 }
 
 declare global {

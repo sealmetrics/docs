@@ -14,7 +14,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 |--------|---------|------------------------|
 | [Entrances](#entrances) | Count of sessions started | Higher |
 | [Pageviews](#pageviews) | Count of page loads | Higher |
-| [Unique Visitors](#unique-visitors) | Count of distinct users | Higher |
+| [Unique Visitors](#unique-visitors--not-tracked) | Not tracked — use Entrances | — |
 | [Bounce Rate](#bounce-rate) | Bounces / Entrances × 100 | Lower |
 | [Engaged Entrances](#engaged-entrances) | Sessions with 2+ pageviews | Higher |
 | [Engagement Rate](#engagement-rate) | Engaged / Entrances × 100 | Higher |
@@ -33,7 +33,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | Aspect | Description |
 |--------|-------------|
 | Counting | Each new session counts as 1 entrance |
-| Session start | First pageview after 30 minutes of inactivity |
+| Session start | First pageview with no active session (~2-hour inactivity window) |
 | Use case | Measure traffic volume |
 
 **Example:** A user visits your site at 9:00 AM, leaves, and returns at 3:00 PM. This counts as 2 entrances.
@@ -278,16 +278,6 @@ Reports can be broken down by dimensions such as UTM Source, UTM Medium, UTM Cam
 | Optimization | Improve conversion rate or AOV |
 
 **Example:** €10,000 revenue from 5,000 entrances = €2.00 revenue per entrance.
-
-### Revenue per Visitor
-
-**Definition:** Average revenue generated per unique visitor.
-
-| Aspect | Description |
-|--------|-------------|
-| Formula | Total Revenue / Unique Visitors |
-| Use case | Measure visitor value |
-| Comparison | Higher than Revenue per Entrance if visitors return |
 
 ### Cost per Acquisition (CPA)
 

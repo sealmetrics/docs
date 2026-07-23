@@ -21,25 +21,25 @@ You can configure Sealmetrics to **ignore specific referrers**, ensuring that on
 
 ## How to Set It Up
 
-1. Open the settings menu in the top toolbar and click **Accounts**
-2. In the accounts table, find your account and click the **POS Referral Bypass** action in its row
-3. On the **Referral Exclusion List** screen, type a domain to exclude (e.g. a payment provider) in the **Domain** field
-4. Click **Add referral** to add another domain field if needed
-5. Click **Update** to save
+**Info:**
+Payment/POS domains are excluded by registering them as **passthrough referrers** through the **Sealmetrics API** — there is no dashboard screen for this. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema.
 
-To remove a domain, click **Delete** next to it.
+Register the payment domain for your account with your API key:
 
----
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "payments.example-psp.com",
+    "utm_source": "example-psp",
+    "service_name": "Payment Gateway"
+  }'
+```
 
-## Example Screenshots
+Repeat for each payment domain your checkout flow passes through. You can list, update, deactivate, or delete entries through the same API — see the [Passthrough Referrers API reference](/api/passthrough-referrers).
 
-Open the settings menu, choose **Accounts**, then click **POS Referral Bypass** on the account's row:
-
-![Accounts table with the POS Referral Bypass action](/img/platform/bypass-pos-referrer-1.png)
-
-The Referral Exclusion List, where you add the domains to exclude:
-
-![Referral Exclusion List screen](/img/platform/bypass-pos-referrer-2.png)
+For the full concept and behavior details, see [Passthrough Referrers](/platform/tracking-and-attribution-settings/passthrough-referrers).
 
 ---
 
