@@ -18,21 +18,29 @@ Get LENS configured and receiving insights in under 5 minutes.
 2. Click **LENS** in the main navigation
 3. You'll see the LENS overview with any detected anomalies
 
-## Step 2: Connect Your LLM Provider
+## Step 2: Pick a provider
 
-The LENS assistant is **bring-your-own-key (BYOK)**: you connect your own LLM provider API key. This means there is no per-account question quota — you ask as much as you like and pay your provider directly.
+The LENS assistant supports two options:
 
-1. Go to **My Account → LLM Providers**
-2. Add an API key for one of the supported providers:
+- **[Seal AI Private](/billing/seal-ai-private)** — the managed platform LLM (EU-hosted, no prompt retention). **No API key needed**; usage counts against your organization's quota of **5M tokens per month**, plus any non-expiring token packs. Owners/admins can check consumption anytime in **Organization → Seal AI Usage**.
+- **Bring-your-own-key (BYOK)** — connect your own provider API key. No quota imposed by Sealmetrics; you pay your provider directly.
 
-| Provider | Default model |
-|----------|---------------|
-| Anthropic | `claude-sonnet-4` |
-| OpenAI | `gpt-4o` |
-| DeepSeek | `deepseek-chat` |
-| Google Gemini | `gemini-2.5-flash` |
+If your organization is entitled to Seal AI Private (included in Scale/Enterprise, add-on on Growth), it's active by default. To use a BYOK provider, go to **My Account → LLM Providers** and add an API key.
 
-3. Mark one provider as your default and save
+**Supported providers** (LENS picks the model automatically based on task complexity):
+
+| Provider | Simple tasks | Complex / critical tasks |
+|----------|--------------|--------------------------|
+| **Seal AI Private** (platform) | Managed for you | Managed for you |
+| Anthropic (BYOK) | `claude-3-5-haiku` | `claude-sonnet-4` / `claude-opus-4` |
+| OpenAI (BYOK) | `gpt-4o-mini` | `gpt-4o` |
+| DeepSeek (BYOK) | `deepseek-chat` | `deepseek-chat` |
+| Google Gemini (BYOK) | `gemini-2.5-flash` | `gemini-2.5-pro` |
+
+Mark one provider as your default and save.
+
+**Info:**
+Seal AI Private includes **5M tokens per calendar month** for the whole organization, plus any [token packs](/billing/seal-ai-private#extra-token-packs) you've purchased (packs never expire). The org gets an email at 80% and 100% consumption; once quota and packs are exhausted, Seal AI stops with a "token limit reached" message until the monthly reset — the owner can buy a pack from the [Seal AI Usage screen](/platform/settings/seal-ai-usage), and any user can switch the chat to a BYOK provider for immediate headroom.
 
 ## Step 3: Review LENS Insights
 

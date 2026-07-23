@@ -1,12 +1,15 @@
 ---
 sidebar_position: 5
 title: LLM Providers
-description: Configure your own AI model provider (BYOK) for the Lens chat assistant.
+description: Choose the AI provider for the Lens chat assistant — the managed Seal AI Private (no key needed) or your own API key (BYOK).
 ---
 
 # LLM Providers
 
-Configure which AI model powers the **Lens chat** assistant. LLM Providers is a **per-user, bring-your-own-key (BYOK)** setting: you add your own API key for a provider, and that configuration is used across every site you have access to.
+Configure which AI model powers the **Lens chat** assistant. Two kinds of provider are available:
+
+- **Seal AI Private** — Sealmetrics' managed provider. Runs entirely in the EU (Paris), no prompt retention, **no API key needed**. Subject to plan entitlement and a monthly token quota — see [Seal AI Private](/billing/seal-ai-private).
+- **Bring-your-own-key (BYOK)** — you add your own API key for Anthropic, OpenAI, Gemini, or DeepSeek Cloud. Per-user: your configuration is used across every site you have access to, unmetered by Sealmetrics.
 
 :::info Per-user, not per-account
 Your LLM Providers configuration belongs to **you**, not to a site or organization. The same key is applied to every site you can access, and **only you can see or modify it**. There is no per-account dropdown — other users configure their own keys independently.
@@ -24,16 +27,19 @@ In the sidebar, open **My Account → LLM Providers** (`/account/llm`).
 
 ## Available Providers
 
-LLM Providers is BYOK only — every provider requires your own API key. The self-hosted DeepSeek Local model used by shared infrastructure is **not** available here for the chat.
-
 | Provider | API Key Required | Notes |
 |----------|------------------|-------|
-| **Anthropic (Claude)** | Yes | Recommended |
-| **OpenAI (GPT)** | Yes | General-purpose |
-| **DeepSeek Cloud** | Yes | Optional custom base URL |
-| **Google (Gemini)** | Yes | Gemini models |
+| **Seal AI (Private, EU)** | **No** | Managed by Sealmetrics; plan entitlement + 5M tokens/month quota |
+| **Anthropic (Claude)** | Yes | BYOK |
+| **OpenAI (GPT)** | Yes | BYOK |
+| **DeepSeek Cloud** | Yes | BYOK; optional custom base URL |
+| **Google (Gemini)** | Yes | BYOK |
 
-Anthropic is the recommended default provider.
+The self-hosted DeepSeek Local model used by shared infrastructure is **not** available here for the chat.
+
+### Seal AI Private
+
+When available on your plan, the **Seal AI (Private, EU)** card appears first, marked **Default**. Its card shows the **Monthly token quota** gauge with the percentage used this month and a **View usage** link to the [Seal AI Usage screen](/platform/settings/seal-ai-usage). If your plan doesn't include it, the card shows an upgrade badge instead — see [availability by plan](/billing/seal-ai-private#availability-by-plan).
 
 ## Adding a Provider
 
@@ -45,9 +51,9 @@ If you have no providers configured yet, the **Configure LLM Provider** form app
 
 Choose a provider from the dropdown. Each provider shows a short description and a link to obtain an API key. The provider can't be changed after a configuration is created — to switch providers, add a new one or remove the existing one.
 
-### Step 3: Enter your API key
+### Step 3: Enter your API key (BYOK providers)
 
-All providers here require an API key. Paste it into the **API Key** field (use the eye toggle to reveal it). Your key is encrypted before storage and only the last 4 characters are ever shown afterwards (`****XXXX`).
+Every BYOK provider requires an API key — Seal AI does not. Paste it into the **API Key** field (use the eye toggle to reveal it). Your key is encrypted before storage and only the last 4 characters are ever shown afterwards (`****XXXX`).
 
 For **DeepSeek Cloud**, you can optionally set a custom **Base URL** (defaults to `https://api.deepseek.com/v1`).
 
@@ -123,6 +129,8 @@ Every provider here requires a key. Get one from:
 
 ## Related Documentation
 
+- [Seal AI Private](/billing/seal-ai-private) - Pricing, quota, and plan availability of the managed provider
+- [Seal AI Usage screen](/platform/settings/seal-ai-usage) - Token consumption dashboard
 - [LENS AI Overview](/lens) - How LENS generates insights
 - [AI Assistant](/lens/ai-assistant) - Using the Lens chat interface
 - [Anomaly Detection](/lens/anomaly-detection) - Automated alerts

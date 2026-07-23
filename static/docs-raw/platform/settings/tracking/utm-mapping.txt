@@ -1,0 +1,142 @@
+# UTM Mapping
+
+URL: https://docs.sealmetrics.com/platform/settings/tracking/utm-mapping
+
+# UTM Mapping
+
+UTM Mapping tells Sealmetrics: *"when you see this parameter in the URL, treat it as if it were this standard UTM."*
+
+If your team uses custom names like `campaign_id`, `source_id`, `medium_id` or anything else specific to your CRM, ESP or ad platform, UTM Mapping lets you feed those values into Sealmetrics's attribution without having to change how your links are tagged. The visit is classified — including channel grouping, campaign reporting, and source/medium breakdowns — as if the URL had used the standard UTMs directly.
+
+## When to use it
+
+Turn to UTM Mapping when any of the following is true for your setup:
+
+- Your marketing tool (an ESP, an ad platform, an in-house CRM) emits its own parameter names — e.g. `?campaign_id=summer-sale` — and you don't want to (or can't) rewrite every link to use `?utm_campaign=…`.
+- You've inherited a legacy naming convention that predates GA4 UTMs and rewriting all links is not realistic.
+- A specific vendor appends its own parameter automatically (many affiliate networks, some CMSes) and you want that captured as attribution data.
+
+If your links already carry proper `utm_source` / `utm_medium` / `utm_campaign`, you don't need UTM Mapping.
+
+## Where to find it
+
+1. Open **Settings** in the left sidebar (under **Site Config**).
+2. Go to the **UTM Mappings** tab.
+
+You'll see:
+
+- A small form to add a mapping (custom parameter name + target UTM).
+- A list of the mappings currently active for this site.
+- A blue-highlighted note: *"Mappings take effect within ~5 minutes and apply to future traffic only."*
+
+## How it works
+
+For every visit that comes in, Sealmetrics parses the URL query string and then applies your mappings **before** classifying the visit. Concretely: if you have a mapping `campaign_id → utm_campaign` and a visit arrives with `?campaign_id=black-friday`, the pixel treats the visit as if it had `?utm_campaign=black-friday` — including for channel grouping, source/medium reports, and everything downstream.
+
+The mapping runs **at ingest time**. It doesn't rewrite the URL your visitor saw; it just enriches the internal representation Sealmetrics uses for attribution.
+
+### The rules
+
+Five rules define exactly what happens, and they're worth internalizing:
+
+1. **Explicit UTMs always win.** If the URL already carries a non-empty value for the target UTM, the mapping is skipped. A mapping never overwrites a value your team put in explicitly. Example: with `campaign_id → utm_campaign`, a URL like `?campaign_id=X&utm_campaign=Y` classifies with `utm_campaign=Y`. The explicit `Y` wins.
+2. **Copy, not move.** The custom parameter isn't removed from the URL — it's copied into the target UTM. Both values coexist internally. This matters for custom properties or downstream logic that might still look at the original param.
+3. **Empty or missing = no-op.** If the custom parameter is absent from the URL or its value is empty (`?campaign_id=`), the mapping does nothing. Empty values never "clear" a UTM.
+4. **Self-mappings are ignored.** A mapping like `utm_source → utm_source` is silently skipped — it has no meaningful effect.
+5. **First-created wins on ties.** If you configure two custom parameters mapping to the same UTM (e.g. `campaign_id → utm_campaign` and `campaign_code → utm_campaign`), and a visit carries both, the mapping created earlier wins. The evaluation order is deterministic across every visit — you'll never see one visit resolve one way and another visit resolve differently.
+
+### How fast do changes take effect?
+
+Roughly **5 minutes** after adding or removing a mapping, for new traffic. That's the interval at which the pixel refreshes its per-account cache.
+
+**Changes are not retroactive.** Visits that came in before your mapping was live keep whatever UTMs they had at ingest. UTM Mapping is a forward-looking configuration, not a data migration.
+
+## Adding a mapping
+
+In the **UTM Mappings** tab:
+
+1. Type the **custom parameter name** exactly as it appears in your URLs (case-sensitive: `Campaign_ID` and `campaign_id` are different). Do **not** include the `?` or `=`.
+2. Pick the **target UTM** from the dropdown:
+   - **Source** (`utm_source`)
+   - **Medium** (`utm_medium`)
+   - **Campaign** (`utm_campaign`)
+   - **Term** (`utm_term`)
+   - **Content** (`utm_content`)
+3. Click **Add**. The mapping is active within ~5 min.
+
+You can only map to **one of those five standard UTMs**. Sealmetrics doesn't let you invent new attribution fields via UTM Mapping — for grouping the values into custom channels, use [Channel Grouping](/platform/settings/tracking/channel-grouping) instead.
+
+Each custom parameter name can only map to **one** target UTM per site (attempting to add a second mapping for the same custom name is prevented by the API).
+
+## Removing a mapping
+
+Click **Remove** next to the mapping you want to delete and confirm. As with any change, effective in ~5 min, non-retroactive. Historical visits classified through that mapping keep their existing UTMs.
+
+## How UTM Mapping interacts with Channel Grouping
+
+UTM Mapping and [Channel Grouping](/platform/settings/tracking/channel-grouping) are two features that compose. Understanding the order matters:
+
+```
+URL arrives  →  UTMs extracted  →  Your UTM Mappings applied
+             →  Channel rules evaluated (custom → default)
+             →  Channel assigned to the visit
+```
+
+The mapping runs **first**. By the time your channel rules see the visit, the mapped UTMs look identical to explicit ones. This means:
+
+- Your channel rules can (and should) be written against the **standard UTM values**, never against your custom parameter names. Once mapping is in place, you never need to reference `campaign_id` in a channel-grouping rule — you write the rule against `utm_campaign` and it just works.
+- Deleting a UTM Mapping while relying on it in a channel rule will "un-classify" future traffic: the channel rule keeps looking at `utm_campaign`, but nothing populates it anymore. Test in the **Test a visit** tester before removing a mapping.
+
+## Common use cases
+
+### Use case 1 — ESP with its own naming convention
+
+Your email service provider tags every link as `?email_campaign=…&email_source=…&email_content=…`. You want that traffic to appear as Email in your Channels report and to break down properly by campaign and creative.
+
+Mappings to add:
+
+| Custom parameter | Maps to |
+|------------------|---------|
+| `email_campaign` | Campaign (`utm_campaign`) |
+| `email_source` | Source (`utm_source`) |
+| `email_content` | Content (`utm_content`) |
+
+Once live, an email link like `?email_source=mailchimp&email_campaign=black-friday-2026&email_content=cta-top` classifies as Email (the medium default catches Mailchimp) with the campaign and content populated.
+
+### Use case 2 — Ad platform with a proprietary click ID as source
+
+Your ad platform appends `?ad_source=my_platform&ad_medium=display` on every click. You want to see it as its own channel.
+
+Mappings:
+
+| Custom parameter | Maps to |
+|------------------|---------|
+| `ad_source` | Source (`utm_source`) |
+| `ad_medium` | Medium (`utm_medium`) |
+
+If `my_platform / display` doesn't fall into any built-in channel, you can then create a custom channel rule matching `source=^my_platform$` under [Channel Grouping](/platform/settings/tracking/channel-grouping).
+
+### Use case 3 — Legacy `campaign_id` from a migrated CMS
+
+You migrated from an older platform that tagged links as `?campaign_id=…` and there's too much historical marketing content to rewrite.
+
+| Custom parameter | Maps to |
+|------------------|---------|
+| `campaign_id` | Campaign (`utm_campaign`) |
+
+New links can start using `utm_campaign` directly — since **explicit UTMs win**, both formats coexist safely during the transition.
+
+## Limitations
+
+- **The target must be one of the 5 standard UTMs.** You can't map to arbitrary field names via UTM Mapping. For business-specific grouping (Brand vs Non-Brand, per-partner affiliate channels…), see [Channel Grouping](/platform/settings/tracking/channel-grouping).
+- **No value transformation.** UTM Mapping is a rename, not a rewrite: it copies the value as-is. If you need to normalize values (e.g. lowercase them, map `fb` to `facebook`), do it at the campaign-tagging step or use [Channel Grouping](/platform/settings/tracking/channel-grouping) to bucket the raw values into a canonical channel.
+- **Case-sensitive on the custom parameter name.** `Campaign_ID` and `campaign_id` are different parameters. Match your team's actual tagging.
+- **Not editable via MCP.** UTM Mapping is configured only from the dashboard UI — there are no MCP tools for it.
+- **Not retroactive.** Only future traffic uses the mapping.
+
+## Related
+
+- [Channel Grouping](/platform/settings/tracking/channel-grouping) — after your custom params are mapped to UTMs, group them into marketing channels.
+- [IP Exclusions](/platform/settings/tracking/ip-exclusions) — discard internal traffic (offices, QA, uptime robots) entirely so it never reaches attribution.
+- [Sources report](/reports/sources) — where the mapped UTMs show up.
+- [How to change UTM parameters](/reports/insights/how-to-change-utm-parameters) — background on UTM tagging in general.

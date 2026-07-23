@@ -6,6 +6,71 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
+## Seal AI Private — EU-hosted AI with token packs (July 22, 2026)
+
+**Seal AI Private** is now generally available: Sealmetrics' managed AI provider for [LENS](/lens/) — processed entirely in the EU (Paris), no prompt retention, and no API key to manage.
+
+### What's new
+
+- **Add-on on Growth, included in Scale and Enterprise.** €299/month billed annually upfront (€3,588/year), or €358.80/month on monthly contracts. Not available on Free.
+- **5M tokens per calendar month** for the whole organization (chat + automated insights), with email alerts at 80% and 100% consumption.
+- **Token packs**: extra 5M-token packs at €358.80 each (1–10 per checkout) that **never expire** — consumed only after the monthly quota.
+- **Seal AI Usage screen** (Organization → Seal AI Usage, owner/admin): monthly gauge, daily input/output chart, pack balance and history, and per-site / per-user breakdown.
+- **BYOK fallback**: when the quota runs out, any user can switch the chat to their own Anthropic, OpenAI, Gemini, or DeepSeek key.
+
+Full details: [Seal AI Private](/billing/seal-ai-private) · [LLM Providers](/platform/settings/llm).
+
+---
+
+## Sources report — referral traffic now grouped by domain, GA4-style (July 21, 2026)
+
+The **Sources** tab now shows referral traffic as source domains (e.g. `reddit.com / referrer`), unifying historical data under the same convention. The **Referrers** tab keeps its URL-level detail: one row per referring URL. If you query the API, referral rows now appear in `/stats/sources` as domains and are excluded from `/stats/terms`.
+
+---
+
+## Custom Channel Grouping — define your own channels from the dashboard, CSV, or MCP (July 20, 2026)
+
+You can now personalize how Sealmetrics groups your traffic into marketing channels. The **Channels** tab in Site settings lets you define your own rules on top of (or overriding) the GA4-style defaults, with a safe drafts → test → publish workflow.
+
+### What's new
+
+- **Rule form** for creating custom channels one at a time, with a **rule tester** ("Test a visit") that uses the exact same engine as the pixel.
+- **Override** button on default channels — pre-fills the form with the default's patterns so you can redirect any built-in channel to one of your own.
+- **CSV import / export** (Excel-friendly: `,` or `;` delimiters, RFC 4180 quoting, UTF-8 BOM, CRLF) for bulk edits and version control. Also accepts `.json`.
+- **MCP tools** for AI-assisted rule authoring: `create_channel_rule`, `update_channel_rule`, `delete_channel_rule`, `import_channel_rules`, `test_channel_rules`. All write tools are **draft-only** by design — the MCP can never touch a live rule or activate anything; publishing is always a human action from the dashboard.
+- **Drafts → test → publish** flow: every new rule is born as a draft and never affects traffic until you flip the **Live** switch. Effective in ~5 min after publishing.
+
+### What stays the same
+
+- **No effect on historical data.** Channel classification happens at ingest time; new or edited rules only affect future traffic.
+- **Defaults still work out of the box.** If you don't create any custom rule, nothing changes for you.
+
+Full walkthrough: [Channel Grouping](/platform/settings/tracking/channel-grouping).
+
+---
+
+## Channel classification improvement — more accurate Direct and Referral reporting (July 20, 2026)
+
+Following feedback from customers who wanted a cleaner mapping between what our tracker captures and the channel groups shown in the dashboard, we've refined the default classification rules for two channels:
+
+- **Direct** — traffic with no referrer and no campaign parameters
+- **Referral** — visits coming from external sites without UTM tagging
+
+The updated rules align our default channel groups with the GA4-style conventions our tracker already uses internally, closing a small gap that had accumulated over successive iterations of the pixel.
+
+### Impact on your reports
+Starting July 20, 2026, a portion of the traffic previously reported under **Unassigned** now appears in **Direct** or **Referral** in your channel reports. It's the same traffic you were already receiving — simply labeled more accurately from now on.
+
+A few details worth knowing:
+
+- The change applies only to **new traffic** from the effective date onward. Historical rows keep their existing classification (channels are assigned at ingest time).
+- If your account uses custom channel rules, those continue to take priority — this update only affects the built-in defaults.
+- No action is required on your side.
+
+If you have automations, alerts or exports built on the exact volume of Unassigned traffic, this is a good moment to review them.
+
+---
+
 ## Bot-blocking algorithm update — fewer false positives (June 2, 2026)
 
 On **Tuesday, June 2, 2026 at 20:00 CET**, we deployed an update to our bot-blocking algorithm to stop filtering out legitimate human traffic that was previously being misidentified as bot activity.

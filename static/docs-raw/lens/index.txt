@@ -48,7 +48,7 @@ Ask LENS questions about your data in natural language:
 - *"Which campaigns are performing best this month?"*
 - *"Compare traffic from Google vs Facebook"*
 
-The assistant is **bring-your-own-key (BYOK)**: you connect your own LLM provider API key, so there is no per-account question quota. Supported providers and their default models are Anthropic (`claude-sonnet-4`), OpenAI (`gpt-4o`), DeepSeek (`deepseek-chat`), and Google Gemini (`gemini-2.5-flash`).
+The assistant supports two provider modes: **[Seal AI Private](/billing/seal-ai-private)** (the managed EU platform LLM, no key required — usage counts against your org's monthly 5M-token quota plus any purchased packs) and **bring-your-own-key (BYOK)** with Anthropic (`claude-3-5-haiku` / `claude-sonnet-4` / `claude-opus-4`), OpenAI (`gpt-4o-mini` / `gpt-4o`), DeepSeek (`deepseek-chat`), or Google Gemini (`gemini-2.5-flash` / `gemini-2.5-pro`). BYOK has no quota — you pay your provider directly. LENS picks the appropriate model automatically based on task complexity.
 
 [Learn more about the AI assistant →](/lens/ai-assistant)
 
@@ -63,8 +63,15 @@ Email is currently the only delivery channel for LENS notifications.
 
 ## Availability by Plan
 
-LENS AI is included in all plans. SealMetrics offers five volume-based tiers — **Starter, Growth, Scale, Pro, and Enterprise** — and all LENS insight categories are available on every tier. Plans differ by data volume and account limits, not by which insights you can access.
+LENS AI (chat + insights) is included in every paid plan — **Growth, Scale, and Enterprise** — and all LENS insight categories are available on every tier. Plans differ in how the AI is powered:
 
-Because the AI assistant is BYOK (you supply your own LLM provider key), there is no per-plan cap on the number of questions you can ask.
+| Plan | BYOK (your own key) | [Seal AI Private](/billing/seal-ai-private) (managed, EU) |
+|------|---------------------|------------------------------------------------------------|
+| Free | — | Not available |
+| Growth | Yes, unmetered | Available as a paid add-on |
+| Scale | Yes, unmetered | **Included** (5M tokens/month) |
+| Enterprise | Yes, unmetered | **Included** (5M tokens/month) |
+
+With BYOK there is no per-plan cap on questions — you pay your provider directly. With Seal AI Private, usage draws from the monthly token quota (plus optional non-expiring packs).
 
 ## Getting Started

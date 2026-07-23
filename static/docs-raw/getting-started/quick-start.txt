@@ -4,7 +4,7 @@ URL: https://docs.sealmetrics.com/getting-started/quick-start
 
 # First Steps with Sealmetrics
 
-You can get **Sealmetrics** running in under five minutes: create an account, add your site, install a single tracking script in your page `<head>`, and verify data collection. From there you set up conversion goals and explore your dashboard — all without cookies or a consent banner.
+You can get **Sealmetrics** running in under five minutes: create an account, add your site, install a single tracking script in your page `<head>`, and verify data collection. From there you instrument conversion tracking and explore your reports — all without cookies or a consent banner.
 
 ---
 
@@ -14,8 +14,8 @@ You can get **Sealmetrics** running in under five minutes: create an account, ad
 2. Create your organization and add a site
 3. Install the tracking code on your website
 4. Verify data collection
-5. Set up conversion goals
-6. Explore your dashboard
+5. Instrument conversion tracking
+6. Explore your reports
 
 ---
 
@@ -55,9 +55,9 @@ Your site is now ready for tracking code installation.
 
 ### Getting Your Tracking Code
 
-1. Navigate to **Settings → Installation**  
-2. Copy your unique tracking code  
-3. Choose your preferred installation method  
+1. Open your site and go to **Site Config → Settings**, then select the **Pixel Code** tab — the Pixel Builder there generates your snippet
+2. Alternatively, run the **Setup Wizard** (under **Settings → Pixels**) for a guided installation
+3. Copy your unique tracking code and choose your preferred installation method
 
 ### Installation Methods
 
@@ -86,12 +86,10 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 ## Step 4: Verify Installation
 
-### Real-Time Verification
-
 1. Visit your website in a new browser tab  
-2. Go to the **Sealmetrics Dashboard**  
-3. Check the **Real-Time** section for active visitors  
-4. Confirm your visit appears in the data  
+2. Open your site's **Overview** report in the Sealmetrics dashboard  
+3. Check the **Last hit** timestamp at the top right — it updates within seconds of a tracked hit  
+4. Confirm your visit shows up in the Entrances and Pageviews numbers  
 
 ### Testing Checklist
 
@@ -102,60 +100,51 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 ---
 
-## Step 5: Set Up Conversion Goals
+## Step 5: Instrument Conversion Tracking
 
-### Types of Goals
+Conversions are not configured in the dashboard — you instrument them on your website with a single JavaScript call. Once the tracker is installed, the global `sealmetrics` object is available:
 
-#### Page View Goals
-- Thank you pages  
-- Confirmation pages  
-- Specific landing pages  
-- Download completions  
+```javascript
+// Track a purchase (amount is optional)
+sealmetrics.conv('purchase', 99.99);
 
-#### Event Goals
-- Button clicks  
-- Form submissions  
-- Video plays  
-- File downloads  
+// Track a conversion with no monetary value
+sealmetrics.conv('lead');
 
-#### E-commerce Goals
-- Purchase completions  
-- Add-to-cart events  
-- Checkout initiations  
-- Revenue tracking  
+// Track a microconversion (funnel step or interaction)
+sealmetrics.micro('add_to_cart');
+```
 
-### Goal Configuration
+Place the `sealmetrics.conv()` call wherever your goal completes — typically a thank-you or confirmation page, a form submit handler, or a button click. Use `sealmetrics.micro()` for intermediate steps like add-to-cart or video plays.
 
-1. Navigate to **Goals → Create New Goal**  
-2. Choose goal type: *Page View, Event, or E-commerce*  
-3. Define goal conditions  
-4. Set goal value *(optional)*  
-5. Save and activate the goal  
+See [How to Measure Conversions](/getting-started/measure-conversions) for complete examples (e-commerce, leads, signups, dynamic values).
 
 ---
 
-## Step 6: Explore Your Dashboard
+## Step 6: Explore Your Reports
 
 ### Key Metrics Overview
 
-- **Visits:** Total unique visitors  
-- **Page Views:** Total pages viewed  
-- **Conversion Rate:** Goal completion percentage  
-- **Traffic Sources:** Where visitors come from  
+The **Overview** report shows your core KPIs at a glance:
 
-### Important Reports
+- **Entrances:** Sessions started on your site (Sealmetrics does not count "unique visitors" — that would require identifying individuals)  
+- **Pageviews:** Total pages viewed  
+- **Pages/Entrance and Bounce Rate:** Engagement at a glance  
+- **Conversions and Revenue:** Goal completions and their value  
 
-- **Acquisition:** Traffic source analysis  
-- **Behavior:** Page performance and user flow  
-- **Conversions:** Goal tracking  
-- **Real-Time:** Live visitor activity  
+A chart lets you toggle between Entrances, Pageviews, and Conversions over time.
 
-### Dashboard Customization
+### Reports in the Sidebar
 
-- Pin important metrics to the overview  
-- Create custom date ranges  
-- Set automated reports  
-- Configure alert notifications  
+- **Overview:** KPIs, trend chart, and the "Last hit" timestamp  
+- **Evolution:** Performance over time  
+- **Pages:** Page-level performance  
+- **Sources:** Where visitors come from  
+- **Geography:** Country-level breakdown  
+- **Devices:** Device, browser, and OS data  
+- **Conversions:** Tracked conversions and revenue  
+- **Properties:** Custom event properties  
+- **Funnel:** E-commerce funnel from entrance to purchase  
 
 ---
 
@@ -180,12 +169,12 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 ### Missing Conversions
 
-**Symptoms:** Goals not recording properly  
+**Symptoms:** Conversions not recording properly  
 **Solutions:**
-- Verify goal setup  
-- Test triggers manually  
-- Check page URL matching  
-- Confirm event firing  
+- Verify the `sealmetrics.conv()` call is present where the goal completes  
+- Check the browser Network tab for requests to `t.sealmetrics.com` when the conversion fires  
+- Make sure the tracker is loaded before calling it (`typeof sealmetrics !== 'undefined'`)  
+- Check the **Conversions** report with the date range set to today  
 
 ---
 
@@ -194,19 +183,19 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 ### Week 1: Foundation
 - Monitor basic metrics daily  
 - Verify all pages are tracked  
-- Set up essential conversion goals  
+- Instrument your essential conversions with `sealmetrics.conv()`  
 - Familiarize yourself with the dashboard  
 
 ### Week 2: Optimization
 - Analyze traffic sources  
 - Identify top-performing content  
-- Add advanced goals  
-- Create custom segments  
+- Add microconversions for key interactions  
+- Use UTM parameters for campaign attribution  
 
 ### Month 1: Advanced Features
 - Implement e-commerce tracking  
-- Set up funnel analysis  
-- Create custom reports  
+- Review the Funnel report  
+- Export reports to CSV or PDF  
 - Integrate with other tools  
 
 ---
@@ -215,7 +204,7 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 ### Data Quality
 - **Consistent Tracking:** Add Sealmetrics to all pages  
-- **Goal Alignment:** Match goals to business KPIs  
+- **Goal Alignment:** Track the conversions that match your business KPIs  
 - **Regular Monitoring:** Review data weekly  
 - **Team Training:** Educate your marketing and analytics teams  
 

@@ -124,7 +124,7 @@ Create a new export job.
     "file_size_bytes": 45230,
     "file_size_human": "44.2 KB",
     "progress_percent": 100,
-    "download_url": "https://api.sealmetrics.com/api/v1/exports/download/abc123...",
+    "download_url": "https://my.sealmetrics.com/api/v1/exports/download/abc123...",
     "download_expires_at": "2025-01-11T14:30:00Z",
     "started_at": "2025-01-10T14:30:00Z",
     "completed_at": "2025-01-10T14:30:02Z",
@@ -267,7 +267,15 @@ Stream export directly for small datasets (&lt;10K rows).
 
 **Request Body:** Same as create export.
 
-**Response:** File stream with appropriate content type.
+**Response:** A **direct file download**, not the usual JSON envelope. Headers:
+
+| Header | Value |
+|--------|-------|
+| `Content-Type` | `text/csv; charset=utf-8` (or `application/json`, `application/x-ndjson` depending on `format`) |
+| `Content-Disposition` | `attachment; filename="{export_type}_{date_from}_{date_to}.{ext}"` |
+| `Cache-Control` | `no-store` |
+
+Save the response body to a file (or pipe it) — do not try to `.json()` parse it.
 
 **Working example — `conversions` export:**
 
@@ -349,7 +357,7 @@ import requests
 import time
 
 API_KEY = "sm_your_api_key"
-BASE_URL = "https://api.sealmetrics.com/api/v1"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
 
 def export_data(account_id, export_type, date_from, date_to, filters=None):
     """Create export and return download URL."""

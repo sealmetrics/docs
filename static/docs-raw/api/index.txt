@@ -73,6 +73,43 @@ Response:
 | `/stats/geo/countries` | GET | Geographic breakdown |
 | `/stats/devices` | GET | Device, browser, OS breakdown |
 
+### Multi-Site Aggregate (superadmin)
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/stats/aggregate/overview` | GET | Portfolio overview across multiple sites |
+| `/stats/aggregate/pages` | GET | Pages aggregated across sites |
+| `/stats/aggregate/mediums` | GET | UTM mediums aggregated across sites |
+| `/stats/aggregate/sources` | GET | UTM sources aggregated across sites |
+| `/stats/aggregate/geo/countries` | GET | Countries aggregated across sites |
+| `/stats/aggregate/devices` | GET | Devices aggregated across sites |
+| `/stats/aggregate/landing-pages` | GET | Landing pages aggregated across sites |
+| `/stats/aggregate/conversions` | GET | Conversions by type across sites |
+
+See [Multi-Site Aggregate Stats](/api/stats-aggregate).
+
+### Billing
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/billing/plans` | GET | List pricing plans (public) |
+| `/billing/overview` | GET | Billing overview (subscription, usage, payment method) |
+| `/billing/checkout` | POST | Create Stripe Checkout session |
+| `/billing/portal` | POST | Create Stripe customer portal session |
+| `/billing/subscription` | GET | Subscription details |
+| `/billing/subscription/cancel` | POST | Schedule cancellation at period end |
+| `/billing/subscription/resume` | POST | Undo a scheduled cancellation |
+| `/billing/subscription/history` | GET | Subscription audit log |
+| `/billing/invoices` | GET | List invoices |
+| `/billing/usage/current` | GET | Current period event usage |
+| `/billing/usage/history` | GET | Past period event usage |
+| `/billing/overage-status` | GET | Overage history and forgiveness status |
+| `/billing/coupons/validate` | POST | Validate a discount code |
+| `/billing/accounting-email` | GET, PUT | Accounting email for invoices |
+| `/billing/seal-ai/*` | POST | Seal AI Private add-on (subscribe, unsubscribe, token packs) |
+
+See [Billing API](/api/billing).
+
 ### Site Management
 
 | Endpoint | Method | Description |
@@ -274,6 +311,8 @@ All errors return JSON with this structure:
 - [Quick Start](/api/quick-start) - First API call in 5 minutes
 - [Authentication](/api/authentication) - API keys and JWT tokens
 - [Stats Endpoints](/api/stats) - Analytics data endpoints
+- [Multi-Site Aggregate Stats](/api/stats-aggregate) - Portfolio metrics across multiple sites
+- [Billing API](/api/billing) - Plans, subscriptions, invoices, usage, Seal AI Private add-on
 - [Sites](/api/sites) - Site management
 - [Organizations](/api/organizations) - Team management
 - [Segments](/api/segments) - Saved segments

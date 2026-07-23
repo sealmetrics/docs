@@ -1,4 +1,5 @@
 ---
+sidebar_position: 5
 title: Preserve Attribution Through External Login or SSO Flows
 sidebar_label: External Auth / SSO Attribution
 description: Learn how to keep the original traffic source when your signup or login flow passes through an external authentication domain (SSO) and returns to your site.
@@ -39,15 +40,26 @@ The problem is never the subdomain change — it is the external domain in the m
 
 ---
 
-## The Fix: Referral Exclusion List
+## The Fix: Register the Auth Domain as a Passthrough Referrer
 
-Add the external authentication domain to your **Referral Exclusion List**:
+:::info Configured via the API
+Passthrough referrers are currently managed through the **Sealmetrics API**, not from a dashboard screen. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema.
+:::
 
-1. Open the settings menu in the top toolbar and click **Accounts**
-2. In the accounts table, click the **POS Referral Bypass** action in your account's row
-3. On the **Referral Exclusion List** screen, enter the auth domain (e.g. `yourcompany.com` or `accounts.yourcompany.com`) in the **Domain** field
-4. Use **Add referral** to add more domains if needed
-5. Click **Update** to save
+Register the external authentication domain (e.g. `accounts.yourcompany.com`) as a passthrough referrer for your account:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "accounts.yourcompany.com",
+    "utm_source": "sso",
+    "service_name": "Company SSO"
+  }'
+```
+
+Add every external domain in the journey the same way. Entries can be listed, updated, and deleted through the same API — see the [Passthrough Referrers API reference](/api/passthrough-referrers).
 
 Once excluded, SealMetrics ignores that domain as a referrer. When the user returns from the auth flow, the original session source remains active, and the conversion inherits the real acquisition channel.
 
@@ -60,7 +72,7 @@ This is the same mechanism used to [avoid conversions attributed to payment gate
 To attribute conversions correctly when acquisition happens on your public website and conversion happens in your app:
 
 1. **Same Account ID everywhere** — install the same SealMetrics pixel on the public site (`www.`) and the app (`app.`). See the [SaaS implementation guide](/use-cases/saas).
-2. **Exclude external auth domains** — add every third-party domain in the journey (SSO, identity provider, payment gateway) to the Referral Exclusion List.
+2. **Exclude external auth domains** — register every third-party domain in the journey (SSO, identity provider, payment gateway) as a [passthrough referrer](/api/passthrough-referrers).
 3. **Differentiate areas with content grouping** — use `group=marketing`, `group=app`, etc., to keep reports readable. See [Content Grouping](/platform/settings/tracking/content-grouping).
 4. **Track signup as a conversion** — fire the conversion on the post-signup page (e.g. email verification completed) so it inherits the session source.
 

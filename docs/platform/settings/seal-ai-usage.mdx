@@ -1,0 +1,49 @@
+---
+sidebar_position: 6
+title: Seal AI Usage
+description: "The Seal AI Usage screen: monthly token consumption, pack balance, purchase of extra token packs, and per-site/per-user breakdown."
+---
+
+# Seal AI Usage
+
+The **Seal AI Usage** screen shows your organization's monthly [Seal AI Private](/billing/seal-ai-private) token consumption and is where owners buy extra token packs.
+
+## Accessing the screen
+
+In the sidebar, open **Organization → Seal AI Usage** (`/settings/seal-ai-usage`).
+
+:::info Owner and admins only
+The screen is visible to the organization **owner** and **admins**. Members don't see the menu entry (they still see the aggregate quota ring in the chat). Purchase and cancellation actions are **owner-only** — admins see the screen read-only.
+:::
+
+## What you'll see
+
+- **Monthly gauge** — tokens used vs. your effective quota (the 5M monthly allowance plus any pack balance), the percentage used, and the quota reset date (the 1st of the next month, UTC).
+- **Month selector** — switch between recent months.
+- **Plan badge** — how your org is entitled (e.g. included in Scale, active add-on, or grandfathered access with its end date).
+- **Daily chart** — input vs. output tokens per day (UTC).
+- **Pack balance and purchase history** — packs bought, their price, and remaining pack tokens (pack tokens never expire and are consumed only after the monthly 5M).
+- **Breakdown by site and by user** — where the tokens went. User rows show names, never emails; automated LENS insight runs appear as "LENS (automated)".
+
+## Buying token packs
+
+Owners can buy **5M-token packs** (€358.80 each, 1–10 per checkout) directly from this screen via Stripe checkout. The new balance is reflected as soon as the payment completes, and a confirmation email is sent. See [Seal AI Private — token packs](/billing/seal-ai-private#extra-token-packs).
+
+## States you may encounter
+
+| State | What it means |
+|-------|---------------|
+| "Not available on Free" | Seal AI Private requires Growth (add-on) or Scale/Enterprise — the screen shows upgrade options |
+| Activation card with pricing | Your org is not yet entitled: the owner can activate the add-on (€299/mo billed annually · €358.80/mo monthly) |
+| Grandfathering banner | Your org has temporary access; the banner shows the end date |
+| "Token limit reached" in chat | Quota + packs exhausted: owner sees a purchase CTA, members see "contact your admin"; anyone can switch the chat to their own key ([BYOK](/platform/settings/llm)) |
+
+## Email alerts
+
+The organization receives an email when monthly consumption crosses **80%** and **100%** of the effective quota (once per month each), and a confirmation email on each pack purchase.
+
+## Related documentation
+
+- [Seal AI Private](/billing/seal-ai-private) — pricing, quota model, and plan availability
+- [LLM Providers](/platform/settings/llm) — choosing Seal AI vs. your own key
+- [Organizations API — Seal AI usage](/api/organizations#seal-ai-usage) — the same data via API

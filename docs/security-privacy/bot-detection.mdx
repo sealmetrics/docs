@@ -1,5 +1,5 @@
 ---
-sidebar_position: 15
+sidebar_position: 8
 title: Bot Detection & Traffic Quality
 description: How SealMetrics detects and filters bot traffic to ensure data accuracy. Multi-layer detection system protecting your analytics.
 tags: [security, bot detection, traffic quality, spam protection]
@@ -121,7 +121,8 @@ For accounts requiring deeper analysis, SealMetrics offers advanced agent detect
 |----------------|---------|
 | `human` | Confirmed human behavior |
 | `agent_suspected` | Automated behavior detected |
-| `unclassified` | Insufficient data |
+
+Classification happens at session level: the entrance is classified and its pageviews inherit the result. For non-human sessions, Sealmetrics additionally identifies the **automation tool** where possible (`selenium`, `playwright`, `puppeteer`, `browser_use`, `headless_chrome`, `webmcp`) and, via network heuristics, the **AI provider** behind known agents (e.g. OpenAI, Anthropic). See the [agent detection integration](/integrations/agentic-package) for the full signal list.
 
 ### Enabling Agent Detection
 

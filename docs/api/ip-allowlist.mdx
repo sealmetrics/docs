@@ -1,5 +1,5 @@
 ---
-sidebar_position: 17
+sidebar_position: 32
 title: IP Allowlist
 description: Restrict API and dashboard access to allowed IPs or CIDR ranges, with bulk import/export and audit logging (Enterprise plans)
 ---
@@ -511,7 +511,7 @@ View access attempts and configuration changes.
 import requests
 
 API_KEY = "sm_your_api_key"
-BASE_URL = "https://api.sealmetrics.com/api/v1"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
 ACCOUNT_ID = "my-site"
 
 def setup_ip_allowlist(office_ips, vpn_ips):
@@ -663,7 +663,7 @@ Enable `enforce_for_api_tokens` first, test thoroughly, then enable `enforce_for
 Before enabling, verify your current IP is covered:
 
 ```bash
-curl "https://api.sealmetrics.com/api/v1/ip-allowlist/check-current?account_id=my-site" \
+curl "https://my.sealmetrics.com/api/v1/ip-allowlist/check-current?account_id=my-site" \
   -H "X-API-Key: sm_your_api_key"
 ```
 

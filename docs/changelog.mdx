@@ -1,11 +1,34 @@
 ---
+sidebar_position: 2
 title: Release Notes
-description: Sealmetrics product updates, new reports, API changes, and platform improvements — including Sealmetrics V2 (Feb 2026) and the consentless analytics roadmap.
-date: 2026-02-09
+description: Sealmetrics product updates, new reports, API changes, and platform improvements — latest release Seal AI Private (July 2026).
+date: 2026-07-22
 tags: [changelog, releases, updates]
 ---
 
 # Release Notes
+
+---
+
+## Seal AI Private — EU-hosted AI with token packs (July 22, 2026)
+
+**Seal AI Private** is now generally available: Sealmetrics' managed AI provider for [LENS](/lens/) — processed entirely in the EU (Paris), no prompt retention, and no API key to manage.
+
+### What's new
+
+- **Add-on on Growth, included in Scale and Enterprise.** €299/month billed annually upfront (€3,588/year), or €358.80/month on monthly contracts. Not available on Free.
+- **5M tokens per calendar month** for the whole organization (chat + automated insights), with email alerts at 80% and 100% consumption.
+- **Token packs**: extra 5M-token packs at €358.80 each (1–10 per checkout) that **never expire** — consumed only after the monthly quota.
+- **Seal AI Usage screen** (Organization → Seal AI Usage, owner/admin): monthly gauge, daily input/output chart, pack balance and history, and per-site / per-user breakdown.
+- **BYOK fallback**: when the quota runs out, any user can switch the chat to their own Anthropic, OpenAI, Gemini, or DeepSeek key.
+
+Full details: [Seal AI Private](/billing/seal-ai-private) · [LLM Providers](/platform/settings/llm).
+
+---
+
+## Sources report — referral traffic now grouped by domain, GA4-style (July 21, 2026)
+
+The **Sources** tab now shows referral traffic as source domains (e.g. `reddit.com / referrer`), unifying historical data under the same convention. The **Referrers** tab keeps its URL-level detail: one row per referring URL. If you query the API, referral rows now appear in `/stats/sources` as domains and are excluded from `/stats/terms`.
 
 ---
 

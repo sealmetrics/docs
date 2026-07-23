@@ -1,7 +1,7 @@
 ---
 title: "Legal FAQ — Sealmetrics Compliance Questions"
 description: "Frequently asked legal, compliance, privacy, and data protection questions about Sealmetrics."
-sidebar_position: 50
+sidebar_position: 1
 ---
 
 # Legal FAQ
@@ -16,19 +16,19 @@ This page answers the most common legal and compliance questions related to Seal
 Yes. Sealmetrics is independently audited by **Comply.org**.  
 You can view our official compliance profile here:
 
-👉 *Add your Comply.org profile link here*
+👉 [Sealmetrics compliance profile on Comply.org](https://app.comply.org/attest/sealmetrics)
 
 ---
 
 ## **Data Processing & Legal Documentation**
 
 ### **How does Sealmetrics process customer data?**
-You can review our full **Data Protection Policy** for our role as a B2B Data Controller here:
+You can review our full **Privacy Notice** for our role as a B2B Data Controller here:
 
-👉 *Add Privacy Notice link*
+👉 [Sealmetrics Privacy Notice](https://sealmetrics.com/privacy)
 
 We’re also audited as Data Processors where applicable:  
-👉 *Add Comply documentation link*
+👉 [Data Processing Agreement (DPA)](https://sealmetrics.com/dpa) · [Comply.org audit profile](https://app.comply.org/attest/sealmetrics)
 
 ---
 
@@ -65,13 +65,14 @@ Sealmetrics is a **bootstrapped European company** with no external investors on
 ## **Data Collection & Calculation**
 
 ### **What data does Sealmetrics collect?**
-We only collect four essential, non-personal variables:
+We only collect four essential, non-personal variables per hit:
 
-- URL of the page  
+- Current URL (including UTM parameters)  
 - Referral URL  
 - Timestamp  
-- UTMs  
 - User Agent (stored 24 months for anonymous device classification; never linked to a person)  
+
+Plus a short-lived **session context marker** used to tell a second pageview apart from a new entrance. See [What We Track vs What We Don't](/security-privacy/what-we-track) for the full breakdown.
 
 All data is anonymous and isolated.
 
@@ -81,25 +82,33 @@ All data is anonymous and isolated.
 We compute:
 
 - **Source ID** (`_adin`): Used for attribution
-- **Session ID**: Temporary identifier that expires with the browser session
+- **Session context marker**: a short-lived identifier scoped to a single browsing session (~2-hour inactivity window). It is not stored in the browser, does not persist across sessions, and cannot recognize a returning visitor.
 
 ---
 
 ### **Does Sealmetrics use IP addresses for calculation?**
-No.  
-Sealmetrics **never uses, processes, or stores IP addresses** for any purpose — including bot filtering.
+**Never for analytics, and never stored.**
+
+- No metric in Sealmetrics is calculated from IP addresses. Visitor country comes from the [browser timezone](/security-privacy/country-detection), not from the IP.
+- The visitor's IP is used **ephemerally, in memory only**, for one purpose: security and anti-bot protection (checking the request against curated bot/datacenter blocklists before it is accepted).
+- The IP is **never written to the analytics database** — there is no IP column in our event storage — and it is never linked to any hit, session, or metric.
+- If a site explicitly enables the optional **Agent Analytics** feature, entrance requests additionally get a **stateless** GeoLite2 lookup (datacenter/ISP signals used to score bot vs. human). Only the derived signals are kept; the IP itself is discarded.
+
+This ephemeral, in-memory security use is processed under legitimate interest (GDPR Art. 6(1)(f), Recital 49 — network and information security). What keeps Sealmetrics consentless is that the IP is never stored, never used for identification or tracking, and never used to compute analytics.
 
 ---
 
 ## **Bot Filtering**
 
 ### **How does Sealmetrics block bots?**
-We use:
+We use several layers, none of which stores personal data:
 
-- **Bot user agent lists**, and  
-- **Automated behavioral pattern detection**
+- **Bot user-agent signature lists** (known crawlers, headless browsers, automation tools)
+- **Curated IP/CIDR blocklists** of known bots and datacenters, checked in memory at request time — the IP is discarded immediately and never stored
+- **Request-header consistency checks**
+- Optionally, for sites with **Agent Analytics** enabled: environmental and behavioral signals that classify traffic as human vs. automated
 
-IP addresses are **never used** for bot filtering.
+See [How Sealmetrics Blocks Bot Traffic](/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic) for the full picture.
 
 ---
 
@@ -117,22 +126,16 @@ Sealmetrics does **not** use:
 
 ---
 
-## **Real-Time Tracking & Retention**
-
-### **Why doesn’t Sealmetrics work in real-time by default?**
-Because **real-time analytics legally requires user consent**, according to privacy regulators.  
-To stay consentless and cookieless, real-time must be **explicitly activated** by the user.
-
----
+## **Data Retention**
 
 ### **How many months does Sealmetrics store my data?**
 We store data for a **maximum of 24 months**.  
-Regulators consider retention periods above 24 months as requiring consent.
+This stays inside the 25-month ceiling that CNIL guidance sets for consent-exempt analytics — Sealmetrics deliberately applies the stricter 24-month limit.
 
 ## Related documentation
 
 - [Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?](/compliance/compliance-overview/is-sealmetrics-privacy-compliant) — the architecture behind these answers.
-- [How Sealmetrics Blocks Bot Traffic Without Handling IPs](/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic) — bot filtering without processing IP addresses.
+- [How Sealmetrics Blocks Bot Traffic](/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic) — the full anti-bot pipeline and why it stays consentless.
 - [Do Temporary Session Identifiers (Session IDs) Require Consent Under GDPR?](/legal/gdpr-and-eprivacy/do-session-ids-require-consent) — why the Session ID and Source ID stay consent-exempt.
 - [CNIL Self-Assessment: Sealmetrics Compliance](/compliance/cnil-self-assessment) — the retention and cookie-lifetime criteria referenced above.
 - [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — the consentless measurement model explained.

@@ -25,11 +25,7 @@ That's it. From this point on the tracker will:
 5. Skip duplicates: if the new URL is identical to the previous one, no event is sent.
 6. Update the `referrer` of each SPA pageview to the previous in-app URL — so internal navigation flows are preserved in reports.
 
-The tracker exposes itself as three global aliases — use whichever you prefer:
-
-```js
-window.sealmetrics === window.sm === window._sm
-```
+The canonical global is **`window.sealmetrics`** — always use it in your integrations. (`window.sm` and `window._sm` exist as best-effort aliases, but they are only claimed when free — e.g. during a v1→v2 migration `window.sm` is the *old* tracker — so don't rely on them.)
 
 ---
 
@@ -68,7 +64,6 @@ export default function CheckoutSuccess({ order }) {
     if (typeof sealmetrics === 'undefined') return;
 
     sealmetrics.conv('purchase', order.total, {
-      order_id: order.id,
       currency: order.currency,
       payment_method: order.paymentMethod,
     });
@@ -90,7 +85,6 @@ onMounted(() => {
   if (typeof sealmetrics === 'undefined') return;
 
   sealmetrics.conv('purchase', props.order.total, {
-    order_id: props.order.id,
     currency: props.order.currency,
   });
 });
@@ -124,7 +118,6 @@ export class CheckoutSuccessComponent implements OnInit {
     if (typeof window.sealmetrics === 'undefined') return;
 
     window.sealmetrics.conv('purchase', this.order.total, {
-      order_id: this.order.id,
       currency: this.order.currency,
     });
   }
@@ -147,7 +140,6 @@ export default function SuccessPage({ searchParams }: { searchParams: { order: s
       .then((r) => r.json())
       .then((order) => {
         sealmetrics.conv('purchase', order.total, {
-          order_id: order.id,
           currency: order.currency,
         });
       });
@@ -199,15 +191,18 @@ This is the cleanest pattern. The group is sticky for **every** automatic pagevi
 
 The tracker has **no API to update the group of an already-fired pageview**. If you need a different group per route, you have two options:
 
-#### Option A — Manual mode (`?auto=0`), fire pageviews yourself
+#### Option A — Full manual mode (`?auto=0&spa=0`), fire pageviews yourself
 
-Best for apps where every route needs a specific group. Load the tracker with the `auto=0` query parameter on the script URL. This **suppresses only the initial auto-pageview**; the SPA listeners (`pushState` / `replaceState` / `popstate`) **stay active**, so route changes still fire pageviews automatically:
+Best for apps where every route needs a specific group. Two flags on the script URL give you full control:
+
+- `auto=0` suppresses the **initial** auto-pageview on load.
+- `spa=0` suppresses the **automatic pageview on SPA route changes**. The History API listeners still update the tracker's URL/referrer state, so your manual pageviews carry the correct referrer chain.
 
 ```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0" defer></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0&spa=0" defer></script>
 ```
 
-With `?auto=0` the tracker exposes the full API but does not fire the first pageview — you fire it (and pass the group) yourself once your router has resolved the initial route:
+With both flags set, no pageview fires unless you fire it — so you pass the group on every route, with no risk of double counting:
 
 ```jsx
 // after router resolves a route
@@ -217,7 +212,7 @@ useEffect(() => {
 }, [pathname]);
 ```
 
-⚠️ Note that `?auto=0` only suppresses the **initial** auto-pageview. The History API listeners remain hooked, so a real route change via `pushState`/`replaceState`/`popstate` still fires an automatic (group-less) pageview. If you also call `sealmetrics({ group })` after that navigation, you get **two pageviews** for the same URL. For most apps, Option B is simpler.
+⚠️ Don't use `?auto=0` alone for this pattern: without `spa=0`, route changes via `pushState`/`replaceState`/`popstate` still fire an automatic (group-less) pageview, and your manual call would make it **two pageviews** for the same URL. Always pair them (`?auto=0&spa=0`) when firing SPA pageviews manually.
 
 #### Option B — Use a single global group per site
 
@@ -254,7 +249,7 @@ router.afterEach(() => {
 });
 ```
 
-The tracker de-duplicates by URL, so this is safe to call even if the History API hook also fires — only one pageview will be sent per unique URL transition.
+⚠️ **The tracker does not de-duplicate manual calls** — `sealmetrics()` always sends a pageview when invoked. (The URL-change check only gates the *automatic* History API hook.) Only add this listener if your router genuinely bypasses `pushState`/`replaceState` — verify in the Network tab first. If both the automatic hook and your manual call fire, every navigation is counted **twice**. If you want deterministic control, load the tracker with `?spa=0` (see Option A above) and fire all SPA pageviews manually.
 
 ---
 
@@ -320,7 +315,7 @@ Most common causes, in order:
 
 1. **Script included twice.** Search the rendered HTML for `t.sealmetrics.com/t.js` — there should be exactly one match.
 2. **Manual `sealmetrics()` call after auto-tracking.** The tracker already fires on `pushState`/`replaceState`/`popstate`. Don't call it again in your router's `afterEach` unless you've confirmed auto-tracking isn't firing.
-3. **Per-route grouping pattern.** See [Option A above](#option-a--manual-mode-auto0-fire-pageviews-yourself) — calling `sealmetrics({ group: '...' })` after an automatic pageview produces a second event. Note that `?auto=0` only suppresses the *initial* pageview, not SPA route-change pageviews.
+3. **Per-route grouping pattern.** See [Option A above](#option-a--full-manual-mode-auto0spa0-fire-pageviews-yourself) — calling `sealmetrics({ group: '...' })` after an automatic pageview produces a second event. Use `?auto=0&spa=0` together: `?auto=0` alone only suppresses the *initial* pageview, not SPA route-change pageviews.
 4. **Animations using `replaceState`.** Some libraries call `history.replaceState()` for non-navigation purposes (e.g. saving scroll position into the URL hash). This will trigger a pageview if the full URL changes. Use a query-param-only update where possible, or strip the param before tracking.
 
 ### Missing pageviews on route change

@@ -15,7 +15,7 @@ Traditional analytics tools lose 60-87% of visitor data in EU markets because us
 Every interaction on your website is captured using just four data points:
 
 1. **Timestamp** - When the visit happened
-2. **User Agent** - Browser and device type (detected but not stored)
+2. **User Agent** - Browser and device type (stored 24 months for anonymous device classification; never linked to a person)
 3. **Current URL** - Which page was viewed
 4. **Referral URL** - Where the visitor came from
 
@@ -23,14 +23,14 @@ That's it. No IP addresses, no cookies, no persistent identifiers. This minimal 
 
 ## Session-Based Tracking
 
-Sealmetrics creates a temporary session ID that expires when the browser closes. This allows you to:
+Sealmetrics groups the hits of a single visit using a temporary session marker derived from the browser context — nothing is stored on the device (no cookies, no local storage). A session ends after roughly two hours of inactivity. This allows you to:
 
 - Track page views within a single visit
 - Measure session duration and engagement
 - Follow navigation patterns through your site
 - Identify conversion paths
 
-The session ID is isolated to that one visit and can never be used to identify the person or link visits together.
+The session marker contains no persistent identifier and Sealmetrics never recognizes visitors across sessions — separate visits are never linked together, so no browsing profile of any person can be built.
 
 ## How Data Flows Through Sealmetrics
 
@@ -38,7 +38,7 @@ The session ID is isolated to that one visit and can never be used to identify t
 A lightweight JavaScript snippet on your website detects page views and events. The script is asynchronous and won't slow down your site.
 
 **Step 2: Instant Anonymization**
-Data is immediately anonymized at the collection layer. User agents are parsed for insights but never stored. No IP addresses are captured at any point in the system.
+Data is immediately anonymized at the collection layer. User agents are parsed for anonymous device classification and stored 24 months alongside the hit, but never joined with any personal identifier (there isn't one). No IP addresses are persisted at any point in the system.
 
 **Step 3: Secure Processing**
 All data is processed on EU-based servers in Dublin, Ireland. We use encryption in transit and at rest, with strict access controls and complete audit trails.
@@ -52,9 +52,9 @@ Sealmetrics uses **last-click attribution** at the channel level. When someone c
 
 This gives you the marketing intelligence you need—which channels drive results—without the privacy risks of user-level tracking.
 
-## Real-Time Visibility
+## Data in Seconds
 
-See live visitors on your site right now. Monitor conversion events as they happen. Verify your tracking implementation instantly. All in real-time, without compromising anyone's privacy.
+Hits reach your reports within seconds of happening. The **Last hit** timestamp on the Overview report shows exactly when the most recent hit arrived, so you can verify your tracking implementation instantly — without compromising anyone's privacy.
 
 ## Integration Made Simple
 
@@ -62,7 +62,7 @@ Getting started takes two minutes:
 
 1. Add one script tag to your website's `<head>` section
 2. Start seeing data immediately
-3. Configure goals and events as needed
+3. Instrument conversions and events as needed with `sealmetrics.conv()`
 
 Works with any framework: WordPress, React, Vue, standard HTML. Use our native plugins or integrate via Google Tag Manager.
 

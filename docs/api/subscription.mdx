@@ -1,5 +1,5 @@
 ---
-sidebar_position: 18.5
+sidebar_position: 35
 title: Subscription Status
 description: Check an organization's subscription state — plan tier, trial end, billing period, and paywall block status from a single endpoint
 ---
@@ -33,7 +33,7 @@ GET /subscription/status?org_id={org_id}
     "billing_enabled": true,
     "has_subscription": true,
     "status": "active",
-    "plan_tier": "pro",
+    "plan_tier": "growth",
     "trial_ends_at": null,
     "current_period_end": "2025-02-08T00:00:00Z",
     "cancel_at_period_end": false,
@@ -52,7 +52,7 @@ GET /subscription/status?org_id={org_id}
 | `billing_enabled` | `true` when the billing feature is enabled for this org. `false` for self-hosted / grandfathered installs |
 | `has_subscription` | Whether the org currently has an active paid subscription |
 | `status` | Raw status (e.g. `active`, `trialing`, `past_due`, `canceled`, `free`) |
-| `plan_tier` | Plan tier name (e.g. `free`, `pro`, `business`) or `null` |
+| `plan_tier` | Plan tier name (`free`, `growth`, `scale`, `enterprise`) or `null` |
 | `trial_ends_at` | Trial end timestamp or `null` |
 | `current_period_end` | When the current paid period ends, or `null` |
 | `cancel_at_period_end` | `true` if cancellation is scheduled |

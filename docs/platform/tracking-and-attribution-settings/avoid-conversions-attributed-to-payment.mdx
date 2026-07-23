@@ -1,4 +1,5 @@
 ---
+sidebar_position: 3
 title: How to Avoid Conversions Being Attributed to “Payment”
 sidebar_label: Avoid “Payment” Attribution
 description: Learn why conversions sometimes appear with “payment” as the source and how to prevent incorrect attribution.
@@ -35,7 +36,7 @@ So when the user returns from a third-party payment domain:
 - SealMetrics creates a new session  
 - And assigns its domain as the referrer  
 
-Unless you add it to your **referral bypass list**.
+Unless you register it as a **passthrough referrer**.
 
 ---
 
@@ -57,11 +58,20 @@ Example:
 
 ## How to Fix It
 
-### Step 1: Add the Payment Domain to the Exclusion List
+Register the payment domain as a **passthrough referrer** through the Sealmetrics API — there is no dashboard screen for this:
 
-![Referral Exclusion Setup](/static/img/platform/bypass-pos-referrer-1.png)
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "payments.xyz.com",
+    "utm_source": "payment-gateway",
+    "service_name": "Payment Gateway"
+  }'
+```
 
-![Referral Exclusion List](/static/img/platform/bypass-pos-referrer-2.png)
+See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema, and [Bypass POS or Referrer](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer) for the step-by-step guide.
 
 Add **only your payment provider domain**, not internal domains.
 

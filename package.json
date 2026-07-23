@@ -15,7 +15,8 @@
     "typecheck": "tsc",
     "generate:llms": "node scripts/generate-llms.mjs",
     "prebuild": "node scripts/generate-faq-schema.mjs && node scripts/inject-blog-tldr.mjs && node scripts/generate-llms.mjs",
-    "publish": "./scripts/publish.sh"
+    "publish": "./scripts/publish.sh",
+    "check:api-contract": "node scripts/check-api-contract.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "3.9.2",

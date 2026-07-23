@@ -1,5 +1,5 @@
 ---
-sidebar_position: 11
+sidebar_position: 19
 title: Period Comparison
 description: Compare analytics between time periods with the compare parameter — previous period or year-over-year deltas on any stats endpoint
 ---
@@ -327,7 +327,7 @@ import requests
 
 def get_stats_with_comparison(site_id, period="30d", compare="previous"):
     response = requests.get(
-        "https://api.sealmetrics.com/api/v1/stats/overview",
+        "https://my.sealmetrics.com/api/v1/stats/overview",
         headers={"X-API-Key": API_KEY},
         params={
             "site_id": site_id,
@@ -374,7 +374,7 @@ async function fetchWithComparison(accountId, period, compare = 'previous') {
   });
 
   const response = await fetch(
-    `https://api.sealmetrics.com/api/v1/stats/overview?${params}`,
+    `https://my.sealmetrics.com/api/v1/stats/overview?${params}`,
     { headers: { 'X-API-Key': API_KEY } }
   );
 

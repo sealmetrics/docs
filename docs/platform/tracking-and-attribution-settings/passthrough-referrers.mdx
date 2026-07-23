@@ -1,7 +1,7 @@
 ---
 title: Passthrough Referrers
 sidebar_label: Passthrough Referrers
-sidebar_position: 6
+sidebar_position: 2
 description: Learn what a passthrough referrer is and how to preserve the original traffic source when visitors return from external domains such as payment gateways, SSO providers, or booking engines.
 keywords:
   - passthrough referrer
@@ -46,17 +46,30 @@ Preservation depends on the original session still being active when the visitor
 
 ---
 
-## How to Configure It: Referral Exclusion List
+## How to Configure It
 
-In the production app (`my.sealmetrics.com`), passthrough referrers are managed through the **Referral Exclusion List**:
+:::info Configured via the API
+Passthrough referrers are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect them with the API calls shown below. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete request/response schema.
+:::
 
-1. Open the settings menu in the top toolbar and click **Accounts**.
-2. In the accounts table, find your account and click the **POS Referral Bypass** action in its row.
-3. On the **Referral Exclusion List** screen, type the external domain to exclude (e.g. a payment provider, your SSO/auth domain, or a booking engine) in the **Domain** field.
-4. Click **Add referral** to add another domain field if needed.
-5. Click **Update** to save.
+Passthrough referrers are scoped to an account. Register one with your API key:
 
-To remove a domain, click **Delete** next to it.
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "checkout.stripe.com",
+    "utm_source": "stripe",
+    "service_name": "Stripe Checkout"
+  }'
+```
+
+- `domain` is the external domain to exclude (protocol is stripped automatically).
+- `utm_source` (required) and the optional `utm_medium` / `utm_campaign` fields are the **fallback UTMs** applied when no original session exists.
+- `service_name` is an optional human-readable label.
+
+All management is done through the API — list, create, update, deactivate (`is_active: false`), and delete. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for every endpoint and example. Creating or modifying entries requires editor-or-higher (write) permissions.
 
 Add **only** the external domains that visitors legitimately pass through — payment, auth, or booking domains. Do not add your own domains.
 
@@ -64,7 +77,7 @@ Add **only** the external domains that visitors legitimately pass through — pa
 
 ## When to Use Which Guide
 
-This page is the canonical reference for the passthrough referrer concept. Two related guides cover specific scenarios that use the same Referral Exclusion List:
+This page is the canonical reference for the passthrough referrer concept. Two related guides cover specific scenarios that use the same configuration:
 
 - [Bypass POS or Referrer](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer) — step-by-step for excluding **payment gateway / POS** domains.
 - [Preserve Attribution Through External Login or SSO Flows](/platform/tracking-and-attribution-settings/external-auth-sso-attribution) — step-by-step for excluding **external authentication / SSO** domains.

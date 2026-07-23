@@ -508,27 +508,12 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 
 ## Step 6: Verify in Dashboard
 
-### 6.1 Check Real-time Data
+### 6.1 Check Data Is Arriving
 
 1. Go to [my.sealmetrics.com](https://my.sealmetrics.com)
-2. Open **Real-time** report
+2. Open your site's **Overview** report
 3. Visit your website in another tab
-4. You should see your visit appear within seconds
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  Real-time                                    🟢 Live    │
-├─────────────────────────────────────────────────────────┤
-│                                                          │
-│  Active visitors: 1                                      │
-│                                                          │
-│  Recent pageviews:                                       │
-│  ─────────────────────────────────────────────────────  │
-│  /products/blue-sneakers    2 seconds ago               │
-│  /                          45 seconds ago              │
-│                                                          │
-└─────────────────────────────────────────────────────────┘
-```
+4. Within seconds, the **Last hit** timestamp at the top right of the Overview updates and your visit is reflected in the Entrances and Pageviews numbers
 
 ### 6.2 Check Conversions
 
@@ -552,7 +537,7 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 - [ ] Correct Site ID in script URL
 - [ ] Verified `typeof sealmetrics === 'function'` in console
 - [ ] Verified 204 response in Network tab
-- [ ] Data appearing in Real-time dashboard
+- [ ] "Last hit" updating on the Overview report
 
 ### Conversions
 - [ ] Conversion tracking on thank-you/confirmation page

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 18
+sidebar_position: 34
 title: Auth Advanced
 description: Session management, password reset, and two-factor authentication reference — list active sessions and terminate them per device
 ---
@@ -538,7 +538,7 @@ return a structured `code: "IP_NOT_ALLOWED"`.
 ```python
 import requests
 
-BASE_URL = "https://api.sealmetrics.com/api/v1"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
 
 def login_with_2fa(email, password, totp_code):
     # Step 1: Initial login
@@ -568,7 +568,7 @@ def login_with_2fa(email, password, totp_code):
 
 ```javascript
 const API_KEY = 'sm_your_api_key';
-const BASE_URL = 'https://api.sealmetrics.com/api/v1';
+const BASE_URL = 'https://my.sealmetrics.com/api/v1';
 
 async function getSessions(token) {
   const response = await fetch(`${BASE_URL}/auth/sessions`, {
