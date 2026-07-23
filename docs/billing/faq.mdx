@@ -12,8 +12,8 @@ import Head from '@docusaurus/Head';
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
-        {"@type": "Question", "name": "Can I try Sealmetrics before I buy?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! All plans include a 14-day free trial with full features. No credit card required."}},
-        {"@type": "Question", "name": "Is there a free plan?", "acceptedAnswer": {"@type": "Answer", "text": "No, but the 14-day free trial gives you full access. Sealmetrics also offers special pricing for nonprofits and early-stage startups."}},
+        {"@type": "Question", "name": "Can I try Sealmetrics before I buy?", "acceptedAnswer": {"@type": "Answer", "text": "Yes! All plans include a 14-day free trial with full features. You choose a plan and enter a payment method in the secure Stripe checkout to start the trial, but you are not charged until the trial ends, and you can cancel anytime during the 14 days at no cost."}},
+        {"@type": "Question", "name": "Is there a free plan?", "acceptedAnswer": {"@type": "Answer", "text": "There is no self-service free plan, but a limited free tier exists: if your trial ends without an active subscription your account drops to it, and sites provisioned through the Agentic Package start on it with up to 1M events/month. Sealmetrics also offers special pricing for nonprofits and early-stage startups."}},
         {"@type": "Question", "name": "What payment methods does Sealmetrics accept?", "acceptedAnswer": {"@type": "Answer", "text": "Credit and debit cards (Visa, Mastercard, American Express, and other Stripe-supported cards) on all plans. Payments are processed securely through Stripe."}},
         {"@type": "Question", "name": "What counts as an event in Sealmetrics?", "acceptedAnswer": {"@type": "Answer", "text": "Events include pageviews, virtual pageviews (SPAs), conversions, micro-conversions, and custom events. All event types count toward your monthly limit."}},
         {"@type": "Question", "name": "What happens if I exceed my event limit?", "acceptedAnswer": {"@type": "Answer", "text": "Tracking continues with no data loss and no overage charges. If you exceed your event limit for two consecutive months that aren't forgiven, a Growth plan is automatically upgraded to Scale; a Scale plan is not auto-upgraded but receives an email to discuss an Enterprise plan."}},
@@ -40,11 +40,11 @@ Common questions about plans, pricing, and billing.
 
 ### Can I try before I buy?
 
-Yes! All plans include a **14-day free trial** with full features. No credit card required.
+Yes! All plans include a **14-day free trial** with full features. You choose a plan and enter a payment method in the secure Stripe checkout to start the trial — but **you are not charged until the trial ends**, and you can cancel anytime during the 14 days at no cost.
 
 ### Is there a free plan?
 
-No, but our 14-day free trial gives you full access to evaluate the platform. We also offer special pricing for nonprofits and early-stage startups.
+There is no self-service free plan, but a limited **free tier** exists: if your trial ends without an active subscription, your account drops to it (you keep read access to your existing data), and sites provisioned through the [Agentic Package](/integrations/agentic-package) start on it with up to 1M events/month. We also offer special pricing for nonprofits and early-stage startups.
 
 ### Do you offer discounts?
 
@@ -143,14 +143,15 @@ No. Event allowances reset each billing cycle.
 
 ### How does the free trial work?
 
-1. Sign up — no credit card required
-2. Get full access to all features for 14 days
-3. After 14 days, choose a plan to continue
+1. Sign up and choose a plan
+2. Enter your payment method in the secure Stripe checkout — **you are not charged yet**
+3. Get full access to all features for 14 days
+4. When the trial ends, your subscription activates automatically — unless you cancelled during the trial
 
 ### What happens when my trial ends?
 
-- **If you chose a plan:** Automatically activates
-- **If no plan selected:** Your account drops to an internal free tier with limited access (you can view existing data) until you pick a paid plan
+- **If you keep your subscription:** It activates automatically and the first charge is made
+- **If you cancelled during the trial:** Nothing is charged, and your account drops to a limited free tier (you can view existing data) until you pick a paid plan
 
 ### How do I cancel?
 
