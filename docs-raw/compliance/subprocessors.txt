@@ -1,0 +1,92 @@
+# Subprocessors
+
+URL: https://docs.sealmetrics.com/compliance/subprocessors
+
+# Subprocessors
+
+This page lists every subprocessor SealMetrics engages to deliver its service, what data each one touches, and where that processing happens. It exists so that your DPO, legal team, or procurement team can complete a GDPR Article 28 review without back-and-forth.
+
+**The short version: customer analytics data is stored and processed exclusively in Dublin, Ireland (EU), and never leaves the EU.**
+
+---
+
+## How SealMetrics minimizes its subprocessor chain
+
+Most analytics vendors sit on top of a long chain of cloud services, ad-tech integrations, and enrichment providers. SealMetrics is architected the opposite way:
+
+- **Single processing location** — all customer analytics data (hits, reports, backups) lives in one EU data center in Dublin, Ireland.
+- **No third-party data sharing** — analytics data is never sold, shared, or transmitted to advertising networks, data brokers, or enrichment services.
+- **No US cloud storage** — customer analytics data is not stored on US-headquartered cloud platforms.
+
+The result is a subprocessor list short enough to fit in one small table.
+
+---
+
+## Subprocessor list
+
+### Customer analytics data
+
+| Subprocessor | Role | Data touched | Location of processing |
+|--------------|------|--------------|------------------------|
+| EU data center (Dublin) | Hosting of application servers, analytics database, and backups | Customer analytics data (aggregated hits, reports) and account data | Dublin, Ireland (EU) |
+| Cloudflare | CDN and DDoS protection at the network edge | Traffic in transit (TLS-encrypted requests); no analytics data storage | EU edge locations |
+
+Cloudflare operates at the network layer: it routes and protects encrypted traffic before it reaches SealMetrics' Dublin infrastructure. Customer analytics data at rest is stored only in Dublin.
+
+### Not a subprocessor: Hetzner
+
+SealMetrics operates internal infrastructure with **Hetzner** (Germany/Finland) for its **own company workloads** — development, testing, and internal tooling. This infrastructure does **not** process or store customer analytics data, so Hetzner is not a subprocessor of customer analytics data. It is mentioned here for full transparency, because earlier versions of our documentation listed it in a way that could be misread.
+
+---
+
+## What data category goes where
+
+| Data category | Examples | Where it is processed | Subprocessors involved |
+|---------------|----------|-----------------------|------------------------|
+| Visitor analytics data | Timestamp, page URL, referrer, user agent, country (from browser timezone), aggregated metrics | Dublin, Ireland | EU data center; Cloudflare (transit only) |
+| Account data | Dashboard user email, name, password hash, billing details | Dublin, Ireland | EU data center |
+| Operational data | Error logs, API access logs | Dublin, Ireland | EU data center |
+
+Note that visitor analytics data contains **no personal identifiers** by design — no IP addresses stored, no cookies, no user IDs, no fingerprints. See [What We Track vs What We Don't](/security-privacy/what-we-track) for the full data inventory.
+
+---
+
+## EU-only guarantee
+
+Customer analytics data:
+
+- Is stored and processed exclusively within the EU
+- Is never transferred to a third country
+- Is not subject to international transfer mechanisms (SCCs, adequacy decisions, or the EU-US Data Privacy Framework) because no transfer takes place
+- Is retained for a maximum of 24 months, then automatically deleted (see [Data Location & Retention](/security-privacy/data-location))
+
+---
+
+## Contractual safeguards
+
+Every subprocessor that handles customer data:
+
+1. Signs a data processing agreement consistent with GDPR Article 28
+2. Processes customer data only within the EU
+3. Is bound by confidentiality and security obligations
+
+SealMetrics' own commitments to you as a customer — including the subprocessor engagement terms — are set out in the [SealMetrics Data Processing Agreement (DPA)](https://sealmetrics.com/dpa).
+
+## Changes to this list
+
+If SealMetrics engages a new subprocessor that touches customer data, this page is updated. The terms under which subprocessor changes are communicated to customers are governed by the [DPA](https://sealmetrics.com/dpa).
+
+---
+
+## Questions?
+
+- **DPO / privacy inquiries:** privacy@sealmetrics.com
+- **DPO contact:** dpo@sealmetrics.com
+- **Legal inquiries:** legal@sealmetrics.com
+
+## Related documentation
+
+- [Data Location & Retention](/security-privacy/data-location) — where data lives and for how long
+- [Data Subject Rights (DSAR)](/compliance/data-subject-rights) — how visitor and account-holder rights requests work
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the full data inventory
+- [Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?](/compliance/compliance-overview/is-sealmetrics-privacy-compliant) — the multi-regulation compliance summary
