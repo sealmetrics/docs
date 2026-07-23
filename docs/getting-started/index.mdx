@@ -11,7 +11,7 @@ keywords:
   - cookieless measurement
 ---
 
-import Link from '@docusaurus/Link';
+import { Card, CardGrid } from '@site/src/components/Card';
 
 # First Steps Overview
 
@@ -20,148 +20,31 @@ All guides are 100% cookieless, compliant, and practical.
 
 ---
 
-<div
-  style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '1.5rem',
-    marginTop: '2rem',
-  }}
->
+<CardGrid>
+  <Card title="How Sealmetrics Works" to="/getting-started/how-it-works">
+    Learn Sealmetrics’ privacy-first philosophy and its legal foundation for consentless analytics.
+  </Card>
 
-  {/* How Sealmetrics Works */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <h3 style={{ color: '#00825C' }}>
-      <Link to="/getting-started/how-it-works" style={{ textDecoration: 'none', color: '#00825C' }}>
-        How Sealmetrics Works
-      </Link>
-    </h3>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Learn Sealmetrics’ privacy-first philosophy and its legal foundation for consentless analytics.
-    </p>
-  </div>
+  <Card title="Setting Up Trackers in Sealmetrics" to="/implementation/tracker/setup">
+    Learn how to configure your first-party trackers for accurate, consentless measurement.
+  </Card>
 
-  {/* Setting Up Trackers */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <h3 style={{ color: '#00825C' }}>
-      <Link to="/implementation/tracker/setup" style={{ textDecoration: 'none', color: '#00825C' }}>
-        Setting Up Trackers in Sealmetrics
-      </Link>
-    </h3>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Learn how to configure your first-party trackers for accurate, consentless measurement.
-    </p>
-  </div>
+  <Card title="How to Measure Conversions" to="/getting-started/measure-conversions">
+    Discover how to track conversions and micro-conversions across your website.
+  </Card>
 
-  {/* Measuring Conversions */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <h3 style={{ color: '#00825C' }}>
-      <Link to="/getting-started/measure-conversions" style={{ textDecoration: 'none', color: '#00825C' }}>
-        How to Measure Conversions
-      </Link>
-    </h3>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Discover how to track conversions and micro-conversions across your website.
-    </p>
-  </div>
+  <Card title="First Steps with Sealmetrics" to="/getting-started/quick-start">
+    Step-by-step setup guide — from installation to real-time data validation.
+  </Card>
 
-  {/* First Steps with Sealmetrics */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <h3 style={{ color: '#00825C' }}>
-      <Link to="/getting-started/quick-start" style={{ textDecoration: 'none', color: '#00825C' }}>
-        First Steps with Sealmetrics
-      </Link>
-    </h3>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Step-by-step setup guide — from installation to real-time data validation.
-    </p>
-  </div>
+  <Card title="Set Up Sealmetrics with Your AI Assistant" to="/getting-started/install-with-ai">
+    Let Claude, Codex, or any MCP-capable agent create your site, place the pixel, and verify your events — from a chat.
+  </Card>
 
-  {/* Set Up Sealmetrics with Your AI Assistant */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <h3 style={{ color: '#00825C' }}>
-      <Link to="/getting-started/install-with-ai" style={{ textDecoration: 'none', color: '#00825C' }}>
-        Set Up Sealmetrics with Your AI Assistant
-      </Link>
-    </h3>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Let Claude, Codex, or any MCP-capable agent create your site, place the pixel, and verify your events — from a chat.
-    </p>
-  </div>
-
-  {/* See Your Data Flow in Real-Time */}
-  <div
-    style={{
-      border: '1px solid #e0e0e0',
-      borderRadius: '12px',
-      padding: '1.5rem',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-      transition: 'transform 0.2s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  >
-    <h3 style={{ color: '#00825C' }}>
-      <Link to="/getting-started/see-your-data-flow" style={{ textDecoration: 'none', color: '#00825C' }}>
-        See Your Data Flow in Real-Time
-      </Link>
-    </h3>
-    <p style={{ fontSize: '0.9rem', lineHeight: '1.5rem' }}>
-      Learn how Sealmetrics delivers instant, real-time analytics without cookies or consent banners.
-    </p>
-  </div>
-
-</div>
+  <Card title="See Your Data Flow in Real-Time" to="/getting-started/see-your-data-flow">
+    Learn how Sealmetrics delivers instant, real-time analytics without cookies or consent banners.
+  </Card>
+</CardGrid>
 
 ---
 

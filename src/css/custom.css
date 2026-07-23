@@ -152,3 +152,54 @@ html[data-theme='light'] .DocSearch-Button-Key {
 html[data-theme='dark'] .DocSearch-Button {
   background: #2a2a2e;
 }
+
+/* --- Appended: homepage persona cards (HomeCards) shadow tokens --- */
+:root {
+  --seal-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --seal-card-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --seal-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  --seal-card-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.8);
+}
+
+/* =========================================================================
+ * Docs design pass (improve/docs-design): API headings + wide tables.
+ * Tokens per theme as usual: light on :root scope, dark under [data-theme].
+ * ========================================================================= */
+
+/* Inline code inside h3 headings (e.g. endpoint or param names):
+ * breathing room and a size that doesn't dwarf the heading text. */
+.markdown h3 > code {
+  font-size: 0.95em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  letter-spacing: 0.01em;
+  vertical-align: baseline;
+}
+
+/* API reference pages (### GET /stats/overview headings):
+ * subtle extra word-spacing separates the HTTP verb from the path and
+ * disables ligatures so paths read character-by-character.
+ * Scoped via the docs-doc-id-* class Docusaurus sets on <html>. */
+html[class*='docs-doc-id-api/'] .markdown h3,
+html[class*='docs-doc-id-lens/api'] .markdown h3 {
+  letter-spacing: 0.01em;
+  word-spacing: 0.18em;
+  font-variant-ligatures: none;
+}
+
+/* Wide markdown tables scroll horizontally on their own instead of
+ * stretching the page layout. */
+.markdown table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- Navbar logo: dark-mode legibility (wordmark is near-black in the SVG) --- */
+[data-theme='dark'] .navbar__logo img {
+  filter: invert(1) hue-rotate(180deg);
+}

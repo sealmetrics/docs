@@ -1,0 +1,118 @@
+/**
+ * Homepage persona cards ("choose your path" hero).
+ * No hardcoded colors: everything flows from Infima variables or
+ * --seal-* tokens defined per theme in src/css/custom.css.
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background-color: var(--ifm-card-background-color, var(--ifm-background-surface-color));
+  box-shadow: var(--seal-card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--ifm-color-primary);
+  box-shadow: var(--seal-card-shadow-hover);
+}
+
+.iconChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: var(--seal-menu-hover-bg);
+  color: var(--ifm-color-primary-dark);
+  margin-bottom: 0.85rem;
+}
+
+[data-theme='dark'] .iconChip {
+  color: var(--ifm-color-primary-light);
+}
+
+.audience {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.25rem;
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.cardTitle a {
+  color: var(--ifm-heading-color);
+  text-decoration: none;
+}
+
+.cardTitle a:hover {
+  color: var(--ifm-color-primary);
+}
+
+.cardDescription {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--ifm-color-emphasis-700);
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.cta {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ifm-color-primary-dark);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .cta {
+  color: var(--ifm-color-primary-light);
+}
+
+.cta:hover {
+  color: var(--ifm-color-primary-darker);
+  text-decoration: underline;
+}
+
+[data-theme='dark'] .cta:hover {
+  color: var(--ifm-color-primary-lightest);
+}
+
+.secondary {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.secondary a {
+  color: var(--ifm-color-emphasis-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.secondary a:hover {
+  color: var(--ifm-color-primary);
+}

@@ -1,0 +1,79 @@
+/**
+ * ApiMethod badge tokens.
+ * Rule: no hardcoded colors on elements — per-theme tokens only
+ * (:root-level custom properties on the component root for light,
+ * [data-theme='dark'] overrides for dark).
+ */
+
+.apiMethod {
+  /* Light theme tokens */
+  --seal-api-get-bg: #e3f6ee;
+  --seal-api-get-fg: #00694f;
+  --seal-api-post-bg: #e3edfb;
+  --seal-api-post-fg: #1d4f9c;
+  --seal-api-put-bg: #fbf0da;
+  --seal-api-put-fg: #8a5b00;
+  --seal-api-delete-bg: #fbe5e3;
+  --seal-api-delete-fg: #a02620;
+  --seal-api-path-fg: var(--ifm-color-emphasis-800);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  vertical-align: middle;
+  margin: 0.15rem 0;
+}
+
+[data-theme='dark'] .apiMethod {
+  /* Dark theme tokens: dim backgrounds, bright readable foregrounds */
+  --seal-api-get-bg: rgba(23, 201, 141, 0.16);
+  --seal-api-get-fg: #4ddfae;
+  --seal-api-post-bg: rgba(88, 148, 245, 0.16);
+  --seal-api-post-fg: #86b3f7;
+  --seal-api-put-bg: rgba(245, 185, 66, 0.16);
+  --seal-api-put-fg: #f0c05e;
+  --seal-api-delete-bg: rgba(240, 97, 88, 0.16);
+  --seal-api-delete-fg: #f38f88;
+  --seal-api-path-fg: var(--ifm-color-emphasis-800);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  font-family: var(--ifm-font-family-base);
+  user-select: none;
+}
+
+.get {
+  background-color: var(--seal-api-get-bg);
+  color: var(--seal-api-get-fg);
+}
+
+.post {
+  background-color: var(--seal-api-post-bg);
+  color: var(--seal-api-post-fg);
+}
+
+.put,
+.patch {
+  background-color: var(--seal-api-put-bg);
+  color: var(--seal-api-put-fg);
+}
+
+.delete {
+  background-color: var(--seal-api-delete-bg);
+  color: var(--seal-api-delete-fg);
+}
+
+.path {
+  font-size: 0.88rem;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--seal-api-path-fg);
+}

@@ -14,6 +14,7 @@ keywords:
 ---
 
 import Head from '@docusaurus/Head';
+import HomeCards from '@site/src/components/HomeCards';
 import ReportCards from '@site/src/components/ReportCards';
 
 <Head>
@@ -56,25 +57,28 @@ import ReportCards from '@site/src/components/ReportCards';
 
 These docs cover everything you need to implement, operate, and build on top of Sealmetrics: tracker installation, the HTTP and JavaScript APIs, every built-in report, compliance posture, and CMS/framework integrations.
 
-## Start here
+## Choose your path
 
-- **[Getting started →](/getting-started)** — install the tracker and verify your first event in under 5 minutes.
-- **[Implementation guide →](/implementation)** — tracking methods, server-side collection, e-commerce, and framework-specific recipes.
-- **[API reference →](/api)** — authentication, batch endpoints, exports, alerts, and tokens.
-- **[Compliance →](/compliance)** — GDPR, ePrivacy, CNIL self-assessment, UK PECR, and the EU Omnibus.
-- **[Changelog →](/changelog)** — what shipped, when.
+<HomeCards />
 
 ## Reports at a glance
 
-<ReportCards />
+Every report shares one definition layer — the same entrances, conversions, and revenue whether you read them in the dashboard, the API, or a raw export.
 
----
+<ReportCards />
 
 ## Why Sealmetrics
 
 - **100% privacy-compliant** — no cookies, no consent banner, no data loss from banner rejection.
-- **Legitimate interest by design** — audited by [Comply](https://app.comply.org/attest/sealmetrics).
+- **Legitimate interest by design** — validated criterion by criterion in our public [regulator self-assessments](/compliance).
 - **Unified metrics** — dashboard, ROAS, funnels, attribution, and raw exports share one definition layer.
 - **24-month retention** without consent, within GDPR bounds.
 
 > Sealmetrics gives you actionable insights — without cookies, consent banners, or data loss.
+
+## Keep exploring
+
+- **[Implementation guide →](/implementation)** — tracking methods, server-side collection, e-commerce, and framework-specific recipes.
+- **[Guides →](/guides)** — long-form playbooks: cookieless analytics, GA4 migration, UTM governance.
+- **[Troubleshooting →](/troubleshooting)** — fix missing conversions, CSP errors, data delays, and timezone mismatches.
+- **[Changelog →](/changelog)** — what shipped, when.

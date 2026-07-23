@@ -4,6 +4,8 @@ title: API Overview
 description: REST API reference for Sealmetrics — query analytics stats and manage sites, exports, and alerts with API key or JWT authentication
 ---
 
+import ApiMethod from '@site/src/components/ApiMethod';
+
 # API
 
 REST API for querying analytics data and managing your Sealmetrics account programmatically.
@@ -18,6 +20,8 @@ REST API for querying analytics data and managing your Sealmetrics account progr
 | Documentation | `/docs` (Swagger UI) |
 
 ## Quick Start
+
+<ApiMethod method="get" path="/stats/overview" />
 
 ```bash
 curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_SITE_ID&period=7d" \
