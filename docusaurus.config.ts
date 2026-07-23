@@ -64,7 +64,7 @@ const config: Config = {
       tagName: 'link',
       attributes: {
         rel: 'preconnect',
-        href: 'https://pixel.sealmetrics.com',
+        href: 'https://pixel-pre.sealmetrics.com',
         crossorigin: 'anonymous',
       },
     },
@@ -95,7 +95,7 @@ const config: Config = {
       attributes: {
         'http-equiv': 'Content-Security-Policy',
         content:
-          "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pixel.sealmetrics.com https://*.algolia.net https://*.algolianet.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self' https://sealmetrics.com;",
+          "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pixel-pre.sealmetrics.com https://*.algolia.net https://*.algolianet.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self' https://sealmetrics.com;",
       },
     },
     {
