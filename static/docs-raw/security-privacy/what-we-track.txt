@@ -4,7 +4,7 @@ URL: https://docs.sealmetrics.com/security-privacy/what-we-track
 
 # What We Track vs What We Don’t
 
-Sealmetrics records only **four non-identifying variables** per page view ("hit") — timestamp, user agent (used for aggregation, never stored), current URL, and referral URL — and never collects personal data or sets cookies. No IP addresses, user IDs, device fingerprints, or persistent identifiers are involved, which is what enables full GDPR/ePrivacy compliance without user consent.
+Sealmetrics records a small set of **non-identifying variables** per page view ("hit") — timestamp, user agent (for anonymous device classification), current URL, referral URL, and a short-lived contextual session marker — and never collects personal data or sets cookies. **No IP address, user ID, cross-session identifier, name, email or persistent device fingerprint is stored.** This minimal, aggregation-only dataset is what enables full GDPR/ePrivacy compliance without user consent.
 
 ---
 
@@ -17,20 +17,25 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 - **Purpose:** time-based analysis and trend insights  
 - **Privacy:** cannot identify an individual  
 
-#### 2. User Agent (Not Stored)  
-- **Used for:** browser/device category detection  
-- **Not stored:** complete user agent strings are discarded  
-- **Result:** anonymous device classification  
+#### 2. User Agent
+- **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
+- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. It is kept for the standard 24-month retention window with the rest of the hit.
+- **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
 
-#### 3. Current URL  
-- Page path  
-- Page popularity  
-- Anonymous content performance  
+#### 3. Current URL
+- Page path
+- Page popularity
+- Anonymous content performance
 
-#### 4. Referral URL  
-- Anonymous attribution  
-- Campaign performance  
-- Traffic source identification  
+#### 4. Referral URL
+- Anonymous attribution
+- Campaign performance
+- Traffic source identification
+
+#### 5. Session context marker
+- **What it is:** an in-memory, short-lived identifier scoped to a single browsing session (~2-hour inactivity timeout, GA4-style), derived from the visitor's browser context. It exists so that within one session we can distinguish "second pageview" from "new entrance".
+- **What it isn't:** a cross-session identifier. It is not a cookie, it is not stored in the browser (localStorage, sessionStorage, or otherwise), and it does not persist beyond the session. It cannot be used to recognize a returning visitor.
+- **Why it's compliant:** the identifier is context-derived and short-lived — it does not enable individual tracking under GDPR Article 4(1), which is why analytics without user identifiers qualify for consent-free operation under CNIL guidance (`analytics without consent`) and Article 6(1)(f).
 
 ---
 
@@ -82,8 +87,18 @@ ALL aggregated — no user-level behavior.
 - Language  
 
 ### 8. Geographic Data
-- Country (derived from time zone)  
-❌ Region / City — **not collected**
+- **Country — primary source: browser timezone.** Every visit's country comes from `Intl.DateTimeFormat().resolvedOptions().timeZone`, mapped to the country most represented by that IANA zone. No IP lookup involved.
+- **Optional GeoIP country — only when Agent Analytics is enabled on the site.** For customers who explicitly turn on the automated-traffic detector (a separate feature), the pixel does a **stateless** GeoLite2 lookup against the visitor's IP to derive a secondary country and datacenter/ISP signals used exclusively to score bot vs. human. The IP itself is **not stored**; only the derived country label and the boolean bot signals are kept.
+- ❌ Region / City — **not collected** in either mode.
+
+### 9. Automated-traffic detection signals (opt-in)
+
+Sites that enable Agent Analytics store aggregate, per-hit signals used to classify traffic as human vs. automated (browsers driven by Selenium, Playwright, AI assistants, etc.). These are **environmental** and **behavioral** signals about the browser and the interaction pattern — not about the person. Examples: WebDriver flag, whether the WebGL renderer is `SwiftShader`, screen size buckets, aggregate mouse-movement linearity, click-timing variance.
+
+- Never associated with an identifier.
+- Aggregate and per-hit; not tied to a user.
+- Purpose: filter bot traffic out of reports for accuracy. See [Bot Detection](/security-privacy/bot-detection) and the [agent detection integration](/integrations/agentic-package) for the full field list.
+- **This section is only active when the customer turns Agent Analytics on.** Standard privacy-first accounts don't collect these signals at all.
 
 ### 9. Business Intelligence Metrics
 - Conversion rate  
@@ -95,21 +110,20 @@ ALL aggregated — no user-level behavior.
 
 ## What We DO NOT Track
 
-### No Personal Data
-❌ IP addresses  
-❌ User IDs  
-❌ Emails  
-❌ Phone numbers  
-❌ Names  
-❌ Persistent identifiers  
-❌ Exact user agent strings  
+### No Personal Data Stored
+❌ IP addresses (used in memory only, never persisted)
+❌ User IDs
+❌ Emails
+❌ Phone numbers
+❌ Names
+❌ Persistent identifiers (no cross-session or cross-device linking)
 
-### No Behavioral Identification
-❌ User journeys  
-❌ Session reconstruction  
-❌ Returning users  
-❌ Individual preferences  
-❌ Personal browsing behavior  
+### No Individual-Level Tracking
+❌ User journeys across sessions
+❌ Returning-visitor recognition
+❌ Individual preferences
+❌ Personal browsing behavior
+❌ Any join between a hit and a person's identity
 
 ### No Cross-Site Tracking
 ❌ Third-party cookies  

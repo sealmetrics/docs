@@ -14,7 +14,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 |--------|---------|------------------------|
 | [Entrances](#entrances) | Count of sessions started | Higher |
 | [Pageviews](#pageviews) | Count of page loads | Higher |
-| [Unique Visitors](#unique-visitors) | Count of distinct users | Higher |
+| [Unique Visitors](#unique-visitors--not-tracked) | Not tracked — use Entrances | — |
 | [Bounce Rate](#bounce-rate) | Bounces / Entrances × 100 | Lower |
 | [Engaged Entrances](#engaged-entrances) | Sessions with 2+ pageviews | Higher |
 | [Engagement Rate](#engagement-rate) | Engaged / Entrances × 100 | Higher |
@@ -33,7 +33,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 | Aspect | Description |
 |--------|-------------|
 | Counting | Each new session counts as 1 entrance |
-| Session start | First pageview after 30 minutes of inactivity |
+| Session start | First pageview with no active session (~2-hour inactivity window) |
 | Use case | Measure traffic volume |
 
 **Example:** A user visits your site at 9:00 AM, leaves, and returns at 3:00 PM. This counts as 2 entrances.
@@ -50,25 +50,20 @@ For a complete glossary of all terms (including privacy, platform, and technical
 
 **Example:** A user visits 5 pages in one session. This counts as 5 pageviews and 1 entrance.
 
-### Unique Visitors
+### Unique Visitors — not tracked
 
-**Definition:** The number of distinct users who visited during the selected period.
+Sealmetrics **does not calculate unique visitors**. Identifying a "unique visitor" requires a persistent per-user identifier (cookie, fingerprint, or hash), and any such identifier constitutes personal data under GDPR. Sealmetrics's consentless legal basis depends on **not** carrying an identifier across sessions.
 
-| Aspect | Description |
-|--------|-------------|
-| Identification | Cookieless (no cookies required) |
-| Cross-device | Same user on different devices counts as different visitors |
-| Use case | Measure audience size |
-
-**Example:** One user visits 3 times in a day. This counts as 1 unique visitor, 3 entrances.
+Use **entrances** as the audience-size signal instead — it measures unique sessions, which is what most product decisions actually need.
 
 ### Bounce Rate
 
-**Definition:** The percentage of sessions where the user viewed only one page and then left.
+**Definition:** The percentage of entrance sessions where the user viewed only one page before leaving. Computed in aggregate — no individual tracking required.
 
 | Aspect | Description |
 |--------|-------------|
-| Formula | (Single-page sessions / Total sessions) × 100 |
+| Formula | (Entrances − Engaged Entrances) / Entrances × 100 |
+| "Engaged" | A session with **more than one pageview** |
 | Range | 0% to 100% |
 | Lower is better | Generally indicates better engagement |
 
@@ -283,16 +278,6 @@ Reports can be broken down by dimensions such as UTM Source, UTM Medium, UTM Cam
 | Optimization | Improve conversion rate or AOV |
 
 **Example:** €10,000 revenue from 5,000 entrances = €2.00 revenue per entrance.
-
-### Revenue per Visitor
-
-**Definition:** Average revenue generated per unique visitor.
-
-| Aspect | Description |
-|--------|-------------|
-| Formula | Total Revenue / Unique Visitors |
-| Use case | Measure visitor value |
-| Comparison | Higher than Revenue per Entrance if visitors return |
 
 ### Cost per Acquisition (CPA)
 

@@ -46,6 +46,18 @@ This suppresses **only** the automatic initial pageview. The SPA navigation list
 sealmetrics({ group: 'home' });
 ```
 
+## Manual SPA Pageviews (`?spa=0`)
+
+If you also want to fire the **route-change** pageviews yourself (for example, to attach a different content group per route), add `?spa=0`:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0&spa=0" defer></script>
+```
+
+With `spa=0` the History API listeners still run — they keep the tracker's URL/referrer state up to date so your manual pageviews carry the correct referrer chain — but they **no longer fire automatic pageviews**. You call `sealmetrics()` on every route change yourself.
+
+Use `?auto=0&spa=0` together for fully manual control (e.g. the canonical GTM pattern, or per-route content grouping). ⚠️ Never fire manual route-change pageviews *without* `spa=0`: the automatic hook would fire too and every navigation would be counted twice.
+
 ## Installation
 
 Same as regular installation:

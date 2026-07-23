@@ -90,7 +90,7 @@ Sealmetrics proves that advanced business intelligence **does not require person
 
 #### Sealmetrics Transparency
 - Public documentation about the 4-variable system  
-- Full disclosure: timestamp, user agent (not stored), current URL, referral URL  
+- Full disclosure: timestamp, user agent (stored 24 months, aggregated device classification only), current URL, referral URL  
 - Technical documentation on isolated hits  
 - Regulatory compliance explained openly (GDPR, ePrivacy, CCPA, PECR)
 
@@ -109,8 +109,8 @@ Sealmetrics proves that advanced business intelligence **does not require person
 - No consent required (no personal data = no consent needed)  
 - Each hit processed independently  
 - No user-level tracking  
-- No reconstruction of journeys  
-- No storage of user agent strings  
+- No reconstruction of journeys across sessions  
+- User agent stored for anonymous device classification only — never linked to any personal identifier  
 
 #### Architecture
 - No device intrusion  
@@ -145,7 +145,7 @@ Sealmetrics proves that advanced business intelligence **does not require person
 ### The Four-Variable Architecture
 Sealmetrics tracks only:  
 1. **Timestamp**  
-2. **User agent** (captured, not stored)  
+2. **User agent** (stored 24 months, used for anonymous device classification — never linked to a person)  
 3. **Current URL**  
 4. **Referral URL**
 

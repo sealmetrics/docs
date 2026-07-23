@@ -356,6 +356,13 @@ Claude uses these tools automatically when you ask questions — you never need 
 | `get_channels` | Traffic grouped by channel: Paid Search, Organic, Social, Direct, Email, Referral, etc. |
 | `get_top_channels` | Top channels ranked by entrances (compact, non-paginated) |
 | `list_channel_rules` | List channel group rules that classify traffic into channels |
+| `test_channel_rules` | Test how a source/medium/campaign combination would be classified |
+| `create_channel_rule` | Create a new channel rule **as a draft** (never live) |
+| `update_channel_rule` | Update a channel rule — **drafts only** |
+| `delete_channel_rule` | Delete a channel rule — **drafts only** |
+| `import_channel_rules` | Bulk-import rules **as drafts**; defaults to `dry_run=true` |
+
+The write tools follow a strict **draft-only invariant**: the MCP can never touch a live rule or activate anything. Publishing is always a human action from the dashboard. See [Channel Grouping](/platform/settings/tracking/channel-grouping#using-the-mcp) for the full workflow.
 
 ### Custom properties (custom dimensions)
 

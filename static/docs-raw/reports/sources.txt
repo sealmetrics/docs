@@ -47,7 +47,7 @@ Each session is assigned to a channel by matching its `utm_source`, `utm_medium`
 
 Rules are checked in priority order and the first matching rule wins. Rules can be **global** (apply to every account) or **account-specific**; account rules are always evaluated before global rules, so a custom rule can override the defaults. Traffic that matches no rule is reported as **Unassigned**.
 
-You can view and customize these rules per account from the channel grouping settings (the API exposes them under `/channel-groups`). The built-in default rules cannot be deleted.
+You can view and customize these rules per account from the [Channel Grouping settings](/platform/settings/tracking/channel-grouping) (draft → test → publish flow, CSV import/export, and MCP tools). The API exposes them under `/channel-groups`. The built-in default rules cannot be deleted, but they can be overridden.
 
 #### Default channels
 
@@ -69,7 +69,7 @@ SealMetrics ships with the following default channels, listed here from highest 
 | **SMS** | SMS mediums (sms, text, mms) |
 | **Push** | Push mediums (push, notification, web push, mobile push) |
 | **Audio** | Audio sources (spotify, apple podcasts, soundcloud, audible, etc.) |
-| **Referral** | `referral` medium |
+| **Referral** | medium matches `referral` or `referrer` |
 | **Direct** | `direct` source and medium |
 | **Unassigned** | Catch-all for traffic that matches no other rule |
 

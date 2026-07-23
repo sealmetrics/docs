@@ -177,7 +177,7 @@ No. Server-side analytics (like log analysis) processes server access logs. Cons
 
 ### How is this different from Plausible or Fathom?
 
-Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP addresses for visitor identification. Some legal experts argue that hashed IPs still constitute personal data under GDPR. Sealmetrics never processes IP addresses for analytics — they are used only for a one-time geolocation lookup and immediately discarded. See our [Sealmetrics vs Plausible comparison](/blog/sealmetrics-vs-plausible) for details.
+Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP addresses for visitor identification. Some legal experts argue that hashed IPs still constitute personal data under GDPR. Sealmetrics never processes visitor IP addresses for analytics **or geolocation** — visitor country is derived from the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from IP. IPs are only handled in-memory at the edge for anti-bot checks and site-configured exclusions, and are never persisted. See the [country detection page](/security-privacy/country-detection) and the [Sealmetrics vs Plausible comparison](/blog/sealmetrics-vs-plausible) for details.
 
 ---
 

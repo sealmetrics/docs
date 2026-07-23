@@ -64,7 +64,7 @@ from sealmetrics import SealMetrics
 client = SealMetrics(
     api_key="sm_live_xxxxx",
     account_id="acc_123",
-    base_url="https://api.sealmetrics.com",  # Default
+    base_url="https://my.sealmetrics.com",   # Set explicitly (see note below)
     timeout=30.0,                            # Request timeout (seconds)
     max_retries=3,                           # Retry attempts
     show_progress=True,                      # Progress bars (requires tqdm)
@@ -79,7 +79,7 @@ with SealMetrics(api_key="...", account_id="...") as client:
 |----------|---------|-------------|
 | `api_key` | — | Sealmetrics API key (required) |
 | `account_id` | — | Account to query (required) |
-| `base_url` | `https://api.sealmetrics.com` | API base URL |
+| `base_url` | `https://api.sealmetrics.com` | API base URL. ⚠️ **Always pass `https://my.sealmetrics.com` explicitly** — the built-in default points at a host that does not currently serve the API. |
 | `timeout` | `30.0` | Per-request timeout in seconds |
 | `max_retries` | `3` | Retry attempts with exponential backoff |
 | `show_progress` | `True` | Show pagination progress bars (if `tqdm` is installed) |

@@ -70,14 +70,17 @@ This guide covers breaking changes and migration steps from Sealmetrics Tracker 
 **v1 (Old syntax):**
 
 ```javascript
-sm('event', 'purchase', { amount: 99.99, properties: { order_id: '123' } });
+sm('event', 'purchase', { amount: 99.99, properties: { currency: 'EUR' } });
 ```
 
 **v2 (New syntax):**
 
 ```javascript
-sealmetrics.conv('purchase', 99.99, { order_id: '123' });
+sealmetrics.conv('purchase', 99.99, { currency: 'EUR' });
 ```
+
+**Note:**
+Sealmetrics's privacy-first model recommends **not** sending the store's internal order identifier as a conversion property. It's an internal ID that provides no analytical value in aggregate reports and would enrich the hit with a per-transaction identifier — send only aggregation-friendly attributes (currency, coupon code, item category, etc.) instead.
 
 ### 3. Microconversions Now Separate
 
@@ -186,12 +189,12 @@ sealmetrics.conv('EVENT_NAME', VALUE, {...});
 
 **Before:**
 ```javascript
-sm('event', 'purchase', { amount: 149.99, properties: { order_id: 'ORD-123', currency: 'EUR' } });
+sm('event', 'purchase', { amount: 149.99, properties: { currency: 'EUR', coupon: 'SUMMER10' } });
 ```
 
 **After:**
 ```javascript
-sealmetrics.conv('purchase', 149.99, { order_id: 'ORD-123', currency: 'EUR' });
+sealmetrics.conv('purchase', 149.99, { currency: 'EUR', coupon: 'SUMMER10' });
 ```
 
 ### Step 3: Update Microconversion Tracking
@@ -303,8 +306,8 @@ document.querySelector('.add-to-cart').addEventListener('click', function() {
 sm('event', 'purchase', {
   amount: 149.99,
   properties: {
-    order_id: 'ORD-123',
-    currency: 'EUR'
+    currency: 'EUR',
+    coupon: 'SUMMER10'
   }
 });
 </script>
@@ -326,8 +329,8 @@ document.querySelector('.add-to-cart').addEventListener('click', function() {
 <!-- Thank you page -->
 <script>
 sealmetrics.conv('purchase', 149.99, {
-  order_id: 'ORD-123',
-  currency: 'EUR'
+  currency: 'EUR',
+  coupon: 'SUMMER10'
 });
 </script>
 ```

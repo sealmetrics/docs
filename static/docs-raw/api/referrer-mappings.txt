@@ -4,11 +4,16 @@ URL: https://docs.sealmetrics.com/api/referrer-mappings
 
 # Referrer Mappings API
 
-Map incoming referrer domains to UTM values. When a visit lacks UTM parameters but arrives from a recognized referrer, the matching rule's UTMs are applied — useful for partner traffic, vendor portals, and external platforms that don't tag links.
+Map incoming referrer domains to UTM values. The idea: when a visit lacks UTM parameters but arrives from a recognized referrer, the matching rule's UTMs would be applied — useful for partner traffic, vendor portals, and external platforms that don't tag links.
 
 **Base path:** `/referrer-mappings`
 
 Default scope: `read`. Mutations require `write` (editor or higher).
+
+**Warning:**
+The CRUD endpoints on this router work — you can create, list, update and delete mappings and they are stored per-account. **However, the pixel-service does not yet read this table at ingest time.** Mappings you save today have no effect on the classification of incoming traffic. This is a documented gap (silent no-op) tracked for a future PRD.
+
+Until the pixel is wired to consume this table, treat these endpoints as configuration storage only. For traffic that needs to be re-attributed today, use [Channel Grouping rules](/api/channel-groups) (fully wired at ingest) or [UTM Mapping](/platform/settings/tracking/utm-mapping) for custom URL parameters.
 
 ---
 
