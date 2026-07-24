@@ -1,0 +1,103 @@
+---
+sidebar_position: 2
+title: "Why Seal AI Runs on gpt-oss-120b"
+description: "The full LLM audit behind Seal AI: the European catalog, the global market, verified public benchmarks, our internal evaluations, and the honest trade-offs."
+---
+
+# Why Seal AI Runs on gpt-oss-120b
+
+Seal AI is Sealmetrics' AI layer: an analyst that queries your data and explains it, without a single byte leaving the European Union. This report documents the audit behind the model that powers it — the European catalog, the global market, public benchmarks and our internal evaluations — including what we discarded and why. An AI-analytics vendor that doesn't show its work isn't measuring.
+
+All costs on this page are expressed as relative multiples (3:1 input:output blend of list prices, normalized to `gpt-oss-120b` = 1×).
+
+## What an AI analyst requires (and what it doesn't)
+
+Seal AI does two things: it answers questions in the [AI assistant](/lens/ai-assistant) by calling Sealmetrics' data tools (63 functions), and it writes automated insights from each account's aggregated metrics. The real requirements:
+
+- **Reliable tool-calling** — the model doesn't "know" your data; it queries it. With 63 tools, a model that fumbles function calls is useless regardless of chat benchmarks.
+- **Answers anchored to the data** — every prompt carries the account's real numbers; the model must narrate them, never invent them. Verified with grounding traps.
+- **Conversational speed** — throughput and first-token latency are product, not detail.
+- **Structural privacy** — data cannot leave the EU, be retained, or train third-party models. Non-negotiable; it filters the entire market. See [How Seal AI works](/lens/seal-ai/private-ai-architecture).
+
+What we *don't* need: million-token contexts or encyclopedic world knowledge (the data travels in the prompt). Paying for those would be paying for marketing.
+
+## The playing field: the European catalog (Scaleway, July 2026)
+
+| Model | Relative cost | Context | License | Status |
+|---|---|---|---|---|
+| **gpt-oss-120b** | **1× (baseline)** | 128k | Apache 2.0 | **Seal AI · chosen** |
+| mistral-small-3.2-24b | 0.8× | 128k | Apache 2.0 | Evaluated (ex-default) |
+| qwen3-235b-a22b-2507 | 4.3× | 250k | Apache 2.0 | Evaluated |
+| gemma-4-26b-a4b | 1.2× | 256k | Apache 2.0 | Evaluated (1st pick) |
+| qwen3.6-35b-a3b | 2.1× | 256k | Apache 2.0 | Catalog |
+| qwen3.5-397b-a17b | 5.1× | 250k | Apache 2.0 | Catalog |
+| glm-5.2 | 10.4× | 256k | MIT | Catalog |
+| mistral-medium-3.5-128b | 11.4× | 180k | Modified MIT | Catalog |
+| llama-3.3-70b | 3.4× | 100k | Llama 3.3 | Catalog |
+| gemma-3-27b | 1.2× | 40k | Gemma | Deprecated Aug 2026 |
+
+`gpt-oss-120b` sets the price floor for its class — input priced at 24B-model level, roughly 4× cheaper than Qwen3-235B and 10–11× cheaper than GLM-5.2 or Mistral Medium — while posting the catalog's highest reasoning scores. Six catalog models entered a deprecation window in July 2026 alone; our evaluation is therefore continuous, not one-off.
+
+## The wider market: is sovereignty costing us quality?
+
+We audited the open-weight frontier (GLM-4.5/4.6, Kimi K2, DeepSeek V3.1/R1, Llama 4) and proprietary APIs (GPT-5, o4-mini, Claude Sonnet 4.5, Gemini 2.5). Four conclusions:
+
+1. **The best open tool-callers outside the EU have no sovereign managed offering.** GDPR-clean use would require self-hosting 355B–1T-parameter models on dedicated GPUs; their agentic edge over gpt-oss-120b (τ-bench ~66–70 vs 67.8) is within noise anyway.
+2. **DeepSeek's official API is disqualified outright**: data stored in China, usable for training unless opted out, and subject to an urgent processing block by Italy's data-protection authority (January 2025).
+3. **Proprietary options cost roughly 3–9× more (blended) and offer residency without sovereignty** — every US-parent option remains under CLOUD Act/FISA. Claude Sonnet 4.5's τ²-bench retail 86.2 (measured with extended thinking, per Anthropic's own footnote) is the best verified agentic figure in this audit — we say so plainly — and it does not change the jurisdictional analysis. GPT-5's reasoning latency (time-to-first-token above 100 seconds at high effort) is unusable for chat analytics.
+4. **Within the EU-sovereign serverless universe — the actually eligible set — gpt-oss-120b is the strongest model available**, served by all three sovereign clouds we verified (Scaleway, OVHcloud, IONOS), which also removes provider concentration.
+
+## Public benchmarks (each figure re-verified against primary sources)
+
+| Model | MMLU | MMLU-Pro | GPQA Diamond | τ-bench retail | BFCL v3 |
+|---|---|---|---|---|---|
+| **gpt-oss-120b** | **90.0** | **80.8** | **80.1** (80.9 w/ tools) | 67.8 | n/p |
+| qwen3-235b-a22b | 93.1 (Redux) | 83.0 | 77.5 | **71.3** | **70.9** |
+| mistral-small-3.2 | 80.5 | 69.1 | 46.1 (5-shot CoT) | n/p | n/p |
+| llama-3.3-70b | 86.0 | 68.9 | 50.5 | n/p | 73.9 |
+| — GPT-4o (reference) | 88.7 | n/p | n/p | 60.4–61.2 | n/p |
+| — Claude Sonnet 4 (reference) | n/p | n/p | 75.4 | 80.5 (ext. thinking) | 70.3 |
+| — Gemini 2.5 Flash (reference) | n/p | n/p | 78.3 | n/p | n/p |
+
+Vendors report benchmarks under different conditions (shots/CoT/tools); cells are annotated where the vendor states them, and few-point cross-vendor deltas should be read as methodology noise. "n/p" = not published by a verifiable source. Every figure was re-verified against its primary source (model cards on Hugging Face/arXiv, vendor announcements, the τ-bench paper) in three independent fact-checking passes.
+
+**Speed** (Artificial Analysis cross-provider medians, retrieved July 2026): gpt-oss-120b at **262.8 tokens/s** is the fastest of the whole open set — ~4.6× Qwen3-235B (56.7), ahead of Gemini 2.5 Flash (201.9) and GPT-4.1 (114.7).
+
+Combined reading: gpt-oss-120b is the only model simultaneously in the top open reasoning tier (GPQA Diamond 80.1 without tools), competitive at tool-calling (above GPT-4o), fastest of the open set, and at the price floor. Qwen edges it by 3.5 τ-bench points and on multilingual breadth — at ~4× the cost, 4.6× less speed and 2.6× the initial latency.
+
+## The decisive test: internal evaluations
+
+Public benchmarks select candidates; they don't measure *our* workload.
+
+**Manual A/B (July 22, 2026)** — 8 scenarios × 2 passes per model on the real assistant stack, with the real 63-tool inventory, grounding traps and prompt-injection traps:
+
+| Axis | mistral-small-3.2 | qwen3-235b | gpt-oss-120b |
+|---|---|---|---|
+| Tool-calling (63 real tools) | Weakest | Good | **Best of the lineup** |
+| Improper refusals | Absurd refusals in real use | None | **Zero** |
+| Format failures | Broken formatting observed | None | **Zero** |
+| Answer quality | Terse | High | **On par with Qwen** |
+| Cost for that quality | Low | ~4× | **1×** |
+
+**The decision's lineage — published on purpose:**
+
+1. **gemma-4-26b-a4b** (first pick, July 2): a mixture-of-experts with only ~4B active parameters — too weak for function calling against 63 tools, and it degenerated into repetition loops. Replaced.
+2. **mistral-small-3.2-24b** (July 21): dense 24B, faster and cheaper; fixed the loops. But in real use: terse output, absurd refusals, broken formatting. Replaced.
+3. **gpt-oss-120b** (July 22): best tool-calling of the lineup, zero refusals, zero format failures, quality on par with the ~4×-more-expensive model. Current default.
+
+Two model changes in three weeks are not a process failure — they *are* the process. The manual A/B has since been scripted into a reproducible bilingual harness: see the [internal benchmark](/lens/seal-ai/internal-benchmark) (162 live queries, Spanish + English), which confirms and extends these findings — including a language-dependent injection vulnerability in a rival model that monolingual testing would never have caught.
+
+## What we accept in exchange (and how we mitigate it)
+
+| Weakness (sourced) | Mitigation |
+|---|---|
+| Open-world factual-recall hallucination (SimpleQA 0.168, OpenAI's model card) | Irrelevant by design: answers are grounded in prompt-injected account data; grounding traps in every eval round |
+| Reported parallel tool-call irregularities (community) | Tolerant argument parser + end-to-end tests; zero failures across our evaluations |
+| MoE repetition risk at default sampling | Sampling controls validated end-to-end |
+| Verbose reasoning channel | Reasoning-effort control + output cap; ~263 tok/s absorbs it |
+| Multilingual depth below Qwen3-235B on paper | Fluency rules + typography sanitizer; Spanish and English scenarios in evals — no gap observed at our task |
+| Agentic gap to Claude Sonnet 4.5 (67.8 τ-bench vs 86.2 τ²-bench with extended thinking — not strictly comparable) | Sonnet fails the sovereignty constraint (no EU-residency first-party API; US CLOUD Act). [Bring-your-own-key](/platform/settings/llm) remains available — Seal AI is the default, not a lock-in |
+
+## Continuous evaluation and exit strategy
+
+The evaluation harness re-runs whenever a new model enters our price-quality band, our default enters a deprecation window, or internal quality alerts fire — switching models per environment is a configuration change, not a release. And because gpt-oss-120b is Apache 2.0 with native MXFP4 quantization (it fits a single 80 GB GPU under vLLM) and is served by multiple EU-sovereign clouds, the exit strategy is real: same model, different host, zero behavior-migration cost. No proprietary API can offer that. That asymmetry — not any single benchmark — is the strategic argument for open weights in a sovereignty-first product.

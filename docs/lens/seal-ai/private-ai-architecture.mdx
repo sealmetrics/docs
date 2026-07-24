@@ -1,0 +1,112 @@
+---
+sidebar_position: 1
+title: "How Seal AI Works: Private AI on European Infrastructure"
+description: "The architecture behind Seal AI: EU-only inference on Scaleway Paris, zero retention, no training on your data, and why no data is ever transferred to the United States."
+---
+
+# How Seal AI Works: Private AI on European Infrastructure
+
+How Sealmetrics' AI layer is built, why it qualifies as private AI, how it complies with EU regulation, and why no data is ever transferred to the United States.
+
+## What Seal AI is
+
+[Seal AI Private](/billing/seal-ai-private) is the platform-provided AI of Sealmetrics. It powers two features:
+
+- **The AI assistant** — you ask questions about your analytics in natural language; an AI analyst answers by querying your data through Sealmetrics' internal tools and explaining the results.
+- **Automated insights** — scheduled analyses that turn your aggregated metrics into written, actionable findings.
+
+It requires zero configuration: no API keys to create, no AI vendor account, no settings. You enable it and it works. That is possible because the inference endpoint, the model and the key all belong to the platform — and all of them live in the European Union.
+
+## The architecture, end to end
+
+```
+Your browser / dashboard
+        │  TLS
+        ▼
+Sealmetrics API / LENS (EU)
+  · entitlement check: does your organization have Seal AI?
+  · rate limit per organization
+  · metering: token COUNTERS only (never content)
+  · platform API key: encrypted secret, never exposed, never logged
+        │  TLS 1.2+ with certificate verification
+        ▼
+Scaleway Generative APIs — Paris, France (EU)
+  · model: gpt-oss-120b (open weights, Apache 2.0)
+  · managed inference on Scaleway's own European infrastructure
+  · zero data retention by default · no training on customer data
+```
+
+Key architectural facts:
+
+- **One hop, one jurisdiction.** The only external processor in the chain is Scaleway SAS (Paris, France), a subsidiary of the French Iliad group. There is no US intermediary, no third-party observability vendor, no external logging service in the inference path.
+- **The model is a static, open artifact.** `gpt-oss-120b` is published under Apache 2.0. It does not learn from requests; its weights never change from serving traffic. What you send can't "end up inside the model" — architecturally, there is nowhere for it to go.
+- **The API key is platform-owned.** Customers never see, hold or configure it. It exists only as an encrypted secret in the platform's environment, is never written to logs, responses or error messages, and every use of it is gated by per-organization entitlement, a [monthly token quota](/platform/settings/seal-ai-usage) and a rate limit.
+
+## What is sent to the model — and what never is
+
+Sealmetrics is consentless analytics: the platform never collects IPs, cookies, fingerprints or any visitor identifier in the first place. That shapes what a Seal AI prompt can possibly contain:
+
+| Sent to the inference endpoint | Never sent (never exists in the platform) |
+|---|---|
+| Aggregated metrics: entrances, conversions, revenue, bounce rate | IP addresses |
+| Groupings: channel, campaign, page, device, country | Cookies or device fingerprints |
+| Your questions in the AI assistant | Visitor identifiers of any kind |
+| | Emails or names of your visitors |
+
+The privacy layer therefore starts *before* the AI: the prompt is born clean. This is a structural property of the product, not a policy promise.
+
+## Retention: what is stored, where
+
+| Stage | What persists |
+|---|---|
+| **Scaleway (inference)** | Nothing, by default. Scaleway applies a Zero Data Retention policy: it does not collect, read, reuse or analyze the content of inputs or outputs. Documented exception: on a severe service error, the failing request may be kept for up to two weeks strictly for root-cause analysis. |
+| **Sealmetrics (platform)** | Token **counters** only — a usage ledger row per call with organization, model and input/output token counts, used for quota enforcement and billing. Prompt and response content is never persisted by the metering layer. Your chat history is yours: it lives in your account like any other account data and you can delete conversations at any time. |
+| **Model training** | Never — not by Scaleway, not by Sealmetrics, not by the model's creator. |
+
+## Why no data goes to the USA — the legal analysis
+
+**Residency is where data sits; sovereignty is who can legally reach it.** Any US-parent provider can offer an EU region, but the US CLOUD Act and FISA §702 attach to the corporate parent, not to the datacenter. They apply to OpenAI's EU-resident API, to Claude served from AWS Frankfurt, and to Gemini pinned to Vertex's Belgian region, because the entities operating those services are subject to US jurisdiction.
+
+Seal AI's chain has no US link:
+
+1. **Processor**: Scaleway SAS — a French company with a French parent (Iliad group), no US ownership. Scaleway states explicitly that its AI services are not subject to extraterritorial laws such as the American CLOUD Act.
+2. **Processing location**: Paris, France, exclusively.
+3. **Consequence under GDPR**: because personal data never leaves the EU and the processor has no US parent, **Chapter V of the GDPR (Art. 44 — international transfers) is simply not triggered**. No Standard Contractual Clauses, no Transfer Impact Assessment, and no dependence on the EU-US Data Privacy Framework — which matters, because the DPF is under active legal challenge before the CJEU. If the DPF fell tomorrow, as Privacy Shield fell in 2020, nothing about Seal AI would need to change.
+4. **Subprocessor transparency**: Scaleway appears in our [subprocessor list](/compliance/subprocessors) as a plain GDPR Art. 28 processor — identity, location (Paris, FR), purpose (LLM inference), retention (zero by default).
+
+By contrast, using a US-parent AI API — even in an EU region — requires SCCs plus a Transfer Impact Assessment and inherits the DPF's litigation risk. We designed that dependency out of the product.
+
+## Regulatory position (EU AI Act)
+
+Under the EU AI Act, Sealmetrics is a **deployer** of a limited-risk AI system. The operative obligation is **Article 50 transparency** — users must know they are interacting with an AI — applicable from 2 August 2026. The assistant's interface discloses this. The general-purpose-AI provider obligations sit upstream with the model publisher and the inference host, not with Sealmetrics as deployer.
+
+Using an **open-weight, Apache 2.0 model strengthens auditability** beyond what any closed API can offer: the exact model version we serve is pinned, publicly inspectable, independently red-teamable and reproducible. A closed API can change the model under your feet silently; ours cannot.
+
+## Security controls
+
+- **Transport**: TLS 1.2+ with active certificate verification to the inference endpoint.
+- **Secrets**: the platform key lives only in environment/secret management; never in code, logs, API responses or error messages.
+- **Abuse containment**: per-organization entitlement on every call, monthly token quotas with clear errors, per-organization rate limiting, and a shared usage ledger that keeps quota enforcement consistent across chat and automated-insight paths.
+- **Prompt-injection hardening**: analytics data can contain hostile strings (URLs, referrers, campaign names). The assistant's system prompt is hardened against embedded instructions, its tools are read-only analytics (bounded blast radius), and injection resistance is tested with canary traps in our [recurring bilingual benchmark](/lens/seal-ai/internal-benchmark) — where the current model ignored every injection attempt in both Spanish and English.
+- **Grounding discipline**: answers must narrate the data provided; our benchmark verifies every asserted figure against ground truth computed directly from the analytics database, plus traps with nonexistent entities and empty periods.
+
+## Portability: the exit strategy is part of the privacy story
+
+Because the model is open-weight (Apache 2.0) with native MXFP4 quantization, it runs on a single 80 GB GPU under vLLM, and the same weights are served by several EU-sovereign providers besides Scaleway (OVHcloud, IONOS, Nebius). If our current host ever changed terms, we could move — same model, same behavior, zero migration for customers. Self-hosting on our own EU infrastructure is a designed-in path. A privacy guarantee you cannot walk away from is a hostage situation; ours is portable by construction.
+
+## Bring-your-own-key is different, by design
+
+Customers who prefer a specific external provider (OpenAI, Anthropic, Gemini, DeepSeek) can [configure their own API key](/platform/settings/llm). In that case, and only in that case, their prompts go to that provider under that provider's terms — an explicit, per-customer choice, clearly separated from Seal AI. Seal AI is the default precisely so that privacy does not depend on configuration.
+
+## Verify, don't trust
+
+Everything above is checkable:
+
+- The [subprocessor list](/compliance/subprocessors) and DPA name Scaleway with location, purpose and retention.
+- Scaleway's data-privacy commitments (zero retention, no training, Paris-only, CLOUD Act position) are published in its public documentation.
+- The model is public: `gpt-oss-120b`, Apache 2.0, inspectable by anyone.
+- Our [model-selection audit](/lens/seal-ai/model-selection) and the [recurring internal benchmark](/lens/seal-ai/internal-benchmark) — including discarded runs and declared limitations — are published.
+
+---
+
+*This page describes an engineering architecture and its regulatory rationale. It is not legal advice.*
