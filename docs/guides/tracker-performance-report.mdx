@@ -193,11 +193,19 @@ GA4 also uses beacon-style transport — its problem is not the transport but th
 | Current vs legacy v1 | **+25–30% on average** | Observed on dual-tagged accounts (both trackers in parallel on the same site). Gain concentrated in mobile traffic, slow connections, and visitors far from Dublin: earlier fire, race-free chain, `sendBeacon`, HTTP/2, and compression. |
 | Current vs GA4 (EU markets) | **+25–45% (estimate)** | Three GA4 losses the Sealmetrics tracker does not have: consent banner rejection/ignoring (~20–35% of visitors), blocking of Google domains by browsers and filter lists (~10–15%, partially overlapping), and abandonment before gtag fires (~2–5% on mobile). |
 
+### Session window change ("Rejoined Traffic"): 6 h → 2 h
+
+There is also a **definitional** factor that pushes the current tracker's numbers up, worth keeping in mind when reading the gap: the session re-entry window. In v1, if a visitor clicked through to the site again within **6 hours** of their entrance, that visit was classified as *Rejoined* — it did not open a new entrance. In the current tracker that window is **2 hours**.
+
+Example: a user with 2 clicks 5 hours apart — v1 counted **1 entrance + 1 pageview** (the second click became Rejoined); the current tracker counts **2 entrances + 2 pageviews**. Same user behavior, more entrances and pageviews recorded.
+
+This effect is **more granular measurement, not newly captured traffic**: it adds to the real capture gains (timing, `sendBeacon`, race-free chain) in the total v1-vs-current difference. To isolate it in your own data, look at the segment of re-entries between 2 and 6 hours — that is exactly the band where the two definitions diverge.
+
 ## Deployment recommendations
 
 - **Do not gate Sealmetrics tags behind consent in GTM.** A frequent misconfiguration: if Sealmetrics tags sit behind the CMP's consent state, you give up their main advantage — Sealmetrics can measure without consent by design (no cookies, no personal identifiers). Fire them on *Consent Initialization* or with no consent condition.
 - **Install the snippet directly in the `<head>`, outside GTM.** Loaded through GTM, the tracker inherits the container's latency (typically 100–250 KB): if GTM is slow, blocked, or the visitor leaves before it loads, the tracker cannot measure either. With the snippet directly in the `<head>` you capture the full advantage shown above.
-- **Compare v1 and the current tracker with homogeneous metrics.** When evaluating a dual-tag, compare pageviews with pageviews and entrances with entrances: the session models of the two versions are not identical, and mixing metrics inflates or hides differences.
+- **Compare v1 and the current tracker with homogeneous metrics.** When evaluating a dual-tag, compare pageviews with pageviews and entrances with entrances — and account for the different session windows (Rejoined at 6 h in v1 vs 2 h in the current tracker, see above): mixing metrics or ignoring the window inflates or hides differences.
 - **Keep the dual-tag for a validation period.** Running both trackers in parallel lets you quantify the capture difference with your own data, segmented by device and geography, before retiring v1.
 
 ## Limitations and honest notes
@@ -205,5 +213,6 @@ GA4 also uses beacon-style transport — its problem is not the transport but th
 - Latencies were measured from a single location (fiber, Spain) in July 2026; the four network scenarios are **models**, not field measurements, and should be cited as such.
 - The GA4 timings above are its **best case**: they exclude the consent wait, which for new EU visitors adds seconds or prevents measurement entirely.
 - The +25–30% vs v1 is an average across dual-tagged accounts; each site will have its own figure depending on its device, network, and geography mix. The GA4 range depends critically on each site's CMP acceptance rate.
+- Part of the entrance increase vs v1 is definitional, not capture: the Rejoined session window changed from 6 h (v1) to 2 h (current tracker).
 - EasyPrivacy includes the rule `||sealmetrics.com^$third-party`: visitors with uBlock/AdGuard block both Sealmetrics tracker versions equally. The advantage over GA4 lies in consent and timing, not in ad blockers.
 - To preserve the anonymity of the reference site, GA4 figures and latencies are rounded and lightly adjusted (see methodology); Sealmetrics tracker weights are exact.
