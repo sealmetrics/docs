@@ -15,6 +15,9 @@ keywords:
 date: 2026-07-24
 ---
 
+import {BarChart} from '@site/src/components/PerfChart';
+
+
 The current Sealmetrics tracker weighs **1.1 KB on the wire** — 12× less than the legacy Sealmetrics v1 tracker and roughly 155× less than GA4's `gtag.js`. That weight, combined with a single-step dispatch chain and an ingestion pipeline rebuilt from scratch (Go → RabbitMQ → ClickHouse), translates into more hits captured: dual-tagged sites (running both Sealmetrics trackers in parallel) measure **25–30% more traffic on average with the current tracker than with v1**, with the gain concentrated in mobile traffic and in visitors geographically far from our Dublin servers.
 
 **Key numbers at a glance:**
@@ -53,6 +56,24 @@ What travels over the network determines when the first hit can fire. The legacy
 | **Transferred over the network** | **1.1 KB** (gzip) | 13.7 KB (no gzip) | ~171 KB (gzip) |
 | **Uncompressed (what the CPU parses)** | 2.0 KB | 13.7 KB | ~512 KB |
 | **Relative wire weight** | 1× | 12× | ~155× |
+
+<BarChart
+  note="Transferred over the network — true linear scale"
+  items={[
+    {label: 'Sealmetrics', sublabel: 't.js', value: 1122, display: '1.1 KB', color: 'seal'},
+    {label: 'Sealmetrics v1', sublabel: 'legacy', value: 13686, display: '13.7 KB — no gzip', color: 'legacy'},
+    {label: 'GA4', sublabel: 'gtag.js', value: 171000, display: '~171 KB', color: 'ga4'},
+  ]}
+/>
+
+<BarChart
+  note="Uncompressed JavaScript the device has to parse"
+  items={[
+    {label: 'Sealmetrics', value: 1985, display: '2.0 KB', color: 'seal'},
+    {label: 'Sealmetrics v1', value: 13686, display: '13.7 KB', color: 'legacy'},
+    {label: 'GA4', value: 512000, display: '~512 KB', color: 'ga4'},
+  ]}
+/>
 
 **The TCP detail that matters:** the current tracker's 1.1 KB fits in a single packet and arrives in the first round-trip. The v1 tracker's 13.7 KB uncompressed sits right at the edge of TCP's initial congestion window (~14.6 KB), and GA4's ~171 KB needs 4–5 slow-start round-trips. When the visitor is far from the server, every extra round-trip multiplies latency.
 
