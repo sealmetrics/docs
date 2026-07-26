@@ -56830,6 +56830,7 @@ Welcome to the Sealmetrics guides section. Here you'll find step-by-step tutoria
 - [UTM Governance: Naming Conventions That Keep Attribution Clean](/guides/utm-governance) - A practical UTM playbook: naming conventions, a source/medium taxonomy aligned with Sealmetrics default channels, the mistakes that corrupt attribution, a spreadsheet template, and how Sealmetrics processes UTMs end to end.
 - [GA4 to Sealmetrics: The Complete Migration Checklist](/guides/ga4-migration-checklist) - Phase-by-phase migration checklist: audit your GA4 events, map them to conv()/micro(), install the tracker, run 30 days in parallel, know which data differences to expect, and switch GA4 off safely.
 - [Tracker Performance Report: Sealmetrics vs GA4](/guides/tracker-performance-report) - A technical comparison of tracking pixel weight, protocol, latency, and traffic capture against gtag.js, with methodology, measured data from an anonymized reference site, and modeled network scenarios.
+- [Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics](/guides/tracker-performance-three-way) - The three-way comparison in one table set: script weight, delivery chains, time to first hit, transport, consent, and measured traffic differences across all three trackers.
 - [Tracker Performance Report: Sealmetrics vs Adobe Analytics](/guides/tracker-performance-adobe-analytics) - Field-measured comparison against the Adobe Launch + AppMeasurement stack on an anonymized dual-vendor site: script weight, delivery chain, time to first hit, and a 30-day dual-tag validation.
 
 
@@ -58454,6 +58455,108 @@ For each, pull entrances, CR, revenue, dominant device, dominant language. Propo
 - [Hotels prompts](./hotels)
 - [Ecommerce prompts](./ecommerce)
 - [SealMetrics + Google Ads](./google-ads)
+
+
+
+## Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics
+
+
+URL: https://docs.sealmetrics.com/tracker-performance-three-way
+
+
+This guide puts the three trackers side by side: the **Sealmetrics tracker**, **GA4's `gtag.js`**, and the **Adobe Analytics stack** (Launch + AppMeasurement). It condenses our two detailed reports — [Sealmetrics vs GA4](/guides/tracker-performance-report) and [Sealmetrics vs Adobe Analytics](/guides/tracker-performance-adobe-analytics) — into one comparison table set, with the same methodology and the same anonymized reference sites.
+
+**Everything at a glance:**
+
+| | Sealmetrics | GA4 | Adobe Analytics |
+|---|---|---|---|
+| Wire weight (scripts, gzip) | **1.1 KB** | ~171 KB (~155×) | ~170 KB (~155×) |
+| JavaScript to parse | **2.0 KB** | ~512 KB (~255×) | ~730 KB (~365×) |
+| Hit secured (`<head>` install, fiber) | **~0.1–0.3 s** | ~0.5–0.7 s (best case) | ~3.0 s (field-measured) |
+| Hit transport | `sendBeacon` — survives page close | beacon-style | image GET — cancelable |
+| Consent required in the EU | **No — consentless by design** | Yes (Consent Mode models the gap) | Yes in most installs |
+| Traffic measured in parallel runs | baseline | ~25–45% less (estimate, EU) | ~20% less (30-day dual-tag, field) |
+
+## Methodology
+
+All figures come from measurements taken in July 2026:
+
+- **Direct downloads** of the three production scripts with `curl` (`Accept-Encoding: gzip`, 3 samples, fiber from Spain) for exact byte sizes and latencies. GA4 was measured with the ID of a real production property; the Adobe chain with the real container of a production site.
+- **Field measurements** via the browser's Resource Timing API on an **anonymized European media platform** that runs Sealmetrics and Adobe Analytics in parallel — capturing when each script started, how long it took, and when each vendor's pageview left the device in the same page load.
+- **Parallel-run traffic data**: 30 days of daily pageviews from that dual-vendor site (June 2026) for the Adobe comparison; the GA4 range is an estimate built from published consent, blocker, and timing studies.
+
+To preserve the anonymity of the reference sites, third-party figures are rounded and lightly adjusted; ratios and orders of magnitude are preserved. Sealmetrics tracker weights are exact — they are product scripts, identical for every customer. GA4 and Adobe timings represent their chains *once their tags fire*: the best case for both, since any consent wait comes on top.
+
+## Script weight
+
+| | Sealmetrics | GA4 (gtag.js) | Adobe (Launch + AppMeasurement + rules) |
+|---|---|---|---|
+| Transferred over the network | **1.1 KB** | ~171 KB | ~170 KB |
+| Uncompressed | **2.0 KB** | ~512 KB | ~730 KB |
+
+Two structural notes:
+
+- The Sealmetrics tracker fits in **a single TCP packet** and arrives in the first round-trip. Both competitor payloads need 4–5 slow-start round-trips just for the download.
+- **Parsing has no CDN.** Google and Adobe both serve from excellent global edges — but ~512 KB or ~730 KB of JavaScript is parsed on the visitor's device, every time the cache is cold. On a low-end phone that is commonly 0.8–1.5 s of CPU work before any hit can fire.
+
+## Delivery chains
+
+**Sealmetrics** — one step: `t.js` downloads (1.1 KB), executes, and dispatches the pageview via `sendBeacon` from inside the script. Own work, measured in the field: **~0.26 s** from script start to hit delivered.
+
+**GA4** — `gtag.js` downloads (~171 KB), parses (~512 KB), runs its config, then sends the pageview to `google-analytics.com` on a **second connection**. In the EU, none of this starts for a new visitor until the consent banner is accepted.
+
+**Adobe** — the longest chain: Launch container (~670 KB of JS) → ECID/Audience Manager identity round-trips → AppMeasurement + modules → rule payloads → other Experience Cloud calls (Target) → pageview as an **image GET** to a first-party CNAME collection domain. Field-measured on the reference site: the pageview left the device at **~3.0 s**.
+
+## Time to first hit
+
+The window between page start and the hit leaving the device is the window where an abandoning visitor is invisible traffic.
+
+| Scenario | Sealmetrics | GA4 (best case) | Adobe (as observed) |
+|---|---|---|---|
+| Fiber, `<head>` install | **~0.1–0.3 s** | ~0.5–0.7 s | ~3.0 s (field) |
+| Mid-range 4G mobile (estimate) | ~0.3 s | ~1.0–1.5 s | ~4–6 s |
+| Consent wait (new EU visitor) | none | + seconds or forever | + seconds or forever (where gated) |
+
+A fairness note on Adobe's ~3.0 s: part of it is the reference site's rule sequencing (identity and personalization run before the analytics hit). That ordering is common — it is what the Experience Cloud chain is designed to do — but a leaner Adobe install can fire earlier. The structural floor (~730 KB to parse, multi-stage chain) remains.
+
+## Transport: what happens when the visitor leaves
+
+| | Sealmetrics | GA4 | Adobe (AppMeasurement) |
+|---|---|---|---|
+| Mechanism | `sendBeacon` + `fetch keepalive` | beacon-style transport | image GET (beacon only for exit links) |
+| Survives page close? | **Yes** | Yes | No — canceled on unload |
+| Practical vulnerability window | ~0.1–0.3 s | ~0.5–1.5 s (after parsing, with consent) | until the hit completes (~3 s observed) |
+
+GA4's transport is fine — its problem is reaching the dispatch point late and only after consent. Adobe combines a late dispatch point with a cancelable transport: every visit shorter than its window never existed.
+
+## Blockers and consent
+
+- **Consent**: Sealmetrics measures without consent by design (no cookies, no personal identifiers). GA4 legally requires consent in the EU; rejection/ignore rates typically run 20–35% of visitors. Adobe requires it in most EU installs.
+- **Filter lists**: EasyPrivacy targets Google's analytics domains extensively, carries 28+ rules against Adobe's `omtrdc.net` plus several against `demdex.net`, and uBlock Origin on Firefox uncloaks CNAME first-party collection domains. In fairness: `sealmetrics.com` is also listed as a third-party rule — the Sealmetrics advantage lies in consent, weight, and timing, not in ad-blocker immunity.
+
+## Measured traffic differences
+
+| Comparison | Difference | Basis |
+|---|---|---|
+| Sealmetrics vs GA4 (EU markets) | **+25–45% for Sealmetrics** | Estimate: consent rejection (~20–35%) + blocked domains (~10–15%) + late-fire abandonment (~2–5%); ranges overlap |
+| Sealmetrics vs Adobe Analytics | **+25% for Sealmetrics** | 30 days of dual-tag pageview data on the reference site (June 2026), ratio stable across the whole month — with Adobe firing *without* a consent gate; expect more where Adobe sits behind a CMP |
+
+The Adobe figure is the strongest evidence in this guide: same site, same visits, pageviews against pageviews, a full month — and a constant ~25% gap, which is the signature of a structural cause (a fixed fraction of the audience the heavy tracker cannot see), not of bots or incidents.
+
+## Recommendations
+
+- **Install the Sealmetrics snippet directly in the `<head>`**, not through a tag manager — the tag-manager route delays the hit by whatever the container costs (the dual-vendor reference site loads it through its tag chain at ~1.5 s and still beats Adobe's hit by over a second).
+- **Never gate Sealmetrics behind a CMP.** It recreates the incumbents' biggest loss for no benefit.
+- **Run in parallel for 30 days** before drawing conclusions, and segment the comparison by device and traffic source — the gap concentrates in mobile and short visits.
+- **Map metric definitions first**: GA4 sessions (30-min timeout, event-based), Adobe visits (30-min timeout), Sealmetrics entrances (click-based, 2-hour re-entry window). Page views against page views is the cleanest first comparison.
+
+## Limitations and honest notes
+
+- Latencies were measured from a single location; the mobile scenarios are models, labeled as such. The Adobe field timeline comes from one real page load of one site.
+- GA4 and Adobe timings are their best case — they exclude the consent wait.
+- The stacks analyzed are the most common ones (gtag.js; Launch + AppMeasurement 2.x). Server-side tagging setups and Adobe Web SDK installs have different chains and different numbers.
+- Third-party figures are rounded and lightly adjusted to preserve the reference sites' anonymity; Sealmetrics weights are exact.
+- The +25% Adobe figure is one site's month of data; the GA4 range is an estimate. Every site has its own number — run the parallel test on yours.
 
 
 
