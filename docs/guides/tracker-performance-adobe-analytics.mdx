@@ -30,7 +30,7 @@ The Sealmetrics tracker weighs **1.1 KB on the wire**. The Adobe Analytics stack
 
 This report combines two kinds of measurement, both taken in July 2026:
 
-- **Field measurements** via the browser's Resource Timing API during a real page load of a **European public media platform that runs Sealmetrics and Adobe Analytics in parallel** (site anonymized). This captures the actual sequence: when each script started, how long it took, and when each vendor's pageview hit left the device — same page, same visit, same network.
+- **Field measurements** via the browser's Resource Timing API during a real page load of a **European media platform that runs Sealmetrics and Adobe Analytics in parallel** (site anonymized). This captures the actual sequence: when each script started, how long it took, and when each vendor's pageview hit left the device — same page, same visit, same network.
 - **Direct downloads** of the production scripts with `curl` (`Accept-Encoding: gzip`, 3 samples, fiber connection from Spain) for exact byte sizes and latency.
 
 To preserve the reference site's anonymity, figures are rounded and lightly adjusted; orders of magnitude and ratios are preserved. The Sealmetrics tracker weights are exact — they are product scripts, identical for every customer.
