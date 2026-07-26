@@ -15,6 +15,9 @@ keywords:
 date: 2026-07-26
 ---
 
+import {BarChart, Timeline} from '@site/src/components/PerfChart';
+
+
 The Sealmetrics tracker weighs **1.1 KB on the wire**. The Adobe Analytics stack it competed against on a real page — Adobe Launch container, AppMeasurement, ActivityMap module, and rule payloads — weighs **~170 KB on the wire and ~730 KB once decompressed**. And the difference is not just weight: measured on a real European media site that runs both vendors side by side, **Adobe's pageview left the device at ~3.0 seconds** into the page load, while the Sealmetrics hit was secured at ~1.8 seconds — despite Sealmetrics being loaded late through the site's own tag chain. Installed directly in the `<head>`, Sealmetrics secures the hit at ~0.1–0.3 s.
 
 **Key numbers at a glance:**
@@ -68,6 +71,21 @@ Measured with the Resource Timing API on a fiber connection (values rounded):
 | **~1.8 s** | **Sealmetrics pageview events dispatched (`sendBeacon` — secured)** |
 | **~3.0 s** | **Adobe Analytics pageview fires** (image GET to the collection domain) |
 
+<Timeline
+  scale={3200}
+  axis={['0', '0.5 s', '1 s', '1.5 s', '2 s', '2.5 s', '3 s']}
+  rows={[
+    {label: 'Adobe', sublabel: 'Launch + AppMeasurement', segs: [
+      {t0: 200, t1: 790, color: 'adobe'},
+      {t0: 820, t1: 1070, color: 'adobe', opacity: 0.75},
+      {t0: 1170, t1: 1960, color: 'adobe', opacity: 0.5},
+    ], marks: [{t: 3030, label: 'hit ~3.0 s'}]},
+    {label: 'Sealmetrics', sublabel: "via the site's tag chain", segs: [
+      {t0: 1520, t1: 1640, color: 'seal'},
+    ], marks: [{t: 1750, label: 'hit ~1.75 s'}, {t: 1820}]},
+  ]}
+/>
+
 Two readings of this table:
 
 - **Adobe's hit fires ~1.2 s after Sealmetrics'** on the same page, same visit, same network — and this is fiber. On a mid-range phone over 4G, parsing ~730 KB of JavaScript alone adds several hundred milliseconds to seconds; the Adobe hit realistically moves past ~4–6 s (estimate), while the Sealmetrics window barely grows.
@@ -81,6 +99,23 @@ A note of fairness: part of Adobe's ~3.0 s is this site's specific rule sequenci
 |---|---|---|---|---|
 | Transferred (gzip) | **1.1 KB** | ~150 KB | ~20 KB | **~170 KB** |
 | Uncompressed (what the CPU parses) | 2.0 KB | ~670 KB | ~55 KB | **~730 KB** |
+
+<BarChart
+  note="Transferred over the network (gzip) — true linear scale"
+  items={[
+    {label: 'Sealmetrics', sublabel: 't.js', value: 1122, display: '1.1 KB', color: 'seal'},
+    {label: 'Adobe', sublabel: 'Launch container', value: 150000, display: '~150 KB', color: 'adobe'},
+    {label: 'Adobe', sublabel: 'AppMeasurement + rules', value: 20000, display: '~20 KB', color: 'adobe'},
+  ]}
+/>
+
+<BarChart
+  note="Uncompressed JavaScript the device has to parse"
+  items={[
+    {label: 'Sealmetrics', value: 1985, display: '2.0 KB', color: 'seal'},
+    {label: 'Adobe', sublabel: 'full stack', value: 730000, display: '~730 KB', color: 'adobe'},
+  ]}
+/>
 
 The parse cost has no CDN: Adobe serves its container from Akamai's edge in every region, but ~730 KB of JavaScript is parsed on the visitor's device every time the cache is cold. On a low-end phone that is commonly over a second of CPU work — before rules, identity calls, or the hit itself.
 

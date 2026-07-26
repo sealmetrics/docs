@@ -15,6 +15,9 @@ keywords:
 date: 2026-07-26
 ---
 
+import {BarChart} from '@site/src/components/PerfChart';
+
+
 This guide puts the three trackers side by side: the **Sealmetrics tracker**, **GA4's `gtag.js`**, and the **Adobe Analytics stack** (Launch + AppMeasurement). It condenses our two detailed reports — [Sealmetrics vs GA4](/guides/tracker-performance-report) and [Sealmetrics vs Adobe Analytics](/guides/tracker-performance-adobe-analytics) — into one comparison table set, with the same methodology and the same anonymized reference sites.
 
 **Everything at a glance:**
@@ -45,6 +48,24 @@ To preserve the anonymity of the reference sites, third-party figures are rounde
 | Transferred over the network | **1.1 KB** | ~171 KB | ~170 KB |
 | Uncompressed | **2.0 KB** | ~512 KB | ~730 KB |
 
+<BarChart
+  note="Transferred over the network (gzip) — true linear scale"
+  items={[
+    {label: 'Sealmetrics', sublabel: 't.js', value: 1122, display: '1.1 KB', color: 'seal'},
+    {label: 'GA4', sublabel: 'gtag.js', value: 171000, display: '~171 KB', color: 'ga4'},
+    {label: 'Adobe', sublabel: 'Launch + AppMeasurement', value: 170000, display: '~170 KB', color: 'adobe'},
+  ]}
+/>
+
+<BarChart
+  note="Uncompressed JavaScript the device has to parse"
+  items={[
+    {label: 'Sealmetrics', value: 1985, display: '2.0 KB', color: 'seal'},
+    {label: 'GA4', value: 512000, display: '~512 KB', color: 'ga4'},
+    {label: 'Adobe', value: 730000, display: '~730 KB', color: 'adobe'},
+  ]}
+/>
+
 Two structural notes:
 
 - The Sealmetrics tracker fits in **a single TCP packet** and arrives in the first round-trip. Both competitor payloads need 4–5 slow-start round-trips just for the download.
@@ -67,6 +88,15 @@ The window between page start and the hit leaving the device is the window where
 | Fiber, `<head>` install | **~0.1–0.3 s** | ~0.5–0.7 s | ~3.0 s (field) |
 | Mid-range 4G mobile (estimate) | ~0.3 s | ~1.0–1.5 s | ~4–6 s |
 | Consent wait (new EU visitor) | none | + seconds or forever | + seconds or forever (where gated) |
+
+<BarChart
+  note="Hit secured, fiber, head install — GA4 and Adobe at their best case (consent already granted)"
+  items={[
+    {label: 'Sealmetrics', value: 200, display: '~0.1–0.3 s', color: 'seal'},
+    {label: 'GA4', value: 600, display: '~0.5–0.7 s', color: 'ga4'},
+    {label: 'Adobe', value: 3000, display: '~3.0 s (field)', color: 'adobe'},
+  ]}
+/>
 
 A fairness note on Adobe's ~3.0 s: part of it is the reference site's rule sequencing (identity and personalization run before the analytics hit). That ordering is common — it is what the Experience Cloud chain is designed to do — but a leaner Adobe install can fire earlier. The structural floor (~730 KB to parse, multi-stage chain) remains.
 
@@ -107,4 +137,3 @@ The Adobe figure is the strongest evidence in this guide: same site, same visits
 - GA4 and Adobe timings are their best case — they exclude the consent wait.
 - The stacks analyzed are the most common ones (gtag.js; Launch + AppMeasurement 2.x). Server-side tagging setups and Adobe Web SDK installs have different chains and different numbers.
 - Third-party figures are rounded and lightly adjusted to preserve the reference sites' anonymity; Sealmetrics weights are exact.
-- The +25% Adobe figure is one site's month of data; the GA4 range is an estimate. Every site has its own number — run the parallel test on yours.
