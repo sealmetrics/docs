@@ -24,6 +24,7 @@ The Sealmetrics tracker weighs **1.1 KB on the wire**. The Adobe Analytics stack
 | Wire weight (scripts) | 1.1 KB | ~170 KB (~155× more) |
 | JavaScript to parse | 2.0 KB | ~730 KB (~365× more) |
 | Pageview hit secured (field, fiber) | ~1.8 s (late tag-chain load) / ~0.1–0.3 s (`<head>` install) | ~3.0 s |
+| Measured traffic (30-day dual-tag, reference site) | **+25% pageviews** | baseline |
 
 ## Methodology
 
@@ -101,7 +102,7 @@ Every visit shorter than the vulnerability window is invisible traffic. With Ado
 
 ## What this means for measured traffic
 
-We do not yet publish a dual-tag average for Adobe Analytics the way we do for our own legacy tracker (+25–30%). The mechanisms above give the estimate structure (clearly labeled as such):
+The mechanisms above give the loss structure (ranges are estimates, clearly labeled as such — the field validation below puts a real number on them):
 
 | Loss mechanism for Adobe | Typical range | Applies when |
 |---|---|---|
@@ -109,7 +110,23 @@ We do not yet publish a dual-tag average for Adobe Analytics the way we do for o
 | Collection endpoints blocked (filter lists, CNAME uncloaking) | ~10–15% | Always; overlaps partially with the above |
 | Consent banner rejection/ignoring | ~20–35% | Only where the install is CMP-gated (common in the EU) |
 
-Combined, a Sealmetrics tracker running in parallel typically measures **~15–25% more traffic than a non-consent-gated Adobe install, and ~25–45% more where Adobe sits behind a CMP** (estimates; ranges overlap and do not add linearly). The reference site runs both vendors — that is the right way to get your own number: dual-tag, run 30 days, compare.
+Combined, a Sealmetrics tracker running in parallel typically measures **~15–25% more traffic than a non-consent-gated Adobe install, and ~25–45% more where Adobe sits behind a CMP** (estimates; ranges overlap and do not add linearly).
+
+### Field validation: a month of dual-tag data
+
+The reference site runs both vendors in parallel, and its **June 2026 data (30 days of daily pageviews from both platforms)** puts a real number on the estimate:
+
+| | Sealmetrics | Adobe Analytics |
+|---|---|---|
+| Daily pageviews (month range) | ~0.9–1.6 M | ~0.7–1.2 M |
+| Average difference | **+25% over Adobe** | — (Adobe misses ~1 in 5 pageviews Sealmetrics records) |
+| Ratio stability | The gap holds ~constant across all 30 days — peaks and troughs, weekdays and weekends | |
+
+Three conclusions from that month of data:
+
+- **The estimated range is validated at its high end**: +25% observed, with Adobe firing without a consent gate on this site — meaning the gap is fully explained by the structural mechanisms (blocked collection endpoints, the ~3 s hit window, cancelable transport), not by consent. Where Adobe sits behind a CMP, expect a larger gap.
+- **A constant ratio is the signature of a systematic cause**: bot traffic, an outage, or a one-off event would make the gap fluctuate. A stable ~25% while traffic swings 1.5× points to a fixed fraction of the audience Adobe structurally cannot see.
+- **The metric is homogeneous**: pageviews against pageviews — the clean comparison, free of session- or visit-definition effects.
 
 ## Recommendations for Adobe Analytics sites evaluating Sealmetrics
 
@@ -124,4 +141,4 @@ Combined, a Sealmetrics tracker running in parallel typically measures **~15–2
 - The stack analyzed is Launch + AppMeasurement 2.x; Web SDK (alloy.js) installs have a different chain and different numbers.
 - Cross-origin Resource Timing entries without `Timing-Allow-Origin` hide transfer sizes; where the browser hid them, sizes come from direct downloads instead.
 - Figures are rounded and lightly adjusted to preserve the reference site's anonymity; Sealmetrics tracker weights are exact.
-- The traffic-impact ranges are estimates built from the measured mechanisms, not a published dual-tag average; run the parallel test on your own site for your number.
+- The traffic-impact ranges are estimates built from the measured mechanisms. The +25% figure comes from one month of dual-tag data on a single site (June 2026); every site will have its own number depending on its audience mix, so run the parallel test on your own site.
