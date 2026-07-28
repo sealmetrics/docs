@@ -1,0 +1,121 @@
+---
+sidebar_position: 14
+title: What Is This Domain in My Cookie Audit?
+sidebar_label: Third-party domain lookup
+description: A lookup table of the external domains analytics tools contact — Adobe, GA4, Mixpanel, PostHog, Piwik PRO and others. Which tool owns each one, and where it resolves.
+---
+
+# What Is This Domain in My Cookie Audit?
+
+You ran a cookie scan, a CMP audit or a privacy report, and it returned a list of domains
+your site contacts. Some are obvious. Others — `omtrdc.net`, `demdex.net`, `mxpnl.com` — give
+no clue who owns them or what they do.
+
+This page maps them. Every entry comes from our own measurement: we installed each tool on
+the same page and recorded which external hosts it actually contacted, rather than trusting
+vendor documentation.
+
+---
+
+## 1. The lookup table
+
+Sorted alphabetically by domain, which is how you will be reading it.
+
+| Domain | Tool | What it does | Party | Resolves |
+|---|---|---|---|---|
+| `api-js.mixpanel.com` | Mixpanel | Event ingestion | Third | US |
+| `assets.adobedtm.com` | Adobe Launch | Tag manager delivery | Third | Akamai CDN |
+| `cdn.mxpnl.com` | Mixpanel | Library delivery | Third | US |
+| `cdn.usefathom.com` | Fathom Analytics | Script and collection | Third | — |
+| `collect.yourdomain.com` | SealMetrics | Collection, on your own subdomain | **First** | Your DNS |
+| `d1.sc.omtrdc.net` | Adobe Analytics | Collection | Third | — |
+| `.demdex.net` | Adobe Experience Cloud ID | Identity and ID sync | Third | AWS Dublin |
+| `dpm.demdex.net` | Adobe Experience Cloud ID | ID sync endpoint | Third | AWS Dublin |
+| `google-analytics.com` | GA4 | Collection | Third | EU CDN |
+| `googletagmanager.com` | Google Tag Manager | Script delivery | Third | US |
+| `gtm-msr.appspot.com` | Google Tag Manager | Preview and debug sandbox | Third | — |
+| `plausible.io` | Plausible | Script and collection | Third | — |
+| `queue.simpleanalyticscdn.com` | Simple Analytics | Collection queue | Third | — |
+| `region1.google-analytics.com` | GA4 | Regional collection | Third | US |
+| `sc.omtrdc.net` | Adobe Analytics | Collection | Third | — |
+| `us-assets.i.posthog.com` | PostHog | Asset delivery | Third | US |
+| `us.posthog.com` | PostHog | Collection | Third | US |
+| `yourname.containers.piwik.pro` | Piwik PRO | Tag manager | Third | EU/US |
+| `yourname.piwik.pro` | Piwik PRO | Collection | Third | EU/US |
+
+The `yourname.` and `yourdomain.com` portions vary per account — the rest of the hostname is
+the identifying part.
+
+---
+
+## 2. How to read the "Party" column
+
+**Third-party** means the domain is not yours. The browser treats cookies set there as
+third-party cookies, which Safari and Firefox block by default and Chrome restricts. It also
+means a DNS lookup and a connection to infrastructure you do not control, on every page load.
+
+**First-party** means the request goes to a subdomain of your own site. Cookies set there
+survive browser restrictions, and there is no cross-origin request to justify in an
+assessment.
+
+Two things this column does not tell you:
+
+- **First-party does not mean "no consent needed."** ePrivacy Article 5(3) governs *storage
+  on the device*, not who owns the domain. A first-party cookie still requires consent. What
+  removes the requirement is storing nothing at all.
+- **Some tools can be configured either way.** Adobe supports a CNAME implementation that
+  moves the visitor ID to your own domain. Check your own setup rather than assuming the
+  default.
+
+---
+
+## 3. What "Resolves" tells you, and what it does not
+
+Where a hostname resolves is a useful fact and a weak argument.
+
+It is useful because a domain resolving to US infrastructure means a cross-border transfer to
+document. It is weak because the reverse does not hold: `dpm.demdex.net` resolves to AWS
+Dublin, inside the EU, and that does **not** make the transfer question go away. Schrems II
+turns on legal access regimes — who can compel disclosure — rather than on where the packet
+lands.
+
+So treat an EU result as one input to the assessment, not as the conclusion. And do not repeat
+the inverse shortcut that "a US company means the data leaves the EU"; on this evidence it is
+simply not true.
+
+---
+
+## 4. Checking your own site
+
+The table tells you what a domain is. Only your own site tells you what it is doing.
+
+1. Open your site in a private window, DevTools on the **Network** tab.
+2. Reload and sort by domain. Compare what appears against the table above.
+3. Note the **timestamp** of each collection request. That is when measurement starts;
+   anything before it is unmeasured.
+4. Reload with an **ad blocker** enabled. Anything that disappears is a domain your reports
+   silently lose.
+5. Reload with the consent banner **rejected**. Anything that still fires is a compliance
+   finding rather than a data one.
+
+Steps 4 and 5 are the ones worth recording. The first three describe your setup; the last two
+tell you whether it behaves the way you think it does.
+
+---
+
+## 5. Detail pages
+
+Domains with enough going on to need their own page:
+
+- [demdex.net cookies](/security-privacy/demdex-net-cookies) — the Adobe identity layer: `demdex`, `dextp`, `dst`, and the first-party `AMCV_*` set
+- [omtrdc.net requests](/security-privacy/omtrdc-net-requests) — the Adobe collection endpoint: what the request is, when it fires, and why an image GET loses visits
+- [gtm-msr.appspot.com and tag blocking](/reports/insights/gtm-msr-appspot-and-tag-blocking) — Google Tag Manager's preview sandbox, and how to stop it firing your tags
+
+---
+
+## 6. Related documentation
+
+- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without storing anything on the device, so Article 5(3) is never engaged
+- [What We Track](/security-privacy/what-we-track) — the full list of what SealMetrics collects
+- [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints
+- [Data Location](/security-privacy/data-location) — where SealMetrics processes and stores data
