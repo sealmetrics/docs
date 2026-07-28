@@ -55,15 +55,36 @@ User-agent: cohere-ai
 Allow: /
 
 # Traditional search engines
+#
+# /docs-raw/ and llms-full.txt are plain-text mirrors of the HTML docs. They
+# exist for AI ingestion (see the AI crawler groups above, which keep full
+# access). Search engines must NOT crawl them: a .txt file cannot carry a
+# canonical or a meta-robots tag, and we cannot set X-Robots-Tag headers on
+# GitHub Pages, so robots.txt is the only lever. Left crawlable they put a
+# second full copy of all 295 pages into the search index and compete with
+# the canonical HTML.
+#
+# This does NOT affect AI Overviews or AI Mode, which are served from the
+# HTML pages Googlebot still crawls in full.
+#
+# Do not "simplify" these back to a bare Allow: /
+
 User-agent: Googlebot
+Disallow: /docs-raw/
+Disallow: /llms-full.txt
+Disallow: /search
 Allow: /
 
 User-agent: Bingbot
+Disallow: /docs-raw/
+Disallow: /llms-full.txt
+Disallow: /search
 Allow: /
 
 # Sitemap
 Sitemap: https://docs.sealmetrics.com/sitemap.xml
 # LLM-friendly content (llmstxt.org convention)
+# Open to AI crawlers, closed to Googlebot/Bingbot — see the note above.
 # Documentation index for AI agents: https://docs.sealmetrics.com/llms.txt
 # Full documentation content:        https://docs.sealmetrics.com/llms-full.txt
 # Plain-text mirror of every page:   https://docs.sealmetrics.com/docs-raw/
