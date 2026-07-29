@@ -38134,6 +38134,394 @@ Our promise:
 
 
 
+## What Is This Domain in My Cookie Audit?
+
+
+URL: https://docs.sealmetrics.com/security-privacy/third-party-analytics-domains
+
+
+# What Is This Domain in My Cookie Audit?
+
+You ran a cookie scan, a CMP audit or a privacy report, and it returned a list of domains
+your site contacts. Some are obvious. Others — `omtrdc.net`, `demdex.net`, `mxpnl.com` — give
+no clue who owns them or what they do.
+
+This page maps them. Every entry comes from our own measurement: we installed each tool on
+the same page and recorded which external hosts it actually contacted, rather than trusting
+vendor documentation.
+
+---
+
+## 1. The lookup table
+
+Sorted alphabetically by domain, which is how you will be reading it.
+
+| Domain | Tool | What it does | Party | Resolves |
+|---|---|---|---|---|
+| `api-js.mixpanel.com` | Mixpanel | Event ingestion | Third | US |
+| `assets.adobedtm.com` | Adobe Launch | Tag manager delivery | Third | Akamai CDN |
+| `cdn.mxpnl.com` | Mixpanel | Library delivery | Third | US |
+| `cdn.usefathom.com` | Fathom Analytics | Script and collection | Third | — |
+| `collect.yourdomain.com` | SealMetrics | Collection, on your own subdomain | **First** | Your DNS |
+| `d1.sc.omtrdc.net` | Adobe Analytics | Collection | Third | — |
+| `.demdex.net` | Adobe Experience Cloud ID | Identity and ID sync | Third | AWS Dublin |
+| `dpm.demdex.net` | Adobe Experience Cloud ID | ID sync endpoint | Third | AWS Dublin |
+| `google-analytics.com` | GA4 | Collection | Third | EU CDN |
+| `googletagmanager.com` | Google Tag Manager | Script delivery | Third | US |
+| `gtm-msr.appspot.com` | Google Tag Manager | Preview and debug sandbox | Third | — |
+| `plausible.io` | Plausible | Script and collection | Third | — |
+| `queue.simpleanalyticscdn.com` | Simple Analytics | Collection queue | Third | — |
+| `region1.google-analytics.com` | GA4 | Regional collection | Third | US |
+| `sc.omtrdc.net` | Adobe Analytics | Collection | Third | — |
+| `us-assets.i.posthog.com` | PostHog | Asset delivery | Third | US |
+| `us.posthog.com` | PostHog | Collection | Third | US |
+| `yourname.containers.piwik.pro` | Piwik PRO | Tag manager | Third | EU/US |
+| `yourname.piwik.pro` | Piwik PRO | Collection | Third | EU/US |
+
+The `yourname.` and `yourdomain.com` portions vary per account — the rest of the hostname is
+the identifying part.
+
+---
+
+## 2. How to read the "Party" column
+
+**Third-party** means the domain is not yours. The browser treats cookies set there as
+third-party cookies, which Safari and Firefox block by default and Chrome restricts. It also
+means a DNS lookup and a connection to infrastructure you do not control, on every page load.
+
+**First-party** means the request goes to a subdomain of your own site. Cookies set there
+survive browser restrictions, and there is no cross-origin request to justify in an
+assessment.
+
+Two things this column does not tell you:
+
+- **First-party does not mean "no consent needed."** ePrivacy Article 5(3) governs *storage
+  on the device*, not who owns the domain. A first-party cookie still requires consent. What
+  removes the requirement is storing nothing at all.
+- **Some tools can be configured either way.** Adobe supports a CNAME implementation that
+  moves the visitor ID to your own domain. Check your own setup rather than assuming the
+  default.
+
+---
+
+## 3. What "Resolves" tells you, and what it does not
+
+Where a hostname resolves is a useful fact and a weak argument.
+
+It is useful because a domain resolving to US infrastructure means a cross-border transfer to
+document. It is weak because the reverse does not hold: `dpm.demdex.net` resolves to AWS
+Dublin, inside the EU, and that does **not** make the transfer question go away. Schrems II
+turns on legal access regimes — who can compel disclosure — rather than on where the packet
+lands.
+
+So treat an EU result as one input to the assessment, not as the conclusion. And do not repeat
+the inverse shortcut that "a US company means the data leaves the EU"; on this evidence it is
+simply not true.
+
+---
+
+## 4. Checking your own site
+
+The table tells you what a domain is. Only your own site tells you what it is doing.
+
+1. Open your site in a private window, DevTools on the **Network** tab.
+2. Reload and sort by domain. Compare what appears against the table above.
+3. Note the **timestamp** of each collection request. That is when measurement starts;
+   anything before it is unmeasured.
+4. Reload with an **ad blocker** enabled. Anything that disappears is a domain your reports
+   silently lose.
+5. Reload with the consent banner **rejected**. Anything that still fires is a compliance
+   finding rather than a data one.
+
+Steps 4 and 5 are the ones worth recording. The first three describe your setup; the last two
+tell you whether it behaves the way you think it does.
+
+---
+
+## 5. Detail pages
+
+Domains with enough going on to need their own page:
+
+- [demdex.net cookies](/security-privacy/demdex-net-cookies) — the Adobe identity layer: `demdex`, `dextp`, `dst`, and the first-party `AMCV_*` set
+- [omtrdc.net requests](/security-privacy/omtrdc-net-requests) — the Adobe collection endpoint: what the request is, when it fires, and why an image GET loses visits
+- [gtm-msr.appspot.com and tag blocking](/reports/insights/gtm-msr-appspot-and-tag-blocking) — Google Tag Manager's preview sandbox, and how to stop it firing your tags
+
+---
+
+## 6. Related documentation
+
+- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without storing anything on the device, so Article 5(3) is never engaged
+- [What We Track](/security-privacy/what-we-track) — the full list of what SealMetrics collects
+- [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints
+- [Data Location](/security-privacy/data-location) — where SealMetrics processes and stores data
+
+
+
+## What Is demdex.net? The Adobe Cookies in Your Audit
+
+
+URL: https://docs.sealmetrics.com/security-privacy/demdex-net-cookies
+
+
+# What Is demdex.net? The Adobe Cookies in Your Audit
+
+If you have run a cookie audit, a CMP scan or a privacy report on your own site, `demdex.net`
+is one of the domains that turns up without an obvious owner. It is **Adobe**.
+
+Specifically, it belongs to the **Adobe Experience Cloud ID Service (ECID)** — the component
+that assigns and syncs a visitor identifier across Adobe products. It appears whenever Adobe
+Analytics is installed, **even if you do not use Adobe Audience Manager**.
+
+---
+
+## 1. The cookies you will see
+
+| Cookie | Domain | Type | What it does |
+|---|---|---|---|
+| `demdex` | `.demdex.net` | Third-party | Core ECID visitor identifier |
+| `dextp` | `.demdex.net` | Third-party | Records the last time an ID sync ran with a given partner |
+| `dst` | `.demdex.net` | Third-party | Signals an error state in the ID sync process |
+| `AMCV_*` | Your domain | First-party | The Experience Cloud ID as stored on your own site |
+| `AMCVS_*` | Your domain | First-party | Session flag for the ECID service |
+| `s_vi` | Your domain | First-party | Adobe Analytics visitor ID |
+| `s_fid` | Your domain | First-party | Fallback visitor ID, used when `s_vi` cannot be set |
+| `s_cc` | Your domain | First-party | Checks whether cookies are enabled |
+
+`dextp` and `dst` only appear once Audience Manager is in play. The `demdex` cookie itself is
+part of the base ECID infrastructure and shows up regardless.
+
+---
+
+## 2. Where the requests actually go
+
+Adobe Analytics contacts **four** external domains on a standard install:
+
+| Domain | Role |
+|---|---|
+| `assets.adobedtm.com` | Adobe tag manager (Akamai CDN) |
+| `dpm.demdex.net` | ECID sync endpoint |
+| `sc.omtrdc.net` | Analytics collection |
+| `d1.sc.omtrdc.net` | Analytics collection |
+
+One detail worth knowing before it appears in a vendor assessment: when we measured these
+endpoints, **`dpm.demdex.net` resolved to AWS Dublin** — inside the EU. The common shorthand
+that "Adobe is a US company, therefore the data leaves the EU" does not survive a DNS lookup.
+
+That does not settle the transfer question. Schrems II turns on legal access regimes rather
+than server geography, so the assessment depends on Adobe's corporate structure and the
+safeguards in your contract, not on where the packet lands. It is a question for your counsel
+— but the geography argument is not the one to build it on.
+
+---
+
+## 3. What this means for consent
+
+Under the ePrivacy Directive, Article 5(3), consent is required before **storing or accessing**
+information on a visitor's device. The rule applies to the act of storage, regardless of
+whether the stored value is personal data.
+
+Every cookie in the table above is storage on the device. That means:
+
+- They must fire **after** an affirmative consent signal, not before.
+- Legitimate interest is not available here. ePrivacy does not offer the route GDPR does for
+  some processing.
+- Third-party cookies on `.demdex.net` will usually need their own entry in your CMP, since
+  they are set on a domain you do not control.
+
+A frequent audit finding is that the ECID call fires on page load while the CMP is still
+initialising. The result is a cookie set before consent — which is a finding, not a
+configuration preference.
+
+---
+
+## 4. Your numbers are probably already affected
+
+Independent of consent, **Safari and Firefox block third-party cookies by default**. The
+`.demdex.net` cookies are third-party by definition, so ID syncing silently degrades for a
+large share of visitors before your banner is involved at all.
+
+The visible symptom is usually attribution: returning visitors counted as new, and channel
+credit drifting toward direct. If your Adobe reports have stopped reconciling with revenue,
+this is one of the places to look.
+
+---
+
+## 5. How to check your own site
+
+1. Open your site in a private window with DevTools on the **Network** tab.
+2. Filter for `demdex`.
+3. Reload, and watch **when** the call to `dpm.demdex.net` fires — specifically whether it
+   happens before you interact with the consent banner.
+4. Switch to **Application → Cookies** and check both your own domain and `.demdex.net`
+   against the table in section 1.
+5. Repeat with the banner **rejected**. Any cookie still present at that point is the finding
+   worth writing down.
+
+Step 5 is the one that matters. Steps 1 to 4 tell you what is installed; step 5 tells you
+whether your consent gate actually works.
+
+---
+
+## 6. Related documentation
+
+- [Third-party domain lookup](/security-privacy/third-party-analytics-domains) — the full table of external domains analytics tools contact, and which tool owns each
+- [omtrdc.net requests](/security-privacy/omtrdc-net-requests) — the Adobe collection endpoint, and why an image GET loses visits
+- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without setting anything on the device, so Article 5(3) is never engaged
+- [Why No Consent Is Needed](/security-privacy/why-no-consent) — the legal basis in full
+- [What We Track](/security-privacy/what-we-track) — the complete list of what SealMetrics collects, for comparison
+- [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints, and what that costs
+- [Bot Detection](/security-privacy/bot-detection) — separating real visitors from automated traffic
+
+
+
+## What Is omtrdc.net? Adobe's Collection Domain, Explained
+
+
+URL: https://docs.sealmetrics.com/security-privacy/omtrdc-net-requests
+
+
+# What Is omtrdc.net? Adobe's Collection Domain, Explained
+
+`omtrdc.net` turns up in network logs, cookie audits and CSP reports on any site running
+Adobe Analytics. It is **Adobe** — the name is a contraction of *Omniture Track Domain*,
+from the company Adobe acquired in 2009.
+
+Unlike [`demdex.net`](/security-privacy/demdex-net-cookies), which handles identity,
+`omtrdc.net` is the **collection endpoint**. Every pageview, event and conversion Adobe
+records leaves the browser as a request to this domain. If a request to `omtrdc.net` does not
+happen, that visit does not exist in Adobe Analytics.
+
+That makes it the most useful domain on the list to understand, because it is where data is
+won or lost.
+
+---
+
+## 1. The hostnames you will see
+
+| Hostname | Role |
+|---|---|
+| `sc.omtrdc.net` | Primary collection endpoint |
+| `d1.sc.omtrdc.net` | Regional collection endpoint |
+| `<namespace>.sc.omtrdc.net` | Tenant-specific collection host |
+
+The `<namespace>` portion is your Adobe report suite's tracking namespace, so the exact
+hostname differs per account. All of them serve the same function.
+
+For context, a standard Adobe Analytics install contacts **four** external domains:
+
+| Domain | Role |
+|---|---|
+| `assets.adobedtm.com` | Adobe Launch tag manager (Akamai CDN) |
+| `dpm.demdex.net` | Experience Cloud ID sync |
+| `sc.omtrdc.net` | Analytics collection |
+| `d1.sc.omtrdc.net` | Analytics collection |
+
+---
+
+## 2. What the request actually is
+
+The hit to `omtrdc.net` is an **image GET** — historically a 1×1 pixel request with the
+measurement payload encoded in the URL.
+
+This matters more than it sounds. An image GET is a normal browser resource request, which
+means it is **cancelled if the visitor leaves the page before it completes**. A visit that
+bounces, or a user who taps back quickly, can produce no hit at all.
+
+The modern alternative is `navigator.sendBeacon()`, which hands the payload to the browser
+and survives page unload by design. SealMetrics uses `sendBeacon`; Adobe's AppMeasurement
+uses the image GET.
+
+---
+
+## 3. When the hit fires
+
+We measured this on a real European media site running both vendors side by side:
+
+| Time | Event |
+|---|---|
+| ~1.5–1.6 s | SealMetrics `t.js` loads (late — through the site's own tag chain) |
+| **~1.8 s** | SealMetrics pageview dispatched via `sendBeacon` — secured |
+| **~3.0 s** | Adobe Analytics pageview fires — image GET to the collection domain |
+
+Installed directly in the `<head>` rather than through a tag chain, the SealMetrics hit is
+secured at ~0.1–0.3 s.
+
+**In fairness to Adobe:** part of that 3.0 seconds is this specific site's rule sequencing —
+identity and personalization calls are ordered before the analytics hit. That ordering is
+common, because ECID and Target are designed to run early, but a leaner Adobe install will
+fire sooner. The structural floor is what remains: roughly 730 KB of JavaScript to parse and
+a multi-stage chain to walk before any hit can leave the device.
+
+Over a 30-day dual-tag run on that reference site, the gap came to **+25% pageviews** measured
+by SealMetrics over Adobe — with Adobe firing without a consent gate at all.
+
+Full methodology: [Adobe Analytics tracker performance](/guides/tracker-performance-adobe-analytics).
+
+---
+
+## 4. The cookie question
+
+The visitor identifier associated with collection is `s_vi`, with `s_fid` as the fallback when
+`s_vi` cannot be set.
+
+Whether these appear as first-party or third-party cookies depends on your implementation:
+
+- **Default setup** — the collection server sets the identifier on the Adobe domain, making
+  it a third-party cookie, which Safari and Firefox block by default.
+- **CNAME / first-party implementation** — collection is routed through a subdomain of your
+  own site, so the cookie is first-party and survives browser restrictions.
+
+If you are filling in a cookie register, this is the distinction to check before you classify
+the entry, because both configurations are common and the audit answer differs.
+
+The identity cookies on `.demdex.net` are covered separately in
+[demdex.net cookies](/security-privacy/demdex-net-cookies).
+
+---
+
+## 5. Why requests to omtrdc.net go missing
+
+Three independent causes, all of which reduce what Adobe records:
+
+1. **Privacy filter lists.** `omtrdc.net` appears on the common blocklists used by uBlock
+   Origin, Brave and Firefox Enhanced Tracking Protection. The request never leaves.
+2. **The transport.** An image GET cancelled on unload, as described in section 2.
+3. **Consent.** Where the hit is gated behind a banner, rejection means no request at all.
+   In European eCommerce, banner rejection runs 40–60%.
+
+These compound. A visitor can be lost to any one of them, and the three populations do not
+overlap neatly.
+
+---
+
+## 6. How to check your own site
+
+1. Open your site in a private window with DevTools on the **Network** tab.
+2. Filter for `omtrdc`.
+3. Reload and note the **timestamp** of the first request — that is when your measurement
+   actually starts. Everything before it is unmeasured.
+4. Check the request **type**. If it is `img`, unload cancellation applies to you.
+5. Now enable an ad blocker and reload. If the request disappears entirely, every visitor
+   using that blocker is invisible in Adobe.
+6. Finally, reload with the consent banner **rejected**. If a request still fires, that is a
+   compliance finding rather than a data one.
+
+Steps 3 and 5 are the ones worth writing down. Step 3 tells you how much of the visit you
+never see; step 5 tells you how many visitors you never see at all.
+
+---
+
+## 7. Related documentation
+
+- [Third-party domain lookup](/security-privacy/third-party-analytics-domains) — the full table of external domains analytics tools contact, and which tool owns each
+- [demdex.net cookies](/security-privacy/demdex-net-cookies) — the identity side of the same stack
+- [Adobe Analytics tracker performance](/guides/tracker-performance-adobe-analytics) — full methodology behind the timings above
+- [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints and what it costs
+- [Consentless Analytics](/security-privacy/consentless-analytics) — collecting without a banner, so rejection is not a data-loss path
+- [Bot Detection](/security-privacy/bot-detection) — separating real visitors from automated traffic
+
+
+
 ---
 
 # Compliance
