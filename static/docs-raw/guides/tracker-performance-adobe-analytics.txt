@@ -1,0 +1,131 @@
+# Tracker Performance Report: Sealmetrics vs Adobe Analytics
+
+URL: https://docs.sealmetrics.com/tracker-performance-adobe-analytics
+
+The Sealmetrics tracker weighs **1.1 KB on the wire**. The Adobe Analytics stack it competed against on a real page — Adobe Launch container, AppMeasurement, ActivityMap module, and rule payloads — weighs **~170 KB on the wire and ~730 KB once decompressed**. And the difference is not just weight: measured on a real European media site that runs both vendors side by side, **Adobe's pageview left the device at ~3.0 seconds** into the page load, while the Sealmetrics hit was secured at ~1.8 seconds — despite Sealmetrics being loaded late through the site's own tag chain. Installed directly in the `<head>`, Sealmetrics secures the hit at ~0.1–0.3 s.
+
+**Key numbers at a glance:**
+
+| | Sealmetrics | Adobe Analytics stack |
+|---|---|---|
+| Wire weight (scripts) | 1.1 KB | ~170 KB (~155× more) |
+| JavaScript to parse | 2.0 KB | ~730 KB (~365× more) |
+| Pageview hit secured (field, fiber) | ~1.8 s (late tag-chain load) / ~0.1–0.3 s (`<head>` install) | ~3.0 s |
+| Measured traffic (30-day dual-tag, reference site) | **+25% pageviews** | baseline |
+
+## Methodology
+
+This report combines two kinds of measurement, both taken in July 2026:
+
+- **Field measurements** via the browser's Resource Timing API during a real page load of a **European media platform that runs Sealmetrics and Adobe Analytics in parallel** (site anonymized). This captures the actual sequence: when each script started, how long it took, and when each vendor's pageview hit left the device — same page, same visit, same network.
+- **Direct downloads** of the production scripts with `curl` (`Accept-Encoding: gzip`, 3 samples, fiber connection from Spain) for exact byte sizes and latency.
+
+To preserve the reference site's anonymity, figures are rounded and lightly adjusted; orders of magnitude and ratios are preserved. The Sealmetrics tracker weights are exact — they are product scripts, identical for every customer.
+
+The Adobe stack analyzed is the most common one: **Adobe Launch (Tags) + AppMeasurement 2.x** with the ActivityMap module, ECID/Audience Manager ID calls, and Adobe Target on the same container. Installs using the newer Web SDK (alloy.js) have a different chain; the weight-and-sequence logic of this report still applies, but the specific numbers do not.
+
+### How consent is treated
+
+On the reference site, the Adobe stack fired **without any prior consent interaction** — so the timings below are Adobe's realistic best case there. In many EU installs, Adobe Analytics is gated behind the CMP: everything in this report would then apply only *after* banner acceptance, and the consent-rejection loss (typically 20–35% of visitors) comes on top. Sealmetrics is consentless by design (no cookies, no personal identifiers) and has no such gate.
+
+## The Adobe delivery chain
+
+What has to happen before Adobe Analytics registers a pageview, as observed on the reference site:
+
+1. The **Launch container** downloads: ~150 KB gzipped, **~670 KB of JavaScript** to parse. It is served from Akamai's edge (fast delivery — the weight is in the parse, not the network).
+2. The **ECID / Audience Manager identity calls** fire (demdex round-trips).
+3. **AppMeasurement + ActivityMap** download and execute (~14 KB gzipped, ~37 KB decoded).
+4. **Rule payloads** (per-site logic split into separate files) download and run.
+5. Other Experience Cloud calls on the same container (Adobe Target delivery, in this case) execute.
+6. The **pageview finally fires as an image GET request** to a first-party collection domain (`smetrics.` + the site's domain, a CNAME that resolves to Adobe's `data.adobedc.net`).
+
+The Sealmetrics chain, for comparison: `t.js` downloads (1.1 KB, one TCP packet), executes, and dispatches the pageview via `sendBeacon` from inside the script. One script, no identity round-trips, no rule payloads.
+
+## Field timeline: the same page load, both vendors
+
+Measured with the Resource Timing API on a fiber connection (values rounded):
+
+| Moment (from navigation start) | Event |
+|---|---|
+| ~0.2 s | Adobe Launch container starts downloading |
+| ~0.8 s | Launch container loaded (~670 KB parsed after) · identity calls fire |
+| ~1.1 s | AppMeasurement loaded |
+| ~1.2–1.9 s | Rule payloads + Adobe Target delivery calls |
+| ~1.5–1.6 s | Sealmetrics `t.js` loads (late — through the site's tag chain) |
+| **~1.8 s** | **Sealmetrics pageview events dispatched (`sendBeacon` — secured)** |
+| **~3.0 s** | **Adobe Analytics pageview fires** (image GET to the collection domain) |
+
+Two readings of this table:
+
+- **Adobe's hit fires ~1.2 s after Sealmetrics'** on the same page, same visit, same network — and this is fiber. On a mid-range phone over 4G, parsing ~730 KB of JavaScript alone adds several hundred milliseconds to seconds; the Adobe hit realistically moves past ~4–6 s (estimate), while the Sealmetrics window barely grows.
+- Sealmetrics was **handicapped on this site** — loaded through the tag chain at ~1.5 s instead of from the `<head>`. Even so it beat the Adobe hit by more than a second. With the snippet in the `<head>`, the hit is secured at ~0.1–0.3 s: an order of magnitude earlier.
+
+A note of fairness: part of Adobe's ~3.0 s is this site's specific rule sequencing (identity and personalization calls run before the analytics hit). That ordering is common — Target and ECID exist precisely to run early — but a leaner Adobe install can fire earlier. The structural floor remains: ~730 KB to parse and a multi-stage chain before any hit can leave the device.
+
+## Weight comparison
+
+| | Sealmetrics | Adobe: Launch container | Adobe: AppMeasurement + modules + rules | Adobe total |
+|---|---|---|---|---|
+| Transferred (gzip) | **1.1 KB** | ~150 KB | ~20 KB | **~170 KB** |
+| Uncompressed (what the CPU parses) | 2.0 KB | ~670 KB | ~55 KB | **~730 KB** |
+
+The parse cost has no CDN: Adobe serves its container from Akamai's edge in every region, but ~730 KB of JavaScript is parsed on the visitor's device every time the cache is cold. On a low-end phone that is commonly over a second of CPU work — before rules, identity calls, or the hit itself.
+
+## Hit transport: image GET vs sendBeacon
+
+| Hit transport | Sealmetrics | Adobe Analytics (AppMeasurement) |
+|---|---|---|
+| Mechanism | `sendBeacon` + `fetch keepalive` fallback | image GET request (beacon transport only for exit-link tracking) |
+| Survives page close? | Yes — the browser owns delivery | No — an in-flight image request is canceled on unload |
+| Moment the hit is secured (field) | ~0.1–0.3 s (`<head>` install) | ~3.0 s on the reference site |
+
+Every visit shorter than the vulnerability window is invisible traffic. With Adobe's hit at ~3.0 s, **any visit that bounces within the first ~3 seconds never existed** in Adobe Analytics: instant bounces from paid and social traffic, accidental taps, impatient mobile visitors. That band of very short visits is precisely where mobile and campaign traffic concentrates.
+
+## Ad blockers and filter lists
+
+- EasyPrivacy carries **28+ rules against `omtrdc.net`** and several against `demdex.net` — Adobe's collection and identity endpoints are extensively targeted.
+- First-party CNAME collection (`smetrics.` subdomains pointing to `data.adobedc.net`) is **uncloaked and blocked by uBlock Origin on Firefox**, which resolves CNAMEs before matching.
+- In fairness: `sealmetrics.com` also appears in EasyPrivacy as a third-party rule. The Sealmetrics advantage over Adobe lies in consent, weight, and timing — not in ad-blocker immunity.
+
+## What this means for measured traffic
+
+The mechanisms above give the loss structure (ranges are estimates, clearly labeled as such — the field validation below puts a real number on them):
+
+| Loss mechanism for Adobe | Typical range | Applies when |
+|---|---|---|
+| Visits shorter than the hit window (~3 s on the reference site) | ~3–8% | Always; highest on mobile/campaign-heavy traffic |
+| Collection endpoints blocked (filter lists, CNAME uncloaking) | ~10–15% | Always; overlaps partially with the above |
+| Consent banner rejection/ignoring | ~20–35% | Only where the install is CMP-gated (common in the EU) |
+
+Combined, a Sealmetrics tracker running in parallel typically measures **~15–25% more traffic than a non-consent-gated Adobe install, and ~25–45% more where Adobe sits behind a CMP** (estimates; ranges overlap and do not add linearly).
+
+### Field validation: a month of dual-tag data
+
+The reference site runs both vendors in parallel, and its **June 2026 data (30 days of daily pageviews from both platforms)** puts a real number on the estimate:
+
+| | Sealmetrics | Adobe Analytics |
+|---|---|---|
+| Daily pageviews (month range) | ~0.9–1.6 M | ~0.7–1.2 M |
+| Average difference | **+25% over Adobe** | — (Adobe misses ~1 in 5 pageviews Sealmetrics records) |
+| Ratio stability | The gap holds ~constant across all 30 days — peaks and troughs, weekdays and weekends | |
+
+Three conclusions from that month of data:
+
+- **The estimated range is validated at its high end**: +25% observed, with Adobe firing without a consent gate on this site — meaning the gap is fully explained by the structural mechanisms (blocked collection endpoints, the ~3 s hit window, cancelable transport), not by consent. Where Adobe sits behind a CMP, expect a larger gap.
+- **A constant ratio is the signature of a systematic cause**: bot traffic, an outage, or a one-off event would make the gap fluctuate. A stable ~25% while traffic swings 1.5× points to a fixed fraction of the audience Adobe structurally cannot see.
+- **The metric is homogeneous**: pageviews against pageviews — the clean comparison, free of session- or visit-definition effects.
+
+## Recommendations for Adobe Analytics sites evaluating Sealmetrics
+
+- **Install the Sealmetrics snippet directly in the `<head>`, not through your tag manager.** The reference site loads it through the tag chain and still beats Adobe's hit by over a second — but a `<head>` install secures the hit at ~0.1–0.3 s and removes the container dependency entirely.
+- **Do not gate Sealmetrics behind your CMP.** It measures without consent by design; gating it recreates Adobe's biggest loss for no benefit.
+- **Run both in parallel for a validation period.** Keep Adobe untouched, add Sealmetrics, and compare 30 days of data segmented by device and traffic source. Expect the gap to concentrate in mobile and short visits.
+- **Map metric definitions before comparing.** Adobe *visits* use a 30-minute inactivity timeout; Sealmetrics *entrances* are click-based with a 2-hour re-entry window. Compare page views with page views first — it is the cleanest apples-to-apples metric.
+
+## Limitations and honest notes
+
+- The field timeline comes from **one real page load of one site** (plus 3-sample curl measurements for sizes/latency, from a single location). It is a representative illustration, not a statistical sample; the ~3.0 s figure includes that site's specific rule sequencing.
+- The stack analyzed is Launch + AppMeasurement 2.x; Web SDK (alloy.js) installs have a different chain and different numbers.
+- Cross-origin Resource Timing entries without `Timing-Allow-Origin` hide transfer sizes; where the browser hid them, sizes come from direct downloads instead.
+- Figures are rounded and lightly adjusted to preserve the reference site's anonymity; Sealmetrics tracker weights are exact.
+- The traffic-impact ranges are estimates built from the measured mechanisms. The +25% figure comes from one month of dual-tag data on a single site (June 2026); every site will have its own number depending on its audience mix, so run the parallel test on your own site.
