@@ -1,0 +1,115 @@
+---
+sidebar_position: 15
+title: What Is demdex.net? The Adobe Cookies in Your Audit
+sidebar_label: demdex.net cookies
+description: demdex.net belongs to Adobe's Experience Cloud ID Service. What the demdex, dextp and dst cookies do, where the requests go, and how to classify them for consent.
+---
+
+# What Is demdex.net? The Adobe Cookies in Your Audit
+
+If you have run a cookie audit, a CMP scan or a privacy report on your own site, `demdex.net`
+is one of the domains that turns up without an obvious owner. It is **Adobe**.
+
+Specifically, it belongs to the **Adobe Experience Cloud ID Service (ECID)** — the component
+that assigns and syncs a visitor identifier across Adobe products. It appears whenever Adobe
+Analytics is installed, **even if you do not use Adobe Audience Manager**.
+
+---
+
+## 1. The cookies you will see
+
+| Cookie | Domain | Type | What it does |
+|---|---|---|---|
+| `demdex` | `.demdex.net` | Third-party | Core ECID visitor identifier |
+| `dextp` | `.demdex.net` | Third-party | Records the last time an ID sync ran with a given partner |
+| `dst` | `.demdex.net` | Third-party | Signals an error state in the ID sync process |
+| `AMCV_*` | Your domain | First-party | The Experience Cloud ID as stored on your own site |
+| `AMCVS_*` | Your domain | First-party | Session flag for the ECID service |
+| `s_vi` | Your domain | First-party | Adobe Analytics visitor ID |
+| `s_fid` | Your domain | First-party | Fallback visitor ID, used when `s_vi` cannot be set |
+| `s_cc` | Your domain | First-party | Checks whether cookies are enabled |
+
+`dextp` and `dst` only appear once Audience Manager is in play. The `demdex` cookie itself is
+part of the base ECID infrastructure and shows up regardless.
+
+---
+
+## 2. Where the requests actually go
+
+Adobe Analytics contacts **four** external domains on a standard install:
+
+| Domain | Role |
+|---|---|
+| `assets.adobedtm.com` | Adobe tag manager (Akamai CDN) |
+| `dpm.demdex.net` | ECID sync endpoint |
+| `sc.omtrdc.net` | Analytics collection |
+| `d1.sc.omtrdc.net` | Analytics collection |
+
+One detail worth knowing before it appears in a vendor assessment: when we measured these
+endpoints, **`dpm.demdex.net` resolved to AWS Dublin** — inside the EU. The common shorthand
+that "Adobe is a US company, therefore the data leaves the EU" does not survive a DNS lookup.
+
+That does not settle the transfer question. Schrems II turns on legal access regimes rather
+than server geography, so the assessment depends on Adobe's corporate structure and the
+safeguards in your contract, not on where the packet lands. It is a question for your counsel
+— but the geography argument is not the one to build it on.
+
+---
+
+## 3. What this means for consent
+
+Under the ePrivacy Directive, Article 5(3), consent is required before **storing or accessing**
+information on a visitor's device. The rule applies to the act of storage, regardless of
+whether the stored value is personal data.
+
+Every cookie in the table above is storage on the device. That means:
+
+- They must fire **after** an affirmative consent signal, not before.
+- Legitimate interest is not available here. ePrivacy does not offer the route GDPR does for
+  some processing.
+- Third-party cookies on `.demdex.net` will usually need their own entry in your CMP, since
+  they are set on a domain you do not control.
+
+A frequent audit finding is that the ECID call fires on page load while the CMP is still
+initialising. The result is a cookie set before consent — which is a finding, not a
+configuration preference.
+
+---
+
+## 4. Your numbers are probably already affected
+
+Independent of consent, **Safari and Firefox block third-party cookies by default**. The
+`.demdex.net` cookies are third-party by definition, so ID syncing silently degrades for a
+large share of visitors before your banner is involved at all.
+
+The visible symptom is usually attribution: returning visitors counted as new, and channel
+credit drifting toward direct. If your Adobe reports have stopped reconciling with revenue,
+this is one of the places to look.
+
+---
+
+## 5. How to check your own site
+
+1. Open your site in a private window with DevTools on the **Network** tab.
+2. Filter for `demdex`.
+3. Reload, and watch **when** the call to `dpm.demdex.net` fires — specifically whether it
+   happens before you interact with the consent banner.
+4. Switch to **Application → Cookies** and check both your own domain and `.demdex.net`
+   against the table in section 1.
+5. Repeat with the banner **rejected**. Any cookie still present at that point is the finding
+   worth writing down.
+
+Step 5 is the one that matters. Steps 1 to 4 tell you what is installed; step 5 tells you
+whether your consent gate actually works.
+
+---
+
+## 6. Related documentation
+
+- [Third-party domain lookup](/security-privacy/third-party-analytics-domains) — the full table of external domains analytics tools contact, and which tool owns each
+- [omtrdc.net requests](/security-privacy/omtrdc-net-requests) — the Adobe collection endpoint, and why an image GET loses visits
+- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without setting anything on the device, so Article 5(3) is never engaged
+- [Why No Consent Is Needed](/security-privacy/why-no-consent) — the legal basis in full
+- [What We Track](/security-privacy/what-we-track) — the complete list of what SealMetrics collects, for comparison
+- [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints, and what that costs
+- [Bot Detection](/security-privacy/bot-detection) — separating real visitors from automated traffic
