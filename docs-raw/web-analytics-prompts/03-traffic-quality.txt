@@ -6,14 +6,14 @@ URL: https://docs.sealmetrics.com/web-analytics-prompts/03-traffic-quality
 
 Keep your data clean: detect anomalies, suspicious traffic, broken UTMs, and tracking regressions before they corrupt decisions.
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 
 ---
 
 ## SEAL-014 — Daily traffic anomaly digest
 
 ```text
-You are an analytics on-call engineer. Using SealMetrics MCP for site {site_id}, run a daily anomaly check for {today} vs the trailing 30-day baseline.
+You are an analytics on-call engineer. Using Sealmetrics MCP for site {site_id}, run a daily anomaly check for {today} vs the trailing 30-day baseline.
 
 Check anomalies on:
 - Total entrances
@@ -33,11 +33,11 @@ Output: a "Today's anomalies" markdown report ready to paste in Slack. Maximum 8
 ## SEAL-015 — Top suspicious sessions of the week
 
 ```text
-Using SealMetrics MCP for site {site_id}, return the top 50 most suspicious sessions in the last 7 days based on the bot suspicion score.
+Using Sealmetrics MCP for site {site_id}, return the top 50 most suspicious sessions in the last 7 days based on the bot suspicion score.
 
-For each session: session id, suspicion score, IP (anonymized if needed), user-agent, country, traffic source, entry landing, number of pageviews, micro and macro conversions if any.
+For each session: session id, suspicion score, user-agent, country, traffic source, entry landing, number of pageviews, micro and macro conversions if any. (Sealmetrics never stores visitor IPs, so no IP column exists.)
 
-Group by source. End with a "candidates to block" list: IPs and user-agent patterns that recur.
+Group by source. End with a "candidates to block" list: user-agent patterns and datacenter/ISP signals that recur.
 ```
 
 ---
@@ -45,7 +45,7 @@ Group by source. End with a "candidates to block" list: IPs and user-agent patte
 ## SEAL-016 — Bot share weekly trend
 
 ```text
-Using SealMetrics MCP for site {site_id}, compute the weekly share of bot/agent_suspected traffic for the last 12 weeks.
+Using Sealmetrics MCP for site {site_id}, compute the weekly share of bot/agent_suspected traffic for the last 12 weeks.
 
 Per week: total entrances, bot entrances, % bot, week-over-week delta.
 
@@ -59,7 +59,7 @@ Add a section listing the top 5 sources contributing to the bot share this week 
 ## SEAL-017 — Suspicious new referrers in top 20
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 7 days.
+For site {site_id}, query Sealmetrics MCP for the last 7 days.
 
 List the top 20 referrers by entrances. For each referrer indicate whether it appeared in the top 20 in any of the last 8 weeks before this one (yes/no, last seen date if any).
 
@@ -73,7 +73,7 @@ Output: 1 table + a "new this week" subsection.
 ## SEAL-018 — Pageview-to-conversion ratio drift
 
 ```text
-Using SealMetrics MCP for site {site_id}, compute the daily ratio of pageviews to macro conversions for the last 30 days.
+Using Sealmetrics MCP for site {site_id}, compute the daily ratio of pageviews to macro conversions for the last 30 days.
 
 Detect days where the ratio changed by more than 15% versus the trailing 7-day average. For each detected day, list:
 - Pageviews, conversions, ratio, % delta
@@ -88,7 +88,7 @@ End with a verdict per flagged day: tracking incident, real performance shift, o
 ## SEAL-019 — UTM hygiene audit
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 30 days.
+For site {site_id}, query Sealmetrics MCP for the last 30 days.
 
 Compute the % of paid traffic (utm_medium in cpc, paid, ppc, paidsocial, paid_search, display) that has at least one of:
 - Missing utm_source
@@ -106,7 +106,7 @@ End with a recommended fix list (which campaigns/templates to update first).
 ## SEAL-020 — Suspicious sessions by device and country
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 14 days:
+Using Sealmetrics MCP for site {site_id}, for the last 14 days:
 
 1. Pull all sessions classified as suspicious (bot or agent_suspected).
 2. Break them down by device type and by country.

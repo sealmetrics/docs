@@ -69,7 +69,7 @@ We only collect four essential, non-personal variables per hit:
 - Current URL (including UTM parameters)  
 - Referral URL  
 - Timestamp  
-- User Agent (stored 24 months for anonymous device classification; never linked to a person)  
+- User Agent (used for anonymous device classification; event detail purged after 14 days, aggregated categories kept 24 months; never linked to a person)  
 
 Plus a short-lived **session context marker** used to tell a second pageview apart from a new entrance. See [What We Track vs What We Don't](/security-privacy/what-we-track) for the full breakdown.
 
