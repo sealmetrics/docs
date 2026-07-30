@@ -103,7 +103,7 @@ For users with JavaScript enabled (95%+ of visitors):
 1. **Visitor arrives** at your website
 2. **Temporary session ID generated** in browser memory (not stored as cookie)
 3. **Events tracked** with this session ID throughout the visit
-4. **Session expires** when browser closes or after 30 minutes of inactivity
+4. **Session expires** when browser closes or after ~2 hours of inactivity
 5. **New session ID** generated on next visit (user is not tracked across visits)
 
 **Key point**: The session ID exists only in browser memory during the active session. It never persists as a cookie, so it doesn't require consent under ePrivacy Article 5(3).
@@ -125,7 +125,7 @@ According to CNIL's 2020 guidance on analytics, tracking is considered cookieles
 1. **No persistent identifiers** stored in the browser
 2. **No cross-session tracking** of individual users
 3. **No combination with other data** to re-identify users
-4. **Limited data retention** (CNIL recommends 13 months maximum)
+4. **Limited data retention** (CNIL sets a 25-month ceiling; Sealmetrics applies a stricter 24 months)
 
 Sealmetrics meets all four criteria:
 
@@ -165,7 +165,7 @@ These conditions include:
 - Use exclusively for statistical purposes
 - No cross-site tracking
 - No combination with other processing
-- Limited data retention (13 months recommended)
+- Limited data retention (25-month ceiling; tracker lifetime capped at 13 months)
 - IP address not stored or anonymized
 
 **Sealmetrics meets all CNIL requirements** by design. Unlike Plausible and Matomo (which hash and store IP addresses), Sealmetrics never stores IP addresses at all.

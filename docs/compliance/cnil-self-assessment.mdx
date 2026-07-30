@@ -128,15 +128,15 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 
 | Aspect | Compliance |
 |--------|------------|
-| First-party only | ✅ No third-party cookies |
-| Domain-isolated identifiers | ✅ Session IDs unique per domain |
-| No unified IDs | ✅ No cross-domain identification |
+| First-party only | ✅ No third-party cookies (no cookies at all) |
+| No cross-domain identification | ✅ Hits are stored per account and never joined across sites |
+| No unified IDs | ✅ No cross-site user graph, no shared advertising ID |
 
 **Technical Implementation:**
 ```
-Session ID scope: Single domain only
-Cookie scope: First-party, same-site
-Cross-domain tracking: Not possible by design
+Session marker: ephemeral (~2h), computed in the browser, never stored on the device
+Cookies: none (neither first- nor third-party)
+Cross-domain tracking: not performed — data is collected, stored, and reported per account
 ```
 
 ---
@@ -187,7 +187,7 @@ Maximum theoretical lifetime: Browser session only
 ---
 
 ### Criterion 7: Data Retention ≤ 25 Months
-**Requirement:** Collected data must not be retained beyond 24 months.
+**Requirement:** Collected data must not be retained beyond 25 months. Sealmetrics deliberately applies a stricter 24-month limit.
 
 | Aspect | Compliance |
 |--------|------------|
@@ -247,8 +247,8 @@ Intl.DateTimeFormat().resolvedOptions().timeZone
 
 | Aspect | Compliance |
 |--------|------------|
-| Client data isolation | ✅ Complete separation |
-| No shared identifiers | ✅ Each account has unique tracking |
+| Client data isolation | ✅ Complete separation of datasets |
+| Per-account tracking IDs | ✅ Each account has a unique tracking ID |
 | Independent databases | ✅ Logical separation per account |
 
 **Architecture:**
@@ -475,7 +475,7 @@ For compliance questions or DPO inquiries:
 
 ## Related documentation
 
-- [Does SealMetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) — the plain-language overview of CNIL consent exemption.
+- [Does Sealmetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) — the plain-language overview of CNIL consent exemption.
 - [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) — how CNIL and AEPD exemption criteria compare.
 - [UK PECR Self-Assessment: Sealmetrics Compliance](/compliance/uk-pecr-self-assessment) — the equivalent self-assessment for the UK.
 - [Do Temporary Session Identifiers (Session IDs) Require Consent Under GDPR?](/legal/gdpr-and-eprivacy/do-session-ids-require-consent) — the session-ID condition assessed above.

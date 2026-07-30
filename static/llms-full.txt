@@ -12756,7 +12756,7 @@ Sealmetrics does not enforce a hard limit on property count per event. However, 
 
 ### Are properties stored forever?
 
-Property data retention follows your Sealmetrics data retention policy. Standard retention is 24 months, but this can be configured based on your subscription plan and requirements. Contact Sealmetrics support to adjust retention settings.
+Property data retention follows the Sealmetrics data retention policy: conversion data (including properties) is kept for 24 months. Retention is fixed and identical for every plan — it is enforced by database TTLs and is not configurable. See [Data Location & Retention](/security-privacy/data-location).
 
 ### Can I update properties after an event is tracked?
 
@@ -19529,19 +19529,19 @@ URL: https://docs.sealmetrics.com/integrations/bigquery
 
 # BigQuery
 
-Connect SealMetrics to Google BigQuery to unlock advanced SQL analysis, custom reporting, and seamless integration with your data warehouse and BI tools.
+Connect Sealmetrics to Google BigQuery to unlock advanced SQL analysis, custom reporting, and seamless integration with your data warehouse and BI tools.
 
 ---
 
 ## Why BigQuery?
 
-SealMetrics dashboards cover the most common analytics needs. But when you need to go deeper, BigQuery gives you:
+Sealmetrics dashboards cover the most common analytics needs. But when you need to go deeper, BigQuery gives you:
 
 - **Custom SQL queries** on aggregated traffic, page, and conversion data
 - **BI tool integration** with Looker, Data Studio, Tableau, or Power BI
 - **Cross-platform joins** combining analytics with CRM, ad spend, or backend data
 - **Machine learning** using BigQuery ML on your traffic and conversion patterns
-- **Long-term storage** with flexible retention beyond your SealMetrics plan limits
+- **Long-term storage** under your own retention rules, beyond Sealmetrics' fixed 24-month window
 
 **Tip:**
 
@@ -19549,13 +19549,13 @@ SealMetrics dashboards cover the most common analytics needs. But when you need 
 
 ## How It Works
 
-SealMetrics automatically exports your analytics data to a BigQuery dataset on a schedule you configure. The sync process:
+Sealmetrics automatically exports your analytics data to a BigQuery dataset on a schedule you configure. The sync process:
 
-1. Extracts data from your SealMetrics account
+1. Extracts data from your Sealmetrics account
 2. Transforms it into structured BigQuery tables
 3. Loads it into your GCP project on your chosen schedule (hourly, daily, or manual)
 
-Your data stays in **your** Google Cloud project — SealMetrics never stores copies outside your account.
+Your data stays in **your** Google Cloud project — Sealmetrics never stores copies outside your account.
 
 ---
 
@@ -19563,7 +19563,7 @@ Your data stays in **your** Google Cloud project — SealMetrics never stores co
 
 Before starting, make sure you have:
 
-1. Any **SealMetrics plan** (Growth, Scale, or Enterprise)
+1. Any **Sealmetrics plan** (Growth, Scale, or Enterprise)
 2. A **Google Cloud Platform (GCP) account** with billing enabled
 3. The **BigQuery API** enabled in your GCP project
 4. A **GCP service account** (you'll create this in the next steps)
@@ -19589,7 +19589,7 @@ If you don't have a GCP project yet:
 
 ### 3. Create a Service Account
 
-The service account allows SealMetrics to write data to your BigQuery dataset securely.
+The service account allows Sealmetrics to write data to your BigQuery dataset securely.
 
 1. Go to **IAM & Admin → Service Accounts**
 2. Click **+ Create Service Account**
@@ -19599,7 +19599,7 @@ The service account allows SealMetrics to write data to your BigQuery dataset se
 Service Account Details:
   Name: sealmetrics-export
   ID: sealmetrics-export
-  Description: Service account for SealMetrics BigQuery export
+  Description: Service account for Sealmetrics BigQuery export
 ```
 
 4. Click **Create and Continue**
@@ -19629,9 +19629,9 @@ Click **Continue** and then **Done**.
 
 A `.json` file will download automatically. **Keep this file secure** — it grants access to your BigQuery dataset.
 
-### 6. Configure in SealMetrics
+### 6. Configure in Sealmetrics
 
-1. Log in to your SealMetrics account
+1. Log in to your Sealmetrics account
 2. Go to **Settings → Integrations → BigQuery**
 3. Upload your JSON key file (or paste its contents)
 4. Configure your dataset:
@@ -19709,7 +19709,7 @@ Tables:
 
 ## Data Available in BigQuery
 
-SealMetrics exports a **star schema**: pre-aggregated daily fact tables plus dimension tables for context and JOINs. There are no raw-hit or session tables — data is aggregated by day across UTM, geo, and device dimensions. Every fact table is partitioned by `date` and carries `sync_id`/`synced_at` columns for auditing.
+Sealmetrics exports a **star schema**: pre-aggregated daily fact tables plus dimension tables for context and JOINs. There are no raw-hit or session tables — data is aggregated by day across UTM, geo, and device dimensions. Every fact table is partitioned by `date` and carries `sync_id`/`synced_at` columns for auditing.
 
 ### Traffic (`fact_traffic_daily`)
 
@@ -19717,7 +19717,7 @@ Unified daily traffic broken down by source, geo, and device.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `account_id` | STRING | SealMetrics account ID |
+| `account_id` | STRING | Sealmetrics account ID |
 | `date` | DATE | Aggregation day (partition key) |
 | `utm_source` | STRING | UTM source |
 | `utm_medium` | STRING | UTM medium |
@@ -19746,7 +19746,7 @@ Page-level daily metrics.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `account_id` | STRING | SealMetrics account ID |
+| `account_id` | STRING | Sealmetrics account ID |
 | `date` | DATE | Aggregation day (partition key) |
 | `page_path` | STRING | URL path |
 | `content_grouping` | STRING | Content grouping |
@@ -19762,7 +19762,7 @@ Landing-page performance by source and geo.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `account_id` | STRING | SealMetrics account ID |
+| `account_id` | STRING | Sealmetrics account ID |
 | `date` | DATE | Aggregation day (partition key) |
 | `landing_page` | STRING | Landing page path |
 | `content_grouping` | STRING | Content grouping |
@@ -19782,7 +19782,7 @@ Conversion events with full attribution and revenue data.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `account_id` | STRING | SealMetrics account ID |
+| `account_id` | STRING | Sealmetrics account ID |
 | `date` | DATE | Aggregation day (partition key) |
 | `conversion_type` | STRING | Conversion label |
 | `utm_source` | STRING | Attributed source |
@@ -19808,7 +19808,7 @@ Lightweight engagement events (form fills, clicks, etc.).
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `account_id` | STRING | SealMetrics account ID |
+| `account_id` | STRING | Sealmetrics account ID |
 | `date` | DATE | Aggregation day (partition key) |
 | `conversion_type` | STRING | Event type |
 | `utm_source` | STRING | UTM source |
@@ -19946,7 +19946,7 @@ This is the recommended way to build your own uptime / freshness alerts on top o
 
 ## Costs
 
-### SealMetrics Side
+### Sealmetrics Side
 
 BigQuery integration is **included at no extra cost** with all plans (Growth, Scale, and Enterprise).
 
@@ -35706,7 +35706,12 @@ every case.
 
 This approach fully adheres to privacy and data-minimization principles:
 
--   No IP addresses are processed at any point.\
+-   No IP lookup is involved in country determination for analytics
+    reports. (One scoped exception: sites that explicitly enable
+    Agent Analytics additionally derive a transient country-by-IP
+    signal, used only to score bot vs. human traffic — the IP itself
+    is never persisted. See
+    [What We Track](/security-privacy/what-we-track).)\
 -   No unique device identifiers are stored.\
 -   Timezone information does not identify the user.\
 -   Country calculation relies solely on non-personal technical data
@@ -36352,7 +36357,7 @@ This isn't a marketing claim. It's architecturally impossible for Sealmetrics to
 Every interaction on your website is captured using exactly four data points:
 
 1. **Timestamp** - When the event occurred
-2. **User Agent** - Browser and device type (stored 24 months for anonymous device classification; never linked to a person)
+2. **User Agent** - Browser and device type (event-level rows purged after 14 days; derived device categories persist in aggregated reports for 24 months; never linked to a person)
 3. **Current URL** - The page being viewed
 4. **Referral URL** - Where the visitor came from
 
@@ -36362,7 +36367,7 @@ That's the complete data set. Nothing more is collected. Nothing more is stored.
 
 **At Collection:**
 - User agent strings are parsed for browser/device category insights (Chrome/Safari/Firefox, Windows/macOS/iOS/Android, desktop/mobile/tablet)
-- The user agent is stored alongside the hit for the standard 24-month retention; it is **never joined with a personal identifier** (there isn't one) and never used to reconstruct a user's history across sessions
+- The user agent is stored alongside the hit in event-level rows (purged after 14 days); only derived category dimensions persist in the 24-month aggregates. It is **never joined with a personal identifier** (there isn't one) and never used to reconstruct a user's history across sessions
 - No fingerprinting algorithms are applied
 - No attempt is made to create persistent identifiers
 
@@ -36391,7 +36396,7 @@ Sealmetrics operates under Article 6(1)(f) of GDPR: **Legitimate Interest**.
 - Processing is strictly necessary for analytics purposes
 - Minimal data collection approach
 
-**Data retention:** Up to 24 months without requiring user consent.
+**Data retention:** 24 months for aggregated reports and conversions (fixed for all plans) — without requiring user consent.
 
 **Your rights as a data controller:**
 - No GDPR compliance burden from using Sealmetrics
@@ -36618,11 +36623,11 @@ This isn't just policy. It's who we are.
 - Export to CSV anytime
 - Delete your account and all data instantly
 - No lock-in, no proprietary formats
-- Complete control over retention
+- Fixed, predictable retention windows
 
 ### Data retention
 
-**Default retention:** 24 months
+**Retention is fixed and identical for every plan** (enforced by database TTLs): daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and event-level detail 14 days.
 
 **Your control:**
 - Delete specific date ranges
@@ -36979,7 +36984,7 @@ URL: https://docs.sealmetrics.com/security-privacy/data-location
 
 # Data Location & Retention
 
-SealMetrics is committed to data sovereignty and transparent retention policies.
+Sealmetrics is committed to data sovereignty and transparent retention policies.
 
 ---
 
@@ -37017,12 +37022,14 @@ Your analytics data:
 
 ### Analytics Data
 
+Retention is **fixed and identical for every plan**, enforced by database TTLs:
+
 | Data Type | Retention | Notes |
 |-----------|-----------|-------|
-| Aggregated reports | 24 months | Monthly/daily aggregations |
-| Pageview data | 24 months | Individual hit data |
+| Event-level detail | 14 days | Individual hit data, then purged |
+| Hourly aggregates | 90 days | Hour-by-hour reports |
+| Daily aggregates | 24 months | Daily/monthly reports |
 | Conversion data | 24 months | Including properties |
-| Funnel data | 24 months | Multi-touch attribution |
 
 ### Operational Data
 
@@ -37032,18 +37039,17 @@ Your analytics data:
 | Error logs | 30 days | System diagnostics |
 | API access logs | 90 days | Security audit trail |
 
-### Real-time Data
+### Real-time / Session Data
 
 | Data Type | Retention | Notes |
 |-----------|-----------|-------|
-| Live visitors | 5 minutes | In-memory only |
-| Recent hits | 24 hours | For real-time reports |
+| Session state (Redis) | 2 hours | Ephemeral, in-memory session grouping |
 
 ---
 
 ## Why 24 Months?
 
-The 24-month retention allows:
+The 24-month retention for aggregated reports and conversions allows:
 
 1. **Year-over-year comparison** — Compare current month to same month last year
 2. **Seasonal analysis** — Full 2-year cycle for seasonal businesses
@@ -37137,17 +37143,9 @@ When you close your account:
 
 ## Subprocessors
 
-SealMetrics keeps its subprocessor list deliberately short. Customer analytics data is stored only in Dublin, Ireland:
+Sealmetrics keeps its subprocessor list deliberately short. The authoritative, always-current list is **Annex 3 of the [Data Processing Agreement](https://sealmetrics.com/dpa)**.
 
-| Subprocessor | Role | Data touched | Location |
-|--------------|------|--------------|----------|
-| Cloudflare | CDN / DDoS protection at the network edge | Traffic in transit (TLS-encrypted requests) | EU edge locations |
-
-All subprocessors:
-
-- Sign data processing agreements
-- Are GDPR compliant
-- Process customer data only in the EU
+All subprocessors sign data processing agreements and are GDPR compliant. **Visitor analytics data is processed and stored exclusively in the EU.**
 
 Full details: [Subprocessors](/compliance/subprocessors)
 
@@ -37507,7 +37505,7 @@ Sealmetrics uses a privacy-preserving session tracking approach.
 Each hit includes:
 
 1. **Timestamp**  
-2. **User Agent** *(stored 24 months, used for anonymous device classification; never linked to a person)*  
+2. **User Agent** *(used for anonymous device classification; event detail purged after 14 days, aggregated categories kept 24 months; never linked to a person)*  
 3. **Current URL**  
 4. **Referral URL**
 
@@ -37558,7 +37556,7 @@ Sealmetrics stores analytics data in aggregated form using a privacy-preserving 
 
 - **No raw personal data** is stored at any point
 - **Aggregated metrics** are stored in ClickHouse for high-performance querying
-- **Data retention** of up to 24 months, configurable per account
+- **Fixed data retention**, identical for every plan and enforced by database TTLs: event-level detail 14 days, hourly aggregates 90 days, daily aggregates and conversions 24 months
 - **European infrastructure** — all data hosted in Dublin, Ireland (EU)
 - **No international data transfers** — data never leaves the EU
 
@@ -37759,7 +37757,7 @@ Sealmetrics proves that advanced business intelligence **does not require person
 
 #### Sealmetrics Transparency
 - Public documentation about the 4-variable system  
-- Full disclosure: timestamp, user agent (stored 24 months, aggregated device classification only), current URL, referral URL  
+- Full disclosure: timestamp, user agent (event detail purged after 14 days; aggregated device classification kept 24 months), current URL, referral URL  
 - Technical documentation on isolated hits  
 - Regulatory compliance explained openly (GDPR, ePrivacy, CCPA, PECR)
 
@@ -37814,7 +37812,7 @@ Sealmetrics proves that advanced business intelligence **does not require person
 ### The Four-Variable Architecture
 Sealmetrics tracks only:  
 1. **Timestamp**  
-2. **User agent** (stored 24 months, used for anonymous device classification — never linked to a person)  
+2. **User agent** (used for anonymous device classification — event detail purged after 14 days, aggregated categories kept 24 months; never linked to a person)  
 3. **Current URL**  
 4. **Referral URL**
 
@@ -37926,7 +37924,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 #### 2. User Agent
 - **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
-- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. It is kept for the standard 24-month retention window with the rest of the hit.
+- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. Event-level rows are purged after 14 days; the derived category dimensions (browser family, OS family, device type) persist in aggregated reports for 24 months.
 - **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
 
 #### 3. Current URL
@@ -38007,7 +38005,7 @@ Sites that enable Agent Analytics store aggregate, per-hit signals used to class
 - Purpose: filter bot traffic out of reports for accuracy. See [Bot Detection](/security-privacy/bot-detection) and the [agent detection integration](/integrations/agentic-package) for the full field list.
 - **This section is only active when the customer turns Agent Analytics on.** Standard privacy-first accounts don't collect these signals at all.
 
-### 9. Business Intelligence Metrics
+### 10. Business Intelligence Metrics
 - Conversion rate  
 - Average order value  
 - ROAS  
@@ -39256,7 +39254,7 @@ We only collect four essential, non-personal variables per hit:
 - Current URL (including UTM parameters)  
 - Referral URL  
 - Timestamp  
-- User Agent (stored 24 months for anonymous device classification; never linked to a person)  
+- User Agent (used for anonymous device classification; event detail purged after 14 days, aggregated categories kept 24 months; never linked to a person)  
 
 Plus a short-lived **session context marker** used to tell a second pageview apart from a new entrance. See [What We Track vs What We Don't](/security-privacy/what-we-track) for the full breakdown.
 
@@ -39961,15 +39959,15 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 
 | Aspect | Compliance |
 |--------|------------|
-| First-party only | ✅ No third-party cookies |
-| Domain-isolated identifiers | ✅ Session IDs unique per domain |
-| No unified IDs | ✅ No cross-domain identification |
+| First-party only | ✅ No third-party cookies (no cookies at all) |
+| No cross-domain identification | ✅ Hits are stored per account and never joined across sites |
+| No unified IDs | ✅ No cross-site user graph, no shared advertising ID |
 
 **Technical Implementation:**
 ```
-Session ID scope: Single domain only
-Cookie scope: First-party, same-site
-Cross-domain tracking: Not possible by design
+Session marker: ephemeral (~2h), computed in the browser, never stored on the device
+Cookies: none (neither first- nor third-party)
+Cross-domain tracking: not performed — data is collected, stored, and reported per account
 ```
 
 ---
@@ -40020,7 +40018,7 @@ Maximum theoretical lifetime: Browser session only
 ---
 
 ### Criterion 7: Data Retention ≤ 25 Months
-**Requirement:** Collected data must not be retained beyond 24 months.
+**Requirement:** Collected data must not be retained beyond 25 months. Sealmetrics deliberately applies a stricter 24-month limit.
 
 | Aspect | Compliance |
 |--------|------------|
@@ -40080,8 +40078,8 @@ Intl.DateTimeFormat().resolvedOptions().timeZone
 
 | Aspect | Compliance |
 |--------|------------|
-| Client data isolation | ✅ Complete separation |
-| No shared identifiers | ✅ Each account has unique tracking |
+| Client data isolation | ✅ Complete separation of datasets |
+| Per-account tracking IDs | ✅ Each account has a unique tracking ID |
 | Independent databases | ✅ Logical separation per account |
 
 **Architecture:**
@@ -40308,7 +40306,7 @@ For compliance questions or DPO inquiries:
 
 ## Related documentation
 
-- [Does SealMetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) — the plain-language overview of CNIL consent exemption.
+- [Does Sealmetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) — the plain-language overview of CNIL consent exemption.
 - [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) — how CNIL and AEPD exemption criteria compare.
 - [UK PECR Self-Assessment: Sealmetrics Compliance](/compliance/uk-pecr-self-assessment) — the equivalent self-assessment for the UK.
 - [Do Temporary Session Identifiers (Session IDs) Require Consent Under GDPR?](/legal/gdpr-and-eprivacy/do-session-ids-require-consent) — the session-ID condition assessed above.
@@ -42933,11 +42931,11 @@ For customers who explicitly opt in to **Agent Analytics** (bot detection), a st
 | Aspect | Detail |
 |--------|--------|
 | Processing location | ✅ Dublin, Ireland (EU) |
-| Transfers outside the EU | ✅ None |
+| Transfers of analytics data outside the EU | ✅ None |
 | US cloud storage of analytics data | ✅ None |
-| Subprocessors | ✅ EU-only processing — see [Subprocessors](/compliance/subprocessors) |
+| Subprocessors | ✅ Visitor analytics data processed exclusively in the EU — see [Subprocessors](/compliance/subprocessors) |
 
-German authorities have scrutinized US-linked analytics transfers intensively since *Schrems II*. Sealmetrics avoids the issue entirely: there is no transfer.
+German authorities have scrutinized US-linked analytics transfers intensively since *Schrems II*. Sealmetrics avoids the issue entirely: visitor analytics data is never transferred outside the EU.
 
 ---
 
@@ -43728,7 +43726,7 @@ In June 2022 the Garante ruled (Caffeina Media decision, and subsequent cases) t
 | Aspect | Sealmetrics Compliance |
 |--------|----------------------|
 | Data processing location | ✅ Dublin, Ireland (EU) exclusively |
-| Transfers outside the EU | ✅ None — no SCCs or adequacy mechanisms needed because no transfer occurs |
+| Transfers of analytics data outside the EU | ✅ None — no SCCs or adequacy mechanisms needed because no transfer occurs |
 | US-hosted subprocessing of analytics data | ✅ None — see [Subprocessors](/compliance/subprocessors) |
 | Data that could be transferred | ✅ Even hypothetically minimal — stored records contain no personal identifiers |
 
@@ -43815,7 +43813,7 @@ Publishers **cannot** claim Sealmetrics is "certified" or "approved" by the Gara
 - [CNIL Self-Assessment](/compliance/cnil-self-assessment) — the equivalent self-assessment for France
 - [Germany TDDDG Self-Assessment](/compliance/germany-ttdsg-self-assessment) — the equivalent self-assessment for Germany
 - [Switzerland FADP Self-Assessment](/compliance/switzerland-fadp-self-assessment) — the equivalent self-assessment for Switzerland
-- [Subprocessors](/compliance/subprocessors) — EU-only processing chain
+- [Subprocessors](/compliance/subprocessors) — visitor analytics data processed exclusively in the EU
 - [What We Track vs What We Don't](/security-privacy/what-we-track) — the full data inventory behind this assessment
 
 
@@ -45609,86 +45607,14 @@ URL: https://docs.sealmetrics.com/compliance/subprocessors
 
 # Subprocessors
 
-This page lists every subprocessor SealMetrics engages to deliver its service, what data each one touches, and where that processing happens. It exists so that your DPO, legal team, or procurement team can complete a GDPR Article 28 review without back-and-forth.
+The authoritative, always-current list of Sealmetrics subprocessors is published
+as **Annex 3 of our Data Processing Agreement**:
 
-**The short version: customer analytics data is stored and processed exclusively in Dublin, Ireland (EU), and never leaves the EU.**
+👉 **[sealmetrics.com/dpa](https://sealmetrics.com/dpa/)** · [versión en español](https://sealmetrics.com/es/dpa/)
 
----
-
-## How SealMetrics minimizes its subprocessor chain
-
-Most analytics vendors sit on top of a long chain of cloud services, ad-tech integrations, and enrichment providers. SealMetrics is architected the opposite way:
-
-- **Single processing location** — all customer analytics data (hits, reports, backups) lives in one EU data center in Dublin, Ireland.
-- **No third-party data sharing** — analytics data is never sold, shared, or transmitted to advertising networks, data brokers, or enrichment services.
-- **No US cloud storage** — customer analytics data is not stored on US-headquartered cloud platforms.
-
-The result is a subprocessor list short enough to fit in one small table.
-
----
-
-## Subprocessor list
-
-### Customer analytics data
-
-| Subprocessor | Role | Data touched | Location of processing |
-|--------------|------|--------------|------------------------|
-| EU data center (Dublin) | Hosting of application servers, analytics database, and backups | Customer analytics data (aggregated hits, reports) and account data | Dublin, Ireland (EU) |
-| Cloudflare | CDN and DDoS protection at the network edge | Traffic in transit (TLS-encrypted requests); no analytics data storage | EU edge locations |
-
-Cloudflare operates at the network layer: it routes and protects encrypted traffic before it reaches SealMetrics' Dublin infrastructure. Customer analytics data at rest is stored only in Dublin.
-
-## What data category goes where
-
-| Data category | Examples | Where it is processed | Subprocessors involved |
-|---------------|----------|-----------------------|------------------------|
-| Visitor analytics data | Timestamp, page URL, referrer, user agent, country (from browser timezone), aggregated metrics | Dublin, Ireland | EU data center; Cloudflare (transit only) |
-| Account data | Dashboard user email, name, password hash, billing details | Dublin, Ireland | EU data center |
-| Operational data | Error logs, API access logs | Dublin, Ireland | EU data center |
-
-Note that visitor analytics data contains **no personal identifiers** by design — no IP addresses stored, no cookies, no user IDs, no fingerprints. See [What We Track vs What We Don't](/security-privacy/what-we-track) for the full data inventory.
-
----
-
-## EU-only guarantee
-
-Customer analytics data:
-
-- Is stored and processed exclusively within the EU
-- Is never transferred to a third country
-- Is not subject to international transfer mechanisms (SCCs, adequacy decisions, or the EU-US Data Privacy Framework) because no transfer takes place
-- Is retained for a maximum of 24 months, then automatically deleted (see [Data Location & Retention](/security-privacy/data-location))
-
----
-
-## Contractual safeguards
-
-Every subprocessor that handles customer data:
-
-1. Signs a data processing agreement consistent with GDPR Article 28
-2. Processes customer data only within the EU
-3. Is bound by confidentiality and security obligations
-
-SealMetrics' own commitments to you as a customer — including the subprocessor engagement terms — are set out in the [SealMetrics Data Processing Agreement (DPA)](https://sealmetrics.com/dpa).
-
-## Changes to this list
-
-If SealMetrics engages a new subprocessor that touches customer data, this page is updated. The terms under which subprocessor changes are communicated to customers are governed by the [DPA](https://sealmetrics.com/dpa).
-
----
-
-## Questions?
-
-- **DPO / privacy inquiries:** privacy@sealmetrics.com
-- **DPO contact:** dpo@sealmetrics.com
-- **Legal inquiries:** legal@sealmetrics.com
-
-## Related documentation
-
-- [Data Location & Retention](/security-privacy/data-location) — where data lives and for how long
-- [Data Subject Rights (DSAR)](/compliance/data-subject-rights) — how visitor and account-holder rights requests work
-- [What We Track vs What We Don't](/security-privacy/what-we-track) — the full data inventory
-- [Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?](/compliance/compliance-overview/is-sealmetrics-privacy-compliant) — the multi-regulation compliance summary
+You will be redirected automatically in a few seconds. To subscribe to
+subprocessor change notifications, email **privacy@sealmetrics.com** with the
+subject "Subprocessor updates".
 
 
 
@@ -53017,7 +52943,7 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 | Monthly events | 5M | 15M | Unlimited |
 | Websites | Unlimited | Unlimited | Unlimited |
 | Users | Unlimited | Unlimited | Unlimited |
-| Data retention | 24 months | 24 months | Custom |
+| Data retention | 24 months | 24 months | 24 months |
 | Overage charges | None | None | None |
 
 ---
@@ -53647,11 +53573,7 @@ These percentages are email alert thresholds only — reaching 120% in a single 
 
 ### Data Retention
 
-| Plan | Retention |
-|------|-----------|
-| Growth | 24 months |
-| Scale | 24 months |
-| Enterprise | Custom |
+Data retention is **fixed and identical for every plan** — it is enforced by database TTLs, not by plan tier: daily aggregates and conversions are kept **24 months**, hourly aggregates 90 days, and event-level detail 14 days. See [Data Location & Retention](/security-privacy/data-location).
 
 ### LENS AI usage
 
@@ -53789,7 +53711,7 @@ Custom pricing based on your organization's needs. [Contact sales](mailto:sales@
 |---------|----------|
 | Monthly events | Unlimited |
 | Websites | Unlimited |
-| Data retention | Custom |
+| Data retention | 24 months |
 | First-party tracking | Yes |
 | Cookie-free mode | Yes |
 | Bot filtering | Yes |
@@ -56396,10 +56318,10 @@ Industry data shows rejection rates vary significantly by country:
 | AEPD exempt | No | Yes |
 | UK PECR compliant | Requires consent | Yes |
 | Data hosting | US (Google Cloud) | EU only (Dublin, Ireland) |
-| Sub-processors | Multiple (Google) | EU-only ([see list](/compliance/subprocessors)) |
+| Sub-processors | Multiple (Google) | Short list — visitor analytics data processed only in the EU ([see list](/compliance/subprocessors)) |
 | Data sharing with third parties | Yes (Google Ads, etc.) | No |
-| International data transfers | Yes (US) | No |
-| Schrems II compliant | Requires SCCs/DPF | Yes (EU-only) |
+| International transfers of analytics data | Yes (US) | No |
+| Schrems II compliant | Requires SCCs/DPF | Yes (EU-only analytics processing) |
 
 ### Technical Specifications
 
@@ -57227,7 +57149,7 @@ Not with Sealmetrics. Because no cookies are involved, you don't need a cookie b
 
 ### How long does data persist?
 
-Sealmetrics retains data for 24 months by default. You can configure shorter retention if desired. This is significantly longer than Google Analytics (14 months default) and sufficient for annual trend analysis.
+Sealmetrics retains aggregated analytics data for 24 months — a fixed period, identical for every plan, enforced by database TTLs (event-level detail is purged after 14 days). This is significantly longer than Google Analytics (14 months default) and sufficient for annual trend analysis.
 
 ### Is cookieless analytics GDPR compliant?
 
@@ -58253,14 +58175,14 @@ URL: https://docs.sealmetrics.com/web-analytics-prompts/03-traffic-quality
 
 Keep your data clean: detect anomalies, suspicious traffic, broken UTMs, and tracking regressions before they corrupt decisions.
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 
 ---
 
 ## SEAL-014 — Daily traffic anomaly digest
 
 ```text
-You are an analytics on-call engineer. Using SealMetrics MCP for site {site_id}, run a daily anomaly check for {today} vs the trailing 30-day baseline.
+You are an analytics on-call engineer. Using Sealmetrics MCP for site {site_id}, run a daily anomaly check for {today} vs the trailing 30-day baseline.
 
 Check anomalies on:
 - Total entrances
@@ -58280,11 +58202,11 @@ Output: a "Today's anomalies" markdown report ready to paste in Slack. Maximum 8
 ## SEAL-015 — Top suspicious sessions of the week
 
 ```text
-Using SealMetrics MCP for site {site_id}, return the top 50 most suspicious sessions in the last 7 days based on the bot suspicion score.
+Using Sealmetrics MCP for site {site_id}, return the top 50 most suspicious sessions in the last 7 days based on the bot suspicion score.
 
-For each session: session id, suspicion score, IP (anonymized if needed), user-agent, country, traffic source, entry landing, number of pageviews, micro and macro conversions if any.
+For each session: session id, suspicion score, user-agent, country, traffic source, entry landing, number of pageviews, micro and macro conversions if any. (Sealmetrics never stores visitor IPs, so no IP column exists.)
 
-Group by source. End with a "candidates to block" list: IPs and user-agent patterns that recur.
+Group by source. End with a "candidates to block" list: user-agent patterns and datacenter/ISP signals that recur.
 ```
 
 ---
@@ -58292,7 +58214,7 @@ Group by source. End with a "candidates to block" list: IPs and user-agent patte
 ## SEAL-016 — Bot share weekly trend
 
 ```text
-Using SealMetrics MCP for site {site_id}, compute the weekly share of bot/agent_suspected traffic for the last 12 weeks.
+Using Sealmetrics MCP for site {site_id}, compute the weekly share of bot/agent_suspected traffic for the last 12 weeks.
 
 Per week: total entrances, bot entrances, % bot, week-over-week delta.
 
@@ -58306,7 +58228,7 @@ Add a section listing the top 5 sources contributing to the bot share this week 
 ## SEAL-017 — Suspicious new referrers in top 20
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 7 days.
+For site {site_id}, query Sealmetrics MCP for the last 7 days.
 
 List the top 20 referrers by entrances. For each referrer indicate whether it appeared in the top 20 in any of the last 8 weeks before this one (yes/no, last seen date if any).
 
@@ -58320,7 +58242,7 @@ Output: 1 table + a "new this week" subsection.
 ## SEAL-018 — Pageview-to-conversion ratio drift
 
 ```text
-Using SealMetrics MCP for site {site_id}, compute the daily ratio of pageviews to macro conversions for the last 30 days.
+Using Sealmetrics MCP for site {site_id}, compute the daily ratio of pageviews to macro conversions for the last 30 days.
 
 Detect days where the ratio changed by more than 15% versus the trailing 7-day average. For each detected day, list:
 - Pageviews, conversions, ratio, % delta
@@ -58335,7 +58257,7 @@ End with a verdict per flagged day: tracking incident, real performance shift, o
 ## SEAL-019 — UTM hygiene audit
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 30 days.
+For site {site_id}, query Sealmetrics MCP for the last 30 days.
 
 Compute the % of paid traffic (utm_medium in cpc, paid, ppc, paidsocial, paid_search, display) that has at least one of:
 - Missing utm_source
@@ -58353,7 +58275,7 @@ End with a recommended fix list (which campaigns/templates to update first).
 ## SEAL-020 — Suspicious sessions by device and country
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 14 days:
+Using Sealmetrics MCP for site {site_id}, for the last 14 days:
 
 1. Pull all sessions classified as suspicious (bot or agent_suspected).
 2. Break them down by device type and by country.

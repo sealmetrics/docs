@@ -48,7 +48,12 @@ every case.
 
 This approach fully adheres to privacy and data-minimization principles:
 
--   No IP addresses are processed at any point.\
+-   No IP lookup is involved in country determination for analytics
+    reports. (One scoped exception: sites that explicitly enable
+    Agent Analytics additionally derive a transient country-by-IP
+    signal, used only to score bot vs. human traffic — the IP itself
+    is never persisted. See
+    [What We Track](/security-privacy/what-we-track).)\
 -   No unique device identifiers are stored.\
 -   Timezone information does not identify the user.\
 -   Country calculation relies solely on non-personal technical data

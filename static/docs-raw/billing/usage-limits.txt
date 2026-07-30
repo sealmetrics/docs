@@ -99,11 +99,7 @@ These percentages are email alert thresholds only — reaching 120% in a single 
 
 ### Data Retention
 
-| Plan | Retention |
-|------|-----------|
-| Growth | 24 months |
-| Scale | 24 months |
-| Enterprise | Custom |
+Data retention is **fixed and identical for every plan** — it is enforced by database TTLs, not by plan tier: daily aggregates and conversions are kept **24 months**, hourly aggregates 90 days, and event-level detail 14 days. See [Data Location & Retention](/security-privacy/data-location).
 
 ### LENS AI usage
 

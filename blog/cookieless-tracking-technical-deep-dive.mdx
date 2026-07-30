@@ -113,7 +113,7 @@ User A visits again 3 months later → Same ID "abc123"
 
 COOKIELESS:
 User A visits (Nov 14, 2pm) → Generate session "sess_1234"
-Session expires after visit ends (or 30 days)
+Session expires after visit ends (~2h inactivity)
 User A visits again (Nov 20, 3pm) → Generate NEW session "sess_5678"
 = Cannot track across time, only within single visit
 BUT = 100% of visitors captured (no banner needed)
@@ -321,11 +321,12 @@ const minimumRequiredFields = {
   // emailHash: false,
 };
 
-// ✓ Storage Limitation Built-In
+// ✓ Storage Limitation Built-In (fixed for all plans)
 const retentionPolicy = {
-  defaultRetentionDays: 90,    // Delete after 3 months
-  maxRetentionDays: 730,       // Absolute limit: 24 months
-  // Automatically enforced by system
+  eventDetailDays: 14,         // Event-level rows purged after 14 days
+  hourlyAggregateDays: 90,     // Hourly aggregates: 90 days
+  dailyAggregateDays: 730,     // Daily aggregates & conversions: 24 months
+  // Automatically enforced by database TTLs
 };
 
 // ✓ Purpose Limitation Built-In

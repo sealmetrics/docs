@@ -4,7 +4,7 @@ URL: https://docs.sealmetrics.com/security-privacy/data-location
 
 # Data Location & Retention
 
-SealMetrics is committed to data sovereignty and transparent retention policies.
+Sealmetrics is committed to data sovereignty and transparent retention policies.
 
 ---
 
@@ -42,12 +42,14 @@ Your analytics data:
 
 ### Analytics Data
 
+Retention is **fixed and identical for every plan**, enforced by database TTLs:
+
 | Data Type | Retention | Notes |
 |-----------|-----------|-------|
-| Aggregated reports | 24 months | Monthly/daily aggregations |
-| Pageview data | 24 months | Individual hit data |
+| Event-level detail | 14 days | Individual hit data, then purged |
+| Hourly aggregates | 90 days | Hour-by-hour reports |
+| Daily aggregates | 24 months | Daily/monthly reports |
 | Conversion data | 24 months | Including properties |
-| Funnel data | 24 months | Multi-touch attribution |
 
 ### Operational Data
 
@@ -57,18 +59,17 @@ Your analytics data:
 | Error logs | 30 days | System diagnostics |
 | API access logs | 90 days | Security audit trail |
 
-### Real-time Data
+### Real-time / Session Data
 
 | Data Type | Retention | Notes |
 |-----------|-----------|-------|
-| Live visitors | 5 minutes | In-memory only |
-| Recent hits | 24 hours | For real-time reports |
+| Session state (Redis) | 2 hours | Ephemeral, in-memory session grouping |
 
 ---
 
 ## Why 24 Months?
 
-The 24-month retention allows:
+The 24-month retention for aggregated reports and conversions allows:
 
 1. **Year-over-year comparison** — Compare current month to same month last year
 2. **Seasonal analysis** — Full 2-year cycle for seasonal businesses
@@ -162,17 +163,9 @@ When you close your account:
 
 ## Subprocessors
 
-SealMetrics keeps its subprocessor list deliberately short. Customer analytics data is stored only in Dublin, Ireland:
+Sealmetrics keeps its subprocessor list deliberately short. The authoritative, always-current list is **Annex 3 of the [Data Processing Agreement](https://sealmetrics.com/dpa)**.
 
-| Subprocessor | Role | Data touched | Location |
-|--------------|------|--------------|----------|
-| Cloudflare | CDN / DDoS protection at the network edge | Traffic in transit (TLS-encrypted requests) | EU edge locations |
-
-All subprocessors:
-
-- Sign data processing agreements
-- Are GDPR compliant
-- Process customer data only in the EU
+All subprocessors sign data processing agreements and are GDPR compliant. **Visitor analytics data is processed and stored exclusively in the EU.**
 
 Full details: [Subprocessors](/compliance/subprocessors)
 

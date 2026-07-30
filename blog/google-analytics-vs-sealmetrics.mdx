@@ -174,13 +174,13 @@ Sealmetrics never collects or stores IP addresses—not even hashed. The system:
 - Cannot correlate sessions via IP
 
 **3. EU-Only Data Storage**:
-All Sealmetrics data stays in EU servers:
-- Primary: Germany (Hetzner)
-- Backup: Netherlands
-- No US data transfers
+All visitor analytics data is processed and stored exclusively in the EU:
+- EU-based infrastructure and backups
+- No US transfers of analytics data
 - No Schrems II concerns
+- Subprocessor list: [sealmetrics.com/dpa](https://sealmetrics.com/dpa)
 
-**4. 25-Month Retention (No Consent)**:
+**4. 24-Month Retention (No Consent)**:
 Because Sealmetrics operates under legitimate interest and processes minimal data, it can retain analytics data for 24 months without consent—longer than Google Analytics' 14-month maximum under consent-free operation.
 
 **Practical outcome**: Businesses using Sealmetrics don't need consent banners for analytics, passing DPO reviews without legal complexity Google Analytics introduces.
@@ -229,7 +229,7 @@ Because Sealmetrics operates under legitimate interest and processes minimal dat
 | API Access | Yes | Yes |
 | Data Export | Yes | CSV |
 | **Cost** | | |
-| Free Tier | Up to 10M events/month | No free tier |
+| Free Tier | Up to 10M events/month | Limited free tier (via the Agentic Package) |
 | Paid Plans | Google Analytics 360: $50K+/yr | From 499 EUR/month (annual billing) |
 | Hidden Costs | Tag Manager, Consent tools | None |
 
@@ -272,7 +272,7 @@ Because Sealmetrics operates under legitimate interest and processes minimal dat
 
 **Code example**:
 ```html
-<script defer data-domain="yourdomain.com" src="https://app.sealmetrics.com/js/script.js"></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
 **That's it.** No configuration. No consent mode. No cookie banner integration. Analytics starts tracking immediately, capturing 100% of visitors from the first pageview.

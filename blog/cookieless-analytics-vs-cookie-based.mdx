@@ -387,7 +387,7 @@ The implementation is simpler than cookie-based conversion tracking because ther
 
 ### How does cookieless analytics handle returning visitors?
 
-Cookieless analytics doesn't persistently identify returning visitors across sessions. Each session receives a temporary identifier that expires when the visitor closes their browser or after 30 minutes of inactivity.
+Cookieless analytics doesn't persistently identify returning visitors across sessions. Each session receives a temporary identifier that expires when the visitor closes their browser or after a short period of inactivity (~2 hours in Sealmetrics).
 
 This limitation is intentional for privacy compliance. However, Sealmetrics provides visitor behavior patterns and aggregate return visitor metrics without individual tracking. For most analytics use cases (understanding user journeys, measuring content performance, tracking conversions), session-based data is sufficient.
 

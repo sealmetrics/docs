@@ -4,19 +4,19 @@ URL: https://docs.sealmetrics.com/integrations/bigquery
 
 # BigQuery
 
-Connect SealMetrics to Google BigQuery to unlock advanced SQL analysis, custom reporting, and seamless integration with your data warehouse and BI tools.
+Connect Sealmetrics to Google BigQuery to unlock advanced SQL analysis, custom reporting, and seamless integration with your data warehouse and BI tools.
 
 ---
 
 ## Why BigQuery?
 
-SealMetrics dashboards cover the most common analytics needs. But when you need to go deeper, BigQuery gives you:
+Sealmetrics dashboards cover the most common analytics needs. But when you need to go deeper, BigQuery gives you:
 
 - **Custom SQL queries** on aggregated traffic, page, and conversion data
 - **BI tool integration** with Looker, Data Studio, Tableau, or Power BI
 - **Cross-platform joins** combining analytics with CRM, ad spend, or backend data
 - **Machine learning** using BigQuery ML on your traffic and conversion patterns
-- **Long-term storage** with flexible retention beyond your SealMetrics plan limits
+- **Long-term storage** under your own retention rules, beyond Sealmetrics' fixed 24-month window
 
 **Tip:**
 
@@ -24,13 +24,13 @@ SealMetrics dashboards cover the most common analytics needs. But when you need 
 
 ## How It Works
 
-SealMetrics automatically exports your analytics data to a BigQuery dataset on a schedule you configure. The sync process:
+Sealmetrics automatically exports your analytics data to a BigQuery dataset on a schedule you configure. The sync process:
 
-1. Extracts data from your SealMetrics account
+1. Extracts data from your Sealmetrics account
 2. Transforms it into structured BigQuery tables
 3. Loads it into your GCP project on your chosen schedule (hourly, daily, or manual)
 
-Your data stays in **your** Google Cloud project — SealMetrics never stores copies outside your account.
+Your data stays in **your** Google Cloud project — Sealmetrics never stores copies outside your account.
 
 ---
 
@@ -38,7 +38,7 @@ Your data stays in **your** Google Cloud project — SealMetrics never stores co
 
 Before starting, make sure you have:
 
-1. Any **SealMetrics plan** (Growth, Scale, or Enterprise)
+1. Any **Sealmetrics plan** (Growth, Scale, or Enterprise)
 2. A **Google Cloud Platform (GCP) account** with billing enabled
 3. The **BigQuery API** enabled in your GCP project
 4. A **GCP service account** (you'll create this in the next steps)
@@ -64,7 +64,7 @@ If you don't have a GCP project yet:
 
 ### 3. Create a Service Account
 
-The service account allows SealMetrics to write data to your BigQuery dataset securely.
+The service account allows Sealmetrics to write data to your BigQuery dataset securely.
 
 1. Go to **IAM & Admin → Service Accounts**
 2. Click **+ Create Service Account**
@@ -74,7 +74,7 @@ The service account allows SealMetrics to write data to your BigQuery dataset se
 Service Account Details:
   Name: sealmetrics-export
   ID: sealmetrics-export
-  Description: Service account for SealMetrics BigQuery export
+  Description: Service account for Sealmetrics BigQuery export
 ```
 
 4. Click **Create and Continue**
@@ -104,9 +104,9 @@ Click **Continue** and then **Done**.
 
 A `.json` file will download automatically. **Keep this file secure** — it grants access to your BigQuery dataset.
 
-### 6. Configure in SealMetrics
+### 6. Configure in Sealmetrics
 
-1. Log in to your SealMetrics account
+1. Log in to your Sealmetrics account
 2. Go to **Settings → Integrations → BigQuery**
 3. Upload your JSON key file (or paste its contents)
 4. Configure your dataset:
@@ -184,7 +184,7 @@ Tables:
 
 ## Data Available in BigQuery
 
-SealMetrics exports a **star schema**: pre-aggregated daily fact tables plus dimension tables for context and JOINs. There are no raw-hit or session tables — data is aggregated by day across UTM, geo, and device dimensions. Every fact table is partitioned by `date` and carries `sync_id`/`synced_at` columns for auditing.
+Sealmetrics exports a **star schema**: pre-aggregated daily fact tables plus dimension tables for context and JOINs. There are no raw-hit or session tables — data is aggregated by day across UTM, geo, and device dimensions. Every fact table is partitioned by `date` and carries `sync_id`/`synced_at` columns for auditing.
 
 ### Traffic (`fact_traffic_daily`)
 
@@ -192,7 +192,7 @@ Unified daily traffic broken down by source, geo, and device.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `account_id` | STRING | SealMetrics account ID |
+| `account_id` | STRING | Sealmetrics account ID |
 | `date` | DATE | Aggregation day (partition key) |
 | `utm_source` | STRING | UTM source |
 | `utm_medium` | STRING | UTM medium |
@@ -221,7 +221,7 @@ Page-level daily metrics.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `account_id` | STRING | SealMetrics account ID |
+| `account_id` | STRING | Sealmetrics account ID |
 | `date` | DATE | Aggregation day (partition key) |
 | `page_path` | STRING | URL path |
 | `content_grouping` | STRING | Content grouping |
@@ -237,7 +237,7 @@ Landing-page performance by source and geo.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `account_id` | STRING | SealMetrics account ID |
+| `account_id` | STRING | Sealmetrics account ID |
 | `date` | DATE | Aggregation day (partition key) |
 | `landing_page` | STRING | Landing page path |
 | `content_grouping` | STRING | Content grouping |
@@ -257,7 +257,7 @@ Conversion events with full attribution and revenue data.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `account_id` | STRING | SealMetrics account ID |
+| `account_id` | STRING | Sealmetrics account ID |
 | `date` | DATE | Aggregation day (partition key) |
 | `conversion_type` | STRING | Conversion label |
 | `utm_source` | STRING | Attributed source |
@@ -283,7 +283,7 @@ Lightweight engagement events (form fills, clicks, etc.).
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `account_id` | STRING | SealMetrics account ID |
+| `account_id` | STRING | Sealmetrics account ID |
 | `date` | DATE | Aggregation day (partition key) |
 | `conversion_type` | STRING | Event type |
 | `utm_source` | STRING | UTM source |
@@ -421,7 +421,7 @@ This is the recommended way to build your own uptime / freshness alerts on top o
 
 ## Costs
 
-### SealMetrics Side
+### Sealmetrics Side
 
 BigQuery integration is **included at no extra cost** with all plans (Growth, Scale, and Enterprise).
 
