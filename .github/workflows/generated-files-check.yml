@@ -1,0 +1,48 @@
+name: Generated files check
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'blog/**'
+      - 'scripts/generate-llms.mjs'
+      - 'static/llms.txt'
+      - 'static/llms-full.txt'
+      - 'static/docs-raw/**'
+      # so changes to the check itself are exercised by the check itself
+      - '.github/workflows/generated-files-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: llms.txt and docs-raw are in sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Regenerate llms.txt and docs-raw
+        run: node scripts/generate-llms.mjs
+
+      - name: Fail if the generated output differs from the committed one
+        run: |
+          # --porcelain also reports untracked files, so a brand-new page
+          # whose mirror was never committed is caught too.
+          if [ -z "$(git status --porcelain -- static/llms.txt static/llms-full.txt static/docs-raw)" ]; then
+            echo "Generated files are in sync."
+            exit 0
+          fi
+
+          echo "::error::Generated files are stale. Run 'npm run generate:llms' and commit static/."
+          echo
+          echo "Files that differ:"
+          git status --porcelain -- static/llms.txt static/llms-full.txt static/docs-raw
+          echo
+          echo "Diff (tracked files, truncated to 300 lines):"
+          git --no-pager diff -- static/llms.txt static/llms-full.txt static/docs-raw | head -300
+          exit 1
