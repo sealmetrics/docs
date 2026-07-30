@@ -25,14 +25,16 @@ jobs:
       - name: Check for changes
         id: diff
         run: |
-          git diff --name-only static/llms.txt static/llms-full.txt
-          echo "changed=$(git diff --name-only static/llms.txt static/llms-full.txt | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
+          # --porcelain (not diff) so untracked docs-raw mirrors for new pages
+          # are picked up, not just edits to already-committed ones.
+          git status --porcelain -- static/llms.txt static/llms-full.txt static/docs-raw
+          echo "changed=$(git status --porcelain -- static/llms.txt static/llms-full.txt static/docs-raw | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
 
       - name: Commit and push
         if: steps.diff.outputs.changed != '0'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add static/llms.txt static/llms-full.txt
-          git commit -m "chore: auto-regenerate llms.txt"
+          git add static/llms.txt static/llms-full.txt static/docs-raw
+          git commit -m "chore: auto-regenerate llms.txt and docs-raw mirrors"
           git push
