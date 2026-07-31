@@ -320,6 +320,45 @@ for (const p of Object.keys(spec.paths)) {
 }
 log.push(`removed ${adminRemoved} admin/internal path(s) from the public document`);
 
+// 4b. Schema names containing a hyphen break code generators.
+// FastAPI emits `Foo-Input` / `Foo-Output` when a model is used in both a
+// request and a response with different shapes. openapi-python-client cannot
+// resolve those references and silently DROPS the schema and everything that
+// points at it. Rename to `FooInput` / `FooOutput` — pure renaming, no
+// semantic change.
+{
+  const renames = {};
+  for (const name of Object.keys(spec.components.schemas)) {
+    if (name.includes('-')) {
+      renames[name] = name.replace(/-(\w)/g, (_, c) => c.toUpperCase());
+    }
+  }
+
+  if (Object.keys(renames).length) {
+    for (const [from, to] of Object.entries(renames)) {
+      spec.components.schemas[to] = spec.components.schemas[from];
+      delete spec.components.schemas[from];
+    }
+
+    // Rewrite every $ref pointing at a renamed schema.
+    const rewrite = (node) => {
+      if (!node || typeof node !== 'object') return;
+      if (Array.isArray(node)) return node.forEach(rewrite);
+      for (const [k, v] of Object.entries(node)) {
+        if (k === '$ref' && typeof v === 'string') {
+          const m = v.match(/^#\/components\/schemas\/(.+)$/);
+          if (m && renames[m[1]]) node.$ref = `#/components/schemas/${renames[m[1]]}`;
+        } else {
+          rewrite(v);
+        }
+      }
+    };
+    rewrite(spec);
+
+    log.push(`renamed ${Object.keys(renames).length} hyphenated schema(s) so codegen can resolve them`);
+  }
+}
+
 // 5 + 6 + 7. per-operation pass
 let publicMarked = 0;
 let errorsAdded = 0;

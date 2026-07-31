@@ -32759,38 +32759,6 @@
         "title": "ComparisonWindow",
         "description": "Window for current value comparison."
       },
-      "ConditionGroup-Input": {
-        "properties": {
-          "conditions": {
-            "items": {
-              "$ref": "#/components/schemas/FilterCondition"
-            },
-            "type": "array",
-            "maxItems": 10,
-            "title": "Conditions",
-            "description": "List of filter conditions (combined with AND within group)"
-          }
-        },
-        "type": "object",
-        "title": "ConditionGroup",
-        "description": "A group of filter conditions combined with AND logic.\n\nUsed within SegmentFilters to create OR logic between groups.\n\nExample:\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n        {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n    ]}\n\nThis generates: (country = 'ES' AND device_type = 'mobile')"
-      },
-      "ConditionGroup-Output": {
-        "properties": {
-          "conditions": {
-            "items": {
-              "$ref": "#/components/schemas/FilterCondition"
-            },
-            "type": "array",
-            "maxItems": 10,
-            "title": "Conditions",
-            "description": "List of filter conditions (combined with AND within group)"
-          }
-        },
-        "type": "object",
-        "title": "ConditionGroup",
-        "description": "A group of filter conditions combined with AND logic.\n\nUsed within SegmentFilters to create OR logic between groups.\n\nExample:\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n        {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n    ]}\n\nThis generates: (country = 'ES' AND device_type = 'mobile')"
-      },
       "ConditionType": {
         "type": "string",
         "enum": [
@@ -38406,166 +38374,6 @@
         "title": "PixelCode",
         "description": "Pixel installation code."
       },
-      "PixelConfig-Input": {
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/PixelType",
-            "description": "Type of pixel (pageview, conversion, microconversion)"
-          },
-          "conversion_type": {
-            "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 50
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Conversion Type",
-            "description": "Conversion type (e.g., purchase, signup)"
-          },
-          "revenue": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/PixelValue"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Revenue value for conversions"
-          },
-          "currency": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/PixelValue"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Currency code (e.g., EUR, USD)"
-          },
-          "properties": {
-            "items": {
-              "$ref": "#/components/schemas/PixelProperty-Input"
-            },
-            "type": "array",
-            "maxItems": 20,
-            "title": "Properties",
-            "description": "Custom properties for the event"
-          }
-        },
-        "type": "object",
-        "required": [
-          "type"
-        ],
-        "title": "PixelConfig",
-        "description": "Configuration for a saved pixel.\n\nThis is stored as JSONB in the database."
-      },
-      "PixelConfig-Output": {
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/PixelType",
-            "description": "Type of pixel (pageview, conversion, microconversion)"
-          },
-          "conversion_type": {
-            "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 50
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Conversion Type",
-            "description": "Conversion type (e.g., purchase, signup)"
-          },
-          "revenue": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/PixelValue"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Revenue value for conversions"
-          },
-          "currency": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/PixelValue"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Currency code (e.g., EUR, USD)"
-          },
-          "properties": {
-            "items": {
-              "$ref": "#/components/schemas/PixelProperty-Output"
-            },
-            "type": "array",
-            "maxItems": 20,
-            "title": "Properties",
-            "description": "Custom properties for the event"
-          }
-        },
-        "type": "object",
-        "required": [
-          "type"
-        ],
-        "title": "PixelConfig",
-        "description": "Configuration for a saved pixel.\n\nThis is stored as JSONB in the database."
-      },
-      "PixelProperty-Input": {
-        "properties": {
-          "key": {
-            "type": "string",
-            "maxLength": 50,
-            "minLength": 1,
-            "title": "Key",
-            "description": "Property key"
-          },
-          "value": {
-            "$ref": "#/components/schemas/PixelValue",
-            "description": "Property value with type"
-          }
-        },
-        "type": "object",
-        "required": [
-          "key",
-          "value"
-        ],
-        "title": "PixelProperty",
-        "description": "A custom property for the pixel.\n\nExample:\n    {\"key\": \"brand\", \"value\": {\"type\": \"gtm\", \"value\": \"{{product_brand}}\"}}"
-      },
-      "PixelProperty-Output": {
-        "properties": {
-          "key": {
-            "type": "string",
-            "maxLength": 50,
-            "minLength": 1,
-            "title": "Key",
-            "description": "Property key"
-          },
-          "value": {
-            "$ref": "#/components/schemas/PixelValue",
-            "description": "Property value with type"
-          }
-        },
-        "type": "object",
-        "required": [
-          "key",
-          "value"
-        ],
-        "title": "PixelProperty",
-        "description": "A custom property for the pixel.\n\nExample:\n    {\"key\": \"brand\", \"value\": {\"type\": \"gtm\", \"value\": \"{{product_brand}}\"}}"
-      },
       "PixelStatus": {
         "properties": {
           "account_id": {
@@ -40351,7 +40159,7 @@
             "title": "Description"
           },
           "config": {
-            "$ref": "#/components/schemas/PixelConfig-Output",
+            "$ref": "#/components/schemas/PixelConfigOutput",
             "description": "Pixel configuration"
           },
           "target_platform": {
@@ -40419,7 +40227,7 @@
             "description": "Optional description"
           },
           "config": {
-            "$ref": "#/components/schemas/PixelConfig-Input",
+            "$ref": "#/components/schemas/PixelConfigInput",
             "description": "Pixel configuration"
           },
           "target_platform": {
@@ -40523,7 +40331,7 @@
           "config": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/PixelConfig-Input"
+                "$ref": "#/components/schemas/PixelConfigInput"
               },
               {
                 "type": "null"
@@ -40636,7 +40444,7 @@
             "title": "Description"
           },
           "filters": {
-            "$ref": "#/components/schemas/SegmentFilters-Output",
+            "$ref": "#/components/schemas/SegmentFiltersOutput",
             "description": "Filter conditions"
           },
           "color": {
@@ -40730,7 +40538,7 @@
             "description": "Optional description of what this segment represents"
           },
           "filters": {
-            "$ref": "#/components/schemas/SegmentFilters-Input",
+            "$ref": "#/components/schemas/SegmentFiltersInput",
             "description": "Filter conditions for this segment"
           },
           "color": {
@@ -40759,74 +40567,6 @@
         ],
         "title": "SegmentCreate",
         "description": "Request model for creating a segment."
-      },
-      "SegmentFilters-Input": {
-        "properties": {
-          "conditions": {
-            "items": {
-              "$ref": "#/components/schemas/FilterCondition"
-            },
-            "type": "array",
-            "maxItems": 20,
-            "title": "Conditions",
-            "description": "List of filter conditions (combined with AND). Use for simple segments."
-          },
-          "groups": {
-            "items": {
-              "$ref": "#/components/schemas/ConditionGroup-Input"
-            },
-            "type": "array",
-            "maxItems": 10,
-            "title": "Groups",
-            "description": "List of condition groups (combined with OR between groups, AND within each group)"
-          },
-          "not_groups": {
-            "items": {
-              "$ref": "#/components/schemas/ConditionGroup-Input"
-            },
-            "type": "array",
-            "maxItems": 10,
-            "title": "Not Groups",
-            "description": "List of condition groups to exclude (each group is negated with NOT)"
-          }
-        },
-        "type": "object",
-        "title": "SegmentFilters",
-        "description": "Collection of filter conditions for a segment.\n\nSupports three modes:\n1. Simple mode (backwards compatible): Use 'conditions' field directly.\n   All conditions are combined with AND logic.\n\n2. Advanced mode: Use 'groups' field with multiple condition groups.\n   Conditions within each group are combined with AND.\n   Groups are combined with OR logic.\n\n3. Exclusion mode: Use 'not_groups' to exclude matching records.\n   Each not_group is negated with NOT and combined with AND.\n\nExamples:\n    Simple (AND only):\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n        {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n    ]}\n    -> (country = 'ES' AND device_type = 'mobile')\n\n    Advanced (OR between groups):\n    {\"groups\": [\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}]},\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"}]}\n    ]}\n    -> (country = 'ES') OR (country = 'FR')\n\n    Complex (AND within groups, OR between):\n    {\"groups\": [\n        {\"conditions\": [\n            {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n            {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n        ]},\n        {\"conditions\": [\n            {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"},\n            {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"desktop\"}\n        ]}\n    ]}\n    -> (country = 'ES' AND device_type = 'mobile') OR (country = 'FR' AND device_type = 'desktop')\n\n    With NOT groups (exclusions):\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}\n    ],\n    \"not_groups\": [\n        {\"conditions\": [{\"field\": \"utm_source\", \"operator\": \"eq\", \"value\": \"spam\"}]},\n        {\"conditions\": [{\"field\": \"utm_source\", \"operator\": \"eq\", \"value\": \"bot\"}]}\n    ]}\n    -> country = 'ES' AND NOT (utm_source = 'spam') AND NOT (utm_source = 'bot')\n\n    Combined OR and NOT:\n    {\"groups\": [\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}]},\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"}]}\n    ],\n    \"not_groups\": [\n        {\"conditions\": [{\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"tablet\"}]}\n    ]}\n    -> ((country = 'ES') OR (country = 'FR')) AND NOT (device_type = 'tablet')"
-      },
-      "SegmentFilters-Output": {
-        "properties": {
-          "conditions": {
-            "items": {
-              "$ref": "#/components/schemas/FilterCondition"
-            },
-            "type": "array",
-            "maxItems": 20,
-            "title": "Conditions",
-            "description": "List of filter conditions (combined with AND). Use for simple segments."
-          },
-          "groups": {
-            "items": {
-              "$ref": "#/components/schemas/ConditionGroup-Output"
-            },
-            "type": "array",
-            "maxItems": 10,
-            "title": "Groups",
-            "description": "List of condition groups (combined with OR between groups, AND within each group)"
-          },
-          "not_groups": {
-            "items": {
-              "$ref": "#/components/schemas/ConditionGroup-Output"
-            },
-            "type": "array",
-            "maxItems": 10,
-            "title": "Not Groups",
-            "description": "List of condition groups to exclude (each group is negated with NOT)"
-          }
-        },
-        "type": "object",
-        "title": "SegmentFilters",
-        "description": "Collection of filter conditions for a segment.\n\nSupports three modes:\n1. Simple mode (backwards compatible): Use 'conditions' field directly.\n   All conditions are combined with AND logic.\n\n2. Advanced mode: Use 'groups' field with multiple condition groups.\n   Conditions within each group are combined with AND.\n   Groups are combined with OR logic.\n\n3. Exclusion mode: Use 'not_groups' to exclude matching records.\n   Each not_group is negated with NOT and combined with AND.\n\nExamples:\n    Simple (AND only):\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n        {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n    ]}\n    -> (country = 'ES' AND device_type = 'mobile')\n\n    Advanced (OR between groups):\n    {\"groups\": [\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}]},\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"}]}\n    ]}\n    -> (country = 'ES') OR (country = 'FR')\n\n    Complex (AND within groups, OR between):\n    {\"groups\": [\n        {\"conditions\": [\n            {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n            {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n        ]},\n        {\"conditions\": [\n            {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"},\n            {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"desktop\"}\n        ]}\n    ]}\n    -> (country = 'ES' AND device_type = 'mobile') OR (country = 'FR' AND device_type = 'desktop')\n\n    With NOT groups (exclusions):\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}\n    ],\n    \"not_groups\": [\n        {\"conditions\": [{\"field\": \"utm_source\", \"operator\": \"eq\", \"value\": \"spam\"}]},\n        {\"conditions\": [{\"field\": \"utm_source\", \"operator\": \"eq\", \"value\": \"bot\"}]}\n    ]}\n    -> country = 'ES' AND NOT (utm_source = 'spam') AND NOT (utm_source = 'bot')\n\n    Combined OR and NOT:\n    {\"groups\": [\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}]},\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"}]}\n    ],\n    \"not_groups\": [\n        {\"conditions\": [{\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"tablet\"}]}\n    ]}\n    -> ((country = 'ES') OR (country = 'FR')) AND NOT (device_type = 'tablet')"
       },
       "SegmentSummary": {
         "properties": {
@@ -40915,7 +40655,7 @@
           "filters": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SegmentFilters-Input"
+                "$ref": "#/components/schemas/SegmentFiltersInput"
               },
               {
                 "type": "null"
@@ -44754,6 +44494,266 @@
         "required": [
           "error"
         ]
+      },
+      "ConditionGroupInput": {
+        "properties": {
+          "conditions": {
+            "items": {
+              "$ref": "#/components/schemas/FilterCondition"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Conditions",
+            "description": "List of filter conditions (combined with AND within group)"
+          }
+        },
+        "type": "object",
+        "title": "ConditionGroup",
+        "description": "A group of filter conditions combined with AND logic.\n\nUsed within SegmentFilters to create OR logic between groups.\n\nExample:\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n        {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n    ]}\n\nThis generates: (country = 'ES' AND device_type = 'mobile')"
+      },
+      "ConditionGroupOutput": {
+        "properties": {
+          "conditions": {
+            "items": {
+              "$ref": "#/components/schemas/FilterCondition"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Conditions",
+            "description": "List of filter conditions (combined with AND within group)"
+          }
+        },
+        "type": "object",
+        "title": "ConditionGroup",
+        "description": "A group of filter conditions combined with AND logic.\n\nUsed within SegmentFilters to create OR logic between groups.\n\nExample:\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n        {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n    ]}\n\nThis generates: (country = 'ES' AND device_type = 'mobile')"
+      },
+      "PixelConfigInput": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/PixelType",
+            "description": "Type of pixel (pageview, conversion, microconversion)"
+          },
+          "conversion_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conversion Type",
+            "description": "Conversion type (e.g., purchase, signup)"
+          },
+          "revenue": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PixelValue"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Revenue value for conversions"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PixelValue"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Currency code (e.g., EUR, USD)"
+          },
+          "properties": {
+            "items": {
+              "$ref": "#/components/schemas/PixelPropertyInput"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Properties",
+            "description": "Custom properties for the event"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "PixelConfig",
+        "description": "Configuration for a saved pixel.\n\nThis is stored as JSONB in the database."
+      },
+      "PixelConfigOutput": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/PixelType",
+            "description": "Type of pixel (pageview, conversion, microconversion)"
+          },
+          "conversion_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conversion Type",
+            "description": "Conversion type (e.g., purchase, signup)"
+          },
+          "revenue": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PixelValue"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Revenue value for conversions"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PixelValue"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Currency code (e.g., EUR, USD)"
+          },
+          "properties": {
+            "items": {
+              "$ref": "#/components/schemas/PixelPropertyOutput"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Properties",
+            "description": "Custom properties for the event"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "PixelConfig",
+        "description": "Configuration for a saved pixel.\n\nThis is stored as JSONB in the database."
+      },
+      "PixelPropertyInput": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Key",
+            "description": "Property key"
+          },
+          "value": {
+            "$ref": "#/components/schemas/PixelValue",
+            "description": "Property value with type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "value"
+        ],
+        "title": "PixelProperty",
+        "description": "A custom property for the pixel.\n\nExample:\n    {\"key\": \"brand\", \"value\": {\"type\": \"gtm\", \"value\": \"{{product_brand}}\"}}"
+      },
+      "PixelPropertyOutput": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Key",
+            "description": "Property key"
+          },
+          "value": {
+            "$ref": "#/components/schemas/PixelValue",
+            "description": "Property value with type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "value"
+        ],
+        "title": "PixelProperty",
+        "description": "A custom property for the pixel.\n\nExample:\n    {\"key\": \"brand\", \"value\": {\"type\": \"gtm\", \"value\": \"{{product_brand}}\"}}"
+      },
+      "SegmentFiltersInput": {
+        "properties": {
+          "conditions": {
+            "items": {
+              "$ref": "#/components/schemas/FilterCondition"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Conditions",
+            "description": "List of filter conditions (combined with AND). Use for simple segments."
+          },
+          "groups": {
+            "items": {
+              "$ref": "#/components/schemas/ConditionGroupInput"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Groups",
+            "description": "List of condition groups (combined with OR between groups, AND within each group)"
+          },
+          "not_groups": {
+            "items": {
+              "$ref": "#/components/schemas/ConditionGroupInput"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Not Groups",
+            "description": "List of condition groups to exclude (each group is negated with NOT)"
+          }
+        },
+        "type": "object",
+        "title": "SegmentFilters",
+        "description": "Collection of filter conditions for a segment.\n\nSupports three modes:\n1. Simple mode (backwards compatible): Use 'conditions' field directly.\n   All conditions are combined with AND logic.\n\n2. Advanced mode: Use 'groups' field with multiple condition groups.\n   Conditions within each group are combined with AND.\n   Groups are combined with OR logic.\n\n3. Exclusion mode: Use 'not_groups' to exclude matching records.\n   Each not_group is negated with NOT and combined with AND.\n\nExamples:\n    Simple (AND only):\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n        {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n    ]}\n    -> (country = 'ES' AND device_type = 'mobile')\n\n    Advanced (OR between groups):\n    {\"groups\": [\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}]},\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"}]}\n    ]}\n    -> (country = 'ES') OR (country = 'FR')\n\n    Complex (AND within groups, OR between):\n    {\"groups\": [\n        {\"conditions\": [\n            {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n            {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n        ]},\n        {\"conditions\": [\n            {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"},\n            {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"desktop\"}\n        ]}\n    ]}\n    -> (country = 'ES' AND device_type = 'mobile') OR (country = 'FR' AND device_type = 'desktop')\n\n    With NOT groups (exclusions):\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}\n    ],\n    \"not_groups\": [\n        {\"conditions\": [{\"field\": \"utm_source\", \"operator\": \"eq\", \"value\": \"spam\"}]},\n        {\"conditions\": [{\"field\": \"utm_source\", \"operator\": \"eq\", \"value\": \"bot\"}]}\n    ]}\n    -> country = 'ES' AND NOT (utm_source = 'spam') AND NOT (utm_source = 'bot')\n\n    Combined OR and NOT:\n    {\"groups\": [\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}]},\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"}]}\n    ],\n    \"not_groups\": [\n        {\"conditions\": [{\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"tablet\"}]}\n    ]}\n    -> ((country = 'ES') OR (country = 'FR')) AND NOT (device_type = 'tablet')"
+      },
+      "SegmentFiltersOutput": {
+        "properties": {
+          "conditions": {
+            "items": {
+              "$ref": "#/components/schemas/FilterCondition"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Conditions",
+            "description": "List of filter conditions (combined with AND). Use for simple segments."
+          },
+          "groups": {
+            "items": {
+              "$ref": "#/components/schemas/ConditionGroupOutput"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Groups",
+            "description": "List of condition groups (combined with OR between groups, AND within each group)"
+          },
+          "not_groups": {
+            "items": {
+              "$ref": "#/components/schemas/ConditionGroupOutput"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Not Groups",
+            "description": "List of condition groups to exclude (each group is negated with NOT)"
+          }
+        },
+        "type": "object",
+        "title": "SegmentFilters",
+        "description": "Collection of filter conditions for a segment.\n\nSupports three modes:\n1. Simple mode (backwards compatible): Use 'conditions' field directly.\n   All conditions are combined with AND logic.\n\n2. Advanced mode: Use 'groups' field with multiple condition groups.\n   Conditions within each group are combined with AND.\n   Groups are combined with OR logic.\n\n3. Exclusion mode: Use 'not_groups' to exclude matching records.\n   Each not_group is negated with NOT and combined with AND.\n\nExamples:\n    Simple (AND only):\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n        {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n    ]}\n    -> (country = 'ES' AND device_type = 'mobile')\n\n    Advanced (OR between groups):\n    {\"groups\": [\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}]},\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"}]}\n    ]}\n    -> (country = 'ES') OR (country = 'FR')\n\n    Complex (AND within groups, OR between):\n    {\"groups\": [\n        {\"conditions\": [\n            {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"},\n            {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"mobile\"}\n        ]},\n        {\"conditions\": [\n            {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"},\n            {\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"desktop\"}\n        ]}\n    ]}\n    -> (country = 'ES' AND device_type = 'mobile') OR (country = 'FR' AND device_type = 'desktop')\n\n    With NOT groups (exclusions):\n    {\"conditions\": [\n        {\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}\n    ],\n    \"not_groups\": [\n        {\"conditions\": [{\"field\": \"utm_source\", \"operator\": \"eq\", \"value\": \"spam\"}]},\n        {\"conditions\": [{\"field\": \"utm_source\", \"operator\": \"eq\", \"value\": \"bot\"}]}\n    ]}\n    -> country = 'ES' AND NOT (utm_source = 'spam') AND NOT (utm_source = 'bot')\n\n    Combined OR and NOT:\n    {\"groups\": [\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"ES\"}]},\n        {\"conditions\": [{\"field\": \"country\", \"operator\": \"eq\", \"value\": \"FR\"}]}\n    ],\n    \"not_groups\": [\n        {\"conditions\": [{\"field\": \"device_type\", \"operator\": \"eq\", \"value\": \"tablet\"}]}\n    ]}\n    -> ((country = 'ES') OR (country = 'FR')) AND NOT (device_type = 'tablet')"
       }
     },
     "securitySchemes": {
