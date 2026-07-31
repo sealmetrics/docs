@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sealmetrics API Reference</title>
+    <meta
+      name="description"
+      content="Interactive reference for the Sealmetrics REST API, generated from the OpenAPI 3.1 specification."
+    />
+    <link rel="canonical" href="https://docs.sealmetrics.com/api-reference/" />
+    <link rel="icon" href="/img/favicon.png" />
+    <!--
+      Self-hosted Redoc. Nothing on this page loads from a third-party CDN:
+      the bundle and the spec are both served from docs.sealmetrics.com, so
+      opening the reference does not leak a visitor's IP to anyone else.
+      Refresh the bundle with:
+        curl -sL -o static/api-reference/redoc.standalone.js \
+          https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js
+    -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+      }
+      .sm-topbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.25rem;
+        align-items: center;
+        padding: 0.75rem 1.25rem;
+        border-bottom: 1px solid #e3e6ec;
+        background: #fff;
+        font-size: 0.9rem;
+      }
+      .sm-topbar strong {
+        font-weight: 600;
+      }
+      .sm-topbar a {
+        color: #1e5eff;
+        text-decoration: none;
+      }
+      .sm-topbar a:hover {
+        text-decoration: underline;
+      }
+      .sm-topbar .sm-spacer {
+        flex: 1;
+      }
+      @media (prefers-color-scheme: dark) {
+        .sm-topbar {
+          background: #16181d;
+          border-bottom-color: #2c3038;
+          color: #e8eaee;
+        }
+        .sm-topbar a {
+          color: #7aa2ff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="sm-topbar">
+      <strong>Sealmetrics API Reference</strong>
+      <span class="sm-spacer"></span>
+      <a href="/api">Guides</a>
+      <a href="/api/for-agents">For AI agents</a>
+      <a href="/openapi.json" download>openapi.json</a>
+      <a href="/openapi.yaml" download>openapi.yaml</a>
+    </nav>
+    <div id="redoc"></div>
+    <script src="./redoc.standalone.js"></script>
+    <script>
+      Redoc.init(
+        '/openapi.json',
+        {
+          hideDownloadButton: false,
+          expandResponses: '200,201',
+          jsonSampleExpandLevel: 3,
+          pathInMiddlePanel: true,
+          requiredPropsFirst: true,
+          sortTagsAlphabetically: false,
+          theme: {typography: {fontSize: '15px'}},
+        },
+        document.getElementById('redoc'),
+      );
+    </script>
+  </body>
+</html>

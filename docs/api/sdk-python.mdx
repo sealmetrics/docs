@@ -1,15 +1,30 @@
 ---
 sidebar_position: 39
-title: Python SDK
-description: Official Python SDK for the Sealmetrics Analytics API — type-safe client with pandas/polars DataFrame integration, magic dates, automatic pagination, bulk exports, and batch queries.
+title: Python SDK (unreleased)
+description: Design reference for the Sealmetrics Python SDK — not yet published to PyPI. Use the OpenAPI spec, the REST API or the MCP server today.
 ---
 
 # Python SDK
 
-The **Sealmetrics Python SDK** is the official, type-safe client for the Sealmetrics Analytics API, designed for data scientists and analytics professionals. It wraps the [REST API](/api) with Pydantic models, native pandas/polars DataFrame conversion, magic date shortcuts, automatic pagination, and retries.
+:::danger Not published yet — `pip install sealmetrics` does not work
+The Sealmetrics Python SDK is **built but not yet released to PyPI**. There is no installable package, and the code on this page will not run today. It is documented here as the design reference for the release.
+
+**What to use instead, right now:**
+
+| You want | Use |
+|---|---|
+| A typed client in any language | Generate one from the [OpenAPI 3.1 spec](https://docs.sealmetrics.com/openapi.json) — see [For AI Agents](/api/for-agents#1-read-the-spec-first) |
+| Plain HTTP from Python | [Quick Start](/api/quick-start) — `httpx` or `requests` against the [REST API](/api) |
+| Analytics inside an AI assistant | The [MCP server](/integrations/mcp-server) — no code at all |
+| A DataFrame | `POST /stats/query/export` returns CSV; `pandas.read_csv()` it. See [Multi-Dimensional Query](/api/stats-query#csv-export) |
+
+We will update this page the day the package ships.
+:::
+
+The **Sealmetrics Python SDK** is a type-safe client for the Sealmetrics Analytics API, designed for data scientists and analytics professionals. It wraps the [REST API](/api) with Pydantic models, native pandas/polars DataFrame conversion, magic date shortcuts, automatic pagination, and retries.
 
 :::note
-There is also a Node.js SDK, but it is **deprecated** and no longer recommended. The Python SDK is the supported path for programmatic access.
+There is also a Node.js SDK, but it is **deprecated**, and likewise not published to npm.
 :::
 
 ## Features
@@ -25,7 +40,11 @@ There is also a Node.js SDK, but it is **deprecated** and no longer recommended.
 
 ## Installation
 
-The package is published as `sealmetrics` and requires Python 3.10+.
+:::warning Planned, not available
+The commands below are what installation **will** look like once the package is published. They fail today — there is no `sealmetrics` project on PyPI.
+:::
+
+The package will be published as `sealmetrics` and requires Python 3.10+.
 
 ```bash
 pip install sealmetrics
