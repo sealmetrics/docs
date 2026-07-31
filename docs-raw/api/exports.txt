@@ -473,3 +473,21 @@ def estimate_first(account_id, export_config):
     # Proceed with export
     return export_data(account_id, **export_config)
 ```
+
+## For agents: this is your long-running-task primitive
+
+An export is a proper asynchronous job, so an agent never has to hold an HTTP request open:
+
+1. `POST /exports` returns immediately with a job id.
+2. The job advances through `pending` → `estimating` → `generating` → `completed` (or `failed` / `expired`).
+3. **Do not poll if you can avoid it.** Subscribe a [webhook](/api/webhooks) to `export.completed` and `export.failed`; the API pushes the result to you when the job lands.
+4. `DELETE /exports/{id}` cancels a job you no longer need.
+
+Exports are also the right tool when you need a **consistent** snapshot of a large report: paging with `page`/`page_size` can drift while new analytics data arrives, an export cannot.
+
+## Related
+
+- [For AI Agents](/api/for-agents) — the full agent integration guide
+- [Webhooks](/api/webhooks) — `export.completed` / `export.failed`
+- [Batch API](/api/batch) — many small queries in one request, instead of one big job
+- [Error codes](/api/errors)
