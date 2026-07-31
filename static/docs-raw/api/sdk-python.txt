@@ -1,10 +1,24 @@
-# Python SDK
+# Python SDK (unreleased)
 
 URL: https://docs.sealmetrics.com/api/sdk-python
 
 # Python SDK
 
-The **Sealmetrics Python SDK** is the official, type-safe client for the Sealmetrics Analytics API, designed for data scientists and analytics professionals. It wraps the [REST API](/api) with Pydantic models, native pandas/polars DataFrame conversion, magic date shortcuts, automatic pagination, and retries.
+**Danger:**
+The Sealmetrics Python SDK is **built but not yet released to PyPI**. There is no installable package, and the code on this page will not run today. It is documented here as the design reference for the release.
+
+**What to use instead, right now:**
+
+| You want | Use |
+|---|---|
+| A typed client in any language | Generate one from the [OpenAPI 3.1 spec](https://docs.sealmetrics.com/openapi.json) — see [For AI Agents](/api/for-agents#1-read-the-spec-first) |
+| Plain HTTP from Python | [Quick Start](/api/quick-start) — `httpx` or `requests` against the [REST API](/api) |
+| Analytics inside an AI assistant | The [MCP server](/integrations/mcp-server) — no code at all |
+| A DataFrame | `POST /stats/query/export` returns CSV; `pandas.read_csv()` it. See [Multi-Dimensional Query](/api/stats-query#csv-export) |
+
+We will update this page the day the package ships.
+
+The **Sealmetrics Python SDK** is a type-safe client for the Sealmetrics Analytics API, designed for data scientists and analytics professionals. It wraps the [REST API](/api) with Pydantic models, native pandas/polars DataFrame conversion, magic date shortcuts, automatic pagination, and retries.
 
 **Note:**
 
@@ -21,7 +35,10 @@ The **Sealmetrics Python SDK** is the official, type-safe client for the Sealmet
 
 ## Installation
 
-The package is published as `sealmetrics` and requires Python 3.10+.
+**Warning:**
+The commands below are what installation **will** look like once the package is published. They fail today — there is no `sealmetrics` project on PyPI.
+
+The package will be published as `sealmetrics` and requires Python 3.10+.
 
 ```bash
 pip install sealmetrics

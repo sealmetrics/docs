@@ -20,6 +20,8 @@ on:
       - 'scripts/openapi-snapshot.json'
       - 'scripts/check-ui-claims.mjs'
       - 'scripts/ui-manifest.json'
+      - 'static/openapi.json'
+      - 'redocly.yaml'
   pull_request:
     paths:
       - 'docs/**'
@@ -27,6 +29,8 @@ on:
       - 'scripts/openapi-snapshot.json'
       - 'scripts/check-ui-claims.mjs'
       - 'scripts/ui-manifest.json'
+      - 'static/openapi.json'
+      - 'redocly.yaml'
   workflow_dispatch:
 
 jobs:
@@ -49,3 +53,15 @@ jobs:
           node-version: 20
       - name: Check documented dashboard routes and tabs against the UI manifest
         run: node scripts/check-ui-claims.mjs
+
+  openapi-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # Fails on any OpenAPI error. The rules downgraded to `warn` in
+      # redocly.yaml are API-side route defects, documented in that file.
+      - name: Lint the published OpenAPI document
+        run: npx --yes @redocly/cli@latest lint static/openapi.json
