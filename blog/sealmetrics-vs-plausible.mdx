@@ -397,7 +397,7 @@ It does not close entirely, and it shouldn't. If you want a fast, private pagevi
 <script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script>
 
 <!-- OR Sealmetrics -->
-<script defer src="https://cdn.sealmetrics.com/sl.js"></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
 **Step 2: Verify data quality** (14 days) — compare traffic volumes, check conversion tracking, validate geographic data, test custom events.
@@ -421,7 +421,7 @@ Plausible can import historical GA data. Sealmetrics cannot, so export what you 
 
 ```html
 <script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script>
-<script defer src="https://cdn.sealmetrics.com/sl.js"></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
 **Step 2: Compare for 14+ days.** Expect the numbers to differ, and expect the differences to be explainable rather than dramatic — both tools are cookieless and consentless, so neither is losing traffic to a banner. The typical sources of variance are session-window definitions (Sealmetrics uses a ~2-hour inactivity window), bot filtering (Sealmetrics filters more aggressively and reports what it removed), and the fact that Plausible's unique-visitor count has no Sealmetrics equivalent — compare entrances to visits, not to unique visitors.
