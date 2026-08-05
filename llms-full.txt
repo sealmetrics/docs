@@ -161,7 +161,7 @@ The session marker contains no persistent identifier and Sealmetrics never recog
 A lightweight JavaScript snippet on your website detects page views and events. The script is asynchronous and won't slow down your site.
 
 **Step 2: Instant Anonymization**
-Data is immediately anonymized at the collection layer. User agents are parsed for anonymous device classification and stored 24 months alongside the hit, but never joined with any personal identifier (there isn't one). No IP addresses are persisted at any point in the system.
+Data is immediately anonymized at the collection layer. User agents are parsed for anonymous device classification and stored 24 months alongside the hit, but never joined with any personal identifier (there isn't one). No IP addresses are persisted in the analytics database — IPs are used only transiently server-side for anti-abuse protection.
 
 **Step 3: Secure Processing**
 All data is processed on EU-based servers in Dublin, Ireland. We use encryption in transit and at rest, with strict access controls and complete audit trails.
@@ -34123,7 +34123,7 @@ Consentless analytics solves this by measuring aggregate behavior rather than tr
 Sealmetrics pioneered a consentless tracking approach built on four anonymous variables per event:
 
 1. **Timestamp** — when the event occurred
-2. **User Agent** — browser and device type (captured but never stored in analytics)
+2. **User Agent** — browser and device type (used for anonymous device classification; the event-level raw string is purged after 14 days)
 3. **Current URL** — the page being viewed
 4. **Referral URL** — where the visitor came from
 
@@ -35120,7 +35120,7 @@ Sealmetrics was built from the ground up with one core principle: **privacy is n
 
 Sealmetrics is built on what we **don't** track:
 
-- **No IP addresses** - Not collected, not stored, not processed at any layer
+- **No IP addresses** - Never persisted in the analytics database; used only transiently server-side for anti-abuse protection
 - **No cookies** - Zero cookies, zero local storage, zero fingerprinting
 - **No persistent identifiers** - No user IDs, device IDs, or tracking tokens
 - **No personal information** - No emails, names, phone numbers, addresses
@@ -35445,8 +35445,6 @@ Sealmetrics simplifies compliance:
 ---
 
 **Privacy-first analytics isn't a compromise. It's an upgrade.**
-
-Sealmetrics proves you can have complete analytics data, powerful insights, and uncompromising privacy—all at the same time.
 
 ... [Read full document at https://docs.sealmetrics.com/security-privacy/overview]
 
@@ -37986,7 +37984,7 @@ This ephemeral, in-memory security use is processed under legitimate interest (G
 We use several layers, none of which stores personal data:
 
 - **Bot user-agent signature lists** (known crawlers, headless browsers, automation tools)
-- **Curated IP/CIDR blocklists** of known bots and datacenters, checked in memory at request time — the IP is discarded immediately and never stored
+- **Curated IP/CIDR blocklists** of known bots and datacenters, checked in memory at request time — the IP is used only for this transient check and never stored with analytics data
 - **Request-header consistency checks**
 - Optionally, for sites with **Agent Analytics** enabled: environmental and behavioral signals that classify traffic as human vs. automated
 
@@ -38718,9 +38716,9 @@ Maximum theoretical lifetime: Browser session only
 
 | Aspect | Compliance |
 |--------|------------|
-| IP storage | ✅ **IP is never persisted in any database or log** |
+| IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 14 days) |
 | Geolocation (default) | ✅ Country derived from browser timezone, not IP |
-| In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is discarded immediately after the lookup and is never associated with a hit that reaches ClickHouse. |
+| In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is not retained after the lookup and is never associated with a hit that reaches ClickHouse. |
 
 **Technical Implementation:**
 ```javascript
@@ -38731,7 +38729,7 @@ Intl.DateTimeFormat().resolvedOptions().timeZone
 // country + is_datacenter + agent_isp; the IP itself is discarded.
 ```
 
-**Note:** Sealmetrics goes beyond this requirement — no IP anonymization is needed because the IP is never persisted in the first place.
+**Note:** Sealmetrics goes beyond this requirement — no IP anonymization is needed because the IP is never persisted with analytics data in the first place.
 
 ---
 
@@ -41199,7 +41197,7 @@ The ICO guidance clarifies what activities are permitted under the analytics exe
 |--------|-----------------|-------------------------|
 | First-party cookies | ❌ Not used by default | ✅ N/A |
 | Third-party cookies | ❌ Never used | ✅ Compliant |
-| localStorage | Session ID only (optional) | ✅ Covered by exemption |
+| localStorage | ❌ Not used | ✅ Compliant |
 | Device fingerprinting | ❌ Never used | ✅ Compliant |
 
 ---
@@ -41489,7 +41487,7 @@ This is the structural difference from consent-managed tools: Sealmetrics does n
 
 During request handling, the visitor's IP address is technically received (as with any web server) and used **in memory only** for rate limiting and abuse prevention, then discarded. To the extent this transient handling constitutes processing of personal data, it is supported by **Article 6(1)(f) GDPR** (legitimate interest in network and service security), satisfies data minimization (Article 5(1)(c)), and results in no stored personal data.
 
-For customers who explicitly opt in to **Agent Analytics** (bot detection), a stateless GeoLite2 lookup derives a country label and datacenter/ASN signals from the IP; the IP itself is discarded immediately and never stored. See [What We Track](/security-privacy/what-we-track).
+For customers who explicitly opt in to **Agent Analytics** (bot detection), a stateless GeoLite2 lookup derives a country label and datacenter/ASN signals from the IP; the IP itself is not retained — only the derived signals are kept. See [What We Track](/security-privacy/what-we-track).
 
 **Assessment:** ✅ Compliant — minimal, transient, security-purposed, never persisted.
 
@@ -54597,7 +54595,7 @@ Only four variables:
 - Timestamp  
 - URL  
 - Referral URL  
-- User Agent (not stored)
+- User Agent (used for anonymous device classification; event-level raw string purged after 14 days)
 
 No IP address.  
 No unique identifiers.  
@@ -55120,7 +55118,7 @@ Welcome to the Sealmetrics guides section. Here you'll find step-by-step tutoria
 - [GA4 to Sealmetrics: The Complete Migration Checklist](/guides/ga4-migration-checklist) - Phase-by-phase migration checklist: audit your GA4 events, map them to conv()/micro(), install the tracker, run 30 days in parallel, know which data differences to expect, and switch GA4 off safely.
 - [Tracker Performance Report: Sealmetrics vs GA4](/guides/tracker-performance-report) - A technical comparison of tracking pixel weight, protocol, latency, and traffic capture against gtag.js, with methodology, measured data from an anonymized reference site, and modeled network scenarios.
 - [Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics](/guides/tracker-performance-three-way) - The three-way comparison in one table set: script weight, delivery chains, time to first hit, transport, consent, and measured traffic differences across all three trackers.
-- [Tracker Performance Report: Sealmetrics vs Adobe Analytics](/guides/tracker-performance-adobe-analytics) - Field-measured comparison against the Adobe Launch + AppMeas
+- [Tracker Performance Report: Sealmetrics vs Adobe Analytics](/guides/tracker-performance-adobe-analytics) - Field-measured comparison against the Adobe Launch + AppMea
 
 ... [Read full document at https://docs.sealmetrics.com/guides]
 
