@@ -116,7 +116,7 @@ Plausible uses a **hashed IP address** combined with user agent and domain to ge
 
 **Sealmetrics' Approach**:
 
-**Sealmetrics** uses proprietary cookieless technology to identify sessions without storing IP addresses or personal data. Critically, **IP addresses are never stored** — they're only touched in memory for security and anti-bot checks, then immediately discarded. Even geolocation doesn't use the IP: visitor country is derived from the [browser timezone](/security-privacy/country-detection).
+**Sealmetrics** uses proprietary cookieless technology to identify sessions without storing IP addresses or personal data. Critically, **IP addresses are never stored in the analytics database** — they're only used transiently for security and anti-bot checks, and are never linked to any hit or metric. Even geolocation doesn't use the IP: visitor country is derived from the [browser timezone](/security-privacy/country-detection).
 
 **Pros**:
 - No IP storage = not personal data under GDPR

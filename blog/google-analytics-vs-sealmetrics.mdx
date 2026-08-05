@@ -67,7 +67,7 @@ These cookies fall under ePrivacy Directive Article 5(3), which requires explici
 
 ### Sealmetrics Cookieless Approach
 
-Sealmetrics doesn't use cookies at all. Instead, it generates temporary session identifiers stored in browser sessionStorage, which:
+Sealmetrics doesn't use cookies at all. Instead, it computes temporary session identifiers in the browser — never stored on the device (no cookies, localStorage, or sessionStorage) — which:
 - Resets with each browsing session
 - Never persists across sessions
 - Doesn't enable cross-site tracking
@@ -108,7 +108,7 @@ Sealmetrics captures 100% of visitors because:
 - **No consent required** = tracking starts immediately
 
 The technical approach uses:
-1. **Session-ID**: Temporary identifier in sessionStorage
+1. **Session-ID**: Temporary in-memory identifier (never stored on the device)
 2. **Isolated Hits**: Each pageview tracked independently
 3. **Server-side processing**: No client-side JavaScript dependencies that blockers target
 
@@ -581,7 +581,7 @@ Yes. Sealmetrics can track multiple subdomains under one configuration:
 - `blog.example.com`
 - `app.example.com`
 
-Sessions continue across subdomains, providing unified visitor tracking. This works because Sealmetrics uses sessionStorage (which is origin-bound) rather than cookies (which have complex domain scoping).
+Sessions continue across subdomains, providing unified visitor tracking. This works because Sealmetrics doesn't rely on cookies (which have complex domain scoping) or any browser storage — the session identifier is computed the same way on every page load.
 
 ### Does Sealmetrics support A/B testing tools?
 

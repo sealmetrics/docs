@@ -72,7 +72,7 @@ Under GDPR Article 6(1)(f), processing is lawful when:
 Sealmetrics qualifies for legitimate interest because:
 
 1. **No personal data collection**: We don't store IP addresses, fingerprints, or cross-site identifiers
-2. **Session-based tracking**: Each visit generates a unique, temporary identifier
+2. **Session-based tracking**: Each visit generates a temporary, non-identifying session identifier
 3. **Data minimization**: Only aggregate behavioral data, no individual profiles
 4. **Transparent processing**: Clear privacy policy explains data usage
 
@@ -83,7 +83,7 @@ As confirmed by CNIL's 2020 guidance, cookieless analytics that doesn't create p
 Unlike competitors that hash or pseudonymize IP addresses, Sealmetrics uses a dual tracking approach:
 
 **Session-Based Tracking**:
-- Each visit = unique Session-ID
+- Each visit = new, temporary Session-ID
 - Session-ID expires after ~2 hours of inactivity
 - No cross-session tracking by default
 - Zero personal data in the identifier

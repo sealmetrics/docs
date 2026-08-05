@@ -137,19 +137,19 @@ Cookieless analytics don't require consent because:
 
 ### What is a Session Identifier?
 
-A **session** is a temporary, unique identifier generated fresh each visit:
+A **session** is a temporary, ephemeral identifier computed fresh each visit:
 ```javascript
 // Sealmetrics cookieless approach
 // NO persistent cookies, NO IP storage
 
-// 1. Generate unique session ID (fresh each visit)
-const sessionId = generateSecureRandomId(); // "sess_a7k9m2x1"
+// 1. Compute ephemeral session ID (fresh each visit)
+// Derived from general device characteristics — not unique
+// to a person: different visitors can produce the same value,
+// so it cannot identify an individual
+const sessionId = deriveSessionId(); // "sess_a7k9m2x1"
 
-// 2. Store ONLY in memory or short-lived localStorage
-// Expires in 30 days automatically (not 2 years)
-localStorage.setItem('_seal_session', sessionId, {
-  expirationTime: Date.now() + 2592000000 // 30 days
-});
+// 2. Kept ONLY in memory — never stored on the device
+// No cookies, no localStorage, no sessionStorage
 
 // 3. Collect pageviews with session ID
 function trackPageview() {
@@ -191,9 +191,9 @@ Sealmetrics uses a proprietary **dual-system** to maximize data capture:
 **System 1: Session-ID Tracking** (Primary)
 ```javascript
 // Visitor arrives
-// Session ID generated: "sess_k9m2x1a7"
+// Session ID computed: "sess_k9m2x1a7"
 // All pageviews linked to this session
-// Expires: end of visit or 30 days
+// Expires: end of visit (~2h of inactivity)
 // Data: Visit patterns, pages viewed, time on site
 ```
 
@@ -233,12 +233,13 @@ store(hashedIP); // Still stored! Still requires DPA
 
 ### Sealmetrics: True Zero-IP Architecture
 ```javascript
-// Sealmetrics approach - NO IP collected, period
+// Sealmetrics approach - NO IP in analytics data
 
-// 1. NO IP header reading
+// 1. NO IP stored in the analytics database
 // 2. NO IP hashing
-// 3. NO IP storage
-// 4. NO IP logging
+// 3. NO IP linked to any hit, session, or metric
+// 4. IP used only transiently server-side (anti-abuse checks,
+//    short-lived operational logs with limited retention)
 
 const trackPageview = async () => {
   const payload = {
@@ -248,8 +249,7 @@ const trackPageview = async () => {
     // IP intentionally absent ✓
   };
 
-  // Even our server logs don't capture request IPs
-  // For analytics purposes
+  // Request IPs never reach the analytics database
 
   await fetch('https://sealmetrics.io/api/events', {
     method: 'POST',
@@ -491,8 +491,8 @@ Day 365: Safari user visits
 **COOKIELESS (Sealmetrics)**
 ```
 Day 1: User visits
-├─ Session generated: "sess_xyz" (fresh, random)
-├─ Stored 30 days max
+├─ Session computed: "sess_xyz" (fresh, ephemeral)
+├─ Never stored on the device; expires with the visit
 └─ No consent needed (no personal data)
 
 Day 1: Same user browses 3 pages
@@ -577,15 +577,15 @@ Sealmetrics captures what competitors miss:
 
 ### How does Sealmetrics work without cookies?
 
-Sealmetrics generates a **session ID** fresh with each visit. This ID lives only during the visit (or 30 days max), then expires automatically. Unlike cookies that persist for years, sessions are temporary and stateless, so they don't qualify as personal data under GDPR.
+Sealmetrics computes a **session ID** fresh with each visit. This ID lives only during the visit (~2 hours of inactivity), then expires automatically, and is never stored on the device. Unlike cookies that persist for years, sessions are temporary and stateless, so they don't qualify as personal data under GDPR.
 
 ### Why doesn't Sealmetrics store IP addresses?
 
-IP addresses are **personal data** under GDPR. Storing them (even hashed) requires consent or another legal basis. By not collecting IPs at all, Sealmetrics sidesteps this entirely. We use HTTPS and TLS encryption instead, making IP logging unnecessary for security.
+IP addresses are **personal data** under GDPR. Storing them (even hashed) requires consent or another legal basis. Sealmetrics never persists IPs in the analytics database — they are used only transiently server-side for security and anti-abuse checks, and appear only in short-lived operational logs with limited retention. No analytics metric is ever calculated from an IP.
 
 ### Can I track returning visitors with Sealmetrics?
 
-**Not across visits.** Each visit generates a new session ID. So you can't say "John returned on Tuesday" (you don't know it's John). But you can say "We had 10,000 sessions this week, 60% were returning visitors" (detected via cohort patterns, not individual IDs).
+**Not across visits.** Each visit generates a new session ID. So you can't say "John returned on Tuesday" (you don't know it's John). Each entrance is counted as new, independent data — there is no returning-visitor metric, because no identifier links one visit to another.
 
 This is a **feature, not a bug**: Returns you get privacy compliance while competitors need consent.
 
