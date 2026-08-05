@@ -77,6 +77,303 @@
             <category>GDPR</category>
         </item>
         <item>
+            <title><![CDATA[Sealmetrics vs Plausible: Which is Better? [2026 Comparison]]]></title>
+            <link>https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible</link>
+            <guid>https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible</guid>
+            <pubDate>Sun, 05 Jul 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Sealmetrics vs Plausible compared in 2026. Both are cookieless, but only one avoids deriving any identifier from the visitor's IP. Features, AI, pricing and GDPR reviewed.]]></description>
+            <content:encoded><![CDATA[<blockquote>
+<p><strong>TL;DR</strong> — Sealmetrics vs Plausible compared in 2026. Both are cookieless, but only one avoids deriving any identifier from the visitor's IP. Features, AI, pricing and GDPR reviewed.</p>
+</blockquote>
+<p>Both <strong>Sealmetrics</strong> and <strong>Plausible Analytics</strong> are privacy-first alternatives to Google Analytics, and both are cookieless. But they solve different problems for different buyers, and the gap between them has widened considerably since 2025.</p>
+<p>The core technical difference is narrow but consequential: <strong>Plausible derives a daily visitor identifier from the visitor's IP address and User-Agent</strong>, while <strong>Sealmetrics never derives any identifier from the IP at all</strong> — not for sessions, not even for geolocation.</p>
+<p>The core product difference is much wider: since the launch of Sealmetrics V2 in February 2026, Sealmetrics has added an AI analytics layer (LENS), an MCP server that lets Claude, ChatGPT and Cursor query your data in plain language, custom channel grouping, webhooks, shared dashboards and EU-hosted AI. Plausible has stayed deliberately minimal — which for many teams is exactly the point.</p>
+<p>This comparison is updated for <strong>July 2026</strong> and covers architecture, privacy, features, AI capabilities, pricing and the honest trade-offs in both directions.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-comparison-points">Key Comparison Points<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#key-comparison-points" class="hash-link" aria-label="Direct link to Key Comparison Points" title="Direct link to Key Comparison Points" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>IP handling</strong>: Plausible hashes IP + User-Agent into a daily identifier (salt deleted every 24h); Sealmetrics derives no identifier from IP whatsoever</li>
+<li class=""><strong>Consent</strong>: Both operate consentless; Sealmetrics' legal basis doesn't depend on arguing that a pseudonymous ID isn't personal data</li>
+<li class=""><strong>AI</strong>: Sealmetrics ships LENS AI, an MCP server, and EU-hosted LLM inference; Plausible ships none of this</li>
+<li class=""><strong>Scale limits</strong>: Plausible caps sites and team members by plan (1/3/10); Sealmetrics is unlimited on every plan</li>
+<li class=""><strong>Pricing</strong>: Plausible starts at $9/month; Sealmetrics starts at €499/month with annual billing</li>
+<li class=""><strong>Retention</strong>: Plausible defaults to 3–5 years, above the EU ceiling for consent-exempt analytics; Sealmetrics 24 months</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="executive-summary-which-tool-is-right-for-you">Executive Summary: Which Tool is Right for You?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#executive-summary-which-tool-is-right-for-you" class="hash-link" aria-label="Direct link to Executive Summary: Which Tool is Right for You?" title="Direct link to Executive Summary: Which Tool is Right for You?" translate="no">​</a></h2>
+<p><strong>Choose Plausible if</strong>:</p>
+<ul>
+<li class="">Budget is the primary constraint ($9–19/month)</li>
+<li class="">You want open source and the option to self-host</li>
+<li class="">You need a simple, fast, beautiful dashboard and nothing more</li>
+<li class="">You have a handful of sites and a small team</li>
+<li class="">You need retention beyond 24 months and are prepared to handle the compliance consequences</li>
+</ul>
+<p><strong>Choose Sealmetrics if</strong>:</p>
+<ul>
+<li class="">You need e-commerce/lead attribution with revenue, not just pageviews</li>
+<li class="">You want an AI layer over your analytics (natural-language questions, automated anomaly detection, MCP access from your AI assistant)</li>
+<li class="">You run many sites or a large team and don't want per-seat or per-site limits</li>
+<li class="">Your DPO wants a legal basis that doesn't rest on an IP-derived identifier</li>
+<li class="">You need webhooks, BigQuery, custom channel rules or audit logs</li>
+</ul>
+<p><strong>The Bottom Line</strong>: These are no longer two versions of the same product. Plausible is the best-in-class <em>minimal</em> privacy analytics tool. Sealmetrics is a <em>marketing analytics platform</em> built for teams that need attribution, revenue and AI-assisted analysis, with a stricter privacy architecture underneath. Price reflects that: they are roughly 30× apart, and they are aimed at different buyers.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="background-understanding-both-tools">Background: Understanding Both Tools<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#background-understanding-both-tools" class="hash-link" aria-label="Direct link to Background: Understanding Both Tools" title="Direct link to Background: Understanding Both Tools" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-is-plausible-analytics">What is Plausible Analytics?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#what-is-plausible-analytics" class="hash-link" aria-label="Direct link to What is Plausible Analytics?" title="Direct link to What is Plausible Analytics?" translate="no">​</a></h3>
+<p><strong>Plausible Analytics</strong> launched in 2019 as an open-source, privacy-friendly alternative to Google Analytics. Founded by Uku Täht and Marko Saric, Plausible became the default recommendation in the privacy-conscious developer community.</p>
+<p><strong>Key characteristics</strong>:</p>
+<ul>
+<li class="">Open-source (AGPL license)</li>
+<li class="">Self-hosted or cloud-hosted options</li>
+<li class="">Lightweight script (around 1 KB)</li>
+<li class="">No cookies</li>
+<li class="">European-owned (Estonia-based)</li>
+<li class="">Simple, minimalist dashboard</li>
+</ul>
+<p><strong>Market position</strong>: One of the most popular Google Analytics alternatives, with strong adoption among developers, indie hackers, agencies and small businesses.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-is-sealmetrics">What is Sealmetrics?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#what-is-sealmetrics" class="hash-link" aria-label="Direct link to What is Sealmetrics?" title="Direct link to What is Sealmetrics?" translate="no">​</a></h3>
+<p><strong>Sealmetrics</strong> launched in 2023 to solve the "consent paradox" in web analytics — the fact that cookie- and consent-based analytics lose a large share of data in EU markets to banner rejection. Sealmetrics pioneered <em>consentless analytics</em> operating under GDPR Article 6(1)(f), and in February 2026 shipped <strong>V2</strong>, a full rebuild of the platform.</p>
+<p><strong>Key characteristics</strong>:</p>
+<ul>
+<li class="">Proprietary (closed-source), cloud-hosted only</li>
+<li class="">No IP-derived identifiers anywhere in the pipeline</li>
+<li class="">Country from browser timezone, not IP</li>
+<li class="">EU-only infrastructure (Dublin, Ireland)</li>
+<li class="">Attribution, funnels and revenue as first-class features</li>
+<li class="">Built-in AI layer (LENS) and an MCP server for AI assistants</li>
+</ul>
+<p><strong>Market position</strong>: Aimed at EU e-commerce, lead generation and multi-site businesses that need marketing-grade attribution without a consent banner.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-architecture-comparison">Technical Architecture Comparison<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#technical-architecture-comparison" class="hash-link" aria-label="Direct link to Technical Architecture Comparison" title="Direct link to Technical Architecture Comparison" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="session-identification">Session Identification<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#session-identification" class="hash-link" aria-label="Direct link to Session Identification" title="Direct link to Session Identification" translate="no">​</a></h3>
+<p><strong>Plausible's approach</strong>:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">visitor_id = hash(daily_salt + website_domain + ip_address + user_agent)</span><br></span></code></pre></div></div>
+<p>Plausible is explicit and transparent about this in its <a href="https://plausible.io/data-policy" target="_blank" rel="noopener noreferrer" class="">data policy</a>: raw IP addresses and User-Agent strings are never stored, and <strong>the salt is rotated and deleted every 24 hours</strong>, so the identifier cannot be linked across days or recomputed afterwards.</p>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li class="">Enables unique-visitor counts and bounce rate at the individual level</li>
+<li class="">No cookies, no persistent identifier, no cross-site tracking</li>
+<li class="">Fully documented and auditable in open source</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li class="">The legal basis rests on the argument that a daily salted hash of an IP is not personal data — an argument most regulators accept, but not one that is settled beyond dispute</li>
+<li class="">Identity resets at midnight, so multi-day journeys are split</li>
+</ul>
+<p><strong>Sealmetrics' approach</strong>:</p>
+<p>Sealmetrics identifies sessions with a temporary, non-persistent marker derived from the browser context. <strong>The visitor's IP is never used to derive it.</strong> IPs are handled in-memory at the edge for two purposes only — checking against the bot-IP database and applying customer-configured IP exclusions — and are never persisted or attached to any hit. Even geolocation avoids the IP: visitor country is derived from the <a class="" href="https://docs.sealmetrics.com/security-privacy/country-detection">browser timezone</a>.</p>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li class="">No identifier derived from personal data means there is no argument to have</li>
+<li class="">Sessions can never be linked to each other or to a person</li>
+<li class="">Works identically under every national interpretation</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li class="">No unique visitors, by design (see <a class="" href="https://docs.sealmetrics.com/reports/definitions">Metrics Reference</a>)</li>
+<li class="">Closed source, so you verify by network inspection and documentation rather than by reading the code</li>
+<li class="">Smaller community than Plausible</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ip-address-handling">IP Address Handling<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#ip-address-handling" class="hash-link" aria-label="Direct link to IP Address Handling" title="Direct link to IP Address Handling" translate="no">​</a></h3>
+<p>This is the sharpest technical distinction, and it deserves to be stated precisely rather than dramatically.</p>
+<p><strong>Plausible</strong>:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">1. Receive request with IP address</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">2. Hash(daily salt + domain + IP + User-Agent) → visitor_id</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">3. Store visitor_id with the event; discard the raw IP</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">4. Rotate and delete the salt every 24 hours</span><br></span></code></pre></div></div>
+<p><strong>Sealmetrics</strong>:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">1. Receive request with IP address</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">2. Check the IP against the bot-IP database and account IP exclusions, in memory</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">3. Discard the IP — it is never written anywhere, never hashed into an identifier,</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">   and never used for geolocation</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">4. Session marker comes from browser context; country comes from timezone</span><br></span></code></pre></div></div>
+<p><strong>What this means in practice</strong>: Plausible's design is genuinely privacy-preserving and defensible. Sealmetrics' design removes the need to defend it. If your DPO's position is "no identifier may be derived from an IP address, full stop", Plausible cannot satisfy that requirement and Sealmetrics can. If your DPO accepts the daily-salted-hash reasoning — as many do — this difference will not decide your purchase, and you should choose on features and price instead.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="privacy--gdpr-compliance-comparison">Privacy &amp; GDPR Compliance Comparison<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#privacy--gdpr-compliance-comparison" class="hash-link" aria-label="Direct link to Privacy &amp; GDPR Compliance Comparison" title="Direct link to Privacy &amp; GDPR Compliance Comparison" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="consent-requirements">Consent Requirements<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#consent-requirements" class="hash-link" aria-label="Direct link to Consent Requirements" title="Direct link to Consent Requirements" translate="no">​</a></h3>
+<p><strong>Plausible's position</strong>: Plausible states that its tool does not require cookie consent, on the basis that no cookies are set and no personal data is stored. Its documentation notes that specific circumstances and your DPO's interpretation may still call for consent.</p>
+<p><strong>Sealmetrics' position</strong>: no consent banner required, on the basis that:</p>
+<ol>
+<li class=""><strong>No IP-derived identifier</strong>: nothing in the pipeline is derived from an IP address</li>
+<li class=""><strong>GDPR Article 6(1)(f)</strong>: documented legitimate interest for website analytics</li>
+<li class=""><strong>Purpose limitation</strong>: analytics only, never advertising, never data sales</li>
+<li class=""><strong>Data minimisation</strong>: aggregated, non-personal data only</li>
+<li class=""><strong>Regulator alignment</strong>: published self-assessments against <a class="" href="https://docs.sealmetrics.com/compliance/cnil-self-assessment">CNIL</a> (France), <a class="" href="https://docs.sealmetrics.com/compliance/germany-ttdsg-self-assessment">TTDSG</a> (Germany), <a class="" href="https://docs.sealmetrics.com/compliance/italy-garante-self-assessment">Garante</a> (Italy), <a class="" href="https://docs.sealmetrics.com/compliance/uk-pecr-self-assessment">UK PECR</a> and <a class="" href="https://docs.sealmetrics.com/compliance/switzerland-fadp-self-assessment">Swiss FADP</a></li>
+</ol>
+<p>Sealmetrics also publishes a full analysis of the <a class="" href="https://docs.sealmetrics.com/compliance/omnibus">EU Digital Omnibus</a> and its impact on analytics, plus a <a class="" href="https://docs.sealmetrics.com/compliance/subprocessors">subprocessor list</a> and <a class="" href="https://docs.sealmetrics.com/compliance/data-subject-rights">data subject rights</a> documentation.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="regulatory-requirements-side-by-side">Regulatory Requirements Side by Side<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#regulatory-requirements-side-by-side" class="hash-link" aria-label="Direct link to Regulatory Requirements Side by Side" title="Direct link to Regulatory Requirements Side by Side" translate="no">​</a></h3>
+<p>CNIL's criteria for consent-exempt analytics are the strictest widely-published benchmark. Both tools are in good shape; they differ on one row.</p>
+<table><thead><tr><th>CNIL criterion</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td>No cookies or device storage</td><td>✅</td><td>✅</td></tr><tr><td>No cross-site tracking</td><td>✅</td><td>✅</td></tr><tr><td>No IP used to identify users</td><td>⚠️ IP is an input to the daily hash</td><td>✅ IP never used to derive an identifier</td></tr><tr><td>Limited retention (≤ 24–25 months)</td><td>❌ 3–5 years by default</td><td>✅ 24 months</td></tr><tr><td>Analytics-only purpose</td><td>✅</td><td>✅</td></tr><tr><td>Clear privacy policy disclosure</td><td>✅</td><td>✅</td></tr></tbody></table>
+<p>The retention row deserves attention, because longer retention sounds like a feature and isn't one here. Both Spanish and French regulators cap how long consent-exempt analytics data may be kept: the <strong>AEPD sets a maximum of 24 months</strong>, and the CNIL 25. Plausible's default of 3–5 years sits above both ceilings. If you rely on the analytics exemption to run without a banner in Spain or France, retaining data for five years undermines the exemption you're relying on.</p>
+<p>Sealmetrics' 24 months is not a limitation we'd like to lift — it's the regulatory ceiling, and staying at it is part of what makes the consentless basis hold.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="germany-ttdsg-25">Germany (TTDSG §25)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#germany-ttdsg-25" class="hash-link" aria-label="Direct link to Germany (TTDSG §25)" title="Direct link to Germany (TTDSG §25)" translate="no">​</a></h3>
+<p>§25 TTDSG requires consent for storing or accessing information on a user's device. Neither tool stores anything on the device, so both clear the bar. German DPOs have historically been the strictest on IP-derived identifiers, which is where the two designs diverge — see the <a class="" href="https://docs.sealmetrics.com/compliance/germany-ttdsg-self-assessment">TTDSG self-assessment</a> for the full argument.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="feature-comparison">Feature Comparison<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#feature-comparison" class="hash-link" aria-label="Direct link to Feature Comparison" title="Direct link to Feature Comparison" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="core-analytics-metrics">Core Analytics Metrics<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#core-analytics-metrics" class="hash-link" aria-label="Direct link to Core Analytics Metrics" title="Direct link to Core Analytics Metrics" translate="no">​</a></h3>
+<table><thead><tr><th>Metric</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Real-time data</strong></td><td>✅ Yes</td><td>✅ Yes (&lt; 2 min)</td></tr><tr><td><strong>Pageviews</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Sessions / Entrances</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Unique visitors</strong></td><td>✅ Yes (daily unique)</td><td>❌ Not tracked, by design</td></tr><tr><td><strong>Bounce rate</strong></td><td>✅ Yes</td><td>✅ Yes (computed in aggregate)</td></tr><tr><td><strong>Engagement rate / Engaged sessions</strong></td><td>⚠️ Via bounce rate</td><td>✅ Yes</td></tr><tr><td><strong>Pages per session</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Visit duration</strong></td><td>✅ Yes</td><td>❌ No</td></tr><tr><td><strong>Traffic sources &amp; referrers</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>UTM campaign tracking</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Device / browser / OS</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Geographic data</strong></td><td>✅ Country, region, city</td><td>✅ Country only</td></tr><tr><td><strong>Screen size</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr></tbody></table>
+<p><strong>Notable differences</strong>:</p>
+<ul>
+<li class="">Plausible reports <strong>unique visitors</strong> and <strong>visit duration</strong>; Sealmetrics does not, because both require an identifier that persists across the session boundary. Sealmetrics uses <a class="" href="https://docs.sealmetrics.com/reports/definitions">entrances</a> as the audience-size signal instead.</li>
+<li class="">Sealmetrics <strong>does</strong> report bounce rate and engagement rate — these are computed in aggregate from pageviews per session and require no individual tracking. (An earlier version of this article stated otherwise; it was wrong.)</li>
+<li class="">Plausible offers finer geographic granularity (region and city) because it has an IP at the point of lookup. Sealmetrics is country-only as a direct consequence of its timezone-based approach.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="analysis--attribution">Analysis &amp; Attribution<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#analysis--attribution" class="hash-link" aria-label="Direct link to Analysis &amp; Attribution" title="Direct link to Analysis &amp; Attribution" translate="no">​</a></h3>
+<table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Custom events</strong></td><td>✅ Unlimited</td><td>✅ Unlimited</td></tr><tr><td><strong>Goal tracking with revenue</strong></td><td>✅ Business plan</td><td>✅ All plans</td></tr><tr><td><strong>Conversion funnels</strong></td><td>✅ Business plan</td><td>✅ All plans</td></tr><tr><td><strong>User journeys</strong></td><td>✅ Business plan</td><td>⚠️ Path analysis via Pages report</td></tr><tr><td><strong>Micro-conversions</strong></td><td>⚠️ Via custom events</td><td>✅ Native</td></tr><tr><td><strong>E-commerce tracking</strong></td><td>✅ Business plan (revenue attribution)</td><td>✅ Native, with item-level properties</td></tr><tr><td><strong>Custom properties / dimensions</strong></td><td>✅ Business plan</td><td>✅ All plans</td></tr><tr><td><strong>Saved segments</strong></td><td>✅ All plans</td><td>✅ All plans</td></tr><tr><td><strong>Custom channel grouping</strong></td><td>❌ No</td><td>✅ Drafts → test → publish, with CSV import/export</td></tr><tr><td><strong>Content grouping</strong></td><td>❌ No</td><td>✅ Yes</td></tr><tr><td><strong>UTM &amp; referrer mapping rules</strong></td><td>❌ No</td><td>✅ Yes</td></tr><tr><td><strong>Session recording / heatmaps / A/B</strong></td><td>❌ No (privacy by design)</td><td>❌ No (privacy by design)</td></tr><tr><td><strong>Data retention</strong></td><td>3 years (Starter/Growth), 5 years (Business) — above the EU ceiling</td><td>24 months — at the AEPD maximum</td></tr></tbody></table>
+<p><strong>Key differences</strong>:</p>
+<ul>
+<li class="">The 2023-era claim that Plausible lacks funnels is no longer true — funnels and user journeys shipped on the Business plan. What differs now is that Sealmetrics includes funnels, revenue and custom properties on <strong>every</strong> plan, while Plausible gates them behind Business.</li>
+<li class="">Sealmetrics' <a class="" href="https://docs.sealmetrics.com/platform/settings/tracking/channel-grouping">custom channel grouping</a> (July 2026) lets you define your own marketing channels on top of the GA4-style defaults, test a rule against a sample visit with the same engine the pixel uses, and publish only when you're ready. There is no Plausible equivalent.</li>
+<li class=""><strong>Plausible retains data longer, but not compliantly.</strong> The AEPD caps consent-exempt analytics retention at 24 months and the CNIL at 25. Plausible's 3–5 year default exceeds both, so multi-year history is only an advantage if you aren't depending on the analytics exemption in those jurisdictions.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ai--agent-capabilities">AI &amp; Agent Capabilities<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#ai--agent-capabilities" class="hash-link" aria-label="Direct link to AI &amp; Agent Capabilities" title="Direct link to AI &amp; Agent Capabilities" translate="no">​</a></h3>
+<p>This category did not exist the last time this article was written, and it is now the widest gap between the two products.</p>
+<table><thead><tr><th>Capability</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Natural-language chat over your data</strong></td><td>❌ No</td><td>✅ <a class="" href="https://docs.sealmetrics.com/lens">LENS AI</a></td></tr><tr><td><strong>Automated anomaly detection</strong></td><td>❌ No</td><td>✅ ~25 rules across 11 categories</td></tr><tr><td><strong>AI-generated executive summaries</strong></td><td>❌ No</td><td>✅ Yes</td></tr><tr><td><strong>MCP server for AI assistants</strong></td><td>❌ No</td><td>✅ <a class="" href="https://docs.sealmetrics.com/integrations/mcp-server">Hosted + local</a></td></tr><tr><td><strong>EU-hosted LLM inference</strong></td><td>❌ No</td><td>✅ <a class="" href="https://docs.sealmetrics.com/billing/seal-ai-private">Seal AI Private</a> (Paris, no prompt retention)</td></tr><tr><td><strong>Bring your own LLM key</strong></td><td>❌ No</td><td>✅ Anthropic, OpenAI, Gemini, DeepSeek — unmetered</td></tr><tr><td><strong>AI-assisted install</strong></td><td>❌ No</td><td>✅ <a class="" href="https://docs.sealmetrics.com/integrations/agentic-package">Agentic package</a></td></tr><tr><td><strong>AI agent traffic detection</strong></td><td>❌ No</td><td>✅ Tracked and reported, not billed</td></tr></tbody></table>
+<p><strong>What this looks like in practice</strong>: connect <code>https://mcp.sealmetrics.com/mcp</code> to Claude, ChatGPT, Cursor or Codex and ask <em>"why did conversions drop last week?"</em> or <em>"which of my top 3 campaigns has the best conversion rate?"</em> and get an answer from your live data. Connections are OAuth-based, scoped to a single site, <strong>read-only</strong>, and revocable from <a class="" href="https://docs.sealmetrics.com/platform/settings/account/connected-apps">Connected Apps</a>.</p>
+<p>LENS also runs detection rules on a cadence and emails you when traffic drops, conversion rates shift or tracking breaks — the anomaly detection Plausible users typically build themselves against the Stats API.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="integrations--technical">Integrations &amp; Technical<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#integrations--technical" class="hash-link" aria-label="Direct link to Integrations &amp; Technical" title="Direct link to Integrations &amp; Technical" translate="no">​</a></h3>
+<table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Script size</strong></td><td>~1 KB</td><td>~1.3 KB</td></tr><tr><td><strong>Self-hosted option</strong></td><td>✅ Yes (open source)</td><td>❌ No (cloud only)</td></tr><tr><td><strong>Custom domain / first-party proxy</strong></td><td>✅ Yes (managed proxy on Enterprise)</td><td>✅ Yes</td></tr><tr><td><strong>WordPress / Drupal / Joomla</strong></td><td>✅ WordPress</td><td>✅ All three</td></tr><tr><td><strong>WooCommerce / Shopify / Magento / PrestaShop / BigCommerce / OpenCart</strong></td><td>⚠️ Via custom events</td><td>✅ Documented integrations</td></tr><tr><td><strong>Webflow / Wix / Squarespace</strong></td><td>✅ Via snippet</td><td>✅ Documented guides</td></tr><tr><td><strong>Next.js / Nuxt / React</strong></td><td>✅ NPM tracker</td><td>✅ Documented guides</td></tr><tr><td><strong>Google Tag Manager</strong></td><td>✅ Yes</td><td>✅ Yes, incl. custom template</td></tr><tr><td><strong>Google Search Console</strong></td><td>✅ Native integration</td><td>⚠️ Via MCP, not a native connector</td></tr><tr><td><strong>Looker Studio / Data Studio</strong></td><td>✅ Business plan</td><td>✅ Official connector</td></tr><tr><td><strong>BigQuery export</strong></td><td>❌ No</td><td>✅ <a class="" href="https://docs.sealmetrics.com/integrations/bigquery">Yes</a></td></tr><tr><td><strong>Raw event export</strong></td><td>✅ Enterprise (scheduled)</td><td>✅ CSV / JSON / streaming exports</td></tr><tr><td><strong>Webhooks</strong></td><td>❌ No</td><td>✅ <a class="" href="https://docs.sealmetrics.com/platform/settings/integrations/webhooks">Scale and above</a></td></tr><tr><td><strong>Slack / email reports</strong></td><td>✅ All plans</td><td>✅ Email reports and LENS alerts</td></tr><tr><td><strong>Stats / analytics API</strong></td><td>✅ Business plan (600 req/h)</td><td>✅ All plans (240–480 req/min)</td></tr><tr><td><strong>Sites provisioning API</strong></td><td>✅ Enterprise</td><td>✅ All plans</td></tr><tr><td><strong>Official SDK</strong></td><td>⚠️ Community</td><td>✅ Python SDK</td></tr></tbody></table>
+<p><strong>Key differences</strong>:</p>
+<ul>
+<li class="">Plausible has a <strong>native Google Search Console integration</strong>; Sealmetrics does not — you combine the two through the <a class="" href="https://docs.sealmetrics.com/web-analytics-prompts/search-console">Search Console MCP prompts</a>, which is more powerful but less turnkey.</li>
+<li class="">Sealmetrics has <strong>BigQuery and webhooks</strong>; Plausible has neither.</li>
+<li class="">Sealmetrics' API is unrestricted by plan and rate-limited far higher (240–480 requests per <em>minute</em> versus 600 per <em>hour</em>). If you're building on top of the data, this is a large practical difference.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="team-access--governance">Team, Access &amp; Governance<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#team-access--governance" class="hash-link" aria-label="Direct link to Team, Access &amp; Governance" title="Direct link to Team, Access &amp; Governance" translate="no">​</a></h3>
+<table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Sites included</strong></td><td>1 / 3 / 10 by plan</td><td><strong>Unlimited on every plan</strong></td></tr><tr><td><strong>Team members</strong></td><td>1 / 3 / 10 by plan</td><td><strong>Unlimited on every plan</strong></td></tr><tr><td><strong>Role-based permissions</strong></td><td>⚠️ Basic</td><td>✅ Basic → Advanced → Full by plan</td></tr><tr><td><strong>Shared / public dashboards</strong></td><td>✅ Growth and above</td><td>✅ <a class="" href="https://docs.sealmetrics.com/api/shared-dashboards">Yes</a>, public or password-protected, with embeds and expiry</td></tr><tr><td><strong>White-label dashboards</strong></td><td>✅ Via self-hosting</td><td>⚠️ Custom logo + hide branding on shared dashboards; full white-label Enterprise only</td></tr><tr><td><strong>Two-factor authentication</strong></td><td>✅ Yes</td><td>✅ Yes, with backup codes</td></tr><tr><td><strong>IP allowlist for account access</strong></td><td>❌ No</td><td>✅ Yes</td></tr><tr><td><strong>Audit log</strong></td><td>❌ No</td><td>✅ Scale and above</td></tr><tr><td><strong>SSO (SAML)</strong></td><td>✅ Enterprise</td><td>❌ Not available</td></tr><tr><td><strong>Organizations / multi-account</strong></td><td>⚠️ Teams</td><td>✅ Organizations with per-site scoping</td></tr></tbody></table>
+<p>The site and seat limits are worth dwelling on. An agency with 40 client sites needs Plausible Enterprise; on Sealmetrics, 40 sites is included in the entry plan. That closes a meaningful part of the raw price gap for multi-site buyers.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-quality--bot-filtering">Data Quality &amp; Bot Filtering<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#data-quality--bot-filtering" class="hash-link" aria-label="Direct link to Data Quality &amp; Bot Filtering" title="Direct link to Data Quality &amp; Bot Filtering" translate="no">​</a></h3>
+<table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Known-bot User-Agent filtering</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Bot IP database</strong></td><td>⚠️ Limited</td><td>✅ Yes, checked in memory, never stored</td></tr><tr><td><strong>Behavioural / timing analysis</strong></td><td>❌ No</td><td>✅ Yes</td></tr><tr><td><strong>HMAC request validation</strong></td><td>❌ No</td><td>✅ Yes</td></tr><tr><td><strong>Bot traffic reporting</strong></td><td>❌ No</td><td>✅ Bot stats and suspicious sessions</td></tr></tbody></table>
+<p>Sealmetrics runs a <a class="" href="https://docs.sealmetrics.com/security-privacy/bot-detection">five-layer bot detection system</a> and reports what it filtered, so you can see how much of your traffic was automated rather than simply trusting that it's gone.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="pricing-comparison">Pricing Comparison<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#pricing-comparison" class="hash-link" aria-label="Direct link to Pricing Comparison" title="Direct link to Pricing Comparison" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="plausible-pricing-july-2026">Plausible Pricing (July 2026)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#plausible-pricing-july-2026" class="hash-link" aria-label="Direct link to Plausible Pricing (July 2026)" title="Direct link to Plausible Pricing (July 2026)" translate="no">​</a></h3>
+<p><strong>Cloud</strong>, at the 10k pageviews entry tier, billed monthly:</p>
+<ul>
+<li class="">Starter: <strong>$9/month</strong> — 1 site, 1 user, 3-year retention</li>
+<li class="">Growth: <strong>$14/month</strong> — up to 3 sites, 3 team members, shared links and embedded dashboards</li>
+<li class="">Business: <strong>$19/month</strong> — up to 10 sites, 10 team members, 5-year retention, funnels, revenue attribution, custom properties, Stats API, Looker Studio</li>
+<li class="">Enterprise: custom — SSO, Sites API, managed proxy, scheduled raw exports</li>
+</ul>
+<p><strong>Self-hosted</strong>: free, no pageview limits, you run the infrastructure, no support.</p>
+<p><strong>Notes</strong>: pricing scales with total pageviews and custom events across the team; annual billing saves two months; 30-day free trial without a card; 15% discount on Business for nonprofits, education and open source.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sealmetrics-pricing-july-2026">Sealmetrics Pricing (July 2026)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#sealmetrics-pricing-july-2026" class="hash-link" aria-label="Direct link to Sealmetrics Pricing (July 2026)" title="Direct link to Sealmetrics Pricing (July 2026)" translate="no">​</a></h3>
+<p><strong>Volume-based plans</strong>, all with unlimited sites and unlimited users:</p>
+<ul>
+<li class="">Growth: <strong>€599/month</strong> (5M events) — <strong>€499/month</strong> annually</li>
+<li class="">Scale: <strong>€1,079/month</strong> (15M events) — <strong>€899/month</strong> annually</li>
+<li class="">Enterprise: custom (unlimited events)</li>
+</ul>
+<p><strong>Notes</strong>: 24-month retention on all plans; no overage charges; LENS AI included everywhere (BYOK unmetered); <a class="" href="https://docs.sealmetrics.com/billing/seal-ai-private">Seal AI Private</a> is an add-on on Growth and included on Scale and Enterprise; webhooks and audit logs from Scale; annual billing gives two months free. Full breakdown in the <a class="" href="https://docs.sealmetrics.com/billing/features-comparison">features comparison</a>.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="being-honest-about-the-gap">Being Honest About the Gap<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#being-honest-about-the-gap" class="hash-link" aria-label="Direct link to Being Honest About the Gap" title="Direct link to Being Honest About the Gap" translate="no">​</a></h3>
+<p>At list price these products are roughly 30× apart, and no amount of feature comparison makes €499/month the obvious choice over $19/month for a personal site or a small business. The gap narrows when you account for:</p>
+<ul>
+<li class=""><strong>Sites and seats</strong>: 40 sites and 25 users is Enterprise territory on Plausible and the entry plan on Sealmetrics</li>
+<li class=""><strong>Gated features</strong>: funnels, revenue, custom properties and the API are Business-tier on Plausible and standard on Sealmetrics</li>
+<li class=""><strong>AI</strong>: LENS and the MCP server have no Plausible equivalent at any price</li>
+<li class=""><strong>Volume</strong>: at 5M events/month, Plausible's own pricing has climbed well above its headline tiers</li>
+</ul>
+<p>It does not close entirely, and it shouldn't. If you want a fast, private pageview dashboard for a blog, buy Plausible.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="use-case-recommendations">Use Case Recommendations<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#use-case-recommendations" class="hash-link" aria-label="Direct link to Use Case Recommendations" title="Direct link to Use Case Recommendations" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="when-plausible-is-the-better-choice">When Plausible is the Better Choice<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#when-plausible-is-the-better-choice" class="hash-link" aria-label="Direct link to When Plausible is the Better Choice" title="Direct link to When Plausible is the Better Choice" translate="no">​</a></h3>
+<p><strong>Personal sites, blogs and small businesses</strong> — under a few hundred thousand pageviews, one or two sites, a budget measured in tens of euros. Plausible is excellent here and Sealmetrics is not the right tool.</p>
+<p><strong>Open-source advocates and self-hosters</strong> — full auditability, no vendor, no per-event cost. If you can run the infrastructure, self-hosted Plausible is free and completely transparent. Sealmetrics has no self-hosted option at all.</p>
+<p><strong>Developer tools and API companies</strong> — simple metrics, a technical audience that trusts open source, no need for revenue attribution.</p>
+<p><strong>Teams outside the EU that need multi-year history</strong> — if the AEPD's 24-month ceiling doesn't apply to you, Plausible's 3–5 year retention is a genuine advantage. Inside the EU, retention beyond 24 months works against the consent exemption rather than for you.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="when-sealmetrics-is-the-better-choice">When Sealmetrics is the Better Choice<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#when-sealmetrics-is-the-better-choice" class="hash-link" aria-label="Direct link to When Sealmetrics is the Better Choice" title="Direct link to When Sealmetrics is the Better Choice" translate="no">​</a></h3>
+<p><strong>EU e-commerce with real revenue at stake</strong> — funnels, item-level properties, revenue attribution by channel, custom channel rules and BigQuery export, all consentless, all in the entry plan.</p>
+<p><strong>B2B SaaS with high customer value and long sales cycles</strong> — 24 months of retention covers the full cycle, and micro-conversions plus custom properties let you measure the whole path without ever identifying a person.</p>
+<p><strong>Agencies and multi-brand groups</strong> — unlimited sites and users, organizations with per-site scoping, shared dashboards with your own logo, audit logs, and a portfolio view. Per-site pricing is what makes Plausible expensive at this shape.</p>
+<p><strong>Teams that want AI over their analytics</strong> — LENS for anomaly detection and natural-language questions, the MCP server so your existing AI assistant reads live data, and EU-hosted inference if sending prompts to a US provider is not acceptable.</p>
+<p><strong>Enterprises with a strict DPO</strong> — a legal basis that never touches an IP-derived identifier, published self-assessments against five regulators, EU-only infrastructure in Dublin, IP allowlists and audit logs.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="migration-guide">Migration Guide<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#migration-guide" class="hash-link" aria-label="Direct link to Migration Guide" title="Direct link to Migration Guide" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="from-google-analytics-to-either-tool">From Google Analytics to Either Tool<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#from-google-analytics-to-either-tool" class="hash-link" aria-label="Direct link to From Google Analytics to Either Tool" title="Direct link to From Google Analytics to Either Tool" translate="no">​</a></h3>
+<p><strong>Parallel tracking period</strong>: 30 days recommended.</p>
+<p><strong>Step 1: Install alongside GA4</strong></p>
+<div class="language-html codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-html codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">&lt;!-- Keep existing Google Analytics --&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">async</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">&lt;!-- Plausible --&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">defer</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">data-domain</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">yourdomain.com</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://plausible.io/js/script.js</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">&lt;!-- OR Sealmetrics --&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">defer</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://cdn.sealmetrics.com/sl.js</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
+<p><strong>Step 2: Verify data quality</strong> (14 days) — compare traffic volumes, check conversion tracking, validate geographic data, test custom events.</p>
+<p><strong>Step 3: Remove Google Analytics</strong> — the tracking code, the cookie banner if GA was the only reason for it, and Google Tag Manager if it was only used for GA.</p>
+<p>Plausible can import historical GA data. Sealmetrics cannot, so export what you need from GA4 first. Sealmetrics does provide a <a class="" href="https://docs.sealmetrics.com/ga4-migration">GA4 migration guide</a> and a <a class="" href="https://docs.sealmetrics.com/guides/ga4-migration-checklist">migration checklist</a>.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="from-plausible-to-sealmetrics">From Plausible to Sealmetrics<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#from-plausible-to-sealmetrics" class="hash-link" aria-label="Direct link to From Plausible to Sealmetrics" title="Direct link to From Plausible to Sealmetrics" translate="no">​</a></h3>
+<p><strong>Reasons to migrate</strong>:</p>
+<ul>
+<li class="">You've outgrown Plausible's site or seat limits</li>
+<li class="">You need revenue attribution and funnels without paying per site for Business</li>
+<li class="">Your DPO objects to an IP-derived identifier</li>
+<li class="">You want AI analysis, MCP access, webhooks or BigQuery</li>
+<li class="">You need custom channel grouping or content grouping</li>
+</ul>
+<p><strong>Process</strong>:</p>
+<p><strong>Step 1: Run both in parallel</strong></p>
+<div class="language-html codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-html codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">defer</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">data-domain</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">yourdomain.com</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://plausible.io/js/script.js</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">defer</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://cdn.sealmetrics.com/sl.js</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
+<p><strong>Step 2: Compare for 14+ days.</strong> Expect the numbers to differ, and expect the differences to be explainable rather than dramatic — both tools are cookieless and consentless, so neither is losing traffic to a banner. The typical sources of variance are session-window definitions (Sealmetrics uses a ~2-hour inactivity window), bot filtering (Sealmetrics filters more aggressively and reports what it removed), and the fact that Plausible's unique-visitor count has no Sealmetrics equivalent — compare entrances to visits, not to unique visitors.</p>
+<p><strong>Step 3: Instrument conversions.</strong> This is the real work of the migration. Add <code>sealmetrics.conv('purchase', amount)</code> and <code>sealmetrics.micro('add_to_cart')</code> calls, then verify with <a class="" href="https://docs.sealmetrics.com/getting-started/see-your-data-flow">setup verification</a>.</p>
+<p><strong>Step 4: Remove Plausible</strong> and export your historical reports first — data cannot be migrated between platforms.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="frequently-asked-questions">Frequently Asked Questions<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#frequently-asked-questions" class="hash-link" aria-label="Direct link to Frequently Asked Questions" title="Direct link to Frequently Asked Questions" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="does-plausible-store-my-visitors-ip-addresses">Does Plausible store my visitors' IP addresses?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#does-plausible-store-my-visitors-ip-addresses" class="hash-link" aria-label="Direct link to Does Plausible store my visitors' IP addresses?" title="Direct link to Does Plausible store my visitors' IP addresses?" translate="no">​</a></h3>
+<p>No. Plausible's data policy states that raw IP addresses are never stored. The IP is used as one input to a hash — along with a daily salt, the domain and the User-Agent — that produces a visitor identifier for that day, and the salt is rotated and deleted every 24 hours. The open question is not whether Plausible stores IPs (it doesn't) but whether an identifier <em>derived</em> from an IP is itself personal data. Sealmetrics sidesteps the question by never deriving one.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="is-plausibles-open-source-model-better-for-privacy">Is Plausible's open-source model better for privacy?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#is-plausibles-open-source-model-better-for-privacy" class="hash-link" aria-label="Direct link to Is Plausible's open-source model better for privacy?" title="Direct link to Is Plausible's open-source model better for privacy?" translate="no">​</a></h3>
+<p>For <strong>transparency</strong>, yes, and it's a real advantage — you can read exactly what the code does. For <strong>privacy outcomes</strong>, both are strong, with the architectural difference described above.</p>
+<p>Sealmetrics' closed source is verifiable by other means: network traffic inspection shows what leaves the browser, the <a class="" href="https://docs.sealmetrics.com/security-privacy">privacy documentation</a> describes the pipeline, and third-party audit reports are available on request.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="does-plausible-require-consent-in-germany">Does Plausible require consent in Germany?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#does-plausible-require-consent-in-germany" class="hash-link" aria-label="Direct link to Does Plausible require consent in Germany?" title="Direct link to Does Plausible require consent in Germany?" translate="no">​</a></h3>
+<p>Plausible's position is that it does not, and most German DPOs accept that. The friction point is the IP-derived daily identifier: a DPO who takes the strict view that no identifier may be derived from an IP address will not be satisfied by any hashing scheme. This is a minority position, not a majority one — but if it's <em>your</em> DPO's position, it's decisive.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-sealmetrics-track-authenticated-users-across-devices">Can Sealmetrics track authenticated users across devices?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#can-sealmetrics-track-authenticated-users-across-devices" class="hash-link" aria-label="Direct link to Can Sealmetrics track authenticated users across devices?" title="Direct link to Can Sealmetrics track authenticated users across devices?" translate="no">​</a></h3>
+<p>No, and neither can Plausible. Both are designed specifically not to track individuals across devices or sessions. For post-login product analytics, run server-side analytics keyed on your own <code>user_id</code>, or pair Sealmetrics with a product analytics tool for the logged-in experience. See <a class="" href="https://docs.sealmetrics.com/security-privacy/attribution-without-userid">attribution without user IDs</a>.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="do-ad-blockers-block-either-tool">Do ad blockers block either tool?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#do-ad-blockers-block-either-tool" class="hash-link" aria-label="Direct link to Do ad blockers block either tool?" title="Direct link to Do ad blockers block either tool?" translate="no">​</a></h3>
+<p>Both are blocked far less than Google Analytics, since neither is an advertising product, and blocking rates vary by audience — a developer-heavy audience blocks more than a general consumer one. We're not going to quote a precise percentage for either tool, because any single number is wrong for most sites.</p>
+<p>Both support first-party delivery via a custom domain, which is the actual fix. See <a class="" href="https://docs.sealmetrics.com/security-privacy/adblocker-bypass">ad blocker bypass</a>.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="which-has-better-performance">Which has better performance?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#which-has-better-performance" class="hash-link" aria-label="Direct link to Which has better performance?" title="Direct link to Which has better performance?" translate="no">​</a></h3>
+<p>Effectively identical. Plausible's script is around 1 KB, Sealmetrics' around 1.3 KB, both are deferred, both are asynchronous, and the difference is imperceptible to users. Neither will move your Core Web Vitals.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-i-use-both-together">Can I use both together?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#can-i-use-both-together" class="hash-link" aria-label="Direct link to Can I use both together?" title="Direct link to Can I use both together?" translate="no">​</a></h3>
+<p>Yes, and it's the recommended approach during a 30-day migration. Running both permanently adds negligible page weight but doubles your cost and gives you two numbers to reconcile. Pick one.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-i-white-label-either-tool">Can I white-label either tool?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#can-i-white-label-either-tool" class="hash-link" aria-label="Direct link to Can I white-label either tool?" title="Direct link to Can I white-label either tool?" translate="no">​</a></h3>
+<p><strong>Plausible</strong>: yes, by self-hosting — you can rebrand completely, at the cost of running the infrastructure.</p>
+<p><strong>Sealmetrics</strong>: partially. Shared dashboards support a custom logo and hiding Sealmetrics branding; full white-labelling is an Enterprise arrangement. There is no self-hosted option.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="which-has-better-support">Which has better support?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#which-has-better-support" class="hash-link" aria-label="Direct link to Which has better support?" title="Direct link to Which has better support?" translate="no">​</a></h3>
+<p><strong>Plausible</strong>: community support (GitHub, forum), email support for paying customers, extensive public documentation.</p>
+<p><strong>Sealmetrics</strong>: email support on all plans, chat on Growth and above, priority on Scale and above, dedicated account management on Enterprise, plus a 99.5% SLA (99.9% on Enterprise) and guided onboarding from Scale.</p>
+<p>Sealmetrics offers more formal support commitments; Plausible offers a larger public community. Which is better depends on whether you'd rather search a forum or open a ticket.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="conclusion-plausible-vs-sealmetrics-in-2026">Conclusion: Plausible vs Sealmetrics in 2026<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#conclusion-plausible-vs-sealmetrics-in-2026" class="hash-link" aria-label="Direct link to Conclusion: Plausible vs Sealmetrics in 2026" title="Direct link to Conclusion: Plausible vs Sealmetrics in 2026" translate="no">​</a></h2>
+<p>Both are far better than Google Analytics, and both are honestly privacy-first. The choice is no longer really about privacy — it's about scope and scale.</p>
+<p><strong>Choose Plausible if</strong>:</p>
+<ul>
+<li class="">Budget is the deciding factor</li>
+<li class="">You value open source and want the self-hosting option</li>
+<li class="">One to ten sites, a small team, simple metrics</li>
+<li class="">You want multi-year retention</li>
+<li class="">Your DPO accepts a daily salted identifier derived from IP + User-Agent</li>
+</ul>
+<p><strong>Choose Sealmetrics if</strong>:</p>
+<ul>
+<li class="">You need revenue attribution, funnels and micro-conversions as core features, not add-ons</li>
+<li class="">You run many sites or a large team and want that unmetered</li>
+<li class="">You want AI over your analytics — natural-language questions, automated anomaly detection, MCP access from Claude or ChatGPT</li>
+<li class="">You need webhooks, BigQuery, custom channel rules or audit logs</li>
+<li class="">Your DPO requires that no identifier be derived from an IP address</li>
+<li class="">EU-only processing, including for AI inference, is a requirement</li>
+</ul>
+<p><strong>The honest summary</strong>: Plausible is the better product for most small sites, and its price makes that easy to recommend. Sealmetrics is the better platform for EU businesses where analytics drives revenue decisions, where a team needs to work in the tool, and where AI-assisted analysis is becoming part of how marketing actually operates. They are converging on privacy and diverging on everything else.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="plausible-resources">Plausible Resources<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#plausible-resources" class="hash-link" aria-label="Direct link to Plausible Resources" title="Direct link to Plausible Resources" translate="no">​</a></h3>
+<ul>
+<li class=""><a href="https://plausible.io/" target="_blank" rel="noopener noreferrer" class="">Plausible Analytics Official Website</a></li>
+<li class=""><a href="https://plausible.io/data-policy" target="_blank" rel="noopener noreferrer" class="">Plausible Data Policy</a></li>
+<li class=""><a href="https://plausible.io/docs" target="_blank" rel="noopener noreferrer" class="">Plausible Documentation</a></li>
+<li class=""><a href="https://github.com/plausible/analytics" target="_blank" rel="noopener noreferrer" class="">Plausible GitHub Repository</a></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sealmetrics-resources">Sealmetrics Resources<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#sealmetrics-resources" class="hash-link" aria-label="Direct link to Sealmetrics Resources" title="Direct link to Sealmetrics Resources" translate="no">​</a></h3>
+<ul>
+<li class=""><a href="https://docs.sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">Sealmetrics Documentation</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/lens">LENS AI</a> — AI insights, anomaly detection and natural-language chat</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/integrations/mcp-server">MCP Server</a> — connect Claude, ChatGPT, Cursor or Codex</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/changelog">Release Notes</a> — what shipped and when</li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/compliance">Compliance Centre</a> — regulator-by-regulator self-assessments</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="comparison-resources">Comparison Resources<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#comparison-resources" class="hash-link" aria-label="Direct link to Comparison Resources" title="Direct link to Comparison Resources" translate="no">​</a></h3>
+<ul>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Cookieless Analytics Guide</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics">Sealmetrics vs Google Analytics</a></li>
+<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/consentless-analytics">What Is Consentless Analytics?</a></li>
+</ul>
+<hr>
+<p><strong>Ready to see what consentless analytics looks like with AI on top?</strong></p>
+<p>→ <a href="https://my.sealmetrics.com/register" target="_blank" rel="noopener noreferrer" class="">Start your free 14-day trial</a>
+→ <a href="https://sealmetrics.com/pricing" target="_blank" rel="noopener noreferrer" class="">Compare pricing</a></p>
+<p><em>Last reviewed: July 2026. Plausible's pricing and feature availability were verified against plausible.io at time of writing; check their site for current figures.</em></p>]]></content:encoded>
+            <category>Comparison</category>
+            <category>Plausible</category>
+            <category>Cookieless Analytics</category>
+            <category>Privacy</category>
+            <category>GDPR</category>
+        </item>
+        <item>
             <title><![CDATA[Long-Term Analytics: 24-Month Data Retention Without Consent]]></title>
             <link>https://docs.sealmetrics.com/blog/long-term-analytics-data-retention</link>
             <guid>https://docs.sealmetrics.com/blog/long-term-analytics-data-retention</guid>
@@ -817,513 +1114,6 @@
             <category>Cookieless Analytics</category>
             <category>Technical</category>
             <category>Implementation</category>
-            <category>GDPR</category>
-        </item>
-        <item>
-            <title><![CDATA[Sealmetrics vs Plausible: Which is Better? [2026 Comparison]]]></title>
-            <link>https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible</link>
-            <guid>https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible</guid>
-            <pubDate>Tue, 25 Nov 2025 00:00:00 GMT</pubDate>
-            <description><![CDATA[Sealmetrics vs Plausible compared. Both offer cookieless analytics, but which is truly consentless? Features, pricing, and GDPR compliance reviewed.]]></description>
-            <content:encoded><![CDATA[<blockquote>
-<p><strong>TL;DR</strong> — Sealmetrics vs Plausible compared. Both offer cookieless analytics, but which is truly consentless? Features, pricing, and GDPR compliance reviewed.</p>
-</blockquote>
-<p>Both <strong>Sealmetrics</strong> and <strong>Plausible Analytics</strong> position themselves as privacy-first alternatives to Google Analytics, offering cookieless analytics that respects user privacy. But despite surface similarities, these tools take fundamentally different technical approaches—differences that dramatically impact data accuracy, legal compliance, and business outcomes.</p>
-<p>The most critical distinction: <strong>Plausible</strong> uses hashed IP addresses for session tracking and may require consent in strict interpretations of GDPR, while <strong>Sealmetrics</strong> eliminates IP storage entirely, achieving true consentless analytics under GDPR Article 6(1)(f).</p>
-<p>This comprehensive comparison examines both platforms across 15 key dimensions: technical architecture, privacy implementation, GDPR compliance, data accuracy, features, pricing, and real-world performance. Whether you're migrating from Google Analytics or choosing between privacy-focused alternatives, this guide provides the detailed analysis you need.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-comparison-points">Key Comparison Points<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#key-comparison-points" class="hash-link" aria-label="Direct link to Key Comparison Points" title="Direct link to Key Comparison Points" translate="no">​</a></h2>
-<ul>
-<li class=""><strong>IP Storage</strong>: Plausible hashes and stores IPs; Sealmetrics stores zero IP data</li>
-<li class=""><strong>Consent Requirements</strong>: Plausible depends on configuration (often needs consent); Sealmetrics is consentless by design</li>
-<li class=""><strong>Data Accuracy</strong>: Plausible 20-40% loss from consent rejection; Sealmetrics 0% loss</li>
-<li class=""><strong>Pricing</strong>: Plausible starts €9/month; Sealmetrics starts €499/month with annual billing (more inclusive features)</li>
-<li class=""><strong>Setup Complexity</strong>: Both offer simple implementation (~2-5 minutes)</li>
-</ul>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="executive-summary-which-tool-is-right-for-you">Executive Summary: Which Tool is Right for You?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#executive-summary-which-tool-is-right-for-you" class="hash-link" aria-label="Direct link to Executive Summary: Which Tool is Right for You?" title="Direct link to Executive Summary: Which Tool is Right for You?" translate="no">​</a></h2>
-<p><strong>Choose Plausible if</strong>:</p>
-<ul>
-<li class="">You have a smaller budget (€9-19/month tier)</li>
-<li class="">Your traffic is primarily non-EU (USA, Asia)</li>
-<li class="">You're comfortable with IP hashing for session tracking</li>
-<li class="">You need self-hosted option for full data control</li>
-<li class="">You're okay with 20-40% data loss in EU markets</li>
-</ul>
-<p><strong>Choose Sealmetrics if</strong>:</p>
-<ul>
-<li class="">You need 100% data capture in EU markets</li>
-<li class="">True consentless analytics is critical (no banner ever)</li>
-<li class="">You want zero IP storage (maximum privacy)</li>
-<li class="">GDPR compliance without compromise is required</li>
-<li class="">You need longer data retention (24 months vs 6-12 months)</li>
-</ul>
-<p><strong>The Bottom Line</strong>: Both are vast improvements over Google Analytics. Plausible is a solid cookieless analytics tool with good privacy practices. <strong>Sealmetrics</strong> goes further by eliminating IP storage entirely, achieving true consentless operation, and capturing 100% of visitor data without legal risk.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="background-understanding-both-tools">Background: Understanding Both Tools<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#background-understanding-both-tools" class="hash-link" aria-label="Direct link to Background: Understanding Both Tools" title="Direct link to Background: Understanding Both Tools" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-is-plausible-analytics">What is Plausible Analytics?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#what-is-plausible-analytics" class="hash-link" aria-label="Direct link to What is Plausible Analytics?" title="Direct link to What is Plausible Analytics?" translate="no">​</a></h3>
-<p><strong>Plausible Analytics</strong> launched in 2019 as an open-source, privacy-friendly alternative to Google Analytics. Founded by Uku Täht and Marko Saric, Plausible quickly gained popularity in the privacy-conscious developer community.</p>
-<p><strong>Key characteristics</strong>:</p>
-<ul>
-<li class="">Open-source (AGPL license)</li>
-<li class="">Self-hosted or cloud-hosted options</li>
-<li class="">Lightweight script (less than 1KB)</li>
-<li class="">No cookies by default</li>
-<li class="">European-owned (Estonia-based)</li>
-<li class="">Simple, minimalist dashboard</li>
-</ul>
-<p><strong>Market position</strong>: Plausible has become one of the most popular Google Analytics alternatives, with 10,000+ paying customers and strong adoption among developers, indie hackers, and small businesses prioritizing privacy.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-is-sealmetrics">What is Sealmetrics?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#what-is-sealmetrics" class="hash-link" aria-label="Direct link to What is Sealmetrics?" title="Direct link to What is Sealmetrics?" translate="no">​</a></h3>
-<p><strong>Sealmetrics</strong> launched in 2023 specifically to solve the "consent paradox" in web analytics—the fact that cookie-based and consent-based analytics lose 60-87% of data in EU markets. Founded by privacy and analytics experts, Sealmetrics pioneered "consentless analytics" operating under GDPR legitimate interest.</p>
-<p><strong>Key characteristics</strong>:</p>
-<ul>
-<li class="">Proprietary (closed-source)</li>
-<li class="">Cloud-hosted only</li>
-<li class="">Dual tracking system (Session-ID + Isolated Hits)</li>
-<li class="">Zero IP storage architecture</li>
-<li class="">Spanish company (GDPR-native)</li>
-<li class="">Focus on EU compliance and 100% data capture</li>
-</ul>
-<p><strong>Market position</strong>: Sealmetrics is positioned as the most privacy-compliant cookieless analytics platform, specifically designed for EU businesses that cannot afford data loss from cookie/consent rejection.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-architecture-comparison">Technical Architecture Comparison<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#technical-architecture-comparison" class="hash-link" aria-label="Direct link to Technical Architecture Comparison" title="Direct link to Technical Architecture Comparison" translate="no">​</a></h2>
-<p>The fundamental technical differences between Plausible and <strong>Sealmetrics</strong> determine their privacy characteristics, compliance profiles, and data accuracy.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="session-tracking-methods">Session Tracking Methods<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#session-tracking-methods" class="hash-link" aria-label="Direct link to Session Tracking Methods" title="Direct link to Session Tracking Methods" translate="no">​</a></h3>
-<p><strong>Plausible's Approach</strong>:</p>
-<div class="language-javascript codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-javascript codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">// Simplified Plausible session identification</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">const</span><span class="token plain"> sessionId </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">hash</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  ipAddress </span><span class="token operator" style="color:#393A34">+</span><span class="token plain">          </span><span class="token comment" style="color:#999988;font-style:italic">// User's IP (hashed with daily salt)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  userAgent </span><span class="token operator" style="color:#393A34">+</span><span class="token plain">          </span><span class="token comment" style="color:#999988;font-style:italic">// Browser identifier</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  domain               </span><span class="token comment" style="color:#999988;font-style:italic">// Website domain</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">// Stored in database: sessionId (derived from hashed IP)</span><br></span></code></pre></div></div>
-<p>Plausible uses a <strong>hashed IP address</strong> combined with user agent and domain to generate a session identifier. The hash uses a daily rotating salt, meaning the same user gets a different session ID each day.</p>
-<p><strong>Pros</strong>:</p>
-<ul>
-<li class="">Reasonably privacy-preserving (hashing adds protection)</li>
-<li class="">Simple implementation</li>
-<li class="">Works across different privacy settings</li>
-</ul>
-<p><strong>Cons</strong>:</p>
-<ul>
-<li class="">Hashed IPs are still considered personal data under GDPR</li>
-<li class="">Some legal experts argue this requires consent</li>
-<li class="">Lack of KPIs for professional purpose</li>
-</ul>
-<p><strong>Sealmetrics' Approach</strong>:</p>
-<p><strong>Sealmetrics</strong> uses proprietary cookieless technology to identify sessions without storing IP addresses or personal data. Critically, <strong>IP addresses are never stored in the analytics database</strong> — they're only used transiently for security and anti-bot checks, and are never linked to any hit or metric. Even geolocation doesn't use the IP: visitor country is derived from the <a class="" href="https://docs.sealmetrics.com/security-privacy/country-detection">browser timezone</a>.</p>
-<p><strong>Pros</strong>:</p>
-<ul>
-<li class="">No IP storage = not personal data under GDPR</li>
-<li class="">True consentless operation under legitimate interest</li>
-<li class="">Cannot be used to identify individuals</li>
-</ul>
-<p><strong>Cons</strong>:</p>
-<ul>
-<li class="">Smaller customer base and community than Plausible.</li>
-<li class="">Slightly steeper learning curve for teams migrating from Google Analytics.</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ip-address-handling">IP Address Handling<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#ip-address-handling" class="hash-link" aria-label="Direct link to IP Address Handling" title="Direct link to IP Address Handling" translate="no">​</a></h3>
-<p>This is the most critical technical difference.</p>
-<p><strong>Plausible</strong>:</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">1. Receive request with IP address</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">2. Hash IP with daily rotating salt</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">3. Store hashed IP in database</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">4. Use hashed IP for session identification</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">5. Hashed IP retained for duration of data retention</span><br></span></code></pre></div></div>
-<p><strong>GDPR Consideration</strong>: The European Data Protection Board has stated that hashed IP addresses are still personal data if they can be used to identify individuals—especially when combined with other data (user agent, timestamps, etc.).</p>
-<p><strong>Sealmetrics</strong>:</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">1. Receive request with IP address</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">2. Check if the IP is one of Sealmetrics's Bot-IPs list.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">3. Block the IP otherwise is a human user.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">4. Sealmetrics doesn't know the IP of the user.</span><br></span></code></pre></div></div>
-<p><strong>GDPR Consideration</strong>: By never storing IPs (even hashed), <strong>Sealmetrics</strong> avoids processing personal data entirely. This allows operation under GDPR Article 6(1)(f) legitimate interest without consent requirements.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="privacy--gdpr-compliance-comparison">Privacy &amp; GDPR Compliance Comparison<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#privacy--gdpr-compliance-comparison" class="hash-link" aria-label="Direct link to Privacy &amp; GDPR Compliance Comparison" title="Direct link to Privacy &amp; GDPR Compliance Comparison" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="consent-requirements">Consent Requirements<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#consent-requirements" class="hash-link" aria-label="Direct link to Consent Requirements" title="Direct link to Consent Requirements" translate="no">​</a></h3>
-<p><strong>Plausible's Position</strong>:</p>
-<p>Plausible states that their tool "does not require cookie consent" under most circumstances. However, the reality is more nuanced:</p>
-<ul>
-<li class=""><strong>GDPR Article 6(1)(f)</strong>: Plausible claims legitimate interest basis</li>
-<li class=""><strong>IP Hashing</strong>: Some DPOs argue hashed IPs require consent under strict GDPR interpretation</li>
-<li class=""><strong>Configuration-Dependent</strong>: Whether consent is needed depends on how you configure Plausible</li>
-</ul>
-<p>From Plausible's own documentation:</p>
-<blockquote>
-<p>"In most cases, Plausible Analytics does not require cookie consent. However, depending on your specific use case and interpretation by your Data Protection Officer, consent might still be necessary."</p>
-</blockquote>
-<p><strong>Translation</strong>: Plausible shifts legal risk to the user. Your DPO may require a consent banner despite using Plausible.</p>
-<p><strong>Sealmetrics' Position</strong>:</p>
-<p><strong>Sealmetrics</strong> is unambiguous: <strong>no consent required, ever</strong>. This is possible because:</p>
-<ol>
-<li class=""><strong>No personal data processing</strong>: Zero IP storage means no personal data under GDPR</li>
-<li class=""><strong>GDPR Article 6(1)(f)</strong>: Documented legitimate interest for website analytics</li>
-<li class=""><strong>Purpose limitation</strong>: Data used exclusively for analytics, never advertising</li>
-<li class=""><strong>Data minimization</strong>: Only aggregated, non-personal data collected</li>
-<li class=""><strong>CNIL guidance compliance</strong>: Meets French regulator's requirements for consentless analytics</li>
-<li class=""><strong>AEPD guidance compliance</strong>: Meets Spanish regulator's requirements for consentless analytics</li>
-</ol>
-<p>Multiple DPOs in Germany, France, and Spain have approved <strong>Sealmetrics</strong> implementations without consent banners. The legal basis is clear and documented.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="cnil-compliance-france">CNIL Compliance (France)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#cnil-compliance-france" class="hash-link" aria-label="Direct link to CNIL Compliance (France)" title="Direct link to CNIL Compliance (France)" translate="no">​</a></h3>
-<p>The CNIL (French data protection authority) issued specific guidance on analytics in 2020, updated in 2024:</p>
-<p><strong>Requirements for consentless analytics</strong>:</p>
-<ol>
-<li class="">No cookies stored on user device</li>
-<li class="">No cross-site tracking</li>
-<li class="">No IP address storage for user identification</li>
-<li class="">Limited data retention (≤24 months)</li>
-<li class="">Clear privacy policy disclosure</li>
-</ol>
-<p><strong>Plausible</strong>:</p>
-<ul>
-<li class="">✅ No cookies</li>
-<li class="">✅ No cross-site tracking</li>
-<li class="">⚠️ Stores hashed IPs (questionable compliance)</li>
-<li class="">✅ Configurable retention</li>
-<li class="">✅ Privacy policy possible</li>
-</ul>
-<p><strong>Verdict</strong>: Plausible's IP hashing creates gray area under CNIL guidance.</p>
-<p><strong>Sealmetrics</strong>:</p>
-<ul>
-<li class="">✅ No cookies</li>
-<li class="">✅ No cross-site tracking</li>
-<li class="">✅ Zero IP storage</li>
-<li class="">✅ 24-month retention (CNIL-optimized)</li>
-<li class="">✅ Privacy policy included</li>
-</ul>
-<p><strong>Verdict</strong>: <strong>Sealmetrics</strong> fully complies with CNIL requirements explicitly.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ttdsg-compliance-germany">TTDSG Compliance (Germany)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#ttdsg-compliance-germany" class="hash-link" aria-label="Direct link to TTDSG Compliance (Germany)" title="Direct link to TTDSG Compliance (Germany)" translate="no">​</a></h3>
-<p>Germany's TTDSG (Telecommunications-Telemedia Data Protection Act) is among Europe's strictest privacy laws.</p>
-<p><strong>Key requirement</strong>: Consent is required for storing/accessing information on user devices (§25 TTDSG).</p>
-<p><strong>Plausible</strong>:</p>
-<ul>
-<li class="">✅ No cookies stored (TTDSG compliant)</li>
-<li class="">⚠️ Hashed IP question remains (under German interpretation)</li>
-</ul>
-<p><strong>Sealmetrics</strong>:</p>
-<ul>
-<li class="">✅ No cookies stored</li>
-<li class="">✅ No IP storage</li>
-<li class="">✅ Fully TTDSG compliant</li>
-</ul>
-<p>German DPOs have been particularly strict about hashed IP addresses. <strong>Sealmetrics'</strong> zero-IP approach eliminates this concern entirely.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="feature-comparison">Feature Comparison<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#feature-comparison" class="hash-link" aria-label="Direct link to Feature Comparison" title="Direct link to Feature Comparison" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="core-analytics-features">Core Analytics Features<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#core-analytics-features" class="hash-link" aria-label="Direct link to Core Analytics Features" title="Direct link to Core Analytics Features" translate="no">​</a></h3>
-<table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Real-Time Data</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Pageviews</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Unique Visitors</strong></td><td>✅ Yes (daily unique)</td><td>❌ No</td></tr><tr><td><strong>Bounce Rate</strong></td><td>✅ Yes</td><td>❌ No</td></tr><tr><td><strong>Visit Duration</strong></td><td>✅ Yes</td><td>❌ No</td></tr><tr><td><strong>Traffic Sources</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>UTM Campaign Tracking</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Device/Browser Breakdown</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Geographic Data</strong></td><td>✅ Country only</td><td>✅ Country only</td></tr><tr><td><strong>Operating System</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Screen Size</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr></tbody></table>
-<p><strong>Notable differences</strong>:</p>
-<ul>
-<li class="">Both offer similar core metrics for standard analytics use cases</li>
-<li class="">Sealmetrics doesn't calculate Unique Visitors, Bounce Rate or Visit Duration because tracking these KPIs requires individual user tracking, which would require consent.</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="advanced-features">Advanced Features<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#advanced-features" class="hash-link" aria-label="Direct link to Advanced Features" title="Direct link to Advanced Features" translate="no">​</a></h3>
-<table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Custom Events</strong></td><td>✅ Yes (unlimited)</td><td>✅ Yes (unlimited)</td></tr><tr><td><strong>Goal Tracking</strong></td><td>✅ Yes (€/$ value)</td><td>✅ Yes (€/$ value)</td></tr><tr><td><strong>Conversion Funnels</strong></td><td>❌ No</td><td>✅ <strong>Yes</strong></td></tr><tr><td><strong>E-commerce Tracking</strong></td><td>⚠️ Via custom events</td><td>✅ <strong>Native support</strong></td></tr><tr><td><strong>Custom Properties</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Session Recording</strong></td><td>❌ No (privacy by design)</td><td>❌ No (privacy by design)</td></tr><tr><td><strong>Heatmaps</strong></td><td>❌ No</td><td>❌ No</td></tr><tr><td><strong>A/B Testing</strong></td><td>❌ No</td><td>❌ No</td></tr><tr><td><strong>Data Retention</strong></td><td>6-12 months default</td><td><strong>24 months (GDPR-optimized)</strong></td></tr><tr><td><strong>API Access</strong></td><td>✅ Yes (Stats API)</td><td>✅ Yes (Full API)</td></tr><tr><td><strong>Data Export</strong></td><td>✅ CSV export</td><td>✅ CSV export</td></tr></tbody></table>
-<p><strong>Key differences</strong>:</p>
-<ul>
-<li class=""><strong>Sealmetrics</strong> includes conversion funnels natively; Plausible doesn't offer funnel visualization</li>
-<li class=""><strong>Sealmetrics</strong> provides 24-month retention vs 6-12 months typical for Plausible</li>
-<li class="">Neither offers session recording or heatmaps (by privacy design)</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="integration--technical-features">Integration &amp; Technical Features<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#integration--technical-features" class="hash-link" aria-label="Direct link to Integration &amp; Technical Features" title="Direct link to Integration &amp; Technical Features" translate="no">​</a></h3>
-<table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Script Size</strong></td><td>1.3 KB</td><td>1.3 KB</td></tr><tr><td><strong>Self-Hosted Option</strong></td><td>✅ Yes (open-source)</td><td>❌ No (cloud only)</td></tr><tr><td><strong>Custom Domain (CNAME)</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>WordPress Plugin</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Shopify Integration</strong></td><td>⚠️ Manual</td><td>⚠️ Manual</td></tr><tr><td><strong>Google Search Console</strong></td><td>✅ Yes</td><td>❌ No</td></tr><tr><td><strong>Slack Integration</strong></td><td>✅ Yes</td><td>❌ No</td></tr><tr><td><strong>Webhooks</strong></td><td>❌ No</td><td>❌ No</td></tr><tr><td><strong>Multiple Websites</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>White-Label</strong></td><td>✅ Yes (self-hosted)</td><td>⚠️ Enterprise only</td></tr><tr><td><strong>Big Query Connector</strong></td><td>❌ No</td><td>✅ Yes</td></tr></tbody></table>
-<p><strong>Key differences</strong>:</p>
-<ul>
-<li class=""><strong>Plausible</strong> offers self-hosting (major advantage for some users)</li>
-<li class=""><strong>Both have similar script size</strong> (~1.3 KB gzipped)</li>
-<li class=""><strong>Sealmetrics</strong> has better e-commerce platform integrations</li>
-<li class=""><strong>Sealmetrics</strong> has a connector to BigQuery service.</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="team--collaboration">Team &amp; Collaboration<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#team--collaboration" class="hash-link" aria-label="Direct link to Team &amp; Collaboration" title="Direct link to Team &amp; Collaboration" translate="no">​</a></h3>
-<table><thead><tr><th>Feature</th><th>Plausible</th><th>Sealmetrics</th></tr></thead><tbody><tr><td><strong>Multi-User Access</strong></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><strong>Role-Based Permissions</strong></td><td>⚠️ Basic (viewer/admin)</td><td>✅ <strong>Granular roles</strong></td></tr><tr><td><strong>Shared Links</strong></td><td>✅ Yes (public dashboards)</td><td>❌ No</td></tr><tr><td><strong>Email Reports</strong></td><td>✅ Daily/Weekly/monthly</td><td>✅ Daily/weekly/monthly</td></tr><tr><td><strong>Slack/Email Alerts</strong></td><td>✅ Traffic spikes</td><td>❌ No</td></tr></tbody></table>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-accuracy--loss-comparison">Data Accuracy &amp; Loss Comparison<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#data-accuracy--loss-comparison" class="hash-link" aria-label="Direct link to Data Accuracy &amp; Loss Comparison" title="Direct link to Data Accuracy &amp; Loss Comparison" translate="no">​</a></h2>
-<p>This is where the technical differences translate to business impact.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="session-tracking-accuracy">Session Tracking Accuracy<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#session-tracking-accuracy" class="hash-link" aria-label="Direct link to Session Tracking Accuracy" title="Direct link to Session Tracking Accuracy" translate="no">​</a></h3>
-<p><strong>Plausible</strong> (daily rotating hash):</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Day 1: User visits, session_id = hash(IP + UA + "2024-11-25")</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Day 2: Same user returns, session_id = hash(IP + UA + "2024-11-26")</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Result: Counted as 2 unique users, not returning visitor</span><br></span></code></pre></div></div>
-<p><strong>Limitation</strong>: Daily rotation means multi-day visitor journeys are broken. A user visiting Monday and Tuesday appears as two separate users.</p>
-<p><strong>Sealmetrics</strong> (no tracking session):</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Day 1: User visits, new session generated (no cookies, no personal data)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Session expires after users leave the website</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Day 2: Same user returns, new session generated</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Result: Properly tracked as new visitor</span><br></span></code></pre></div></div>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="pricing-comparison">Pricing Comparison<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#pricing-comparison" class="hash-link" aria-label="Direct link to Pricing Comparison" title="Direct link to Pricing Comparison" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="plausible-pricing-2026">Plausible Pricing (2026)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#plausible-pricing-2026" class="hash-link" aria-label="Direct link to Plausible Pricing (2026)" title="Direct link to Plausible Pricing (2026)" translate="no">​</a></h3>
-<p><strong>Cloud Hosting</strong>:</p>
-<ul>
-<li class="">Starter: <strong>€9/month</strong> (10K pageviews)</li>
-<li class="">Growth: <strong>€19/month</strong> (100K pageviews)</li>
-<li class="">Business: <strong>€49/month</strong> (500K pageviews)</li>
-<li class="">Enterprise: <strong>€99+/month</strong> (custom)</li>
-</ul>
-<p><strong>Self-Hosted</strong>:</p>
-<ul>
-<li class="">Free (open-source)</li>
-<li class="">No pageview limits</li>
-<li class="">You manage infrastructure</li>
-<li class="">No support included</li>
-</ul>
-<p><strong>Notable</strong>:</p>
-<ul>
-<li class="">Simple pricing based purely on pageviews</li>
-<li class="">Annual billing gets 33% discount</li>
-<li class="">All features included at all tiers</li>
-<li class="">Additional sites: +€6/month each</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sealmetrics-pricing-2026">Sealmetrics Pricing (2026)<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#sealmetrics-pricing-2026" class="hash-link" aria-label="Direct link to Sealmetrics Pricing (2026)" title="Direct link to Sealmetrics Pricing (2026)" translate="no">​</a></h3>
-<p><strong>Volume-based plans</strong> (all features included):</p>
-<ul>
-<li class="">Growth: <strong>€599/month</strong> (5M events) — €499/month with annual billing</li>
-<li class="">Scale: <strong>€1,079/month</strong> (15M events) — €899/month with annual billing</li>
-<li class="">Enterprise: <strong>Custom pricing</strong> (unlimited events)</li>
-</ul>
-<p><strong>Notable</strong>:</p>
-<ul>
-<li class="">All features included in all plans (no tiered features)</li>
-<li class="">Unlimited websites and unlimited users on all plans</li>
-<li class="">24-month data retention included</li>
-<li class="">Annual billing gives you 2 months free</li>
-</ul>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="use-case-recommendations">Use Case Recommendations<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#use-case-recommendations" class="hash-link" aria-label="Direct link to Use Case Recommendations" title="Direct link to Use Case Recommendations" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="when-plausible-is-the-better-choice">When Plausible is the Better Choice<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#when-plausible-is-the-better-choice" class="hash-link" aria-label="Direct link to When Plausible is the Better Choice" title="Direct link to When Plausible is the Better Choice" translate="no">​</a></h3>
-<p><strong>Scenario 1: Small Blog/Personal Site</strong></p>
-<ul>
-<li class="">Traffic: less than 50K visitors/month</li>
-<li class="">Budget: less than €20/month</li>
-<li class="">Location: Primarily USA traffic</li>
-<li class="">Need: Basic pageview tracking</li>
-</ul>
-<p><strong>Why Plausible</strong>: At €9-19/month for small traffic, Plausible offers excellent value. The data loss from consent requirements matters less for US-focused content sites.</p>
-<p><strong>Scenario 2: Open-Source Advocate / Self-Hosting</strong></p>
-<ul>
-<li class="">Priority: Full data control</li>
-<li class="">Technical: Comfortable managing infrastructure</li>
-<li class="">Privacy: Maximum transparency via open source</li>
-<li class="">Budget: Time &gt; money</li>
-</ul>
-<p><strong>Why Plausible</strong>: Self-hosted Plausible is free and fully transparent. You control everything, can audit the code, and customize as needed.</p>
-<p><strong>Scenario 3: Developer Tool / API Company</strong></p>
-<ul>
-<li class="">Audience: Privacy-conscious developers</li>
-<li class="">Traffic: Tech-savvy users who block ads</li>
-<li class="">Need: Simple metrics, not conversion tracking</li>
-<li class="">Budget: Cost-conscious startup</li>
-</ul>
-<p><strong>Why Plausible</strong>: Developer community trusts Plausible's open-source model. Simpler metrics suffice for most dev tools.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="when-sealmetrics-is-the-better-choice">When Sealmetrics is the Better Choice<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#when-sealmetrics-is-the-better-choice" class="hash-link" aria-label="Direct link to When Sealmetrics is the Better Choice" title="Direct link to When Sealmetrics is the Better Choice" translate="no">​</a></h3>
-<p><strong>Scenario 1: EU-Focused E-commerce</strong></p>
-<ul>
-<li class="">Traffic: 60%+ from Germany, France, Spain</li>
-<li class="">Revenue: €500K+ annual</li>
-<li class="">Need: Complete conversion tracking</li>
-<li class="">Legal: DPO requires zero personal data processing</li>
-</ul>
-<p><strong>Why Sealmetrics</strong>: The 0% data loss in EU markets is critical. Complete conversion funnels enable optimization. True consentless operation eliminates legal risk.</p>
-<p><strong>Scenario 2: B2B SaaS with High Customer Value</strong></p>
-<ul>
-<li class="">Customer LTV: €10K-100K+</li>
-<li class="">Sales cycle: 30-90 days</li>
-<li class="">Need: Multi-day attribution</li>
-<li class="">Legal: GDPR compliance critical</li>
-</ul>
-<p><strong>Why Sealmetrics</strong>: Losing 25% of potential leads (Plausible's data loss) means missing high-value opportunities. 24-month retention tracks full sales cycles. Zero IP storage satisfies enterprise DPOs.</p>
-<p><strong>Scenario 3: Enterprise with Strict Compliance</strong></p>
-<ul>
-<li class="">Size: 500+ employees</li>
-<li class="">Regulation: GDPR + industry-specific (finance, healthcare)</li>
-<li class="">Requirement: Documented consentless operation</li>
-<li class="">Budget: Analytics accuracy &gt; cost</li>
-</ul>
-<p><strong>Why Sealmetrics</strong>: Enterprise DPOs consistently approve <strong>Sealmetrics</strong> without consent banners. Documentation is comprehensive. Support is responsive.</p>
-<p><strong>Scenario 4: Multi-Domain Brand</strong></p>
-<ul>
-<li class="">Properties: 5-10 websites</li>
-<li class="">Traffic: 1M+ combined monthly visitors</li>
-<li class="">Need: Unified analytics without cross-domain tracking</li>
-<li class="">Compliance: Different jurisdictions (EU, UK, etc.)</li>
-</ul>
-<p><strong>Why Sealmetrics</strong>: True consentless operation works everywhere. Country-level geo data identifies market performance. Conversion funnels work across properties.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="migration-guide">Migration Guide<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#migration-guide" class="hash-link" aria-label="Direct link to Migration Guide" title="Direct link to Migration Guide" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="from-google-analytics-to-either-tool">From Google Analytics to Either Tool<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#from-google-analytics-to-either-tool" class="hash-link" aria-label="Direct link to From Google Analytics to Either Tool" title="Direct link to From Google Analytics to Either Tool" translate="no">​</a></h3>
-<p><strong>Parallel Tracking Period</strong>: 30 days recommended</p>
-<p><strong>Step 1: Implementation</strong></p>
-<div class="language-html codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-html codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">&lt;!-- Keep existing Google Analytics --&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">async</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">&lt;!-- Add Plausible OR Sealmetrics --&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">&lt;!-- Plausible --&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">defer</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">data-domain</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">yourdomain.com</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://plausible.io/js/script.js</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">&lt;!-- OR Sealmetrics --&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">defer</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://cdn.sealmetrics.com/sl.js</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
-<p><strong>Step 2: Verify Data Quality</strong> (14 days)</p>
-<ul>
-<li class="">Compare traffic volumes</li>
-<li class="">Check conversion tracking accuracy</li>
-<li class="">Validate geographic data</li>
-<li class="">Test custom event tracking</li>
-</ul>
-<p><strong>Step 3: [Optional] Remove Google Analytics</strong>
-Once confident in new tool, remove:</p>
-<ul>
-<li class="">Google Analytics tracking code</li>
-<li class="">Cookie consent banner (if using <strong>Sealmetrics</strong>)</li>
-<li class="">Google Tag Manager (if only used for GA)</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="from-plausible-to-sealmetrics">From Plausible to Sealmetrics<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#from-plausible-to-sealmetrics" class="hash-link" aria-label="Direct link to From Plausible to Sealmetrics" title="Direct link to From Plausible to Sealmetrics" translate="no">​</a></h3>
-<p><strong>Why migrate</strong>: If you discover:</p>
-<ul>
-<li class="">Your DPO requires consent banner even with Plausible</li>
-<li class="">Data loss is higher than expected (20-30% in EU)</li>
-<li class="">You need conversion funnels</li>
-<li class="">Multi-day attribution is critical</li>
-</ul>
-<p><strong>Migration Process</strong>:</p>
-<p><strong>Step 1: Add Sealmetrics</strong> (keep Plausible running)</p>
-<div class="language-html codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-html codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">&lt;!-- Keep Plausible temporarily --&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">defer</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">data-domain</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">yourdomain.com</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://plausible.io/js/script.js</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic">&lt;!-- Add Sealmetrics --&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">script</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">defer</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">src</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag attr-value" style="color:#e3116c">https://cdn.sealmetrics.com/sl.js</span><span class="token tag attr-value punctuation" style="color:#393A34">"</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token script"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">script</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
-<p><strong>Step 2: Compare Data</strong> (14 days minimum)</p>
-<ul>
-<li class=""><strong>Sealmetrics</strong> should show 20-30% more traffic (the data Plausible loses)</li>
-<li class="">Verify geographic accuracy</li>
-<li class="">Test conversion tracking</li>
-<li class="">Check API integration if needed</li>
-</ul>
-<p><strong>Step 3: Remove Plausible</strong></p>
-<ul>
-<li class="">Remove Plausible script</li>
-<li class="">Cancel subscription (keep one month as backup)</li>
-<li class="">Update privacy policy to mention <strong>Sealmetrics</strong></li>
-</ul>
-<p><strong>Step 4: Remove Consent Banner</strong> (if present)
-If you had consent banner with Plausible:</p>
-<ul>
-<li class="">Remove banner code completely</li>
-<li class="">Update privacy policy to explain consentless basis</li>
-<li class="">Notify users via blog post (optional but transparent)</li>
-</ul>
-<p><strong>Historical Data</strong>: Cannot migrate between platforms. Export key reports from Plausible before canceling.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="frequently-asked-questions">Frequently Asked Questions<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#frequently-asked-questions" class="hash-link" aria-label="Direct link to Frequently Asked Questions" title="Direct link to Frequently Asked Questions" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-i-use-both-plausible-and-sealmetrics-together">Can I use both Plausible and Sealmetrics together?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#can-i-use-both-plausible-and-sealmetrics-together" class="hash-link" aria-label="Direct link to Can I use both Plausible and Sealmetrics together?" title="Direct link to Can I use both Plausible and Sealmetrics together?" translate="no">​</a></h3>
-<p>Yes, but it's generally unnecessary. Both tools serve the same purpose (cookieless analytics). Running both:</p>
-<ul>
-<li class="">Increases page weight minimally (~9KB total)</li>
-<li class="">Provides redundancy if one service has issues</li>
-<li class="">Allows comparison during migration</li>
-</ul>
-<p><strong>Recommendation</strong>: Use both during 30-day migration, then choose one.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="is-plausibles-open-source-model-better-for-privacy">Is Plausible's open-source model better for privacy?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#is-plausibles-open-source-model-better-for-privacy" class="hash-link" aria-label="Direct link to Is Plausible's open-source model better for privacy?" title="Direct link to Is Plausible's open-source model better for privacy?" translate="no">​</a></h3>
-<p><strong>Transparency</strong>: Yes, open source allows code auditing
-<strong>Privacy</strong>: Not necessarily—both tools are privacy-first by design</p>
-<p><strong>Sealmetrics'</strong> closed-source approach doesn't inherently mean less privacy. The documented zero-IP architecture is verifiable through:</p>
-<ul>
-<li class="">Network traffic inspection (no IPs sent to servers)</li>
-<li class="">GDPR compliance documentation</li>
-<li class="">Third-party audits (available on request)</li>
-</ul>
-<p><strong>Verdict</strong>: Open source offers transparency advantage, but both tools achieve similar privacy outcomes.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="does-plausible-require-consent-in-germany">Does Plausible require consent in Germany?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#does-plausible-require-consent-in-germany" class="hash-link" aria-label="Direct link to Does Plausible require consent in Germany?" title="Direct link to Does Plausible require consent in Germany?" translate="no">​</a></h3>
-<p><strong>Legal answer</strong>: It depends on interpretation.</p>
-<p><strong>Conservative DPOs</strong> (30-40%): Argue hashed IPs are personal data → require consent
-<strong>Moderate DPOs</strong> (40-50%): Accept hashed IPs under legitimate interest → no consent
-<strong>Liberal DPOs</strong> (10-20%): Accept any cookieless approach → no consent</p>
-<p><strong>Sealmetrics</strong> eliminates this ambiguity: zero IP storage means clearly no consent needed under any interpretation.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-sealmetrics-track-authenticated-users-across-devices">Can Sealmetrics track authenticated users across devices?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#can-sealmetrics-track-authenticated-users-across-devices" class="hash-link" aria-label="Direct link to Can Sealmetrics track authenticated users across devices?" title="Direct link to Can Sealmetrics track authenticated users across devices?" translate="no">​</a></h3>
-<p>No. <strong>Sealmetrics</strong> (and Plausible) are designed specifically NOT to track individuals across devices or sessions. This is a privacy feature, not a limitation.</p>
-<p>For authenticated user analytics (post-login behavior), consider:</p>
-<ul>
-<li class="">Server-side analytics (log user_id with pageviews)</li>
-<li class="">Combine <strong>Sealmetrics</strong> with application analytics (e.g., Mixpanel for logged-in users)</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-about-ad-blockersdo-they-block-either-tool">What about ad blockers—do they block either tool?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#what-about-ad-blockersdo-they-block-either-tool" class="hash-link" aria-label="Direct link to What about ad blockers—do they block either tool?" title="Direct link to What about ad blockers—do they block either tool?" translate="no">​</a></h3>
-<p><strong>Ad blockers</strong> (uBlock Origin, etc.):</p>
-<ul>
-<li class=""><strong>Plausible</strong>: Blocked by ~5-10% of users (occasionally caught in filter lists)</li>
-<li class=""><strong>Sealmetrics</strong>: Blocked by ~3-5% of users</li>
-</ul>
-<p>Both are significantly better than Google Analytics (~35% blocked). Neither tool is "advertising," so most blockers allow them.</p>
-<p><strong>Workaround</strong>: Both support custom domain (CNAME) setup to bypass even aggressive blockers.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-i-migrate-from-plausible-to-sealmetrics-without-losing-data">Can I migrate from Plausible to Sealmetrics without losing data?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#can-i-migrate-from-plausible-to-sealmetrics-without-losing-data" class="hash-link" aria-label="Direct link to Can I migrate from Plausible to Sealmetrics without losing data?" title="Direct link to Can I migrate from Plausible to Sealmetrics without losing data?" translate="no">​</a></h3>
-<p><strong>Historical data</strong>: Cannot be migrated directly due to different data structures.</p>
-<p><strong>Process</strong>:</p>
-<ol>
-<li class="">Export key reports from Plausible (CSV)</li>
-<li class="">Implement <strong>Sealmetrics</strong> alongside Plausible</li>
-<li class="">Run parallel for 30 days (overlap data for comparison)</li>
-<li class="">Remove Plausible once confident</li>
-<li class="">Refer to exported Plausible data for historical comparisons</li>
-</ol>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="which-tool-has-better-performance-page-load-impact">Which tool has better performance (page load impact)?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#which-tool-has-better-performance-page-load-impact" class="hash-link" aria-label="Direct link to Which tool has better performance (page load impact)?" title="Direct link to Which tool has better performance (page load impact)?" translate="no">​</a></h3>
-<p><strong>Plausible</strong>:</p>
-<ul>
-<li class="">Script size: 1.3 KB (gzipped)</li>
-<li class="">Load time: ~20-30ms</li>
-<li class="">Performance impact: Negligible</li>
-</ul>
-<p><strong>Sealmetrics</strong>:</p>
-<ul>
-<li class="">Script size: 1.3 KB (gzipped)</li>
-<li class="">Load time: ~20-30ms</li>
-<li class="">Performance impact: Negligible</li>
-</ul>
-<p><strong>Verdict</strong>: Both have virtually identical script sizes and minimal impact. The difference is imperceptible to users.</p>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="does-either-tool-work-with-cloudflare">Does either tool work with Cloudflare?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#does-either-tool-work-with-cloudflare" class="hash-link" aria-label="Direct link to Does either tool work with Cloudflare?" title="Direct link to Does either tool work with Cloudflare?" translate="no">​</a></h3>
-<p><strong>Both</strong> work perfectly with Cloudflare:</p>
-<ul>
-<li class="">Cloudflare doesn't interfere with either script</li>
-<li class="">Both can use Cloudflare for script delivery (custom domain)</li>
-<li class="">Cloudflare's privacy features don't conflict with either tool</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="can-i-white-label-either-tool-for-my-agency">Can I white-label either tool for my agency?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#can-i-white-label-either-tool-for-my-agency" class="hash-link" aria-label="Direct link to Can I white-label either tool for my agency?" title="Direct link to Can I white-label either tool for my agency?" translate="no">​</a></h3>
-<p><strong>Plausible</strong>:</p>
-<ul>
-<li class="">✅ Yes via self-hosting</li>
-<li class="">You can rebrand completely</li>
-<li class="">Requires technical setup</li>
-</ul>
-<p><strong>Sealmetrics</strong>:</p>
-<ul>
-<li class="">❌ White-label not available</li>
-<li class="">Managed service (no self-hosting)</li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="which-has-better-support">Which has better support?<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#which-has-better-support" class="hash-link" aria-label="Direct link to Which has better support?" title="Direct link to Which has better support?" translate="no">​</a></h3>
-<p><strong>Plausible</strong>:</p>
-<ul>
-<li class="">Community support (Discord, GitHub)</li>
-<li class="">Email support for paying customers</li>
-<li class="">Extensive documentation</li>
-<li class="">Response time: 24-48 hours</li>
-</ul>
-<p><strong>Sealmetrics</strong>:</p>
-<ul>
-<li class="">Email support for all customers</li>
-<li class="">Email support on all plans</li>
-<li class="">Chat support on Growth+ plans</li>
-<li class="">Priority support on Scale+ plans</li>
-<li class="">Fast, prioritized response times</li>
-</ul>
-<p><strong>Verdict</strong>: <strong>Sealmetrics</strong> provides faster, more personalized support.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="conclusion-plausible-vs-sealmetrics-in-2026">Conclusion: Plausible vs Sealmetrics in 2026<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#conclusion-plausible-vs-sealmetrics-in-2026" class="hash-link" aria-label="Direct link to Conclusion: Plausible vs Sealmetrics in 2026" title="Direct link to Conclusion: Plausible vs Sealmetrics in 2026" translate="no">​</a></h2>
-<p>Both <strong>Plausible</strong> and <strong>Sealmetrics</strong> are excellent alternatives to Google Analytics, offering cookieless analytics that respects user privacy. The choice between them depends on your specific requirements, budget, and compliance needs.</p>
-<p><strong>Choose Plausible if</strong>:</p>
-<ul>
-<li class="">Budget is primary concern (starting at €9/month)</li>
-<li class="">You value open-source transparency</li>
-<li class="">Traffic is primarily non-EU (USA, Asia)</li>
-<li class="">Self-hosting is important</li>
-<li class="">You're comfortable with 20-30% EU data loss</li>
-<li class="">DPO accepts hashed IP approach</li>
-</ul>
-<p><strong>Choose Sealmetrics if</strong>:</p>
-<ul>
-<li class="">EU market is significant (50%+ traffic)</li>
-<li class="">100% data capture is critical</li>
-<li class="">True consentless operation required (no banner ever)</li>
-<li class="">You need conversion funnels</li>
-<li class="">DPO requires zero IP storage</li>
-<li class="">Multi-day attribution matters</li>
-<li class="">You prefer managed service over self-hosting</li>
-</ul>
-<p><strong>The Reality</strong>: For most EU-focused businesses with significant traffic and conversion tracking needs, <strong>Sealmetrics'</strong> zero IP storage, consentless operation, and 100% data capture justify the higher price. The investment in complete data visibility is justified by the value of accurate analytics.</p>
-<p>For small sites, USA-focused traffic, or budget-conscious projects, <strong>Plausible</strong> offers excellent value and has proven itself as a reliable, privacy-first analytics solution.</p>
-<p><strong>Bottom line</strong>: Both are vast improvements over Google Analytics. Plausible is a great cookieless analytics tool. <strong>Sealmetrics</strong> takes privacy-first analytics to its logical conclusion—zero IP storage, zero data loss, zero compromise.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="additional-resources">Additional Resources<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#additional-resources" class="hash-link" aria-label="Direct link to Additional Resources" title="Direct link to Additional Resources" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="plausible-resources">Plausible Resources<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#plausible-resources" class="hash-link" aria-label="Direct link to Plausible Resources" title="Direct link to Plausible Resources" translate="no">​</a></h3>
-<ul>
-<li class=""><a href="https://plausible.io/" target="_blank" rel="noopener noreferrer" class="">Plausible Analytics Official Website</a></li>
-<li class=""><a href="https://plausible.io/docs" target="_blank" rel="noopener noreferrer" class="">Plausible Documentation</a></li>
-<li class=""><a href="https://github.com/plausible/analytics" target="_blank" rel="noopener noreferrer" class="">Plausible GitHub Repository</a></li>
-<li class=""><a href="https://plausible.io/docs/self-hosting" target="_blank" rel="noopener noreferrer" class="">Self-Hosting Guide</a></li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sealmetrics-resources">Sealmetrics Resources<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#sealmetrics-resources" class="hash-link" aria-label="Direct link to Sealmetrics Resources" title="Direct link to Sealmetrics Resources" translate="no">​</a></h3>
-<ul>
-<li class=""><a href="https://sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">Sealmetrics Official Website</a></li>
-<li class=""><a href="https://docs.sealmetrics.com/" target="_blank" rel="noopener noreferrer" class="">Sealmetrics Documentation</a></li>
-<li class=""><a class="" href="https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework">GDPR Compliance Guide</a></li>
-</ul>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="comparison-resources">Comparison Resources<a href="https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible#comparison-resources" class="hash-link" aria-label="Direct link to Comparison Resources" title="Direct link to Comparison Resources" translate="no">​</a></h3>
-<ul>
-<li class=""><a class="" href="https://docs.sealmetrics.com/blog/cookieless-analytics-guide">Complete Cookieless Analytics Guide</a></li>
-<li class=""><a class="" href="https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics">Sealmetrics vs Google Analytics</a></li>
-<li class=""><a class="" href="https://docs.sealmetrics.com/security-privacy/consentless-analytics">What Is Consentless Analytics?</a></li>
-</ul>
-<hr>
-<p><strong>Ready to try 100% data capture with zero legal risk?</strong></p>
-<p>Experience true consentless analytics with <strong>Sealmetrics</strong> — no cookies, no consent banners, no compromise.</p>
-<p>→ <a href="https://my.sealmetrics.com/register" target="_blank" rel="noopener noreferrer" class="">Start your free 14-day trial</a>
-→ <a href="https://sealmetrics.com/pricing" target="_blank" rel="noopener noreferrer" class="">Compare pricing</a></p>]]></content:encoded>
-            <category>Comparison</category>
-            <category>Plausible</category>
-            <category>Cookieless Analytics</category>
-            <category>Privacy</category>
             <category>GDPR</category>
         </item>
         <item>
