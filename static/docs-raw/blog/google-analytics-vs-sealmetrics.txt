@@ -96,7 +96,34 @@ This is why the consequences show up as bad decisions rather than as obviously m
 
 No consent gate means no consent-driven loss, and first-party delivery means ad blockers have little to match on. Sealmetrics is not "unblockable" — no analytics tool is, and any vendor claiming otherwise is overselling — but it is not an advertising product, doesn't track across sites, and can be served from your own domain. See [ad blocker bypass](/security-privacy/adblocker-bypass).
 
-**Verify it yourself rather than taking anyone's word for it.** Run both tools in parallel for 30 days and compare Sealmetrics entrances against GA4 sessions, then sanity-check both against a source neither controls — Google Search Console clicks for organic, or your ad platform's own click counts for paid. That triangulation tells you your real gap, which is the only number worth acting on.
+### What this looks like in practice
+
+Two published customer results, both from hotel groups running Sealmetrics alongside their existing stack.
+
+**[Dreamplace Hotels](https://sealmetrics.com/case-studies/dreamplace-hotels/)** — around two years on Sealmetrics, focused on channel attribution across Meta and Google, where pixel-reported numbers diverged most:
+
+- **+30% more traffic recorded than Google Analytics**, once the consent gap was closed
+- **15–20% more sales attributed** than their previous tool, narrowing the gap to their CRM
+
+> "What it gives us is what we've always needed: data as real as possible, as close to reality as possible."
+> — Eduardo Martin, Analytics & Campaigns, Dreamplace Hotels
+
+**[Palladium Hotel Group](https://sealmetrics.com/case-studies/palladium-hotel-group/)** — the problem here was attribution quality rather than raw volume. Before Sealmetrics, **40% of inbound traffic arrived with no attribution** and **35% of bookings couldn't be connected** to the campaign, channel or placement that produced them, with Meta Pixel, the Google Ads tag, GA4, the booking engine and agency platforms all reporting different numbers.
+
+Measuring DV360 display on cost-per-availability-search and rebalancing the mix on that basis produced a **165% improvement in cost-per-search** — same budget, different measurement, different decisions.
+
+> "The data SealMetrics delivers is agnostic, unbiased and neutral. There's no black box."
+> — Toni Andújar, Digital & Direct Sales Director, Palladium Hotel Group
+
+### Note the size of that gap
+
+**+30% is not 5x**, and it's worth being clear about why, because inflated claims are easy to find in this category — including in earlier versions of this article.
+
+Cookie rejection rates don't translate one-to-one into missing traffic. Consent Mode v2 models part of the gap, some rejected visitors are returning users GA4 has already counted, and rejection varies enormously by market, industry and banner design. A 50% rejection rate does not mean GA4 shows you half your traffic; the real shortfall is usually smaller, and always specific to your site.
+
+So treat every multiplier you read — ours included — as a prompt to measure, not as a forecast. Run both tools in parallel for 30 days, compare Sealmetrics entrances against GA4 sessions, and sanity-check both against a source neither vendor controls: Search Console clicks for organic, or your ad platform's own click counts for paid. **Your gap is the only number worth acting on**, and it may well look more like Dreamplace's 30% than like the headline figures elsewhere in this market.
+
+The attribution finding often matters more than the volume one anyway. Palladium's 35% of unconnectable bookings wasn't traffic that went unrecorded — it was traffic that arrived, converted, and couldn't be credited to anything.
 
 ---
 
@@ -356,9 +383,11 @@ It is not immune — no analytics tool is, and blocking rates vary by audience. 
 
 ### How accurate is Sealmetrics compared to GA4?
 
-Outside the EU, where rejection rates are low, the two land close. Inside the EU the gap widens sharply — but the right framing is that Sealmetrics isn't *more accurate*, it's *seeing visitors GA4 never had the chance to record*.
+Sealmetrics isn't *more accurate* — it's *seeing visitors GA4 never had the chance to record*, plus attributing visits GA4 files as Direct.
 
-Don't take a multiplier from an article. Run both for 30 days, then check both against Search Console clicks or your ad platform's click counts. Your own gap is the only one that means anything.
+For a real number rather than a claim: [Dreamplace Hotels](https://sealmetrics.com/case-studies/dreamplace-hotels/) measured **+30% more traffic than Google Analytics** and **15–20% more attributed sales** than their previous tool. That is a meaningful gap and a modest one — considerably smaller than the multipliers this category tends to advertise.
+
+Don't take a figure from any article, ours included. Run both for 30 days, then check each against Search Console clicks or your ad platform's click counts. Your own gap is the only one that means anything.
 
 ### Can I run both at the same time?
 
