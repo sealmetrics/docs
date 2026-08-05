@@ -61940,7 +61940,9 @@ Sealmetrics' 24 months is not a limitation we'd like to lift — it's the regula
 | **User journeys** | ✅ Business plan | ⚠️ Path analysis via Pages report |
 | **Micro-conversions** | ⚠️ Via custom events | ✅ Native |
 | **E-commerce tracking** | ✅ Business plan (revenue attribution) | ✅ Native, with item-level properties |
-| **Custom properties / dimensions** | ✅ Business plan | ✅ All plans |
+| **Custom properties (scalar values)** | ✅ Business plan — max 30 per event | ✅ All plans — no fixed cap |
+| **Item-level e-commerce data (line items)** | ❌ Scalars only; arrays and objects rejected | ✅ `items[]` array per conversion |
+| **Properties on pageviews** | ✅ Yes | ❌ Conversions and micro-conversions only |
 | **Saved segments** | ✅ All plans | ✅ All plans |
 | **Custom channel grouping** | ❌ No | ✅ Drafts → test → publish, with CSV import/export |
 | **Content grouping** | ❌ No | ✅ Yes |
@@ -61951,6 +61953,21 @@ Sealmetrics' 24 months is not a limitation we'd like to lift — it's the regula
 **Key differences**:
 - The 2023-era claim that Plausible lacks funnels is no longer true — funnels and user journeys shipped on the Business plan. What differs now is that Sealmetrics includes funnels, revenue and custom properties on **every** plan, while Plausible gates them behind Business.
 - Sealmetrics' [custom channel grouping](/platform/settings/tracking/channel-grouping) (July 2026) lets you define your own marketing channels on top of the GA4-style defaults, test a rule against a sample visit with the same engine the pixel uses, and publish only when you're ready. There is no Plausible equivalent.
+- **Custom properties are not the same feature on both platforms.** Plausible accepts only scalar values — its documentation states that properties take strings, numbers and booleans, and that arrays and objects are rejected. Sealmetrics accepts an `items` array of objects, so a single purchase carries one row per line item:
+
+  ```javascript
+  sealmetrics.conv('purchase', 149.99, {
+
+    payment_method: 'credit_card',
+    items: [
+      { product_name: 'Camiseta', price: 19.95, quantity: 2, category: 'Ropa' },
+      { product_name: 'Pantalón', price: 49.99, quantity: 1, category: 'Ropa' }
+    ]
+  });
+  ```
+
+  On Plausible you would flatten this by hand into `product_1`, `product_2` and so on, which breaks down as soon as orders have a variable number of lines and eats quickly into the 30-property ceiling. Their revenue attribution is order-level; breakdowns by SKU, size, colour or room type have no Plausible equivalent at any price. See [event properties](/implementation/custom-properties/event-properties) and the [Properties report](/reports/properties).
+- **Plausible attaches properties to pageviews; Sealmetrics doesn't.** Sealmetrics properties ride on `conv()` and `micro()` calls, and pageviews are segmented with [content grouping](/platform/settings/tracking/content-grouping) instead — a fixed dimension rather than free-form keys. To segment content traffic by author or article type with no conversion involved, Plausible is the more direct fit.
 - **Plausible retains data longer, but not compliantly.** The AEPD caps consent-exempt analytics retention at 24 months and the CNIL at 25. Plausible's 3–5 year default exceeds both, so multi-year history is only an advantage if you aren't depending on the analytics exemption in those jurisdictions.
 
 ### AI & Agent Capabilities
