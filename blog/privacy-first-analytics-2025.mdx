@@ -209,7 +209,7 @@ True privacy-first analytics **stores zero IP addresses**—not raw, not hashed,
 **Sealmetrics' technical approach**:
 - Visitor country is derived from the **browser timezone** (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from the IP — see [country detection](/security-privacy/country-detection)
 - Only country-level geo is stored (e.g., "Germany") — never city or region
-- The IP is used transiently in memory for security/anti-bot checks and immediately discarded — never stored in any database (there is no IP column)
+- The IP is used transiently server-side for security/anti-bot checks — never stored in the analytics database (there is no IP column)
 
 This approach is **fundamentally different** from competitors like Plausible or Matomo, which hash and store IPs for session identification. By using session-based tracking instead, Sealmetrics achieves the same functionality without ever storing any IP data.
 
