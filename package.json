@@ -20,6 +20,7 @@
     "check:openapi": "redocly lint static/openapi.json",
     "fix:openapi": "node scripts/fix-openapi.mjs && redocly bundle static/openapi.json -o static/openapi.yaml",
     "check:ui-claims": "node scripts/check-ui-claims.mjs",
+    "check:product-claims": "node scripts/check-product-claims.mjs",
     "generate:ui-manifest": "node scripts/generate-ui-manifest.mjs"
   },
   "dependencies": {

@@ -9,6 +9,12 @@ name: API contract check
 #   that don't exist in the dashboard (scripts/ui-manifest.json — committed;
 #   CI never needs the dashboard repo). Refresh it locally with
 #   `npm run generate:ui-manifest` (see scripts/generate-ui-manifest.mjs).
+# product-claims: fails if docs or blog posts ASSERT a capability we don't have
+#   (scripts/capability-ledger.json). The two checks above validate references —
+#   does the endpoint exist, does the screen exist — and both passed while
+#   published pages claimed SSO, user journeys, exit pages and IP-based
+#   geolocation. None of those is a broken reference; they are false statements.
+#   Edit the ledger, not this file, when a capability ships or is retired.
 # Security note: no untrusted event data is interpolated in run commands.
 
 on:
@@ -16,19 +22,25 @@ on:
     branches: [main]
     paths:
       - 'docs/**'
+      - 'blog/**'
       - 'scripts/check-api-contract.mjs'
       - 'scripts/openapi-snapshot.json'
       - 'scripts/check-ui-claims.mjs'
       - 'scripts/ui-manifest.json'
+      - 'scripts/check-product-claims.mjs'
+      - 'scripts/capability-ledger.json'
       - 'static/openapi.json'
       - 'redocly.yaml'
   pull_request:
     paths:
       - 'docs/**'
+      - 'blog/**'
       - 'scripts/check-api-contract.mjs'
       - 'scripts/openapi-snapshot.json'
       - 'scripts/check-ui-claims.mjs'
       - 'scripts/ui-manifest.json'
+      - 'scripts/check-product-claims.mjs'
+      - 'scripts/capability-ledger.json'
       - 'static/openapi.json'
       - 'redocly.yaml'
   workflow_dispatch:
@@ -53,6 +65,16 @@ jobs:
           node-version: 20
       - name: Check documented dashboard routes and tabs against the UI manifest
         run: node scripts/check-ui-claims.mjs
+
+  product-claims:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check feature claims against the capability ledger
+        run: node scripts/check-product-claims.mjs
 
   openapi-lint:
     runs-on: ubuntu-latest
