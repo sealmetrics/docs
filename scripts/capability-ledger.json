@@ -203,6 +203,29 @@
       ],
       "allow": [],
       "requiresSubject": true
+    },
+    {
+      "id": "security-certifications",
+      "label": "SOC 2 / ISO 27001 and other third-party security certifications",
+      "why": "Sealmetrics holds none. Removed from data-location.mdx and cnil-self-assessment.mdx in PR #58. Compliance rests on the architecture and the published self-assessments, which are our own assertions, not an auditor's.",
+      "patterns": [
+        "SOC ?2",
+        "ISO ?27001",
+        "ISO ?27701",
+        "security certification",
+        "certified (?:secure|infrastructure)"
+      ],
+      "allow": [
+        {
+          "file": "docs/security-privacy/data-location.mdx",
+          "reason": "States outright that we hold no such certifications. The disclaimer itself."
+        },
+        {
+          "file": "docs/billing/faq.mdx",
+          "reason": "PCI DSS Level 1 refers to Stripe, our payment processor, not to Sealmetrics."
+        }
+      ],
+      "requiresSubject": false
     }
   ]
 }
