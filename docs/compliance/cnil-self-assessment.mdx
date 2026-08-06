@@ -129,12 +129,14 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 | Aspect | Compliance |
 |--------|------------|
 | First-party only | ✅ No third-party cookies (no cookies at all) |
+| Site-isolated identifiers | ✅ Session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites |
 | No cross-domain identification | ✅ Hits are stored per account and never joined across sites |
 | No unified IDs | ✅ No cross-site user graph, no shared advertising ID |
 
 **Technical Implementation:**
 ```
 Session marker: ephemeral (~2h), computed in the browser, never stored on the device
+Session marker scope: per publisher account — the account is an input to the identifier's derivation, so identifiers cannot match across different publishers' sites
 Cookies: none (neither first- nor third-party)
 Cross-domain tracking: not performed — data is collected, stored, and reported per account
 ```
