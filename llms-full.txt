@@ -496,10 +496,8 @@ Instrument the intermediate steps as microconversions (`sealmetrics.micro('add_t
 Deep insights into how individual pages perform:
 
 - **Page Views** - Traffic to each URL
-- **Navigation Patterns** - How visitors flow through your content
 - **Entry Pages** - Where sessions start
-- **Exit Pages** - Where users leave
-- **Engagement Metrics** - Time on page and interaction depth
+- **Engagement Metrics** - Bounce rate, engagement rate and pages per session, all computed in aggregate
 
 Identify your highest-performing content and optimize underperforming pages.
 
@@ -600,9 +598,10 @@ All detected from user agent strings without storing personal information.
 Country-level visitor attribution derived from time zone data, not IP addresses. Know where your audience is located without privacy risks.
 
 ### Session Analytics
-- Session duration measurement
 - Pages per session tracking
-- Navigation path analysis
+- Bounce rate and engagement rate, computed in aggregate
+
+Session duration and individual navigation paths are **not** measured: both require following one visitor across page loads, which needs a persistent identifier. See the [Metrics Reference](/reports/definitions) for what is and isn't tracked.
 
 Sessions are identified by a temporary, non-persistent marker derived from the browser context — nothing is stored in cookies or local storage. A session ends after roughly two hours of inactivity, and Sealmetrics never recognizes visitors across sessions: separate visits can never be linked together.
 
@@ -61975,7 +61974,7 @@ Connect `https://mcp.sealmetrics.com/mcp` to Claude, ChatGPT, Cursor or Codex an
 | API access | ✅ | ✅ All plans (240–480 req/min) |
 | CSV / JSON / streaming export | ✅ | ✅ |
 | Webhooks | ❌ | ✅ Scale and above |
-| Shared / public dashboards | ⚠️ Via Looker Studio | ✅ Public or password-protected, with embeds |
+| Shared / public dashboards | ⚠️ Via Looker Studio | ❌ No |
 | Bot filtering | ⚠️ Known bots list | ✅ Five-layer, with bot traffic reporting |
 | Audit log | ⚠️ Limited | ✅ Scale and above |
 | Sites / users included | Unlimited | Unlimited |
@@ -62227,7 +62226,7 @@ Both **Sealmetrics** and **Plausible Analytics** are privacy-first alternatives 
 
 The core technical difference is narrow but consequential: **Plausible derives a daily visitor identifier from the visitor's IP address and User-Agent**, while **Sealmetrics never derives any identifier from the IP at all** — not for sessions, not even for geolocation.
 
-The core product difference is much wider: since the launch of Sealmetrics V2 in February 2026, Sealmetrics has added an AI analytics layer (LENS), an MCP server that lets Claude, ChatGPT and Cursor query your data in plain language, custom channel grouping, webhooks, shared dashboards and EU-hosted AI. Plausible has stayed deliberately minimal — which for many teams is exactly the point.
+The core product difference is much wider: since the launch of Sealmetrics V2 in February 2026, Sealmetrics has added an AI analytics layer (LENS), an MCP server that lets Claude, ChatGPT and Cursor query your data in plain language, custom channel grouping, webhooks and EU-hosted AI. Plausible has stayed deliberately minimal — which for many teams is exactly the point.
 
 This comparison is updated for **July 2026** and covers architecture, privacy, features, AI capabilities, pricing and the honest trade-offs in both directions.
 
@@ -62415,7 +62414,7 @@ Sealmetrics' 24 months is not a limitation we'd like to lift — it's the regula
 | **Custom events** | ✅ Unlimited | ✅ Unlimited |
 | **Goal tracking with revenue** | ✅ Business plan | ✅ All plans |
 | **Conversion funnels** | ✅ Business plan | ✅ All plans |
-| **User journeys** | ✅ Business plan | ⚠️ Path analysis via Pages report |
+| **User journeys** | ✅ Business plan | ❌ No |
 | **Micro-conversions** | ⚠️ Via custom events | ✅ Native |
 | **E-commerce tracking** | ✅ Business plan (revenue attribution) | ✅ Native, with item-level properties |
 | **Custom properties (scalar values)** | ✅ Business plan — max 30 per event | ✅ All plans — no fixed cap |
@@ -62429,7 +62428,7 @@ Sealmetrics' 24 months is not a limitation we'd like to lift — it's the regula
 | **Data retention** | 3 years (Starter/Growth), 5 years (Business) — above the EU ceiling | 24 months — at the AEPD maximum |
 
 **Key differences**:
-- The 2023-era claim that Plausible lacks funnels is no longer true — funnels and user journeys shipped on the Business plan. What differs now is that Sealmetrics includes funnels, revenue and custom properties on **every** plan, while Plausible gates them behind Business.
+- The 2023-era claim that Plausible lacks funnels is no longer true — funnels and user journeys shipped on the Business plan. What differs now is that Sealmetrics includes funnels, revenue and custom properties on **every** plan, while Plausible gates them behind Business. User journeys are a genuine Plausible-only feature: Sealmetrics has no path-analysis report.
 - Sealmetrics' [custom channel grouping](/platform/settings/tracking/channel-grouping) (July 2026) lets you define your own marketing channels on top of the GA4-style defaults, test a rule against a sample visit with the same engine the pixel uses, and publish only when you're ready. There is no Plausible equivalent.
 - **Custom properties are not the same feature on both platforms.** Plausible accepts only scalar values — its documentation states that properties take strings, numbers and booleans, and that arrays and objects are rejected. Sealmetrics accepts an `items` array of objects, so a single purchase carries one row per line item:
 
@@ -62501,8 +62500,8 @@ LENS also runs detection rules on a cadence and emails you when traffic drops, c
 | **Sites included** | 1 / 3 / 10 by plan | **Unlimited on every plan** |
 | **Team members** | 1 / 3 / 10 by plan | **Unlimited on every plan** |
 | **Role-based permissions** | ⚠️ Basic | ✅ Basic → Advanced → Full by plan |
-| **Shared / public dashboards** | ✅ Growth and above | ✅ [Yes](/api/shared-dashboards), public or password-protected, with embeds and expiry |
-| **White-label dashboards** | ✅ Via self-hosting | ⚠️ Custom logo + hide branding on shared dashboards; full white-label Enterprise only |
+| **Shared / public dashboards** | ✅ Growth and above | ❌ No |
+| **White-label dashboards** | ✅ Via self-hosting | ⚠️ Enterprise arrangement only |
 | **Two-factor authentication** | ✅ Yes | ✅ Yes, with backup codes |
 | **IP allowlist for account access** | ❌ No | ✅ Yes |
 | **Audit log** | ❌ No | ✅ Scale and above |
@@ -62575,7 +62574,7 @@ It does not close entirely, and it shouldn't. If you want a fast, private pagevi
 
 **B2B SaaS with high customer value and long sales cycles** — 24 months of retention covers the full cycle, and micro-conversions plus custom properties let you measure the whole path without ever identifying a person.
 
-**Agencies and multi-brand groups** — unlimited sites and users, organizations with per-site scoping, shared dashboards with your own logo, audit logs, and a portfolio view. Per-site pricing is what makes Plausible expensive at this shape.
+**Agencies and multi-brand groups** — unlimited sites and users, organizations with per-site scoping, audit logs, and a portfolio view. Per-site pricing is what makes Plausible expensive at this shape. Note the trade-off: Plausible offers shared and embedded client dashboards from its Growth plan and Sealmetrics has no equivalent, so client-facing reporting means the API, Looker Studio or a dashboard login.
 
 **Teams that want AI over their analytics** — LENS for anomaly detection and natural-language questions, the MCP server so your existing AI assistant reads live data, and EU-hosted inference if sending prompts to a US provider is not acceptable.
 
@@ -62668,7 +62667,7 @@ Yes, and it's the recommended approach during a 30-day migration. Running both p
 
 **Plausible**: yes, by self-hosting — you can rebrand completely, at the cost of running the infrastructure.
 
-**Sealmetrics**: partially. Shared dashboards support a custom logo and hiding Sealmetrics branding; full white-labelling is an Enterprise arrangement. There is no self-hosted option.
+**Sealmetrics**: no. There is no self-hosted option and no shared-dashboard layer to rebrand; white-labelling is only available as an Enterprise arrangement.
 
 ### Which has better support?
 
