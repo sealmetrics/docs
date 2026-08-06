@@ -40830,6 +40830,7 @@ Sealmetrics uses a privacy-preserving session tracking approach.
 - ID expires as soon as the session ends  
 - No cross-session linking  
 - No persistent identifiers  
+- Session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites  
 
 ### Data Captured
 - Page views for the duration of the session  
@@ -41286,6 +41287,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 #### 5. Session context marker
 - **What it is:** an in-memory, short-lived identifier scoped to a single browsing session (~2-hour inactivity timeout, GA4-style), derived from the visitor's browser context. It exists so that within one session we can distinguish "second pageview" from "new entrance".
 - **What it isn't:** a cross-session identifier. It is not a cookie, it is not stored in the browser (localStorage, sessionStorage, or otherwise), and it does not persist beyond the session. It cannot be used to recognize a returning visitor.
+- **Site-isolated by design:** session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites — no cross-site correlation is possible at the identifier level.
 - **Why it's compliant:** the identifier is context-derived and short-lived — it does not enable individual tracking under GDPR Article 4(1), which is why analytics without user identifiers qualify for consent-free operation under CNIL guidance (`analytics without consent`) and Article 6(1)(f).
 
 ---
@@ -43307,12 +43309,14 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 | Aspect | Compliance |
 |--------|------------|
 | First-party only | ✅ No third-party cookies (no cookies at all) |
+| Site-isolated identifiers | ✅ Session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites |
 | No cross-domain identification | ✅ Hits are stored per account and never joined across sites |
 | No unified IDs | ✅ No cross-site user graph, no shared advertising ID |
 
 **Technical Implementation:**
 ```
 Session marker: ephemeral (~2h), computed in the browser, never stored on the device
+Session marker scope: per publisher account — the account is an input to the identifier's derivation, so identifiers cannot match across different publishers' sites
 Cookies: none (neither first- nor third-party)
 Cross-domain tracking: not performed — data is collected, stored, and reported per account
 ```
