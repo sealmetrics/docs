@@ -60,10 +60,11 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 ALL aggregated — no user-level behavior.
 
-### 4. Navigation Patterns
-- Entry pages  
-- Exit pages  
+### 4. Entry Points
+- Entry pages (landing pages)  
 - Internal search (anonymous; via events)
+
+Exit pages and individual navigation paths are **not** tracked — reconstructing either requires sequencing one visitor's pageviews, which needs a persistent identifier.
 
 ### 5. Campaign & Marketing Analytics
 - UTM campaign tracking  
