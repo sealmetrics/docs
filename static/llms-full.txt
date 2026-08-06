@@ -22558,12 +22558,12 @@ All require a JWT session with the appropriate site role. Manual `sync` / `backf
 
 - **Advanced configuration**: See [BigQuery Settings](/platform/settings/integrations/bigquery) for data retention, sync options, and detailed schema
 - **API access**: use the endpoints above to manage the integration programmatically.
-- **Build dashboards**: Connect [Looker Studio](https://lookerstudio.google.com) to your BigQuery dataset for custom visualizations
+- **Build dashboards**: Connect [Data Studio](https://datastudio.google.com) to your BigQuery dataset for custom visualizations
 
 ## Related documentation
 
 - [BigQuery Integration](/platform/settings/integrations/bigquery) — configure the export, retention, and sync options in the dashboard.
-- [Looker Studio Integration](/platform/settings/integrations/looker-studio) — connect the exported dataset to Looker Studio dashboards.
+- [Data Studio Integration](/platform/settings/integrations/looker-studio) — connect the exported dataset to Data Studio dashboards.
 - [Exports](/api/exports) — alternative ways to pull your analytics data out of Sealmetrics.
 - [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.
 
@@ -29085,7 +29085,7 @@ The Query API is the most flexible way to extract analytics data from Sealmetric
 **Use cases:**
 - Export data to BigQuery, Snowflake, or any data warehouse
 - Build custom reports crossing multiple dimensions (e.g., source + country + device)
-- Power BI / Looker Studio integrations
+- Power BI / Data Studio integrations
 - Programmatic data pipelines
 
 **Tip:**
@@ -32680,7 +32680,7 @@ Create public or password-protected shareable dashboards, and configure embed pa
 **Caution:**
 These endpoints exist and work, but **the Sealmetrics dashboard has no UI for creating or managing shared dashboards**, and there is no hosted page that renders one. The API stores the configuration and issues the `share_token`; rendering the dashboard your recipients see is something you build.
 
-If you're looking for ready-made client-facing reporting, use the [Looker Studio connector](/platform/settings/integrations/looker-studio) or the [Stats API](/api/stats) instead. Treat this page as a building block, not a shipped feature.
+If you're looking for ready-made client-facing reporting, use the [Data Studio connector](/platform/settings/integrations/looker-studio) or the [Stats API](/api/stats) instead. Treat this page as a building block, not a shipped feature.
 
 **Base path:** `/shared-dashboards`
 
@@ -52773,7 +52773,7 @@ Document the following from your current GA4 property:
 - Custom events and the parameters they carry.
 - E-commerce tracking implementation (GA4 events or GTM-based).
 - Audiences and custom definitions.
-- Connected integrations (Google Ads, Search Console, Looker Studio, BigQuery export).
+- Connected integrations (Google Ads, Search Console, Data Studio, BigQuery export).
 - Retention settings and historical data you need to export before shutdown.
 
 ## How GA4 concepts map to Sealmetrics
@@ -52797,7 +52797,7 @@ Document the following from your current GA4 property:
 3. **Configure attribution.** Set channel groupings, attribution windows, and excluded domains via the Platform settings — see [Bypass POS or referrer](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer).
 4. **Validate in parallel** for 2–4 weeks. Expect Sealmetrics to report **5–8× more traffic** in EU markets because it captures consent-rejected visitors.
 5. **Export GA4 history** you want to keep — raw events via BigQuery, reports via CSV. Sealmetrics retains data for 24 months without consent; GA4 maxes out at 14 months under consent-free operation.
-6. **Update dashboards.** Rebuild Looker Studio / BI reports against [Sealmetrics exports](/api/exports) or the [Batch API](/api/batch).
+6. **Update dashboards.** Rebuild Data Studio / BI reports against [Sealmetrics exports](/api/exports) or the [Batch API](/api/batch).
 7. **Cut GA4 off** once parallel validation passes your QA.
 
 ## What's different
@@ -53430,7 +53430,7 @@ Before touching any code, inventory your GA4 property. The goal is a written lis
 - [ ] **Flag the zombie events.** Most GA4 properties accumulate events nobody has looked at in a year. Mark them — you will *not* migrate them, and that's a feature.
 - [ ] **Document your e-commerce implementation.** Which e-commerce events fire (`purchase`, `add_to_cart`, `begin_checkout`, `view_item`), whether they're implemented via gtag or Google Tag Manager, and where the purchase value comes from.
 - [ ] **List audiences and custom definitions** (custom dimensions/metrics) that reports depend on.
-- [ ] **List connected integrations.** Google Ads links, Search Console, Looker Studio dashboards, BigQuery export. For each: who consumes it and what breaks without it.
+- [ ] **List connected integrations.** Google Ads links, Search Console, Data Studio dashboards, BigQuery export. For each: who consumes it and what breaks without it.
 - [ ] **Note your GA4 reporting timezone.** You'll need it in Phase 2 — timezone mismatch is the most common cause of "the daily numbers don't line up".
 - [ ] **Note your data-retention settings** and decide what history you need to export before shutdown (Phase 5).
 
@@ -53550,7 +53550,7 @@ This is the phase where unprepared teams panic, because **the numbers will not m
 Sealmetrics starts collecting from day one; it does not import GA4 history. Whatever you'll want to reference later must be exported **while GA4 still works**.
 
 - [ ] **Export the reports you'll want as reference** — monthly traffic, top campaigns, conversion totals — via CSV, or raw events via BigQuery export if you have it. GA4's retention window (14 months on the free tier) means this history disappears on its own schedule anyway.
-- [ ] **Rebuild dashboards** (Looker Studio, BI) against Sealmetrics's [Exports API](/api/exports) or [Batch API](/api/batch), and use per-report CSV/PDF export for one-off needs.
+- [ ] **Rebuild dashboards** (Data Studio, BI) against Sealmetrics's [Exports API](/api/exports) or [Batch API](/api/batch), and use per-report CSV/PDF export for one-off needs.
 - [ ] **Repoint every consumer** from the Phase 0 integration list: dashboards, scheduled reports, internal tools.
 - [ ] **Brief the team on the new vocabulary** — entrances not sessions, no users metric, the engagement formula difference. The equivalence table above is the handout.
 
@@ -55337,33 +55337,38 @@ For a full breakdown of permissions, see [Roles & Permissions](../../user-manage
 
 
 
-## Looker Studio Integration
+## Data Studio Integration
 
 
 URL: https://docs.sealmetrics.com/platform/settings/integrations/looker-studio
 
 
-# Looker Studio Integration
+# Data Studio Integration
 
-Build custom dashboards and visual reports in Google Looker Studio using your SealMetrics analytics data. The official SealMetrics connector pulls traffic, sources, pages, conversions, and more directly into Looker Studio charts and tables.
+Build custom dashboards and visual reports in Google Data Studio using your SealMetrics analytics data. The official SealMetrics connector pulls traffic, sources, pages, conversions, and more directly into Data Studio charts and tables.
+
+**Note:**
+Google renamed Looker Studio back to **Data Studio** in April 2026, reversing the 2022 rebrand. Same product, same reports, same connector — only the name changed.
+
+This page keeps its `looker-studio` URL on purpose: the SealMetrics Apps Script manifest points its `addOnUrl` and `supportUrl` here, and changing it would break those and any existing bookmarks.
 
 ## Prerequisites
 
 - SealMetrics account with an active API key
-- Google account with access to [Looker Studio](https://lookerstudio.google.com)
+- Google account with access to [Data Studio](https://datastudio.google.com)
 
 ## How It Works
 
-The SealMetrics connector for Looker Studio fetches data in real-time from the SealMetrics API using your API key. Each time you view a dashboard, Looker Studio requests the latest data for your selected date range.
+The SealMetrics connector for Data Studio fetches data in real-time from the SealMetrics API using your API key. Each time you view a dashboard, Data Studio requests the latest data for your selected date range.
 
 ```
-Looker Studio → SealMetrics Connector → SealMetrics API → Your analytics data
+Data Studio → SealMetrics Connector → SealMetrics API → Your analytics data
 ```
 
-Data is cached for 5 minutes to ensure fast loading. Looker Studio may also apply its own caching.
+Data is cached for 5 minutes to ensure fast loading. Data Studio may also apply its own caching.
 
 **Note:**
-The SealMetrics Looker Studio connector is currently pending listing in the Looker Studio Partner Connector Gallery. While the listing is being reviewed, your Google account must be granted **Viewer** access to the underlying connector. If the authorization page redirects you to the Looker Studio home with no error, contact us at [support@sealmetrics.com](mailto:support@sealmetrics.com) with the Google email you want whitelisted and we'll grant access within one business day.
+The SealMetrics Data Studio connector is currently pending listing in the Data Studio Partner Connector Gallery. While the listing is being reviewed, your Google account must be granted **Viewer** access to the underlying connector. If the authorization page redirects you to the Data Studio home with no error, contact us at [support@sealmetrics.com](mailto:support@sealmetrics.com) with the Google email you want whitelisted and we'll grant access within one business day.
 
 ## Setup
 
@@ -55375,11 +55380,11 @@ The SealMetrics Looker Studio connector is currently pending listing in the Look
 
 **Tip:**
 
-### Step 2: Open the Connector in Looker Studio
+### Step 2: Open the Connector in Data Studio
 
-1. Click the link below to open the SealMetrics connector in Looker Studio:
+1. Click the link below to open the SealMetrics connector in Data Studio:
 
-   **[Open SealMetrics Connector](https://lookerstudio.google.com/datasources/create?connectorId=AKfycbz0OeJk_X454_DijtnmO12DZeFBRL_u_-anvWX_f5oTvxUDlxdc6yIADlcRzOr2aOPAcg)**
+   **[Open SealMetrics Connector](https://datastudio.google.com/datasources/create?connectorId=AKfycbz0OeJk_X454_DijtnmO12DZeFBRL_u_-anvWX_f5oTvxUDlxdc6yIADlcRzOr2aOPAcg)**
 
 2. You'll be asked to authorize the connector on first use — click **Authorize**
 
@@ -55392,7 +55397,7 @@ The setup is a two-step configuration:
 3. **Choose a report type** — this determines which dimensions and metrics are available
 4. Click **Connect**
 
-You now have a data source ready to use in any Looker Studio report.
+You now have a data source ready to use in any Data Studio report.
 
 ## Available Report Types
 
@@ -55493,7 +55498,7 @@ Traffic grouped by marketing channel.
 
 ### Creating Your First Report
 
-1. Go to [Looker Studio](https://lookerstudio.google.com) and click **+ Create > Report**
+1. Go to [Data Studio](https://datastudio.google.com) and click **+ Create > Report**
 2. Select your SealMetrics data source (created during setup)
 3. Start adding charts, tables, and scorecards using the available fields
 
@@ -55515,7 +55520,7 @@ To add a new data source to an existing report:
 
 ### Using Date Range Controls
 
-The connector respects Looker Studio's date range controls. Add a date range picker to let viewers filter all charts at once:
+The connector respects Data Studio's date range controls. Add a date range picker to let viewers filter all charts at once:
 
 1. Click **Add a control > Date range control**
 2. Place it at the top of your report
@@ -55523,11 +55528,11 @@ The connector respects Looker Studio's date range controls. Add a date range pic
 
 ## Tips
 
-- **Data caching**: Data is cached for 5 minutes on the connector side. Looker Studio may also cache on its side. To force a refresh, click the refresh button in the report viewer.
+- **Data caching**: Data is cached for 5 minutes on the connector side. Data Studio may also cache on its side. To force a refresh, click the refresh button in the report viewer.
 - **Multiple sites**: Create separate data sources for each site you want to report on. You can combine them in the same dashboard.
-- **API key rotation**: If you rotate your API key, update it in each Looker Studio data source by going to **Resource > Manage added data sources > Edit** for each SealMetrics source.
-- **Sharing**: When you share a Looker Studio report, viewers use the data source owner's API key — they don't need their own.
-- **Blending data**: Use Looker Studio's [data blending](https://support.google.com/looker-studio/answer/9061421) to combine metrics from different report types in a single chart (e.g., join Traffic Sources with Landing Pages by a common dimension).
+- **API key rotation**: If you rotate your API key, update it in each Data Studio data source by going to **Resource > Manage added data sources > Edit** for each SealMetrics source.
+- **Sharing**: When you share a Data Studio report, viewers use the data source owner's API key — they don't need their own.
+- **Blending data**: Use Data Studio's [data blending](https://docs.cloud.google.com/data-studio/create-edit-and-manage-blends) to combine metrics from different report types in a single chart (e.g., join Traffic Sources with Landing Pages by a common dimension).
 
 ## Troubleshooting
 
@@ -55556,14 +55561,14 @@ The connector handles rate limits automatically with retry logic. If you experie
 - Avoid refreshing multiple reports simultaneously
 - Data is cached for 5 minutes, so repeated views load faster
 
-## Looker Studio + BigQuery
+## Data Studio + BigQuery
 
 If you also use the [BigQuery integration](/platform/settings/integrations/bigquery), you can combine both approaches:
 
-- **Looker Studio connector** — best for quick dashboards with standard metrics, no setup required beyond an API key
-- **BigQuery as data source in Looker Studio** — best for custom SQL queries, cross-table joins, and advanced analysis
+- **Data Studio connector** — best for quick dashboards with standard metrics, no setup required beyond an API key
+- **BigQuery as data source in Data Studio** — best for custom SQL queries, cross-table joins, and advanced analysis
 
-You can use BigQuery as a Looker Studio data source by selecting **BigQuery** instead of the SealMetrics connector when creating a data source, and pointing it to your SealMetrics BigQuery dataset.
+You can use BigQuery as a Data Studio data source by selecting **BigQuery** instead of the SealMetrics connector when creating a data source, and pointing it to your SealMetrics BigQuery dataset.
 
 ## Support
 
@@ -55572,18 +55577,18 @@ Need help with the connector? Email **[support@sealmetrics.com](mailto:support@s
 - Your SealMetrics account email
 - The report type that fails
 - A screenshot of the error message
-- The Looker Studio data source URL (visible in the address bar)
+- The Data Studio data source URL (visible in the address bar)
 
 We aim to respond within one business day.
 
 ## Legal
 
-By using the SealMetrics Looker Studio connector, you agree to:
+By using the SealMetrics Data Studio connector, you agree to:
 
 - [SealMetrics Privacy Policy](https://sealmetrics.com/privacy/)
 - [SealMetrics Terms of Service](https://sealmetrics.com/terms/)
 
-The connector reads analytics data from your SealMetrics account via the SealMetrics REST API. It does not write to or modify your account. Your API key is stored by Looker Studio in your data source configuration; rotate it from **Settings > API Keys** at any time.
+The connector reads analytics data from your SealMetrics account via the SealMetrics REST API. It does not write to or modify your account. Your API key is stored by Data Studio in your data source configuration; rotate it from **Settings > API Keys** at any time.
 
 
 
@@ -61984,11 +61989,11 @@ Connect `https://mcp.sealmetrics.com/mcp` to Claude, ChatGPT, Cursor or Codex an
 | **Search Console integration** | ✅ Native | ⚠️ Via MCP |
 | Google Tag Manager | ✅ | ✅ incl. custom template |
 | BigQuery export | ✅ | ✅ |
-| Looker Studio | ✅ | ✅ |
+| Data Studio | ✅ | ✅ |
 | API access | ✅ | ✅ All plans (240–480 req/min) |
 | CSV / JSON / streaming export | ✅ | ✅ |
 | Webhooks | ❌ | ✅ Scale and above |
-| Shared / public dashboards | ⚠️ Via Looker Studio | ⚠️ [API only](/api/shared-dashboards) — no dashboard UI |
+| Shared / public dashboards | ⚠️ Via Data Studio | ⚠️ [API only](/api/shared-dashboards) — no dashboard UI |
 | Bot filtering | ⚠️ Known bots list | ✅ Five-layer, with bot traffic reporting |
 | Audit log | ⚠️ Limited | ✅ Scale and above |
 | Sites / users included | Unlimited | Unlimited |
@@ -62493,7 +62498,7 @@ LENS also runs detection rules on a cadence and emails you when traffic drops, c
 | **Next.js / Nuxt / React** | ✅ NPM tracker | ✅ Documented guides |
 | **Google Tag Manager** | ✅ Yes | ✅ Yes, incl. custom template |
 | **Google Search Console** | ✅ Native integration | ⚠️ Via MCP, not a native connector |
-| **Looker Studio / Data Studio** | ✅ Business plan | ✅ Official connector |
+| **Data Studio / Data Studio** | ✅ Business plan | ✅ Official connector |
 | **BigQuery export** | ❌ No | ✅ [Yes](/integrations/bigquery) |
 | **Raw event export** | ✅ Enterprise (scheduled) | ✅ CSV / JSON / streaming exports |
 | **Webhooks** | ❌ No | ✅ [Scale and above](/platform/settings/integrations/webhooks) |
@@ -62543,7 +62548,7 @@ Sealmetrics runs a [five-layer bot detection system](/security-privacy/bot-detec
 **Cloud**, at the 10k pageviews entry tier, billed monthly:
 - Starter: **$9/month** — 1 site, 1 user, 3-year retention
 - Growth: **$14/month** — up to 3 sites, 3 team members, shared links and embedded dashboards
-- Business: **$19/month** — up to 10 sites, 10 team members, 5-year retention, funnels, revenue attribution, custom properties, Stats API, Looker Studio
+- Business: **$19/month** — up to 10 sites, 10 team members, 5-year retention, funnels, revenue attribution, custom properties, Stats API, Data Studio
 - Enterprise: custom — SSO, Sites API, managed proxy, scheduled raw exports
 
 **Self-hosted**: free, no pageview limits, you run the infrastructure, no support.
@@ -62588,7 +62593,7 @@ It does not close entirely, and it shouldn't. If you want a fast, private pagevi
 
 **B2B SaaS with high customer value and long sales cycles** — 24 months of retention covers the full cycle, and micro-conversions plus custom properties let you measure the whole path without ever identifying a person.
 
-**Agencies and multi-brand groups** — unlimited sites and users, organizations with per-site scoping, audit logs, and a portfolio view. Per-site pricing is what makes Plausible expensive at this shape. Note the trade-off: Plausible offers shared and embedded client dashboards from its Growth plan as a finished feature. Sealmetrics exposes shared-dashboard endpoints in the API but ships no UI for them and no page that renders one, so client-facing reporting in practice means Looker Studio, the Stats API, or giving the client a login.
+**Agencies and multi-brand groups** — unlimited sites and users, organizations with per-site scoping, audit logs, and a portfolio view. Per-site pricing is what makes Plausible expensive at this shape. Note the trade-off: Plausible offers shared and embedded client dashboards from its Growth plan as a finished feature. Sealmetrics exposes shared-dashboard endpoints in the API but ships no UI for them and no page that renders one, so client-facing reporting in practice means Data Studio, the Stats API, or giving the client a login.
 
 **Teams that want AI over their analytics** — LENS for anomaly detection and natural-language questions, the MCP server so your existing AI assistant reads live data, and EU-hosted inference if sending prompts to a US provider is not acceptable.
 
