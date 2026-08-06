@@ -44,11 +44,11 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 
 | Criterion | Sealmetrics Compliance |
 |-----------|----------------------|
-| Detects 404 errors | ✅ Yes |
-| Identifies broken user flows | ✅ Yes |
-| Tracks exit pages | ✅ Yes |
+| Detects 404 errors | ✅ Yes — error pages appear in the Pages report when they load the pixel |
+| Identifies drop-off between funnel steps | ✅ Yes — aggregate, via the Funnel report |
+| Tracks individual user flows or exit pages | ❌ No — would require per-visitor page sequencing |
 
-**Evidence:** Funnel reports and page analytics identify drop-off points and navigation issues.
+**Evidence:** The Funnel report shows aggregate drop-off between defined steps, and the Pages report surfaces underperforming or erroring URLs. Sealmetrics does **not** reconstruct individual navigation paths or exit pages, because both require following one visitor across page loads — precisely the processing this exemption depends on avoiding.
 
 ---
 
