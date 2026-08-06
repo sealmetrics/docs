@@ -103,7 +103,7 @@ This ephemeral, in-memory security use is processed under legitimate interest (G
 We use several layers, none of which stores personal data:
 
 - **Bot user-agent signature lists** (known crawlers, headless browsers, automation tools)
-- **Curated IP/CIDR blocklists** of known bots and datacenters, checked in memory at request time — the IP is discarded immediately and never stored
+- **Curated IP/CIDR blocklists** of known bots and datacenters, checked in memory at request time — the IP is used only for this transient check and never stored with analytics data
 - **Request-header consistency checks**
 - Optionally, for sites with **Agent Analytics** enabled: environmental and behavioral signals that classify traffic as human vs. automated
 

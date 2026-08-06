@@ -1,0 +1,231 @@
+{
+  "_readme": [
+    "Capabilities Sealmetrics does NOT have, and which the docs must therefore never claim.",
+    "",
+    "This is the third source of truth, alongside openapi-snapshot.json (does the endpoint",
+    "exist?) and ui-manifest.json (does the screen exist?). Those two validate references;",
+    "this one validates assertions. Every entry here was a real error found in published",
+    "content, so treat additions as cheap and removals as needing evidence.",
+    "",
+    "Enforced by scripts/check-product-claims.mjs over docs/ and blog/.",
+    "",
+    "Fields:",
+    "  id               stable slug, used in error messages and in allow[].",
+    "  label            human name shown in the failure output.",
+    "  why              the evidence that we don't have it. Cite the manifest or doc that proves it.",
+    "  patterns         case-insensitive regexes that indicate the capability is being discussed.",
+    "  allow            files where the term legitimately appears. Every entry needs a reason.",
+    "  requiresSubject  only judge prose lines naming Sealmetrics explicitly. For capabilities",
+    "                   that come up constantly when describing the wider market.",
+    "",
+    "The checker only fails on an AFFIRMATIVE claim. Mentioning a capability to deny it",
+    "('we do not track exit pages', 'Exit pages | ❌ No') is always fine, and in a",
+    "comparison table only the Sealmetrics column is read — competitors are free to have",
+    "features we lack."
+  ],
+  "unsupported": [
+    {
+      "id": "sso",
+      "label": "SSO / SAML sign-in",
+      "why": "Zero SAML or SSO paths in scripts/openapi-snapshot.json (261 paths). Confirmed by Rafa, Aug 2026.",
+      "patterns": [
+        "\\bSSO\\b",
+        "\\bSAML\\b",
+        "single sign[ -]?on"
+      ],
+      "allow": [
+        {
+          "file": "docs/platform/tracking-and-attribution-settings/external-auth-sso-attribution.mdx",
+          "reason": "Describes the CUSTOMER's identity provider as a referrer domain that breaks attribution. Not a claim about our auth."
+        },
+        {
+          "file": "docs/platform/tracking-and-attribution-settings/passthrough-referrers.mdx",
+          "reason": "Same: customer-side SSO domain as a passthrough referrer."
+        },
+        {
+          "file": "docs/reports/insights/attribution-model.mdx",
+          "reason": "Same: customer-side SSO listed among passthrough referrer examples."
+        },
+        {
+          "file": "blog/sealmetrics-vs-plausible.mdx",
+          "reason": "Describes Plausible's Enterprise SSO. Competitor capability."
+        }
+      ]
+    },
+    {
+      "id": "user-journeys",
+      "label": "User journeys / navigation path analysis",
+      "why": "No path or journey endpoint in openapi-snapshot.json — /stats has pages, landing-pages and funnel only. No dashboard route either. Confirmed by Rafa, Aug 2026.",
+      "patterns": [
+        "user journey report",
+        "navigation path analysis",
+        "\\bpath analysis\\b",
+        "visitor flow",
+        "user flow report"
+      ],
+      "allow": []
+    },
+    {
+      "id": "exit-pages",
+      "label": "Exit page tracking",
+      "why": "No exit-page endpoint in openapi-snapshot.json. Reconstructing exits needs per-visitor page sequencing, which the data model deliberately prevents.",
+      "patterns": [
+        "exit page"
+      ],
+      "allow": [
+        {
+          "file": "docs/compliance/analytics-cookies-exemption.md",
+          "reason": "Enumerates measurements the AEPD PERMITS, not what we implement."
+        }
+      ]
+    },
+    {
+      "id": "session-duration",
+      "label": "Session duration / time on page",
+      "why": "Absent from docs/reports/definitions.mdx and listed as not tracked in docs/faq/ga4-vs-sealmetrics.mdx. Requires following a visitor across page loads.",
+      "patterns": [
+        "session duration measurement",
+        "measures? (?:the )?session duration",
+        "average (?:session|visit) duration",
+        "time[ -]on[ -]page (?:tracking|measurement)"
+      ],
+      "allow": [
+        {
+          "file": "docs/compliance/analytics-cookies-exemption.md",
+          "reason": "AEPD-permitted measurement list, not our feature set."
+        }
+      ]
+    },
+    {
+      "id": "unique-visitors",
+      "label": "Unique visitors",
+      "why": "docs/reports/definitions.mdx states plainly that Sealmetrics does not calculate unique visitors — any persistent per-user identifier would break the consentless basis.",
+      "patterns": [
+        "track(?:s|ing)? unique visitors",
+        "unique visitor (?:count|tracking|metric)"
+      ],
+      "allow": [
+        {
+          "file": "docs/compliance/analytics-cookies-exemption.md",
+          "reason": "AEPD-permitted measurement list."
+        }
+      ]
+    },
+    {
+      "id": "public-dashboards",
+      "label": "Shared / public dashboards as a product feature",
+      "why": "The API has five /shared-dashboards paths, but ui-manifest.json has NO matching dashboard route and nothing renders a shared dashboard. API-only building block; never present it as a shipped feature.",
+      "patterns": [
+        "shared dashboards?",
+        "public dashboards?",
+        "shareable dashboards?",
+        "embedded dashboards?"
+      ],
+      "allow": [
+        {
+          "file": "docs/api/shared-dashboards.mdx",
+          "reason": "The API reference itself, which carries an explicit API-only caution."
+        },
+        {
+          "file": "docs/api/migration-from-v1.mdx",
+          "reason": "Lists shared dashboards among v2 API additions. Endpoint-level statement, accurate."
+        },
+        {
+          "file": "blog/sealmetrics-vs-plausible.mdx",
+          "reason": "Describes Plausible's shared and embedded dashboards, and our API-only status."
+        }
+      ]
+    },
+    {
+      "id": "ip-geolocation",
+      "label": "IP-based geolocation",
+      "why": "Country comes from the browser timezone (docs/security-privacy/country-detection.mdx). The IP is never used for geo. This exact claim shipped wrong twice — via 'CloudFlare headers' in the GA post and in the pre-#63 privacy pages.",
+      "patterns": [
+        "geolocation (?:via|from|using|by) (?:the )?IP",
+        "IP[ -]based geo",
+        "country (?:is )?(?:derived|determined|resolved) from (?:the )?IP",
+        "geolocat\\w* (?:via|through) CloudFlare"
+      ],
+      "allow": [
+        {
+          "file": "docs/compliance/cnil-self-assessment.mdx",
+          "reason": "Describes the opt-in Agent Analytics GeoLite2 lookup used solely for bot detection, explicitly not attached to any hit."
+        }
+      ]
+    },
+    {
+      "id": "session-recording",
+      "label": "Session recording / heatmaps",
+      "why": "Never built, and structurally incompatible with consentless operation. Excluded by design, not by roadmap.",
+      "patterns": [
+        "session recording",
+        "session replay",
+        "heatmaps?"
+      ],
+      "allow": [],
+      "requiresSubject": true
+    },
+    {
+      "id": "self-hosting",
+      "label": "Self-hosting",
+      "why": "Cloud-only, Dublin. docs/security-privacy/data-location.mdx.",
+      "patterns": [
+        "self[ -]host"
+      ],
+      "allow": [
+        {
+          "file": "blog/sealmetrics-vs-plausible.mdx",
+          "reason": "Plausible's self-hosting is a central point of the comparison."
+        },
+        {
+          "file": "blog/google-analytics-vs-sealmetrics.mdx",
+          "reason": "Answers the self-hosting question and points to Matomo."
+        },
+        {
+          "file": "docs/api/subscription.mdx",
+          "reason": "Describes the billing_enabled API field, whose false value covers self-hosted/grandfathered installs. Field semantics, not a product offer."
+        },
+        {
+          "file": "docs/compliance/analytics-cookies-exemption.md",
+          "reason": "Lists 'Self-hosted Matomo, Sealmetrics' as alternatives; self-hosted qualifies Matomo."
+        }
+      ],
+      "requiresSubject": true
+    },
+    {
+      "id": "cross-device",
+      "label": "Cross-device / cross-session visitor stitching",
+      "why": "Impossible without a persistent identifier. docs/security-privacy/attribution-without-userid.mdx.",
+      "patterns": [
+        "cross[ -]device tracking",
+        "cross[ -]session tracking",
+        "track(?:s|ing)? (?:users|visitors) across devices"
+      ],
+      "allow": [],
+      "requiresSubject": true
+    },
+    {
+      "id": "security-certifications",
+      "label": "SOC 2 / ISO 27001 and other third-party security certifications",
+      "why": "Sealmetrics holds none. Removed from data-location.mdx and cnil-self-assessment.mdx in PR #58. Compliance rests on the architecture and the published self-assessments, which are our own assertions, not an auditor's.",
+      "patterns": [
+        "SOC ?2",
+        "ISO ?27001",
+        "ISO ?27701",
+        "security certification",
+        "certified (?:secure|infrastructure)"
+      ],
+      "allow": [
+        {
+          "file": "docs/security-privacy/data-location.mdx",
+          "reason": "States outright that we hold no such certifications. The disclaimer itself."
+        },
+        {
+          "file": "docs/billing/faq.mdx",
+          "reason": "PCI DSS Level 1 refers to Stripe, our payment processor, not to Sealmetrics."
+        }
+      ],
+      "requiresSubject": false
+    }
+  ]
+}

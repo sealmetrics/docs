@@ -48,11 +48,11 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 
 | Criterion | Sealmetrics Compliance |
 |-----------|----------------------|
-| Detects 404 errors | ✅ Yes |
-| Identifies broken user flows | ✅ Yes |
-| Tracks exit pages | ✅ Yes |
+| Detects 404 errors | ✅ Yes — error pages appear in the Pages report when they load the pixel |
+| Identifies drop-off between funnel steps | ✅ Yes — aggregate, via the Funnel report |
+| Tracks individual user flows or exit pages | ❌ No — would require per-visitor page sequencing |
 
-**Evidence:** Funnel reports and page analytics identify drop-off points and navigation issues.
+**Evidence:** The Funnel report shows aggregate drop-off between defined steps, and the Pages report surfaces underperforming or erroring URLs. Sealmetrics does **not** reconstruct individual navigation paths or exit pages, because both require following one visitor across page loads — precisely the processing this exemption depends on avoiding.
 
 ---
 
@@ -129,12 +129,14 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 | Aspect | Compliance |
 |--------|------------|
 | First-party only | ✅ No third-party cookies (no cookies at all) |
+| Site-isolated identifiers | ✅ Session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites |
 | No cross-domain identification | ✅ Hits are stored per account and never joined across sites |
 | No unified IDs | ✅ No cross-site user graph, no shared advertising ID |
 
 **Technical Implementation:**
 ```
 Session marker: ephemeral (~2h), computed in the browser, never stored on the device
+Session marker scope: per publisher account — the account is an input to the identifier's derivation, so identifiers cannot match across different publishers' sites
 Cookies: none (neither first- nor third-party)
 Cross-domain tracking: not performed — data is collected, stored, and reported per account
 ```
@@ -209,9 +211,9 @@ Maximum theoretical lifetime: Browser session only
 
 | Aspect | Compliance |
 |--------|------------|
-| IP storage | ✅ **IP is never persisted in any database or log** |
+| IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 14 days) |
 | Geolocation (default) | ✅ Country derived from browser timezone, not IP |
-| In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is discarded immediately after the lookup and is never associated with a hit that reaches ClickHouse. |
+| In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is not retained after the lookup and is never associated with a hit that reaches ClickHouse. |
 
 **Technical Implementation:**
 ```javascript
@@ -222,7 +224,7 @@ Intl.DateTimeFormat().resolvedOptions().timeZone
 // country + is_datacenter + agent_isp; the IP itself is discarded.
 ```
 
-**Note:** Sealmetrics goes beyond this requirement — no IP anonymization is needed because the IP is never persisted in the first place.
+**Note:** Sealmetrics goes beyond this requirement — no IP anonymization is needed because the IP is never persisted with analytics data in the first place.
 
 ---
 

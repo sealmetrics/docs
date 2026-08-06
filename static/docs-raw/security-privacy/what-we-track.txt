@@ -35,6 +35,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 #### 5. Session context marker
 - **What it is:** an in-memory, short-lived identifier scoped to a single browsing session (~2-hour inactivity timeout, GA4-style), derived from the visitor's browser context. It exists so that within one session we can distinguish "second pageview" from "new entrance".
 - **What it isn't:** a cross-session identifier. It is not a cookie, it is not stored in the browser (localStorage, sessionStorage, or otherwise), and it does not persist beyond the session. It cannot be used to recognize a returning visitor.
+- **Site-isolated by design:** session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites — no cross-site correlation is possible at the identifier level.
 - **Why it's compliant:** the identifier is context-derived and short-lived — it does not enable individual tracking under GDPR Article 4(1), which is why analytics without user identifiers qualify for consent-free operation under CNIL guidance (`analytics without consent`) and Article 6(1)(f).
 
 ---
@@ -60,10 +61,11 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 ALL aggregated — no user-level behavior.
 
-### 4. Navigation Patterns
-- Entry pages  
-- Exit pages  
+### 4. Entry Points
+- Entry pages (landing pages)  
 - Internal search (anonymous; via events)
+
+Exit pages and individual navigation paths are **not** tracked — reconstructing either requires sequencing one visitor's pageviews, which needs a persistent identifier.
 
 ### 5. Campaign & Marketing Analytics
 - UTM campaign tracking  

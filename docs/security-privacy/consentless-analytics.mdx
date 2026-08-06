@@ -44,7 +44,7 @@ Consentless analytics solves this by measuring aggregate behavior rather than tr
 Sealmetrics pioneered a consentless tracking approach built on four anonymous variables per event:
 
 1. **Timestamp** — when the event occurred
-2. **User Agent** — browser and device type (captured but never stored in analytics)
+2. **User Agent** — browser and device type (used for anonymous device classification; the event-level raw string is purged after 14 days)
 3. **Current URL** — the page being viewed
 4. **Referral URL** — where the visitor came from
 

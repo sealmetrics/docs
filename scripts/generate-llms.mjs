@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * Generates static/llms.txt and static/llms-full.txt from docs/ content
- * and curated templates in scripts/llms-templates/.
+ * Generates static/llms.txt and static/llms-full.txt from docs/ and blog/
+ * content plus curated templates in scripts/llms-templates/.
+ *
+ * Every published page is indexed — the full docs tree (including guides,
+ * web-analytics-prompts and the changelog) and every blog post.
  *
  * Usage: node scripts/generate-llms.mjs
  * No external dependencies — uses only node:fs and node:path.
@@ -16,21 +19,29 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT = join(__dirname, '..');
 const DOCS_DIR = join(ROOT, 'docs');
+const BLOG_DIR = join(ROOT, 'blog');
 const STATIC_DIR = join(ROOT, 'static');
 const DOCS_RAW_DIR = join(STATIC_DIR, 'docs-raw');
 const TEMPLATES_DIR = join(__dirname, 'llms-templates');
 const BASE_URL = 'https://docs.sealmetrics.com';
 
-const MAX_FULL_SIZE = 2048 * 1024; // 2MB target — fits the full doc set untruncated (currently ~1.7MB) with room to grow
+const MAX_FULL_SIZE = 4096 * 1024; // 4MB target — fits docs + blog untruncated (currently ~2.3MB) with room to grow
 const MAX_CODE_BLOCK_LINES = 30;
 const MAX_DOC_CHARS_INITIAL = 3000; // Layer 3 starting threshold
 const MIN_DOC_CHARS = 500; // never truncate below this
 
-// Sidebar order — matches sidebars.ts exactly
+// Sentinel used as the `topDir` of blog posts so they get their own section
+const BLOG_SECTION = '__blog__';
+
+// Section order — follows sidebars.ts, then the docs that live outside the
+// sidebar (guides, changelog, root index) and finally the blog.
+// Every docs/ directory must appear here; anything missed falls into "Other",
+// which the build treats as a warning.
 const SIDEBAR_ORDER = [
   { label: 'Introduction', dirName: null, docId: 'intro' },
   { label: 'Getting Started', dirName: 'getting-started' },
   { label: 'LENS AI', dirName: 'lens' },
+  { label: 'Web Analytics Prompts', dirName: 'web-analytics-prompts' },
   { label: 'Reports & Insights', dirName: 'reports' },
   { label: 'Implementation', dirName: 'implementation' },
   { label: 'Integrations', dirName: 'integrations' },
@@ -39,10 +50,14 @@ const SIDEBAR_ORDER = [
   { label: 'Compliance', dirName: 'compliance' },
   { label: 'Use Cases', dirName: 'use-cases' },
   { label: 'GA4 Migration', dirName: 'ga4-migration' },
+  { label: 'Guides', dirName: 'guides' },
   { label: 'Platform Settings', dirName: 'platform' },
   { label: 'Plans & Billing', dirName: 'billing' },
   { label: 'Troubleshooting', dirName: 'troubleshooting' },
   { label: 'FAQ', dirName: 'faq' },
+  { label: 'Release Notes', dirName: null, docId: 'changelog' },
+  { label: 'Documentation Home', dirName: null, docId: 'index' },
+  { label: 'Blog', dirName: BLOG_SECTION },
 ];
 
 // ─── Frontmatter parser ─────────────────────────────────────────────────────
@@ -54,12 +69,28 @@ function parseFrontmatter(content) {
   const raw = match[1];
   const data = {};
 
+  let lastScalarKey = null;
+
   for (const line of raw.split('\n')) {
-    // Skip continuation lines (arrays, multiline values)
-    if (/^\s+-\s/.test(line) || /^\s+\S/.test(line)) continue;
+    // Array items belong to the key above; we don't collect them here
+    if (/^\s+-\s/.test(line)) {
+      lastScalarKey = null;
+      continue;
+    }
+
+    // Indented continuation of a folded scalar (YAML wraps long descriptions)
+    if (/^\s+\S/.test(line)) {
+      if (lastScalarKey && typeof data[lastScalarKey] === 'string') {
+        data[lastScalarKey] = `${data[lastScalarKey]} ${line.trim()}`.trim();
+      }
+      continue;
+    }
 
     const kv = line.match(/^(\w[\w_-]*)\s*:\s*(.*)/);
-    if (!kv) continue;
+    if (!kv) {
+      lastScalarKey = null;
+      continue;
+    }
 
     let [, key, value] = kv;
     value = value.trim();
@@ -73,16 +104,19 @@ function parseFrontmatter(content) {
     // Inline array: [a, b, c]
     if (value.startsWith('[') && value.endsWith(']')) {
       data[key] = value.slice(1, -1).split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
+      lastScalarKey = null;
       continue;
     }
 
     // Number
     if (/^\d+$/.test(value)) {
       data[key] = parseInt(value, 10);
+      lastScalarKey = null;
       continue;
     }
 
     data[key] = value;
+    lastScalarKey = key;
   }
 
   const body = content.slice(match[0].length).trim();
@@ -223,10 +257,9 @@ function docPathToUrl(filePath, slug) {
 }
 
 function discoverDocs() {
-  const files = walkDir(DOCS_DIR);
   const docs = [];
 
-  for (const filePath of files) {
+  for (const filePath of walkDir(DOCS_DIR)) {
     const raw = readFileSync(filePath, 'utf-8');
     const { data: frontmatter, content } = parseFrontmatter(raw);
     const rel = relative(DOCS_DIR, filePath);
@@ -238,6 +271,7 @@ function discoverDocs() {
     docs.push({
       filePath,
       relativePath: rel,
+      rawRelPath: rel.replace(/\.(mdx?|md)$/, '.txt'),
       topDir,
       url: docPathToUrl(filePath, frontmatter.slug),
       title: frontmatter.title || basename(filePath, extname(filePath)),
@@ -249,7 +283,51 @@ function discoverDocs() {
     });
   }
 
+  docs.push(...discoverBlogPosts());
+
   return docs;
+}
+
+// ─── Blog discovery ──────────────────────────────────────────────────────────
+
+/**
+ * Blog posts live outside the docs tree and are routed by their frontmatter
+ * `slug` under /blog/. They carry a `date` rather than a `sidebar_position`,
+ * so they're ordered newest-first.
+ */
+function discoverBlogPosts() {
+  const posts = [];
+
+  for (const filePath of walkDir(BLOG_DIR)) {
+    const raw = readFileSync(filePath, 'utf-8');
+    const { data: frontmatter, content } = parseFrontmatter(raw);
+    const name = basename(filePath, extname(filePath));
+
+    // Strip a leading YYYY-MM-DD- prefix when there's no explicit slug
+    const slug = frontmatter.slug || name.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+    const date = String(frontmatter.date || '').replace(/['"]/g, '');
+
+    posts.push({
+      filePath,
+      relativePath: relative(BLOG_DIR, filePath),
+      rawRelPath: join('blog', relative(BLOG_DIR, filePath)).replace(/\.(mdx?|md)$/, '.txt'),
+      topDir: BLOG_SECTION,
+      url: `${BASE_URL}/blog/${slug}`,
+      title: frontmatter.title || name,
+      description: frontmatter.description || '',
+      // Newest first: sort key is the inverse of the date string
+      sidebarPosition: date ? -Number(date.replace(/-/g, '')) : 0,
+      rawContent: content,
+      cleanContent: stripMdx(stripTruncateMarker(content)),
+    });
+  }
+
+  return posts;
+}
+
+/** Docusaurus `<!--truncate-->` marks the excerpt boundary; it isn't content. */
+function stripTruncateMarker(content) {
+  return content.replace(/^\s*<!--\s*truncate\s*-->\s*$/gm, '');
 }
 
 // ─── Organize by sidebar ─────────────────────────────────────────────────────
@@ -261,10 +339,12 @@ function organizeBySidebar(docs) {
     let sectionDocs;
 
     if (section.docId) {
-      // Single doc (like intro)
+      // Single doc at the docs root (intro, changelog, index)
       sectionDocs = docs.filter(d =>
-        d.relativePath === `${section.docId}.mdx` ||
-        d.relativePath === `${section.docId}.md`
+        d.topDir === null && (
+          d.relativePath === `${section.docId}.mdx` ||
+          d.relativePath === `${section.docId}.md`
+        )
       );
     } else {
       sectionDocs = docs.filter(d => d.topDir === section.dirName);
@@ -303,9 +383,7 @@ function loadTemplate(name) {
 // ─── Raw doc path helper ─────────────────────────────────────────────────────
 
 function docRawUrl(doc) {
-  let rel = relative(DOCS_DIR, doc.filePath);
-  rel = rel.replace(/\.(mdx?|md)$/, '.txt');
-  return `${BASE_URL}/docs-raw/${rel}`;
+  return `${BASE_URL}/docs-raw/${doc.rawRelPath}`;
 }
 
 // ─── Generate docs-raw/ individual text files ────────────────────────────────
@@ -313,9 +391,7 @@ function docRawUrl(doc) {
 function generateDocsRaw(docs) {
   let count = 0;
   for (const doc of docs) {
-    let rel = relative(DOCS_DIR, doc.filePath);
-    rel = rel.replace(/\.(mdx?|md)$/, '.txt');
-    const outPath = join(DOCS_RAW_DIR, rel);
+    const outPath = join(DOCS_RAW_DIR, doc.rawRelPath);
 
     mkdirSync(dirname(outPath), { recursive: true });
 
@@ -445,12 +521,23 @@ function main() {
   console.log(`  Docs dir: ${DOCS_DIR}`);
 
   const docs = discoverDocs();
-  console.log(`  Found ${docs.length} documents`);
+  const blogCount = docs.filter(d => d.topDir === BLOG_SECTION).length;
+  console.log(`  Found ${docs.length} pages (${docs.length - blogCount} docs, ${blogCount} blog posts)`);
 
   const sections = organizeBySidebar(docs);
   console.log(`  Organized into ${sections.length} sections:`);
   for (const s of sections) {
     console.log(`    - ${s.label}: ${s.docs.length} docs`);
+  }
+
+  // Anything landing in "Other" means a new top-level directory was added
+  // without a matching entry in SIDEBAR_ORDER — indexed, but ungrouped.
+  const other = sections.find(s => s.label === 'Other');
+  if (other) {
+    console.warn(
+      `  WARNING: ${other.docs.length} page(s) fell into "Other" — add their directory to SIDEBAR_ORDER:`,
+    );
+    for (const d of other.docs) console.warn(`    ${d.relativePath}`);
   }
 
   // Generate docs-raw/ individual text files
