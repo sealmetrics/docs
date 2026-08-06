@@ -426,15 +426,15 @@ Sealmetrics uses session-based tracking that doesn't require cookies:
 **Session-ID Tracking (Primary Method)**:
 
 1. **Visitor arrives**: User lands on your website
-2. **Session identifier generated**: Sealmetrics JavaScript creates a random, unique session ID (e.g., "a8f3c9e2-4d1b-7f6e-c3a5-8e9f2b4a7d1c")
-3. **SessionStorage placement**: ID is stored in browser SessionStorage (not cookies, not LocalStorage)
-4. **Session tracking**: All pageviews during this browser session use the same ID
-5. **Automatic expiry**: SessionStorage clears when browser tab closes (privacy by design)
-6. **No consent required**: SessionStorage for temporary session tracking is permitted under GDPR Article 6(1)(f) legitimate interest per CNIL 2020 guidance
+2. **Session identifier computed**: Sealmetrics JavaScript derives an ephemeral session identifier from general device characteristics — it is not unique to a person (different visitors can produce the same value) and cannot identify an individual
+3. **No browser storage**: The identifier is never stored on the device — no cookies, no LocalStorage, no SessionStorage
+4. **Session tracking**: All pageviews during this browser session use the same identifier
+5. **Automatic expiry**: The identifier expires with the session and is never used to correlate visits over time — each new entrance counts as new, independent data (privacy by design)
+6. **No consent required**: Nothing is stored on or read from the user's device, so temporary session tracking is permitted under GDPR Article 6(1)(f) legitimate interest per CNIL 2020 guidance
 
 **Isolated Hits Tracking (Fallback Method)**:
 
-For 1-2% of visitors who block all browser storage:
+For the small share of visits where a session identifier cannot be computed:
 
 1. **Server-side inference**: Sealmetrics tracks each pageview as isolated hit
 2. **Pattern recognition**: Server logic infers session continuity based on:
@@ -527,7 +527,7 @@ Data loss: 0%
 
 **Step 1**: Install Sealmetrics tracking code (2 minutes)
 ```html
-<script async src="https://cdn.sealmetrics.com/sm.js" data-project="YOUR_PROJECT_ID"></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
 **Step 2**: Remove consent banner code (1 minute)
@@ -846,7 +846,7 @@ Eliminating banner ghosting and cookie rejection requires eliminating the consen
 <!-- Keep existing Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
 <!-- Add Sealmetrics -->
-<script async src="https://cdn.sealmetrics.com/sm.js" data-project="YOUR_PROJECT_ID"></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
 **B. Run both systems for 7-14 days**
@@ -1107,7 +1107,7 @@ Sealmetrics projects are completely isolated. Competitor using Sealmetrics has z
 
 ### How does Sealmetrics handle returning visitors?
 
-Sealmetrics uses session-based tracking. Each browser session gets a unique, temporary identifier stored in SessionStorage (expires when tab closes). When a user returns days later, they get a new session identifier. Sealmetrics tracks returning visitors by analyzing patterns (same browser characteristics visiting multiple times) without persistent identifiers. This provides accurate new vs. returning visitor metrics while maintaining privacy (no long-term tracking).
+Sealmetrics uses session-based tracking. Each browser session gets a temporary identifier computed in the browser from general device characteristics — it is not unique to a person, is never stored on the device, and expires with the session. When a user returns days later, that visit is simply counted as a new, independent entrance. Sealmetrics does not correlate visits over time and does not identify returning visitors — there is no cross-session history or profile, which is exactly what keeps it privacy-safe (no long-term tracking).
 
 ### Can users opt out of Sealmetrics tracking?
 

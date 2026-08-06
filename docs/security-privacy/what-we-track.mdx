@@ -22,7 +22,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 #### 2. User Agent
 - **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
-- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. It is kept for the standard 24-month retention window with the rest of the hit.
+- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. Event-level rows are purged after 14 days; the derived category dimensions (browser family, OS family, device type) persist in aggregated reports for 24 months.
 - **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
 
 #### 3. Current URL
@@ -63,10 +63,11 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 ALL aggregated — no user-level behavior.
 
-### 4. Navigation Patterns
-- Entry pages  
-- Exit pages  
+### 4. Entry Points
+- Entry pages (landing pages)  
 - Internal search (anonymous; via events)
+
+Exit pages and individual navigation paths are **not** tracked — reconstructing either requires sequencing one visitor's pageviews, which needs a persistent identifier.
 
 ### 5. Campaign & Marketing Analytics
 - UTM campaign tracking  
@@ -103,7 +104,7 @@ Sites that enable Agent Analytics store aggregate, per-hit signals used to class
 - Purpose: filter bot traffic out of reports for accuracy. See [Bot Detection](/security-privacy/bot-detection) and the [agent detection integration](/integrations/agentic-package) for the full field list.
 - **This section is only active when the customer turns Agent Analytics on.** Standard privacy-first accounts don't collect these signals at all.
 
-### 9. Business Intelligence Metrics
+### 10. Business Intelligence Metrics
 - Conversion rate  
 - Average order value  
 - ROAS  

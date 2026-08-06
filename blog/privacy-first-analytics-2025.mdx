@@ -207,10 +207,9 @@ Many analytics tools claim to be "privacy-friendly" while still storing IP addre
 True privacy-first analytics **stores zero IP addresses**—not raw, not hashed, not at all.
 
 **Sealmetrics' technical approach**:
-- IP addresses are used only for geolocation lookup (country/city level)
-- Geolocation data is stored (e.g., "Germany, Berlin")
-- Original IP is immediately discarded—never stored in any database
-- Geolocation happens server-side in memory, IP never written to disk
+- Visitor country is derived from the **browser timezone** (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from the IP — see [country detection](/security-privacy/country-detection)
+- Only country-level geo is stored (e.g., "Germany") — never city or region
+- The IP is used transiently server-side for security/anti-bot checks — never stored in the analytics database (there is no IP column)
 
 This approach is **fundamentally different** from competitors like Plausible or Matomo, which hash and store IPs for session identification. By using session-based tracking instead, Sealmetrics achieves the same functionality without ever storing any IP data.
 
@@ -241,29 +240,25 @@ This approach is **fundamentally different** from competitors like Plausible or 
 
 **Dual Tracking System**:
 
-1. **Session-ID Mode**: Generates ephemeral session identifiers that reset after 30 minutes of inactivity
+1. **Session-ID Mode**: Generates ephemeral session identifiers that reset after ~2 hours of inactivity
 2. **Isolated Hits Mode**: For users with aggressive privacy settings, tracks individual pageviews without any session continuity
 
 This dual approach ensures **100% data capture** regardless of user privacy settings, browser configuration, or tracking prevention mechanisms.
 
 **Zero IP Storage Implementation**:
 ```javascript
-// Server-side processing (simplified)
-async function processAnalyticsHit(request) {
-  const ip = request.connection.remoteAddress;
-  
-  // 1. Use IP for geolocation ONLY (in memory)
-  const geo = await geolocate(ip); // Returns {country, city}
-  
-  // 2. Store ONLY geolocation data
+// Simplified: country comes from the browser timezone, not the IP
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+// e.g. "Europe/Berlin" -> mapped server-side to "Germany"
+
+// Server-side (simplified)
+async function processAnalyticsHit(hit) {
   await database.insert({
-    country: geo.country,
-    city: geo.city,
+    country: mapTimezoneToCountry(hit.timezone), // no IP lookup
     // ... other non-personal analytics data
   });
-  
-  // 3. IP is immediately discarded (garbage collected)
-  // Never written to disk, never stored in database
+  // The visitor's IP is only touched in memory for anti-bot checks
+  // and is never written to disk or stored in any database.
 }
 ```
 
@@ -301,7 +296,7 @@ Germany's TTDSG (Telecommunications-Telemedia Data Protection Act) is among the 
 
 ### Data Retention Optimized for Privacy
 
-Sealmetrics retains data for **24 months**—the maximum period GDPR considers "statistics purposes" without requiring ongoing consent. After 24 months, data is automatically deleted.
+Sealmetrics retains aggregated analytics data for **24 months** — deliberately below the 25-month ceiling CNIL sets for consent-exempt analytics. After 24 months, data is automatically deleted; event-level detail is purged after just 14 days.
 
 This is longer than most competitors offer while remaining fully compliant:
 - Google Analytics 4: 2-14 months
@@ -316,7 +311,7 @@ Unlike Google Analytics (30-60 minute setup) or Matomo (20-30 minutes), Sealmetr
 
 ```html
 <!-- Add to <head> of your website -->
-<script defer src="https://cdn.sealmetrics.com/sl.js"></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
 That's it. No configuration files, no consent banner integration, no complex setup. **Cookieless analytics** that just works.
@@ -342,7 +337,7 @@ Don't immediately remove Google Analytics. Run **Sealmetrics** and your existing
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
 
 <!-- Add Sealmetrics in parallel -->
-<script defer src="https://cdn.sealmetrics.com/sl.js"></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
 Compare data quality, accuracy, and coverage. You'll typically see:
@@ -549,7 +544,7 @@ Annual billing gives you 2 months free. ROI is immediate: complete data capture 
 
 **Core features**:
 - Real-time traffic monitoring
-- Geographic analytics (country, city)
+- Geographic analytics (country-level)
 - Page performance metrics
 - Referrer/source tracking
 - Device/browser breakdowns

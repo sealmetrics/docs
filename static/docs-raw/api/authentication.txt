@@ -365,3 +365,17 @@ function getStats($siteId, $period = '7d') {
     return json_decode($response, true);
 }
 ```
+
+## Other ways to authenticate
+
+| Method | Page | Use it when |
+|--------|------|-------------|
+| **OAuth 2.1 + PKCE** | [OAuth 2.1](/api/oauth) | Your app or AI assistant needs to read *someone else's* account. Dynamic client registration, refresh tokens, user-revocable from the dashboard. |
+| **Provision key** | [Provisioning](/api/provision) | You are creating a brand-new free-tier account headlessly, before any credentials exist. |
+
+## Related
+
+- [For AI Agents](/api/for-agents) — which method to pick, and the rest of the agent surface
+- [API Tokens](/api/api-tokens) — scopes, site restrictions and expiry
+- [Error codes](/api/errors) — every `unauthorized` / `forbidden` variant
+- [Advanced Authentication](/api/auth-advanced) — sessions, 2FA, password reset

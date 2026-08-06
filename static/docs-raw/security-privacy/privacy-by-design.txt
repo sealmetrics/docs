@@ -90,7 +90,7 @@ Sealmetrics proves that advanced business intelligence **does not require person
 
 #### Sealmetrics Transparency
 - Public documentation about the 4-variable system  
-- Full disclosure: timestamp, user agent (stored 24 months, aggregated device classification only), current URL, referral URL  
+- Full disclosure: timestamp, user agent (event detail purged after 14 days; aggregated device classification kept 24 months), current URL, referral URL  
 - Technical documentation on isolated hits  
 - Regulatory compliance explained openly (GDPR, ePrivacy, CCPA, PECR)
 
@@ -145,7 +145,7 @@ Sealmetrics proves that advanced business intelligence **does not require person
 ### The Four-Variable Architecture
 Sealmetrics tracks only:  
 1. **Timestamp**  
-2. **User agent** (stored 24 months, used for anonymous device classification — never linked to a person)  
+2. **User agent** (used for anonymous device classification — event detail purged after 14 days, aggregated categories kept 24 months; never linked to a person)  
 3. **Current URL**  
 4. **Referral URL**
 

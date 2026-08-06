@@ -161,3 +161,22 @@ Returns the planned execution order and parallel groups:
 - Maximum 50 queries per batch
 - All query IDs must be unique
 - Circular dependencies are not allowed
+
+## For agents: fan out without spending requests
+
+A batch is one HTTP request and one rate-limit slot, no matter how many queries it carries. For an agent assembling a report, that turns a dozen round trips into one:
+
+- **Dry-run first.** `POST /batch/validate` returns the execution order and the parallel groups without running anything, so you can check a generated plan before spending the request.
+- **Express ordering, don't serialise.** `depends_on` lets the API run everything it can in parallel while still respecting your dependencies.
+- **Cap concurrency** with `parallel_limit` (1–10) when you are querying many sites at once.
+- **Read `timing_ms`** per query (`include_timing`) to find the expensive part of a report.
+- **Handle partial failure.** With `fail_fast: false` you get per-query `status`, so one bad query does not lose the whole batch. Dependants of a failed query come back as `skipped`.
+
+Batch covers `/stats/*` endpoints. For configuration reads (sites, segments, alerts), issue normal requests.
+
+## Related
+
+- [For AI Agents](/api/for-agents) — the full agent integration guide
+- [Multi-Dimensional Query](/api/stats-query) — one query with several dimensions, as an alternative to several batched queries
+- [Rate Limits](/api/rate-limits)
+- [Error codes](/api/errors)

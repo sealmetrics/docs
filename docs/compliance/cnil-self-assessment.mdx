@@ -48,11 +48,11 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 
 | Criterion | Sealmetrics Compliance |
 |-----------|----------------------|
-| Detects 404 errors | ✅ Yes |
-| Identifies broken user flows | ✅ Yes |
-| Tracks exit pages | ✅ Yes |
+| Detects 404 errors | ✅ Yes — error pages appear in the Pages report when they load the pixel |
+| Identifies drop-off between funnel steps | ✅ Yes — aggregate, via the Funnel report |
+| Tracks individual user flows or exit pages | ❌ No — would require per-visitor page sequencing |
 
-**Evidence:** Funnel reports and page analytics identify drop-off points and navigation issues.
+**Evidence:** The Funnel report shows aggregate drop-off between defined steps, and the Pages report surfaces underperforming or erroring URLs. Sealmetrics does **not** reconstruct individual navigation paths or exit pages, because both require following one visitor across page loads — precisely the processing this exemption depends on avoiding.
 
 ---
 
@@ -128,15 +128,15 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 
 | Aspect | Compliance |
 |--------|------------|
-| First-party only | ✅ No third-party cookies |
-| Domain-isolated identifiers | ✅ Session IDs unique per domain |
-| No unified IDs | ✅ No cross-domain identification |
+| First-party only | ✅ No third-party cookies (no cookies at all) |
+| No cross-domain identification | ✅ Hits are stored per account and never joined across sites |
+| No unified IDs | ✅ No cross-site user graph, no shared advertising ID |
 
 **Technical Implementation:**
 ```
-Session ID scope: Single domain only
-Cookie scope: First-party, same-site
-Cross-domain tracking: Not possible by design
+Session marker: ephemeral (~2h), computed in the browser, never stored on the device
+Cookies: none (neither first- nor third-party)
+Cross-domain tracking: not performed — data is collected, stored, and reported per account
 ```
 
 ---
@@ -187,7 +187,7 @@ Maximum theoretical lifetime: Browser session only
 ---
 
 ### Criterion 7: Data Retention ≤ 25 Months
-**Requirement:** Collected data must not be retained beyond 24 months.
+**Requirement:** Collected data must not be retained beyond 25 months. Sealmetrics deliberately applies a stricter 24-month limit.
 
 | Aspect | Compliance |
 |--------|------------|
@@ -209,9 +209,9 @@ Maximum theoretical lifetime: Browser session only
 
 | Aspect | Compliance |
 |--------|------------|
-| IP storage | ✅ **IP is never persisted in any database or log** |
+| IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 14 days) |
 | Geolocation (default) | ✅ Country derived from browser timezone, not IP |
-| In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is discarded immediately after the lookup and is never associated with a hit that reaches ClickHouse. |
+| In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is not retained after the lookup and is never associated with a hit that reaches ClickHouse. |
 
 **Technical Implementation:**
 ```javascript
@@ -222,7 +222,7 @@ Intl.DateTimeFormat().resolvedOptions().timeZone
 // country + is_datacenter + agent_isp; the IP itself is discarded.
 ```
 
-**Note:** Sealmetrics goes beyond this requirement — no IP anonymization is needed because the IP is never persisted in the first place.
+**Note:** Sealmetrics goes beyond this requirement — no IP anonymization is needed because the IP is never persisted with analytics data in the first place.
 
 ---
 
@@ -247,8 +247,8 @@ Intl.DateTimeFormat().resolvedOptions().timeZone
 
 | Aspect | Compliance |
 |--------|------------|
-| Client data isolation | ✅ Complete separation |
-| No shared identifiers | ✅ Each account has unique tracking |
+| Client data isolation | ✅ Complete separation of datasets |
+| Per-account tracking IDs | ✅ Each account has a unique tracking ID |
 | Independent databases | ✅ Logical separation per account |
 
 **Architecture:**
@@ -475,7 +475,7 @@ For compliance questions or DPO inquiries:
 
 ## Related documentation
 
-- [Does SealMetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) — the plain-language overview of CNIL consent exemption.
+- [Does Sealmetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) — the plain-language overview of CNIL consent exemption.
 - [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) — how CNIL and AEPD exemption criteria compare.
 - [UK PECR Self-Assessment: Sealmetrics Compliance](/compliance/uk-pecr-self-assessment) — the equivalent self-assessment for the UK.
 - [Do Temporary Session Identifiers (Session IDs) Require Consent Under GDPR?](/legal/gdpr-and-eprivacy/do-session-ids-require-consent) — the session-ID condition assessed above.

@@ -6,14 +6,21 @@ URL: https://docs.sealmetrics.com/api
 
 REST API for querying analytics data and managing your Sealmetrics account programmatically.
 
-| Specification | Value |
-|---------------|-------|
-| Base URL | `https://my.sealmetrics.com/api/v1` |
-| Protocol | HTTPS only |
-| Format | JSON |
-| Authentication | API Key or JWT Bearer token |
-| Rate Limits | Per-plan (see [Rate Limits](/api/rate-limits)) |
-| Documentation | `/docs` (Swagger UI) |
+## At a glance
+
+| | |
+|---|---|
+| **Base URL** | `https://my.sealmetrics.com/api/v1` (HTTPS only, JSON) |
+| **Interactive reference** | **[docs.sealmetrics.com/api-reference](https://docs.sealmetrics.com/api-reference/)** |
+| **OpenAPI 3.1 spec** | [`openapi.json`](https://docs.sealmetrics.com/openapi.json) · [`openapi.yaml`](https://docs.sealmetrics.com/openapi.yaml) — generate a client straight from it |
+| **Authentication** | [API key](/api/api-tokens) (`X-API-Key`), [JWT bearer](/api/authentication), or [OAuth 2.1 + PKCE](/api/oauth) for third-party apps |
+| **AI assistants** | Hosted MCP server at `https://mcp.sealmetrics.com/mcp` — [setup](/integrations/mcp-server) |
+| **Building an agent?** | Start at **[For AI Agents](/api/for-agents)** |
+| **Batch** | [Up to 50 queries in one request](/api/batch), with dependency ordering |
+| **Long-running work** | [Async export jobs](/api/exports) with `export.completed` [webhooks](/api/webhooks) |
+| **Headless signup** | [`POST /provision`](/api/provision) — create a free account from code |
+| **Errors** | One envelope, stable `error.code` — [catalogue](/api/errors) |
+| **Rate limits** | `X-RateLimit-*` on every response — [per-plan limits](/api/rate-limits) |
 
 ## Quick Start
 
@@ -39,16 +46,16 @@ Response:
       "page_views": 28976,
       "microconversions": 892,
       "conversions": 156,
-      "revenue": 12450.00,
+      "revenue": "12450.00",
       "bounce_rate": 42.3,
       "pages_per_session": 2.31
     },
     "conversions": {
       "conversions": 156,
-      "revenue": 12450.00,
+      "revenue": "12450.00",
       "microconversions": 892,
       "conversion_rate": 1.24,
-      "average_order_value": 79.81
+      "average_order_value": "79.81"
     }
   },
   "meta": {},
@@ -150,6 +157,28 @@ See [Billing API](/api/billing).
 | `/api-tokens` | GET, POST | List and create API tokens |
 | `/api-tokens/{id}` | GET, DELETE | Get or revoke token |
 | `/api-tokens/scopes` | GET | List available scopes |
+
+### OAuth 2.1 (third-party apps and AI assistants)
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/.well-known/oauth-authorization-server` | GET | RFC 8414 discovery metadata (served at the host root) |
+| `/oauth/register` | POST | Dynamic client registration (RFC 7591) |
+| `/oauth/authorize` | GET | Start the authorization code + PKCE flow |
+| `/oauth/token` | POST | Exchange a code, or refresh a token |
+| `/oauth/revoke` | POST | Revoke a token (RFC 7009) |
+| `/oauth/connections` | GET | List the user's active grants |
+| `/oauth/connections/{grant_id}` | DELETE | Revoke one grant |
+
+See [OAuth 2.1](/api/oauth).
+
+### Provisioning
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/provision` | POST | Create a free-tier account headlessly (`X-Provision-Key` required) |
+
+See [Provisioning](/api/provision).
 
 ### Segments
 
@@ -292,9 +321,12 @@ All errors return JSON with this structure:
   "error": {
     "code": "error_code",
     "message": "Human-readable description"
-  }
+  },
+  "request_id": "ae817c5b-82df-430f-83e6-10c937e4e5e4"
 }
 ```
+
+`error.code` is stable — branch on it. `error.message` is for humans and may change. `request_id` is also returned in the `X-Request-ID` header.
 
 | HTTP Code | Error Code | Description |
 |-----------|------------|-------------|
@@ -303,20 +335,31 @@ All errors return JSON with this structure:
 | 403 | `forbidden` | Valid auth but insufficient permissions |
 | 404 | `not_found` | Resource does not exist |
 | 409 | `conflict` | Resource already exists |
-| 429 | `rate_limit_exceeded` | Too many requests |
+| 422 | `validation_error` | Schema validation failed; `error.detail` lists the fields |
+| 429 | `rate_limit_exceeded` | Too many requests — honour `Retry-After` |
 | 500 | `internal_error` | Server error |
+| 503 | `database_unavailable` | Temporary — honour `Retry-After` |
+
+Full list, including which codes are retryable: **[Error codes](/api/errors)**.
 
 ## Documentation
 
+- [For AI Agents](/api/for-agents) - Everything an LLM or agent needs, on one page
+- [Interactive API Reference](https://docs.sealmetrics.com/api-reference/) - Every endpoint, generated from the OpenAPI spec
 - [Quick Start](/api/quick-start) - First API call in 5 minutes
 - [Authentication](/api/authentication) - API keys and JWT tokens
+- [OAuth 2.1](/api/oauth) - Connect third-party apps and AI assistants to other people's accounts
+- [Provisioning](/api/provision) - Create a free-tier account headlessly
+- [Error codes](/api/errors) - Every `error.code`, and what to retry
 - [Stats Endpoints](/api/stats) - Analytics data endpoints
+- [Multi-Dimensional Query](/api/stats-query) - Dimensions, metrics and filters in one request
+- [Batch API](/api/batch) - Up to 50 queries per request
 - [Multi-Site Aggregate Stats](/api/stats-aggregate) - Portfolio metrics across multiple sites
 - [Billing API](/api/billing) - Plans, subscriptions, invoices, usage, Seal AI Private add-on
 - [Sites](/api/sites) - Site management
 - [Organizations](/api/organizations) - Team management
 - [Segments](/api/segments) - Saved segments
-- [Exports](/api/exports) - Bulk data exports
+- [Exports](/api/exports) - Asynchronous bulk data exports
 - [Webhooks](/api/webhooks) - Webhook subscriptions
 - [BigQuery Integration](/api/bigquery) - Export to Google BigQuery
 - [IP Allowlist](/api/ip-allowlist) - Restrict access by IP

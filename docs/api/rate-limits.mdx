@@ -82,14 +82,20 @@ Stats endpoints (`/api/v1/stats/*`) run heavier queries, so requests authenticat
 
 ## Endpoints Without Rate Limits
 
-These endpoints are excluded from rate limiting:
+These endpoints are excluded from rate limiting. They live at the host root, not under `/api/v1`:
 
 - `/health` - Health check
 - `/livez` - Liveness probe
 - `/readyz` - Readiness probe
-- `/docs` - Swagger documentation
-- `/redoc` - ReDoc documentation
-- `/openapi.json` - OpenAPI specification
+- `/t.js` - The tracking script
+- `/api/static/*` - Static assets (email logos)
+
+:::note Where the API reference lives
+Interactive docs are **not** served from the API host in production. The reference and the machine-readable spec are published on the docs site instead:
+
+- [docs.sealmetrics.com/api-reference](https://docs.sealmetrics.com/api-reference/) — interactive reference
+- [`openapi.json`](https://docs.sealmetrics.com/openapi.json) / [`openapi.yaml`](https://docs.sealmetrics.com/openapi.yaml) — OpenAPI 3.1 spec
+:::
 
 ## Best Practices
 
@@ -183,3 +189,9 @@ Enterprise plans can negotiate custom limits:
 - SLA guarantees
 
 Contact sales@sealmetrics.com for Enterprise pricing.
+
+## Related
+
+- [For AI Agents](/api/for-agents) — retry policy and the rest of the agent surface
+- [Error codes](/api/errors) — which responses are safe to retry
+- [Batch API](/api/batch) — up to 50 queries per request, so you spend fewer of them

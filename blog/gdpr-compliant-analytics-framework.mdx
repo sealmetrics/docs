@@ -207,7 +207,7 @@ Sealmetrics operates under GDPR Article 6(1)(f) legitimate interest, meaning no 
 
 This is Sealmetrics' most significant differentiator. We don't store IP addresses—not full, not truncated, not hashed, not at all.
 
-**How It Works**: When a pageview hits our servers, we process the request, extract necessary analytics data (page URL, referrer, timestamp), generate a session identifier, and immediately discard the IP address. The IP never touches our database, never gets logged, never exists beyond the milliseconds needed for request processing.
+**How It Works**: When a pageview hits our servers, we process the request, extract necessary analytics data (page URL, referrer, timestamp), and use the IP address only transiently server-side for security and anti-abuse checks. The IP never touches our analytics database and is never linked to any hit or metric — it appears only in short-lived operational logs with limited retention.
 
 **Contrast with Competitors**:
 - Google Analytics: Stores full IP addresses by default (can be configured for anonymization but still processes full IPs)
@@ -217,11 +217,11 @@ This is Sealmetrics' most significant differentiator. We don't store IP addresse
 
 This technical choice means Sealmetrics processes less personal data than any competitor, strengthening the legitimate interest legal basis and eliminating many GDPR compliance concerns.
 
-### 25-Month Retention Without Consent
+### 24-Month Retention Without Consent
 
 Data retention limits are crucial for GDPR compliance under the data minimization principle. Sealmetrics retains analytics data for 24 months, a period we've documented as necessary for meaningful trend analysis.
 
-**Why 25 Months**: This retention period allows:
+**Why 24 Months**: This retention period allows:
 - Year-over-year comparisons (12 months of current data + 12 months historical)
 - Seasonal pattern identification (requires full annual cycles)
 - Long-term trend analysis for strategic decisions
@@ -387,7 +387,7 @@ After implementation, verify everything works correctly.
 - Privacy policy mentions analytics with correct legal basis
 - DPA executed with Sealmetrics
 - Internal legitimate interest documentation complete
-- Data retention periods configured (24 months)
+- Data retention schedule understood (fixed 24 months for aggregates and conversions)
 - Team trained on data handling procedures
 
 **Ongoing Compliance**:

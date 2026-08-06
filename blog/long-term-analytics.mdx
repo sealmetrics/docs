@@ -59,7 +59,7 @@ Limited data retention affects critical business decisions:
 
 In B2B SaaS, where sales cycles often exceed 6 months, this data retention limitation can cripple analytics entirely.
 
-## How Sealmetrics Enables 25-Month Data Retention
+## How Sealmetrics Enables 24-Month Data Retention
 
 Sealmetrics operates under **GDPR Article 6(1)(f) - legitimate interest** rather than consent, fundamentally changing the data retention equation.
 
@@ -72,7 +72,7 @@ Under GDPR Article 6(1)(f), processing is lawful when:
 Sealmetrics qualifies for legitimate interest because:
 
 1. **No personal data collection**: We don't store IP addresses, fingerprints, or cross-site identifiers
-2. **Session-based tracking**: Each visit generates a unique, temporary identifier
+2. **Session-based tracking**: Each visit generates a temporary, non-identifying session identifier
 3. **Data minimization**: Only aggregate behavioral data, no individual profiles
 4. **Transparent processing**: Clear privacy policy explains data usage
 
@@ -83,8 +83,8 @@ As confirmed by CNIL's 2020 guidance, cookieless analytics that doesn't create p
 Unlike competitors that hash or pseudonymize IP addresses, Sealmetrics uses a dual tracking approach:
 
 **Session-Based Tracking**:
-- Each visit = unique Session-ID
-- Session-ID expires after 30 minutes of inactivity
+- Each visit = new, temporary Session-ID
+- Session-ID expires after ~2 hours of inactivity
 - No cross-session tracking by default
 - Zero personal data in the identifier
 
@@ -96,14 +96,13 @@ Unlike competitors that hash or pseudonymize IP addresses, Sealmetrics uses a du
 
 This architecture means the data we retain for 24 months contains **zero personal identifiers**, making it fundamentally different from cookie-based systems that must delete data when consent expires.
 
-### Why 25 Months Specifically?
+### Why 24 Months Specifically?
 
 The 24-month retention period is strategically chosen:
 
-1. **Two full years of data**: Enables year-over-year comparisons
-2. **Plus one quarter buffer**: Covers full seasonal cycles
-3. **GDPR proportionality**: Long enough for legitimate business needs, not excessive
-4. **CNIL compliance**: Within reasonable retention for aggregated analytics data
+1. **Two full years of data**: Enables year-over-year comparisons and full seasonal cycles
+2. **GDPR proportionality**: Long enough for legitimate business needs, not excessive
+3. **CNIL compliance**: Deliberately below the 25-month ceiling CNIL sets for consent-exempt analytics
 
 After 24 months, data is automatically purged from Sealmetrics systems. This automatic deletion demonstrates compliance with GDPR's storage limitation principle while providing maximum analytical value.
 
@@ -134,23 +133,14 @@ Setting up Sealmetrics for 24-month data retention takes less than 5 minutes.
 
 Add the Sealmetrics script to your site:
 ```html
-<script defer src="https://cdn.sealmetrics.com/v1/track.js" 
-        data-site-id="YOUR_SITE_ID">
-</script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
 That's it. No consent banner configuration needed.
 
-### Step 2: Configure Data Retention (Optional)
+### Step 2: Understand the Retention Schedule
 
-By default, Sealmetrics retains data for 24 months. If you need a shorter period for specific compliance requirements:
-```javascript
-// Custom retention (in months)
-window.sealmetrics = window.sealmetrics || {};
-window.sealmetrics.dataRetention = 18; // Custom: 18 months
-```
-
-However, since Sealmetrics doesn't collect personal data, there's typically no reason to reduce the default 24-month retention.
+Sealmetrics retention is fixed and identical for every plan, enforced by database TTLs: daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and event-level detail 14 days. There is nothing to configure — and since Sealmetrics doesn't collect personal data, there's no compliance reason to shorten it. If you ever need data removed earlier (for example when closing an account), contact support.
 
 ### Step 3: Access Historical Data
 
@@ -232,7 +222,7 @@ SaaS products need to understand:
 
 With 24-month retention, Sealmetrics captures the complete product-led growth story.
 
-## GDPR Compliance: Why 25 Months is Legal
+## GDPR Compliance: Why 24 Months is Legal
 
 ### Data Minimization Principle
 
@@ -283,7 +273,7 @@ Don't limit queries to recent months out of habit:
 const recentData = await getAnalytics({ months: 3 });
 
 // Good: Using full 24-month history
-const fullHistory = await getAnalytics({ months: 25 });
+const fullHistory = await getAnalytics({ months: 24 });
 const yearOverYear = compareYears(fullHistory);
 ```
 
@@ -307,7 +297,7 @@ Find content that generates value long after publication:
 - Evergreen content that compounds over years
 - Historical posts that become more valuable over time
 
-### 5. Plan for Data Purge at 25 Months
+### 5. Plan for Data Purge at 24 Months
 
 When data reaches 24 months:
 - Export critical insights before deletion
@@ -334,7 +324,7 @@ No. Sealmetrics operates under legitimate interest, not consent. You don't need 
 
 ### Can I reduce retention to less than 24 months?
 
-Yes, you can configure shorter retention periods if your organization's data policy requires it. However, since Sealmetrics doesn't collect personal data, there's typically no compliance reason to reduce retention below 24 months.
+Retention is fixed and identical for every plan — it is enforced by database TTLs and is not configurable. Since Sealmetrics doesn't collect personal data, there's typically no compliance reason to shorten it. If your organization needs data removed earlier, contact support to request deletion.
 
 ### How does this compare to Google Analytics data retention?
 
@@ -346,7 +336,7 @@ No. Sealmetrics uses session-based tracking, not persistent user tracking. Each 
 
 ### What if my business needs longer than 24 months?
 
-For specific use cases requiring longer retention, contact Sealmetrics support. Extended retention may be possible for specific aggregated metrics that demonstrate business necessity and continued GDPR compliance. However, 24 months covers seasonal analysis, year-over-year comparisons, and most B2B sales cycles.
+Export your data before it ages out: CSV exports from the dashboard, the API, or the [BigQuery integration](/integrations/bigquery) let you keep aggregated metrics for as long as your own policies allow, under your own control. Within Sealmetrics itself, 24 months covers seasonal analysis, year-over-year comparisons, and most B2B sales cycles.
 
 ### Does Plausible or Matomo offer better retention?
 

@@ -53,10 +53,8 @@ Instrument the intermediate steps as microconversions (`sealmetrics.micro('add_t
 Deep insights into how individual pages perform:
 
 - **Page Views** - Traffic to each URL
-- **Navigation Patterns** - How visitors flow through your content
 - **Entry Pages** - Where sessions start
-- **Exit Pages** - Where users leave
-- **Engagement Metrics** - Time on page and interaction depth
+- **Engagement Metrics** - Bounce rate, engagement rate and pages per session, all computed in aggregate
 
 Identify your highest-performing content and optimize underperforming pages.
 
@@ -157,9 +155,10 @@ All detected from user agent strings without storing personal information.
 Country-level visitor attribution derived from time zone data, not IP addresses. Know where your audience is located without privacy risks.
 
 ### Session Analytics
-- Session duration measurement
 - Pages per session tracking
-- Navigation path analysis
+- Bounce rate and engagement rate, computed in aggregate
+
+Session duration and individual navigation paths are **not** measured: both require following one visitor across page loads, which needs a persistent identifier. See the [Metrics Reference](/reports/definitions) for what is and isn't tracked.
 
 Sessions are identified by a temporary, non-persistent marker derived from the browser context — nothing is stored in cookies or local storage. A session ends after roughly two hours of inactivity, and Sealmetrics never recognizes visitors across sessions: separate visits can never be linked together.
 
