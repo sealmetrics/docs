@@ -20,7 +20,7 @@ Before touching any code, inventory your GA4 property. The goal is a written lis
 - [ ] **Flag the zombie events.** Most GA4 properties accumulate events nobody has looked at in a year. Mark them — you will *not* migrate them, and that's a feature.
 - [ ] **Document your e-commerce implementation.** Which e-commerce events fire (`purchase`, `add_to_cart`, `begin_checkout`, `view_item`), whether they're implemented via gtag or Google Tag Manager, and where the purchase value comes from.
 - [ ] **List audiences and custom definitions** (custom dimensions/metrics) that reports depend on.
-- [ ] **List connected integrations.** Google Ads links, Search Console, Looker Studio dashboards, BigQuery export. For each: who consumes it and what breaks without it.
+- [ ] **List connected integrations.** Google Ads links, Search Console, Data Studio dashboards, BigQuery export. For each: who consumes it and what breaks without it.
 - [ ] **Note your GA4 reporting timezone.** You'll need it in Phase 2 — timezone mismatch is the most common cause of "the daily numbers don't line up".
 - [ ] **Note your data-retention settings** and decide what history you need to export before shutdown (Phase 5).
 
@@ -140,7 +140,7 @@ This is the phase where unprepared teams panic, because **the numbers will not m
 Sealmetrics starts collecting from day one; it does not import GA4 history. Whatever you'll want to reference later must be exported **while GA4 still works**.
 
 - [ ] **Export the reports you'll want as reference** — monthly traffic, top campaigns, conversion totals — via CSV, or raw events via BigQuery export if you have it. GA4's retention window (14 months on the free tier) means this history disappears on its own schedule anyway.
-- [ ] **Rebuild dashboards** (Looker Studio, BI) against Sealmetrics's [Exports API](/api/exports) or [Batch API](/api/batch), and use per-report CSV/PDF export for one-off needs.
+- [ ] **Rebuild dashboards** (Data Studio, BI) against Sealmetrics's [Exports API](/api/exports) or [Batch API](/api/batch), and use per-report CSV/PDF export for one-off needs.
 - [ ] **Repoint every consumer** from the Phase 0 integration list: dashboards, scheduled reports, internal tools.
 - [ ] **Brief the team on the new vocabulary** — entrances not sessions, no users metric, the engagement formula difference. The equivalence table above is the handout.
 
