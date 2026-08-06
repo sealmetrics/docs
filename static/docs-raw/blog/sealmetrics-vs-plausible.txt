@@ -263,7 +263,7 @@ LENS also runs detection rules on a cadence and emails you when traffic drops, c
 | **Next.js / Nuxt / React** | ✅ NPM tracker | ✅ Documented guides |
 | **Google Tag Manager** | ✅ Yes | ✅ Yes, incl. custom template |
 | **Google Search Console** | ✅ Native integration | ⚠️ Via MCP, not a native connector |
-| **Looker Studio / Data Studio** | ✅ Business plan | ✅ Official connector |
+| **Data Studio / Data Studio** | ✅ Business plan | ✅ Official connector |
 | **BigQuery export** | ❌ No | ✅ [Yes](/integrations/bigquery) |
 | **Raw event export** | ✅ Enterprise (scheduled) | ✅ CSV / JSON / streaming exports |
 | **Webhooks** | ❌ No | ✅ [Scale and above](/platform/settings/integrations/webhooks) |
@@ -313,7 +313,7 @@ Sealmetrics runs a [five-layer bot detection system](/security-privacy/bot-detec
 **Cloud**, at the 10k pageviews entry tier, billed monthly:
 - Starter: **$9/month** — 1 site, 1 user, 3-year retention
 - Growth: **$14/month** — up to 3 sites, 3 team members, shared links and embedded dashboards
-- Business: **$19/month** — up to 10 sites, 10 team members, 5-year retention, funnels, revenue attribution, custom properties, Stats API, Looker Studio
+- Business: **$19/month** — up to 10 sites, 10 team members, 5-year retention, funnels, revenue attribution, custom properties, Stats API, Data Studio
 - Enterprise: custom — SSO, Sites API, managed proxy, scheduled raw exports
 
 **Self-hosted**: free, no pageview limits, you run the infrastructure, no support.
@@ -358,7 +358,7 @@ It does not close entirely, and it shouldn't. If you want a fast, private pagevi
 
 **B2B SaaS with high customer value and long sales cycles** — 24 months of retention covers the full cycle, and micro-conversions plus custom properties let you measure the whole path without ever identifying a person.
 
-**Agencies and multi-brand groups** — unlimited sites and users, organizations with per-site scoping, audit logs, and a portfolio view. Per-site pricing is what makes Plausible expensive at this shape. Note the trade-off: Plausible offers shared and embedded client dashboards from its Growth plan as a finished feature. Sealmetrics exposes shared-dashboard endpoints in the API but ships no UI for them and no page that renders one, so client-facing reporting in practice means Looker Studio, the Stats API, or giving the client a login.
+**Agencies and multi-brand groups** — unlimited sites and users, organizations with per-site scoping, audit logs, and a portfolio view. Per-site pricing is what makes Plausible expensive at this shape. Note the trade-off: Plausible offers shared and embedded client dashboards from its Growth plan as a finished feature. Sealmetrics exposes shared-dashboard endpoints in the API but ships no UI for them and no page that renders one, so client-facing reporting in practice means Data Studio, the Stats API, or giving the client a login.
 
 **Teams that want AI over their analytics** — LENS for anomaly detection and natural-language questions, the MCP server so your existing AI assistant reads live data, and EU-hosted inference if sending prompts to a US provider is not acceptable.
 
