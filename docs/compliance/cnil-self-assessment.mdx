@@ -193,12 +193,12 @@ Maximum theoretical lifetime: Browser session only
 |--------|------------|
 | Analytics data retention | ✅ 24 months maximum |
 | Automatic deletion | ✅ Data purged after retention period |
-| Raw logs retention | ✅ 14 days only |
+| Raw logs retention | ✅ 1 day only |
 
 **Data Retention Schedule:**
 | Data Type | Retention Period |
 |-----------|-----------------|
-| Raw request logs | 14 days |
+| Raw request logs | 1 day |
 | Aggregated analytics | 24 months |
 | Account configuration | Until account deletion |
 
@@ -209,7 +209,7 @@ Maximum theoretical lifetime: Browser session only
 
 | Aspect | Compliance |
 |--------|------------|
-| IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 14 days) |
+| IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 1 day) |
 | Geolocation (default) | ✅ Country derived from browser timezone, not IP |
 | In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is not retained after the lookup and is never associated with a hit that reaches ClickHouse. |
 
