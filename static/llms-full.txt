@@ -2647,7 +2647,7 @@ LENS AI (chat + insights) is included in every paid plan — **Growth, Scale, an
 | Scale | Yes, unmetered | **Included** (5M tokens/month) |
 | Enterprise | Yes, unmetered | **Included** (5M tokens/month) |
 
-With BYOK there is no per-plan cap on questions — you pay your provider directly. With Seal AI Private, usage draws from the monthly token quota (plus optional non-expiring packs).
+**BYOK is free from Sealmetrics** — no add-on fee, no per-plan cap on questions, no token quota. You pay only your own LLM provider for what you use. The [Seal AI Private](/billing/seal-ai-private) pricing applies only if you opt for the managed EU provider instead of your own key; its usage draws from the monthly token quota (plus optional non-expiring packs).
 
 ## Getting Started
 
@@ -3078,7 +3078,7 @@ LENS produces **weekly** and **monthly** reports — an executive summary plus k
 2. Open the latest weekly or monthly report
 3. To receive a recurring summary by email, enable email notifications and set the analysis frequency in **Settings → LENS** (`daily`, `weekly`, or `manual`)
 
-See [LENS Reports](/lens/reports/) for what each report contains.
+See [LENS Reports](/lens/reports) for what each report contains.
 
 ## Understanding LENS Insights
 
@@ -9248,7 +9248,7 @@ The funnel is a **fixed e-commerce sequence**. Sealmetrics assembles it from the
 A step only appears if the corresponding event exists in your data for the selected period. If you don't track `add_to_cart`, for example, that step is omitted and the funnel goes straight from the previous step to the next one present.
 
 **Tip:**
-The funnel relies on the standard e-commerce event names above. Send them from your store or tag setup to populate every step. See [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking/) for the event names and how to fire them.
+The funnel relies on the standard e-commerce event names above. Send them from your store or tag setup to populate every step. See [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking) for the event names and how to fire them.
 
 ## Funnel Visualization
 
@@ -15459,7 +15459,7 @@ Visit your site and check that **Last hit** updates on the [Overview report](/re
 
 - [Tracker Installation](/implementation/tracker/installation) — standard installation and script options
 - [Ad-blocker resistance](/security-privacy/adblocker-bypass) — why first-party loading matters
-- [Troubleshooting](/troubleshooting/) — common installation issues
+- [Troubleshooting](/troubleshooting) — common installation issues
 
 Questions? [hello@sealmetrics.com](mailto:hello@sealmetrics.com)
 
@@ -27179,9 +27179,9 @@ No auth scope required beyond a valid session. Returns the BYOK-capable provider
       "requires_api_key": false,
       "requires_plan_upgrade": false,
       "default_models": {
-        "simple": "gemma-4-26b-a4b-it",
-        "complex": "gemma-4-26b-a4b-it",
-        "critical": "gemma-4-26b-a4b-it"
+        "simple": "gpt-oss-120b",
+        "complex": "gpt-oss-120b",
+        "critical": "gpt-oss-120b"
       },
       "documentation_url": null
     },
@@ -41952,11 +41952,11 @@ Understanding the legal framework behind consentless analytics is essential for 
 
 ### EU Digital Omnibus Regulation
 
-- [EU Digital Omnibus Overview](/compliance/omnibus/) - Complete guide to the Digital Omnibus (COM(2025) 837)
+- [EU Digital Omnibus Overview](/compliance/omnibus) - Complete guide to the Digital Omnibus (COM(2025) 837)
 - [Cookie Consent Reform](/compliance/omnibus/cookies-eprivacy) - Articles 88a/88b and the end of cookie banner fatigue
 - [Impact on Web Analytics](/compliance/omnibus/impact-analytics) - How the Omnibus affects analytics providers and tracking
 - [GDPR Amendments](/compliance/omnibus/gdpr-changes) - Personal data definition, AI processing, breach notifications
-- [View All Omnibus Documentation →](/compliance/omnibus/)
+- [View All Omnibus Documentation →](/compliance/omnibus)
 
 
 
@@ -56050,7 +56050,7 @@ sealmetrics.micro('add_to_cart', {
 });
 ```
 
-For the full reference on sending properties — including naming rules, value limits and server-side injection — see **[Custom Properties](/implementation/custom-properties/)**.
+For the full reference on sending properties — including naming rules, value limits and server-side injection — see **[Custom Properties](/implementation/custom-properties)**.
 
 ### Hit, session and user scope
 
@@ -56879,7 +56879,7 @@ URL: https://docs.sealmetrics.com/platform/settings/llm
 Configure which AI model powers the **Lens chat** assistant. Two kinds of provider are available:
 
 - **Seal AI Private** — Sealmetrics' managed provider. Runs entirely in the EU (Paris), no prompt retention, **no API key needed**. Subject to plan entitlement and a monthly token quota — see [Seal AI Private](/billing/seal-ai-private).
-- **Bring-your-own-key (BYOK)** — you add your own API key for Anthropic, OpenAI, Gemini, or DeepSeek Cloud. Per-user: your configuration is used across every site you have access to, unmetered by Sealmetrics.
+- **Bring-your-own-key (BYOK)** — you add your own API key for Anthropic, OpenAI, Gemini, or DeepSeek Cloud. Per-user: your configuration is used across every site you have access to. **Free from Sealmetrics** — unmetered, with no add-on fee; you pay only your own provider.
 
 ![LLM Providers page showing the Seal AI (Private, EU) provider card set as default, with its monthly token quota and the Add Provider button](/img/screenshots/llm-providers.png)
 
@@ -58162,7 +58162,7 @@ LENS AI works in two modes, with different limits:
 - **[Seal AI Private](/billing/seal-ai-private)** (managed, EU-hosted, no API key — add-on on Growth, included in Scale/Enterprise): **5M tokens per calendar month**, plus any non-expiring token packs you purchase. When quota and packs run out, Seal AI stops until the monthly reset or a pack purchase (you can always fall back to BYOK).
 - **Bring-your-own-key (BYOK)**: connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key under **My Account → LLM Providers**. Sealmetrics imposes **no quota** — usage is billed directly by your provider.
 
-See the [AI Assistant docs](/lens/ai-assistant/) for setup.
+See the [AI Assistant docs](/lens/ai-assistant) for setup.
 
 ### Websites and Users
 
@@ -58230,7 +58230,7 @@ All plans already include unlimited websites and unlimited users. The add-ons be
 
 ## Seal AI Private
 
-Sealmetrics' EU-hosted, platform-managed AI for [LENS](/lens/) — no API key needed, no prompt retention, processed entirely in the EU.
+Sealmetrics' EU-hosted, platform-managed AI for [LENS](/lens) — no API key needed, no prompt retention, processed entirely in the EU.
 
 | | |
 |---|---|
@@ -58690,9 +58690,29 @@ URL: https://docs.sealmetrics.com/billing/seal-ai-private
 
 # Seal AI Private
 
-**Seal AI Private** is Sealmetrics' platform-managed AI provider for [LENS AI](/lens/): your chat questions and AI insights are processed entirely in the **EU (Paris)**, with **no prompt retention**, and your data never trains third-party models. No API key required — it works out of the box.
+**Seal AI Private** is Sealmetrics' platform-managed AI provider for [LENS AI](/lens): your chat questions and AI insights are processed entirely in the **EU (Paris)**, with **no prompt retention**, and your data never trains third-party models. No API key required — it works out of the box.
 
 It is available as a paid **add-on** on Growth plans and is **included** in Scale and Enterprise plans.
+
+## What powers it
+
+| | |
+|---|---|
+| Model | **`gpt-oss-120b`** — open weights, Apache 2.0 |
+| Served by | **Scaleway SAS** (Iliad group) — Paris, France |
+| Retention | None. Token counters only |
+
+**Caution:**
+**OpenAI is not involved and never receives your prompts.** `gpt-oss-120b` is an open-weights model published under Apache 2.0 — a static public artifact loaded onto Scaleway's infrastructure in Paris. There is no call to OpenAI anywhere in the request path, and no contract with OpenAI behind this service.
+
+Scaleway is a named subprocessor in Annex 3 of our [DPA](https://sealmetrics.com/dpa), which is the authoritative and always-current list. For why this model was chosen over the alternatives — including the two we tried and replaced first — see [Why Seal AI runs on gpt-oss-120b](/lens/seal-ai/model-selection); for how the request path is isolated, see [How Seal AI works](/lens/seal-ai/private-ai-architecture).
+
+If you use [BYOK](/platform/settings/llm) instead, none of the above applies: your prompts go to your own provider, under your own key and your own contract, and that provider is not a Sealmetrics subprocessor.
+
+**Info:**
+**LENS AI itself costs nothing extra.** It is included in every paid plan, and using it with [your own LLM key (BYOK)](/platform/settings/llm) carries **no Sealmetrics charge at all** — no add-on fee, no token quota, no packs. You pay only your own provider (OpenAI, Anthropic, Gemini or DeepSeek) for what you use.
+
+The pricing below applies **only if you choose Seal AI Private**, our managed EU-hosted LLM, instead of supplying your own key. It is a convenience and data-residency option, not a requirement for using LENS.
 
 ---
 
@@ -58725,7 +58745,7 @@ Activating the add-on mid-cycle is **not prorated** — billing starts at your n
 When the monthly quota and any pack balance are exhausted, Seal AI Private **stops** (hard stop) for both chat and insights, and the product shows a message with a purchase option. Two ways to keep going:
 
 1. **Buy a token pack** (below), or
-2. **Switch to your own key (BYOK)** — the chat's provider selector lets any user fall back to their own OpenAI, Anthropic, Gemini, or DeepSeek key at any time. See [LLM Providers](/platform/settings/llm).
+2. **Switch to your own key (BYOK)** — free of charge from Sealmetrics. The chat's provider selector lets any user fall back to their own OpenAI, Anthropic, Gemini, or DeepSeek key at any time, with no quota. See [LLM Providers](/platform/settings/llm).
 
 ## Extra token packs
 
@@ -58765,8 +58785,10 @@ When the quota is exhausted, AI endpoints return `403` with `error_code: "seal_a
 
 - [Seal AI Usage screen](/platform/settings/seal-ai-usage) — the consumption dashboard
 - [LLM Providers](/platform/settings/llm) — Seal AI Private vs. bring-your-own-key
-- [LENS AI](/lens/) — what the AI can do
-- [Plans & Pricing](/billing/) — base plan pricing
+- [LENS AI](/lens) — what the AI can do
+- [Why Seal AI runs on gpt-oss-120b](/lens/seal-ai/model-selection) — the model audit and the trade-offs
+- [How Seal AI works](/lens/seal-ai/private-ai-architecture) — the request path and isolation model
+- [Plans & Pricing](/billing) — base plan pricing
 
 
 
@@ -61367,7 +61389,7 @@ URL: https://docs.sealmetrics.com/changelog
 
 ## Seal AI Private — EU-hosted AI with token packs (July 22, 2026)
 
-**Seal AI Private** is now generally available: Sealmetrics' managed AI provider for [LENS](/lens/) — processed entirely in the EU (Paris), no prompt retention, and no API key to manage.
+**Seal AI Private** is now generally available: Sealmetrics' managed AI provider for [LENS](/lens) — processed entirely in the EU (Paris), no prompt retention, and no API key to manage.
 
 ### What's new
 
@@ -61673,7 +61695,7 @@ URL: https://docs.sealmetrics.com/blog/seal-ai-private-launch
 > **TL;DR** — Seal AI Private is Sealmetrics' EU-hosted, platform-managed AI for LENS: chat and insights processed in Paris, no prompt retention, no API key required.
 <!-- AUTO-TLDR:END -->
 
-Today we're launching **Seal AI Private**: a platform-managed AI provider for [LENS AI](/lens/) that processes every chat question and every automated insight entirely in the **EU (Paris)** — with **no prompt retention**, and without your data ever training third-party models.
+Today we're launching **Seal AI Private**: a platform-managed AI provider for [LENS AI](/lens) that processes every chat question and every automated insight entirely in the **EU (Paris)** — with **no prompt retention**, and without your data ever training third-party models.
 
 No API key. No account with an AI vendor. No data leaving Europe. It works out of the box.
 
@@ -61683,7 +61705,7 @@ No API key. No account with an AI vendor. No data leaving Europe. It works out o
 - **Zero setup**: no API key or external AI account required
 - **Included in Scale and Enterprise** plans; available as a paid add-on on Growth
 - **5 million tokens per month**, with optional non-expiring token packs
-- **BYOK remains available** on every paid plan if you prefer your own OpenAI, Anthropic, Gemini, or DeepSeek key
+- **BYOK remains available and free** on every paid plan if you prefer your own OpenAI, Anthropic, Gemini, or DeepSeek key — the pricing here is for Seal AI Private only, not for LENS
 
 ## Why we built this
 
@@ -61713,7 +61735,7 @@ Seal AI Private follows your plan:
 
 If you're on **Scale or Enterprise**, there's nothing to buy — Seal AI Private is included in your plan and active for LENS chat and insights.
 
-If you're on **Growth**, you can activate it as an add-on, or keep using BYOK, which remains included and unmetered on every paid plan.
+If you're on **Growth**, you can activate it as an add-on, or keep using BYOK, which remains included, unmetered and free of charge on every paid plan.
 
 ## Pricing at a glance
 
@@ -61745,7 +61767,7 @@ You can buy extra capacity in **packs of 5,000,000 tokens at €358.80 per pack*
 
 ### Option 2: Bring your own key
 
-BYOK isn't going anywhere. The chat's provider selector lets any user switch to their own **OpenAI, Anthropic, Gemini, or DeepSeek** key at any time — including as a fallback when the Seal AI Private quota is exhausted. With BYOK there's no Sealmetrics-side quota; you pay your provider directly.
+BYOK isn't going anywhere, and it stays **free**. The chat's provider selector lets any user switch to their own **OpenAI, Anthropic, Gemini, or DeepSeek** key at any time — including as a fallback when the Seal AI Private quota is exhausted. With BYOK there's no add-on fee and no Sealmetrics-side quota; you pay only your own provider. The pricing above is for Seal AI Private alone — LENS itself carries no extra charge.
 
 Seal AI Private and BYOK aren't mutually exclusive. Plenty of teams will use the managed EU provider as the default and keep a BYOK key configured as overflow.
 
@@ -61756,7 +61778,7 @@ Seal AI Private and BYOK aren't mutually exclusive. Plenty of teams will use the
 | Setup | None — works out of the box | Create and manage your own provider key |
 | Processing location | EU (Paris) | Your provider's infrastructure |
 | Prompt retention | None | Per your provider's terms |
-| Cost model | Flat add-on (or included in plan) + optional packs | Pay your provider per use |
+| Cost model | Flat add-on (or included in plan) + optional packs | Free from Sealmetrics — pay your provider per use |
 | Usage limit | 5M tokens/month + packs | None from Sealmetrics |
 
 There's no wrong answer here. If your compliance requirements (or your patience for key management) point toward a managed EU option, Seal AI Private is for you. If you already have provider agreements and want unmetered usage, BYOK remains a first-class option.
@@ -61766,7 +61788,7 @@ There's no wrong answer here. If your compliance requirements (or your patience 
 - **Scale and Enterprise**: it's already included — open LENS and start asking questions.
 - **Growth**: your organization owner can activate the add-on from the billing settings; usage is visible to owners and admins on the Seal AI Usage screen.
 
-For the full details — quota mechanics, pack purchasing, roles and permissions, and the API endpoints for developers — see the [Seal AI Private documentation](/billing/seal-ai-private). To see what the AI can actually do with your analytics data, start with the [LENS AI overview](/lens/).
+For the full details — quota mechanics, pack purchasing, roles and permissions, and the API endpoints for developers — see the [Seal AI Private documentation](/billing/seal-ai-private). To see what the AI can actually do with your analytics data, start with the [LENS AI overview](/lens).
 
 Analytics without cookies, without consent banners — and now AI without data leaving the EU.
 
@@ -61925,7 +61947,7 @@ The attribution finding often matters more than the volume one anyway. Palladium
 
 **4. 24-month retention with no consent** — at the AEPD's maximum for consent-exempt analytics and within the CNIL's 25-month window, so retention doesn't undermine the exemption the whole arrangement rests on.
 
-Published self-assessments against each regulator: [CNIL](/compliance/cnil-self-assessment) (France), [TTDSG](/compliance/germany-ttdsg-self-assessment) (Germany), [Garante](/compliance/italy-garante-self-assessment) (Italy), [UK PECR](/compliance/uk-pecr-self-assessment), [Swiss FADP](/compliance/switzerland-fadp-self-assessment), plus a full analysis of the [EU Digital Omnibus](/compliance/omnibus/).
+Published self-assessments against each regulator: [CNIL](/compliance/cnil-self-assessment) (France), [TTDSG](/compliance/germany-ttdsg-self-assessment) (Germany), [Garante](/compliance/italy-garante-self-assessment) (Italy), [UK PECR](/compliance/uk-pecr-self-assessment), [Swiss FADP](/compliance/switzerland-fadp-self-assessment), plus a full analysis of the [EU Digital Omnibus](/compliance/omnibus).
 
 ---
 
@@ -61989,7 +62011,7 @@ Use **entrances** where you would have used unique visitors — it measures dist
 
 | Capability | Google Analytics 4 | Sealmetrics |
 |---------|-------------------|-------------|
-| Natural-language chat over your data | ⚠️ Limited (Insights) | ✅ [LENS AI](/lens/) |
+| Natural-language chat over your data | ⚠️ Limited (Insights) | ✅ [LENS AI](/lens) |
 | Automated anomaly detection | ⚠️ Basic alerts | ✅ ~25 rules across 11 categories |
 | AI-generated executive summaries | ❌ | ✅ |
 | **MCP server for AI assistants** | ❌ | ✅ [Hosted + local](/integrations/mcp-server) |
@@ -62149,7 +62171,7 @@ Remove the GA4 tag, take GA4 out of the CMP configuration, and simplify or remov
 
 It operates under Article 6(1)(f) legitimate interest, which is available because no cookies are used, nothing is stored on the device, no cross-site tracking occurs, and no IP-derived identifier exists. Since ePrivacy Article 5(3) is about storing or accessing information on a device, and Sealmetrics does neither, the consent trigger doesn't fire.
 
-That reasoning is documented against five regulators in the [compliance centre](/compliance/). Your DPO should still review it — no vendor can grant you compliance — but it's a documented position rather than an assertion.
+That reasoning is documented against five regulators in the [compliance centre](/compliance). Your DPO should still review it — no vendor can grant you compliance — but it's a documented position rather than an assertion.
 
 ### Why isn't Sealmetrics blocked by ad blockers as often as GA4?
 
@@ -62397,7 +62419,7 @@ This is the sharpest technical distinction, and it deserves to be stated precise
 4. **Data minimisation**: aggregated, non-personal data only
 5. **Regulator alignment**: published self-assessments against [CNIL](/compliance/cnil-self-assessment) (France), [TTDSG](/compliance/germany-ttdsg-self-assessment) (Germany), [Garante](/compliance/italy-garante-self-assessment) (Italy), [UK PECR](/compliance/uk-pecr-self-assessment) and [Swiss FADP](/compliance/switzerland-fadp-self-assessment)
 
-Sealmetrics also publishes a full analysis of the [EU Digital Omnibus](/compliance/omnibus/) and its impact on analytics, plus a [subprocessor list](/compliance/subprocessors) and [data subject rights](/compliance/data-subject-rights) documentation.
+Sealmetrics also publishes a full analysis of the [EU Digital Omnibus](/compliance/omnibus) and its impact on analytics, plus a [subprocessor list](/compliance/subprocessors) and [data subject rights](/compliance/data-subject-rights) documentation.
 
 ### Regulatory Requirements Side by Side
 
@@ -62491,7 +62513,7 @@ This category did not exist the last time this article was written, and it is no
 
 | Capability | Plausible | Sealmetrics |
 |---------|-----------|-------------|
-| **Natural-language chat over your data** | ❌ No | ✅ [LENS AI](/lens/) |
+| **Natural-language chat over your data** | ❌ No | ✅ [LENS AI](/lens) |
 | **Automated anomaly detection** | ❌ No | ✅ ~25 rules across 11 categories |
 | **AI-generated executive summaries** | ❌ No | ✅ Yes |
 | **MCP server for AI assistants** | ❌ No | ✅ [Hosted + local](/integrations/mcp-server) |
@@ -62641,7 +62663,7 @@ It does not close entirely, and it shouldn't. If you want a fast, private pagevi
 
 **Step 3: Remove Google Analytics** — the tracking code, the cookie banner if GA was the only reason for it, and Google Tag Manager if it was only used for GA.
 
-Plausible can import historical GA data. Sealmetrics cannot, so export what you need from GA4 first. Sealmetrics does provide a [GA4 migration guide](/ga4-migration/) and a [migration checklist](/guides/ga4-migration-checklist).
+Plausible can import historical GA data. Sealmetrics cannot, so export what you need from GA4 first. Sealmetrics does provide a [GA4 migration guide](/ga4-migration) and a [migration checklist](/guides/ga4-migration-checklist).
 
 ### From Plausible to Sealmetrics
 
@@ -62677,7 +62699,7 @@ No. Plausible's data policy states that raw IP addresses are never stored. The I
 
 For **transparency**, yes, and it's a real advantage — you can read exactly what the code does. For **privacy outcomes**, both are strong, with the architectural difference described above.
 
-Sealmetrics' closed source is verifiable by other means: network traffic inspection shows what leaves the browser, the [privacy documentation](/security-privacy/) describes the pipeline, and third-party audit reports are available on request.
+Sealmetrics' closed source is verifiable by other means: network traffic inspection shows what leaves the browser, the [privacy documentation](/security-privacy) describes the pipeline, and third-party audit reports are available on request.
 
 ### Does Plausible require consent in Germany?
 
@@ -62746,10 +62768,10 @@ Both are far better than Google Analytics, and both are honestly privacy-first. 
 
 ### Sealmetrics Resources
 - [Sealmetrics Documentation](https://docs.sealmetrics.com)
-- [LENS AI](/lens/) — AI insights, anomaly detection and natural-language chat
+- [LENS AI](/lens) — AI insights, anomaly detection and natural-language chat
 - [MCP Server](/integrations/mcp-server) — connect Claude, ChatGPT, Cursor or Codex
 - [Release Notes](/changelog) — what shipped and when
-- [Compliance Centre](/compliance/) — regulator-by-regulator self-assessments
+- [Compliance Centre](/compliance) — regulator-by-regulator self-assessments
 
 ### Comparison Resources
 - [Complete Cookieless Analytics Guide](/blog/cookieless-analytics-guide)
@@ -64614,7 +64636,7 @@ Google Analytics is "free" but has hidden costs:
 - Scale: €1,079/month (15M events) — €899/month with annual billing
 - Enterprise: Custom pricing (unlimited events)
 
-Annual billing gives you 2 months free. ROI is immediate: complete data capture and zero legal risk. See [Plans & Pricing](/billing/) for full details.
+Annual billing gives you 2 months free. ROI is immediate: complete data capture and zero legal risk. See [Plans & Pricing](/billing) for full details.
 
 ### What reporting features does Sealmetrics include?
 
@@ -65192,9 +65214,9 @@ Sealmetrics doesn't require consent because it doesn't use cookies or collect pe
 
    **User privacy not overridden**: Sealmetrics collects only anonymous, aggregate analytics. Users experience no privacy harm. No meaningful privacy interest is impacted by temporary, anonymous session tracking.
 
-**Regulatory endorsement**: CNIL (French data protection authority) explicitly confirmed in 2020 guidance that cookieless analytics tools meeting these criteria can operate under legitimate interest without requiring consent.
+**Regulatory guidance**: CNIL (French data protection authority) explicitly confirmed in 2020 guidance that cookieless analytics tools meeting these criteria can operate under legitimate interest without requiring consent. (CNIL does not certify or approve individual tools — see our [CNIL self-assessment](/compliance/cnil-self-assessment).)
 
-**DPO approvals**: Sealmetrics has been reviewed and approved by multiple EU Data Protection Officers at enterprises, confirming GDPR compliance without consent requirements.
+**DPO reviews**: Sealmetrics has passed vendor privacy reviews by Data Protection Officers at multiple EU enterprises evaluating its consentless architecture.
 
 ### Data Capture Comparison
 
@@ -65774,7 +65796,7 @@ Sealmetrics doesn't use cookies, therefore doesn't require consent under GDPR Ar
 
 ### Is cookieless analytics legal without a consent banner?
 
-Yes, under GDPR Article 6(1)(f) legitimate interest. Website owners have legitimate interest in understanding site usage for optimization and technical operation. This interest is not overridden by user privacy concerns when the analytics tool collects only anonymous, temporary data without cookies or IP addresses. CNIL (French data protection authority) explicitly confirmed in 2020 guidance that cookieless analytics meeting these criteria can operate without consent. Sealmetrics has been reviewed by multiple EU DPOs and approved.
+Yes, under GDPR Article 6(1)(f) legitimate interest. Website owners have legitimate interest in understanding site usage for optimization and technical operation. This interest is not overridden by user privacy concerns when the analytics tool collects only anonymous, temporary data without cookies or IP addresses. CNIL (French data protection authority) explicitly confirmed in 2020 guidance that cookieless analytics meeting these criteria can operate without consent. Sealmetrics has passed vendor privacy reviews by DPOs at multiple EU enterprises.
 
 ### What happens to my historical Google Analytics data?
 
@@ -66098,9 +66120,9 @@ Data retention limits are crucial for GDPR compliance under the data minimizatio
 
 Sealmetrics operates exclusively on European infrastructure, eliminating Schrems II concerns.
 
-**Data Location**: All Sealmetrics servers are located in EU data centers (Germany and France). Customer data never leaves the European Union. Our company is EU-based with no US parent organization or data sharing agreements with US entities.
+**Data Location**: All Sealmetrics servers are located in an EU data center in Dublin, Ireland. Customer data never leaves the European Union. Our company is EU-based with no US parent organization or data sharing agreements with US entities.
 
-**Processor Compliance**: Our sub-processors (hosting providers, security services) are all GDPR-compliant EU companies. Our DPA with customers includes detailed sub-processor listings and notification procedures if processors change.
+**Processor Compliance**: Our subprocessor list is deliberately short — infrastructure and database hosting in Ireland, managed LLM inference in Paris for the optional Seal AI Private add-on, and a transactional email provider. The authoritative, always-current list is Annex 3 of our [DPA](https://sealmetrics.com/dpa), which also sets out the notification procedure if processors change. If you use LENS with your own LLM key instead, that provider is your contract, not our subprocessor.
 
 **No Surveillance Exposure**: Because we operate entirely within the EU legal framework, customer data isn't subject to US surveillance laws (FISA 702, EO 12333) that caused Schrems II complications for US-based analytics providers.
 
@@ -66612,7 +66634,7 @@ Unlike cookie-based tools that lose 60-87% of EU traffic, cookieless analytics c
 | **User Identification** | Persistent across devices | Single device, single session |
 | **Script Size** | ~130KB (GA4 gzipped) | 1.3KB (Sealmetrics gzipped) |
 | **Page Load Impact** | ~80-120ms | ~20-30ms |
-| **CNIL Approval** | Requires configuration | Approved methodology |
+| **CNIL Exemption Criteria** | Requires configuration | Designed to meet criteria (self-assessed) |
 
 ### Data Collection Accuracy
 
@@ -66670,7 +66692,7 @@ Implementing Sealmetrics requires:
 
 **Total implementation time**: 2 minutes
 **Ongoing maintenance**: None
-**Legal review**: Not required (CNIL-approved methodology)
+**Legal review**: Simplified (no cookies, no personal data stored)
 
 The difference is stark. Cookie-based analytics requires consent management platforms (OneTrust, Cookiebot, etc.) that cost €300-3000/month. Cookieless analytics like Sealmetrics requires one script tag.
 
@@ -66705,7 +66727,7 @@ Cookieless analytics qualifies for legitimate interest because:
 - Clear legitimate interest = website optimization
 - No fundamental rights impact = anonymous tracking
 
-CNIL's 2020 guidance on cookieless analytics explicitly states that analytics tools without cookies and without storing identifying information can operate under legitimate interest. Sealmetrics received CNIL approval for this methodology in 2023.
+CNIL's 2020 guidance on cookieless analytics explicitly states that analytics tools without cookies and without storing identifying information can operate under legitimate interest. Sealmetrics' architecture is designed to meet these published criteria. Note that CNIL does not certify, approve, or validate individual analytics tools — see our [CNIL self-assessment](/compliance/cnil-self-assessment) for a criterion-by-criterion analysis.
 
 This legal distinction is crucial: cookie-based analytics **requires consent**, cookieless analytics **does not**.
 
@@ -66876,7 +66898,7 @@ Sealmetrics pricing (volume-based):
 - **Scale**: €1,079/month (15M events) — €899/month with annual billing
 - **Enterprise**: Custom pricing (unlimited events)
 - **Consent Management**: €0 (not needed)
-- **Legal Review**: €0 (CNIL-approved methodology)
+- **Legal Review**: Minimal (no cookies, no personal data stored)
 - **Ongoing Compliance**: €0 (built-in)
 - **Data Loss Cost**: €0 (100\% capture)
 
@@ -66898,7 +66920,7 @@ Yes, Sealmetrics works with most ad blockers because it doesn't use tracking coo
 
 ### Can I use cookieless analytics for GDPR compliance?
 
-Yes, cookieless analytics like Sealmetrics is specifically designed for GDPR compliance. By operating under GDPR Article 6(1)(f) legitimate interest instead of consent, cookieless analytics provides compliant tracking without consent banners. CNIL approved this methodology in 2020, and Sealmetrics received specific approval in 2023.
+Yes, cookieless analytics like Sealmetrics is specifically designed for GDPR compliance. By operating under GDPR Article 6(1)(f) legitimate interest instead of consent, cookieless analytics provides compliant tracking without consent banners. CNIL's 2020 guidance confirms that cookieless measurement meeting its exemption criteria can operate without consent; Sealmetrics is designed to meet those criteria (CNIL does not certify or approve individual tools).
 
 Unlike cookie-based analytics that requires consent under ePrivacy Directive Article 5(3), cookieless analytics doesn't store information in user browsers and therefore doesn't trigger consent requirements.
 
@@ -66936,7 +66958,7 @@ For websites accessed via mobile browsers, cookieless analytics works identicall
 
 ### What happens to my data with cookieless analytics?
 
-Sealmetrics stores all analytics data on EU-based servers (Frankfurt, Germany) with 24-month retention. Unlike Google Analytics (US-based with Schrems II concerns), cookieless analytics keeps your data within EU jurisdiction.
+Sealmetrics stores all analytics data on EU-based servers (Dublin, Ireland) with 24-month retention. Unlike Google Analytics (US-based with Schrems II concerns), cookieless analytics keeps your data within EU jurisdiction.
 
 Data is fully anonymized: no IP addresses, no persistent identifiers, no personal data. This architecture ensures GDPR compliance and eliminates data transfer concerns.
 
@@ -66946,7 +66968,7 @@ Tell your Data Protection Officer:
 1. **No cookies used**: ePrivacy Directive doesn't apply
 2. **No IP storage**: Data is anonymous by design
 3. **Legitimate interest**: GDPR Article 6(1)(f) legal basis
-4. **CNIL approved**: Methodology validated by French regulator
+4. **CNIL exemption criteria**: Architecture designed to meet CNIL's published criteria (self-assessed — CNIL does not certify tools)
 5. **No consent required**: Removes consent management complexity
 
 Provide your DPO with CNIL's 2020 guidance on cookieless analytics and Sealmetrics' data processing documentation. Most DPOs approve immediately because cookieless analytics is significantly lower risk than cookie-based alternatives.
@@ -66983,7 +67005,7 @@ Key differences:
 - No IP storage (competitors store hashed IPs)
 - No consent required
 - 24-month retention without consent
-- CNIL-approved methodology
+- Designed to meet CNIL's exemption criteria (self-assessed)
 
 **Plausible/Matomo**: Cookie-free but still store IPs
 - No cookies (good)
@@ -67144,7 +67166,7 @@ Even in cookieless mode, Matomo generates visitor logs that track individual bro
 
 Plausible takes a privacy-first approach and does not use cookies. Its "Current visitors" counter is a genuine snapshot -- it shows a real-time count without storing sub-daily bucketed data. However, Plausible does offer time-based filtering (last 30 minutes, last hour) in some report views, which edges into window territory.
 
-Plausible has been accepted on the CNIL exemption list, indicating that its overall architecture meets French requirements. Whether it fully satisfies the stricter AEPD daily aggregation rule depends on which specific features are used and how the data is stored.
+Plausible's cookieless, first-party architecture is generally regarded as aligning with the CNIL's exemption criteria. Note that the CNIL retired its list of exemption-eligible tools in July 2025, replacing it with a self-assessment framework, so no tool — Plausible or Sealmetrics — can point to a current CNIL listing as proof. Whether Plausible fully satisfies the stricter AEPD daily aggregation rule depends on which specific features are used and how the data is stored.
 
 ### Sealmetrics
 
@@ -67171,7 +67193,7 @@ The following table summarizes how each tool handles the key factors that determ
 | **Visitor-level logs** | Yes | Yes | No | No |
 | **IP storage** | Yes (hashed) | Configurable | No | No |
 | **AEPD daily aggregation** | No | No | Partial | Yes |
-| **CNIL exemption list** | No | Configurable | Yes | Yes |
+| **Meets CNIL exemption criteria** | No | Configurable | Likely | Yes (self-assessed) |
 | **Data capture rate (EU)** | 40-70% | 60-80% | 80-95% | 100% |
 | **Consent banner needed** | Yes | Depends | No | No |
 
@@ -67532,7 +67554,7 @@ When evaluating cookieless analytics tools, ask these questions:
 
 **GDPR concern**: Transfers to US or other third countries require additional safeguards post-Schrems II.
 
-**Sealmetrics solution**: EU-hosted infrastructure in Germany (no data transfers outside EU).
+**Sealmetrics solution**: EU-hosted infrastructure in Dublin, Ireland (no data transfers outside EU).
 
 ### Question 6: How complex is implementation?
 
