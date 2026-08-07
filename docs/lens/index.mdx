@@ -1,28 +1,32 @@
 ---
 sidebar_position: 1
 title: LENS AI Overview
-description: AI-powered insights, anomaly detection, and a natural-language assistant for your analytics data.
+description: The natural-language assistant for your analytics data — ask questions, build reports. Automated detection rules are on the roadmap.
 ---
 
 # LENS AI
 
-LENS is Sealmetrics' AI layer that analyzes your data on a configurable cadence, surfaces insights, and lets you ask questions in natural language.
+LENS is Sealmetrics' AI layer. Today it does two things: it lets you **ask questions about your data in natural language**, and it turns those answers into **reports** you can schedule and share.
+
+:::caution Automated detection rules are not live yet
+The rule-based detection library described on these pages is **built but not active**. No detection rule currently runs on customer accounts, and no automated anomaly alert is generated. The catalog below documents the planned library and the categories it is organised into; treat it as roadmap, not as shipped behaviour. What is live today is LENS chat and LENS reports.
+:::
 
 ## What is LENS?
 
-LENS (Learning Engine for Notifications & Signals) combines rule-based detection with large language models to help you:
+LENS (Learning Engine for Notifications & Signals) puts a large language model on top of your full-resolution data so you can:
 
-- **Detect problems before they impact your business** - Get notified when traffic drops, conversion rates change, or tracking breaks
-- **Spot opportunities and trends** - Surface where you're leaving money on the table and how key metrics are evolving
-- **Understand your data faster** - Ask questions in natural language and get contextual answers
+- **Understand your data faster** — ask questions in natural language and get answers grounded in your own numbers
+- **Build and share reports** — turn any answer into a report, on demand or on a schedule
+- **(Planned) Detect problems automatically** — rule-based detection of traffic drops, conversion changes and tracking breaks is built but not yet active on accounts
 
 ## Key Components
 
 ### Insight Detection
 
-LENS analyzes your data with a curated set of detection rules. The current launch set ("LENS Basic") ships with around **25 active rules** focused on universal web analytics — pageviews, sessions, and conversions — so they work without e-commerce properties, segments, or content groups.
+LENS has a rule library for automated insight detection. **No rule is active today** — the library is documented here because it defines the categories and signals we will ship, and because the API surface already reflects them.
 
-Rules are organized into **11 categories**, all available on every plan:
+The planned rules are organized into **11 categories**, which will be available on every plan:
 
 | Category | What it covers |
 |----------|----------------|

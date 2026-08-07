@@ -1631,7 +1631,10 @@ URL: https://docs.sealmetrics.com/lens/anomaly-detection
 
 # How Anomaly Detection Works
 
-LENS continuously monitors your analytics data to detect unusual patterns that could indicate problems or opportunities. It does this with a fixed library of detection rules — see the [rules catalog](/lens/anomaly-detection/rule-types) for the active set.
+**Caution:**
+Automated anomaly detection is **built but not active**. No detection rule currently runs on customer accounts and no automated alert is generated. This page documents the intended behaviour; the execution cadences below describe how rules will run once enabled. For what LENS does today, see [LENS AI](/lens).
+
+LENS is designed to monitor your analytics data and detect unusual patterns that could indicate problems or opportunities, using a fixed library of detection rules — see the [rules catalog](/lens/anomaly-detection/rule-types).
 
 ## Detection methods
 
@@ -1675,7 +1678,7 @@ Some rules compare related metrics to find inconsistencies, for example:
 
 ## Execution models
 
-Rules run under one of two models:
+Once enabled, rules will run under one of two models:
 
 | Type | Cadence | Examples |
 |------|---------|----------|
@@ -2573,23 +2576,26 @@ URL: https://docs.sealmetrics.com/lens
 
 # LENS AI
 
-LENS is Sealmetrics' AI layer that analyzes your data on a configurable cadence, surfaces insights, and lets you ask questions in natural language.
+LENS is Sealmetrics' AI layer. Today it does two things: it lets you **ask questions about your data in natural language**, and it turns those answers into **reports** you can schedule and share.
+
+**Caution:**
+The rule-based detection library described on these pages is **built but not active**. No detection rule currently runs on customer accounts, and no automated anomaly alert is generated. The catalog below documents the planned library and the categories it is organised into; treat it as roadmap, not as shipped behaviour. What is live today is LENS chat and LENS reports.
 
 ## What is LENS?
 
-LENS (Learning Engine for Notifications & Signals) combines rule-based detection with large language models to help you:
+LENS (Learning Engine for Notifications & Signals) puts a large language model on top of your full-resolution data so you can:
 
-- **Detect problems before they impact your business** - Get notified when traffic drops, conversion rates change, or tracking breaks
-- **Spot opportunities and trends** - Surface where you're leaving money on the table and how key metrics are evolving
-- **Understand your data faster** - Ask questions in natural language and get contextual answers
+- **Understand your data faster** — ask questions in natural language and get answers grounded in your own numbers
+- **Build and share reports** — turn any answer into a report, on demand or on a schedule
+- **(Planned) Detect problems automatically** — rule-based detection of traffic drops, conversion changes and tracking breaks is built but not yet active on accounts
 
 ## Key Components
 
 ### Insight Detection
 
-LENS analyzes your data with a curated set of detection rules. The current launch set ("LENS Basic") ships with around **25 active rules** focused on universal web analytics — pageviews, sessions, and conversions — so they work without e-commerce properties, segments, or content groups.
+LENS has a rule library for automated insight detection. **No rule is active today** — the library is documented here because it defines the categories and signals we will ship, and because the API surface already reflects them.
 
-Rules are organized into **11 categories**, all available on every plan:
+The planned rules are organized into **11 categories**, which will be available on every plan:
 
 | Category | What it covers |
 |----------|----------------|
@@ -2848,13 +2854,16 @@ URL: https://docs.sealmetrics.com/lens/anomaly-detection/rule-types
 
 # Detection Rules Catalog
 
-LENS ships with a curated set of **25 active detection rules** that run on your account. Each rule has a stable internal **ID** (used in the API and in alerts), belongs to one of LENS's categories, and follows one of two execution models:
+**Caution:**
+This catalog documents the LENS detection rule library as it is **built**, not as it is **running**. **No detection rule is currently enabled on customer accounts**, so no automated insight or alert is generated today. LENS chat and LENS reports are the live capabilities — see [LENS AI](/lens).
+
+LENS has a curated set of **25 detection rules** ready to enable. Each rule has a stable internal **ID** (used in the API and in alerts), belongs to one of LENS's categories, and follows one of two execution models:
 
 - **Reactive** — analyzes historical data in daily/weekly/monthly batches.
 - **Proactive** — near real-time checks that surface changes happening right now.
 
 **Info:**
-LENS includes a much larger internal library of rules, but most require data many accounts don't have (e-commerce product properties, microconversion funnels, content groups, multi-site portfolios, or year-over-year history). To keep alerts accurate and noise-free, only the 25 rules below are active. The rest stay disabled until the required data is available.
+LENS includes a much larger internal library of rules, but most require data many accounts don't have (e-commerce product properties, microconversion funnels, content groups, multi-site portfolios, or year-over-year history). The 25 rules below are the first set slated to go live; the rest stay disabled until the required data is available. None of them runs on accounts today.
 
 ## Categories
 
@@ -2874,7 +2883,7 @@ LENS organizes rules into these categories:
 | `multisite` | Multi-site & Portfolio | Multi-web management |
 | `reporting` | Reporting | Executive summaries |
 
-The active rules below fall into `critical_alerts`, `autopilot_checks`, `growth_upside`, `risk_management`, `user_experience`, and `instant_wins`. The remaining categories exist for rules that activate once your account has the data they need.
+The first-set rules below fall into `critical_alerts`, `autopilot_checks`, `growth_upside`, `risk_management`, `user_experience`, and `instant_wins`. The remaining categories exist for rules that activate once your account has the data they need.
 
 ---
 
@@ -2964,7 +2973,7 @@ Every rule shares a common structure:
 
 ## Plan availability
 
-All categories — and all active rules — are available on every v2 plan. There are no rule-level or category-level locks by tier; plans differ by data volume, not by which rules run.
+All categories — and every rule, once enabled — will be available on every v2 plan. There are no rule-level or category-level locks by tier; plans differ by data volume, not by which rules run.
 
 ## Next steps
 
@@ -2986,7 +2995,7 @@ Get LENS configured and receiving insights in under 5 minutes.
 ## Prerequisites
 
 - A Sealmetrics account with an active plan
-- At least 7 days of tracking data (for meaningful anomaly detection)
+- At least 7 days of tracking data (so LENS has enough history to compare against)
 - Email notifications enabled in your account settings
 
 ## Step 1: Access LENS
@@ -57524,8 +57533,9 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 | Cookie-free tracking | Yes | Yes | Yes |
 | Consentless operation | Yes | Yes | Yes |
 | Bot filtering | Yes | Yes | Yes |
-| Agent AI Analytics | Yes | Yes | Yes |
-| Real-time data (< 2 min) | Yes | Yes | Yes |
+| Agent AI Analytics | Coming soon | Coming soon | Coming soon |
+| Real-time data (typically < 2 min) | Yes | Yes | Yes |
+| Data complete before 6 AM (SLA) | Yes | Yes | Yes |
 
 ### Event Tracking
 
@@ -57569,9 +57579,11 @@ Complete feature-by-feature comparison across all Sealmetrics plans. All plans u
 | Feature | Growth | Scale | Enterprise |
 |---------|:------:|:-----:|:----------:|
 | LENS Chat | Yes | Yes | Yes |
-| LENS Insights | Yes | Yes | Yes |
+| LENS Reports | Yes | Yes | Yes |
+| LENS Insights (rule-based detection) | Coming soon | Coming soon | Coming soon |
 | AI with your own key (BYOK) | Unmetered | Unmetered | Unmetered |
 | [Seal AI Private](/billing/seal-ai-private) (EU-hosted, no key) | Paid add-on | **Included** | **Included** |
+| Dedicated, non-shared Seal AI Private instance | - | - | Yes |
 
 LENS AI works two ways: **[Seal AI Private](/billing/seal-ai-private)** (managed, EU-hosted, no API key; 5M tokens/month plus optional packs — add-on on Growth, included in Scale/Enterprise) or **bring-your-own-key** (connect your own LLM provider API key; unmetered by Sealmetrics, billed directly by your provider).
 
@@ -57645,7 +57657,7 @@ LENS AI works two ways: **[Seal AI Private](/billing/seal-ai-private)** (managed
 
 | Feature | Growth | Scale | Enterprise |
 |---------|:------:|:-----:|:----------:|
-| Uptime SLA | 99.5% | 99.5% | 99.9% |
+| Uptime SLA | 99% | 99.5% | 99.9% |
 
 ### Onboarding
 
@@ -57708,15 +57720,15 @@ All plans include:
 - MCP Server
 - BigQuery export
 - CSV/JSON export
-- LENS AI (Chat + Insights)
+- LENS AI (Chat + Reports) — rule-based Insights coming soon
 - Conversion tracking
 - Funnel analysis
 - Bot detection & fraud protection
 - Consentless tracking
-- Real-time data (< 2 min)
+- Real-time data — hits normally in reports in under 2 min; the SLA guarantees each day complete before 6 AM
 - Email reports & alerts
 - Multi-site portfolio view
-- Agent AI Analytics (AI agents tracked, not billed)
+- Agent AI Analytics — coming soon (when live, AI agents are tracked and never billed)
 
 ### Plan Differences
 
@@ -57728,7 +57740,7 @@ All plans include:
 | Webhooks | - | Yes | Yes |
 | Audit logs | - | Yes | Yes |
 | Role-based access | Basic | Advanced | Full |
-| SLA | 99.5% | 99.5% | 99.9% |
+| Uptime SLA | 99% | 99.5% | 99.9% |
 | Support | Email | Email + Chat + Priority | Priority + Dedicated AM |
 | Onboarding | Docs | 1 session | White-glove |
 
@@ -57845,7 +57857,8 @@ The Growth plan is designed for growing teams and mid-size e-commerce businesses
 | First-party tracking | Yes |
 | Cookie-free mode | Yes |
 | Bot filtering | Yes |
-| Real-time data | < 2 min |
+| Real-time data | Typically < 2 min |
+| Data complete before 6 AM | Yes (SLA) |
 
 ### Users & Access
 
@@ -57863,7 +57876,8 @@ The Growth plan is designed for growing teams and mid-size e-commerce businesses
 | Feature | Included |
 |---------|----------|
 | LENS Chat | Yes |
-| LENS Insights | Yes |
+| LENS Reports | Yes |
+| LENS Insights (rule-based detection) | Coming soon |
 | AI with your own key (BYOK) | Yes — unmetered, billed by your provider |
 | [Seal AI Private](/billing/seal-ai-private) | Available as add-on (€299/mo billed annually · €358.80/mo monthly) |
 
@@ -57885,7 +57899,7 @@ The Growth plan is designed for growing teams and mid-size e-commerce businesses
 |---------|----------|
 | Email support | Yes |
 | Documentation | Yes |
-| SLA | 99.5% uptime |
+| SLA | 99% uptime |
 
 ## Event Limits
 
@@ -57919,7 +57933,7 @@ When you upgrade to Scale, you get:
 | Advanced RBAC | - | **Yes** |
 | Priority support | - | **Yes** |
 | Onboarding | - | **1 session** |
-| SLA | 99.5% | 99.5% |
+| Uptime SLA | 99% | **99.5%** |
 
 Upgrades take effect immediately with prorated billing.
 
@@ -57954,8 +57968,9 @@ The Scale plan is designed for multi-brand retailers and larger organizations th
 | First-party tracking | Yes |
 | Cookie-free mode | Yes |
 | Bot filtering | Yes |
-| Agent AI Analytics | Yes |
-| Real-time data | < 2 min |
+| Agent AI Analytics | Coming soon |
+| Real-time data | Typically < 2 min |
+| Data complete before 6 AM | Yes (SLA) |
 
 ### Users & Access
 
@@ -57974,7 +57989,8 @@ The Scale plan is designed for multi-brand retailers and larger organizations th
 | Feature | Included |
 |---------|----------|
 | LENS Chat | Yes |
-| LENS Insights | Yes |
+| LENS Reports | Yes |
+| LENS Insights (rule-based detection) | Coming soon |
 | AI with your own key (BYOK) | Yes — unmetered, billed by your provider |
 | [Seal AI Private](/billing/seal-ai-private) | **Included** (5M tokens/month, EU-hosted, no API key needed) |
 
@@ -58023,7 +58039,7 @@ One free overage month per year is included. Annual plans absorb mid-year overag
 | [Seal AI Private](/billing/seal-ai-private) | Paid add-on | **Included** |
 | Priority support | - | **Yes** |
 | Onboarding | - | **1 session** |
-| SLA | 99.5% | 99.5% |
+| Uptime SLA | 99% | **99.5%** |
 
 ## Getting Started
 
@@ -58065,9 +58081,9 @@ All tracked interactions count toward your event limit:
 | Custom event | Yes | User-defined events |
 | Conversion | Yes | Purchase, signup, etc. |
 | Micro-conversion | Yes | Add-to-cart, etc. |
-| AI Agent events | No | Detected agents are tracked but not billed |
+| AI Agent events | No | Agent Analytics is coming soon; when live, detected agents are tracked but never billed |
 
-**Agent Analytics:** AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) is detected and tracked separately and does **not** count toward your event limit. Agent Analytics is included on all plans.
+**Agent Analytics:** *(coming soon)* AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) will be detected and tracked separately, and will **not** count toward your event limit. Agent Analytics will be included on all plans. It is not live today.
 
 ### Events Are Pooled
 
@@ -58278,9 +58294,10 @@ Custom pricing based on your organization's needs. [Contact sales](mailto:sales@
 | First-party tracking | Yes |
 | Cookie-free mode | Yes |
 | Bot filtering | Yes |
-| Agent AI Analytics | Yes |
+| Agent AI Analytics | Coming soon |
 | Isolated processing | Yes |
-| Real-time data | < 2 min |
+| Real-time data | Typically < 2 min |
+| Data complete before 6 AM | Yes (SLA) |
 
 ### Users & Access
 
@@ -58299,9 +58316,11 @@ Custom pricing based on your organization's needs. [Contact sales](mailto:sales@
 | Feature | Included |
 |---------|----------|
 | LENS Chat | Yes |
-| LENS Insights | Yes |
+| LENS Reports | Yes |
+| LENS Insights (rule-based detection) | Coming soon |
 | AI with your own key (BYOK) | Yes — unmetered, billed by your provider |
 | [Seal AI Private](/billing/seal-ai-private) | **Included** (5M tokens/month, EU-hosted, no API key needed) |
+| Dedicated, non-shared Seal AI Private instance | Yes |
 
 ### Integrations
 
@@ -60884,7 +60903,7 @@ Industry data shows rejection rates vary significantly by country:
 | Device & browser reports | Yes | Yes |
 | Custom events | Yes | Yes |
 | Content grouping | Yes | Yes |
-| AI insights | Limited | LENS AI (chat + anomaly detection) |
+| AI insights | Limited | LENS AI (ask your data in plain language) |
 | Unique visitors | Yes | No (requires individual tracking) |
 | Bounce rate | Yes | Yes (aggregate-only, no individual tracking) |
 | Session duration | Yes | No (requires individual tracking) |
@@ -60910,7 +60929,7 @@ Industry data shows rejection rates vary significantly by country:
 
 | Spec | GA4 (gtag.js) | Sealmetrics |
 |------|---------------|-------------|
-| Script size (gzipped) | ~129.6 KB | **1.3 KB** |
+| Script size (gzipped) | ~171 KB | **1.1 KB** |
 | Cookies set | 6+ (_ga, _gid, etc.) | 0 |
 | localStorage usage | Yes | No |
 | Page load impact | High (render-blocking) | Minimal (defer, async) |
@@ -60973,7 +60992,7 @@ Sealmetrics is the better choice if you:
 - Need **GDPR/CNIL/AEPD compliance** without legal risk
 - Want **100% conversion attribution** for budget decisions
 - Need a **lightweight tracker** that does not slow down your site
-- Want **AI-powered anomaly detection** (LENS) out of the box
+- Want an **AI assistant on your own data** (LENS) out of the box
 - Require **EU-only data hosting** with no international transfers
 
 ---
@@ -61016,7 +61035,7 @@ For platform-specific guides, see our [integration docs](/integrations) for Word
 
 ### Can I use GA4 and Sealmetrics at the same time?
 
-Yes. Many customers run both during a transition period. Sealmetrics does not interfere with GA4, and the 1.3 KB script adds negligible load. Running both lets you verify data differences firsthand.
+Yes. Many customers run both during a transition period. Sealmetrics does not interfere with GA4, and the 1.1 KB script adds negligible load. Running both lets you verify data differences firsthand.
 
 ### Does Sealmetrics integrate with Google Ads?
 
@@ -61044,7 +61063,7 @@ Sealmetrics includes built-in [bot detection](/compliance/compliance-overview/ho
 | **Data accuracy (EU)** | 15–50% of traffic | 100% of traffic |
 | **Consent required** | Yes | No |
 | **Legal risk** | Moderate (GDPR, Schrems II) | None (privacy by design) |
-| **Script size** | 129.6 KB | 1.3 KB |
+| **Script size** | ~171 KB | 1.1 KB |
 | **Pricing** | Free (with hidden costs) | From €499/mo (annual billing) |
 
 The question is not whether GA4 or Sealmetrics has more features. The question is whether you can make business decisions based on 15–50% of your actual data.
