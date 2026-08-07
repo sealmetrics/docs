@@ -4,13 +4,16 @@ URL: https://docs.sealmetrics.com/lens/anomaly-detection/rule-types
 
 # Detection Rules Catalog
 
-LENS ships with a curated set of **25 active detection rules** that run on your account. Each rule has a stable internal **ID** (used in the API and in alerts), belongs to one of LENS's categories, and follows one of two execution models:
+**Caution:**
+This catalog documents the LENS detection rule library as it is **built**, not as it is **running**. **No detection rule is currently enabled on customer accounts**, so no automated insight or alert is generated today. LENS chat and LENS reports are the live capabilities — see [LENS AI](/lens/).
+
+LENS has a curated set of **25 detection rules** ready to enable. Each rule has a stable internal **ID** (used in the API and in alerts), belongs to one of LENS's categories, and follows one of two execution models:
 
 - **Reactive** — analyzes historical data in daily/weekly/monthly batches.
 - **Proactive** — near real-time checks that surface changes happening right now.
 
 **Info:**
-LENS includes a much larger internal library of rules, but most require data many accounts don't have (e-commerce product properties, microconversion funnels, content groups, multi-site portfolios, or year-over-year history). To keep alerts accurate and noise-free, only the 25 rules below are active. The rest stay disabled until the required data is available.
+LENS includes a much larger internal library of rules, but most require data many accounts don't have (e-commerce product properties, microconversion funnels, content groups, multi-site portfolios, or year-over-year history). The 25 rules below are the first set slated to go live; the rest stay disabled until the required data is available. None of them runs on accounts today.
 
 ## Categories
 
@@ -30,7 +33,7 @@ LENS organizes rules into these categories:
 | `multisite` | Multi-site & Portfolio | Multi-web management |
 | `reporting` | Reporting | Executive summaries |
 
-The active rules below fall into `critical_alerts`, `autopilot_checks`, `growth_upside`, `risk_management`, `user_experience`, and `instant_wins`. The remaining categories exist for rules that activate once your account has the data they need.
+The first-set rules below fall into `critical_alerts`, `autopilot_checks`, `growth_upside`, `risk_management`, `user_experience`, and `instant_wins`. The remaining categories exist for rules that activate once your account has the data they need.
 
 ---
 
@@ -120,7 +123,7 @@ Every rule shares a common structure:
 
 ## Plan availability
 
-All categories — and all active rules — are available on every v2 plan. There are no rule-level or category-level locks by tier; plans differ by data volume, not by which rules run.
+All categories — and every rule, once enabled — will be available on every v2 plan. There are no rule-level or category-level locks by tier; plans differ by data volume, not by which rules run.
 
 ## Next steps
 

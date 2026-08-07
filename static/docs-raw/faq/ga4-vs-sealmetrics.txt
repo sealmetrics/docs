@@ -57,7 +57,7 @@ Industry data shows rejection rates vary significantly by country:
 | Device & browser reports | Yes | Yes |
 | Custom events | Yes | Yes |
 | Content grouping | Yes | Yes |
-| AI insights | Limited | LENS AI (chat + anomaly detection) |
+| AI insights | Limited | LENS AI (ask your data in plain language) |
 | Unique visitors | Yes | No (requires individual tracking) |
 | Bounce rate | Yes | Yes (aggregate-only, no individual tracking) |
 | Session duration | Yes | No (requires individual tracking) |
@@ -83,7 +83,7 @@ Industry data shows rejection rates vary significantly by country:
 
 | Spec | GA4 (gtag.js) | Sealmetrics |
 |------|---------------|-------------|
-| Script size (gzipped) | ~129.6 KB | **1.3 KB** |
+| Script size (gzipped) | ~171 KB | **1.1 KB** |
 | Cookies set | 6+ (_ga, _gid, etc.) | 0 |
 | localStorage usage | Yes | No |
 | Page load impact | High (render-blocking) | Minimal (defer, async) |
@@ -146,7 +146,7 @@ Sealmetrics is the better choice if you:
 - Need **GDPR/CNIL/AEPD compliance** without legal risk
 - Want **100% conversion attribution** for budget decisions
 - Need a **lightweight tracker** that does not slow down your site
-- Want **AI-powered anomaly detection** (LENS) out of the box
+- Want an **AI assistant on your own data** (LENS) out of the box
 - Require **EU-only data hosting** with no international transfers
 
 ---
@@ -189,7 +189,7 @@ For platform-specific guides, see our [integration docs](/integrations) for Word
 
 ### Can I use GA4 and Sealmetrics at the same time?
 
-Yes. Many customers run both during a transition period. Sealmetrics does not interfere with GA4, and the 1.3 KB script adds negligible load. Running both lets you verify data differences firsthand.
+Yes. Many customers run both during a transition period. Sealmetrics does not interfere with GA4, and the 1.1 KB script adds negligible load. Running both lets you verify data differences firsthand.
 
 ### Does Sealmetrics integrate with Google Ads?
 
@@ -217,7 +217,7 @@ Sealmetrics includes built-in [bot detection](/compliance/compliance-overview/ho
 | **Data accuracy (EU)** | 15–50% of traffic | 100% of traffic |
 | **Consent required** | Yes | No |
 | **Legal risk** | Moderate (GDPR, Schrems II) | None (privacy by design) |
-| **Script size** | 129.6 KB | 1.3 KB |
+| **Script size** | ~171 KB | 1.1 KB |
 | **Pricing** | Free (with hidden costs) | From €499/mo (annual billing) |
 
 The question is not whether GA4 or Sealmetrics has more features. The question is whether you can make business decisions based on 15–50% of your actual data.
