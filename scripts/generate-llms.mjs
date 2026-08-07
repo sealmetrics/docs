@@ -171,10 +171,16 @@ function stripMdx(content) {
   });
   text = text.replace(/^:::\s*$/gm, '');
 
-  // Step 6: Restore code blocks
+  // Step 6: Drop trailing slashes from internal links. The site runs with
+  // trailingSlash: false, so /lens/ is a 404 while /lens is the real page.
+  // Docusaurus normalises these when rendering, but the raw mirrors are read
+  // directly by crawlers and LLMs, where the trailing slash is followed as-is.
+  text = text.replace(/\]\((\/[A-Za-z0-9/_-]+)\/\)/g, ']($1)');
+
+  // Step 7: Restore code blocks
   text = text.replace(/__CODE_BLOCK_(\d+)__/g, (_, idx) => codeBlocks[parseInt(idx)]);
 
-  // Step 7: Clean up excessive blank lines (3+ → 2)
+  // Step 8: Clean up excessive blank lines (3+ → 2)
   text = text.replace(/\n{3,}/g, '\n\n');
 
   return text.trim();
