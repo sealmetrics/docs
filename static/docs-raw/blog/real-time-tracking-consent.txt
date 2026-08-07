@@ -111,7 +111,7 @@ Even in cookieless mode, Matomo generates visitor logs that track individual bro
 
 Plausible takes a privacy-first approach and does not use cookies. Its "Current visitors" counter is a genuine snapshot -- it shows a real-time count without storing sub-daily bucketed data. However, Plausible does offer time-based filtering (last 30 minutes, last hour) in some report views, which edges into window territory.
 
-Plausible has been accepted on the CNIL exemption list, indicating that its overall architecture meets French requirements. Whether it fully satisfies the stricter AEPD daily aggregation rule depends on which specific features are used and how the data is stored.
+Plausible's cookieless, first-party architecture is generally regarded as aligning with the CNIL's exemption criteria. Note that the CNIL retired its list of exemption-eligible tools in July 2025, replacing it with a self-assessment framework, so no tool — Plausible or Sealmetrics — can point to a current CNIL listing as proof. Whether Plausible fully satisfies the stricter AEPD daily aggregation rule depends on which specific features are used and how the data is stored.
 
 ### Sealmetrics
 
@@ -138,7 +138,7 @@ The following table summarizes how each tool handles the key factors that determ
 | **Visitor-level logs** | Yes | Yes | No | No |
 | **IP storage** | Yes (hashed) | Configurable | No | No |
 | **AEPD daily aggregation** | No | No | Partial | Yes |
-| **CNIL exemption list** | No | Configurable | Yes | Yes |
+| **Meets CNIL exemption criteria** | No | Configurable | Likely | Yes (self-assessed) |
 | **Data capture rate (EU)** | 40-70% | 60-80% | 80-95% | 100% |
 | **Consent banner needed** | Yes | Depends | No | No |
 
