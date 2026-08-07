@@ -2641,7 +2641,7 @@ LENS AI (chat + insights) is included in every paid plan — **Growth, Scale, an
 | Scale | Yes, unmetered | **Included** (5M tokens/month) |
 | Enterprise | Yes, unmetered | **Included** (5M tokens/month) |
 
-With BYOK there is no per-plan cap on questions — you pay your provider directly. With Seal AI Private, usage draws from the monthly token quota (plus optional non-expiring packs).
+**BYOK is free from Sealmetrics** — no add-on fee, no per-plan cap on questions, no token quota. You pay only your own LLM provider for what you use. The [Seal AI Private](/billing/seal-ai-private) pricing applies only if you opt for the managed EU provider instead of your own key; its usage draws from the monthly token quota (plus optional non-expiring packs).
 
 ## Getting Started
 
@@ -56870,7 +56870,7 @@ URL: https://docs.sealmetrics.com/platform/settings/llm
 Configure which AI model powers the **Lens chat** assistant. Two kinds of provider are available:
 
 - **Seal AI Private** — Sealmetrics' managed provider. Runs entirely in the EU (Paris), no prompt retention, **no API key needed**. Subject to plan entitlement and a monthly token quota — see [Seal AI Private](/billing/seal-ai-private).
-- **Bring-your-own-key (BYOK)** — you add your own API key for Anthropic, OpenAI, Gemini, or DeepSeek Cloud. Per-user: your configuration is used across every site you have access to, unmetered by Sealmetrics.
+- **Bring-your-own-key (BYOK)** — you add your own API key for Anthropic, OpenAI, Gemini, or DeepSeek Cloud. Per-user: your configuration is used across every site you have access to. **Free from Sealmetrics** — unmetered, with no add-on fee; you pay only your own provider.
 
 ![LLM Providers page showing the Seal AI (Private, EU) provider card set as default, with its monthly token quota and the Add Provider button](/img/screenshots/llm-providers.png)
 
@@ -58675,6 +58675,11 @@ URL: https://docs.sealmetrics.com/billing/seal-ai-private
 
 It is available as a paid **add-on** on Growth plans and is **included** in Scale and Enterprise plans.
 
+**Info:**
+**LENS AI itself costs nothing extra.** It is included in every paid plan, and using it with [your own LLM key (BYOK)](/platform/settings/llm) carries **no Sealmetrics charge at all** — no add-on fee, no token quota, no packs. You pay only your own provider (OpenAI, Anthropic, Gemini or DeepSeek) for what you use.
+
+The pricing below applies **only if you choose Seal AI Private**, our managed EU-hosted LLM, instead of supplying your own key. It is a convenience and data-residency option, not a requirement for using LENS.
+
 ---
 
 ## Pricing
@@ -58706,7 +58711,7 @@ Activating the add-on mid-cycle is **not prorated** — billing starts at your n
 When the monthly quota and any pack balance are exhausted, Seal AI Private **stops** (hard stop) for both chat and insights, and the product shows a message with a purchase option. Two ways to keep going:
 
 1. **Buy a token pack** (below), or
-2. **Switch to your own key (BYOK)** — the chat's provider selector lets any user fall back to their own OpenAI, Anthropic, Gemini, or DeepSeek key at any time. See [LLM Providers](/platform/settings/llm).
+2. **Switch to your own key (BYOK)** — free of charge from Sealmetrics. The chat's provider selector lets any user fall back to their own OpenAI, Anthropic, Gemini, or DeepSeek key at any time, with no quota. See [LLM Providers](/platform/settings/llm).
 
 ## Extra token packs
 
@@ -61664,7 +61669,7 @@ No API key. No account with an AI vendor. No data leaving Europe. It works out o
 - **Zero setup**: no API key or external AI account required
 - **Included in Scale and Enterprise** plans; available as a paid add-on on Growth
 - **5 million tokens per month**, with optional non-expiring token packs
-- **BYOK remains available** on every paid plan if you prefer your own OpenAI, Anthropic, Gemini, or DeepSeek key
+- **BYOK remains available and free** on every paid plan if you prefer your own OpenAI, Anthropic, Gemini, or DeepSeek key — the pricing here is for Seal AI Private only, not for LENS
 
 ## Why we built this
 
@@ -61694,7 +61699,7 @@ Seal AI Private follows your plan:
 
 If you're on **Scale or Enterprise**, there's nothing to buy — Seal AI Private is included in your plan and active for LENS chat and insights.
 
-If you're on **Growth**, you can activate it as an add-on, or keep using BYOK, which remains included and unmetered on every paid plan.
+If you're on **Growth**, you can activate it as an add-on, or keep using BYOK, which remains included, unmetered and free of charge on every paid plan.
 
 ## Pricing at a glance
 
@@ -61726,7 +61731,7 @@ You can buy extra capacity in **packs of 5,000,000 tokens at €358.80 per pack*
 
 ### Option 2: Bring your own key
 
-BYOK isn't going anywhere. The chat's provider selector lets any user switch to their own **OpenAI, Anthropic, Gemini, or DeepSeek** key at any time — including as a fallback when the Seal AI Private quota is exhausted. With BYOK there's no Sealmetrics-side quota; you pay your provider directly.
+BYOK isn't going anywhere, and it stays **free**. The chat's provider selector lets any user switch to their own **OpenAI, Anthropic, Gemini, or DeepSeek** key at any time — including as a fallback when the Seal AI Private quota is exhausted. With BYOK there's no add-on fee and no Sealmetrics-side quota; you pay only your own provider. The pricing above is for Seal AI Private alone — LENS itself carries no extra charge.
 
 Seal AI Private and BYOK aren't mutually exclusive. Plenty of teams will use the managed EU provider as the default and keep a BYOK key configured as overflow.
 
@@ -61737,7 +61742,7 @@ Seal AI Private and BYOK aren't mutually exclusive. Plenty of teams will use the
 | Setup | None — works out of the box | Create and manage your own provider key |
 | Processing location | EU (Paris) | Your provider's infrastructure |
 | Prompt retention | None | Per your provider's terms |
-| Cost model | Flat add-on (or included in plan) + optional packs | Pay your provider per use |
+| Cost model | Flat add-on (or included in plan) + optional packs | Free from Sealmetrics — pay your provider per use |
 | Usage limit | 5M tokens/month + packs | None from Sealmetrics |
 
 There's no wrong answer here. If your compliance requirements (or your patience for key management) point toward a managed EU option, Seal AI Private is for you. If you already have provider agreements and want unmetered usage, BYOK remains a first-class option.
