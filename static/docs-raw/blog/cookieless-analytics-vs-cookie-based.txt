@@ -66,7 +66,7 @@ Unlike cookie-based tools that lose 60-87% of EU traffic, cookieless analytics c
 | **User Identification** | Persistent across devices | Single device, single session |
 | **Script Size** | ~130KB (GA4 gzipped) | 1.3KB (Sealmetrics gzipped) |
 | **Page Load Impact** | ~80-120ms | ~20-30ms |
-| **CNIL Approval** | Requires configuration | Approved methodology |
+| **CNIL Exemption Criteria** | Requires configuration | Designed to meet criteria (self-assessed) |
 
 ### Data Collection Accuracy
 
@@ -124,7 +124,7 @@ Implementing Sealmetrics requires:
 
 **Total implementation time**: 2 minutes
 **Ongoing maintenance**: None
-**Legal review**: Not required (CNIL-approved methodology)
+**Legal review**: Simplified (no cookies, no personal data stored)
 
 The difference is stark. Cookie-based analytics requires consent management platforms (OneTrust, Cookiebot, etc.) that cost €300-3000/month. Cookieless analytics like Sealmetrics requires one script tag.
 
@@ -159,7 +159,7 @@ Cookieless analytics qualifies for legitimate interest because:
 - Clear legitimate interest = website optimization
 - No fundamental rights impact = anonymous tracking
 
-CNIL's 2020 guidance on cookieless analytics explicitly states that analytics tools without cookies and without storing identifying information can operate under legitimate interest. Sealmetrics received CNIL approval for this methodology in 2023.
+CNIL's 2020 guidance on cookieless analytics explicitly states that analytics tools without cookies and without storing identifying information can operate under legitimate interest. Sealmetrics' architecture is designed to meet these published criteria. Note that CNIL does not certify, approve, or validate individual analytics tools — see our [CNIL self-assessment](/docs/compliance/cnil-self-assessment) for a criterion-by-criterion analysis.
 
 This legal distinction is crucial: cookie-based analytics **requires consent**, cookieless analytics **does not**.
 
@@ -330,7 +330,7 @@ Sealmetrics pricing (volume-based):
 - **Scale**: €1,079/month (15M events) — €899/month with annual billing
 - **Enterprise**: Custom pricing (unlimited events)
 - **Consent Management**: €0 (not needed)
-- **Legal Review**: €0 (CNIL-approved methodology)
+- **Legal Review**: Minimal (no cookies, no personal data stored)
 - **Ongoing Compliance**: €0 (built-in)
 - **Data Loss Cost**: €0 (100\% capture)
 
@@ -352,7 +352,7 @@ Yes, Sealmetrics works with most ad blockers because it doesn't use tracking coo
 
 ### Can I use cookieless analytics for GDPR compliance?
 
-Yes, cookieless analytics like Sealmetrics is specifically designed for GDPR compliance. By operating under GDPR Article 6(1)(f) legitimate interest instead of consent, cookieless analytics provides compliant tracking without consent banners. CNIL approved this methodology in 2020, and Sealmetrics received specific approval in 2023.
+Yes, cookieless analytics like Sealmetrics is specifically designed for GDPR compliance. By operating under GDPR Article 6(1)(f) legitimate interest instead of consent, cookieless analytics provides compliant tracking without consent banners. CNIL's 2020 guidance confirms that cookieless measurement meeting its exemption criteria can operate without consent; Sealmetrics is designed to meet those criteria (CNIL does not certify or approve individual tools).
 
 Unlike cookie-based analytics that requires consent under ePrivacy Directive Article 5(3), cookieless analytics doesn't store information in user browsers and therefore doesn't trigger consent requirements.
 
@@ -390,7 +390,7 @@ For websites accessed via mobile browsers, cookieless analytics works identicall
 
 ### What happens to my data with cookieless analytics?
 
-Sealmetrics stores all analytics data on EU-based servers (Frankfurt, Germany) with 24-month retention. Unlike Google Analytics (US-based with Schrems II concerns), cookieless analytics keeps your data within EU jurisdiction.
+Sealmetrics stores all analytics data on EU-based servers (Dublin, Ireland) with 24-month retention. Unlike Google Analytics (US-based with Schrems II concerns), cookieless analytics keeps your data within EU jurisdiction.
 
 Data is fully anonymized: no IP addresses, no persistent identifiers, no personal data. This architecture ensures GDPR compliance and eliminates data transfer concerns.
 
@@ -400,7 +400,7 @@ Tell your Data Protection Officer:
 1. **No cookies used**: ePrivacy Directive doesn't apply
 2. **No IP storage**: Data is anonymous by design
 3. **Legitimate interest**: GDPR Article 6(1)(f) legal basis
-4. **CNIL approved**: Methodology validated by French regulator
+4. **CNIL exemption criteria**: Architecture designed to meet CNIL's published criteria (self-assessed — CNIL does not certify tools)
 5. **No consent required**: Removes consent management complexity
 
 Provide your DPO with CNIL's 2020 guidance on cookieless analytics and Sealmetrics' data processing documentation. Most DPOs approve immediately because cookieless analytics is significantly lower risk than cookie-based alternatives.
@@ -437,7 +437,7 @@ Key differences:
 - No IP storage (competitors store hashed IPs)
 - No consent required
 - 24-month retention without consent
-- CNIL-approved methodology
+- Designed to meet CNIL's exemption criteria (self-assessed)
 
 **Plausible/Matomo**: Cookie-free but still store IPs
 - No cookies (good)
