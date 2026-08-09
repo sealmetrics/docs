@@ -18,14 +18,18 @@ date: 2026-07-24
 import {BarChart} from '@site/src/components/PerfChart';
 
 
-The current Sealmetrics tracker weighs **1.1 KB on the wire** — 12× less than the legacy Sealmetrics v1 tracker and roughly 155× less than GA4's `gtag.js`. That weight, combined with a single-step dispatch chain and an ingestion pipeline rebuilt from scratch (Go → RabbitMQ → ClickHouse), translates into more hits captured: dual-tagged sites (running both Sealmetrics trackers in parallel) measure **25–30% more traffic on average with the current tracker than with v1**, with the gain concentrated in mobile traffic and in visitors geographically far from our Dublin servers.
+The current Sealmetrics tracker weighs **1.1 KB on the wire** — 12× less than the legacy Sealmetrics v1 tracker and roughly 132× less than GA4's `gtag.js`. That weight, combined with a single-step dispatch chain and an ingestion pipeline rebuilt from scratch (Go → RabbitMQ → ClickHouse), translates into more hits captured: dual-tagged sites (running both Sealmetrics trackers in parallel) measure **25–30% more traffic on average with the current tracker than with v1**, with the gain concentrated in mobile traffic and in visitors geographically far from our Dublin servers.
 
 **Key numbers at a glance:**
 
 | | vs legacy v1 | vs GA4 |
 |---|---|---|
-| Wire weight advantage | 12× lighter | ~155× lighter |
+| Wire weight advantage | 12× lighter | ~132× lighter |
 | Measured traffic difference | +25–30% (dual-tag average) | +25–45% (EU markets, estimate) |
+
+:::note Measurement date
+Script weights re-measured **9 August 2026** from each vendor's production CDN: one GET with `Accept-Encoding: gzip`, bytes counted on disk. Vendor scripts change — `gtag.js` alone went from ~171 KB to ~146 KB between passes — so treat these as a dated snapshot.
+:::
 
 ## Methodology
 
@@ -53,16 +57,16 @@ What travels over the network determines when the first hit can fire. The legacy
 
 | | Sealmetrics (current) | Sealmetrics v1 (legacy) | GA4 (gtag.js) |
 |---|---|---|---|
-| **Transferred over the network** | **1.1 KB** (gzip) | 13.7 KB (no gzip) | ~171 KB (gzip) |
-| **Uncompressed (what the CPU parses)** | 2.0 KB | 13.7 KB | ~512 KB |
-| **Relative wire weight** | 1× | 12× | ~155× |
+| **Transferred over the network** | **1.1 KB** (gzip) | 13.7 KB (no gzip) | ~146 KB (gzip) |
+| **Uncompressed (what the CPU parses)** | 2.0 KB | 13.7 KB | ~409 KB |
+| **Relative wire weight** | 1× | 12× | ~132× |
 
 <BarChart
   note="Transferred over the network — true linear scale"
   items={[
     {label: 'Sealmetrics', sublabel: 't.js', value: 1122, display: '1.1 KB', color: 'seal'},
     {label: 'Sealmetrics v1', sublabel: 'legacy', value: 13686, display: '13.7 KB — no gzip', color: 'legacy'},
-    {label: 'GA4', sublabel: 'gtag.js', value: 171000, display: '~171 KB', color: 'ga4'},
+    {label: 'GA4', sublabel: 'gtag.js', value: 149087, display: '~146 KB', color: 'ga4'},
   ]}
 />
 
@@ -71,11 +75,11 @@ What travels over the network determines when the first hit can fire. The legacy
   items={[
     {label: 'Sealmetrics', value: 1985, display: '2.0 KB', color: 'seal'},
     {label: 'Sealmetrics v1', value: 13686, display: '13.7 KB', color: 'legacy'},
-    {label: 'GA4', value: 512000, display: '~512 KB', color: 'ga4'},
+    {label: 'GA4', value: 419259, display: '~409 KB', color: 'ga4'},
   ]}
 />
 
-**The TCP detail that matters:** the current tracker's 1.1 KB fits in a single packet and arrives in the first round-trip. The v1 tracker's 13.7 KB uncompressed sits right at the edge of TCP's initial congestion window (~14.6 KB), and GA4's ~171 KB needs 4–5 slow-start round-trips. When the visitor is far from the server, every extra round-trip multiplies latency.
+**The TCP detail that matters:** the current tracker's 1.1 KB fits in a single packet and arrives in the first round-trip. The v1 tracker's 13.7 KB uncompressed sits right at the edge of TCP's initial congestion window (~14.6 KB), and GA4's ~146 KB needs 4–5 slow-start round-trips. When the visitor is far from the server, every extra round-trip multiplies latency.
 
 ## Delivery protocol and infrastructure
 
@@ -84,8 +88,8 @@ What travels over the network determines when the first hit can fire. The legacy
 | Protocol | HTTP/2 | HTTP/1.1 | HTTP/2 + HTTP/3 |
 | Compression | gzip (1.1 KB) | none | gzip |
 | Origin | Dedicated Go service (Dublin) | nginx (Dublin) | Google global anycast CDN |
-| Requests until first hit | 1 script → immediate beacon | loader + script + hit (2 steps) | gtag ~171 KB + collect on a 2nd domain |
-| Hit transport | `sendBeacon` — survives page close | standard request after tracker loads | beacon/fetch after evaluating ~512 KB |
+| Requests until first hit | 1 script → immediate beacon | loader + script + hit (2 steps) | gtag ~146 KB + collect on a 2nd domain |
+| Hit transport | `sendBeacon` — survives page close | standard request after tracker loads | beacon/fetch after evaluating ~409 KB |
 | Data pipeline | Go → RabbitMQ → ClickHouse (columnar, real time) | legacy monolithic stack | batch processing; reports lag 24–48 h with thresholds |
 
 ## Measured latency (fiber, Spain)
@@ -99,7 +103,7 @@ Median of 3 samples with warm DNS. Even in the best possible network scenario, t
 | Time to first byte | ~110 ms | ~190–280 ms | ~110–140 ms |
 | Script fully downloaded | **~110 ms** | ~190–340 ms | ~210–290 ms |
 
-GA4 wins on network proximity (a Google edge in every city) but loses it all on volume: even with a better RTT, downloading ~171 KB takes twice as long as downloading 1.1 KB from Dublin — and after that, ~512 KB of JavaScript still has to be parsed on the visitor's device.
+GA4 wins on network proximity (a Google edge in every city) but loses it all on volume: even with a better RTT, downloading ~146 KB takes twice as long as downloading 1.1 KB from Dublin — and after that, ~409 KB of JavaScript still has to be parsed on the visitor's device.
 
 ## Time to first hit: four network scenarios
 
@@ -127,7 +131,7 @@ GA4's connection phase is the shortest of the three — its edge is 15 ms away. 
 | Sealmetrics v1 | ~260 ms | ~250 ms | ~35 ms | ~80 ms | ~0.6–0.9 s |
 | GA4 | ~120 ms | ~380 ms | ~400 ms | ~100 ms | ~1.0–1.5 s |
 
-On a mid-range phone, CPU becomes GA4's largest phase: parsing ~512 KB costs more than the current tracker's entire chain.
+On a mid-range phone, CPU becomes GA4's largest phase: parsing ~409 KB costs more than the current tracker's entire chain.
 
 **3G / weak signal** (RTT ~200 ms, 1.5 Mbps, slow CPU):
 
