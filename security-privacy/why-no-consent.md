@@ -1,0 +1,95 @@
+---
+title: "Why Sealmetrics Can Measure Without Consent"
+description: "Discover why Sealmetrics can measure web traffic without user consent while fully complying with GDPR, ePrivacy, and CNIL guidelines."
+canonical_url: "https://docs.sealmetrics.com/security-privacy/why-no-consent"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "8c3142942cb4d2a2f1d75eab060fce776207f04586df0f65436ef253b65fa7ba"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "security-privacy/why-no-consent.mdx"
+publisher: "SealMetrics"
+---
+
+# Why Sealmetrics Can Measure Without Consent
+
+Canonical page: https://docs.sealmetrics.com/security-privacy/why-no-consent
+
+Sealmetrics needs **no consent** because it collects no personal data and sets no cookies — it processes only anonymous, non-identifying signals (isolated "hits"), which falls outside the consent requirements of GDPR and the ePrivacy Directive. It's the question we're asked most often, and the answer is simple and 100% compliant.
+
+---
+
+## Full Legal Compliance
+
+Sealmetrics operates **fully within current privacy regulations** and adheres to the strictest guidelines set by both:
+
+- 🇪🇸 **AEPD** (Agencia Española de Protección de Datos)
+- 🇫🇷 **CNIL** (Commission Nationale de l’Informatique et des Libertés)
+
+These organizations explicitly recognize that **aggregated, non-identifiable measurement systems** can operate **without requiring user consent**.
+
+Sealmetrics follows these principles rigorously and undergoes continuous legal and technical reviews to maintain compliance.
+
+---
+
+## Cookieless and Consentless by Design
+
+**Sealmetrics is a 100% cookieless tracking system.**
+
+Our technology collects only **aggregated, non-personal data**, ensuring that **no individual user can ever be identified**.
+Sealmetrics measures "hits" — not users, sessions, or journeys.
+
+Each interaction is treated as an **independent event**, making it technically and legally impossible to connect actions to a single user.
+
+---
+
+## What Sealmetrics Tracks
+
+For each hit (or page view), Sealmetrics records only four variables:
+
+- **Timestamp** — When the event occurred
+- **User Agent** — Stored 24 months for anonymous device classification (browser/OS category); never linked to a person
+- **Current URL** — The page where the event happened
+- **Referral URL** — Where the visitor came from
+
+That’s it — no cookies, no IP addresses, no device IDs, and no fingerprinting.
+
+---
+
+## In Line with ePrivacy and GDPR
+
+According to the **ePrivacy Regulation**, if you wish to **track users individually** — even anonymously — **you must obtain consent**.
+
+Sealmetrics doesn’t track users.
+We measure **isolated page views ("hits")**, not behavioral journeys.
+This ensures full compliance with:
+
+- **GDPR (General Data Protection Regulation)**
+- **CCPA (California Consumer Privacy Act)**
+- **PECR (UK Privacy and Electronic Communications Regulations)**
+- **ePrivacy Directive**
+
+---
+
+## Why This Matters
+
+Sealmetrics provides marketers and analysts with **accurate, consentless insights** —
+ensuring **100% traffic measurement** without violating user privacy.
+
+> By design, Sealmetrics can’t track individuals — and that’s exactly why it doesn’t need consent.
+
+This approach guarantees a **sustainable, privacy-first future for analytics**, built on trust, transparency, and compliance.
+
+---
+
+Sealmetrics:
+**The only analytics platform engineered to measure 100% of your data — legally, ethically, and without consent.**
+
+## Related documentation
+
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the consentless concept in full
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the technical mechanism behind no-consent measurement
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the four variables that keep data non-identifying
+- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — full legal analysis with article references
+- [Frequently Asked Questions](/faq/privacy-security) — quick answers on privacy and consent

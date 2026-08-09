@@ -1,0 +1,832 @@
+---
+title: "LENS API Endpoints"
+description: "REST API reference for LENS: insights, settings and usage, weekly and monthly reports, and AI assistant chat endpoints with Bearer authentication."
+canonical_url: "https://docs.sealmetrics.com/lens/api/lens-endpoints"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "e04633766c336c4eee089de62a4d6735ac41f04db2153ba356c2059b22c95594"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "lens/api/lens-endpoints.mdx"
+publisher: "SealMetrics"
+---
+
+# LENS API Endpoints
+
+Canonical page: https://docs.sealmetrics.com/lens/api/lens-endpoints
+
+Access LENS features programmatically via the REST API.
+
+LENS exposes three groups of endpoints:
+
+- **Insights** (`/lens/insights/*`) — AI-generated insights (anomalies, opportunities, trends, alerts, health), plus per-insight actions.
+- **Settings & usage** (`/lens/settings`, `/lens/chat/usage`) — notification configuration and chat usage.
+- **Reports** (`/lens/reports/*`) — structured weekly/monthly executive reports.
+- **AI Assistant** (`/assistant/*`) — conversational chat over your analytics data.
+
+## Authentication
+
+All LENS endpoints require authentication via Bearer token:
+
+```bash
+curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  https://my.sealmetrics.com/api/v1/lens/insights?account_id=YOUR_ACCOUNT_ID
+```
+
+See [Authentication](/api/authentication) for details on obtaining tokens.
+
+All paths below are relative to the API base URL `https://my.sealmetrics.com/api/v1`.
+
+Most endpoints require an `account_id` query parameter and verify that the
+authenticated user has access to that account. Write actions (mark read,
+dismiss, submit feedback, update settings, generate reports, delete
+conversations) additionally require a token with the `write` scope.
+
+## Endpoints Overview
+
+### Insights
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/lens/insights` | GET | List insights (paginated, filterable) |
+| `/lens/insights/summary` | GET | Counts by severity / read status |
+| `/lens/insights/grouped` | GET | Insights grouped by a common attribute |
+| `/lens/insights/{insight_id}` | GET | Get a single insight |
+| `/lens/insights/{insight_id}/read` | PATCH | Mark insight as read |
+| `/lens/insights/{insight_id}/unread` | PATCH | Mark insight as unread |
+| `/lens/insights/{insight_id}/dismiss` | PATCH | Dismiss an insight |
+| `/lens/insights/{insight_id}/feedback` | POST | Submit feedback on an insight |
+| `/lens/insights/{insight_id}/send-email` | POST | Email an insight report |
+
+### Settings & usage
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/lens/settings` | GET | Get LENS notification settings |
+| `/lens/settings` | PATCH | Update LENS notification settings |
+| `/lens/chat/usage` | GET | Get chat question usage |
+| `/lens/chat/usage/increment` | POST | Increment chat usage counter |
+
+### Reports
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/lens/reports` | GET | List generated reports |
+| `/lens/reports/{report_id}` | GET | Get a report |
+| `/lens/reports/generate` | POST | Generate a report |
+| `/lens/reports/latest/{report_type}` | GET | Get latest weekly/monthly report |
+
+### AI Assistant
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/assistant/chat` | POST | Send a message to the AI assistant |
+| `/assistant/sessions` | GET | List recent chat sessions |
+| `/assistant/conversations/{id}` | GET | Get conversation history |
+| `/assistant/conversations/{id}` | DELETE | Delete a conversation |
+| `/assistant/tools` | GET | List tools available to the assistant |
+
+---
+
+## Insights
+
+Insights are the AI-generated findings produced by LENS.
+
+### Insight object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string (UUID) | Insight ID |
+| `account_id` | string | Account the insight belongs to |
+| `insight_type` | string | One of `anomaly`, `opportunity`, `trend`, `alert`, `health` (additional internal types may also appear) |
+| `severity` | string | `green`, `yellow`, or `red` |
+| `category` | string \| null | Rule category derived from `source_rule` |
+| `title` | string | Short title |
+| `description` | string \| null | Detailed description |
+| `recommendation` | string \| null | Recommended action |
+| `economic_impact` | number \| null | Estimated economic impact |
+| `source_tool` | string \| null | Tool that produced the insight |
+| `source_rule` | string \| null | Detection rule identifier |
+| `related_entity` | string \| null | Affected entity (e.g. channel, page) |
+| `deep_link` | string \| null | Link into the dashboard |
+| `metadata` | object | Additional structured data |
+| `created_at` | string (ISO 8601) | Creation timestamp |
+| `expires_at` | string \| null | Expiration timestamp |
+| `read_at` | string \| null | When the current user read it |
+| `dismissed_at` | string \| null | When it was dismissed |
+| `is_read` | boolean | Whether the current user has read it |
+| `is_dismissed` | boolean | Whether it is dismissed |
+| `is_locked` | boolean | Whether the insight is locked behind a higher tier |
+| `locked_tier` | string \| null | Tier required to unlock, if locked |
+| `evidence` | object \| null | Statistical basis for the insight |
+| `user_feedback` | string \| null | Current user's feedback, if any |
+
+### List insights
+
+```
+GET /lens/insights
+```
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+| `insight_type` | string (repeatable) | No | Filter by type: `anomaly`, `opportunity`, `trend`, `alert`, `health` |
+| `severity` | string (repeatable) | No | Filter by severity: `green`, `yellow`, `red` |
+| `unread` | boolean | No | Only return unread insights (default `false`) |
+| `include_dismissed` | boolean | No | Include dismissed insights (default `false`) |
+| `page` | integer | No | Page number (≥ 1, default `1`) |
+| `page_size` | integer | No | Items per page (1–100, default `50`) |
+
+#### Response
+
+```json
+{
+  "insights": [
+    {
+      "id": "3f8b9c2e-1a4d-4c7e-9f2a-1b2c3d4e5f6a",
+      "account_id": "acc_123456",
+      "insight_type": "anomaly",
+      "severity": "red",
+      "category": "conversions",
+      "title": "Conversion rate dropped sharply",
+      "description": "Conversion rate fell 35% versus the prior period.",
+      "recommendation": "Review mobile checkout performance.",
+      "economic_impact": 1240.50,
+      "source_tool": "stats",
+      "source_rule": "conversion_rate_drop",
+      "related_entity": "mobile",
+      "deep_link": "/lens/report/3f8b9c2e-1a4d-4c7e-9f2a-1b2c3d4e5f6a",
+      "metadata": {},
+      "created_at": "2024-01-15T14:32:00Z",
+      "expires_at": null,
+      "read_at": null,
+      "dismissed_at": null,
+      "is_read": false,
+      "is_dismissed": false,
+      "is_locked": false,
+      "locked_tier": null,
+      "evidence": null,
+      "user_feedback": null
+    }
+  ],
+  "total": 23,
+  "page": 1,
+  "page_size": 50,
+  "total_pages": 1,
+  "has_next": false,
+  "has_prev": false
+}
+```
+
+#### Example
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/lens/insights?account_id=acc_123456&severity=red&unread=true" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Get insights summary
+
+Returns counts useful for notification badges.
+
+```
+GET /lens/insights/summary
+```
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+
+#### Response
+
+```json
+{
+  "total_count": 23,
+  "unread_count": 5,
+  "red_count": 2,
+  "yellow_count": 9,
+  "green_count": 12,
+  "has_critical": true
+}
+```
+
+### List grouped insights
+
+Groups similar insights to reduce noise.
+
+```
+GET /lens/insights/grouped
+```
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+| `group_by` | string | No | `source_rule` (default), `insight_type`, or `related_entity` |
+| `include_dismissed` | boolean | No | Include dismissed insights (default `false`) |
+
+#### Response
+
+```json
+{
+  "groups": [
+    {
+      "group_key": "conversion_rate_drop",
+      "group_title": "Conversion Rate Drop",
+      "insight_type": "anomaly",
+      "max_severity": "red",
+      "insight_count": 4,
+      "unread_count": 2,
+      "total_economic_impact": 4820.00,
+      "latest_insight": { "id": "3f8b9c2e-1a4d-4c7e-9f2a-1b2c3d4e5f6a", "...": "full Insight object" },
+      "related_entities": ["mobile", "google_ads"],
+      "first_detected_at": "2024-01-10T08:00:00Z",
+      "last_detected_at": "2024-01-15T14:32:00Z"
+    }
+  ],
+  "total_groups": 1
+}
+```
+
+> `latest_insight` is a full Insight object (see [Insight object](#insight-object)).
+
+### Get insight
+
+```
+GET /lens/insights/{insight_id}
+```
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+
+Returns a single [Insight object](#insight-object), or `404` if not found.
+
+### Mark insight as read / unread
+
+```
+PATCH /lens/insights/{insight_id}/read
+PATCH /lens/insights/{insight_id}/unread
+```
+
+Requires the `write` scope. Pass `account_id` as a query parameter. Returns the
+updated [Insight object](#insight-object).
+
+```bash
+curl -X PATCH \
+  "https://my.sealmetrics.com/api/v1/lens/insights/3f8b9c2e-1a4d-4c7e-9f2a-1b2c3d4e5f6a/read?account_id=acc_123456" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+### Dismiss insight
+
+Dismissed insights do not appear in the default list view.
+
+```
+PATCH /lens/insights/{insight_id}/dismiss
+```
+
+Requires the `write` scope. Pass `account_id` as a query parameter. Returns the
+updated [Insight object](#insight-object).
+
+### Submit feedback
+
+```
+POST /lens/insights/{insight_id}/feedback
+```
+
+Requires the `write` scope. Pass `account_id` as a query parameter.
+
+#### Request Body
+
+```json
+{
+  "feedback_type": "helpful",
+  "comment": "Spotted a real issue we hadn't noticed."
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `feedback_type` | string | Yes | One of `helpful`, `not_helpful`, `incorrect`, `already_known` |
+| `comment` | string | No | Optional free-text comment |
+
+#### Response
+
+Returns `201 Created`:
+
+```json
+{
+  "status": "ok",
+  "feedback_id": 42,
+  "feedback_type": "helpful",
+  "comment": "Spotted a real issue we hadn't noticed.",
+  "created_at": "2024-01-15T16:00:00Z"
+}
+```
+
+### Send insight report via email
+
+Emails a formatted version of an insight to one or more recipients. This is a
+user-triggered action and bypasses the account's notification settings.
+
+```
+POST /lens/insights/{insight_id}/send-email
+```
+
+Pass `account_id` as a query parameter.
+
+#### Request Body
+
+```json
+{
+  "recipients": ["teammate@company.com"],
+  "message": "Take a look at this before our meeting."
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `recipients` | array of string | Yes | 1–10 recipient email addresses |
+| `message` | string | No | Optional note prepended to the email |
+
+#### Response
+
+```json
+{
+  "status": "ok",
+  "sent_count": 1,
+  "failed_count": 0,
+  "recipients": ["teammate@company.com"]
+}
+```
+
+---
+
+## Settings
+
+### Get LENS settings
+
+```
+GET /lens/settings
+```
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+
+#### Response
+
+```json
+{
+  "account_id": "acc_123456",
+  "is_enabled": true,
+  "notify_email": true,
+  "notify_on_red": true,
+  "notify_on_yellow": false,
+  "notify_on_green": false,
+  "email_recipients": ["alerts@company.com"],
+  "analysis_frequency": "daily",
+  "created_at": "2024-01-01T00:00:00Z",
+  "updated_at": "2024-01-15T00:00:00Z"
+}
+```
+
+### Update LENS settings
+
+```
+PATCH /lens/settings
+```
+
+Requires the `write` scope. Pass `account_id` as a query parameter. All fields
+are optional; only provided fields are updated.
+
+#### Request Body
+
+```json
+{
+  "notify_on_yellow": true,
+  "email_recipients": ["alerts@company.com", "ops@company.com"],
+  "analysis_frequency": "weekly"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `is_enabled` | boolean | Enable/disable LENS for the account |
+| `notify_email` | boolean | Send email notifications |
+| `notify_on_red` | boolean | Notify on critical (red) insights |
+| `notify_on_yellow` | boolean | Notify on warning (yellow) insights |
+| `notify_on_green` | boolean | Notify on positive (green) insights |
+| `email_recipients` | array of string | Recipient email addresses |
+| `analysis_frequency` | string | `daily`, `weekly`, or `manual` |
+
+Returns the updated settings object.
+
+---
+
+## Chat usage
+
+LENS uses a Bring-Your-Own-Key (BYOK) model for the AI assistant, so chat usage
+is effectively unlimited. These endpoints exist for compatibility with usage UIs
+and report very high limits.
+
+### Get chat question usage
+
+```
+GET /lens/chat/usage
+```
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+
+#### Response
+
+```json
+{
+  "questions_used": 0,
+  "questions_limit": 999999,
+  "bonus_questions": 0,
+  "questions_remaining": 999999,
+  "period_start": "2024-01-01T00:00:00Z",
+  "period_end": "2024-01-15T00:00:00Z",
+  "percentage_used": 0
+}
+```
+
+### Increment chat usage
+
+```
+POST /lens/chat/usage/increment
+```
+
+Requires the `write` scope. Pass `account_id` as a query parameter. Under the
+BYOK model this always allows the question.
+
+#### Response
+
+```json
+{
+  "can_ask": true,
+  "questions_remaining": 999999,
+  "message": null
+}
+```
+
+---
+
+## AI Assistant
+
+The AI assistant is a conversational interface over your analytics data. It is
+served under `/assistant` (not `/lens`).
+
+> Assistant endpoints are unavailable while impersonating another user.
+
+### Send a message
+
+```
+POST /assistant/chat
+```
+
+#### Request Body
+
+```json
+{
+  "message": "Why did conversions drop last week?",
+  "account_id": "acc_123456",
+  "conversation_id": "conv_abc123",
+  "language": "en"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `message` | string | Yes | User message (1–1000 characters) |
+| `account_id` | string | Yes | Account to query data for |
+| `conversation_id` | string | No | Continue an existing conversation |
+| `language` | string | No | Response language: `es` (default) or `en` |
+| `provider` | string | No | LLM provider to use (e.g. `anthropic`, `openai`). Uses the account default if omitted |
+
+#### Response
+
+Responses are wrapped in the standard API envelope. The `data` object contains
+the assistant reply plus optional structured `charts` and `tables` the frontend
+can render.
+
+```json
+{
+  "data": {
+    "response": "Conversions dropped 23% last week, driven mainly by a decline in Google Ads traffic and a lower mobile conversion rate.",
+    "conversation_id": "conv_abc123",
+    "tools_used": [
+      { "tool_name": "get_stats", "success": true, "duration_ms": 412 }
+    ],
+    "charts": [
+      {
+        "type": "line",
+        "title": "Conversions by day",
+        "data": [
+          { "date": "2024-01-08", "value": 156 },
+          { "date": "2024-01-15", "value": 120 }
+        ],
+        "x_key": "date",
+        "y_key": "value",
+        "y_label": "Conversions"
+      }
+    ],
+    "tables": [
+      {
+        "title": "Top sources",
+        "columns": ["Source", "Conversions"],
+        "rows": [["Google Ads", 78], ["Organic", 42]]
+      }
+    ],
+    "input_tokens": 1820,
+    "output_tokens": 540
+  }
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `response` | string | Assistant's reply |
+| `conversation_id` | string | Conversation ID for follow-ups |
+| `tools_used` | array | Tools invoked: `{ tool_name, success, duration_ms }` |
+| `charts` | array | Chart objects: `type` (`line`/`bar`/`pie`), `title`, `data`, `x_key`, `y_key`, `y_label` |
+| `tables` | array | Table objects: `title`, `columns`, `rows` |
+| `input_tokens` | integer | Input tokens consumed |
+| `output_tokens` | integer | Output tokens generated |
+
+> Follow-up suggestions are not returned by this endpoint. Use `conversation_id`
+> to continue a conversation.
+
+#### Errors
+
+| Status | Condition |
+|--------|-----------|
+| `403` | No access to the account or to the conversation |
+| `403` | `detail.error_code: "seal_ai_not_in_plan"` — the org's plan doesn't include [Seal AI Private](/billing/seal-ai-private) |
+| `403` | `detail.error_code: "seal_ai_quota_exceeded"` — monthly tokens + pack balance exhausted. The detail payload includes `quota_tokens`, `used_tokens`, `pack_balance_tokens`, `effective_quota_tokens`, `can_buy_pack`, `entitlement_source`, and `resets_at` so clients can render a purchase CTA; users can switch the chat to a BYOK provider |
+| `401` | Provider authentication failed (invalid API key) |
+| `409` | No LLM provider/API key configured (`detail.error_code` indicates the cause) |
+| `429` | Provider rate limit reached, or `detail.error_code: "seal_ai_rate_limited"` (both include a `Retry-After` header) |
+
+#### Example
+
+```bash
+curl -X POST https://my.sealmetrics.com/api/v1/assistant/chat \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "What were my top traffic sources last week?",
+    "account_id": "acc_123456",
+    "language": "en"
+  }'
+```
+
+### List recent sessions
+
+```
+GET /assistant/sessions
+```
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+| `limit` | integer | No | Max sessions to return (1–50, default `10`) |
+
+#### Response
+
+```json
+{
+  "data": {
+    "sessions": [
+      {
+        "id": "conv_abc123",
+        "title": "Conversion drop analysis",
+        "message_count": 6,
+        "created_at": "2024-01-15T14:00:00Z",
+        "updated_at": "2024-01-15T14:30:00Z",
+        "is_active": true
+      }
+    ],
+    "total": 1
+  }
+}
+```
+
+### Get conversation history
+
+```
+GET /assistant/conversations/{conversation_id}
+```
+
+#### Response
+
+```json
+{
+  "data": {
+    "conversation_id": "conv_abc123",
+    "account_id": "acc_123456",
+    "title": "Conversion drop analysis",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Why did conversions drop last week?",
+        "timestamp": "2024-01-15T14:00:00Z",
+        "charts": [],
+        "tables": []
+      },
+      {
+        "role": "assistant",
+        "content": "Conversions dropped 23% last week...",
+        "timestamp": "2024-01-15T14:00:05Z",
+        "charts": [],
+        "tables": []
+      }
+    ],
+    "created_at": "2024-01-15T14:00:00Z",
+    "updated_at": "2024-01-15T14:30:00Z"
+  }
+}
+```
+
+Returns `404` if the conversation does not exist.
+
+### Delete a conversation
+
+```
+DELETE /assistant/conversations/{conversation_id}
+```
+
+Requires the `write` scope.
+
+#### Response
+
+```json
+{
+  "data": { "deleted": true }
+}
+```
+
+### List available tools
+
+```
+GET /assistant/tools
+```
+
+#### Response
+
+```json
+{
+  "data": {
+    "tools": [
+      {
+        "name": "get_stats",
+        "description": "Retrieve aggregated analytics metrics.",
+        "category": "analytics"
+      }
+    ],
+    "total": 1
+  }
+}
+```
+
+---
+
+## Reports
+
+Structured executive reports (weekly or monthly). Served under `/lens/reports`.
+
+### List reports
+
+```
+GET /lens/reports
+```
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+| `report_type` | string | No | Filter by `weekly` or `monthly` |
+| `page` | integer | No | Page number (≥ 1, default `1`) |
+| `page_size` | integer | No | Items per page (1–50, default `12`) |
+
+#### Response
+
+```json
+{
+  "reports": [
+    {
+      "id": "9a1c2b3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d",
+      "report_type": "weekly",
+      "period_start": "2024-01-08",
+      "period_end": "2024-01-14",
+      "period_label": "Jan 8–14, 2024",
+      "status": "ready",
+      "created_at": "2024-01-15T06:00:00Z",
+      "view_count": 3,
+      "revenue": 18250.00,
+      "revenue_change": 4.2,
+      "conversions": 142,
+      "insight_count": 7
+    }
+  ],
+  "total": 1,
+  "page": 1,
+  "page_size": 12
+}
+```
+
+### Get report
+
+Fetching a report marks it as viewed.
+
+```
+GET /lens/reports/{report_id}
+```
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+
+Returns a full report object including `executive_summary`, `key_takeaways`,
+`key_metrics`, `channel_performance`, `funnel_health`, `audience_insights`,
+`top_insights`, and `action_items`. Returns `404` if not found.
+
+### Generate report
+
+```
+POST /lens/reports/generate
+```
+
+Requires the `write` scope. Pass `account_id` as a query parameter.
+
+#### Request Body
+
+```json
+{
+  "report_type": "weekly",
+  "period_end": "2024-01-14"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `report_type` | string | Yes | `weekly` or `monthly` |
+| `period_end` | string | No | End of period (`YYYY-MM-DD`). Defaults to the last completed period |
+
+Returns `201 Created` with the full report object. If a ready report for the
+same period already exists, it is returned instead.
+
+### Get latest report
+
+```
+GET /lens/reports/latest/{report_type}
+```
+
+`report_type` must be `weekly` or `monthly`.
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+
+Returns the most recent ready report of the given type, or `404` if none exists.
+
+---
+
+## Error Responses
+
+LENS endpoints use standard HTTP status codes. Common cases:
+
+| Status | Meaning |
+|--------|---------|
+| `400` | Invalid request (e.g. malformed `period_end`, invalid email) |
+| `401` | Missing/invalid token, or provider auth failure (assistant) |
+| `403` | No access to the account, or LENS not available on the free plan |
+| `404` | Resource not found |
+| `409` | No LLM provider configured (assistant chat) |
+| `429` | Rate limit reached (assistant chat — includes `Retry-After`) |
+
+LENS is not available on the free plan; insight endpoints return `403` for
+accounts on that tier.

@@ -1,0 +1,96 @@
+---
+title: "Passthrough Referrers"
+description: "Learn what a passthrough referrer is and how to preserve the original traffic source when visitors return from external domains such as payment gateways, SSO providers, or booking engines."
+canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/passthrough-referrers"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "4a61eb966fa28e8d4b6b96b29e61b735fd4af56e87f1430a7c71630ef8fc7f2f"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/tracking-and-attribution-settings/passthrough-referrers.mdx"
+publisher: "SealMetrics"
+---
+
+# Passthrough Referrers
+
+Canonical page: https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/passthrough-referrers
+
+A **passthrough referrer** is an external domain that your visitors temporarily pass through during a journey — and then return to your site. Instead of treating the return as a brand-new visit, SealMetrics keeps the **original session source** intact.
+
+This is the right setting whenever a journey leaves your domain and comes back, for example:
+
+- **Payment gateways** — Stripe, PayPal, Redsys, or a POS/checkout domain.
+- **External authentication / SSO** — an identity provider or a shared accounts domain.
+- **Booking and ticketing engines** — hotel booking engines, external ticketing, third-party checkout flows.
+
+Without this configuration, when the visitor returns SealMetrics may detect the external domain as the referrer, count a new entrance, and overwrite the real acquisition source (Google Ads, Facebook, Email…) with **Referral** or **payment**.
+
+---
+
+## How a Passthrough Referrer Works
+
+When a passthrough referrer is configured and a visit arrives from that domain:
+
+- **If the original session still exists**, SealMetrics treats the hit as a continuation (a pageview) and **preserves the session's original UTMs** — source, medium, campaign, term, content. The external domain is *not* counted as a new source.
+- **If no session exists** (for example, the visitor's session has expired), SealMetrics falls back to the UTM values you configured for that passthrough domain so the visit is still attributed sensibly instead of becoming an unknown referral.
+
+This is the same preservation behavior used for payment gateways, applied per account to any external domain you choose.
+
+---
+
+## Relationship to the Session Window
+
+Preservation depends on the original session still being active when the visitor returns:
+
+- **2-hour session window** — the origin of the visit stays active for 2 hours, which covers virtually all checkout, login, and booking flows. See [Attribution Accuracy](/reports/insights/attribution-accuracy).
+- If the visitor returns after the session has expired, there is no original session to preserve, so the configured fallback UTMs are used instead.
+
+---
+
+## How to Configure It
+
+**Info:**
+Passthrough referrers are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect them with the API calls shown below. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete request/response schema.
+
+Passthrough referrers are scoped to an account. Register one with your API key:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "checkout.stripe.com",
+    "utm_source": "stripe",
+    "service_name": "Stripe Checkout"
+  }'
+```
+
+- `domain` is the external domain to exclude (protocol is stripped automatically).
+- `utm_source` (required) and the optional `utm_medium` / `utm_campaign` fields are the **fallback UTMs** applied when no original session exists.
+- `service_name` is an optional human-readable label.
+
+All management is done through the API — list, create, update, deactivate (`is_active: false`), and delete. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for every endpoint and example. Creating or modifying entries requires editor-or-higher (write) permissions.
+
+Add **only** the external domains that visitors legitimately pass through — payment, auth, or booking domains. Do not add your own domains.
+
+---
+
+## When to Use Which Guide
+
+This page is the canonical reference for the passthrough referrer concept. Two related guides cover specific scenarios that use the same configuration:
+
+- [Bypass POS or Referrer](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer) — step-by-step for excluding **payment gateway / POS** domains.
+- [Preserve Attribution Through External Login or SSO Flows](/platform/tracking-and-attribution-settings/external-auth-sso-attribution) — step-by-step for excluding **external authentication / SSO** domains.
+
+If you are mapping a known referrer domain to a custom source/medium (rather than preserving the original session), see [Referrer Mappings](/platform/tracking-and-attribution-settings/referrer-mappings) instead.
+
+---
+
+## Result
+
+With the passthrough referrer configured:
+
+✔ The session keeps its original acquisition source when the visitor returns
+✔ Conversions on the thank-you / post-flow page inherit the real channel (SEO, Paid, Email…)
+❌ No more conversions miscategorized as **Referral** or **payment** from a domain the visitor merely passed through

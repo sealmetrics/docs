@@ -1,0 +1,762 @@
+---
+title: "BigQuery Integration"
+description: "Sync Sealmetrics analytics to Google BigQuery with hourly or daily schedules, backfill options, and BI tool integration"
+canonical_url: "https://docs.sealmetrics.com/api/bigquery"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "7de95e9c433e73c857a01e46d14b77ee40eadde2745965e104e6f39fdae55f72"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/bigquery.mdx"
+publisher: "SealMetrics"
+---
+
+# BigQuery Integration
+
+Canonical page: https://docs.sealmetrics.com/api/bigquery
+
+Export Sealmetrics analytics data to Google BigQuery for advanced analysis, custom reporting, and data warehousing.
+
+---
+
+## Overview
+
+The BigQuery integration allows you to:
+
+- Automatically sync analytics data to your BigQuery dataset
+- Run custom SQL queries on your traffic and conversion data
+- Integrate with BI tools like Looker, Data Studio, or Tableau
+- Perform advanced analysis not available in the dashboard
+
+**Base path:** `/integrations/bigquery`
+
+**Note:**
+
+---
+
+## Setup Flow
+
+1. Create a Google Cloud service account with BigQuery permissions
+2. Configure the integration by uploading the service account JSON file
+3. The dataset and tables are created automatically during setup
+4. Enable automatic sync or trigger manual/backfill syncs
+
+---
+
+## Configure Integration
+
+### Create Integration
+
+```http
+POST /integrations/bigquery?account_id={account_id}
+```
+
+This endpoint uses **query parameters** for configuration and a **multipart/form-data** body to upload the Google Cloud service account JSON file. The dataset and tables are created in BigQuery as part of this call.
+
+**Query Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `account_id` | string | Yes | Account ID |
+| `gcp_project_id` | string | Yes | Google Cloud project ID (6-30 chars, lowercase letters, digits and hyphens, starts with a letter) |
+| `dataset_id` | string | No | BigQuery dataset name (alphanumeric and underscores). Default: `sealmetrics` |
+| `location` | enum | No | Dataset location: `EU` (default), `US`, `europe-west1`, `us-central1`, `us-east1` |
+| `sync_frequency` | enum | No | `hourly`, `daily` (default), `manual` |
+| `data_types` | string[] | No | Data types to sync. Default: `traffic`, `conversions`, `microconversions`, `pages`, `landing_pages`. Also valid: `traffic_hourly`, `accounts` |
+| `backfill_days` | integer | No | Days of historical data to sync initially (0-365). Default: `30` |
+| `initial_date_from` | date | No | Custom initial sync start date (overrides `backfill_days`; must be set with `initial_date_to`) |
+| `initial_date_to` | date | No | Custom initial sync end date (must be set with `initial_date_from`) |
+
+**Form Data (multipart):**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `service_account_file` | file | Yes | Google Cloud service account JSON file (must end in `.json` and have `"type": "service_account"`) |
+
+**Note:**
+
+**Example request:**
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/integrations/bigquery?account_id=my-account&gcp_project_id=my-analytics-project&dataset_id=sealmetrics&location=EU&sync_frequency=daily&data_types=traffic&data_types=conversions&backfill_days=30" \
+  -H "X-API-Key: sm_your_api_key" \
+  -F "service_account_file=@service-account.json"
+```
+
+**Response (201 Created):**
+
+```json
+{
+  "integration": {
+    "id": 1,
+    "account_id": "my-account",
+    "gcp_project_id": "my-analytics-project",
+    "dataset_id": "sealmetrics",
+    "location": "EU",
+    "sync_frequency": "daily",
+    "data_types": ["traffic", "conversions", "microconversions", "pages", "landing_pages"],
+    "backfill_days": 30,
+    "initial_date_from": null,
+    "initial_date_to": null,
+    "is_active": true,
+    "setup_completed": true,
+    "setup_completed_at": "2025-01-10T14:30:05Z",
+    "tables_created": ["fact_traffic_daily", "fact_conversions", "fact_microconversions", "fact_pages", "fact_landing_pages", "sync_metadata", "dim_countries"],
+    "last_sync_at": null,
+    "last_sync_status": null,
+    "last_error": null,
+    "created_at": "2025-01-10T14:30:00Z",
+    "updated_at": "2025-01-10T14:30:05Z",
+    "created_by": 42
+  },
+  "dataset_ref": "my-analytics-project.sealmetrics",
+  "tables_created": ["fact_traffic_daily", "fact_conversions", "fact_microconversions", "fact_pages", "fact_landing_pages", "sync_metadata", "dim_countries"],
+  "message": "BigQuery integration configured. Dataset: my-analytics-project.sealmetrics"
+}
+```
+
+**Note:**
+
+### Get Integration
+
+```http
+GET /integrations/bigquery?account_id={account_id}
+```
+
+Returns `null` if no integration is configured.
+
+**Response:**
+
+```json
+{
+  "id": 1,
+  "account_id": "my-account",
+  "gcp_project_id": "my-analytics-project",
+  "dataset_id": "sealmetrics",
+  "location": "EU",
+  "sync_frequency": "daily",
+  "data_types": ["traffic", "conversions", "microconversions", "pages", "landing_pages"],
+  "backfill_days": 30,
+  "initial_date_from": null,
+  "initial_date_to": null,
+  "is_active": true,
+  "setup_completed": true,
+  "setup_completed_at": "2025-01-01T10:00:05Z",
+  "tables_created": ["fact_traffic_daily", "fact_conversions", "fact_microconversions", "fact_pages", "fact_landing_pages", "sync_metadata", "dim_countries"],
+  "last_sync_at": "2025-01-10T03:00:00Z",
+  "last_sync_status": "success",
+  "last_error": null,
+  "created_at": "2025-01-01T10:00:00Z",
+  "updated_at": "2025-01-10T03:00:00Z",
+  "created_by": 42
+}
+```
+
+### Update Integration
+
+```http
+PATCH /integrations/bigquery?account_id={account_id}
+```
+
+**Request Body (JSON):**
+
+```json
+{
+  "sync_frequency": "hourly",
+  "data_types": ["traffic", "conversions", "microconversions", "pages"],
+  "is_active": true,
+  "backfill_days": 60
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `sync_frequency` | enum | `hourly`, `daily`, `manual` |
+| `data_types` | string[] | Which data to sync (at least one) |
+| `is_active` | boolean | Enable/disable sync |
+| `backfill_days` | integer | Historical data range (0-365) |
+
+All fields are optional. Only provided fields are updated. If `data_types` changes, any new tables are created in BigQuery automatically.
+
+### Delete Integration
+
+```http
+DELETE /integrations/bigquery?account_id={account_id}
+```
+
+Removes the integration configuration. Data already synced to BigQuery is **not** deleted — you retain full ownership of your BigQuery data.
+
+**Response:** 204 No Content
+
+---
+
+## Initial Setup
+
+The dataset and tables are created automatically when you create the integration. You can also (re)create the BigQuery dataset and tables explicitly using the stored credentials — useful if the integration was configured but the resources need to be recreated.
+
+```http
+POST /integrations/bigquery/setup?account_id={account_id}
+```
+
+This endpoint:
+1. Creates the dataset if it doesn't exist
+2. Creates all tables based on the configured `data_types`
+3. Always creates the `sync_metadata` table (for transparency) and the `dim_countries` lookup table
+
+**Response:**
+
+```json
+{
+  "status": "success",
+  "dataset_ref": "my-analytics-project.sealmetrics",
+  "tables_created": ["fact_traffic_daily", "fact_conversions", "fact_microconversions", "fact_pages", "fact_landing_pages", "sync_metadata", "dim_countries"],
+  "location": "EU",
+  "message": "BigQuery dataset and tables created successfully"
+}
+```
+
+---
+
+## Sync Operations
+
+### Trigger Manual Sync
+
+```http
+POST /integrations/bigquery/sync?account_id={account_id}
+```
+
+Trigger an immediate incremental sync of recent data. The date range is passed as **query parameters** (there is no request body).
+
+| Query Parameter | Type | Description |
+|-----------------|------|-------------|
+| `date_from` | date | Start date (default: last sync minus 2 days, or `backfill_days` ago) |
+| `date_to` | date | End date (default: today) |
+
+**Response:**
+
+```json
+{
+  "status": "success",
+  "sync_id": "550e8400-e29b-41d4-a716-446655440000",
+  "sync_type": "incremental",
+  "date_from": "2025-01-01",
+  "date_to": "2025-01-10",
+  "tables": {
+    "fact_traffic_daily": {"rows": 12000, "bytes": 3200000},
+    "fact_conversions": {"rows": 3420, "bytes": 1300000}
+  },
+  "total_rows": 15420,
+  "total_bytes": 4500000,
+  "duration_seconds": 45.2,
+  "message": "Synced 15,420 rows to BigQuery"
+}
+```
+
+### Backfill Historical Data
+
+```http
+POST /integrations/bigquery/backfill?account_id={account_id}
+```
+
+Sync historical data that may be missing. Backfills are processed in chunks for better progress visibility and resilience; failed chunks are tracked and can be retried.
+
+**Request Body (JSON):**
+
+```json
+{
+  "date_from": "2024-01-01",
+  "date_to": "2024-12-31",
+  "chunk_days": 7
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `date_from` | date | Yes | Start date for backfill (cannot be in the future) |
+| `date_to` | date | Yes | End date for backfill (cannot be in the future) |
+| `chunk_days` | integer | No | Days per chunk (1-30, default 7). Smaller chunks = more progress updates |
+
+**Caution:**
+
+**Response:**
+
+```json
+{
+  "sync_id": "550e8400-e29b-41d4-a716-446655440001",
+  "sync_type": "backfill",
+  "date_from": "2024-01-01",
+  "date_to": "2024-12-31",
+  "status": "success",
+  "tables": {
+    "fact_traffic_daily": {"rows": 980000, "bytes": 210000000},
+    "fact_conversions": {"rows": 270000, "bytes": 90000000}
+  },
+  "total_rows": 1250000,
+  "total_bytes": 300000000,
+  "total_chunks": 52,
+  "failed_chunks": [],
+  "duration_seconds": 540.7,
+  "message": "Backfill completed successfully. 1,250,000 rows synced."
+}
+```
+
+### Retry Failed Sync
+
+```http
+POST /integrations/bigquery/retry/{log_id}?account_id={account_id}
+```
+
+Retry a failed sync operation, reusing the date range from the original sync. Only `failed` or `partial` syncs can be retried.
+
+**Response:**
+
+```json
+{
+  "status": "success",
+  "original_log_id": 123,
+  "new_sync_id": "550e8400-e29b-41d4-a716-446655440002",
+  "sync_type": "incremental",
+  "total_rows": 15420,
+  "message": "Retry successful. 15,420 rows synced."
+}
+```
+
+---
+
+## Sync Logs
+
+### List Sync Logs
+
+```http
+GET /integrations/bigquery/logs?account_id={account_id}
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `limit` | integer | `20` | Max results (1-100) |
+| `offset` | integer | `0` | Skip N results |
+
+**Response:**
+
+```json
+{
+  "logs": [
+    {
+      "id": 123,
+      "sync_id": "550e8400-e29b-41d4-a716-446655440000",
+      "sync_type": "incremental",
+      "sync_started_at": "2025-01-10T03:00:00Z",
+      "sync_completed_at": "2025-01-10T03:00:45Z",
+      "date_from": "2025-01-09",
+      "date_to": "2025-01-09",
+      "tables_synced": {
+        "fact_traffic_daily": {"rows": 12000, "bytes": 3200000},
+        "fact_conversions": {"rows": 3420, "bytes": 1300000}
+      },
+      "total_rows_synced": 15420,
+      "total_bytes_synced": 4500000,
+      "status": "success",
+      "error_message": null,
+      "duration_seconds": 45.2
+    }
+  ],
+  "total": 30
+}
+```
+
+### Sync Status Values
+
+| Status | Description |
+|--------|-------------|
+| `running` | Sync in progress |
+| `success` | Sync completed successfully |
+| `partial` | Some tables failed |
+| `failed` | Sync failed completely |
+| `cancelled` | Sync was cancelled |
+
+### Get Sync Log Detail
+
+```http
+GET /integrations/bigquery/logs/{log_id}?account_id={account_id}
+```
+
+Returns detailed information for a single sync operation, including per-table results and any error message.
+
+---
+
+## Schema Information
+
+SealMetrics is a **cookieless, aggregated** analytics platform. The BigQuery export is a **star schema** of pre-aggregated daily (and optionally hourly) facts — there is **no session-, visitor-, or event-level data**. Every fact table is aggregated by `date` and a set of dimensions (UTM, geo, device, channel).
+
+The tables created depend on the integration's `data_types`:
+
+| Table | `data_type` | Description |
+|-------|-------------|-------------|
+| `fact_traffic_daily` | `traffic` | Daily traffic with all dimensions (UTM, geo, device, channel) |
+| `fact_traffic_hourly` | `traffic_hourly` | Hourly traffic for intraday analysis (opt-in, 90-day TTL) |
+| `fact_pages` | `pages` | Page performance metrics |
+| `fact_landing_pages` | `landing_pages` | Landing page performance with attribution |
+| `fact_conversions` | `conversions` | Conversion events with full attribution (aggregated by day + dimensions) |
+| `fact_microconversions` | `microconversions` | Microconversion events (form fills, clicks, etc.) |
+| `dim_accounts` | `accounts` | Account metadata for context and JOINs (synced from PostgreSQL) |
+| `dim_countries` | — | ISO 3166-1 country code lookup table (always created, static data) |
+| `sync_metadata` | — | Sync operation metadata for transparency and auditing (always created) |
+
+All fact tables are partitioned by `date` and clustered (primarily by `account_id`). Every synced row carries `sync_id`, `synced_at`, and `account_id` provenance columns.
+
+### Get Table Schema
+
+```http
+GET /integrations/bigquery/schema
+```
+
+Returns the schema for all BigQuery tables that SealMetrics creates. This endpoint does not require an `account_id` — it describes the static star-schema definition.
+
+**Response:**
+
+```json
+{
+  "tables": {
+    "fact_traffic_daily": {
+      "description": "Daily traffic with all dimensions (UTM, geo, device, channel)",
+      "data_type": "traffic",
+      "schema": [
+        {"name": "sync_id", "type": "STRING", "mode": "REQUIRED"},
+        {"name": "synced_at", "type": "TIMESTAMP", "mode": "REQUIRED"},
+        {"name": "account_id", "type": "STRING", "mode": "REQUIRED"},
+        {"name": "date", "type": "DATE", "mode": "REQUIRED"},
+        {"name": "utm_source", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "utm_medium", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "utm_campaign", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "utm_term", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "utm_content", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "channel_group", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "country", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "device_type", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "browser", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "os", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "day_of_week", "type": "INT64", "mode": "NULLABLE"},
+        {"name": "entrances", "type": "INT64", "mode": "NULLABLE"},
+        {"name": "engaged_entrances", "type": "INT64", "mode": "NULLABLE"},
+        {"name": "page_views", "type": "INT64", "mode": "NULLABLE"},
+        {"name": "microconversions", "type": "INT64", "mode": "NULLABLE"},
+        {"name": "conversions", "type": "INT64", "mode": "NULLABLE"},
+        {"name": "revenue", "type": "NUMERIC", "mode": "NULLABLE"}
+      ],
+      "partition_field": "date",
+      "clustering_fields": ["account_id", "utm_source", "country"],
+      "partition_expiration_days": null
+    }
+  }
+}
+```
+
+Each table entry includes `description`, `data_type`, the full `schema` (field `name`, `type`, `mode`), `partition_field`, `clustering_fields`, and `partition_expiration_days` (e.g. `90` for `fact_traffic_hourly`).
+
+### Table Fields
+
+#### `fact_traffic_daily` / `fact_traffic_hourly`
+
+Aggregated traffic. `fact_traffic_hourly` adds an `hour` (0-23) column and omits `utm_campaign`/`utm_term`/`utm_content`; it has a 90-day partition expiration.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `sync_id` | STRING | Sync operation identifier |
+| `synced_at` | TIMESTAMP | When the row was synced |
+| `account_id` | STRING | Account identifier |
+| `date` | DATE | Aggregation day (partition field) |
+| `hour` | INT64 | Hour 0-23 (`fact_traffic_hourly` only) |
+| `utm_source` / `utm_medium` / `utm_campaign` / `utm_term` / `utm_content` | STRING | UTM dimensions |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | Country code (ISO) |
+| `device_type` / `browser` / `os` | STRING | Device/tech dimensions |
+| `day_of_week` | INT64 | ISO day of week (1=Mon, 7=Sun) |
+| `entrances` | INT64 | Entrances |
+| `engaged_entrances` | INT64 | Engaged entrances |
+| `page_views` | INT64 | Page views |
+| `microconversions` | INT64 | Microconversions |
+| `conversions` | INT64 | Conversions |
+| `revenue` | NUMERIC | Revenue |
+
+#### `fact_pages`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `sync_id` | STRING | Sync operation identifier |
+| `synced_at` | TIMESTAMP | When the row was synced |
+| `account_id` | STRING | Account identifier |
+| `date` | DATE | Aggregation day (partition field) |
+| `page_path` | STRING | Page path |
+| `content_grouping` | STRING | Content grouping |
+| `country` | STRING | Country code (ISO) |
+| `channel_group` | STRING | Channel grouping |
+| `entrances` | INT64 | Entrances |
+| `engaged_entrances` | INT64 | Engaged entrances |
+| `page_views` | INT64 | Page views |
+
+#### `fact_landing_pages`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `sync_id` | STRING | Sync operation identifier |
+| `synced_at` | TIMESTAMP | When the row was synced |
+| `account_id` | STRING | Account identifier |
+| `date` | DATE | Aggregation day (partition field) |
+| `landing_page` | STRING | Landing page path |
+| `content_grouping` | STRING | Content grouping |
+| `utm_source` / `utm_medium` | STRING | UTM dimensions |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | Country code (ISO) |
+| `entrances` | INT64 | Entrances |
+| `engaged_entrances` | INT64 | Engaged entrances |
+| `microconversions` | INT64 | Microconversions |
+| `conversions` | INT64 | Conversions |
+| `revenue` | NUMERIC | Revenue |
+
+#### `fact_conversions`
+
+Conversion events aggregated by day and attribution dimensions.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `sync_id` | STRING | Sync operation identifier |
+| `synced_at` | TIMESTAMP | When the row was synced |
+| `account_id` | STRING | Account identifier |
+| `date` | DATE | Aggregation day (partition field) |
+| `conversion_type` | STRING | Conversion type |
+| `utm_source` / `utm_medium` / `utm_campaign` / `utm_term` / `utm_content` | STRING | UTM dimensions |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | Country code (ISO) |
+| `device_type` / `browser` / `os` | STRING | Device/tech dimensions |
+| `landing_page` | STRING | Landing page path |
+| `click_id` | STRING | Click identifier (clid) |
+| `count` | INT64 | Number of conversions |
+| `amount` | NUMERIC | Per-conversion value |
+| `revenue` | NUMERIC | Total revenue |
+| `properties` | JSON | Conversion properties |
+
+#### `fact_microconversions`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `sync_id` | STRING | Sync operation identifier |
+| `synced_at` | TIMESTAMP | When the row was synced |
+| `account_id` | STRING | Account identifier |
+| `date` | DATE | Aggregation day (partition field) |
+| `conversion_type` | STRING | Microconversion type |
+| `utm_source` / `utm_medium` / `utm_campaign` | STRING | UTM dimensions |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | Country code (ISO) |
+| `device_type` | STRING | Device type |
+| `count` | INT64 | Number of microconversions |
+| `properties` | JSON | Event properties |
+
+#### `dim_accounts`
+
+Account metadata (synced from PostgreSQL when the `accounts` data type is enabled).
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `sync_id` | STRING | Sync operation identifier |
+| `synced_at` | TIMESTAMP | When the row was synced |
+| `account_id` | STRING | Account identifier |
+| `account_name` | STRING | Account name |
+| `timezone` | STRING | Account timezone |
+| `currency` | STRING | Account currency |
+| `plan_tier` | STRING | Plan tier |
+| `organization_name` | STRING | Organization name |
+| `created_at` | TIMESTAMP | Account creation time |
+| `is_active` | BOOL | Whether the account is active |
+
+#### `dim_countries`
+
+Static ISO 3166-1 lookup, always created.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `country_code` | STRING | ISO 3166-1 country code |
+| `country_name` | STRING | Country name |
+| `continent` | STRING | Continent |
+| `region` | STRING | Region |
+
+#### `sync_metadata`
+
+Per-sync audit record, always created.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `sync_id` | STRING | Sync operation identifier |
+| `synced_at` | TIMESTAMP | When the sync ran |
+| `sync_type` | STRING | `incremental` or `backfill` |
+| `date_from` | DATE | Start of synced range |
+| `date_to` | DATE | End of synced range |
+| `tables_synced` | STRING (REPEATED) | Tables included in the sync |
+| `total_rows` | INT64 | Total rows synced |
+| `duration_seconds` | FLOAT64 | Sync duration |
+| `sealmetrics_version` | STRING | SealMetrics export version |
+
+---
+
+## Required Permissions
+
+The service account needs these BigQuery permissions:
+
+| Permission | Purpose |
+|------------|---------|
+| `bigquery.datasets.create` | Create dataset (if needed) |
+| `bigquery.datasets.get` | Read dataset metadata |
+| `bigquery.tables.create` | Create tables |
+| `bigquery.tables.get` | Read table metadata |
+| `bigquery.tables.updateData` | Insert data |
+| `bigquery.jobs.create` | Run load jobs |
+
+**Recommended Role:** `roles/bigquery.dataEditor` on the dataset.
+
+---
+
+## Code Examples
+
+### Python - Setup and Sync
+
+```python
+import requests
+
+API_KEY = "sm_your_api_key"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+ACCOUNT_ID = "my-account"
+
+def setup_bigquery(gcp_project_id, dataset_id, credentials_path):
+    """Configure BigQuery integration (multipart file upload)."""
+
+    # Configuration goes in query params; the service account JSON is uploaded
+    # as a multipart file. The dataset and tables are created automatically.
+    with open(credentials_path, "rb") as f:
+        response = requests.post(
+            f"{BASE_URL}/integrations/bigquery",
+            headers={"X-API-Key": API_KEY},
+            params={
+                "account_id": ACCOUNT_ID,
+                "gcp_project_id": gcp_project_id,
+                "dataset_id": dataset_id,
+                "location": "EU",
+                "sync_frequency": "daily",
+                "data_types": ["traffic", "conversions", "microconversions",
+                               "pages", "landing_pages"],
+                "backfill_days": 30,
+            },
+            files={"service_account_file": ("service-account.json", f, "application/json")},
+        )
+    response.raise_for_status()
+    return response.json()
+
+def trigger_backfill(date_from, date_to):
+    """Backfill historical data (max 365 days)."""
+    response = requests.post(
+        f"{BASE_URL}/integrations/bigquery/backfill",
+        headers={"X-API-Key": API_KEY},
+        params={"account_id": ACCOUNT_ID},
+        json={
+            "date_from": date_from,
+            "date_to": date_to,
+            "chunk_days": 7,
+        }
+    )
+    response.raise_for_status()
+    return response.json()
+
+def check_sync_status(sync_id):
+    """Check status of a sync operation."""
+    response = requests.get(
+        f"{BASE_URL}/integrations/bigquery/logs",
+        headers={"X-API-Key": API_KEY},
+        params={"account_id": ACCOUNT_ID}
+    )
+
+    for log in response.json()["logs"]:
+        if str(log["sync_id"]) == str(sync_id):
+            return log["status"]
+
+    return "not_found"
+```
+
+### JavaScript - Monitor Sync
+
+```javascript
+async function monitorSync(syncId) {
+  const checkStatus = async () => {
+    const response = await fetch(
+      `${BASE_URL}/integrations/bigquery/logs?account_id=${ACCOUNT_ID}`,
+      {
+        headers: { 'X-API-Key': API_KEY }
+      }
+    );
+
+    const { logs } = await response.json();
+    const log = logs.find(l => l.sync_id === syncId);
+
+    return log?.status || 'not_found';
+  };
+
+  let status = await checkStatus();
+
+  while (status === 'running') {
+    await new Promise(r => setTimeout(r, 5000)); // Wait 5s
+    status = await checkStatus();
+    console.log(`Sync status: ${status}`);
+  }
+
+  return status;
+}
+```
+
+---
+
+## Error Codes
+
+| HTTP Code | Error | Description |
+|-----------|-------|-------------|
+| 400 | `invalid_credentials` | Service account JSON is malformed |
+| 401 | `authentication_failed` | Credentials rejected by Google |
+| 403 | `insufficient_permissions` | Missing required BigQuery permissions |
+| 404 | `integration_not_found` | No BigQuery integration configured |
+| 409 | `sync_in_progress` | Another sync is already running |
+| 429 | `quota_exceeded` | BigQuery API quota exceeded |
+
+---
+
+## Best Practices
+
+### 1. Use Dedicated Service Account
+
+Create a service account specifically for Sealmetrics:
+
+```bash
+gcloud iam service-accounts create sealmetrics-sync \
+  --display-name="Sealmetrics BigQuery Sync"
+```
+
+### 2. Limit Dataset Permissions
+
+Grant permissions only on the specific dataset:
+
+```bash
+bq add-iam-policy-binding \
+  --member="serviceAccount:sealmetrics-sync@project.iam.gserviceaccount.com" \
+  --role="roles/bigquery.dataEditor" \
+  project:sealmetrics
+```
+
+### 3. Choose the Right Sync Frequency
+
+Set `sync_frequency` to `daily` (default) for most use cases, `hourly` for near-real-time intraday analysis, or `manual` to trigger syncs only on demand via the sync endpoint.
+
+### 4. Keep Data in the EU for GDPR
+
+Use the default `location` of `EU` (or `europe-west1`) to keep your aggregated analytics data within the EU.
+
+### 5. Monitor Sync Logs
+
+Regularly check sync logs for failures and watch for the `failed` or `partial` status.

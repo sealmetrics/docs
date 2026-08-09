@@ -1,0 +1,118 @@
+---
+title: "Growth Plan"
+description: "Everything included in the Sealmetrics Growth plan for growing teams and mid-size businesses."
+canonical_url: "https://docs.sealmetrics.com/billing/plans/growth"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "fc12e9c5e8908ef813590f191f1a9dd2aca713fec3afcddb8ea3f54c5494fa7e"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "billing/plans/growth.mdx"
+publisher: "SealMetrics"
+---
+
+# Growth Plan
+
+Canonical page: https://docs.sealmetrics.com/billing/plans/growth
+
+The Growth plan is designed for growing teams and mid-size e-commerce businesses that need full analytics capabilities with BigQuery export and API access.
+
+## Pricing
+
+| Billing | Price | Per Month |
+|---------|-------|-----------|
+| Monthly | €599/month | €599 |
+| Annual | €5,988/year | €499 (2 months free) |
+
+## What's Included
+
+### Events & Tracking
+
+| Feature | Included |
+|---------|----------|
+| Monthly events | 5,000,000 |
+| Websites | Unlimited |
+| Data retention | 24 months |
+| First-party tracking | Yes |
+| Cookie-free mode | Yes |
+| Bot filtering | Yes |
+| Real-time data | Typically < 2 min |
+| Data complete before 6 AM | Yes (SLA) |
+
+### Users & Access
+
+| Feature | Included |
+|---------|----------|
+| Team members | Unlimited |
+| Full API access | Yes |
+| API rate limit | 240 req/min |
+| Dashboard access | Full |
+| Role-based access | Basic |
+| Multi-site portfolio | Yes |
+
+### LENS AI
+
+| Feature | Included |
+|---------|----------|
+| LENS Chat | Yes |
+| LENS Reports | Yes |
+| LENS Insights (rule-based detection) | Coming soon |
+| AI with your own key (BYOK) | Yes — unmetered, billed by your provider |
+| [Seal AI Private](/billing/seal-ai-private) | Available as add-on (€299/mo billed annually · €358.80/mo monthly) |
+
+### Integrations
+
+| Feature | Included |
+|---------|----------|
+| Google Ads | Yes |
+| Meta Ads | Yes |
+| Microsoft Ads | Yes |
+| TikTok Ads | Yes |
+| BigQuery export | Yes |
+| CSV/JSON export | Yes |
+| MCP Server | Yes |
+
+### Support
+
+| Feature | Included |
+|---------|----------|
+| Email support | Yes |
+| Documentation | Yes |
+| SLA | 99% uptime |
+
+## Event Limits
+
+No overage charges. Your monthly price is fixed at €599 (or €499 annual). If you exceed your 5M event limit for 2 consecutive months (without forgiveness), you'll be automatically upgraded to Scale.
+
+One free overage month per year is included. Annual plans absorb mid-year overages until renewal.
+
+## Ideal For
+
+- Growing teams with multiple websites
+- Mid-size e-commerce businesses
+- Businesses needing BigQuery export and full API access
+- Sites with up to 5M events/month
+
+## Getting Started
+
+1. **Sign up** at [my.sealmetrics.com](https://my.sealmetrics.com/register)
+2. Start your **14-day free trial** (you're not charged until the trial ends)
+3. Install the tracking pixel
+4. Set up BigQuery integration and API access
+
+## Upgrading to Scale
+
+When you upgrade to Scale, you get:
+
+| Feature | Growth | Scale |
+|---------|:------:|:-----:|
+| Monthly events | 5M | **15M** |
+| Webhooks | - | **Yes** |
+| Audit logs | - | **Yes** |
+| Advanced RBAC | - | **Yes** |
+| Priority support | - | **Yes** |
+| Onboarding | - | **1 session** |
+| Uptime SLA | 99% | **99.5%** |
+
+Upgrades take effect immediately with prorated billing.

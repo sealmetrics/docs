@@ -1,0 +1,96 @@
+---
+title: "What Is a TERM in Sealmetrics?"
+description: "Learn how Sealmetrics defines TERM across SEO, Referrer, Google Ads, and UTM-based traffic sources."
+canonical_url: "https://docs.sealmetrics.com/reports/insights/what-is-a-term"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "4534f848966d24fb0aaf67a44e7f9a0bd4e9ea9c839acc8d8bb25176a4f9e1ed"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/insights/what-is-a-term.mdx"
+publisher: "SealMetrics"
+---
+
+# What Is a TERM in Sealmetrics?
+
+Canonical page: https://docs.sealmetrics.com/reports/insights/what-is-a-term
+
+In Sealmetrics, **TERM** is the smallest and most granular unit used to describe the origin of a website hit.
+It allows the platform to classify and attribute traffic accurately—while remaining fully privacy compliant.
+
+Understanding TERM helps you better analyze user intent, keyword performance, and the exact source of each visit.
+
+---
+
+## TERM by Traffic Source
+
+### 🔍 **1. SEO Traffic**
+**TERM = Landing Page URL**
+
+Because Sealmetrics does not track individual search queries, SEO traffic is categorized based on the **landing page** the user arrives on.
+
+This allows you to understand:
+
+- Which pages attract organic traffic
+- How SEO entry points evolve over time
+
+---
+
+### 🌐 **2. Referrer Traffic**
+**TERM = Referrer URL** (stored, but analyzed in the Referrers tab)
+
+For any external website linking to you, Sealmetrics stores the **exact URL** that sent the visitor. Since July 2026, these referral rows are **excluded from the Terms tab** — analyze them in the [Referrers tab](/reports/sources#7-referrers-tab), which lists one row per referring URL.
+
+This helps you identify:
+
+- High-value partner websites
+- Articles, directories, or media links driving traffic
+- Referral patterns across the web
+
+---
+
+### 🔎 **3. Google Ads Traffic**
+**TERM = Keyword that triggered the ad**
+
+Sealmetrics reads the keyword or targeting parameter used by Google Ads (via UTMs or value-track parameters).
+
+This gives insight into:
+
+- Which keywords generate traffic
+- Performance of search terms
+- ROI of keyword-level bidding
+
+---
+
+### 🏷️ **4. UTM Term Traffic**
+**TERM = Value of the `utm_term` parameter**
+
+If your URLs include `utm_term`, Sealmetrics uses it directly as the TERM.
+
+Examples:
+
+- Audience segment
+- Paid keyword
+- Creative identifier
+- Product category
+
+---
+
+## Why TERM Matters
+
+Using TERM provides granular, privacy-friendly insights:
+
+- Identify the *true origin* of traffic
+- Improve SEO and SEM targeting
+- Optimize marketing campaigns
+- Understand user intent without personal tracking
+
+TERM is a powerful element of Sealmetrics’ consentless analytics model—precise, privacy-first, and transparent.
+
+## Related documentation
+
+- [How to Track Google Ads Campaigns](/reports/insights/how-to-track-google-ads-campaigns) — Capture keywords as TERM
+- [How to Change UTM Parameters in Sealmetrics](/reports/insights/how-to-change-utm-parameters) — Map custom parameters to `utm_term`
+- [How Sealmetrics Calculates SEO Traffic](/reports/insights/how-sealmetrics-calculates-seo-traffic) — Why SEO TERM is the landing page
+- [Sources Report](/reports/sources) — Analyze terms in the Terms tab

@@ -1,0 +1,72 @@
+---
+title: "Custom Dimensions"
+description: "Capture business-specific data fields with custom properties sent from your pixel."
+canonical_url: "https://docs.sealmetrics.com/platform/settings/tracking/custom-dimensions"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "09b0a15b175a272f4378cf95a0f3c32f21021a34eaeb18901451245102da1f6b"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/settings/tracking/custom-dimensions.mdx"
+publisher: "SealMetrics"
+---
+
+# Custom Dimensions
+
+Canonical page: https://docs.sealmetrics.com/platform/settings/tracking/custom-dimensions
+
+Custom dimensions let you capture data beyond the standard analytics fields (page, referrer, device, country) for business-specific analysis — for example customer tier, product category, A/B test variant or subscription plan.
+
+**Info:**
+Sealmetrics does **not** have a settings screen where you pre-declare dimensions (with scopes, data types or default values). Instead, a custom dimension is simply a **custom property** you send with your tracking calls. The first time you send a property, it becomes available for filtering and breakdowns — no setup, no slot limit to manage.
+
+## How to define a dimension
+
+You "create" a dimension by sending it as a property on a conversion or microconversion. The last argument of `sealmetrics.conv()` and `sealmetrics.micro()` is a key–value object:
+
+```javascript
+// Conversion with custom dimensions (properties)
+sealmetrics.conv('purchase', 149.99, {
+  product_category: 'Electronics',
+  customer_type: 'premium',
+  payment_method: 'credit_card'
+});
+
+// Microconversion with custom dimensions (properties)
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  product_category: 'Electronics',
+  customer_type: 'premium'
+});
+```
+
+For the full reference on sending properties — including naming rules, value limits and server-side injection — see **[Custom Properties](/implementation/custom-properties)**.
+
+### Hit, session and user scope
+
+There are no configurable scopes. Whatever you attach to an event applies to that event, so to analyze data at "session" or "user" level you include the same property on every relevant event:
+
+```javascript
+// "Session" context: include it on each event of the visit
+sealmetrics.micro('add_to_cart', { ab_variant: 'B', entry_campaign: 'summer-sale' });
+sealmetrics.conv('purchase', 99.99, { ab_variant: 'B', entry_campaign: 'summer-sale' });
+```
+
+For "user" context (e.g. customer tier or plan), inject the value server-side so it's present on every event. See [User-scoped properties](/implementation/custom-properties/user-properties).
+
+## Where to see your dimensions
+
+- **Properties report** — break down and filter by any property you've sent. See [Properties report](/reports/properties).
+- **Site Config → Properties** (`/settings/properties`) — lists the custom properties detected for the site. This page is informational (it shows what's being collected); it stays empty until property data arrives.
+
+## Troubleshooting
+
+**Dimension not appearing**
+1. Confirm you're actually sending the property with your events (check in the browser network tab).
+2. The property name is case-sensitive — it must match exactly between calls.
+3. Allow a few minutes for data processing.
+
+**Values show as `(not set)`**
+1. The property wasn't sent on that event.
+2. The data predates when you started sending the property.

@@ -1,0 +1,181 @@
+---
+title: "Wix"
+description: "Add Sealmetrics cookieless analytics to Wix sites and Wix Stores via Settings > Custom Code or an embed element, with automatic event tracking."
+canonical_url: "https://docs.sealmetrics.com/integrations/website-builders/wix"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "f8310ff5df533a8858f2e311ee70aeef5a6b7830b0c717202f66ef3038cf4f90"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/website-builders/wix.mdx"
+publisher: "SealMetrics"
+---
+
+# Wix
+
+Canonical page: https://docs.sealmetrics.com/integrations/website-builders/wix
+
+Privacy-first, cookieless analytics for Wix websites and Wix Stores.
+
+## Installation
+
+### Method 1: Custom Code (Recommended)
+
+1. Go to **Settings > Custom Code** (or **Marketing & SEO > Custom Code**)
+2. Click **"+ Add Custom Code"**
+3. Paste the entire contents of `sealmetrics-wix.js` inside `<script>` tags
+4. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+5. Set **Placement** to **Head**
+6. Set **Pages** to **All pages**
+7. Click **Apply** and **Publish**
+
+### Method 2: Embed Code Element
+
+1. Add an **Embed Code** element to your site
+2. Choose **"Embed HTML"**
+3. Wrap the script in `<script>` tags
+4. Set to appear on all pages via page settings
+
+## Configuration
+
+Edit these values at the top of the pasted script:
+
+```javascript
+// Required: Your SealMetrics Account ID
+var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
+
+// Optional: Track contact forms as lead conversions (default: false)
+var SEALMETRICS_CONTACT_AS_LEAD = false;
+```
+
+## Automatic Events
+
+| Event | Description |
+|-------|-------------|
+| `pageview` | All page views with content grouping |
+| `form_submit` | Wix form submissions (non-newsletter) |
+| `newsletter_signup` | Newsletter form submissions |
+
+## Wix Stores Events
+
+| Event | Description |
+|-------|-------------|
+| `view_item` | Product page views |
+| `add_to_cart` | Add to cart button clicks |
+| `begin_checkout` | Checkout button clicks |
+| `purchase` | Order confirmation (conversion) |
+
+## Content Groups
+
+Automatic detection based on URL patterns:
+
+| URL Pattern | Group |
+|-------------|-------|
+| `/` | `home` |
+| `/product-page/*`, `/products/*` | `product` |
+| `/shop`, `/store`, `/all-products` | `catalog` |
+| `/cart` | `cart` |
+| `/checkout` | `checkout` |
+| `/thank-you`, `/order-confirmation` | `thankyou` |
+| `/blog/*`, `/post/*` | `blog` |
+| `/blog`, `/posts` | `blog-index` |
+| `/about*` | `about` |
+| `/contact*` | `contact` |
+| `/services/*` | `service` |
+| `/portfolio/*`, `/gallery/*` | `portfolio` |
+| `/pricing*`, `/plans*` | `pricing` |
+| `/booking/*`, `/schedule/*` | `booking` |
+| `/events/*` | `events` |
+| `/members/*`, `/account/*` | `account` |
+
+## Form Detection
+
+### Newsletter Forms
+
+Tracked as `newsletter_signup`:
+- Form ID/class contains newsletter keywords
+- Forms with only an email field
+
+### Contact Forms
+
+Tracked as `form_submit` or `lead` (if configured)
+
+## Custom Events with Wix Velo
+
+Track custom events from Wix Velo (Corvid):
+
+```javascript
+// In Wix Velo
+$w.onReady(function () {
+  $w('#myButton').onClick(() => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('custom_event', {
+        property: 'value'
+      });
+    }
+  });
+});
+```
+
+## Conversions
+
+Track custom conversions:
+
+```javascript
+// Lead conversion
+sealmetrics.conv('lead', 0, {
+  source: 'quote_form'
+});
+
+// Manual purchase (if not using Wix Stores)
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'EUR'
+});
+```
+
+## Advanced Wix Velo Integration
+
+For advanced tracking with Wix Velo:
+
+```javascript
+// page.js
+import wixLocation from 'wix-location';
+
+$w.onReady(function () {
+  // Track specific interactions
+  $w('#submitButton').onClick(() => {
+    if (typeof sealmetrics !== 'undefined') {
+      sealmetrics.micro('form_submit', {
+        form_name: 'custom_form'
+      });
+    }
+  });
+});
+```
+
+## Compatibility
+
+- Wix Editor
+- Wix Studio (Editor X)
+- Wix Stores
+- Wix Bookings
+- Wix Events
+- Wix Blog
+- Wix Members Area
+- Wix Ascend forms
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner needed
+
+## Related documentation
+
+- [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads.
+- [E-commerce Conversion Tracking](/implementation/ecommerce-conversion-tracking) — the concepts behind the Wix Stores funnel events.
+- [Webflow](/integrations/website-builders/webflow) — the equivalent integration for Webflow sites.
+- [Squarespace](/integrations/website-builders/squarespace) — the equivalent integration for Squarespace sites.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

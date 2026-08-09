@@ -1,0 +1,229 @@
+---
+title: "OAuth 2.1"
+description: "Connect a third-party app or AI assistant to someone else's Sealmetrics account using OAuth 2.1 — discovery metadata, dynamic client registration, authorization code with PKCE, refresh tokens and revocation."
+canonical_url: "https://docs.sealmetrics.com/api/oauth"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "d0871ac6a3351ad1ddeeebae0063c42a822abaca5d19eb15b5483ab4f4777827"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/oauth.mdx"
+publisher: "SealMetrics"
+---
+
+# OAuth 2.1
+
+Canonical page: https://docs.sealmetrics.com/api/oauth
+
+Sealmetrics runs a full **OAuth 2.1 authorization server**. Use it when your application or AI assistant needs to read *someone else's* analytics — the user approves the connection in the Sealmetrics dashboard and you never touch their password or API key.
+
+This is the mechanism behind the [remote MCP server](/integrations/mcp-server): claude.ai and ChatGPT register themselves dynamically, the user approves one site, and the assistant gets a read-only token.
+
+**Info:**
+- Reading **your own** account from a script or agent → use an [API key](/api/api-tokens). Much simpler.
+- Reading **your users'** accounts from your product → OAuth 2.1, this page.
+- You already hold a dashboard session → [JWT bearer tokens](/api/authentication).
+
+## Discovery
+
+The server publishes [RFC 8414](https://datatracker.ietf.org/doc/html/rfc8414) metadata at the issuer root. Fetch it and drive everything from there rather than hard-coding endpoints:
+
+```bash
+curl -s https://my.sealmetrics.com/.well-known/oauth-authorization-server
+```
+
+```json
+{
+  "issuer": "https://my.sealmetrics.com",
+  "authorization_endpoint": "https://my.sealmetrics.com/api/v1/oauth/authorize",
+  "token_endpoint": "https://my.sealmetrics.com/api/v1/oauth/token",
+  "registration_endpoint": "https://my.sealmetrics.com/api/v1/oauth/register",
+  "revocation_endpoint": "https://my.sealmetrics.com/api/v1/oauth/revoke",
+  "response_types_supported": ["code"],
+  "response_modes_supported": ["query"],
+  "grant_types_supported": ["authorization_code", "refresh_token"],
+  "code_challenge_methods_supported": ["S256"],
+  "token_endpoint_auth_methods_supported": ["none"],
+  "scopes_supported": ["analytics:read", "offline_access"]
+}
+```
+
+The response is cacheable for one hour (`Cache-Control: public, max-age=3600`).
+
+## Scopes
+
+| Scope | Grants |
+|-------|--------|
+| `analytics:read` | Read-only access to the approved site's analytics. This is the only resource scope. |
+| `offline_access` | Also issue a refresh token, so the connection survives beyond the access token's lifetime. |
+
+There is no write scope. An OAuth-connected app cannot modify anything in the user's account.
+
+## Client model
+
+Sealmetrics supports **public clients only** — `token_endpoint_auth_method` is `none`, there is no client secret, and **PKCE with `S256` is required**. This matches how MCP clients and native/SPA apps work.
+
+## Step 1 — Register your client
+
+[RFC 7591](https://datatracker.ietf.org/doc/html/rfc7591) dynamic client registration. No credentials needed; the endpoint is rate-limited per IP.
+
+```bash
+curl -X POST https://my.sealmetrics.com/api/v1/oauth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_name": "Acme Reporting",
+    "redirect_uris": ["https://acme.example/oauth/callback"],
+    "token_endpoint_auth_method": "none"
+  }'
+```
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `redirect_uris` | string[] | Yes | 1–10 URIs. The `redirect_uri` you send later must match one exactly. |
+| `client_name` | string | No | Shown to the user on the consent screen. Defaults to `MCP client`. |
+| `token_endpoint_auth_method` | string | No | Only `none` (public client) is supported. |
+
+Returns `201 Created` with the registered client metadata, including the `client_id`. Unknown RFC 7591 metadata fields are ignored rather than rejected.
+
+## Step 2 — Send the user to authorize
+
+Generate a PKCE verifier and challenge, then redirect the user's browser:
+
+```
+https://my.sealmetrics.com/api/v1/oauth/authorize
+  ?client_id=<client_id>
+  &redirect_uri=https%3A%2F%2Facme.example%2Foauth%2Fcallback
+  &response_type=code
+  &scope=analytics%3Aread%20offline_access
+  &state=<random-csrf-value>
+  &code_challenge=<BASE64URL(SHA256(verifier))>
+  &code_challenge_method=S256
+```
+
+| Parameter | Required | Notes |
+|---|---|---|
+| `client_id` | Yes | From step 1. |
+| `redirect_uri` | Yes | Must exactly match one of the registered URIs. |
+| `response_type` | Yes | Must be `code`. Anything else returns `unsupported_response_type`. |
+| `scope` | No | Space-separated. Defaults to read-only if omitted. |
+| `state` | No | Strongly recommended — your CSRF token, returned unchanged. |
+| `code_challenge` | Yes | `S256` challenge derived from your verifier. |
+| `code_challenge_method` | Yes | `S256`. `plain` is not supported. |
+| `resource` | No | [RFC 8707](https://datatracker.ietf.org/doc/html/rfc8707) resource indicator. |
+
+Sealmetrics redirects the user to the dashboard consent screen, where they log in (or sign up) and pick **which site** to share. On approval the browser comes back to your `redirect_uri` with `code` and `state`.
+
+**Note:**
+If `client_id` or `redirect_uri` fails validation the server renders a `400` instead of redirecting. Redirecting an unvalidated URI would turn the endpoint into an open redirect.
+
+Pending authorization requests expire after 30 minutes, which leaves room for the user to create an account mid-flow.
+
+## Step 3 — Exchange the code for tokens
+
+Form-encoded, per RFC 6749.
+
+```bash
+curl -X POST https://my.sealmetrics.com/api/v1/oauth/token \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=authorization_code" \
+  -d "code=<code>" \
+  -d "code_verifier=<verifier>" \
+  -d "redirect_uri=https://acme.example/oauth/callback" \
+  -d "client_id=<client_id>"
+```
+
+```json
+{
+  "access_token": "…",
+  "refresh_token": "…",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "scope": "analytics:read offline_access"
+}
+```
+
+Token responses are sent with `Cache-Control: no-store`.
+
+**Lifetimes:** authorization codes are valid for 5 minutes, access tokens for 1 hour, refresh tokens for 30 days.
+
+### Refreshing
+
+```bash
+curl -X POST https://my.sealmetrics.com/api/v1/oauth/token \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=refresh_token" \
+  -d "refresh_token=<refresh_token>" \
+  -d "client_id=<client_id>"
+```
+
+`grant_type` values other than `authorization_code` and `refresh_token` return `unsupported_grant_type`.
+
+## Step 4 — Call the API
+
+Use the access token as a bearer token against any read endpoint:
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/overview?account_id=ACCOUNT&period=30d" \
+  -H "Authorization: Bearer <access_token>"
+```
+
+## Revoking
+
+[RFC 7009](https://datatracker.ietf.org/doc/html/rfc7009). Revoking a refresh token tears down the whole grant.
+
+```bash
+curl -X POST https://my.sealmetrics.com/api/v1/oauth/revoke \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "token=<token>" \
+  -d "token_type_hint=refresh_token"
+```
+
+Always returns `200`, whether or not the token existed — per the RFC, so the endpoint cannot be used to probe token validity.
+
+Users can also revoke from the dashboard at any time: **My Account → Connected Apps**. See [Connected Apps](/platform/settings/account/connected-apps).
+
+## Managing connections from the dashboard
+
+These endpoints back the Connected Apps screen and authenticate with the dashboard session, not with an OAuth token:
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/oauth/connections` | GET | List the user's active grants |
+| `/oauth/connections/{grant_id}` | DELETE | Revoke one grant |
+| `/oauth/consent/{request_id}` | GET | Details of a pending authorization request |
+| `/oauth/consent/{request_id}/decision` | POST | Approve or deny, and choose the site |
+| `/oauth/onboarding` | POST | Complete signup inside the consent flow |
+
+## Error format
+
+OAuth endpoints use the **RFC 6749 error shape**, not the standard Sealmetrics [error envelope](/api/errors):
+
+```json
+{
+  "error": "invalid_grant",
+  "error_description": "Authorization code is expired or already used"
+}
+```
+
+| `error` | Meaning |
+|---|---|
+| `invalid_request` | A required parameter is missing or malformed |
+| `invalid_client` | Unknown `client_id` |
+| `invalid_redirect_uri` | The `redirect_uri` does not match a registered URI |
+| `invalid_grant` | Code or refresh token is invalid, expired, already used, or the PKCE verifier does not match |
+| `invalid_scope` | A requested scope is not in `scopes_supported` |
+| `unsupported_response_type` | `response_type` is not `code` |
+| `unsupported_grant_type` | `grant_type` is not `authorization_code` or `refresh_token` |
+| `access_denied` | The user declined on the consent screen |
+
+## Rate limiting
+
+`/oauth/register`, `/oauth/authorize`, `/oauth/token` and `/oauth/revoke` are rate-limited per IP address, independently of the plan-tier limits described in [Rate Limits](/api/rate-limits). Back off on `429` and honour `Retry-After`.
+
+## Related
+
+- [For AI Agents](/api/for-agents) — which auth method to pick, and the rest of the agent surface
+- [MCP Server](/integrations/mcp-server) — the hosted server that uses this flow
+- [Connected Apps](/platform/settings/account/connected-apps) — the user-facing revocation screen
+- [API Tokens](/api/api-tokens) — the simpler option for single-account access

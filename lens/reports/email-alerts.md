@@ -1,0 +1,161 @@
+---
+title: "Email Alerts"
+description: "Configure email notifications for LENS insights and the weekly digest."
+canonical_url: "https://docs.sealmetrics.com/lens/reports/email-alerts"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "1dda1325a1069fe3b5244f612f7f49efbddf0ac0ea03f9db8b1ad8993c727efc"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "lens/reports/email-alerts.mdx"
+publisher: "SealMetrics"
+---
+
+# Email Alerts
+
+Canonical page: https://docs.sealmetrics.com/lens/reports/email-alerts
+
+LENS notifies you by email when it detects important insights, and can send a weekly digest summarizing the week. Email is the only notification channel for LENS.
+
+## What LENS Sends
+
+LENS sends two kinds of email:
+
+### Insight Notifications
+
+When LENS detects a new insight, it can email the configured recipients. Each insight has a severity, and you choose which severities trigger an email (see [Configuring Notifications](#configuring-notifications)).
+
+```
+From: SealMetrics LENS
+Subject: 🔴 [Critical] Conversion Rate Drop - My Store
+
+──────────────────────────────────────
+My Store
+
+Conversion Rate Drop
+
+Your conversion rate dropped 35% this period.
+
+Estimated impact: ~€2,100
+
+Recommendation:
+Check the checkout flow and any recent
+deployments affecting mobile.
+
+[View in Dashboard]
+──────────────────────────────────────
+```
+
+The email includes the insight title, description, an optional recommendation, the estimated economic impact when available, and a link into the dashboard.
+
+### Weekly Digest
+
+LENS can send a weekly digest email summarizing the week. The digest includes:
+
+- A short summary of the week
+- Highlights
+- Concerns
+- Opportunities
+- Recommended actions
+- A link to open LENS in the dashboard
+
+```
+From: SealMetrics LENS
+Subject: Weekly LENS Digest - My Store (Jan 8 - Jan 14, 2024)
+
+──────────────────────────────────────
+WEEKLY DIGEST
+Jan 8 - Jan 14, 2024
+──────────────────────────────────────
+
+SUMMARY
+Revenue grew 15% week-over-week, but mobile
+conversion rate slipped and needs attention.
+
+HIGHLIGHTS
+• Email marketing revenue up 22%
+• Year-over-year revenue growth holding strong
+
+CONCERNS
+• Mobile conversion rate down 15%
+• Cart abandonment up 5 points
+
+OPPORTUNITIES
+• Scale email marketing investment
+
+RECOMMENDED ACTIONS
+• Investigate mobile performance
+• Review the cart abandonment flow
+
+[View in Dashboard]
+──────────────────────────────────────
+```
+
+## Insight Severity
+
+Every insight has a severity that determines its color and whether it triggers an email, depending on your settings:
+
+| Severity | Meaning |
+|----------|---------|
+| 🔴 **Red** (Critical) | Urgent issues requiring immediate attention |
+| 🟡 **Yellow** (Warning) | Notable changes worth reviewing |
+| 🟢 **Green** (Info) | Positive trends and opportunities |
+
+## Insight Types
+
+The insights LENS can surface are not limited to anomalies. They include:
+
+| Type | Description |
+|------|-------------|
+| **Anomaly** | An unusual change versus expected behavior |
+| **Opportunity** | A potential area for improvement |
+| **Trend** | A directional change over time |
+| **Alert** | A condition that crossed a defined threshold |
+| **Health** | A check on the overall health of tracking or performance |
+
+## Configuring Notifications
+
+LENS notification settings live in the dashboard under **Settings → LENS**.
+
+**Note:**
+
+The LENS settings page has two areas: analysis and email notifications.
+
+### Analysis
+
+| Setting | Description |
+|---------|-------------|
+| **Enable LENS** | When disabled, no new insights are generated for the site. |
+| **Analysis Frequency** | How often LENS analyzes the site: **Daily** (runs once per day at 4:00 AM plus proactive checks every 2 hours), **Weekly** (Mondays at 4:00 AM), or **Manual only** (insights are only generated when triggered manually). |
+
+### Email Notifications
+
+| Setting | Description |
+|---------|-------------|
+| **Enable email notifications** | Send email when new insights are detected. |
+| **Notify on Critical (red)** | Email when a red-severity insight is detected. |
+| **Notify on Warning (yellow)** | Email when a yellow-severity insight is detected. |
+| **Notify on Info (green)** | Email when a green-severity insight is detected. |
+| **Email Recipients** | A list of email addresses to notify. Leave empty to use the account owner's email. |
+
+Email is only sent when LENS is enabled, email notifications are enabled, and the insight's severity is one you've opted into.
+
+## Frequently Asked Questions
+
+### Can LENS send alerts to Slack or a webhook?
+
+No. LENS notifications are delivered by email only.
+
+### How many recipients can I add?
+
+You can add a list of email addresses per site. If you leave the list empty, LENS uses the account owner's email.
+
+### Why am I not receiving emails?
+
+Check, in **Settings → LENS**, that:
+
+1. LENS is enabled for the site.
+2. Email notifications are enabled.
+3. The severity of the insights you expect is switched on (Critical / Warning / Info).
+4. Your email address is in the recipients list (or the account owner's email is the one you're checking).

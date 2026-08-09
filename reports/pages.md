@@ -1,0 +1,187 @@
+---
+title: "Pages Report"
+description: "Analyze page-level performance: traffic, unique visitors, bounce rates, and entry pages across your site."
+canonical_url: "https://docs.sealmetrics.com/reports/pages"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "4b98e7a9498df9243003e8ce7e3747bbffc3e4f5d216a650d832a847e260fe12"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/pages.mdx"
+publisher: "SealMetrics"
+---
+
+# Pages Report
+
+Canonical page: https://docs.sealmetrics.com/reports/pages
+
+The Pages report analyzes page-level performance, showing which pages receive the most traffic and how they perform.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Pages** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/pages`
+
+## Tabs
+
+The report has two tabs with different perspectives:
+
+### All Pages Tab
+
+Shows all pages that received traffic during the selected period.
+
+| Column | Description |
+|--------|-------------|
+| **Page** | URL path and page title. When a content group is assigned, it appears as a badge next to the path |
+| **Pageviews** | Total views |
+| **Entrances** | Sessions that started on this page |
+
+### Landing Pages Tab
+
+Shows pages where sessions started (entry points to your site).
+
+| Column | Description |
+|--------|-------------|
+| **Landing Page** | URL path. When a content group is assigned, it appears as a badge next to the path |
+| **Entrances** | Sessions that started on this page |
+| **Bounce Rate** | Percentage of single-page sessions |
+| **Microconv.** | Microconversions attributed to this landing page |
+| **Conversions** | Conversions attributed to this landing page |
+| **Revenue** | Revenue attributed to this landing page |
+
+#### Bounce Rate Colors
+
+| Color | Bounce Rate | Interpretation |
+|-------|-------------|----------------|
+| Green | < 40% | Good engagement |
+| Yellow | 40-70% | Average |
+| Red | > 70% | May need attention |
+
+## Content Groups
+
+Content groups categorize pages for aggregated analysis.
+
+### What Are Content Groups?
+
+Instead of analyzing individual URLs, group related pages:
+
+| Group | Example Pages |
+|-------|---------------|
+| Blog | /blog/*, /articles/* |
+| Products | /products/*, /shop/* |
+| Checkout | /cart, /checkout/* |
+| Account | /account/*, /profile/* |
+
+### Filtering by Content Group
+
+On the **All Pages** tab, content group quick-filter buttons appear above the table:
+
+1. Click a content group button above the table (or **All**)
+2. The table shows only pages in the selected group
+
+### Configuring Content Groups
+
+Content groups are configured in Settings → Properties.
+
+See [Content Grouping](../implementation/content-site-structure/content-grouping) for setup instructions.
+
+## Filtering
+
+### Table Filter Builder
+
+Click the filter icon to open the filter builder. Each tab has its own fields:
+
+**All Pages fields:**
+- Path
+- Title
+- Content Group
+- Pageviews
+- Entrances
+
+**Landing Pages fields:**
+- Path
+- Content Group
+- Entrances
+- Bounce Rate
+- Microconversions
+- Conversions
+- Revenue
+
+**Operators:**
+- Text: contains, starts with, equals
+- Numbers: greater than, less than, equals
+
+**Example filters:**
+
+| Goal | Filter (tab) |
+|------|--------------|
+| Blog pages only | Path starts with "/blog" (All Pages) |
+| High traffic pages | Pageviews greater than 1000 (All Pages) |
+| Problem landing pages | Bounce Rate greater than 70 (Landing Pages) |
+| Converting landing pages | Conversions greater than 0 (Landing Pages) |
+
+### Combining with Global Filters
+
+Page report respects global filters:
+
+1. Global filter: Country = Spain
+2. Table filter: Path contains "products"
+3. Result: Product pages viewed by Spanish visitors
+
+## Use Cases
+
+### Finding Top Content
+
+1. Go to **All Pages** tab
+2. Sort by **Pageviews** (default)
+3. Review top 10-20 pages
+4. These are your most valuable content pieces
+
+### Identifying Problem Landing Pages
+
+1. Go to **Landing Pages** tab
+2. Sort by **Bounce Rate** (descending)
+3. Look for high-traffic pages with high bounce rates
+4. These pages may need improvement
+
+### Analyzing Blog Performance
+
+1. Configure content group for "Blog"
+2. Filter by Blog content group
+3. Review:
+   - Which posts get most traffic?
+   - Which have best conversion rates?
+
+### Finding Conversion Opportunities
+
+1. Go to **Landing Pages** tab
+2. Filter: Entrances > 500 AND Conversions = 0
+3. These high-traffic entry pages aren't converting
+4. Consider adding CTAs or conversion elements
+
+### Tracking New Page Performance
+
+1. Publish new page
+2. Wait 24-48 hours
+3. Search for the page path
+4. Monitor:
+   - Initial traffic ramp
+   - Bounce rate vs site average (Landing Pages tab)
+
+## Export
+
+Each tab has its own **Export** button to download:
+- All visible rows (respecting filters)
+- All columns, including the content group
+- Choose **CSV** or **PDF** format
+
+## Related documentation
+
+- [Content Grouping](/implementation/content-site-structure/content-grouping) — Set up the groups used to categorize pages
+- [How Sealmetrics Calculates Entrances](/reports/insights/how-sealmetrics-calculates-entrances) — What counts as an entrance on a landing page
+- [Sources Report](/reports/sources) — See which channels drive landing-page traffic
+- [Overview Report](/reports/overview) — The high-level dashboard for all reports
+- [Metrics Reference](/reports/definitions) — Definitions for pageviews, entrances, and bounce rate

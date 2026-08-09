@@ -1,0 +1,207 @@
+---
+title: "Features Comparison"
+description: "Detailed side-by-side comparison of all features across Sealmetrics plans."
+canonical_url: "https://docs.sealmetrics.com/billing/features-comparison"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "4544058a7f3894bf41a8c5996ee5a3d815e5e8052fdfda3e43bd1abc3e823beb"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "billing/features-comparison.mdx"
+publisher: "SealMetrics"
+---
+
+# Features Comparison
+
+Canonical page: https://docs.sealmetrics.com/billing/features-comparison
+
+Complete feature-by-feature comparison across all Sealmetrics plans. All plans use volume-based pricing with unlimited websites and unlimited users.
+
+## Quick Comparison
+
+| | Growth | Scale | Enterprise |
+|---|:---:|:---:|:---:|
+| **Monthly Price** | €599 | €1,079 | Custom |
+| **Annual (per month)** | €499 | €899 | Custom |
+| **Monthly Events** | 5M | 15M | Unlimited |
+| **Websites** | Unlimited | Unlimited | Unlimited |
+
+---
+
+## Events & Data
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Monthly events | 5M | 15M | Unlimited |
+| Websites | Unlimited | Unlimited | Unlimited |
+| Users | Unlimited | Unlimited | Unlimited |
+| Data retention | 24 months | 24 months | 24 months |
+| Overage charges | None | None | None |
+
+---
+
+## Tracking & Collection
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| First-party tracking | Yes | Yes | Yes |
+| Cookie-free tracking | Yes | Yes | Yes |
+| Consentless operation | Yes | Yes | Yes |
+| Bot filtering | Yes | Yes | Yes |
+| Agent AI Analytics | Coming soon | Coming soon | Coming soon |
+| Real-time data (typically < 2 min) | Yes | Yes | Yes |
+| Data complete before 6 AM (SLA) | Yes | Yes | Yes |
+
+### Event Tracking
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Pageview tracking | Yes | Yes | Yes |
+| Custom events | Yes | Yes | Yes |
+| Conversion tracking | Yes | Yes | Yes |
+| Revenue tracking | Yes | Yes | Yes |
+| Micro-conversions | Yes | Yes | Yes |
+
+---
+
+## Reports & Analytics
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Traffic reports | Yes | Yes | Yes |
+| Conversion reports | Yes | Yes | Yes |
+| Revenue reports | Yes | Yes | Yes |
+| Campaign reports | Yes | Yes | Yes |
+| Geographic reports | Yes | Yes | Yes |
+| Device reports | Yes | Yes | Yes |
+| Funnel analysis | Yes | Yes | Yes |
+| Channel attribution | Yes | Yes | Yes |
+| Multi-site portfolio | Yes | Yes | Yes |
+
+### Data Export
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| CSV export | Yes | Yes | Yes |
+| JSON export | Yes | Yes | Yes |
+| API export | Yes | Yes | Yes |
+| BigQuery export | Yes | Yes | Yes |
+
+---
+
+## LENS AI
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| LENS Chat | Yes | Yes | Yes |
+| LENS Reports | Yes | Yes | Yes |
+| LENS Insights (rule-based detection) | Coming soon | Coming soon | Coming soon |
+| AI with your own key (BYOK) | Unmetered | Unmetered | Unmetered |
+| [Seal AI Private](/billing/seal-ai-private) (EU-hosted, no key) | Paid add-on | **Included** | **Included** |
+| Dedicated, non-shared Seal AI Private instance | - | - | Yes |
+
+LENS AI works two ways: **[Seal AI Private](/billing/seal-ai-private)** (managed, EU-hosted, no API key; 5M tokens/month plus optional packs — add-on on Growth, included in Scale/Enterprise) or **bring-your-own-key** (connect your own LLM provider API key; unmetered by Sealmetrics, billed directly by your provider).
+
+---
+
+## Integrations
+
+### Advertising Platforms
+
+| Platform | Growth | Scale | Enterprise |
+|----------|:------:|:-----:|:----------:|
+| Google Ads | Yes | Yes | Yes |
+| Meta Ads (Facebook/Instagram) | Yes | Yes | Yes |
+| Microsoft Ads | Yes | Yes | Yes |
+| TikTok Ads | Yes | Yes | Yes |
+
+### Data Destinations
+
+| Destination | Growth | Scale | Enterprise |
+|-------------|:------:|:-----:|:----------:|
+| BigQuery | Yes | Yes | Yes |
+| MCP Server | Yes | Yes | Yes |
+
+### Automation
+
+| Integration | Growth | Scale | Enterprise |
+|-------------|:------:|:-----:|:----------:|
+| Webhooks | - | Yes | Yes |
+
+### E-commerce
+
+| Platform | Growth | Scale | Enterprise |
+|----------|:------:|:-----:|:----------:|
+| WooCommerce | Yes | Yes | Yes |
+| Magento | Yes | Yes | Yes |
+| PrestaShop | Yes | Yes | Yes |
+| OpenCart | Yes | Yes | Yes |
+
+---
+
+## Users & Access
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Team members | Unlimited | Unlimited | Unlimited |
+| Role-based access | Basic | Advanced | Full |
+| Audit logs | - | Yes | Yes |
+
+---
+
+## API Access
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Full API access | Yes | Yes | Yes |
+| API rate limit (req/min) | 240 | 480 | Custom |
+
+---
+
+## Support & Service
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Documentation | Yes | Yes | Yes |
+| Email support | Yes | Yes | Yes |
+| Chat support | - | Yes | Yes |
+| Priority support | - | Yes | Yes |
+| Dedicated account manager | - | - | Yes |
+
+### SLA & Reliability
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Uptime SLA | 99% | 99.5% | 99.9% |
+
+### Onboarding
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Self-service guides | Yes | Yes | Yes |
+| Guided onboarding | - | 1 session | White-glove |
+
+---
+
+## Security & Compliance
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| GDPR compliant | Yes | Yes | Yes |
+| Data encryption (transit) | Yes | Yes | Yes |
+| Data encryption (rest) | Yes | Yes | Yes |
+| Audit logging | - | Yes | Yes |
+| Isolated processing | - | - | Yes |
+
+---
+
+## Need Help Choosing?
+
+Not sure which plan is right for you?
+
+- **Growth:** Growing teams and mid-size e-commerce (up to 5M events)
+- **Scale:** Multi-brand retailers needing webhooks and audit logs (up to 15M events)
+- **Enterprise:** Custom needs with unlimited events
+
+[Contact sales](mailto:sales@sealmetrics.com) for personalized recommendations.

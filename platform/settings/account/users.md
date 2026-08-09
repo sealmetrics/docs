@@ -1,0 +1,120 @@
+---
+title: "Users & Teams"
+description: "Invite members, assign sites, manage roles, and remove users from your Sealmetrics organization."
+canonical_url: "https://docs.sealmetrics.com/platform/settings/account/users"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "87a83f09ee852993dc6a4c720b0778df9844a03bc645416112e4b9416929b3f7"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/settings/account/users.mdx"
+publisher: "SealMetrics"
+---
+
+# Users & Teams
+
+Canonical page: https://docs.sealmetrics.com/platform/settings/account/users
+
+Manage who has access to your Sealmetrics organization and control what they can see and do.
+
+---
+
+## Viewing Members
+
+To see all members in your organization:
+
+1. Open the sidebar and go to the **Organization** group
+2. Click **Members**
+
+You will see a list of all current members, their name, email, organization role, the number of assigned sites (for Members), and when they joined.
+
+---
+
+## Inviting Members
+
+Owners and Admins can invite new members to the organization.
+
+### How to send an invitation
+
+1. Open the **Members** page for your organization
+2. Click **Invite Member**
+3. Enter the person's email address
+4. Choose their organization role:
+   - **Admin** -- manage members and all sites, no billing
+   - **Member** -- access only to assigned sites
+5. If you selected **Member**, select at least one site they should have access to (this is required)
+6. Click **Send Invitation**
+
+The invited person will receive an email with a link to accept the invitation. If they do not already have a Sealmetrics account, they will be asked to create one.
+
+**Note:**
+
+### Pending invitations
+
+Invitations expire after 7 days. You can view pending invitations on the Members page and:
+
+- **Resend** an invitation to extend the expiration
+- **Cancel** an invitation if it is no longer needed
+
+---
+
+## Assigning Sites to Members
+
+Members can only see the sites you explicitly assign to them. Owners and Admins see all sites automatically.
+
+### To assign sites to a member
+
+1. Go to the **Members** page
+2. Find the member in the list
+3. Click the **site access** (globe) button next to them
+4. In the panel that opens, toggle the sites they should have access to
+
+Changes apply immediately, and you can add or remove site access at any time without affecting the member's organization role.
+
+There is currently no dashboard screen to choose between the Editor and Viewer access levels — per-site roles are managed through the [Site Users API](/api/sites#site-user-endpoints). See [Roles & Permissions](../../user-management/roles-management) for details.
+
+---
+
+## Changing a Member's Role
+
+Owners and Admins can change organization roles for other members.
+
+1. Go to the **Members** page
+2. Find the member
+3. Change their role using the role dropdown
+4. Confirm the change
+
+Role changes take effect immediately.
+
+**Restrictions:**
+- Admins cannot change the role of an Owner
+- Only Owners can promote someone to Owner or demote an Owner
+
+---
+
+## Removing a Member
+
+1. Go to the **Members** page
+2. Find the member you want to remove
+3. Click the remove option
+4. Confirm the removal
+
+The member will immediately lose access to all sites and data in the organization.
+
+---
+
+## User Limits
+
+All Sealmetrics plans include **unlimited users**. There is no limit on the number of team members you can invite to your organization.
+
+---
+
+## Understanding Roles
+
+Sealmetrics uses a two-tier role system:
+
+- **Organization roles** (Owner, Admin, Member) drive a user's management permissions across the organization
+- **Site access roles** (Editor, Viewer) set whether a Member has edit or view-only access to an assigned site
+
+For a full breakdown of permissions, see [Roles & Permissions](../../user-management/roles-management).

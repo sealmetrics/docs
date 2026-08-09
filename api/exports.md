@@ -1,0 +1,505 @@
+---
+title: "Exports"
+description: "Create and download bulk exports of analytics data in CSV or JSON, covering pages, sources, conversions, devices, and time series"
+canonical_url: "https://docs.sealmetrics.com/api/exports"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "ef78a4bd041d1470fa840c621492c38557a40ef9213b2f10f0152cc9feaee706"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/exports.mdx"
+publisher: "SealMetrics"
+---
+
+# Exports
+
+Canonical page: https://docs.sealmetrics.com/api/exports
+
+Create and download bulk exports of analytics data in CSV or JSON format.
+
+---
+
+## Overview
+
+The Exports API allows you to:
+
+- Export analytics data for external analysis
+- Choose between CSV and JSON formats
+- Apply filters to export specific segments
+- Handle large exports asynchronously
+
+**Base path:** `/exports`
+
+**Info:**
+All `/exports/*` routes require the `account_id` query parameter — `site_id` is rejected. The value is the **site slug** (the identifier in your dashboard URL), the same value you'd pass as `site_id` to `/stats/*`. See the [API FAQ](./faq) for details.
+
+---
+
+## Export Types
+
+| Type | Description |
+|------|-------------|
+| `pages` | Page-level metrics (path, views, entrances, conversions) |
+| `sources` | Traffic by UTM source |
+| `mediums` | Traffic by UTM medium |
+| `campaigns` | Traffic by UTM campaign |
+| `terms` | Traffic by UTM term (keywords) |
+| `countries` | Traffic by country |
+| `devices` | Traffic by device type |
+| `browsers` | Traffic by browser |
+| `os` | Traffic by operating system |
+| `conversions` | Conversion events |
+| `microconversions` | Microconversion events |
+| `time_series` | Daily time series data |
+| `landing_pages` | Landing page metrics |
+
+---
+
+## Export Formats
+
+| Format | Content-Type | Best For |
+|--------|--------------|----------|
+| `csv` | `text/csv` | Spreadsheets, BI tools |
+| `json` | `application/json` | Programmatic analysis |
+
+---
+
+## Create Export
+
+```http
+POST /exports?account_id={site_slug}
+```
+
+Create a new export job.
+
+**Request Body:**
+
+```json
+{
+  "export_type": "sources",
+  "format": "csv",
+  "date_from": "2025-01-01",
+  "date_to": "2025-01-10",
+  "filters": {
+    "country": "ES",
+    "utm_medium": "cpc"
+  }
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `export_type` | enum | Yes | Type of data to export |
+| `format` | enum | No | `csv` (default) or `json` |
+| `date_from` | date | Yes | Start date (YYYY-MM-DD) |
+| `date_to` | date | Yes | End date (YYYY-MM-DD) |
+| `filters` | object | No | Filter conditions |
+
+### Filter Options
+
+```json
+{
+  "filters": {
+    "utm_source": "google",
+    "utm_medium": "cpc",
+    "utm_campaign": "spring_sale",
+    "utm_term": "running shoes",
+    "utm_content": "banner_a",
+    "country": "ES",
+    "device_type": "mobile",
+    "browser": "Chrome",
+    "os": "iOS",
+    "content_grouping": "blog",
+    "conversion_type": "purchase",
+    "advanced_filters": "path:contains:/products/"
+  }
+}
+```
+
+**Response (201 Created):**
+
+```json
+{
+  "job": {
+    "id": 1,
+    "job_id": "550e8400-e29b-41d4-a716-446655440000",
+    "site_id": "my-site",
+    "export_type": "sources",
+    "format": "csv",
+    "date_from": "2025-01-01",
+    "date_to": "2025-01-10",
+    "filters": {"country": "ES", "utm_medium": "cpc"},
+    "status": "completed",
+    "estimated_rows": 850,
+    "actual_rows": 847,
+    "file_size_bytes": 45230,
+    "file_size_human": "44.2 KB",
+    "progress_percent": 100,
+    "download_url": "https://my.sealmetrics.com/api/v1/exports/download/abc123...",
+    "download_expires_at": "2025-01-11T14:30:00Z",
+    "started_at": "2025-01-10T14:30:00Z",
+    "completed_at": "2025-01-10T14:30:02Z",
+    "created_at": "2025-01-10T14:30:00Z"
+  },
+  "estimate": {
+    "estimated_rows": 850,
+    "estimated_size_bytes": 45000,
+    "estimated_size_human": "43.9 KB",
+    "recommended_format": "csv",
+    "will_use_background_job": false,
+    "estimated_duration_seconds": 2
+  },
+  "message": "Export completed. Ready for download."
+}
+```
+
+### Export Status Values
+
+| Status | Description |
+|--------|-------------|
+| `pending` | Job created, waiting to start |
+| `estimating` | Calculating export size |
+| `generating` | Export in progress |
+| `completed` | Ready for download |
+| `failed` | Export failed (check `error_message`) |
+| `expired` | Download link expired |
+
+---
+
+## Estimate Export Size
+
+```http
+POST /exports/estimate?account_id={site_slug}
+```
+
+Get size estimate without creating a job.
+
+**Request Body:** Same as create export.
+
+**Response:**
+
+```json
+{
+  "estimated_rows": 125000,
+  "estimated_size_bytes": 8500000,
+  "estimated_size_human": "8.1 MB",
+  "recommended_format": "csv",
+  "will_use_background_job": true,
+  "estimated_duration_seconds": 45
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `estimated_rows` | Approximate number of rows |
+| `estimated_size_bytes` | Approximate file size |
+| `will_use_background_job` | `true` if >10K rows (async processing) |
+| `estimated_duration_seconds` | Approximate processing time |
+
+---
+
+## List Exports
+
+```http
+GET /exports?account_id={site_slug}
+```
+
+List all exports for an account.
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `limit` | integer | `20` | Max results (1-100) |
+| `offset` | integer | `0` | Skip N results |
+| `include_expired` | boolean | `false` | Include expired exports |
+
+**Response:**
+
+```json
+{
+  "exports": [
+    {
+      "id": 5,
+      "job_id": "550e8400-e29b-41d4-a716-446655440000",
+      "export_type": "sources",
+      "format": "csv",
+      "status": "completed",
+      "actual_rows": 847,
+      "file_size_human": "44.2 KB",
+      "download_url": "https://...",
+      "created_at": "2025-01-10T14:30:00Z"
+    }
+  ],
+  "total": 12
+}
+```
+
+---
+
+## Get Export Status
+
+```http
+GET /exports/{job_id}?account_id={site_slug}
+```
+
+Get status of a specific export job.
+
+**Response:** Same as single job in create response.
+
+---
+
+## Download Export
+
+```http
+GET /exports/download/{download_token}
+```
+
+Download completed export file.
+
+**Note:**
+
+**Response Headers:**
+
+```
+Content-Type: text/csv
+Content-Disposition: attachment; filename="sealmetrics_sources_20250101_20250110.csv"
+```
+
+---
+
+## Stream Export (Small Datasets)
+
+```http
+POST /exports/stream?account_id={site_slug}
+```
+
+Stream export directly for small datasets (&lt;10K rows).
+
+**Request Body:** Same as create export.
+
+**Response:** A **direct file download**, not the usual JSON envelope. Headers:
+
+| Header | Value |
+|--------|-------|
+| `Content-Type` | `text/csv; charset=utf-8` (or `application/json`, `application/x-ndjson` depending on `format`) |
+| `Content-Disposition` | `attachment; filename="{export_type}_{date_from}_{date_to}.{ext}"` |
+| `Cache-Control` | `no-store` |
+
+Save the response body to a file (or pipe it) — do not try to `.json()` parse it.
+
+**Working example — `conversions` export:**
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/exports/stream?account_id=YOUR_SITE" \
+  -H "X-API-Key: sm_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "export_type": "conversions",
+    "format": "csv",
+    "date_from": "2026-04-01",
+    "date_to": "2026-04-30"
+  }'
+```
+
+The response is a CSV stream with header `date, conversion_type, amount, properties`. For richer dimensions per conversion (UTMs, country, device, channel group, custom properties) use [`/stats/conversions/raw`](./stats#raw-conversions-event-level) instead.
+
+**Error (413 - Too Large):**
+
+```json
+{
+  "detail": "Export too large for streaming (125,000 rows). Use POST /exports to create a background job."
+}
+```
+
+---
+
+## Cancel/Delete Export
+
+```http
+DELETE /exports/{job_id}?account_id={site_slug}
+```
+
+Cancel a pending export or delete a completed one.
+
+**Response:** 204 No Content
+
+---
+
+## Small vs Large Exports
+
+| Rows | Processing | Response |
+|------|------------|----------|
+| Less than 10,000 | Synchronous | Immediate download URL |
+| 10,000 or more | Background job | Poll status until complete |
+
+For large exports:
+
+1. Create export (returns `status: pending`)
+2. Poll `GET /exports/{job_id}` until `status: completed`
+3. Download using the `download_url`
+
+---
+
+## Download Link Expiration
+
+- Download links expire after **24 hours**
+- After expiration, you must create a new export
+- Expired exports show `status: expired`
+
+---
+
+## Rate Limits
+
+| Plan | Concurrent Exports | Max Rows/Export |
+|------|--------------------|-----------------|
+| Growth | 1 | 100,000 |
+| Scale | 3 | 1,000,000 |
+| Enterprise | 10 | Unlimited |
+
+---
+
+## Code Examples
+
+### Python - Export and Download
+
+```python
+import requests
+import time
+
+API_KEY = "sm_your_api_key"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+
+def export_data(account_id, export_type, date_from, date_to, filters=None):
+    """Create export and return download URL."""
+
+    # Create export
+    response = requests.post(
+        f"{BASE_URL}/exports",
+        headers={"X-API-Key": API_KEY},
+        params={"account_id": account_id},
+        json={
+            "export_type": export_type,
+            "format": "csv",
+            "date_from": date_from,
+            "date_to": date_to,
+            "filters": filters or {}
+        }
+    )
+    response.raise_for_status()
+    data = response.json()
+
+    job = data["job"]
+    job_id = job["job_id"]
+
+    # Poll until complete (for large exports)
+    while job["status"] in ("pending", "estimating", "generating"):
+        time.sleep(2)
+        response = requests.get(
+            f"{BASE_URL}/exports/{job_id}",
+            headers={"X-API-Key": API_KEY},
+            params={"account_id": account_id}
+        )
+        job = response.json()
+
+    if job["status"] == "failed":
+        raise Exception(f"Export failed: {job.get('error_message')}")
+
+    return job["download_url"]
+
+def download_file(download_url, output_path):
+    """Download export file."""
+    response = requests.get(download_url, stream=True)
+    response.raise_for_status()
+
+    with open(output_path, "wb") as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            f.write(chunk)
+
+# Usage
+url = export_data(
+    account_id="my-site",
+    export_type="sources",
+    date_from="2025-01-01",
+    date_to="2025-01-10",
+    filters={"country": "ES"}
+)
+download_file(url, "sources_export.csv")
+```
+
+### JavaScript - Stream Small Export
+
+```javascript
+async function streamExport(accountId, exportType, dateFrom, dateTo) {
+  const response = await fetch(
+    `${BASE_URL}/exports/stream?account_id=${accountId}`,
+    {
+      method: 'POST',
+      headers: {
+        'X-API-Key': API_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        export_type: exportType,
+        format: 'csv',
+        date_from: dateFrom,
+        date_to: dateTo
+      })
+    }
+  );
+
+  if (response.status === 413) {
+    throw new Error('Export too large for streaming. Use background job.');
+  }
+
+  const blob = await response.blob();
+  return blob;
+}
+```
+
+### Check Estimate Before Export
+
+```python
+def estimate_first(account_id, export_config):
+    """Check size before creating export."""
+
+    response = requests.post(
+        f"{BASE_URL}/exports/estimate",
+        headers={"X-API-Key": API_KEY},
+        params={"account_id": account_id},
+        json=export_config
+    )
+    estimate = response.json()
+
+    print(f"Estimated rows: {estimate['estimated_rows']:,}")
+    print(f"Estimated size: {estimate['estimated_size_human']}")
+    print(f"Background job: {estimate['will_use_background_job']}")
+    print(f"Est. duration: {estimate['estimated_duration_seconds']}s")
+
+    if estimate['estimated_rows'] > 500000:
+        confirm = input("Large export. Continue? (y/n): ")
+        if confirm.lower() != 'y':
+            return None
+
+    # Proceed with export
+    return export_data(account_id, **export_config)
+```
+
+## For agents: this is your long-running-task primitive
+
+An export is a proper asynchronous job, so an agent never has to hold an HTTP request open:
+
+1. `POST /exports` returns immediately with a job id.
+2. The job advances through `pending` → `estimating` → `generating` → `completed` (or `failed` / `expired`).
+3. **Do not poll if you can avoid it.** Subscribe a [webhook](/api/webhooks) to `export.completed` and `export.failed`; the API pushes the result to you when the job lands.
+4. `DELETE /exports/{id}` cancels a job you no longer need.
+
+Exports are also the right tool when you need a **consistent** snapshot of a large report: paging with `page`/`page_size` can drift while new analytics data arrives, an export cannot.
+
+## Related
+
+- [For AI Agents](/api/for-agents) — the full agent integration guide
+- [Webhooks](/api/webhooks) — `export.completed` / `export.failed`
+- [Batch API](/api/batch) — many small queries in one request, instead of one big job
+- [Error codes](/api/errors)

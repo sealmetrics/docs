@@ -1,0 +1,168 @@
+---
+title: "Evolution Report"
+description: "Track how metrics change over time with daily, weekly, or monthly grouping and UTM filtering in Sealmetrics."
+canonical_url: "https://docs.sealmetrics.com/reports/evolution"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "e2bdd4f0a39dc5954afad7e419007513bf29eb38d6dae6b12af4c74fcdd53253"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/evolution.mdx"
+publisher: "SealMetrics"
+---
+
+# Evolution Report
+
+Canonical page: https://docs.sealmetrics.com/reports/evolution
+
+The Evolution report shows how your metrics change over time, with flexible grouping and UTM filtering.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Evolution** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/evolution`
+
+## Time Grouping
+
+Control how data is aggregated using the grouping selector (By Hour, By Day, By Week, By Month):
+
+| Grouping | Best For |
+|----------|----------|
+| **By Hour** | Very short periods, intraday patterns. Rows are grouped by day and expand to show individual hours |
+| **By Day** | Short periods (7-30 days), daily patterns |
+| **By Week** | Medium periods (1-3 months), weekly trends |
+| **By Month** | Long periods (6+ months), seasonal analysis |
+
+## UTM Filters
+
+Filter data by specific traffic sources:
+
+### Available Filters
+
+| Filter | Description | Example |
+|--------|-------------|---------|
+| **UTM Source** | Traffic source | google, facebook, newsletter |
+| **UTM Medium** | Traffic medium | cpc, organic, email |
+| **UTM Campaign** | Campaign name | black-friday-2025, brand-awareness |
+
+### Applying UTM Filters
+
+1. Click the **Filters** button to open the filter panel
+2. Choose a value from the **Source**, **Medium**, and/or **Campaign** dropdowns (one value per dropdown)
+3. Data updates to show only matching traffic
+4. Active filters appear as removable chips below the toolbar; the Filters button shows a count badge
+
+### Combining Filters
+
+Filters combine with AND logic:
+- Source = "google" AND Medium = "cpc" shows only Google Ads traffic
+- Add Campaign = "brand-2025" to narrow further
+
+## Summary Stats
+
+A row of summary stat cards appears above the chart, showing the aggregate metrics for the selected period and filters.
+
+## Chart
+
+A single area chart shows the selected metric over time. Use the metric toggle in the chart header to switch between:
+
+- **Entrances**
+- **Pageviews**
+- **Conversions**
+
+Chart behavior:
+
+- Hover for exact values per period
+- A brush appears for long series (more than 30 points) to drag and zoom
+- Zoom controls appear for series with more than 14 points
+
+## Data Table
+
+Detailed breakdown with all metrics per time period.
+
+| Column | Description |
+|--------|-------------|
+| **Date / Time / Week / Month** | Time period. The first column's header changes with the grouping (Date/Time, Date, Week, or Month) |
+| **Entrances** | Sessions started |
+| **Pageviews** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Events** | Microconversions |
+| **Conversions** | Completed conversions |
+| **Conv. Rate** | Conversion rate |
+| **Revenue** | Total revenue |
+
+In **By Hour** mode, rows are grouped by day and each day can be expanded to reveal its individual hours.
+
+### Table Features
+
+- **Sorting**: Click column headers to sort (disabled in By Hour mode)
+- **Pagination**: Navigate through pages for long periods
+- **Totals row**: Aggregated totals shown at the bottom
+- **Export**: Download as CSV or PDF
+
+## Use Cases
+
+### Analyzing Weekly Patterns
+
+1. Set date range to last 30 days
+2. Select **By Day** grouping
+3. Look for patterns:
+   - Higher traffic on weekdays vs weekends?
+   - Conversion rate changes by day?
+
+### Comparing Campaigns
+
+1. Set date range to campaign period
+2. Filter by UTM Campaign
+3. Compare:
+   - Add Campaign A, note metrics
+   - Clear, add Campaign B, compare
+
+### Identifying Seasonality
+
+1. Set date range to last 12 months
+2. Select **By Month** grouping
+3. Look for:
+   - Peak months
+   - Low seasons
+   - Year-over-year patterns
+
+### Tracking Campaign Launch
+
+1. Set date range starting from launch date
+2. Filter by campaign UTMs
+3. Select **By Day** grouping
+4. Monitor:
+   - Ramp-up pattern
+   - Peak performance day
+   - Decay curve
+
+## Filters Interaction
+
+Evolution report respects both:
+
+1. **Global filters** (from the filter bar)
+2. **UTM filters** (specific to this report)
+
+Example:
+- Global filter: Country = Spain
+- UTM filter: Source = google
+- Result: Google traffic from Spain only
+
+## Export
+
+Click **Export** to download:
+- All data points in the current view
+- Respects active filters
+- Choose **CSV** or **PDF** format
+
+## Related documentation
+
+- [Date Range](/reports/date-range) — Choose the time period the Evolution chart covers
+- [Sources Report](/reports/sources) — Break the same metrics down by channel
+- [Filters](/reports/filters) — Combine global and UTM filters
+- [Overview Report](/reports/overview) — The high-level dashboard for all reports
+- [Metrics Reference](/reports/definitions) — Definitions for entrances, pageviews, and conversions

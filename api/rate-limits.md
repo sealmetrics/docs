@@ -1,0 +1,206 @@
+---
+title: "Rate Limits"
+description: "Per-plan API rate limits, X-RateLimit response headers, and 429 handling with the Retry-After header when the limit is exceeded"
+canonical_url: "https://docs.sealmetrics.com/api/rate-limits"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "2889adad696063c2f4667eed45123a6abb0eab95e5d8d4a9da72582c251777aa"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/rate-limits.mdx"
+publisher: "SealMetrics"
+---
+
+# Rate Limits
+
+Canonical page: https://docs.sealmetrics.com/api/rate-limits
+
+Rate limits protect the API from abuse and ensure fair usage across all clients.
+
+## Rate Limit Headers
+
+Every API response includes these headers:
+
+| Header | Description | Example |
+|--------|-------------|---------|
+| `X-RateLimit-Limit` | Max requests per minute for your plan | `240` |
+| `X-RateLimit-Remaining` | Requests remaining in current window | `235` |
+| `X-RateLimit-Reset` | Unix timestamp when window resets | `1704067200` |
+
+The value of `X-RateLimit-Limit` depends on your plan tier (see [Plan Limits](#plan-limits) below). The examples here use the Growth tier value of `240`.
+
+Example response headers:
+
+```http
+HTTP/1.1 200 OK
+X-RateLimit-Limit: 240
+X-RateLimit-Remaining: 235
+X-RateLimit-Reset: 1704067200
+Content-Type: application/json
+```
+
+## Rate Limit Exceeded (429)
+
+When you exceed the limit, you receive:
+
+```http
+HTTP/1.1 429 Too Many Requests
+Retry-After: 15
+X-RateLimit-Limit: 240
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1704067200
+Content-Type: application/json
+```
+
+```json
+{
+  "error": {
+    "code": "rate_limit_exceeded",
+    "message": "Too many requests. Please retry after 15 seconds."
+  },
+  "request_id": "req_abc123"
+}
+```
+
+The `Retry-After` header indicates how many seconds to wait.
+
+There is no soft-limiting, warning, or throttling phase: requests within the limit return normally, and once the limit is exceeded the API returns `429 Too Many Requests` directly. Use the `X-RateLimit-Remaining` header to track how close you are to the limit.
+
+## Plan Limits
+
+Rate limits are applied per minute, based on your account's plan tier:
+
+| Plan tier | Requests per minute |
+|-----------|---------------------|
+| Free | 240 |
+| Growth | 240 |
+| Scale | 480 |
+| Enterprise | 10000 (effectively unlimited) |
+
+Requests that are not authenticated (or where the plan tier can't be resolved) fall back to a default limit of **60 requests per minute**, applied per IP address.
+
+## Per-Endpoint Adjustments
+
+Stats endpoints (`/api/v1/stats/*`) run heavier queries, so requests authenticated with an **API key** are limited to **50% of the plan limit** (with a floor of 30 requests per minute). Requests authenticated via a dashboard session (JWT Bearer token or cookie) keep the full plan limit.
+
+| Request type | Limit on `/api/v1/stats/*` |
+|--------------|-----------------------------|
+| API key (`X-API-Key`) | 50% of plan limit (minimum 30/min) |
+| Dashboard session (JWT / cookie) | 100% of plan limit |
+| All other endpoints | 100% of plan limit |
+
+## Endpoints Without Rate Limits
+
+These endpoints are excluded from rate limiting. They live at the host root, not under `/api/v1`:
+
+- `/health` - Health check
+- `/livez` - Liveness probe
+- `/readyz` - Readiness probe
+- `/t.js` - The tracking script
+- `/api/static/*` - Static assets (email logos)
+
+**Note:**
+Interactive docs are **not** served from the API host in production. The reference and the machine-readable spec are published on the docs site instead:
+
+- [docs.sealmetrics.com/api-reference](https://docs.sealmetrics.com/api-reference/) — interactive reference
+- [`openapi.json`](https://docs.sealmetrics.com/openapi.json) / [`openapi.yaml`](https://docs.sealmetrics.com/openapi.yaml) — OpenAPI 3.1 spec
+
+## Best Practices
+
+### 1. Monitor Rate Limit Headers
+
+```python
+def make_request(url, headers):
+    response = requests.get(url, headers=headers)
+
+    remaining = int(response.headers.get('X-RateLimit-Remaining', 0))
+    if remaining < 10:
+        print(f"Warning: Only {remaining} requests remaining")
+
+    return response
+```
+
+### 2. Implement Exponential Backoff
+
+```python
+import time
+import random
+
+def request_with_backoff(url, headers, max_retries=5):
+    for attempt in range(max_retries):
+        response = requests.get(url, headers=headers)
+
+        if response.status_code != 429:
+            return response
+
+        retry_after = int(response.headers.get('Retry-After', 1))
+        # Add jitter to prevent thundering herd
+        sleep_time = retry_after + random.uniform(0, 1)
+        time.sleep(sleep_time)
+
+    raise Exception("Max retries exceeded")
+```
+
+### 3. Cache Responses
+
+```python
+from functools import lru_cache
+import time
+
+# Cache stats for 5 minutes
+@lru_cache(maxsize=100)
+def get_stats_cached(site_id, period, cache_key):
+    return get_stats(site_id, period)
+
+def get_stats(site_id, period):
+    # Create cache key that expires every 5 minutes
+    cache_key = int(time.time() / 300)
+    return get_stats_cached(site_id, period, cache_key)
+```
+
+### 4. Batch Requests When Possible
+
+Instead of:
+```python
+# Bad: 10 separate requests
+for site_id in site_ids:
+    stats = get_stats(site_id)
+```
+
+Consider:
+```python
+# Better: Fewer requests with more data per request
+stats = get_stats_batch(site_ids)  # If batch endpoint available
+```
+
+### 5. Use Webhooks for Real-Time Data
+
+For real-time updates, use webhooks instead of polling:
+
+```python
+# Bad: Polling every second (60 req/min just for one metric)
+while True:
+    stats = get_stats(site_id)
+    time.sleep(1)
+
+# Better: Configure webhook for real-time updates
+# (No API calls needed - data pushed to you)
+```
+
+## Enterprise Custom Limits
+
+Enterprise plans can negotiate custom limits:
+
+- Per-endpoint limits
+- Higher burst allowances
+- Dedicated API instances
+- SLA guarantees
+
+Contact sales@sealmetrics.com for Enterprise pricing.
+
+## Related
+
+- [For AI Agents](/api/for-agents) — retry policy and the rest of the agent surface
+- [Error codes](/api/errors) — which responses are safe to retry
+- [Batch API](/api/batch) — up to 50 queries per request, so you spend fewer of them

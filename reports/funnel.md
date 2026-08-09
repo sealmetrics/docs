@@ -1,0 +1,109 @@
+---
+title: "Funnel Report"
+description: "Visualize e-commerce conversion progression — from entrances through product views, cart, checkout and purchase — with drop-off at each step."
+canonical_url: "https://docs.sealmetrics.com/reports/funnel"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "495cd4ebd5b2691fdd6c50a6e83f13b2f24a13b78c79158941b18b03111b0438"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/funnel.mdx"
+publisher: "SealMetrics"
+---
+
+# Funnel Report
+
+Canonical page: https://docs.sealmetrics.com/reports/funnel
+
+The Funnel report shows where you lose potential customers along the e-commerce purchase journey — Entrances → View Product → Add to Cart → Begin Checkout → Purchase — with the conversion and drop-off rate at each step. It is built automatically from your traffic and the e-commerce events you track, so there is nothing to configure.
+
+![Funnel report showing the five-step conversion funnel from Entrances to Purchase, with drop-off percentages at each step](/img/screenshots/funnel.png)
+
+**Note:**
+This is a **built-in, fixed** e-commerce funnel; custom funnels with your own step sequence are not currently supported. If you need to analyze a non-e-commerce sequence (e.g., a lead-form flow), track each step as a microconversion and inspect them in the [Conversions report](/reports/conversions) instead.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Funnel** in the sidebar
+
+**URL pattern:** `/sites/{siteId}/funnel`
+
+## How the funnel is built
+
+The funnel is a **fixed e-commerce sequence**. Sealmetrics assembles it from the totals for the selected period:
+
+| Step | Built from |
+|------|------------|
+| **Entrances** | All entrances in the period (the funnel entry point) |
+| **View Product** | `view_item` microconversion (legacy `view_product` also accepted) |
+| **Add to Cart** | `add_to_cart` microconversion |
+| **Begin Checkout** | `begin_checkout` microconversion (legacy `start_checkout` also accepted) |
+| **Purchase** | `purchase` conversion |
+
+A step only appears if the corresponding event exists in your data for the selected period. If you don't track `add_to_cart`, for example, that step is omitted and the funnel goes straight from the previous step to the next one present.
+
+**Tip:**
+The funnel relies on the standard e-commerce event names above. Send them from your store or tag setup to populate every step. See [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking) for the event names and how to fire them.
+
+## Funnel Visualization
+
+The **Conversion Funnel** chart shows one bar per step in order, from Entrances to Purchase.
+
+| Element | Description |
+|---------|-------------|
+| **Bars** | Height represents the number of visitors who reached that step |
+| **Step label** | Step name and count |
+| **Conversion rate** | Percentage of the *previous* step that reached this step |
+| **Drop-off** | Percentage of the previous step that did not reach this step |
+
+For each step after Entrances:
+
+- **Conversion rate** = step count ÷ previous step count × 100
+- **Drop-off rate** = (previous step count − step count) ÷ previous step count × 100
+
+## Country filter
+
+Use the **country selector** in the top-right of the report to recalculate the funnel for a single country (the top 20 countries by traffic are listed). Select **All Countries** to return to the global view. This is the funnel's built-in filter; [global filters](/reports/filters) (geography and devices) also apply.
+
+## Funnel by UTM table
+
+Below the chart, the **Funnel by UTM** table breaks the same period down by traffic source so you can see which campaigns drive each part of the journey.
+
+| Column | Description |
+|--------|-------------|
+| **UTM Source / Medium / Campaign** | The traffic source for the row |
+| **Entrances** | Entrances attributed to that source |
+| **Page Views** | Page views from that source |
+| *Microconversion columns* | One column per microconversion type present (e.g. `view_item`, `add_to_cart`, `begin_checkout`) |
+| *Conversion columns* | One column per conversion type present (e.g. `purchase`), showing count and revenue |
+
+The table is sortable and paginated, and includes a **totals row** for Entrances and Page Views.
+
+## Filtering
+
+- **Country selector** — recalculates the whole funnel for one country (see above).
+- **Global filters** — geography and device filters from the [filter bar](/reports/filters) apply to the funnel.
+- **Table filters** — use the **filter builder** on the Funnel by UTM table to narrow rows by Source, Medium, Campaign, Term, Entrances or Page Views.
+- **Date range** — the funnel respects the selected [date range](/reports/date-range); events must occur within the period.
+
+## Export
+
+Click **Export** to download the Funnel by UTM data:
+
+- Columns: Source, Medium, Campaign, Term, Entrances, Page Views, plus a column per microconversion type and per conversion type (count and revenue)
+- Respects the active country and table filters
+- Available as CSV and PDF
+
+## Analyzing the funnel
+
+1. Look for the step with the largest drop-off — that's where you're losing the most potential customers.
+2. Use the country selector to check whether the leak is concentrated in specific markets.
+3. Use the Funnel by UTM table to see whether certain campaigns convert through the journey better than others.
+
+| Transition | Common issues to investigate |
+|------------|------------------------------|
+| View Product → Add to Cart | Pricing, product page clarity, stock |
+| Add to Cart → Begin Checkout | Shipping costs, unexpected fees, account-required friction |
+| Begin Checkout → Purchase | Payment options, trust signals, checkout length |

@@ -1,0 +1,115 @@
+---
+title: "IP Allowlist"
+description: "Restrict account access to specific IP addresses, CIDR ranges, or regex patterns."
+canonical_url: "https://docs.sealmetrics.com/security-privacy/account-security/ip-allowlist"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "9797d5d4b47a93af66a824a9565640f0898dd7a61ebd2c7f4a04bffb3fc3917d"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "security-privacy/account-security/ip-allowlist.mdx"
+publisher: "SealMetrics"
+---
+
+# IP Allowlist
+
+Canonical page: https://docs.sealmetrics.com/security-privacy/account-security/ip-allowlist
+
+IP allowlisting restricts access to a Sealmetrics **site (account)** to a defined set of IP patterns, adding a network-level control on top of passwords and 2FA.
+
+The allowlist is configured **per site** in the dashboard under **Site Config → Settings → IP Allowlist**, and is also available through the [IP Allowlist API](/api/ip-allowlist) for automation.
+
+**Info:**
+
+## What Is IP Allowlisting?
+
+When an account's allowlist is enabled, requests from an IP that doesn't match any active pattern are rejected — even with valid credentials. When the allowlist is disabled, the account is reachable from any IP.
+
+```
+Request to an account
+        ↓
+Allowlist enabled?  ──No──►  Allow
+        │ Yes
+IP matches an active pattern?  ──No──►  Block
+        │ Yes
+      Allow
+```
+
+If a user belongs to several accounts, login filters the accounts they can reach from their current IP: accounts whose allowlist blocks the IP are dropped, while accounts without an active allowlist remain available.
+
+## Settings
+
+Each site's allowlist has these settings:
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `is_enabled` | `false` | Whether the allowlist is enforced for the site |
+| `enforce_for_dashboard` | `true` | Apply the IP check to dashboard / JWT authentication |
+| `enforce_for_api_tokens` | `true` | Apply the IP check to API token authentication |
+
+In the dashboard, the IP Allowlist tab exposes the **Enable IP Allowlist** toggle (`is_enabled`) and the list of patterns. The `enforce_for_dashboard` and `enforce_for_api_tokens` flags default to enabled and can be adjusted through the [API](/api/ip-allowlist) — for example, to enforce the allowlist for dashboard logins while leaving API token access unrestricted, or vice versa.
+
+## Pattern Types
+
+Each entry in the allowlist is a **pattern** with one of three types:
+
+| Type | Example | Matches |
+|------|---------|---------|
+| `ip` | `192.168.1.100`, `2001:db8::1` | One exact IPv4 or IPv6 address |
+| `cidr` | `192.168.1.0/24`, `10.0.0.0/8` | All addresses in a CIDR range |
+| `regex` | `^192\.168\..*` | Any address matching the regular expression |
+
+Each pattern can also carry an optional **label** (e.g. "Office Network") and **description**, and can be toggled active or inactive.
+
+## Typical Setup
+
+1. Go to **Site Config → Settings → IP Allowlist**.
+2. **Add your patterns first** with **Add IP Pattern** — every IP, CIDR range, or regex you need, including your current IP and any VPN exit IPs. Each pattern can have a label.
+3. **Enable the allowlist** with the **Enable IP Allowlist** toggle.
+
+**Warning:**
+
+## Examples
+
+### Office network and a static home IP
+
+```
+Office network (CIDR):  192.168.1.0/24   label: "Office"
+VPN range (CIDR):       203.0.113.0/28   label: "VPN"
+CEO home (IP):          83.45.123.78     label: "CEO Home"
+```
+
+### Dynamic IPs
+
+If your ISP assigns dynamic addresses, prefer a **CIDR range** that covers the pool, or route through a VPN with a static exit IP and allowlist that. A broad `regex` pattern is also possible but harder to reason about — use it sparingly.
+
+## When Access Is Blocked
+
+A blocked login is rejected with an "IP not allowed" error. Access attempts (granted and denied) are recorded with the IP address, authentication type (dashboard or API token), and which pattern matched, so you can review them via the API.
+
+There is no in-product "request access" workflow or self-serve admin bypass. If you lock yourself out, connect from an already-allowed network (office or VPN), have a teammate with access add your IP, or contact support to disable enforcement.
+
+## Best Practices
+
+- ✅ Add and verify your current IP before enabling enforcement
+- ✅ Include VPN exit IPs (the public exit IP, not the internal VPN address)
+- ✅ Use CIDR ranges for office networks instead of listing each address
+- ✅ Label each pattern so its purpose is clear
+- ✅ Review the allowlist periodically and remove patterns you no longer need
+- ❌ Don't enable enforcement with no matching pattern for your own connection
+- ❌ Don't use overly broad ranges that defeat the purpose
+
+## Troubleshooting
+
+### Locked out
+
+1. Connect from an already-allowed location (office, VPN)
+2. Ask a teammate with access to add your IP
+3. Contact support to disable enforcement, then re-add your IP
+
+### Can't access from VPN
+
+1. Confirm you're allowlisting the VPN **exit** IP, not the internal VPN address
+2. Find the exit IP with `curl ifconfig.me`
+3. Add that IP (or its CIDR range) to the allowlist

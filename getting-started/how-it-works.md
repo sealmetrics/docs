@@ -1,0 +1,111 @@
+---
+title: "How It Works"
+description: "Understand how Sealmetrics measures 100% of your website traffic without cookies, consent banners, or personal data collection."
+canonical_url: "https://docs.sealmetrics.com/getting-started/how-it-works"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "c10f1934fed778f8f0800f3a1d0887ababeaed120a50a59bf9ca0b4540832c21"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "getting-started/how-it-works.mdx"
+publisher: "SealMetrics"
+---
+
+# How It Works
+
+Canonical page: https://docs.sealmetrics.com/getting-started/how-it-works
+
+Sealmetrics measures 100% of your website traffic without cookies, consent banners, or personal data collection, built on a simple principle: **measure everything, identify no one**. It works by capturing just four non-identifying data points per interaction — timestamp, user agent, current URL, and referral URL — so there is nothing to consent to and nothing ad blockers can strip out.
+
+## The Challenge We Solve
+
+Traditional analytics tools lose 60-87% of visitor data in EU markets because users reject cookies. That means you're making business decisions with incomplete information. Sealmetrics captures every visitor while staying fully compliant with GDPR, ePrivacy, CCPA, and PECR.
+
+## The Four-Variable System
+
+Every interaction on your website is captured using just four data points:
+
+1. **Timestamp** - When the visit happened
+2. **User Agent** - Browser and device type (stored 24 months for anonymous device classification; never linked to a person)
+3. **Current URL** - Which page was viewed
+4. **Referral URL** - Where the visitor came from
+
+That's it. No IP addresses, no cookies, no persistent identifiers. This minimal approach makes it legally impossible to identify individual users while still giving you actionable insights.
+
+## Session-Based Tracking
+
+Sealmetrics groups the hits of a single visit using a temporary session marker derived from the browser context — nothing is stored on the device (no cookies, no local storage). A session ends after roughly two hours of inactivity. This allows you to:
+
+- Count page views within a single visit
+- Measure engagement in aggregate — bounce rate, engagement rate, pages per session
+- See which pages start sessions, and which convert
+- Track drop-off between funnel steps
+
+Session duration and individual navigation paths are not measured: both need a visitor's pageviews sequenced against each other, which the session marker deliberately makes impossible. See the [Metrics Reference](/reports/definitions).
+
+The session marker contains no persistent identifier and Sealmetrics never recognizes visitors across sessions — separate visits are never linked together, so no browsing profile of any person can be built.
+
+## How Data Flows Through Sealmetrics
+
+**Step 1: Event Detection**
+A lightweight JavaScript snippet on your website detects page views and events. The script is asynchronous and won't slow down your site.
+
+**Step 2: Instant Anonymization**
+Data is immediately anonymized at the collection layer. User agents are parsed for anonymous device classification and stored 24 months alongside the hit, but never joined with any personal identifier (there isn't one). No IP addresses are persisted in the analytics database — IPs are used only transiently server-side for anti-abuse protection.
+
+**Step 3: Secure Processing**
+All data is processed on EU-based servers in Dublin, Ireland. We use encryption in transit and at rest, with strict access controls and complete audit trails.
+
+**Step 4: Aggregate Insights**
+Your dashboard shows statistical patterns across all visitors. You see traffic sources, popular pages, conversion rates, and revenue attribution—all without tracking individuals.
+
+## Attribution Without Personal Data
+
+Sealmetrics uses **last-click attribution** at the channel level. When someone converts, we attribute that conversion to the traffic source (like "Google Organic" or "Facebook Ads") without connecting it to any individual person.
+
+This gives you the marketing intelligence you need—which channels drive results—without the privacy risks of user-level tracking.
+
+## Data in Seconds
+
+Hits reach your reports within seconds of happening. The **Last hit** timestamp on the Overview report shows exactly when the most recent hit arrived, so you can verify your tracking implementation instantly — without compromising anyone's privacy.
+
+## Integration Made Simple
+
+Getting started takes two minutes:
+
+1. Add one script tag to your website's `<head>` section
+2. Start seeing data immediately
+3. Instrument conversions and events as needed with `sealmetrics.conv()`
+
+Works with any framework: WordPress, React, Vue, standard HTML. Use our native plugins or integrate via Google Tag Manager.
+
+## Bot Filtering
+
+We automatically filter out known bots, scrapers, and monitoring tools so you only see real human visitors. Our system recognizes search engine crawlers, uptime monitors, and datacenter traffic.
+
+## API Access for Custom Needs
+
+Need to pull data into your own systems? Our REST API gives you programmatic access to all your analytics data. Export to CSV or integrate with your existing tools.
+
+## The Result: Complete Data, Zero Compromise
+
+- **5-8x more complete data** than cookie-based analytics in EU markets
+- **Zero consent requirements** - no banners, no data loss
+- **Fully compliant** - GDPR, ePrivacy, CCPA, PECR by design
+- **Always accurate** - no ad blocker interference
+- **EU infrastructure only** - all servers in Dublin, Ireland
+
+Sealmetrics proves you don't need to track people to understand your traffic. You just need to measure the right things, the right way.
+
+---
+
+**Ready to see all your data?** Start your free trial today and discover what you've been missing.
+
+## Related documentation
+
+- [First Steps with Sealmetrics](/getting-started/quick-start) — go from signup to live data
+- [Installation](/implementation/tracker/installation) — add the script tag described above
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — technical detail on the Four-Variable System
+- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — the legal basis behind consentless measurement
+- [Overview Report](/reports/overview) — see the aggregate insights this architecture produces

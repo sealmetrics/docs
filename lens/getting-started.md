@@ -1,0 +1,160 @@
+---
+title: "Getting Started with LENS"
+description: "Set up LENS AI and start receiving intelligent insights about your analytics data."
+canonical_url: "https://docs.sealmetrics.com/lens/getting-started"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "356d9aa22ff3ae7dc407a17c69f604119c66722236375f44384f6fa84959f942"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "lens/getting-started.mdx"
+publisher: "SealMetrics"
+---
+
+# Getting Started with LENS
+
+Canonical page: https://docs.sealmetrics.com/lens/getting-started
+
+Get LENS configured and receiving insights in under 5 minutes.
+
+## Prerequisites
+
+- A Sealmetrics account with an active plan
+- At least 7 days of tracking data (so LENS has enough history to compare against)
+- Email notifications enabled in your account settings
+
+## Step 1: Access LENS
+
+1. Log in to your Sealmetrics dashboard
+2. Click **LENS** in the main navigation
+3. You'll see the LENS overview with any detected anomalies
+
+## Step 2: Pick a provider
+
+The LENS assistant supports two options:
+
+- **[Seal AI Private](/billing/seal-ai-private)** — the managed platform LLM (EU-hosted, no prompt retention). **No API key needed**; usage counts against your organization's quota of **5M tokens per month**, plus any non-expiring token packs. Owners/admins can check consumption anytime in **Organization → Seal AI Usage**.
+- **Bring-your-own-key (BYOK)** — connect your own provider API key. No quota imposed by Sealmetrics; you pay your provider directly.
+
+If your organization is entitled to Seal AI Private (included in Scale/Enterprise, add-on on Growth), it's active by default. To use a BYOK provider, go to **My Account → LLM Providers** and add an API key.
+
+**Supported providers** (LENS picks the model automatically based on task complexity):
+
+| Provider | Simple tasks | Complex / critical tasks |
+|----------|--------------|--------------------------|
+| **Seal AI Private** (platform) | Managed for you | Managed for you |
+| Anthropic (BYOK) | `claude-3-5-haiku` | `claude-sonnet-4` / `claude-opus-4` |
+| OpenAI (BYOK) | `gpt-4o-mini` | `gpt-4o` |
+| DeepSeek (BYOK) | `deepseek-chat` | `deepseek-chat` |
+| Google Gemini (BYOK) | `gemini-2.5-flash` | `gemini-2.5-pro` |
+
+Mark one provider as your default and save.
+
+**Info:**
+Seal AI Private includes **5M tokens per calendar month** for the whole organization, plus any [token packs](/billing/seal-ai-private#extra-token-packs) you've purchased (packs never expire). The org gets an email at 80% and 100% consumption; once quota and packs are exhausted, Seal AI stops with a "token limit reached" message until the monthly reset — the owner can buy a pack from the [Seal AI Usage screen](/platform/settings/seal-ai-usage), and any user can switch the chat to a BYOK provider for immediate headroom.
+
+## Step 3: Review LENS Insights
+
+LENS analyzes your data on a configurable cadence and generates insights automatically:
+
+1. Go to **LENS** in the main navigation
+2. Review the detected insights
+
+LENS produces five types of insight, so it's not just about anomalies:
+
+| Type | What it means |
+|------|---------------|
+| Anomaly | An unexpected change in a metric |
+| Opportunity | A potential improvement worth acting on |
+| Trend | A significant directional change over time |
+| Alert | A warning that needs attention |
+| Health | A tracking or data-quality issue |
+
+The launch set ("LENS Basic") includes around 25 active rules covering traffic drops and spikes, conversion drops, tracking health, device and landing-page performance, channel efficiency, and source-concentration risk — all without requiring e-commerce or microconversion setup.
+
+## Step 4: Ask Your First Question
+
+Try the AI assistant:
+
+1. Go to **LENS → Chat**
+2. Type a question like:
+   - *"What were my top traffic sources last week?"*
+   - *"How is my conversion rate trending?"*
+   - *"Are there any issues I should know about?"*
+3. LENS will analyze your data and respond
+
+### Tips for Better Answers
+
+| Do | Don't |
+|----|-------|
+| Be specific about time periods | Ask vague questions |
+| Mention specific metrics | Assume LENS knows context |
+| Ask follow-up questions | Ask multiple questions at once |
+
+**Good:** *"Why did organic traffic from Google drop last Tuesday?"*
+
+**Less helpful:** *"Why is traffic down?"*
+
+## Step 5: Review Your LENS Reports
+
+LENS produces **weekly** and **monthly** reports — an executive summary plus key metrics, channel performance, top insights and action items. Reports are generated for a completed period (there are no custom templates or per-report recipient lists).
+
+1. Go to **LENS → Reports**
+2. Open the latest weekly or monthly report
+3. To receive a recurring summary by email, enable email notifications and set the analysis frequency in **Settings → LENS** (`daily`, `weekly`, or `manual`)
+
+See [LENS Reports](/lens/reports) for what each report contains.
+
+## Understanding LENS Insights
+
+When LENS detects an insight, you'll see something like this (here, an anomaly):
+
+```
+🔴 HIGH PRIORITY
+Conversion Rate Drop Detected
+
+Your conversion rate dropped 35% compared to the
+previous 7-day average.
+
+Current: 1.2%
+Previous: 1.85%
+Change: -35.1%
+
+Detected: 2024-01-15 14:32 UTC
+Affected segment: All traffic
+
+[View Details] [Investigate] [Dismiss]
+```
+
+### Insight Severity Levels
+
+| Level | Icon | Meaning | Action |
+|-------|------|---------|--------|
+| Critical | 🔴 | Immediate attention needed | Investigate now |
+| Warning | 🟡 | Significant change detected | Review within 24h |
+| Info | 🔵 | Notable but expected | Acknowledge when convenient |
+
+## Next Steps
+
+## Troubleshooting
+
+### "No anomalies detected"
+
+This is normal if:
+- Your account is new (less than 7 days of data)
+- Your traffic patterns are stable
+- LENS hasn't run its next analysis yet for the configured cadence
+
+### "Assistant not responding"
+
+The assistant needs a working LLM provider key. Check:
+1. You've added an API key in **My Account → LLM Providers**
+2. A default provider is selected and enabled
+3. The key is still valid and hasn't expired or hit your provider's own rate limit
+
+### Email summaries not arriving
+
+Check:
+1. Email notifications are enabled in account settings
+2. Messages aren't going to spam

@@ -1,0 +1,234 @@
+---
+title: "Quick Start"
+description: "Get your first Sealmetrics API call working in 5 minutes — generate a token, find your Site ID, and pull traffic data via REST in three steps."
+canonical_url: "https://docs.sealmetrics.com/api/quick-start"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "67bd7395addc09065db215f2dafa4e52ecdf628f35fc235413e4fdfed1a2e3c7"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/quick-start.mdx"
+publisher: "SealMetrics"
+---
+
+# Quick Start
+
+Canonical page: https://docs.sealmetrics.com/api/quick-start
+
+To make your first Sealmetrics API call, create an API key under **Settings → API Keys** (it starts with `sm_`), grab your Site ID from **Settings → Sites**, then send a `GET` request to `https://my.sealmetrics.com/api/v1/stats/overview` with the key in the `X-API-Key` header and your `site_id` as a query parameter. The three steps below get you a JSON response in about 5 minutes.
+
+## Prerequisites
+
+1. A Sealmetrics account with at least one site
+2. An API key (generate in Settings → API Keys)
+3. Your Site ID (found in Settings → Sites → [your site])
+
+## Step 1: Get Your API Key
+
+1. Log in to [Sealmetrics Dashboard](https://my.sealmetrics.com)
+2. Go to **Settings** → **API Keys**
+3. Click **Create Token**
+4. Copy the token (starts with `sm_`)
+
+**Warning:**
+
+## Step 2: Find Your Site ID
+
+1. Go to **Settings** → **Sites**
+2. Click on your site and copy the **Site ID** (e.g., `acme-corp`)
+
+## Step 3: Make Your First Request
+
+### Using cURL
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_SITE_ID&period=7d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Using Python
+
+```python
+import requests
+
+API_KEY = "sm_your_api_key_here"
+SITE_ID = "your-account-id"
+
+response = requests.get(
+    "https://my.sealmetrics.com/api/v1/stats/overview",
+    headers={"X-API-Key": API_KEY},
+    params={
+        "site_id": SITE_ID,
+        "period": "7d"
+    }
+)
+
+print(response.json())
+```
+
+### Using JavaScript
+
+```javascript
+const API_KEY = 'sm_your_api_key_here';
+const SITE_ID = 'your-account-id';
+
+const params = new URLSearchParams({
+  site_id: SITE_ID,
+  period: '7d'
+});
+
+const response = await fetch(
+  `https://my.sealmetrics.com/api/v1/stats/overview?${params}`,
+  {
+    headers: { 'X-API-Key': API_KEY }
+  }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+## Step 4: Check the Response
+
+A successful response looks like:
+
+```json
+{
+  "success": true,
+  "data": {
+    "date_range": {
+      "start_date": "2025-01-01",
+      "end_date": "2025-01-07",
+      "days": 7
+    },
+    "traffic": {
+      "entrances": 12543,
+      "engaged_entrances": 7234,
+      "page_views": 28976,
+      "microconversions": 892,
+      "conversions": 156,
+      "revenue": "12450.00",
+      "bounce_rate": 42.3,
+      "pages_per_session": 2.31
+    },
+    "conversions": {
+      "conversions": 156,
+      "revenue": "12450.00",
+      "microconversions": 892,
+      "conversion_rate": 1.24,
+      "average_order_value": "79.81"
+    }
+  },
+  "meta": {},
+  "timestamp": "2025-01-08T00:00:00Z"
+}
+```
+
+Traffic metrics live under `data.traffic` and conversion metrics under `data.conversions`.
+
+Check the rate limit headers:
+
+```http
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+X-RateLimit-Reset: 1704067200
+```
+
+## Common Use Cases
+
+### Get Top Pages
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/pages?site_id=YOUR_SITE_ID&period=30d&page_size=10" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Get Traffic Sources
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/sources?site_id=YOUR_SITE_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Get Conversions
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/conversions?site_id=YOUR_SITE_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Get Funnel Data
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=YOUR_SITE_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### Get Geographic Data
+
+```bash
+curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?site_id=YOUR_SITE_ID&period=30d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+## Troubleshooting
+
+### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "code": "invalid_api_key",
+    "message": "The provided API key is invalid or has been revoked"
+  }
+}
+```
+
+**Solution:** Check that your API key is correct and hasn't been revoked.
+
+### 403 Forbidden
+
+```json
+{
+  "error": {
+    "code": "forbidden",
+    "message": "Access denied to account: acme-corp"
+  }
+}
+```
+
+**Solution:** Verify your API token has access to the specified site.
+
+### 404 Not Found
+
+```json
+{
+  "error": {
+    "code": "not_found",
+    "message": "Site not found"
+  }
+}
+```
+
+**Solution:** Verify your Site ID is correct.
+
+### 429 Too Many Requests
+
+```json
+{
+  "error": {
+    "code": "rate_limit_exceeded",
+    "message": "Too many requests. Please retry after 15 seconds."
+  }
+}
+```
+
+**Solution:** Wait for the `Retry-After` seconds and reduce request frequency.
+
+## Next Steps
+
+- [Authentication](./authentication) - Learn about API keys and JWT tokens
+- [Rate Limits](./rate-limits) - Understand limits per plan
+- [Stats Endpoints](./stats) - Complete analytics endpoint reference
+- [Sites](./sites) - Manage sites and settings

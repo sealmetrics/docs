@@ -1,0 +1,85 @@
+---
+title: "LENS Reports"
+description: "AI-generated executive reports that summarize your analytics for a given period."
+canonical_url: "https://docs.sealmetrics.com/lens/reports"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "d7de82d4dbec21f813c696ca2d1cbf2d28d4849eb58663fcea49c163dda202d8"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "lens/reports/index.mdx"
+publisher: "SealMetrics"
+---
+
+# LENS Reports
+
+Canonical page: https://docs.sealmetrics.com/lens/reports
+
+LENS generates structured executive reports that summarize your analytics data for a period and surface the insights that matter, so you get the big picture without building dashboards by hand.
+
+## Report Types
+
+LENS produces two types of structured report:
+
+### Weekly Report
+
+A summary of the last completed week (Monday–Sunday).
+
+**Best for:** Weekly team updates, marketing reviews, and stakeholder communication.
+
+### Monthly Report
+
+A summary of the last completed calendar month.
+
+**Best for:** Leadership reviews, monthly performance recaps, and trend tracking.
+
+Both report types share the same structure (see [Report Contents](#report-contents) below). They differ only in the period they cover and the comparison baseline (the previous week or the previous month).
+
+## Report Contents
+
+Each report is built from the same set of sections. Sections are populated when data is available for the period.
+
+| Section | What it contains |
+|---------|------------------|
+| **Executive Summary** | A narrative overview of the period, plus a list of key takeaways |
+| **Key Metrics** | Revenue, conversions, entrances, pageviews, conversion rate, bounce rate, and average order value — each with the change versus the previous period |
+| **Channel Performance** | Per-channel revenue, conversions, entrances, conversion rate, and revenue share, with the top performer and biggest decline highlighted |
+| **Funnel Health** | Funnel steps with drop-off rates, overall conversion rate, and the biggest leak |
+| **Audience Insights** | Breakdowns by device, country, and browser, plus notable audience shifts |
+| **Top Insights** | The period's insights grouped by severity (red, yellow, green), with total economic impact |
+| **Action Items** | Recommended actions, each with a priority (high, medium, low) and a suggested owner (marketing, tech, product, or leadership) |
+
+For a detailed walkthrough of the Executive Summary section, see [Executive Summary](/lens/reports/executive-summary).
+
+## Generating a Report
+
+Reports are generated on demand for a chosen period.
+
+1. Go to **LENS → Reports**.
+2. Choose **Weekly** or **Monthly**.
+3. Generate the report. By default LENS uses the last completed period:
+   - **Weekly** defaults to the last completed week (ending Sunday).
+   - **Monthly** defaults to the last completed month.
+
+Generation may take a few seconds while LENS analyzes the period and writes the summary. If a report for the same period already exists and is ready, LENS returns the existing one instead of regenerating it.
+
+## Viewing Reports
+
+Go to **LENS → Reports** to see the list of generated reports, ordered by period (newest first). Each list entry shows the period, status, revenue and revenue change, conversions, and the number of insights.
+
+Open a report to read the full summary and all sections. Opening a report marks it as viewed.
+
+## Report Severity Levels
+
+Insights inside a report are grouped by severity:
+
+| Severity | Meaning |
+|----------|---------|
+| 🔴 **Red** | Critical — issues that need immediate attention |
+| 🟡 **Yellow** | Warning — notable changes worth reviewing |
+| 🟢 **Green** | Positive trends and opportunities |
+
+## Email Delivery
+
+LENS can also deliver insights and a weekly digest by email. Email is the only delivery channel. See [Email Alerts](/lens/reports/email-alerts) for how email notifications and the weekly digest work, and how to configure recipients in **Settings → LENS**.

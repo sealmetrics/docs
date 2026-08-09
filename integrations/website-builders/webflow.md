@@ -1,0 +1,167 @@
+---
+title: "Webflow"
+description: "Add Sealmetrics cookieless analytics to Webflow by pasting a script in Project Settings > Custom Code, with automatic event and lead form tracking."
+canonical_url: "https://docs.sealmetrics.com/integrations/website-builders/webflow"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "aaee74d5269f04feec1503067410f90beeba1c082fecc802d01ce4403098cca6"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/website-builders/webflow.mdx"
+publisher: "SealMetrics"
+---
+
+# Webflow
+
+Canonical page: https://docs.sealmetrics.com/integrations/website-builders/webflow
+
+Privacy-first, cookieless analytics for Webflow sites with automatic event tracking.
+
+## Installation
+
+### Method 1: Project-wide (Recommended)
+
+1. Go to **Project Settings > Custom Code**
+2. In the **Head Code** section, paste the entire contents of `sealmetrics-webflow.js` wrapped in `<script>` tags
+3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+4. Publish your site
+
+```html
+<script>
+// Paste the contents of sealmetrics-webflow.js here
+// Replace YOUR_ACCOUNT_ID with your actual Account ID
+</script>
+```
+
+### Method 2: Specific Pages
+
+1. Open the page in the Designer
+2. Go to **Page Settings > Custom Code**
+3. Add the script to **Inside \<head\> tag**
+4. Publish
+
+## Configuration
+
+Edit these values at the top of the pasted script:
+
+```javascript
+// Required: Your SealMetrics Account ID
+var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
+
+// Optional: Track contact forms as lead conversions (default: false)
+var SEALMETRICS_CONTACT_AS_LEAD = false;
+```
+
+## Automatic Events
+
+The script automatically tracks these events without any additional configuration:
+
+| Event | Description |
+|-------|-------------|
+| `pageview` | All page views with content grouping |
+| `form_submit` | Form submissions (non-newsletter) |
+| `newsletter_signup` | Newsletter form submissions |
+
+## Webflow E-commerce Events
+
+If using Webflow E-commerce, these events are tracked automatically:
+
+| Event | Description |
+|-------|-------------|
+| `view_item` | Product page views |
+| `add_to_cart` | Add to cart clicks |
+| `begin_checkout` | Checkout button clicks |
+| `purchase` | Order confirmation (conversion) |
+
+## Content Groups
+
+The script automatically detects page types:
+
+| URL Pattern | Group |
+|-------------|-------|
+| `/` or `/home` | `home` |
+| `/blog/*` | `blog` |
+| `/blog` | `blog-index` |
+| `/products/*` | `product` |
+| `/services/*` | `service` |
+| `/portfolio/*`, `/work/*`, `/projects/*` | `portfolio` |
+| `/about*`, `/team*`, `/about-us*` | `about` |
+| `/contact*` | `contact` |
+| `/pricing*`, `/plans*` | `pricing` |
+| `/faq*`, `/help*` | `faq` |
+| `/case-stud*`, `/success-stor*` | `case-study` |
+| `/thank*` | `thankyou` |
+| `/cart` | `cart` |
+| `/checkout` | `checkout` |
+| `/legal*`, `/privacy*`, `/terms*` | `legal` |
+| `/careers*`, `/jobs*` | `careers` |
+| CMS collection items | `{collection_name}` |
+
+## Form Detection
+
+### Newsletter Forms
+
+Automatically detected and tracked as `newsletter_signup`:
+- Form name/ID/class contains: `newsletter`, `subscribe`, `mailchimp`, `convertkit`, `klaviyo`, `optin`, etc.
+- Forms with only an email field
+
+### Contact Forms
+
+Tracked as `form_submit` or `lead` (if `SEALMETRICS_CONTACT_AS_LEAD = true`)
+
+## Custom Events
+
+Track custom events anywhere on your site:
+
+```html
+<script>
+// Wait for SealMetrics to load
+function trackEvent() {
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics.micro('custom_event', {
+      property: 'value'
+    });
+  } else {
+    setTimeout(trackEvent, 100);
+  }
+}
+trackEvent();
+</script>
+```
+
+## Conversions
+
+For lead generation or purchases:
+
+```javascript
+// Lead conversion (contact form, quote request)
+sealmetrics.conv('lead', 0, {
+  source: 'contact_form'
+});
+
+// Purchase (if not using Webflow Ecommerce auto-tracking)
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'USD'
+});
+
+// Signup
+sealmetrics.conv('signup', 0, {
+  plan: 'free'
+});
+```
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner needed
+
+## Related documentation
+
+- [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads.
+- [E-commerce Conversion Tracking](/implementation/ecommerce-conversion-tracking) — the concepts behind the Webflow E-commerce funnel events.
+- [Wix](/integrations/website-builders/wix) — the equivalent integration for Wix sites.
+- [Squarespace](/integrations/website-builders/squarespace) — the equivalent integration for Squarespace sites.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

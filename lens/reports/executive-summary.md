@@ -1,0 +1,142 @@
+---
+title: "Executive Summary"
+description: "What the LENS Executive Summary includes: an AI-written narrative, key takeaways, key metrics versus the previous period, and channel performance."
+canonical_url: "https://docs.sealmetrics.com/lens/reports/executive-summary"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "61313dd772612cac67ad43ae1f6884f44bf30a09ec8ff57a7f8aa7753661818e"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "lens/reports/executive-summary.mdx"
+publisher: "SealMetrics"
+---
+
+# Executive Summary
+
+Canonical page: https://docs.sealmetrics.com/lens/reports/executive-summary
+
+The Executive Summary is the opening section of every LENS report. It gives a clear, narrative picture of how the period performed, followed by structured sections that back up the summary with data.
+
+Reports are generated for a **weekly** or **monthly** period. See [LENS Reports](/lens/reports) for how to generate them.
+
+## What's Included
+
+A LENS report is built from the following sections. Each is populated when data is available for the period.
+
+### Executive Summary
+
+A short AI-written narrative of the period, followed by a list of **key takeaways** — the most important points distilled into a few lines.
+
+### Key Metrics
+
+```
+KEY METRICS
+Week of January 8-14, 2024
+
+                    Current      vs Previous
+──────────────────────────────────────────────
+Revenue             €44,600         +15%
+Conversions             892          +8%
+Entrances            45,230         +12%
+Pageviews           148,500         +12%
+Conversion Rate       1.97%       -0.07pp
+Bounce Rate           42.0%        -1.2pp
+Avg Order Value      €50.00          +6%
+```
+
+Each metric shows the current value and the change versus the previous period.
+
+### Channel Performance
+
+```
+CHANNEL PERFORMANCE
+
+Channel              Revenue    Conv.   Rev. Share   Trend
+──────────────────────────────────────────────────────────
+Google Ads - Brand   €12,400     210       28%       ↑ +15%
+Email Marketing       €8,900     180       20%       ↑ +22%
+Organic Search        €7,200     150       16%       → +2%
+Facebook Retarget     €6,100      95       14%       ↓ -5%
+Direct                €5,400      85       12%       ↑ +8%
+```
+
+LENS highlights the **top performer** and the **biggest decline** for the period.
+
+### Funnel Health
+
+```
+FUNNEL HEALTH
+
+Stage              Count    Drop-off   vs Previous
+──────────────────────────────────────────────────
+Entrances        148,500       -          +12%
+Product Views     89,100      40%         +15%
+Add to Cart       22,275      75%         +10%
+Checkout Start     8,910      60%          +8%
+Purchase           3,564      60%         +12%
+──────────────────────────────────────────────────
+Overall conversion rate: 2.40%
+```
+
+The section identifies the **biggest leak** in the funnel and includes a recommendation.
+
+### Audience Insights
+
+Breakdowns of the period's audience by **device**, **country**, and **browser**, each with its share and change. LENS also flags notable **audience shifts** — for example, a meaningful move toward mobile traffic.
+
+### Top Insights
+
+```
+TOP INSIGHTS
+
+🔴 Mobile conversion rate dropped 15%
+   Estimated impact: ~€2,100
+
+🟡 Cart abandonment increased from 68% to 73%
+
+🟢 Email marketing revenue up 22%
+```
+
+Insights are grouped by severity (🔴 red, 🟡 yellow, 🟢 green) and the section reports the total economic impact across them.
+
+### Action Items
+
+```
+ACTION ITEMS
+
+Priority  Owner       Action
+──────────────────────────────────────────────────────
+HIGH      Tech        Investigate mobile performance
+HIGH      Marketing   Review cart abandonment flow
+MEDIUM    Marketing   Scale email marketing
+LOW       Marketing   Pause underperforming campaigns
+```
+
+Each action item has a **priority** (high, medium, low) and a suggested **owner** (marketing, tech, product, or leadership).
+
+## Insight Types
+
+The insights surfaced in a report can be of several types:
+
+| Type | Description |
+|------|-------------|
+| **Anomaly** | An unusual change versus expected behavior |
+| **Opportunity** | A potential area for improvement |
+| **Trend** | A directional change over time |
+| **Alert** | A condition that crossed a defined threshold |
+| **Health** | A check on the overall health of tracking or performance |
+
+## How Reports Are Generated
+
+When you generate a report for a period, LENS:
+
+1. **Analyzes the period's data** across metrics, channels, funnel, and audience.
+2. **Compares to the previous period** (previous week for weekly reports, previous month for monthly reports).
+3. **Surfaces insights**, grouped by severity.
+4. **Writes the executive summary and key takeaways** based on the analysis.
+5. **Proposes action items**, prioritized and assigned to a suggested owner.
+
+## Email Delivery
+
+LENS can deliver a **weekly digest** by email summarizing the week's highlights, concerns, opportunities, and recommended actions. Email is the only delivery channel. See [Email Alerts](./email-alerts) for details and for how to configure recipients in **Settings → LENS**.

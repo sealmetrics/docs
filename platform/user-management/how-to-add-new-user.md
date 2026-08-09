@@ -1,0 +1,46 @@
+---
+title: "How to Invite a Team Member"
+description: "Learn how to invite new team members to your Sealmetrics organization."
+canonical_url: "https://docs.sealmetrics.com/platform/user-management/how-to-add-new-user"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "e6a224fdda59d2f33319b2f8270265c70062087b64da6bb81ab91c68e5dee50f"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/user-management/how-to-add-new-user.mdx"
+publisher: "SealMetrics"
+---
+
+# How to Invite a Team Member
+
+Canonical page: https://docs.sealmetrics.com/platform/user-management/how-to-add-new-user
+
+Owners and Admins can invite new members to the organization at any time.
+
+## Steps
+
+1. In the sidebar, open the **Organization** group and click **Members**
+2. Click **Invite Member**
+3. Enter the person's email address
+4. Choose their organization role:
+   - **Admin** -- manage members and all sites, no billing
+   - **Member** -- access only to assigned sites
+5. If you selected **Member**, select at least one site they should have access to (this is required)
+6. Click **Send Invitation**
+
+To make someone an Owner, invite them as Admin or Member first, then promote them from the Members list (only an existing Owner can do this).
+
+The person will receive an email with a link to accept the invitation. If they do not have a Sealmetrics account yet, they will be asked to create one.
+
+---
+
+## What happens next
+
+- The invitation expires after **7 days**. You can resend it from the Members page.
+- Once the invitation is accepted, the new member gains access immediately.
+- You can change their role or site assignments at any time from the Members page.
+
+---
+
+For a full breakdown of what each role can do, see [Roles & Permissions](./roles-management).

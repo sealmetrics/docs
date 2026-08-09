@@ -1,0 +1,65 @@
+---
+title: "AI Chat Assistant"
+description: "Ask questions about your analytics data and get instant AI-powered answers"
+canonical_url: "https://docs.sealmetrics.com/lens/ai-assistant"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "cbdff68558e654c0d03d1b6a3a53a0509ad838196e1529261413f6758de03c02"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "lens/ai-assistant/index.mdx"
+publisher: "SealMetrics"
+---
+
+# AI Chat Assistant
+
+Canonical page: https://docs.sealmetrics.com/lens/ai-assistant
+
+The LENS AI Chat Assistant lets you ask questions about your analytics data in natural language. Get instant answers, comparisons, and insights without building custom reports.
+
+## How to access
+
+The AI Chat Assistant is available in your dashboard sidebar. Click the LENS icon to open the chat panel.
+
+## What you can ask
+
+The assistant can answer questions about your analytics data, including:
+
+- **Traffic summaries**: "Give me a weekly summary" or "What were my top 5 traffic sources?"
+- **Comparisons**: "Compare this month with last month"
+- **Trend analysis**: "Why did my ROAS drop?" or "What's causing the traffic increase?"
+- **Source analysis**: "Which campaigns are performing best?"
+- **Conversion insights**: "What are my top converting landing pages?"
+
+The assistant replies in Spanish (`es`) or English (`en`). Spanish is the default, and the chat picks the language per conversation.
+
+## How it works
+
+To answer your question, the assistant calls a set of analytics tools against your account data (overview metrics, top sources and pages, conversions, funnels, geography, referrers, real-time and anomaly detection, among others). It selects the right tools for each question, runs them, and composes the answer from the results — so responses are grounded in your actual data rather than generic estimates.
+
+## Response types
+
+The assistant doesn't just return text. A single response can include:
+
+- **Charts**: Line, bar, or pie charts rendered inline from your data
+- **Tables**: Structured data tables with columns and rows
+- **Insights**: AI-generated analysis and recommendations in the text reply
+
+## Sessions
+
+- Conversations are persisted, so you can return to them later
+- Each session stays active with a 4-hour sliding window: every new message extends it another 4 hours, and a session goes inactive after 4 hours without activity
+- You can browse previous conversations in the sidebar
+- Start a new session anytime by clicking "New conversation"
+- You can delete a conversation when you no longer need it
+
+## Choosing the AI provider
+
+The AI Assistant runs on the provider you configure under **My Account → LLM Providers**, in one of two modes:
+
+- **[Seal AI Private](/billing/seal-ai-private)** (default when your plan includes it): managed by Sealmetrics, EU-hosted, no API key. Usage draws from the organization's monthly 5M-token quota plus purchased packs; when it runs out, the chat returns a "token limit reached" message until the reset or a pack purchase.
+- **Bring-your-own-key (BYOK)**: connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key. Questions are billed by that provider and Sealmetrics does not meter them. The chat's provider selector lets you switch to BYOK at any time — including as a fallback when the Seal AI quota is exhausted.
+
+- [Configure your LLM provider →](/platform/settings/llm)
+- [Best practices for better answers →](/lens/ai-assistant/best-practices)

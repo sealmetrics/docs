@@ -1,0 +1,1020 @@
+---
+title: "Organizations"
+description: "Manage organizations, team members, roles, invitations, and site-level access in the SealMetrics multi-tenancy model"
+canonical_url: "https://docs.sealmetrics.com/api/organizations"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "e670899139c8d01d6dea0041b518e02079f80c024080caa242b94515e3bdc04b"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/organizations.mdx"
+publisher: "SealMetrics"
+---
+
+# Organizations
+
+Canonical page: https://docs.sealmetrics.com/api/organizations
+
+Complete reference for managing organizations, team members, site access, and invitations in SealMetrics multi-tenancy system.
+
+## Overview
+
+The Organizations API allows you to:
+
+- Create and manage organizations (workspaces)
+- Invite team members and manage their roles
+- Control site-level access for team members
+- List and manage organization sites
+
+**Base path:** `/organizations`
+
+---
+
+## Understanding Multi-Tenancy
+
+SealMetrics uses a three-level access model:
+
+```
+Users <--M:N--> Organizations <--1:N--> Sites
+```
+
+- **Users** can belong to multiple organizations
+- **Organizations** contain multiple sites (analytics accounts)
+- **Members** have roles that determine their permissions
+
+### Organization Roles
+
+| Role | Sites Access | Member Management | Billing | Org Settings |
+|------|--------------|-------------------|---------|--------------|
+| `owner` | All org sites | Full (add/remove/role change) | Yes | Full (rename, delete) |
+| `admin` | All org sites | Add/remove members (except owners) | No | View only |
+| `member` | Only assigned sites | View only | No | No |
+
+---
+
+## Organization Endpoints
+
+### List Organizations
+
+```http
+GET /organizations
+```
+
+Returns all organizations the current user belongs to.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "organizations": [
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "ACME Corporation",
+        "slug": "acme-corporation",
+        "is_active": true,
+        "member_count": 5,
+        "site_count": 3,
+        "user_role": "owner",
+        "created_at": "2024-01-15T10:00:00Z",
+        "updated_at": "2025-01-08T09:15:00Z"
+      }
+    ],
+    "total": 1,
+    "can_create_org": true
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `can_create_org` | `true` if user can create a new organization |
+| `user_role` | Current user's role in this organization |
+
+---
+
+### Create Organization
+
+```http
+POST /organizations
+```
+
+Creates a new organization. The creator becomes the owner.
+
+**Required scope:** `write`
+
+**Request Body:**
+
+```json
+{
+  "name": "My Company"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Organization name (1-255 chars) |
+
+**Response (201 Created):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "My Company",
+    "slug": "my-company",
+    "is_active": true,
+    "member_count": 1,
+    "site_count": 0,
+    "user_role": "owner",
+    "created_at": "2025-01-10T14:30:00Z",
+    "updated_at": "2025-01-10T14:30:00Z"
+  }
+}
+```
+
+**Note:** The `slug` is auto-generated from the name and used in URLs.
+
+---
+
+### Get Organization
+
+```http
+GET /organizations/{slug}
+```
+
+Returns detailed information about a specific organization.
+
+**Path Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `slug` | string | Organization slug (from URL) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "ACME Corporation",
+    "slug": "acme-corporation",
+    "is_active": true,
+    "member_count": 5,
+    "site_count": 3,
+    "user_role": "admin",
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2025-01-08T09:15:00Z"
+  }
+}
+```
+
+---
+
+### Update Organization
+
+```http
+PATCH /organizations/{slug}
+```
+
+Updates organization settings. Only owners can update.
+
+**Required role:** `owner`
+
+**Request Body:**
+
+```json
+{
+  "name": "ACME Corp (Renamed)"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "ACME Corp (Renamed)",
+    "slug": "acme-corporation",
+    "is_active": true,
+    "member_count": 5,
+    "site_count": 3,
+    "user_role": "owner",
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2025-01-10T15:00:00Z"
+  }
+}
+```
+
+---
+
+### Delete Organization
+
+```http
+DELETE /organizations/{slug}
+```
+
+Soft deletes an organization and all its sites. Requires name confirmation.
+
+**Required role:** `owner`
+
+**Request Body:**
+
+```json
+{
+  "name": "ACME Corporation"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | string | Type the exact organization name to confirm deletion |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Organization deleted successfully"
+  }
+}
+```
+
+**Warning:** This action deactivates the organization and all associated sites. Data is retained but inaccessible.
+
+---
+
+## Member Endpoints
+
+### List Members
+
+```http
+GET /organizations/{slug}/members
+```
+
+Returns all members of the organization.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "members": [
+      {
+        "user_id": 1,
+        "email": "owner@acme.com",
+        "name": "John Owner",
+        "role": "owner",
+        "site_count": 3,
+        "created_at": "2024-01-15T10:00:00Z"
+      },
+      {
+        "user_id": 2,
+        "email": "analyst@acme.com",
+        "name": "Jane Analyst",
+        "role": "member",
+        "site_count": 1,
+        "created_at": "2024-03-20T14:00:00Z"
+      }
+    ],
+    "total": 2
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `site_count` | Number of sites this member has access to |
+
+---
+
+### Add Member
+
+```http
+POST /organizations/{slug}/members
+```
+
+Adds an existing user as a member of the organization.
+
+**Required role:** `admin` or `owner`
+
+**Request Body:**
+
+```json
+{
+  "user_id": 5,
+  "role": "member"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `user_id` | integer | Yes | User ID to add |
+| `role` | enum | No | `owner`, `admin`, or `member` (default: `member`) |
+
+**Response (201 Created):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Member added successfully"
+  }
+}
+```
+
+**Note:** To invite users who don't have an account yet, use the [Invitations API](#invitation-endpoints).
+
+---
+
+### Update Member Role
+
+```http
+PATCH /organizations/{slug}/members/{user_id}
+```
+
+Changes a member's role in the organization.
+
+**Required role:** `admin` or `owner`
+
+**Request Body:**
+
+```json
+{
+  "role": "admin"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Role updated successfully"
+  }
+}
+```
+
+**Restrictions:**
+
+- Admins cannot change owner roles
+- Cannot demote the last owner
+
+---
+
+### Remove Member
+
+```http
+DELETE /organizations/{slug}/members/{user_id}
+```
+
+Removes a member from the organization.
+
+**Required role:** `admin` or `owner`
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Member removed successfully"
+  }
+}
+```
+
+**Restrictions:**
+
+- Cannot remove the last owner
+- Admins cannot remove owners
+
+---
+
+## Organization Sites
+
+### List Organization Sites
+
+```http
+GET /organizations/{slug}/sites
+```
+
+Returns all sites belonging to the organization.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "sites": [
+      {
+        "id": "acme-main",
+        "name": "ACME Main Website",
+        "is_active": true,
+        "timezone": "Europe/Madrid",
+        "currency": "EUR",
+        "created_at": "2024-01-15T10:00:00Z"
+      },
+      {
+        "id": "acme-shop",
+        "name": "ACME E-commerce",
+        "is_active": true,
+        "timezone": "Europe/Madrid",
+        "currency": "EUR",
+        "created_at": "2024-02-01T09:00:00Z"
+      }
+    ],
+    "total": 2
+  }
+}
+```
+
+---
+
+## Member Site Access
+
+Control which sites a member can access. Only applies to members with the `member` role (owners and admins have access to all sites automatically).
+
+### List Member's Sites
+
+```http
+GET /organizations/{slug}/members/{user_id}/sites
+```
+
+Returns sites assigned to a specific member.
+
+**Required role:** `admin` or `owner`
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "sites": [
+      {
+        "id": "acme-main",
+        "name": "ACME Main Website",
+        "has_access": true
+      },
+      {
+        "id": "acme-shop",
+        "name": "ACME E-commerce",
+        "has_access": false
+      }
+    ],
+    "total": 2
+  }
+}
+```
+
+---
+
+### Add Site Access
+
+```http
+POST /organizations/{slug}/members/{user_id}/sites
+```
+
+Grants a member access to one or more sites.
+
+**Required role:** `admin` or `owner`
+
+**Request Body:**
+
+```json
+{
+  "site_ids": ["acme-main", "acme-shop"]
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "added": ["acme-main", "acme-shop"],
+    "already_assigned": [],
+    "invalid": []
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `added` | Sites successfully granted access |
+| `already_assigned` | Sites the member already had access to |
+| `invalid` | Site IDs that don't exist or don't belong to the org |
+
+---
+
+### Remove Site Access
+
+```http
+DELETE /organizations/{slug}/members/{user_id}/sites/{site_id}
+```
+
+Removes a member's access to a specific site.
+
+**Required role:** `admin` or `owner`
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Site access removed successfully"
+  }
+}
+```
+
+---
+
+## Invitation Endpoints
+
+Invitations allow you to add team members who don't have a SealMetrics account yet.
+
+### List Invitations
+
+```http
+GET /organizations/{slug}/invitations
+```
+
+Returns pending invitations for the organization.
+
+**Required role:** `admin` or `owner`
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "invitations": [
+      {
+        "id": 1,
+        "org_id": "550e8400-e29b-41d4-a716-446655440000",
+        "email": "newuser@example.com",
+        "role": "member",
+        "invited_by_name": "John Owner",
+        "is_active": true,
+        "expires_at": "2025-01-17T14:30:00Z",
+        "accepted_at": null,
+        "created_at": "2025-01-10T14:30:00Z"
+      }
+    ],
+    "total": 1
+  }
+}
+```
+
+---
+
+### Send Invitation
+
+```http
+POST /organizations/{slug}/invitations
+```
+
+Sends an email invitation to join the organization.
+
+**Required role:** `admin` or `owner`
+
+**Request Body:**
+
+```json
+{
+  "email": "newuser@example.com",
+  "role": "member",
+  "site_ids": ["acme-main"]
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `email` | string | Yes | Email address to invite |
+| `role` | enum | No | `owner`, `admin`, or `member` (default: `member`) |
+| `site_ids` | string[] | No | Pre-assign sites for `member` role (ignored for owner/admin) |
+
+**Response (201 Created):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "invitation_id": 1,
+    "invitation_link": "https://my.sealmetrics.com/accept-invitation?token=abc123...",
+    "expires_at": "2025-01-17T14:30:00Z"
+  }
+}
+```
+
+**Notes:**
+
+- Invitation expires in 7 days
+- If user already has an account, they can accept while logged in
+- If user is new, they'll create an account during acceptance
+
+---
+
+### Resend Invitation
+
+```http
+POST /organizations/{slug}/invitations/{invitation_id}/resend
+```
+
+Resends the invitation email with a new token.
+
+**Required role:** `admin` or `owner`
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Invitation resent"
+  }
+}
+```
+
+---
+
+### Revoke Invitation
+
+```http
+DELETE /organizations/{slug}/invitations/{invitation_id}
+```
+
+Cancels a pending invitation.
+
+**Required role:** `admin` or `owner`
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Invitation revoked"
+  }
+}
+```
+
+---
+
+## Accept Invitation Endpoints
+
+These endpoints are called when a user clicks the invitation link.
+
+### Accept Invitation (New User)
+
+```http
+POST /invitations/accept
+```
+
+Creates a new account and joins the organization.
+
+**Request Body:**
+
+```json
+{
+  "token": "abc123...",
+  "name": "Jane Doe",
+  "password": "<your_password>"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `token` | string | Yes | Invitation token from the link |
+| `name` | string | Yes | User's full name (1-255 chars) |
+| `password` | string | Yes | Password (min 8 chars) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Invitation accepted",
+    "organization": {
+      "name": "ACME Corporation",
+      "slug": "acme-corporation"
+    }
+  }
+}
+```
+
+---
+
+### Accept Invitation (Existing User)
+
+```http
+POST /invitations/accept-existing
+```
+
+Joins the organization with an existing logged-in account.
+
+**Requires:** Authentication (JWT or API Key)
+
+**Request Body:**
+
+```json
+{
+  "token": "abc123..."
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Invitation accepted",
+    "organization": {
+      "name": "ACME Corporation",
+      "slug": "acme-corporation"
+    }
+  }
+}
+```
+
+---
+
+## Seal AI Usage
+
+For organizations with Seal AI (the platform-provided LLM), you can inspect monthly token usage — quota, consumption, and breakdowns by day / user / site. Counter data only, prompt content is never stored or returned.
+
+### GET /organizations/&#123;slug&#125;/seal-ai/usage
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/organizations/acme/seal-ai/usage?month=2026-07" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+**Query parameters:**
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `month` | string | current UTC month | Format `YYYY-MM`. Must not be in the future (`422` otherwise) |
+
+**Access rules:**
+
+- Endpoint is scoped by org membership (any org member can call it).
+- **Not gated by entitlement.** The response always includes `seal_ai_enabled` and `entitlement_source` so the dashboard can render an appropriate empty state when Seal AI is off.
+- **Role-based redaction inside the service**:
+  - `member` role → org-level aggregates only: the `by_user` and `packs` lists are **empty** (billing information is owner/admin-only); `by_site` only contains sites the caller has access to.
+  - `admin` / `owner` roles → full breakdowns.
+- **Emails are never returned** — user rows carry `user_id` and display `name` only.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "month": "2026-07",
+    "plan_tier": "growth",
+    "quota_tokens": 5000000,
+    "used_tokens": 1240355,
+    "remaining_tokens": 8759645,
+    "used_pct": 12.4,
+    "resets_at": "2026-08-01T00:00:00Z",
+    "seal_ai_enabled": true,
+    "entitlement_source": "addon",
+    "grandfathered_until": null,
+    "pack_purchased_tokens": 5000000,
+    "pack_consumed_tokens": 0,
+    "pack_balance_tokens": 5000000,
+    "effective_quota_tokens": 10000000,
+    "packs": [
+      { "id": 1, "tokens": 5000000, "price_cents": 35880, "currency": "EUR", "purchased_at": "2026-07-10T09:12:00Z" }
+    ],
+    "daily": [
+      { "date": "2026-07-01", "input_tokens": 12000, "output_tokens": 4000, "requests": 18 },
+      { "date": "2026-07-02", "input_tokens": 15200, "output_tokens": 4900, "requests": 22 }
+    ],
+    "by_user": [
+      { "user_id": 42, "name": "Alice", "tokens": 1130000, "requests": 210 }
+    ],
+    "by_site": [
+      { "account_id": "acme", "name": "Acme", "tokens": 840000, "requests": 160 }
+    ]
+  }
+}
+```
+
+**Field notes (PRD-036):**
+
+| Field | Meaning |
+|-------|---------|
+| `quota_tokens` | Flat monthly included quota (5M) |
+| `pack_balance_tokens` | Remaining tokens from purchased [token packs](/billing/seal-ai-private#extra-token-packs) (never expire; consumed after the monthly quota) |
+| `effective_quota_tokens` | `quota_tokens + pack_balance_tokens` — what `remaining_tokens`/`used_pct` are relative to |
+| `entitlement_source` | How the org is entitled: `included_in_plan`, `addon`, `grandfathered`, `billing_disabled`, or `none` |
+| `grandfathered_until` | End date of temporary legacy access, when applicable |
+
+Special values you may see:
+
+| Value | Meaning |
+|-------|---------|
+| `by_user[].user_id == null`, `name == "LENS (automated)"` | Rows generated by LENS automated insights (no user) |
+| `by_site[].account_id == null` | Site was deleted; kept as a bucket so historical totals stay accurate |
+
+---
+
+## Error Codes
+
+| HTTP Code | Error Code | Description |
+|-----------|------------|-------------|
+| 400 | `last_owner` | Cannot remove or demote the last owner |
+| 400 | `confirmation_failed` | Organization name doesn't match for deletion |
+| 403 | `org_creation_not_allowed` | User cannot create more organizations |
+| 403 | `insufficient_permissions` | User's role doesn't allow this action |
+| 404 | `org_not_found` | Organization doesn't exist or user has no access |
+| 404 | `member_not_found` | User is not a member of this organization |
+| 404 | `invitation_not_found` | Invitation doesn't exist or is expired |
+| 409 | `member_already_exists` | User is already a member of this organization |
+| 409 | `user_already_member` | Invited user is already a member |
+
+---
+
+## Code Examples
+
+### Python
+
+```python
+import requests
+
+API_KEY = "sm_your_api_key"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+headers = {"X-API-Key": API_KEY}
+
+# List my organizations
+orgs = requests.get(
+    f"{BASE_URL}/organizations",
+    headers=headers
+).json()["data"]["organizations"]
+
+print(f"My organizations: {[o['name'] for o in orgs]}")
+
+# Create organization
+new_org = requests.post(
+    f"{BASE_URL}/organizations",
+    headers=headers,
+    json={"name": "My New Team"}
+).json()["data"]
+
+print(f"Created org: {new_org['slug']}")
+
+# Invite a team member
+invitation = requests.post(
+    f"{BASE_URL}/organizations/{new_org['slug']}/invitations",
+    headers=headers,
+    json={
+        "email": "colleague@example.com",
+        "role": "member",
+        "site_ids": ["my-website"]
+    }
+).json()["data"]
+
+print(f"Invitation link: {invitation['invitation_link']}")
+
+# List members
+members = requests.get(
+    f"{BASE_URL}/organizations/{new_org['slug']}/members",
+    headers=headers
+).json()["data"]["members"]
+
+for member in members:
+    print(f"  {member['name']} ({member['role']})")
+```
+
+### JavaScript
+
+```javascript
+const API_KEY = 'sm_your_api_key';
+const BASE_URL = 'https://my.sealmetrics.com/api/v1';
+
+const headers = {
+  'X-API-Key': API_KEY,
+  'Content-Type': 'application/json'
+};
+
+// List my organizations
+const orgsResponse = await fetch(`${BASE_URL}/organizations`, { headers });
+const { data: { organizations } } = await orgsResponse.json();
+console.log('My orgs:', organizations.map(o => o.name));
+
+// Create organization
+const createResponse = await fetch(`${BASE_URL}/organizations`, {
+  method: 'POST',
+  headers,
+  body: JSON.stringify({ name: 'My New Team' })
+});
+const { data: newOrg } = await createResponse.json();
+console.log(`Created: ${newOrg.slug}`);
+
+// Invite team member with pre-assigned sites
+const inviteResponse = await fetch(
+  `${BASE_URL}/organizations/${newOrg.slug}/invitations`,
+  {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      email: 'colleague@example.com',
+      role: 'member',
+      site_ids: ['my-website', 'my-blog']
+    })
+  }
+);
+const { data: invitation } = await inviteResponse.json();
+console.log(`Invitation sent! Link: ${invitation.invitation_link}`);
+
+// Grant site access to existing member
+await fetch(
+  `${BASE_URL}/organizations/${newOrg.slug}/members/123/sites`,
+  {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ site_ids: ['new-site'] })
+  }
+);
+```
+
+### PHP
+
+```php
+<?php
+$apiKey = 'sm_your_api_key';
+$baseUrl = 'https://my.sealmetrics.com/api/v1';
+
+$headers = [
+    'X-API-Key: ' . $apiKey,
+    'Content-Type: application/json'
+];
+
+// Create organization
+$ch = curl_init("$baseUrl/organizations");
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+    'name' => 'My Company'
+]));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = json_decode(curl_exec($ch), true);
+$org = $response['data'];
+curl_close($ch);
+
+echo "Created organization: " . $org['slug'] . "\n";
+
+// Invite member
+$ch = curl_init("$baseUrl/organizations/{$org['slug']}/invitations");
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+    'email' => 'team@example.com',
+    'role' => 'admin'
+]));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = json_decode(curl_exec($ch), true);
+curl_close($ch);
+
+echo "Invitation link: " . $response['data']['invitation_link'] . "\n";
+?>
+```
+
+---
+
+## Best Practices
+
+### Team Structure
+
+1. **Keep one owner per organization** - Designate a primary account owner
+2. **Use admin role sparingly** - Admins can manage all members and sites
+3. **Assign specific sites to members** - Use `site_ids` when inviting members
+
+### Invitation Workflow
+
+1. Always pre-assign sites when inviting with `member` role
+2. Invitations expire in 7 days - resend if needed
+3. Check `can_create_org` before showing "Create Organization" UI
+
+### Security
+
+- Revoke access immediately when team members leave
+- Periodically audit member list and site access
+- Use the audit logs to track changes (see [Audit Log](/platform/settings/advanced/audit-log))

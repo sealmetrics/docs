@@ -1,0 +1,192 @@
+---
+title: "PrestaShop"
+description: "Privacy-first, cookieless analytics for PrestaShop 1.7+ and 8.x stores"
+canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/prestashop"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "a952d673b638a1cdd59ce73c26762e824f283eae5c97aeda5e820acd100c826b"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/ecommerce/prestashop.mdx"
+publisher: "SealMetrics"
+---
+
+# PrestaShop
+
+Canonical page: https://docs.sealmetrics.com/integrations/ecommerce/prestashop
+
+Privacy-first, cookieless analytics for PrestaShop 1.7+ and 8.x stores.
+
+## Requirements
+
+- PrestaShop 1.7.0+ or 8.x
+- PHP 7.2+
+
+## Installation
+
+1. Download `sealmetrics-prestashop.zip`
+2. Go to **PrestaShop Admin > Modules > Module Manager**
+3. Click **Upload a module**
+4. Upload the ZIP file
+5. Click **Configure** to enter your Account ID
+
+## Configuration
+
+| Setting | Description |
+|---------|-------------|
+| **Account ID** | Your SealMetrics Account ID (required) |
+| **Pixel URL** | Custom pixel domain (optional) |
+
+## Tracked Events
+
+### Automatic Events
+
+| Event | Type | When |
+|-------|------|------|
+| `pageview` | Auto | All pages with content grouping |
+
+### E-commerce Events
+
+| Event | Type | Properties |
+|-------|------|------------|
+| `view_item` | Micro | product_name, product_id, sku, price, currency, category, brand |
+| `add_to_cart` | Micro | product_name, product_id, price, quantity, currency |
+| `begin_checkout` | Micro | cart_total, currency, items_count |
+| `purchase` | Conversion | revenue, currency, payment_method, coupon, items array |
+
+## Content Groups
+
+Automatic detection based on PrestaShop controller:
+
+| Controller | Group |
+|------------|-------|
+| `index` | `home` |
+| `product` | `product` |
+| `category` | `catalog` |
+| `cart` | `cart` |
+| `order` / `checkout` | `checkout` |
+| `orderconfirmation` | `thankyou` |
+| `cms` | `page` |
+| `contact` | `contact` |
+| `search` | `search` |
+| `manufacturer` | `brand` |
+| `myaccount` / `identity` / `addresses` / `history` | `account` |
+
+## Features
+
+### Product Tracking
+
+Full product data on product pages:
+
+```javascript
+sealmetrics.micro('view_item', {
+  product_name: 'T-Shirt Premium',
+  product_id: '123',
+  sku: 'TSHIRT-001',
+  price: '29.99',
+  currency: 'EUR',
+  category: 'Clothing',
+  brand: 'Brand Name'
+});
+```
+
+### Add to Cart
+
+Uses PrestaShop's native `prestashop.on('updateCart')` event:
+
+```javascript
+sealmetrics.micro('add_to_cart', {
+  product_id: '123',
+  product_name: 'T-Shirt Premium',
+  price: '29.99',
+  quantity: '2',
+  currency: 'EUR'
+});
+```
+
+### Purchase Tracking
+
+Complete order data on confirmation:
+
+```javascript
+sealmetrics.conv('purchase', 89.97, {
+  currency: 'EUR',
+  payment_method: 'PayPal',
+  coupon: 'WELCOME10',
+  items: [
+    {
+      product_name: 'T-Shirt Premium',
+      product_id: '123',
+      sku: 'TSHIRT-001',
+      price: '29.99',
+      quantity: '3',
+      category: 'Clothing',
+      brand: 'Brand Name',
+      size: 'L',
+      color: 'Blue'
+    }
+  ]
+});
+```
+
+### Variation Attributes
+
+Product combinations are tracked with their attributes:
+- Size, Color, Material, etc.
+- All combination-specific attributes captured
+
+### Multi-language Support
+
+Works with all PrestaShop languages:
+- Product names in current language
+- Category names localized
+- Manufacturer names
+
+## Hooks Used
+
+| Hook | Purpose |
+|------|---------|
+| `displayHeader` | Inject tracker script |
+| `displayOrderConfirmation` | Track purchase conversion |
+
+## Duplicate Prevention
+
+- Order tracking stored in configuration
+- Prevents duplicate conversions on page refresh
+
+## Privacy
+
+- No cookies used
+- No order IDs stored externally
+- No customer data collected
+- GDPR compliant by design
+- No consent banner needed
+
+## Troubleshooting
+
+### Module not appearing
+
+1. Clear PrestaShop cache
+2. Check module folder permissions
+3. Verify PHP version compatibility
+
+### Tracker not loading
+
+1. Check Account ID is configured
+2. Clear browser cache
+3. Check for JavaScript errors
+
+### Purchases not tracking
+
+1. Verify order confirmation page loads
+2. Check hook is registered
+3. Test with default theme
+
+## Related documentation
+
+- [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads.
+- [E-commerce Conversion Tracking](/implementation/ecommerce-conversion-tracking) — the concepts behind the product, cart, and purchase events this module fires.
+- [Magento 2](/integrations/ecommerce/magento) — a sibling self-hosted store integration.
+- [OpenCart](/integrations/ecommerce/opencart) — another self-hosted store integration.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

@@ -1,0 +1,128 @@
+---
+title: "Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?"
+description: "Learn how Sealmetrics ensures full compliance with GDPR, ePrivacy, CCPA, PECR, and global privacy regulations through its privacy-first, isolated-hit architecture."
+canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/is-sealmetrics-privacy-compliant"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "9fbc22bbcd9a0847b3cc89858e7aa70ef4cb00d039d95d4c835d8bb1a80cf3df"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "compliance/compliance-overview/is-sealmetrics-privacy-compliant.mdx"
+publisher: "SealMetrics"
+---
+
+# Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?
+
+Canonical page: https://docs.sealmetrics.com/compliance/compliance-overview/is-sealmetrics-privacy-compliant
+
+Yes — **Sealmetrics is fully compliant** with the strictest global privacy regulations, including:
+
+- **GDPR** (European Union)
+- **ePrivacy Directive** (EU)
+- **CCPA** (California Consumer Privacy Act)
+- **PECR** (UK Privacy and Electronic Communications Regulations)
+
+Sealmetrics achieves this by operating on a **privacy-first, cookieless, consentless measurement model** based entirely on **isolated hits**.
+
+---
+
+## 1. European Infrastructure & Legal Alignment
+
+Sealmetrics is a **European company**, and:
+
+- All servers are located in **Dublin, Ireland**
+- All data is processed within the **EU**
+- No personal data is transferred outside the EU
+- Operations comply with GDPR’s strict data handling requirements
+
+This ensures full alignment with EU data protection laws.
+
+---
+
+## 2. Compliant by Design: No Personal Data, No Tracking
+
+Sealmetrics does **not**:
+
+- Track individual users
+- Correlate hits across time
+- Build user profiles
+- Use cookies, localStorage, fingerprinting, or identifiers
+- Insert any tracking code in the user’s terminal beyond the measurement script
+
+This architectural model ensures there is **no processing of personal data**, eliminating the need for cookie banners or consent.
+
+---
+
+## 3. Based on “Isolated Hits” — No User Tracking
+
+Sealmetrics does not track sessions or users.
+Instead, it measures **isolated page views (hits)** that are *never linked together*.
+
+### For each hit, Sealmetrics collects only four variables:
+
+1. **Timestamp**
+2. **User Agent** *(stored 24 months for anonymous device classification — never linked to a person)*
+3. **Current URL**
+4. **Referral URL**
+
+These four elements allow meaningful analytics, but **do not enable any type of identification or re-identification**, keeping the process fully anonymous and compliant.
+
+---
+
+## 4. ePrivacy Directive Interpretation
+
+Sealmetrics follows a strict privacy interpretation:
+
+> **Tracking individual users without consent is not permissible — even anonymously — under the ePrivacy Directive.**
+
+Because Sealmetrics never tracks individuals and never correlates hits, measurement remains fully compliant without needing consent.
+
+This makes Sealmetrics one of the only analytics platforms capable of providing **cookieless and consentless analytics** that still offer valuable insights.
+
+---
+
+## 5. Compliance With Global Privacy Regulations
+
+### GDPR
+✔ No personal data collected
+✔ No identifiers
+✔ No consent required
+✔ EU-based processing
+
+### ePrivacy Directive
+✔ No individual user tracking
+✔ No session reconstruction
+✔ No device-level identifiers
+
+### CCPA
+✔ No personal information collected
+✔ No user profiling
+✔ No cross-site tracking
+
+### PECR
+✔ No cookies or terminal identifiers
+✔ No persistent technology used
+
+---
+
+## Conclusion
+
+Sealmetrics is **GDPR, ePrivacy, CCPA, and PECR compliant by design**, thanks to its strict privacy-first architecture:
+
+- 0 personal data
+- 0 cookies
+- 0 user identifiers
+- 100% anonymous isolated hits
+
+This enables marketers and analysts to access reliable, actionable analytics **without compromising user privacy or requiring consent banners**.
+
+If quieres que prepare el siguiente artículo legal, envíamelo y lo transformo al mismo formato.
+
+## Related documentation
+
+- [Does SealMetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) — the French consent-exemption criteria in detail.
+- [Legal FAQ — Sealmetrics Compliance Questions](/compliance/compliance-overview/legal-faq) — audits, DPIA, data processing, and retention questions.
+- [UK PECR Self-Assessment: Sealmetrics Compliance](/compliance/uk-pecr-self-assessment) — the UK analytics exemption under DUAA 2025.
+- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the GDPR reasoning behind the isolated-hit model.
+- [What We Track vs What We Don’t](/security-privacy/what-we-track) — the four variables Sealmetrics records and nothing more.

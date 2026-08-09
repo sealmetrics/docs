@@ -1,0 +1,48 @@
+---
+title: "Legal & Compliance"
+description: "GDPR, CNIL, UK PECR, and ePrivacy compliance for consentless analytics — legitimate interest under Article 6(1)(f), legal basis, and audit-ready documentation."
+canonical_url: "https://docs.sealmetrics.com/compliance"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "596c9124454fbd1d0ba12ee9c88d4c0403d0fefedad594ecc5327f4d49a35b33"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "compliance/index.mdx"
+publisher: "SealMetrics"
+---
+
+# Legal & Compliance
+
+Canonical page: https://docs.sealmetrics.com/compliance
+
+Learn how Sealmetrics ensures GDPR, CNIL, UK PECR, and ePrivacy compliance while enabling consentless analytics. This section provides comprehensive legal documentation for implementing privacy-first web analytics in the European Union, United Kingdom, and beyond.
+
+Understanding the legal framework behind consentless analytics is essential for making informed decisions about your analytics stack. We explain the regulatory foundations, legitimate interest basis under GDPR Article 6(1)(f), and how our approach aligns with guidance from privacy authorities like CNIL, ensuring you can track visitors legally without cookie banners or consent management platforms.
+
+## Available Documentation
+
+### Core Compliance Guides
+
+- [Compliance Overview](/compliance/compliance-overview) - How Sealmetrics meets privacy regulations and ensures legal compliance
+- [**CNIL Self-Assessment**](/compliance/cnil-self-assessment) - Official auto-evaluation against CNIL's 14 criteria for consent exemption
+- [**UK PECR Self-Assessment**](/compliance/uk-pecr-self-assessment) - Official auto-evaluation against UK PECR analytics exemption under DUAA 2025
+- [**Germany TDDDG Self-Assessment**](/compliance/germany-ttdsg-self-assessment) - Auto-evaluation against §25 TDDDG (formerly TTDSG): no cookies, no terminal storage access
+- [**Italy Garante Self-Assessment**](/compliance/italy-garante-self-assessment) - Auto-evaluation against the Garante's cookie guidelines and analytics decisions
+- [**Switzerland FADP Self-Assessment**](/compliance/switzerland-fadp-self-assessment) - Auto-evaluation against the revised Swiss FADP (nFADP): no personal data, no non-adequate transfers
+- [GDPR and ePrivacy](/legal/gdpr-and-eprivacy) - Detailed analysis of EU privacy laws and session-based tracking requirements
+- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) - How cookieless analytics comply with GDPR using legitimate interest
+- [Analytics Cookies: Consent Exemption](/compliance/analytics-cookies-exemption) - AEPD and EU DPA requirements for analytics without consent
+
+### Data Processing Transparency
+
+- [Subprocessors](/compliance/subprocessors) - Who touches what data, where — and why customer analytics data never leaves the EU
+- [Data Subject Rights (DSAR)](/compliance/data-subject-rights) - How visitor and account-holder rights requests work with identifier-free analytics
+
+### EU Digital Omnibus Regulation
+
+- [EU Digital Omnibus Overview](/compliance/omnibus) - Complete guide to the Digital Omnibus (COM(2025) 837)
+- [Cookie Consent Reform](/compliance/omnibus/cookies-eprivacy) - Articles 88a/88b and the end of cookie banner fatigue
+- [Impact on Web Analytics](/compliance/omnibus/impact-analytics) - How the Omnibus affects analytics providers and tracking
+- [GDPR Amendments](/compliance/omnibus/gdpr-changes) - Personal data definition, AI processing, breach notifications
+- [View All Omnibus Documentation →](/compliance/omnibus)

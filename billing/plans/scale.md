@@ -1,0 +1,118 @@
+---
+title: "Scale Plan"
+description: "Everything included in the Sealmetrics Scale plan for multi-brand retailers and larger organizations."
+canonical_url: "https://docs.sealmetrics.com/billing/plans/scale"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "b17af190f5f440983ef41e365b22b0e479f5d23e457d0ee5ac0cb5807e867bfc"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "billing/plans/scale.mdx"
+publisher: "SealMetrics"
+---
+
+# Scale Plan
+
+Canonical page: https://docs.sealmetrics.com/billing/plans/scale
+
+The Scale plan is designed for multi-brand retailers and larger organizations that need webhooks, audit logs, and higher event volumes. This is our most popular plan.
+
+## Pricing
+
+| Billing | Price | Per Month |
+|---------|-------|-----------|
+| Monthly | €1,079/month | €1,079 |
+| Annual | €10,788/year | €899 (2 months free) |
+
+## What's Included
+
+### Events & Tracking
+
+| Feature | Included |
+|---------|----------|
+| Monthly events | 15,000,000 |
+| Websites | Unlimited |
+| Data retention | 24 months |
+| First-party tracking | Yes |
+| Cookie-free mode | Yes |
+| Bot filtering | Yes |
+| Agent AI Analytics | Coming soon |
+| Real-time data | Typically < 2 min |
+| Data complete before 6 AM | Yes (SLA) |
+
+### Users & Access
+
+| Feature | Included |
+|---------|----------|
+| Team members | Unlimited |
+| Full API access | Yes |
+| API rate limit | 480 req/min |
+| Dashboard access | Full |
+| Advanced RBAC | Yes |
+| Audit logs | Yes |
+| Multi-site portfolio | Yes |
+
+### LENS AI
+
+| Feature | Included |
+|---------|----------|
+| LENS Chat | Yes |
+| LENS Reports | Yes |
+| LENS Insights (rule-based detection) | Coming soon |
+| AI with your own key (BYOK) | Yes — unmetered, billed by your provider |
+| [Seal AI Private](/billing/seal-ai-private) | **Included** (5M tokens/month, EU-hosted, no API key needed) |
+
+### Integrations
+
+| Feature | Included |
+|---------|----------|
+| All Growth integrations | Yes |
+| BigQuery export | Yes |
+| CSV/JSON export | Yes |
+| MCP Server | Yes |
+| Webhooks | Yes |
+
+### Support
+
+| Feature | Included |
+|---------|----------|
+| Email support | Yes |
+| Chat support | Yes |
+| Priority support | Yes |
+| 1 onboarding session | Yes |
+| SLA | 99.5% uptime |
+
+## Event Limits
+
+No overage charges. Your monthly price is fixed at €1,079 (or €899 annual). If you exceed your 15M event limit for 2 consecutive months, we'll notify you to discuss moving to Enterprise — this change is not automatic.
+
+One free overage month per year is included. Annual plans absorb mid-year overages until renewal.
+
+## Ideal For
+
+- Multi-brand retailers
+- Businesses with 5M-15M monthly events
+- Teams needing webhooks and audit logs
+- Teams requiring advanced role-based access control
+
+## Compared to Growth
+
+| Feature | Growth | Scale |
+|---------|:------:|:-----:|
+| Monthly events | 5M | **15M** |
+| Webhooks | - | **Yes** |
+| Audit logs | - | **Yes** |
+| Advanced RBAC | - | **Yes** |
+| API rate limit | 240/min | **480/min** |
+| [Seal AI Private](/billing/seal-ai-private) | Paid add-on | **Included** |
+| Priority support | - | **Yes** |
+| Onboarding | - | **1 session** |
+| Uptime SLA | 99% | **99.5%** |
+
+## Getting Started
+
+1. **Sign up** or **upgrade** from Growth
+2. Start your **14-day free trial** (you're not charged until the trial ends)
+3. Configure webhooks and audit logs
+4. Set up advanced roles for your team

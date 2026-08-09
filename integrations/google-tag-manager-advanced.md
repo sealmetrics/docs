@@ -1,0 +1,362 @@
+---
+title: "Advanced GTM Integration"
+description: "Decouple Sealmetrics library load from the initial pageview using ?auto=0 and the buffer stub. Pass dynamic content grouping from the dataLayer without losing hits or sending duplicates."
+canonical_url: "https://docs.sealmetrics.com/integrations/google-tag-manager-advanced"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "2c17bd896575555f50f1a925b5eb4d29be7cd56dbf97a5a34ab033b06ad87609"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/google-tag-manager-advanced.mdx"
+publisher: "SealMetrics"
+---
+
+# Advanced GTM Integration
+
+Canonical page: https://docs.sealmetrics.com/integrations/google-tag-manager-advanced
+
+By default, the Sealmetrics tracker fires the initial pageview as soon as the script finishes loading. For most sites that is exactly what you want, and the [no-code GTM Template](./google-tag-manager) is the recommended path.
+
+This guide is for a different scenario: **you need to pass dynamic values to the initial pageview** — typically a `content_grouping` derived from `dataLayer` variables — without losing hits and without sending duplicates.
+
+To support this, Sealmetrics exposes two opt-in features that work together:
+
+| Feature | What it does |
+|---|---|
+| **`?auto=0`** | Loads the library without firing the automatic initial pageview. You decide when to fire it and with what payload. |
+| **Buffer stub** | A small inline snippet that queues calls to `sealmetrics(...)` made **before** the library finishes loading, so none are lost. |
+
+If you don't need dynamic values on the first pageview, stick with the standard install — nothing in this guide is required.
+
+---
+
+## When to use this guide
+
+Use the advanced pattern if **any** of the following applies:
+
+- You need the first pageview to carry a `content_grouping` that lives in the `dataLayer` (page type, section, vertical, etc.).
+- You fire conversions or microconversions from above-the-fold elements (CTAs, hero buttons) that a user could click before the tracker finishes downloading.
+- Your team owns the GTM container but not the site HTML, and you need a workaround for the timing window between requesting the script and the browser executing it.
+
+If none of these apply, the [standard template installation](./google-tag-manager) is simpler and equally accurate.
+
+---
+
+## Standard install (recap)
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+This handles everything automatically: it loads the library, fires the pageview, and detects SPA navigation. No additional setup needed.
+
+---
+
+## Manual mode: `?auto=0`
+
+Append `&auto=0` to the script URL so the tracker loads but **does not** fire the initial pageview:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0" defer></script>
+```
+
+When `?auto=0` is set:
+
+- `window.sealmetrics` is exposed exactly as in the default mode.
+- The initial pageview is **not** sent. You fire it yourself with `sealmetrics({ group: '...' })`.
+- SPA navigation detection (pushState, replaceState, popstate) **remains active** — only the first pageview is skipped.
+- `sealmetrics.conv()` and `sealmetrics.micro()` work exactly as before.
+
+Any other value of `auto` (`auto=1`, `auto=foo`, or no `auto` at all) keeps the default behaviour.
+
+---
+
+## Buffer stub
+
+When you load the tracker with `async` or through a tag manager, there is a window between requesting the script and the browser executing it. If a user clicks a button during that window and you call `sealmetrics(...)`, the call is lost silently because `window.sealmetrics` does not exist yet.
+
+The **buffer stub** solves this. It is a one-line snippet placed in `<head>` **before** the tracker loads. It accepts calls and stores them in an internal queue; when the real library loads, it drains the queue in FIFO order.
+
+```html
+<script>
+!function(w){w.sealmetrics=w.sealmetrics||function(){(w.sealmetrics.q=w.sealmetrics.q||[]).push(['pv',arguments])};w.sealmetrics.q=w.sealmetrics.q||[];w.sealmetrics.conv=w.sealmetrics.conv||function(){w.sealmetrics.q.push(['cv',arguments])};w.sealmetrics.micro=w.sealmetrics.micro||function(){w.sealmetrics.q.push(['mc',arguments])}}(window);
+</script>
+```
+
+Properties of the stub:
+
+- **About 180 bytes gzipped.** No measurable impact on page performance.
+- **Idempotent.** If injected twice, the second injection is a no-op.
+- **Three entry points** — `sealmetrics`, `sealmetrics.conv`, `sealmetrics.micro` — matching the real library's API.
+
+### Readable version (equivalent to the minified snippet above)
+
+```javascript
+(function (w) {
+  w.sealmetrics = w.sealmetrics || function () {
+    (w.sealmetrics.q = w.sealmetrics.q || []).push(['pv', arguments]);
+  };
+  w.sealmetrics.q = w.sealmetrics.q || [];
+  w.sealmetrics.conv = w.sealmetrics.conv || function () {
+    w.sealmetrics.q.push(['cv', arguments]);
+  };
+  w.sealmetrics.micro = w.sealmetrics.micro || function () {
+    w.sealmetrics.q.push(['mc', arguments]);
+  };
+})(window);
+```
+
+### Where to place the stub
+
+| Location | Recommendation |
+|---|---|
+| **Inline in `<head>`** (a `<script>` block directly in your HTML) | **Recommended.** Runs before anything else and offers maximum reliability. |
+| Tag inside GTM with `Initialization` trigger | **Fully supported.** Available a few milliseconds later than inline (when GTM boots). If you cannot edit the site's `<head>`, use the "Stub + Loader" variant below — it is the canonical pattern adapted to live entirely inside GTM. |
+
+---
+
+## Canonical GTM pattern
+
+This is the recommended setup when you need a dynamic `content_grouping` on the first pageview. It combines the **stub** + **`?auto=0`** + a tag that fires the pageview manually once the `dataLayer` is ready.
+
+### Step 1 — Inline stub in `<head>` (in your site HTML)
+
+```html
+<script>
+!function(w){w.sealmetrics=w.sealmetrics||function(){(w.sealmetrics.q=w.sealmetrics.q||[]).push(['pv',arguments])};w.sealmetrics.q=w.sealmetrics.q||[];w.sealmetrics.conv=w.sealmetrics.conv||function(){w.sealmetrics.q.push(['cv',arguments])};w.sealmetrics.micro=w.sealmetrics.micro||function(){w.sealmetrics.q.push(['mc',arguments])}}(window);
+</script>
+```
+
+### Step 2 — GTM Tag "Sealmetrics — Load library" (trigger: `Initialization`)
+
+```javascript
+(function () {
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://t.sealmetrics.com/t.js?id={{ACCOUNT_ID}}&auto=0';
+  document.head.appendChild(s);
+})();
+```
+
+Replace `{{ACCOUNT_ID}}` with a GTM Constant Variable holding your Sealmetrics Account ID.
+
+### Step 3 — GTM Tag "Sealmetrics — Pageview" (trigger: your dataLayer-ready event)
+
+```javascript
+sealmetrics({ group: {{dlv.content_grouping}} });
+```
+
+`{{dlv.content_grouping}}` is a GTM Data Layer Variable that reads your `content_grouping` key. Replace it with whatever variable holds the grouping you want to attribute.
+
+### How it works
+
+- The stub defines `window.sealmetrics` from the very first millisecond of the page.
+- Step 2 starts the tracker download asynchronously — it does not block rendering.
+- Step 3 can fire **before or after** Step 2 finishes. If the stub is in place, the call is queued; if the library is already loaded, it executes immediately. **Order does not matter.**
+- When the tracker finishes loading, it drains the queue (1 pageview with the correct grouping) and does **not** fire its automatic pageview (because `?auto=0` is set).
+- Result: **exactly one pageview** per page load, with the correct grouping, regardless of which tag arrives first.
+
+---
+
+## Variant: stub inside GTM (when you cannot edit the HTML)
+
+If your team owns the GTM container but not the `<head>` of the site's HTML, you can keep the **same canonical behaviour** by combining the stub and the loader into a single GTM tag. This is the recommended option when inline HTML editing is not possible — it is, in fact, the exact pattern used by the Sealmetrics marketing site (`sealmetrics.com`).
+
+### Step 1 — GTM Tag "Sealmetrics — Stub + Loader" (trigger: `Initialization`)
+
+Create a **Custom HTML** tag with the following content:
+
+```html
+<script>
+(function (w, d) {
+  // 1. Buffer stub — defines window.sealmetrics synchronously
+  w.sealmetrics = w.sealmetrics || function () {
+    (w.sealmetrics.q = w.sealmetrics.q || []).push(['pv', arguments]);
+  };
+  w.sealmetrics.q = w.sealmetrics.q || [];
+  w.sealmetrics.conv = w.sealmetrics.conv || function () {
+    w.sealmetrics.q.push(['cv', arguments]);
+  };
+  w.sealmetrics.micro = w.sealmetrics.micro || function () {
+    w.sealmetrics.q.push(['mc', arguments]);
+  };
+  // 2. Load the tracker in manual mode
+  var s = d.createElement('script');
+  s.async = true;
+  s.src = 'https://t.sealmetrics.com/t.js?id={{ACCOUNT_ID}}&auto=0';
+  d.head.appendChild(s);
+})(window, document);
+</script>
+```
+
+Trigger: **Initialization — All Pages** (event `gtm.init`).
+
+### Step 2 — GTM Tag "Sealmetrics — Pageview" (trigger: `All Pages` or your dataLayer-ready event)
+
+```javascript
+sealmetrics({ group: {{dlv.content_grouping}} });
+```
+
+### How it works
+
+- `Initialization` is the earliest event in the GTM lifecycle — it fires before any other tag. The stub is defined **synchronously** inside that tag, so any subsequent tag that calls `sealmetrics(...)` already finds the stub in place.
+- The tracker download starts immediately (`async`, non-blocking).
+- The pageview tag runs after that. By then, either the real library has already loaded (the call goes straight to its API) or it hasn't yet (the stub queues it, and the library drains the queue once it finishes loading). **Order does not matter.**
+- Result: the same guarantees as the canonical pattern with the inline `<head>` stub — exactly one pageview with the correct grouping — **without touching the site's HTML**.
+
+### Trade-off vs the inline `<head>` stub
+
+- The stub becomes available a few milliseconds later, when GTM boots and fires `Initialization`, instead of at HTML parse time. In practice this window is invisible: no real user clicks a CTA in the first few milliseconds of page load.
+- If the GTM container itself is delayed — uncommon, but possible with some consent management platforms that gate GTM behind a banner click — the stub is delayed with it. The inline `<head>` variant is immune to that.
+
+**Which to choose:**
+
+- If you **can** edit the HTML, prefer the canonical pattern with the inline `<head>` stub (slightly more robust against container-loading delays).
+- If you **cannot**, this fully in-GTM variant is completely functional and matches the canonical pattern's guarantees.
+
+---
+
+## Alternative without the stub
+
+If you cannot inject inline code into your site's HTML, you can achieve a similar result with `?auto=0` plus a custom event. The trade-off is described below.
+
+### GTM Tag 1 — load library and announce when ready
+
+```javascript
+(function () {
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://t.sealmetrics.com/t.js?id={{ACCOUNT_ID}}&auto=0';
+  s.onload = function () {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'sealmetrics_loaded' });
+  };
+  document.head.appendChild(s);
+})();
+```
+
+### GTM Tag 2 — fire pageview (trigger: Custom Event `sealmetrics_loaded`)
+
+```javascript
+sealmetrics({ group: {{dlv.content_grouping}} });
+```
+
+**Limitation.** If the user leaves the page before `s.onload` fires, the pageview is lost. The canonical pattern with the stub does not have this problem because the queue lives in memory the moment the page starts parsing.
+
+---
+
+## Anti-pattern: stub without `?auto=0`
+
+If you install the stub but **forget** to add `?auto=0` to the tracker URL:
+
+- Your code queues a pageview, e.g. `sealmetrics({ group: 'checkout' })`.
+- The tracker loads, drains the queue → fires 1 pageview.
+- The tracker also fires its automatic pageview → fires another pageview.
+- **Result: 2 pageviews per session** (duplicates).
+
+**Rule of thumb.** If you queue pageviews in the stub, always pair it with `?auto=0`.
+
+If you only queue `conv()` or `micro()` calls (no pageviews), you can skip `?auto=0` — the tracker's automatic pageview is what you want in that case.
+
+---
+
+## API reference
+
+```javascript
+// Pageview using the grouping from the query string (?group=...)
+sealmetrics();
+
+// Pageview with an explicit grouping override
+sealmetrics({ group: 'checkout' });
+
+// Conversion with a monetary value
+sealmetrics.conv('purchase', 89.99);
+
+// Conversion with custom properties
+sealmetrics.conv('purchase', 89.99, {
+  currency: 'EUR',
+  brand: 'Nike',
+  model: 'Air Max 90'
+});
+
+// Microconversion (funnel step, engagement)
+sealmetrics.micro('add_to_cart');
+sealmetrics.micro('add_to_cart', { product_id: 'SKU-123' });
+```
+
+The three entry points (`sealmetrics`, `sealmetrics.conv`, `sealmetrics.micro`) are available both in the stub and in the real library, with the same signatures.
+
+---
+
+## Single Page Applications (SPAs)
+
+This section applies if your site is **Next.js, Nuxt, React Router, Vue Router, Angular**, or any framework where clicking a link **does not reload the HTML** — only the route changes via `pushState`.
+
+In a SPA, the behaviour of each event depends on **who** fires it:
+
+| Event | Who fires it | Correct `group` in a SPA? |
+|---|---|---|
+| **First pageview** (initial load) | GTM (tag with `Initialization` trigger) | Yes — GTM runs, computes `group`, and passes it through |
+| **SPA navigation pageview** (`pushState`) | The **tracker** internally | No — the tracker does not go through GTM, so it emits the pageview without your `group` logic |
+| **Conversion** (`sealmetrics.conv(...)`) | Your code (a GTM tag, button handler, etc.) | Yes — URL and properties are captured correctly |
+| **Microconversion** (`sealmetrics.micro(...)`) | Your code | Yes — same guarantees as conversion |
+
+### What this means in practice
+
+**Conversions and microconversions work fully in SPAs.** You can queue them early through the stub, fire them from GTM, attach dynamic properties — all of it captured correctly. The URL (`u`) attached to each event always reflects the current route.
+
+**The only caveat is `group` on SPA navigation pageviews.** If your site is a SPA and you want to attribute a `content_grouping` to every pageview, you have three options today:
+
+1. **Site-wide fixed grouping** (simplest). Add `?group=my-site` to the script URL. Every pageview — initial and SPA — will carry that same grouping. Limitation: a single value for the whole site, not per route.
+
+2. **Accept the trade-off.** Use the canonical pattern (`stub + ?auto=0`). The first pageview carries the correct grouping; SPA navigation pageviews will appear as `(not set)` in the dashboard. Acceptable when most of your traffic enters directly (organic, social, paid landing pages).
+
+3. **Wait for `?auto=manual`** *(on the roadmap)*. A mode where the tracker fires no automatic pageview — initial or SPA — leaving full control to the client. Combined with a GTM `History Change` trigger, it allows dynamic per-route grouping with no duplicates.
+
+### Summary for SPAs
+
+- If you only care about **conversions, microconversions, and custom events**, the canonical pattern (`stub + ?auto=0`) covers everything without limitations.
+- If you also need **per-route pageview grouping**, use `?group=X` with a fixed value today, or wait for `?auto=manual` for dynamic per-route grouping.
+
+---
+
+## Choosing the right setup
+
+| Your situation | Recommended setup |
+|---|---|
+| Multi-page site, no advanced GTM needs | Standard install (no `auto`, no stub) — see the [GTM Template guide](./google-tag-manager) |
+| Multi-page site with `content_grouping` from `dataLayer` (typical GTM case) | Canonical pattern (stub + `?auto=0` + manual pageview tag) |
+| You only need to queue early conv/micro calls (above-the-fold buttons) | Stub **without** `?auto=0` |
+| You cannot edit the HTML `<head>` | **"Stub + Loader" GTM variant** (canonical pattern, run entirely from a GTM `Initialization` tag) |
+| Same as above, but Custom HTML tags are disabled in your GTM container | `?auto=0` + GTM loader tag with `s.onload` + custom event (fallback) |
+| SPA with conv/micro only (no dynamic grouping) | Canonical pattern — works fully for conv/micro |
+| SPA with a fixed site-wide grouping | `?group=my-site` in the script URL (no `?auto=0` required) |
+| SPA with dynamic per-route grouping | Wait for `?auto=manual` *(on the roadmap)* |
+
+---
+
+## Testing your setup
+
+Verify the integration end to end before you publish the container:
+
+1. **GTM Preview mode.** Confirm that the loader tag fires on `Initialization` and the pageview tag fires on your `dataLayer`-ready event. Both should appear in the **Tags Fired** column.
+2. **Browser DevTools → Network tab.** Filter by `sealmetrics`. You should see:
+   - One request to `t.js?id=...&auto=0` (the library).
+   - One pixel request per pageview, carrying your `group` value as a query parameter.
+3. **Sealmetrics Real-time dashboard.** Open [my.sealmetrics.com](https://my.sealmetrics.com), check Real-time, and confirm that pageviews arrive with the expected `content_grouping`. Click through several pages and verify there are no duplicates.
+
+If you see **two pageviews per load**, you are hitting the [anti-pattern](#anti-pattern-stub-without-auto0) — your script URL is missing `?auto=0`.
+
+If you see **zero pageviews**, your manual pageview tag is not firing. Re-check its trigger and confirm that `{{dlv.content_grouping}}` is resolving to a non-empty value in Preview mode.
+
+---
+
+## Related
+
+- [GTM Template (no-code)](./google-tag-manager) — the recommended path when you don't need dynamic values on the first pageview.
+- [Sealmetrics Dashboard](https://my.sealmetrics.com) — find your Account ID and inspect incoming events.
+- [GTM Container Template](/integrations/tag-management/gtm-template) — the ready-to-import container with pre-built tags, triggers, and variables.
+- [SPA Support](/implementation/tracker/spa-support) — how the tracker handles single-page-app navigation referenced in the SPA section above.
+- [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads outside of GTM.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

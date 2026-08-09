@@ -1,0 +1,78 @@
+---
+title: "How Sealmetrics determines the country without using IP addresses"
+description: "How Sealmetrics detects visitor country from the browser timezone instead of IP addresses — GDPR-friendly geo data with zero personal data processing."
+canonical_url: "https://docs.sealmetrics.com/security-privacy/country-detection"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "775e2f4acf44d49cb2586162fdb53867f45835dd7b7897c441fd86a772d5effa"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "security-privacy/country-detection.mdx"
+publisher: "SealMetrics"
+---
+
+# How Sealmetrics determines the country without using IP addresses
+
+Canonical page: https://docs.sealmetrics.com/security-privacy/country-detection
+
+## Timezone-Based Geo Estimation
+
+Sealmetrics determines the country of origin for each event ("hit") using the **timezone configured in the user's browser**. This method provides an approximate geographic estimation without processing IP addresses or collecting personal identifiers.
+
+### 1. Retrieving the Timezone
+
+The browser exposes the timezone value through standard APIs such as:
+
+``` js
+Intl.DateTimeFormat().resolvedOptions().timeZone
+```
+
+Examples of possible values include:\
+- `Europe/Madrid`\
+- `America/Santiago`\
+- `Asia/Tokyo`
+
+This information is provided directly by the user's device and **does not contain identifiable data**, nor does it allow individual tracking.
+
+### 2. Mapping Timezone to Country
+
+Each timezone is matched against an internal table connecting **IANA
+timezones** to the countries that use them.
+
+-   For unique timezones (e.g., `Asia/Tokyo`), the country is determined
+    with high confidence.\
+-   For shared timezones (e.g., `Europe/Paris`), the system selects the
+    most likely country based on majority usage or internal statistical
+    criteria.
+
+The resulting estimation is accurate enough for aggregated analytics and
+attribution metrics, although it cannot guarantee absolute precision in
+every case.
+
+### 3. Privacy & Compliance
+
+This approach fully adheres to privacy and data-minimization principles:
+
+-   No IP lookup is involved in country determination for analytics
+    reports. (One scoped exception: sites that explicitly enable
+    Agent Analytics additionally derive a transient country-by-IP
+    signal, used only to score bot vs. human traffic — the IP itself
+    is never persisted. See
+    [What We Track](/security-privacy/what-we-track).)\
+-   No unique device identifiers are stored.\
+-   Timezone information does not identify the user.\
+-   Country calculation relies solely on non-personal technical data
+    provided by the browser.
+
+Thanks to this method, Sealmetrics can offer meaningful geographic
+insights while preserving user privacy and operating without requiring
+consent for tracking.
+
+## Related documentation
+
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — where timezone-based country fits in the data model
+- [How Sealmetrics Protects User Privacy](/security-privacy/how-we-protect-privacy) — the data-minimization approach behind this method
+- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — why non-IP geo needs no consent
+- [Geography Report](/reports/geography) — see the country-level insights this produces
+- [Frequently Asked Questions](/faq/privacy-security) — common privacy questions

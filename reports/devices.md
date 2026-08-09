@@ -1,0 +1,274 @@
+---
+title: "Devices Report"
+description: "Analyze traffic by device type, browser, and operating system to understand how users access your site."
+canonical_url: "https://docs.sealmetrics.com/reports/devices"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "a366b8d511667eaa943d4127a7fbd94dab90d90c6f8da1ffe46bd66a36a3b140"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/devices.mdx"
+publisher: "SealMetrics"
+---
+
+# Devices Report
+
+Canonical page: https://docs.sealmetrics.com/reports/devices
+
+The Devices report analyzes traffic by device type, browser, and operating system to understand how users access your site.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Devices** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/devices`
+
+## Report Sections
+
+The report stacks three tables on a single page, one per device dimension: **Device Types**, **Browsers**, and **Operating Systems**. Each table has its own filter, export button, totals row, and (for Browsers and Operating Systems) a search box.
+
+### Device Types
+
+Shows traffic grouped by device category.
+
+| Device Type | Description |
+|-------------|-------------|
+| **Desktop** | Computers and laptops |
+| **Mobile** | Smartphones |
+| **Tablet** | Tablets and iPads |
+
+#### Columns
+
+| Column | Description |
+|--------|-------------|
+| **Device** | Device type name |
+| **Entrances** | Sessions from this device type |
+| **Pageviews** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Events** | Microconversions |
+| **Conv.** | Completed conversions |
+| **Revenue** | Total revenue |
+| **Conv. Rate** | Conversion rate |
+
+### Browsers
+
+Shows traffic grouped by web browser.
+
+| Common Browsers | Description |
+|-----------------|-------------|
+| Chrome | Google Chrome |
+| Safari | Apple Safari |
+| Firefox | Mozilla Firefox |
+| Edge | Microsoft Edge |
+| Samsung Internet | Samsung mobile browser |
+| Opera | Opera browser |
+
+#### Columns
+
+| Column | Description |
+|--------|-------------|
+| **Browser** | Browser name |
+| **Entrances** | Sessions from this browser |
+| **Pageviews** | Total page views |
+| **Bounce Rate** | Bounce rate |
+| **Events** | Microconversions |
+| **Conv.** | Conversions |
+| **Revenue** | Revenue |
+| **Conv. Rate** | Conversion rate |
+
+### Operating Systems
+
+Shows traffic grouped by operating system.
+
+| Common OS | Description |
+|-----------|-------------|
+| Windows | Microsoft Windows |
+| macOS | Apple macOS |
+| iOS | Apple iPhone/iPad |
+| Android | Google Android |
+| Linux | Linux distributions |
+| Chrome OS | Google Chromebook |
+
+#### Columns
+
+Same metrics as the Browsers table, with the **Operating System** name instead of browser.
+
+## Charts
+
+At the top of the report there are three charts:
+
+### Device Types Pie Chart
+
+- Shows distribution of entrances by device type
+- Desktop vs Mobile vs Tablet
+- Quick visual of audience composition
+
+### Top Browsers Bar Chart
+
+- Horizontal bars for the top browsers by entrances
+
+### Operating Systems Bar Chart
+
+- Bars for operating systems by entrances
+
+## Filtering
+
+### Table Filter Builder
+
+Each table has its own filter builder:
+
+**Available fields:**
+- Device / Browser / Operating System (name)
+- Entrances
+- Pageviews
+- Bounce Rate
+- Events
+- Conversions
+- Revenue
+- Conv. Rate
+
+**Example filters:**
+
+| Goal | Filter |
+|------|--------|
+| High-traffic browsers | Entrances greater than 500 |
+| Converting devices | Conversions greater than 0 |
+| Problem areas | Bounce Rate greater than 60 |
+| Revenue-generating | Revenue greater than 100 |
+
+### Global Device Filters
+
+Use global filters to focus analysis:
+
+1. Click **Add Filter** in the global filter bar
+2. Select **Device Type**, **Browser**, or **Operating System**
+3. Choose specific values
+4. All reports filter to selected devices
+
+## Device Performance Analysis
+
+### Mobile vs Desktop
+
+| Metric | Insight |
+|--------|---------|
+| Mobile bounce rate higher | Check mobile UX, page speed |
+| Mobile conversion lower | Review mobile checkout flow |
+| Mobile traffic growing | Prioritize mobile optimization |
+| Desktop revenue higher | Consider device-specific offers |
+
+### Browser Compatibility
+
+Issues to investigate when a browser shows poor metrics:
+
+| Symptom | Possible Cause |
+|---------|----------------|
+| High bounce rate | CSS/JS compatibility issues |
+| Zero conversions | Checkout not working |
+| Low pageviews | Navigation problems |
+| Missing data | Tracking blocked |
+
+### OS-Specific Patterns
+
+| Pattern | Action |
+|---------|--------|
+| iOS lower conversion | Check Apple Pay, Safari issues |
+| Android high bounce | Test on popular Android devices |
+| Windows 11 issues | Check new browser features |
+
+## Use Cases
+
+### Identifying Mobile Issues
+
+1. Go to the **Device Types** table
+2. Compare Mobile vs Desktop:
+   - Bounce Rate difference
+   - Conv. Rate difference
+   - Revenue per session
+3. If Mobile underperforms significantly:
+   - Audit mobile experience
+   - Check Core Web Vitals for mobile
+   - Review mobile checkout flow
+
+### Browser Compatibility Testing
+
+1. Go to the **Browsers** table
+2. Sort by **Bounce Rate** (descending)
+3. Filter: Entrances > 100 (significant sample)
+4. High bounce on specific browser indicates:
+   - JavaScript errors
+   - CSS rendering issues
+   - Feature incompatibility
+
+### OS Market Share Tracking
+
+1. Go to the **Operating Systems** table
+2. Note distribution percentages
+3. Compare with development testing:
+   - Are you testing on top 3 OS?
+   - Any untested OS with significant traffic?
+
+### Revenue by Device
+
+1. Go to the **Device Types** table
+2. Sort by **Revenue** (descending)
+3. Calculate revenue per entrance for each
+4. Prioritize optimization for highest-value devices
+
+### Safari/iOS Tracking Verification
+
+Due to ITP (Intelligent Tracking Prevention):
+
+1. Go to the **Browsers** table
+2. Compare Safari metrics with Chrome
+3. If Safari shows unusual patterns:
+   - Very low conversion rate
+   - Shorter sessions
+   - Consider Safari-specific analysis
+
+## Technical Considerations
+
+### User Agent Detection
+
+Device, browser, and OS are detected from the User-Agent header. Consider:
+
+- User-Agent can be spoofed
+- Some privacy tools mask User-Agent
+- New browsers may be miscategorized temporarily
+
+### Browser Privacy Features
+
+Modern browsers increasingly block tracking:
+
+| Browser | Privacy Feature |
+|---------|-----------------|
+| Safari | Intelligent Tracking Prevention (ITP) |
+| Firefox | Enhanced Tracking Protection (ETP) |
+| Brave | Aggressive tracker blocking |
+| Chrome | Privacy Sandbox (upcoming) |
+
+Sealmetrics is designed to work with these features, but some metrics may be affected.
+
+### Mobile App Traffic
+
+If you have a mobile app:
+- App traffic may appear as specific browser/OS
+- Consider filtering or segmenting app vs web
+- WebView traffic categorized by underlying browser
+
+## Export
+
+Each table has its own **Export** button to download:
+- That table's data only
+- All visible columns
+- Respects active filters
+- Choose **CSV** or **PDF** format
+
+## Related documentation
+
+- [Overview Report](/reports/overview) — The high-level dashboard for all reports
+- [Geography Report](/reports/geography) — Break traffic down by country
+- [Filters](/reports/filters) — Segment reports by device, browser, and OS
+- [Why Sealmetrics Is Not Blocked by AdBlockers](/security-privacy/adblocker-bypass) — Why device data stays complete
+- [Metrics Reference](/reports/definitions) — Definitions for entrances, bounce rate, and conversions

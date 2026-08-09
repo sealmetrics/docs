@@ -1,0 +1,200 @@
+---
+title: "Backup Codes"
+description: "Recovery codes for accessing your account when you can't use your authenticator."
+canonical_url: "https://docs.sealmetrics.com/security-privacy/account-security/backup-codes"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "48081207adc5f9a60a59c0054c42b621c94b5b74352165f3d1c8925ea9e3dad8"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "security-privacy/account-security/backup-codes.mdx"
+publisher: "SealMetrics"
+---
+
+# Backup Codes
+
+Canonical page: https://docs.sealmetrics.com/security-privacy/account-security/backup-codes
+
+Backup codes are one-time use codes that let you access your account when you can't use your authenticator app.
+
+## What Are Backup Codes?
+
+Backup codes are:
+- 10 unique codes generated when you enable 2FA
+- Each code can only be used once
+- Your safety net when your phone is lost, broken, or unavailable
+- Independent of your authenticator app
+
+## When to Use Backup Codes
+
+Use a backup code when:
+- Your phone is lost or stolen
+- Your phone is dead and you can't charge it
+- You're traveling without your usual device
+- Your authenticator app was deleted
+- You got a new phone and forgot to transfer 2FA
+
+## Viewing Your Backup Codes
+
+Backup codes are shown **only once** — when you first enable 2FA, and again each time you regenerate them. For security, Sealmetrics does not let you re-view an existing set later.
+
+In **My Account → Security**, the **Two-Factor Authentication** section shows how many codes you have left (for example, "8 of 10 codes remaining"), but it does not list the codes themselves or which specific codes were used.
+
+```
+Two-Factor Authentication
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Backup Codes
+8 of 10 codes remaining
+
+[Regenerate Codes]
+```
+
+If you can't find the codes you saved, generate a new set with **Regenerate Codes** (see below).
+
+## Using a Backup Code
+
+### At Login
+
+1. Enter your email and password
+2. On the 2FA screen, click **Use a backup code instead**
+3. Enter one of your backup codes
+4. Click **Verify**
+
+```
+Use Backup Code
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Can't access your authenticator?
+Use one of your backup codes to sign in.
+
+Enter backup code:
+[mno90-pqr12        ]
+
+[Verify]
+
+← Back to authenticator code
+```
+
+### After Using a Code
+
+Once a backup code is used, it can't be used again. The remaining-codes count in **My Account → Security** decreases accordingly. When you're running low, regenerate a fresh set so you always have codes available.
+
+## Regenerating Codes
+
+Generate new codes when:
+- You've used several codes
+- You think codes may be compromised
+- You want fresh codes for peace of mind
+
+### How to Regenerate
+
+1. Go to **My Account → Security**
+2. In **Two-Factor Authentication**, click **Regenerate Codes**
+3. Enter your current 6-digit 2FA code
+4. Save the new codes
+
+```
+Regenerate Backup Codes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ This will invalidate ALL existing codes,
+   including unused ones.
+
+Current unused codes: 7
+These will stop working.
+
+Enter your 2FA code to confirm:
+[______]
+
+[Cancel] [Regenerate]
+```
+
+### After Regenerating
+
+```
+New Backup Codes Generated
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your previous codes have been invalidated.
+Save these new codes securely.
+
+┌─────────────────────────────────────────┐
+│  new11-code22                           │
+│  abc33-def44                            │
+│  ghi55-jkl66                            │
+│  mno77-pqr88                            │
+│  stu99-vwx00                            │
+│  yza11-bcd22                            │
+│  efg33-hij44                            │
+│  klm55-nop66                            │
+│  qrs77-tuv88                            │
+│  wxy99-zab00                            │
+└─────────────────────────────────────────┘
+
+[Download] [Copy] [I've Saved Them]
+```
+
+## Storing Backup Codes Safely
+
+### Good Storage Options
+
+| Method | Pros | Cons |
+|--------|------|------|
+| Password manager | Encrypted, accessible | Single point of failure |
+| Physical printout in safe | Offline, secure | Can be lost/destroyed |
+| Encrypted USB drive | Portable, secure | Can be lost |
+| Bank safe deposit box | Very secure | Inconvenient access |
+
+### Storage Best Practices
+
+1. **Never store in plaintext** on your computer
+2. **Keep separate** from your password
+3. **Store in multiple locations** (e.g., password manager + printed backup)
+4. **Don't take photos** on your phone (could sync to cloud)
+5. **Label clearly** so you know what they're for
+
+### What NOT to Do
+
+- ❌ Email codes to yourself
+- ❌ Store in notes app without encryption
+- ❌ Keep only one copy
+- ❌ Store in same place as password
+- ❌ Share with others
+
+## Running Low on Codes
+
+There's no automatic alert when you're down to your last few codes. Check the remaining count in **My Account → Security** periodically, and regenerate a new set before you run out so you always have a way back into your account.
+
+## Troubleshooting
+
+### "Invalid Backup Code" Error
+
+1. Check for typos (especially 0 vs O, 1 vs l)
+2. Ensure you haven't already used this code
+3. Verify codes haven't been regenerated since you saved them
+4. Try a different code
+
+### All Codes Used
+
+If you've used all 10 codes:
+- You must have access to your authenticator to generate new codes
+- If you can't access your authenticator, contact support
+
+### Lost All Codes and Authenticator
+
+Contact support for account recovery:
+
+1. Email security@sealmetrics.com
+2. Subject: "2FA Account Recovery"
+3. Include:
+   - Your account email
+   - Proof of identity
+   - Recent account activity you remember
+4. Recovery takes 2-5 business days
+
+## Related
+
+- [Two-Factor Authentication](./two-factor-auth) - Setting up and using 2FA
+- [Session Management](./session-management) - Manage your active sessions

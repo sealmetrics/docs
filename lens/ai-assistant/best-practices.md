@@ -1,0 +1,243 @@
+---
+title: "Best Practices"
+description: "Write better LENS AI questions: be specific about time ranges, metrics, and segments, and use ready-made templates for traffic and conversion analysis."
+canonical_url: "https://docs.sealmetrics.com/lens/ai-assistant/best-practices"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "c2cef3660461fd44a2c34aea255347da87f67043b79a06e3b6b4dd7baeaeb68e"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "lens/ai-assistant/best-practices.mdx"
+publisher: "SealMetrics"
+---
+
+# Best Practices
+
+Canonical page: https://docs.sealmetrics.com/lens/ai-assistant/best-practices
+
+Get more accurate, actionable insights by following these best practices when asking questions.
+
+## Writing Better Questions
+
+### Be Specific About Time
+
+❌ **Vague:** *"How is traffic?"*
+
+✅ **Better:** *"How did traffic change last week compared to the week before?"*
+
+✅ **Best:** *"Compare daily traffic for Jan 8-14 vs Jan 1-7, broken down by source"*
+
+### Include Context
+
+❌ **Missing context:** *"Why did conversions drop?"*
+
+✅ **With context:** *"Why did conversions drop on January 10th? We launched a new landing page that day."*
+
+### Specify Metrics
+
+❌ **Ambiguous:** *"How are we performing?"*
+
+✅ **Clear:** *"What's our conversion rate, average order value, and total revenue for this month?"*
+
+### Name Your Segments
+
+❌ **Unclear:** *"How's mobile doing?"*
+
+✅ **Precise:** *"What's the conversion rate for mobile users from paid search in the US?"*
+
+## Question Templates
+
+### Traffic Analysis
+
+```
+"Show me [metric] for [time period], broken down by [dimension]"
+
+Examples:
+• "Show me sessions for last 30 days, broken down by source"
+• "Show me pageviews for this week, broken down by device"
+• "Show me unique users for January, broken down by country"
+```
+
+### Conversion Analysis
+
+```
+"What's the [conversion type] rate for [segment] over [time period]?"
+
+Examples:
+• "What's the purchase rate for mobile users over the last 7 days?"
+• "What's the signup rate for UK visitors over this quarter?"
+• "What's the add-to-cart rate for organic traffic over Black Friday week?"
+```
+
+### Comparison Questions
+
+```
+"Compare [metric] for [segment A] vs [segment B] during [time period]"
+
+Examples:
+• "Compare conversion rate for new vs returning visitors during January"
+• "Compare revenue from Google vs Facebook campaigns last month"
+• "Compare mobile vs desktop bounce rate this week"
+```
+
+### Trend Analysis
+
+```
+"How has [metric] trended over [time period]? Highlight any [anomalies/changes]"
+
+Examples:
+• "How has conversion rate trended over the last 90 days? Highlight any drops"
+• "How has traffic from Google trended this year? Note any significant changes"
+• "How has average order value trended since we launched the new pricing?"
+```
+
+### Investigation Questions
+
+```
+"Why did [metric] [increase/decrease] on [date/period]? Check [potential factors]"
+
+Examples:
+• "Why did traffic spike on March 15? Check for referral sources"
+• "Why did conversion rate drop last Tuesday? Check by device and source"
+• "Why did revenue increase 40% yesterday? Break down by product category"
+```
+
+## Conversation Techniques
+
+### Build on Previous Answers
+
+LENS remembers context. Use it:
+
+```
+You: What was our conversion rate last week?
+LENS: 2.3%, down from 2.8% the week before...
+
+You: Break that down by traffic source
+LENS: [Uses same time period automatically]
+      Google Ads: 2.8%
+      Organic: 1.9%
+      ...
+
+You: Why is organic lower?
+LENS: [Investigates organic specifically]
+      Organic conversion rate is lower because...
+```
+
+### Ask for Recommendations
+
+```
+You: Which campaigns should I scale based on last month's performance?
+
+LENS: Based on ROAS and volume, I recommend:
+
+1. Scale: "Winter Sale - Retargeting" (ROAS 4.2, €12k spend)
+2. Scale: "Brand Search" (ROAS 6.8, €5k spend)
+3. Test increase: "Lookalike Audiences" (ROAS 2.8, €3k spend)
+
+Campaigns to reduce:
+• "Cold Audiences - Interest" (ROAS 0.8)
+```
+
+### Request Specific Formats
+
+```
+You: Give me a table comparing all traffic sources for last month,
+     sorted by conversion rate, including sessions, conversions,
+     and revenue columns
+
+LENS:
+| Source      | Sessions | Conversions | CR    | Revenue  |
+|-------------|----------|-------------|-------|----------|
+| Email       | 12,450   | 498         | 4.0%  | €24,900  |
+| Google Ads  | 45,230   | 1,130       | 2.5%  | €45,200  |
+| Organic     | 34,120   | 682         | 2.0%  | €27,280  |
+...
+```
+
+## Common Mistakes to Avoid
+
+### Don't Ask Multiple Unrelated Questions
+
+❌ *"What's our traffic? Also, what's the best performing campaign? And can you show me revenue by country?"*
+
+✅ Ask one topic at a time, then follow up.
+
+### Don't Assume LENS Knows Your Goals
+
+❌ *"Is this good?"*
+
+✅ *"Is a 2.3% conversion rate good compared to our historical average?"*
+
+✅ *"How does our 2.3% conversion rate compare to last year?"*
+
+### Don't Forget Time Zones
+
+If your data spans multiple time zones:
+
+✅ *"What was traffic on January 10th PST?"*
+
+✅ *"Show me hourly traffic in UTC"*
+
+### Don't Overlook Segments
+
+Generic questions get generic answers:
+
+❌ *"Why is bounce rate high?"*
+
+✅ *"Why is bounce rate high for mobile users from Facebook ads landing on the homepage?"*
+
+## Getting Help with LENS
+
+### When LENS Isn't Sure
+
+LENS will tell you when confidence is low:
+
+```
+LENS: I found a correlation between the traffic drop and your
+      Google Ads pause, but I'm only 60% confident this is the
+      main cause. Other factors might include:
+      • Server response time increased 200ms that day
+      • It was a holiday in Germany (your second-largest market)
+
+      Want me to investigate any of these further?
+```
+
+### When Data Is Insufficient
+
+```
+LENS: I don't have enough data to answer this reliably.
+
+      You asked about conversion rate by city, but:
+      • 73% of sessions have no city data
+      • Only 12 cities have >100 sessions
+
+      Would you like me to analyze by country instead?
+```
+
+### Set the Response Language
+
+LENS replies in Spanish (`es`) or English (`en`), and keeps the language for the conversation. If you want answers in a specific language, ask your first question in that language or state it explicitly (for example, *"Answer in English"*).
+
+## Power User Tips
+
+### Reuse Your Own Question Templates
+
+LENS does not store saved questions for you, but you can keep your most useful prompts in a personal notes doc and paste them when needed. A practical weekly-review set might be:
+
+```
+1. "Summary of traffic, conversions, revenue for last week vs previous week"
+2. "Top 5 performing and bottom 5 performing campaigns by ROAS"
+3. "Any anomalies or issues I should know about?"
+```
+
+Ask them one at a time and follow up within the same conversation so LENS keeps the context.
+
+### Resume Earlier Conversations
+
+Conversations are persisted, so you don't have to start over each time:
+
+- Pick a previous conversation from the sidebar to continue where you left off
+- Each session stays active with a 4-hour sliding window — every message extends it another 4 hours; after 4 hours without activity it goes inactive
+- Start a fresh session with **New conversation** when you switch topics
+- Delete a conversation when you no longer need it

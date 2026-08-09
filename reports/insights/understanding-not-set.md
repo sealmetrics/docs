@@ -1,0 +1,149 @@
+---
+title: "Understanding the \"(not set)\" Value in Sealmetrics Reports"
+description: "Learn why Sealmetrics shows \"(not set)\" in your reports, what causes missing UTM parameters, and how to avoid attribution gaps."
+canonical_url: "https://docs.sealmetrics.com/reports/insights/understanding-not-set"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "7b113ca949e1d76037a63c8f40e50c0861bd7e020be06582ad821e30de1845bd"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/insights/understanding-not-set.mdx"
+publisher: "SealMetrics"
+---
+
+# Understanding the "(not set)" Value in Sealmetrics Reports
+
+Canonical page: https://docs.sealmetrics.com/reports/insights/understanding-not-set
+
+The value **“(not set)”** appears in Sealmetrics whenever a UTM parameter expected for attribution is **missing** from the URL. This happens when **one or more UTM parameters are present**, but another required one is not.
+
+Sealmetrics does **not infer or guess missing UTMs** — if a parameter doesn’t exist in the URL, its value is recorded as **(not set)**.
+
+---
+
+## Why “(not set)” Appears
+
+When Sealmetrics processes UTM parameters, it reads exactly what is present.
+If the URL contains some UTMs but not all, the missing ones become **(not set)**.
+
+### Example URL
+````
+domain.com?utm_source=google&utm_campaign=no-cookies&utm_term=kw1
+````
+Parameters found:
+
+- `utm_source = google`
+- `utm_campaign = sincookies`
+- `utm_term = kw1`
+
+Parameter **missing**:
+
+- `utm_medium = (none)`
+
+Because `utm_medium` does not exist in the URL, Sealmetrics assigns **(none)** (aligned with GA4, which uses `(none)` for a missing medium rather than `(not set)`).
+
+---
+
+## Common Scenarios Where “(not set)” Appears
+
+### 1. Missing UTM Medium
+If `utm_source` exists, but `utm_medium` is missing:
+````
+utm_source=facebook&utm_campaign=winter_sale
+````
+Result:
+
+- **Source:** facebook
+- **Medium:** (none)
+
+---
+
+### 2. Missing UTM Source
+If `utm_medium` exists but `utm_source` is missing:
+````
+utm_medium=cpc&utm_campaign=promo
+`````
+Result:
+
+- **Medium:** cpc
+- **Source:** (not set)
+
+---
+
+### 3. Incorrectly Formatted URLs
+Examples of issues that cause missing values:
+
+- Incorrect separators (`;&` instead of `&`)
+- Using uppercase UTMs (`UTM_Source`…)
+- Missing `utm_` prefix (`source=google`)
+- Double `?` in the URL
+- Spaces or unencoded characters
+
+If a parameter is malformed, Sealmetrics treats it as **not included**, resulting in **(not set)**.
+
+---
+
+## Why Sealmetrics Never "Fills in the Blanks"
+
+Unlike some analytics tools:
+
+❌ No guessing missing UTMs
+❌ No automatic inference
+❌ No cross-hit reconstruction
+
+Sealmetrics maintains:
+
+✔ Privacy-first measurement
+✔ Strict attribution rules
+✔ Complete transparency
+
+If a UTM is missing → its value is **(not set)**.
+This ensures your data is always accurate and compliant.
+
+---
+
+## How to Avoid “(not set)” Values
+
+### 1. Always Use Full UTM Sets
+
+Minimum recommended:
+````
+utm_source=
+utm_medium=
+utm_campaign=
+````
+### 2. Use UTM Templates or Builders
+
+This reduces human errors and helps ensure consistency.
+
+### 3. Keep Naming Conventions Consistent
+
+- Use lowercase
+- Replace spaces with `_` or `-`
+- Keep naming short but descriptive
+- Document your team’s UTM rules
+
+### 4. Check Final URLs After Redirects
+
+Some redirect chains strip UTMs → leading to missing values.
+
+---
+
+## Summary
+
+“**(not set)**” in Sealmetrics means a required UTM parameter is **missing from the URL**.
+Because Sealmetrics follows a privacy-first, no-assumptions approach:
+
+- It only uses explicitly provided data
+- It never reconstructs or guesses missing parameters
+- It ensures full transparency and compliance
+
+If you see many “(not set)” values, review your UTM structure and ensure campaign URLs contain all parameters needed for accurate attribution.
+
+## Related documentation
+
+- [How to Change UTM Parameters in Sealmetrics](/reports/insights/how-to-change-utm-parameters) — Map custom parameter names to UTM fields
+- [How to Track Google Ads Campaigns](/reports/insights/how-to-track-google-ads-campaigns) — Complete UTM templates for paid search
+- [How to Track Social Ads Campaigns](/reports/insights/how-to-track-social-ads-campaigns) — Correct UTM tagging for Meta Ads
+- [Sources Report](/reports/sources) — Where UTM values are reported

@@ -1,0 +1,330 @@
+---
+title: "Invoices & Payments"
+description: "Managing invoices, payment methods, and billing information in Sealmetrics."
+canonical_url: "https://docs.sealmetrics.com/billing/invoices"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "9ba555d62ca0f7326de52c8ca83d0dbef944a809f409bb66748fd69d27eb5e40"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "billing/invoices.mdx"
+publisher: "SealMetrics"
+---
+
+# Invoices & Payments
+
+Canonical page: https://docs.sealmetrics.com/billing/invoices
+
+Manage your billing, view invoices, update payment methods, and handle billing-related tasks.
+
+## Viewing Invoices
+
+### Access Invoice History
+
+1. Go to **Organization → Billing** in the sidebar
+2. Scroll to the **Invoices** section, which lists your billing history
+
+```
+Invoices
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Invoice       Date         Amount      Status
+─────────────────────────────────────────────
+INV-2026-04   Apr 15       €724.79     ✅ Paid
+INV-2026-03   Mar 15       €724.79     ✅ Paid
+INV-2026-02   Feb 15       €724.79     ✅ Paid
+INV-2026-01   Jan 15       €724.79     ✅ Paid
+```
+
+Each invoice row shows the invoice number, date, amount, and payment status.
+
+### Invoice Details
+
+A typical invoice breaks down like this:
+
+```
+Invoice INV-2026-01
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Invoice Date:    January 15, 2026
+Due Date:        January 15, 2026
+Status:          Paid
+
+Bill To:
+  Your Company S.L.
+  Calle Example 123
+  28001 Madrid, Spain
+  VAT: ES12345678A
+
+───────────────────────────────────────────
+
+Description                          Amount
+───────────────────────────────────────────
+Sealmetrics Growth (Monthly)       €599.00
+  Jan 15 - Feb 14, 2026
+
+───────────────────────────────────────────
+Subtotal                           €599.00
+VAT (21%)                          €125.79
+───────────────────────────────────────────
+Total                              €724.79
+Amount Paid                        €724.79
+Balance Due                          €0.00
+```
+
+### Download Options
+
+Each invoice in the list has a **download icon** to save the invoice as a **PDF**, and a link to open the invoice online in Stripe. There is no CSV export of invoices — if you need data in another format for your accounting software, contact billing@sealmetrics.com.
+
+## Invoice issuer & VAT
+
+Your official invoices are issued through **Quaderno**, which Sealmetrics uses for VAT/tax compliance. Quaderno validates EU VAT numbers against **VIES** and applies the correct tax treatment per location. Card payments are processed by **Stripe**; if a Quaderno invoice is unavailable, Sealmetrics falls back to the Stripe invoice for that payment.
+
+## Payment Methods
+
+### Accessing Payment Settings
+
+Sealmetrics uses **Stripe** for secure payment processing (cards). Official invoices are issued through **Quaderno** for VAT compliance — see [Invoice issuer & VAT](#invoice-issuer--vat). To manage your payment methods:
+
+1. Go to **Organization → Billing**
+2. Click **Manage** next to your current plan
+3. This opens the **Stripe Customer Portal** where you can:
+   - Add new cards
+   - Update existing cards
+   - Remove old payment methods
+   - Set a default payment method
+
+### Change Your Credit Card
+
+To update or replace your credit card:
+
+1. Go to **Organization → Billing**
+2. Click **Manage** to open the Stripe Customer Portal
+3. In the Stripe portal:
+   - Click **Add payment method** to add a new card
+   - Or click on an existing card to update it
+4. Enter your new card details
+5. Set as default if desired
+6. Click **Save**
+
+```
+Payment Methods (Stripe Portal)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Primary:
+┌─────────────────────────────────────────┐
+│ 💳 Visa ending in 4242                  │
+│    Expires 12/2027                      │
+│    [Default]                            │
+└─────────────────────────────────────────┘
+
+Backup:
+┌─────────────────────────────────────────┐
+│ 💳 Mastercard ending in 5555            │
+│    Expires 08/2028                      │
+│    [Make Default] [Remove]              │
+└─────────────────────────────────────────┘
+
+[+ Add Payment Method]
+```
+
+### Add Payment Method
+
+1. Click **+ Add Payment Method**
+2. Enter your credit or debit card details
+3. Click **Save**
+
+### Supported Payment Methods
+
+Sealmetrics accepts credit and debit cards through Stripe:
+
+| Method | Availability |
+|--------|--------------|
+| Visa | All plans |
+| Mastercard | All plans |
+| American Express | All plans |
+| Other Stripe-supported cards | All plans |
+
+Bank transfer, SEPA Direct Debit, and PayPal are not currently supported.
+
+### Update Expiring Card
+
+When your card is expiring:
+
+1. You'll receive email notification 30 days before
+2. Go to **Organization → Billing** and click **Manage** to open the Stripe portal
+3. Click on the expiring card
+4. Update details or add new card
+5. Set new card as default if needed
+
+## Billing Information
+
+### Company Details
+
+- **Invoice email**: on **Organization → Billing** you can set an **accounting email** so invoices are also sent to your accounting department.
+- **Company name, billing address, and payment details**: managed in the **Stripe Customer Portal** — click **Manage** on the Billing page.
+- **VAT number and other invoice details**: contact **billing@sealmetrics.com** to add or correct them.
+
+### VAT/Tax Information
+
+Tax is calculated and applied by Quaderno based on your billing location and VAT status. The exact rate shown on your invoice depends on your case.
+
+#### EU Customers
+
+If you have a valid EU VAT number:
+- Provide VAT ID during signup or in billing settings
+- VAT reverse charge applies (0% VAT)
+- You self-report VAT in your country
+
+#### Non-EU Customers
+
+- No VAT charged
+- Local taxes may apply in your jurisdiction
+
+#### Spanish Customers
+
+- 21% IVA applies
+- VAT shown on all invoices
+
+### Invoice Customization
+
+Request custom invoice details:
+
+- Purchase order numbers
+- Cost center codes
+- Department names
+- Custom fields
+
+Contact billing@sealmetrics.com for custom invoice requirements.
+
+## Billing Cycle
+
+### Monthly Billing
+
+- Charged on the same day each month
+- Based on your signup/upgrade date
+- Example: Signed up Jan 15 → Billed 15th of each month
+
+### Annual Billing
+
+- Charged once per year
+- ~17% savings (2 months free)
+- Example: Annual starting Jan 15 → Next charge Jan 15 next year
+
+### Changing Billing Cycle
+
+**Monthly to Annual:**
+1. Go to **Settings → Billing → Plan**
+2. Click **Switch to Annual**
+3. Pay prorated annual amount (minus current month credit)
+4. Save ~17% going forward
+
+**Annual to Monthly:**
+- Automatic at renewal if you choose not to renew annually
+- Contact support mid-term for special circumstances
+
+## Failed Payments
+
+### Automatic Retry
+
+When a payment fails, Stripe automatically retries it over the following days (Stripe Dunning). You'll be notified by email of the failure, and any scheduled retry date is shown in the failure banner. The exact retry schedule is managed by Stripe and may vary depending on your case.
+
+### Manual Retry
+
+To retry immediately:
+
+1. Go to **Settings → Billing**
+2. See payment failure banner
+3. Click **Retry Payment**
+4. Or update payment method and retry
+
+### Preventing Service Interruption
+
+If payment fails:
+
+```
+⚠️ Payment Failed
+
+Your payment of €599.00 failed on Jan 15.
+
+Card ending in 4242 was declined.
+Reason: Insufficient funds
+
+Next automatic retry: Jan 18
+
+[Update Payment Method] [Retry Now]
+```
+
+1. Update payment method with valid card
+2. Click **Retry Now**
+3. Service continues uninterrupted
+
+## Refunds & Credits
+
+### Cancellation Refunds
+
+Refund eligibility depends on your plan and circumstances. As a general guideline, monthly plans run until the end of the current period without a refund, while annual plans may qualify for a prorated refund depending on your case. Contact billing@sealmetrics.com to review your situation.
+
+### Service Credits
+
+Credits may be issued for:
+- SLA violations
+- Extended outages
+- Billing errors
+
+Credits appear on next invoice:
+
+```
+Invoice INV-2026-02
+───────────────────────────────────────────
+Sealmetrics Growth (Monthly)       €599.00
+Credit: January SLA compensation   -€59.90
+───────────────────────────────────────────
+Total                              €539.10
+```
+
+### Requesting Refund
+
+For refund requests:
+
+1. Email billing@sealmetrics.com
+2. Include invoice number
+3. Explain circumstances
+4. Response within 2 business days
+
+## Receipts & Tax Documents
+
+### Payment Receipts
+
+Receipts are sent automatically after each payment:
+
+- Sent to billing email
+- Includes payment confirmation
+- Links to full invoice
+
+### Annual Tax Summary
+
+If you need an annual summary of your payments for tax purposes, email **billing@sealmetrics.com** with your account email and the year you need. There is no self-service annual summary in the dashboard.
+
+### VAT Invoices
+
+All invoices include:
+- Your VAT number (if provided)
+- Our VAT number (included automatically)
+- VAT breakdown
+- Invoice date and number
+
+## Contact Billing Support
+
+For billing questions:
+
+- **Email:** billing@sealmetrics.com
+- **Response time:** 1 business day
+- **Include:** Account email, invoice number (if relevant)
+
+Common requests:
+- Invoice copies
+- Payment receipts
+- VAT corrections
+- Custom billing arrangements

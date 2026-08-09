@@ -1,0 +1,57 @@
+---
+title: "See Your Data Flow in Real-Time with Sealmetrics"
+description: "Learn how Sealmetrics delivers instant, real-time analytics without cookies or consent banners."
+canonical_url: "https://docs.sealmetrics.com/getting-started/see-your-data-flow"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "ddf687d0f86b07801796d242ff978e0d20439835b36dce06f8cdc83bc2eee6bc"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "getting-started/see-your-data-flow.mdx"
+publisher: "SealMetrics"
+---
+
+# See Your Data Flow in Real-Time with Sealmetrics
+
+Canonical page: https://docs.sealmetrics.com/getting-started/see-your-data-flow
+
+The beauty of modern analytics? **Instant feedback.**
+Here’s how simple it is with Sealmetrics.
+
+---
+
+## The 3-Step Flow
+
+1. **Deploy your pixel** — Install the Sealmetrics tracking code on your site
+2. **Visit your website** — Open your site in another browser tab and browse around
+3. **Watch the data arrive** — Open the **Overview** report in your dashboard
+
+**Result:**
+Within seconds, the **Last hit** timestamp at the top right of the Overview updates, and your visit shows up in the Entrances and Pageviews numbers and in the other reports. No configuration needed — data flows in as soon as the pixel is installed.
+
+---
+
+## Why Fast Data Matters
+
+- **Immediate validation:** Know your tracking works within seconds of installing it
+- **Fast campaign feedback:** See conversions in the Conversions report shortly after they happen
+- **Faster debugging:** Spot issues before they impact your data
+
+---
+
+## The Sealmetrics Difference
+
+While most analytics tools make you wait **minutes or even hours** for data processing, Sealmetrics provides **instant insights** — because in today’s fast-paced digital world, delayed data is often useless data.
+
+**No cookies. No consent banners. No delays.**
+
+Just **pure, fast, consentless analytics** that works the moment you need it.
+
+## Related documentation
+
+- [First Steps with Sealmetrics](/getting-started/quick-start) — get set up before watching data flow in
+- [Installation](/implementation/tracker/installation) — deploy the pixel that feeds your reports
+- [How to Measure Conversions](/getting-started/measure-conversions) — generate the conversion events you'll see arrive
+- [Overview Report](/reports/overview) — where your data (and the "Last hit" timestamp) appears
+- [Setup Wizard](/getting-started/setup-wizard) — verify your pixel is firing correctly

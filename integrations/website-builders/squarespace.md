@@ -1,0 +1,157 @@
+---
+title: "Squarespace"
+description: "Privacy-first, cookieless analytics for Squarespace websites and Squarespace Commerce"
+canonical_url: "https://docs.sealmetrics.com/integrations/website-builders/squarespace"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "5436357cd7f133d12c2ce59fa5fe7c74464beb02c85f80abb590d6bc630977bf"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/website-builders/squarespace.mdx"
+publisher: "SealMetrics"
+---
+
+# Squarespace
+
+Canonical page: https://docs.sealmetrics.com/integrations/website-builders/squarespace
+
+Privacy-first, cookieless analytics for Squarespace websites and Squarespace Commerce.
+
+## Installation
+
+1. Go to **Settings > Advanced > Code Injection**
+2. Paste the entire contents of `sealmetrics-squarespace.js` (wrapped in `<script>` tags) in the **Header** section
+3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+4. Click **Save** and **Publish**
+
+## Configuration
+
+Edit these values at the top of the pasted script:
+
+```javascript
+// Required: Your SealMetrics Account ID
+var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
+
+// Optional: Track contact forms as lead conversions (default: false)
+var SEALMETRICS_CONTACT_AS_LEAD = false;
+```
+
+## Automatic Events
+
+| Event | Description |
+|-------|-------------|
+| `pageview` | All page views with content grouping |
+| `form_submit` | Form block submissions (non-newsletter) |
+| `newsletter_signup` | Newsletter block submissions |
+
+## Squarespace Commerce Events
+
+| Event | Description |
+|-------|-------------|
+| `view_item` | Product page views |
+| `add_to_cart` | Add to cart button clicks |
+| `begin_checkout` | Checkout button clicks |
+| `purchase` | Order confirmation (conversion) |
+
+## Content Groups
+
+Automatic detection based on page type and URL:
+
+| Page Type | Group |
+|-----------|-------|
+| Homepage | `home` |
+| Products collection | `catalog` |
+| Product item | `product` |
+| Cart | `cart` |
+| Checkout | `checkout` |
+| Thank you | `thankyou` |
+| Blog collection | `blog-index` |
+| Blog item | `blog` |
+| Gallery | `gallery` |
+| Album | `album` |
+| Video | `video` |
+| About page | `about` |
+| Contact page | `contact` |
+| Services | `service` |
+| Portfolio | `portfolio` |
+| Pricing | `pricing` |
+| Events | `events` |
+
+## Form Detection
+
+### Newsletter Forms
+
+Automatically detected and tracked as `newsletter_signup`:
+- Newsletter blocks
+- Forms with newsletter-related classes
+- Single email field forms
+
+### Contact Forms
+
+Tracked as `form_submit` or `lead` (if configured)
+
+## Custom Events
+
+Track custom events via JavaScript:
+
+```html
+<script>
+document.querySelector('#myButton').addEventListener('click', function() {
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics.micro('custom_event', {
+      property: 'value'
+    });
+  }
+});
+</script>
+```
+
+## Conversions
+
+Track custom conversions:
+
+```javascript
+// Lead conversion
+sealmetrics.conv('lead', 0, {
+  source: 'quote_form'
+});
+
+// Manual purchase tracking
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'USD'
+});
+```
+
+## Squarespace Commerce
+
+For Squarespace Commerce stores, the following is tracked automatically:
+
+1. **Product Views**: When a visitor views a product detail page
+2. **Add to Cart**: When clicking the add to cart button
+3. **Begin Checkout**: When clicking the checkout button
+4. **Purchase**: On the order confirmation page
+
+No additional configuration required.
+
+## Template Compatibility
+
+Works with all Squarespace templates:
+- Squarespace 7.0 templates (Brine, Bedford, etc.)
+- Squarespace 7.1 templates
+- Squarespace Commerce
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner needed
+
+## Related documentation
+
+- [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads.
+- [E-commerce Conversion Tracking](/implementation/ecommerce-conversion-tracking) — the concepts behind the Squarespace Commerce funnel events.
+- [Wix](/integrations/website-builders/wix) — the equivalent integration for Wix sites.
+- [Webflow](/integrations/website-builders/webflow) — the equivalent integration for Webflow sites.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

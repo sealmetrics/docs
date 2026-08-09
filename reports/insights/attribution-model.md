@@ -1,0 +1,61 @@
+---
+title: "How Sealmetrics Attributes Conversions: The Attribution Model"
+description: "Sealmetrics uses session-scoped last-click attribution: how a traffic source is chosen, how conversions inherit it, and why there is no cross-session lookback window."
+canonical_url: "https://docs.sealmetrics.com/reports/insights/attribution-model"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "eb0591060d348bffc1ab867c6aeaafd4f6e68159b75ba11aedfc23c30fc1bc03"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/insights/attribution-model.mdx"
+publisher: "SealMetrics"
+---
+
+# How Sealmetrics Attributes Conversions: The Attribution Model
+
+Canonical page: https://docs.sealmetrics.com/reports/insights/attribution-model
+
+Sealmetrics uses **session-scoped last-click attribution**: every conversion is credited to the traffic source of the session in which it fires, and the source of a session is determined by how that session started. There is no cross-session lookback window — by design, because linking sessions would require a persistent user identifier, which is exactly what Sealmetrics never creates.
+
+---
+
+## How a session gets its source
+
+When a hit arrives, Sealmetrics decides its type (entrance vs. pageview) and its source using a strict priority cascade:
+
+1. **Explicit UTM parameters** in the landing URL (external arrivals only) — a new entrance with those UTMs.
+2. **Ad click IDs** (`gclid`, `msclkid`, `ttclid`, `yclid`, and others) — a new entrance attributed to the ad platform. A repeated hit with the **same click ID does not create a second entrance** (atomic deduplication), so a reload of a tagged landing page doesn't double-count.
+3. **Payment-gateway referrers** — returns from Stripe, PayPal, and other PSPs are recognized so that the payment provider never steals attribution from the real source.
+4. **Passthrough referrers you configure** — same behavior as payment gateways, for domains you designate (e.g. your SSO or external checkout).
+5. **Referrer mappings** (yours, then Sealmetrics' global list) — known domains classified into their channel.
+6. **Any other external referrer** — a new entrance attributed as referral traffic.
+7. **Same-site navigation with an active session** — a pageview that **inherits the session's UTMs and source**.
+8. **Same-site navigation with no active session** — a "rejoined" entrance (see [Rejoined Traffic](/reports/insights/rejoined-traffic)).
+9. **No referrer, no session** — direct traffic.
+
+## Conversions inherit the session source
+
+A conversion fired during a session is attributed to that session's source — the **most recent entrance**. If a visitor arrives from Google Ads in the morning and converts within that session, Google Ads gets the conversion. If they come back later through a newsletter link and convert then, the newsletter gets it: the new arrival started a new entrance, and last click wins.
+
+Two properties follow from this:
+
+- **Last click, always.** A new tagged arrival mid-journey (new UTMs or click ID from an external entry) starts a new entrance, and any subsequent conversion belongs to it.
+- **No lookback window.** Sessions are independent. A conversion today is never credited to a source from yesterday, because no identifier connects the two sessions. (GA4-style 30/90-day attribution windows require exactly the persistent identity Sealmetrics refuses to keep.)
+
+## The session window
+
+A session groups hits through a short-lived, context-derived marker with a **~2-hour inactivity window**. It is not stored in the browser and cannot recognize a returning visitor — see [What We Track](/security-privacy/what-we-track) for the privacy details. When the window lapses, the next hit starts a fresh entrance with fresh attribution.
+
+## Why last-click only
+
+Multi-touch models (linear, time-decay, data-driven) need the full journey of an identified user across sessions — a persistent identifier, consent banners, and all the data loss that comes with them. Based on our legal analysis, session-scoped last-click is the attribution model that works **without consent**, on 100% of your traffic. Attribution computed on all of your visitors beats a fancier model computed on the 40–60% who accept cookies.
+
+## Related documentation
+
+- [Sources Report](/reports/sources) — where attributed traffic appears
+- [How Sealmetrics Calculates Entrances](/reports/insights/how-sealmetrics-calculates-entrances) — entrances vs. GA4 visits
+- [Rejoined Traffic](/reports/insights/rejoined-traffic) — same-site arrivals without an active session
+- [Referral vs. Direct Traffic](/reports/insights/referral-vs-direct-traffic) — how the two are told apart
+- [Why More Conversions Than Your ERP?](/reports/insights/why-more-conversions-than-erp) — reconciling conversion counts
+- [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — the privacy architecture behind the model

@@ -1,0 +1,61 @@
+---
+title: "How to Track Social Ads Campaigns"
+description: "Learn how to track Facebook and Meta Ads campaigns in Sealmetrics without cookies using UTM parameters and privacy-first attribution."
+canonical_url: "https://docs.sealmetrics.com/reports/insights/how-to-track-social-ads-campaigns"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "70a2713680633cec978c75da259897887c4f9d2843f7dc806a1ead0641e4760f"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/insights/how-to-track-social-ads-campaigns.mdx"
+publisher: "SealMetrics"
+---
+
+# How to Track Social Ads Campaigns
+
+Canonical page: https://docs.sealmetrics.com/reports/insights/how-to-track-social-ads-campaigns
+
+Sealmetrics can track traffic from Meta Ads — including Facebook and Instagram — **without cookies**, using only privacy-safe parameters.
+The key requirement: **UTM parameters** must be added to your ad URLs.
+Without UTMs, Sealmetrics cannot reliably distinguish paid vs. unpaid traffic coming from Meta domains.
+
+---
+
+## Why UTMs Matter for Meta Ads Tracking
+
+Meta traffic often arrives with minimal referrer information.
+If UTMs are *not* added:
+
+❌ Paid and organic Meta traffic blend together
+❌ Campaign-level reporting disappears
+❌ You cannot analyze ad set or creative performance
+
+If UTMs *are* added:
+
+✔ Full campaign attribution
+✔ Clear performance insights
+✔ Correct paid vs. organic classification
+✔ No cookies required
+
+---
+
+## How to Track Facebook Ads Campaigns Without Cookies
+
+### Use UTM Parameters
+UTM parameters are tags added to your ad URLs that Sealmetrics can read instantly — no identifiers, no session tracking.
+
+#### How to implement UTMs
+1. Add UTM parameters to all destination URLs
+2. Follow consistent naming conventions
+3. Include all relevant UTM fields
+
+Recommended structure:
+https://yourwebsite.com?utm_source=facebook&utm_medium=cpc&utm_campaign=summer_sale&utm_term=running_shoes
+
+## Related documentation
+
+- [How to Track Google Ads Campaigns](/reports/insights/how-to-track-google-ads-campaigns) — UTM templates for paid search
+- [How to Change UTM Parameters in Sealmetrics](/reports/insights/how-to-change-utm-parameters) — Map custom parameter names
+- [Understanding the "(not set)" Value in Sealmetrics Reports](/reports/insights/understanding-not-set) — Avoid missing UTM gaps
+- [Sources Report](/reports/sources) — View campaign and creative performance

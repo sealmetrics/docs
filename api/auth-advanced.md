@@ -1,0 +1,619 @@
+---
+title: "Auth Advanced"
+description: "Session management, password reset, and two-factor authentication reference — list active sessions and terminate them per device"
+canonical_url: "https://docs.sealmetrics.com/api/auth-advanced"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "b6d5f679d720e5affa7036753f0ee96efb6ef0f731fa31ae8b1c7dd18b875de7"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/auth-advanced.mdx"
+publisher: "SealMetrics"
+---
+
+# Auth Advanced
+
+Canonical page: https://docs.sealmetrics.com/api/auth-advanced
+
+Complete reference for session management, password reset, and two-factor authentication.
+
+---
+
+## Session Management
+
+Sealmetrics tracks user sessions with device and IP information. Users can view and terminate sessions from any device.
+
+### List Sessions
+
+```http
+GET /auth/sessions
+```
+
+Returns all active sessions for the current user.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "sessions": [
+      {
+        "id": 123,
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)...",
+        "ip_address": "203.0.113.45",
+        "created_at": "2025-01-08T10:30:00Z",
+        "last_used_at": "2025-01-10T14:25:00Z",
+        "is_current": true
+      },
+      {
+        "id": 121,
+        "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0)...",
+        "ip_address": "198.51.100.89",
+        "created_at": "2025-01-05T08:15:00Z",
+        "last_used_at": "2025-01-09T18:42:00Z",
+        "is_current": false
+      }
+    ],
+    "total": 2
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `id` | Session ID for termination |
+| `user_agent` | Browser/device information |
+| `ip_address` | IP address of the session |
+| `created_at` | When the session was created (login time) |
+| `last_used_at` | Last API request with this session |
+| `is_current` | `true` if this is the session making the request |
+
+---
+
+### Terminate Session
+
+```http
+DELETE /auth/sessions/{session_id}
+```
+
+Terminate a specific session (logs out that device).
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Session terminated successfully"
+  }
+}
+```
+
+---
+
+### Logout All Sessions
+
+```http
+DELETE /auth/sessions
+```
+
+Terminate all sessions except the current one (force logout from all devices).
+
+**Query Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `include_current` | boolean | `false` | Also terminate current session |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "All sessions terminated successfully",
+    "sessions_terminated": 3
+  }
+}
+```
+
+---
+
+### Logout Current Session
+
+```http
+POST /auth/logout
+```
+
+Logout the current session only.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Logged out successfully"
+  }
+}
+```
+
+---
+
+## Password Reset
+
+### Request Password Reset
+
+```http
+POST /auth/forgot-password
+```
+
+Send a password reset email.
+
+**Request Body:**
+
+```json
+{
+  "email": "user@example.com"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "If the email exists, a password reset link has been sent"
+  }
+}
+```
+
+**Note:**
+The response is always the same regardless of whether the email exists. This prevents email enumeration attacks.
+
+---
+
+### Reset Password
+
+```http
+POST /auth/reset-password
+```
+
+Reset password using the token from the email.
+
+**Request Body:**
+
+```json
+{
+  "token": "abc123def456...",
+  "new_password": "<your_new_password>"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Password has been reset successfully",
+    "sessions_terminated": 2
+  }
+}
+```
+
+**Warning:**
+
+---
+
+## Two-Factor Authentication (2FA)
+
+Sealmetrics supports TOTP-based two-factor authentication compatible with apps like Google Authenticator, Authy, and 1Password.
+
+### Check 2FA Status
+
+```http
+GET /2fa/status
+```
+
+Check if 2FA is enabled for the current user.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "enabled": true,
+    "enabled_at": "2024-12-15T10:30:00Z",
+    "backup_codes_remaining": 8
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `enabled` | Whether 2FA is active |
+| `enabled_at` | When 2FA was enabled |
+| `backup_codes_remaining` | Number of unused backup codes |
+
+---
+
+### Enable 2FA - Step 1: Setup
+
+```http
+POST /2fa/setup
+```
+
+Start 2FA setup. Requires password verification.
+
+**Request Body:**
+
+```json
+{
+  "password": "<your_password>"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "secret": "YOUR_TOTP_SECRET_KEY",
+    "qr_code_data_url": "data:image/png;base64,iVBORw0KGgo...",
+    "backup_codes": [
+      "ABCD-1234-EFGH",
+      "IJKL-5678-MNOP",
+      "QRST-9012-UVWX",
+      "..."
+    ],
+    "provisioning_uri": "otpauth://totp/Sealmetrics:user@example.com?secret=YOUR_TOTP_SECRET_KEY&issuer=Sealmetrics",
+    "expires_in_minutes": 10
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `secret` | TOTP secret for manual entry |
+| `qr_code_data_url` | Base64 PNG for QR code display |
+| `backup_codes` | Recovery codes (store securely, shown once) |
+| `provisioning_uri` | URI for manual authenticator setup |
+| `expires_in_minutes` | Time until setup expires |
+
+**Note:**
+
+**Warning:**
+
+---
+
+### Enable 2FA - Step 2: Verify
+
+```http
+POST /2fa/setup/verify
+```
+
+Complete setup by verifying a code from the authenticator app.
+
+**Request Body:**
+
+```json
+{
+  "code": "123456"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Two-factor authentication enabled successfully"
+  }
+}
+```
+
+---
+
+### Cancel 2FA Setup
+
+```http
+POST /2fa/setup/cancel
+```
+
+Cancel pending 2FA setup if not completed.
+
+---
+
+### Disable 2FA
+
+```http
+POST /2fa/disable
+```
+
+Disable two-factor authentication. Requires password and current 2FA code.
+
+**Request Body:**
+
+```json
+{
+  "password": "<your_password>",
+  "code": "123456"
+}
+```
+
+The `code` can be either a 6-digit TOTP code or a backup code.
+
+---
+
+### Regenerate Backup Codes
+
+```http
+POST /2fa/backup-codes/regenerate
+```
+
+Generate new backup codes. Old codes are invalidated.
+
+**Request Body:**
+
+```json
+{
+  "code": "123456"
+}
+```
+
+Requires a valid TOTP code (not backup code).
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "backup_codes": [
+      "WXYZ-3456-ABCD",
+      "EFGH-7890-IJKL",
+      "..."
+    ],
+    "count": 10
+  }
+}
+```
+
+---
+
+## Login with 2FA
+
+When 2FA is enabled, the login flow has an additional step.
+
+### Step 1: Initial Login
+
+```http
+POST /auth/token
+```
+
+**Request Body:**
+
+```json
+{
+  "email": "user@example.com",
+  "password": "<your_password>"
+}
+```
+
+**Response (2FA Required):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "requires_2fa": true,
+    "user_id": 123,
+    "message": "Two-factor authentication required"
+  }
+}
+```
+
+### Step 2: Verify 2FA Code
+
+```http
+POST /2fa/verify-login
+```
+
+**Request Body:**
+
+```json
+{
+  "user_id": 123,
+  "code": "123456",
+  "is_backup_code": false
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `user_id` | integer | User ID from Step 1 response |
+| `code` | string | 6-digit TOTP or backup code |
+| `is_backup_code` | boolean | Set `true` if using backup code |
+
+**Response (Success):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "access_token": "<access_token>",
+    "token_type": "bearer",
+    "expires_in": 900,
+    "user": {
+      "id": 123,
+      "email": "user@example.com",
+      "name": "John Doe",
+      "role": "admin",
+      "account_ids": ["acme-corp"]
+    },
+    "ip_filtered_accounts": [],
+    "client_ip": "203.0.113.45"
+  }
+}
+```
+
+---
+
+## Impersonation Status
+
+Sealmetrics support engineers can impersonate a customer session (via the internal admin tooling). When that happens, the active JWT carries an `impersonated_by` claim. The dashboard polls this endpoint on layout mount to decide whether to render the "you are being impersonated" banner.
+
+### GET /auth/impersonation-status
+
+Authentication: standard session (JWT or cookie).
+
+**Response when no impersonation is active:**
+
+```json
+{ "active": false }
+```
+
+**Response during an impersonation:**
+
+```json
+{
+  "active": true,
+  "impersonated_by_user_id": 1,
+  "impersonated_by_email": "support@sealmetrics.com",
+  "impersonated_by_name": "SealMetrics Support",
+  "started_at": "2025-01-08T13:55:00Z"
+}
+```
+
+The exact field set inside the active payload may evolve — treat the response as opaque metadata for the banner, and rely only on `active` for behavior decisions.
+
+---
+
+## Error Codes
+
+The `error.code` is derived from the HTTP status (`400` → `bad_request`,
+`401` → `unauthorized`, `403` → `forbidden`, `404` → `not_found`,
+`429` → `rate_limit_exceeded`). The specific reason is carried in the
+human-readable `error.message`. The IP allowlist checks are the exception: they
+return a structured `code: "IP_NOT_ALLOWED"`.
+
+### Authentication Errors
+
+| HTTP | Error Code | Example message |
+|------|------------|-----------------|
+| 401 | `unauthorized` | `Invalid email or password` |
+| 401 | `unauthorized` | `Invalid token` / `Token has expired` |
+| 401 | `unauthorized` | `Invalid API key` / `API key has expired` |
+| 403 | `forbidden` | `Email not verified. Please check your email for a verification link.` |
+| 403 | `IP_NOT_ALLOWED` | `Access from this IP address is not allowed` (Enterprise) |
+
+### 2FA Errors
+
+| HTTP | Error Code | Example message |
+|------|------------|-----------------|
+| 400 | `bad_request` | `2FA is already enabled. Disable it first to reconfigure.` |
+| 400 | `bad_request` | `2FA is not enabled` / `2FA is not enabled for this user` |
+| 400 | `bad_request` | `Invalid verification code` |
+| 401 | `unauthorized` | `Invalid verification code` (during `/2fa/verify-login`) |
+| 400 | `bad_request` | `Invalid verification code. Please try again.` (setup) / setup expired |
+| 429 | `rate_limit_exceeded` | `Too many verification attempts. Please try again later.` |
+
+### Session Errors
+
+| HTTP | Error Code | Example message |
+|------|------------|-----------------|
+| 400 | `bad_request` | `Session management not available for this auth method` |
+| 404 | `not_found` | `Session not found` |
+
+---
+
+## Code Examples
+
+### Python - Complete 2FA Login Flow
+
+```python
+import requests
+
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+
+def login_with_2fa(email, password, totp_code):
+    # Step 1: Initial login
+    response = requests.post(
+        f"{BASE_URL}/auth/token",
+        json={"email": email, "password": password}
+    )
+    data = response.json()["data"]
+
+    # Check if 2FA is required
+    if data.get("requires_2fa"):
+        # Step 2: Verify 2FA
+        response = requests.post(
+            f"{BASE_URL}/2fa/verify-login",
+            json={
+                "user_id": data["user_id"],
+                "code": totp_code,
+                "is_backup_code": False
+            }
+        )
+        data = response.json()["data"]
+
+    return data["access_token"]
+```
+
+### JavaScript - Session Management
+
+```javascript
+const API_KEY = 'sm_your_api_key';
+const BASE_URL = 'https://my.sealmetrics.com/api/v1';
+
+async function getSessions(token) {
+  const response = await fetch(`${BASE_URL}/auth/sessions`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  return response.json();
+}
+
+async function logoutOtherDevices(token) {
+  // Keep current session, logout all others
+  const response = await fetch(`${BASE_URL}/auth/sessions`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  return response.json();
+}
+
+async function terminateSession(token, sessionId) {
+  const response = await fetch(`${BASE_URL}/auth/sessions/${sessionId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  return response.json();
+}
+```
+
+### Security: Force Logout After Suspicious Activity
+
+```python
+async def handle_suspicious_activity(user_token):
+    """Force logout all sessions when suspicious activity detected."""
+
+    # Terminate all sessions including current
+    response = requests.delete(
+        f"{BASE_URL}/auth/sessions",
+        headers={"Authorization": f"Bearer {user_token}"},
+        params={"include_current": True}
+    )
+
+    if response.status_code == 200:
+        # User will need to re-authenticate
+        return True
+
+    return False
+```

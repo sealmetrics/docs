@@ -1,0 +1,43 @@
+---
+title: "How to Add a New Site"
+description: "Step-by-step guide to adding a new site (website) to your Sealmetrics organization."
+canonical_url: "https://docs.sealmetrics.com/platform/account-setup/how-to-add-new-account"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "0758b8a66aa2848a2329879f1af4a75ba44434c87fa62292bd8d92c01711d62b"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/account-setup/how-to-add-new-account.mdx"
+publisher: "SealMetrics"
+---
+
+# How to Add a New Site
+
+Canonical page: https://docs.sealmetrics.com/platform/account-setup/how-to-add-new-account
+
+Each site represents a website you want to track with Sealmetrics. Sites belong to an organization.
+
+## Steps
+
+1. In the left sidebar, expand **Organization** and click **Sites** (`/settings/sites`)
+2. Click **New Site**
+3. Enter the **Site Name** (e.g., "My Blog" or "company.com")
+4. Optionally enter a **Primary Domain** to track (you can add more later)
+5. Set the site's **Timezone** — this determines how dates are calculated in your reports (default: Europe/Madrid)
+6. Set the **Currency** for conversion tracking (default: EUR)
+7. Click **Create Site**
+
+Your new site will appear in the **Your Sites** list with a unique **Site ID**.
+
+---
+
+## Next steps
+
+- **Install the tracker** on your website using the Site ID. See [Installation Guide](/implementation/tracker/installation).
+- **Configure your domains** in the site's **Domains** tab (Site Config → Settings) to ensure proper attribution.
+- **Set up conversions** to track goals and e-commerce transactions.
+
+---
+
+For more about how sites relate to organizations, see [Organizations](/platform/organizations).

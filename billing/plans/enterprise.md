@@ -1,0 +1,98 @@
+---
+title: "Enterprise Plan"
+description: "Everything included in the Sealmetrics Enterprise plan for organizations with custom needs."
+canonical_url: "https://docs.sealmetrics.com/billing/plans/enterprise"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "086a74d2d74ff41519498c01bd42a31d0e33c9b07621a497cd2a43380569edea"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "billing/plans/enterprise.mdx"
+publisher: "SealMetrics"
+---
+
+# Enterprise Plan
+
+Canonical page: https://docs.sealmetrics.com/billing/plans/enterprise
+
+The Enterprise plan is designed for large organizations with custom requirements, unlimited events, and dedicated support.
+
+## Pricing
+
+Custom pricing based on your organization's needs. [Contact sales](mailto:sales@sealmetrics.com) for a personalized quote.
+
+## What's Included
+
+### Events & Tracking
+
+| Feature | Included |
+|---------|----------|
+| Monthly events | Unlimited |
+| Websites | Unlimited |
+| Data retention | 24 months |
+| First-party tracking | Yes |
+| Cookie-free mode | Yes |
+| Bot filtering | Yes |
+| Agent AI Analytics | Coming soon |
+| Isolated processing | Yes |
+| Real-time data | Typically < 2 min |
+| Data complete before 6 AM | Yes (SLA) |
+
+### Users & Access
+
+| Feature | Included |
+|---------|----------|
+| Team members | Unlimited |
+| Full API access | Yes |
+| API rate limit | Custom |
+| Dashboard access | Full |
+| Full RBAC | Yes |
+| Audit logs | Yes |
+| Multi-site portfolio | Yes |
+
+### LENS AI
+
+| Feature | Included |
+|---------|----------|
+| LENS Chat | Yes |
+| LENS Reports | Yes |
+| LENS Insights (rule-based detection) | Coming soon |
+| AI with your own key (BYOK) | Yes — unmetered, billed by your provider |
+| [Seal AI Private](/billing/seal-ai-private) | **Included** (5M tokens/month, EU-hosted, no API key needed) |
+| Dedicated, non-shared Seal AI Private instance | Yes |
+
+### Integrations
+
+| Feature | Included |
+|---------|----------|
+| All Scale integrations | Yes |
+| BigQuery export | Yes |
+| CSV/JSON export | Yes |
+| MCP Server | Yes |
+| Webhooks | Yes |
+
+### Support
+
+| Feature | Included |
+|---------|----------|
+| Email support | Yes |
+| Chat support | Yes |
+| Priority support | Yes |
+| Dedicated account manager | Yes |
+| White-glove onboarding | Yes |
+| SLA | 99.9% uptime |
+
+## Ideal For
+
+- Large enterprises with custom compliance needs
+- High-traffic sites with unlimited events
+- Teams needing dedicated account management
+- Businesses requiring isolated data processing
+
+## Getting Started
+
+1. [Contact sales](mailto:sales@sealmetrics.com) for a demo
+2. Discuss your specific requirements
+3. Receive custom proposal
+4. White-glove onboarding

@@ -1,0 +1,161 @@
+---
+title: "Session Management"
+description: "View your active Sealmetrics sessions across devices, check the browser, OS, and IP of each one, and sign out of any session you don't recognize."
+canonical_url: "https://docs.sealmetrics.com/security-privacy/account-security/session-management"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "e4550da047e9e3a3e88e4ca1c9620df149ccda5cf69c0bb7f0b8c2747337ed8c"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "security-privacy/account-security/session-management.mdx"
+publisher: "SealMetrics"
+---
+
+# Session Management
+
+Canonical page: https://docs.sealmetrics.com/security-privacy/account-security/session-management
+
+Session management lets you see the devices where **your own account** is currently signed in, and sign out of sessions you don't recognize.
+
+## Viewing Active Sessions
+
+1. In the sidebar, go to **My Account → Security**
+2. Find the **Active Sessions** section
+
+Your current session is highlighted, and any other sessions are listed below it.
+
+```
+Active Sessions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Current Session:
+┌─────────────────────────────────────────┐
+│ 🟢 macOS — Chrome                       │
+│    IP: 192.168.1.50                     │
+│    Active now            [Current]       │
+└─────────────────────────────────────────┘
+
+Other Sessions:
+┌─────────────────────────────────────────┐
+│ 🟢 iOS — Safari                         │
+│    IP: 83.45.123.78                     │
+│    Last active: 2 hours ago      [🗑]    │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│ ⚪ Windows — Chrome                     │
+│    IP: 203.0.113.45                     │
+│    Last active: 3 days ago       [🗑]    │
+└─────────────────────────────────────────┘
+
+[Logout All Other Sessions]
+```
+
+## Session Information
+
+Each session shows:
+
+| Field | Description |
+|-------|-------------|
+| Device | Operating system inferred from the browser (macOS, Windows, iOS, Android, Linux) |
+| Browser | Chrome, Firefox, Safari, Edge, etc. (inferred from the user agent) |
+| IP Address | The IP address recorded for the session |
+| Last Active | When the session was last used |
+
+**Note:**
+
+## Signing Out Sessions
+
+### Single Session
+
+Click the trash icon next to any other session to terminate it. That device's token is invalidated immediately and the session is removed from the list.
+
+### All Other Sessions
+
+Click **Logout All Other Sessions** to sign out everywhere except your current device.
+
+```
+Logout All Other Sessions?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This will:
+  • Log out your other sessions
+  • Invalidate all existing tokens on those devices
+  • Require re-authentication on those devices
+
+Your current session stays active.
+
+[Cancel] [Logout All Sessions]
+```
+
+## When to Review Sessions
+
+Review your sessions when:
+
+- 🔴 **Immediately:** You notice suspicious activity
+- 🔴 **After:** Your password was compromised
+- 🟡 **Regularly:** Monthly security check
+- 🟡 **After:** Using a shared or public computer
+- 🟢 **Optionally:** After traveling
+
+## Suspicious Sessions
+
+### Warning Signs
+
+Watch for sessions from:
+
+| Sign | Concern Level | Action |
+|------|---------------|--------|
+| Unknown device or browser | 🔴 High | Sign out, change password |
+| IP address you don't recognize | 🔴 High | Sign out immediately |
+| Very old sessions | 🟡 Medium | Sign out for hygiene |
+
+### If You See Suspicious Activity
+
+1. **Sign out** the suspicious session immediately
+2. **Change your password** right away
+3. **Enable 2FA** if not already enabled
+4. **Review** recent account activity
+5. **Check** for any changes made to your account
+
+```
+⚠️ Suspicious Session Detected?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+If you don't recognize this session:
+
+1. Terminate that session (trash icon)
+2. Use **Logout All Other Sessions** to clear every other device
+3. Change your password
+4. Review the [Audit Logs](/platform/settings/advanced/audit-log) for unexpected activity
+```
+
+**Note:**
+
+## Session Security Best Practices
+
+- ✅ Sign out from shared computers
+- ✅ Review your sessions periodically
+- ✅ Enable 2FA on your account
+- ✅ Use **Logout All Other Sessions** if you suspect your account was accessed
+- ❌ Don't stay signed in on public computers
+- ❌ Don't ignore sessions you don't recognize
+
+## Troubleshooting
+
+### "Session expired unexpectedly"
+
+- Verify you didn't sign out from another device or use **Logout All Other Sessions**
+- Note that changing your password signs out all sessions
+- Clear browser cookies and sign in again
+
+### "Can't see my sessions"
+
+- Make sure you're signed in
+- Try refreshing the page
+
+### "Old sessions still showing"
+
+- "Last active" shows the last recorded activity for that session
+- Terminate a session to remove it from the list immediately

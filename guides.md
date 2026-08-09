@@ -1,0 +1,28 @@
+---
+title: "Guides"
+description: "Step-by-step Sealmetrics guides — cookieless analytics implementation, GDPR compliance, and platform best practices."
+canonical_url: "https://docs.sealmetrics.com/guides"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "7e0e8dccec6d0a13bcf690d2caec43f79ffcb3cec8a7c08aa085ec01278d78ef"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "guides/index.mdx"
+publisher: "SealMetrics"
+---
+
+# Guides
+
+Canonical page: https://docs.sealmetrics.com/guides
+
+Welcome to the Sealmetrics guides section. Here you'll find step-by-step tutorials and best practices for getting the most out of Sealmetrics.
+
+## Available Guides
+
+- [Complete Guide to Cookieless Analytics 2025](/guides/complete-guide-cookieless-analytics) - Learn how cookieless analytics captures 100% of visitor data without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages.
+- [UTM Governance: Naming Conventions That Keep Attribution Clean](/guides/utm-governance) - A practical UTM playbook: naming conventions, a source/medium taxonomy aligned with Sealmetrics default channels, the mistakes that corrupt attribution, a spreadsheet template, and how Sealmetrics processes UTMs end to end.
+- [GA4 to Sealmetrics: The Complete Migration Checklist](/guides/ga4-migration-checklist) - Phase-by-phase migration checklist: audit your GA4 events, map them to conv()/micro(), install the tracker, run 30 days in parallel, know which data differences to expect, and switch GA4 off safely.
+- [Tracker Performance Report: Sealmetrics vs GA4](/guides/tracker-performance-report) - A technical comparison of tracking pixel weight, protocol, latency, and traffic capture against gtag.js, with methodology, measured data from an anonymized reference site, and modeled network scenarios.
+- [Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics](/guides/tracker-performance-three-way) - The three-way comparison in one table set: script weight, delivery chains, time to first hit, transport, consent, and measured traffic differences across all three trackers.
+- [Tracker Performance Report: Sealmetrics vs Adobe Analytics](/guides/tracker-performance-adobe-analytics) - Field-measured comparison against the Adobe Launch + AppMeasurement stack on an anonymized dual-vendor site: script weight, delivery chain, time to first hit, and a 30-day dual-tag validation.

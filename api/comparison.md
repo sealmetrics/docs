@@ -1,0 +1,494 @@
+---
+title: "Period Comparison"
+description: "Compare analytics between time periods with the compare parameter — previous period or year-over-year deltas on any stats endpoint"
+canonical_url: "https://docs.sealmetrics.com/api/comparison"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "845829fc4ab55ed4df072dcd259ae7be136ac930a13f3f9318c71a48b16d358c"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/comparison.mdx"
+publisher: "SealMetrics"
+---
+
+# Period Comparison
+
+Canonical page: https://docs.sealmetrics.com/api/comparison
+
+Compare analytics data between time periods to track growth, identify trends, and measure performance changes.
+
+---
+
+## Overview
+
+The Sealmetrics API supports two comparison modes:
+
+| Mode | Value | Description |
+|------|-------|-------------|
+| **Previous Period** | `previous` | Same duration, immediately before the selected range |
+| **Year over Year** | `yoy` | Same dates in the previous year |
+
+---
+
+## Using Comparison
+
+Add the `compare` parameter to any stats endpoint:
+
+```http
+GET /stats/overview?site_id=my-site&period=30d&compare=previous
+```
+
+### Parameter Values
+
+| Value | Effect |
+|-------|--------|
+| `previous` | Compare with the previous period of same duration |
+| `yoy` | Compare with the same period last year |
+| *(omit)* | No comparison (default for most endpoints) |
+| `true` | Alias for `previous` |
+
+**Note:**
+
+---
+
+## Comparison Modes Explained
+
+### Previous Period
+
+Compares with the same duration immediately before the selected range.
+
+**Examples:**
+
+| Selected Period | Comparison Period |
+|-----------------|-------------------|
+| Jan 15-21 (7 days) | Jan 8-14 (7 days) |
+| Last 30 days | Previous 30 days |
+| This month (Jan 1-10) | Dec 2-11 (same duration) |
+
+```http
+GET /stats/sources?site_id=my-site&period=7d&compare=previous
+```
+
+This compares:
+- **Current**: Last 7 days (e.g., Jan 4-10)
+- **Previous**: 7 days before that (Dec 28 - Jan 3)
+
+### Year over Year (YoY)
+
+Compares with the exact same dates in the previous year.
+
+**Examples:**
+
+| Selected Period | Comparison Period |
+|-----------------|-------------------|
+| Jan 1-31, 2025 | Jan 1-31, 2024 |
+| Q4 2024 | Q4 2023 |
+| Dec 25, 2024 | Dec 25, 2023 |
+
+```http
+GET /stats/sources?site_id=my-site&period=this_month&compare=yoy
+```
+
+This compares:
+- **Current**: January 2025
+- **Previous**: January 2024
+
+**Tip:**
+Use `yoy` for seasonal businesses where comparing to last year is more meaningful than the previous period. Black Friday vs Black Friday, not Black Friday vs early November.
+
+---
+
+## Response Format
+
+### Overview Endpoint
+
+The `/stats/overview` endpoint includes comparison data inline. Current-period metrics live under `data.traffic` and `data.conversions`; the previous period is returned under `data.traffic_change` and `data.conversions_change` (same shapes). Time series for the current period are returned per metric (`data.entrances_series`, etc.) with comparison overlays under `*_series_compare`:
+
+```json
+{
+  "success": true,
+  "data": {
+    "date_range": { "start_date": "2025-01-01", "end_date": "2025-01-31", "days": 31 },
+    "traffic": {
+      "entrances": 15420,
+      "engaged_entrances": 12336,
+      "page_views": 45780,
+      "microconversions": 1820,
+      "conversions": 245,
+      "revenue": 18650.00,
+      "bounce_rate": 20.0,
+      "pages_per_session": 2.97
+    },
+    "conversions": {
+      "conversions": 245,
+      "revenue": 18650.00,
+      "microconversions": 1820,
+      "conversion_rate": 1.59,
+      "average_order_value": 76.12
+    },
+    "traffic_change": {
+      "entrances": 14200,
+      "engaged_entrances": 11360,
+      "page_views": 42500,
+      "microconversions": 1650,
+      "conversions": 210,
+      "revenue": 16800.00,
+      "bounce_rate": 20.0,
+      "pages_per_session": 2.99
+    },
+    "conversions_change": {
+      "conversions": 210,
+      "revenue": 16800.00,
+      "microconversions": 1650,
+      "conversion_rate": 1.48,
+      "average_order_value": 80.00
+    },
+    "entrances_series": { "metric": "entrances", "points": [], "total": 15420, "average": 497.42 },
+    "entrances_series_compare": { "metric": "entrances", "points": [], "total": 14200, "average": 458.06 }
+  },
+  "meta": {},
+  "timestamp": "2025-02-01T00:00:00Z"
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `traffic` / `conversions` | Current-period traffic and conversion metrics |
+| `traffic_change` / `conversions_change` | Raw metrics from the comparison period (same shape as `traffic` / `conversions`) |
+| `entrances_series`, `page_views_series`, `conversions_series`, … | Time series for the current period (one object per metric) |
+| `entrances_series_compare`, `page_views_series_compare`, `conversions_series_compare` | Time series for the comparison period |
+
+There are no `comparison` or `deltas` keys; the API returns raw values for both periods and you compute the percentage changes client-side.
+
+### List Endpoints
+
+Paginated list endpoints include comparison totals:
+
+```json
+{
+  "data": [
+    {
+      "utm_source": "google",
+      "entrances": 8500,
+      "conversions": 95,
+      "revenue": 7600.00
+    },
+    {
+      "utm_source": "facebook",
+      "entrances": 3200,
+      "conversions": 42,
+      "revenue": 3150.00
+    }
+  ],
+  "total": 25,
+  "page": 1,
+  "page_size": 50,
+  "has_next": false,
+  "has_prev": false,
+  "comparison": {
+    "entrances": 10500,
+    "engaged_entrances": 8400,
+    "page_views": 31500,
+    "conversions": 115,
+    "revenue": 9200.00
+  }
+}
+```
+
+The `comparison` object contains **aggregate totals** for the comparison period (not per-row comparisons).
+
+---
+
+## Calculating Deltas
+
+The API returns comparison data; you calculate deltas client-side:
+
+```javascript
+function calculateDelta(current, previous) {
+  if (previous === 0) return current > 0 ? 100 : 0;
+  return ((current - previous) / previous) * 100;
+}
+
+// Example
+const currentEntrances = response.data.traffic.entrances;
+const previousEntrances = response.data.traffic_change.entrances;
+const delta = calculateDelta(currentEntrances, previousEntrances);
+// Result: 8.59 (8.59% increase)
+```
+
+### Delta Interpretation
+
+| Delta | Meaning |
+|-------|---------|
+| `+15.2%` | 15.2% increase vs comparison period |
+| `-8.5%` | 8.5% decrease vs comparison period |
+| `0%` | No change |
+| `N/A` | No comparison data available |
+
+### Metric Polarity
+
+Some metrics are "inverse" - lower is better:
+
+| Metric | Improvement Direction |
+|--------|----------------------|
+| Entrances | Higher is better |
+| Conversions | Higher is better |
+| Revenue | Higher is better |
+| **Bounce Rate** | **Lower is better** |
+
+When displaying deltas, consider inverting colors for bounce rate.
+
+---
+
+## Endpoints Supporting Comparison
+
+| Endpoint | Default | Notes |
+|----------|---------|-------|
+| `/stats/overview` | `previous` | Full comparison with time series |
+| `/stats/pages` | none | Totals only |
+| `/stats/sources` | none | Totals only |
+| `/stats/mediums` | none | Totals only |
+| `/stats/campaigns` | none | Totals only |
+| `/stats/terms` | none | Totals only |
+| `/stats/referrers` | none | Totals only |
+| `/stats/geo/countries` | none | Totals only |
+| `/stats/conversions` | none | Totals only |
+| `/stats/conversions/raw` | none | Event-level rows |
+| `/stats/microconversions` | none | Totals only |
+| `/stats/microconversions/raw` | none | Event-level rows |
+| `/stats/conversion-items/raw` | none | One row per item |
+| `/stats/landing-pages` | none | Totals only |
+
+---
+
+## Date Period + Comparison
+
+The comparison period is calculated based on the selected date range:
+
+### With Period Shortcuts
+
+| Period | Current Range | Previous Comparison | YoY Comparison |
+|--------|---------------|---------------------|----------------|
+| `7d` | Last 7 days | Previous 7 days | Same 7 days last year |
+| `30d` | Last 30 days | Previous 30 days | Same 30 days last year |
+| `this_month` | Month to date | Same days in previous month | Same days in previous year |
+| `last_month` | Full previous month | Month before that | Same month last year |
+| `this_quarter` | Quarter to date | Same days in previous quarter | Same days in previous year |
+| `ytd` | Year to date | Same days in previous year | N/A (same as period) |
+
+### With Custom Dates
+
+```http
+GET /stats/overview?site_id=my-site&start_date=2025-01-01&end_date=2025-01-15&compare=previous
+```
+
+| | Dates |
+|---|---|
+| **Current** | Jan 1-15, 2025 (15 days) |
+| **Previous** | Dec 17-31, 2024 (15 days) |
+| **YoY** | Jan 1-15, 2024 |
+
+---
+
+## Edge Cases
+
+### Leap Years
+
+For YoY comparison on February 29:
+
+- 2024-02-29 (leap year) → 2023-02-28 (non-leap year)
+
+The API automatically adjusts to February 28.
+
+### New Accounts
+
+If the comparison period is before the account existed, the overview's `traffic_change` / `conversions_change` objects come back with zero values:
+
+```json
+{
+  "data": {
+    "traffic_change": {
+      "entrances": 0,
+      "conversions": 0,
+      "revenue": 0.00
+    }
+  }
+}
+```
+
+All comparison values will be zero. (For list endpoints, the aggregate `comparison` totals object is zeroed the same way.)
+
+### Missing Data Days
+
+If some days in the comparison period have no data, those days contribute zero to totals. This is normal and doesn't indicate an error.
+
+---
+
+## Code Examples
+
+### Python - Calculate All Deltas
+
+```python
+import requests
+
+def get_stats_with_comparison(site_id, period="30d", compare="previous"):
+    response = requests.get(
+        "https://my.sealmetrics.com/api/v1/stats/overview",
+        headers={"X-API-Key": API_KEY},
+        params={
+            "site_id": site_id,
+            "period": period,
+            "compare": compare
+        }
+    )
+    return response.json()["data"]
+
+def calculate_delta(current, previous):
+    if previous == 0:
+        return 100.0 if current > 0 else 0.0
+    return round(((current - previous) / previous) * 100, 2)
+
+# Get data
+data = get_stats_with_comparison("my-site", "30d", "previous")
+current = data["traffic"]
+previous = data["traffic_change"]
+
+# Calculate deltas (entrances, revenue and bounce_rate all live under traffic)
+metrics = ["entrances", "conversions", "revenue", "bounce_rate"]
+for metric in metrics:
+    current_value = current[metric]
+    previous_value = previous[metric]
+    delta = calculate_delta(current_value, previous_value)
+
+    # Invert display for bounce_rate (lower is better)
+    if metric == "bounce_rate":
+        direction = "improved" if delta < 0 else "worsened"
+    else:
+        direction = "up" if delta > 0 else "down"
+
+    print(f"{metric}: {current_value} ({delta:+.1f}% {direction})")
+```
+
+### JavaScript - Display Comparison Card
+
+```javascript
+async function fetchWithComparison(accountId, period, compare = 'previous') {
+  const params = new URLSearchParams({
+    site_id: accountId,
+    period,
+    compare
+  });
+
+  const response = await fetch(
+    `https://my.sealmetrics.com/api/v1/stats/overview?${params}`,
+    { headers: { 'X-API-Key': API_KEY } }
+  );
+
+  return response.json();
+}
+
+function formatDelta(current, previous, inverse = false) {
+  if (previous === 0) {
+    return current > 0 ? '+∞' : '0%';
+  }
+
+  const delta = ((current - previous) / previous) * 100;
+  const formatted = `${delta >= 0 ? '+' : ''}${delta.toFixed(1)}%`;
+
+  // For inverse metrics (bounce_rate), flip the color logic
+  const isPositive = inverse ? delta < 0 : delta > 0;
+
+  return {
+    text: formatted,
+    color: isPositive ? 'green' : delta < 0 ? 'red' : 'gray'
+  };
+}
+
+// Usage
+const { data } = await fetchWithComparison('my-site', '30d', 'yoy');
+
+const entrancesDelta = formatDelta(
+  data.traffic.entrances,
+  data.traffic_change.entrances
+);
+console.log(`Entrances: ${data.traffic.entrances} (${entrancesDelta.text})`);
+
+const bounceDelta = formatDelta(
+  data.traffic.bounce_rate,
+  data.traffic_change.bounce_rate,
+  true // inverse = true for bounce rate
+);
+console.log(`Bounce Rate: ${data.traffic.bounce_rate}% (${bounceDelta.text})`);
+```
+
+### Build Trend Analysis
+
+```python
+def analyze_trend(site_id, periods=["7d", "30d", "90d"]):
+    """Analyze trends across multiple time periods."""
+    results = {}
+
+    for period in periods:
+        data = get_stats_with_comparison(site_id, period, "previous")
+
+        results[period] = {
+            "entrances": {
+                "current": data["traffic"]["entrances"],
+                "delta": calculate_delta(
+                    data["traffic"]["entrances"],
+                    data["traffic_change"]["entrances"]
+                )
+            },
+            "revenue": {
+                "current": data["traffic"]["revenue"],
+                "delta": calculate_delta(
+                    data["traffic"]["revenue"],
+                    data["traffic_change"]["revenue"]
+                )
+            }
+        }
+
+    return results
+
+# Output
+trends = analyze_trend("my-site")
+for period, metrics in trends.items():
+    print(f"\n{period}:")
+    print(f"  Entrances: {metrics['entrances']['current']} ({metrics['entrances']['delta']:+.1f}%)")
+    print(f"  Revenue: €{metrics['revenue']['current']} ({metrics['revenue']['delta']:+.1f}%)")
+```
+
+---
+
+## Best Practices
+
+### Choosing Comparison Mode
+
+| Scenario | Recommended Mode |
+|----------|-----------------|
+| Daily monitoring | `previous` |
+| Weekly review | `previous` |
+| Monthly reporting | `yoy` (seasonal) or `previous` |
+| Campaign analysis | `previous` (vs pre-campaign) |
+| Seasonal business | `yoy` |
+| Growth tracking | `previous` |
+
+### Handling Zero Baselines
+
+When previous period has zero values:
+
+```javascript
+if (previous === 0) {
+  // Don't show percentage, show absolute change
+  return current > 0 ? `+${current} (new)` : 'No data';
+}
+```
+
+### Caching Comparison Data
+
+Comparison calculations are more expensive than single-period queries. Consider:
+
+1. Cache comparison results longer (data won't change)
+2. Fetch comparison data less frequently than real-time data
+3. Pre-calculate and store daily comparison summaries

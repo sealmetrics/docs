@@ -1,0 +1,502 @@
+---
+title: "BigQuery"
+description: "Connect Sealmetrics to Google BigQuery to export your analytics data for advanced SQL analysis, custom reporting, and data warehousing."
+canonical_url: "https://docs.sealmetrics.com/integrations/bigquery"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "e876fec6e51fef0cef15ccf70150200bdd7f5f766e09082c1ef181c498f8d2d0"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/bigquery.mdx"
+publisher: "SealMetrics"
+---
+
+# BigQuery
+
+Canonical page: https://docs.sealmetrics.com/integrations/bigquery
+
+Connect Sealmetrics to Google BigQuery to unlock advanced SQL analysis, custom reporting, and seamless integration with your data warehouse and BI tools.
+
+---
+
+## Why BigQuery?
+
+Sealmetrics dashboards cover the most common analytics needs. But when you need to go deeper, BigQuery gives you:
+
+- **Custom SQL queries** on aggregated traffic, page, and conversion data
+- **BI tool integration** with Looker, Data Studio, Tableau, or Power BI
+- **Cross-platform joins** combining analytics with CRM, ad spend, or backend data
+- **Machine learning** using BigQuery ML on your traffic and conversion patterns
+- **Long-term storage** under your own retention rules, beyond Sealmetrics' fixed 24-month window
+
+**Tip:**
+
+---
+
+## How It Works
+
+Sealmetrics automatically exports your analytics data to a BigQuery dataset on a schedule you configure. The sync process:
+
+1. Extracts data from your Sealmetrics account
+2. Transforms it into structured BigQuery tables
+3. Loads it into your GCP project on your chosen schedule (hourly, daily, or manual)
+
+Your data stays in **your** Google Cloud project — Sealmetrics never stores copies outside your account.
+
+---
+
+## Prerequisites
+
+Before starting, make sure you have:
+
+1. Any **Sealmetrics plan** (Growth, Scale, or Enterprise)
+2. A **Google Cloud Platform (GCP) account** with billing enabled
+3. The **BigQuery API** enabled in your GCP project
+4. A **GCP service account** (you'll create this in the next steps)
+
+---
+
+## Step-by-Step Connection Guide
+
+### 1. Create a GCP Project (if needed)
+
+If you don't have a GCP project yet:
+
+1. Go to [console.cloud.google.com](https://console.cloud.google.com)
+2. Click **Select a project → New Project**
+3. Name it (e.g., `sealmetrics-analytics`) and click **Create**
+4. Make sure billing is enabled for the project
+
+### 2. Enable the BigQuery API
+
+1. In Google Cloud Console, go to **APIs & Services → Library**
+2. Search for **BigQuery API**
+3. Click **Enable** (if not already enabled)
+
+### 3. Create a Service Account
+
+The service account allows Sealmetrics to write data to your BigQuery dataset securely.
+
+1. Go to **IAM & Admin → Service Accounts**
+2. Click **+ Create Service Account**
+3. Fill in the details:
+
+```
+Service Account Details:
+  Name: sealmetrics-export
+  ID: sealmetrics-export
+  Description: Service account for Sealmetrics BigQuery export
+```
+
+4. Click **Create and Continue**
+
+### 4. Grant BigQuery Permissions
+
+Assign the following roles to the service account:
+
+| Role | ID | Purpose |
+|------|----|---------|
+| BigQuery Data Editor | `roles/bigquery.dataEditor` | Create tables and insert data |
+| BigQuery Job User | `roles/bigquery.jobUser` | Run data load jobs |
+
+Click **Continue** and then **Done**.
+
+**Note:**
+
+**Do not use `roles/bigquery.dataInserter`** — it lacks `bigquery.tables.update`, which Sealmetrics needs to add new columns to existing fact tables when the schema evolves (e.g. the `channel_group` column added in mid-2026). Without that permission, schema evolution falls back to silently dropping the new column from the sync: your data continues to flow, but the affected column stays NULL. Prefer `roles/bigquery.dataEditor` unless you have a specific reason otherwise.
+
+### 5. Generate the JSON Key
+
+1. Click on the service account you just created
+2. Go to the **Keys** tab
+3. Click **Add Key → Create new key**
+4. Select **JSON** format
+5. Click **Create**
+
+A `.json` file will download automatically. **Keep this file secure** — it grants access to your BigQuery dataset.
+
+### 6. Configure in Sealmetrics
+
+1. Log in to your Sealmetrics account
+2. Go to **Settings → Integrations → BigQuery**
+3. Upload your JSON key file (or paste its contents)
+4. Configure your dataset:
+
+```
+Dataset Configuration
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GCP Project:  your-project-id (detected from credentials)
+
+Dataset Name: [sealmetrics                    ]
+              (created automatically if it doesn't exist)
+
+Location:     [EU (europe-west1)              ▼]
+```
+
+The dataset uses a fixed star-schema layout: fact tables
+(fact_traffic_daily, fact_conversions, etc.) and dimension tables
+(dim_accounts, dim_countries). Table names are not configurable.
+
+5. Choose your sync schedule:
+
+```
+Sync Schedule
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sync Frequency:
+  ○ Hourly
+  ● Daily
+  ○ Manual (sync on demand only)
+
+Data to Export:
+  ☑ Traffic (daily)
+  ☐ Traffic (hourly)
+  ☑ Conversions
+  ☑ Microconversions
+  ☑ Pages
+  ☑ Landing pages
+  ☐ Accounts (metadata)
+
+Historical Backfill:
+  ☑ Export historical data
+    Backfill: [30] days (max 365)
+```
+
+6. Click **Activate Integration**
+
+### 7. Verify the Connection
+
+After activation, the initial sync will start. You can monitor progress in the integration status panel:
+
+```
+BigQuery Integration Status
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status: ✅ Active
+
+Last Sync:     Today at 03:15 UTC
+Records Synced: 1,234,567
+Next Sync:     Tomorrow at 03:00 UTC
+
+Tables:
+  fact_traffic_daily      1,023,456 rows
+  fact_pages                156,789 rows
+  fact_landing_pages         89,012 rows
+  fact_conversions           34,567 rows
+  fact_microconversions      12,345 rows
+
+[View in BigQuery]  [Sync Now]  [Pause]
+```
+
+**Caution:**
+
+---
+
+## Data Available in BigQuery
+
+Sealmetrics exports a **star schema**: pre-aggregated daily fact tables plus dimension tables for context and JOINs. There are no raw-hit or session tables — data is aggregated by day across UTM, geo, and device dimensions. Every fact table is partitioned by `date` and carries `sync_id`/`synced_at` columns for auditing.
+
+### Traffic (`fact_traffic_daily`)
+
+Unified daily traffic broken down by source, geo, and device.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `account_id` | STRING | Sealmetrics account ID |
+| `date` | DATE | Aggregation day (partition key) |
+| `utm_source` | STRING | UTM source |
+| `utm_medium` | STRING | UTM medium |
+| `utm_campaign` | STRING | UTM campaign |
+| `utm_term` | STRING | UTM term |
+| `utm_content` | STRING | UTM content |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | ISO country code |
+| `device_type` | STRING | mobile / desktop / tablet |
+| `browser` | STRING | Browser name |
+| `os` | STRING | Operating system |
+| `entrances` | INT64 | Entrances |
+| `engaged_entrances` | INT64 | Engaged entrances |
+| `page_views` | INT64 | Page views |
+| `microconversions` | INT64 | Microconversion count |
+| `conversions` | INT64 | Conversion count |
+| `revenue` | NUMERIC | Revenue |
+
+### Hourly Traffic (`fact_traffic_hourly`)
+
+Optional intraday granularity (opt-in). Same dimensions as `fact_traffic_daily` plus an `hour` column (0–23). This table has a 90-day partition expiration.
+
+### Pages (`fact_pages`)
+
+Page-level daily metrics.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `account_id` | STRING | Sealmetrics account ID |
+| `date` | DATE | Aggregation day (partition key) |
+| `page_path` | STRING | URL path |
+| `content_grouping` | STRING | Content grouping |
+| `country` | STRING | ISO country code |
+| `channel_group` | STRING | Channel grouping |
+| `entrances` | INT64 | Entrances |
+| `engaged_entrances` | INT64 | Engaged entrances |
+| `page_views` | INT64 | Page views |
+
+### Landing Pages (`fact_landing_pages`)
+
+Landing-page performance by source and geo.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `account_id` | STRING | Sealmetrics account ID |
+| `date` | DATE | Aggregation day (partition key) |
+| `landing_page` | STRING | Landing page path |
+| `content_grouping` | STRING | Content grouping |
+| `utm_source` | STRING | UTM source |
+| `utm_medium` | STRING | UTM medium |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | ISO country code |
+| `entrances` | INT64 | Entrances |
+| `engaged_entrances` | INT64 | Engaged entrances |
+| `microconversions` | INT64 | Microconversion count |
+| `conversions` | INT64 | Conversion count |
+| `revenue` | NUMERIC | Revenue |
+
+### Conversions (`fact_conversions`)
+
+Conversion events with full attribution and revenue data.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `account_id` | STRING | Sealmetrics account ID |
+| `date` | DATE | Aggregation day (partition key) |
+| `conversion_type` | STRING | Conversion label |
+| `utm_source` | STRING | Attributed source |
+| `utm_medium` | STRING | Attributed medium |
+| `utm_campaign` | STRING | Campaign |
+| `utm_term` | STRING | UTM term |
+| `utm_content` | STRING | UTM content |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | ISO country code |
+| `device_type` | STRING | Device type |
+| `browser` | STRING | Browser name |
+| `os` | STRING | Operating system |
+| `landing_page` | STRING | Landing page path |
+| `click_id` | STRING | Ad-platform click ID (gclid, fbclid, …) |
+| `count` | INT64 | Conversion count |
+| `amount` | NUMERIC | Per-conversion value |
+| `revenue` | NUMERIC | Total revenue |
+| `properties` | JSON | Custom properties |
+
+### Microconversions (`fact_microconversions`)
+
+Lightweight engagement events (form fills, clicks, etc.).
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `account_id` | STRING | Sealmetrics account ID |
+| `date` | DATE | Aggregation day (partition key) |
+| `conversion_type` | STRING | Event type |
+| `utm_source` | STRING | UTM source |
+| `utm_medium` | STRING | UTM medium |
+| `utm_campaign` | STRING | UTM campaign |
+| `channel_group` | STRING | Channel grouping |
+| `country` | STRING | ISO country code |
+| `device_type` | STRING | Device type |
+| `count` | INT64 | Event count |
+| `properties` | JSON | Event metadata |
+
+### Dimension & metadata tables
+
+| Table | Description |
+|-------|-------------|
+| `dim_accounts` | Account metadata (name, timezone, currency, plan tier) for context and JOINs. Synced only if the **Accounts** data type is enabled. |
+| `dim_countries` | Static ISO 3166-1 country lookup (`country_code`, `country_name`, `continent`, `region`). Always created. |
+| `sync_metadata` | Sync audit log (sync type, date range, tables synced, row counts, duration). Always created. |
+
+---
+
+## Example Queries
+
+Once your data is flowing, try these queries in the [BigQuery Console](https://console.cloud.google.com/bigquery):
+
+### Daily Traffic Overview
+
+```sql
+SELECT
+  date,
+  SUM(page_views) AS pageviews,
+  SUM(entrances) AS entrances,
+  SUM(conversions) AS conversions
+FROM `your-project.sealmetrics.fact_traffic_daily`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+GROUP BY date
+ORDER BY date DESC
+```
+
+### Revenue by Traffic Source
+
+```sql
+SELECT
+  utm_source,
+  utm_medium,
+  SUM(count) AS conversions,
+  SUM(revenue) AS revenue,
+  ROUND(SAFE_DIVIDE(SUM(revenue), SUM(count)), 2) AS avg_order_value
+FROM `your-project.sealmetrics.fact_conversions`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+GROUP BY utm_source, utm_medium
+ORDER BY revenue DESC
+```
+
+### Top Landing Pages by Engagement
+
+```sql
+SELECT
+  landing_page,
+  SUM(entrances) AS entrances,
+  SUM(engaged_entrances) AS engaged_entrances,
+  ROUND(SAFE_DIVIDE(SUM(engaged_entrances), SUM(entrances)) * 100, 1) AS engagement_rate
+FROM `your-project.sealmetrics.fact_landing_pages`
+WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+GROUP BY landing_page
+HAVING entrances >= 10
+ORDER BY entrances DESC
+LIMIT 20
+```
+
+---
+
+## Troubleshooting
+
+### "Permission Denied" Error
+
+- Verify the service account has **BigQuery Data Editor** and **BigQuery Job User** roles
+- Confirm the service account belongs to the correct GCP project
+- Check that GCP billing is active
+
+### Sync Not Running
+
+1. Confirm the integration status is **Active** in **Settings → Integrations → BigQuery**
+2. Verify your service account credentials haven't been revoked
+3. Check the sync logs for error details
+
+### Missing Data
+
+- **Data freshness.** Sealmetrics runs an incremental sync **every day at 02:00 UTC** (with hourly incremental syncs at `:05` past the hour for accounts on higher-frequency plans). New rows should appear within ~1 hour of the sync starting. If you don't see recent data:
+  - Query the `v_sync_status` view in your dataset for a per-table freshness readout (see [Monitoring freshness](#monitoring-freshness) below).
+  - Check the sync logs in **Settings → Integrations → BigQuery** — a sync in state `partial` means at least one table was skipped this pass (usually because BigQuery's streaming buffer was still holding rows; the next sync picks it up).
+- **Multi-site datasets.** If you have several Sealmetrics sites pointing at the same GCP project + dataset, they share the physical `fact_*` tables. A DELETE + INSERT sync for one site can be delayed by BigQuery's streaming buffer if another site inserted rows in the last 30–90 min. Sealmetrics handles this automatically (see [Multi-site datasets](#multi-site-datasets)), but the effect for you is that a sync may be classified `partial` and finish on the next pass.
+- **Verify the date range** covers what you expect. Filters must use the partition column: `WHERE date >= '2026-07-01'`.
+- **Check the enabled data types** in your export settings.
+
+### Integration in "degraded" state
+
+After **5 consecutive failed syncs**, Sealmetrics marks the integration as `degraded` and stops attempting syncs until it's reset. This is a safeguard against hammering BigQuery with a broken configuration.
+
+Symptoms:
+
+- The integration shows as **Active** in the dashboard but no new rows arrive.
+- Sync logs show 5 recent failures with the same error class.
+
+Resolution: contact support with your account ID. A degraded state requires a manual reset by a Sealmetrics operator (there is no self-service reset button). Once reset, the integration resumes on the next scheduled window.
+
+### Monitoring freshness
+
+Sealmetrics writes a view into your dataset called `v_sync_status`. Query it any time to see the freshness of each fact table without touching Sealmetrics internals:
+
+```sql
+SELECT table_name, last_sync_at, lag_hours, freshness_status
+FROM `<project>.<dataset>.v_sync_status`
+ORDER BY lag_hours DESC;
+```
+
+`freshness_status` buckets:
+
+| Value | Meaning |
+|-------|---------|
+| `fresh` | ≤ 6 hours since last sync |
+| `stale` | 6–24 hours since last sync |
+| `critical` | > 24 hours since last sync |
+
+This is the recommended way to build your own uptime / freshness alerts on top of Sealmetrics's BigQuery export.
+
+### Reducing BigQuery Costs
+
+- Tables are **partitioned by date** by default — always filter by date in your queries
+- Use `SELECT` only the columns you need instead of `SELECT *`
+- Avoid scanning full tables — use `WHERE date >= ...` clauses (the partition column)
+- Set up [BigQuery budget alerts](https://cloud.google.com/billing/docs/how-to/budgets) in GCP
+
+---
+
+## Costs
+
+### Sealmetrics Side
+
+BigQuery integration is **included at no extra cost** with all plans (Growth, Scale, and Enterprise).
+
+### Google Cloud Side
+
+You pay Google directly for storage and queries:
+
+| Resource | Approximate Cost | Notes |
+|----------|-----------------|-------|
+| Storage | ~$0.02/GB/month | Typically $1-2/month for mid-size sites |
+| Queries | ~$5/TB scanned | Depends on query complexity and frequency |
+
+For a site with ~1M events/month, expect approximately **$5-20/month** in GCP costs depending on query usage.
+
+**Tip:**
+
+---
+
+## Multi-site datasets
+
+Several Sealmetrics sites can point at the **same GCP project and dataset**. In that case they share the physical `fact_*` tables (rows are distinguished by `account_id`). This is a supported topology — many organizations do this to keep all their analytics in one BI-ready location.
+
+You should be aware of one BigQuery-native limitation and how Sealmetrics mitigates it:
+
+- **Streaming buffer + DELETE.** Sealmetrics uses `DELETE + INSERT` for idempotent syncs. BigQuery blocks `DELETE` on any partition where its streaming buffer still holds rows (typically 30–90 min after the last insert on the whole table). In a shared dataset, one site's fresh insert can block another site's DELETE.
+- **Three guardrails** built into the sync worker to keep this invisible to you:
+  1. When a DELETE is blocked, the worker runs a lightweight `SELECT COUNT(*)` (which is never blocked by the buffer). If your account has 0 rows in the target window, the INSERT proceeds anyway — the buffer was a neighbor's problem, not yours.
+  2. Failed / partial windows are recorded and re-tried automatically on the next sync (via a `resync_from` marker on the integration).
+  3. Resync-pending integrations are processed **first** on each sync pass, so a stuck window doesn't wait a full day to retry.
+
+**What you'll see externally:** occasionally a sync ends in state `partial` (some tables OK, one skipped), and the next scheduled sync fills the gap. `v_sync_status` shows the current state per table.
+
+If you're operating a shared dataset and see systematic `partial` runs across multiple sites, split them into per-site datasets or contact support.
+
+## Sync API endpoints
+
+The BigQuery integration is manageable programmatically via REST. All endpoints are scoped by site.
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery` | Get current integration config |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery` | Create the integration (JSON key + project/dataset) |
+| `PATCH`  | `/api/v1/sites/{account_id}/integrations/bigquery` | Update settings (enabled data types, frequency…) |
+| `DELETE` | `/api/v1/sites/{account_id}/integrations/bigquery` | Remove the integration |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/setup` | Create the dataset and empty tables on GCP |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/sync` | Trigger a manual incremental sync (optional `date_from` / `date_to`) |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/backfill` | Chunked backfill of a large historical range (`chunk_days` default `7`, range 1-30) |
+| `POST`   | `/api/v1/sites/{account_id}/integrations/bigquery/retry/{log_id}` | Retry a specific failed sync log entry |
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery/logs` | Sync history for this site |
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery/logs/{id}` | Detail of a specific sync log |
+| `GET`    | `/api/v1/sites/{account_id}/integrations/bigquery/schema` | Table schemas as Sealmetrics writes them |
+
+All require a JWT session with the appropriate site role. Manual `sync` / `backfill` do not share the worker's incremental cursor — the next scheduled sync still runs its own window.
+
+## Next Steps
+
+- **Advanced configuration**: See [BigQuery Settings](/platform/settings/integrations/bigquery) for data retention, sync options, and detailed schema
+- **API access**: use the endpoints above to manage the integration programmatically.
+- **Build dashboards**: Connect [Data Studio](https://datastudio.google.com) to your BigQuery dataset for custom visualizations
+
+## Related documentation
+
+- [BigQuery Integration](/platform/settings/integrations/bigquery) — configure the export, retention, and sync options in the dashboard.
+- [Data Studio Integration](/platform/settings/integrations/looker-studio) — connect the exported dataset to Data Studio dashboards.
+- [Exports](/api/exports) — alternative ways to pull your analytics data out of Sealmetrics.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

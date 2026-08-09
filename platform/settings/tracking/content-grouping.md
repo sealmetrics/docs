@@ -1,0 +1,105 @@
+---
+title: "Content Grouping"
+description: "Group pages into logical categories using URL pattern rules for easier analysis in the Pages report."
+canonical_url: "https://docs.sealmetrics.com/platform/settings/tracking/content-grouping"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "fe38e9de0041900b1e37a27305cc59892680e60e51bae37c017c68507a802a47"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/settings/tracking/content-grouping.mdx"
+publisher: "SealMetrics"
+---
+
+# Content Grouping
+
+Canonical page: https://docs.sealmetrics.com/platform/settings/tracking/content-grouping
+
+Content Grouping lets you organize your pages into logical categories, making it easier to analyze performance by section rather than individual URLs in the Pages report.
+
+## What is Content Grouping?
+
+Instead of analyzing hundreds of individual URLs:
+
+```
+Before Content Grouping:
+─────────────────────────
+/products/widget-a           234 views
+/products/widget-b           189 views
+/products/gadget-x           167 views
+/blog/how-to-use-widgets     145 views
+/blog/widget-comparison      132 views
+/about                        89 views
+... (hundreds more)
+```
+
+You can analyze by content type:
+
+```
+After Content Grouping:
+─────────────────────────
+Products                     1,234 views
+Blog                           892 views
+Other                          345 views
+```
+
+Pages that don't match any rule are grouped under **Other**.
+
+**Info:**
+Content grouping rules are saved in your **browser's local storage**, per site. They are not synced to the server or shared across browsers, devices, or teammates. Clearing your browser data removes your rules.
+
+## How Rules Work
+
+Each rule has just two fields:
+
+| Field | Description |
+|-------|-------------|
+| **Group Name** | The label shown in reports (e.g., `Blog Posts`, `Products`) |
+| **URL Pattern** | A path pattern, using `*` as a wildcard |
+
+The pattern is matched against the page's URL path. Use `*` to match any sequence of characters:
+
+| Pattern | Matches |
+|---------|---------|
+| `/blog/*` | `/blog/my-post` |
+| `/products/*` | `/products/widget-pro` |
+| `/products/*/reviews` | `/products/shoes/reviews` |
+| `/pricing` | `/pricing` (exact) |
+| `/` | `/` (homepage) |
+
+The pattern must match the **entire** path (it is anchored at the start and end). Matching is case-insensitive. Patterns with no `*` only match that exact path.
+
+## Quick Setup Templates
+
+To get started fast, click **Quick Setup** to open a set of pre-built templates that match common website structures:
+
+| Template | Example rules |
+|----------|---------------|
+| **E-commerce** | Homepage, Products, Categories, Cart, Checkout, Account, Orders |
+| **Blog / Content** | Homepage, Blog Posts, Blog Categories, Authors, Archives, Tags |
+| **SaaS / App** | Homepage, Dashboard, Settings, Billing, Profile, Reports, Integrations |
+| **Documentation** | Homepage, Getting Started, Guides, API Reference, Tutorials, FAQ, Changelog |
+| **Support Site** | Homepage, Help Articles, Knowledge Base, Contact, Tickets, Status |
+| **Marketing Site** | Homepage, Features, Pricing, About, Case Studies, Resources, Contact, Legal |
+
+In the template dialog you can either:
+
+- **Apply all rules** from a template at once, or
+- Click the **+** next to an individual rule to add just that one
+
+After applying a template you can edit or delete any of the generated rules.
+
+## How Pages Are Matched
+
+When the Pages report is built, each page path is tested against your rules:
+
+- Rules are evaluated in **priority order** (higher priority first). New rules are appended with an increasing priority value.
+- The **first** rule whose pattern matches the path determines the group name.
+- If no rule matches, the page falls into the **Other** group.
+
+## Limitations
+
+- Rules are stored in your browser's local storage only — they are **not** saved on the server, shared with teammates, or available on other devices/browsers.
+- A rule matches on the **URL path** only. There is no matching by query parameter or page title.
+- Grouping is applied when reports are computed; there is no separate reprocessing step for historical data.

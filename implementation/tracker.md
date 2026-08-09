@@ -1,0 +1,127 @@
+---
+title: "Tracker Overview"
+description: "Sealmetrics' 1.2 KB gzipped JavaScript tracker: one-line install, no cookies or localStorage, automatic SPA detection, and size comparisons vs GA4."
+canonical_url: "https://docs.sealmetrics.com/implementation/tracker"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "fc0a314bea0110657d16bf89850a88b526a4cddccc77e32ea5d7a9666cd36303"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "implementation/tracker/index.mdx"
+publisher: "SealMetrics"
+---
+
+# Tracker Overview
+
+Canonical page: https://docs.sealmetrics.com/implementation/tracker
+
+Ultra-lightweight JavaScript tracker for collecting analytics data.
+
+| Specification | Value |
+|---------------|-------|
+| Size (minified) | ~2,228 bytes |
+| Size (gzipped) | **~1,227 bytes** |
+| Dependencies | None (vanilla JavaScript) |
+| Cookies | None |
+| localStorage | None |
+| sessionStorage | None |
+| Browser support | Chrome 60+, Firefox 55+, Safari 11.1+, Edge 79+ |
+| Accounts per page | One |
+
+## Size Comparison
+
+### Privacy-First Analytics
+
+| Platform | Minified | Gzipped | vs Sealmetrics |
+|----------|----------|---------|----------------|
+| **Sealmetrics** | 2.2 KB | **1.2 KB** | — |
+| Plausible | 3.0 KB | 1.3 KB | ~same |
+| Fathom | 6.2 KB | 1.9 KB | 1.5x heavier |
+| Simple Analytics | 7.5 KB | 3.8 KB | 3.1x heavier |
+
+### Enterprise Analytics
+
+| Platform | Minified | Gzipped | vs Sealmetrics |
+|----------|----------|---------|----------------|
+| **Sealmetrics** | 2.2 KB | **1.2 KB** | — |
+| Mixpanel | 91 KB | 29.8 KB | **23x** heavier |
+| PostHog | 176 KB | 56.4 KB | **43x** heavier |
+| Matomo | 224 KB | 65.2 KB | **50x** heavier |
+| Google Analytics 4 | 365 KB | 129.6 KB | **99x** heavier |
+| Adobe Analytics | 695 KB | 150.7 KB | **117x** heavier |
+
+**Info:**
+All sizes measured in February 2026 by downloading production scripts directly from each vendor's CDN. Gzipped sizes calculated using standard gzip compression. Adobe Analytics measured from a real-world implementation (includes Adobe Launch + extensions).
+
+## Quick Start
+
+Add one line to your HTML:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+This script:
+1. Loads asynchronously (does not block page rendering)
+2. Tracks the initial pageview automatically
+3. Detects SPA navigation automatically (React, Vue, Angular, Next.js)
+
+## API
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `sealmetrics()` | Manual pageview | `sealmetrics()` |
+| `sealmetrics({ group })` | Pageview with content grouping | `sealmetrics({ group: 'blog' })` |
+| `sealmetrics.conv(type, amount)` | Conversion | `sealmetrics.conv('purchase', 99.99)` |
+| `sealmetrics.conv(type, amount, props)` | Conversion with properties | `sealmetrics.conv('purchase', 99.99, { currency: 'EUR' })` |
+| `sealmetrics.micro(type)` | Microconversion | `sealmetrics.micro('add_to_cart')` |
+| `sealmetrics.micro(type, props)` | Microconversion with properties | `sealmetrics.micro('add_to_cart', { product_id: 'SKU-123' })` |
+
+## Global Variables
+
+The tracker exposes three identical global variables:
+
+| Variable | Recommendation |
+|----------|----------------|
+| `sealmetrics` | Recommended (unique, no conflicts) |
+| `sm` | Short form |
+| `_sm` | Backup if others conflict |
+
+```javascript
+// All three work identically:
+sealmetrics.conv('purchase', 99.99);
+sm.conv('purchase', 99.99);
+_sm.conv('purchase', 99.99);
+```
+
+## Privacy
+
+The tracker does not collect or store:
+- Cookies
+- IP addresses (used only for blocklist check, never stored in analytics)
+- Personal identifiable information
+- Form inputs
+- User credentials
+- localStorage or sessionStorage data
+
+Session identification is cookieless — no cookies, canvas fingerprinting, or personal data are used.
+
+## Documentation
+
+### Getting Started
+
+- [**Step-by-Step Guide**](/implementation/tracker/step-by-step-guide) - Complete visual guide from zero to tracking
+- [Installation](/implementation/tracker/installation) - Script tag, content grouping, custom domains
+
+### Tracking Events
+
+- [Conversions](/implementation/tracker/conversions) - Tracking purchases, leads, signups
+- [Microconversions](/implementation/tracker/microconversions) - Tracking funnel steps, engagement events
+
+### Advanced
+
+- [API Reference](/implementation/tracker/api-reference) - Complete technical reference
+- [SPA Support](/implementation/tracker/spa-support) - React, Vue, Angular, Next.js integration
+- [First-Party Setup](/implementation/tracker/first-party) - Custom domain for tracking
+- [Migration from v1](/implementation/tracker/migration-from-v1) - Breaking changes and code examples

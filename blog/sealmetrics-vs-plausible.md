@@ -1,0 +1,526 @@
+---
+title: "Sealmetrics vs Plausible: Which is Better? [2026 Comparison]"
+description: "Sealmetrics vs Plausible compared in 2026. Both are cookieless, but only one avoids deriving any identifier from the visitor's IP. Features, AI, pricing and GDPR reviewed."
+canonical_url: "https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "626ee364cc3ae7317d570f87706421515a8ca113f86c7dc1591f4546c907c338"
+content_type: "blog"
+owner: "content"
+llm_priority: "useful"
+source_file: "sealmetrics-vs-plausible.mdx"
+publisher: "SealMetrics"
+---
+
+# Sealmetrics vs Plausible: Which is Better? [2026 Comparison]
+
+Canonical page: https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible
+
+<!-- AUTO-TLDR:START -->
+> **TL;DR** — Sealmetrics vs Plausible compared in 2026. Both are cookieless, but only one avoids deriving any identifier from the visitor's IP. Features, AI, pricing and GDPR reviewed.
+<!-- AUTO-TLDR:END -->
+
+Both **Sealmetrics** and **Plausible Analytics** are privacy-first alternatives to Google Analytics, and both are cookieless. But they solve different problems for different buyers, and the gap between them has widened considerably since 2025.
+
+The core technical difference is narrow but consequential: **Plausible derives a daily visitor identifier from the visitor's IP address and User-Agent**, while **Sealmetrics never derives any identifier from the IP at all** — not for sessions, not even for geolocation.
+
+The core product difference is much wider: since the launch of Sealmetrics V2 in February 2026, Sealmetrics has added an AI analytics layer (LENS), an MCP server that lets Claude, ChatGPT and Cursor query your data in plain language, custom channel grouping, webhooks and EU-hosted AI. Plausible has stayed deliberately minimal — which for many teams is exactly the point.
+
+This comparison is updated for **July 2026** and covers architecture, privacy, features, AI capabilities, pricing and the honest trade-offs in both directions.
+
+## Key Comparison Points
+
+- **IP handling**: Plausible hashes IP + User-Agent into a daily identifier (salt deleted every 24h); Sealmetrics derives no identifier from IP whatsoever
+- **Consent**: Both operate consentless; Sealmetrics' legal basis doesn't depend on arguing that a pseudonymous ID isn't personal data
+- **AI**: Sealmetrics ships LENS AI, an MCP server, and EU-hosted LLM inference; Plausible ships none of this
+- **Scale limits**: Plausible caps sites and team members by plan (1/3/10); Sealmetrics is unlimited on every plan
+- **Pricing**: Plausible starts at $9/month; Sealmetrics starts at €499/month with annual billing
+- **Retention**: Plausible defaults to 3–5 years, above the EU ceiling for consent-exempt analytics; Sealmetrics 24 months
+
+## Executive Summary: Which Tool is Right for You?
+
+**Choose Plausible if**:
+- Budget is the primary constraint ($9–19/month)
+- You want open source and the option to self-host
+- You need a simple, fast, beautiful dashboard and nothing more
+- You have a handful of sites and a small team
+- You need retention beyond 24 months and are prepared to handle the compliance consequences
+
+**Choose Sealmetrics if**:
+- You need e-commerce/lead attribution with revenue, not just pageviews
+- You want an AI layer over your analytics (natural-language questions, automated anomaly detection, MCP access from your AI assistant)
+- You run many sites or a large team and don't want per-seat or per-site limits
+- Your DPO wants a legal basis that doesn't rest on an IP-derived identifier
+- You need webhooks, BigQuery, custom channel rules or audit logs
+
+**The Bottom Line**: These are no longer two versions of the same product. Plausible is the best-in-class *minimal* privacy analytics tool. Sealmetrics is a *marketing analytics platform* built for teams that need attribution, revenue and AI-assisted analysis, with a stricter privacy architecture underneath. Price reflects that: they are roughly 30× apart, and they are aimed at different buyers.
+
+## Background: Understanding Both Tools
+
+### What is Plausible Analytics?
+
+**Plausible Analytics** launched in 2019 as an open-source, privacy-friendly alternative to Google Analytics. Founded by Uku Täht and Marko Saric, Plausible became the default recommendation in the privacy-conscious developer community.
+
+**Key characteristics**:
+- Open-source (AGPL license)
+- Self-hosted or cloud-hosted options
+- Lightweight script (around 1 KB)
+- No cookies
+- European-owned (Estonia-based)
+- Simple, minimalist dashboard
+
+**Market position**: One of the most popular Google Analytics alternatives, with strong adoption among developers, indie hackers, agencies and small businesses.
+
+### What is Sealmetrics?
+
+**Sealmetrics** launched in 2023 to solve the "consent paradox" in web analytics — the fact that cookie- and consent-based analytics lose a large share of data in EU markets to banner rejection. Sealmetrics pioneered *consentless analytics* operating under GDPR Article 6(1)(f), and in February 2026 shipped **V2**, a full rebuild of the platform.
+
+**Key characteristics**:
+- Proprietary (closed-source), cloud-hosted only
+- No IP-derived identifiers anywhere in the pipeline
+- Country from browser timezone, not IP
+- EU-only infrastructure (Dublin, Ireland)
+- Attribution, funnels and revenue as first-class features
+- Built-in AI layer (LENS) and an MCP server for AI assistants
+
+**Market position**: Aimed at EU e-commerce, lead generation and multi-site businesses that need marketing-grade attribution without a consent banner.
+
+## Technical Architecture Comparison
+
+### Session Identification
+
+**Plausible's approach**:
+
+```
+visitor_id = hash(daily_salt + website_domain + ip_address + user_agent)
+```
+
+Plausible is explicit and transparent about this in its [data policy](https://plausible.io/data-policy): raw IP addresses and User-Agent strings are never stored, and **the salt is rotated and deleted every 24 hours**, so the identifier cannot be linked across days or recomputed afterwards.
+
+**Pros**:
+- Enables unique-visitor counts and bounce rate at the individual level
+- No cookies, no persistent identifier, no cross-site tracking
+- Fully documented and auditable in open source
+
+**Cons**:
+- The legal basis rests on the argument that a daily salted hash of an IP is not personal data — an argument most regulators accept, but not one that is settled beyond dispute
+- Identity resets at midnight, so multi-day journeys are split
+
+**Sealmetrics' approach**:
+
+Sealmetrics identifies sessions with a temporary, non-persistent marker derived from the browser context. **The visitor's IP is never used to derive it.** IPs are handled in-memory at the edge for two purposes only — checking against the bot-IP database and applying customer-configured IP exclusions — and are never persisted or attached to any hit. Even geolocation avoids the IP: visitor country is derived from the [browser timezone](/security-privacy/country-detection).
+
+**Pros**:
+- No identifier derived from personal data means there is no argument to have
+- Sessions can never be linked to each other or to a person
+- Works identically under every national interpretation
+
+**Cons**:
+- No unique visitors, by design (see [Metrics Reference](/reports/definitions))
+- Closed source, so you verify by network inspection and documentation rather than by reading the code
+- Smaller community than Plausible
+
+### IP Address Handling
+
+This is the sharpest technical distinction, and it deserves to be stated precisely rather than dramatically.
+
+**Plausible**:
+```
+1. Receive request with IP address
+2. Hash(daily salt + domain + IP + User-Agent) → visitor_id
+3. Store visitor_id with the event; discard the raw IP
+4. Rotate and delete the salt every 24 hours
+```
+
+**Sealmetrics**:
+```
+1. Receive request with IP address
+2. Check the IP against the bot-IP database and account IP exclusions, in memory
+3. Discard the IP — it is never written anywhere, never hashed into an identifier,
+   and never used for geolocation
+4. Session marker comes from browser context; country comes from timezone
+```
+
+**What this means in practice**: Plausible's design is genuinely privacy-preserving and defensible. Sealmetrics' design removes the need to defend it. If your DPO's position is "no identifier may be derived from an IP address, full stop", Plausible cannot satisfy that requirement and Sealmetrics can. If your DPO accepts the daily-salted-hash reasoning — as many do — this difference will not decide your purchase, and you should choose on features and price instead.
+
+## Privacy & GDPR Compliance Comparison
+
+### Consent Requirements
+
+**Plausible's position**: Plausible states that its tool does not require cookie consent, on the basis that no cookies are set and no personal data is stored. Its documentation notes that specific circumstances and your DPO's interpretation may still call for consent.
+
+**Sealmetrics' position**: no consent banner required, on the basis that:
+
+1. **No IP-derived identifier**: nothing in the pipeline is derived from an IP address
+2. **GDPR Article 6(1)(f)**: documented legitimate interest for website analytics
+3. **Purpose limitation**: analytics only, never advertising, never data sales
+4. **Data minimisation**: aggregated, non-personal data only
+5. **Regulator alignment**: published self-assessments against [CNIL](/compliance/cnil-self-assessment) (France), [TTDSG](/compliance/germany-ttdsg-self-assessment) (Germany), [Garante](/compliance/italy-garante-self-assessment) (Italy), [UK PECR](/compliance/uk-pecr-self-assessment) and [Swiss FADP](/compliance/switzerland-fadp-self-assessment)
+
+Sealmetrics also publishes a full analysis of the [EU Digital Omnibus](/compliance/omnibus) and its impact on analytics, plus a [subprocessor list](/compliance/subprocessors) and [data subject rights](/compliance/data-subject-rights) documentation.
+
+### Regulatory Requirements Side by Side
+
+CNIL's criteria for consent-exempt analytics are the strictest widely-published benchmark. Both tools are in good shape; they differ on one row.
+
+| CNIL criterion | Plausible | Sealmetrics |
+|---|---|---|
+| No cookies or device storage | ✅ | ✅ |
+| No cross-site tracking | ✅ | ✅ |
+| No IP used to identify users | ⚠️ IP is an input to the daily hash | ✅ IP never used to derive an identifier |
+| Limited retention (≤ 24–25 months) | ❌ 3–5 years by default | ✅ 24 months |
+| Analytics-only purpose | ✅ | ✅ |
+| Clear privacy policy disclosure | ✅ | ✅ |
+
+The retention row deserves attention, because longer retention sounds like a feature and isn't one here. Both Spanish and French regulators cap how long consent-exempt analytics data may be kept: the **AEPD sets a maximum of 24 months**, and the CNIL 25. Plausible's default of 3–5 years sits above both ceilings. If you rely on the analytics exemption to run without a banner in Spain or France, retaining data for five years undermines the exemption you're relying on.
+
+Sealmetrics' 24 months is not a limitation we'd like to lift — it's the regulatory ceiling, and staying at it is part of what makes the consentless basis hold.
+
+### Germany (TTDSG §25)
+
+§25 TTDSG requires consent for storing or accessing information on a user's device. Neither tool stores anything on the device, so both clear the bar. German DPOs have historically been the strictest on IP-derived identifiers, which is where the two designs diverge — see the [TTDSG self-assessment](/compliance/germany-ttdsg-self-assessment) for the full argument.
+
+## Feature Comparison
+
+### Core Analytics Metrics
+
+| Metric | Plausible | Sealmetrics |
+|---------|-----------|-------------|
+| **Real-time data** | ✅ Yes | ✅ Yes (< 2 min) |
+| **Pageviews** | ✅ Yes | ✅ Yes |
+| **Sessions / Entrances** | ✅ Yes | ✅ Yes |
+| **Unique visitors** | ✅ Yes (daily unique) | ❌ Not tracked, by design |
+| **Bounce rate** | ✅ Yes | ✅ Yes (computed in aggregate) |
+| **Engagement rate / Engaged sessions** | ⚠️ Via bounce rate | ✅ Yes |
+| **Pages per session** | ✅ Yes | ✅ Yes |
+| **Visit duration** | ✅ Yes | ❌ No |
+| **Traffic sources & referrers** | ✅ Yes | ✅ Yes |
+| **UTM campaign tracking** | ✅ Yes | ✅ Yes |
+| **Device / browser / OS** | ✅ Yes | ✅ Yes |
+| **Geographic data** | ✅ Country, region, city | ✅ Country only |
+| **Screen size** | ✅ Yes | ✅ Yes |
+
+**Notable differences**:
+- Plausible reports **unique visitors** and **visit duration**; Sealmetrics does not, because both require an identifier that persists across the session boundary. Sealmetrics uses [entrances](/reports/definitions) as the audience-size signal instead.
+- Sealmetrics **does** report bounce rate and engagement rate — these are computed in aggregate from pageviews per session and require no individual tracking. (An earlier version of this article stated otherwise; it was wrong.)
+- Plausible offers finer geographic granularity (region and city) because it has an IP at the point of lookup. Sealmetrics is country-only as a direct consequence of its timezone-based approach.
+
+### Analysis & Attribution
+
+| Feature | Plausible | Sealmetrics |
+|---------|-----------|-------------|
+| **Custom events** | ✅ Unlimited | ✅ Unlimited |
+| **Goal tracking with revenue** | ✅ Business plan | ✅ All plans |
+| **Conversion funnels** | ✅ Business plan | ✅ All plans |
+| **User journeys** | ✅ Business plan | ❌ No |
+| **Micro-conversions** | ⚠️ Via custom events | ✅ Native |
+| **E-commerce tracking** | ✅ Business plan (revenue attribution) | ✅ Native, with item-level properties |
+| **Custom properties (scalar values)** | ✅ Business plan — max 30 per event | ✅ All plans — no fixed cap |
+| **Item-level e-commerce data (line items)** | ❌ Scalars only; arrays and objects rejected | ✅ `items[]` array per conversion |
+| **Properties on pageviews** | ✅ Yes | ❌ Conversions and micro-conversions only |
+| **Saved segments** | ✅ All plans | ✅ All plans |
+| **Custom channel grouping** | ❌ No | ✅ Drafts → test → publish, with CSV import/export |
+| **Content grouping** | ❌ No | ✅ Yes |
+| **UTM & referrer mapping rules** | ❌ No | ✅ Yes |
+| **Session recording / heatmaps / A/B** | ❌ No (privacy by design) | ❌ No (privacy by design) |
+| **Data retention** | 3 years (Starter/Growth), 5 years (Business) — above the EU ceiling | 24 months — at the AEPD maximum |
+
+**Key differences**:
+- The 2023-era claim that Plausible lacks funnels is no longer true — funnels and user journeys shipped on the Business plan. What differs now is that Sealmetrics includes funnels, revenue and custom properties on **every** plan, while Plausible gates them behind Business. User journeys are a genuine Plausible-only feature: Sealmetrics has no path-analysis report.
+- Sealmetrics' [custom channel grouping](/platform/settings/tracking/channel-grouping) (July 2026) lets you define your own marketing channels on top of the GA4-style defaults, test a rule against a sample visit with the same engine the pixel uses, and publish only when you're ready. There is no Plausible equivalent.
+- **Custom properties are not the same feature on both platforms.** Plausible accepts only scalar values — its documentation states that properties take strings, numbers and booleans, and that arrays and objects are rejected. Sealmetrics accepts an `items` array of objects, so a single purchase carries one row per line item:
+
+  ```javascript
+  sealmetrics.conv('purchase', 149.99, {
+
+    payment_method: 'credit_card',
+    items: [
+      { product_name: 'Camiseta', price: 19.95, quantity: 2, category: 'Ropa' },
+      { product_name: 'Pantalón', price: 49.99, quantity: 1, category: 'Ropa' }
+    ]
+  });
+  ```
+
+  On Plausible you would flatten this by hand into `product_1`, `product_2` and so on, which breaks down as soon as orders have a variable number of lines and eats quickly into the 30-property ceiling. Their revenue attribution is order-level; breakdowns by SKU, size, colour or room type have no Plausible equivalent at any price. See [event properties](/implementation/custom-properties/event-properties) and the [Properties report](/reports/properties).
+- **Plausible attaches properties to pageviews; Sealmetrics doesn't.** Sealmetrics properties ride on `conv()` and `micro()` calls, and pageviews are segmented with [content grouping](/platform/settings/tracking/content-grouping) instead — a fixed dimension rather than free-form keys. To segment content traffic by author or article type with no conversion involved, Plausible is the more direct fit.
+- **Plausible retains data longer, but not compliantly.** The AEPD caps consent-exempt analytics retention at 24 months and the CNIL at 25. Plausible's 3–5 year default exceeds both, so multi-year history is only an advantage if you aren't depending on the analytics exemption in those jurisdictions.
+
+### AI & Agent Capabilities
+
+This category did not exist the last time this article was written, and it is now the widest gap between the two products.
+
+| Capability | Plausible | Sealmetrics |
+|---------|-----------|-------------|
+| **Natural-language chat over your data** | ❌ No | ✅ [LENS AI](/lens) |
+| **Automated anomaly detection** | ❌ No | ✅ ~25 rules across 11 categories |
+| **AI-generated executive summaries** | ❌ No | ✅ Yes |
+| **MCP server for AI assistants** | ❌ No | ✅ [Hosted + local](/integrations/mcp-server) |
+| **EU-hosted LLM inference** | ❌ No | ✅ [Seal AI Private](/billing/seal-ai-private) (Paris, no prompt retention) |
+| **Bring your own LLM key** | ❌ No | ✅ Anthropic, OpenAI, Gemini, DeepSeek — unmetered |
+| **AI-assisted install** | ❌ No | ✅ [Agentic package](/integrations/agentic-package) |
+| **AI agent traffic detection** | ❌ No | ✅ Tracked and reported, not billed |
+
+**What this looks like in practice**: connect `https://mcp.sealmetrics.com/mcp` to Claude, ChatGPT, Cursor or Codex and ask *"why did conversions drop last week?"* or *"which of my top 3 campaigns has the best conversion rate?"* and get an answer from your live data. Connections are OAuth-based, scoped to a single site, **read-only**, and revocable from [Connected Apps](/platform/settings/account/connected-apps).
+
+LENS also runs detection rules on a cadence and emails you when traffic drops, conversion rates shift or tracking breaks — the anomaly detection Plausible users typically build themselves against the Stats API.
+
+### Integrations & Technical
+
+| Feature | Plausible | Sealmetrics |
+|---------|-----------|-------------|
+| **Script size** | ~1 KB | ~1.3 KB |
+| **Self-hosted option** | ✅ Yes (open source) | ❌ No (cloud only) |
+| **Custom domain / first-party proxy** | ✅ Yes (managed proxy on Enterprise) | ✅ Yes |
+| **WordPress / Drupal / Joomla** | ✅ WordPress | ✅ All three |
+| **WooCommerce / Shopify / Magento / PrestaShop / BigCommerce / OpenCart** | ⚠️ Via custom events | ✅ Documented integrations |
+| **Webflow / Wix / Squarespace** | ✅ Via snippet | ✅ Documented guides |
+| **Next.js / Nuxt / React** | ✅ NPM tracker | ✅ Documented guides |
+| **Google Tag Manager** | ✅ Yes | ✅ Yes, incl. custom template |
+| **Google Search Console** | ✅ Native integration | ⚠️ Via MCP, not a native connector |
+| **Data Studio / Data Studio** | ✅ Business plan | ✅ Official connector |
+| **BigQuery export** | ❌ No | ✅ [Yes](/integrations/bigquery) |
+| **Raw event export** | ✅ Enterprise (scheduled) | ✅ CSV / JSON / streaming exports |
+| **Webhooks** | ❌ No | ✅ [Scale and above](/platform/settings/integrations/webhooks) |
+| **Slack / email reports** | ✅ All plans | ✅ Email reports and LENS alerts |
+| **Stats / analytics API** | ✅ Business plan (600 req/h) | ✅ All plans (240–480 req/min) |
+| **Sites provisioning API** | ✅ Enterprise | ✅ All plans |
+| **Official SDK** | ⚠️ Community | ✅ Python SDK |
+
+**Key differences**:
+- Plausible has a **native Google Search Console integration**; Sealmetrics does not — you combine the two through the [Search Console MCP prompts](/web-analytics-prompts/search-console), which is more powerful but less turnkey.
+- Sealmetrics has **BigQuery and webhooks**; Plausible has neither.
+- Sealmetrics' API is unrestricted by plan and rate-limited far higher (240–480 requests per *minute* versus 600 per *hour*). If you're building on top of the data, this is a large practical difference.
+
+### Team, Access & Governance
+
+| Feature | Plausible | Sealmetrics |
+|---------|-----------|-------------|
+| **Sites included** | 1 / 3 / 10 by plan | **Unlimited on every plan** |
+| **Team members** | 1 / 3 / 10 by plan | **Unlimited on every plan** |
+| **Role-based permissions** | ⚠️ Basic | ✅ Basic → Advanced → Full by plan |
+| **Shared / public dashboards** | ✅ Growth and above | ⚠️ [API only](/api/shared-dashboards) — no dashboard UI |
+| **White-label dashboards** | ✅ Via self-hosting | ⚠️ Enterprise arrangement only |
+| **Two-factor authentication** | ✅ Yes | ✅ Yes, with backup codes |
+| **IP allowlist for account access** | ❌ No | ✅ Yes |
+| **Audit log** | ❌ No | ✅ Scale and above |
+| **SSO (SAML)** | ✅ Enterprise | ❌ Not available |
+| **Organizations / multi-account** | ⚠️ Teams | ✅ Organizations with per-site scoping |
+
+The site and seat limits are worth dwelling on. An agency with 40 client sites needs Plausible Enterprise; on Sealmetrics, 40 sites is included in the entry plan. That closes a meaningful part of the raw price gap for multi-site buyers.
+
+### Data Quality & Bot Filtering
+
+| Feature | Plausible | Sealmetrics |
+|---------|-----------|-------------|
+| **Known-bot User-Agent filtering** | ✅ Yes | ✅ Yes |
+| **Bot IP database** | ⚠️ Limited | ✅ Yes, checked in memory, never stored |
+| **Behavioural / timing analysis** | ❌ No | ✅ Yes |
+| **HMAC request validation** | ❌ No | ✅ Yes |
+| **Bot traffic reporting** | ❌ No | ✅ Bot stats and suspicious sessions |
+
+Sealmetrics runs a [five-layer bot detection system](/security-privacy/bot-detection) and reports what it filtered, so you can see how much of your traffic was automated rather than simply trusting that it's gone.
+
+## Pricing Comparison
+
+### Plausible Pricing (July 2026)
+
+**Cloud**, at the 10k pageviews entry tier, billed monthly:
+- Starter: **$9/month** — 1 site, 1 user, 3-year retention
+- Growth: **$14/month** — up to 3 sites, 3 team members, shared links and embedded dashboards
+- Business: **$19/month** — up to 10 sites, 10 team members, 5-year retention, funnels, revenue attribution, custom properties, Stats API, Data Studio
+- Enterprise: custom — SSO, Sites API, managed proxy, scheduled raw exports
+
+**Self-hosted**: free, no pageview limits, you run the infrastructure, no support.
+
+**Notes**: pricing scales with total pageviews and custom events across the team; annual billing saves two months; 30-day free trial without a card; 15% discount on Business for nonprofits, education and open source.
+
+### Sealmetrics Pricing (July 2026)
+
+**Volume-based plans**, all with unlimited sites and unlimited users:
+- Growth: **€599/month** (5M events) — **€499/month** annually
+- Scale: **€1,079/month** (15M events) — **€899/month** annually
+- Enterprise: custom (unlimited events)
+
+**Notes**: 24-month retention on all plans; no overage charges; LENS AI included everywhere (BYOK unmetered); [Seal AI Private](/billing/seal-ai-private) is an add-on on Growth and included on Scale and Enterprise; webhooks and audit logs from Scale; annual billing gives two months free. Full breakdown in the [features comparison](/billing/features-comparison).
+
+### Being Honest About the Gap
+
+At list price these products are roughly 30× apart, and no amount of feature comparison makes €499/month the obvious choice over $19/month for a personal site or a small business. The gap narrows when you account for:
+
+- **Sites and seats**: 40 sites and 25 users is Enterprise territory on Plausible and the entry plan on Sealmetrics
+- **Gated features**: funnels, revenue, custom properties and the API are Business-tier on Plausible and standard on Sealmetrics
+- **AI**: LENS and the MCP server have no Plausible equivalent at any price
+- **Volume**: at 5M events/month, Plausible's own pricing has climbed well above its headline tiers
+
+It does not close entirely, and it shouldn't. If you want a fast, private pageview dashboard for a blog, buy Plausible.
+
+## Use Case Recommendations
+
+### When Plausible is the Better Choice
+
+**Personal sites, blogs and small businesses** — under a few hundred thousand pageviews, one or two sites, a budget measured in tens of euros. Plausible is excellent here and Sealmetrics is not the right tool.
+
+**Open-source advocates and self-hosters** — full auditability, no vendor, no per-event cost. If you can run the infrastructure, self-hosted Plausible is free and completely transparent. Sealmetrics has no self-hosted option at all.
+
+**Developer tools and API companies** — simple metrics, a technical audience that trusts open source, no need for revenue attribution.
+
+**Teams outside the EU that need multi-year history** — if the AEPD's 24-month ceiling doesn't apply to you, Plausible's 3–5 year retention is a genuine advantage. Inside the EU, retention beyond 24 months works against the consent exemption rather than for you.
+
+### When Sealmetrics is the Better Choice
+
+**EU e-commerce with real revenue at stake** — funnels, item-level properties, revenue attribution by channel, custom channel rules and BigQuery export, all consentless, all in the entry plan.
+
+**B2B SaaS with high customer value and long sales cycles** — 24 months of retention covers the full cycle, and micro-conversions plus custom properties let you measure the whole path without ever identifying a person.
+
+**Agencies and multi-brand groups** — unlimited sites and users, organizations with per-site scoping, audit logs, and a portfolio view. Per-site pricing is what makes Plausible expensive at this shape. Note the trade-off: Plausible offers shared and embedded client dashboards from its Growth plan as a finished feature. Sealmetrics exposes shared-dashboard endpoints in the API but ships no UI for them and no page that renders one, so client-facing reporting in practice means Data Studio, the Stats API, or giving the client a login.
+
+**Teams that want AI over their analytics** — LENS for anomaly detection and natural-language questions, the MCP server so your existing AI assistant reads live data, and EU-hosted inference if sending prompts to a US provider is not acceptable.
+
+**Enterprises with a strict DPO** — a legal basis that never touches an IP-derived identifier, published self-assessments against five regulators, EU-only infrastructure in Dublin, IP allowlists and audit logs.
+
+## Migration Guide
+
+### From Google Analytics to Either Tool
+
+**Parallel tracking period**: 30 days recommended.
+
+**Step 1: Install alongside GA4**
+
+```html
+<!-- Keep existing Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+
+<!-- Plausible -->
+<script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script>
+
+<!-- OR Sealmetrics -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
+```
+
+**Step 2: Verify data quality** (14 days) — compare traffic volumes, check conversion tracking, validate geographic data, test custom events.
+
+**Step 3: Remove Google Analytics** — the tracking code, the cookie banner if GA was the only reason for it, and Google Tag Manager if it was only used for GA.
+
+Plausible can import historical GA data. Sealmetrics cannot, so export what you need from GA4 first. Sealmetrics does provide a [GA4 migration guide](/ga4-migration) and a [migration checklist](/guides/ga4-migration-checklist).
+
+### From Plausible to Sealmetrics
+
+**Reasons to migrate**:
+- You've outgrown Plausible's site or seat limits
+- You need revenue attribution and funnels without paying per site for Business
+- Your DPO objects to an IP-derived identifier
+- You want AI analysis, MCP access, webhooks or BigQuery
+- You need custom channel grouping or content grouping
+
+**Process**:
+
+**Step 1: Run both in parallel**
+
+```html
+<script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script>
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
+```
+
+**Step 2: Compare for 14+ days.** Expect the numbers to differ, and expect the differences to be explainable rather than dramatic — both tools are cookieless and consentless, so neither is losing traffic to a banner. The typical sources of variance are session-window definitions (Sealmetrics uses a ~2-hour inactivity window), bot filtering (Sealmetrics filters more aggressively and reports what it removed), and the fact that Plausible's unique-visitor count has no Sealmetrics equivalent — compare entrances to visits, not to unique visitors.
+
+**Step 3: Instrument conversions.** This is the real work of the migration. Add `sealmetrics.conv('purchase', amount)` and `sealmetrics.micro('add_to_cart')` calls, then verify with [setup verification](/getting-started/see-your-data-flow).
+
+**Step 4: Remove Plausible** and export your historical reports first — data cannot be migrated between platforms.
+
+## Frequently Asked Questions
+
+### Does Plausible store my visitors' IP addresses?
+
+No. Plausible's data policy states that raw IP addresses are never stored. The IP is used as one input to a hash — along with a daily salt, the domain and the User-Agent — that produces a visitor identifier for that day, and the salt is rotated and deleted every 24 hours. The open question is not whether Plausible stores IPs (it doesn't) but whether an identifier *derived* from an IP is itself personal data. Sealmetrics sidesteps the question by never deriving one.
+
+### Is Plausible's open-source model better for privacy?
+
+For **transparency**, yes, and it's a real advantage — you can read exactly what the code does. For **privacy outcomes**, both are strong, with the architectural difference described above.
+
+Sealmetrics' closed source is verifiable by other means: network traffic inspection shows what leaves the browser, the [privacy documentation](/security-privacy) describes the pipeline, and third-party audit reports are available on request.
+
+### Does Plausible require consent in Germany?
+
+Plausible's position is that it does not, and most German DPOs accept that. The friction point is the IP-derived daily identifier: a DPO who takes the strict view that no identifier may be derived from an IP address will not be satisfied by any hashing scheme. This is a minority position, not a majority one — but if it's *your* DPO's position, it's decisive.
+
+### Can Sealmetrics track authenticated users across devices?
+
+No, and neither can Plausible. Both are designed specifically not to track individuals across devices or sessions. For post-login product analytics, run server-side analytics keyed on your own `user_id`, or pair Sealmetrics with a product analytics tool for the logged-in experience. See [attribution without user IDs](/security-privacy/attribution-without-userid).
+
+### Do ad blockers block either tool?
+
+Both are blocked far less than Google Analytics, since neither is an advertising product, and blocking rates vary by audience — a developer-heavy audience blocks more than a general consumer one. We're not going to quote a precise percentage for either tool, because any single number is wrong for most sites.
+
+Both support first-party delivery via a custom domain, which is the actual fix. See [ad blocker bypass](/security-privacy/adblocker-bypass).
+
+### Which has better performance?
+
+Effectively identical. Plausible's script is around 1 KB, Sealmetrics' around 1.3 KB, both are deferred, both are asynchronous, and the difference is imperceptible to users. Neither will move your Core Web Vitals.
+
+### Can I use both together?
+
+Yes, and it's the recommended approach during a 30-day migration. Running both permanently adds negligible page weight but doubles your cost and gives you two numbers to reconcile. Pick one.
+
+### Can I white-label either tool?
+
+**Plausible**: yes, by self-hosting — you can rebrand completely, at the cost of running the infrastructure.
+
+**Sealmetrics**: no. There is no self-hosted option and no shared-dashboard layer to rebrand; white-labelling is only available as an Enterprise arrangement.
+
+### Which has better support?
+
+**Plausible**: community support (GitHub, forum), email support for paying customers, extensive public documentation.
+
+**Sealmetrics**: email support on all plans, chat on Growth and above, priority on Scale and above, dedicated account management on Enterprise, plus a 99.5% SLA (99.9% on Enterprise) and guided onboarding from Scale.
+
+Sealmetrics offers more formal support commitments; Plausible offers a larger public community. Which is better depends on whether you'd rather search a forum or open a ticket.
+
+## Conclusion: Plausible vs Sealmetrics in 2026
+
+Both are far better than Google Analytics, and both are honestly privacy-first. The choice is no longer really about privacy — it's about scope and scale.
+
+**Choose Plausible if**:
+- Budget is the deciding factor
+- You value open source and want the self-hosting option
+- One to ten sites, a small team, simple metrics
+- You want multi-year retention
+- Your DPO accepts a daily salted identifier derived from IP + User-Agent
+
+**Choose Sealmetrics if**:
+- You need revenue attribution, funnels and micro-conversions as core features, not add-ons
+- You run many sites or a large team and want that unmetered
+- You want AI over your analytics — natural-language questions, automated anomaly detection, MCP access from Claude or ChatGPT
+- You need webhooks, BigQuery, custom channel rules or audit logs
+- Your DPO requires that no identifier be derived from an IP address
+- EU-only processing, including for AI inference, is a requirement
+
+**The honest summary**: Plausible is the better product for most small sites, and its price makes that easy to recommend. Sealmetrics is the better platform for EU businesses where analytics drives revenue decisions, where a team needs to work in the tool, and where AI-assisted analysis is becoming part of how marketing actually operates. They are converging on privacy and diverging on everything else.
+
+## Additional Resources
+
+### Plausible Resources
+- [Plausible Analytics Official Website](https://plausible.io)
+- [Plausible Data Policy](https://plausible.io/data-policy)
+- [Plausible Documentation](https://plausible.io/docs)
+- [Plausible GitHub Repository](https://github.com/plausible/analytics)
+
+### Sealmetrics Resources
+- [Sealmetrics Documentation](https://docs.sealmetrics.com)
+- [LENS AI](/lens) — AI insights, anomaly detection and natural-language chat
+- [MCP Server](/integrations/mcp-server) — connect Claude, ChatGPT, Cursor or Codex
+- [Release Notes](/changelog) — what shipped and when
+- [Compliance Centre](/compliance) — regulator-by-regulator self-assessments
+
+### Comparison Resources
+- [Complete Cookieless Analytics Guide](/blog/cookieless-analytics-guide)
+- [Sealmetrics vs Google Analytics](/blog/google-analytics-vs-sealmetrics)
+- [What Is Consentless Analytics?](/security-privacy/consentless-analytics)
+
+---
+
+**Ready to see what consentless analytics looks like with AI on top?**
+
+→ [Start your free 14-day trial](https://my.sealmetrics.com/register)
+→ [Compare pricing](https://sealmetrics.com/pricing)
+
+*Last reviewed: July 2026. Plausible's pricing and feature availability were verified against plausible.io at time of writing; check their site for current figures.*

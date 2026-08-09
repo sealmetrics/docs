@@ -1,0 +1,129 @@
+---
+title: "How Sealmetrics Protects User Privacy"
+description: "Learn how Sealmetrics ensures genuine user privacy through data minimization, anonymization, and zero personal data processing."
+canonical_url: "https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "bab9836d5dc468be51952d306ffdb966564e8a7ecc8eafe0f000babb88eff1f4"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "security-privacy/how-we-protect-privacy.mdx"
+publisher: "SealMetrics"
+---
+
+# How Sealmetrics Protects User Privacy
+
+Canonical page: https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy
+
+At **Sealmetrics**, privacy is not a regulation to comply with — it’s a core philosophy.
+Our platform is designed to protect users’ data beyond legal requirements.
+
+---
+
+## Core Privacy Principles
+
+1. **Privacy Over Profit**
+   No tracking if it compromises user privacy.
+
+2. **No Individual Tracking**
+   No user profiles or personal identifiers — only aggregated behavior.
+
+3. **Data Minimization**
+   Collect only what’s necessary for meaningful analytics.
+
+---
+
+## Technical Privacy Protections
+
+### No Cookies Technology
+- No cookies or local storage
+- Session-only identifiers (expire automatically)
+
+### No Personal Data Collection
+- **No IP addresses** persisted (used in-memory only for bot filtering / GeoIP when opt-in)
+- **No device fingerprints** or cross-session identifiers
+- **User agent stored** for anonymous device classification only — never linked to any personal identifier
+- Only aggregated session data
+
+### Advanced Anonymization
+- Immediate anonymization at data collection
+- Impossible to reverse or re-identify data
+
+---
+
+## Dual Tracking System Privacy
+
+### Session-ID Tracking
+- Temporary per-visit identifiers
+- No cross-session linkage
+
+### Isolated Hits
+- Each interaction logged separately
+- Aggregated for trends, not individuals
+
+---
+
+## Regulatory Compliance Framework
+
+- **GDPR:** No personal data processing, no consent required
+- **ePrivacy Directive:** No cookies, fully compliant
+- **CCPA:** No personal information collection
+- **PECR:** No user device tracking
+
+**Validated by third-party legal audits** and continuous compliance reviews.
+
+---
+
+## Data Protection Measures
+
+- EU-based infrastructure (Ireland)
+- Encryption in transit and at rest
+- Strict internal access control
+- Automated data deletion
+
+---
+
+## Transparency and User Rights
+
+- Clear documentation of data practices
+- Open privacy policy communication
+- No need for consent or deletion requests (no personal data stored)
+
+---
+
+## Traditional vs. Sealmetrics Analytics
+
+| Feature | Traditional Tools | Sealmetrics |
+|----------|------------------|--------------|
+| Cookies | Required | None |
+| IP Tracking | Yes | Never |
+| Consent Banner | Required | Not needed |
+| Cross-Session Tracking | Yes | No |
+| Personal Data | Collected | None |
+
+---
+
+## The Sealmetrics Privacy Commitment
+
+- **Privacy First:** Over data collection
+- **Regulatory Leadership:** Exceeds compliance
+- **User Respect:** Privacy as a right
+- **Transparency:** Open and honest data use
+- **Continuous Improvement:** Ongoing enhancements
+
+---
+
+Sealmetrics redefines analytics by making **privacy the foundation** — enabling insights without compromising trust.
+
+---
+
+*Want analytics that respects privacy by design? [Start your free trial](https://my.sealmetrics.com/register) — full GDPR compliance, zero personal data collection.*
+
+## Related documentation
+
+- [Privacy by Design Principles](/security-privacy/privacy-by-design) — the seven principles this protection is built on
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the specific data points behind our minimization approach
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the anonymization and isolated-hit mechanics
+- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — why zero personal data means no consent
+- [Frequently Asked Questions](/faq/privacy-security) — answers to common privacy questions

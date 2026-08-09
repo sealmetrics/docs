@@ -1,0 +1,62 @@
+---
+title: "How to Add Domains to Your Site"
+description: "How to add, manage, and remove the domains authorized to send tracking data to your Sealmetrics site — at site creation or later from the Domains tab."
+canonical_url: "https://docs.sealmetrics.com/platform/account-setup/how-to-add-domains"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "9e8e1b9026cfd252a99e4a8624c8ddfa7362320f256a48937ccad7f8a263bb01"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/account-setup/how-to-add-domains.mdx"
+publisher: "SealMetrics"
+---
+
+# How to Add Domains to Your Site
+
+Canonical page: https://docs.sealmetrics.com/platform/account-setup/how-to-add-domains
+
+Domains define which websites are authorized to send tracking data to your Sealmetrics site. You need at least one domain configured for tracking to work.
+
+Sealmetrics counts a new **entrance** when the referrer is empty or comes from a different domain than your own (e.g., facebook.com → yoursite.com).
+
+---
+
+## Add a Domain During Site Creation
+
+When you create a new site, you can add one or more domains in the creation form:
+
+1. In the left sidebar, expand **Organization** and click **Sites** (`/settings/sites`).
+2. Click **New Site**.
+3. Enter the **Site Name** and the **Primary Domain** (e.g., `example.com`).
+4. Set the **Timezone** and **Currency**, then click **Create Site**.
+
+You can add additional domains later from the site's **Domains** tab (see below).
+
+---
+
+## Add a Domain to an Existing Site
+
+1. In the left sidebar, expand **Organization** and click **Sites** (`/settings/sites`).
+2. Find the site and click **Configure**.
+3. Open the **Domains** tab.
+4. Type the domain (e.g., `example.com` or `sub.example.com`) in the input field.
+5. Press **Enter** or click **Add**.
+
+The domain will appear in the list and tracking will be authorized immediately.
+
+---
+
+## Remove a Domain
+
+1. In the **Domains** tab, click the **trash icon** next to the domain you want to remove.
+2. Confirm the removal in the dialog.
+
+---
+
+## Important Notes
+
+- Domains must be in a valid format (e.g., `example.com`, `shop.example.com`).
+- Subdomains are supported.
+- Only one domain or its subdomains can be tracked per site (no cross-site tracking).
+- If no domains are configured, you'll see a message: "No domains configured. Add your first domain to start tracking."

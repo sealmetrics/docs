@@ -1,0 +1,332 @@
+---
+title: "Sources Report"
+description: "Analyze traffic sources with UTM parameters and referrers. View by channel, source, medium, campaign, content, and term."
+canonical_url: "https://docs.sealmetrics.com/reports/sources"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "91500cea8ba728336d77e98c538b9f6c11b4467c0eac9b037624b8c4927c10cf"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/sources.mdx"
+publisher: "SealMetrics"
+---
+
+# Sources Report
+
+Canonical page: https://docs.sealmetrics.com/reports/sources
+
+The Sources report provides complete analysis of traffic sources using channel grouping, UTM parameters, and referrers.
+
+![Traffic Sources report on the Channels tab, with traffic volume by channel and the channel distribution donut chart](/img/screenshots/sources-channels.png)
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Sources** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/sources`
+
+## Tabs
+
+The report has 7 tabs for different levels of analysis. **Channels** is the first tab and is selected by default:
+
+### 1. Channels Tab
+
+The default tab. Shows traffic grouped into high-level **channels** (GA4-style channel grouping). Instead of looking at raw source/medium values one by one, traffic is bucketed into marketing channels such as Paid Search, Organic Social, or Email.
+
+| Column | Description |
+|--------|-------------|
+| **Channel** | Channel name (e.g., "Paid Search"). Unmatched traffic shows as **Unassigned** |
+| **Entrances** | Sessions assigned to this channel |
+| **Page Views** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Events** | Microconversions |
+| **Conv.** | Completed conversions |
+| **Conv. Rate** | Conversion rate |
+| **Revenue** | Total revenue |
+
+**Charts included:**
+- **Stacked Bar Chart**: Traffic volume by channel
+- **Pie Chart**: Channel distribution (top 4 + "Other")
+- **Dual Axis Chart**: Conversion Rate (bars) vs Bounce Rate (line)
+
+#### How channel grouping works
+
+Each session is assigned to a channel by matching its `utm_source`, `utm_medium`, and `utm_campaign` values against a set of **channel grouping rules** (`channel_group_rules`). Each rule defines:
+
+- A **channel name** (e.g., "Paid Search")
+- Optional regex patterns for source, medium, and/or campaign (an empty pattern means "match any value")
+- A **priority** — higher-priority rules are evaluated first
+
+Rules are checked in priority order and the first matching rule wins. Rules can be **global** (apply to every account) or **account-specific**; account rules are always evaluated before global rules, so a custom rule can override the defaults. Traffic that matches no rule is reported as **Unassigned**.
+
+You can view and customize these rules per account from the [Channel Grouping settings](/platform/settings/tracking/channel-grouping) (draft → test → publish flow, CSV import/export, and MCP tools). The API exposes them under `/channel-groups`. The built-in default rules cannot be deleted, but they can be overridden.
+
+#### Default channels
+
+SealMetrics ships with the following default channels, listed here from highest to lowest priority (the order in which they are matched):
+
+| Channel | Matches (simplified) |
+|---------|----------------------|
+| **Paid Search** | Search engines (google, bing, yahoo, etc.) with a paid medium (cpc, ppc, paid, sem) |
+| **Paid Social** | Social networks (facebook, instagram, x, linkedin, tiktok, etc.) with a paid medium |
+| **Paid Video** | Video platforms (youtube, vimeo, twitch, dailymotion) with a paid/video medium |
+| **Display** | Display mediums (display, banner, cpm, interstitial, rich media) |
+| **Paid Shopping** | google/bing with a shopping medium (shopping, pla, product listing) |
+| **Organic Search** | Search engines with `organic` medium |
+| **Organic Social** | Social networks with a social/organic-social medium |
+| **Organic Video** | Video platforms with a video/organic medium |
+| **Organic Shopping** | Shopping comparison sites (google shopping, idealo, kelkoo, etc.) |
+| **AI** | Traffic from AI assistants (ChatGPT, Gemini, Claude, Perplexity, Copilot, etc.) — medium `ai` |
+| **Email** | Email mediums (email, newsletter, mailchimp, sendgrid, klaviyo) |
+| **Affiliates** | Affiliate mediums (affiliate, partner, aff, cpa) |
+| **SMS** | SMS mediums (sms, text, mms) |
+| **Push** | Push mediums (push, notification, web push, mobile push) |
+| **Audio** | Audio sources (spotify, apple podcasts, soundcloud, audible, etc.) |
+| **Referral** | medium matches `referral` or `referrer` |
+| **Direct** | `direct` source and medium |
+| **Unassigned** | Catch-all for traffic that matches no other rule |
+
+### 2. Sources Tab
+
+Shows traffic grouped by UTM Source and Medium combination.
+
+**Info:**
+Since July 21, 2026, visits arriving from an untagged external link are shown in this tab as their **referring domain** with medium `referrer` (e.g. `reddit.com / referrer`), GA4-style — including historical data. To analyze the full referring URLs, use the [Referrers tab](#7-referrers-tab).
+
+| Column | Description |
+|--------|-------------|
+| **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
+| **Entrances** | Sessions from this source |
+| **Page Views** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Events** | Microconversions |
+| **Conv.** | Completed conversions |
+| **Conv. Rate** | Conversion rate |
+| **Revenue** | Total revenue |
+
+**Drill-down:** source names in the table are clickable — click a source to see its **campaigns**, and a campaign to see its **terms**, with breadcrumbs to navigate back. Each table also has a **search box** (server-side, works across all pages of results).
+
+**Charts included:**
+- **Stacked Bar Chart**: Traffic volume by source
+- **Pie Chart**: Distribution of top 4 sources
+- **Dual Axis Chart**: Conversion Rate (bars) vs Bounce Rate (line)
+
+### 3. Mediums Tab
+
+Shows traffic grouped by UTM Medium only.
+
+| Medium | Description |
+|--------|-------------|
+| organic | Search engine organic traffic |
+| cpc | Cost-per-click paid traffic |
+| social | Social media organic traffic |
+| email | Email marketing traffic |
+| referral | Links from other websites |
+| (none) | Direct traffic |
+
+Same columns and charts as the Sources tab (the first column is **Medium** instead of Source / Medium).
+
+### 4. Campaigns Tab
+
+Shows traffic grouped by UTM Campaign.
+
+| Column | Description |
+|--------|-------------|
+| **Campaign** | Campaign name (the associated source / medium is shown underneath) |
+| **Entrances** | Sessions from this campaign |
+| **Page Views** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Events** | Microconversions |
+| **Conv.** | Completed conversions |
+| **Conv. Rate** | Conversion rate |
+| **Revenue** | Total revenue |
+
+Includes the same three charts as the Sources tab. Useful for:
+- Comparing ad campaigns
+- Tracking email campaigns
+- Measuring promotional campaigns
+
+### 5. Terms Tab
+
+Shows traffic grouped by UTM Term (typically search keywords).
+
+| Column | Description |
+|--------|-------------|
+| **Term** | Search term or keyword (the associated source / campaign is shown underneath) |
+| **Entrances** | Sessions from this term |
+| **Page Views** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Events** | Microconversions |
+| **Conv.** | Completed conversions |
+| **Conv. Rate** | Conversion rate |
+| **Revenue** | Total revenue |
+
+This tab shows a table only (no charts). Useful for:
+- Paid search keyword analysis
+- Understanding search intent
+- Identifying high-value keywords
+
+### 6. Content Tab
+
+Shows traffic grouped by UTM Content (for A/B testing ads).
+
+| Column | Description |
+|--------|-------------|
+| **Content** | Ad variant identifier (the associated source / campaign is shown underneath) |
+| **Entrances** | Sessions from this variant |
+| **Page Views** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Events** | Microconversions |
+| **Conv.** | Completed conversions |
+| **Conv. Rate** | Conversion rate |
+| **Revenue** | Total revenue |
+
+This tab shows a table only (no charts). Useful for:
+- A/B testing ad creatives
+- Differentiating links pointing to same URL
+- Tracking banner variations
+
+### 7. Referrers Tab
+
+Shows traffic from referring websites (not UTM-based), **one row per full referring URL** — this is where you see exactly which page linked to you. (The domain-level view lives in the [Sources tab](#2-sources-tab), where referral traffic is grouped as `domain / referrer`.)
+
+| Column | Description |
+|--------|-------------|
+| **Referrer Domain** | The full referring URL (the column groups by URL; e.g. `reddit.com/r/analytics/comments/...`) |
+| **Entrances** | Sessions from this referrer |
+| **Page Views** | Page views from this referrer |
+| **Bounce Rate** | Bounce rate |
+| **Events** | Microconversions |
+| **Conv.** | Conversions |
+| **Conv. Rate** | Conversion rate |
+| **Revenue** | Revenue |
+
+This tab shows a table only (no charts). Useful for:
+- Identifying backlink traffic
+- Finding partnership opportunities
+- Monitoring press mentions
+
+## Charts
+
+The **Channels**, **Sources**, **Mediums**, and **Campaigns** tabs each include three charts (the Terms, Content, and Referrers tabs show a table only):
+
+### Stacked Bar Chart
+
+Shows volume comparison:
+- Horizontal bars per source/medium
+- Stacked: Entrances (blue) + Conversions (green)
+- Quick visual of volume vs conversion balance
+
+### Pie Chart
+
+Shows distribution:
+- Top 4 sources/mediums
+- Remaining grouped as "Other"
+- Percentage labels
+
+### Dual Axis Chart
+
+Shows efficiency comparison:
+- Bars: Conversion Rate (left axis)
+- Line: Bounce Rate (right axis)
+- Identifies sources with good conversion but high bounce
+
+## Filtering
+
+Each tab has its own filter builder. Filters in the Sources report are **dimension-only** — you filter by what the traffic *is* (channel, source, medium, campaign, domain), not by metric values:
+
+| Field | Use Case |
+|-------|----------|
+| Channel is "Paid Search" | One channel only |
+| Source contains "google" | All Google traffic |
+| Medium equals "cpc" | Paid traffic only |
+| Campaign contains "spring" | One campaign family |
+
+To spot high- or low-performing rows by metric (conversions, bounce rate…), **sort by the metric column** instead — every numeric column is sortable.
+
+### Combining Filters
+
+Example: isolate paid Google traffic for one campaign
+1. Source contains "google"
+2. AND Medium equals "cpc"
+3. AND Campaign contains "spring-sale"
+
+## UTM Parameter Reference
+
+| Parameter | URL Format | Example |
+|-----------|------------|---------|
+| Source | `utm_source=` | google, facebook, newsletter |
+| Medium | `utm_medium=` | cpc, organic, email |
+| Campaign | `utm_campaign=` | spring-sale, brand-2025 |
+| Term | `utm_term=` | running+shoes |
+| Content | `utm_content=` | banner-a, text-link |
+
+### Example URL
+
+```
+https://example.com/landing?utm_source=google&utm_medium=cpc&utm_campaign=spring-sale&utm_term=running+shoes&utm_content=banner-a
+```
+
+## Use Cases
+
+### Evaluating Ad Spend
+
+1. Go to **Sources** tab
+2. Filter: Medium equals "cpc"
+3. Compare:
+   - Google vs Facebook vs LinkedIn
+   - Cost per conversion (external data + Revenue)
+   - Conversion rates
+
+### Comparing Campaigns
+
+1. Go to **Campaigns** tab
+2. Sort by Revenue (descending)
+3. Identify:
+   - Best performing campaigns
+   - Campaigns to scale
+   - Campaigns to pause
+
+### Finding High-Value Referrers
+
+1. Go to **Referrers** tab
+2. Sort by Conversions (descending)
+3. Look for:
+   - Unexpected high-performing referrers
+   - Partnership opportunities
+   - Guest posting targets
+
+### Analyzing Email Performance
+
+1. Go to **Mediums** tab
+2. Filter: Medium equals "email"
+3. Review:
+   - Open → Click → Conversion funnel
+   - Compare campaigns in Campaigns tab
+
+### Keyword Analysis
+
+1. Go to **Terms** tab
+2. Sort by Conversions
+3. Identify:
+   - Converting keywords
+   - High-traffic low-conversion keywords (optimize landing pages)
+   - Long-tail opportunities
+
+## Export
+
+Each tab has its own export:
+- Exports current tab data only
+- Respects active filters
+- Includes all visible columns
+- CSV or PDF format
+
+## Related documentation
+
+- [Referral vs Direct Traffic](/reports/insights/referral-vs-direct-traffic) — How each session's source is classified
+- [How Sealmetrics Calculates SEO Traffic](/reports/insights/how-sealmetrics-calculates-seo-traffic) — How organic search is detected
+- [How to Track Google Ads Campaigns](/reports/insights/how-to-track-google-ads-campaigns) — UTM templates for paid campaigns
+- [What Is a TERM in Sealmetrics?](/reports/insights/what-is-a-term) — What the Terms tab measures
+- [Overview Report](/reports/overview) — The high-level dashboard for all reports

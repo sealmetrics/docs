@@ -1,0 +1,179 @@
+---
+title: "Joomla"
+description: "Install the Sealmetrics Joomla plugin (4.x and 5.x) for cookieless analytics with form, newsletter, search, and 404 tracking — no consent banner needed."
+canonical_url: "https://docs.sealmetrics.com/integrations/cms/joomla"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "461ea5d6138d73daa861ec1c03fe2128e3a24b2fd7669d0c5dedbda9b486b668"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/cms/joomla.mdx"
+publisher: "SealMetrics"
+---
+
+# Joomla
+
+Canonical page: https://docs.sealmetrics.com/integrations/cms/joomla
+
+Privacy-first, cookieless analytics for Joomla 4.x and 5.x.
+
+## Requirements
+
+- Joomla 4.0+ or 5.0+
+- PHP 7.4 or higher
+
+## Installation
+
+1. Download `sealmetrics-joomla.zip`
+2. Go to **System > Install > Extensions**
+3. Upload and install the ZIP file
+4. Go to **System > Manage > Plugins**
+5. Search for "SealMetrics" and **enable** the plugin
+6. Click on the plugin to configure your Account ID
+
+## Configuration
+
+| Setting | Description |
+|---------|-------------|
+| **Account ID** | Your SealMetrics Account ID (required) |
+| **Enable Tracking** | Turn tracking on/off |
+| **Skip Admin Pages** | Don't track administrator pages |
+| **Track Form Submissions** | Track contact and other forms |
+| **Contact Forms as Leads** | Track contact forms as conversions |
+| **Track Search Queries** | Track site searches |
+| **Track 404 Errors** | Track broken link visits |
+
+## Tracked Events
+
+### Automatic Events
+
+| Event | Description |
+|-------|-------------|
+| `pageview` | All page views with content grouping |
+| `form_submit` | Form submissions |
+| `newsletter_signup` | Newsletter form submissions |
+| `lead` | Contact forms (if configured) |
+| `search` | Site search queries |
+| `404_error` | Page not found errors |
+
+### Content Groups
+
+| Page Type | Group |
+|-----------|-------|
+| Home page | `home` |
+| Articles | `article` |
+| Categories | `category` |
+| Contact pages | `contact` |
+| Search results | `search` |
+| Login | `login` |
+| Registration | `register` |
+| User profile | `account` |
+
+## E-commerce Support
+
+Works with popular Joomla e-commerce extensions:
+
+### VirtueMart
+
+| Page Type | Group |
+|-----------|-------|
+| Product pages | `product` |
+| Category pages | `catalog` |
+| Cart | `cart` |
+| Checkout | `checkout` |
+
+### HikaShop
+
+| Page Type | Group |
+|-----------|-------|
+| Product pages | `product` |
+| Categories | `catalog` |
+| Cart/Checkout | `cart` |
+| Order confirmation | `thankyou` |
+
+### J2Store
+
+| Page Type | Group |
+|-----------|-------|
+| Products | `catalog` |
+| Cart | `cart` |
+| Checkout | `checkout` |
+| Orders | `thankyou` |
+
+## Form Detection
+
+The plugin intelligently distinguishes:
+
+### Newsletter Forms
+
+Tracked as `newsletter_signup`:
+- Detected by ID/class containing: `newsletter`, `subscribe`, `acymailing`, etc.
+- Forms with only an email field
+
+### Contact Forms
+
+Tracked as `form_submit` or `lead`:
+- All other forms (contact, quote requests, etc.)
+
+## Custom Event Tracking
+
+Add custom tracking in your template:
+
+```javascript
+// Wait for SealMetrics to load
+(function() {
+    function track() {
+        if (typeof sealmetrics !== 'undefined') {
+            sealmetrics.micro('custom_event', {
+                property: 'value'
+            });
+        } else {
+            setTimeout(track, 100);
+        }
+    }
+    track();
+})();
+```
+
+## E-commerce Conversions
+
+For purchase tracking with VirtueMart/HikaShop, add to your order confirmation template:
+
+```php
+<?php
+// In order confirmation template
+$order_total = $order->getTotal(); // Adjust based on your e-commerce
+$currency = 'EUR';
+?>
+<script>
+(function() {
+    function trackPurchase() {
+        if (typeof sealmetrics !== 'undefined') {
+            sealmetrics.conv('purchase', <?php echo $order_total; ?>, {
+                currency: '<?php echo $currency; ?>'
+            });
+        } else {
+            setTimeout(trackPurchase, 100);
+        }
+    }
+    trackPurchase();
+})();
+</script>
+```
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- No order IDs or user IDs stored
+- GDPR compliant by design
+- No consent banner required
+
+## Related documentation
+
+- [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads.
+- [Understanding Event Properties in Sealmetrics](/implementation/custom-properties/event-properties) — the model behind the form, search, and 404 events this plugin fires.
+- [WordPress](/integrations/cms/wordpress) — the equivalent integration for WordPress sites.
+- [Drupal](/integrations/cms/drupal) — the equivalent integration for Drupal sites.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

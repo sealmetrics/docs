@@ -1,0 +1,504 @@
+---
+title: "Tracker API Reference"
+description: "Complete API reference for the SealMetrics JavaScript tracker. Includes all methods, parameters, and payload specifications."
+canonical_url: "https://docs.sealmetrics.com/implementation/tracker/api-reference"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "bc59d973872badddbffd65724adce067c0eae1fd745a7beb88612f3358d8676b"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "implementation/tracker/api-reference.mdx"
+publisher: "SealMetrics"
+---
+
+# Tracker API Reference
+
+Canonical page: https://docs.sealmetrics.com/implementation/tracker/api-reference
+
+Complete reference for the SealMetrics JavaScript tracker API.
+
+---
+
+## Global Variables
+
+The tracker exposes three identical global variables:
+
+| Variable | Description |
+|----------|-------------|
+| `sealmetrics` | Recommended (unique, no conflicts) |
+| `sm` | Short form |
+| `_sm` | Backup if others conflict |
+
+All three work identically:
+
+```javascript
+sealmetrics.conv('purchase', 99.99);
+sm.conv('purchase', 99.99);
+_sm.conv('purchase', 99.99);
+```
+
+---
+
+## Methods
+
+### sealmetrics()
+
+Track a pageview. Called automatically on page load and SPA navigation.
+
+```javascript
+sealmetrics();
+sealmetrics(options);
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `options` | object | No | Configuration options |
+| `options.group` | string | No | Content grouping for this page |
+
+**Examples:**
+
+```javascript
+// Manual pageview (rarely needed)
+sealmetrics();
+
+// Pageview with content grouping
+sealmetrics({ group: 'blog' });
+sealmetrics({ group: 'product' });
+sealmetrics({ group: 'checkout' });
+```
+
+**When to call manually:**
+- Rarely needed — pageviews are automatic
+- Use when you need to override the content group
+- Use for hash-based routing where automatic detection doesn't work
+
+---
+
+### sealmetrics.conv()
+
+Track a conversion (goal completion with monetary value).
+
+```javascript
+sealmetrics.conv(type, amount);
+sealmetrics.conv(type, amount, properties);
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `type` | string | Yes | Conversion type (e.g., `'purchase'`, `'lead'`, `'signup'`) |
+| `amount` | number | No | Monetary value. Omit or use `0` for non-monetary conversions. Only sent when it is a number |
+| `properties` | object | No | Custom key-value data |
+
+**Examples:**
+
+```javascript
+// Simple purchase
+sealmetrics.conv('purchase', 99.99);
+
+// Purchase with properties
+sealmetrics.conv('purchase', 149.99, {
+  currency: 'EUR',
+  payment_method: 'credit_card'
+});
+
+// Lead (no monetary value)
+sealmetrics.conv('lead', 0, {
+  form_name: 'contact',
+  source: 'homepage'
+});
+
+// Subscription
+sealmetrics.conv('subscription', 49, {
+  plan: 'pro_monthly',
+  currency: 'USD'
+});
+```
+
+---
+
+### sealmetrics.micro()
+
+Track a microconversion (user interaction or funnel step).
+
+```javascript
+sealmetrics.micro(type);
+sealmetrics.micro(type, properties);
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `type` | string | Yes | Event type (e.g., `'add_to_cart'`, `'video_play'`) |
+| `properties` | object | No | Custom key-value data |
+
+**Examples:**
+
+```javascript
+// Simple microconversion
+sealmetrics.micro('add_to_cart');
+
+// With properties
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  product_name: 'Blue Shoes',
+  price: '89.99'
+});
+
+// Video engagement
+sealmetrics.micro('video_play', {
+  video_id: 'demo-2025',
+  video_title: 'Product Tour'
+});
+
+// Scroll depth
+sealmetrics.micro('scroll_50');
+```
+
+---
+
+## Properties
+
+Properties are key-value pairs attached to conversions and microconversions.
+
+### Data Types
+
+All property values are transmitted as strings. Numbers and booleans are automatically converted:
+
+```javascript
+// Both are equivalent
+sealmetrics.conv('purchase', 99, { quantity: 3 });
+sealmetrics.conv('purchase', 99, { quantity: '3' });
+```
+
+### Common Properties
+
+| Property | Description | Example |
+|----------|-------------|---------|
+| `currency` | ISO 4217 currency code | `'EUR'`, `'USD'` |
+| `product_id` | Product SKU or ID | `'SKU-123'` |
+| `product_name` | Product name | `'Blue Shoes'` |
+| `category` | Product category | `'footwear'` |
+| `price` | Item price | `'89.99'` |
+| `quantity` | Number of items | `'2'` |
+| `payment_method` | Payment type | `'credit_card'` |
+| `coupon` | Discount code | `'SAVE10'` |
+| `plan` | Subscription plan | `'pro'` |
+| `billing_cycle` | Billing frequency | `'monthly'` |
+
+### Property Limits
+
+- Maximum properties per event: No hard limit, but keep reasonable
+- Property name max length: 100 characters
+- Property value max length: 500 characters
+- Total request body max: **15 KB**. The server reads at most 15 KB of the POST body; anything beyond that is silently ignored (the request still returns 204).
+
+---
+
+## Content Grouping
+
+Content grouping categorizes pages into sections for analysis.
+
+### Setting via URL Parameter
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&group=blog" defer></script>
+```
+
+**Warning:**
+When set via the `group` URL parameter, the value is validated against the regular expression `^[a-zA-Z0-9_-]{0,64}$` (letters, digits, `_` and `-`, up to 64 characters). An invalid `group` value makes the `/t.js` request return **HTTP 400** and the script is not served. The same constraint applies to the value passed to `sealmetrics({ group })`.
+
+### Setting via JavaScript
+
+```javascript
+// Override default grouping
+sealmetrics({ group: 'product' });
+```
+
+### Common Groups
+
+| Group | Use Case |
+|-------|----------|
+| `blog` | Blog posts, articles |
+| `product` | Product detail pages |
+| `category` | Category/listing pages |
+| `cart` | Shopping cart |
+| `checkout` | Checkout flow |
+| `landing` | Landing pages |
+| `support` | Help, documentation |
+| `account` | User account pages |
+
+---
+
+## Payload Specification
+
+### Pageview Payload
+
+```json
+{
+  "a": "YOUR_ACCOUNT_ID",
+  "s": "1abc123def456",
+  "t": "hmac_token",
+  "u": "https://example.com/page?utm_source=google&utm_medium=cpc",
+  "r": "https://google.com/search",
+  "z": "Europe/Madrid",
+  "c": 1703001234567,
+  "g": "blog"
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `a` | Account ID |
+| `s` | Session ID (auto-generated) |
+| `t` | HMAC anti-spam token |
+| `u` | Current URL |
+| `r` | Referrer URL |
+| `z` | IANA timezone |
+| `c` | Timestamp (milliseconds) |
+| `g` | Content group (optional) |
+
+**Note:**
+The tracker does **not** send a separate parameters field. UTM tags (`utm_source`, `utm_medium`, …) and ad click IDs (`gclid`, `fbclid`, …) are extracted **server-side** from the current URL (`u`), so they must be present in the page URL for attribution to work.
+
+### Conversion Payload
+
+Includes all pageview fields plus:
+
+```json
+{
+  "e": "purchase",
+  "v": 149.99,
+  "x": {
+    "currency": "EUR"
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `e` | Event type |
+| `v` | Monetary value (optional — only present when `amount` is a number) |
+| `x` | Custom properties (optional) |
+
+### Microconversion Payload
+
+Includes all pageview fields plus:
+
+```json
+{
+  "e": "add_to_cart",
+  "m": true,
+  "x": {
+    "product_id": "SKU-123"
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `e` | Event type |
+| `m` | Microconversion flag (`true`) |
+| `x` | Custom properties |
+
+---
+
+## Session Identification
+
+Session IDs are automatically generated using privacy-preserving browser characteristics. No cookies or personal data are used.
+
+---
+
+## Automatic Behavior
+
+### Automatic Pageview
+
+A pageview is tracked automatically when the script loads. You don't need to call `sealmetrics()` manually on page load.
+
+### SPA Navigation Detection
+
+The tracker automatically detects Single Page Application navigation by intercepting:
+
+- `history.pushState()`
+- `history.replaceState()`
+- `popstate` event (browser back/forward)
+
+Each URL change triggers a new pageview with the previous URL as the referrer.
+
+### Data Transmission
+
+Events are sent using `navigator.sendBeacon()` with a fallback to `fetch()`:
+
+1. **sendBeacon** (preferred): Works even when closing the tab
+2. **fetch with keepalive**: Fallback if sendBeacon fails
+
+Events are sent as a POST with `Content-Type: application/x-www-form-urlencoded`. The JSON payload travels in the form field `d` (`d=<json>`). This avoids CORS preflight requests and WAF blocks.
+
+---
+
+## Read-only Properties
+
+Beyond the methods, the global object exposes a few read-only properties, useful for debugging or for forwarding the session ID to other systems:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `sealmetrics.sessionId` | string | The fingerprint-based session ID for the current visitor |
+| `sealmetrics.accountId` | string | The account/site ID embedded in the served script |
+| `sealmetrics.tz` | string | The visitor's IANA timezone (e.g., `'Europe/Madrid'`) |
+| `sealmetrics.autoMode` | string | `'1'` if the auto-pageview is enabled, `'0'` if loaded with `?auto=0` |
+| `sealmetrics.spaMode` | string | `'1'` if automatic SPA route-change pageviews are enabled, `'0'` if loaded with `?spa=0` |
+
+```javascript
+console.log(sealmetrics.sessionId); // "1abc123def456"
+console.log(sealmetrics.autoMode);  // "1"
+console.log(sealmetrics.spaMode);   // "1"
+```
+
+---
+
+## Manual Pageview Mode (`?auto=0`)
+
+By default the tracker fires the initial pageview as soon as the script runs. Loading the tracker with `?auto=0` keeps everything wired up (SPA listeners, `conv()`, `micro()`) but **skips** the automatic initial pageview — you are then responsible for firing it manually:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&auto=0" defer></script>
+<script>
+  window.addEventListener('load', function () {
+    // Fire the pageview yourself, e.g. with a custom group after your dataLayer is ready
+    sealmetrics({ group: 'checkout' });
+  });
+</script>
+```
+
+| `?auto=` value | Behavior |
+|----------------|----------|
+| missing / empty / `1` | Auto-pageview ON (default) |
+| `0` | Auto-pageview OFF (manual mode) |
+| any other value | Auto-pageview ON (defensive default) |
+
+SPA navigation listeners (`pushState` / `replaceState` / `popstate`) stay active in both modes; only the **initial** pageview is suppressed by `?auto=0`.
+
+---
+
+## Manual SPA Mode (`?spa=0`)
+
+`?spa=0` is the SPA counterpart of `?auto=0`: it suppresses the **automatic pageview on SPA route changes**. The History API listeners still update the tracker's internal URL/referrer state (so manual pageviews carry the correct referrer chain), but no pageview fires unless you call `sealmetrics()` yourself.
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ID&auto=0&spa=0" defer></script>
+```
+
+| `?spa=` value | Behavior |
+|---------------|----------|
+| missing / empty / `1` | Automatic SPA pageviews ON (default) |
+| `0` | Automatic SPA pageviews OFF (manual SPA mode) |
+| any other value | Automatic SPA pageviews ON (defensive default) |
+
+Combine `?auto=0&spa=0` for fully manual control — the pattern to use with Google Tag Manager or per-route [content grouping](/implementation/content-site-structure/content-grouping). ⚠️ Manual calls are **never de-duplicated**: if you fire pageviews manually on route changes without `spa=0`, each navigation is counted twice.
+
+---
+
+## Pre-load Queue (stub)
+
+For integrations where the tracker may load **after** the first `sealmetrics(...)` call (e.g., Google Tag Manager with several tags, or deferred loading), inject this tiny fbq-style stub **before** the real library. It buffers calls in `sealmetrics.q` until the library boots, then replays them in FIFO order:
+
+```html
+<script>
+!function(w){w.sealmetrics=w.sealmetrics||function(){(w.sealmetrics.q=w.sealmetrics.q||[]).push(['pv',arguments])};w.sealmetrics.q=w.sealmetrics.q||[];w.sealmetrics.conv=w.sealmetrics.conv||function(){w.sealmetrics.q.push(['cv',arguments])};w.sealmetrics.micro=w.sealmetrics.micro||function(){w.sealmetrics.q.push(['mc',arguments])}}(window);
+</script>
+```
+
+- Each queued entry is `[marker, arguments]`, where the marker is `'pv'` (pageview), `'cv'` (conversion) or `'mc'` (microconversion). These markers are a stable, permanent contract.
+- The stub is idempotent (`||` guards): pasting it twice is a no-op.
+- The queue is drained **before** the optional auto-pageview, so order is: queued calls (FIFO) → auto-pageview (if enabled).
+
+**Warning:**
+If you enqueue a pageview through the stub **and** leave the auto-pageview on, both will fire and you get two pageviews per session. The canonical pattern is the **stub + `?auto=0`**, firing the pageview yourself from the queue.
+
+---
+
+## Behavior Inside Iframes
+
+The tracker checks whether it runs at the top level (`window.self === window.top`):
+
+- **Top-level page:** auto-pageview + SPA navigation listeners + `conv()` / `micro()` — everything works normally.
+- **Inside an iframe** (e.g., the Shopify Web Pixel sandbox): the tracker exposes `conv()` and `micro()` only. It does **not** fire an auto-pageview and does **not** install SPA navigation hooks.
+
+This prevents duplicate pageviews when the tracker runs both on the real page and inside an embedded sandbox. In iframe contexts (Shopify), call `sealmetrics.conv()` / `sealmetrics.micro()` directly and do **not** inject the pre-load stub inside the iframe.
+
+---
+
+## Automatically Detected Click IDs
+
+Ad click IDs do not need any configuration. When present in the page URL, the server detects them and infers source/medium automatically:
+
+| Click ID | Platform | Inferred source / medium |
+|----------|----------|--------------------------|
+| `gclid` | Google Ads | google / cpc |
+| `gbraid` | Google Ads (iOS) | google / cpc |
+| `wbraid` | Google Ads (Web-to-App) | google / cpc |
+| `fbclid` | Meta / Facebook | facebook / social |
+| `msclkid` | Microsoft / Bing Ads | bing / cpc |
+| `yclid` | Yandex | yandex / cpc |
+| `ttclid` | TikTok | tiktok / cpc |
+| `twclid` | Twitter / X | twitter / cpc |
+| `li_fat_id` | LinkedIn | linkedin / cpc |
+| `ScCid` | Snapchat | snapchat / cpc |
+| `rdt_cid` | Reddit | reddit / cpc |
+
+Explicit UTM parameters in the URL always take precedence over the values inferred from a click ID.
+
+---
+
+## TypeScript Declarations
+
+For TypeScript projects, add these declarations:
+
+```typescript
+// types/sealmetrics.d.ts
+interface SealmetricsOptions {
+  group?: string;
+}
+
+interface SealmetricsFunction {
+  (options?: SealmetricsOptions): void;
+  conv(type: string, amount?: number, properties?: Record<string, string>): void;
+  micro(type: string, properties?: Record<string, string>): void;
+  readonly sessionId: string;
+  readonly accountId: string;
+  readonly tz: string;
+  readonly autoMode: string;
+  readonly spaMode: string;
+}
+
+declare global {
+  const sealmetrics: SealmetricsFunction | undefined;
+  const sm: SealmetricsFunction | undefined;
+  const _sm: SealmetricsFunction | undefined;
+}
+
+export {};
+```
+
+---
+
+## Technical Specifications
+
+| Specification | Value |
+|--------------|-------|
+| Size (minified) | ~2,228 bytes |
+| Size (gzipped) | **~1,227 bytes** |
+| Dependencies | None (vanilla JavaScript) |
+| Browser Support | Chrome 60+, Firefox 55+, Safari 11.1+, Edge 79+ |
+| ES Version | ES5 compatible |
+| Cookies | None |
+| localStorage | None |
+| sessionStorage | None |
+
+---
+
+## Related Documentation
+
+- [Installation](/implementation/tracker/installation) - Setup guide
+- [Conversions](/implementation/tracker/conversions) - Detailed conversion tracking
+- [Microconversions](/implementation/tracker/microconversions) - Event tracking
+- [SPA Support](/implementation/tracker/spa-support) - Framework integrations

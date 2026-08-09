@@ -1,0 +1,68 @@
+---
+title: "Why Use the Defer Attribute on the SealMetrics Pixel"
+description: "Learn why adding defer to the SealMetrics pixel script improves page load performance and prevents rendering delays without affecting tracking accuracy."
+canonical_url: "https://docs.sealmetrics.com/implementation/defer-attribute-pixel-script"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "98e1bd3cd7fa2611cc6a47e8264ba6e29ce23f6a809d67b63f864d13d2e2791c"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "implementation/defer-attribute-pixel-script.mdx"
+publisher: "SealMetrics"
+---
+
+# Why Use the Defer Attribute on the SealMetrics Pixel
+
+Canonical page: https://docs.sealmetrics.com/implementation/defer-attribute-pixel-script
+
+Adding `defer` to your SealMetrics pixel script is a small change with a measurable impact on page load performance. This page explains what `defer` does, why it matters for analytics scripts, and how to apply it correctly.
+
+## What Is the Defer Attribute
+
+The `defer` attribute is a standard HTML attribute for `<script>` tags. It tells the browser to download the script in the background while continuing to parse the rest of the HTML, and to execute the script only after the document has been fully parsed.
+
+Without `defer`, a `<script src="...">` tag is **render-blocking** by default: the browser stops parsing HTML, waits for the script to download and execute, and only then continues building the page.
+
+## Why It Matters for the SealMetrics Pixel
+
+The SealMetrics tracker is a tiny script (around 1 KB gzipped) that runs once on load, hooks the History API for SPA navigation, and sends the initial pageview. None of this work needs to happen before the page renders, so making it render-blocking only delays your content for no benefit. Adding `defer` lets the browser paint your page first and run the tracker afterward, with no loss of tracking accuracy.
+
+`defer` does **not** change what the tracker does or measures. It only changes *when* the script executes:
+
+- The script downloads in parallel while the HTML is parsed.
+- It executes after the document is fully parsed, but before `DOMContentLoaded`.
+- Multiple deferred scripts execute in document order.
+
+## How to Apply It
+
+Add the `defer` attribute to the tracker `<script>` tag:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+`defer` works alongside the other tracker URL parameters, such as content grouping or manual pageview mode:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog" defer></script>
+```
+
+## A Note on Timing
+
+Because the tracker executes after the HTML is parsed, the global `sealmetrics` object is not guaranteed to exist during the very first synchronous render of an SSR or hydration-heavy app. If you fire a conversion or microconversion early in the page lifecycle, always guard the call:
+
+```javascript
+if (typeof sealmetrics !== 'undefined') {
+  sealmetrics.conv('lead', 0, { form_name: 'contact' });
+}
+```
+
+## `defer` vs `async`
+
+For an analytics pixel, prefer `defer` over `async`:
+
+- **`defer`** preserves execution order and runs after the document is parsed — predictable, and the page DOM is fully available.
+- **`async`** executes as soon as the script finishes downloading, which can happen mid-parse and in an unpredictable order relative to other scripts.
+
+Both are non-render-blocking, but `defer` gives the more reliable behavior for the SealMetrics tracker.

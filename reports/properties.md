@@ -1,0 +1,194 @@
+---
+title: "Properties Report"
+description: "Analyze conversion and microconversion properties by traffic source attribution."
+canonical_url: "https://docs.sealmetrics.com/reports/properties"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "34e96c18601657278b42cf5136899b54748a2764b3edad8e898653e25d7bd3f8"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/properties.mdx"
+publisher: "SealMetrics"
+---
+
+# Properties Report
+
+Canonical page: https://docs.sealmetrics.com/reports/properties
+
+The Properties report lets you analyze custom properties attached to conversions and microconversions, broken down by traffic source (UTM parameters).
+
+## What This Report Shows
+
+When you track conversions with custom properties (like `product_category`, `plan_type`, or `payment_method`), this report helps you understand:
+
+- Which property values perform best across different traffic sources
+- How conversions distribute across property values by campaign
+- Which traffic sources drive specific property outcomes
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Properties** in the sidebar
+
+## Report Interface
+
+### Controls
+
+| Control | Description |
+|---------|-------------|
+| **View Mode** | Toggle between Totals (absolute numbers) and Rates (percentages) |
+| **Data Source** | Toggle between Conversions, Microconversions, and Conv. Items |
+| **Property Key** | Select which property to analyze (e.g., `currency`, `plan_type`). Each option shows its event count |
+| **Export** | Download the current view as CSV or PDF |
+
+### Property Analysis Table
+
+The main table shows:
+
+| Column | Description |
+|--------|-------------|
+| **Source / Medium / Campaign** | UTM attribution for this row. In Rates mode, the entrance count is also shown |
+| **Total** / **Share %** | In Totals mode, the sum of all events for this UTM combination. In Rates mode, this column header changes to **Share %** |
+| **[Property Values]** | Dynamic columns for each unique value of the selected property |
+
+A summary above the table shows the selected property key, its number of distinct values, and the total events.
+
+### Heatmap Visualization
+
+Cells are color-coded to highlight performance:
+
+| Color | Meaning |
+|-------|---------|
+| **Green** | Above average share for this property value |
+| **Yellow** | Average share |
+| **Red** | Below average share for this property value |
+
+This helps you quickly identify which traffic sources over- or under-perform for specific property values.
+
+### View Modes
+
+**Totals Mode**
+- Shows absolute counts for each property value
+- Useful for understanding volume distribution
+
+**Rates Mode**
+- Shows conversion rates (events / entrances)
+- Displays entrance count for context
+- Useful for comparing efficiency across sources
+
+## Available Properties Table
+
+Below the main analysis, you'll find a summary of all available property keys:
+
+| Column | Description |
+|--------|-------------|
+| **Property Key** | The property name (click to analyze) |
+| **Conversions** | Count from conversion events |
+| **Microconversions** | Count from microconversion events |
+| **Total** | Combined count |
+
+## Example Use Cases
+
+### E-commerce: Product Category Analysis
+
+Track which traffic sources drive purchases in each category:
+
+```javascript
+sealmetrics.conv('purchase', 99.99, {
+  product_category: 'electronics',
+  brand: 'Apple',
+  payment_method: 'credit_card'
+});
+```
+
+Then analyze the `product_category` property to see:
+- Google Ads drives 60% of electronics purchases
+- Facebook drives 45% of fashion purchases
+- Organic search has the highest conversion rate for accessories
+
+### SaaS: Plan Type Analysis
+
+Understand which campaigns drive premium vs basic subscriptions:
+
+```javascript
+sealmetrics.conv('subscription', 49.00, {
+  plan_type: 'premium',
+  billing_cycle: 'annual'
+});
+```
+
+Analyze `plan_type` to optimize campaigns for higher-value plans.
+
+### Lead Gen: Lead Source Analysis
+
+Track which forms and sources generate leads:
+
+```javascript
+sealmetrics.conv('lead', 0, {
+  form_name: 'contact',
+  lead_source: 'pricing_page'
+});
+```
+
+## Best Practices
+
+### 1. Use Consistent Property Names
+
+Standardize property names across your implementation:
+
+```javascript
+// Good - consistent naming
+sealmetrics.conv('purchase', value, { product_category: 'shoes' });
+
+// Avoid - inconsistent
+sealmetrics.conv('purchase', value, { category: 'shoes' });
+sealmetrics.conv('purchase', value, { productCategory: 'shoes' });
+```
+
+### 2. Keep Property Values Clean
+
+Use consistent, lowercase values:
+
+```javascript
+// Good
+{ plan_type: 'premium' }
+
+// Avoid
+{ plan_type: 'Premium' }
+{ plan_type: 'PREMIUM' }
+```
+
+### 3. Limit Property Cardinality
+
+Properties work best with a manageable number of unique values (under 50). Avoid using unique IDs as property values.
+
+### 4. Track Meaningful Properties
+
+Focus on properties that inform business decisions:
+
+**Good properties:**
+- `product_category` - Informs inventory and marketing decisions
+- `plan_type` - Helps optimize pricing campaigns
+- `payment_method` - Identifies payment preferences by source
+
+**Less useful properties:**
+- `order_id` - Too many unique values
+- `timestamp` - Already tracked automatically
+- `user_email` - Privacy concern, too granular
+
+## Requirements
+
+The Properties report requires:
+
+1. **Conversions or microconversions with properties** - Events must include custom properties
+2. **Traffic with UTM parameters** - At least some traffic should have UTM attribution
+
+If no properties are found, the report will display: "No properties found. Properties are set when tracking conversions and microconversions."
+
+## Related Documentation
+
+- [Event Properties Guide](/implementation/ecommerce-conversion-tracking/event-properties) - How to implement properties
+- [Conversions](/implementation/tracker/conversions) - Tracking conversions
+- [Microconversions](/implementation/tracker/microconversions) - Tracking microconversions
+- [Sources Report](./sources) - Traffic source analysis

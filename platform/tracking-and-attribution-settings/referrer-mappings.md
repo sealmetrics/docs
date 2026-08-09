@@ -1,0 +1,113 @@
+---
+title: "Referrer Mappings"
+description: "Learn how to map known referrer domains to specific source, medium, and campaign values so traffic from partners, affiliates, or internal domains is attributed correctly in SealMetrics."
+canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/referrer-mappings"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "c40aeb39069e0bc6a9d196003779d8c2f5ce70a4c86dc53cf2eb54e64167a895"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/tracking-and-attribution-settings/referrer-mappings.mdx"
+publisher: "SealMetrics"
+---
+
+# Referrer Mappings
+
+Canonical page: https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/referrer-mappings
+
+**Referrer Mappings** let you assign a specific source, medium, and campaign to traffic that arrives from a known referrer domain. When a visit comes from a domain you have mapped **and the URL carries no UTM parameters**, SealMetrics applies the UTM values you configured automatically.
+
+This is useful for properly attributing traffic from:
+
+- Partner sites
+- Affiliates
+- Internal domains
+- Any referrer you want to label with a consistent source/medium
+
+**Note:**
+Referrer Mappings act on the **referrer domain** of an incoming visit. They are different from **UTM Mappings**, which rename or group UTM values that are already present in the URL. See [How to change UTM parameters](/reports/insights/how-to-change-utm-parameters) for UTM Mappings.
+
+**Warning:**
+The API endpoints work and mappings are stored per account, but the tracking pipeline **does not yet read this table** when classifying incoming traffic — saved mappings have no effect on attribution today. For traffic that needs to be re-attributed now, use [Channel Grouping rules](/api/channel-groups) or [UTM Mappings](/reports/insights/how-to-change-utm-parameters) instead. See the [Referrer Mappings API reference](/api/referrer-mappings) for details.
+
+---
+
+## How It Works
+
+- When traffic comes from a matched referrer **without** UTM parameters in the URL, the configured UTM values are applied.
+- **Existing UTM parameters in the URL are never overwritten.** An explicit `utm_source`/`utm_medium`/`utm_campaign` always wins.
+- When several mappings could match, the one with the **highest priority** is applied first (priority is a `0`–`1000` scale).
+
+---
+
+## How to Set It Up
+
+**Info:**
+Referrer Mappings are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect mappings with the API calls shown below. See the [Referrer Mappings API reference](/api/referrer-mappings) for the complete request/response schema.
+
+Mappings are scoped to an account. Create one with your API key:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/referrer-mappings?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "referrer_pattern": "partner-site.com",
+    "match_type": "exact",
+    "utm_source": "partner-site",
+    "utm_medium": "referral",
+    "label": "Partner Site Traffic"
+  }'
+```
+
+All management is done through the API:
+
+- **List** mappings (`GET /referrer-mappings?account_id=...`), optionally including inactive ones
+- **Create, update, and delete** mappings
+- **Deactivate** a mapping (`is_active: false`) without deleting it
+
+See the [Referrer Mappings API reference](/api/referrer-mappings) for every endpoint and example. Creating or modifying mappings requires editor-or-higher (write) permissions.
+
+---
+
+## Match Types
+
+The **Match Type** controls how the referrer domain of an incoming visit is compared against your pattern:
+
+| Match type | Behavior |
+|------------|----------|
+| **Exact** | Matches the domain exactly |
+| **Contains** | The domain contains the pattern |
+| **Starts with** | The domain starts with the pattern |
+| **Ends with** | The domain ends with the pattern |
+| **Regex** | The domain matches a regular expression |
+
+The referrer pattern is normalized when saved: the protocol (`http://`, `https://`) and any path are stripped, and the value is lowercased. Enter just the domain.
+
+---
+
+## Fields Reference
+
+A referrer mapping stores the following fields:
+
+| Field | Required | Default | Notes |
+|-------|----------|---------|-------|
+| `referrer_pattern` | Yes | — | Domain pattern to match (max 255 chars) |
+| `match_type` | No | `exact` | One of `exact`, `contains`, `starts_with`, `ends_with`, `regex` |
+| `utm_source` | Yes | — | Source to apply |
+| `utm_medium` | No | `referral` | Medium to apply |
+| `utm_campaign` | No | empty | Campaign to apply |
+| `utm_term` | No | empty | Term to apply |
+| `utm_content` | No | empty | Content to apply |
+| `label` | No | — | Human-readable label |
+| `description` | No | — | Optional description |
+| `priority` | No | `0` | Higher priority mappings are checked first (`0`–`1000`) |
+| `is_active` | No | `true` | Whether the mapping is applied |
+
+---
+
+## Related
+
+- [How to change UTM parameters](/reports/insights/how-to-change-utm-parameters) — rename or group UTM values already present in the URL (UTM Mappings).
+- [Passthrough Referrers](/platform/tracking-and-attribution-settings/passthrough-referrers) — preserve the original session source when visitors return from external domains such as payment gateways.

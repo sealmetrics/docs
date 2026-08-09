@@ -1,0 +1,43 @@
+---
+title: "Sealmetrics Docs — Consentless Web Analytics"
+description: "Official documentation for Sealmetrics, the consentless web analytics platform that captures 100% of traffic without cookies or consent banners, fully GDPR compliant."
+canonical_url: "https://docs.sealmetrics.com"
+lang: "en"
+date_generated: "2026-08-09T18:18:16.203Z"
+source_hash: "13815f31d019be48a7ddfa1aabb23de0be91a0343536b3cc6f6899e197187597"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "critical"
+source_file: "index.mdx"
+publisher: "SealMetrics"
+---
+
+# Sealmetrics Docs — Consentless Web Analytics
+
+Canonical page: https://docs.sealmetrics.com
+
+**Sealmetrics** is a consentless web analytics platform that captures 100% of your traffic without cookies or consent banners — fully GDPR, ePrivacy, CNIL, and AEPD compliant.
+
+These docs cover everything you need to implement, operate, and build on top of Sealmetrics: tracker installation, the HTTP and JavaScript APIs, every built-in report, compliance posture, and CMS/framework integrations.
+
+## Choose your path
+
+## Reports at a glance
+
+Every report shares one definition layer — the same entrances, conversions, and revenue whether you read them in the dashboard, the API, or a raw export.
+
+## Why Sealmetrics
+
+- **100% privacy-compliant** — no cookies, no consent banner, no data loss from banner rejection.
+- **Legitimate interest by design** — validated criterion by criterion in our public [regulator self-assessments](/compliance).
+- **Unified metrics** — dashboard, ROAS, funnels, attribution, and raw exports share one definition layer.
+- **24-month retention** without consent, within GDPR bounds.
+
+> Sealmetrics gives you actionable insights — without cookies, consent banners, or data loss.
+
+## Keep exploring
+
+- **[Implementation guide →](/implementation)** — tracking methods, server-side collection, e-commerce, and framework-specific recipes.
+- **[Guides →](/guides)** — long-form playbooks: cookieless analytics, GA4 migration, UTM governance.
+- **[Troubleshooting →](/troubleshooting)** — fix missing conversions, CSP errors, data delays, and timezone mismatches.
+- **[Changelog →](/changelog)** — what shipped, when.
