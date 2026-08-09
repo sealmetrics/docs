@@ -1,0 +1,325 @@
+---
+title: "Channel Groups"
+description: "Manage GA4-style channel classification rules that match utm_source, medium, and campaign via regex with priority ordering"
+canonical_url: "https://docs.sealmetrics.com/api/channel-groups"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/channel-groups.mdx"
+publisher: "SealMetrics"
+---
+
+# Channel Groups
+
+Canonical page: https://docs.sealmetrics.com/api/channel-groups
+
+Manage the rules that classify traffic into channels (GA4-style channel grouping). Each rule matches against `utm_source`, `utm_medium`, and `utm_campaign` via regex; the rule with the highest priority that matches wins.
+
+**Base path:** `/channel-groups`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+---
+
+## List Rules
+
+```http
+GET /channel-groups?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `include_inactive` | boolean | `false` | Include inactive rules |
+| `include_defaults` | boolean | `true` | Include system-default rules |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "rules": [
+      {
+        "id": 12,
+        "account_id": "acme",
+        "channel_name": "Paid Search",
+        "source_pattern": "google|bing",
+        "medium_pattern": "cpc|ppc|paid",
+        "campaign_pattern": null,
+        "priority": 100,
+        "is_default": false,
+        "is_active": true,
+        "created_at": "2025-01-05T10:00:00Z",
+        "updated_at": "2025-01-05T10:00:00Z"
+      }
+    ],
+    "total": 18,
+    "default_count": 12,
+    "custom_count": 6
+  }
+}
+```
+
+Default rules have `account_id = null` and `is_default = true`. They cannot be modified or deleted, only overridden via higher-priority custom rules.
+
+---
+
+## Create Rule
+
+```http
+POST /channel-groups?account_id={account_id}
+```
+
+**Required scope:** `write` (editor or higher)
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `channel_name` | string | Yes | Channel name (1-50 chars, e.g. `"Paid Social"`) |
+| `source_pattern` | string | No | Regex against `utm_source` (max 255). Null matches any |
+| `medium_pattern` | string | No | Regex against `utm_medium` (max 255). Null matches any |
+| `campaign_pattern` | string | No | Regex against `utm_campaign` (max 255). Null matches any |
+| `priority` | integer | No | Evaluation priority 0-1000 (default `50`). Higher wins |
+| `is_active` | boolean | No | Default `true` |
+
+**Response (201 Created):** full rule object (same shape as list response items).
+
+---
+
+## Get Rule
+
+```http
+GET /channel-groups/{rule_id}?account_id={account_id}
+```
+
+Returns the rule or `404` if not found.
+
+---
+
+## Update Rule
+
+```http
+PATCH /channel-groups/{rule_id}?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+All fields from create are optional. Default (system) rules cannot be modified — attempting returns `403`.
+
+---
+
+## Delete Rule
+
+```http
+DELETE /channel-groups/{rule_id}?account_id={account_id}
+```
+
+**Required scope:** `write`. Default rules cannot be deleted (`403`). Returns `204 No Content`.
+
+### Draft-only guard (for MCP / automation)
+
+Both `PATCH` and `DELETE` accept `only_if_inactive=true` as a query parameter. When set, the mutation is applied **atomically** only if the rule is a draft (`is_active = false`). If the rule has gone live between your read and your write, the endpoint returns `409 Conflict` with `error.code = "rule_is_live"`. This is what the MCP `update_channel_rule` / `delete_channel_rule` tools use to guarantee they never touch a live rule.
+
+The dashboard omits this flag so live rules remain editable there.
+
+---
+
+## Export Rules
+
+```http
+GET /channel-groups/export?account_id={account_id}
+```
+
+Returns the account's custom rules **and** the current active defaults in a versioned JSON envelope suitable for import back into another site or for external storage.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "version": 1,
+    "rules": [
+      {
+        "channel_name": "Paid Social — Meta",
+        "source_pattern": "^(facebook|instagram|fb|ig)$",
+        "medium_pattern": "^(cpc|paid)$",
+        "campaign_pattern": null,
+        "priority": 110,
+        "is_active": true
+      }
+    ],
+    "default_rules": [ /* read-only, cannot be imported */ ]
+  }
+}
+```
+
+Only the entries in `rules` are importable. `default_rules` are surfaced for reference and to allow tooling to compute an "override" set.
+
+---
+
+## Import Rules
+
+```http
+POST /channel-groups/import?account_id={account_id}&dry_run={bool}&scope={all|drafts}
+```
+
+**Required scope:** `write`.
+
+Atomic replace-all import of custom rules. Body carries the same envelope as the export.
+
+| Query parameter | Type | Default | Description |
+|-----------------|------|---------|-------------|
+| `dry_run` | boolean | `false` | Validate and report per-rule errors without writing |
+| `scope` | string | `all` | `all` = replace every custom rule; `drafts` = replace only drafts (live rules kept intact) and force incoming rules to `is_active=false` (MCP draft-only invariant) |
+
+Rules:
+
+- **All-or-nothing.** Any invalid row → `422` with a per-row report; no partial writes.
+- **Replace-all semantics.** A successful `scope=all` import **removes** any custom rule not present in the payload. Passing `rules: []` returns the site to defaults-only.
+- Limits: **100 custom rules per account** (drafts included), body **≤ 256 KB**.
+- Regex validated in **RE2** (`google-re2`) — the same engine the pixel uses. Lookaheads / lookbehinds / backrefs are rejected at import time, so a rule that passes here matches identically in production.
+
+**Response (dry-run):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "dry_run": true,
+    "would_insert": 5,
+    "would_delete": 2,
+    "errors": []
+  }
+}
+```
+
+**Response (real import):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "inserted": 5,
+    "deleted": 2,
+    "total_after": 5
+  }
+}
+```
+
+---
+
+## Test a Visit (rule tester)
+
+```http
+POST /channel-groups/test?account_id={account_id}
+```
+
+Classifies a hypothetical visit using the **exact same matching engine as the pixel** (same RE2 library, same custom-before-default ordering). This is what powers the "Test a visit" panel in Site settings → Channels.
+
+**Request Body:**
+
+```json
+{
+  "source": "google",
+  "medium": "cpc",
+  "campaign": "brand-summer",
+  "include_inactive": true
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `source` | string | Value to test against `utm_source` (case-insensitive) |
+| `medium` | string | Value to test against `utm_medium` |
+| `campaign` | string | Value to test against `utm_campaign` |
+| `include_inactive` | boolean | If `true`, drafts are also evaluated (default `false`, i.e. only what the pixel is running today) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "channel": "Paid Search Brand",
+    "matched_rule": {
+      "id": 42,
+      "channel_name": "Paid Search Brand",
+      "source_pattern": "^(google|bing)$",
+      "medium_pattern": "^cpc$",
+      "campaign_pattern": "brand",
+      "priority": 110,
+      "is_active": true,
+      "is_default": false
+    }
+  }
+}
+```
+
+If nothing matches, `channel` is `"Unassigned"` and `matched_rule` is `null`.
+
+---
+
+## Helper: my IP
+
+Not on the channel-groups router, but paired with this feature set for the "Add my current IP" shortcut in Site settings → IP Exclusions:
+
+```http
+GET /utils/my-ip
+```
+
+Echoes the caller's public IP, resolved through the trusted-proxy chain. Used by the dashboard's "Add my current IP" button.
+
+```json
+{ "success": true, "data": { "ip": "203.0.113.7" } }
+```
+
+---
+
+## Get Channel Metrics
+
+```http
+GET /channel-groups/stats/channels?account_id={account_id}
+```
+
+Traffic metrics rolled up by the channels resolved through the current rule set.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `start_date` / `end_date` | date | - | Local dates in account timezone |
+| `period` | string | - | Period shortcut (overrides explicit dates). Default `30d` when nothing provided |
+| `country` | string | - | Filter by country (ISO 2-letter) |
+| `page` | integer | `1` | Page number |
+| `page_size` | integer | `50` | Items per page (1-100) |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "channels": [
+      {
+        "channel": "Organic Search",
+        "entrances": 25000,
+        "engaged_entrances": 20000,
+        "bounces": 5000,
+        "bounce_rate": 20.0,
+        "page_views": 75000,
+        "microconversions": 3400,
+        "conversions": 350,
+        "conversion_rate": 1.4,
+        "revenue": 28000.00
+      }
+    ],
+    "total": 8
+  }
+}
+```
+
+This is similar to [`GET /stats/channels`](./stats-advanced#channel-groups) but limited to the current rule set's channels and without comparison/sort options.

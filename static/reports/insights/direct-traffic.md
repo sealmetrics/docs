@@ -1,0 +1,93 @@
+---
+title: "Understanding Direct Traffic in Sealmetrics"
+description: "Learn how Sealmetrics classifies Direct traffic and how referrer detection impacts traffic source attribution."
+canonical_url: "https://docs.sealmetrics.com/reports/insights/direct-traffic"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/insights/direct-traffic.mdx"
+publisher: "SealMetrics"
+---
+
+# Understanding Direct Traffic in Sealmetrics
+
+Canonical page: https://docs.sealmetrics.com/reports/insights/direct-traffic
+
+Direct vs Referrer traffic in Sealmetrics follows one simple rule:
+
+- **If a referrer exists → Referrer Traffic**
+- **If the referrer is empty → Direct Traffic**
+
+This binary model ensures clear and privacy-compliant traffic source attribution.
+
+---
+
+## What Is Direct Traffic?
+
+Direct traffic occurs when the **referrer field is empty**.
+
+This means Sealmetrics received no information about the previous page the user came from.
+
+**Key rule:**
+> **Direct traffic = referrer is empty**
+
+---
+
+## How Referrer Information Works
+
+When a user clicks a link from one website to another, the browser normally sends an HTTP `referrer` header.
+
+This header contains the URL of the previous page and helps website owners understand **where traffic comes from**.
+
+Example referrer header:
+````
+Referrer: https://google.com/search?q=analytics
+````
+Sealmetrics reads this header (without storing personal information) to classify traffic sources.
+
+---
+
+## How Sealmetrics Classifies Referrers
+
+If a referrer exists, Sealmetrics analyzes the domain and performs **category-based enrichment**:
+
+### ✔ Domain recognition
+Certain domains are automatically recognized and reclassified:
+
+- **google.com** → SEO
+- **bing.com** → SEO
+- **facebook.com** → Social
+- **instagram.com** → Social
+
+### ✔ Why this reclassification matters
+It provides more meaningful insight into *which channels* bring traffic to your site, instead of treating everything as a generic “referrer”.
+
+---
+
+## Why This System Matters
+
+Sealmetrics’ referrer classification allows you to:
+
+- Identify top-performing traffic sources
+- Understand whether traffic comes from search, social, media, or partners
+- Improve marketing strategy based on accurate channel attribution
+- Maintain full privacy compliance without tracking users individually
+
+---
+
+## Summary
+
+- **Direct Traffic** occurs when the referrer is empty
+- **Referrer Traffic** is enriched when Sealmetrics recognizes known platforms
+- This classification provides clearer attribution while staying fully privacy-first
+
+Sealmetrics gives you a transparent, simple, and accurate way to understand how users arrive at your website — without cookies, without IDs, and without compromising user privacy.
+
+## Related documentation
+
+- [Referral vs Direct Traffic](/reports/insights/referral-vs-direct-traffic) — Full breakdown of the referrer vs direct model
+- [Understanding Referrer Loss and Direct Traffic in Sealmetrics](/reports/insights/understanding-referrer-loss-and-direct-traffic) — Why referrers disappear and inflate direct
+- [What is Rejoined Traffic?](/reports/insights/rejoined-traffic) — Returning visits kept out of direct traffic
+- [Sources Report](/reports/sources) — Analyze traffic sources and channels in your dashboard

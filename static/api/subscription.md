@@ -1,0 +1,71 @@
+---
+title: "Subscription Status"
+description: "Check an organization's subscription state — plan tier, trial end, billing period, and paywall block status from a single endpoint"
+canonical_url: "https://docs.sealmetrics.com/api/subscription"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/subscription.mdx"
+publisher: "SealMetrics"
+---
+
+# Subscription Status
+
+Canonical page: https://docs.sealmetrics.com/api/subscription
+
+Return the current subscription state for an organization. The dashboard calls this on every layout load to decide whether to render the paywall, the trial banner, or the free-tier usage gauge.
+
+**Base path:** `/subscription`
+
+Authentication is required: the caller must be a member of the requested `org_id` (or be a superadmin). Returns `403` otherwise. No specific scope is required beyond a valid session.
+
+---
+
+## Get Subscription Status
+
+```http
+GET /subscription/status?org_id={org_id}
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `org_id` | UUID | Yes | Organization ID |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "billing_enabled": true,
+    "has_subscription": true,
+    "status": "active",
+    "plan_tier": "growth",
+    "trial_ends_at": null,
+    "current_period_end": "2025-02-08T00:00:00Z",
+    "cancel_at_period_end": false,
+    "is_blocked": false,
+    "block_reason": null,
+    "source": "stripe",
+    "usage": null
+  }
+}
+```
+
+**Field reference:**
+
+| Field | Description |
+|-------|-------------|
+| `billing_enabled` | `true` when the billing feature is enabled for this org. `false` for self-hosted / grandfathered installs |
+| `has_subscription` | Whether the org currently has an active paid subscription |
+| `status` | Raw status (e.g. `active`, `trialing`, `past_due`, `canceled`, `free`) |
+| `plan_tier` | Plan tier name (`free`, `growth`, `scale`, `enterprise`) or `null` |
+| `trial_ends_at` | Trial end timestamp or `null` |
+| `current_period_end` | When the current paid period ends, or `null` |
+| `cancel_at_period_end` | `true` if cancellation is scheduled |
+| `is_blocked` | `true` when the dashboard should show a hard paywall |
+| `block_reason` | Human-readable block reason (e.g. `"trial_expired"`) or `null` |
+| `source` | Where the entitlement comes from: `stripe`, `free`, `grandfathered`, or `none` |
+| `usage` | For free orgs: `{ events_used, event_limit, percentage }`. Otherwise `null` |

@@ -1,0 +1,129 @@
+---
+title: "How Sealmetrics Calculates Entrances"
+description: "Learn what an Entrance is in Sealmetrics, how it differs from GA4 Visits, and how it compares to Pageviews in a privacy-first analytics system."
+canonical_url: "https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-entrances"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/insights/how-sealmetrics-calculates-entrances.mdx"
+publisher: "SealMetrics"
+---
+
+# How Sealmetrics Calculates Entrances
+
+Canonical page: https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-entrances
+
+Understanding how Entrances work is essential for interpreting your traffic accurately in a privacy-first environment. Sealmetrics uses a simple, transparent method that complies with GDPR and ePrivacy while still providing actionable insights.
+
+---
+
+## What Is an Entrance?
+
+An **Entrance** is the **start of a session** on your website. A session groups a visitor's interactions together based on referrer context and inactivity — with a **2-hour inactivity timeout**, GA4-style — without ever attaching a persistent identifier to the visitor.
+
+Concretely, Sealmetrics counts a new Entrance whenever a hit arrives with an **external referrer** (or no referrer at all) *and* the session doesn't already exist. Continuous browsing on the same site produces **Pageviews** within the same Entrance's session, not new Entrances.
+
+### Example
+
+If the same visitor lands on your site at **9:00**, keeps browsing until **9:30**, and comes back at **3:00 PM** the same day:
+
+**➡️ 2 Entrances, one for each session** (the 3:00 PM return is a new session because the 2-hour inactivity window elapsed).
+
+If instead they lands, closes the tab and reopens the same landing page 30 seconds later within the same session context:
+
+**➡️ 1 Entrance** — the second hit is a pageview inside the same session.
+
+Sealmetrics tracks sessions **without** tracking the individual. Session boundaries are derived from referrer + inactivity, not from a cookie or fingerprint, which is what keeps the entire model consentless.
+
+---
+
+## Entrances vs. Visits (GA4)
+
+| Metric | How It Works | Requires Consent? | Why |
+|--------|--------------|-------------------|-----|
+| **Visits (GA4)** | Groups interactions into a session using a persistent client ID | ✔️ Yes | GA4 identifies the returning visitor across sessions to unify their history |
+| **Entrances (Sealmetrics)** | Starts a session on the first arrival; groups follow-up hits within the session's ~2-hour inactivity window | ❌ No | Sessions are derived from context, not from a per-user identifier |
+
+### Key Difference
+
+GA4's "Visit" attaches to a **persistent identity** that follows the user across days and devices.
+Sealmetrics' "Entrance" is bounded to a **single session**, defined only by the visitor's context on that day — no identity is carried forward, no cross-session join exists.
+
+---
+
+## Entrances vs. Pageviews in Sealmetrics
+
+Sealmetrics records all interactions as **hits**, then categorizes them based on their context.
+
+### Hit Types in Sealmetrics
+
+#### **1. Microconversions / Conversions**
+A hit becomes a conversion when it has a defined name, such as:
+
+- `add-to-cart`
+- `purchase`
+- `lead`
+- `signup`
+
+#### **2. Pageviews**
+A hit is a pageview when:
+
+- The hit’s domain **matches** the referrer domain
+  (meaning the user navigated within the same site)
+
+#### **3. Entrances**
+A hit is an Entrance when:
+
+- The referrer **does not match** the tracked domain
+  (meaning the user arrived from outside your site)
+
+### Summary Table
+
+| Scenario | Classification |
+|---------|----------------|
+| User lands from Google | **Entrance** |
+| User clicks to another page internally | **Pageview** |
+| User completes a conversion event | **Conversion / Microconversion** |
+
+---
+
+## Why Entrances Matter
+
+Entrances give you:
+
+- A **privacy-safe measurement** of how often people access your website
+- A method that requires **no cookies, no identifiers, no consent**
+- A consistent way to track traffic across all browsers and privacy restrictions
+
+Even if the same person enters multiple times from SEO, each access is counted independently.
+This is intentional — it’s how Sealmetrics remains fully compliant while still providing meaningful traffic volume insights.
+
+---
+
+## Conclusion
+
+Sealmetrics simplifies traffic measurement with a privacy-first, event-based approach:
+
+- **Entrances** count how many times your website is accessed
+- **Pagesviews** reflect internal navigation
+- **Conversions** represent meaningful actions
+
+While Entrances are not equivalent to “sessions” or “unique visitors,” they provide a reliable, compliant way to understand traffic volumes in a cookieless world.
+
+This method ensures:
+
+✔ No user tracking
+✔ No identifiers
+✔ No consent required
+✔ Accurate, transparent traffic measurement
+
+Sealmetrics delivers analytics designed for the privacy-first era — without compromising data integrity.
+
+## Related documentation
+
+- [Metrics Reference](/reports/definitions) — Formulas for entrances, pageviews, and conversions
+- [GA4 vs Sealmetrics — Complete Comparison](/faq/ga4-vs-sealmetrics) — How entrances differ from GA4 sessions
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — Why measurement needs no identifiers
+- [Overview Report](/reports/overview) — See entrances and pageviews at a glance

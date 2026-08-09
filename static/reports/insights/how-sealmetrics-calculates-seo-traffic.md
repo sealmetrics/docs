@@ -1,0 +1,102 @@
+---
+title: "How Sealmetrics Calculates SEO Traffic"
+description: "Learn how Sealmetrics differentiates SEO traffic from paid traffic using a privacy-first methodology."
+canonical_url: "https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-seo-traffic"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/insights/how-sealmetrics-calculates-seo-traffic.mdx"
+publisher: "SealMetrics"
+---
+
+# How Sealmetrics Calculates SEO Traffic
+
+Canonical page: https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-seo-traffic
+
+Sealmetrics is designed to classify traffic sources with precision while maintaining strict privacy compliance.
+This document explains how SEO (organic search) traffic is detected and how we avoid misclassifying paid Google Ads traffic.
+
+---
+
+## 1. SEO Traffic Definition
+
+Sealmetrics attributes a visit to **SEO traffic** when the following two conditions are true:
+
+### ✅ **Condition 1: The referrer is a recognized search engine**
+
+Sealmetrics classifies the referrer using configurable referrer mapping tables rather than a hardcoded list of domains. When the referrer domain matches a mapping entry categorized as organic search (for example, Google), the hit may be considered SEO traffic.
+
+### ❌ **Condition 2: No advertising parameters are present**
+
+If the landing URL contains **any** of the following parameters, it is *not* SEO traffic:
+
+- `gclid` (Google Ads auto-tagging)
+- `gbraid` (Google Ads, iOS)
+- `wbraid` (Google Ads, web-to-app)
+- Any `utm_` parameter (utm_source, utm_medium, utm_campaign, utm_term, etc.)
+
+### 🟦 **If BOTH conditions are met → Sealmetrics classifies the hit as SEO traffic**
+
+Example:
+````
+Referrer: https://google.com/search?q=analytics+tools
+Landing URL: https://yoursite.com/pricing
+Parameters: none
+Result: SEO Traffic
+````
+---
+
+## 2. Avoiding Confusion with Google Ads Traffic
+
+A common question:
+**“Could Google Ads traffic ever be classified as SEO traffic?”**
+
+### ✔️ Sealmetrics keeps this risk extremely low — under 1%.
+For misclassification to happen, TWO things must occur simultaneously:
+
+1. The referrer must be Google
+2. The landing URL must contain *no* advertising identifiers:
+
+   - No `gclid`
+   - No `gbraid` or `wbraid`
+   - No `utm_source`, `utm_medium`, etc.
+   - No value-track parameters from templates
+
+### Why this is rare:
+
+- Google Ads **auto-tagging almost always adds `gclid`**
+- Manual UTM tagging is standard practice
+- Sealmetrics detects the established Google Ads click identifiers (`gclid`, `gbraid`, `wbraid`)
+
+### Result:
+If **any** ad-related parameter exists → Sealmetrics classifies the hit as **Paid Traffic**, not SEO.
+
+---
+
+## 3. Summary Table
+
+| Condition | Result |
+|----------|--------|
+| Referrer is Google AND no ad/UTM parameters | **SEO Traffic** |
+| Referrer is Google AND ad/UTM parameters are present | **Paid Traffic** |
+| Referrer is not Google | Classified based on platform (Referrer, Social, Direct, etc.) |
+
+---
+
+SEO attribution in Sealmetrics is designed to be:
+
+- Accurate
+- Privacy-safe
+- Fully compliant with GDPR/ePrivacy
+- Resistant to false classification
+
+This ensures your organic search performance is measured correctly—even in a consentless, cookieless environment.
+
+## Related documentation
+
+- [Referral vs Direct Traffic](/reports/insights/referral-vs-direct-traffic) — How referrers are classified into channels
+- [How to Track Google Ads Campaigns](/reports/insights/how-to-track-google-ads-campaigns) — Keep paid traffic out of SEO
+- [Referrer Mappings](/platform/tracking-and-attribution-settings/referrer-mappings) — Customize how referrers are categorized
+- [Sources Report](/reports/sources) — View organic search in your dashboard

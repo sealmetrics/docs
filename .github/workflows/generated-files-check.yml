@@ -6,6 +6,7 @@ on:
       - 'docs/**'
       - 'blog/**'
       - 'scripts/generate-llms.mjs'
+      - 'scripts/audit-markdown.mjs'
       - 'static/llms.txt'
       - 'static/llms-full.txt'
       - 'static/docs-raw/**'
@@ -29,16 +30,19 @@ jobs:
       - name: Regenerate llms.txt and docs-raw
         run: node scripts/generate-llms.mjs
 
-      - name: Fail if the generated output differs from the committed one
+      - name: Audit Markdown mirrors
+        run: node scripts/audit-markdown.mjs
+
+      - name: Fail if the committed text output differs
         run: |
-          # --porcelain also reports untracked files, so a brand-new page
-          # whose mirror was never committed is caught too.
+          # Markdown mirrors and knowledge-manifest are build artifacts. The
+          # audit above validates them; the daily workflow publishes them.
           if [ -z "$(git status --porcelain -- static/llms.txt static/llms-full.txt static/docs-raw)" ]; then
             echo "Generated files are in sync."
             exit 0
           fi
 
-          echo "::error::Generated files are stale. Run 'npm run generate:llms' and commit static/."
+          echo "::error::Committed LLM text files are stale. Run 'npm run generate:llms' and commit static/llms.txt, static/llms-full.txt, and static/docs-raw/."
           echo
           echo "Files that differ:"
           git status --porcelain -- static/llms.txt static/llms-full.txt static/docs-raw

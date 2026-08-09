@@ -1,0 +1,115 @@
+---
+title: "Reports Overview"
+description: "Guide to the 9 Sealmetrics reports — Overview, Evolution, Pages, Sources, Geography, Devices, Conversions, Properties, and Funnel — and shared features."
+canonical_url: "https://docs.sealmetrics.com/reports"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/index.mdx"
+publisher: "SealMetrics"
+---
+
+# Reports Overview
+
+Canonical page: https://docs.sealmetrics.com/reports
+
+Sealmetrics provides 9 specialized reports to analyze your website traffic, conversions, and user behavior. The Analytics sidebar lists them in this order, plus **Lens** at the top — the AI assistant (`/sites/{site_id}/lens/chat`), which is a conversational assistant rather than a tabular report.
+
+## Available Reports
+
+| Report | Purpose | Key Metrics |
+|--------|---------|-------------|
+| [Overview](/reports/overview) | Real-time dashboard summary | Entrances, Pageviews, Conversions, Revenue |
+| [Evolution](/reports/evolution) | Temporal trends analysis | Metrics over time, grouped by day/week/month |
+| [Pages](/reports/pages) | Page performance analysis | Top pages, landing pages, bounce rates |
+| [Sources](/reports/sources) | Traffic source breakdown | UTM analysis, referrers, campaigns |
+| [Geography](/reports/geography) | Geographic distribution | Country-level metrics |
+| [Devices](/reports/devices) | Device and browser analysis | Device types, browsers, operating systems |
+| [Conversions](/reports/conversions) | Conversion and event tracking | Conversions, microconversions, revenue |
+| [Properties](/reports/properties) | Event property analysis | Property breakdown by UTM attribution |
+| [Funnel](/reports/funnel) | Conversion funnel analysis | Step progression, drop-off rates |
+
+## Accessing Reports
+
+1. Log in to [Sealmetrics Dashboard](https://my.sealmetrics.com)
+2. Select a site from the site selector (top left)
+3. Click any report in the sidebar
+
+## Common Features
+
+All reports share these features:
+
+### Date Range Picker
+
+Located in the header. Options:
+
+| Preset | Description |
+|--------|-------------|
+| Today | Current day |
+| Yesterday | Previous day |
+| 7d | Last 7 days |
+| 30d | Last 30 days |
+| 90d | Last 90 days |
+| This Week/Month/Quarter/Year | Current period |
+| Last Week/Month/Quarter/Year | Previous period |
+| Custom | Select specific date range |
+
+**Keyboard shortcuts:**
+- `T` = Today
+- `Y` = Yesterday
+- `W` = This Week
+- `M` = This Month
+- `C` = Toggle comparison mode
+
+### Comparison Mode
+
+Compare current period with:
+- **Previous Period**: Same number of days before the selected range
+- **Previous Year**: Same dates in the prior year
+- **Custom**: Manually select comparison range
+
+When enabled, charts show a secondary line and stat cards display delta percentages.
+
+### Global Filters
+
+Open the **Segment** panel from the filter bar below the header. Available filters:
+
+| Category | Filters |
+|----------|---------|
+| Geography | Countries (multi-select) |
+| Devices | Device type, Browser, Operating System |
+
+Filters apply to all report pages. Active filters appear as removable chips.
+
+### Segments
+
+Save filter combinations for quick access:
+
+1. Apply desired filters
+2. Click **Save as Segment**
+3. Name the segment
+4. Access saved segments from the dropdown
+
+### Export
+
+Most reports include an **Export** button to download data as CSV or PDF.
+
+## Report Details
+
+- [Overview](/reports/overview) - Main dashboard with key metrics
+- [Evolution](/reports/evolution) - Time-based trend analysis
+- [Pages](/reports/pages) - Page-level performance
+- [Sources](/reports/sources) - Traffic source analysis
+- [Geography](/reports/geography) - Country breakdown
+- [Devices](/reports/devices) - Device and browser stats
+- [Conversions](/reports/conversions) - Conversion tracking
+- [Properties](/reports/properties) - Event property analysis by UTM
+- [Funnel](/reports/funnel) - Funnel progression
+
+## Additional Documentation
+
+- [Filters](/reports/filters) - Detailed filter documentation
+- [Date Range](/reports/date-range) - Date selection and comparison
+- [Definitions](/reports/definitions) - Metric definitions

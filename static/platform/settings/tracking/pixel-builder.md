@@ -1,0 +1,143 @@
+---
+title: "Pixel Builder"
+description: "Generate and save reusable tracking snippets for conversions and microconversions from the Pixels page."
+canonical_url: "https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/settings/tracking/pixel-builder.mdx"
+publisher: "SealMetrics"
+---
+
+# Pixel Builder
+
+Canonical page: https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder
+
+The Pixel Builder helps you generate tracking code for your website without writing it by hand. It produces ready-to-copy snippets for conversions and microconversions, and lets you save reusable pixel configurations per site.
+
+It lives inside the **Pixels** (Pixel Management) page, alongside the installation guide and pixel status monitoring.
+
+## Accessing Pixel Builder
+
+1. Open **Organization → Pixels** in the sidebar
+2. Select the account/site you want to work with from the **Pixel Status** list
+3. Scroll to the **Pixel Builder** card
+4. Click **Create Pixel**
+
+**Note:**
+
+## Creating a Pixel
+
+Clicking **Create Pixel** opens the Pixel Builder dialog.
+
+### Step 1: Name and Description
+
+- **Pixel Name** (required) — a friendly name to identify the pixel in your list (e.g., "Black Friday Purchase Tracking")
+- **Description** (optional) — a short note describing what the pixel tracks
+
+### Step 2: Choose Pixel Type
+
+Select the type of event to track:
+
+| Type | Purpose | Function Generated |
+|------|---------|-------------------|
+| **Conversion** | Goal completions, optionally with a monetary value | `sealmetrics.conv()` |
+| **Microconversion** | Smaller engagement events and funnel steps | `sealmetrics.micro()` |
+
+### Step 3: Configure the Event
+
+**Conversion Type** (for both conversions and microconversions): start typing to pick a common type from the suggestions, or enter your own value (e.g., `purchase`, `signup`, `lead`, `add_to_cart`).
+
+**For Conversions only:**
+- **Revenue** — the conversion value (defaults to `0` for non-monetary conversions)
+- **Currency** — the currency code (defaults to `EUR`)
+
+**Custom Properties** (optional, both types): add key/value pairs to attach extra data to the event.
+
+### Step 4: Select Target Platform
+
+Choose where you'll use the code:
+
+| Platform | Output |
+|----------|--------|
+| **JavaScript** | Plain JavaScript snippet |
+| **GTM** | Output formatted for Google Tag Manager |
+| **Tealium** | Output formatted for Tealium |
+
+### Step 5: Copy the Generated Code
+
+The **Generated Code** preview updates in real time as you change the configuration. Click **Copy** to copy it to your clipboard. If the snippet references variables you must supply (for example, JS or GTM variables), they are listed under **Required Variables**.
+
+### Step 6: Save the Pixel
+
+Click **Save Pixel** (or **Update Pixel** when editing) to store the configuration. Saved pixels appear in the Pixel Builder list for the selected site.
+
+## Value Types
+
+When configuring Revenue, Currency, or property values, each value can be one of:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| **Literal** | A fixed value | `99.99`, `EUR` |
+| **JS Variable** | A JavaScript variable name | `orderTotal` |
+| **GTM Variable** | A Google Tag Manager variable | `{{Order Total}}` |
+
+## Generated Code Examples
+
+### Conversion (JavaScript)
+
+```javascript
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'EUR'
+});
+```
+
+### Microconversion (JavaScript)
+
+```javascript
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  price: '89.99'
+});
+```
+
+## Saved Pixels
+
+Saved pixels are stored per site. In the Pixel Builder list you can:
+
+- **Create Pixel** — open the builder to configure a new pixel
+- **Edit** — reopen a saved pixel to update its configuration
+- **Delete** — remove a saved pixel (asks for confirmation)
+
+## Important Notes
+
+### Tracker Must Be Installed First
+
+The Pixel Builder generates event-tracking code only. The base tracker script must already be installed on your page. Use the **Installation Guide** on the same Pixels page (tabs for WordPress, Shopify, Wix, Next.js, GTM, and Manual HTML) to get the install snippet.
+
+See the [Installation Guide](/implementation/tracker/installation) for setup instructions.
+
+### Conversions Count as Pageviews
+
+Every conversion and microconversion event also counts as a pageview. Do not call `sealmetrics()` separately on the same page where you fire a conversion.
+
+### Privacy Note
+
+Never include personal identifiers (order IDs, user IDs, emails, transaction IDs) in conversion calls. Only track event types and aggregate values to maintain user privacy.
+
+### Debug Mode
+
+Add `?debug=1` to any page URL to see tracking events logged in the browser console:
+
+```
+https://yoursite.com/thank-you?debug=1
+```
+
+## Related Documentation
+
+- [Installation](/implementation/tracker/installation) — Install the base tracker
+- [Conversions](/implementation/tracker/conversions) — Detailed conversion tracking guide
+- [Microconversions](/implementation/tracker/microconversions) — Event tracking guide
+- [API Reference](/implementation/tracker/api-reference) — Complete tracker API

@@ -1,0 +1,270 @@
+---
+title: "Date Range"
+description: "Control the time period for all reports with preset ranges, custom dates, and comparison periods."
+canonical_url: "https://docs.sealmetrics.com/reports/date-range"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/date-range.mdx"
+publisher: "SealMetrics"
+---
+
+# Date Range
+
+Canonical page: https://docs.sealmetrics.com/reports/date-range
+
+The date range picker controls which time period data is displayed for across all reports.
+
+## Accessing the Date Picker
+
+Click the date range button in the header (shows the current selection, e.g. "Last 7 days").
+
+## Preset Ranges
+
+Quick selection options, grouped in the picker as **Quick Select**, **This Period**, and **Last Period**.
+
+### Quick Select
+
+| Preset | Description |
+|--------|-------------|
+| **Today** | Current day (midnight to now) |
+| **Yesterday** | Previous complete day |
+| **Last 7 days** | Past 7 days including today |
+| **Last 30 days** | Past 30 days including today |
+| **Last 90 days** | Past 90 days including today |
+
+### This Period
+
+| Preset | Description |
+|--------|-------------|
+| **This week** | Current week (Monday to today) |
+| **This month** | Current month (1st to today) |
+| **This quarter** | Current quarter (Q1/Q2/Q3/Q4 to today) |
+| **This year** | January 1st to today |
+
+### Last Period
+
+| Preset | Description |
+|--------|-------------|
+| **Last week** | Previous complete week (Mon-Sun) |
+| **Last month** | Previous complete month |
+| **Last quarter** | Previous complete quarter |
+| **Last year** | Previous complete year |
+
+### Custom Range
+
+1. Click **Custom range**
+2. Select start date from the calendar
+3. Select end date from the calendar
+4. Click **Apply**
+
+Future dates are disabled, so you cannot select a range that extends past today.
+
+## Keyboard Shortcuts
+
+Quick date range selection:
+
+| Key | Action |
+|-----|--------|
+| `T` | Today |
+| `Y` | Yesterday |
+| `W` | This Week |
+| `M` | This Month |
+| `C` | Toggle comparison mode |
+
+Shortcuts work when not focused on an input field.
+
+## Comparison Mode
+
+Compare current period with a previous period to track changes over time.
+
+### Enabling Comparison
+
+1. Click the **Compare** button next to the date range
+2. Select a comparison type:
+   - No comparison
+   - Previous period
+   - Previous year
+   - Custom comparison
+
+To turn comparison off, choose **No comparison** or click the X on the Compare button. Pressing `C` toggles between no comparison and Previous period.
+
+### Comparison Types
+
+| Type | Description | Example |
+|------|-------------|---------|
+| **Previous period** | Same duration immediately before the selected range | Jan 15-21 compares to Jan 8-14 |
+| **Previous year** | Same dates in the prior year | Jan 15-21, 2025 compares to Jan 15-21, 2024 |
+| **Custom comparison** | Manually selected comparison range | Any dates you choose |
+
+### Comparison Display
+
+When comparison is enabled:
+
+#### Stat Cards
+
+| Element | Description |
+|---------|-------------|
+| Current value | Main number |
+| Delta percentage | Change from comparison period |
+| Delta color | Green (improvement), Red (decline), Gray (no change) |
+
+Example:
+```
+Entrances
+12,450
+↑ +15.2%
+```
+
+#### Charts
+
+- Primary line/area: Current period
+- Secondary line (dashed): Comparison period
+- Hover tooltip shows both values
+
+#### Tables
+
+Some tables show comparison columns when enabled.
+
+### Reading Delta Values
+
+| Delta | Interpretation |
+|-------|----------------|
+| +25% (green) | 25% increase vs comparison |
+| -10% (red) | 10% decrease vs comparison |
+| 0% (gray) | No change |
+| N/A | No comparison data available |
+
+### Metric Interpretation
+
+For some metrics, "improvement" means decrease:
+
+| Metric | Improvement |
+|--------|-------------|
+| Entrances | Increase (green) |
+| Conversions | Increase (green) |
+| Revenue | Increase (green) |
+| Bounce Rate | Decrease (green) |
+
+Sealmetrics colors deltas appropriately based on metric type.
+
+## Date Range and Reports
+
+### Data Availability
+
+| Report | Date Range Behavior |
+|--------|---------------------|
+| Overview | Full range data |
+| Evolution | Grouped by day/week/month |
+| Pages | Aggregate for full range |
+| Sources | Aggregate for full range |
+| Geography | Aggregate for full range |
+| Devices | Aggregate for full range |
+| Conversions | Aggregate for full range |
+| Funnel | Users completing steps within range |
+
+### Real-Time Data
+
+- **Today**: Includes data up to a few minutes ago
+- Data updates approximately every 5 minutes
+- Live counter updates in real-time (Overview only)
+
+### Historical Data
+
+- Data available from account creation
+- Older data may be aggregated (daily instead of hourly)
+- Export includes raw timestamps
+
+## Selection Persistence
+
+Your selected date range and comparison mode are saved locally in your browser (using `localStorage`), not in the page URL.
+
+This means:
+
+- Your last selection is remembered when you return in the **same browser**, even after closing the tab
+- The selection is **not** shared via the URL: copying or bookmarking a report link does not carry your date range or comparison mode
+- The selection is **per browser and per device**
+
+## Use Cases
+
+### Daily Monitoring
+
+- Use **Today** or **Yesterday** for daily check-ins
+- Enable comparison with Previous Period
+- Watch for anomalies (>20% change)
+
+### Weekly Reviews
+
+- Use **Last Week** for complete week analysis
+- Compare with Previous Period (week before)
+- Review trends and patterns
+
+### Monthly Reporting
+
+- Use **Last Month** for monthly reports
+- Compare with Previous Year (same month last year)
+- Account for seasonality
+
+### Campaign Analysis
+
+- Use **Custom** range matching campaign dates
+- Compare with Previous Period (before campaign)
+- Measure campaign impact
+
+### Seasonality Analysis
+
+- Use **Last 90 Days** or longer
+- Select **Month** grouping in Evolution report
+- Identify seasonal patterns
+
+### Year-over-Year Comparison
+
+- Set date range to current period
+- Enable **Previous Year** comparison
+- Control for seasonal effects
+
+## Best Practices
+
+### Choosing Date Ranges
+
+| Goal | Recommended Range |
+|------|-------------------|
+| Daily check | Yesterday |
+| Quick overview | Last 7 Days |
+| Trend analysis | Last 30 Days |
+| Strategic review | Last 90 Days |
+| Seasonal analysis | 12+ months |
+
+### Statistical Significance
+
+For reliable comparisons:
+- Ensure sufficient traffic volume
+- Use complete periods (full weeks/months)
+- Consider external factors (holidays, events)
+
+### Comparison Considerations
+
+| Scenario | Best Comparison |
+|----------|-----------------|
+| Short-term trends | Previous Period |
+| Seasonal business | Previous Year |
+| Campaign measurement | Custom (pre-campaign) |
+| General growth | Previous Period |
+
+### Avoiding Pitfalls
+
+| Pitfall | Solution |
+|---------|----------|
+| Comparing partial weeks | Use complete week presets |
+| Ignoring seasonality | Use Previous Year comparison |
+| Too short a range | Ensure statistical significance |
+| Misreading bounce rate delta | A bounce-rate *decrease* shows in green because it's an improvement |
+
+## Related documentation
+
+- [Filters](/reports/filters) — The other control that scopes every report
+- [Evolution Report](/reports/evolution) — See metrics change over the selected range
+- [Overview Report](/reports/overview) — The high-level dashboard for all reports
+- [Metrics Reference](/reports/definitions) — How deltas and comparison metrics are calculated

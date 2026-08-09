@@ -1,0 +1,66 @@
+---
+title: "Bypass POS or Referrer"
+description: "Learn how to exclude payment gateways and external domains from being counted as referrers in Sealmetrics."
+canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/bypass-pos-or-referrer"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/tracking-and-attribution-settings/bypass-pos-or-referrer.mdx"
+publisher: "SealMetrics"
+---
+
+# Bypass POS or Referrer
+
+Canonical page: https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/bypass-pos-or-referrer
+
+When a user completes a purchase through a **POS (Point of Sale)** or external payment page (Stripe, PayPal, Redsys…), they temporarily leave your site.
+When they return to your **thank-you page**, Sealmetrics may detect this as a new session and attribute the referrer incorrectly.
+
+This causes conversions to appear as coming from:
+❌ *payment* instead of
+✔️ the original source (Google Ads, Facebook, Email, etc.)
+
+---
+
+## How Bypass POS / Referrer Works
+
+You can configure Sealmetrics to **ignore specific referrers**, ensuring that once users return from a payment domain, the system keeps the original traffic source instead of overwriting it.
+
+---
+
+## How to Set It Up
+
+**Info:**
+Payment/POS domains are excluded by registering them as **passthrough referrers** through the **Sealmetrics API** — there is no dashboard screen for this. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema.
+
+Register the payment domain for your account with your API key:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "payments.example-psp.com",
+    "utm_source": "example-psp",
+    "service_name": "Payment Gateway"
+  }'
+```
+
+Repeat for each payment domain your checkout flow passes through. You can list, update, deactivate, or delete entries through the same API — see the [Passthrough Referrers API reference](/api/passthrough-referrers).
+
+For the full concept and behavior details, see [Passthrough Referrers](/platform/tracking-and-attribution-settings/passthrough-referrers).
+
+---
+
+## Why This Matters
+
+This avoids:
+- Incorrect attribution to *payment*
+- Lost ROAS visibility
+- Broken marketing funnels
+
+You keep the **real traffic source** intact.
+
+---

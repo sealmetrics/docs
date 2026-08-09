@@ -1,0 +1,131 @@
+---
+title: "How Anomaly Detection Works"
+description: "How LENS detects anomalies in your analytics data using dynamic statistical thresholds and seasonality awareness."
+canonical_url: "https://docs.sealmetrics.com/lens/anomaly-detection"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "lens/anomaly-detection/index.mdx"
+publisher: "SealMetrics"
+---
+
+# How Anomaly Detection Works
+
+Canonical page: https://docs.sealmetrics.com/lens/anomaly-detection
+
+**Caution:**
+Automated anomaly detection is **built but not active**. No detection rule currently runs on customer accounts and no automated alert is generated. This page documents the intended behaviour; the execution cadences below describe how rules will run once enabled. For what LENS does today, see [LENS AI](/lens).
+
+LENS is designed to monitor your analytics data and detect unusual patterns that could indicate problems or opportunities, using a fixed library of detection rules — see the [rules catalog](/lens/anomaly-detection/rule-types).
+
+## Detection methods
+
+### 1. Statistical comparison against a baseline
+
+Each rule compares a current period against a historical baseline and measures the percentage change. If the change exceeds the rule's threshold, an anomaly is flagged.
+
+```
+Current value vs. baseline
+─────────────────────────────────────
+If |change| > threshold → Anomaly detected
+
+Example:
+- Baseline conversion rate: 2.5%
+- Current conversion rate: 1.6%
+- Change: -36%
+- Result: candidate anomaly (then confidence-checked)
+```
+
+Thresholds are **not** a single fixed number. They are adjusted dynamically based on how much data is available and on seasonality — see [Configuring Thresholds](/lens/anomaly-detection/thresholds) for the full mechanism.
+
+### 2. Confidence weighting
+
+Before raising an alert, LENS calculates a **confidence level** (`high`, `medium`, or `low`) from the sample size and the number of days of data. With less data, the threshold automatically becomes more conservative, so a bigger change is required before LENS alerts. This keeps low-traffic periods from generating noise.
+
+### 3. Seasonality awareness
+
+LENS can account for expected, recurring variations:
+
+- **Year-over-year comparison** — when an account has a seasonal pattern that warrants it (and historical data exists), the baseline is shifted to the same period last year instead of the recent past.
+- **Expected change suppression** — if a change matches what's expected for the current season, it is treated as normal rather than as an anomaly.
+- **Threshold relaxation** — during known seasonal periods, thresholds are loosened so ordinary seasonal swings don't trigger false alerts.
+
+### 4. Comparative analysis
+
+Some rules compare related metrics to find inconsistencies, for example:
+
+- Traffic up but conversions flat → potential traffic-quality issue
+- High traffic on a page or source but below-average conversion rate
+- Mobile converting worse than desktop
+
+## Execution models
+
+Once enabled, rules will run under one of two models:
+
+| Type | Cadence | Examples |
+|------|---------|----------|
+| **Reactive** | Daily / weekly / monthly batches over historical data | `traffic_drop`, `conversion_drop`, `device_gap` |
+| **Proactive** | Near real-time checks during the day | `intraday_conversion_drop`, `source_sudden_drop`, `landing_page_failure` |
+
+## How a rule is evaluated
+
+```
+┌─────────────────────┐
+│ Collect period data │
+└──────────┬──────────┘
+           ▼
+┌─────────────────────┐
+│ Compute current vs  │
+│ baseline (YoY if    │
+│ seasonality wants)  │
+└──────────┬──────────┘
+           ▼
+┌─────────────────────┐
+│ Adjust threshold by │
+│ confidence + season │
+└──────────┬──────────┘
+           ▼
+┌─────────────────────┐
+│ Change beyond       │── No ──► No action
+│ adjusted threshold? │
+└──────────┬──────────┘
+           │ Yes
+           ▼
+┌─────────────────────┐
+│ Expected for the    │── Yes ─► Suppressed
+│ season?             │
+└──────────┬──────────┘
+           │ No
+           ▼
+┌─────────────────────┐
+│ Create insight /    │
+│ notify (email)      │
+└─────────────────────┘
+```
+
+## Data requirements
+
+LENS becomes more confident as data accumulates. The internal confidence thresholds are:
+
+| Signal | Medium confidence | High confidence |
+|--------|-------------------|-----------------|
+| Days of data | 7+ days | 14+ days |
+| Traffic sample (events) | 100+ | 1,000+ |
+| Conversions | 20+ | 100+ |
+
+Below the medium thresholds, detection still runs but with more conservative (harder-to-trigger) thresholds, and insights are labeled **low confidence**.
+
+## Notifications
+
+When LENS surfaces an insight, it can notify you by **email** (key metrics, trends, and recommendations delivered to your inbox). Email is currently the only delivery channel for LENS notifications. Make sure email notifications are enabled in your account settings.
+
+## Handling expected changes
+
+LENS reduces false positives automatically through seasonality awareness and confidence weighting. If a recurring seasonal swing keeps surfacing, configure a seasonality pattern so LENS can adjust its baseline (year-over-year) and relax thresholds during that period.
+
+## Next steps
+
+- [View the active rules →](/lens/anomaly-detection/rule-types)
+- [Configure thresholds →](/lens/anomaly-detection/thresholds)

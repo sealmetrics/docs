@@ -1,0 +1,303 @@
+---
+title: "Conversions Report"
+description: "How to read the Sealmetrics Conversions report: conversion and microconversion views, revenue and average value metrics, and common conversion types."
+canonical_url: "https://docs.sealmetrics.com/reports/conversions"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/conversions.mdx"
+publisher: "SealMetrics"
+---
+
+# Conversions Report
+
+Canonical page: https://docs.sealmetrics.com/reports/conversions
+
+The Conversions report tells you which goals visitors complete and what they're worth, with a top-right toggle between **Conversions** (primary goals like purchases and signups, showing count, revenue, and average value) and **Microconversions** (engagement events like add-to-cart, shown by count). Use it to see your top-performing conversion types and total revenue for the selected period.
+
+![Conversions report with total conversions, revenue and average order value cards, plus the conversions-by-type bar chart](/img/screenshots/conversions.png)
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Conversions** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/conversions`
+
+## View Toggle
+
+A toggle in the top-right switches between two views: **Conversions** and **Microconversions**.
+
+### Conversions View
+
+Shows completed conversion events (primary goals).
+
+| Column | Description |
+|--------|-------------|
+| **Conversion Type** | Name/identifier of the conversion |
+| **Conversions** | Total number of conversions (shown with a metric bar) |
+| **Revenue** | Total revenue attributed (shown with a metric bar) |
+| **Avg. Value** | Average revenue per conversion |
+
+#### Conversion Types
+
+Common conversion types include:
+
+| Type | Typical Use |
+|------|-------------|
+| purchase | E-commerce transaction |
+| signup | Account registration |
+| subscription | Subscription signup |
+| lead | Lead form submission |
+| download | File download |
+| booking | Appointment/reservation |
+
+### Microconversions View
+
+Shows microconversion events (secondary goals/engagement metrics).
+
+| Column | Description |
+|--------|-------------|
+| **Event Type** | Name/identifier of the microconversion |
+| **Count** | Total number of events (shown with a metric bar) |
+
+#### Common Microconversions
+
+| Type | Typical Use |
+|------|-------------|
+| add_to_cart | Item added to shopping cart |
+| newsletter_signup | Email list subscription |
+| video_play | Video engagement |
+| scroll_depth | Page scroll milestone |
+| click_cta | CTA button click |
+| form_start | Form interaction started |
+
+## Summary Cards
+
+The cards shown depend on the active view.
+
+**Conversions view:**
+
+| Card | Description |
+|------|-------------|
+| **Total Conversions** | Sum of all conversion events |
+| **Total Revenue** | Sum of all revenue |
+| **Avg. Order Value** | Average revenue per conversion |
+| **Conversion Types** | Number of distinct conversion types |
+
+**Microconversions view:**
+
+| Card | Description |
+|------|-------------|
+| **Total Events** | Sum of all microconversion events |
+| **Event Types** | Number of distinct event types |
+
+## Chart
+
+A single bar chart is shown below the summary cards:
+
+- **Conversions view:** "Conversions by Type" — one bar per conversion type, by count
+- **Microconversions view:** "Microconversions by Type" — one bar per event type, by count
+
+## Filtering
+
+### Table Filter Builder
+
+Each view has its own filter builder:
+
+**Conversions view fields:**
+- Conversion Type
+- Conversions (count)
+- Revenue
+- Avg. Value
+
+**Microconversions view fields:**
+- Event Type
+- Count
+
+**Example filters:**
+
+| Goal | Filter |
+|------|--------|
+| High-value conversions | Revenue greater than 1000 |
+| Frequent events | Count greater than 100 |
+| Low-value types | Avg. Value less than 10 |
+| Specific conversion | Conversion Type equals "purchase" |
+
+### Global Filter Integration
+
+Conversions report respects global filters:
+
+1. Global filter: Country = Spain
+2. See only conversions from Spanish visitors
+3. Compare conversion rates by country
+
+## Tracking Conversions
+
+### JavaScript API
+
+Track conversions using the tracker:
+
+```javascript
+// Basic conversion
+sealmetrics.conv('purchase');
+
+// Conversion with revenue
+sealmetrics.conv('purchase', 99.99);
+
+// Conversion with properties
+sealmetrics.conv('purchase', 149.99, {
+  product_id: 'SKU-123',
+  category: 'Electronics'
+});
+```
+
+### Microconversions
+
+Track engagement events:
+
+```javascript
+// Basic microconversion
+sealmetrics.micro('add_to_cart');
+
+// Microconversion with properties
+sealmetrics.micro('video_play', {
+  video_id: 'intro-video',
+  duration: 120
+});
+```
+
+See [Tracker Documentation](/implementation/tracker/conversions) for complete implementation guide.
+
+## Per-Product Analysis
+
+For detailed product-level analytics from your e-commerce conversions, use the **Properties** report:
+
+1. Go to **Properties** in the sidebar
+2. Set the Data Source toggle to **Conv. Items**
+3. Browse product fields (`product_name`, `category`, `brand`, `sku`, etc.)
+4. Select a field to see its values broken down by traffic source, medium, and campaign
+
+This report shows individual product data from the `items` array sent with your purchase conversions. See [Conversions Tracking](/implementation/tracker/conversions) for implementation details.
+
+## Revenue Analysis
+
+### Revenue Metrics
+
+| Metric | Calculation | Use |
+|--------|-------------|-----|
+| Total Revenue | Sum of all conversion amounts | Overall performance |
+| Avg. Order Value | Total Revenue / Conversions | Transaction size |
+| Revenue per Entrance | Total Revenue / Entrances | Traffic value |
+
+### Revenue by Source
+
+Combine with Sources report:
+
+1. Go to Sources report
+2. Sort by Revenue column
+3. Identify highest-revenue sources
+4. Calculate ROAS (external ad spend data)
+
+### Revenue by Country
+
+Combine with Geography report:
+
+1. Go to Geography report
+2. Sort by Revenue column
+3. Identify top markets
+4. Calculate revenue per visitor by country
+
+## Use Cases
+
+### Monitoring Conversion Performance
+
+1. Check **Total Conversions** card daily
+2. Compare with previous period
+3. Investigate significant changes (>10%)
+4. Check by conversion type for specifics
+
+### Identifying Top Conversion Types
+
+1. Switch to the **Conversions** view
+2. Sort by **Conversions** or **Revenue**
+3. Focus optimization on top types
+
+### Analyzing Microconversion Funnel
+
+1. Switch to the **Microconversions** view
+2. Sort by **Count** (descending)
+3. Track progression: view → add_to_cart → checkout → purchase
+4. Calculate drop-off rates between steps
+
+### Finding Conversion Opportunities
+
+1. Filter by high-traffic sources (Sources report)
+2. Return to Conversions report
+3. Compare conversion rates
+4. Low rate + high traffic = opportunity
+
+### Comparing Conversion Types
+
+1. Switch to the **Conversions** view
+2. Sort by **Conversions** or **Avg. Value**
+3. Compare:
+   - Which types convert most?
+   - Which have highest value?
+   - Which need improvement?
+
+## Attribution
+
+### Last-Touch Attribution
+
+Sealmetrics uses last-touch attribution by default:
+
+- Conversion attributed to the session where it occurred
+- Source/medium of that session gets credit
+- Simple and transparent model
+
+### Multi-Session Users
+
+For users who convert after multiple sessions:
+
+- Each session tracked independently
+- Conversion credited to the converting session
+
+## Best Practices
+
+### Naming Conventions
+
+Use consistent, descriptive conversion type names:
+
+| Good | Avoid |
+|------|-------|
+| purchase | conv1 |
+| newsletter_signup | signup |
+| request_demo | form |
+| add_to_cart | cart |
+
+### Revenue Values
+
+- Always pass numeric values (not strings)
+- Use consistent currency
+- Include only the transaction amount
+- Don't include tax/shipping unless relevant
+
+### Testing Conversions
+
+Before going live:
+
+1. Test each conversion type
+2. Verify revenue values are correct
+3. Check properties are captured
+4. Confirm data appears in report
+
+## Export
+
+Click **Export** to download:
+- The current view's data (Conversions or Microconversions)
+- All visible columns
+- Respects active filters
+- Choose **CSV** or **PDF** format

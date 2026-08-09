@@ -1,0 +1,95 @@
+---
+title: "Preserve Attribution Through External Login or SSO Flows"
+description: "Learn how to keep the original traffic source when your signup or login flow passes through an external authentication domain (SSO) and returns to your site."
+canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/external-auth-sso-attribution"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/tracking-and-attribution-settings/external-auth-sso-attribution.mdx"
+publisher: "SealMetrics"
+---
+
+# Preserve Attribution Through External Login or SSO Flows
+
+Canonical page: https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/external-auth-sso-attribution
+
+Many products use an external authentication domain for signup or login — an identity provider, an SSO service, or a shared accounts domain owned by the parent company.
+
+A typical journey looks like this:
+
+```
+www.yourproduct.com          → user discovers your site (SEO, Paid, Direct…)
+accounts.yourcompany.com     → user signs up or logs in (external auth domain)
+app.yourproduct.com          → user lands in the app and converts
+```
+
+Without configuration, the conversion in `app.yourproduct.com` may be attributed to **Referral** (`accounts.yourcompany.com`) instead of the real acquisition source.
+
+This guide explains why this happens and how to fix it.
+
+---
+
+## Why the Source Becomes "Referral"
+
+SealMetrics counts a new **entrance** when the referrer is empty or comes from a domain different from your own.
+
+- `www.yourproduct.com` → `app.yourproduct.com` is **cross-subdomain navigation** of the same root domain. It is treated as internal navigation — session and attribution are preserved. See [Referral vs Direct Traffic](/reports/insights/referral-vs-direct-traffic).
+- `accounts.yourcompany.com` → `app.yourproduct.com` is a **cross-domain jump**. The auth domain becomes the referrer, SealMetrics detects a new entrance, and the original source (SEO, Paid, Email…) is overwritten by **Referral**.
+
+The problem is never the subdomain change — it is the external domain in the middle of the journey.
+
+---
+
+## The Fix: Register the Auth Domain as a Passthrough Referrer
+
+**Info:**
+Passthrough referrers are currently managed through the **Sealmetrics API**, not from a dashboard screen. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema.
+
+Register the external authentication domain (e.g. `accounts.yourcompany.com`) as a passthrough referrer for your account:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domain": "accounts.yourcompany.com",
+    "utm_source": "sso",
+    "service_name": "Company SSO"
+  }'
+```
+
+Add every external domain in the journey the same way. Entries can be listed, updated, and deleted through the same API — see the [Passthrough Referrers API reference](/api/passthrough-referrers).
+
+Once excluded, SealMetrics ignores that domain as a referrer. When the user returns from the auth flow, the original session source remains active, and the conversion inherits the real acquisition channel.
+
+This is the same mechanism used to [avoid conversions attributed to payment gateways](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer).
+
+---
+
+## Checklist for Multi-Subdomain Setups
+
+To attribute conversions correctly when acquisition happens on your public website and conversion happens in your app:
+
+1. **Same Account ID everywhere** — install the same SealMetrics pixel on the public site (`www.`) and the app (`app.`). See the [SaaS implementation guide](/use-cases/saas).
+2. **Exclude external auth domains** — register every third-party domain in the journey (SSO, identity provider, payment gateway) as a [passthrough referrer](/api/passthrough-referrers).
+3. **Differentiate areas with content grouping** — use `group=marketing`, `group=app`, etc., to keep reports readable. See [Content Grouping](/platform/settings/tracking/content-grouping).
+4. **Track signup as a conversion** — fire the conversion on the post-signup page (e.g. email verification completed) so it inherits the session source.
+
+---
+
+## Timing Considerations
+
+- **2-hour session window** — the origin of the visit stays active for 2 hours, which covers virtually all signup flows, including email verification steps. See [Attribution Accuracy](/reports/insights/attribution-accuracy).
+- **6+ hour gaps** — if the user completes signup more than 6 hours later (e.g. opens the verification email the next day), the visit is classified as [Rejoined Traffic](/reports/insights/rejoined-traffic) instead of inflating Direct.
+
+---
+
+## Result
+
+With the auth domain excluded and the same pixel across all subdomains:
+
+✔ The session started on the public website keeps its original source
+✔ The signup conversion in the app is attributed to SEO, Paid, Direct… — the real acquisition channel
+❌ No more conversions miscategorized as Referral from your own auth domain

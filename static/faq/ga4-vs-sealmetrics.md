@@ -1,0 +1,246 @@
+---
+title: "GA4 vs Sealmetrics — Complete Comparison"
+description: "Detailed comparison of Google Analytics 4 and Sealmetrics covering data accuracy, privacy compliance, features, and pricing."
+canonical_url: "https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "faq/ga4-vs-sealmetrics.mdx"
+publisher: "SealMetrics"
+---
+
+# GA4 vs Sealmetrics — Complete Comparison
+
+Canonical page: https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics
+
+Google Analytics 4 and Sealmetrics take fundamentally different approaches to web analytics. GA4 relies on cookies and user consent. Sealmetrics uses consentless, privacy-preserving tracking that captures 100% of traffic without cookies or consent banners.
+
+This comparison covers the core differences across data accuracy, privacy compliance, features, implementation, and pricing.
+
+---
+
+## The Core Problem: Consent-Based Data Loss
+
+GA4 depends on cookies to identify users and track sessions. Under GDPR, visitors must consent before GA4 can set cookies. When they refuse — or simply ignore the banner — GA4 records nothing.
+
+Industry data shows rejection rates vary significantly by country:
+
+| Country | Estimated cookie rejection rate |
+|---------|--------------------------------|
+| Germany | 70–87% |
+| France | 60–73% |
+| Netherlands | 55–65% |
+| Spain | 40–55% |
+| United Kingdom | 35–50% |
+
+*Rates vary by industry, banner design, and implementation. Sources: CNIL annual reports, Eurostat digital economy surveys, CMP vendor benchmarks.*
+
+**Result:** GA4 typically captures only 15–50% of actual EU traffic, depending on the market. Sealmetrics captures 100% because it never requires consent — no cookies are set, and no personal data is collected.
+
+---
+
+## Feature Comparison
+
+### Data Collection
+
+| Feature | GA4 | Sealmetrics |
+|---------|-----|-------------|
+| Tracking method | Cookies + client ID | Cookieless session + isolated hits |
+| Consent required | Yes (GDPR) | No |
+| Data capture rate (EU) | 15–50% | 100% |
+| Cookie banners needed | Yes | No |
+| IP address storage | Yes (processed) | No (never stored) |
+| Cross-site tracking | Yes | No |
+| Ad blocker resistance | Low (blocked by most) | High (first-party setup) |
+
+### Reporting & Analytics
+
+| Feature | GA4 | Sealmetrics |
+|---------|-----|-------------|
+| Real-time dashboard | Yes | Yes |
+| Traffic sources & UTM | Yes | Yes |
+| Conversion tracking | Yes | Yes |
+| Funnel analysis | Yes (Explorations) | Yes (built-in) |
+| E-commerce tracking | Yes | Yes |
+| Geographic reports | Yes | Yes (country-level) |
+| Device & browser reports | Yes | Yes |
+| Custom events | Yes | Yes |
+| Content grouping | Yes | Yes |
+| AI insights | Limited | LENS AI (ask your data in plain language) |
+| Unique visitors | Yes | No (requires individual tracking) |
+| Bounce rate | Yes | Yes (aggregate-only, no individual tracking) |
+| Session duration | Yes | No (requires individual tracking) |
+
+**Why some metrics differ:** Metrics that require identifying and following individual users across page loads (unique visitors, session duration, individual user journeys) constitute personal data processing under GDPR — Sealmetrics deliberately excludes them. **Bounce rate is not one of them:** Sealmetrics computes it in aggregate as `(Entrances − Engaged Entrances) / Entrances × 100`, where "engaged" means a session with more than one pageview. No personal identifier is needed. Sealmetrics also exposes *entrances*, *engaged entrances*, and *pages per session* as additional privacy-safe traffic-quality signals.
+
+### Privacy & Compliance
+
+| Feature | GA4 | Sealmetrics |
+|---------|-----|-------------|
+| GDPR compliant without consent | No | Yes |
+| ePrivacy Directive compliant | Requires consent | Yes |
+| CNIL exempt (analytics sans consentement) | No | Yes |
+| AEPD exempt | No | Yes |
+| UK PECR compliant | Requires consent | Yes |
+| Data hosting | US (Google Cloud) | EU only (Dublin, Ireland) |
+| Sub-processors | Multiple (Google) | Short list — visitor analytics data processed only in the EU ([see list](/compliance/subprocessors)) |
+| Data sharing with third parties | Yes (Google Ads, etc.) | No |
+| International transfers of analytics data | Yes (US) | No |
+| Schrems II compliant | Requires SCCs/DPF | Yes (EU-only analytics processing) |
+
+### Technical Specifications
+
+| Spec | GA4 (gtag.js) | Sealmetrics |
+|------|---------------|-------------|
+| Script size (gzipped) | ~146 KB | **1.1 KB** |
+| Cookies set | 6+ (_ga, _gid, etc.) | 0 |
+| localStorage usage | Yes | No |
+| Page load impact | High (render-blocking) | Minimal (defer, async) |
+| SPA support | Yes (manual config) | Yes (automatic detection) |
+| Server-side tracking | Yes (GA4 MP) | Yes (API) |
+
+---
+
+## Data Accuracy: A Practical Example
+
+Consider an e-commerce site with 100,000 monthly visitors in Germany, where the cookie rejection rate averages 80%.
+
+| Metric | GA4 reports | Sealmetrics reports | Difference |
+|--------|-------------|---------------------|------------|
+| Visitors tracked | ~20,000 | 100,000 | **5x more** |
+| Conversions tracked | ~200 (2% of 20K visible) | 1,000 (1% of 100K actual) | **5x more** |
+| Revenue attributed | €20,000 | €100,000 | **€80,000 missing in GA4** |
+| Traffic sources accurate | Partial (consent bias) | Complete | GA4 over-reports "Direct" |
+
+**The consent bias problem:** Visitors who accept cookies tend to be more engaged, creating a skewed sample. GA4's data does not just have fewer rows — it represents a biased subset of actual traffic. Marketing decisions based on 20% of data carry significant risk.
+
+---
+
+## Direct Traffic Inflation in GA4
+
+One of the most common data discrepancies between GA4 and Sealmetrics is inflated "Direct" traffic in GA4.
+
+**Why it happens:**
+
+1. A visitor arrives from a Google Ads campaign
+2. GA4 shows a consent banner
+3. The visitor rejects cookies
+4. GA4 cannot read UTM parameters or set attribution cookies
+5. The visit is classified as "Direct / (none)"
+
+Sealmetrics reads UTM parameters from the URL on every page load without cookies, so attribution works regardless of consent status. This means campaigns, referrals, and organic search traffic are attributed correctly 100% of the time.
+
+---
+
+## When to Use GA4
+
+GA4 may still be the better choice if you:
+
+- Need **Google Ads integration** with automated bidding and audience sync
+- Require **user-level analysis** (individual user journeys, cohort analysis)
+- Operate primarily **outside the EU** where cookie rejection rates are lower
+- Need **predictive metrics** (purchase probability, churn probability)
+- Already invested heavily in **BigQuery + GA4 pipelines**
+
+Many teams use GA4 and Sealmetrics together — GA4 for Google Ads optimization (with consented users) and Sealmetrics as the source of truth for total traffic and conversions.
+
+---
+
+## When to Use Sealmetrics
+
+Sealmetrics is the better choice if you:
+
+- Need **accurate data** across all EU markets
+- Want to **remove cookie banners** or reduce consent friction
+- Need **GDPR/CNIL/AEPD compliance** without legal risk
+- Want **100% conversion attribution** for budget decisions
+- Need a **lightweight tracker** that does not slow down your site
+- Want an **AI assistant on your own data** (LENS) out of the box
+- Require **EU-only data hosting** with no international transfers
+
+---
+
+## Pricing Comparison
+
+| | GA4 (Free) | GA4 360 | Sealmetrics Growth | Sealmetrics Scale |
+|--|-----------|---------|--------------------|--------------------|
+| Monthly cost | Free | ~€12,500/mo | €599/mo (€499 annual) | €1,079/mo (€899 annual) |
+| Events included | 10M/mo | 25B/mo | 5M/mo | 15M/mo |
+| Data retention | 14 months | 50 months | 24 months | 24 months |
+| Consent required | Yes | Yes | No | No |
+| Overage charges | N/A | Custom | None | None |
+| Support | Community | Dedicated | Email + Chat | Priority |
+| Data hosting | US | US | EU | EU |
+
+GA4 Free is technically free but carries hidden costs: CMP platforms (€100-500/mo), legal reviews, lost revenue from missing data, and engineering time for Consent Mode implementation.
+
+See [full plan details](/billing) for all Sealmetrics tiers.
+
+---
+
+## Migration: GA4 to Sealmetrics
+
+Switching from GA4 to Sealmetrics takes minutes, not weeks:
+
+1. **Add the Sealmetrics tracker** — one script tag ([installation guide](/implementation/tracker/installation))
+2. **Configure conversions** — map your GA4 events to Sealmetrics conversions
+3. **Set up UTM parameters** — Sealmetrics reads standard UTMs automatically
+4. **Run both in parallel** — keep GA4 running alongside Sealmetrics to compare data
+5. **Remove GA4** when you are confident in the data
+
+You do not need to migrate historical data. Sealmetrics starts collecting from day one, and within 30 days you will have enough data for meaningful comparison.
+
+For platform-specific guides, see our [integration docs](/integrations) for WordPress, WooCommerce, Shopify, Magento, Next.js, and more.
+
+---
+
+## Frequently Asked Questions
+
+### Can I use GA4 and Sealmetrics at the same time?
+
+Yes. Many customers run both during a transition period. Sealmetrics does not interfere with GA4, and the 1.1 KB script adds negligible load. Running both lets you verify data differences firsthand.
+
+### Does Sealmetrics integrate with Google Ads?
+
+Sealmetrics tracks Google Ads campaigns via UTM parameters and provides ROAS reporting. However, it does not sync audiences back to Google Ads for automated bidding — that requires GA4 with consented user data.
+
+### Is Sealmetrics data less detailed than GA4?
+
+Sealmetrics intentionally does not track unique visitors, session duration, or individual user journeys because doing so requires personal data and consent. **Bounce rate is calculated** — in aggregate, using entrances vs engaged entrances, without any individual tracking. For aggregate traffic analysis, conversion tracking, attribution, and campaign performance, Sealmetrics provides equal or better accuracy since it captures 100% of traffic.
+
+### What about Google Consent Mode v2?
+
+Google Consent Mode v2 uses statistical modeling to estimate conversions from users who reject consent. These are modeled estimates, not actual measurements. Sealmetrics captures real data from every visitor without modeling or estimation.
+
+### How does Sealmetrics handle bot traffic?
+
+Sealmetrics includes built-in [bot detection](/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic) that filters automated traffic, crawlers, and known bot signatures. This ensures your data reflects real human visitors.
+
+---
+
+## Summary
+
+| | GA4 | Sealmetrics |
+|--|-----|-------------|
+| **Best for** | Google Ads optimization, user-level analysis | Accurate total traffic, privacy compliance |
+| **Data accuracy (EU)** | 15–50% of traffic | 100% of traffic |
+| **Consent required** | Yes | No |
+| **Legal risk** | Moderate (GDPR, Schrems II) | None (privacy by design) |
+| **Script size** | ~146 KB | 1.1 KB |
+| **Pricing** | Free (with hidden costs) | From €499/mo (annual billing) |
+
+The question is not whether GA4 or Sealmetrics has more features. The question is whether you can make business decisions based on 15–50% of your actual data.
+
+---
+
+**Related reading:**
+
+- [Sealmetrics vs Google Analytics: Complete Comparison](/blog/google-analytics-vs-sealmetrics) — In-depth blog post with real-world data examples
+- [Sealmetrics vs Plausible](/blog/sealmetrics-vs-plausible) — How Sealmetrics compares to another privacy-first alternative
+- [Cookie Banner Ghosting](/blog/cookie-banner-ghosting-data-loss) — Why GA4 loses 80-90% of analytics data in the EU
+
+---
+
+*Need help deciding? Contact us at support@sealmetrics.com or [start a free trial](https://my.sealmetrics.com/register).*

@@ -1,0 +1,194 @@
+---
+title: "Reconciling SealMetrics with Your ERP, CRM, or Database"
+description: "How to diagnose and fix substantial discrepancies between SealMetrics conversions and your source of truth (ERP, CRM, internal database)."
+canonical_url: "https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "troubleshooting/erp-crm-database-discrepancy.mdx"
+publisher: "SealMetrics"
+---
+
+# Reconciling SealMetrics with Your ERP, CRM, or Database
+
+Canonical page: https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy
+
+Your **ERP, CRM, or internal database is the source of truth** for what actually happened in your business: the orders that were placed, the leads that were captured, the contracts that were signed. SealMetrics is the measurement layer on top of that reality.
+
+When both systems are correctly wired, **SealMetrics should reconcile with your source of truth with only a minimal discrepancy** — typically a small percentage caused by edge cases (users disabling JavaScript, network failures at the exact moment of the request, manual orders entered directly into the back office, refunds, etc.).
+
+If the gap you are seeing is **substantial** — for example, your ERP shows 1,000 orders this month and SealMetrics shows 600 — this is almost never a measurement bug on the platform side. In our experience, it comes down to one of two implementation problems on the website, with a long tail of secondary causes.
+
+**Warning:**
+The **base pixel (`t.js`) must finish loading and register the pageview *before* `sealmetrics.conv(...)` is called** for any conversion or microconversion. The conversion call is not standalone — it attaches to the session created by the base pixel. If the order is wrong, or the base pixel is missing on the confirmation page, the conversion is sent without a session and the platform cannot count or attribute it correctly. This is the first thing to verify on any reconciliation issue.
+
+---
+
+## The Expected Behavior
+
+Before digging into the causes, it helps to establish what "normal" looks like:
+
+- **Small discrepancy (under ~5%)** — Expected. JavaScript blockers, network errors, users abandoning the thank-you page before the request leaves, very old browsers, etc.
+- **Moderate discrepancy (5%–15%)** — Worth investigating. Usually a partial firing issue: the pixel works for most flows but fails on a specific payment method, language version, or checkout variant.
+- **Substantial discrepancy (over 15%)** — Almost always an implementation issue. One of the two causes below is responsible in the vast majority of cases.
+
+---
+
+## Cause 1: The Conversion Pixel Is Not Firing on Every Conversion
+
+The SealMetrics conversion pixel (`sealmetrics.conv(...)`) must be executed **every single time** a real conversion happens in your business. If it is not called, SealMetrics has no way to know the conversion exists — and your ERP will record an order that never reached the dashboard.
+
+### How to verify it
+
+1. Place a **test order, lead, or signup** through the same flow your real users follow.
+2. Open the browser **Developer Tools → Network tab** before the conversion completes.
+3. Filter by `sealmetrics` or `pixel`.
+4. When you reach the thank-you / confirmation page, you should see a **beacon request** going out to `t.sealmetrics.com` containing the conversion event and amount.
+
+If you do **not** see that request, the conversion pixel is not being called.
+
+### Typical reasons the conversion pixel is not called
+
+- The thank-you page is **hosted on a different domain** (for example, the payment gateway's domain) and the pixel is not installed there.
+- The thank-you page is **skipped entirely** for certain payment methods (PayPal, Bizum, bank transfer, in-store pickup, etc.) — orders complete server-side and the user never sees the page where the pixel lives.
+- The pixel is wrapped in a **conditional** (`if`) that excludes some scenarios — repeat customers, logged-in users, specific countries, B2B orders, etc.
+- The order is created **manually in the back office** by a sales rep, by phone, or by a customer service agent. These conversions never trigger a browser-side event.
+- A **JavaScript error earlier in the page** prevents the script from executing the conversion line.
+- The conversion fires inside an **iframe** or a **modal** that is removed before the network request leaves the browser.
+
+### How to fix it
+
+- Make sure the conversion pixel lives on **every confirmation page**, including those served by external payment processors or third-party checkouts.
+- For payment methods that skip the browser confirmation (PayPal IPN, bank transfer, manual orders), use a **server-side fallback** or fire the conversion when the user is redirected back to your site.
+- Remove conditionals that exclude segments of real conversions.
+- Validate your checkout flow end-to-end for **each payment method and country** you support.
+
+---
+
+## Cause 2: The Base Pixel Is Not Firing Before the Conversion Pixel
+
+The base pixel (the `t.js` tracker that registers the pageview) is what gives SealMetrics the **session context** needed to attribute a conversion. The conversion pixel does not work in isolation — it relies on the base pixel having loaded and registered the pageview **first**.
+
+If the conversion pixel is called **before** the base pixel has finished loading and registering the pageview, the conversion request will be sent without the session it belongs to, and the platform may not be able to count or attribute it correctly.
+
+### Required firing order
+
+Every conversion and microconversion must follow this sequence on the confirmation page:
+
+```text
+Correct order (conversion is counted)
+────────────────────────────────────────────────────────────────
+1. Browser parses <script src=".../t.js" defer> on the page
+2. t.js downloads and executes
+3. The base pixel sends a beacon → pageview registered server-side
+4. The browser runs sealmetrics.conv('purchase', 99.99)
+5. Conversion beacon leaves the browser, attached to the session
+
+Wrong order (conversion is dropped or unattributed)
+────────────────────────────────────────────────────────────────
+1. Browser runs sealmetrics.conv('purchase', 99.99) inline
+2. `sealmetrics` is undefined → TypeError in the console
+   OR the call leaves before t.js has finished loading
+3. t.js downloads and executes (too late)
+4. The pageview is registered but the conversion never made it,
+   or made it without session context and cannot be attributed
+```
+
+The same rule applies to **microconversions** (`sealmetrics.conv('lead', 0, …)`, form submissions, scroll milestones, button clicks, etc.): the base pixel must always fire first on whatever page the microconversion lives on.
+
+### How to verify it
+
+1. Open the **Network tab** on the confirmation page.
+2. Look at the **order in which the requests fire**:
+   - The base pixel request (the pageview, from `t.js`) must appear **before** the conversion beacon.
+   - If you see the conversion request leaving the browser before the pageview request, or you only see the conversion request, the order is wrong.
+3. Check the **Console tab** for errors related to `sealmetrics` being `undefined` — that is the classic symptom of the conversion call running before the base script has loaded.
+
+### Typical reasons the base pixel fires after the conversion pixel
+
+- The conversion code is placed **above** the tracker `<script>` tag in the HTML.
+- The tracker is loaded with `defer` or `async`, but the conversion call is executed **inline** (it runs immediately, while the deferred tracker is still downloading).
+- The conversion is called from an **event listener that fires too early** (for example, on `DOMContentLoaded` while the tracker still has not initialized).
+- The base pixel is **blocked, removed, or commented out** on the confirmation page only — the developer left it on the rest of the site but accidentally stripped it from the thank-you template.
+- A **tag manager misconfiguration** fires the conversion tag without a dependency on the base tag, so both race and the conversion sometimes wins.
+
+### How to fix it
+
+- Install the **base pixel on every page of your site**, including the confirmation page. It is not optional on the thank-you page — it is a precondition.
+- Make sure the `<script>` tag that loads `t.js` appears **before** any `sealmetrics.conv(...)` call in the document.
+- If you use `defer`, wrap the conversion call in a safety check so it waits for the tracker:
+
+  ```javascript
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics.conv('purchase', 99.99);
+  } else {
+    window.addEventListener('load', function () {
+      sealmetrics.conv('purchase', 99.99);
+    });
+  }
+  ```
+
+- In **Google Tag Manager**, make the conversion tag depend on the base tag and use a trigger that fires after the pageview tag.
+
+---
+
+## Other Causes Worth Ruling Out
+
+Once the two primary causes above are confirmed clean, the remaining gap usually comes from one of the following — listed from most to least likely in real-world reconciliations.
+
+### High likelihood
+
+1. **Offline or non-web conversions.** Phone sales, B2B reps, in-store purchases, marketplaces (Amazon, eBay, Idealista), Shopify POS. The ERP records them; SealMetrics never sees a browser event for them.
+2. **Recurring subscriptions and automatic renewals.** Stripe, Chargebee, GoCardless renew on the server every cycle. The ERP books the revenue; no browser session is generated.
+3. **Orders created in the back office.** Manual entries from sales agents, CSV imports, B2B invoices, customer-service-issued orders. These never reach the browser.
+4. **Confirmation page hosted off-domain or skipped entirely.** Stripe Checkout, PayPal, Redsys, Bizum, bank transfer, and 3DS flows often redirect the user away and either return to a thank-you page without the pixel or complete server-side (PayPal IPN, webhook fulfillment) without the user ever loading a confirmation page.
+5. **The ERP counts pending, fraudulent, or cancelled orders.** Created but unpaid, chargebacks, refunds, test orders, and abandoned-but-saved carts inflate the ERP total. SealMetrics only counts conversions whose pixel fired.
+
+### Medium likelihood
+
+6. **Ad blockers and script blocking.** Brave Shields, uBlock Origin, Ghostery, AdGuard DNS, Pi-hole, and corporate proxies can still block the `t.js` script by domain or heuristic — even though SealMetrics is consentless and does not set cookies. Mitigate with [first-party tracking](/implementation/tracker/first-party).
+7. **Conversion code present but not fired for every variant of the flow.** The `conv()` call exists for credit-card checkout but not for PayPal, only on desktop but not on the mobile theme, only on the first purchase but not on upsells or one-click reorders, only in the default language but not on translated checkouts.
+8. **SPA routing and JavaScript errors.** Next.js / React / Vue checkouts where the route change does not re-run the conversion script, or an unrelated JS error earlier in the page aborts execution before `sealmetrics.conv()` runs.
+
+### Lower likelihood
+
+9. **Attribution-window or accounting-date mismatch.** The ERP books the conversion on payment-capture date; SealMetrics records it on event date. Same conversions, different buckets at the boundary of the period — looks like "missing" conversions on the edges.
+10. **Pixel installed on the main domain only.** The checkout lives on `pay.example.com`, `checkout.example.com`, a separate landing-page builder (Unbounce, Instapage), a country-specific subdomain, or a partner site — and the base pixel was never added there.
+11. **Agent or bot filtering.** Traffic classified as bot or agent is excluded from the human conversion reports. A legitimate user behind unusual automation tooling can end up filtered. See [Bot detection](/security-privacy/bot-detection).
+12. **Timezone of day-cutoff mismatch.** SealMetrics rolls the day in the account timezone (`accounts.timezone`); the ERP may roll in UTC or in a different timezone. Around the day boundary the totals shift.
+
+### Edge cases
+
+13. **IP blocklist.** Datacenter ranges, internal corporate IPs, or known abusive IPs configured at the site level. A real customer behind one of those — for example, on a corporate VPN — will not be registered.
+14. **Pipeline loss under load.** Spikes that exceed buffer capacity, transient network errors between the browser and the pixel ingest endpoint, or temporary back-end issues. Rare, but possible.
+15. **Session-level deduplication.** A user who double-submits the checkout form in the same session counts as one conversion in SealMetrics; the ERP may register two orders (one of which is usually voided afterwards).
+
+---
+
+## Quick Diagnostic Checklist
+
+Before contacting support about a large discrepancy, run through this list:
+
+- [ ] The base pixel is installed on **every page**, including confirmation pages.
+- [ ] The conversion pixel fires for **every payment method and checkout variant**.
+- [ ] In the Network tab, the **base pixel request precedes** the conversion request.
+- [ ] The conversion amount in the beacon matches the order total in the ERP.
+- [ ] Manual / phone / back-office orders are accounted for separately when you compare totals.
+- [ ] You are comparing **the same window of time and the same timezone** in both systems.
+- [ ] You are excluding **refunds, cancellations, and test orders** when reconciling.
+
+If all of the above check out and the discrepancy is still substantial, contact **support@sealmetrics.com** with a sample order ID present in your ERP but missing in SealMetrics, and we will trace the request.
+
+---
+
+## Related Documentation
+
+- [Conversions API reference](/implementation/tracker/conversions)
+- [Microconversions](/implementation/tracker/microconversions)
+- [First-party tracking](/implementation/tracker/first-party)
+- [Why use the `defer` attribute on the pixel](/implementation/defer-attribute-pixel-script)
+- [Google Tag Manager integration](/integrations/google-tag-manager)
+- [Bot detection](/security-privacy/bot-detection)
+- [Troubleshooting overview](/troubleshooting)

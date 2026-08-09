@@ -1,0 +1,339 @@
+---
+title: "Microconversions"
+description: "Track funnel steps and engagement events like add-to-cart, video plays, and scroll depth with sealmetrics.micro()."
+canonical_url: "https://docs.sealmetrics.com/implementation/tracker/microconversions"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "implementation/tracker/microconversions.mdx"
+publisher: "SealMetrics"
+---
+
+# Microconversions
+
+Canonical page: https://docs.sealmetrics.com/implementation/tracker/microconversions
+
+Track funnel steps, engagement events, and user interactions that indicate progress toward a conversion.
+
+## Syntax
+
+```javascript
+sealmetrics.micro(type);
+sealmetrics.micro(type, properties);
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `type` | string | Yes | Event name (e.g., `'add_to_cart'`, `'video_play'`) |
+| `properties` | object | No | Custom key-value data |
+
+## Difference from Conversions
+
+| Aspect | Conversion | Microconversion |
+|--------|------------|-----------------|
+| Purpose | Goal completion | Progress/engagement |
+| Monetary value | Yes (`amount` parameter) | No |
+| Function | `sealmetrics.conv()` | `sealmetrics.micro()` |
+| Example | Purchase, lead, signup | Add to cart, video play, scroll |
+
+## Examples
+
+### Add to Cart
+
+```javascript
+sealmetrics.micro('add_to_cart');
+```
+
+### Add to Cart with Properties
+
+```javascript
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-456',
+  product_name: 'Wireless Headphones',
+  price: '89.99',
+  category: 'electronics'
+});
+```
+
+### Checkout Funnel Steps
+
+```javascript
+// Step 1: View cart
+sealmetrics.micro('view_cart', {
+  items_count: '3',
+  cart_value: '249.99'
+});
+
+// Step 2: Begin checkout
+sealmetrics.micro('begin_checkout', {
+  items_count: '3',
+  cart_value: '249.99'
+});
+
+// Step 3: Add shipping info
+sealmetrics.micro('add_shipping_info', {
+  shipping_method: 'express'
+});
+
+// Step 4: Add payment info
+sealmetrics.micro('add_payment_info', {
+  payment_method: 'credit_card'
+});
+
+// Step 5: Purchase (use conversion, not microconversion)
+sealmetrics.conv('purchase', 249.99, { currency: 'EUR' });
+```
+
+### Video Engagement
+
+```javascript
+var video = document.querySelector('video');
+
+video.addEventListener('play', function() {
+  sealmetrics.micro('video_play', {
+    video_id: 'product-demo',
+    video_title: 'Product Demo 2025'
+  });
+});
+
+video.addEventListener('ended', function() {
+  sealmetrics.micro('video_complete', {
+    video_id: 'product-demo'
+  });
+});
+```
+
+### Scroll Depth
+
+```javascript
+var tracked = {};
+
+window.addEventListener('scroll', function() {
+  var scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+  var scrollPercent = Math.round((window.scrollY / scrollHeight) * 100);
+
+  [25, 50, 75, 100].forEach(function(milestone) {
+    if (scrollPercent >= milestone && !tracked[milestone]) {
+      tracked[milestone] = true;
+      sealmetrics.micro('scroll_' + milestone);
+    }
+  });
+});
+```
+
+### Newsletter Signup
+
+```javascript
+document.querySelector('#newsletter-form').addEventListener('submit', function() {
+  sealmetrics.micro('newsletter_signup', {
+    position: 'footer',
+    page_type: 'blog'
+  });
+});
+```
+
+### File Download
+
+```javascript
+document.querySelectorAll('a[download]').forEach(function(link) {
+  link.addEventListener('click', function() {
+    sealmetrics.micro('file_download', {
+      file_name: this.getAttribute('download'),
+      file_type: this.href.split('.').pop()
+    });
+  });
+});
+```
+
+### Click on CTA
+
+```javascript
+document.querySelector('.cta-button').addEventListener('click', function() {
+  sealmetrics.micro('cta_click', {
+    button_text: this.textContent,
+    button_location: 'hero'
+  });
+});
+```
+
+## E-commerce Implementation
+
+### Product Page
+
+```javascript
+// Wishlist
+document.querySelector('.add-to-wishlist').addEventListener('click', function() {
+  sealmetrics.micro('add_to_wishlist', {
+    product_id: this.dataset.productId,
+    product_name: this.dataset.productName
+  });
+});
+
+// Add to cart
+document.querySelector('.add-to-cart').addEventListener('click', function() {
+  sealmetrics.micro('add_to_cart', {
+    product_id: this.dataset.productId,
+    product_name: this.dataset.productName,
+    price: this.dataset.price,
+    quantity: document.querySelector('#quantity').value
+  });
+});
+
+// View product images
+document.querySelector('.product-gallery').addEventListener('click', function() {
+  sealmetrics.micro('view_product_images', {
+    product_id: this.dataset.productId
+  });
+});
+```
+
+### Cart Page
+
+```javascript
+// Update quantity
+document.querySelectorAll('.quantity-input').forEach(function(input) {
+  input.addEventListener('change', function() {
+    sealmetrics.micro('update_cart', {
+      product_id: this.dataset.productId,
+      new_quantity: this.value
+    });
+  });
+});
+
+// Remove item
+document.querySelectorAll('.remove-item').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    sealmetrics.micro('remove_from_cart', {
+      product_id: this.dataset.productId
+    });
+  });
+});
+```
+
+## SaaS Implementation
+
+### Pricing Page
+
+```javascript
+// View pricing toggle (monthly/yearly)
+document.querySelector('.billing-toggle').addEventListener('click', function() {
+  sealmetrics.micro('toggle_billing_cycle', {
+    selected: this.dataset.cycle // 'monthly' or 'yearly'
+  });
+});
+
+// Click plan details
+document.querySelectorAll('.plan-details').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    sealmetrics.micro('view_plan_details', {
+      plan: this.dataset.plan
+    });
+  });
+});
+```
+
+### Onboarding Flow
+
+```javascript
+// Track each onboarding step
+function trackOnboardingStep(step, data) {
+  sealmetrics.micro('onboarding_step_' + step, data);
+}
+
+// Step 1: Account created (after signup conversion)
+trackOnboardingStep(1, { action: 'account_created' });
+
+// Step 2: Profile completed
+trackOnboardingStep(2, { action: 'profile_completed' });
+
+// Step 3: First project created
+trackOnboardingStep(3, { action: 'first_project' });
+
+// Step 4: Team member invited
+trackOnboardingStep(4, { action: 'team_invited' });
+```
+
+## Content Site Implementation
+
+### Article Engagement
+
+```javascript
+// Time on page (track after 30 seconds)
+setTimeout(function() {
+  sealmetrics.micro('engaged_read', {
+    article_id: document.querySelector('article').dataset.id,
+    time_threshold: '30s'
+  });
+}, 30000);
+
+// Share button clicks
+document.querySelectorAll('.share-button').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    sealmetrics.micro('share_click', {
+      platform: this.dataset.platform, // 'twitter', 'facebook', 'linkedin'
+      article_id: document.querySelector('article').dataset.id
+    });
+  });
+});
+
+// Comment form opened
+document.querySelector('#comment-form-toggle').addEventListener('click', function() {
+  sealmetrics.micro('open_comment_form');
+});
+```
+
+## Properties Reference
+
+Common properties to include:
+
+| Property | Description | Example |
+|----------|-------------|---------|
+| `product_id` | Product SKU or ID | `'SKU-456'` |
+| `product_name` | Product name | `'Wireless Headphones'` |
+| `price` | Item price | `'89.99'` |
+| `category` | Product category | `'electronics'` |
+| `quantity` | Number of items | `'2'` |
+| `position` | Element location | `'header'`, `'footer'`, `'sidebar'` |
+| `step` | Funnel step number | `'1'`, `'2'`, `'3'` |
+| `video_id` | Video identifier | `'product-demo'` |
+| `file_name` | Downloaded file name | `'whitepaper.pdf'` |
+
+**Warning:**
+All property values are transmitted as strings. Numbers and booleans are automatically converted.
+
+## Timing
+
+### Microconversions Are Their Own Event Type
+
+A microconversion is **not** counted as a pageview. The server classifies each hit by its payload: a hit that carries an event type with the micro flag is recorded as a microconversion, while only hits **without** those fields are counted as pageviews.
+
+The initial pageview is tracked automatically when the tracker loads (unless you use `?auto=0`), so firing a microconversion does not also create a pageview — and you do not need to call `sealmetrics()` to "register" engagement. Each microconversion is recorded independently.
+
+### Multiple Events Per Page
+
+You can fire multiple microconversion events on the same page. Each one is recorded separately:
+
+```javascript
+// All of these are tracked independently:
+sealmetrics.micro('scroll_25');
+sealmetrics.micro('scroll_50');
+sealmetrics.micro('video_play');
+sealmetrics.micro('add_to_cart');
+```
+
+## Naming Conventions
+
+Use consistent, descriptive event names:
+
+| Pattern | Examples |
+|---------|----------|
+| `{action}_{object}` | `add_to_cart`, `view_product`, `click_cta` |
+| `{object}_{action}` | `video_play`, `video_complete`, `form_submit` |
+| `{category}_{action}` | `scroll_25`, `scroll_50`, `scroll_100` |
+
+Avoid:
+- Spaces in event names
+- Special characters (use underscores)
+- Overly generic names like `click` or `event`

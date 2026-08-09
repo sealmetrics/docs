@@ -1,0 +1,116 @@
+---
+title: "Seal AI Private"
+description: "Seal AI Private: Sealmetrics' EU-hosted AI add-on running gpt-oss-120b on Scaleway in Paris — pricing, the 5M monthly token quota, token packs, plan availability, and why OpenAI never sees your prompts."
+canonical_url: "https://docs.sealmetrics.com/billing/seal-ai-private"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "billing/seal-ai-private.mdx"
+publisher: "SealMetrics"
+---
+
+# Seal AI Private
+
+Canonical page: https://docs.sealmetrics.com/billing/seal-ai-private
+
+**Seal AI Private** is Sealmetrics' platform-managed AI provider for [LENS AI](/lens): your chat questions and AI insights are processed entirely in the **EU (Paris)**, with **no prompt retention**, and your data never trains third-party models. No API key required — it works out of the box.
+
+It is available as a paid **add-on** on Growth plans and is **included** in Scale and Enterprise plans.
+
+## What powers it
+
+| | |
+|---|---|
+| Model | **`gpt-oss-120b`** — open weights, Apache 2.0 |
+| Served by | **Scaleway SAS** (Iliad group) — Paris, France |
+| Retention | None. Token counters only |
+
+**Caution:**
+**OpenAI is not involved and never receives your prompts.** `gpt-oss-120b` is an open-weights model published under Apache 2.0 — a static public artifact loaded onto Scaleway's infrastructure in Paris. There is no call to OpenAI anywhere in the request path, and no contract with OpenAI behind this service.
+
+Scaleway is a named subprocessor in Annex 3 of our [DPA](https://sealmetrics.com/dpa), which is the authoritative and always-current list. For why this model was chosen over the alternatives — including the two we tried and replaced first — see [Why Seal AI runs on gpt-oss-120b](/lens/seal-ai/model-selection); for how the request path is isolated, see [How Seal AI works](/lens/seal-ai/private-ai-architecture).
+
+If you use [BYOK](/platform/settings/llm) instead, none of the above applies: your prompts go to your own provider, under your own key and your own contract, and that provider is not a Sealmetrics subprocessor.
+
+**Info:**
+**LENS AI itself costs nothing extra.** It is included in every paid plan, and using it with [your own LLM key (BYOK)](/platform/settings/llm) carries **no Sealmetrics charge at all** — no add-on fee, no token quota, no packs. You pay only your own provider (OpenAI, Anthropic, Gemini or DeepSeek) for what you use.
+
+The pricing below applies **only if you choose Seal AI Private**, our managed EU-hosted LLM, instead of supplying your own key. It is a convenience and data-residency option, not a requirement for using LENS.
+
+---
+
+## Pricing
+
+| Contract | Price |
+|----------|-------|
+| Annual contracts | **€299/month**, billed **€3,588/year upfront** |
+| Monthly contracts | **€358.80/month** |
+
+Activating the add-on mid-cycle is **not prorated** — billing starts at your next billing cycle. The add-on follows the billing interval of your base subscription.
+
+## Availability by plan
+
+| Plan | Seal AI Private |
+|------|-----------------|
+| Free | Not available |
+| Growth | Available as a paid add-on |
+| Scale | **Included** |
+| Enterprise | **Included** |
+
+## The token quota
+
+- Seal AI Private includes **5 million tokens per calendar month (UTC)**. Unused tokens do **not** roll over.
+- Tokens are counted as prompt + completion tokens of each AI request (chat questions and automated LENS insights both draw from the same quota).
+- At **80%** and **100%** consumption, the organization receives an email alert (once per month each).
+
+### When the quota runs out
+
+When the monthly quota and any pack balance are exhausted, Seal AI Private **stops** (hard stop) for both chat and insights, and the product shows a message with a purchase option. Two ways to keep going:
+
+1. **Buy a token pack** (below), or
+2. **Switch to your own key (BYOK)** — free of charge from Sealmetrics. The chat's provider selector lets any user fall back to their own OpenAI, Anthropic, Gemini, or DeepSeek key at any time, with no quota. See [LLM Providers](/platform/settings/llm).
+
+## Extra token packs
+
+| | |
+|---|---|
+| Size | **5,000,000 tokens** per pack |
+| Price | **€358.80 per pack** (same price on all contracts) |
+| Quantity | 1–10 packs per checkout |
+| Expiry | **Packs never expire** — pack tokens are consumed only after the monthly 5M quota is exhausted |
+
+Packs are a **one-time purchase** (no auto-recharge) made from the [Seal AI Usage screen](/platform/settings/seal-ai-usage) via Stripe checkout. Only organization **owners** can purchase.
+
+## Who can manage it
+
+| Action | Who |
+|--------|-----|
+| View the [Seal AI Usage screen](/platform/settings/seal-ai-usage) | Organization **owner** and **admins** |
+| Activate the add-on / buy packs / cancel | Organization **owner** only |
+| Members | No menu entry; the chat still shows the aggregate quota ring, and on exhaustion members see "contact your admin" |
+
+Cancelling the add-on takes effect at the end of the current billing period.
+
+## For developers
+
+Seal AI Private is managed through these API endpoints (JWT with `billing:manage` — organization owners):
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /billing/seal-ai/subscribe` | Add the add-on to the org's subscription (no proration; `403` on Free, `409` if already included in plan or already active) |
+| `POST /billing/seal-ai/unsubscribe` | Remove the add-on at period end |
+| `POST /billing/seal-ai/token-pack/checkout` | Stripe checkout for 1–10 token packs (entitled orgs only) |
+| `GET /organizations/{slug}/seal-ai/usage` | Monthly usage summary — see [Organizations API](/api/organizations#seal-ai-usage) |
+
+When the quota is exhausted, AI endpoints return `403` with `error_code: "seal_ai_quota_exceeded"` and a structured payload (`used_tokens`, `pack_balance_tokens`, `effective_quota_tokens`, `can_buy_pack`, `entitlement_source`, `resets_at`). See [LENS API](/lens/api/lens-endpoints).
+
+## Related documentation
+
+- [Seal AI Usage screen](/platform/settings/seal-ai-usage) — the consumption dashboard
+- [LLM Providers](/platform/settings/llm) — Seal AI Private vs. bring-your-own-key
+- [LENS AI](/lens) — what the AI can do
+- [Why Seal AI runs on gpt-oss-120b](/lens/seal-ai/model-selection) — the model audit and the trade-offs
+- [How Seal AI works](/lens/seal-ai/private-ai-architecture) — the request path and isolation model
+- [Plans & Pricing](/billing) — base plan pricing

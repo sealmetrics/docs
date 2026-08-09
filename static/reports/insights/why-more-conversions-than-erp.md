@@ -1,0 +1,142 @@
+---
+title: "Why Do I See More Conversions or Revenue in Sealmetrics Than in My ERP?"
+description: "Understand why Sealmetrics may show more conversions or revenue than your ERP and how to properly configure your tracking to avoid discrepancies."
+canonical_url: "https://docs.sealmetrics.com/reports/insights/why-more-conversions-than-erp"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/insights/why-more-conversions-than-erp.mdx"
+publisher: "SealMetrics"
+---
+
+# Why Do I See More Conversions or Revenue in Sealmetrics Than in My ERP?
+
+Canonical page: https://docs.sealmetrics.com/reports/insights/why-more-conversions-than-erp
+
+It’s common to see more conversions or revenue in Sealmetrics than in your ERP system.
+Here’s why — and how to fix it.
+
+---
+
+## Sealmetrics Counts Exactly What Fires
+
+Sealmetrics uses a **strict and transparent conversion pixel**:
+
+> **If the pixel fires, we count it. If it doesn’t fire, we don’t.**
+
+Sealmetrics does **not**:
+- Deduplicate conversions
+- Validate orders on the backend
+- Match data with your ERP
+- Identify unique users
+
+We only record the **event**, as triggered by your website.
+
+---
+
+## Why Discrepancies Happen
+
+### 1. Duplicate Pixel Fires
+If the confirmation page reloads, the pixel fires again.
+
+Examples:
+- User refreshes the thank-you page
+- User clicks the confirmation link from their email
+- User returns via browser history
+
+Each load = a new conversion.
+
+---
+
+### 2. Users Revisit the Confirmation Page
+
+If a visitor bookmarks the confirmation page or returns to it later, the pixel fires again.
+
+This results in:
+- Multiple conversions from the same order
+- Inflated revenue if the pixel includes value parameters
+
+---
+
+### 3. Pixel Placed on the Wrong URL(s)
+
+If the conversion pixel is placed on:
+- Multiple pages
+- Cached pages
+- Intermediary confirmation steps
+
+…it may fire unintentionally.
+
+This is one of the most common causes of overcounting.
+
+---
+
+### 4. No Server-Side Validation
+
+Your ERP validates:
+- Payment success
+- Order status
+- Customer details
+
+Sealmetrics does **not** perform backend checks.
+
+If someone loads the confirmation page but payment fails, Sealmetrics counts the event — your ERP does not.
+
+---
+
+## How to Fix These Issues
+
+### ✔ 1. Place the Pixel Only on the Final Thank-You Page
+Avoid:
+- Cached pages
+- Pages that users may revisit
+
+Ensure the page is:
+- Unique
+- Non-cacheable
+- Only reachable after successful payment
+
+---
+
+### ✔ 2. Add Server-Side Conditions
+Example condition logic:
+
+> Fire the pixel ONLY if the order is confirmed.
+
+This prevents:
+- Fake conversions
+- Reloaded conversions
+- Pre-payment hits
+
+---
+
+### ✔ 3. Fire the Pixel Only Once Per Session
+Your developers can enforce session-based logic to avoid double counting.
+
+Example safeguards:
+- Fire only once per `order_id`
+- Prevent firing on page refresh
+- Block pixel firing if the same user reloads the page
+
+---
+
+## Summary
+
+Sealmetrics shows **exactly what fires**.
+Nothing more, nothing less.
+
+If your ERP shows fewer conversions, the explanation is simple:
+
+> The conversion pixel is firing more often than it should.
+
+By tightening pixel placement and adding safeguards, you can align metrics between Sealmetrics and your backend systems.
+
+## Related documentation
+
+- [Reconciling SealMetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — Full reconciliation guide for backend discrepancies
+- [Conversions](/implementation/tracker/conversions) — How the conversion pixel fires and is configured
+- [Conversions Report](/reports/conversions) — Where conversions and revenue appear in Sealmetrics
+- [How Attribution Accuracy Works](/reports/insights/attribution-accuracy) — Why totals are exact in Sealmetrics
+- [Metrics Reference](/reports/definitions) — Definitions for conversions, revenue, and AOV

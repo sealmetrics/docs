@@ -1,0 +1,131 @@
+---
+title: "Referrer Mappings"
+description: "Map referrer domains to UTM values so untagged partner and vendor traffic is attributed correctly, with priority-ordered matching rules"
+canonical_url: "https://docs.sealmetrics.com/api/referrer-mappings"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/referrer-mappings.mdx"
+publisher: "SealMetrics"
+---
+
+# Referrer Mappings
+
+Canonical page: https://docs.sealmetrics.com/api/referrer-mappings
+
+Map incoming referrer domains to UTM values. The idea: when a visit lacks UTM parameters but arrives from a recognized referrer, the matching rule's UTMs would be applied — useful for partner traffic, vendor portals, and external platforms that don't tag links.
+
+**Base path:** `/referrer-mappings`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+**Warning:**
+The CRUD endpoints on this router work — you can create, list, update and delete mappings and they are stored per-account. **However, the pixel-service does not yet read this table at ingest time.** Mappings you save today have no effect on the classification of incoming traffic. This is a documented gap (silent no-op) tracked for a future PRD.
+
+Until the pixel is wired to consume this table, treat these endpoints as configuration storage only. For traffic that needs to be re-attributed today, use [Channel Grouping rules](/api/channel-groups) (fully wired at ingest) or [UTM Mapping](/platform/settings/tracking/utm-mapping) for custom URL parameters.
+
+---
+
+## List Mappings
+
+```http
+GET /referrer-mappings?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `include_inactive` | boolean | `false` | Include inactive mappings |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "mappings": [
+      {
+        "id": 7,
+        "account_id": "acme",
+        "referrer_pattern": "partner-site.com",
+        "match_type": "exact",
+        "utm_source": "partner-site",
+        "utm_medium": "referral",
+        "utm_campaign": "",
+        "utm_term": "",
+        "utm_content": "",
+        "label": "Partner Site Traffic",
+        "description": null,
+        "priority": 100,
+        "is_active": true,
+        "created_at": "2025-01-05T10:00:00Z",
+        "updated_at": "2025-01-05T10:00:00Z"
+      }
+    ],
+    "total": 12,
+    "active_count": 11
+  }
+}
+```
+
+---
+
+## Create Mapping
+
+```http
+POST /referrer-mappings?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `referrer_pattern` | string | Yes | Pattern to match against referrer domain (1-255 chars). Protocol is stripped, comparison is lowercase |
+| `match_type` | enum | No | `exact` (default), `contains`, `starts_with`, `ends_with`, `regex` |
+| `utm_source` | string | Yes | UTM source to apply (1-255 chars) |
+| `utm_medium` | string | No | Default `"referral"` (max 100) |
+| `utm_campaign` | string | No | Default `""` (max 255) |
+| `utm_term` | string | No | Default `""` (max 255) |
+| `utm_content` | string | No | Default `""` (max 255) |
+| `label` | string | No | Human-readable label (max 100) |
+| `description` | string | No | Optional description (max 500) |
+| `priority` | integer | No | Higher priority is checked first (0-1000, default `0`) |
+| `is_active` | boolean | No | Default `true` |
+
+**Response (201 Created):** full mapping object. Returns `409` if a mapping with the same pattern already exists.
+
+---
+
+## Get Mapping
+
+```http
+GET /referrer-mappings/{mapping_id}?account_id={account_id}
+```
+
+Returns the mapping or `404` if not found.
+
+---
+
+## Update Mapping
+
+```http
+PATCH /referrer-mappings/{mapping_id}?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+All fields from create are optional. Returns `409` if the new pattern would conflict with another mapping.
+
+---
+
+## Delete Mapping
+
+```http
+DELETE /referrer-mappings/{mapping_id}?account_id={account_id}
+```
+
+**Required scope:** `write`. Returns `204 No Content`.

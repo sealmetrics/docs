@@ -1,0 +1,106 @@
+---
+title: "How Sealmetrics Blocks Bot Traffic (And Stays Consentless)"
+description: "How Sealmetrics filters bot traffic with layered, privacy-safe defenses — and why its ephemeral, in-memory use of IPs keeps the platform GDPR and ePrivacy compliant."
+canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic.mdx"
+publisher: "SealMetrics"
+---
+
+# How Sealmetrics Blocks Bot Traffic (And Stays Consentless)
+
+Canonical page: https://docs.sealmetrics.com/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic
+
+Bot and automated traffic can distort every metric you rely on. Sealmetrics filters it out with a layered, privacy-safe system — and this page explains exactly how each layer works and why the approach remains fully consentless.
+
+---
+
+## Our IP position, stated plainly
+
+Let's address the most common question first: **does bot filtering involve IP addresses?**
+
+Yes — briefly, in memory, and never stored. Here is the complete picture:
+
+- **No analytics metric is ever calculated from an IP.** Visitor country comes from the [browser timezone](/security-privacy/country-detection), not from IP lookup.
+- **The visitor's IP is never written to the analytics database.** Our event storage has no IP column at all — storing one is architecturally impossible, not just policy.
+- During request handling, the IP exists **ephemerally in memory** for one purpose: checking the request against curated blocklists of known bots and datacenters. If it matches, the request is dropped. Either way, the IP is discarded when the request completes.
+- **The IP is never linked to any hit, session, or metric**, and never used to identify, profile, or track anyone.
+
+Transient in-memory use of an IP is still "processing" under GDPR — we don't pretend otherwise. It is processed under **legitimate interest (Art. 6(1)(f))**, which Recital 49 explicitly recognizes for network and information security purposes, including "preventing unauthorised access... and stopping denial-of-service attacks". Ephemeral, security-only, never-stored IP handling is the textbook case.
+
+What makes Sealmetrics consentless is not a claim that IPs never exist in our infrastructure — it's that they are **never stored, never used for tracking, and never used for analytics**.
+
+---
+
+## Layer 1 — Bot user-agent signatures
+
+Every browser and bot sends a *user agent* string describing the client software. Most legitimate bots identify themselves clearly.
+
+Sealmetrics maintains an updated signature list of known bot user agents — search engine crawlers, uptime monitors, headless browsers, automation tools — with exact, prefix, substring, and pattern matching. A hit matching a bot signature is discarded immediately and never enters your reports.
+
+---
+
+## Layer 2 — Curated IP and datacenter blocklists
+
+Sealmetrics maintains curated blocklists of IPs and network ranges (CIDRs) belonging to known bots, scrapers, and datacenters, plus any per-site block rules you configure yourself.
+
+When a hit arrives:
+
+1. The request's IP is checked **in memory** against these lists.
+2. If it matches, the request is dropped.
+3. The IP is discarded — it is never persisted, in either case.
+
+These lists are curated block rules (like a firewall's), not records of your visitors.
+
+---
+
+## Layer 3 — Request-header consistency checks
+
+Automated clients frequently send request headers that are inconsistent with the browser they claim to be. Sealmetrics scores header consistency on each request as an additional bot signal — no personal data involved.
+
+---
+
+## Layer 4 (opt-in) — Agent Analytics
+
+For sites that explicitly enable [Agent Analytics](/integrations/agentic-package), Sealmetrics adds deeper detection of AI agents and automated browsers on entrance hits:
+
+- A **stateless GeoLite2 lookup** derives datacenter/ISP signals from the IP (is this a datacenter? does the network belong to a known AI provider?) and a country label used to detect geo/timezone mismatches. **Only the derived signals are kept — the IP itself is discarded.**
+- **Environmental signals** about the browser (e.g. WebDriver flag, rendering characteristics) and **behavioral signals** about the interaction pattern (e.g. mouse-movement linearity, click-timing variance) feed a score that classifies each session as human or automated.
+
+These signals describe the *software environment*, not the person, and are never associated with an identifier. Standard accounts — the default — don't collect any of this.
+
+---
+
+## Why this approach is privacy-compliant
+
+- **User agents** are used as anonymous device-category signals, stored with the hit for the standard 24-month retention window, never linked to any personal identifier (we don't have one), and never used to reconstruct anyone's history.
+- **IPs** are processed ephemerally in memory for security only, under legitimate interest (Recital 49), and never stored.
+- **No tracking identifiers** are created or used at any layer.
+- **No profiling of individuals** — classification targets bot vs. human traffic, at session level, based on software signals.
+
+This is why bot filtering requires **no consent banner** and creates **no personal-data exposure**.
+
+---
+
+## Summary
+
+| Layer | Signal | IP stored? | Personal data stored? |
+|---|---|---|---|
+| Bot UA signatures | User-agent string | No | No |
+| IP/datacenter blocklists | IP, in memory only | No | No |
+| Header consistency | Request headers | No | No |
+| Agent Analytics (opt-in) | Derived geo/ISP + environment + behavior | No | No |
+
+The result: clean analytics, honest architecture, and zero consent requirements.
+
+## Related documentation
+
+- [Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?](/compliance/compliance-overview/is-sealmetrics-privacy-compliant) — the full compliance picture.
+- [Legal FAQ — Sealmetrics Compliance Questions](/compliance/compliance-overview/legal-faq) — how IPs are (and aren't) used, in FAQ form.
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the exact data Sealmetrics does and does not collect.
+- [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) — timezone-based geolocation for analytics.
+- [Bot Detection & Traffic Quality](/security-privacy/bot-detection) — how filtered bot traffic keeps reports clean.

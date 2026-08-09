@@ -1,0 +1,392 @@
+---
+title: "Authentication"
+description: "How to authenticate with the Sealmetrics API using read-only API keys (X-API-Key header) or JWT bearer tokens from login"
+canonical_url: "https://docs.sealmetrics.com/api/authentication"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/authentication.mdx"
+publisher: "SealMetrics"
+---
+
+# Authentication
+
+Canonical page: https://docs.sealmetrics.com/api/authentication
+
+The Sealmetrics API supports two authentication methods. **API keys** (prefixed `sm_`, sent in the `X-API-Key` header) are read-only and intended for server-to-server integrations; **JWT bearer tokens** (obtained by logging in, sent in the `Authorization: Bearer` header) carry a user's role-based scopes and are used for authenticated sessions like the dashboard and mobile apps.
+
+## API Keys
+
+API keys are the recommended method for server-to-server integrations.
+
+### Obtaining an API Key
+
+1. Log in to Sealmetrics dashboard
+2. Go to **Settings** → **API Keys**
+3. Click **Generate New Key**
+4. Copy the key immediately (it won't be shown again)
+
+### Using API Keys
+
+Include the key in the `X-API-Key` header:
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_SITE_ID&period=7d" \
+  -H "X-API-Key: sm_your_api_key_here"
+```
+
+### API Key Format
+
+All API keys use the `sm_` prefix:
+
+```
+sm_abc123def456ghi789...
+```
+
+Keys are 64 characters long and contain only alphanumeric characters after the prefix.
+
+### API Key Security
+
+- Keys are hashed before storage (we cannot retrieve your key)
+- Keys can be revoked at any time from the dashboard
+- Set expiration dates for temporary access
+- Each key is scoped to specific sites
+- API keys are **read-only**: they can only hold the `stats:read`, `sites:read`, and `accounts:read` scopes. Write operations require a JWT session. See [API Tokens](/api/api-tokens) for details.
+
+## Registration
+
+### POST /auth/register
+
+Public endpoint for self-service signup. Creates a new user account, sends a verification email, and (when billing is enabled) creates a temporary session so the user can proceed to plan selection / Stripe checkout without having verified their email first.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/auth/register" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "alice@acme.com",
+    "name": "Alice",
+    "password": "a-strong-password-12+chars",
+    "accept_terms": true
+  }'
+```
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `email` | string | Yes | Valid email |
+| `name` | string | Yes | 1-255 chars |
+| `password` | string | Yes | 12-128 chars; must satisfy the platform password policy |
+| `accept_terms` | boolean | Yes | Must be `true`. Otherwise `400` |
+
+**Response (200 OK):**
+
+```json
+{
+  "success": true,
+  "data": {
+    "user_id": 42,
+    "email": "alice@acme.com",
+    "name": "Alice",
+    "access_token": "eyJhbGciOi...",
+    "token_type": "bearer",
+    "expires_in": 3600,
+    "requires_email_verification": true,
+    "requires_subscription": true,
+    "email_sent": true,
+    "message": "Registration successful. Choose your plan to continue."
+  }
+}
+```
+
+**Status code:** Always `200 OK` (not `201`) — the user is created but not yet fully provisioned (email pending).
+
+**Notable behavior:**
+
+- **Rate limited:** 3 registrations per hour per IP.
+- **Enumeration-safe:** if the email already exists, the response is identical to a successful signup (`user_id: 0`, generic message), and a one-time security notification is sent to the existing user.
+- **Auth cookies:** when billing is enabled, the response sets `access_token` and `refresh_token` cookies and includes the access token in the body (scopes: `read`, `write`, `billing:checkout`). When billing is disabled, no session is created and the token fields stay empty.
+- **Email verification:** verifies via the [`POST /email/verify`](./email-verification#verify-email-and-auto-login) endpoint, which then performs the auto-login.
+
+---
+
+## JWT Bearer Tokens
+
+JWT tokens are used for user-authenticated sessions (dashboard, mobile apps).
+
+### Obtaining a Token
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/auth/token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "your_password"
+  }'
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "access_token": "<access_token>",
+    "token_type": "bearer",
+    "expires_in": 900,
+    "user": {
+      "id": 123,
+      "email": "user@example.com",
+      "name": "John Doe",
+      "role": "admin",
+      "account_ids": ["acme-corp"]
+    },
+    "ip_filtered_accounts": [],
+    "client_ip": "203.0.113.45"
+  }
+}
+```
+
+The refresh token is **not** returned in the response body. It is set as an
+HttpOnly cookie named `sm_refresh_token` (the access token is also mirrored in
+the `sm_access_token` cookie).
+
+### Using JWT Tokens
+
+Include the token in the `Authorization` header:
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/stats/overview?site_id=YOUR_SITE_ID&period=7d" \
+  -H "Authorization: Bearer <your_access_token>"
+```
+
+### Token Refresh
+
+Access tokens expire after 15 minutes. Use the refresh endpoint to obtain a new
+access token. The refresh token is read from the `sm_refresh_token` HttpOnly
+cookie that was set during login — there is no request body. Send the cookie
+back with the request (`--cookie` in curl, `credentials: 'include'` in fetch):
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/auth/refresh" \
+  --cookie "sm_refresh_token=<your_refresh_token>"
+```
+
+On success, a new access token is returned in the response body (wrapped in
+`data`) and the rotated refresh token is set again as the `sm_refresh_token`
+cookie (session rotation).
+
+### JWT Claims
+
+The access token contains:
+
+| Claim | Description |
+|-------|-------------|
+| `sub` | User ID |
+| `email` | User email |
+| `account_ids` | List of accessible site IDs |
+| `scopes` | Scopes derived from the user's role |
+| `exp` | Expiration timestamp |
+| `iat` | Issued at timestamp |
+
+### JWT Scopes
+
+Scopes are **assigned automatically based on the user's role** — you do not request them in the `/auth/token` body and you cannot add them at runtime. To change what a token can do, change the user's role.
+
+| Role | Scopes |
+|------|--------|
+| Standard user | `read`, `write` |
+| Superadmin | `read`, `write`, `admin`, `superadmin`, `billing:manage` |
+
+Organization owners additionally receive the `billing:manage` scope so they can
+reach billing endpoints. Most authorization is enforced through organization
+roles (owner / admin / member) rather than JWT scopes.
+
+If a request returns `403 forbidden` with a valid JWT, the user's role doesn't
+include the required scope — switch to a user with the right role, or use an
+[API key](#api-keys) bound to the site.
+
+## Password reset
+
+Two endpoints handle the flow: `POST /auth/forgot-password` (request the email; always returns success to prevent enumeration; rate limited 3/hour/IP) and `POST /auth/reset-password` (complete the reset with the emailed token; terminates all existing sessions).
+
+Full request/response details: [Advanced Authentication — Password Reset](/api/auth-advanced#password-reset).
+
+## Email verification helpers
+
+### POST /email/resend-verification
+
+Resend the verification email if the user hasn't received (or has lost) the original one. Rate limited to **3/hour/IP** and returns a **single generic response** for every branch (missing email / already verified / sent / cap exceeded) — deliberate anti-enumeration.
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/email/resend-verification" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "alice@acme.com"}'
+```
+
+## Session management
+
+Once logged in, users can inspect and revoke their own sessions (`GET /auth/sessions`, `DELETE /auth/sessions/{session_id}`, `DELETE /auth/sessions` for all devices, `POST /auth/logout`). All require a JWT — API keys don't manage sessions.
+
+Full request/response details: [Advanced Authentication — Session Management](/api/auth-advanced#session-management).
+
+## Two-Factor Authentication (2FA)
+
+If a user has 2FA enabled, `POST /auth/token` returns a **two-step response**: the first call succeeds only up to the point of requiring the second factor, and the client must exchange the returned challenge token via the 2FA endpoints to obtain a full session.
+
+See the dedicated [Two-Factor Authentication](/api/2fa) page for the full endpoint list (`/2fa/setup`, `/2fa/verify`, `/2fa/verify-login`, `/2fa/disable`, `/2fa/backup-codes`, `/2fa/status`).
+
+## Impersonation status
+
+### GET /auth/impersonation-status
+
+Returns whether the current session is a superadmin impersonating another user. Useful for the dashboard to render an "You are impersonating X" banner and gate destructive actions.
+
+```bash
+curl -X GET "https://my.sealmetrics.com/api/v1/auth/impersonation-status" \
+  --cookie "sm_access_token=<jwt>"
+```
+
+Response (regular session):
+
+```json
+{ "success": true, "data": { "is_impersonating": false } }
+```
+
+Response (superadmin impersonating):
+
+```json
+{
+  "success": true,
+  "data": {
+    "is_impersonating": true,
+    "impersonated_user_id": 123,
+    "impersonated_email": "target@customer.com",
+    "started_at": "2026-07-20T09:00:00Z"
+  }
+}
+```
+
+## Authentication Errors
+
+The `error.code` is derived from the HTTP status (`401` → `unauthorized`,
+`403` → `forbidden`, `429` → `rate_limit_exceeded`). The specific reason is
+carried in the human-readable `error.message`.
+
+| HTTP Code | Error Code | Example message |
+|-----------|------------|-----------------|
+| 401 | `unauthorized` | `Authentication required` (no API key or token provided) |
+| 401 | `unauthorized` | `Invalid API key` (key not found or revoked) |
+| 401 | `unauthorized` | `Invalid token` (JWT is malformed) |
+| 401 | `unauthorized` | `Token has expired` |
+| 401 | `unauthorized` | `Session has been revoked` |
+| 403 | `forbidden` | `Required scope: <scope>` (valid auth, missing scope) |
+| 403 | `forbidden` | `Access denied to account: <id>` |
+
+Example error response:
+
+```json
+{
+  "error": {
+    "code": "unauthorized",
+    "message": "Invalid API key"
+  },
+  "request_id": "req_abc123"
+}
+```
+
+## Best Practices
+
+### For API Keys
+
+1. **Never commit keys to git** - Use environment variables
+2. **Rotate keys periodically** - Generate new keys and revoke old ones
+3. **Use separate keys per environment** - Different keys for dev, staging, production
+4. **Set minimum required scope** - Only grant access to needed sites
+
+### For JWT Tokens
+
+1. **Store tokens securely** - Use httpOnly cookies or secure storage
+2. **Implement token refresh** - Don't wait for expiration errors
+3. **Handle 401 gracefully** - Redirect to login or refresh automatically
+4. **Clear tokens on logout** - Call the logout endpoint
+
+## Code Examples
+
+### Python
+
+```python
+import requests
+
+API_KEY = "sm_your_api_key_here"
+BASE_URL = "https://my.sealmetrics.com/api/v1"
+
+def get_stats(site_id: str, period: str = "7d"):
+    response = requests.get(
+        f"{BASE_URL}/stats/overview",
+        headers={"X-API-Key": API_KEY},
+        params={"site_id": site_id, "period": period}
+    )
+    response.raise_for_status()
+    return response.json()
+```
+
+### JavaScript / Node.js
+
+```javascript
+const API_KEY = 'sm_your_api_key_here';
+const BASE_URL = 'https://my.sealmetrics.com/api/v1';
+
+async function getStats(siteId, period = '7d') {
+  const response = await fetch(
+    `${BASE_URL}/stats/overview?site_id=${siteId}&period=${period}`,
+    {
+      headers: { 'X-API-Key': API_KEY }
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
+  }
+
+  return response.json();
+}
+```
+
+### PHP
+
+```php
+<?php
+$apiKey = 'sm_your_api_key_here';
+$baseUrl = 'https://my.sealmetrics.com/api/v1';
+
+function getStats($siteId, $period = '7d') {
+    global $apiKey, $baseUrl;
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "$baseUrl/stats/overview?site_id=$siteId&period=$period");
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ["X-API-Key: $apiKey"]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    return json_decode($response, true);
+}
+```
+
+## Other ways to authenticate
+
+| Method | Page | Use it when |
+|--------|------|-------------|
+| **OAuth 2.1 + PKCE** | [OAuth 2.1](/api/oauth) | Your app or AI assistant needs to read *someone else's* account. Dynamic client registration, refresh tokens, user-revocable from the dashboard. |
+| **Provision key** | [Provisioning](/api/provision) | You are creating a brand-new free-tier account headlessly, before any credentials exist. |
+
+## Related
+
+- [For AI Agents](/api/for-agents) — which method to pick, and the rest of the agent surface
+- [API Tokens](/api/api-tokens) — scopes, site restrictions and expiry
+- [Error codes](/api/errors) — every `unauthorized` / `forbidden` variant
+- [Advanced Authentication](/api/auth-advanced) — sessions, 2FA, password reset

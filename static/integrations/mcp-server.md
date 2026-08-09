@@ -1,0 +1,543 @@
+---
+title: "MCP Server for AI Assistants"
+description: "Connect Claude, ChatGPT, Cursor, Codex, and other AI assistants to your SealMetrics analytics using the Model Context Protocol (MCP) — either the hosted remote server (one URL, no install) or the local npx server."
+canonical_url: "https://docs.sealmetrics.com/integrations/mcp-server"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/mcp-server.mdx"
+publisher: "SealMetrics"
+---
+
+# MCP Server for AI Assistants
+
+Canonical page: https://docs.sealmetrics.com/integrations/mcp-server
+
+The **SealMetrics MCP Server** lets AI assistants like Claude (Claude Code, Claude Desktop, Claude.ai), ChatGPT, Cursor, Codex, Windsurf, VS Code, and other MCP clients query your SealMetrics analytics — traffic, conversions, campaigns, and more — in plain natural language.
+
+There are **two ways to connect**, and you only need one:
+
+| | **Remote MCP (hosted)** | **Local MCP (npx)** |
+|---|---|---|
+| Setup | Paste **one URL** — no install | Add an `npx` command with your API key |
+| Runs on | SealMetrics servers | Your machine |
+| Auth | Handled by the endpoint — nothing to paste | `SEALMETRICS_API_KEY` in the config |
+| Node.js required | No | Yes (v18+) |
+| Best for | **Codex, Cursor, Claude, ChatGPT** and any client that supports remote MCP | Offline / air-gapped setups, or pinning a specific version |
+
+**We recommend the remote MCP** for most people — it takes about two minutes per client and there's nothing to install or keep updated. [Jump to the remote setup ↓](#remote-mcp-server-recommended)
+
+**Tip:**
+Both options assume you already have a SealMetrics account and API key. If you want your AI assistant to **create the account for you from the chat** (no key, no terminal), use the one-click [AI Agentic Package (Claude & Codex)](/integrations/agentic-package) instead.
+
+## What is MCP?
+
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that allows AI assistants to securely connect to external data sources. The SealMetrics MCP server exposes your analytics — traffic, conversions, campaigns, and more — as tools your assistant can call in plain language, with no SQL and no dashboard. You can run it two ways: as the **hosted remote server** (SealMetrics runs it; you just point your client at a URL) or as the **local server** (it runs on your machine via `npx`).
+
+## What can you ask Claude?
+
+Once connected, you can ask questions like:
+
+- *"Show me an overview of my site for the last 7 days"*
+- *"What are the top traffic sources this month?"*
+- *"Compare this month's conversions with last month"*
+- *"Which landing pages have the highest bounce rate?"*
+- *"Show me revenue by country for the last quarter"*
+- *"What devices do my visitors use?"*
+- *"Analyze my top 3 campaigns and tell me which has the best conversion rate"*
+
+---
+
+## Remote MCP server (recommended)
+
+The **hosted remote server** is the fastest way to connect. There's nothing to install and nothing to keep updated — you point your AI client at a single URL and start asking questions. It works with Claude, ChatGPT, Cursor, Codex, VS Code, and any client that supports remote (Streamable HTTP) MCP.
+
+**Endpoint:**
+
+```
+https://mcp.sealmetrics.com/mcp
+```
+
+Add that URL in your client and the SealMetrics tools become available — no local install and no key to paste. If your client shows an authorization or **Connect** step when you add the server, follow its prompts to finish linking.
+
+**Tip:**
+Append `?discovery=progressive` to the endpoint (`https://mcp.sealmetrics.com/mcp?discovery=progressive`) to load tool definitions on demand instead of all at once. Every tool stays callable; your assistant just discovers them as needed, which lowers token usage on clients with tight context limits.
+
+### Claude Code
+
+Add the remote server with the HTTP transport (run inside your project, or add `-s user` to make it available in every project):
+
+```bash
+claude mcp add --transport http sealmetrics https://mcp.sealmetrics.com/mcp
+```
+
+Run `/mcp` inside Claude Code to check the connection. If it shows an authorization step, follow the prompt to finish linking.
+
+### Claude.ai & Claude Desktop
+
+1. Open **Settings → Connectors**.
+2. Click **Add custom connector**.
+3. Name it `SealMetrics` and paste the URL: `https://mcp.sealmetrics.com/mcp`
+4. Click **Add** (then **Connect** if prompted).
+
+The SealMetrics tools now appear in the connectors menu of any chat.
+
+### ChatGPT
+
+Remote MCP connectors are available on ChatGPT plans that support connectors (and via developer mode).
+
+1. Open **Settings → Connectors** (or **Settings → Connectors → Advanced → Developer mode**).
+2. Click **Create** / **Add custom connector**.
+3. Name it `SealMetrics` and set the **MCP Server URL** to `https://mcp.sealmetrics.com/mcp`.
+4. Save (and complete any **Connect** step the dialog shows).
+
+Once connected, enable the SealMetrics connector in the composer's tools/connectors menu before asking about your data.
+
+### Cursor
+
+Add this to your MCP config (`~/.cursor/mcp.json` for all projects, or `.cursor/mcp.json` in a project):
+
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "url": "https://mcp.sealmetrics.com/mcp"
+    }
+  }
+}
+```
+
+Reload Cursor and open **Settings → MCP** to confirm SealMetrics is listed (click **Connect** if it prompts you).
+
+### Codex (OpenAI)
+
+Add this to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.sealmetrics]
+url = "https://mcp.sealmetrics.com/mcp"
+```
+
+Restart Codex — the SealMetrics tools become available on the next session.
+
+### VS Code (Copilot) & other MCP clients
+
+Any client that supports remote MCP uses the same URL. In VS Code, add a `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "sealmetrics": {
+      "type": "http",
+      "url": "https://mcp.sealmetrics.com/mcp"
+    }
+  }
+}
+```
+
+**Note:**
+A few older clients can't connect to a remote URL directly. Bridge to it with [`mcp-remote`](https://www.npmjs.com/package/mcp-remote):
+
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.sealmetrics.com/mcp"]
+    }
+  }
+}
+```
+
+### Verify it works
+
+Open your assistant and ask:
+
+> "List my SealMetrics sites"
+
+It should respond with your sites. If it does, you're all set — skip ahead to [Available tools](#available-tools).
+
+---
+
+## Local MCP server (npx)
+
+Prefer to run the server on your own machine — for offline setups, or to pin a specific version? The **local server** runs via `npx` and authenticates with your API key. The steps below cover it end to end.
+
+### Step 1: Verify Node.js is installed
+
+Open your terminal and run:
+
+```bash
+node --version
+```
+
+You need **v18 or higher**. If you don't have it, download it from [nodejs.org](https://nodejs.org/).
+
+### Step 2: Get your API Key
+
+1. Log in to your SealMetrics dashboard at [my.sealmetrics.com](https://my.sealmetrics.com)
+2. Go to **Settings > API Keys** ([direct link](https://my.sealmetrics.com/settings/api-keys))
+3. Click **Create API Key**
+4. Give it a name (e.g. "Claude MCP") and click **Create**
+5. Copy the key — it starts with `sm_` (e.g. `sm_AbCdEf123...`)
+
+**Warning:**
+The full API key is only shown once. Copy it immediately and store it in a safe place.
+
+### Step 3: Find your Site ID
+
+1. Go to **Settings > Sites** ([direct link](https://my.sealmetrics.com/settings/sites))
+2. Click on the site you want to query
+3. The **Site ID** is displayed at the top of the site settings page (e.g. `my-store`)
+
+**Tip:**
+
+### Step 4: Configure your Claude client
+
+Choose the client you use:
+
+#### Claude Code
+
+Add the server with a single command (run inside your project):
+
+```bash
+claude mcp add sealmetrics \
+  -e SEALMETRICS_API_KEY=sm_your_key_here \
+  -e SEALMETRICS_SITE_ID=your-site-id \
+  -- npx -y @sealmetrics/mcp
+```
+
+Replace `sm_your_key_here` with your API key from Step 2, and `your-site-id` with your Site ID from Step 3.
+
+**Tip:**
+By default the server is added for the current project. Add `-s user` to make SealMetrics available in **all your projects**.
+
+#### Claude Desktop
+
+1. Open Claude Desktop
+2. Go to **Settings** (gear icon) > **Developer** > **Edit Config**
+3. Add the following configuration:
+
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "command": "npx",
+      "args": ["-y", "@sealmetrics/mcp"],
+      "env": {
+        "SEALMETRICS_API_KEY": "sm_your_key_here",
+        "SEALMETRICS_SITE_ID": "your-site-id"
+      }
+    }
+  }
+}
+```
+
+4. Save and **restart Claude Desktop** completely (Cmd+Q on macOS, then reopen)
+
+**Tip:**
+You can skip the JSON entirely with the [SealMetrics Claude Desktop extension](/integrations/agentic-package) — download, double-click, paste your key. The same extension can also **create an account for you** if you don't have one yet.
+
+#### Codex (OpenAI)
+
+Add this to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.sealmetrics]
+command = "npx"
+args = ["-y", "@sealmetrics/mcp"]
+env = { SEALMETRICS_API_KEY = "sm_your_key_here", SEALMETRICS_SITE_ID = "your-site-id" }
+```
+
+Restart Codex after saving.
+
+#### Cursor, Windsurf, VS Code & other MCP clients
+
+Any MCP-compatible client uses the same server. Add this block to your client's MCP config (in Cursor, `~/.cursor/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "sealmetrics": {
+      "command": "npx",
+      "args": ["-y", "@sealmetrics/mcp"],
+      "env": {
+        "SEALMETRICS_API_KEY": "sm_your_key_here",
+        "SEALMETRICS_SITE_ID": "your-site-id"
+      }
+    }
+  }
+}
+```
+
+### Step 5: Verify it works
+
+Open Claude and ask:
+
+> "List my SealMetrics sites"
+
+Claude should respond with a list of your sites. If it does, you're all set!
+
+---
+
+## Configuration reference
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `SEALMETRICS_API_KEY` | Yes | Your API key from [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys). Starts with `sm_`. |
+| `SEALMETRICS_SITE_ID` | No | Default Site ID from [Settings > Sites](https://my.sealmetrics.com/settings/sites). If set, you don't need to specify the site in every query. |
+| `SEALMETRICS_BASE_URL` | No | API base URL. Default: `https://my.sealmetrics.com/api/v1`. Only change this for custom deployments. |
+
+---
+
+## Available tools
+
+Claude uses these tools automatically when you ask questions — you never need to call them directly. The server registers **47 tools**, grouped below by category.
+
+### Sites
+
+| Tool | Description |
+|------|-------------|
+| `list_sites` | List all sites (web properties) accessible with your API key, with IDs, names, and domains |
+| `get_site` | Get detailed info about a specific site: name, domains, timezone, configuration, and tracking status |
+
+### Overview
+
+| Tool | Description |
+|------|-------------|
+| `get_overview` | Dashboard KPIs: pageviews, entrances, bounce rate, conversions, revenue, with time series and optional period comparison |
+
+### Traffic, sources & campaigns
+
+| Tool | Description |
+|------|-------------|
+| `get_traffic_sources` | Traffic by source (utm_source): google, facebook, direct, etc. |
+| `get_traffic_mediums` | Traffic by medium (utm_medium): organic, cpc, email, referral, social, etc. |
+| `get_campaigns` | Performance by campaign (utm_campaign) with entrances, conversions, and revenue |
+| `get_terms` | Traffic by UTM term (keyword) with source/medium/campaign/country filters |
+| `get_top_sources` | Top traffic sources ranked by entrances (compact, non-paginated) |
+| `get_top_campaigns` | Top campaigns ranked by entrances (compact, non-paginated) |
+| `get_top_terms` | Top UTM terms (keywords) ranked by entrances (compact, non-paginated) |
+| `get_top_referrers` | Top referrer domains ranked by entrances |
+
+### Pages & content
+
+| Tool | Description |
+|------|-------------|
+| `get_pages` | Metrics per page URL path: pageviews and entrances, with multi-value filters and `include` dimensions |
+| `get_landing_pages` | Landing page performance: entrances, bounce rate, conversions |
+| `get_top_pages` | Top pages ranked by page views (compact, non-paginated) |
+| `get_top_landing_pages` | Top landing pages ranked by entrances (compact, non-paginated) |
+| `get_landing_pages_by_content_group` | Landing page metrics grouped by content grouping |
+| `get_content_groups` | Metrics grouped by content group (content_grouping) |
+
+### Conversions
+
+| Tool | Description |
+|------|-------------|
+| `get_conversions` | Conversions by type (purchase, signup) with count, revenue, and average order value |
+| `get_microconversions` | Microconversions (add_to_cart, newsletter_signup, etc.) by type with counts |
+| `list_microconversion_types` | List available microconversion type names for a site |
+| `get_microconversion_details` | Detailed breakdown of a microconversion type by source, medium, campaign, country, device, browser, OS |
+
+### Raw events (event-level)
+
+| Tool | Description |
+|------|-------------|
+| `get_conversions_raw` | Raw conversion rows (one per event) with `timestamp_utc`/`timestamp_local`; date range capped at 31 days |
+| `get_microconversions_raw` | Raw microconversion rows (one per event); date range capped at 31 days |
+| `get_conversion_items_raw` | One row per item inside a conversion (per-product); always includes item `properties` (sku, price, quantity) |
+
+### Audience (geo, devices, browsers, OS)
+
+| Tool | Description |
+|------|-------------|
+| `get_countries` | Traffic by country (ISO 3166-1 alpha-2) with entrances, conversions, and revenue |
+| `get_devices` | Device type, browser, and OS breakdown in a single call |
+| `get_device_types` | Traffic by device type (desktop, mobile, tablet), paginated |
+| `get_browsers` | Traffic by browser (Chrome, Safari, Firefox, Edge...), paginated |
+| `get_operating_systems` | Traffic by operating system (Windows, macOS, iOS, Android, Linux...), paginated |
+
+### Channels
+
+| Tool | Description |
+|------|-------------|
+| `get_channels` | Traffic grouped by channel: Paid Search, Organic, Social, Direct, Email, Referral, etc. |
+| `get_top_channels` | Top channels ranked by entrances (compact, non-paginated) |
+| `list_channel_rules` | List channel group rules that classify traffic into channels |
+| `test_channel_rules` | Test how a source/medium/campaign combination would be classified |
+| `create_channel_rule` | Create a new channel rule **as a draft** (never live) |
+| `update_channel_rule` | Update a channel rule — **drafts only** |
+| `delete_channel_rule` | Delete a channel rule — **drafts only** |
+| `import_channel_rules` | Bulk-import rules **as drafts**; defaults to `dry_run=true` |
+
+The write tools follow a strict **draft-only invariant**: the MCP can never touch a live rule or activate anything. Publishing is always a human action from the dashboard. See [Channel Grouping](/platform/settings/tracking/channel-grouping#using-the-mcp) for the full workflow.
+
+### Custom properties (custom dimensions)
+
+| Tool | Description |
+|------|-------------|
+| `list_property_keys` | List available custom property keys from conversions and/or microconversions |
+| `get_property_values` | Property values with counts, grouped by a UTM parameter (paginated) |
+| `get_property_breakdown` | Complete property breakdown (pivot-table style) with counts and revenue |
+
+### Funnel
+
+| Tool | Description |
+|------|-------------|
+| `get_funnel` | Funnel analysis with step-by-step conversion rates and dropoff |
+
+### Bot detection
+
+| Tool | Description |
+|------|-------------|
+| `get_bot_stats` | Bot detection overview: score distribution, top flags, human vs suspected-bot daily trend |
+| `get_suspicious_sessions` | Sessions with high bot-suspicion scores, with detected flags |
+
+### Segments
+
+| Tool | Description |
+|------|-------------|
+| `list_segments` | List all segments (saved filter sets) available for a site |
+| `get_segment` | Get details of a specific segment, including its filter definition |
+
+### Alerts
+
+| Tool | Description |
+|------|-------------|
+| `list_alerts` | List alert rules: name, metric, condition, threshold, and status |
+| `get_alert_history` | History of triggered alerts: when they fired, status, and triggering rule |
+| `get_alert_stats` | Alert statistics: total rules, active alerts, resolved count, acknowledgement rate |
+
+### Webhooks
+
+| Tool | Description |
+|------|-------------|
+| `list_webhooks` | List webhook endpoints: URL, subscribed event types, and active status |
+| `list_webhook_deliveries` | Delivery attempts for an endpoint: HTTP status, response time, success/failure |
+| `get_webhook_stats` | Delivery statistics for an endpoint: total, success rate, avg response time, failures |
+
+### Tracking code
+
+| Tool | Description |
+|------|-------------|
+| `get_tracking_code` | Tracking pixel `<script>` tag plus the full JS API reference and implementation examples |
+
+### Common parameters
+
+| Parameter | Values | Default | Description |
+|-----------|--------|---------|-------------|
+| `site_id` | string | `$SEALMETRICS_SITE_ID` | Site to query |
+| `period` | `today`, `yesterday`, `7d`, `30d`, `90d`, `this_month`, `last_month`, `this_year`, etc. | `30d` | Time period |
+| `compare` | `previous`, `yoy` | none | Compare with previous period or year-over-year |
+| `limit` | 1-100 | 20 | Max rows returned |
+| `page` | number | 1 | Page number for paginated results |
+| `sort_by` | varies per tool | varies | Sort field |
+| `sort_order` | `asc`, `desc` | `desc` | Sort direction |
+
+### All period values
+
+These are the only accepted `period` values (the full set is validated by the server):
+
+| Period | Description |
+|--------|-------------|
+| `today` | Today |
+| `yesterday` | Yesterday |
+| `7d`, `30d`, `90d` | Last 7 / 30 / 90 days |
+| `12m` | Last 12 months |
+| `this_week`, `this_month`, `this_quarter`, `this_year` | Current period |
+| `wtd`, `mtd`, `qtd`, `ytd` | Period to date (week / month / quarter / year) |
+| `last_week`, `last_month`, `last_quarter`, `last_year` | Previous period |
+
+---
+
+## Troubleshooting
+
+### Remote MCP: the client doesn't show the SealMetrics tools
+
+Double-check the URL is exactly `https://mcp.sealmetrics.com/mcp`, then reload the client (or restart it). If the client shows a **Connect** or authorization step next to SealMetrics, complete it. In Claude Code, run `/mcp` to re-check the connection.
+
+### Remote MCP: connected, but "access denied" to a site
+
+Ask "list my sites" to confirm which sites are available, then query one of those. If a site you expect is missing, check its permissions in [Settings > Sites](https://my.sealmetrics.com/settings/sites).
+
+### Remote MCP: client won't accept a URL
+
+Some older clients only support local (stdio) servers. Bridge to the remote endpoint with `mcp-remote` — see [the note above](#vs-code-copilot--other-mcp-clients).
+
+### Local MCP: Claude doesn't see the SealMetrics tools
+
+1. **Claude Code**: Make sure `.mcp.json` is in your project root and restart Claude Code
+2. **Claude Desktop**: Save the config file and restart the app completely (Cmd+Q on macOS)
+3. Verify Node.js 18+ is installed: `node --version`
+
+### "Invalid API key"
+
+Your API key is incorrect or expired. Go to [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys) and generate a new one.
+
+### "site_id is required"
+
+Either set `SEALMETRICS_SITE_ID` in your config, or ask Claude to "list my sites" first, then specify the site in your question.
+
+### "Access denied to site X"
+
+Your API key doesn't have permission for that site. Check your token permissions in [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys).
+
+### "npx: command not found"
+
+Install Node.js from [nodejs.org](https://nodejs.org/). npx is bundled with Node.js.
+
+### Test the server manually
+
+You can verify the server starts correctly from your terminal:
+
+```bash
+SEALMETRICS_API_KEY="sm_your_key_here" npx -y @sealmetrics/mcp
+```
+
+If it starts without errors, the server is working. Press Ctrl+C to stop it.
+
+---
+
+## How it works
+
+**Remote server:** SealMetrics hosts the MCP server at `https://mcp.sealmetrics.com/mcp`. Your client connects to it over HTTPS (Streamable HTTP) and the SealMetrics tools become available — nothing runs on your machine and there's nothing to install or update.
+
+**Local server:** the MCP server runs on your machine via `npx` and communicates with the SealMetrics API over HTTPS. No analytics data is stored locally.
+
+```
+Your machine                             SealMetrics cloud
+┌──────────────────────────┐            ┌──────────────────────┐
+│                          │            │                      │
+│  Claude Code / Desktop   │            │  my.sealmetrics.com  │
+│          |               │            │                      │
+│  @sealmetrics/mcp  │─ HTTPS ─>│  /api/v1/*          │
+│  (runs locally via npx)  │<── JSON ───│                      │
+│          |               │            │                      │
+│  Claude reads the data   │            └──────────────────────┘
+│  and answers your query  │
+│                          │
+└──────────────────────────┘
+```
+
+- Authenticated via `X-API-Key` header (your key never leaves your machine)
+- Automatic retries with exponential backoff on rate limits
+- 30-second timeout per request
+- No data stored locally
+
+---
+
+## Resources
+
+- **Remote MCP endpoint**: `https://mcp.sealmetrics.com/mcp`
+- **npm (local server)**: [@sealmetrics/mcp](https://www.npmjs.com/package/@sealmetrics/mcp)
+- **Source code**: [github.com/adinton/sealmetrics2/tree/main/mcp-server](https://github.com/adinton/sealmetrics2/tree/main/mcp-server)
+- **MCP Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io/)
+- **API Reference**: [API Documentation](/api)
+
+## Need help?
+
+- **Email**: support@sealmetrics.com
+- **GitHub Issues**: [Report bugs or request features](https://github.com/adinton/sealmetrics2/issues)

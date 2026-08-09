@@ -1,0 +1,333 @@
+---
+title: "React"
+description: "Add privacy-first analytics to React with the @sealmetrics/react NPM package — provider or script component, no cookies or consent banner needed."
+canonical_url: "https://docs.sealmetrics.com/integrations/frameworks/react"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/frameworks/react.mdx"
+publisher: "SealMetrics"
+---
+
+# React
+
+Canonical page: https://docs.sealmetrics.com/integrations/frameworks/react
+
+NPM package for privacy-first, cookieless analytics in React applications.
+
+## Installation
+
+```bash
+npm install @sealmetrics/react
+# or
+yarn add @sealmetrics/react
+# or
+pnpm add @sealmetrics/react
+```
+
+## Quick Start
+
+### Option 1: Provider (Recommended)
+
+Wrap your app with the provider:
+
+```tsx
+import { SealMetricsProvider } from '@sealmetrics/react';
+
+function App() {
+  return (
+    <SealMetricsProvider accountId="YOUR_ACCOUNT_ID">
+      <YourApp />
+    </SealMetricsProvider>
+  );
+}
+```
+
+### Option 2: Script Only
+
+Just load the tracker script:
+
+```tsx
+import { SealMetricsScript } from '@sealmetrics/react';
+
+function App() {
+  return (
+    <>
+      <SealMetricsScript accountId="YOUR_ACCOUNT_ID" />
+      <YourApp />
+    </>
+  );
+}
+```
+
+## Tracking Events
+
+### Using the Hook
+
+```tsx
+import { useEffect } from 'react';
+import { useSealMetrics } from '@sealmetrics/react';
+
+function ProductPage({ product }) {
+  const { micro, conv, isReady } = useSealMetrics();
+
+  // Track product view on mount
+  useEffect(() => {
+    if (isReady) {
+      micro('view_item', {
+        product_name: product.name,
+        product_id: product.id,
+        price: String(product.price),
+      });
+    }
+  }, [isReady, product]);
+
+  // Track add to cart
+  const handleAddToCart = () => {
+    micro('add_to_cart', {
+      product_name: product.name,
+      quantity: '1',
+    });
+  };
+
+  // Track purchase
+  const handlePurchase = () => {
+    conv('purchase', product.price, {
+      currency: 'EUR',
+    });
+  };
+
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <button onClick={handleAddToCart}>Add to Cart</button>
+      <button onClick={handlePurchase}>Buy Now</button>
+    </div>
+  );
+}
+```
+
+## Convenience Hooks
+
+### useTrackOnMount
+
+Track an event automatically when a component mounts:
+
+```tsx
+import { useTrackOnMount } from '@sealmetrics/react';
+
+function ProductPage({ product }) {
+  // Tracks automatically when component mounts
+  useTrackOnMount('view_item', {
+    product_name: product.name,
+    product_id: product.id,
+  });
+
+  return <div>...</div>;
+}
+```
+
+### useTrackClick
+
+Create a click handler that tracks an event:
+
+```tsx
+import { useTrackClick } from '@sealmetrics/react';
+
+function CTAButton({ onClick }) {
+  // Returns a click handler that tracks and calls your handler
+  const handleClick = useTrackClick(
+    'cta_click',
+    { button_text: 'Sign Up' },
+    onClick // Optional callback after tracking
+  );
+
+  return <button onClick={handleClick}>Sign Up</button>;
+}
+```
+
+### useTrackFormSubmit
+
+Track form submissions:
+
+```tsx
+import { useTrackFormSubmit } from '@sealmetrics/react';
+
+function ContactForm() {
+  const trackSubmit = useTrackFormSubmit('contact', { asLead: true });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    trackSubmit();
+    // Submit form...
+  };
+
+  return <form onSubmit={handleSubmit}>...</form>;
+}
+
+function NewsletterForm() {
+  const trackSubmit = useTrackFormSubmit('footer-newsletter', { isNewsletter: true });
+  // ...
+}
+```
+
+## Configuration
+
+### Provider Props
+
+```tsx
+<SealMetricsProvider
+  accountId="YOUR_ACCOUNT_ID"  // Required
+  pixelUrl="https://t.sealmetrics.com"  // Optional
+  group="product"  // Content group
+  debug={false}  // Enable console logging
+  disabled={false}  // Disable tracking
+>
+  {children}
+</SealMetricsProvider>
+```
+
+### Script Props
+
+```tsx
+<SealMetricsScript
+  accountId="YOUR_ACCOUNT_ID"
+  group="product"
+  onLoad={() => console.log('Loaded')}
+  onError={(err) => console.error(err)}
+/>
+```
+
+## Common Events
+
+### Microconversions
+
+```tsx
+const { micro } = useSealMetrics();
+
+// Form submission
+micro('form_submit', { form_name: 'contact' });
+
+// Newsletter signup
+micro('newsletter_signup', { form_location: 'footer' });
+
+// Product view
+micro('view_item', {
+  product_name: 'Product Name',
+  product_id: '123',
+  price: '99.99',
+});
+
+// Add to cart
+micro('add_to_cart', {
+  product_name: 'Product Name',
+  quantity: '1',
+});
+
+// CTA click
+micro('cta_click', {
+  button_text: 'Get Started',
+  button_location: 'hero',
+});
+
+// Search
+micro('search', { query: 'shoes', results: '15' });
+```
+
+### Conversions
+
+```tsx
+const { conv } = useSealMetrics();
+
+// Purchase
+conv('purchase', 149.99, {
+  currency: 'EUR',
+});
+
+// Lead
+conv('lead', 0, {
+  source: 'contact_form',
+});
+
+// Signup
+conv('signup', 0, {
+  plan: 'free',
+});
+
+// Subscription
+conv('subscription', 29.99, {
+  plan: 'pro_monthly',
+  currency: 'EUR',
+});
+```
+
+## React Router Integration
+
+```tsx
+import { useEffect } from 'react';
+import { useLocation, Routes } from 'react-router-dom';
+import { SealMetricsScript } from '@sealmetrics/react';
+
+function App() {
+  const location = useLocation();
+
+  // Get content group from path
+  const getGroup = (path: string) => {
+    if (path === '/') return 'home';
+    if (path.startsWith('/products/')) return 'product';
+    if (path.startsWith('/blog/')) return 'blog';
+    return undefined;
+  };
+
+  return (
+    <>
+      <SealMetricsScript
+        accountId="YOUR_ACCOUNT_ID"
+        group={getGroup(location.pathname)}
+      />
+      <Routes>...</Routes>
+    </>
+  );
+}
+```
+
+## Environment Configuration
+
+```tsx
+<SealMetricsProvider
+  accountId={process.env.REACT_APP_SEALMETRICS_ID || ''}
+  disabled={process.env.NODE_ENV === 'development'}
+  debug={process.env.NODE_ENV === 'development'}
+>
+  <App />
+</SealMetricsProvider>
+```
+
+## TypeScript
+
+Full TypeScript support included:
+
+```tsx
+import type {
+  SealMetricsConfig,
+  EventProperties,
+  SealMetricsContextValue,
+} from '@sealmetrics/react';
+```
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner required
+
+## Related documentation
+
+- [Installation](/implementation/tracker/installation) — how the underlying tracker script the package injects works.
+- [SPA Support](/implementation/tracker/spa-support) — how Sealmetrics handles client-side route changes in single-page apps like React.
+- [Next.js](/integrations/frameworks/nextjs) — the equivalent package for Next.js apps.
+- [Nuxt 3](/integrations/frameworks/nuxt) — the equivalent module for Vue/Nuxt apps.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

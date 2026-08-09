@@ -1,0 +1,317 @@
+---
+title: "How to Measure Conversions"
+description: "Learn how to track conversions and microconversions with SealMetrics. Measure purchases, signups, leads, and user interactions."
+canonical_url: "https://docs.sealmetrics.com/getting-started/measure-conversions"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "getting-started/measure-conversions.mdx"
+publisher: "SealMetrics"
+---
+
+# How to Measure Conversions
+
+Canonical page: https://docs.sealmetrics.com/getting-started/measure-conversions
+
+To measure conversions in SealMetrics, install the tracker and call `sealmetrics.conv('type', amount?, { ...props })` when a goal completes — for example `sealmetrics.conv('purchase', 99.99)`. Use `sealmetrics.conv()` for **conversions** (goal completions with an optional monetary value like purchases, signups, and leads) and `sealmetrics.micro()` for **microconversions** (user interactions and funnel steps such as add-to-cart or video plays).
+
+---
+
+## Quick Start
+
+### 1. Install the Tracker
+
+First, add the tracker to your website:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+### 2. Track a Conversion
+
+Call `sealmetrics.conv()` when a conversion happens. The signature is `sealmetrics.conv('type', amount?, { ...props })` — the `amount` is optional (only added to the event when it's a number), and the properties object is optional too:
+
+```javascript
+// Track a purchase
+sealmetrics.conv('purchase', 99.99);
+
+// Track a conversion with no monetary value
+sealmetrics.conv('lead');
+
+// Track a purchase with additional data
+sealmetrics.conv('purchase', 99.99, {
+  currency: 'EUR',
+  payment_method: 'credit_card'
+});
+```
+
+### 3. Track a Microconversion
+
+Call `sealmetrics.micro()` for user interactions:
+
+```javascript
+// Track add-to-cart
+sealmetrics.micro('add_to_cart');
+
+// Track with additional data
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  product_name: 'Blue Shoes'
+});
+```
+
+---
+
+## Conversions vs Microconversions
+
+| Aspect | Conversion | Microconversion |
+|--------|------------|-----------------|
+| **Purpose** | Goal completion | Progress/engagement |
+| **Monetary value** | Optional (amount parameter) | No |
+| **Function** | `sealmetrics.conv()` | `sealmetrics.micro()` |
+| **Examples** | Purchase, signup, lead | Add to cart, video play, scroll |
+
+---
+
+## Conversion Examples
+
+### E-commerce Purchase
+
+```javascript
+sealmetrics.conv('purchase', 149.99, {
+  currency: 'EUR',
+  payment_method: 'credit_card'
+});
+```
+
+### Lead Form Submission
+
+```javascript
+// Properties live in the third argument; pass 0 as the amount when there is no monetary value
+sealmetrics.conv('lead', 0, {
+  form_name: 'contact_form',
+  source: 'homepage'
+});
+```
+
+### Newsletter Signup
+
+```javascript
+sealmetrics.conv('signup', 0, {
+  list: 'weekly_newsletter',
+  source: 'footer'
+});
+```
+
+### SaaS Subscription
+
+```javascript
+sealmetrics.conv('subscription', 49, {
+  plan: 'pro_monthly',
+  currency: 'USD'
+});
+```
+
+---
+
+## Microconversion Examples
+
+### Add to Cart
+
+```javascript
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-456',
+  product_name: 'Running Shoes',
+  price: '89.99'
+});
+```
+
+### Checkout Step
+
+```javascript
+sealmetrics.micro('begin_checkout', {
+  items_count: '3',
+  cart_value: '267.99'
+});
+```
+
+### Video Play
+
+```javascript
+sealmetrics.micro('video_play', {
+  video_id: 'product-demo',
+  video_title: 'Product Tour'
+});
+```
+
+### Button Click
+
+```javascript
+document.querySelector('.cta-button').addEventListener('click', function() {
+  sealmetrics.micro('cta_click', {
+    button_text: this.textContent,
+    button_location: 'hero'
+  });
+});
+```
+
+---
+
+## Implementation Patterns
+
+### On Page Load (Thank You Page)
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', 149.99, {
+      currency: 'EUR'
+    });
+  });
+</script>
+```
+
+### On Button Click
+
+```html
+<button onclick="trackConversion()">Complete Purchase</button>
+
+<script>
+  function trackConversion() {
+    sealmetrics.conv('purchase', 99.99, {
+      currency: 'EUR'
+    });
+  }
+</script>
+```
+
+### On Form Submit
+
+```html
+<form onsubmit="trackLead()">
+  <!-- form fields -->
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  function trackLead() {
+    sealmetrics.micro('form_submit', {
+      form_name: 'contact'
+    });
+  }
+</script>
+```
+
+---
+
+## Dynamic Values
+
+### From JavaScript Variables
+
+```javascript
+var orderData = {
+  total: 149.99,
+  currency: 'EUR'
+};
+
+sealmetrics.conv('purchase', orderData.total, {
+  currency: orderData.currency
+});
+```
+
+### From Server-Side (PHP)
+
+```php
+<script>
+  window.addEventListener('load', function() {
+    sealmetrics.conv('purchase', <?php echo $order->total; ?>, {
+      currency: '<?php echo $order->currency; ?>'
+    });
+  });
+</script>
+```
+
+### From Data Attributes
+
+```html
+<button
+  data-product-id="SKU-123"
+  data-product-name="Blue Shoes"
+  data-price="89.99"
+  onclick="trackAddToCart(this)"
+>
+  Add to Cart
+</button>
+
+<script>
+  function trackAddToCart(btn) {
+    sealmetrics.micro('add_to_cart', {
+      product_id: btn.dataset.productId,
+      product_name: btn.dataset.productName,
+      price: btn.dataset.price
+    });
+  }
+</script>
+```
+
+---
+
+## Checking if Tracker is Loaded
+
+Always verify the tracker exists before calling it:
+
+```javascript
+if (typeof sealmetrics !== 'undefined') {
+  sealmetrics.conv('purchase', 99.99);
+}
+```
+
+Or wait for it to load:
+
+```javascript
+window.addEventListener('load', function() {
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics.conv('purchase', 99.99);
+  }
+});
+```
+
+---
+
+## Property Guidelines
+
+- **All values are strings** — Numbers are automatically converted
+- **Use descriptive names** — `product_id` not `pid`
+- **Be consistent** — Use the same property names across your site
+- **Don't include PII** — No email addresses, phone numbers, etc.
+
+---
+
+## Troubleshooting
+
+### Conversions not appearing
+
+1. Check the browser Network tab for requests to `t.sealmetrics.com`
+2. Verify your Site ID is correct
+3. Wait 1-2 minutes and check the **Conversions** report (set the date range to today); the **Last hit** timestamp on the **Overview** report confirms hits are arriving
+4. Ensure the domain is authorized in your SealMetrics account
+
+### Duplicate conversions
+
+1. Implement deduplication (see [E-commerce Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide))
+2. Only fire the conversion once per order
+3. Use server-side flags to mark orders as tracked
+
+---
+
+## Next Steps
+
+- [Conversions Reference](/implementation/tracker/conversions) — Complete conversion API
+- [Microconversions Reference](/implementation/tracker/microconversions) — Complete microconversion API
+- [E-commerce Setup](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) — Full e-commerce implementation
+- [Google Tag Manager](/integrations/google-tag-manager) — Track via GTM
+- [Installation](/implementation/tracker/installation) — Detailed guide for installing the tracker
+- [Conversions Report](/reports/conversions) — See your tracked conversions and revenue by source

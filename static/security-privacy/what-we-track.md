@@ -1,0 +1,237 @@
+---
+title: "What We Track vs What We Don’t"
+description: "Learn exactly what Sealmetrics collects — and what it never collects — through its privacy-first, consentless analytics architecture."
+canonical_url: "https://docs.sealmetrics.com/security-privacy/what-we-track"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "security-privacy/what-we-track.mdx"
+publisher: "SealMetrics"
+---
+
+# What We Track vs What We Don’t
+
+Canonical page: https://docs.sealmetrics.com/security-privacy/what-we-track
+
+Sealmetrics records a small set of **non-identifying variables** per page view ("hit") — timestamp, user agent (for anonymous device classification), current URL, referral URL, and a short-lived contextual session marker — and never collects personal data or sets cookies. **No IP address, user ID, cross-session identifier, name, email or persistent device fingerprint is stored.** This minimal, aggregation-only dataset is what enables full GDPR/ePrivacy compliance without user consent.
+
+---
+
+## What We DO Track
+### The Four-Variable System (Isolated Hits)
+
+Sealmetrics processes each page view (“hit”) independently using **only four non-identifying data points**:
+
+#### 1. Timestamp
+- **Purpose:** time-based analysis and trend insights
+- **Privacy:** cannot identify an individual
+
+#### 2. User Agent
+- **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
+- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. Event-level rows are purged after 14 days; the derived category dimensions (browser family, OS family, device type) persist in aggregated reports for 24 months.
+- **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
+
+#### 3. Current URL
+- Page path
+- Page popularity
+- Anonymous content performance
+
+#### 4. Referral URL
+- Anonymous attribution
+- Campaign performance
+- Traffic source identification
+
+#### 5. Session context marker
+- **What it is:** an in-memory, short-lived identifier scoped to a single browsing session (~2-hour inactivity timeout, GA4-style), derived from the visitor's browser context. It exists so that within one session we can distinguish "second pageview" from "new entrance".
+- **What it isn't:** a cross-session identifier. It is not a cookie, it is not stored in the browser (localStorage, sessionStorage, or otherwise), and it does not persist beyond the session. It cannot be used to recognize a returning visitor.
+- **Site-isolated by design:** session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites — no cross-site correlation is possible at the identifier level.
+- **Why it's compliant:** the identifier is context-derived and short-lived — it does not enable individual tracking under GDPR Article 4(1), which is why analytics without user identifiers qualify for consent-free operation under CNIL guidance (`analytics without consent`) and Article 6(1)(f).
+
+---
+
+## What This Allows Us to Measure
+
+### 1. Page Analytics
+- Pageviews (aggregated)
+- Top pages
+- Anonymous navigation patterns
+
+### 2. Traffic Analytics
+- Entrances (anonymous hits)
+- Traffic volume trends
+- Marketing channel performance
+
+### 3. Engagement Behavior (Custom Events)
+- Click events
+- Scroll depth
+- Form interactions
+- Video plays
+- Downloads
+
+ALL aggregated — no user-level behavior.
+
+### 4. Entry Points
+- Entry pages (landing pages)
+- Internal search (anonymous; via events)
+
+Exit pages and individual navigation paths are **not** tracked — reconstructing either requires sequencing one visitor's pageviews, which needs a persistent identifier.
+
+### 5. Campaign & Marketing Analytics
+- UTM campaign tracking
+- Referrer attribution
+- Search traffic
+- Social media traffic
+- Revenue attribution (aggregated)
+
+### 6. Conversion Tracking
+- Goal completions
+- E-commerce events
+- Lead generation
+- Micro-conversions
+- Channel-level revenue attribution
+
+### 7. Anonymous Device Data
+- Browser category
+- OS category
+- Desktop / mobile / tablet
+- Screen-size buckets
+- Language
+
+### 8. Geographic Data
+- **Country — primary source: browser timezone.** Every visit's country comes from `Intl.DateTimeFormat().resolvedOptions().timeZone`, mapped to the country most represented by that IANA zone. No IP lookup involved.
+- **Optional GeoIP country — only when Agent Analytics is enabled on the site.** For customers who explicitly turn on the automated-traffic detector (a separate feature), the pixel does a **stateless** GeoLite2 lookup against the visitor's IP to derive a secondary country and datacenter/ISP signals used exclusively to score bot vs. human. The IP itself is **not stored**; only the derived country label and the boolean bot signals are kept.
+- ❌ Region / City — **not collected** in either mode.
+
+### 9. Automated-traffic detection signals (opt-in)
+
+Sites that enable Agent Analytics store aggregate, per-hit signals used to classify traffic as human vs. automated (browsers driven by Selenium, Playwright, AI assistants, etc.). These are **environmental** and **behavioral** signals about the browser and the interaction pattern — not about the person. Examples: WebDriver flag, whether the WebGL renderer is `SwiftShader`, screen size buckets, aggregate mouse-movement linearity, click-timing variance.
+
+- Never associated with an identifier.
+- Aggregate and per-hit; not tied to a user.
+- Purpose: filter bot traffic out of reports for accuracy. See [Bot Detection](/security-privacy/bot-detection) and the [agent detection integration](/integrations/agentic-package) for the full field list.
+- **This section is only active when the customer turns Agent Analytics on.** Standard privacy-first accounts don't collect these signals at all.
+
+### 10. Business Intelligence Metrics
+- Conversion rate
+- Average order value
+- ROAS
+- Funnel performance
+
+---
+
+## What We DO NOT Track
+
+### No Personal Data Stored
+❌ IP addresses (used in memory only, never persisted)
+❌ User IDs
+❌ Emails
+❌ Phone numbers
+❌ Names
+❌ Persistent identifiers (no cross-session or cross-device linking)
+
+### No Individual-Level Tracking
+❌ User journeys across sessions
+❌ Returning-visitor recognition
+❌ Individual preferences
+❌ Personal browsing behavior
+❌ Any join between a hit and a person's identity
+
+### No Cross-Site Tracking
+❌ Third-party cookies
+❌ Advertising identifiers
+❌ Cross-domain identification
+❌ Social media identifiers
+
+### No Sensitive Personal Data
+❌ Health
+❌ Financial
+❌ Political
+❌ Religious
+❌ Demographic profiling
+
+### No Device-Level Identifiers
+❌ Device IDs
+❌ MAC addresses
+❌ Hardware fingerprints
+❌ Advertising IDs
+
+### No Tracking Technologies
+❌ Cookies
+❌ LocalStorage
+❌ SessionStorage
+❌ Fingerprinting
+❌ Terminal code
+❌ Web beacons
+
+### No Private Communications or Content
+❌ Email contents
+❌ Chat messages
+❌ Form personal data (only event counts)
+❌ Uploaded files
+❌ Social media posts
+❌ Documents
+
+---
+
+## Compliance Framework
+
+### GDPR
+- European company
+- Servers in Dublin
+- No personal data
+- Isolated hit processing
+- Avoids all identifiers
+
+### ePrivacy Directive
+- No terminal code
+- No personal data
+- No user-level tracking
+- Consent **not required**
+
+### CCPA / PECR / Global Compliance
+- No personal information
+- Anonymous by design
+- Future-proof data architecture
+
+---
+
+## How We Decide What to Track
+
+Before tracking any metric, we evaluate:
+
+- **Privacy Risk:** Could this identify someone?
+- **Business Need:** Is this essential?
+- **Legal Compliance:** GDPR, ePrivacy, CCPA, PECR
+- **Future Proofing:** Will it remain compliant?
+- **User Expectation:** Would users expect this?
+
+Sealmetrics always chooses the **more restrictive option**.
+
+---
+
+## Summary: Privacy-First Analytics, Without Compromising Insights
+
+Sealmetrics proves that advanced web analytics **does not require personal data**.
+
+You get:
+
+- **100% traffic measurement**
+- **Full attribution clarity**
+- **Accurate ROAS**
+- **Reliable e-commerce insights**
+- **Complete privacy protection**
+
+Our promise:
+
+> Every metric we show is compliant, anonymous, and future-proof.
+> Privacy and analytics no longer conflict — they reinforce each other.
+
+## Related documentation
+
+- [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — how the four variables still produce attribution
+- [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) — timezone-based geo without personal data
+- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — why this minimal dataset needs no consent
+- [Frequently Asked Questions](/faq/privacy-security) — common questions about what is and isn't collected
+- [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) — the criteria that make consent-free analytics lawful

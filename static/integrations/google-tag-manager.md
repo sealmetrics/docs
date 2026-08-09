@@ -1,0 +1,390 @@
+---
+title: "Google Tag Manager Template"
+description: "Install Sealmetrics tracking on your website using the official Google Tag Manager template. Track pageviews, conversions, and microconversions without writing code."
+canonical_url: "https://docs.sealmetrics.com/integrations/google-tag-manager"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/google-tag-manager.mdx"
+publisher: "SealMetrics"
+---
+
+# Google Tag Manager Template
+
+Canonical page: https://docs.sealmetrics.com/integrations/google-tag-manager
+
+The **Sealmetrics GTM Template** allows you to install and configure Sealmetrics tracking on your website directly from Google Tag Manager, without writing any code. Track pageviews, conversions, and microconversions with full attribution — all while maintaining GDPR compliance.
+
+## Features
+
+- **No-code installation** — Configure everything through GTM's visual interface
+- **Three event types** — Pageviews, microconversions, and conversions
+- **Custom properties** — Attach additional data to any event
+- **Cookieless tracking** — GDPR-compliant analytics without consent banners
+- **Automatic SPA support** — The tracker detects History API navigation automatically
+
+**Info:**
+If you need to pass a `content_grouping` (or any other value) from `dataLayer` variables into the **initial** pageview, or you fire conversions before the script finishes loading, see the [Advanced GTM Integration](./google-tag-manager-advanced) guide. It covers the `?auto=0` manual mode and the buffer stub.
+
+## Recommended Trigger: Initialization
+
+**Tip:**
+For the pageview tag, configure the **Initialization** trigger (event ID `gtm.init`) instead of the default **All Pages** / **Page View** trigger. This is the single most important configuration choice when installing Sealmetrics via GTM.
+
+### Why this matters
+
+The Sealmetrics tracker is under 1 KB, cookieless, and does not block rendering. Because of that, the best place to load it is **as early as possible** in the page lifecycle, so it can capture users who bounce in under a second.
+
+GTM's event hierarchy fires in this order during page load:
+
+```
+1. gtm.init           ← Initialization        (earliest)
+2. gtm.js             ← Page View / All Pages
+3. gtm.dom            ← DOM Ready
+4. gtm.load           ← Window Loaded         (latest)
+```
+
+The default **Page View** trigger is tied to `gtm.js`, which runs *after* the DOM starts parsing. On most sites the gap between `gtm.init` and `gtm.js` is a few milliseconds and the difference is invisible. But in three common scenarios, Page View loses hits:
+
+| Scenario | Why Page View arrives too late |
+|---|---|
+| **Single-Page Applications** (Next.js, React Router, Vue Router, Nuxt) | The first Page View depends on when the framework marks the route as ready. In some setups, `gtm.js` fires *after* the client-side render, not the initial HTML. |
+| **Sites with heavy synchronous JS** | Blocking scripts in `<head>` delay everything after them, including `gtm.js`. |
+| **Users who bounce in under 1 second** | If the visitor leaves before `gtm.js` runs, the hit never reaches Sealmetrics. Initialization fires almost immediately when the GTM container loads. |
+
+### Race condition at a glance
+
+```
+Time →
+
+GTM container loads
+│
+├─ gtm.init  ────► [Sealmetrics fires here]   ✅ Hit captured
+│
+│  (DOM starts parsing)
+│  (synchronous scripts may block here)
+│
+├─ gtm.js    ────► [Default Page View fires here]
+│                   If the user already left:  ❌ Hit lost
+│
+├─ gtm.dom
+└─ gtm.load
+```
+
+For traffic from paid ads, social, or push notifications — where sub-second bounce rates can hit 5–15% — moving the tag from Page View to Initialization recovers that lost segment.
+
+### About SPAs
+
+The Sealmetrics tracker auto-detects SPA navigation via `history.pushState`, `replaceState`, and `popstate`. With the Initialization trigger, the tracker loads once and handles every subsequent route change inside your app — **you do not need to add an "All Pages" or "History Change" trigger** for pageviews. Adding one would cause duplicate hits on the initial load.
+
+The only exception is if your setup removes and re-injects the GTM container between routes (rare). In that case, add a **History Change** trigger pointing to the same tag.
+
+## Installation Options
+
+You have two ways to install the Sealmetrics template:
+
+### Option 1: Community Template Gallery (Recommended)
+
+**Info:**
+The Sealmetrics template has been submitted to Google's Community Template Gallery and is currently **pending review**. Once approved, you'll be able to install it directly from within GTM.
+
+Once approved, to install from the Gallery:
+
+1. In Google Tag Manager, go to **Templates** in the left sidebar
+2. Click **Search Gallery** in the Tag Templates section
+3. Search for **"Sealmetrics"**
+4. Click on the template and then **Add to workspace**
+5. Confirm by clicking **Add**
+
+### Option 2: Manual Import (Available Now)
+
+You can import the template manually right now:
+
+1. **Download the template file:**
+
+
+
+   Or clone the repository:
+   ```bash
+   git clone https://github.com/sealmetrics/gtm-template.git
+   ```
+
+2. In Google Tag Manager, go to **Templates** in the left sidebar
+
+3. In the **Tag Templates** section, click **New**
+
+4. Click the **three dots menu (⋮)** in the top-right corner
+
+5. Select **Import**
+
+6. Choose the downloaded `template.tpl` file
+
+7. Click **Save** to add the template to your workspace
+
+## Configuration
+
+Once the template is installed, you can create tags using it.
+
+### Creating a New Tag
+
+1. Go to **Tags** in the left sidebar
+2. Click **New**
+3. Click on **Tag Configuration**
+4. Select **Sealmetrics Tracking** from the list
+5. Configure the tag settings (see below)
+6. Add a **Trigger**:
+   - For the pageview tag, use **Initialization — All Pages** (event `gtm.init`). See [Recommended Trigger: Initialization](#recommended-trigger-initialization) above for the rationale.
+   - For conversions and microconversions, use the relevant Custom Event or Form/Click trigger.
+7. (Optional but recommended for the pageview tag) Open **Advanced Settings → Consent Settings** and select **No additional consent required**. Sealmetrics is cookieless and consentless by design, so a CMP should not block it.
+8. **Save** the tag
+
+### Tag Settings
+
+#### Event Type
+
+Choose what type of event to track:
+
+| Event Type | Use Case | Example |
+|------------|----------|---------|
+| **Pageview** | Track page loads | Every page visit |
+| **Microconversion** | Track intermediate actions | Add to cart, form start, video play |
+| **Conversion** | Track completed goals | Purchase, lead form submit, signup |
+
+#### Account ID (Required)
+
+Your Sealmetrics Account ID. Find it in your [Sealmetrics dashboard](https://my.sealmetrics.com) under **Settings**.
+
+**Tip:**
+1. Log in to Sealmetrics
+2. Go to **Settings → Sites**
+3. Click on your site
+4. Your Account ID is displayed in the **General** tab
+
+#### Pixel URL
+
+The base URL of the Sealmetrics pixel service. Default: `https://t.sealmetrics.com`.
+
+Only change this if you are using a custom pixel domain. Most users should leave the default value.
+
+#### Event Label (Microconversions & Conversions)
+
+A descriptive name for the event. Use clear, consistent naming:
+
+- `purchase` — For completed orders
+- `add_to_cart` — For add-to-cart clicks
+- `lead_form_submit` — For lead generation
+- `newsletter_signup` — For email subscriptions
+- `checkout_step_1`, `checkout_step_2` — For funnel steps
+
+#### Conversion Value (Conversions only)
+
+The monetary value of the conversion. For e-commerce, this is typically the order total.
+
+You can use a GTM variable to dynamically pass the value:
+- Create a **Data Layer Variable** for your order total
+- Reference it like `{{Order Total}}`
+
+#### Content Grouping (Pageviews only)
+
+Optional. Group pages by category for better analytics:
+
+- `blog` — Blog posts
+- `product` — Product pages
+- `category` — Category listings
+- `checkout` — Checkout flow pages
+- `landing` — Landing pages
+
+#### Custom Properties
+
+Add key-value pairs to attach additional data to events:
+
+| Property Name | Property Value | Use Case |
+|--------------|----------------|----------|
+| `product-id` | `SKU12345` | Track which product was purchased |
+| `product-name` | `Blue Widget` | Human-readable product name |
+| `payment-method` | `credit_card` | Payment analytics |
+| `coupon-code` | `SAVE20` | Track promo code usage |
+
+Use kebab-case for property names (e.g., `product-id`, not `productId`).
+
+## Complete Setup Examples
+
+### Example 1: Basic Pageview Tracking
+
+Track all page loads on your website:
+
+**Tag Configuration:**
+- **Event Type:** Pageview
+- **Account ID:** Your account ID
+- **Content Grouping:** (optional) Use a variable like `{{Page Type}}`
+
+**Trigger:** Initialization — All Pages (`gtm.init`)
+
+**Consent Settings:** No additional consent required
+
+The tracker automatically handles SPA (Single Page Application) navigation. You only need one pageview tag — the tracker detects URL changes via the History API and tracks subsequent route changes automatically. Do **not** add an "All Pages" / Page View trigger alongside Initialization — it would double-count the initial hit.
+
+### Example 2: E-commerce Purchase Tracking
+
+Track completed purchases with order value:
+
+**Tag Configuration:**
+- **Event Type:** Conversion
+- **Account ID:** Your account ID
+- **Event Label:** `purchase`
+- **Conversion Value:** `{{Order Total}}` (Data Layer variable)
+- **Custom Properties:**
+  - `payment-method` → `{{Payment Method}}`
+
+**Trigger:** Custom Event — `purchase` or Thank You Page view
+
+### Example 3: Add to Cart Microconversion
+
+Track when users add products to their cart:
+
+**Tag Configuration:**
+- **Event Type:** Microconversion
+- **Account ID:** Your account ID
+- **Event Label:** `add_to_cart`
+- **Custom Properties:**
+  - `product-id` → `{{Product ID}}`
+  - `product-name` → `{{Product Name}}`
+
+**Trigger:** Custom Event — `add_to_cart` click
+
+### Example 4: Lead Form Submission
+
+Track contact form submissions:
+
+**Tag Configuration:**
+- **Event Type:** Conversion
+- **Account ID:** Your account ID
+- **Event Label:** `lead_form_submit`
+
+**Trigger:** Form Submission on contact page
+
+## Using Data Layer Variables
+
+For dynamic values (order totals, product IDs, etc.), push data to the GTM Data Layer and create variables.
+
+### Push Data to Data Layer
+
+Add this code when an event occurs (e.g., on your thank-you page):
+
+```html
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'purchase',
+    orderTotal: 149.99,
+    paymentMethod: 'credit_card'
+  });
+</script>
+```
+
+### Create Data Layer Variables in GTM
+
+1. Go to **Variables** → **New**
+2. Choose **Data Layer Variable**
+3. Set **Data Layer Variable Name** to `orderTotal`
+4. Name it `Order Total` and save
+5. Repeat for other values (`paymentMethod`, etc.)
+
+### Use Variables in Your Tag
+
+Reference variables in your tag configuration:
+- **Conversion Value:** `{{Order Total}}`
+- **Custom Properties:** `payment-method` → `{{Payment Method}}`
+
+## Testing Your Setup
+
+### Preview Mode
+
+1. Click **Preview** in GTM
+2. Navigate your website
+3. Verify tags fire on the correct pages/events
+4. Check that values are passed correctly
+
+### Debug in Sealmetrics
+
+1. Log in to [Sealmetrics](https://my.sealmetrics.com)
+2. Go to your account dashboard
+3. Check **Real-time** data to see incoming events
+4. Verify pageviews and conversions appear correctly
+
+### Browser Developer Tools
+
+1. Open Developer Tools (F12)
+2. Go to the **Network** tab
+3. Filter by `sealmetrics`
+4. Verify that `t.js` loads and event requests are sent with correct parameters
+
+## Troubleshooting
+
+### Sealmetrics reports fewer hits than my server logs or GA4
+
+This is almost always caused by the pageview tag being assigned to the **Page View** / **All Pages** trigger instead of **Initialization**. In SPAs, sites with heavy synchronous JS, or traffic with high sub-second bounce rates (paid ads, social), Page View fires too late and the user is already gone.
+
+**Fix:**
+1. Open the Sealmetrics pageview tag in GTM
+2. Remove the "All Pages" / Page View trigger
+3. Add the **Initialization** trigger (event `gtm.init`) — listed under built-in triggers as "Initialization — All Pages"
+4. Verify in Preview mode that the tag now appears in the **Tags Fired** column under the `Initialization` event, not under `Page View`
+5. Publish the container
+
+See [Recommended Trigger: Initialization](#recommended-trigger-initialization) for the full rationale.
+
+### A consent banner (Cookiebot, OneTrust, etc.) blocks the tag
+
+Sealmetrics is cookieless and consentless by design, so a CMP should not block it. If yours does:
+
+1. Open the tag → **Advanced Settings → Consent Settings**
+2. Select **No additional consent required**
+3. Save and republish
+
+### Tag not firing
+
+1. Check your **Trigger** configuration — the pageview tag should be on Initialization, not Page View
+2. Verify the trigger conditions match the page/event
+3. Use GTM Preview mode to debug
+
+### Values not passing correctly
+
+1. Verify Data Layer variables are configured correctly
+2. Check that data is pushed **before** the tag fires
+3. Test variable values in Preview mode
+
+**Warning:**
+If you push values to the Data Layer **after** the GTM snippet, those values are **not available** at `gtm.init`. For the pageview tag, prefer **Constant Variables** (static values set in GTM) over Data Layer Variables. If you must pass dynamic data on the first hit, push it to the Data Layer in a `<script>` block placed **above** the GTM container snippet in your HTML.
+
+### No data in Sealmetrics
+
+1. Verify your **Account ID** is correct
+2. Check that tags are firing (use Preview mode)
+3. Wait a few minutes — data may take time to appear
+4. Ensure your website domain is registered in Sealmetrics
+
+## Resources
+
+- **GitHub Repository:** [github.com/sealmetrics/gtm-template](https://github.com/sealmetrics/gtm-template)
+- **Direct Download:** [template.tpl](https://github.com/sealmetrics/gtm-template/raw/main/template.tpl)
+- **Google Tag Manager:** [tagmanager.google.com](https://tagmanager.google.com)
+- **Sealmetrics Dashboard:** [my.sealmetrics.com](https://my.sealmetrics.com)
+
+## Support
+
+Need help with the GTM template?
+
+- **GitHub Issues:** [Report bugs or request features](https://github.com/sealmetrics/gtm-template/issues)
+- **Email:** support@sealmetrics.com
+- **Documentation:** [Full Sealmetrics docs](/)
+
+## Related documentation
+
+- [Advanced GTM Integration](/integrations/google-tag-manager-advanced) — `?auto=0` manual mode and the buffer stub for dynamic values on the first pageview.
+- [GTM Container Template](/integrations/tag-management/gtm-template) — the ready-to-import container with pre-built tags, triggers, and variables.
+- [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads outside of GTM.
+- [SPA Support](/implementation/tracker/spa-support) — how the tracker handles single-page-app navigation the template relies on.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

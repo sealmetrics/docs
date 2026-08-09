@@ -1,0 +1,255 @@
+---
+title: "Nuxt 3"
+description: "Add cookieless analytics to Nuxt 3 with the @sealmetrics/nuxt module — one entry in nuxt.config.ts auto-loads the tracker on every page, no cookies."
+canonical_url: "https://docs.sealmetrics.com/integrations/frameworks/nuxt"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/frameworks/nuxt.mdx"
+publisher: "SealMetrics"
+---
+
+# Nuxt 3
+
+Canonical page: https://docs.sealmetrics.com/integrations/frameworks/nuxt
+
+Nuxt module for privacy-first, cookieless analytics in Nuxt 3 applications.
+
+## Installation
+
+```bash
+npm install @sealmetrics/nuxt
+# or
+yarn add @sealmetrics/nuxt
+# or
+pnpm add @sealmetrics/nuxt
+```
+
+## Setup
+
+Add the module to your `nuxt.config.ts`:
+
+```ts
+export default defineNuxtConfig({
+  modules: ['@sealmetrics/nuxt'],
+
+  sealmetrics: {
+    accountId: 'YOUR_ACCOUNT_ID',
+    // Optional:
+    // pixelUrl: 'https://t.sealmetrics.com',
+    // debug: false,
+    // disabled: false,
+  },
+});
+```
+
+That's it! The tracker will be automatically loaded on all pages.
+
+## Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `accountId` | `string` | **required** | Your SealMetrics Account ID |
+| `pixelUrl` | `string` | `https://t.sealmetrics.com` | Custom pixel URL |
+| `debug` | `boolean` | `false` | Enable debug logging |
+| `disabled` | `boolean` | `false` | Disable tracking |
+
+## Content Groups
+
+### Using Route Meta
+
+Set content groups using route meta:
+
+```ts
+// pages/products/[id].vue
+definePageMeta({
+  sealmetricsGroup: 'product',
+});
+```
+
+### Automatic Detection
+
+Content groups are automatically detected based on path:
+
+| Path | Group |
+|------|-------|
+| `/` | `home` |
+| `/blog/*` | `blog` |
+| `/products/*` | `product` |
+| `/cart` | `cart` |
+| etc. | |
+
+## Tracking Events
+
+### Using the Composable
+
+```vue
+<script setup>
+const { micro, conv, isReady } = useSealMetrics();
+
+// Track product view on mount
+onMounted(() => {
+  if (isReady.value) {
+    micro('view_item', {
+      product_name: 'Product Name',
+      product_id: '123',
+      price: '99.99',
+    });
+  }
+});
+
+// Track add to cart
+const handleAddToCart = () => {
+  micro('add_to_cart', {
+    product_name: 'Product Name',
+    quantity: '1',
+  });
+};
+
+// Track purchase
+const handlePurchase = (total: number) => {
+  conv('purchase', total, {
+    currency: 'EUR',
+  });
+};
+</script>
+```
+
+### Using the Plugin
+
+```vue
+<script setup>
+const { $sealmetrics } = useNuxtApp();
+
+// Track event
+$sealmetrics.micro('cta_click', { button_text: 'Sign Up' });
+
+// Track conversion
+$sealmetrics.conv('lead', 0, { source: 'contact_form' });
+</script>
+```
+
+### useTrackOnMount Helper
+
+```vue
+<script setup>
+// Automatically tracks event when component mounts
+useTrackOnMount('view_item', {
+  product_name: 'Product Name',
+  product_id: '123',
+});
+</script>
+```
+
+## Common Events
+
+### Microconversions
+
+```ts
+const { micro } = useSealMetrics();
+
+// Form submission
+micro('form_submit', { form_name: 'contact' });
+
+// Newsletter signup
+micro('newsletter_signup', { form_location: 'footer' });
+
+// Product view
+micro('view_item', {
+  product_name: 'Product Name',
+  product_id: '123',
+  price: '99.99',
+});
+
+// Add to cart
+micro('add_to_cart', {
+  product_name: 'Product Name',
+  quantity: '1',
+});
+
+// CTA click
+micro('cta_click', {
+  button_text: 'Get Started',
+  button_location: 'hero',
+});
+```
+
+### Conversions
+
+```ts
+const { conv } = useSealMetrics();
+
+// Purchase
+conv('purchase', 149.99, {
+  currency: 'EUR',
+});
+
+// Lead
+conv('lead', 0, {
+  source: 'contact_form',
+});
+
+// Signup
+conv('signup', 0, {
+  plan: 'free',
+});
+```
+
+## Environment Configuration
+
+Disable tracking in development:
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@sealmetrics/nuxt'],
+
+  sealmetrics: {
+    accountId: process.env.SEALMETRICS_ACCOUNT_ID || '',
+    disabled: process.env.NODE_ENV === 'development',
+    debug: process.env.NODE_ENV === 'development',
+  },
+});
+```
+
+## TypeScript
+
+The module includes full TypeScript support. Types are auto-imported.
+
+### Type Declarations
+
+```ts
+// types/sealmetrics.d.ts
+declare module '#app' {
+  interface NuxtApp {
+    $sealmetrics: {
+      micro: (name: string, props?: Record<string, any>) => void;
+      conv: (name: string, value: number, props?: Record<string, any>) => void;
+      isReady: () => boolean;
+    };
+  }
+}
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    sealmetricsGroup?: string;
+  }
+}
+```
+
+## Privacy
+
+- No cookies used
+- No personal data collected
+- GDPR compliant by design
+- No consent banner required
+
+## Related documentation
+
+- [Installation](/implementation/tracker/installation) — how the underlying tracker the module loads works.
+- [SPA Support](/implementation/tracker/spa-support) — how Sealmetrics handles client-side route changes in single-page apps like Nuxt.
+- [Next.js](/integrations/frameworks/nextjs) — the equivalent package for Next.js apps.
+- [React](/integrations/frameworks/react) — the equivalent package for React apps.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

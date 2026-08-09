@@ -1,0 +1,235 @@
+---
+title: "First Steps with Sealmetrics"
+description: "Get started with Sealmetrics in under 5 minutes — from account setup and tracking installation to your first privacy-first analytics insights."
+canonical_url: "https://docs.sealmetrics.com/getting-started/quick-start"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "getting-started/quick-start.mdx"
+publisher: "SealMetrics"
+---
+
+# First Steps with Sealmetrics
+
+Canonical page: https://docs.sealmetrics.com/getting-started/quick-start
+
+You can get **Sealmetrics** running in under five minutes: create an account, add your site, install a single tracking script in your page `<head>`, and verify data collection. From there you instrument conversion tracking and explore your reports — all without cookies or a consent banner.
+
+**Tip:**
+If you use Claude, Codex, or another MCP-capable AI assistant, it can run this entire setup for you from a chat — create the site, hand you (or place) the snippet, verify the pixel, and check your conversion events. See [Set Up Sealmetrics with Your AI Assistant](/getting-started/install-with-ai).
+
+---
+
+## Quick Setup Checklist
+
+1. Create your Sealmetrics account
+2. Create your organization and add a site
+3. Install the tracking code on your website
+4. Verify data collection
+5. Instrument conversion tracking
+6. Explore your reports
+
+---
+
+## Step 1: Sign Up
+
+1. Visit [sealmetrics.com](https://sealmetrics.com)
+2. Click **"Try Sealmetrics"** or **"Sign Up"**
+3. Enter your name, business email, and create a password
+4. Check your inbox and verify your email address
+
+---
+
+## Step 2: Create Your Organization and Add a Site
+
+After verifying your email, Sealmetrics will guide you through creating your first organization.
+
+### Create an Organization
+
+1. Choose a name for your organization (typically your company name)
+2. Click **Create Organization**
+
+Your organization is where your team and websites are managed.
+
+### Add a Site
+
+1. Click **Add Site**
+2. Enter your website's name and domain (e.g., `example.com`)
+3. Configure your timezone
+
+Your site is now ready for tracking code installation.
+
+**Tip:**
+
+---
+
+## Step 3: Install Tracking Code
+
+### Getting Your Tracking Code
+
+1. Open your site and go to **Site Config → Settings**, then select the **Pixel Code** tab — the Pixel Builder there generates your snippet
+2. Alternatively, run the **Setup Wizard** (under **Settings → Pixels**) for a guided installation
+3. Copy your unique tracking code and choose your preferred installation method
+
+### Installation Methods
+
+#### Manual Installation
+
+Add this single script tag to your website’s `<head>` section, replacing `YOUR_ACCOUNT_ID` with your account ID:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+The tracker fires the initial pageview automatically as soon as it loads, and exposes the global `sealmetrics` object for tracking conversions and microconversions.
+
+#### WordPress Plugin
+
+1. Install the Sealmetrics WordPress plugin
+2. Enter your account ID in the plugin settings
+3. Activate tracking across your site
+
+#### Google Tag Manager
+
+1. Create a new Custom HTML tag
+2. Paste your Sealmetrics tracking code
+3. Set trigger to All Pages
+4. Publish your container
+
+## Step 4: Verify Installation
+
+1. Visit your website in a new browser tab
+2. Open your site's **Overview** report in the Sealmetrics dashboard
+3. Check the **Last hit** timestamp at the top right — it updates within seconds of a tracked hit
+4. Confirm your visit shows up in the Entrances and Pageviews numbers
+
+### Testing Checklist
+
+- Page views are being recorded
+- Traffic sources are correctly identified
+- Geographic data is visible
+- Device information appears
+
+---
+
+## Step 5: Instrument Conversion Tracking
+
+Conversions are not configured in the dashboard — you instrument them on your website with a single JavaScript call. Once the tracker is installed, the global `sealmetrics` object is available:
+
+```javascript
+// Track a purchase (amount is optional)
+sealmetrics.conv('purchase', 99.99);
+
+// Track a conversion with no monetary value
+sealmetrics.conv('lead');
+
+// Track a microconversion (funnel step or interaction)
+sealmetrics.micro('add_to_cart');
+```
+
+Place the `sealmetrics.conv()` call wherever your goal completes — typically a thank-you or confirmation page, a form submit handler, or a button click. Use `sealmetrics.micro()` for intermediate steps like add-to-cart or video plays.
+
+See [How to Measure Conversions](/getting-started/measure-conversions) for complete examples (e-commerce, leads, signups, dynamic values).
+
+---
+
+## Step 6: Explore Your Reports
+
+### Key Metrics Overview
+
+The **Overview** report shows your core KPIs at a glance:
+
+- **Entrances:** Sessions started on your site (Sealmetrics does not count "unique visitors" — that would require identifying individuals)
+- **Pageviews:** Total pages viewed
+- **Pages/Entrance and Bounce Rate:** Engagement at a glance
+- **Conversions and Revenue:** Goal completions and their value
+
+A chart lets you toggle between Entrances, Pageviews, and Conversions over time.
+
+### Reports in the Sidebar
+
+- **Overview:** KPIs, trend chart, and the "Last hit" timestamp
+- **Evolution:** Performance over time
+- **Pages:** Page-level performance
+- **Sources:** Where visitors come from
+- **Geography:** Country-level breakdown
+- **Devices:** Device, browser, and OS data
+- **Conversions:** Tracked conversions and revenue
+- **Properties:** Custom event properties
+- **Funnel:** E-commerce funnel from entrance to purchase
+
+---
+
+## Common Setup Issues
+
+### Tracking Not Working
+
+**Symptoms:** No data in the dashboard
+**Solutions:**
+- Verify code placement
+- Check for JavaScript errors
+- Ensure code appears on all pages
+- Allow 24 hours for processing
+
+### Duplicate Tracking
+
+**Symptoms:** Inflated page view numbers
+**Solutions:**
+- Remove duplicate codes
+- Check for multiple analytics tools
+- Ensure single installation per page
+
+### Missing Conversions
+
+**Symptoms:** Conversions not recording properly
+**Solutions:**
+- Verify the `sealmetrics.conv()` call is present where the goal completes
+- Check the browser Network tab for requests to `t.sealmetrics.com` when the conversion fires
+- Make sure the tracker is loaded before calling it (`typeof sealmetrics !== 'undefined'`)
+- Check the **Conversions** report with the date range set to today
+
+---
+
+## Next Steps
+
+### Week 1: Foundation
+- Monitor basic metrics daily
+- Verify all pages are tracked
+- Instrument your essential conversions with `sealmetrics.conv()`
+- Familiarize yourself with the dashboard
+
+### Week 2: Optimization
+- Analyze traffic sources
+- Identify top-performing content
+- Add microconversions for key interactions
+- Use UTM parameters for campaign attribution
+
+### Month 1: Advanced Features
+- Implement e-commerce tracking
+- Review the Funnel report
+- Export reports to CSV or PDF
+- Integrate with other tools
+
+---
+
+## Best Practices
+
+### Data Quality
+- **Consistent Tracking:** Add Sealmetrics to all pages
+- **Goal Alignment:** Track the conversions that match your business KPIs
+- **Regular Monitoring:** Review data weekly
+- **Team Training:** Educate your marketing and analytics teams
+
+### Privacy Compliance
+- **No Consent Required:** 100% cookieless
+- **Data Protection:** Aggregated and anonymous by design
+- **Legal Compliance:** GDPR, CCPA, and PECR ready
+- **Transparency:** Communicate privacy-first analytics to users
+
+### Performance Optimization
+- **Minimal Impact:** Lightweight, asynchronous script
+- **Async Loading:** Non-blocking performance
+- **CDN Delivery:** Global speed and reliability
+- **Regular Updates:** Always up to date and secure

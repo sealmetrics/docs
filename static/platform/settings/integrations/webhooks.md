@@ -1,0 +1,77 @@
+---
+title: "Webhooks"
+description: "Send real-time Sealmetrics events to your own services via HTTP callbacks, configured through the API."
+canonical_url: "https://docs.sealmetrics.com/platform/settings/integrations/webhooks"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/settings/integrations/webhooks.mdx"
+publisher: "SealMetrics"
+---
+
+# Webhooks
+
+Canonical page: https://docs.sealmetrics.com/platform/settings/integrations/webhooks
+
+Webhooks let Sealmetrics notify your servers in real time when something happens in your account — for example, when an alert triggers or a data export finishes. Sealmetrics sends an HTTP `POST` to a URL you control, signed so you can verify it came from us.
+
+**Info:**
+Webhooks are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect endpoints with the API calls shown below. See the [Webhooks API reference](/api/webhooks) for the complete request/response schema, delivery logs, replay and statistics endpoints.
+
+## What you can subscribe to
+
+| Event | Fired when |
+|-------|------------|
+| `alert.triggered` | An anomaly alert starts firing |
+| `alert.resolved` | An alert condition returns to normal |
+| `export.completed` | A bulk export finishes and is ready to download |
+| `export.failed` | A bulk export fails |
+| `goal.reached` | A configured goal is reached |
+
+The authoritative, up-to-date list is available from the API:
+
+```http
+GET /api/v1/webhooks/event-types
+```
+
+## Creating a webhook
+
+Endpoints are scoped to an account. Create one with your API key:
+
+```bash
+curl -X POST "https://my.sealmetrics.com/api/v1/webhooks?account_id=YOUR_ACCOUNT_ID" \
+  -H "X-API-Key: sm_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Slack Alerts",
+    "url": "https://my-app.com/webhooks/sealmetrics",
+    "event_types": ["alert.triggered", "export.completed"]
+  }'
+```
+
+The response returns a `secret` **once** — store it securely to verify signatures. The endpoint stays unverified until its first successful delivery (or test).
+
+## Verifying signatures
+
+Every delivery includes signature headers:
+
+```
+X-Sealmetrics-Signature: sha256=...
+X-Sealmetrics-Timestamp: 1704898200
+```
+
+Compute `HMAC-SHA256` of `{timestamp}.{request_body}` with your webhook secret and compare it to the signature. Full Python and Node.js examples are in the [Webhooks API reference](/api/webhooks#signature-verification).
+
+## Managing endpoints
+
+All management is done through the API:
+
+- **List / get / update / delete** endpoints
+- **Send a test event** to verify your URL
+- **Rotate the signing secret** (previous secret stays valid for 24 hours)
+- **Inspect deliveries**, view payloads, and **replay** failed deliveries
+- **Get delivery statistics** (success rate, response times, recent failures)
+
+See the [Webhooks API reference](/api/webhooks) for every endpoint and example.

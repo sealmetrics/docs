@@ -1,0 +1,252 @@
+---
+title: "Filters"
+description: "Apply global and local filters to narrow down analytics data by geography, device, source, and more."
+canonical_url: "https://docs.sealmetrics.com/reports/filters"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/filters.mdx"
+publisher: "SealMetrics"
+---
+
+# Filters
+
+Canonical page: https://docs.sealmetrics.com/reports/filters
+
+Sealmetrics provides two types of filters: global filters that apply across all reports, and local filters specific to individual tables.
+
+## Global Filters (Segment)
+
+Global filters are configured from the **Segment** panel in the filter bar below the header. They affect all report pages.
+
+### Accessing Global Filters
+
+1. Click **Segment** in the filter bar
+2. Choose values in the available filter sections
+3. Click **Apply Segment**
+4. The selected filters apply across all reports
+
+### Available Global Filters
+
+The Segment panel offers two filter categories: Geography and Devices.
+
+#### Geography
+
+| Filter | Options | Description |
+|--------|---------|-------------|
+| **Countries** | Multi-select list | Filter by visitor country |
+
+Example: Select Spain and Portugal to see only traffic from the Iberian Peninsula.
+
+#### Devices
+
+| Filter | Options | Description |
+|--------|---------|-------------|
+| **Device Type** | Desktop, Mobile, Tablet | Filter by device category |
+| **Browser** | Chrome, Safari, Firefox, Edge, Opera | Filter by browser |
+| **Operating System** | Windows, macOS, iOS, Android, Linux | Filter by OS |
+
+Example: Select Mobile + iOS to see only iPhone/iPad traffic.
+
+For filtering by traffic source (UTM source/medium/campaign) or by page path, use the per-table [local filters](#local-filters-filter-builder) described below.
+
+### Filter Bar Behavior
+
+- Active filters appear as chips in the filter bar
+- Click the X on a chip to remove that filter
+- Multiple filters combine with AND logic
+- Filters persist across reports until removed or cleared
+
+### Combining Filters
+
+Filters combine with AND logic:
+
+| Filter 1 | Filter 2 | Result |
+|----------|----------|--------|
+| Country = Spain | Device = Mobile | Spanish mobile visitors |
+| Browser = Safari | Country = USA | US Safari users |
+| OS = iOS | Country = Mexico | iPhone/iPad users in Mexico |
+
+## Local Filters (Filter Builder)
+
+Each table in reports has its own filter builder for granular filtering within that specific table.
+
+### Accessing Local Filters
+
+1. Click the filter icon (funnel) above the table
+2. The filter builder panel opens
+3. Add filter conditions
+4. Click Apply
+
+### Filter Builder Interface
+
+| Element | Description |
+|---------|-------------|
+| **Field dropdown** | Select which column to filter |
+| **Operator dropdown** | Select comparison operator |
+| **Value input** | Enter the value to compare |
+| **Add button** | Add another condition |
+| **Apply button** | Apply all conditions |
+| **Clear button** | Remove all conditions |
+
+### Operators
+
+#### Text Fields
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| contains | Field includes text | Path contains "product" |
+| starts with | Field begins with text | Path starts with "/en/" |
+| equals | Exact match | Source equals "google" |
+| not equals | Does not match | Medium not equals "cpc" |
+
+#### Numeric Fields
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| equals | Exact value | Conversions equals 0 |
+| not equals | Different value | Entrances not equals 0 |
+| greater than | Above value | Pageviews greater than 1000 |
+| less than | Below value | Bounce Rate less than 50 |
+| greater than or equal | Value or above | Revenue \>= 100 |
+| less than or equal | Value or below | Conv. Rate \<= 5 |
+
+### Multiple Conditions
+
+Add multiple conditions for complex filters:
+
+| Field | Operator | Value | Logic |
+|-------|----------|-------|-------|
+| Entrances | greater than | 100 | AND |
+| Bounce Rate | less than | 50 | AND |
+| Conversions | greater than | 0 | - |
+
+All conditions combine with AND logic.
+
+### Filter Builder by Report
+
+Each report's tables expose their own filter fields — in the [Sources report](/reports/sources#filtering) they are **dimension-only** (channel, source, medium, campaign, domain), while other reports may also offer metric fields. The authoritative field list for each report lives in its own page:
+
+- [Pages](/reports/pages) · [Sources](/reports/sources#filtering) · [Geography](/reports/geography) · [Devices](/reports/devices) · [Conversions](/reports/conversions)
+
+## Segments
+
+Save filter combinations for quick access.
+
+### Creating a Segment
+
+1. Apply the desired global filters
+2. Click **Save Segment** (or **Save current as segment** from the Segments dropdown)
+3. Enter a name (and optional description and color)
+4. Click **Save Segment**
+
+### Using Segments
+
+1. Click the **Segments** dropdown in the filter bar
+2. Select a saved segment
+3. Filters apply immediately
+
+### Segment Examples
+
+| Segment Name | Filters |
+|--------------|---------|
+| Mobile Spain | Country = Spain, Device = Mobile |
+| US Safari | Country = United States, Browser = Safari |
+| iOS Visitors | OS = iOS |
+| German Desktop | Country = Germany, Device = Desktop |
+
+### Managing Segments
+
+1. Open the **Segments** dropdown
+2. From each segment entry you can:
+   - Apply the segment (click it)
+   - Delete the segment (click the X)
+
+Saved segments are stored in your browser. See [Filter Persistence](#filter-persistence) for details.
+
+## Filter Strategies
+
+### Performance Analysis
+
+Find underperforming segments:
+
+1. Filter: Entrances \> 500 (significant traffic)
+2. Filter: Bounce Rate \> 70 (high bounce)
+3. Result: High-traffic pages with engagement issues
+
+### Conversion Optimization
+
+Find conversion opportunities:
+
+1. Filter: Entrances \> 200
+2. Filter: Conversions = 0
+3. Result: Popular pages not converting
+
+### Traffic Quality
+
+Identify quality sources:
+
+1. Filter: Entrances \> 50
+2. Filter: Conv. Rate \> 3
+3. Sort by Revenue
+4. Result: High-performing traffic sources
+
+### Geographic Targeting
+
+Analyze specific markets:
+
+1. Global filter: Country = [target market]
+2. Local filter: Conversions \> 0
+3. Result: Converting pages in target market
+
+## Filter Persistence
+
+### What Persists
+
+| Element | Behavior |
+|---------|----------|
+| Global filters | Persist across reports until cleared |
+| Local filters | Reset when leaving the report |
+| Segments | Saved until deleted |
+| Date range | Persists across reports |
+
+### How Persistence Works
+
+Global filters and saved segments are stored locally in your browser (using `localStorage`), not in the page URL.
+
+This means:
+
+- Filters and segments are remembered when you return to Sealmetrics in the **same browser**, even after closing the tab
+- They are **not** shared via the URL: copying or bookmarking a report link does not carry your active filters
+- They are **per browser and per device**: filters set on your laptop will not appear on your phone or in another browser
+- Clearing your browser data removes saved filters and segments
+
+## Best Practices
+
+### Use Global Filters For
+
+- Segmenting by visitor attributes (country, device type, browser, OS)
+- Consistent analysis across reports
+
+### Use Local Filters For
+
+- Finding specific items in tables
+- Threshold-based filtering (metrics above/below values)
+- Detailed table exploration
+
+### Performance Tips
+
+- Apply broad filters first (country, device)
+- Then refine with specific filters
+- Save common combinations as segments
+- Clear filters before starting new analysis
+
+## Related documentation
+
+- [Date Range](/reports/date-range) — The other control that scopes every report
+- [Sources Report](/reports/sources) — Filter traffic by UTM source, medium, and campaign
+- [Geography Report](/reports/geography) — Filter and segment by country
+- [Devices Report](/reports/devices) — Filter by device type, browser, and OS
+- [Overview Report](/reports/overview) — The high-level dashboard for all reports

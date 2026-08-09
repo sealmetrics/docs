@@ -1,0 +1,65 @@
+---
+title: "Access Restricted to Authorized IPs"
+description: "Enhance security by restricting platform access to authorized IP addresses."
+canonical_url: "https://docs.sealmetrics.com/platform/user-management/authorized-ips"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/user-management/authorized-ips.mdx"
+publisher: "SealMetrics"
+---
+
+# Access Restricted to Authorized IPs
+
+Canonical page: https://docs.sealmetrics.com/platform/user-management/authorized-ips
+
+Sealmetrics allows you to restrict platform access by IP address for maximum account security.
+
+This feature is ideal for organizations requiring strict access control.
+
+---
+
+## How It Works
+
+The IP allowlist is configured **per site**. When it is enabled, only users whose login originates from an allowed IP can access that site. Access to the user's other sites is not affected.
+
+Benefits:
+
+- **Full access control**: Only trusted networks can access the site.
+- **Protection from unauthorized access**.
+- **Extra security layer** on top of username + password.
+
+The restriction is applied at login time for all users with access to the site, and can also be enforced for API tokens.
+
+---
+
+## Who Can Use This Feature?
+
+The IP allowlist is an **Enterprise** plan feature.
+
+---
+
+## How to Set It Up
+
+1. In the sidebar, open the **Site Config** group and click **Settings**
+2. Open the **IP Allowlist** tab
+3. Add the IP patterns that should be allowed (see below)
+4. Turn on the **Enable IP Allowlist** toggle
+
+**Warning:**
+
+### Pattern Types
+
+When adding an entry you choose a pattern type and, optionally, a label:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| **IP Address** | A single IP address | `192.168.1.100` |
+| **CIDR Range** | An IP range in CIDR notation | `192.168.1.0/24` |
+| **Regex** | A regular expression pattern | `^192\.168\..*` |
+
+---
+
+Using IP restrictions is one of the strongest ways to protect sensitive analytics data.

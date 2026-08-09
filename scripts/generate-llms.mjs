@@ -22,6 +22,7 @@ const DOCS_DIR = join(ROOT, 'docs');
 const BLOG_DIR = join(ROOT, 'blog');
 const STATIC_DIR = join(ROOT, 'static');
 const DOCS_RAW_DIR = join(STATIC_DIR, 'docs-raw');
+const MARKDOWN_DIR = STATIC_DIR;
 const TEMPLATES_DIR = join(__dirname, 'llms-templates');
 const BASE_URL = 'https://docs.sealmetrics.com';
 
@@ -392,6 +393,11 @@ function docRawUrl(doc) {
   return `${BASE_URL}/docs-raw/${doc.rawRelPath}`;
 }
 
+function docMarkdownUrl(doc) {
+  const pathname = new URL(doc.url).pathname.replace(/\/$/, '');
+  return `${BASE_URL}${pathname || '/index'}.md`;
+}
+
 // ─── Generate docs-raw/ individual text files ────────────────────────────────
 
 function generateDocsRaw(docs) {
@@ -406,6 +412,71 @@ function generateDocsRaw(docs) {
     count++;
   }
   return count;
+}
+
+// ─── Generate public Markdown mirrors ───────────────────────────────────────
+
+function markdownType(doc) {
+  if (doc.topDir === BLOG_SECTION) return 'blog';
+  if (doc.topDir === 'api') return 'api-reference';
+  if (doc.topDir === 'implementation' || doc.topDir === 'integrations') return 'implementation';
+  if (doc.topDir === 'security-privacy' || doc.topDir === 'compliance') return 'trust-and-legal';
+  return 'documentation';
+}
+
+function markdownOwner(type) {
+  return type === 'trust-and-legal' ? 'legal' : type === 'api-reference' || type === 'implementation' ? 'engineering' : type === 'blog' ? 'content' : 'docs';
+}
+
+function markdownPriority(type, doc) {
+  if (type === 'api-reference' || type === 'implementation' || type === 'trust-and-legal' || doc.relativePath === 'intro.mdx' || doc.relativePath === 'index.mdx') return 'critical';
+  return 'useful';
+}
+
+function generateMarkdownMirrors(docs) {
+  const generatedAt = new Date().toISOString();
+  const manifest = [];
+  for (const doc of docs) {
+    const pathname = new URL(doc.url).pathname.replace(/\/$/, '');
+    const route = pathname || '/';
+    const outputPath = join(MARKDOWN_DIR, `${route === '/' ? '/index' : route}.md`);
+    mkdirSync(dirname(outputPath), { recursive: true });
+    const type = markdownType(doc);
+    // The title is supplied by frontmatter and by the generated H1. Remove
+    // the first authored H1 when a source document already has one so every
+    // mirror has exactly one top-level heading.
+    const escapedTitle = doc.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const body = doc.cleanContent
+      .replace(/^# [^\n]*(?:\r?\n|$)/, '')
+      .replace(new RegExp(`^# ${escapedTitle}\\s*$`, 'm'), '')
+      .replace(/[ \t]+$/gm, '')
+      .trim();
+    const document = [
+      '---',
+      `title: ${JSON.stringify(doc.title)}`,
+      `description: ${JSON.stringify(doc.description)}`,
+      `canonical_url: ${JSON.stringify(doc.url)}`,
+      'lang: "en"',
+      `date_generated: ${JSON.stringify(generatedAt)}`,
+      `content_type: ${JSON.stringify(type)}`,
+      `owner: ${JSON.stringify(markdownOwner(type))}`,
+      `llm_priority: ${JSON.stringify(markdownPriority(type, doc))}`,
+      `source_file: ${JSON.stringify(doc.relativePath)}`,
+      'publisher: "SealMetrics"',
+      '---',
+      '',
+      `# ${doc.title}`,
+      '',
+      `Canonical page: ${doc.url}`,
+      '',
+      body,
+      '',
+    ].join('\n');
+    writeFileSync(outputPath, document, 'utf-8');
+    manifest.push({ route, canonical: doc.url, markdown: docMarkdownUrl(doc), title: doc.title, description: doc.description, content_type: type, owner: markdownOwner(type), llm_priority: markdownPriority(type, doc), source_file: doc.relativePath, generated_at: generatedAt });
+  }
+  writeFileSync(join(STATIC_DIR, 'knowledge-manifest.json'), `${JSON.stringify({ generated_at: generatedAt, routes: manifest }, null, 2)}\n`, 'utf-8');
+  return manifest.length;
 }
 
 // ─── Generate llms.txt ───────────────────────────────────────────────────────
@@ -425,8 +496,7 @@ function generateLlmsTxt(sections) {
     parts.push(`### ${section.label}`);
     for (const doc of section.docs) {
       const desc = doc.description ? `: ${doc.description}` : '';
-      parts.push(`- [${doc.title}](${doc.url})${desc}`);
-      parts.push(`  Raw: ${docRawUrl(doc)}`);
+      parts.push(`- [${doc.title}](${docMarkdownUrl(doc)})${desc}`);
     }
     parts.push('');
   }
@@ -439,7 +509,7 @@ function generateLlmsTxt(sections) {
   parts.push(
     '## Full Documentation\n\n' +
       `Complete page-by-page content in a single file: ${BASE_URL}/llms-full.txt\n` +
-      'Each page above also links a plain-text version under "Raw:".',
+      'Each page above is available as a raw Markdown document at the linked `.md` URL.',
   );
 
   parts.push(loadTemplate('footer.md'));
@@ -549,6 +619,9 @@ function main() {
   // Generate docs-raw/ individual text files
   const rawCount = generateDocsRaw(docs);
   console.log(`  docs-raw/: ${rawCount} text files generated`);
+
+  const markdownCount = generateMarkdownMirrors(docs);
+  console.log(`  Markdown mirrors: ${markdownCount} files generated`);
 
   // Generate llms.txt
   const llmsTxt = generateLlmsTxt(sections);

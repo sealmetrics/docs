@@ -1,0 +1,268 @@
+---
+title: "Release Notes"
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release Seal AI Private (July 2026)."
+canonical_url: "https://docs.sealmetrics.com/changelog"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "changelog.mdx"
+publisher: "SealMetrics"
+---
+
+# Release Notes
+
+Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## Seal AI Private — EU-hosted AI with token packs (July 22, 2026)
+
+**Seal AI Private** is now generally available: Sealmetrics' managed AI provider for [LENS](/lens) — processed entirely in the EU (Paris), no prompt retention, and no API key to manage.
+
+### What's new
+
+- **Add-on on Growth, included in Scale and Enterprise.** €299/month billed annually upfront (€3,588/year), or €358.80/month on monthly contracts. Not available on Free.
+- **5M tokens per calendar month** for the whole organization (chat + automated insights), with email alerts at 80% and 100% consumption.
+- **Token packs**: extra 5M-token packs at €358.80 each (1–10 per checkout) that **never expire** — consumed only after the monthly quota.
+- **Seal AI Usage screen** (Organization → Seal AI Usage, owner/admin): monthly gauge, daily input/output chart, pack balance and history, and per-site / per-user breakdown.
+- **BYOK fallback**: when the quota runs out, any user can switch the chat to their own Anthropic, OpenAI, Gemini, or DeepSeek key.
+
+Full details: [Seal AI Private](/billing/seal-ai-private) · [LLM Providers](/platform/settings/llm).
+
+---
+
+## Sources report — referral traffic now grouped by domain, GA4-style (July 21, 2026)
+
+The **Sources** tab now shows referral traffic as source domains (e.g. `reddit.com / referrer`), unifying historical data under the same convention. The **Referrers** tab keeps its URL-level detail: one row per referring URL. If you query the API, referral rows now appear in `/stats/sources` as domains and are excluded from `/stats/terms`.
+
+---
+
+## Custom Channel Grouping — define your own channels from the dashboard, CSV, or MCP (July 20, 2026)
+
+You can now personalize how Sealmetrics groups your traffic into marketing channels. The **Channels** tab in Site settings lets you define your own rules on top of (or overriding) the GA4-style defaults, with a safe drafts → test → publish workflow.
+
+### What's new
+
+- **Rule form** for creating custom channels one at a time, with a **rule tester** ("Test a visit") that uses the exact same engine as the pixel.
+- **Override** button on default channels — pre-fills the form with the default's patterns so you can redirect any built-in channel to one of your own.
+- **CSV import / export** (Excel-friendly: `,` or `;` delimiters, RFC 4180 quoting, UTF-8 BOM, CRLF) for bulk edits and version control. Also accepts `.json`.
+- **MCP tools** for AI-assisted rule authoring: `create_channel_rule`, `update_channel_rule`, `delete_channel_rule`, `import_channel_rules`, `test_channel_rules`. All write tools are **draft-only** by design — the MCP can never touch a live rule or activate anything; publishing is always a human action from the dashboard.
+- **Drafts → test → publish** flow: every new rule is born as a draft and never affects traffic until you flip the **Live** switch. Effective in ~5 min after publishing.
+
+### What stays the same
+
+- **No effect on historical data.** Channel classification happens at ingest time; new or edited rules only affect future traffic.
+- **Defaults still work out of the box.** If you don't create any custom rule, nothing changes for you.
+
+Full walkthrough: [Channel Grouping](/platform/settings/tracking/channel-grouping).
+
+---
+
+## Channel classification improvement — more accurate Direct and Referral reporting (July 20, 2026)
+
+Following feedback from customers who wanted a cleaner mapping between what our tracker captures and the channel groups shown in the dashboard, we've refined the default classification rules for two channels:
+
+- **Direct** — traffic with no referrer and no campaign parameters
+- **Referral** — visits coming from external sites without UTM tagging
+
+The updated rules align our default channel groups with the GA4-style conventions our tracker already uses internally, closing a small gap that had accumulated over successive iterations of the pixel.
+
+### Impact on your reports
+Starting July 20, 2026, a portion of the traffic previously reported under **Unassigned** now appears in **Direct** or **Referral** in your channel reports. It's the same traffic you were already receiving — simply labeled more accurately from now on.
+
+A few details worth knowing:
+
+- The change applies only to **new traffic** from the effective date onward. Historical rows keep their existing classification (channels are assigned at ingest time).
+- If your account uses custom channel rules, those continue to take priority — this update only affects the built-in defaults.
+- No action is required on your side.
+
+If you have automations, alerts or exports built on the exact volume of Unassigned traffic, this is a good moment to review them.
+
+---
+
+## Bot-blocking algorithm update — fewer false positives (June 2, 2026)
+
+On **Tuesday, June 2, 2026 at 20:00 CET**, we deployed an update to our bot-blocking algorithm to stop filtering out legitimate human traffic that was previously being misidentified as bot activity.
+
+### What changed
+The algorithm is now more precise at distinguishing real users from automated traffic, reducing false positives without weakening bot detection.
+
+### Impact on your reports
+Starting June 2, 2026, you should expect:
+
+- A **slight increase in entries and pageviews**, as human visits previously blocked are now counted
+- A **more noticeable increase in conversions and microconversions**, since affected users were often further along in the funnel
+- No changes to historical data
+
+No action is required on your side.
+
+---
+
+## Attribution: internal hits with UTMs no longer create new sessions (May 25, 2026)
+
+We improved how Sealmetrics handles internal navigation that carries UTM parameters.
+
+### What was happening before
+When a hit on your site contained UTM parameters **and** the referrer was your own domain (i.e. internal navigation), the system treated it as a **new session** and attributed that hit to the traffic source declared in the UTMs.
+
+This could inflate session counts and misattribute traffic to campaigns when users were simply navigating across your own pages with UTM-tagged internal links.
+
+### What changed
+Starting **May 25, 2026**, when a hit has UTMs **and** the referrer is the same domain:
+
+- The system now **prioritizes the referrer over the UTMs**
+- The hit is counted as a **pageview** within the existing session
+- The **UTM information is ignored**
+
+### Impact on your reports
+- More accurate session counts — no duplicate sessions caused by internal UTM-tagged links
+- Cleaner attribution — campaign sources only reflect genuine external entries
+- Historical data remains unchanged
+
+---
+
+## API: `/exports/*` and `/batch` 403 with API keys — fixed (May 2026)
+
+Fixed a permission check on `/exports/*` and `/batch` that required a scope API keys don't carry, returning `403 insufficient_scope` for valid keys. The fix is deployed in production. **No action required** — your existing API key now works on these routes without changes.
+
+See the new [API FAQ](/api/faq) for the canonical answers on `account_id` vs `site_id`, event-level conversions, and `/exports/stream` examples.
+
+---
+
+## Sealmetrics V2 is Here (February 9, 2026)
+
+**We're thrilled to announce the launch of Sealmetrics V2** — the most significant update since we started.
+
+After months of development and feedback from hundreds of customers, we've rebuilt Sealmetrics from the ground up to deliver:
+
+- **Faster, cleaner dashboard** — redesigned for clarity and speed
+- **Smarter attribution** — understand exactly where your conversions come from
+- **Enhanced privacy compliance** — ready for GDPR, CNIL, UK PECR, and the upcoming EU Digital Omnibus
+- **New API** — more powerful, better documented, easier to integrate
+- **Improved tracking** — lighter script, better SPA support, more accurate data
+
+Sealmetrics V2 is now the default for all accounts. Your data, your settings, and your tracking code continue to work seamlessly.
+
+**Thank you** to everyone who helped shape this release. We're just getting started.
+
+→ [Explore the documentation](/) to discover everything that's new.
+
+---
+
+## Previous Updates
+
+---
+
+## November 2025
+
+## Update to the Robot User Agents Database (Nov 21, 6:00 UTC)
+
+We have expanded our internal database of robot-related user agents.
+This update adds **158 new user agents**, improving the accuracy of our identification and filtering systems.
+
+This enhancement provides:
+
+- More reliable detection of automated traffic.
+- Higher precision when distinguishing real users from bots.
+- Better performance across our analytics and security workflows.
+
+Check the rest of the documentation to learn how to take advantage of these improvements in your setup.
+
+##Legal Approval for IP-Based Bot Filtering (Nov 18, 20:00 UTC)
+
+After a thorough legal review, we now have official approval to implement **IP-based filtering** to improve traffic accuracy—without compromising user privacy.
+
+### How It Works
+
+- When a hit arrives, we check whether the IP is in our **bot IP database**
+- If it matches → the hit is **excluded from your analytics**
+- If it doesn’t match → we do **not** store the IP, we simply register it as **human traffic**
+
+### Privacy First
+
+- We do not retain or track IPs that aren't bots
+- No identification or storage of human IPs
+- Full compliance with privacy regulations
+
+This ensures:
+- Better protection of your analytics data
+- No compromise on user privacy
+- No personal data is ever stored or exposed
+
+It’s a technical improvement — but also a principle:
+You can have precision without violating privacy.
+You can have control without crossing the line.
+
+---
+
+## Facebook Traffic Classification Fix (NEW – Nov 14, 19:00 UTC)
+
+We've improved how Sealmetrics classifies Facebook traffic to ensure higher accuracy between **organic** and **paid** sources.
+
+### What Was Happening Before
+A minor issue caused some visits containing the **`fbclid`** parameter (but *without* UTM tags) to be incorrectly categorized as **facebook-ads**.
+
+This affected a small portion of traffic, but could distort organic vs. paid Facebook reporting.
+
+### What Changed
+As of **Wednesday, November 17 at 19:00 UTC**:
+
+- Traffic containing **only `fbclid`** and **no UTM parameters**
+  → is now classified as **Facebook Organic** (correct behavior)
+
+- Only traffic containing proper **UTM campaign parameters**
+  → is classified as **Facebook Ads**
+
+### Impact on Your Reports
+- Improved accuracy in distinguishing paid vs. organic Facebook traffic
+- Expect a slight increase in organic Facebook traffic from this timestamp onward
+- Historical data remains unchanged to preserve consistency
+
+---
+
+## Performance Improvements (Nov 10, 22:00 UTC)
+
+### 2.5x Faster Data Processing
+
+We've significantly optimized our processing infrastructure by increasing core capacity. Your data now processes **2.5 times faster**, meaning real-time dashboard updates and instant report generation.
+
+**Benefits:**
+- Faster dashboard loading times
+- Real-time data updates
+- Instant report generation
+- Improved overall platform responsiveness
+
+---
+
+## Facebook Ads Attribution Update (Nov 13, 19:00 UTC)
+
+**Warning:**
+As of this release, the `fbclid` parameter is no longer used to identify Facebook Ads traffic due to its lack of reliability and consistency.
+
+**What this means for you:**
+
+- Facebook Ads traffic now **requires properly configured UTM tags** for accurate attribution
+- Ensure your campaigns include parameters such as:
+  - `utm_source=facebook`
+  - `utm_medium=paid`
+  - (or equivalent)
+- This ensures consistent, accurate attribution and full control over your data
+
+**Recommendation:** Review and update your Facebook Ads campaigns with correct UTMs to maintain full visibility.
+
+**Tip:**
+
+---
+
+## Migration Guide
+
+If you're currently relying on `fbclid` for Facebook Ads attribution, follow these steps:
+
+1. **Audit your campaigns:** Check all active Facebook Ads campaigns
+2. **Add UTM parameters:** Configure UTMs in your Facebook Ads Manager
+3. **Test:** Verify traffic attribution inside Sealmetrics
+4. **Monitor:** Ensure continuity in your reporting
+
+Need assistance? [Contact our support team](mailto:support@sealmetrics.com)

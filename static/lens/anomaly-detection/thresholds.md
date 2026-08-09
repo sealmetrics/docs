@@ -1,0 +1,94 @@
+---
+title: "How Thresholds Work"
+description: "How LENS sets and dynamically adjusts the thresholds that decide when an anomaly is worth an alert."
+canonical_url: "https://docs.sealmetrics.com/lens/anomaly-detection/thresholds"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "lens/anomaly-detection/thresholds.mdx"
+publisher: "SealMetrics"
+---
+
+# How Thresholds Work
+
+Canonical page: https://docs.sealmetrics.com/lens/anomaly-detection/thresholds
+
+A threshold is the boundary between a "normal" fluctuation and an anomaly worth surfacing. In LENS, thresholds are **not** a single static percentage you pick from a menu. Each rule starts from a base threshold and then **adjusts it automatically** based on how much data is available and on seasonality.
+
+This page explains that mechanism so you understand why LENS alerts when it does.
+
+## The base threshold
+
+Every rule defines a base threshold (a percentage change). For most rules the default is around 20%, but each rule sets its own value appropriate to the metric it watches. LENS resolves the effective base threshold in this order:
+
+1. A custom value configured for the rule (if any)
+2. A global setting for that threshold key (if defined)
+3. The rule's built-in default
+
+The resolved base threshold is then adjusted by the two mechanisms below before any alert is raised.
+
+## Adjustment 1: Confidence-based dynamic thresholds
+
+Smaller samples are noisier, so LENS requires a **larger** change before alerting when there's less data. It computes a **confidence level** from the sample size and the number of days of data, then multiplies the base threshold:
+
+| Confidence | When it applies | Threshold multiplier |
+|------------|-----------------|----------------------|
+| **High** | Large sample, enough history | ×1.0 (no change) |
+| **Medium** | Moderate sample/history | ×1.25 (25% more conservative) |
+| **Low** | Small sample/short history | ×1.5 (50% more conservative) |
+
+The confidence level itself comes from these data thresholds (the more conservative of the sample-based and days-based result wins):
+
+| Signal | Medium confidence | High confidence |
+|--------|-------------------|-----------------|
+| Days of data | 7+ days | 14+ days |
+| Traffic sample (events) | 100+ | 1,000+ |
+| Conversions | 20+ | 100+ |
+
+**Example:** a rule with a 20% base threshold, evaluated on a small sample (low confidence), effectively requires a ≈30% change (20% × 1.5) before it flags an anomaly. The same rule on a large, mature dataset uses the full 20%.
+
+Every insight carries its confidence level (`high`, `medium`, or `low`) so you can weigh it accordingly.
+
+## Adjustment 2: Seasonality
+
+LENS can adapt to recurring, expected variation through seasonality patterns. A pattern can influence detection in three ways:
+
+- **Threshold relaxation** — during a known seasonal period, the base threshold is multiplied by a configurable factor (typically making it more lenient) so ordinary seasonal swings don't trigger alerts.
+- **Year-over-year comparison** — when a pattern requests it and the account has the historical data, the baseline shifts to the same period last year instead of the recent past. This compares like-for-like (e.g. this Black Friday vs. last Black Friday).
+- **Expected-change suppression** — a pattern can declare an expected change for traffic, conversion, or revenue. If the observed change falls within tolerance of that expectation, LENS treats it as normal and does not alert.
+
+A seasonality pattern can be global or specific to an account, and defines the time window it applies to plus any of the adjustments above.
+
+## How it fits together
+
+For each rule evaluation:
+
+```
+base threshold
+   → resolve (custom → setting → default)
+   → apply seasonality multiplier (if in a seasonal period)
+   → apply confidence multiplier (from sample size + days of data)
+   = effective threshold
+
+observed change vs. effective threshold
+   → if within an "expected for the season" range → suppressed
+   → else if beyond the effective threshold → anomaly
+```
+
+## Statistical rigor for rate metrics
+
+For proportion-based metrics (such as bounce rate or conversion rate), LENS uses **Wilson score confidence intervals** at 95% confidence rather than naive point comparisons. This avoids over-reacting to rate swings that are just small-sample noise.
+
+## What you control
+
+- **Enabling notifications** — make sure email notifications are on in your account settings; email is the only delivery channel.
+- **Seasonality patterns** — configure patterns so recurring events (sales, holidays, campaigns) adjust the baseline and relax thresholds automatically.
+
+The confidence multipliers and data-volume thresholds described above are managed by LENS and apply consistently across accounts; you don't need to tune them manually.
+
+## Next steps
+
+- [How anomaly detection works →](/lens/anomaly-detection)
+- [View the active rules →](/lens/anomaly-detection/rule-types)

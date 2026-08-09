@@ -1,0 +1,104 @@
+---
+title: "Setting Up Tracking in Sealmetrics"
+description: "Learn how to configure and set up pageview tracking, conversions, and microconversions in Sealmetrics."
+canonical_url: "https://docs.sealmetrics.com/implementation/tracker/setup"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "implementation/tracker/setup.mdx"
+publisher: "SealMetrics"
+---
+
+# Setting Up Tracking in Sealmetrics
+
+Canonical page: https://docs.sealmetrics.com/implementation/tracker/setup
+
+To set up tracking, copy your pixel script from **Settings → Pixels** in the dashboard and install it in your site's ``
+- **Wix** — Go to Settings → Custom Code
+- **Next.js** — Use the `Script` component with `strategy="afterInteractive"`
+- **Google Tag Manager** — Create a Custom HTML tag with trigger "All Pages"
+- **Manual HTML** — Paste the script in the `<head>` of every page
+
+For detailed installation instructions, see the [Installation Guide](/implementation/tracker/installation).
+
+---
+
+## Step 3: Verify Installation
+
+The **Pixel Status** section on the Pixels page shows real-time status for each site:
+
+- **Active** — The pixel is receiving data
+- **Inactive** — No hits received recently
+- **Not installed** — No hits received yet
+
+You can also verify manually:
+
+1. Open your website in a browser
+2. Open DevTools (F12) → Console
+3. Type `typeof sealmetrics` — it should return `"function"`
+4. Check the Network tab for a POST to `/event` with status **204**
+
+---
+
+## Step 4: Track Conversions
+
+Conversions track goal completions with monetary value (purchases, leads, signups).
+
+Call `sealmetrics.conv()` on your confirmation or thank-you page:
+
+```javascript
+sealmetrics.conv('purchase', 99.99);
+```
+
+You can add custom properties:
+
+```javascript
+sealmetrics.conv('purchase', 149.99, {
+  currency: 'EUR',
+  payment_method: 'credit_card'
+});
+```
+
+---
+
+## Step 5: Track Microconversions
+
+Microconversions track user interactions that indicate progress toward a conversion (add to cart, form starts, video plays).
+
+```javascript
+sealmetrics.micro('add_to_cart');
+
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  price: '89.99'
+});
+```
+
+---
+
+## Step 6: Use the Pixel Builder (Optional)
+
+For more complex setups, use the **Pixel Builder** on the Pixels page to create reusable pixel configurations:
+
+1. Click **Create Pixel** in the Saved Pixels section
+2. Choose the pixel type: **Pageview**, **Conversion**, or **Microconversion**
+3. Configure the event label, value, and custom properties
+4. Select your target platform: **JavaScript**, **GTM**, or **Tealium**
+5. Copy the generated code from the preview
+
+Saved pixels can be edited or deleted at any time.
+
+---
+
+## Privacy Considerations
+
+Sealmetrics does not use cookies or store personal data. When tracking conversions and microconversions:
+
+- Never include personal identifiers (order IDs, user IDs, emails) in properties
+- Only track event types and aggregate values
+
+---
+
+If you have questions, contact [support@sealmetrics.com](mailto:support@sealmetrics.com).

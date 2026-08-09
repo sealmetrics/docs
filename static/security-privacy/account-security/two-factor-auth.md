@@ -1,0 +1,293 @@
+---
+title: "Two-Factor Authentication"
+description: "Add an extra layer of security to your Sealmetrics account with 2FA/TOTP."
+canonical_url: "https://docs.sealmetrics.com/security-privacy/account-security/two-factor-auth"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "trust-and-legal"
+owner: "legal"
+llm_priority: "critical"
+source_file: "security-privacy/account-security/two-factor-auth.mdx"
+publisher: "SealMetrics"
+---
+
+# Two-Factor Authentication
+
+Canonical page: https://docs.sealmetrics.com/security-privacy/account-security/two-factor-auth
+
+Two-factor authentication adds a second layer of security beyond your password, significantly reducing the risk of unauthorized access.
+
+## Why Enable 2FA?
+
+Even with a strong password, your account can be compromised through:
+- Password reuse from other breached sites
+- Phishing attacks
+- Keyloggers or malware
+- Shoulder surfing
+
+With 2FA enabled, attackers need both your password AND physical access to your authenticator device.
+
+## Supported Methods
+
+### TOTP (Time-based One-Time Password)
+
+Sealmetrics uses TOTP, the industry standard for 2FA:
+
+- 6-digit codes that change every 30 seconds
+- Works offline (no SMS needed)
+- Compatible with all major authenticator apps
+
+### Compatible Apps
+
+| App | Platform | Notes |
+|-----|----------|-------|
+| Google Authenticator | iOS, Android | Simple, widely used |
+| Authy | iOS, Android, Desktop | Cloud backup, multi-device |
+| 1Password | All platforms | Integrated with password manager |
+| Microsoft Authenticator | iOS, Android | Good for Microsoft ecosystems |
+| Bitwarden | All platforms | Open source |
+
+## Enabling 2FA
+
+### Step 1: Access Security Settings
+
+1. In the sidebar, go to **My Account → Security**
+2. Find the **Two-Factor Authentication** section
+
+### Step 2: Start Setup
+
+Click **Enable 2FA**. You'll be asked to enter your current password to begin setup.
+
+```
+Two-Factor Authentication
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status: Not enabled
+
+Two-factor authentication adds an extra layer
+of security by requiring a code from your
+phone in addition to your password.
+
+[Enable 2FA]
+```
+
+### Step 3: Scan QR Code and Save Backup Codes
+
+```
+Set Up Two-Factor Authentication
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1: Scan this QR code with your authenticator app
+
+    ┌─────────────────────┐
+    │  ▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄   │
+    │  █   █ ▀▀▀ █   █   │
+    │  █▄▄▄█ ▄▄▄ █▄▄▄█   │
+    │  ▄▄▄▄▄ █▀█ ▄▄▄▄▄   │
+    │  █   █ ▀▀▀ █   █   │
+    │  █▄▄▄█     █▄▄▄█   │
+    └─────────────────────┘
+
+Can't scan? Enter this code manually:
+XXXX-XXXX-XXXX-XXXX (your unique secret)
+```
+
+On the same screen, Sealmetrics shows your **10 backup codes**. Save them somewhere safe before continuing — you'll use them to sign in if you lose your authenticator device. Each code can be used once.
+
+```
+Backup Codes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ Save these codes somewhere safe!
+
+┌─────────────────────────────────────────┐
+│  abc12-def34          ghi56-jkl78       │
+│  mno90-pqr12          stu34-vwx56       │
+│  yza78-bcd90          efg12-hij34       │
+│  klm56-nop78          qrs90-tuv12       │
+│  wxy34-zab56          cde78-fgh90       │
+└─────────────────────────────────────────┘
+
+[Copy All Codes]
+
+[I've saved my backup codes]
+```
+
+### Step 4: Verify the Code
+
+Enter the 6-digit code from your authenticator app to confirm setup.
+
+```
+Verify Setup
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Enter the 6-digit code from your authenticator app
+
+[______]
+
+[Verify & Enable]
+```
+
+### Step 5: Confirm Enabled
+
+```
+Two-Factor Authentication
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status: ✅ Enabled
+
+Enabled on: January 15, 2024
+
+Backup codes remaining: 10 of 10
+
+[Regenerate Codes] [Disable 2FA]
+```
+
+## Signing In with 2FA
+
+After entering your email and password:
+
+```
+Two-Factor Authentication
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Enter the 6-digit code from your authenticator app
+
+[______]
+
+[Verify]
+
+Having trouble?
+→ Use a backup code instead
+```
+
+## Using Backup Codes
+
+If you can't access your authenticator:
+
+1. Click **Use a backup code instead**
+2. Enter one of your saved backup codes
+3. Sign in successfully
+4. Code is marked as used
+
+```
+Use Backup Code
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Enter one of your backup codes:
+
+[____________]
+
+[Verify]
+
+Note: Each backup code can only be used once.
+After signing in, generate new codes if running low.
+```
+
+## Managing 2FA
+
+The **Two-Factor Authentication** section in **My Account → Security** shows your status, the number of backup codes remaining (e.g. "8 of 10 codes remaining"), and buttons to **Regenerate Codes** and **Disable 2FA**.
+
+**Note:**
+
+### Regenerate Codes
+
+When running low on backup codes:
+
+1. Go to **My Account → Security**
+2. In **Two-Factor Authentication**, click **Regenerate Codes**
+3. Enter your current 6-digit 2FA code to confirm
+4. Save the new codes securely — the old codes stop working immediately
+
+### Change Authenticator App
+
+To switch to a different authenticator:
+
+1. Disable 2FA (requires current code)
+2. Re-enable with new app
+3. Scan new QR code
+4. Save new backup codes
+
+### Disable 2FA
+
+Disabling 2FA requires **both** your password and a current verification code (a 6-digit code from your authenticator app, or a backup code).
+
+```
+Disable Two-Factor Authentication
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ This will make your account less secure.
+
+Password:          [________________]
+Verification code: [______]
+(6-digit code or a backup code)
+
+[Disable 2FA]
+```
+
+## Lost Access to Authenticator
+
+### If You Have Backup Codes
+
+1. Sign in with backup code
+2. Go to **My Account → Security**
+3. Disable 2FA (requires your password and a backup code)
+4. Re-enable with new device
+
+### If You Don't Have Backup Codes
+
+Contact support for account recovery:
+
+1. Email security@sealmetrics.com
+2. Provide:
+   - Account email
+   - Proof of identity (ID document)
+   - Recent activity details you remember
+3. Support will verify and assist
+
+**Warning:**
+
+## Security Best Practices
+
+### Do
+
+- ✅ Use a reputable authenticator app
+- ✅ Save backup codes in a secure location (password manager, safe)
+- ✅ Keep backup codes separate from your password
+- ✅ Regenerate codes after using some
+
+### Don't
+
+- ❌ Store backup codes in plaintext on your computer
+- ❌ Share your authenticator with others
+- ❌ Screenshot your QR code
+- ❌ Disable 2FA without good reason
+
+## Troubleshooting
+
+### "Invalid Code" Error
+
+1. Check your device time is accurate (TOTP is time-based)
+2. Ensure you're entering code for Sealmetrics (not another service)
+3. Wait for new code (codes change every 30 seconds)
+4. Try using a backup code
+
+### Authenticator Shows Wrong Time
+
+TOTP requires accurate time:
+
+**iPhone:** Settings → General → Date & Time → Set Automatically
+
+**Android:** Settings → Date & Time → Automatic date & time
+
+### Syncing Issues with Authy
+
+1. Open Authy settings
+2. Tap "Sync" to refresh
+3. Try code again
+
+## Related
+
+- [Backup Codes](./backup-codes) - Managing your recovery codes
+- [Session Management](./session-management) - View and manage active sessions
+- [IP Allowlist](./ip-allowlist) - Restrict access by IP address

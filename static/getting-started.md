@@ -1,0 +1,25 @@
+---
+title: "First Steps Overview"
+description: "Start your journey with Sealmetrics — from installing your first tracker to seeing real-time, privacy-first analytics in action."
+canonical_url: "https://docs.sealmetrics.com/getting-started"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "getting-started/index.mdx"
+publisher: "SealMetrics"
+---
+
+# First Steps Overview
+
+Canonical page: https://docs.sealmetrics.com/getting-started
+
+Your starting point with **Sealmetrics** — learn how to install, configure, and see your analytics in real time.
+All guides are 100% cookieless, compliant, and practical.
+
+---
+
+---
+
+> **Sealmetrics First Steps** help you deploy, validate, and master privacy-first tracking — fast, simple, and fully compliant.

@@ -1,0 +1,233 @@
+---
+title: "GTM Container Template"
+description: "Ready-to-import Google Tag Manager container template with pre-configured SealMetrics tags, triggers, and variables for pageviews and conversions."
+canonical_url: "https://docs.sealmetrics.com/integrations/tag-management/gtm-template"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/tag-management/gtm-template.mdx"
+publisher: "SealMetrics"
+---
+
+# GTM Container Template
+
+Canonical page: https://docs.sealmetrics.com/integrations/tag-management/gtm-template
+
+Ready-to-import GTM container template with pre-configured tags for SealMetrics tracking.
+
+**Tip:**
+This template includes all the tags, triggers, and variables you need. Just import, configure your Account ID, and publish.
+
+## Installation
+
+1. Download `sealmetrics-gtm-template.json`
+2. Go to **Google Tag Manager > Admin > Import Container**
+3. Upload the JSON file
+4. Choose **"Merge"** and select **"Rename conflicting tags"**
+5. Go to **Variables** and update `SealMetrics Account ID` with your Account ID
+
+## Included Tags
+
+### 1. SealMetrics - Base Tracker
+
+- **Trigger**: All Pages
+- **Purpose**: Loads the SealMetrics tracker on every page
+
+This tag loads automatically on all pages and initializes the tracker with your Account ID.
+
+### 2. SealMetrics - Conversion
+
+- **Trigger**: Custom Event `sealmetrics_conversion`
+- **Purpose**: Track conversions with monetary value
+
+**Usage:**
+```javascript
+dataLayer.push({
+  event: 'sealmetrics_conversion',
+  conversionType: 'purchase',
+  conversionValue: 99.99,
+  conversionProperties: {
+    currency: 'EUR',
+    payment_method: 'credit_card'
+  }
+});
+```
+
+### 3. SealMetrics - Microconversion
+
+- **Trigger**: Custom Event `sealmetrics_micro`
+- **Purpose**: Track engagement events (microconversions)
+
+**Usage:**
+```javascript
+dataLayer.push({
+  event: 'sealmetrics_micro',
+  microEventType: 'add_to_cart',
+  microEventProperties: {
+    product_id: '123',
+    product_name: 'Product Name'
+  }
+});
+```
+
+### 4. SealMetrics - E-commerce Purchase
+
+- **Trigger**: Custom Event `purchase`
+- **Purpose**: Track purchases from standard e-commerce dataLayer
+- **Compatible with**: GA4 e-commerce, UA Enhanced Ecommerce
+
+This tag automatically converts your existing e-commerce dataLayer events to SealMetrics format.
+
+## Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `SealMetrics Account ID` | Your account ID | `YOUR_ACCOUNT_ID_HERE` |
+| `SealMetrics Pixel URL` | Pixel endpoint | `https://t.sealmetrics.com` |
+| `Conversion Type` | Type of conversion | `conversion` |
+| `Conversion Value` | Monetary value | `0` |
+| `Conversion Properties` | Additional data | `{}` |
+| `Micro Event Type` | Event name | `event` |
+| `Micro Event Properties` | Additional data | `{}` |
+| `Ecommerce Data` | E-commerce object | (from dataLayer) |
+
+## E-commerce DataLayer Format
+
+The template is compatible with standard e-commerce dataLayer format:
+
+```javascript
+dataLayer.push({
+  event: 'purchase',
+  ecommerce: {
+    purchase: {
+      actionField: {
+        revenue: '129.99',
+        currency: 'EUR',
+        coupon: 'DISCOUNT10'
+      },
+      products: [
+        {
+          id: '123',
+          name: 'Product Name',
+          price: '129.99',
+          quantity: 1,
+          category: 'Category',
+          brand: 'Brand'
+        }
+      ]
+    }
+  }
+});
+```
+
+## Common Event Examples
+
+### Track a Lead
+
+```javascript
+dataLayer.push({
+  event: 'sealmetrics_conversion',
+  conversionType: 'lead',
+  conversionValue: 0,
+  conversionProperties: {
+    source: 'contact_form',
+    campaign: 'spring_sale'
+  }
+});
+```
+
+### Track Newsletter Signup
+
+```javascript
+dataLayer.push({
+  event: 'sealmetrics_micro',
+  microEventType: 'newsletter_signup',
+  microEventProperties: {
+    form_location: 'footer',
+    list_id: 'main_newsletter'
+  }
+});
+```
+
+### Track Add to Cart
+
+```javascript
+dataLayer.push({
+  event: 'sealmetrics_micro',
+  microEventType: 'add_to_cart',
+  microEventProperties: {
+    product_id: '123',
+    product_name: 'Awesome Product',
+    price: '49.99',
+    quantity: '1'
+  }
+});
+```
+
+### Track Form Submission
+
+```javascript
+dataLayer.push({
+  event: 'sealmetrics_micro',
+  microEventType: 'form_submit',
+  microEventProperties: {
+    form_name: 'quote_request',
+    form_id: 'quote-form'
+  }
+});
+```
+
+## Using with Existing GA4 Setup
+
+If you already have GA4 e-commerce tracking configured, the template will automatically capture purchase events. Your existing dataLayer pushes will work without modification:
+
+```javascript
+// This existing GA4 purchase event will be captured
+dataLayer.push({
+  event: 'purchase',
+  ecommerce: {
+    transaction_id: 'T_12345',
+    value: 99.99,
+    currency: 'EUR',
+    items: [{
+      item_id: 'SKU_12345',
+      item_name: 'Product Name',
+      price: 99.99,
+      quantity: 1
+    }]
+  }
+});
+```
+
+## Privacy
+
+SealMetrics does not use cookies or store personal data. No consent banner required.
+
+## Troubleshooting
+
+### Tags not firing
+
+1. Check GTM Preview mode
+2. Verify the trigger conditions are met
+3. Ensure dataLayer events use the correct event names
+
+### Purchases not tracking
+
+1. Verify your e-commerce dataLayer format matches the expected structure
+2. Check the `purchase` event fires on the confirmation page
+3. Review variables in GTM Preview mode
+
+### Missing data
+
+1. Check that all required properties are being passed
+2. Verify variable mappings in the tag configuration
+
+## Related documentation
+
+- [Google Tag Manager Template](/integrations/google-tag-manager) — the no-code template guide with the recommended Initialization trigger.
+- [Advanced GTM Integration](/integrations/google-tag-manager-advanced) — the `?auto=0` manual mode and buffer stub for dynamic values on the first pageview.
+- [Installation](/implementation/tracker/installation) — how the underlying Sealmetrics tracker loads outside of GTM.
+- [Understanding Event Properties in Sealmetrics](/implementation/custom-properties/event-properties) — the event and property model behind the conversion and microconversion tags.
+- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.

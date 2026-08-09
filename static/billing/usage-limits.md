@@ -1,0 +1,174 @@
+---
+title: "Usage & Limits"
+description: "Understanding event limits, usage tracking, and how Sealmetrics handles overages."
+canonical_url: "https://docs.sealmetrics.com/billing/usage-limits"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "billing/usage-limits.mdx"
+publisher: "SealMetrics"
+---
+
+# Usage & Limits
+
+Canonical page: https://docs.sealmetrics.com/billing/usage-limits
+
+Learn how Sealmetrics tracks usage, what counts toward your limits, and how the no-overage billing model works.
+
+## Event Limits
+
+Each plan includes a monthly event allowance:
+
+| Plan | Monthly Events |
+|------|---------------|
+| Growth | 5,000,000 |
+| Scale | 15,000,000 |
+| Enterprise | Unlimited |
+
+### What Counts as an Event
+
+All tracked interactions count toward your event limit:
+
+| Event Type | Counts? | Notes |
+|------------|:-------:|-------|
+| Pageview | Yes | Standard page load |
+| Virtual pageview (SPA) | Yes | Single-page app navigation |
+| Custom event | Yes | User-defined events |
+| Conversion | Yes | Purchase, signup, etc. |
+| Micro-conversion | Yes | Add-to-cart, etc. |
+| AI Agent events | No | Agent Analytics is coming soon; when live, detected agents are tracked but never billed |
+
+**Agent Analytics:** *(coming soon)* AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) will be detected and tracked separately, and will **not** count toward your event limit. Agent Analytics will be included on all plans. It is not live today.
+
+### Events Are Pooled
+
+Events are pooled across all websites in your plan:
+
+```
+Plan: Growth (5M events)
+
+Website 1 (main-store.com):     3,200,000 events
+Website 2 (blog.company.com):     800,000 events
+Website 3 (uk.store.com):         650,000 events
+----------------------------------------------
+Total used:                     4,650,000 events
+Remaining:                        350,000 events
+```
+
+## No Overage Charges
+
+Sealmetrics uses a **fixed-price billing model** with no surprise overage charges:
+
+- **Your price is fixed** — you always pay the same amount per month
+- **Tracking never stops** — if you exceed your limit, data collection continues uninterrupted
+- **Free overage month** — one month per year of exceeding your limit is absorbed at no extra cost
+- **Annual protection** — Growth and Scale annual plans absorb mid-year overages until renewal
+
+### Auto-Upgrade Policy
+
+If you **exceed your event limit (over 100%) for two consecutive months** that are not forgiven, your plan is moved up to the next tier:
+
+| Current Plan | Behavior when over limit for 2 consecutive months |
+|--------------|----------------------------------------------------|
+| Growth (5M) | Automatically upgraded to Scale (15M) |
+| Scale (15M) | **Not** auto-upgraded — you receive an email to discuss an Enterprise plan |
+
+A single month over your limit triggers a warning email (or uses your free overage month for the year), not an upgrade. Auto-upgrade only applies to Stripe-billed accounts; if you subscribed through the Shopify App Store, you'll receive an email to upgrade manually from your Shopify Admin instead (see [Billing channels](#billing-channels)).
+
+## Billing channels
+
+Sealmetrics can be billed through one of two channels (never both at once):
+
+- **Stripe** — for accounts that sign up directly on sealmetrics.com. Prices are in EUR. This is the only channel where the auto-upgrade described above applies.
+- **Shopify App Store** — for merchants who installed Sealmetrics from Shopify. Billing is managed from your **Shopify Admin** and prices are shown in USD. Sealmetrics cannot upgrade your plan automatically here; if you stay over your limit, you'll receive an email asking you to approve the new plan in Shopify Admin.
+
+After your free trial, accounts that haven't selected a paid plan fall back to an internal **free** tier, which is not subject to event-limit usage tracking or auto-upgrade.
+
+## Monitoring Usage
+
+### Dashboard View
+
+1. Go to **Settings > Billing**
+2. View the **Event Usage** card showing current period usage
+3. See breakdown of human events and AI agent events
+
+### Usage Alerts
+
+You'll receive notifications at:
+
+| Threshold | Notification Type |
+|-----------|-------------------|
+| 80% | Email warning |
+| 100% | Email + Dashboard alert |
+| 120% | Email alert (you are well over your limit) |
+
+These percentages are email alert thresholds only — reaching 120% in a single month does not trigger an upgrade. Auto-upgrade is a separate process based on two consecutive months over your limit (see [Auto-Upgrade Policy](#auto-upgrade-policy)).
+
+## Other Limits
+
+### Data Retention
+
+Data retention is **fixed and identical for every plan** — it is enforced by database TTLs, not by plan tier: daily aggregates and conversions are kept **24 months**, hourly aggregates 90 days, and event-level detail 14 days. See [Data Location & Retention](/security-privacy/data-location).
+
+### LENS AI usage
+
+LENS AI works in two modes, with different limits:
+
+- **[Seal AI Private](/billing/seal-ai-private)** (managed, EU-hosted, no API key — add-on on Growth, included in Scale/Enterprise): **5M tokens per calendar month**, plus any non-expiring token packs you purchase. When quota and packs run out, Seal AI stops until the monthly reset or a pack purchase (you can always fall back to BYOK).
+- **Bring-your-own-key (BYOK)**: connect your own Anthropic, OpenAI, DeepSeek, or Gemini API key under **My Account → LLM Providers**. Sealmetrics imposes **no quota** — usage is billed directly by your provider.
+
+See the [AI Assistant docs](/lens/ai-assistant) for setup.
+
+### Websites and Users
+
+All plans include unlimited websites and unlimited users. There are no limits on the number of sites you can track or team members you can invite.
+
+## Reducing Usage
+
+### Optimize Tracking
+
+If you're approaching limits, consider:
+
+1. **Exclude internal traffic** — Don't install pixel on staging/development environments
+2. **Filter bot traffic** — Enabled by default, removes known bots
+3. **Agent Analytics** — AI agent events are excluded from your event count automatically
+
+### Monitor by Website
+
+Identify high-usage websites:
+
+1. Go to **Settings > Billing**
+2. View the **Event Usage** card
+3. Consider if all websites need full tracking
+
+## Planning for Growth
+
+### Upgrade Triggers
+
+Consider upgrading when:
+
+| Trigger | Recommendation |
+|---------|----------------|
+| Approaching 80%+ usage regularly | Consider upgrading proactively |
+| Need webhooks/audit logs | Upgrade to Scale |
+| Need unlimited events | Contact Enterprise sales |
+
+## FAQ
+
+### Do AI agent events count toward my limit?
+
+Agent Analytics detects AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) and tracks it separately. These events do not count toward your monthly event limit, and the feature is included on all plans.
+
+### What happens if I hit my limit mid-month?
+
+Tracking continues uninterrupted. There are no overage charges. If you exceed your limit for two consecutive months that aren't forgiven, a Growth plan is auto-upgraded to Scale; a Scale plan instead receives an email to discuss Enterprise (it is not auto-upgraded).
+
+### Do unused events roll over?
+
+No. Event allowances reset each billing cycle and don't roll over.
+
+### How quickly does usage update?
+
+Usage data is synced periodically. There may be a short delay before the latest events appear in your usage dashboard.

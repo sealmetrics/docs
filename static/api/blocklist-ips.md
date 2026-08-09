@@ -1,0 +1,133 @@
+---
+title: "IP Blocklist"
+description: "Block individual IPs or CIDR ranges from tracking to exclude internal traffic, known bots, competitors, or test infrastructure"
+canonical_url: "https://docs.sealmetrics.com/api/blocklist-ips"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/blocklist-ips.mdx"
+publisher: "SealMetrics"
+---
+
+# IP Blocklist
+
+Canonical page: https://docs.sealmetrics.com/api/blocklist-ips
+
+Block individual IPs or CIDR ranges from tracking. Useful for excluding internal traffic, known bots, competitor monitoring, or test infrastructure.
+
+**Base path:** `/blocklist-ips`
+
+Default scope: `read`. Mutations require `write` (editor or higher).
+
+**Tip:**
+This endpoint **blocks** traffic. To **restrict dashboard access** by IP, see the [IP Allowlist API](./ip-allowlist).
+
+---
+
+## List Blocklist Entries
+
+```http
+GET /blocklist-ips?account_id={account_id}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `account_id` | string | required | Account ID |
+| `include_inactive` | boolean | `false` | Include inactive entries |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "entries": [
+      {
+        "id": 1,
+        "account_id": "acme",
+        "ip_or_cidr": "10.0.0.0/8",
+        "reason": "internal office network",
+        "is_active": true,
+        "created_at": "2025-01-05T10:00:00Z"
+      },
+      {
+        "id": 2,
+        "account_id": "acme",
+        "ip_or_cidr": "203.0.113.42",
+        "reason": "competitor monitoring",
+        "is_active": true,
+        "created_at": "2025-02-10T08:15:00Z"
+      }
+    ],
+    "total": 2,
+    "active_count": 2
+  }
+}
+```
+
+---
+
+## Create Blocklist Entry
+
+```http
+POST /blocklist-ips?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `ip_or_cidr` | string | Yes | IP address or CIDR range (1-50 chars). Validated with Python `ipaddress` — both IPv4 and IPv6 supported (e.g. `"192.168.1.100"`, `"10.0.0.0/8"`) |
+| `reason` | string | No | Why this is blocked (max 255, default `""`) |
+| `is_active` | boolean | No | Default `true` |
+
+**Response (201 Created):** full entry object. Returns `400` if the IP/CIDR is malformed, `409` if the entry already exists.
+
+---
+
+## Get Blocklist Entry
+
+```http
+GET /blocklist-ips/{entry_id}?account_id={account_id}
+```
+
+Returns the entry or `404` if not found.
+
+---
+
+## Update Blocklist Entry
+
+```http
+PATCH /blocklist-ips/{entry_id}?account_id={account_id}
+```
+
+**Required scope:** `write`
+
+All fields from create are optional. Returns `409` if the new IP/CIDR would conflict with another entry.
+
+---
+
+## Delete Blocklist Entry
+
+```http
+DELETE /blocklist-ips/{entry_id}?account_id={account_id}
+```
+
+**Required scope:** `write`. Returns `204 No Content`.
+
+---
+
+## Limits and behavior
+
+- **Maximum 100 entries per site.** Enforced by the API: creating the 101st entry returns `422 max_entries_reached`. If you need more, prefer CIDR ranges over individual IPs (a `/24` covers a full office subnet in one entry).
+- **IPv4 and IPv6 both supported**, including CIDR ranges. The pixel matches on exact IP and on CIDR containment.
+- **Propagation delay: ~5 minutes.** The pixel refreshes its per-site cache every ~5 min, so a new entry or an `is_active` toggle takes effect on future traffic within that window.
+- **Discarded, not tagged.** Traffic from a blocked IP is dropped at the pixel with `204 No Content` — nothing is stored, and blocked hits are not visible anywhere in reports. There is no "internal traffic" segment; the traffic simply doesn't exist as far as your analytics are concerned.
+- **Not retroactive.** Removing an entry does not restore historical data from that IP. The block only applies to future traffic.
+- **Sealmetrics never stores visitor IPs.** The blocklist is the only place the pixel reads the incoming IP, and only in memory to decide whether to accept the hit.
+
+For the user-facing walkthrough (with worked examples, the "Add my current IP" shortcut, and the difference vs the IP Allowlist), see [IP Exclusions](/platform/settings/tracking/ip-exclusions).

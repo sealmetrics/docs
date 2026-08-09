@@ -1,0 +1,67 @@
+---
+title: "GA4 Migration Guide"
+description: "How to migrate from Google Analytics 4 to Sealmetrics — what to export from GA4, how metrics map, and how to run both in parallel during the transition."
+canonical_url: "https://docs.sealmetrics.com/ga4-migration"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "ga4-migration/index.mdx"
+publisher: "SealMetrics"
+---
+
+# GA4 Migration Guide
+
+Canonical page: https://docs.sealmetrics.com/ga4-migration
+
+Moving from Google Analytics 4 (GA4) to Sealmetrics takes most teams **1–2 weeks** end to end. This guide walks through what to prepare, how GA4 concepts map to Sealmetrics, and how to run both platforms in parallel so you can validate data before cutting GA4 off.
+
+## Before you start
+
+Document the following from your current GA4 property:
+
+- Core metrics you rely on (sessions, users, pageviews, conversions, revenue).
+- Custom events and the parameters they carry.
+- E-commerce tracking implementation (GA4 events or GTM-based).
+- Audiences and custom definitions.
+- Connected integrations (Google Ads, Search Console, Data Studio, BigQuery export).
+- Retention settings and historical data you need to export before shutdown.
+
+## How GA4 concepts map to Sealmetrics
+
+| GA4 | Sealmetrics |
+|---|---|
+| Session | Session (cookieless, ~2-hour inactivity window) |
+| Engaged session | Engaged session (configurable engagement threshold) |
+| User | Visitor (first-party, consent-free identifier) |
+| Event | Event (typed: pageview, conversion, micro-conversion, custom) |
+| Conversion | Conversion (native) + Micro-conversion |
+| Audience | Segment |
+| Data streams | Sites |
+| Custom dimensions / metrics | Custom properties on events |
+| BigQuery export | [Exports API](/api/exports) |
+
+## Migration steps
+
+1. **Install the Sealmetrics tracker** alongside GA4 — see [Tracker installation](/implementation/tracker/installation). Both can run in parallel without conflict.
+2. **Map events.** Re-declare your GA4 custom events as Sealmetrics events. See [Conversion tracking](/implementation/ecommerce-conversion-tracking).
+3. **Configure attribution.** Set channel groupings, attribution windows, and excluded domains via the Platform settings — see [Bypass POS or referrer](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer).
+4. **Validate in parallel** for 2–4 weeks. Expect Sealmetrics to report **5–8× more traffic** in EU markets because it captures consent-rejected visitors.
+5. **Export GA4 history** you want to keep — raw events via BigQuery, reports via CSV. Sealmetrics retains data for 24 months without consent; GA4 maxes out at 14 months under consent-free operation.
+6. **Update dashboards.** Rebuild Data Studio / BI reports against [Sealmetrics exports](/api/exports) or the [Batch API](/api/batch).
+7. **Cut GA4 off** once parallel validation passes your QA.
+
+## What's different
+
+- **No cookies, no consent banner.** Sealmetrics captures 100% of traffic under GDPR legitimate interest (Article 6(1)(f)).
+- **Google Ads tracking, no audience sync.** Sealmetrics tracks Google Ads campaigns via UTM parameters end-to-end (source, medium, campaign, term, content) and provides ROAS reporting. What it does **not** do is push audience segments back to Google Ads for automated bidding — that requires GA4 with consented users. Teams commonly run both: GA4 for Ads audience/bidding, Sealmetrics as the source of truth for total traffic and conversions.
+- **No predictive metrics** (purchase probability, churn probability). Sealmetrics reports observed behavior.
+- **Simpler attribution model.** Last non-direct click by default; configurable.
+- **Reporting in the account's timezone, not UTC.** Every preset ("today", "7d", "this month") is resolved with "today in the account's timezone" — matching how GA4 calls it the "reporting timezone". Set it correctly in **Site settings → General** before you start validating side-by-side; a mismatch between GA4's reporting timezone and Sealmetrics's will shift daily rollups by up to a day at the seam.
+
+## Related
+
+- [Google Analytics 4 vs Sealmetrics](/blog/google-analytics-vs-sealmetrics) — feature-by-feature comparison.
+- [GA4 vs Sealmetrics FAQ](/faq/ga4-vs-sealmetrics) — common migration questions.
+- [Compliance overview](/compliance) — GDPR, ePrivacy, CNIL, UK PECR posture.

@@ -1,0 +1,193 @@
+---
+title: "Batch API"
+description: "Execute multiple analytics queries in one HTTP request with dependency ordering, parallel limits, and per-query timing options"
+canonical_url: "https://docs.sealmetrics.com/api/batch"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/batch.mdx"
+publisher: "SealMetrics"
+---
+
+# Batch API
+
+Canonical page: https://docs.sealmetrics.com/api/batch
+
+The Batch API lets you execute multiple analytics queries in a single HTTP request. This is useful when building dashboards or reports that need data from several endpoints simultaneously.
+
+## Endpoint
+
+```
+POST /api/v1/batch
+```
+
+## Request format
+
+```json
+{
+  "queries": [
+    {
+      "id": "overview",
+      "endpoint": "/stats/overview",
+      "params": {
+        "account_id": "my-site",
+        "period": "30d"
+      }
+    },
+    {
+      "id": "pages",
+      "endpoint": "/stats/pages",
+      "params": {
+        "account_id": "my-site",
+        "period": "30d",
+        "page_size": 10
+      }
+    },
+    {
+      "id": "sources",
+      "endpoint": "/stats/sources",
+      "params": {
+        "account_id": "my-site",
+        "period": "30d"
+      },
+      "depends_on": ["overview"]
+    }
+  ],
+  "options": {
+    "fail_fast": false,
+    "parallel_limit": 5,
+    "include_timing": true
+  }
+}
+```
+
+### Query fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | Yes | Unique identifier for this query (alphanumeric) |
+| `endpoint` | string | Yes | Analytics endpoint path (must start with `/stats/`) |
+| `params` | object | Yes | Parameters for the endpoint |
+| `depends_on` | string[] | No | Query IDs that must complete before this one runs |
+
+### Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `fail_fast` | false | Stop execution on first error |
+| `parallel_limit` | 5 | Maximum concurrent queries (1-10) |
+| `include_timing` | true | Include execution time per query |
+
+### Multi-account timezone handling
+
+Each query resolves date filters **using its own account's timezone**. So a batch containing one query for `account_id=acme` (Europe/Madrid) and another for `account_id=partner` (America/New_York) will interpret `period=30d` correctly for each site — no need to pre-resolve dates on your side or coerce all queries to UTC.
+
+This is important when you're building a multi-site dashboard: the `today` / `this_month` / `30d` presets each expand against the specific site they target, matching how the data is stored in ClickHouse (each hit is bucketed by the account's local `date` at ingest). See [Date periods and account timezone](/api/stats-advanced#how-today-is-resolved) for the full rule.
+
+## Supported endpoints
+
+All `/stats/` endpoints are available:
+
+- `/stats/overview` — Traffic overview
+- `/stats/pages` — Pages report
+- `/stats/sources` — Traffic sources
+- `/stats/mediums` — UTM mediums
+- `/stats/campaigns` — UTM campaigns
+- `/stats/terms` — UTM terms
+- `/stats/referrers` — Referrers
+- `/stats/geo/countries` — Geographic data
+- `/stats/devices` — Device types
+- `/stats/browsers` — Browsers
+- `/stats/operating-systems` — Operating systems
+- `/stats/conversions` — Conversions
+- `/stats/microconversions` — Microconversions
+- `/stats/funnel` — Funnel analysis
+- `/stats/landing-pages` — Landing pages
+- `/stats/channels` — Channel groups
+
+## Response format
+
+```json
+{
+  "batch_id": "uuid",
+  "status": "completed",
+  "results": {
+    "overview": {
+      "status": "success",
+      "data": { },
+      "timing_ms": 45
+    },
+    "pages": {
+      "status": "success",
+      "data": { },
+      "timing_ms": 32
+    },
+    "sources": {
+      "status": "success",
+      "data": { },
+      "timing_ms": 28
+    }
+  },
+  "meta": {
+    "total_queries": 3,
+    "successful": 3,
+    "failed": 0,
+    "skipped": 0,
+    "total_timing_ms": 105
+  }
+}
+```
+
+### Query statuses
+
+| Status | Description |
+|--------|-------------|
+| `success` | Query completed successfully |
+| `error` | Query failed (see `error` field) |
+| `skipped` | Skipped because a dependency failed |
+
+## Validation endpoint
+
+Validate your batch request without executing it:
+
+```
+POST /api/v1/batch/validate
+```
+
+Returns the planned execution order and parallel groups:
+
+```json
+{
+  "valid": true,
+  "query_count": 3,
+  "execution_order": ["overview", "pages", "sources"],
+  "parallel_groups": [["overview", "pages"], ["sources"]]
+}
+```
+
+## Limits
+
+- Maximum 50 queries per batch
+- All query IDs must be unique
+- Circular dependencies are not allowed
+
+## For agents: fan out without spending requests
+
+A batch is one HTTP request and one rate-limit slot, no matter how many queries it carries. For an agent assembling a report, that turns a dozen round trips into one:
+
+- **Dry-run first.** `POST /batch/validate` returns the execution order and the parallel groups without running anything, so you can check a generated plan before spending the request.
+- **Express ordering, don't serialise.** `depends_on` lets the API run everything it can in parallel while still respecting your dependencies.
+- **Cap concurrency** with `parallel_limit` (1–10) when you are querying many sites at once.
+- **Read `timing_ms`** per query (`include_timing`) to find the expensive part of a report.
+- **Handle partial failure.** With `fail_fast: false` you get per-query `status`, so one bad query does not lose the whole batch. Dependants of a failed query come back as `skipped`.
+
+Batch covers `/stats/*` endpoints. For configuration reads (sites, segments, alerts), issue normal requests.
+
+## Related
+
+- [For AI Agents](/api/for-agents) — the full agent integration guide
+- [Multi-Dimensional Query](/api/stats-query) — one query with several dimensions, as an alternative to several batched queries
+- [Rate Limits](/api/rate-limits)
+- [Error codes](/api/errors)

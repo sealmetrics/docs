@@ -1,0 +1,142 @@
+---
+title: "Plans & Pricing"
+description: "Overview of Sealmetrics plans, pricing, and what's included in each tier."
+canonical_url: "https://docs.sealmetrics.com/billing"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "billing/index.mdx"
+publisher: "SealMetrics"
+---
+
+# Plans & Pricing
+
+Canonical page: https://docs.sealmetrics.com/billing
+
+Sealmetrics offers three volume-based plans designed to scale with your business needs. All plans include unlimited websites, unlimited users, privacy-first tracking, attribution modeling, and core reporting features.
+
+## Plan Comparison
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| **Monthly Price** | €599 | €1,079 | Custom |
+| **Annual Price (per month)** | €499 | €899 | Custom |
+| **Monthly Events** | 5M | 15M | Unlimited |
+
+### Core Features (All Plans)
+
+All plans include:
+- Unlimited websites
+- Unlimited users
+- 24 months data retention
+- Full API access
+- MCP Server
+- BigQuery export
+- CSV/JSON export
+- LENS AI (Chat + Reports) — rule-based Insights coming soon
+- Conversion tracking
+- Funnel analysis
+- Bot detection & fraud protection
+- Consentless tracking
+- Real-time data — hits normally in reports in under 2 min; the SLA guarantees each day complete before 6 AM
+- Email reports & alerts
+- Multi-site portfolio view
+- Agent AI Analytics — coming soon (when live, AI agents are tracked and never billed)
+
+### Plan Differences
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Monthly events | 5M | 15M | Unlimited |
+| LENS AI assistant (your own LLM key) | Included | Included | Included |
+| [Seal AI Private](/billing/seal-ai-private) (managed, EU) | Add-on | Included | Included |
+| Webhooks | - | Yes | Yes |
+| Audit logs | - | Yes | Yes |
+| Role-based access | Basic | Advanced | Full |
+| Uptime SLA | 99% | 99.5% | 99.9% |
+| Support | Email | Email + Chat + Priority | Priority + Dedicated AM |
+| Onboarding | Docs | 1 session | White-glove |
+
+## Choosing the Right Plan
+
+### Growth (€599/month, €499 annual)
+
+**Best for:** Growing teams and mid-size e-commerce businesses
+
+Choose Growth if you:
+- Have up to 5M monthly events
+- Need BigQuery integration for custom analysis
+- Want full API access and MCP Server
+- Need all core analytics and reporting features
+
+### Scale (€1,079/month, €899 annual)
+
+**Best for:** Multi-brand retailers and larger organizations
+
+Choose Scale if you:
+- Have up to 15M monthly events
+- Need webhooks and audit logs
+- Require advanced role-based access control
+- Need priority support
+
+### Enterprise (Custom pricing)
+
+**Best for:** Large organizations with custom needs
+
+Choose Enterprise if you:
+- Need unlimited events
+- Want a dedicated account manager
+- Need isolated data processing
+- Require 99.9% SLA guarantee
+
+## Event Limits & Upgrades
+
+Sealmetrics uses a **no overage** billing model:
+
+- **No surprise charges** — your monthly price is fixed
+- **Tracking never stops** — if you exceed your event limit, data collection continues
+- **Free overage month** — one month per year of overage is absorbed at no extra cost
+- **Auto-upgrade** — if you exceed your event limit for 2 consecutive months (without forgiveness), Growth is automatically upgraded to Scale. When a Scale plan exceeds its limit for 2 consecutive months, we notify you to discuss Enterprise — this change is not automatic
+- **Downgrade suggestions** — if your usage drops below 50% for 3+ months, we'll suggest a more suitable plan
+
+**Tip:**
+
+## Getting Started
+
+## Frequently Asked Questions
+
+### Can I change plans?
+
+Yes, you can upgrade or downgrade at any time. Changes take effect immediately:
+- **Upgrades:** Prorated charge for remaining billing period
+- **Downgrades:** Credit applied to future invoices
+
+### Is there a free trial?
+
+Yes, all plans include a 14-day free trial with full features. You enter a payment method when you start, but you're not charged until the trial ends — cancel before then and you pay nothing.
+
+### What happens if I exceed my event limit?
+
+Tracking continues without interruption. There are no overage charges — your monthly price stays fixed. If you exceed your limit for 2 consecutive months, Growth is automatically upgraded to Scale. For Scale, we notify you to discuss Enterprise instead — the move is not automatic.
+
+### Do you offer discounts?
+
+- **Annual billing:** Save approximately 17% compared to monthly (2 months free)
+- **Nonprofits:** 50% discount (contact us)
+- **Startups:** Special pricing available (contact us)
+
+### Can I cancel anytime?
+
+Yes, cancel anytime with no penalties. You'll retain access until the end of your billing period.
+
+---
+
+## More Information
+
+- [Growth Plan Details](/billing/plans/growth)
+- [Scale Plan Details](/billing/plans/scale)
+- [Enterprise Plan Details](/billing/plans/enterprise)
+- [Features Comparison](/billing/features-comparison)
+- [Usage & Limits](/billing/usage-limits)

@@ -1,0 +1,49 @@
+---
+title: "How to Track Google Ads Campaigns"
+description: "Learn how to correctly track Google Ads campaigns in Sealmetrics using UTM parameters and Google Ads value-track templates."
+canonical_url: "https://docs.sealmetrics.com/reports/insights/how-to-track-google-ads-campaigns"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/insights/how-to-track-google-ads-campaigns.mdx"
+publisher: "SealMetrics"
+---
+
+# How to Track Google Ads Campaigns
+
+Canonical page: https://docs.sealmetrics.com/reports/insights/how-to-track-google-ads-campaigns
+
+Sealmetrics reads the UTM parameters located in your URLs.
+
+By incorporating these URL tracking templates into your Google Ads campaigns, SEAL can track campaigns, terms/keywords, placements, or product IDs from Google Ads.
+
+---
+
+## Google Search & Display (GDN)
+
+```
+{lpurl}?utm_medium=cpc&utm_source=google&utm_campaign={Campaignid}&utm_term={ifsearch:{keyword}\{matchtype}}{ifcontent:{placement}}
+````
+## Google Shopping
+
+```
+{lpurl}?utm_medium=cpc&utm_source=google&utm_campaign={Campaignid}&utm_term={_term}
+````
+
+## Google Ads Account-Level Setup
+
+ou can add this code directly at the Account level following these Google Ads instructions:
+
+https://support.google.com/google-ads/answer/6305348?hl=en
+
+When configured at the account level, Google Ads will automatically append all value-track parameters to every campaign — including new ones — ensuring reliable attribution in Sealmetrics.
+
+## Related documentation
+
+- [How Sealmetrics Calculates SEO Traffic](/reports/insights/how-sealmetrics-calculates-seo-traffic) — How paid is kept separate from organic
+- [What Is a TERM in Sealmetrics?](/reports/insights/what-is-a-term) — How keywords are captured from Google Ads
+- [How to Track Social Ads Campaigns](/reports/insights/how-to-track-social-ads-campaigns) — UTM tagging for Meta Ads
+- [How to Change UTM Parameters in Sealmetrics](/reports/insights/how-to-change-utm-parameters) — Map custom parameter names
+- [Sources Report](/reports/sources) — Analyze campaign and keyword performance

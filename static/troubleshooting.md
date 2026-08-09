@@ -1,0 +1,257 @@
+---
+title: "Troubleshooting"
+description: "Diagnose and fix common SealMetrics issues: verify tracker installation in DevTools, confirm data collection with the Last hit timestamp, and resolve missing data."
+canonical_url: "https://docs.sealmetrics.com/troubleshooting"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "troubleshooting/index.mdx"
+publisher: "SealMetrics"
+---
+
+# Troubleshooting
+
+Canonical page: https://docs.sealmetrics.com/troubleshooting
+
+Solutions for common issues with SealMetrics tracking and reporting.
+
+## Guides
+
+| Guide | Use it when… |
+|---|---|
+| [Tracker or pixel not working](/troubleshooting/tracker-not-working) | No data appearing at all — start here to triage which specific problem you have |
+| [GTM Consent Mode blocking the tag](/troubleshooting/gtm-consent-mode-blocking) | Data dropped after a CMP/consent banner went live, or only consenting visitors are tracked |
+| [CSP errors: domains to allow](/troubleshooting/csp-errors-domains-to-allow) | The console shows "Refused to load the script" / "Refused to connect" policy errors |
+| [Duplicate pageviews](/troubleshooting/duplicate-pageviews) | Pageviews doubled: script included twice, stub without `?auto=0`, or SPA without `?spa=0` |
+| [Dates & timezone mismatch](/troubleshooting/dates-timezone-mismatch) | Daily totals don't line up with another tool or your backend |
+| [Unauthorized domain](/troubleshooting/unauthorized-domain) | The snippet is installed but hits from a domain are silently rejected |
+| [Data delay](/troubleshooting/data-delay) | Data seems to take longer than seconds to appear |
+| [Conversions not appearing](/troubleshooting/conversions-not-appearing) | Pageviews work but a conversion never reaches the Conversions report |
+| [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) | SealMetrics reports fewer visits than GA4 or another tool |
+| [Test traffic blocked as bot](/troubleshooting/test-traffic-blocked-as-bot) | Your own automated test visits (Selenium, Playwright, curl…) never show up |
+| [Reconciling with your ERP, CRM, or database](/troubleshooting/erp-crm-database-discrepancy) | Substantial conversion gaps against your source of truth |
+| [Fixing `ReferenceError: sealmetrics is not defined`](/troubleshooting/sealmetrics-is-not-defined) | Ad blockers break pages that call `sealmetrics.*` directly |
+
+---
+
+## Quick Diagnostics
+
+### Check Tracker Installation
+
+1. Open your website in a browser
+2. Open Developer Tools (F12)
+3. Go to the **Network** tab
+4. Filter by `sealmetrics` or `pixel`
+5. Reload the page
+
+You should see:
+- `t.js` script loading (200 OK)
+- Beacon/fetch request to `t.sealmetrics.com` (204 No Content)
+
+### Verify Data Collection
+
+1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
+2. Open the **Overview** report
+3. Visit your website in another tab
+4. The **Last hit** timestamp at the top right should update within seconds
+
+---
+
+## Common Issues
+
+### Tracking Not Working
+
+**Symptoms:** No data appearing in dashboard
+
+**Solutions:**
+
+1. **Check script installation**
+   ```javascript
+   // In browser console
+   console.log(typeof sealmetrics);
+   // Should output: "function"
+   ```
+
+2. **Verify Site ID**
+   - Confirm your Site ID matches the one in your tracker script
+   - Find your Site ID in Settings → Sites → [your site] → General tab
+
+3. **Check domain authorization**
+   - Go to Settings → Sites → [your site] → Domains
+   - Ensure your website domain is listed — see [Unauthorized domain](/troubleshooting/unauthorized-domain)
+
+4. **Check for JavaScript errors**
+   - Open browser console (F12 → Console)
+   - Look for any errors related to sealmetrics
+
+### Conversions Not Appearing
+
+**Symptoms:** Pageviews work but conversions don't show up
+
+**Solutions:**
+
+1. **Verify conversion code**
+   ```javascript
+   // Check if tracker is loaded before calling
+   if (typeof sealmetrics !== 'undefined') {
+     sealmetrics.conv('purchase', 99.99);
+   }
+   ```
+
+2. **Check Network tab**
+   - Look for the beacon request after conversion fires
+   - Verify the payload contains `"e":"purchase"` and `"v":99.99`
+
+3. **Timing issues**
+   - Ensure `sealmetrics.conv()` is called AFTER the script loads
+   - Use `window.addEventListener('load', ...)` for page load events
+
+4. **Full checklist** — [Conversions not appearing](/troubleshooting/conversions-not-appearing) covers snippet signature, numeric amounts, flow variants, and report verification step by step
+
+For substantial discrepancies between SealMetrics and your ERP / CRM / internal database (missing conversions when reconciling totals), see [Reconciling SealMetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — it walks through the firing-order requirement of the base pixel vs. the conversion pixel and the long tail of secondary causes.
+
+### Duplicate Conversions
+
+**Symptoms:** Same order appearing multiple times
+
+**Solutions:**
+
+1. **Server-side deduplication** (recommended)
+   ```php
+   if (!$order->isTracked()) {
+     echo '';
+     $order->markAsTracked();
+   }
+   ```
+
+2. **Client-side check**
+   ```javascript
+   var orderId = 'ORD-123';
+   if (!localStorage.getItem('tracked_' + orderId)) {
+     sealmetrics.conv('purchase', 99.99, { order_id: orderId });
+     localStorage.setItem('tracked_' + orderId, 'true');
+   }
+   ```
+
+### SPA Navigation Not Tracked
+
+**Symptoms:** Only first page view appears, navigation ignored
+
+**Solutions:**
+
+The tracker automatically detects History API navigation. If it's not working:
+
+1. **Hash-based routing**
+   - Hash changes (`#/page`) require manual tracking
+   ```javascript
+   window.addEventListener('hashchange', function() {
+     sealmetrics();
+   });
+   ```
+
+2. **Custom routing**
+   - If using a custom router, call `sealmetrics()` on route changes
+   - If you fire pageviews manually on History API navigation, load the tracker with `?spa=0` to avoid double counting — see [Duplicate pageviews](/troubleshooting/duplicate-pageviews)
+
+### Data Discrepancy with Other Tools
+
+**Symptoms:** Different numbers than Google Analytics
+
+This is expected. SealMetrics differs because:
+
+1. **No cookies** — SealMetrics uses cookieless session identification, GA uses cookies
+2. **Bot filtering** — SealMetrics has different bot detection
+3. **Session definition** — Different session timeout rules
+4. **Ad blocker immunity** — SealMetrics tracks users blocked by ad blockers
+
+See [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) for the diagnosis guide and [GA4 vs SealMetrics](/faq/ga4-vs-sealmetrics) for the detailed comparison.
+
+---
+
+## Network Issues
+
+### Blocked by Ad Blockers
+
+SealMetrics is designed to work with ad blockers. If blocked:
+
+1. **First-party tracking** — Set up [first-party tracking](/implementation/tracker/first-party)
+2. **Custom domain** — Use your own subdomain for the pixel
+3. **Avoid `ReferenceError: sealmetrics is not defined`** — When the script is blocked, direct calls to `sealmetrics.*` throw a `ReferenceError` that can break the page. See [Fixing `ReferenceError: sealmetrics is not defined`](/troubleshooting/sealmetrics-is-not-defined) for the recommended stub buffer (and the fallback per-call guard).
+
+### CORS Errors
+
+You shouldn't see CORS errors. If you do:
+
+1. **Check Content-Type** — Tracker sends form-encoded beacons to avoid preflight
+2. **Verify script URL** — Use the exact URL from your dashboard
+
+### CSP Errors
+
+If the console shows "Refused to load the script" or "Refused to connect" errors naming a `Content-Security-Policy` directive, your site's CSP is blocking the tracker. See [CSP errors: domains to allow](/troubleshooting/csp-errors-domains-to-allow).
+
+### 429 Too Many Requests
+
+API rate limiting. Solutions:
+
+1. **Reduce request frequency**
+2. **Implement caching**
+3. **Upgrade plan** for higher limits
+
+---
+
+## Data Freshness Issues
+
+### Data Appears Delayed
+
+Hits normally reach reports within seconds. If data seems delayed:
+
+1. **Check the Last hit timestamp** — Top right of the Overview report; it updates within seconds of a tracked hit
+2. **Check the date range and timezone** — "Today" is defined by the site's timezone
+3. **Processing queue** — During traffic spikes, brief delays are normal
+
+See [Data delay](/troubleshooting/data-delay) for the full decision tree.
+
+---
+
+## Content Grouping Issues
+
+### Group Not Appearing
+
+1. **Verify parameter**
+   ```html
+
+   ```
+
+2. **Or use JavaScript**
+   ```javascript
+   sealmetrics({ group: 'blog' });
+   ```
+
+3. **Check Reports** — Content groups appear in Pages report filters
+
+---
+
+## GTM-Specific Issues
+
+### Tags Not Firing
+
+1. **Consent gating** — The number one cause: the tag waits for consent it doesn't need. See [GTM Consent Mode blocking](/troubleshooting/gtm-consent-mode-blocking)
+2. **Verify trigger** — Check GTM Preview mode
+3. **Check tag type** — Use Custom HTML tag
+4. **Timing** — Ensure tag fires before page unload
+
+See [Google Tag Manager integration](/integrations/google-tag-manager) for detailed setup.
+
+### Duplicate Pageviews with GTM
+
+If the tracker is both hardcoded and loaded via GTM, or a stub-queued pageview runs without `?auto=0`, every load counts twice. See [Duplicate pageviews](/troubleshooting/duplicate-pageviews).
+
+---
+
+## Still Having Issues?
+
+1. **Check the FAQ** — [Common questions](/faq)
+2. **Contact support** — support@sealmetrics.com
+3. **Community** — [GitHub discussions](https://github.com/sealmetrics)

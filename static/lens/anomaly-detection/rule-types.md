@@ -1,0 +1,142 @@
+---
+title: "Detection Rules Catalog"
+description: "The LENS detection rule library — IDs, categories and what each rule looks for. Not active on accounts yet."
+canonical_url: "https://docs.sealmetrics.com/lens/anomaly-detection/rule-types"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "lens/anomaly-detection/rule-types.mdx"
+publisher: "SealMetrics"
+---
+
+# Detection Rules Catalog
+
+Canonical page: https://docs.sealmetrics.com/lens/anomaly-detection/rule-types
+
+**Caution:**
+This catalog documents the LENS detection rule library as it is **built**, not as it is **running**. **No detection rule is currently enabled on customer accounts**, so no automated insight or alert is generated today. LENS chat and LENS reports are the live capabilities — see [LENS AI](/lens).
+
+LENS has a curated set of **25 detection rules** ready to enable. Each rule has a stable internal **ID** (used in the API and in alerts), belongs to one of LENS's categories, and follows one of two execution models:
+
+- **Reactive** — analyzes historical data in daily/weekly/monthly batches.
+- **Proactive** — near real-time checks that surface changes happening right now.
+
+**Info:**
+LENS includes a much larger internal library of rules, but most require data many accounts don't have (e-commerce product properties, microconversion funnels, content groups, multi-site portfolios, or year-over-year history). The 25 rules below are the first set slated to go live; the rest stay disabled until the required data is available. None of them runs on accounts today.
+
+## Categories
+
+LENS organizes rules into these categories:
+
+| Category ID | Label | Focus |
+|-------------|-------|-------|
+| `critical_alerts` | Critical Alerts | Issues requiring immediate attention |
+| `business_monitoring` | Business Monitoring | General business health tracking |
+| `risk_management` | Risk Management | Structural business risks |
+| `autopilot_checks` | Autopilot Checks | Automated monitoring tasks |
+| `instant_wins` | Instant Wins | Immediate value from day 1 |
+| `forecasting` | Forecasting & Prediction | AI-powered predictions |
+| `growth_upside` | Growth & Revenue Upside | Direct growth opportunities |
+| `ecommerce` | E-commerce Performance | Product & catalog insights |
+| `user_experience` | User Experience & Funnel | UX frictions & behavior |
+| `multisite` | Multi-site & Portfolio | Multi-web management |
+| `reporting` | Reporting | Executive summaries |
+
+The first-set rules below fall into `critical_alerts`, `autopilot_checks`, `growth_upside`, `risk_management`, `user_experience`, and `instant_wins`. The remaining categories exist for rules that activate once your account has the data they need.
+
+---
+
+## Critical Alerts
+
+Detect when something breaks or changes meaningfully.
+
+| Rule ID | Type | What it detects |
+|---------|------|-----------------|
+| `traffic_drop` | Reactive | Traffic decreases significantly vs baseline (auto-drills into sources) |
+| `traffic_spike` | Reactive | Traffic increases significantly vs baseline |
+| `conversion_drop` | Reactive | Conversions decrease significantly vs baseline |
+
+---
+
+## Autopilot Checks
+
+Automated data-quality and tracking-health monitoring.
+
+| Rule ID | Type | What it detects |
+|---------|------|-----------------|
+| `tracking_broken` | Reactive | Tracking events stop firing unexpectedly |
+| `tracking_status` | Reactive | Whether tracking is working correctly (no recent events) |
+| `data_health` | Reactive | Overall data collection issues and quality score |
+
+---
+
+## Optimization & Growth
+
+Find where you're leaving money on the table.
+
+| Rule ID | Category | Type | What it detects |
+|---------|----------|------|-----------------|
+| `device_gap` | `user_experience` | Reactive | Mobile converts significantly worse than desktop |
+| `landing_page_bounce` | `user_experience` | Reactive | Landing pages with bounce rates well above average |
+| `top_landing_opportunity` | `growth_upside` | Reactive | High-traffic landing pages that could convert better |
+| `channel_opportunity` | `growth_upside` | Reactive | Channels with high conversion rate but low traffic share |
+| `channel_conversion_efficiency` | `growth_upside` | Reactive | Channels with high efficiency that deserve more investment |
+| `concentration_risk` | `risk_management` | Reactive | Over-dependence on a single traffic source/campaign |
+| `traffic_mix` | `risk_management` | Reactive | Paid vs organic balance and organic-traffic trends |
+| `country_conversion_gap` | `growth_upside` | Reactive | Countries with significant traffic but below-average conversions |
+| `browser_compatibility_issue` | `user_experience` | Reactive | Browsers with bounce rates suggesting compatibility issues |
+| `high_traffic_low_conversion` | `user_experience` | Reactive | High-traffic pages/sources with below-average conversion rate |
+
+---
+
+## Instant Wins (Quick Wins)
+
+Designed to surface value from day 1, including for new and trial accounts.
+
+| Rule ID | Type | What it detects |
+|---------|------|-----------------|
+| `quickwin_high_bounce_landing` | Reactive | Landing pages losing visitors immediately (high bounce) |
+| `quickwin_mobile_gap` | Reactive | Whether mobile users convert significantly worse than desktop |
+| `quickwin_country_opportunity` | Reactive | Countries where you're losing potential customers |
+| `quickwin_source_distribution` | Reactive | Traffic sources that could perform better |
+| `quickwin_conversion_rate` | Reactive | Your conversion rate compared to benchmarks |
+| `quickwin_best_performers` | Reactive | What's working well, so you can scale it up |
+
+---
+
+## Proactive Alerts
+
+Near real-time checks that catch sudden changes during the day.
+
+| Rule ID | Category | Type | What it detects |
+|---------|----------|------|-----------------|
+| `intraday_conversion_drop` | `critical_alerts` | Proactive | Today's conversions significantly below the same day last week |
+| `source_sudden_drop` | `critical_alerts` | Proactive | A significant traffic source drops dramatically |
+| `landing_page_failure` | `critical_alerts` | Proactive | A landing page shows an abnormally high bounce rate |
+
+---
+
+## Rule structure
+
+Every rule shares a common structure:
+
+| Component | Description |
+|-----------|-------------|
+| **ID (`name`)** | Stable identifier used in alerts and the API (e.g. `traffic_drop`) |
+| **Category** | Grouping for organization and display |
+| **Type** | `reactive` (batch) or `proactive` (near real-time) |
+| **Threshold** | The change that triggers detection — dynamically adjusted by sample size and seasonality (see [Configuring Thresholds](/lens/anomaly-detection/thresholds)) |
+| **Confidence** | `high` / `medium` / `low`, derived from sample size and the data window |
+
+---
+
+## Plan availability
+
+All categories — and every rule, once enabled — will be available on every v2 plan. There are no rule-level or category-level locks by tier; plans differ by data volume, not by which rules run.
+
+## Next steps
+
+- [How anomaly detection works →](/lens/anomaly-detection)
+- [Configure thresholds →](/lens/anomaly-detection/thresholds)

@@ -1,0 +1,244 @@
+---
+title: "Billing FAQ"
+description: "Frequently asked questions about Sealmetrics pricing, billing, and payments."
+canonical_url: "https://docs.sealmetrics.com/billing/faq"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "billing/faq.mdx"
+publisher: "SealMetrics"
+---
+
+# Billing FAQ
+
+Canonical page: https://docs.sealmetrics.com/billing/faq
+
+Common questions about plans, pricing, and billing.
+
+## Plans & Pricing
+
+### Which plan is right for me?
+
+| Your Situation | Recommended Plan |
+|----------------|------------------|
+| Growing team, up to 5M events | Growth |
+| Multi-brand retailer, up to 15M events | Scale |
+| Unlimited events, custom requirements | Enterprise |
+
+### Can I try before I buy?
+
+Yes! All plans include a **14-day free trial** with full features. You choose a plan and enter a payment method in the secure Stripe checkout to start the trial — but **you are not charged until the trial ends**, and you can cancel anytime during the 14 days at no cost.
+
+### Is there a free plan?
+
+There is no self-service free plan, but a limited **free tier** exists: if your trial ends without an active subscription, your account drops to it (you keep read access to your existing data), and sites provisioned through the [Agentic Package](/integrations/agentic-package) start on it with up to 1M events/month. We also offer special pricing for nonprofits and early-stage startups.
+
+### Do you offer discounts?
+
+| Discount | Amount | How to Get |
+|----------|--------|------------|
+| Annual billing | ~17% savings (2 months free) | Select annual at checkout |
+| Promo / coupon code | Varies | Enter the code at checkout |
+| Nonprofits, startups, education | Varies by case | Email sales@sealmetrics.com |
+
+If you have a promotional code, you can enter it during checkout — the code is validated (expiry, usage limits, and any plan restrictions) and the discount is applied to your subscription before payment.
+
+### What currency do you charge in?
+
+All prices are in Euros (EUR). Charges appear in EUR on your statement; your bank handles conversion if needed.
+
+---
+
+## Changing Plans
+
+### Can I upgrade at any time?
+
+Yes. Upgrades take effect immediately:
+- You get instant access to new features
+- Prorated charge for the remainder of your billing period
+
+### Can I downgrade at any time?
+
+Yes. Downgrades take effect at your next billing cycle:
+- You keep current features until period ends
+- New (lower) rate applies on next bill
+
+### Can I switch from monthly to annual?
+
+Yes. You'll:
+1. Pay prorated annual amount (minus credit for current month)
+2. Start saving ~17% immediately
+3. Next charge is in 12 months
+
+---
+
+## Billing & Payments
+
+### When am I charged?
+
+- **Monthly:** Same day each month (based on signup date)
+- **Annual:** Once per year on your signup anniversary
+
+### Can I subscribe through Shopify?
+
+Yes. If you install Sealmetrics from the Shopify App Store, billing is handled through Shopify's Managed Pricing and managed from your **Shopify Admin** (prices shown in USD). Otherwise, signing up directly on sealmetrics.com bills through Stripe (in EUR). An account uses one channel or the other, never both at the same time.
+
+### What payment methods do you accept?
+
+| Method | Availability |
+|--------|--------------|
+| Credit/debit cards (Visa, Mastercard, Amex) | All plans |
+| Other Stripe-supported cards | All plans |
+
+Payments are processed securely through Stripe. Bank transfer, SEPA Direct Debit, and PayPal are not currently supported.
+
+### Do I get an invoice?
+
+Yes. Every payment generates an invoice with:
+- Itemized charges
+- VAT breakdown (EU)
+- PDF download option
+
+Invoices are issued through Quaderno for VAT compliance, with EU VAT numbers validated against VIES. See [Invoices & Payments](./invoices) for details.
+
+### Can I add a PO number to invoices?
+
+There is no self-service field for PO numbers in the dashboard. Contact **billing@sealmetrics.com** with your PO number and we will include it on your invoices.
+
+---
+
+## Limits & Overages
+
+### What counts as an event?
+
+Events include pageviews, virtual pageviews (SPAs), conversions, micro-conversions, and custom events. All event types count toward your monthly limit.
+
+### What happens if I exceed my event limit?
+
+1. Tracking continues (no data loss)
+2. **No overage charges** — your monthly price stays fixed
+3. One free overage month per year is included (used automatically for the first month you go over)
+4. If you exceed your limit for two consecutive months that aren't forgiven, a Growth plan is auto-upgraded to Scale. A Scale plan is **not** auto-upgraded — instead you receive an email to discuss an Enterprise plan. (Auto-upgrade applies to Stripe-billed accounts; Shopify-billed accounts are asked to upgrade manually in Shopify Admin.)
+
+### Do unused events roll over?
+
+No. Event allowances reset each billing cycle.
+
+---
+
+## Trials & Cancellation
+
+### How does the free trial work?
+
+1. Sign up and choose a plan
+2. Enter your payment method in the secure Stripe checkout — **you are not charged yet**
+3. Get full access to all features for 14 days
+4. When the trial ends, your subscription activates automatically — unless you cancelled during the trial
+
+### What happens when my trial ends?
+
+- **If you keep your subscription:** It activates automatically and the first charge is made
+- **If you cancelled during the trial:** Nothing is charged, and your account drops to a limited free tier (you can view existing data) until you pick a paid plan
+
+### How do I cancel?
+
+1. Go to **Settings > Billing > Plan**
+2. Click **Cancel Subscription**
+3. Confirm cancellation
+4. Access continues until period ends
+
+### Is there a cancellation fee?
+
+No. Cancel anytime with no penalties.
+
+### Can I get a refund?
+
+Refund eligibility depends on your plan and circumstances. In general, monthly plans run to the end of the current period, while annual plans may qualify for a prorated refund depending on your case. Contact billing@sealmetrics.com to review your situation.
+
+### What happens to my data after cancellation?
+
+After cancellation your account becomes read-only and your data is retained for a limited period during which you can still export it, after which it may be permanently deleted. Exact retention timing depends on your case, so export your data before cancelling if you need it. Contact billing@sealmetrics.com if you have specific retention questions.
+
+---
+
+## Taxes
+
+### Do you charge VAT?
+
+| Location | VAT Treatment |
+|----------|---------------|
+| Spain | 21% IVA charged |
+| EU with valid VAT ID | Reverse charge (0%) |
+| EU without VAT ID | Your country's VAT rate |
+| Non-EU | No VAT |
+
+### How do I add my VAT number?
+
+Provide your VAT ID during signup, or contact **billing@sealmetrics.com** to add it to your account. VAT numbers are validated against VIES, and future invoices then show the reverse charge treatment.
+
+### Can I get a VAT refund for past invoices?
+
+If you forgot to add your VAT ID, contact billing@sealmetrics.com with:
+- Your VAT number
+- Invoice numbers affected
+
+We'll issue corrected invoices and credit the VAT.
+
+---
+
+## Users & Teams
+
+### Can multiple people share one login?
+
+No. Each team member should have their own login for:
+- Security (audit trail)
+- Personalized settings
+- Individual permissions
+
+### How many users can I have?
+
+All plans include unlimited users. There is no user limit on any plan.
+
+### Can I give clients read-only access?
+
+Yes. Invite users with "Viewer" role. They can see dashboards but not change settings.
+
+---
+
+## Security
+
+### Is my payment information secure?
+
+Yes. We use Stripe for payment processing:
+- PCI DSS Level 1 certified
+- We never see or store your full card number
+- All transactions encrypted
+
+### Can I use 2FA for billing?
+
+2FA protects your entire account, including billing. Enable at **Settings > Security > Two-Factor Authentication**.
+
+---
+
+## Getting Help
+
+### Who do I contact for billing issues?
+
+- **Email:** billing@sealmetrics.com
+- **Response time:** 1 business day
+- **Include:** Account email and relevant invoice numbers
+
+### Can I talk to someone about pricing?
+
+Yes! For custom pricing or questions:
+- **Email:** sales@sealmetrics.com
+
+### Where can I see my current plan and usage?
+
+Go to **Settings > Billing** for:
+- Current plan details
+- Usage statistics
+- Invoice history
+- Payment methods

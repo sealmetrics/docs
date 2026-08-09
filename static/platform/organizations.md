@@ -1,0 +1,120 @@
+---
+title: "Organizations"
+description: "Understanding organizations, sites, and team management in Sealmetrics."
+canonical_url: "https://docs.sealmetrics.com/platform/organizations"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/organizations.mdx"
+publisher: "SealMetrics"
+---
+
+# Organizations
+
+Canonical page: https://docs.sealmetrics.com/platform/organizations
+
+An **Organization** is the top-level entity in Sealmetrics. It groups together your websites (called **Sites**) and your team members. Everything in Sealmetrics -- billing, analytics, team access -- is managed within the context of an organization.
+
+---
+
+## How It Works
+
+```
+Organization
+  |
+  |-- Sites (your websites)
+  |     |-- example.com
+  |     |-- store.example.com
+  |     |-- blog.example.com
+  |
+  |-- Members (your team)
+        |-- You (Owner)
+        |-- teammate@company.com (Admin)
+        |-- analyst@agency.com (Member)
+```
+
+- Each **Site** represents a website you want to track with Sealmetrics.
+- Each **Member** is a person on your team who can access your analytics data.
+- **Sites** always belong to exactly one organization.
+- **Members** can belong to multiple organizations (for example, an agency working with several clients).
+
+---
+
+## Creating Your Organization
+
+After you register and verify your email, Sealmetrics will ask you to create your first organization.
+
+1. Choose a name for your organization (typically your company name)
+2. Click **Create Organization**
+
+You are automatically assigned the **Owner** role, which gives you full access to everything.
+
+---
+
+## Adding Sites
+
+Once your organization is set up, you can add the websites you want to track.
+
+1. In the left sidebar, expand **Organization** and click **Sites** (`/settings/sites`)
+2. Click **New Site**
+3. Enter the **Site Name** and an optional **Primary Domain**, then set the **Timezone** and **Currency**
+4. Click **Create Site**, then follow the setup instructions to install the tracking code
+
+Each site gets a unique **Site ID** that is used in the tracking code. You can add as many sites as your plan allows.
+
+---
+
+## Inviting Team Members
+
+Share access with your team by inviting members to your organization.
+
+1. In the left sidebar, expand **Organization** and click **Members** (`/settings/organizations/{slug}/members`)
+2. Click **Invite Member**
+3. Enter their email address and choose a role:
+   - **Admin** -- manage members and all sites, no billing access
+   - **Member** -- access only to specific sites you assign
+4. For Members, select which sites they can see
+5. Click **Send Invitation**
+
+Invitations can only be sent with the **Admin** or **Member** role. To make someone an **Owner**, invite them first and then promote them from the Members list (only an existing Owner can do this).
+
+The invited person will receive an email with a link to join. If they do not have a Sealmetrics account yet, they can create one as part of the invitation process.
+
+For more details on managing your team, see [Users & Teams](./settings/account/users).
+
+---
+
+## Roles Overview
+
+Sealmetrics uses a two-tier role system:
+
+**Organization roles** determine what a person can do across the organization:
+
+| Role | Sites Access | Manage Members | Billing |
+|------|-------------|---------------|---------|
+| **Owner** | All sites | Yes | Yes |
+| **Admin** | All sites | Yes (except owners) | No |
+| **Member** | Assigned sites only | No | No |
+
+**Site-level roles** determine what a person can do within a specific site:
+
+| Role | Description |
+|------|-------------|
+| **Editor** | Can view data and modify site configuration |
+| **Viewer** | Can view data only (read-only) |
+
+For the full permissions breakdown, see [Roles & Permissions](./user-management/roles-management).
+
+---
+
+## Multiple Organizations
+
+Some users may need access to more than one organization -- for example, agency staff managing multiple clients. When a user belongs to multiple organizations, an **organization switcher** appears in the left sidebar (just below **Sites**), letting them switch between organizations at any time. The switcher is hidden for users who belong to a single organization.
+
+---
+
+## Deleting an Organization
+
+Only the Owner can delete an organization. Deleting an organization removes access for all members. This action requires confirming the organization name and cannot be undone.

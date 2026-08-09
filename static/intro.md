@@ -1,0 +1,42 @@
+---
+title: "Sealmetrics Docs: Consentless Analytics Platform"
+description: "Documentation for Sealmetrics — consentless analytics that captures 100% of traffic without cookies or consent banners. GDPR compliant by design."
+canonical_url: "https://docs.sealmetrics.com/intro"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "critical"
+source_file: "intro.mdx"
+publisher: "SealMetrics"
+---
+
+# Sealmetrics Docs: Consentless Analytics Platform
+
+Canonical page: https://docs.sealmetrics.com/intro
+
+This documentation covers everything you need to run **Sealmetrics**, the consentless web analytics platform that captures 100% of your traffic without cookies, fingerprinting, or consent banners. It spans getting started, tracker implementation, reports, the API reference, and legal compliance — so you can install tracking, measure conversions, and stay GDPR compliant by design.
+
+## Explore the Docs
+
+---
+
+## About Sealmetrics
+
+Sealmetrics is a **consentless web analytics platform** that captures 100% of your traffic without cookies, fingerprinting, or consent banners. Traditional analytics tools like Google Analytics lose 30-60% of visitor data in EU markets because users reject cookie consent. Sealmetrics eliminates this problem entirely.
+
+**How it works:** Sealmetrics uses a [Four-Variable System](/security-privacy/how-consentless-works) that generates anonymous, session-scoped identifiers without storing any personal data. No IP addresses are retained, no cookies are set, and no device fingerprints are created. This architecture qualifies for the GDPR legitimate interest exemption confirmed by both [CNIL](/compliance/cnil-self-assessment) and [AEPD](/blog/real-time-tracking-consent) regulatory guidance.
+
+**Key capabilities:**
+- **100% data capture** — every visit counted, no consent banner needed
+- **Conversion and revenue tracking** — attribute sales to campaigns via UTM parameters
+- **Funnel analysis** — visualize user progression through conversion steps
+- **Real-time dashboards** — daily aggregates that update continuously
+- **1.3 KB tracker script** — 99% lighter than Google Analytics
+- **EU data residency** — all data processed and stored in European infrastructure
+
+Sealmetrics is used by ecommerce brands, SaaS companies, and hospitality businesses across Europe that need accurate traffic data without legal risk. See the [full comparison with GA4](/faq/ga4-vs-sealmetrics) or [Plausible](/blog/sealmetrics-vs-plausible).
+
+---
+
+*Ready to capture 100% of your traffic? [Start your free trial](https://my.sealmetrics.com/register) or [visit sealmetrics.com](https://sealmetrics.com) to learn more.*

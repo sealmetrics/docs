@@ -1,0 +1,208 @@
+---
+title: "LLM Settings (BYOK)"
+description: "Manage per-user Bring-Your-Own-Key LLM configs for LENS AI — store, test, and set default keys for OpenAI, Anthropic, Gemini, or DeepSeek"
+canonical_url: "https://docs.sealmetrics.com/api/llm-settings"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "api-reference"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "api/llm-settings.mdx"
+publisher: "SealMetrics"
+---
+
+# LLM Settings (BYOK)
+
+Canonical page: https://docs.sealmetrics.com/api/llm-settings
+
+Manage the current user's LLM provider configuration for LENS AI. Two kinds of provider exist: **Seal AI** (`seal_ai`, the platform-managed private provider — no API key, subject to plan entitlement and token quota) and **Bring-Your-Own-Key** (BYOK) providers, where keys are stored per-user (not per-site) and reused across every site the user can access. LENS AI uses these settings to call Seal AI, OpenAI, Anthropic, Gemini, or DeepSeek Cloud on the user's behalf.
+
+**Base path:** `/users/me/llm-settings`
+
+Required scope: `read` for listing, `write` for create/update/delete/test/set-default.
+
+**Info:**
+Stored API keys are never echoed back. Responses include `api_key_configured` (boolean) and `api_key_last_4` (last 4 chars) only.
+
+---
+
+## List Providers
+
+```http
+GET /users/me/llm-settings/providers
+```
+
+No auth scope required beyond a valid session. Returns the BYOK-capable providers (`anthropic`, `openai`, `deepseek_cloud`, `gemini`) plus **`seal_ai`** (the platform-managed provider, listed first whenever the platform key is configured). Each entry carries the display metadata used by the settings UI.
+
+**Response:**
+
+```json
+{
+  "providers": [
+    {
+      "id": "seal_ai",
+      "name": "Seal AI (Private, EU)",
+      "description": "SealMetrics private AI. Processed entirely in the EU, no prompt retention, your data never trains third-party models. No API key needed.",
+      "requires_api_key": false,
+      "requires_plan_upgrade": false,
+      "default_models": {
+        "simple": "gpt-oss-120b",
+        "complex": "gpt-oss-120b",
+        "critical": "gpt-oss-120b"
+      },
+      "documentation_url": null
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic (Claude)",
+      "description": "Claude models from Anthropic. Requires API key.",
+      "requires_api_key": true,
+      "requires_plan_upgrade": false,
+      "default_models": {
+        "simple": "claude-3-5-haiku-20241022",
+        "complex": "claude-sonnet-4-20250514",
+        "critical": "claude-opus-4-20250514"
+      },
+      "documentation_url": "https://docs.anthropic.com/"
+    }
+  ],
+  "default_provider": "anthropic"
+}
+```
+
+`requires_plan_upgrade` is `true` on `seal_ai` when the user's plan does not include Seal AI (it drives the upgrade badge in the settings UI). Each provider exposes **three default models** — one per rule-complexity tier (`simple` / `complex` / `critical`) — which you can override per-config with the fields below.
+
+---
+
+## List My LLM Configs
+
+```http
+GET /users/me/llm-settings
+```
+
+**Required scope:** `read`
+
+**Response:**
+
+```json
+{
+  "configs": [
+    {
+      "id": 12,
+      "provider": "anthropic",
+      "api_key_configured": true,
+      "api_key_last_4": "abcd",
+      "model_simple": null,
+      "model_complex": "claude-sonnet-4-20250514",
+      "model_critical": null,
+      "deepseek_base_url": null,
+      "is_enabled": true,
+      "is_default": true,
+      "created_at": "2025-01-05T10:00:00Z",
+      "updated_at": "2025-01-05T10:00:00Z"
+    }
+  ]
+}
+```
+
+`model_simple` / `model_complex` / `model_critical` are per-tier overrides — `null` means the provider's default model for that tier is used. The stored API key is never returned.
+
+---
+
+## Create or Update Config
+
+```http
+POST /users/me/llm-settings
+```
+
+**Required scope:** `write`. Returns `201 Created`.
+
+There is at most one config per provider per user; calling `POST` again for the same provider updates the existing row.
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `provider` | enum | Yes | `seal_ai`, `anthropic`, `openai`, `deepseek_cloud`, `gemini`, or `deepseek_local` |
+| `api_key` | string | Cond. | 10–200 chars. Required for `anthropic`, `openai`, `deepseek_cloud`, `gemini`; not needed for `seal_ai` / `deepseek_local` |
+| `model_simple` | string | No | Model override for the *simple* rule tier |
+| `model_complex` | string | No | Model override for the *complex* rule tier |
+| `model_critical` | string | No | Model override for the *critical* rule tier |
+| `deepseek_base_url` | string | No | Custom DeepSeek endpoint (Cloud or self-hosted) |
+| `is_enabled` | boolean | No | Whether this configuration is active (default `true`) |
+
+To mark a config as the user's default, use the [`/set-default`](#set-default-provider) endpoint — `is_default` is not accepted in this body. Validation errors return `400`/`422`.
+
+**Response:** `LLMSettingsResponse` (same shape as list items).
+
+---
+
+## Update Config
+
+```http
+PATCH /users/me/llm-settings/{config_id}
+```
+
+**Required scope:** `write`
+
+Partial update. **Cannot** change `provider` (delete + recreate instead) or `is_default` (use the `/set-default` endpoint).
+
+Returns `404` if the config doesn't belong to the caller, `400` on validation errors.
+
+---
+
+## Delete Config
+
+```http
+DELETE /users/me/llm-settings/{config_id}
+```
+
+**Required scope:** `write`. Returns `204 No Content`, or `404` if the config doesn't exist for the caller.
+
+---
+
+## Set Default Provider
+
+```http
+POST /users/me/llm-settings/{config_id}/set-default
+```
+
+**Required scope:** `write`
+
+Marks the given config as the default; clears the flag on any other config for the same user.
+
+**Response:** Updated `LLMSettingsResponse`.
+
+---
+
+## Test Connection
+
+```http
+POST /users/me/llm-settings/test
+```
+
+**Required scope:** `write`
+
+Validate a provider configuration without saving it. Pass `api_key` to test a fresh key, or omit it to test the currently saved key for that provider.
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `provider` | enum | Yes | Provider to test |
+| `api_key` | string | No | Override the stored key for this test |
+| `base_url` | string | No | Override the stored base URL |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "provider": "anthropic",
+  "message": "Connection OK",
+  "latency_ms": 420,
+  "model_available": "claude-sonnet-4-5"
+}
+```
+
+Returns `404` with `error_code: "provider_not_configured"` when no key is stored and none is passed in the body.

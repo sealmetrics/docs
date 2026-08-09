@@ -1,0 +1,122 @@
+---
+title: "Frequently Asked Questions"
+description: "Quick answers to the most common questions about Sealmetrics, consentless analytics, tracking accuracy, attribution models, and GA4 differences."
+canonical_url: "https://docs.sealmetrics.com/faq/privacy-security"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "faq/privacy-security.mdx"
+publisher: "SealMetrics"
+---
+
+# Frequently Asked Questions
+
+Canonical page: https://docs.sealmetrics.com/faq/privacy-security
+
+This FAQ provides clear and concise answers to the most common questions about Sealmetrics, how consentless analytics works, and how our measurement differs from traditional tools such as GA4.
+
+---
+
+## Why did you adjust 30% of Direct traffic in GA4?
+
+Direct traffic in GA4 is currently heavily over-attributed.
+When a visitor accepts cookies **in the middle of their journey**, GA4 reassigns that traffic to **Direct** instead of the correct source (organic, paid, social, etc.).
+
+This inflates Direct traffic and damages the accuracy of source attribution.
+Sealmetrics does not suffer from this issue because it does not depend on cookies or consent.
+
+---
+
+## Why compare sessions (GA4) with clicks (Sealmetrics)?
+
+Because Sealmetrics does not identify people across sessions.
+
+GA4 uses a **persistent client ID** to group everything one person does — across visits, days, and devices — into unified sessions and user counts. Sealmetrics deliberately has no such identifier:
+
+- **Within a single browsing session** (a short-lived, context-derived marker with a ~2-hour inactivity window), Sealmetrics can tell a follow-up pageview apart from a new entrance — this is what powers aggregate metrics like Bounce Rate.
+- **Across sessions there is no join**: if the same person comes back tomorrow, that is a brand-new entrance. No history is carried forward, so no consent is needed.
+
+This is why Sealmetrics measures **entrances**, not GA4-style "visits" tied to a persistent identity — and why the two numbers can differ for the same traffic.
+
+---
+
+## How can you accurately track visitors if the data is not unique?
+
+What do you mean by “non-unique data”?
+
+Sealmetrics tracks **every single hit** on your website with precision.
+We have been audited multiple times (technical and legal), and our methodology is validated.
+
+If you want to test it yourself, open an account and watch real-time hits appear instantly.
+
+There is no inflated data: we track exactly what happens.
+
+---
+
+## What about conversion attribution?
+
+Sealmetrics uses **Last-Click Attribution**.
+
+Based on our legal analysis, it is the **only attribution model compatible** with privacy regulations **without requiring consent**.
+Multi-touch attribution requires individual tracking, which is not allowed without consent.
+
+---
+
+## Can you use the same data layer as GA4?
+
+Yes, in most cases.
+
+However, Sealmetrics **must not** be blocked by Consent Mode or a cookie banner.
+Sealmetrics must fire **always**, otherwise it stops being consentless measurement.
+
+You can send values from your data layer (ecommerce values, custom variables, events, etc.) exactly as with GA4.
+
+---
+
+## Is campaign tracking impacted by consent requirements?
+
+Yes, absolutely.
+
+This is why many customers start using Sealmetrics:
+they need to uncover the real ROAS of their campaigns without losing 50–85% of data due to cookie rejects.
+
+Once they validate that Sealmetrics shows the true business metrics, it becomes their **single source of truth**.
+
+---
+
+## How resistant is your solution to ITP and similar browser protections?
+
+Currently, Sealmetrics is not blocked by ITP or similar privacy protections.
+
+In addition, we offer a **first-party tracking system**, which further increases reliability and ensures long-term measurement resilience.
+
+---
+
+## What extra value do you offer if a server-side tracking setup is already in place?
+
+Even with server-side tracking:
+
+According to **CNIL, AEPD, and other European DPAs**, you **still must ask for consent** if you are tracking individuals, even anonymously.
+
+Server-side simply moves where data is processed
+—it does **not** remove the need for consent.
+
+Sealmetrics is different:
+we do not track individuals.
+That is why Sealmetrics can operate **without requiring user consent**, and server-side cannot.
+
+This means:
+
+- No consent banners
+- No consent loss
+- No data gaps
+- Full visibility of your business reality
+
+---
+
+## Summary
+
+Sealmetrics delivers accurate analytics without tracking individuals, without cookies, and without needing consent.
+This FAQ covers the core differences between traditional tools and consentless analytics, and explains why Sealmetrics is a compliant and fully privacy-first solution.

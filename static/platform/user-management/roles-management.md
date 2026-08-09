@@ -1,0 +1,109 @@
+---
+title: "Roles & Permissions"
+description: "Understand the role system in Sealmetrics — organization roles, site access roles, and how they combine."
+canonical_url: "https://docs.sealmetrics.com/platform/user-management/roles-management"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/user-management/roles-management.mdx"
+publisher: "SealMetrics"
+---
+
+# Roles & Permissions
+
+Canonical page: https://docs.sealmetrics.com/platform/user-management/roles-management
+
+Sealmetrics uses a two-tier role system to give you fine-grained control over who can access what:
+
+1. **Organization roles** (Owner, Admin, Member) determine what a user can do across the organization — manage members, billing, settings, and which sites they can see.
+2. **Site access roles** (Editor, Viewer) determine the access level a Member is granted when they are added to a specific site.
+
+The user's effective management permissions are driven by their **organization role**. Site access roles control whether a Member has edit or view-only access to the sites assigned to them.
+
+---
+
+## Organization Roles
+
+Every member of an organization has exactly one organization role: **Owner**, **Admin**, or **Member**.
+
+The table below reflects the actual permissions enforced by the platform for each organization role.
+
+| Permission | Owner | Admin | Member |
+|------------|:-----:|:-----:|:------:|
+| View all sites in the organization | Yes | Yes | -- |
+| View only assigned sites | -- | -- | Yes |
+| Create a site | Yes | Yes | -- |
+| Edit a site | Yes | Yes | -- |
+| Delete a site | Yes | -- | -- |
+| View members | Yes | Yes | Yes |
+| Invite members | Yes | Yes | -- |
+| Remove members | Yes | Yes | -- |
+| Change a member's role to Admin or Member | Yes | Yes | -- |
+| Promote a member to Owner | Yes | -- | -- |
+| Edit organization settings | Yes | -- | -- |
+| Delete the organization | Yes | -- | -- |
+| Manage integrations | Yes | Yes | -- |
+| Manage pixels | Yes | Yes | -- |
+| Manage properties | Yes | Yes | -- |
+| Manage LLM providers | Yes | -- | -- |
+| Manage API tokens | Yes | Yes | -- |
+| Access account migration | Yes | Yes | -- |
+
+### Owner
+
+The organization creator is automatically the Owner. Owners have unrestricted access to everything in the organization, including billing, member management, organization settings, LLM providers, and all sites.
+
+### Admin
+
+Admins can manage the day-to-day operations of the organization. They can invite and remove members, manage site access, edit sites, and manage integrations, pixels, properties, and API tokens. Admins **cannot** delete a site, manage billing, edit or delete the organization, manage LLM providers, or promote a member to Owner.
+
+### Member
+
+Members have restricted access. They can only see the specific sites that an Owner or Admin has assigned to them. They can view the member list, but cannot invite, remove, or manage other members, and cannot change any organization or site configuration.
+
+---
+
+## Site Access Roles
+
+When an Owner or Admin grants a Member access to a site, they assign a **site access role**:
+
+| Role | Access |
+|------|--------|
+| **Editor** | View reports and modify the site's configuration and settings |
+| **Viewer** | Read-only access to reports and analytics |
+
+Site access itself is granted from **Organization → Members**: click the site access (globe) button next to a member and toggle the sites they should see. Choosing between the Editor and Viewer levels is currently done through the [Site Users API](/api/sites#site-user-endpoints), not from a dashboard screen.
+
+**Info:**
+
+---
+
+## How Roles Combine
+
+A user's effective permissions are the combination of their organization role and — for Members — the site access role they were granted on each site.
+
+| Org Role | Site Access | What They Can Do |
+|----------|-------------|------------------|
+| **Owner** | All sites | Full access to everything — all sites, billing, members, org settings, LLM providers |
+| **Admin** | All sites | All sites, member management, integrations, pixels, properties, API tokens — no billing, no org/site deletion, no LLM providers |
+| **Member** | **Editor** | Only assigned sites; can view reports and edit configuration on those sites |
+| **Member** | **Viewer** | Only assigned sites; read-only access |
+
+**Tip:**
+
+---
+
+## Choosing the Right Roles
+
+| Scenario | Recommended Org Role | Site Access |
+|----------|---------------------|-------------|
+| Business owner or account manager | Owner | -- (all sites) |
+| Team lead managing the analytics setup | Admin | -- (all sites) |
+| Marketing analyst on your team | Member | Editor |
+| External client reviewing reports | Member | Viewer |
+| Agency partner managing tracking | Member | Editor |
+
+**Info:**
+Keep the number of Owners to a minimum. Most team members work well as Admins, or as Members with the appropriate site access.

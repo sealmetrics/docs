@@ -1,0 +1,200 @@
+---
+title: "Geography Report"
+description: "See where your visitors come from with country-level metrics and an interactive world map visualization."
+canonical_url: "https://docs.sealmetrics.com/reports/geography"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/geography.mdx"
+publisher: "SealMetrics"
+---
+
+# Geography Report
+
+Canonical page: https://docs.sealmetrics.com/reports/geography
+
+The Geography report shows where your visitors come from, with country-level metrics and visual map representation.
+
+## Accessing the Report
+
+1. Select a site from the site selector
+2. Click **Geography** in the sidebar
+
+**URL pattern:** `/sites/{site_id}/geo`
+
+## World Map
+
+Interactive choropleth map showing traffic distribution by country.
+
+### Map Features
+
+| Feature | Description |
+|---------|-------------|
+| **Color intensity** | Darker colors indicate more traffic |
+| **Hover tooltip** | Shows country name and key metrics |
+| **Click** | Filters table to selected country |
+| **Zoom** | Scroll to zoom, drag to pan |
+
+### Color Scale
+
+The map uses a gradient from light to dark based on the selected metric:
+
+| Intensity | Meaning |
+|-----------|---------|
+| Light | Low traffic volume |
+| Medium | Moderate traffic |
+| Dark | High traffic volume |
+
+## Country Table
+
+Detailed breakdown of metrics by country.
+
+| Column | Description |
+|--------|-------------|
+| **Country** | Country name with flag icon |
+| **Entrances** | Sessions from this country |
+| **Pageviews** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Conversions** | Completed conversions |
+| **Revenue** | Total revenue |
+
+The table is sortable, paginated, and shows a totals row at the bottom.
+
+## Filtering
+
+### Table Filter Builder
+
+Click the filter icon to open the filter builder:
+
+**Available fields:**
+- Country Code
+- Country Name
+- Entrances
+- Pageviews
+- Bounce Rate
+- Conversions
+- Revenue
+
+**Example filters:**
+
+| Goal | Filter |
+|------|--------|
+| Countries with significant traffic | Entrances greater than 100 |
+| High-converting countries | Conversions greater than 5 |
+| Countries with revenue | Revenue greater than 0 |
+| Problem countries | Bounce Rate greater than 70 |
+
+### Map Interaction
+
+Click a country on the map to filter the table to that country only.
+
+### Global Filter Integration
+
+Use the global Countries filter to focus on specific regions:
+
+1. Click **Add Filter** in the global filter bar
+2. Select **Countries**
+3. Choose one or more countries
+4. All reports update to show only selected countries
+
+## Metrics by Country
+
+### Understanding Geographic Performance
+
+| Metric | Geographic Insight |
+|--------|-------------------|
+| Entrances | Where your audience is located |
+| Bounce Rate | Content relevance by region |
+| Conversions | Market fit by country |
+| Revenue | Highest-value markets |
+
+### Identifying Patterns
+
+Look for:
+- **High traffic, low conversion**: May need localization
+- **Low traffic, high conversion**: Expansion opportunity
+- **High bounce rate**: Content or language mismatch
+- **Revenue concentration**: Market dependency risk
+
+## Use Cases
+
+### Identifying Top Markets
+
+1. Sort table by **Entrances** (descending)
+2. Note top 5-10 countries
+3. Compare with business priorities
+4. Check Conversions and Revenue for each
+
+### Finding Expansion Opportunities
+
+1. Sort by **Conversions** (descending)
+2. Filter: Entrances greater than 50 (statistically significant)
+3. Look for countries with:
+   - High conversions relative to entrances
+   - Low current volume
+   - Business expansion potential
+
+### Detecting Localization Needs
+
+1. Sort by **Bounce Rate** (descending)
+2. Filter: Entrances greater than 100
+3. High bounce + high traffic suggests:
+   - Language barriers
+   - Cultural mismatch
+   - Payment method issues
+   - Shipping concerns
+
+### Evaluating International Campaigns
+
+1. Set date range to campaign period
+2. Apply UTM filters (global filter bar)
+3. Review geographic distribution
+4. Compare conversion rates across countries
+
+### Revenue Analysis by Region
+
+1. Sort by **Revenue** (descending)
+2. Identify top revenue countries
+3. Calculate revenue per entrance
+4. Prioritize high-value markets
+
+## Regional Considerations
+
+### Europe (GDPR)
+
+Countries in the EU may show different patterns due to:
+- Cookie consent requirements
+- Privacy-conscious users
+- Different consent rates
+
+### Time Zones
+
+Consider when analyzing by country:
+- Traffic peaks at different times
+- Weekend patterns vary by culture
+- Holidays differ by country
+
+### Currency
+
+Revenue shown in your configured base currency. Consider:
+- Exchange rate fluctuations
+- Local purchasing power
+- Price sensitivity by market
+
+## Export
+
+Click **Export** to download:
+- All countries with data
+- All metric columns
+- Respects active filters
+- Choose **CSV** or **PDF** format
+
+## Related documentation
+
+- [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) — The privacy-first geolocation method
+- [Filters](/reports/filters) — Segment reports by country and region
+- [Devices Report](/reports/devices) — Cross-reference geography with device usage
+- [Overview Report](/reports/overview) — The high-level dashboard for all reports
+- [Metrics Reference](/reports/definitions) — Definitions for the country-level metrics

@@ -25,16 +25,19 @@ jobs:
       - name: Check for changes
         id: diff
         run: |
-          # --porcelain (not diff) so untracked docs-raw mirrors for new pages
-          # are picked up, not just edits to already-committed ones.
-          git status --porcelain -- static/llms.txt static/llms-full.txt static/docs-raw
-          echo "changed=$(git status --porcelain -- static/llms.txt static/llms-full.txt static/docs-raw | wc -l | tr -d ' ')" >> "$GITHUB_OUTPUT"
+          # --porcelain (not diff) so new Markdown mirrors are picked up too.
+          changed_files=$(git status --porcelain -- static/llms.txt static/llms-full.txt static/docs-raw static/knowledge-manifest.json)
+          changed_markdown=$(git status --porcelain -- ':(glob)static/*.md' ':(glob)static/**/*.md')
+          printf '%s\n%s\n' "$changed_files" "$changed_markdown"
+          changed=$(printf '%s\n%s\n' "$changed_files" "$changed_markdown" | sed '/^$/d' | sort -u | wc -l | tr -d ' ')
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
 
       - name: Commit and push
         if: steps.diff.outputs.changed != '0'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add static/llms.txt static/llms-full.txt static/docs-raw
-          git commit -m "chore: auto-regenerate llms.txt and docs-raw mirrors"
+          git add static/llms.txt static/llms-full.txt static/docs-raw static/knowledge-manifest.json
+          find static -type f -name '*.md' -print0 | xargs -0 -r git add --
+          git commit -m "chore: auto-regenerate LLM knowledge mirrors"
           git push

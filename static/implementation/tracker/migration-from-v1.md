@@ -1,0 +1,382 @@
+---
+title: "Migration from v1"
+description: "Breaking changes and migration steps from Sealmetrics tracker v1 to v2: one-line install, new conv() and micro() syntax, and no cookies or localStorage."
+canonical_url: "https://docs.sealmetrics.com/implementation/tracker/migration-from-v1"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "implementation/tracker/migration-from-v1.mdx"
+publisher: "SealMetrics"
+---
+
+# Migration from v1
+
+Canonical page: https://docs.sealmetrics.com/implementation/tracker/migration-from-v1
+
+This guide covers breaking changes and migration steps from Sealmetrics Tracker v1 to v2.
+
+## Summary of Changes
+
+| Aspect | v1 (Legacy) | v2 (Current) |
+|--------|-------------|--------------|
+| Installation | ~15 lines of JavaScript | 1 line (script tag) |
+| Initialization | `sm('init', 'ACCOUNT_ID')` | Automatic |
+| Pageview tracking | `instance.track('pageview')` | Automatic |
+| Event syntax | `sm('event', 'type', {amount: 99})` | `sealmetrics.conv('type', 99)` |
+| Microconversions | `sm('event', 'type', {...})` | `sealmetrics.micro('type', {...})` |
+| Content grouping | `content_grouping` in options | `?group=xxx` in URL or `sealmetrics({ group: 'xxx' })` |
+| `adin` parameter | Supported | Removed |
+| Cookies | Used | None |
+| localStorage | Used | None |
+| Size | ~15 KB | ~1,227 bytes (gzipped) |
+
+## Breaking Changes
+
+### 1. Installation Changed
+
+**v1 (Remove this):**
+
+```html
+<script>
+/* SealMetrics Tracker Code */
+(function() {
+  var options = {
+    account: '68a4a04603963e02af56487f',
+    event: 'pageview',
+    use_session: 1,
+    content_grouping: 'blog'
+  };
+  var url="//app.sealmetrics.com/tag/v2/tracker";
+  function loadScript(callback){
+    var script=document.createElement("script");
+    script.src=url;
+    script.async=true;
+    script.onload=function(){
+      if(typeof callback==="function"){callback();}
+    };
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+  loadScript(function(){
+    options.id=Math.floor((Math.random()*999)+1);
+    if(window.sm){
+      var instance=new window.sm(options);
+      instance.track(options.event);
+    }
+  });
+})();
+/* End SealMetrics Tracker Code */
+</script>
+```
+
+**v2 (Replace with):**
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=68a4a04603963e02af56487f&group=blog" defer></script>
+```
+
+### 2. Event Tracking Syntax Changed
+
+**v1 (Old syntax):**
+
+```javascript
+sm('event', 'purchase', { amount: 99.99, properties: { currency: 'EUR' } });
+```
+
+**v2 (New syntax):**
+
+```javascript
+sealmetrics.conv('purchase', 99.99, { currency: 'EUR' });
+```
+
+**Note:**
+Sealmetrics's privacy-first model recommends **not** sending the store's internal order identifier as a conversion property. It's an internal ID that provides no analytical value in aggregate reports and would enrich the hit with a per-transaction identifier — send only aggregation-friendly attributes (currency, coupon code, item category, etc.) instead.
+
+### 3. Microconversions Now Separate
+
+**v1 (Events without amount were treated as conversions):**
+
+```javascript
+sm('event', 'add_to_cart', { properties: { product_id: 'SKU-123' } });
+```
+
+**v2 (Explicit microconversion function):**
+
+```javascript
+sealmetrics.micro('add_to_cart', { product_id: 'SKU-123' });
+```
+
+### 4. Content Grouping Syntax Changed
+
+**v1:**
+
+```javascript
+var options = {
+  account: 'ACCOUNT_ID',
+  content_grouping: 'blog'
+};
+```
+
+**v2 (Option A: URL parameter):**
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=ACCOUNT_ID&group=blog" defer></script>
+```
+
+**v2 (Option B: JavaScript):**
+
+```javascript
+sealmetrics({ group: 'blog' });
+```
+
+### 5. `adin` Parameter Removed
+
+The `adin` parameter is no longer supported. Ad click IDs are now detected automatically from URL parameters:
+
+| Click ID | Platform | Automatically Detected |
+|----------|----------|----------------------|
+| `gclid` | Google Ads | Yes |
+| `gbraid` | Google Ads (iOS) | Yes |
+| `wbraid` | Google Ads (Web-to-App) | Yes |
+| `fbclid` | Meta / Facebook | Yes (mapped to facebook / social) |
+| `msclkid` | Microsoft / Bing Ads | Yes |
+| `yclid` | Yandex | Yes |
+| `ttclid` | TikTok | Yes |
+| `twclid` | Twitter / X | Yes |
+| `li_fat_id` | LinkedIn | Yes |
+| `ScCid` | Snapchat | Yes |
+| `rdt_cid` | Reddit | Yes |
+
+Explicit UTM parameters in the URL always take precedence over the source/medium inferred from a click ID.
+
+### 6. Global Variable Names
+
+**v1:**
+
+```javascript
+sm('event', 'purchase', {...});
+```
+
+**v2 (all three are equivalent):**
+
+```javascript
+sealmetrics.conv('purchase', 99.99);
+sm.conv('purchase', 99.99);
+_sm.conv('purchase', 99.99);
+```
+
+The `sm` variable still works but now refers to the same function as `sealmetrics`.
+
+## Migration Steps
+
+### Step 1: Replace Installation Code
+
+Remove the entire v1 script block and replace with:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
+
+If you used `content_grouping`, add it as URL parameter:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=blog" defer></script>
+```
+
+### Step 2: Update Conversion Tracking
+
+Find all instances of:
+
+```javascript
+sm('event', 'EVENT_NAME', { amount: VALUE, properties: {...} });
+```
+
+Replace with:
+
+```javascript
+sealmetrics.conv('EVENT_NAME', VALUE, {...});
+```
+
+**Before:**
+```javascript
+sm('event', 'purchase', { amount: 149.99, properties: { currency: 'EUR', coupon: 'SUMMER10' } });
+```
+
+**After:**
+```javascript
+sealmetrics.conv('purchase', 149.99, { currency: 'EUR', coupon: 'SUMMER10' });
+```
+
+### Step 3: Update Microconversion Tracking
+
+Find all instances of events without monetary value:
+
+```javascript
+sm('event', 'EVENT_NAME', { properties: {...} });
+```
+
+Replace with:
+
+```javascript
+sealmetrics.micro('EVENT_NAME', {...});
+```
+
+**Before:**
+```javascript
+sm('event', 'add_to_cart', { properties: { product_id: 'SKU-456' } });
+```
+
+**After:**
+```javascript
+sealmetrics.micro('add_to_cart', { product_id: 'SKU-456' });
+```
+
+### Step 4: Remove Manual Pageview Calls
+
+v2 tracks pageviews automatically. Remove:
+
+```javascript
+instance.track('pageview');
+// or
+sm('track');
+```
+
+### Step 5: Remove adin Parameter
+
+If you had:
+
+```javascript
+var options = {
+  account: 'ACCOUNT_ID',
+  adin: 'google'
+};
+```
+
+Remove `adin`. Click ID detection is now automatic.
+
+### Step 6: Update Dynamic Content Grouping
+
+If you set content grouping dynamically:
+
+**Before:**
+```javascript
+var options = {
+  content_grouping: getPageType()
+};
+```
+
+**After:**
+```javascript
+sealmetrics({ group: getPageType() });
+```
+
+## Complete Migration Example
+
+### Before (v1)
+
+```html
+<!-- Header -->
+<script>
+(function() {
+  var options = {
+    account: '68a4a04603963e02af56487f',
+    event: 'pageview',
+    use_session: 1,
+    content_grouping: 'product'
+  };
+  var url="//app.sealmetrics.com/tag/v2/tracker";
+  function loadScript(callback){
+    var script=document.createElement("script");
+    script.src=url;
+    script.async=true;
+    script.onload=function(){
+      if(typeof callback==="function"){callback();}
+    };
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+  loadScript(function(){
+    options.id=Math.floor((Math.random()*999)+1);
+    if(window.sm){
+      var instance=new window.sm(options);
+      instance.track(options.event);
+    }
+  });
+})();
+</script>
+
+<!-- Add to cart button -->
+<script>
+document.querySelector('.add-to-cart').addEventListener('click', function() {
+  sm('event', 'add_to_cart', { properties: { product_id: 'SKU-456' } });
+});
+</script>
+
+<!-- Thank you page -->
+<script>
+sm('event', 'purchase', {
+  amount: 149.99,
+  properties: {
+    currency: 'EUR',
+    coupon: 'SUMMER10'
+  }
+});
+</script>
+```
+
+### After (v2)
+
+```html
+<!-- Header -->
+<script src="https://t.sealmetrics.com/t.js?id=68a4a04603963e02af56487f&group=product" defer></script>
+
+<!-- Add to cart button -->
+<script>
+document.querySelector('.add-to-cart').addEventListener('click', function() {
+  sealmetrics.micro('add_to_cart', { product_id: 'SKU-456' });
+});
+</script>
+
+<!-- Thank you page -->
+<script>
+sealmetrics.conv('purchase', 149.99, {
+  currency: 'EUR',
+  coupon: 'SUMMER10'
+});
+</script>
+```
+
+## Verification
+
+After migration:
+
+1. Open browser DevTools > Network tab
+2. Filter by "event"
+3. Navigate your site and perform actions
+4. Verify POST requests to `/event` return 204
+
+Check the Sealmetrics dashboard after 5 minutes to confirm data is flowing.
+
+## Rollback
+
+If you need to rollback, keep your v1 code commented out until you verify v2 is working:
+
+```html
+<!-- v2 (active) -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+
+<!-- v1 (backup - remove after verification)
+<script>
+(function() {
+  ...v1 code...
+})();
+</script>
+-->
+```
+
+## Need Help?
+
+If you encounter issues during migration, contact support with:
+- Your account ID
+- The v1 code you're migrating from
+- Any error messages in browser console

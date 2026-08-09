@@ -1,0 +1,279 @@
+---
+title: "Event Properties"
+description: "Attach custom data to conversions and microconversions for detailed analysis."
+canonical_url: "https://docs.sealmetrics.com/implementation/custom-properties/event-properties"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "implementation/custom-properties/event-properties.mdx"
+publisher: "SealMetrics"
+---
+
+# Event Properties
+
+Canonical page: https://docs.sealmetrics.com/implementation/custom-properties/event-properties
+
+Event properties let you attach custom data to conversions and microconversions for deeper analysis.
+
+## How Event Properties Work
+
+Properties are sent with each event and stored alongside it:
+
+```
+Event: add_to_cart (microconversion)
+├── Standard fields (automatic)
+│   ├── timestamp: 2024-01-15T14:32:00Z
+│   ├── page_url: /products/widget
+│   ├── device: mobile
+│   └── country: ES
+│
+└── Custom properties (you define)
+    ├── product_id: SKU-123
+    ├── product_name: Widget Pro
+    ├── price: 49.99
+    └── category: electronics
+```
+
+## Adding Properties to Events
+
+### Conversions
+
+Pass properties as the third parameter to `sealmetrics.conv()`:
+
+```javascript
+sealmetrics.conv('purchase', 149.99, {
+  product_category: 'electronics',
+  payment_method: 'credit_card',
+  shipping_method: 'express',
+  coupon_code: 'SAVE10',
+  is_gift: 'false',
+  items_count: '3'
+});
+```
+
+### Microconversions
+
+Pass properties as the second parameter to `sealmetrics.micro()`:
+
+```javascript
+sealmetrics.micro('add_to_cart', {
+  product_id: 'SKU-123',
+  quantity: '2',
+  from_wishlist: 'true'
+});
+```
+
+### Non-Monetary Conversions
+
+Use `0` as the amount for leads, signups, and other non-monetary goals:
+
+```javascript
+sealmetrics.conv('lead', 0, {
+  form_name: 'contact',
+  source: 'homepage'
+});
+```
+
+## Common Property Patterns
+
+### Product Properties
+
+```javascript
+sealmetrics.micro('add_to_cart', {
+  // Identification
+  product_id: 'SKU-12345',
+  product_name: 'Wireless Headphones',
+  product_variant: 'Black',
+
+  // Categorization
+  category: 'Electronics',
+  subcategory: 'Audio',
+  brand: 'Sony',
+
+  // Pricing
+  price: '149.99',
+  original_price: '199.99',
+  discount_percent: '25',
+
+  // Inventory
+  in_stock: 'true',
+  stock_level: 'low'
+});
+```
+
+### Content Properties
+
+```javascript
+sealmetrics.micro('article_read', {
+  // Identification
+  content_id: 'article-456',
+  content_title: 'How to Choose Headphones',
+
+  // Categorization
+  content_type: 'article',
+  category: 'buying-guides',
+  tags: 'audio,headphones,wireless',
+
+  // Metadata
+  author: 'jane-smith',
+  publish_date: '2024-01-10',
+  word_count: '1500',
+  read_time: '7',
+
+  // Features
+  has_video: 'true',
+  has_gallery: 'true'
+});
+```
+
+### User Action Properties
+
+```javascript
+sealmetrics.micro('begin_checkout', {
+  // Action context
+  action_location: 'cart_page',
+
+  // State before action
+  items_in_cart: '3',
+  cart_value: '249.99',
+
+  // Action details
+  selected_shipping: 'express',
+  estimated_delivery: '2024-01-18'
+});
+```
+
+## Using Properties in Reports
+
+### Filtering
+
+Filter reports by property values:
+
+```
+Traffic Report
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Filters:
++ product_category equals "electronics"
++ payment_method equals "credit_card"
+
+Showing: Credit card purchases in Electronics
+```
+
+### Breaking Down
+
+Break down metrics by property:
+
+```
+Conversions by Payment Method
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+payment_method    Conversions    Revenue      AOV
+──────────────────────────────────────────────────
+credit_card            234      €35,100    €150
+paypal                  89      €11,570    €130
+apple_pay               67       €9,380    €140
+bank_transfer           23       €4,600    €200
+```
+
+## Data Types
+
+### All Values Are Strings
+
+Sealmetrics stores all property values as strings:
+
+```javascript
+// Recommended: use strings explicitly
+sealmetrics.conv('purchase', 99.99, {
+  price: '49.99',
+  quantity: '2',
+  is_sale: 'true',
+  discount_percent: '25'
+});
+```
+
+Numbers and booleans are automatically converted to strings, so both forms work:
+
+```javascript
+// Also works (auto-converted)
+sealmetrics.conv('purchase', 99.99, {
+  price: 49.99,
+  quantity: 2,
+  is_sale: true
+});
+```
+
+## Dynamic Properties
+
+### From Data Layer
+
+Read from an existing data layer:
+
+```javascript
+sealmetrics.conv('purchase', dataLayer[0].orderTotal, {
+  category: dataLayer[0].productCategory,
+  brand: dataLayer[0].brand
+});
+```
+
+### From DOM
+
+Read from page elements:
+
+```javascript
+document.querySelector('.add-to-cart').addEventListener('click', function() {
+  sealmetrics.micro('add_to_cart', {
+    product_id: this.dataset.productId,
+    product_name: this.dataset.productName,
+    price: this.dataset.price
+  });
+});
+```
+
+### From URL Parameters
+
+```javascript
+var params = new URLSearchParams(window.location.search);
+
+sealmetrics.micro('search', {
+  search_query: params.get('q') || '',
+  sort_by: params.get('sort') || 'relevance',
+  page_number: params.get('page') || '1'
+});
+```
+
+## Debugging Properties
+
+### Inspect the network request
+
+The tracker does not have a console debug mode. To verify what is being sent, open your browser's DevTools, go to the **Network** tab, and filter for requests to `t.sealmetrics.com/event` (sent via `sendBeacon` or `fetch`). The request body contains a single `d` field with the URL-encoded JSON payload — your properties are under the `x` key. A successful request returns `204 No Content`.
+
+### Verify in Dashboard
+
+Check properties arrived correctly:
+
+1. Go to **Reports**
+2. Find your event
+3. Click to see properties
+
+## Troubleshooting
+
+### Properties Not Appearing
+
+1. **Check property names** — Use alphanumeric characters and underscores
+2. **Wait for processing** — Data can take a few minutes to appear
+3. **Inspect the network request** — Check the DevTools Network tab for the request to `t.sealmetrics.com/event` and confirm your properties appear under the `x` key in the payload
+
+### Wrong Values
+
+1. **Check data types** — All values are stored as strings
+2. **Check encoding** — Ensure valid UTF-8 characters
+3. **Check total payload size** — The `/event` request body is capped at 15 KB; if your event (including all properties) exceeds that, the whole event is dropped
+
+### Missing on Some Events
+
+1. **Check conditional logic** — Properties only sent when defined
+2. **Check timing** — Ensure data is available when event fires
+3. **Check errors** — Look for console errors before the tracking call

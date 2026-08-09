@@ -1,0 +1,261 @@
+---
+title: "Data Studio Integration"
+description: "Connect SealMetrics to Google Data Studio for custom dashboards and visual reports."
+canonical_url: "https://docs.sealmetrics.com/platform/settings/integrations/looker-studio"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "platform/settings/integrations/looker-studio.mdx"
+publisher: "SealMetrics"
+---
+
+# Data Studio Integration
+
+Canonical page: https://docs.sealmetrics.com/platform/settings/integrations/looker-studio
+
+Build custom dashboards and visual reports in Google Data Studio using your SealMetrics analytics data. The official SealMetrics connector pulls traffic, sources, pages, conversions, and more directly into Data Studio charts and tables.
+
+**Note:**
+Google renamed Looker Studio back to **Data Studio** in April 2026, reversing the 2022 rebrand. Same product, same reports, same connector — only the name changed.
+
+This page keeps its `looker-studio` URL on purpose: the SealMetrics Apps Script manifest points its `addOnUrl` and `supportUrl` here, and changing it would break those and any existing bookmarks.
+
+## Prerequisites
+
+- SealMetrics account with an active API key
+- Google account with access to [Data Studio](https://datastudio.google.com)
+
+## How It Works
+
+The SealMetrics connector for Data Studio fetches data in real-time from the SealMetrics API using your API key. Each time you view a dashboard, Data Studio requests the latest data for your selected date range.
+
+```
+Data Studio → SealMetrics Connector → SealMetrics API → Your analytics data
+```
+
+Data is cached for 5 minutes to ensure fast loading. Data Studio may also apply its own caching.
+
+**Note:**
+The SealMetrics Data Studio connector is currently pending listing in the Data Studio Partner Connector Gallery. While the listing is being reviewed, your Google account must be granted **Viewer** access to the underlying connector. If the authorization page redirects you to the Data Studio home with no error, contact us at [support@sealmetrics.com](mailto:support@sealmetrics.com) with the Google email you want whitelisted and we'll grant access within one business day.
+
+## Setup
+
+### Step 1: Get Your API Key
+
+1. In SealMetrics, go to **My Account > API Keys**
+2. Create a new API key or copy an existing one
+3. Keep it handy — you'll need it in the next step
+
+**Tip:**
+
+### Step 2: Open the Connector in Data Studio
+
+1. Click the link below to open the SealMetrics connector in Data Studio:
+
+   **[Open SealMetrics Connector](https://datastudio.google.com/datasources/create?connectorId=AKfycbz0OeJk_X454_DijtnmO12DZeFBRL_u_-anvWX_f5oTvxUDlxdc6yIADlcRzOr2aOPAcg)**
+
+2. You'll be asked to authorize the connector on first use — click **Authorize**
+
+### Step 3: Configure the Data Source
+
+The setup is a two-step configuration:
+
+1. **Enter your API key** and click **Next**
+2. **Select your site** from the dropdown (all sites linked to your API key are listed)
+3. **Choose a report type** — this determines which dimensions and metrics are available
+4. Click **Connect**
+
+You now have a data source ready to use in any Data Studio report.
+
+## Available Report Types
+
+Each report type provides a different set of dimensions and metrics. You can create multiple data sources (one per report type) and combine them in a single dashboard.
+
+### Traffic Overview
+
+Daily traffic metrics with time-series data.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| Date | Dimension | Day of the data point |
+| Entrances | Metric | Number of sessions started |
+| Page Views | Metric | Total page views |
+| Engaged Entrances | Metric | Sessions with more than one pageview |
+| Conversions | Metric | Total conversions |
+| Microconversions | Metric | Total microconversions |
+| Revenue | Metric | Total revenue (EUR) |
+| Bounce Rate | Metric | Percentage of single-page sessions |
+
+### Traffic Sources
+
+Traffic broken down by UTM parameters.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| Source | Dimension | UTM source |
+| Medium | Dimension | UTM medium |
+| Campaign | Dimension | UTM campaign |
+| Term | Dimension | UTM term |
+| Entrances | Metric | Sessions from this source |
+| Conversions | Metric | Conversions attributed to this source |
+| Revenue | Metric | Revenue from this source (EUR) |
+| Bounce Rate | Metric | Bounce rate for this source |
+
+### Pages
+
+Page-level analytics with content grouping.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| Page Path | Dimension | URL path of the page |
+| Content Group | Dimension | Content group assignment |
+| Entrances | Metric | Sessions entering on this page |
+| Page Views | Metric | Total views of this page |
+| Conversions | Metric | Conversions on this page |
+| Bounce Rate | Metric | Bounce rate for this page |
+
+### Landing Pages
+
+Entry page performance with conversion data.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| Landing Page | Dimension | URL path of the entry page |
+| Entrances | Metric | Sessions starting on this page |
+| Conversions | Metric | Conversions from this landing page |
+| Revenue | Metric | Revenue from this landing page (EUR) |
+| Bounce Rate | Metric | Bounce rate for this landing page |
+
+### Countries
+
+Geographic breakdown of your traffic.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| Country Code | Dimension | ISO country code |
+| Country | Dimension | Country name |
+| Entrances | Metric | Sessions from this country |
+| Page Views | Metric | Page views from this country |
+| Conversions | Metric | Conversions from this country |
+| Bounce Rate | Metric | Bounce rate for this country |
+
+### Devices
+
+Traffic split by device type.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| Device Type | Dimension | Device category (desktop, mobile, tablet) |
+| Entrances | Metric | Sessions from this device type |
+| Page Views | Metric | Page views from this device type |
+| Bounce Rate | Metric | Bounce rate for this device type |
+
+### Channels
+
+Traffic grouped by marketing channel.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| Channel | Dimension | Channel group (organic, paid, social, direct, etc.) |
+| Entrances | Metric | Sessions from this channel |
+| Conversions | Metric | Conversions from this channel |
+| Revenue | Metric | Revenue from this channel (EUR) |
+| Bounce Rate | Metric | Bounce rate for this channel |
+
+## Building a Dashboard
+
+### Creating Your First Report
+
+1. Go to [Data Studio](https://datastudio.google.com) and click **+ Create > Report**
+2. Select your SealMetrics data source (created during setup)
+3. Start adding charts, tables, and scorecards using the available fields
+
+### Combining Multiple Report Types
+
+For a complete analytics dashboard, create one data source per report type and add them all to the same report:
+
+1. **Traffic Overview** — for time-series charts (entrances, conversions, revenue over time)
+2. **Traffic Sources** — for source/medium breakdown tables
+3. **Landing Pages** — for top landing pages with conversion rates
+4. **Channels** — for channel performance pie charts
+5. **Countries** — for geo maps
+6. **Devices** — for device split donut charts
+
+To add a new data source to an existing report:
+1. Click **Resource > Manage added data sources**
+2. Click **Add a data source**
+3. Search for "SealMetrics" and configure with a different report type
+
+### Using Date Range Controls
+
+The connector respects Data Studio's date range controls. Add a date range picker to let viewers filter all charts at once:
+
+1. Click **Add a control > Date range control**
+2. Place it at the top of your report
+3. All SealMetrics charts will automatically filter to the selected range
+
+## Tips
+
+- **Data caching**: Data is cached for 5 minutes on the connector side. Data Studio may also cache on its side. To force a refresh, click the refresh button in the report viewer.
+- **Multiple sites**: Create separate data sources for each site you want to report on. You can combine them in the same dashboard.
+- **API key rotation**: If you rotate your API key, update it in each Data Studio data source by going to **Resource > Manage added data sources > Edit** for each SealMetrics source.
+- **Sharing**: When you share a Data Studio report, viewers use the data source owner's API key — they don't need their own.
+- **Blending data**: Use Data Studio's [data blending](https://docs.cloud.google.com/data-studio/create-edit-and-manage-blends) to combine metrics from different report types in a single chart (e.g., join Traffic Sources with Landing Pages by a common dimension).
+
+## Troubleshooting
+
+### "Invalid API Key" Error
+
+1. Verify your API key is correct in **My Account > API Keys**
+2. Make sure the key hasn't been revoked or expired
+3. Re-enter the key in the data source: **Resource > Manage added data sources > Edit**
+
+### No Sites Listed
+
+1. Confirm your API key has access to at least one site
+2. Check that sites are active in your SealMetrics account
+
+### Data Not Loading
+
+1. Verify the selected date range contains data
+2. Check that your SealMetrics account is active
+3. Try refreshing the data source (click the refresh icon in the report)
+4. If the issue persists, create a new data source — the connector may need to be re-authorized
+
+### Rate Limiting
+
+The connector handles rate limits automatically with retry logic. If you experience slow loading:
+- Reduce the date range
+- Avoid refreshing multiple reports simultaneously
+- Data is cached for 5 minutes, so repeated views load faster
+
+## Data Studio + BigQuery
+
+If you also use the [BigQuery integration](/platform/settings/integrations/bigquery), you can combine both approaches:
+
+- **Data Studio connector** — best for quick dashboards with standard metrics, no setup required beyond an API key
+- **BigQuery as data source in Data Studio** — best for custom SQL queries, cross-table joins, and advanced analysis
+
+You can use BigQuery as a Data Studio data source by selecting **BigQuery** instead of the SealMetrics connector when creating a data source, and pointing it to your SealMetrics BigQuery dataset.
+
+## Support
+
+Need help with the connector? Email **[support@sealmetrics.com](mailto:support@sealmetrics.com)** and include:
+
+- Your SealMetrics account email
+- The report type that fails
+- A screenshot of the error message
+- The Data Studio data source URL (visible in the address bar)
+
+We aim to respond within one business day.
+
+## Legal
+
+By using the SealMetrics Data Studio connector, you agree to:
+
+- [SealMetrics Privacy Policy](https://sealmetrics.com/privacy/)
+- [SealMetrics Terms of Service](https://sealmetrics.com/terms/)
+
+The connector reads analytics data from your SealMetrics account via the SealMetrics REST API. It does not write to or modify your account. Your API key is stored by Data Studio in your data source configuration; rotate it from **Settings > API Keys** at any time.

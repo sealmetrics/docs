@@ -1,0 +1,73 @@
+---
+title: "First-Party Tracker"
+description: "Serve the Sealmetrics tracker from your own subdomain for maximum ad-blocker resistance: DNS setup, activation, and verification."
+canonical_url: "https://docs.sealmetrics.com/implementation/tracker/first-party"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "implementation/tracker/first-party.mdx"
+publisher: "SealMetrics"
+---
+
+# First-Party Tracker
+
+Canonical page: https://docs.sealmetrics.com/implementation/tracker/first-party
+
+Serve the Sealmetrics tracker from a subdomain of **your own domain** (e.g. `metrics.yourstore.com`) instead of `t.sealmetrics.com`.
+
+## Why first-party?
+
+Ad blockers work mostly from lists of known third-party tracking domains. When the script and its requests load from **your own domain**, they are far less likely to be blocked — which means fewer gaps in your data. It also keeps the entire measurement flow within your domain's context, consistent with Sealmetrics' first-party, consentless design. See [Ad-blocker resistance](/security-privacy/adblocker-bypass) for the full picture.
+
+## Setup
+
+The process takes two minutes of your time plus a confirmation from our team.
+
+### 1. Get your subdomain from the dashboard
+
+1. Log in to [my.sealmetrics.com](https://my.sealmetrics.com)
+2. Go to **Settings → Pixels**
+
+![Sealmetrics First Party Tracker navigation screenshot](/img/first-party-tracker-navigation.png)
+
+The **1st Party Tracker Code** screen shows the subdomain to create and the snippet you'll use later:
+
+![Sealmetrics tracker code setup screenshot](/img/first-party-tracker-code.png)
+
+If you track multiple domains in one site, create the same subdomain on each of them.
+
+### 2. Create the DNS record
+
+In your DNS manager, add an **A record** for that subdomain pointing to:
+
+```
+45.148.1.221
+```
+
+DNS changes can take from a few minutes up to 24–48 hours to propagate, depending on your provider and TTL.
+
+### 3. Tell us, and we finish the server side
+
+Email [hello@sealmetrics.com](mailto:hello@sealmetrics.com) once the record is in place. We complete the server-side setup for your subdomain and confirm by email.
+
+### 4. Install the snippet
+
+When you receive the confirmation, copy the **Tracker Code** snippet from the same screen into the `<head>` of your website — it's the standard tracker, just served from your subdomain. All tracker options ([`?auto=0`, `?spa=0`](/implementation/tracker/spa-support), [content grouping](/implementation/content-site-structure/content-grouping)) work exactly the same.
+
+## Verify it works
+
+Visit your site and check that **Last hit** updates on the [Overview report](/reports/overview) within seconds. If it doesn't:
+
+- Confirm the A record has propagated (`dig your-subdomain.yourdomain.com`)
+- Confirm you replaced the old `t.sealmetrics.com` snippet (don't run both — you'd count pageviews twice)
+- Check the browser console for blocked requests
+
+## Related documentation
+
+- [Tracker Installation](/implementation/tracker/installation) — standard installation and script options
+- [Ad-blocker resistance](/security-privacy/adblocker-bypass) — why first-party loading matters
+- [Troubleshooting](/troubleshooting) — common installation issues
+
+Questions? [hello@sealmetrics.com](mailto:hello@sealmetrics.com)

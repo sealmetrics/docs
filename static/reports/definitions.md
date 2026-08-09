@@ -1,0 +1,332 @@
+---
+title: "Metrics Reference"
+description: "Detailed reference of all SealMetrics report metrics — formulas, benchmarks, and interpretation for entrances, pageviews, conversions, revenue, and advanced KPIs."
+canonical_url: "https://docs.sealmetrics.com/reports/definitions"
+lang: "en"
+date_generated: "2026-08-09T18:09:39.170Z"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "reports/definitions.mdx"
+publisher: "SealMetrics"
+---
+
+# Metrics Reference
+
+Canonical page: https://docs.sealmetrics.com/reports/definitions
+
+Detailed formulas, benchmarks, and interpretation guidelines for every metric in SealMetrics reports.
+
+For a complete glossary of all terms (including privacy, platform, and technical concepts), see the [Glossary](/faq/glossary).
+
+## Quick Reference
+
+| Metric | Formula | Higher/Lower is Better |
+|--------|---------|------------------------|
+| [Entrances](#entrances) | Count of sessions started | Higher |
+| [Pageviews](#pageviews) | Count of page loads | Higher |
+| [Unique Visitors](#unique-visitors--not-tracked) | Not tracked — use Entrances | — |
+| [Bounce Rate](#bounce-rate) | Bounces / Entrances × 100 | Lower |
+| [Engaged Entrances](#engaged-entrances) | Sessions with 2+ pageviews | Higher |
+| [Engagement Rate](#engagement-rate) | Engaged / Entrances × 100 | Higher |
+| [Pages per Session](#pages-per-session) | Pageviews / Entrances | Higher |
+| [Conversions](#conversions) | Count of conversion events | Higher |
+| [Conversion Rate](#conversion-rate) | Conversions / Entrances × 100 | Higher |
+| [Revenue](#revenue) | Sum of conversion amounts | Higher |
+| [AOV](#average-order-value-aov) | Revenue / Conversions | Higher |
+
+## Traffic Metrics
+
+### Entrances
+
+**Definition:** The number of sessions (visits) that started during the selected period.
+
+| Aspect | Description |
+|--------|-------------|
+| Counting | Each new session counts as 1 entrance |
+| Session start | First pageview with no active session (~2-hour inactivity window) |
+| Use case | Measure traffic volume |
+
+**Example:** A user visits your site at 9:00 AM, leaves, and returns at 3:00 PM. This counts as 2 entrances.
+
+### Pageviews
+
+**Definition:** The total number of pages viewed during the selected period.
+
+| Aspect | Description |
+|--------|-------------|
+| Counting | Each page load counts as 1 pageview |
+| Reloads | Page refresh counts as new pageview |
+| Use case | Measure content consumption |
+
+**Example:** A user visits 5 pages in one session. This counts as 5 pageviews and 1 entrance.
+
+### Unique Visitors — not tracked
+
+Sealmetrics **does not calculate unique visitors**. Identifying a "unique visitor" requires a persistent per-user identifier (cookie, fingerprint, or hash), and any such identifier constitutes personal data under GDPR. Sealmetrics's consentless legal basis depends on **not** carrying an identifier across sessions.
+
+Use **entrances** as the audience-size signal instead — it measures unique sessions, which is what most product decisions actually need.
+
+### Bounce Rate
+
+**Definition:** The percentage of entrance sessions where the user viewed only one page before leaving. Computed in aggregate — no individual tracking required.
+
+| Aspect | Description |
+|--------|-------------|
+| Formula | (Entrances − Engaged Entrances) / Entrances × 100 |
+| "Engaged" | A session with **more than one pageview** |
+| Range | 0% to 100% |
+| Lower is better | Generally indicates better engagement |
+
+**Interpretation:**
+
+| Bounce Rate | Interpretation |
+|-------------|----------------|
+| < 40% | Excellent engagement |
+| 40-55% | Good |
+| 55-70% | Average |
+| > 70% | May need improvement |
+
+**Exceptions:** Some pages naturally have high bounce rates (contact pages, single-purpose landing pages).
+
+### Engaged Entrances
+
+**Definition:** The number of sessions where the visitor viewed more than one page.
+
+| Aspect | Description |
+|--------|-------------|
+| Counting | Session with 2+ pageviews counts as 1 engaged entrance |
+| Threshold | Minimum 2 pageviews required |
+| Use case | Measure quality of traffic |
+
+**Example:** A user visits your homepage and then navigates to a product page. This counts as 1 engaged entrance. If they only view the homepage and leave, it does not count as engaged.
+
+**Relationship to Bounce Rate:**
+- Engaged Entrances = Entrances - Bounces
+- A session is either engaged OR a bounce, never both
+
+### Engagement Rate
+
+**Definition:** The percentage of sessions where visitors viewed more than one page.
+
+| Aspect | Description |
+|--------|-------------|
+| Formula | (Engaged Entrances / Total Entrances) × 100 |
+| Range | 0% to 100% |
+| Higher is better | Indicates quality traffic and relevant content |
+
+**Interpretation:**
+
+| Engagement Rate | Interpretation |
+|-----------------|----------------|
+| > 60% | Excellent - visitors find content relevant |
+| 40-60% | Good |
+| 20-40% | Average |
+| < 20% | May indicate traffic quality issues |
+
+**Note:** Engagement Rate + Bounce Rate = 100%. They are inverse metrics.
+
+### Pages per Session
+
+**Definition:** The average number of pages viewed per session.
+
+| Aspect | Description |
+|--------|-------------|
+| Formula | Total Pageviews / Total Entrances |
+| Minimum | 1.0 (every session has at least one pageview) |
+| Use case | Measure content engagement depth |
+
+**Interpretation:**
+
+| Pages/Session | Interpretation |
+|---------------|----------------|
+| > 4 | Excellent engagement |
+| 2-4 | Good |
+| 1-2 | Low engagement |
+| ~1 | Most sessions are bounces |
+
+**Example:** 10,000 pageviews from 4,000 entrances = 2.5 pages per session.
+
+## Conversion Metrics
+
+### Conversions
+
+**Definition:** The total number of completed conversion events during the selected period.
+
+| Aspect | Description |
+|--------|-------------|
+| Counting | Each `sealmetrics.conv()` call counts as 1 |
+| Multiple per session | A user can have multiple conversions per session |
+| Use case | Measure goal completions |
+
+**Example:** A user makes 2 purchases in one session. This counts as 2 conversions.
+
+### Conversion Rate
+
+**Definition:** Conversions expressed as a percentage of entrances during the selected period. It is **not** deduplicated per session — a single session can contribute more than one conversion, so the rate can theoretically exceed 100% (in which case it is capped at 100%).
+
+| Aspect | Description |
+|--------|-------------|
+| Formula | (Conversions / Entrances) × 100 |
+| Range | 0% to 100% (capped) |
+| Higher is better | Indicates effective conversion funnel |
+
+**Benchmarks by industry:**
+
+| Industry | Typical Conv. Rate |
+|----------|-------------------|
+| E-commerce | 1-3% |
+| SaaS | 3-7% |
+| Lead generation | 2-5% |
+| Media/Content | 1-2% (subscription) |
+
+### Events (Microconversions)
+
+**Definition:** The total number of microconversion events tracked during the selected period.
+
+| Aspect | Description |
+|--------|-------------|
+| Counting | Each `sealmetrics.micro()` call counts as 1 |
+| Purpose | Track engagement before conversion |
+| Use case | Measure funnel progression |
+
+**Common microconversions:**
+- Add to cart
+- Newsletter signup
+- Video play
+- PDF download
+- Form start
+
+### Revenue
+
+**Definition:** The total monetary value from conversions during the selected period.
+
+| Aspect | Description |
+|--------|-------------|
+| Source | Amount passed to `sealmetrics.conv(type, amount)` |
+| Currency | Displayed in your configured currency |
+| Aggregation | Sum of all conversion amounts |
+
+**Example:**
+```javascript
+sealmetrics.conv('purchase', 99.99);  // Adds 99.99 to revenue
+sealmetrics.conv('purchase', 149.50); // Adds 149.50 to revenue
+// Total revenue: 249.49
+```
+
+### Average Order Value (AOV)
+
+**Definition:** The average revenue per conversion.
+
+| Aspect | Description |
+|--------|-------------|
+| Formula | Total Revenue / Number of Conversions |
+| Use case | Measure transaction size |
+| Optimization | Upselling, cross-selling |
+
+## Report Dimensions
+
+Reports can be broken down by dimensions such as UTM Source, UTM Medium, UTM Campaign, Referrer, Page Path, Landing Page, Content Group, Device Type, Browser, Operating System, and Country. For definitions of these terms, see the [Glossary](/faq/glossary).
+
+## Funnel Metrics
+
+### Funnel Completion Rate
+
+**Definition:** The percentage of users who completed all steps in a funnel.
+
+| Formula | (Users completing last step / Users entering first step) × 100 |
+
+### Step Completion Rate
+
+**Definition:** The percentage of users who completed a step relative to the previous step.
+
+| Formula | (Users at current step / Users at previous step) × 100 |
+
+### Drop-off Rate
+
+**Definition:** The percentage of users who left at a specific step.
+
+| Formula | (Users who left at step / Users who entered step) × 100 |
+
+## Comparison Metrics
+
+### Delta (Δ)
+
+**Definition:** The change between current and comparison period, shown as a percentage.
+
+| Formula | ((Current - Previous) / Previous) × 100 |
+
+### Delta Colors
+
+| Color | Meaning |
+|-------|---------|
+| Green | Improvement |
+| Red | Decline |
+| Gray | No change or N/A |
+
+**Note:** For Bounce Rate, a decrease (negative delta) is shown in green because lower bounce rate is better.
+
+## Time-Based Metrics
+
+### Time Grouping
+
+| Grouping | Description |
+|----------|-------------|
+| Day | Each data point is one day |
+| Week | Data aggregated by week (Mon-Sun) |
+| Month | Data aggregated by calendar month |
+
+## Calculated Metrics
+
+### Revenue per Entrance
+
+**Definition:** Average revenue generated per session.
+
+| Aspect | Description |
+|--------|-------------|
+| Formula | Total Revenue / Total Entrances |
+| Use case | Measure traffic monetization efficiency |
+| Optimization | Improve conversion rate or AOV |
+
+**Example:** €10,000 revenue from 5,000 entrances = €2.00 revenue per entrance.
+
+### Cost per Acquisition (CPA)
+
+**Definition:** Average cost to acquire one conversion.
+
+| Aspect | Description |
+|--------|-------------|
+| Formula | Total Ad Spend / Total Conversions |
+| Use case | Measure marketing efficiency |
+| Lower is better | More efficient acquisition |
+
+**Note:** Requires external cost data import.
+
+### Return on Ad Spend (ROAS)
+
+**Definition:** Revenue generated per unit of ad spend.
+
+| Aspect | Description |
+|--------|-------------|
+| Formula | Total Revenue / Total Ad Spend |
+| Use case | Measure advertising profitability |
+| Breakeven | ROAS of 1.0 means revenue equals cost |
+
+**Interpretation:**
+
+| ROAS | Interpretation |
+|------|----------------|
+| > 4.0 | Excellent |
+| 2.0-4.0 | Good |
+| 1.0-2.0 | Marginal |
+| < 1.0 | Losing money |
+
+**Note:** Requires external cost data import.
+
+## Related documentation
+
+- [Glossary](/faq/glossary) — Full glossary of privacy, platform, and technical terms
+- [How Sealmetrics Calculates Entrances](/reports/insights/how-sealmetrics-calculates-entrances) — Deep dive on the entrances metric
+- [Overview Report](/reports/overview) — Where these metrics are displayed
+- [Funnel Report](/reports/funnel) — Where funnel completion metrics apply
+- [Filters](/reports/filters) — Segment any metric by dimension
