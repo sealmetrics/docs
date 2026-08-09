@@ -8,12 +8,15 @@ This guide puts the three trackers side by side: the **Sealmetrics tracker**, **
 
 | | Sealmetrics | GA4 | Adobe Analytics |
 |---|---|---|---|
-| Wire weight (scripts, gzip) | **1.1 KB** | ~171 KB (~155×) | ~170 KB (~155×) |
-| JavaScript to parse | **2.0 KB** | ~512 KB (~255×) | ~730 KB (~365×) |
+| Wire weight (scripts, gzip) | **1.1 KB** | ~146 KB (~132×) | ~170 KB (~155×) |
+| JavaScript to parse | **2.0 KB** | ~409 KB (~255×) | ~730 KB (~365×) |
 | Hit secured (`<head>` install, fiber) | **~0.1–0.3 s** | ~0.5–0.7 s (best case) | ~3.0 s (field-measured) |
 | Hit transport | `sendBeacon` — survives page close | beacon-style | image GET — cancelable |
 | Consent required in the EU | **No — consentless by design** | Yes (Consent Mode models the gap) | Yes in most installs |
 | Traffic measured in parallel runs | baseline | ~25–45% less (estimate, EU) | ~20% less (30-day dual-tag, field) |
+
+**Note:**
+Script weights re-measured **9 August 2026** from each vendor's production CDN: one GET with `Accept-Encoding: gzip`, bytes counted on disk. Vendor scripts change — `gtag.js` alone went from ~171 KB to ~146 KB between passes — so treat these as a dated snapshot.
 
 ## Methodology
 
@@ -29,19 +32,19 @@ To preserve the anonymity of the reference sites, third-party figures are rounde
 
 | | Sealmetrics | GA4 (gtag.js) | Adobe (Launch + AppMeasurement + rules) |
 |---|---|---|---|
-| Transferred over the network | **1.1 KB** | ~171 KB | ~170 KB |
-| Uncompressed | **2.0 KB** | ~512 KB | ~730 KB |
+| Transferred over the network | **1.1 KB** | ~146 KB | ~170 KB |
+| Uncompressed | **2.0 KB** | ~409 KB | ~730 KB |
 
 Two structural notes:
 
 - The Sealmetrics tracker fits in **a single TCP packet** and arrives in the first round-trip. Both competitor payloads need 4–5 slow-start round-trips just for the download.
-- **Parsing has no CDN.** Google and Adobe both serve from excellent global edges — but ~512 KB or ~730 KB of JavaScript is parsed on the visitor's device, every time the cache is cold. On a low-end phone that is commonly 0.8–1.5 s of CPU work before any hit can fire.
+- **Parsing has no CDN.** Google and Adobe both serve from excellent global edges — but ~409 KB or ~730 KB of JavaScript is parsed on the visitor's device, every time the cache is cold. On a low-end phone that is commonly 0.8–1.5 s of CPU work before any hit can fire.
 
 ## Delivery chains
 
 **Sealmetrics** — one step: `t.js` downloads (1.1 KB), executes, and dispatches the pageview via `sendBeacon` from inside the script. Own work, measured in the field: **~0.26 s** from script start to hit delivered.
 
-**GA4** — `gtag.js` downloads (~171 KB), parses (~512 KB), runs its config, then sends the pageview to `google-analytics.com` on a **second connection**. In the EU, none of this starts for a new visitor until the consent banner is accepted.
+**GA4** — `gtag.js` downloads (~146 KB), parses (~409 KB), runs its config, then sends the pageview to `google-analytics.com` on a **second connection**. In the EU, none of this starts for a new visitor until the consent banner is accepted.
 
 **Adobe** — the longest chain: Launch container (~670 KB of JS) → ECID/Audience Manager identity round-trips → AppMeasurement + modules → rule payloads → other Experience Cloud calls (Target) → pageview as an **image GET** to a first-party CNAME collection domain. Field-measured on the reference site: the pageview left the device at **~3.0 s**.
 
