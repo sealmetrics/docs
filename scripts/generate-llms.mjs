@@ -11,9 +11,10 @@
  * No external dependencies — uses only node:fs and node:path.
  */
 
-import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, readdirSync, statSync, mkdirSync } from 'node:fs';
 import { join, relative, extname, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -433,7 +434,29 @@ function markdownPriority(type, doc) {
   return 'useful';
 }
 
+function sourceHash(doc, type) {
+  return createHash('sha256')
+    .update(JSON.stringify({
+      route: new URL(doc.url).pathname,
+      title: doc.title,
+      description: doc.description,
+      content_type: type,
+      content: doc.cleanContent,
+    }))
+    .digest('hex');
+}
+
 function generateMarkdownMirrors(docs) {
+  const manifestPath = join(STATIC_DIR, 'knowledge-manifest.json');
+  let previousManifest = null;
+  if (existsSync(manifestPath)) {
+    try {
+      previousManifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
+    } catch {
+      previousManifest = null;
+    }
+  }
+  const previousRoutes = new Map((previousManifest?.routes || []).map((entry) => [entry.route, entry]));
   const generatedAt = new Date().toISOString();
   const manifest = [];
   for (const doc of docs) {
@@ -442,6 +465,11 @@ function generateMarkdownMirrors(docs) {
     const outputPath = join(MARKDOWN_DIR, `${route === '/' ? '/index' : route}.md`);
     mkdirSync(dirname(outputPath), { recursive: true });
     const type = markdownType(doc);
+    const hash = sourceHash(doc, type);
+    const previous = previousRoutes.get(route);
+    const dateGenerated = previous?.source_hash === hash && previous.generated_at
+      ? previous.generated_at
+      : generatedAt;
     // The title is supplied by frontmatter and by the generated H1. Remove
     // the first authored H1 when a source document already has one so every
     // mirror has exactly one top-level heading.
@@ -457,7 +485,8 @@ function generateMarkdownMirrors(docs) {
       `description: ${JSON.stringify(doc.description)}`,
       `canonical_url: ${JSON.stringify(doc.url)}`,
       'lang: "en"',
-      `date_generated: ${JSON.stringify(generatedAt)}`,
+      `date_generated: ${JSON.stringify(dateGenerated)}`,
+      `source_hash: ${JSON.stringify(hash)}`,
       `content_type: ${JSON.stringify(type)}`,
       `owner: ${JSON.stringify(markdownOwner(type))}`,
       `llm_priority: ${JSON.stringify(markdownPriority(type, doc))}`,
@@ -473,9 +502,15 @@ function generateMarkdownMirrors(docs) {
       '',
     ].join('\n');
     writeFileSync(outputPath, document, 'utf-8');
-    manifest.push({ route, canonical: doc.url, markdown: docMarkdownUrl(doc), title: doc.title, description: doc.description, content_type: type, owner: markdownOwner(type), llm_priority: markdownPriority(type, doc), source_file: doc.relativePath, generated_at: generatedAt });
+    manifest.push({ route, canonical: doc.url, markdown: docMarkdownUrl(doc), title: doc.title, description: doc.description, content_type: type, owner: markdownOwner(type), llm_priority: markdownPriority(type, doc), source_file: doc.relativePath, source_hash: hash, generated_at: dateGenerated });
   }
-  writeFileSync(join(STATIC_DIR, 'knowledge-manifest.json'), `${JSON.stringify({ generated_at: generatedAt, routes: manifest }, null, 2)}\n`, 'utf-8');
+  const allRoutesUnchanged = previousManifest
+    && manifest.length === previousManifest.routes?.length
+    && manifest.every((entry) => previousRoutes.get(entry.route)?.source_hash === entry.source_hash);
+  const manifestGeneratedAt = allRoutesUnchanged && previousManifest.generated_at
+    ? previousManifest.generated_at
+    : generatedAt;
+  writeFileSync(manifestPath, `${JSON.stringify({ generated_at: manifestGeneratedAt, routes: manifest }, null, 2)}\n`, 'utf-8');
   return manifest.length;
 }
 
