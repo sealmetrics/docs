@@ -71,7 +71,7 @@ Sealmetrics uses a privacy-preserving session tracking approach.
 Each hit includes:
 
 1. **Timestamp**  
-2. **User Agent** *(used for anonymous device classification; event detail purged after 14 days, aggregated categories kept 24 months; never linked to a person)*  
+2. **User Agent** *(used for anonymous device classification; event detail purged after 1 day, aggregated categories kept 24 months; never linked to a person)*  
 3. **Current URL**  
 4. **Referral URL**
 
@@ -122,7 +122,7 @@ Sealmetrics stores analytics data in aggregated form using a privacy-preserving 
 
 - **No raw personal data** is stored at any point
 - **Aggregated metrics** are stored in ClickHouse for high-performance querying
-- **Fixed data retention**, identical for every plan and enforced by database TTLs: event-level detail 14 days, hourly aggregates 90 days, daily aggregates and conversions 24 months
+- **Fixed data retention**, identical for every plan and enforced by database TTLs: event-level detail 1 day, hourly aggregates 90 days, daily aggregates and conversions 24 months
 - **European infrastructure** — all data hosted in Dublin, Ireland (EU)
 - **No international data transfers** — data never leaves the EU
 

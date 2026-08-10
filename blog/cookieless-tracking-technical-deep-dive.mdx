@@ -323,7 +323,7 @@ const minimumRequiredFields = {
 
 // ✓ Storage Limitation Built-In (fixed for all plans)
 const retentionPolicy = {
-  eventDetailDays: 14,         // Event-level rows purged after 14 days
+  eventDetailDays: 14,         // Event-level rows purged after 1 day
   hourlyAggregateDays: 90,     // Hourly aggregates: 90 days
   dailyAggregateDays: 730,     // Daily aggregates & conversions: 24 months
   // Automatically enforced by database TTLs
