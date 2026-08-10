@@ -3,8 +3,8 @@ title: "CNIL Self-Assessment: Sealmetrics Compliance"
 description: "Official CNIL self-assessment documentation for Sealmetrics analytics - demonstrating compliance with French consent exemption requirements."
 canonical_url: "https://docs.sealmetrics.com/compliance/cnil-self-assessment"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "bd9f60a66f151a4e3d9bd94d490097093c9daae0073f46eccccd1e22fc128b6d"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "50ab59aeeef011a545c64eb14ed73b0df69b689bfbb9f12e7f421b9b99b6e48e"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -203,12 +203,12 @@ Maximum theoretical lifetime: Browser session only
 |--------|------------|
 | Analytics data retention | ✅ 24 months maximum |
 | Automatic deletion | ✅ Data purged after retention period |
-| Raw logs retention | ✅ 14 days only |
+| Raw logs retention | ✅ 1 day only |
 
 **Data Retention Schedule:**
 | Data Type | Retention Period |
 |-----------|-----------------|
-| Raw request logs | 14 days |
+| Raw request logs | 1 day |
 | Aggregated analytics | 24 months |
 | Account configuration | Until account deletion |
 
@@ -219,7 +219,7 @@ Maximum theoretical lifetime: Browser session only
 
 | Aspect | Compliance |
 |--------|------------|
-| IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 14 days) |
+| IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 1 day) |
 | Geolocation (default) | ✅ Country derived from browser timezone, not IP |
 | In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is not retained after the lookup and is never associated with a hit that reaches ClickHouse. |
 

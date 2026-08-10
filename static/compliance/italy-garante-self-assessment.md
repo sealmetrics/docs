@@ -3,8 +3,8 @@ title: "Italy Garante Self-Assessment: Sealmetrics Compliance"
 description: "Self-assessment of Sealmetrics against the Italian Garante's cookie guidelines and analytics decisions — consent-free audience measurement in Italy."
 canonical_url: "https://docs.sealmetrics.com/compliance/italy-garante-self-assessment"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "710a2da09c0e6c454fd1f271698722598c35f5ea71e6603772dfca6cd92e2410"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "838fecba8c15acaed7dd5f129ca4ddbeeb146b0735a7479714f6bf4a6e30640e"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -93,11 +93,11 @@ The guidelines allow analytics cookies to be treated like technical cookies (con
 
 | Aspect | Compliance |
 |--------|------------|
-| IP masking | ✅ Exceeded — the IP is **never stored at all** (ephemeral in-memory use for anti-bot protection only) |
+| IP masking | ✅ Exceeded — the IP is **never stored in the analytics database** (transient server-side use for anti-bot protection) |
 | Geolocation method | ✅ Country from browser timezone, not IP; country-level only, no city/region |
 | Identifiers in stored data | ✅ None — no user ID, device ID, or fingerprint |
 
-**Note:** the Garante's masking condition presupposes a tool that stores IP-derived data. Sealmetrics goes beyond the condition: there is nothing to mask because nothing is persisted.
+**Note:** the Garante's masking condition presupposes a tool that stores IP-derived data. Sealmetrics goes beyond the condition: there is nothing to mask because no IP or IP-derived identifier is persisted in the analytics database.
 
 ### Criterion 5: No combination with other processing (no cross-referencing / enrichment)
 

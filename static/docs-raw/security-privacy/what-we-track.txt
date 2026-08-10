@@ -19,7 +19,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 #### 2. User Agent
 - **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
-- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. Event-level rows are purged after 14 days; the derived category dimensions (browser family, OS family, device type) persist in aggregated reports for 24 months.
+- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. Event-level rows are purged after 1 day; the derived category dimensions (browser family, OS family, device type) persist in aggregated reports for 24 months.
 - **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
 
 #### 3. Current URL

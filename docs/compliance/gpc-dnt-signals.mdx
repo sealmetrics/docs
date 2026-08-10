@@ -1,0 +1,74 @@
+---
+title: "Global Privacy Control (GPC) and Do Not Track (DNT)"
+sidebar_label: "GPC & DNT Signals"
+sidebar_position: 10
+description: "Why Sealmetrics does not respond to GPC or DNT browser signals — you cannot opt out of a measurement that never tracked you in the first place."
+tags: [compliance, gpc, dnt, privacy, consentless]
+keywords:
+  - global privacy control
+  - do not track
+  - gpc
+  - dnt
+  - opt-out signals
+  - cookieless analytics
+---
+
+# GPC and DNT Signals: Why Sealmetrics Doesn't Respond to Them
+
+Auditors and privacy-conscious teams sometimes ask why Sealmetrics does not
+react to the Global Privacy Control (GPC) or Do Not Track (DNT) browser
+signals. It is a fair question, and the answer is deliberate — not an
+oversight.
+
+## What these signals mean
+
+**GPC** is a browser signal through which an individual tells a website:
+*"do not sell or share my personal information."* It has legal force in
+certain jurisdictions (notably under California's CCPA/CPRA) for businesses
+that sell or share personal data.
+
+**DNT** was an earlier attempt at a universal opt-out from cross-site
+tracking. It never acquired legal standing, and its own standardization
+effort was abandoned.
+
+Both signals share one premise: **there is an identifiable person being
+tracked, and that person wants out.**
+
+## Why that premise does not apply here
+
+Honoring an individual opt-out only makes sense when individuals are being
+measured. Sealmetrics measures **audiences, not people**:
+
+- **No cookies, no browser storage of any kind.** There is nothing on the
+  device to opt out of.
+- **No cross-site identifiers.** The ephemeral session identifier is derived
+  per website and cannot link a visitor across sites.
+- **No IP addresses in the analytics database**, and country is derived from
+  the browser's timezone — not from the IP.
+- **Raw technical events live for 1 day**; everything retained long-term is
+  aggregate statistics.
+
+You cannot opt out of an anonymous count for the same reason you cannot opt
+out of a turnstile at a stadium entrance: the count contains no *you* to
+remove. Responding to GPC would imply that Sealmetrics processes personal
+data that could be "sold or shared" — which is precisely what the
+architecture is designed to make impossible.
+
+## Protection by default beats opt-out on request
+
+Opt-out models protect only the minority of visitors who know the signal
+exists and have it enabled. Sealmetrics' model protects **100% of visitors,
+by default, with no action required on their part**. That is a strictly
+stronger guarantee than honoring an opt-out — it is the opt-out made
+structural.
+
+## What this does *not* change for you
+
+If your business sells or shares personal data through **other** tools
+(advertising pixels, data brokers, CRM enrichment), your obligation to honor
+GPC for those tools is unaffected. Sealmetrics simply is not part of that
+category: it has nothing to stop selling or sharing.
+
+We monitor the regulatory evolution of these signals. If any framework ever
+assigns GPC a meaning applicable to exempt, aggregate-only audience
+measurement, we will reassess this position — and document any change here.

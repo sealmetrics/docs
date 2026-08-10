@@ -3,8 +3,8 @@ title: "What We Track vs What We Don’t"
 description: "Learn exactly what Sealmetrics collects — and what it never collects — through its privacy-first, consentless analytics architecture."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/what-we-track"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4d4619cb9c3abd7a0489699d8a1717a9f96034aa27a872a306f0a959f9e2e003"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "ad72a6e88239dbbe1eb07bd2055f6f669efaa90d5eba70534e17bac2c3a9e197"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -31,7 +31,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 #### 2. User Agent
 - **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
-- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. Event-level rows are purged after 14 days; the derived category dimensions (browser family, OS family, device type) persist in aggregated reports for 24 months.
+- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. Event-level rows are purged after 1 day; the derived category dimensions (browser family, OS family, device type) persist in aggregated reports for 24 months.
 - **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
 
 #### 3. Current URL

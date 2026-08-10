@@ -3,8 +3,8 @@ title: "How Session-Based Tracking Works: Cookieless Architecture Explained"
 description: "How session-based tracking replaces cookies. Technical deep dive into Sealmetrics' architecture: hashing, token rotation, and data flow."
 canonical_url: "https://docs.sealmetrics.com/blog/cookieless-tracking-technical-deep-dive"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "144c03a54c16b33e1367a37ca0a0bd4e2764df1e2797b5d30a4a707507b6a972"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "fee4e53ead70ab2cfac70539711e806d3f84ebad8f9a9e891f01fecbb728a295"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -323,7 +323,7 @@ const minimumRequiredFields = {
 
 // ✓ Storage Limitation Built-In (fixed for all plans)
 const retentionPolicy = {
-  eventDetailDays: 14,         // Event-level rows purged after 14 days
+  eventDetailDays: 14,         // Event-level rows purged after 1 day
   hourlyAggregateDays: 90,     // Hourly aggregates: 90 days
   dailyAggregateDays: 730,     // Daily aggregates & conversions: 24 months
   // Automatically enforced by database TTLs

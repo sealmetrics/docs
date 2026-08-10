@@ -3,8 +3,8 @@ title: "Privacy by Design Principles"
 description: "Learn how Sealmetrics implements Privacy by Design through its architecture, processes, and technical safeguards."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/privacy-by-design"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "21796bfd5458a644ac85b823f296ffaa02e0f9d79270f0cb3205078fb4c9e73c"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "9b79008b5f91f64062fc280be34ef479f5cfebdf8a9040f3b802d142939b6769"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -102,7 +102,7 @@ Sealmetrics proves that advanced business intelligence **does not require person
 
 #### Sealmetrics Transparency
 - Public documentation about the 4-variable system
-- Full disclosure: timestamp, user agent (event detail purged after 14 days; aggregated device classification kept 24 months), current URL, referral URL
+- Full disclosure: timestamp, user agent (event detail purged after 1 day; aggregated device classification kept 24 months), current URL, referral URL
 - Technical documentation on isolated hits
 - Regulatory compliance explained openly (GDPR, ePrivacy, CCPA, PECR)
 
@@ -157,7 +157,7 @@ Sealmetrics proves that advanced business intelligence **does not require person
 ### The Four-Variable Architecture
 Sealmetrics tracks only:
 1. **Timestamp**
-2. **User agent** (used for anonymous device classification — event detail purged after 14 days, aggregated categories kept 24 months; never linked to a person)
+2. **User agent** (used for anonymous device classification — event detail purged after 1 day, aggregated categories kept 24 months; never linked to a person)
 3. **Current URL**
 4. **Referral URL**
 

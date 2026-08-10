@@ -3,8 +3,8 @@ title: "How Consentless Tracking Works"
 description: "Learn how Sealmetrics delivers 100% consentless web analytics through aggregate, privacy-preserving measurement technologies."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/how-consentless-works"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "d49d08851d00a6afc99806ed5cf2137f553e1f4066281fd2f8249894fa2d76b6"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "6f5904f0570423a4d6a66852c281f57f0f7b566cfc3307b25c2c29bb713b2a0f"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -74,7 +74,7 @@ Sealmetrics uses a privacy-preserving session tracking approach.
 Each hit includes:
 
 1. **Timestamp**
-2. **User Agent** *(used for anonymous device classification; event detail purged after 14 days, aggregated categories kept 24 months; never linked to a person)*
+2. **User Agent** *(used for anonymous device classification; event detail purged after 1 day, aggregated categories kept 24 months; never linked to a person)*
 3. **Current URL**
 4. **Referral URL**
 
@@ -125,7 +125,7 @@ Sealmetrics stores analytics data in aggregated form using a privacy-preserving 
 
 - **No raw personal data** is stored at any point
 - **Aggregated metrics** are stored in ClickHouse for high-performance querying
-- **Fixed data retention**, identical for every plan and enforced by database TTLs: event-level detail 14 days, hourly aggregates 90 days, daily aggregates and conversions 24 months
+- **Fixed data retention**, identical for every plan and enforced by database TTLs: event-level detail 1 day, hourly aggregates 90 days, daily aggregates and conversions 24 months
 - **European infrastructure** — all data hosted in Dublin, Ireland (EU)
 - **No international data transfers** — data never leaves the EU
 

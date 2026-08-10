@@ -3,8 +3,8 @@ title: "Technical Privacy Model"
 description: "Learn exactly what data Sealmetrics collects, what it does not collect, and how privacy is enforced technically."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-technical"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "33181992ad173d954772c4185284c1ecdcf153236b8e188169e33730074ea3e0"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "42a7c0aff9f3ca9f6e1ee0f1376dc3d14d316bb7b2f1f789de9a64ab811da9a6"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -23,7 +23,7 @@ Only four variables:
 - Timestamp
 - URL
 - Referral URL
-- User Agent (used for anonymous device classification; event-level raw string purged after 14 days)
+- User Agent (used for anonymous device classification; event-level raw string purged after 1 day)
 
 No IP address.
 No unique identifiers.

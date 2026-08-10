@@ -3,8 +3,8 @@ title: "How Sealmetrics Blocks Bot Traffic (And Stays Consentless)"
 description: "How Sealmetrics filters bot traffic with layered, privacy-safe defenses — and why its ephemeral, in-memory use of IPs keeps the platform GDPR and ePrivacy compliant."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "125b32a6e67d6783498f6cf707b4cbfb99a103b0af4bad8723d4d5f76be1bd53"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "ec3a6613236d6a3df21aee8992e22f381321de9cc1d2f42d53538959409ebf96"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -24,16 +24,16 @@ Bot and automated traffic can distort every metric you rely on. Sealmetrics filt
 
 Let's address the most common question first: **does bot filtering involve IP addresses?**
 
-Yes — briefly, in memory, and never stored. Here is the complete picture:
+Yes — transiently, and never stored in the analytics database. Here is the complete picture:
 
 - **No analytics metric is ever calculated from an IP.** Visitor country comes from the [browser timezone](/security-privacy/country-detection), not from IP lookup.
 - **The visitor's IP is never written to the analytics database.** Our event storage has no IP column at all — storing one is architecturally impossible, not just policy.
-- During request handling, the IP exists **ephemerally in memory** for one purpose: checking the request against curated blocklists of known bots and datacenters. If it matches, the request is dropped. Either way, the IP is discarded when the request completes.
+- During request handling, the IP is used **transiently on the server** for security purposes: checking the request against curated blocklists of known bots and datacenters. If it matches, the request is dropped. Either way, the IP is not carried forward into analytics processing. (As with any web service, IPs may appear transiently in operational logs with limited retention, separate from analytics data.)
 - **The IP is never linked to any hit, session, or metric**, and never used to identify, profile, or track anyone.
 
-Transient in-memory use of an IP is still "processing" under GDPR — we don't pretend otherwise. It is processed under **legitimate interest (Art. 6(1)(f))**, which Recital 49 explicitly recognizes for network and information security purposes, including "preventing unauthorised access... and stopping denial-of-service attacks". Ephemeral, security-only, never-stored IP handling is the textbook case.
+Transient use of an IP is still "processing" under GDPR — we don't pretend otherwise. It is processed under **legitimate interest (Art. 6(1)(f))**, which Recital 49 explicitly recognizes for network and information security purposes, including "preventing unauthorised access... and stopping denial-of-service attacks". Transient, security-focused IP handling with nothing persisted in the analytics database is the textbook case.
 
-What makes Sealmetrics consentless is not a claim that IPs never exist in our infrastructure — it's that they are **never stored, never used for tracking, and never used for analytics**.
+What makes Sealmetrics consentless is not a claim that IPs never exist in our infrastructure — it's that they are **never stored with analytics data, never used for tracking, and never used for analytics**.
 
 ---
 
@@ -79,7 +79,7 @@ These signals describe the *software environment*, not the person, and are never
 ## Why this approach is privacy-compliant
 
 - **User agents** are used as anonymous device-category signals, stored with the hit for the standard 24-month retention window, never linked to any personal identifier (we don't have one), and never used to reconstruct anyone's history.
-- **IPs** are processed ephemerally in memory for security only, under legitimate interest (Recital 49), and never stored.
+- **IPs** are processed transiently on the server for security only, under legitimate interest (Recital 49), and never stored with analytics data.
 - **No tracking identifiers** are created or used at any layer.
 - **No profiling of individuals** — classification targets bot vs. human traffic, at session level, based on software signals.
 

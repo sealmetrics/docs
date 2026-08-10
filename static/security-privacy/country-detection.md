@@ -3,8 +3,8 @@ title: "How Sealmetrics determines the country without using IP addresses"
 description: "How Sealmetrics detects visitor country from the browser timezone instead of IP addresses — GDPR-friendly geo data with zero personal data processing."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/country-detection"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "775e2f4acf44d49cb2586162fdb53867f45835dd7b7897c441fd86a772d5effa"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "116f23412dd8c2f153b33e634fcde76186551448fab254d5d2c894dbf899a228"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -58,7 +58,7 @@ This approach fully adheres to privacy and data-minimization principles:
     reports. (One scoped exception: sites that explicitly enable
     Agent Analytics additionally derive a transient country-by-IP
     signal, used only to score bot vs. human traffic — the IP itself
-    is never persisted. See
+    is never persisted in the analytics database. See
     [What We Track](/security-privacy/what-we-track).)\
 -   No unique device identifiers are stored.\
 -   Timezone information does not identify the user.\

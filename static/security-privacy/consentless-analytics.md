@@ -3,8 +3,8 @@ title: "What is Consentless Analytics?"
 description: "Consentless analytics captures 100% of web traffic without cookies or consent banners while staying fully GDPR compliant."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-analytics"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4893c5158b4acf4c9be333c08f09ac06b8a68766f5e875fdab180d3f5111653b"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "16f5485f36f97e39763e5e11d0784763fe84a461062ba9525963e09dd9f5594c"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -29,7 +29,7 @@ Consentless analytics solves this by measuring aggregate behavior rather than tr
 Sealmetrics pioneered a consentless tracking approach built on four anonymous variables per event:
 
 1. **Timestamp** — when the event occurred
-2. **User Agent** — browser and device type (used for anonymous device classification; the event-level raw string is purged after 14 days)
+2. **User Agent** — browser and device type (used for anonymous device classification; the event-level raw string is purged after 1 day)
 3. **Current URL** — the page being viewed
 4. **Referral URL** — where the visitor came from
 

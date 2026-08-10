@@ -3,8 +3,8 @@ title: "Legal FAQ — Sealmetrics Compliance Questions"
 description: "Frequently asked legal, compliance, privacy, and data protection questions about Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/legal-faq"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "8936dcc3d2b6bb15d22133b229dad4dc8ade3c4ea951382c6a671ff7acb23f65"
+date_generated: "2026-08-10T18:27:20.920Z"
+source_hash: "d75f9cad0c90258a66317005468712e9dce5f10e713f41cdf1c5abb3fc473a72"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -81,7 +81,7 @@ We only collect four essential, non-personal variables per hit:
 - Current URL (including UTM parameters)
 - Referral URL
 - Timestamp
-- User Agent (used for anonymous device classification; event detail purged after 14 days, aggregated categories kept 24 months; never linked to a person)
+- User Agent (used for anonymous device classification; event detail purged after 1 day, aggregated categories kept 24 months; never linked to a person)
 
 Plus a short-lived **session context marker** used to tell a second pageview apart from a new entrance. See [What We Track vs What We Don't](/security-privacy/what-we-track) for the full breakdown.
 
@@ -98,14 +98,14 @@ We compute:
 ---
 
 ### **Does Sealmetrics use IP addresses for calculation?**
-**Never for analytics, and never stored.**
+**Never for analytics, and never stored in the analytics database.**
 
 - No metric in Sealmetrics is calculated from IP addresses. Visitor country comes from the [browser timezone](/security-privacy/country-detection), not from the IP.
-- The visitor's IP is used **ephemerally, in memory only**, for one purpose: security and anti-bot protection (checking the request against curated bot/datacenter blocklists before it is accepted).
+- The visitor's IP is used **transiently on the server** for security and anti-bot protection (checking the request against curated bot/datacenter blocklists before it is accepted). As with any web service, IPs may also appear transiently in operational logs with limited retention; those logs are separate from analytics data and are never available to clients.
 - The IP is **never written to the analytics database** — there is no IP column in our event storage — and it is never linked to any hit, session, or metric.
 - If a site explicitly enables the optional **Agent Analytics** feature, entrance requests additionally get a **stateless** GeoLite2 lookup (datacenter/ISP signals used to score bot vs. human). Only the derived signals are kept; the IP itself is discarded.
 
-This ephemeral, in-memory security use is processed under legitimate interest (GDPR Art. 6(1)(f), Recital 49 — network and information security). What keeps Sealmetrics consentless is that the IP is never stored, never used for identification or tracking, and never used to compute analytics.
+This transient security use is processed under legitimate interest (GDPR Art. 6(1)(f), Recital 49 — network and information security). What keeps Sealmetrics consentless is that the IP is never stored with analytics data, never used for identification or tracking, and never used to compute analytics.
 
 ---
 
