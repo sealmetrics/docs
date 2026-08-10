@@ -3,8 +3,8 @@ title: "Data Location & Retention"
 description: "Where Sealmetrics stores your data and how long it's retained. EU-based infrastructure with clear retention policies."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/data-location"
 lang: "en"
-date_generated: "2026-08-10T17:23:55.204Z"
-source_hash: "60a315e845b2f0fac52a76cbcffbf62f605b9fd715d460adf969dd2c7b9ef367"
+date_generated: "2026-08-10T17:37:47.177Z"
+source_hash: "da60239b26d2bd25ba78a379bd6c3d72d40d993ad26a8a3a95f15d8118dfca14"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -171,7 +171,7 @@ When you close your account:
 | GDPR | Compliant |
 | ePrivacy | Compliant |
 
-SealMetrics does not hold third-party security certifications (such as SOC 2 or ISO 27001). Compliance with GDPR and ePrivacy is based on the architecture described above — no personal data collected, EU-only processing — and is documented in the [compliance self-assessments](/compliance).
+Sealmetrics does not hold third-party security certifications (such as SOC 2 or ISO 27001). Compliance with GDPR and ePrivacy is based on the architecture described above — no personal data collected, EU-only processing — and is documented in the [compliance self-assessments](/compliance).
 
 ---
 

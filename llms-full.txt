@@ -39063,7 +39063,7 @@ This approach fully adheres to privacy and data-minimization principles:
     reports. (One scoped exception: sites that explicitly enable
     Agent Analytics additionally derive a transient country-by-IP
     signal, used only to score bot vs. human traffic — the IP itself
-    is never persisted. See
+    is never persisted in the analytics database. See
     [What We Track](/security-privacy/what-we-track).)\
 -   No unique device identifiers are stored.\
 -   Timezone information does not identify the user.\
@@ -40492,7 +40492,7 @@ When you close your account:
 | GDPR | Compliant |
 | ePrivacy | Compliant |
 
-SealMetrics does not hold third-party security certifications (such as SOC 2 or ISO 27001). Compliance with GDPR and ePrivacy is based on the architecture described above — no personal data collected, EU-only processing — and is documented in the [compliance self-assessments](/compliance).
+Sealmetrics does not hold third-party security certifications (such as SOC 2 or ISO 27001). Compliance with GDPR and ePrivacy is based on the architecture described above — no personal data collected, EU-only processing — and is documented in the [compliance self-assessments](/compliance).
 
 ---
 
@@ -42629,14 +42629,14 @@ We compute:
 ---
 
 ### **Does Sealmetrics use IP addresses for calculation?**
-**Never for analytics, and never stored.**
+**Never for analytics, and never stored in the analytics database.**
 
 - No metric in Sealmetrics is calculated from IP addresses. Visitor country comes from the [browser timezone](/security-privacy/country-detection), not from the IP.
-- The visitor's IP is used **ephemerally, in memory only**, for one purpose: security and anti-bot protection (checking the request against curated bot/datacenter blocklists before it is accepted).
+- The visitor's IP is used **transiently on the server** for security and anti-bot protection (checking the request against curated bot/datacenter blocklists before it is accepted). As with any web service, IPs may also appear transiently in operational logs with limited retention; those logs are separate from analytics data and are never available to clients.
 - The IP is **never written to the analytics database** — there is no IP column in our event storage — and it is never linked to any hit, session, or metric.
 - If a site explicitly enables the optional **Agent Analytics** feature, entrance requests additionally get a **stateless** GeoLite2 lookup (datacenter/ISP signals used to score bot vs. human). Only the derived signals are kept; the IP itself is discarded.
 
-This ephemeral, in-memory security use is processed under legitimate interest (GDPR Art. 6(1)(f), Recital 49 — network and information security). What keeps Sealmetrics consentless is that the IP is never stored, never used for identification or tracking, and never used to compute analytics.
+This transient security use is processed under legitimate interest (GDPR Art. 6(1)(f), Recital 49 — network and information security). What keeps Sealmetrics consentless is that the IP is never stored with analytics data, never used for identification or tracking, and never used to compute analytics.
 
 ---
 
@@ -43690,16 +43690,16 @@ Bot and automated traffic can distort every metric you rely on. Sealmetrics filt
 
 Let's address the most common question first: **does bot filtering involve IP addresses?**
 
-Yes — briefly, in memory, and never stored. Here is the complete picture:
+Yes — transiently, and never stored in the analytics database. Here is the complete picture:
 
 - **No analytics metric is ever calculated from an IP.** Visitor country comes from the [browser timezone](/security-privacy/country-detection), not from IP lookup.
 - **The visitor's IP is never written to the analytics database.** Our event storage has no IP column at all — storing one is architecturally impossible, not just policy.
-- During request handling, the IP exists **ephemerally in memory** for one purpose: checking the request against curated blocklists of known bots and datacenters. If it matches, the request is dropped. Either way, the IP is discarded when the request completes.
+- During request handling, the IP is used **transiently on the server** for security purposes: checking the request against curated blocklists of known bots and datacenters. If it matches, the request is dropped. Either way, the IP is not carried forward into analytics processing. (As with any web service, IPs may appear transiently in operational logs with limited retention, separate from analytics data.)
 - **The IP is never linked to any hit, session, or metric**, and never used to identify, profile, or track anyone.
 
-Transient in-memory use of an IP is still "processing" under GDPR — we don't pretend otherwise. It is processed under **legitimate interest (Art. 6(1)(f))**, which Recital 49 explicitly recognizes for network and information security purposes, including "preventing unauthorised access... and stopping denial-of-service attacks". Ephemeral, security-only, never-stored IP handling is the textbook case.
+Transient use of an IP is still "processing" under GDPR — we don't pretend otherwise. It is processed under **legitimate interest (Art. 6(1)(f))**, which Recital 49 explicitly recognizes for network and information security purposes, including "preventing unauthorised access... and stopping denial-of-service attacks". Transient, security-focused IP handling with nothing persisted in the analytics database is the textbook case.
 
-What makes Sealmetrics consentless is not a claim that IPs never exist in our infrastructure — it's that they are **never stored, never used for tracking, and never used for analytics**.
+What makes Sealmetrics consentless is not a claim that IPs never exist in our infrastructure — it's that they are **never stored with analytics data, never used for tracking, and never used for analytics**.
 
 ---
 
@@ -43745,7 +43745,7 @@ These signals describe the *software environment*, not the person, and are never
 ## Why this approach is privacy-compliant
 
 - **User agents** are used as anonymous device-category signals, stored with the hit for the standard 24-month retention window, never linked to any personal identifier (we don't have one), and never used to reconstruct anyone's history.
-- **IPs** are processed ephemerally in memory for security only, under legitimate interest (Recital 49), and never stored.
+- **IPs** are processed transiently on the server for security only, under legitimate interest (Recital 49), and never stored with analytics data.
 - **No tracking identifiers** are created or used at any layer.
 - **No profiling of individuals** — classification targets bot vs. human traffic, at session level, based on software signals.
 
@@ -47039,11 +47039,11 @@ The guidelines allow analytics cookies to be treated like technical cookies (con
 
 | Aspect | Compliance |
 |--------|------------|
-| IP masking | ✅ Exceeded — the IP is **never stored at all** (ephemeral in-memory use for anti-bot protection only) |
+| IP masking | ✅ Exceeded — the IP is **never stored in the analytics database** (transient server-side use for anti-bot protection) |
 | Geolocation method | ✅ Country from browser timezone, not IP; country-level only, no city/region |
 | Identifiers in stored data | ✅ None — no user ID, device ID, or fingerprint |
 
-**Note:** the Garante's masking condition presupposes a tool that stores IP-derived data. Sealmetrics goes beyond the condition: there is nothing to mask because nothing is persisted.
+**Note:** the Garante's masking condition presupposes a tool that stores IP-derived data. Sealmetrics goes beyond the condition: there is nothing to mask because no IP or IP-derived identifier is persisted in the analytics database.
 
 ### Criterion 5: No combination with other processing (no cross-referencing / enrichment)
 
