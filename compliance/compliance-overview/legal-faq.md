@@ -3,8 +3,8 @@ title: "Legal FAQ — Sealmetrics Compliance Questions"
 description: "Frequently asked legal, compliance, privacy, and data protection questions about Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/legal-faq"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "8936dcc3d2b6bb15d22133b229dad4dc8ade3c4ea951382c6a671ff7acb23f65"
+date_generated: "2026-08-10T17:23:55.204Z"
+source_hash: "8e4e32b66a83e3a232f45832305a82d8c781db7deab86f639533f9416c3dc795"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -81,7 +81,7 @@ We only collect four essential, non-personal variables per hit:
 - Current URL (including UTM parameters)
 - Referral URL
 - Timestamp
-- User Agent (used for anonymous device classification; event detail purged after 14 days, aggregated categories kept 24 months; never linked to a person)
+- User Agent (used for anonymous device classification; event detail purged after 1 day, aggregated categories kept 24 months; never linked to a person)
 
 Plus a short-lived **session context marker** used to tell a second pageview apart from a new entrance. See [What We Track vs What We Don't](/security-privacy/what-we-track) for the full breakdown.
 

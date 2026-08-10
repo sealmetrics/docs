@@ -3,8 +3,8 @@ title: "Bot Stats"
 description: "Inspect bot detection signals — suspicion score distribution, top flag reasons, daily trends, and drill-down into suspicious sessions"
 canonical_url: "https://docs.sealmetrics.com/api/bot-stats"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "1e44b7af399990c8c69b56a15e6107fdeb9734f803e85bbdeddce1d8bf2252a2"
+date_generated: "2026-08-10T17:23:55.204Z"
+source_hash: "d13916958f118cf4b094d1eee32618accfde2287589afdb1bd5a20d52f73172e"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -23,7 +23,7 @@ Inspect the bot detection signals emitted by the tracker. The scoring engine ass
 Required scope: `read`.
 
 **Info:**
-The hits log is retained for 14 days (ClickHouse TTL). The `suspicious-sessions` endpoint additionally limits queries to the last 7 days for performance.
+The hits log is retained for 1 day (ClickHouse TTL). The `suspicious-sessions` endpoint additionally limits queries to the last 7 days for performance.
 
 ---
 

@@ -46,7 +46,7 @@ Retention is **fixed and identical for every plan**, enforced by database TTLs:
 
 | Data Type | Retention | Notes |
 |-----------|-----------|-------|
-| Event-level detail | 14 days | Individual hit data, then purged |
+| Event-level detail | 1 day | Individual hit data, then purged |
 | Hourly aggregates | 90 days | Hour-by-hour reports |
 | Daily aggregates | 24 months | Daily/monthly reports |
 | Conversion data | 24 months | Including properties |
@@ -55,7 +55,7 @@ Retention is **fixed and identical for every plan**, enforced by database TTLs:
 
 | Data Type | Retention | Notes |
 |-----------|-----------|-------|
-| Raw logs | 14 days | For debugging only |
+| Raw logs | 1 day | For debugging only |
 | Error logs | 30 days | System diagnostics |
 | API access logs | 90 days | Security audit trail |
 

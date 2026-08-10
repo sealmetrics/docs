@@ -3,8 +3,8 @@ title: "Data Location & Retention"
 description: "Where Sealmetrics stores your data and how long it's retained. EU-based infrastructure with clear retention policies."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/data-location"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "8ca8e2237d778de28eb2af9c31aab757096340001549f3c4465603841fdd242b"
+date_generated: "2026-08-10T17:23:55.204Z"
+source_hash: "60a315e845b2f0fac52a76cbcffbf62f605b9fd715d460adf969dd2c7b9ef367"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -58,7 +58,7 @@ Retention is **fixed and identical for every plan**, enforced by database TTLs:
 
 | Data Type | Retention | Notes |
 |-----------|-----------|-------|
-| Event-level detail | 14 days | Individual hit data, then purged |
+| Event-level detail | 1 day | Individual hit data, then purged |
 | Hourly aggregates | 90 days | Hour-by-hour reports |
 | Daily aggregates | 24 months | Daily/monthly reports |
 | Conversion data | 24 months | Including properties |
@@ -67,7 +67,7 @@ Retention is **fixed and identical for every plan**, enforced by database TTLs:
 
 | Data Type | Retention | Notes |
 |-----------|-----------|-------|
-| Raw logs | 14 days | For debugging only |
+| Raw logs | 1 day | For debugging only |
 | Error logs | 30 days | System diagnostics |
 | API access logs | 90 days | Security audit trail |
 

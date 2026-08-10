@@ -28,7 +28,7 @@ This isn't a marketing claim. It's architecturally impossible for Sealmetrics to
 Every interaction on your website is captured using exactly four data points:
 
 1. **Timestamp** - When the event occurred
-2. **User Agent** - Browser and device type (event-level rows purged after 14 days; derived device categories persist in aggregated reports for 24 months; never linked to a person)
+2. **User Agent** - Browser and device type (event-level rows purged after 1 day; derived device categories persist in aggregated reports for 24 months; never linked to a person)
 3. **Current URL** - The page being viewed
 4. **Referral URL** - Where the visitor came from
 
@@ -38,7 +38,7 @@ That's the complete data set. Nothing more is collected. Nothing more is stored.
 
 **At Collection:**
 - User agent strings are parsed for browser/device category insights (Chrome/Safari/Firefox, Windows/macOS/iOS/Android, desktop/mobile/tablet)
-- The user agent is stored alongside the hit in event-level rows (purged after 14 days); only derived category dimensions persist in the 24-month aggregates. It is **never joined with a personal identifier** (there isn't one) and never used to reconstruct a user's history across sessions
+- The user agent is stored alongside the hit in event-level rows (purged after 1 day); only derived category dimensions persist in the 24-month aggregates. It is **never joined with a personal identifier** (there isn't one) and never used to reconstruct a user's history across sessions
 - No fingerprinting algorithms are applied
 - No attempt is made to create persistent identifiers
 
@@ -298,7 +298,7 @@ This isn't just policy. It's who we are.
 
 ### Data retention
 
-**Retention is fixed and identical for every plan** (enforced by database TTLs): daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and event-level detail 14 days.
+**Retention is fixed and identical for every plan** (enforced by database TTLs): daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and event-level detail 1 day.
 
 **Your control:**
 - Delete specific date ranges

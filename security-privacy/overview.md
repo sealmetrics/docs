@@ -3,8 +3,8 @@ title: "Security & Privacy"
 description: "Understand Sealmetrics' privacy-by-design architecture, GDPR compliance, data security measures, and why we never collect personal data."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/overview"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "8094a7143d4eb7ad0ba12ecad777c1f528a6159bdafeb955efb4b9e3daaf8e4a"
+date_generated: "2026-08-10T17:23:55.204Z"
+source_hash: "c83abd3a64dc7172d355e1aac180564c2ba5705944747ef8261669f7dd103d04"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -40,7 +40,7 @@ This isn't a marketing claim. It's architecturally impossible for Sealmetrics to
 Every interaction on your website is captured using exactly four data points:
 
 1. **Timestamp** - When the event occurred
-2. **User Agent** - Browser and device type (event-level rows purged after 14 days; derived device categories persist in aggregated reports for 24 months; never linked to a person)
+2. **User Agent** - Browser and device type (event-level rows purged after 1 day; derived device categories persist in aggregated reports for 24 months; never linked to a person)
 3. **Current URL** - The page being viewed
 4. **Referral URL** - Where the visitor came from
 
@@ -50,7 +50,7 @@ That's the complete data set. Nothing more is collected. Nothing more is stored.
 
 **At Collection:**
 - User agent strings are parsed for browser/device category insights (Chrome/Safari/Firefox, Windows/macOS/iOS/Android, desktop/mobile/tablet)
-- The user agent is stored alongside the hit in event-level rows (purged after 14 days); only derived category dimensions persist in the 24-month aggregates. It is **never joined with a personal identifier** (there isn't one) and never used to reconstruct a user's history across sessions
+- The user agent is stored alongside the hit in event-level rows (purged after 1 day); only derived category dimensions persist in the 24-month aggregates. It is **never joined with a personal identifier** (there isn't one) and never used to reconstruct a user's history across sessions
 - No fingerprinting algorithms are applied
 - No attempt is made to create persistent identifiers
 
@@ -310,7 +310,7 @@ This isn't just policy. It's who we are.
 
 ### Data retention
 
-**Retention is fixed and identical for every plan** (enforced by database TTLs): daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and event-level detail 14 days.
+**Retention is fixed and identical for every plan** (enforced by database TTLs): daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and event-level detail 1 day.
 
 **Your control:**
 - Delete specific date ranges
