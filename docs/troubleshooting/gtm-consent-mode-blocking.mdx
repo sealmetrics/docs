@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
-title: GTM Consent Mode Is Blocking the Sealmetrics Tag
-sidebar_label: GTM Consent Mode Blocking
+title: Sealmetrics Tag Not Firing in GTM (Consent Mode)
+sidebar_label: Tag Not Firing in GTM
 description: Why gating the Sealmetrics tag behind a consent management platform silently drops most of your data, how to diagnose it in GTM Preview, and how to configure the tag correctly.
 tags: [troubleshooting, gtm, consent-mode, cmp, missing-data]
 keywords:
@@ -13,7 +13,7 @@ keywords:
   - sealmetrics no additional consent required
 ---
 
-# GTM Consent Mode Is Blocking the Sealmetrics Tag
+# Sealmetrics Tag Not Firing in GTM (Consent Mode)
 
 The single most common cause of "Sealmetrics is missing data" is a Google Tag Manager container where the Sealmetrics tag is **gated behind consent** — either by GTM Consent Mode settings on the tag or by a consent management platform (Cookiebot, OneTrust, Usercentrics, Didomi, etc.) that blocks Custom HTML tags until the visitor clicks "Accept".
 

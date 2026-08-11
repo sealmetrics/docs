@@ -1,10 +1,10 @@
 ---
 title: "Frequently Asked Questions"
-description: "Quick answers to the most common questions about Sealmetrics, consentless analytics, tracking accuracy, attribution models, and GA4 differences."
+description: "Why Sealmetrics numbers differ from GA4 — inflated Direct traffic, entrances instead of persistent-ID sessions, last-click as the only consent-free attribution model, ITP resistance, and why server-side tracking still needs a consent banner."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-security"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "31fc2053661eb6e1b47d03e1c74dff5d6a061c57f950375a47e567e560a7f0b0"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "9d9ea38297ae269822a93b0beef98a5a6ecfcc32c61290ab7854706184256313"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"

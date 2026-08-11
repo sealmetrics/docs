@@ -1,7 +1,7 @@
 ---
 sidebar_position: 12
-title: Your Test Traffic Is Being Filtered as a Bot
-sidebar_label: Test Traffic Blocked as Bot
+title: Test Visits Not Appearing (Filtered as Bot Traffic)
+sidebar_label: Test Visits Not Appearing
 description: "Why visits generated with curl, Selenium, Playwright, headless Chrome, or load-testing tools never appear in Sealmetrics, how to diagnose it, and how to test without tripping the filters."
 tags: [troubleshooting, bots, testing, user-agent, blocklist]
 keywords:
@@ -13,7 +13,7 @@ keywords:
   - bot filter own traffic
 ---
 
-# Your Test Traffic Is Being Filtered as a Bot
+# Test Visits Not Appearing (Filtered as Bot Traffic)
 
 You are testing the tracker with an automation tool or a script, the beacon returns `204 No Content`, and yet nothing appears in the reports. In most cases nothing is broken: **the platform is doing its job**, filtering traffic that identifies itself as automated so it never pollutes your reports. Real visitors are unaffected — the filters below only catch tools and abnormal behavior.
 

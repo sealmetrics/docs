@@ -1288,13 +1288,13 @@ Just **pure, fast, consentless analytics** that works the moment you need it.
 
 
 
-## Migrate from Sealmetrics v1
+## Migrate Your Historical Data from v1
 
 
 URL: https://docs.sealmetrics.com/getting-started/migration-from-v1
 
 
-# Migrate from Sealmetrics v1
+# Migrate Your Historical Data from v1
 
 If you're upgrading from Sealmetrics v1, the Migration Wizard imports your historical data into your v2 site. Migrations run **in the background overnight**, so you can schedule the import today and check the results tomorrow morning.
 
@@ -1743,7 +1743,7 @@ LENS reduces false positives automatically through seasonality awareness and con
 
 ## Next steps
 
-- [View the active rules →](/lens/anomaly-detection/rule-types)
+- [View the planned rule library →](/lens/anomaly-detection/rule-types)
 - [Configure thresholds →](/lens/anomaly-detection/thresholds)
 
 
@@ -1857,8 +1857,8 @@ Insights are the AI-generated findings produced by LENS.
 | `dismissed_at` | string \| null | When it was dismissed |
 | `is_read` | boolean | Whether the current user has read it |
 | `is_dismissed` | boolean | Whether it is dismissed |
-| `is_locked` | boolean | Whether the insight is locked behind a higher tier |
-| `locked_tier` | string \| null | Tier required to unlock, if locked |
+| `is_locked` | boolean | Reserved. Always `false` — no rule or category is locked by plan ([plans differ by data volume](/lens/anomaly-detection/rule-types)) |
+| `locked_tier` | string \| null | Reserved. Always `null`, for the same reason |
 | `evidence` | object \| null | Statistical basis for the insight |
 | `user_feedback` | string \| null | Current user's feedback, if any |
 
@@ -2172,9 +2172,13 @@ Returns the updated settings object.
 
 ## Chat usage
 
-LENS uses a Bring-Your-Own-Key (BYOK) model for the AI assistant, so chat usage
-is effectively unlimited. These endpoints exist for compatibility with usage UIs
-and report very high limits.
+These endpoints report a **question** count, not token consumption. On
+bring-your-own-key (BYOK) there is no Sealmetrics-imposed limit, so they return a
+sentinel high value — you pay your provider directly. They are not the way to
+track **Seal AI Private** consumption: that quota is measured in tokens (5M per
+month per organization, plus any packs) and exhausting it makes
+`/lens/assistant/chat` return `seal_ai_quota_exceeded`. See
+[Seal AI Private](/billing/seal-ai-private) for the token quota.
 
 ### Get chat question usage
 
@@ -2631,7 +2635,7 @@ The assistant supports two provider modes: **[Seal AI Private](/billing/seal-ai-
 
 Receive proactive insights without lifting a finger:
 
-- **In-app insights** - New insights appear in the LENS dashboard as they're detected
+- **In-app insights** (planned) - Once detection ships, new insights will appear in the LENS dashboard as they are detected
 - **Email summaries** - Key metrics, trends, and recommendations delivered to your inbox
 
 Email is currently the only delivery channel for LENS notifications.
@@ -2746,7 +2750,7 @@ How Sealmetrics' AI layer is built, why it qualifies as private AI, how it compl
 [Seal AI Private](/billing/seal-ai-private) is the platform-provided AI of Sealmetrics. It powers two features:
 
 - **The AI assistant** — you ask questions about your analytics in natural language; an AI analyst answers by querying your data through Sealmetrics' internal tools and explaining the results.
-- **Automated insights** — scheduled analyses that turn your aggregated metrics into written, actionable findings.
+- **Automated insights** (planned) — scheduled analyses that will turn your aggregated metrics into written, actionable findings. Not active on accounts yet.
 
 It requires zero configuration: no API keys to create, no AI vendor account, no settings. You enable it and it works. That is possible because the inference endpoint, the model and the key all belong to the platform — and all of them live in the European Union.
 
@@ -3002,7 +3006,7 @@ Get LENS configured and receiving insights in under 5 minutes.
 
 1. Log in to your Sealmetrics dashboard
 2. Click **LENS** in the main navigation
-3. You'll see the LENS overview with any detected anomalies
+3. You'll land on the LENS overview, where you can open **Chat** or **Reports**
 
 ## Step 2: Pick a provider
 
@@ -3109,16 +3113,21 @@ Affected segment: All traffic
 
 ## Troubleshooting
 
-### "No anomalies detected"
+### "No insights or anomalies shown"
 
-This is normal if:
-- Your account is new (less than 7 days of data)
-- Your traffic patterns are stable
-- LENS hasn't run its next analysis yet for the configured cadence
+Expected: automated detection is not active yet (see the roadmap note above), so
+no account currently generates insights. Use **Chat** to ask about your data, and
+**Reports** for the weekly and monthly summaries.
 
 ### "Assistant not responding"
 
-The assistant needs a working LLM provider key. Check:
+The answer depends on which provider you're on — check **My Account → LLM Providers** to see which one is active.
+
+**On Seal AI Private** (no API key involved):
+1. Your organization may have exhausted its 5M monthly tokens plus any packs — the chat says "token limit reached". Check **Organization → Seal AI Usage**; an owner can buy a [token pack](/billing/seal-ai-private#extra-token-packs), or any user can switch to a BYOK provider for immediate headroom.
+2. Confirm your plan still includes Seal AI (add-on on Growth, included in Scale and Enterprise).
+
+**On bring-your-own-key:**
 1. You've added an API key in **My Account → LLM Providers**
 2. A default provider is selected and enabled
 3. The key is still valid and hasn't expired or hit your provider's own rate limit
@@ -3138,6 +3147,9 @@ URL: https://docs.sealmetrics.com/lens/reports/email-alerts
 
 
 # Email Alerts
+
+**Caution:**
+Automated detection is **built but not active**, so no insight alert is generated on customer accounts today. Scheduled **report** emails (weekly and monthly digests) do work — see [LENS Reports](/lens/reports). The insight-alert behaviour described below applies once detection ships.
 
 LENS notifies you by email when it detects important insights, and can send a weekly digest summarizing the week. Email is the only notification channel for LENS.
 
@@ -3857,6 +3869,9 @@ URL: https://docs.sealmetrics.com/lens/anomaly-detection/thresholds
 
 # How Thresholds Work
 
+**Caution:**
+Automated anomaly detection is **built but not active**. No detection rule currently runs on customer accounts and no automated alert is generated. This page documents the intended behaviour; the thresholds below describe how rules will decide once enabled. For what LENS does today, see [LENS AI](/lens).
+
 A threshold is the boundary between a "normal" fluctuation and an anomaly worth surfacing. In LENS, thresholds are **not** a single static percentage you pick from a menu. Each rule starts from a base threshold and then **adjusts it automatically** based on how much data is available and on seasonality.
 
 This page explains that mechanism so you understand why LENS alerts when it does.
@@ -3933,7 +3948,7 @@ The confidence multipliers and data-volume thresholds described above are manage
 ## Next steps
 
 - [How anomaly detection works →](/lens/anomaly-detection)
-- [View the active rules →](/lens/anomaly-detection/rule-types)
+- [View the planned rule library →](/lens/anomaly-detection/rule-types)
 
 
 
@@ -11311,7 +11326,7 @@ By tightening pixel placement and adding safeguards, you can align metrics betwe
 
 ## Related documentation
 
-- [Reconciling SealMetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — Full reconciliation guide for backend discrepancies
+- [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — Full reconciliation guide for backend discrepancies
 - [Conversions](/implementation/tracker/conversions) — How the conversion pixel fires and is configured
 - [Conversions Report](/reports/conversions) — Where conversions and revenue appear in Sealmetrics
 - [How Attribution Accuracy Works](/reports/insights/attribution-accuracy) — Why totals are exact in Sealmetrics
@@ -11361,7 +11376,7 @@ Proper e-commerce tracking enables you to calculate accurate ROI, understand whi
 
 ## Reconciling Against Your ERP / CRM
 
-If SealMetrics shows substantially fewer conversions than your ERP, CRM, or internal database, the cause is almost always the same: the **base pixel must fire and register the pageview before `sealmetrics.conv(...)` is called** on the confirmation page. See [Reconciling SealMetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) for the full diagnostic — firing order, off-domain confirmation pages, payment methods that skip the thank-you page, and the rest of the secondary causes.
+If SealMetrics shows substantially fewer conversions than your ERP, CRM, or internal database, the cause is almost always the same: the **base pixel must fire and register the pageview before `sealmetrics.conv(...)` is called** on the confirmation page. See [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) for the full diagnostic — firing order, off-domain confirmation pages, payment methods that skip the thank-you page, and the rest of the secondary causes.
 
 
 
@@ -12470,7 +12485,7 @@ Session identification is cookieless — no cookies, canvas fingerprinting, or p
 - [API Reference](/implementation/tracker/api-reference) - Complete technical reference
 - [SPA Support](/implementation/tracker/spa-support) - React, Vue, Angular, Next.js integration
 - [First-Party Setup](/implementation/tracker/first-party) - Custom domain for tracking
-- [Migration from v1](/implementation/tracker/migration-from-v1) - Breaking changes and code examples
+- [Tracker v1 to v2: Breaking Changes](/implementation/tracker/migration-from-v1) - Breaking changes and code examples
 
 
 
@@ -17121,13 +17136,13 @@ export {};
 
 
 
-## Migration from v1
+## Tracker v1 to v2: Breaking Changes
 
 
 URL: https://docs.sealmetrics.com/implementation/tracker/migration-from-v1
 
 
-# Migration from v1
+# Tracker v1 to v2: Breaking Changes
 
 This guide covers breaking changes and migration steps from Sealmetrics Tracker v1 to v2.
 
@@ -23315,13 +23330,13 @@ curl "https://my.sealmetrics.com/api/v1/stats/geo/countries?site_id=YOUR_SITE_ID
 
 
 
-## Migration from v1
+## API v1 to v2 Migration
 
 
 URL: https://docs.sealmetrics.com/api/migration-from-v1
 
 
-# Migration from v1
+# API v1 to v2 Migration
 
 Guide for data analysts and integrations moving from the legacy **API Seal Metrics v1.0** (documented in the public Postman collection `TzRVdkVu`) to the current REST API at `my.sealmetrics.com/api/v1`.
 
@@ -52892,6 +52907,27 @@ Document the following from your current GA4 property:
 # Guides
 
 
+## Guides
+
+
+URL: https://docs.sealmetrics.com/guides
+
+
+# Guides
+
+Welcome to the Sealmetrics guides section. Here you'll find step-by-step tutorials and best practices for getting the most out of Sealmetrics.
+
+## Available Guides
+
+- [Complete Guide to Cookieless Analytics 2025](/guides/complete-guide-cookieless-analytics) - Learn how cookieless analytics captures 100% of visitor data without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages.
+- [UTM Governance: Naming Conventions That Keep Attribution Clean](/guides/utm-governance) - A practical UTM playbook: naming conventions, a source/medium taxonomy aligned with Sealmetrics default channels, the mistakes that corrupt attribution, a spreadsheet template, and how Sealmetrics processes UTMs end to end.
+- [GA4 to Sealmetrics: The Complete Migration Checklist](/guides/ga4-migration-checklist) - Phase-by-phase migration checklist: audit your GA4 events, map them to conv()/micro(), install the tracker, run 30 days in parallel, know which data differences to expect, and switch GA4 off safely.
+- [Tracker Performance Report: Sealmetrics vs GA4](/guides/tracker-performance-report) - A technical comparison of tracking pixel weight, protocol, latency, and traffic capture against gtag.js, with methodology, measured data from an anonymized reference site, and modeled network scenarios.
+- [Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics](/guides/tracker-performance-three-way) - The three-way comparison in one table set: script weight, delivery chains, time to first hit, transport, consent, and measured traffic differences across all three trackers.
+- [Tracker Performance Report: Sealmetrics vs Adobe Analytics](/guides/tracker-performance-adobe-analytics) - Field-measured comparison against the Adobe Launch + AppMeasurement stack on an anonymized dual-vendor site: script weight, delivery chain, time to first hit, and a 30-day dual-tag validation.
+
+
+
 ## Complete Guide to Cookieless Analytics 2026
 
 
@@ -53224,27 +53260,6 @@ Your competitors are already making this shift. The websites that understand the
 - [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — full legal analysis with GDPR article references
 - [GA4 vs Sealmetrics — Complete Comparison](/faq/ga4-vs-sealmetrics) — feature-by-feature comparison with Google Analytics
 - [First Steps with Sealmetrics](/getting-started/quick-start) — implement cookieless analytics in a few minutes
-
-
-
-## Guides
-
-
-URL: https://docs.sealmetrics.com/guides
-
-
-# Guides
-
-Welcome to the Sealmetrics guides section. Here you'll find step-by-step tutorials and best practices for getting the most out of Sealmetrics.
-
-## Available Guides
-
-- [Complete Guide to Cookieless Analytics 2025](/guides/complete-guide-cookieless-analytics) - Learn how cookieless analytics captures 100% of visitor data without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages.
-- [UTM Governance: Naming Conventions That Keep Attribution Clean](/guides/utm-governance) - A practical UTM playbook: naming conventions, a source/medium taxonomy aligned with Sealmetrics default channels, the mistakes that corrupt attribution, a spreadsheet template, and how Sealmetrics processes UTMs end to end.
-- [GA4 to Sealmetrics: The Complete Migration Checklist](/guides/ga4-migration-checklist) - Phase-by-phase migration checklist: audit your GA4 events, map them to conv()/micro(), install the tracker, run 30 days in parallel, know which data differences to expect, and switch GA4 off safely.
-- [Tracker Performance Report: Sealmetrics vs GA4](/guides/tracker-performance-report) - A technical comparison of tracking pixel weight, protocol, latency, and traffic capture against gtag.js, with methodology, measured data from an anonymized reference site, and modeled network scenarios.
-- [Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics](/guides/tracker-performance-three-way) - The three-way comparison in one table set: script weight, delivery chains, time to first hit, transport, consent, and measured traffic differences across all three trackers.
-- [Tracker Performance Report: Sealmetrics vs Adobe Analytics](/guides/tracker-performance-adobe-analytics) - Field-measured comparison against the Adobe Launch + AppMeasurement stack on an anonymized dual-vendor site: script weight, delivery chain, time to first hit, and a 30-day dual-tag validation.
 
 
 
@@ -57560,6 +57575,142 @@ Sealmetrics doesn't store visitor IPs in the database. IP Exclusions is the only
 # Plans & Billing
 
 
+## Plans & Pricing
+
+
+URL: https://docs.sealmetrics.com/billing
+
+
+# Plans & Pricing
+
+Sealmetrics offers three volume-based plans designed to scale with your business needs. All plans include unlimited websites, unlimited users, privacy-first tracking, attribution modeling, and core reporting features.
+
+## Plan Comparison
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| **Monthly Price** | €599 | €1,079 | Custom |
+| **Annual Price (per month)** | €499 | €899 | Custom |
+| **Monthly Events** | 5M | 15M | Unlimited |
+
+### Core Features (All Plans)
+
+All plans include:
+- Unlimited websites
+- Unlimited users
+- 24 months data retention
+- Full API access
+- MCP Server
+- BigQuery export
+- CSV/JSON export
+- LENS AI (Chat + Reports) — rule-based Insights coming soon
+- Conversion tracking
+- Funnel analysis
+- Bot detection & fraud protection
+- Consentless tracking
+- Real-time data — hits normally in reports in under 2 min; the SLA guarantees each day complete before 6 AM
+- Email reports & alerts
+- Multi-site portfolio view
+- Agent AI Analytics — coming soon (when live, AI agents are tracked and never billed)
+
+### Plan Differences
+
+| Feature | Growth | Scale | Enterprise |
+|---------|:------:|:-----:|:----------:|
+| Monthly events | 5M | 15M | Unlimited |
+| LENS AI assistant (your own LLM key) | Included | Included | Included |
+| [Seal AI Private](/billing/seal-ai-private) (managed, EU) | Add-on | Included | Included |
+| Webhooks | - | Yes | Yes |
+| Audit logs | - | Yes | Yes |
+| Role-based access | Basic | Advanced | Full |
+| Uptime SLA | 99% | 99.5% | 99.9% |
+| Support | Email | Email + Chat + Priority | Priority + Dedicated AM |
+| Onboarding | Docs | 1 session | White-glove |
+
+## Choosing the Right Plan
+
+### Growth (€599/month, €499 annual)
+
+**Best for:** Growing teams and mid-size e-commerce businesses
+
+Choose Growth if you:
+- Have up to 5M monthly events
+- Need BigQuery integration for custom analysis
+- Want full API access and MCP Server
+- Need all core analytics and reporting features
+
+### Scale (€1,079/month, €899 annual)
+
+**Best for:** Multi-brand retailers and larger organizations
+
+Choose Scale if you:
+- Have up to 15M monthly events
+- Need webhooks and audit logs
+- Require advanced role-based access control
+- Need priority support
+
+### Enterprise (Custom pricing)
+
+**Best for:** Large organizations with custom needs
+
+Choose Enterprise if you:
+- Need unlimited events
+- Want a dedicated account manager
+- Need isolated data processing
+- Require 99.9% SLA guarantee
+
+## Event Limits & Upgrades
+
+Sealmetrics uses a **no overage** billing model:
+
+- **No surprise charges** — your monthly price is fixed
+- **Tracking never stops** — if you exceed your event limit, data collection continues
+- **Free overage month** — one month per year of overage is absorbed at no extra cost
+- **Auto-upgrade** — if you exceed your event limit for 2 consecutive months (without forgiveness), Growth is automatically upgraded to Scale. When a Scale plan exceeds its limit for 2 consecutive months, we notify you to discuss Enterprise — this change is not automatic
+- **Downgrade suggestions** — if your usage drops below 50% for 3+ months, we'll suggest a more suitable plan
+
+**Tip:**
+
+## Getting Started
+
+## Frequently Asked Questions
+
+### Can I change plans?
+
+Yes, you can upgrade or downgrade at any time. Changes take effect immediately:
+- **Upgrades:** Prorated charge for remaining billing period
+- **Downgrades:** Credit applied to future invoices
+
+### Is there a free trial?
+
+Yes, all plans include a 14-day free trial with full features. You enter a payment method when you start, but you're not charged until the trial ends — cancel before then and you pay nothing.
+
+### What happens if I exceed my event limit?
+
+Tracking continues without interruption. There are no overage charges — your monthly price stays fixed. If you exceed your limit for 2 consecutive months, Growth is automatically upgraded to Scale. For Scale, we notify you to discuss Enterprise instead — the move is not automatic.
+
+### Do you offer discounts?
+
+- **Annual billing:** Save approximately 17% compared to monthly (2 months free)
+- **Nonprofits:** 50% discount (contact us)
+- **Startups:** Special pricing available (contact us)
+
+### Can I cancel anytime?
+
+Yes, cancel anytime with no penalties. You'll retain access until the end of your billing period.
+
+---
+
+## More Information
+
+- [Growth Plan Details](/billing/plans/growth)
+- [Scale Plan Details](/billing/plans/scale)
+- [Enterprise Plan Details](/billing/plans/enterprise)
+- [Features Comparison](/billing/features-comparison)
+- [Usage & Limits](/billing/usage-limits)
+
+
+
 ## Features Comparison
 
 
@@ -57757,142 +57908,6 @@ Not sure which plan is right for you?
 - **Enterprise:** Custom needs with unlimited events
 
 [Contact sales](mailto:sales@sealmetrics.com) for personalized recommendations.
-
-
-
-## Plans & Pricing
-
-
-URL: https://docs.sealmetrics.com/billing
-
-
-# Plans & Pricing
-
-Sealmetrics offers three volume-based plans designed to scale with your business needs. All plans include unlimited websites, unlimited users, privacy-first tracking, attribution modeling, and core reporting features.
-
-## Plan Comparison
-
-| Feature | Growth | Scale | Enterprise |
-|---------|:------:|:-----:|:----------:|
-| **Monthly Price** | €599 | €1,079 | Custom |
-| **Annual Price (per month)** | €499 | €899 | Custom |
-| **Monthly Events** | 5M | 15M | Unlimited |
-
-### Core Features (All Plans)
-
-All plans include:
-- Unlimited websites
-- Unlimited users
-- 24 months data retention
-- Full API access
-- MCP Server
-- BigQuery export
-- CSV/JSON export
-- LENS AI (Chat + Reports) — rule-based Insights coming soon
-- Conversion tracking
-- Funnel analysis
-- Bot detection & fraud protection
-- Consentless tracking
-- Real-time data — hits normally in reports in under 2 min; the SLA guarantees each day complete before 6 AM
-- Email reports & alerts
-- Multi-site portfolio view
-- Agent AI Analytics — coming soon (when live, AI agents are tracked and never billed)
-
-### Plan Differences
-
-| Feature | Growth | Scale | Enterprise |
-|---------|:------:|:-----:|:----------:|
-| Monthly events | 5M | 15M | Unlimited |
-| LENS AI assistant (your own LLM key) | Included | Included | Included |
-| [Seal AI Private](/billing/seal-ai-private) (managed, EU) | Add-on | Included | Included |
-| Webhooks | - | Yes | Yes |
-| Audit logs | - | Yes | Yes |
-| Role-based access | Basic | Advanced | Full |
-| Uptime SLA | 99% | 99.5% | 99.9% |
-| Support | Email | Email + Chat + Priority | Priority + Dedicated AM |
-| Onboarding | Docs | 1 session | White-glove |
-
-## Choosing the Right Plan
-
-### Growth (€599/month, €499 annual)
-
-**Best for:** Growing teams and mid-size e-commerce businesses
-
-Choose Growth if you:
-- Have up to 5M monthly events
-- Need BigQuery integration for custom analysis
-- Want full API access and MCP Server
-- Need all core analytics and reporting features
-
-### Scale (€1,079/month, €899 annual)
-
-**Best for:** Multi-brand retailers and larger organizations
-
-Choose Scale if you:
-- Have up to 15M monthly events
-- Need webhooks and audit logs
-- Require advanced role-based access control
-- Need priority support
-
-### Enterprise (Custom pricing)
-
-**Best for:** Large organizations with custom needs
-
-Choose Enterprise if you:
-- Need unlimited events
-- Want a dedicated account manager
-- Need isolated data processing
-- Require 99.9% SLA guarantee
-
-## Event Limits & Upgrades
-
-Sealmetrics uses a **no overage** billing model:
-
-- **No surprise charges** — your monthly price is fixed
-- **Tracking never stops** — if you exceed your event limit, data collection continues
-- **Free overage month** — one month per year of overage is absorbed at no extra cost
-- **Auto-upgrade** — if you exceed your event limit for 2 consecutive months (without forgiveness), Growth is automatically upgraded to Scale. When a Scale plan exceeds its limit for 2 consecutive months, we notify you to discuss Enterprise — this change is not automatic
-- **Downgrade suggestions** — if your usage drops below 50% for 3+ months, we'll suggest a more suitable plan
-
-**Tip:**
-
-## Getting Started
-
-## Frequently Asked Questions
-
-### Can I change plans?
-
-Yes, you can upgrade or downgrade at any time. Changes take effect immediately:
-- **Upgrades:** Prorated charge for remaining billing period
-- **Downgrades:** Credit applied to future invoices
-
-### Is there a free trial?
-
-Yes, all plans include a 14-day free trial with full features. You enter a payment method when you start, but you're not charged until the trial ends — cancel before then and you pay nothing.
-
-### What happens if I exceed my event limit?
-
-Tracking continues without interruption. There are no overage charges — your monthly price stays fixed. If you exceed your limit for 2 consecutive months, Growth is automatically upgraded to Scale. For Scale, we notify you to discuss Enterprise instead — the move is not automatic.
-
-### Do you offer discounts?
-
-- **Annual billing:** Save approximately 17% compared to monthly (2 months free)
-- **Nonprofits:** 50% discount (contact us)
-- **Startups:** Special pricing available (contact us)
-
-### Can I cancel anytime?
-
-Yes, cancel anytime with no penalties. You'll retain access until the end of your billing period.
-
----
-
-## More Information
-
-- [Growth Plan Details](/billing/plans/growth)
-- [Scale Plan Details](/billing/plans/scale)
-- [Enterprise Plan Details](/billing/plans/enterprise)
-- [Features Comparison](/billing/features-comparison)
-- [Usage & Limits](/billing/usage-limits)
 
 
 
@@ -59206,7 +59221,7 @@ You should see:
 
 4. **Full checklist** — [Conversions not appearing](/troubleshooting/conversions-not-appearing) covers snippet signature, numeric amounts, flow variants, and report verification step by step
 
-For substantial discrepancies between SealMetrics and your ERP / CRM / internal database (missing conversions when reconciling totals), see [Reconciling SealMetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — it walks through the firing-order requirement of the base pixel vs. the conversion pixel and the long tail of secondary causes.
+For substantial discrepancies between SealMetrics and your ERP / CRM / internal database (missing conversions when reconciling totals), see [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — it walks through the firing-order requirement of the base pixel vs. the conversion pixel and the long tail of secondary causes.
 
 ### Duplicate Conversions
 
@@ -59587,17 +59602,17 @@ Then disable the blocker and repeat: the calls must reach the SealMetrics backen
 - [Tracker installation](/implementation/tracker/installation) — base setup, including the pre-load queue stub for deferred loading.
 - [Tracker API reference](/implementation/tracker/api-reference) — full `sealmetrics()`, `conv()`, and `micro()` signatures.
 - [Google Tag Manager integration](/integrations/google-tag-manager) — recommended setup for GTM.
-- [Reconciling SealMetrics with your ERP, CRM, or database](/troubleshooting/erp-crm-database-discrepancy) — diagnose substantial discrepancies between SealMetrics and your source of truth.
+- [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — diagnose substantial discrepancies between SealMetrics and your source of truth.
 
 
 
-## GTM Consent Mode Is Blocking the Sealmetrics Tag
+## Sealmetrics Tag Not Firing in GTM (Consent Mode)
 
 
 URL: https://docs.sealmetrics.com/troubleshooting/gtm-consent-mode-blocking
 
 
-# GTM Consent Mode Is Blocking the Sealmetrics Tag
+# Sealmetrics Tag Not Firing in GTM (Consent Mode)
 
 The single most common cause of "Sealmetrics is missing data" is a Google Tag Manager container where the Sealmetrics tag is **gated behind consent** — either by GTM Consent Mode settings on the tag or by a consent management platform (Cookiebot, OneTrust, Usercentrics, Didomi, etc.) that blocks Custom HTML tags until the visitor clicks "Accept".
 
@@ -59672,13 +59687,13 @@ The stub queues any call made before the library loads and the library drains th
 
 
 
-## Content Security Policy (CSP): Which Domains to Allow
+## Tracker Blocked by Content Security Policy (CSP)
 
 
 URL: https://docs.sealmetrics.com/troubleshooting/csp-errors-domains-to-allow
 
 
-# Content Security Policy (CSP): Which Domains to Allow
+# Tracker Blocked by Content Security Policy (CSP)
 
 If your site sends a `Content-Security-Policy` header (or meta tag) that does not include the Sealmetrics tracker domain, the browser will refuse to load the script and/or refuse to send the tracking beacon — and you will see **zero data**, even though the snippet is installed correctly.
 
@@ -59928,13 +59943,13 @@ The date of each hit is computed **at ingest time** with the timezone the site h
 
 
 
-## Hits From an Unauthorized Domain
+## No Data From a New or Staging Domain
 
 
 URL: https://docs.sealmetrics.com/troubleshooting/unauthorized-domain
 
 
-# Hits From an Unauthorized Domain
+# No Data From a New or Staging Domain
 
 Every Sealmetrics site has a list of **authorized domains** — the websites allowed to send tracking data to it. When a hit arrives from a page whose domain is not on that list, the platform **rejects it silently**: the browser still receives a normal `204 No Content` response, no error appears in the console, and nothing is stored. This is a common cause of "the snippet is installed but there is no data".
 
@@ -60232,13 +60247,13 @@ A sudden or very large deficit on the Sealmetrics side usually means hits are be
 
 
 
-## Your Test Traffic Is Being Filtered as a Bot
+## Test Visits Not Appearing (Filtered as Bot Traffic)
 
 
 URL: https://docs.sealmetrics.com/troubleshooting/test-traffic-blocked-as-bot
 
 
-# Your Test Traffic Is Being Filtered as a Bot
+# Test Visits Not Appearing (Filtered as Bot Traffic)
 
 You are testing the tracker with an automation tool or a script, the beacon returns `204 No Content`, and yet nothing appears in the reports. In most cases nothing is broken: **the platform is doing its job**, filtering traffic that identifies itself as automated so it never pollutes your reports. Real visitors are unaffected — the filters below only catch tools and abnormal behavior.
 
@@ -60302,13 +60317,13 @@ If what you actually want is the reverse — your office or team's *genuine* bro
 
 
 
-## Reconciling SealMetrics with Your ERP, CRM, or Database
+## Conversions Don't Match Your ERP, CRM, or Database
 
 
 URL: https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy
 
 
-# Reconciling SealMetrics with Your ERP, CRM, or Database
+# Conversions Don't Match Your ERP, CRM, or Database
 
 Your **ERP, CRM, or internal database is the source of truth** for what actually happened in your business: the orders that were placed, the leads that were captured, the contracts that were signed. SealMetrics is the measurement layer on top of that reality.
 
@@ -60493,6 +60508,59 @@ If all of the above check out and the discrepancy is still substantial, contact 
 ---
 
 # FAQ
+
+
+## Frequently Asked Questions (FAQ)
+
+
+URL: https://docs.sealmetrics.com/faq
+
+
+# Frequently Asked Questions (FAQ)
+
+This section centralizes the most common questions customers, legal teams, and marketers ask about Sealmetrics.
+
+Use the links below to explore detailed answers for each topic.
+
+---
+
+## FAQ Categories
+
+### Consentless Analytics
+Learn how Sealmetrics measures 100% of traffic without consent and why it is fully compliant with GDPR and ePrivacy.
+
+[Read more →](/faq/consentless-analytics)
+
+### GA4 vs Sealmetrics
+Understand data differences, direct traffic inflation, session vs hit tracking, and attribution inconsistencies.
+
+[Read more →](/faq/ga4-vs-sealmetrics)
+
+### Attribution Model
+Learn how attribution works without consent, why last-click is the only model that works without cross-session identifiers, and how Sealmetrics handles UTMs.
+
+[Read more →](/faq/attribution)
+
+### Implementation & Tracking
+All about installing the pixel, configuring events, using GTM, and ensuring tracking accuracy.
+
+[Read more →](/faq/implementation)
+
+### Technical Privacy Model
+What Sealmetrics collects, what it does not, how session IDs work, and how we avoid any user identification.
+
+[Read more →](/faq/privacy-technical)
+
+### Product Features
+Funnels, ROAS, dashboards, real-time, ecommerce tracking, API access, and exporting data.
+
+[Read more →](/faq/product)
+
+### Legal & Compliance
+Sealmetrics compliance with GDPR, ePrivacy, CNIL, AEPD, CCPA, and PECR. Third-party audits and legal basis.
+
+[Read more →](/compliance/compliance-overview/legal-faq)
+
 
 
 ## Glossary
@@ -60800,59 +60868,6 @@ In a funnel, the percentage of users who completed a step relative to the number
 ### UTM Parameters
 
 Standard URL parameters (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`) used to tag marketing links and identify traffic sources. Fully supported by SealMetrics without cookies. See [Sources report](/reports/sources).
-
-
-
-## Frequently Asked Questions (FAQ)
-
-
-URL: https://docs.sealmetrics.com/faq
-
-
-# Frequently Asked Questions (FAQ)
-
-This section centralizes the most common questions customers, legal teams, and marketers ask about Sealmetrics.
-
-Use the links below to explore detailed answers for each topic.
-
----
-
-## FAQ Categories
-
-### Consentless Analytics
-Learn how Sealmetrics measures 100% of traffic without consent and why it is fully compliant with GDPR and ePrivacy.
-
-[Read more →](/faq/consentless-analytics)
-
-### GA4 vs Sealmetrics
-Understand data differences, direct traffic inflation, session vs hit tracking, and attribution inconsistencies.
-
-[Read more →](/faq/ga4-vs-sealmetrics)
-
-### Attribution Model
-Learn how attribution works without consent, why last-click is the only model that works without cross-session identifiers, and how Sealmetrics handles UTMs.
-
-[Read more →](/faq/attribution)
-
-### Implementation & Tracking
-All about installing the pixel, configuring events, using GTM, and ensuring tracking accuracy.
-
-[Read more →](/faq/implementation)
-
-### Technical Privacy Model
-What Sealmetrics collects, what it does not, how session IDs work, and how we avoid any user identification.
-
-[Read more →](/faq/privacy-technical)
-
-### Product Features
-Funnels, ROAS, dashboards, real-time, ecommerce tracking, API access, and exporting data.
-
-[Read more →](/faq/product)
-
-### Legal & Compliance
-Sealmetrics compliance with GDPR, ePrivacy, CNIL, AEPD, CCPA, and PECR. Third-party audits and legal basis.
-
-[Read more →](/compliance/compliance-overview/legal-faq)
 
 
 

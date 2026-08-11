@@ -3,8 +3,8 @@ title: "Getting Started with LENS"
 description: "Set up LENS AI and start receiving intelligent insights about your analytics data."
 canonical_url: "https://docs.sealmetrics.com/lens/getting-started"
 lang: "en"
-date_generated: "2026-08-11T17:20:18.521Z"
-source_hash: "4106c64d191048951bb9ba7168a3b3518a3372bbbad3cc1732b5b6ff904a8c7e"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "1904eda87774582f4b77545555970653fa2bfe95da5f2e18d1ee7ca83ffe3447"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -28,7 +28,7 @@ Get LENS configured and receiving insights in under 5 minutes.
 
 1. Log in to your Sealmetrics dashboard
 2. Click **LENS** in the main navigation
-3. You'll see the LENS overview with any detected anomalies
+3. You'll land on the LENS overview, where you can open **Chat** or **Reports**
 
 ## Step 2: Pick a provider
 
@@ -135,16 +135,21 @@ Affected segment: All traffic
 
 ## Troubleshooting
 
-### "No anomalies detected"
+### "No insights or anomalies shown"
 
-This is normal if:
-- Your account is new (less than 7 days of data)
-- Your traffic patterns are stable
-- LENS hasn't run its next analysis yet for the configured cadence
+Expected: automated detection is not active yet (see the roadmap note above), so
+no account currently generates insights. Use **Chat** to ask about your data, and
+**Reports** for the weekly and monthly summaries.
 
 ### "Assistant not responding"
 
-The assistant needs a working LLM provider key. Check:
+The answer depends on which provider you're on — check **My Account → LLM Providers** to see which one is active.
+
+**On Seal AI Private** (no API key involved):
+1. Your organization may have exhausted its 5M monthly tokens plus any packs — the chat says "token limit reached". Check **Organization → Seal AI Usage**; an owner can buy a [token pack](/billing/seal-ai-private#extra-token-packs), or any user can switch to a BYOK provider for immediate headroom.
+2. Confirm your plan still includes Seal AI (add-on on Growth, included in Scale and Enterprise).
+
+**On bring-your-own-key:**
 1. You've added an API key in **My Account → LLM Providers**
 2. A default provider is selected and enabled
 3. The key is still valid and hasn't expired or hit your provider's own rate limit

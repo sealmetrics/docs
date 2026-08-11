@@ -3,8 +3,8 @@ title: "Tracker Overview"
 description: "Sealmetrics' 1.2 KB gzipped JavaScript tracker: one-line install, no cookies or localStorage, automatic SPA detection, and size comparisons vs GA4."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "fc0a314bea0110657d16bf89850a88b526a4cddccc77e32ea5d7a9666cd36303"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "71c250825cfa420a487c38480f2eaaddcef8f1e251b29a56ec4230f19ff2914b"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -124,4 +124,4 @@ Session identification is cookieless — no cookies, canvas fingerprinting, or p
 - [API Reference](/implementation/tracker/api-reference) - Complete technical reference
 - [SPA Support](/implementation/tracker/spa-support) - React, Vue, Angular, Next.js integration
 - [First-Party Setup](/implementation/tracker/first-party) - Custom domain for tracking
-- [Migration from v1](/implementation/tracker/migration-from-v1) - Breaking changes and code examples
+- [Tracker v1 to v2: Breaking Changes](/implementation/tracker/migration-from-v1) - Breaking changes and code examples

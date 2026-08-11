@@ -3,8 +3,8 @@ title: "Email Alerts"
 description: "Configure email notifications for LENS insights and the weekly digest."
 canonical_url: "https://docs.sealmetrics.com/lens/reports/email-alerts"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "1dda1325a1069fe3b5244f612f7f49efbddf0ac0ea03f9db8b1ad8993c727efc"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "9e1167d48e7db038f9d5c194fbb631cf6cd94e80692d6937aef9827e1a0640bd"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,9 @@ publisher: "SealMetrics"
 # Email Alerts
 
 Canonical page: https://docs.sealmetrics.com/lens/reports/email-alerts
+
+**Caution:**
+Automated detection is **built but not active**, so no insight alert is generated on customer accounts today. Scheduled **report** emails (weekly and monthly digests) do work — see [LENS Reports](/lens/reports). The insight-alert behaviour described below applies once detection ships.
 
 LENS notifies you by email when it detects important insights, and can send a weekly digest summarizing the week. Email is the only notification channel for LENS.
 

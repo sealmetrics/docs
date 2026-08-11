@@ -82,7 +82,7 @@ Base URL: https://docs.sealmetrics.com
 
 - [See Your Data Flow in Real-Time with Sealmetrics](https://docs.sealmetrics.com/getting-started/see-your-data-flow.md): Learn how Sealmetrics delivers instant, real-time analytics without cookies or consent banners.
 
-- [Migrate from Sealmetrics v1](https://docs.sealmetrics.com/getting-started/migration-from-v1.md): Import historical conversions, microconversions and pageviews from Sealmetrics v1 to v2 with the Migration Wizard — connect, pick a date range, and let the nocturnal worker do the rest.
+- [Migrate Your Historical Data from v1](https://docs.sealmetrics.com/getting-started/migration-from-v1.md): Import historical conversions, microconversions and pageviews from Sealmetrics v1 to v2 with the Migration Wizard — connect, pick a date range, and let the nocturnal worker do the rest.
 
 - [Set Up Sealmetrics with Your AI Assistant](https://docs.sealmetrics.com/getting-started/install-with-ai.md): Let Claude, Codex, or any MCP-capable AI assistant install Sealmetrics for you — create the site, place the tracking snippet, verify the pixel, and instrument conversions, all from a chat.
 
@@ -268,7 +268,7 @@ Base URL: https://docs.sealmetrics.com
 
 - [Tracker API Reference](https://docs.sealmetrics.com/implementation/tracker/api-reference.md): Complete API reference for the SealMetrics JavaScript tracker. Includes all methods, parameters, and payload specifications.
 
-- [Migration from v1](https://docs.sealmetrics.com/implementation/tracker/migration-from-v1.md): Breaking changes and migration steps from Sealmetrics tracker v1 to v2: one-line install, new conv() and micro() syntax, and no cookies or localStorage.
+- [Tracker v1 to v2: Breaking Changes](https://docs.sealmetrics.com/implementation/tracker/migration-from-v1.md): Breaking changes and migration steps from Sealmetrics tracker v1 to v2: one-line install, new conv() and micro() syntax, and no cookies or localStorage.
 
 - [Why Use the Defer Attribute on the SealMetrics Pixel](https://docs.sealmetrics.com/implementation/defer-attribute-pixel-script.md): Learn why adding defer to the SealMetrics pixel script improves page load performance and prevents rendering delays without affecting tracking accuracy.
 
@@ -330,7 +330,7 @@ Base URL: https://docs.sealmetrics.com
 
 - [Quick Start](https://docs.sealmetrics.com/api/quick-start.md): Get your first Sealmetrics API call working in 5 minutes — generate a token, find your Site ID, and pull traffic data via REST in three steps.
 
-- [Migration from v1](https://docs.sealmetrics.com/api/migration-from-v1.md): Guide for data analysts moving from the legacy Sealmetrics API v1.0 (Postman collection) to the current REST API — host, auth, pagination, and endpoint-by-endpoint mapping.
+- [API v1 to v2 Migration](https://docs.sealmetrics.com/api/migration-from-v1.md): Guide for data analysts moving from the legacy Sealmetrics API v1.0 (Postman collection) to the current REST API — host, auth, pagination, and endpoint-by-endpoint mapping.
 
 - [Authentication](https://docs.sealmetrics.com/api/authentication.md): How to authenticate with the Sealmetrics API using read-only API keys (X-API-Key header) or JWT bearer tokens from login
 
@@ -544,9 +544,9 @@ Base URL: https://docs.sealmetrics.com
 
 ### Guides
 
-- [Complete Guide to Cookieless Analytics 2026](https://docs.sealmetrics.com/complete-guide-cookieless-analytics.md): Learn how cookieless analytics captures 100% of visitor data without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages.
-
 - [Guides](https://docs.sealmetrics.com/guides.md): Step-by-step Sealmetrics guides — cookieless analytics implementation, GDPR compliance, and platform best practices.
+
+- [Complete Guide to Cookieless Analytics 2026](https://docs.sealmetrics.com/complete-guide-cookieless-analytics.md): Learn how cookieless analytics captures 100% of visitor data without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages.
 
 - [UTM Governance: Naming Conventions That Keep Attribution Clean](https://docs.sealmetrics.com/utm-governance.md): A practical UTM governance playbook: naming conventions, a source/medium taxonomy aligned with Sealmetrics default channels, the mistakes that silently corrupt attribution, a spreadsheet template, and how Sealmetrics processes UTMs end to end.
 
@@ -634,9 +634,9 @@ Base URL: https://docs.sealmetrics.com
 
 ### Plans & Billing
 
-- [Features Comparison](https://docs.sealmetrics.com/billing/features-comparison.md): Detailed side-by-side comparison of all features across Sealmetrics plans.
-
 - [Plans & Pricing](https://docs.sealmetrics.com/billing.md): Overview of Sealmetrics plans, pricing, and what's included in each tier.
+
+- [Features Comparison](https://docs.sealmetrics.com/billing/features-comparison.md): Detailed side-by-side comparison of all features across Sealmetrics plans.
 
 - [Growth Plan](https://docs.sealmetrics.com/billing/plans/growth.md): Everything included in the Sealmetrics Growth plan for growing teams and mid-size businesses.
 
@@ -664,15 +664,15 @@ Base URL: https://docs.sealmetrics.com
 
 - [Fixing ReferenceError: sealmetrics is not defined](https://docs.sealmetrics.com/troubleshooting/sealmetrics-is-not-defined.md): How to keep your site working when ad blockers, privacy extensions, or DNS filters prevent the SealMetrics tracker from loading.
 
-- [GTM Consent Mode Is Blocking the Sealmetrics Tag](https://docs.sealmetrics.com/troubleshooting/gtm-consent-mode-blocking.md): Why gating the Sealmetrics tag behind a consent management platform silently drops most of your data, how to diagnose it in GTM Preview, and how to configure the tag correctly.
+- [Sealmetrics Tag Not Firing in GTM (Consent Mode)](https://docs.sealmetrics.com/troubleshooting/gtm-consent-mode-blocking.md): Why gating the Sealmetrics tag behind a consent management platform silently drops most of your data, how to diagnose it in GTM Preview, and how to configure the tag correctly.
 
-- [Content Security Policy (CSP): Which Domains to Allow](https://docs.sealmetrics.com/troubleshooting/csp-errors-domains-to-allow.md): How to detect Content-Security-Policy blocks in the browser console and which directives (script-src, connect-src) must allow the Sealmetrics tracker domain.
+- [Tracker Blocked by Content Security Policy (CSP)](https://docs.sealmetrics.com/troubleshooting/csp-errors-domains-to-allow.md): How to detect Content-Security-Policy blocks in the browser console and which directives (script-src, connect-src) must allow the Sealmetrics tracker domain.
 
 - [Duplicate Pageviews](https://docs.sealmetrics.com/troubleshooting/duplicate-pageviews.md): The three real causes of duplicated pageviews in Sealmetrics: the script included twice, a stub-queued pageview without ?auto=0, and manual SPA pageviews without ?spa=0.
 
 - [Report Dates Don't Match Another Tool](https://docs.sealmetrics.com/troubleshooting/dates-timezone-mismatch.md): Why daily totals in Sealmetrics can differ from another analytics tool or your backend — each hit's date is assigned at the site's timezone midnight — and how to change the site timezone.
 
-- [Hits From an Unauthorized Domain](https://docs.sealmetrics.com/troubleshooting/unauthorized-domain.md): What happens when the tracker fires from a domain that is not registered on your Sealmetrics site — the hit is silently rejected — and how to add domains from the Domains tab.
+- [No Data From a New or Staging Domain](https://docs.sealmetrics.com/troubleshooting/unauthorized-domain.md): What happens when the tracker fires from a domain that is not registered on your Sealmetrics site — the hit is silently rejected — and how to add domains from the Domains tab.
 
 - [Data Taking Longer Than Expected to Appear](https://docs.sealmetrics.com/troubleshooting/data-delay.md): How long data normally takes to reach Sealmetrics reports (seconds, not hours), how to verify with the Last hit timestamp on Overview, and what to check when it seems delayed.
 
@@ -680,17 +680,17 @@ Base URL: https://docs.sealmetrics.com
 
 - [Numbers Lower Than Another Tool](https://docs.sealmetrics.com/troubleshooting/lower-numbers-than-other-tools.md): Why Sealmetrics can legitimately report fewer (or more) visits than GA4 or another tool: entrances vs sessions, bot filtering at ingest, and no sampling.
 
-- [Your Test Traffic Is Being Filtered as a Bot](https://docs.sealmetrics.com/troubleshooting/test-traffic-blocked-as-bot.md): Why visits generated with curl, Selenium, Playwright, headless Chrome, or load-testing tools never appear in Sealmetrics, how to diagnose it, and how to test without tripping the filters.
+- [Test Visits Not Appearing (Filtered as Bot Traffic)](https://docs.sealmetrics.com/troubleshooting/test-traffic-blocked-as-bot.md): Why visits generated with curl, Selenium, Playwright, headless Chrome, or load-testing tools never appear in Sealmetrics, how to diagnose it, and how to test without tripping the filters.
 
-- [Reconciling SealMetrics with Your ERP, CRM, or Database](https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy.md): How to diagnose and fix substantial discrepancies between SealMetrics conversions and your source of truth (ERP, CRM, internal database).
+- [Conversions Don't Match Your ERP, CRM, or Database](https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy.md): How to diagnose and fix substantial discrepancies between SealMetrics conversions and your source of truth (ERP, CRM, internal database).
 
 
 
 ### FAQ
 
-- [Glossary](https://docs.sealmetrics.com/faq/glossary.md): Complete glossary of analytics, privacy, and platform terms used in SealMetrics.
-
 - [Frequently Asked Questions (FAQ)](https://docs.sealmetrics.com/faq.md): Answers to the most common questions about Sealmetrics, consentless analytics, attribution, implementation, privacy, product features, and legal compliance.
+
+- [Glossary](https://docs.sealmetrics.com/faq/glossary.md): Complete glossary of analytics, privacy, and platform terms used in SealMetrics.
 
 - [Consentless Analytics](https://docs.sealmetrics.com/faq/consentless-analytics.md): Why Sealmetrics needs no consent banner — no cookies, no fingerprinting, no personal data, and what exactly is recorded on each hit.
 
@@ -700,7 +700,7 @@ Base URL: https://docs.sealmetrics.com
 
 - [Implementation & Tracking](https://docs.sealmetrics.com/faq/implementation.md): How to install the pixel, track events, use GTM, configure ecommerce, and verify tracking accuracy.
 
-- [Frequently Asked Questions](https://docs.sealmetrics.com/faq/privacy-security.md): Quick answers to the most common questions about Sealmetrics, consentless analytics, tracking accuracy, attribution models, and GA4 differences.
+- [Frequently Asked Questions](https://docs.sealmetrics.com/faq/privacy-security.md): Why Sealmetrics numbers differ from GA4 — inflated Direct traffic, entrances instead of persistent-ID sessions, last-click as the only consent-free attribution model, ITP resistance, and why server-side tracking still needs a consent banner.
 
 - [Technical Privacy Model](https://docs.sealmetrics.com/faq/privacy-technical.md): Learn exactly what data Sealmetrics collects, what it does not collect, and how privacy is enforced technically.
 
