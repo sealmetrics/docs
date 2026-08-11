@@ -8,6 +8,8 @@
  *   - Each `## <text>` heading is treated as a Question.
  *   - Body is everything until the next `## ` heading or a `---` separator.
  *   - Empty answers are skipped.
+ *   - Navigational sections (see NOT_QUESTIONS) are skipped: they are page
+ *     furniture, not Q/A, and Google flags non-question FAQPage entries.
  *   - Markdown is stripped to plain text for the JSON-LD `text` field.
  */
 import fs from 'node:fs';
@@ -17,6 +19,14 @@ import {fileURLToPath} from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FAQ_DIR = path.resolve(__dirname, '..', 'docs', 'faq');
 const SKIP = new Set(['index.mdx', 'glossary.mdx']);
+
+// Headings that are page furniture rather than questions.
+const NOT_QUESTIONS = new Set([
+  'related documentation',
+  'related docs',
+  'next steps',
+  'see also',
+]);
 
 const START = '{/* AUTO-FAQ-SCHEMA:START */}';
 const END = '{/* AUTO-FAQ-SCHEMA:END */}';
@@ -39,7 +49,7 @@ const parseFaq = (content) => {
   let q = null;
   let buf = [];
   const flush = () => {
-    if (q !== null) {
+    if (q !== null && !NOT_QUESTIONS.has(q.trim().toLowerCase())) {
       const a = stripMarkdown(buf.join('\n'));
       if (a) items.push({q: q.trim(), a});
     }

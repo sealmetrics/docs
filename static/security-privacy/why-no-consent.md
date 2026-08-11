@@ -3,8 +3,8 @@ title: "Why Sealmetrics Can Measure Without Consent"
 description: "Discover why Sealmetrics can measure web traffic without user consent while fully complying with GDPR, ePrivacy, and CNIL guidelines."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/why-no-consent"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "8c3142942cb4d2a2f1d75eab060fce776207f04586df0f65436ef253b65fa7ba"
+date_generated: "2026-08-11T17:20:18.521Z"
+source_hash: "8c5f942ea5cf06e0c8429c832c4818086c23f93e95b70ff5e670c4a2e49f170a"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -49,7 +49,7 @@ Each interaction is treated as an **independent event**, making it technically a
 For each hit (or page view), Sealmetrics records only four variables:
 
 - **Timestamp** — When the event occurred
-- **User Agent** — Stored 24 months for anonymous device classification (browser/OS category); never linked to a person
+- **User Agent** — Used for anonymous device classification (browser/OS category); the raw string is purged after 1 day and only the derived categories persist in aggregated reports. Never linked to a person
 - **Current URL** — The page where the event happened
 - **Referral URL** — Where the visitor came from
 

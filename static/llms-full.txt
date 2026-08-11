@@ -3028,26 +3028,7 @@ Mark one provider as your default and save.
 **Info:**
 Seal AI Private includes **5M tokens per calendar month** for the whole organization, plus any [token packs](/billing/seal-ai-private#extra-token-packs) you've purchased (packs never expire). The org gets an email at 80% and 100% consumption; once quota and packs are exhausted, Seal AI stops with a "token limit reached" message until the monthly reset — the owner can buy a pack from the [Seal AI Usage screen](/platform/settings/seal-ai-usage), and any user can switch the chat to a BYOK provider for immediate headroom.
 
-## Step 3: Review LENS Insights
-
-LENS analyzes your data on a configurable cadence and generates insights automatically:
-
-1. Go to **LENS** in the main navigation
-2. Review the detected insights
-
-LENS produces five types of insight, so it's not just about anomalies:
-
-| Type | What it means |
-|------|---------------|
-| Anomaly | An unexpected change in a metric |
-| Opportunity | A potential improvement worth acting on |
-| Trend | A significant directional change over time |
-| Alert | A warning that needs attention |
-| Health | A tracking or data-quality issue |
-
-The launch set ("LENS Basic") includes around 25 active rules covering traffic drops and spikes, conversion drops, tracking health, device and landing-page performance, channel efficiency, and source-concentration risk — all without requiring e-commerce or microconversion setup.
-
-## Step 4: Ask Your First Question
+## Step 3: Ask Your First Question
 
 Try the AI assistant:
 
@@ -3070,7 +3051,7 @@ Try the AI assistant:
 
 **Less helpful:** *"Why is traffic down?"*
 
-## Step 5: Review Your LENS Reports
+## Step 4: Review Your LENS Reports
 
 LENS produces **weekly** and **monthly** reports — an executive summary plus key metrics, channel performance, top insights and action items. Reports are generated for a completed period (there are no custom templates or per-report recipient lists).
 
@@ -3080,9 +3061,24 @@ LENS produces **weekly** and **monthly** reports — an executive summary plus k
 
 See [LENS Reports](/lens/reports) for what each report contains.
 
-## Understanding LENS Insights
+## Automated insight detection (roadmap)
 
-When LENS detects an insight, you'll see something like this (here, an anomaly):
+**Caution:**
+The rule-based detection library is **built but not active**. No detection rule currently runs on customer accounts, and no automated insight or anomaly alert is generated today. This section documents the planned behaviour — see the [LENS overview](/lens) for what is live. What works today is LENS chat (Step 3) and LENS reports (Step 4).
+
+The planned library produces five types of insight, so it won't be only about anomalies:
+
+| Type | What it means |
+|------|---------------|
+| Anomaly | An unexpected change in a metric |
+| Opportunity | A potential improvement worth acting on |
+| Trend | A significant directional change over time |
+| Alert | A warning that needs attention |
+| Health | A tracking or data-quality issue |
+
+The planned launch set ("LENS Basic") covers traffic drops and spikes, conversion drops, tracking health, device and landing-page performance, channel efficiency, and source-concentration risk — none of which will require e-commerce or microconversion setup.
+
+Once detection ships, an insight will look something like this (here, an anomaly):
 
 ```
 🔴 HIGH PRIORITY
@@ -3095,7 +3091,7 @@ Current: 1.2%
 Previous: 1.85%
 Change: -35.1%
 
-Detected: 2024-01-15 14:32 UTC
+Detected: 2026-08-10 14:32 UTC
 Affected segment: All traffic
 
 [View Details] [Investigate] [Dismiss]
@@ -39751,11 +39747,11 @@ Sealmetrics operates under Article 6(1)(f) of GDPR: **Legitimate Interest**.
 
 **Data retention:** 24 months for aggregated reports and conversions (fixed for all plans) — without requiring user consent.
 
-**Your rights as a data controller:**
-- No GDPR compliance burden from using Sealmetrics
-- No need to update privacy policies for personal data processing
-- No Data Processing Agreement (DPA) required
-- No risk of GDPR violations from analytics
+**What this means for you as a data controller:**
+- No consent banner needed for analytics measurement
+- No personal-data processing to disclose in your privacy policy for this purpose
+- **A DPA is included** — public and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/). Your DPO will ask for one, so we provide it out of the box rather than arguing it is unnecessary
+- Nothing here is a third-party certification: these pages are our own [compliance self-assessments](/compliance)
 
 ### ePrivacy Directive Compliance (No Cookies = No Consent)
 
@@ -40077,7 +40073,7 @@ Each interaction is treated as an **independent event**, making it technically a
 For each hit (or page view), Sealmetrics records only four variables:
 
 - **Timestamp** — When the event occurred  
-- **User Agent** — Stored 24 months for anonymous device classification (browser/OS category); never linked to a person  
+- **User Agent** — Used for anonymous device classification (browser/OS category); the raw string is purged after 1 day and only the derived categories persist in aggregated reports. Never linked to a person  
 - **Current URL** — The page where the event happened  
 - **Referral URL** — Where the visitor came from
 
@@ -44287,8 +44283,6 @@ Sealmetrics is **GDPR, ePrivacy, CCPA, and PECR compliant by design**, thanks to
 - 100% anonymous isolated hits  
 
 This enables marketers and analysts to access reliable, actionable analytics **without compromising user privacy or requiring consent banners**.
-
-If quieres que prepare el siguiente artículo legal, envíamelo y lo transformo al mismo formato.
 
 ## Related documentation
 
@@ -60836,7 +60830,7 @@ Understand data differences, direct traffic inflation, session vs hit tracking, 
 [Read more →](/faq/ga4-vs-sealmetrics)
 
 ### Attribution Model
-Learn how attribution works without consent, why last-click is the only legal model, and how Sealmetrics handles UTMs.
+Learn how attribution works without consent, why last-click is the only model that works without cross-session identifiers, and how Sealmetrics handles UTMs.
 
 [Read more →](/faq/attribution)
 
@@ -60872,13 +60866,11 @@ URL: https://docs.sealmetrics.com/faq/consentless-analytics
 
 ## How can Sealmetrics measure without consent?
 
-Sealmetrics complies 100 percent with ePrivacy, GDPR, CCPA, and PECR.  
-We follow the measurement guidelines established by the AEPD and CNIL.
+Because there is nothing to consent to. Sealmetrics is a cookieless tracking system: no cookies, no fingerprinting, no cross-session tracking, no personal data. We measure isolated hits (page views), not user journeys.
 
-Sealmetrics is a cookieless tracking system.  
-No cookies, no fingerprinting, no cross-session tracking, no personal data.
+ePrivacy requires consent for storing or reading information on a device. Sealmetrics stores nothing on the device, so the consent requirement does not attach. GDPR obligations for personal data do not attach either, because no personal data is collected.
 
-We only track isolated hits (page views), not user journeys.
+We follow the measurement guidelines published by the AEPD and CNIL. Note that no supervisory authority certifies or approves analytics tools — our [compliance pages](/compliance) are self-assessments against the published criteria, not third-party validations.
 
 ---
 
@@ -60899,20 +60891,28 @@ For each hit, Sealmetrics records:
 - Timestamp  
 - URL  
 - Referral URL  
-- User Agent (not stored permanently)
+- User Agent — the raw string is purged after 1 day; only anonymous device categories persist in aggregates
 
 No IP address  
 No persistent identifiers  
 No device fingerprinting  
 
-This ensures full compliance with all privacy regulations.
+With no personal data collected and nothing written to the visitor's device, there is no consent to obtain under ePrivacy and no personal-data processing under GDPR. See the [compliance self-assessments](/compliance) for the framework-by-framework analysis.
 
 ---
 
 ## Why does consentless analytics require aggregated measurement?
 
 Because ePrivacy requires consent for any technology that tracks users across sessions.  
-Sealmetrics avoids this entirely by **not linking hits**, making it inherently compliant.
+Sealmetrics avoids this by **not linking hits**, so no cross-session tracking takes place.
+
+---
+
+## Related documentation
+
+- [How consentless analytics works](/security-privacy/consentless-analytics) — the model and its legal basis in detail.
+- [What we track](/security-privacy/what-we-track) — every variable we record, field by field, with retention.
+- [Compliance self-assessments](/compliance) — GDPR, ePrivacy, CNIL, AEPD, PECR analysed one by one.
 
 
 

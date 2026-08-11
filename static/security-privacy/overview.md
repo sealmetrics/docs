@@ -3,8 +3,8 @@ title: "Security & Privacy"
 description: "Understand Sealmetrics' privacy-by-design architecture, GDPR compliance, data security measures, and why we never collect personal data."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/overview"
 lang: "en"
-date_generated: "2026-08-10T18:27:20.920Z"
-source_hash: "c83abd3a64dc7172d355e1aac180564c2ba5705944747ef8261669f7dd103d04"
+date_generated: "2026-08-11T17:20:18.521Z"
+source_hash: "961ff6168e45aff00443594c42c92e79c38b3ea60cbfe5630fbdd762c7a62ce1"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -81,11 +81,11 @@ Sealmetrics operates under Article 6(1)(f) of GDPR: **Legitimate Interest**.
 
 **Data retention:** 24 months for aggregated reports and conversions (fixed for all plans) — without requiring user consent.
 
-**Your rights as a data controller:**
-- No GDPR compliance burden from using Sealmetrics
-- No need to update privacy policies for personal data processing
-- No Data Processing Agreement (DPA) required
-- No risk of GDPR violations from analytics
+**What this means for you as a data controller:**
+- No consent banner needed for analytics measurement
+- No personal-data processing to disclose in your privacy policy for this purpose
+- **A DPA is included** — public and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/). Your DPO will ask for one, so we provide it out of the box rather than arguing it is unnecessary
+- Nothing here is a third-party certification: these pages are our own [compliance self-assessments](/compliance)
 
 ### ePrivacy Directive Compliance (No Cookies = No Consent)
 

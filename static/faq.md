@@ -3,8 +3,8 @@ title: "Frequently Asked Questions (FAQ)"
 description: "Answers to the most common questions about Sealmetrics, consentless analytics, attribution, implementation, privacy, product features, and legal compliance."
 canonical_url: "https://docs.sealmetrics.com/faq"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4aa341c55bb2826b250bc2f3e53144aa990764a8efe1a266ad3bef21a51b97ac"
+date_generated: "2026-08-11T17:20:18.521Z"
+source_hash: "43c32e44576b43a8a44be58a4d3f2b64755752f802821992e170b07a523cadcb"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -35,7 +35,7 @@ Understand data differences, direct traffic inflation, session vs hit tracking, 
 [Read more →](/faq/ga4-vs-sealmetrics)
 
 ### Attribution Model
-Learn how attribution works without consent, why last-click is the only legal model, and how Sealmetrics handles UTMs.
+Learn how attribution works without consent, why last-click is the only model that works without cross-session identifiers, and how Sealmetrics handles UTMs.
 
 [Read more →](/faq/attribution)
 

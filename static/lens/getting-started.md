@@ -3,8 +3,8 @@ title: "Getting Started with LENS"
 description: "Set up LENS AI and start receiving intelligent insights about your analytics data."
 canonical_url: "https://docs.sealmetrics.com/lens/getting-started"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "356d9aa22ff3ae7dc407a17c69f604119c66722236375f44384f6fa84959f942"
+date_generated: "2026-08-11T17:20:18.521Z"
+source_hash: "4106c64d191048951bb9ba7168a3b3518a3372bbbad3cc1732b5b6ff904a8c7e"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -54,26 +54,7 @@ Mark one provider as your default and save.
 **Info:**
 Seal AI Private includes **5M tokens per calendar month** for the whole organization, plus any [token packs](/billing/seal-ai-private#extra-token-packs) you've purchased (packs never expire). The org gets an email at 80% and 100% consumption; once quota and packs are exhausted, Seal AI stops with a "token limit reached" message until the monthly reset — the owner can buy a pack from the [Seal AI Usage screen](/platform/settings/seal-ai-usage), and any user can switch the chat to a BYOK provider for immediate headroom.
 
-## Step 3: Review LENS Insights
-
-LENS analyzes your data on a configurable cadence and generates insights automatically:
-
-1. Go to **LENS** in the main navigation
-2. Review the detected insights
-
-LENS produces five types of insight, so it's not just about anomalies:
-
-| Type | What it means |
-|------|---------------|
-| Anomaly | An unexpected change in a metric |
-| Opportunity | A potential improvement worth acting on |
-| Trend | A significant directional change over time |
-| Alert | A warning that needs attention |
-| Health | A tracking or data-quality issue |
-
-The launch set ("LENS Basic") includes around 25 active rules covering traffic drops and spikes, conversion drops, tracking health, device and landing-page performance, channel efficiency, and source-concentration risk — all without requiring e-commerce or microconversion setup.
-
-## Step 4: Ask Your First Question
+## Step 3: Ask Your First Question
 
 Try the AI assistant:
 
@@ -96,7 +77,7 @@ Try the AI assistant:
 
 **Less helpful:** *"Why is traffic down?"*
 
-## Step 5: Review Your LENS Reports
+## Step 4: Review Your LENS Reports
 
 LENS produces **weekly** and **monthly** reports — an executive summary plus key metrics, channel performance, top insights and action items. Reports are generated for a completed period (there are no custom templates or per-report recipient lists).
 
@@ -106,9 +87,24 @@ LENS produces **weekly** and **monthly** reports — an executive summary plus k
 
 See [LENS Reports](/lens/reports) for what each report contains.
 
-## Understanding LENS Insights
+## Automated insight detection (roadmap)
 
-When LENS detects an insight, you'll see something like this (here, an anomaly):
+**Caution:**
+The rule-based detection library is **built but not active**. No detection rule currently runs on customer accounts, and no automated insight or anomaly alert is generated today. This section documents the planned behaviour — see the [LENS overview](/lens) for what is live. What works today is LENS chat (Step 3) and LENS reports (Step 4).
+
+The planned library produces five types of insight, so it won't be only about anomalies:
+
+| Type | What it means |
+|------|---------------|
+| Anomaly | An unexpected change in a metric |
+| Opportunity | A potential improvement worth acting on |
+| Trend | A significant directional change over time |
+| Alert | A warning that needs attention |
+| Health | A tracking or data-quality issue |
+
+The planned launch set ("LENS Basic") covers traffic drops and spikes, conversion drops, tracking health, device and landing-page performance, channel efficiency, and source-concentration risk — none of which will require e-commerce or microconversion setup.
+
+Once detection ships, an insight will look something like this (here, an anomaly):
 
 ```
 🔴 HIGH PRIORITY
@@ -121,7 +117,7 @@ Current: 1.2%
 Previous: 1.85%
 Change: -35.1%
 
-Detected: 2024-01-15 14:32 UTC
+Detected: 2026-08-10 14:32 UTC
 Affected segment: All traffic
 
 [View Details] [Investigate] [Dismiss]
