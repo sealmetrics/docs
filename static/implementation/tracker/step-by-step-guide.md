@@ -3,8 +3,8 @@ title: "Step-by-Step Implementation Guide"
 description: "Complete visual guide to implement Sealmetrics tracking on your website, from basic pageviews to conversions and funnels."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker/step-by-step-guide"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "d002d3a47858ad2fb0870cee9046d1e215fbe84d4a8c8581c3932a177db6e0ee"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "a87b8ae3381aea5934f275930f7c5d4d22901d82dcdaf0741a76e063bd99801a"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -48,15 +48,48 @@ This guide walks you through implementing Sealmetrics tracking on your website. 
 
 ### 1.1 Add the Script Tag
 
-Add this single line to your website's ``
-4. Paste the script before it
-5. Click **Update File**
+Add this single line to your website's `<head>` section:
 
-**Option B: Plugin (recommended)**
-1. Install "Insert Headers and Footers" plugin
-2. Go to **Settings → Insert Headers and Footers**
-3. Paste the script in "Scripts in Header"
-4. Save
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
+```
+
+Replace `YOUR_SITE_ID` with your actual Site ID.
+
+### 1.2 Where to Add It
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+
+    <!-- Add Sealmetrics here, before </head> -->
+    <script src="https://t.sealmetrics.com/t.js?id=67a1d6c0bb10b861397fdd3a" defer></script>
+</head>
+<body>
+    <!-- Your content -->
+</body>
+</html>
+```
+
+### 1.3 Platform-Specific Instructions
+
+If you can't edit the HTML directly, follow the guide for your platform — each one shows exactly where the snippet goes:
+
+- [WordPress](/integrations/cms/wordpress)
+- [WooCommerce](/integrations/ecommerce/woocommerce)
+- [Shopify](/integrations/ecommerce/shopify)
+- [Wix](/integrations/website-builders/wix)
+- [Squarespace](/integrations/website-builders/squarespace)
+- [Webflow](/integrations/website-builders/webflow)
+- [Next.js](/integrations/frameworks/nextjs)
+- [Nuxt 3](/integrations/frameworks/nuxt)
+- [React](/integrations/frameworks/react)
+- [Google Tag Manager](/integrations/google-tag-manager)
+
+Using something else? See [all integrations](/integrations), or the [Installation guide](/implementation/tracker/installation) for the manual snippet and its parameters.
 
 ---
 
@@ -473,7 +506,7 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 
 | Symptom | Solution |
 |---------|----------|
-| 204 response but no data | Wait 2-5 minutes, check correct account |
+| 204 response but no data | Check the **Last hit** timestamp on the Overview report — if it doesn't move within seconds of a test visit, nothing is arriving ([Data Delay](/troubleshooting/data-delay)). If it does move, check you're looking at the correct account, date range and timezone |
 | Non-204 response | Check Site ID, domain authorization |
 | Data in wrong account | Verify Site ID in script matches dashboard |
 

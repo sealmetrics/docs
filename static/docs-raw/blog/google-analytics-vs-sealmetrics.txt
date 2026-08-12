@@ -8,13 +8,13 @@ URL: https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics
 
 Google Analytics has dominated web analytics for two decades, but in EU markets it now measures a shrinking and biased fraction of the traffic that actually reaches your site. Every visitor who rejects a cookie banner — or simply ignores it — leaves no trace in GA4.
 
-Sealmetrics takes a different approach: [cookieless analytics that requires no consent banner](/intro), operating under [GDPR Article 6(1)(f) legitimate interest](/compliance) rather than under consent.
+Sealmetrics takes a different approach: [cookieless analytics that requires no consent banner](/intro), storing no personal data at all — which puts the dataset [outside the GDPR's material scope](/compliance) rather than inside it needing a legal basis.
 
 This comparison is updated for **July 2026** and covers data capture, GDPR and Schrems II, the full feature set including AI, pricing, and what a migration actually involves — including an honest account of what you give up.
 
 **Key takeaways**:
-- **GA4 typically captures 15–50% of EU traffic**, depending on the market; Sealmetrics captures all of it because no consent gate stands in front of measurement
-- **GA4 requires a consent banner** in the EU; Sealmetrics operates consentless under legitimate interest
+- **GA4 typically captures 40–85% of EU traffic** — losing 15-60% depending on sector, brand strength and traffic sources; Sealmetrics captures all of it because no consent gate stands in front of measurement
+- **GA4 requires a consent banner** in the EU; Sealmetrics operates consentless, storing no personal data and nothing on the device
 - **GA4 processes IP addresses**; Sealmetrics never stores one and doesn't even use it for geolocation
 - **Sealmetrics ships an AI layer** — natural-language chat, anomaly detection, and an MCP server your AI assistant can query directly
 - **GA4 keeps Google Ads integration, predictive metrics and user-level analysis** — real advantages Sealmetrics does not match
@@ -26,7 +26,7 @@ This comparison is updated for **July 2026** and covers data capture, GDPR and S
 | Aspect | Google Analytics 4 | Sealmetrics |
 |--------|-------------------|-------------|
 | **Tracking method** | Cookies + client ID | Cookieless session + isolated hits |
-| **Data capture (EU)** | 15–50% of traffic | 100% of traffic |
+| **Data capture (EU)** | 40–85% of traffic | All traffic |
 | **Consent required** | Yes (GDPR) | No |
 | **IP address** | Processed | Never stored, never used for geo |
 | **Data location** | US (Google Cloud) | EU only (Dublin, Ireland) |
@@ -141,7 +141,7 @@ The attribution finding often matters more than the volume one anyway. Palladium
 
 ### Sealmetrics' compliance position
 
-**1. Legitimate interest (Article 6(1)(f))** — no cookies, no cross-site tracking, no personal data, and data minimised to what analytics actually requires.
+**1. No Article 6 legal basis is required.** No cookies, no cross-site tracking, no personal data stored, and collection minimised to what analytics actually requires. Because nothing in the dataset relates to an identifiable person, GDPR Recital 26 puts it outside the Regulation's material scope — so there is no legal basis to pick, and specifically no legitimate interest claim to defend. (Naming Article 6(1)(f) would concede that personal data is being processed; the one place it genuinely applies is the transient in-memory handling of an IP for anti-abuse, per Recital 49.)
 
 **2. No IP-derived anything.** IPs are handled in memory at the edge for bot-database matching and customer-configured exclusions, then discarded. They are never persisted, never hashed into an identifier, and — the part most people get wrong — **never used for geolocation**. Visitor country comes from the [browser timezone](/security-privacy/country-detection), read via `Intl.DateTimeFormat().resolvedOptions().timeZone`. This is why Sealmetrics reports country and not city: there is no IP lookup to derive a city from.
 
@@ -163,7 +163,7 @@ Published self-assessments against each regulator: [CNIL](/compliance/cnil-self-
 | Requires consent banner | Yes (EU) | No |
 | Stores IP addresses | Yes (processed) | **Never** |
 | IP used for geolocation | Yes | **No — browser timezone** |
-| GDPR legal basis | Consent 6(1)(a) | **Legitimate interest 6(1)(f)** |
+| GDPR legal basis | Consent 6(1)(a) | **None required — no personal data (Recital 26)** |
 | Data location | US (Google Cloud) | **EU only (Dublin)** |
 | Retention without consent | 14 months (2 for Large properties) | **24 months** |
 | Data shared with third parties | Yes (Google Ads and others) | No |
@@ -371,7 +371,7 @@ Remove the GA4 tag, take GA4 out of the CMP configuration, and simplify or remov
 
 ### Is Sealmetrics really GDPR compliant without consent?
 
-It operates under Article 6(1)(f) legitimate interest, which is available because no cookies are used, nothing is stored on the device, no cross-site tracking occurs, and no IP-derived identifier exists. Since ePrivacy Article 5(3) is about storing or accessing information on a device, and Sealmetrics does neither, the consent trigger doesn't fire.
+Yes, and via a stronger route than most vendors claim. Two rules apply and both are cleared. ePrivacy Article 5(3) — the rule that actually mandates cookie banners — governs storing or accessing information on a device, and Sealmetrics does neither, so the consent trigger never fires. The GDPR governs personal data, and none is stored: no cookies, no cross-site tracking, no IP-derived identifier. Under Recital 26 the dataset is therefore outside the Regulation's material scope, which means no Article 6 legal basis is needed at all. We deliberately do *not* claim legitimate interest, because invoking any Article 6 basis would concede that personal data is being processed.
 
 That reasoning is documented against five regulators in the [compliance centre](/compliance). Your DPO should still review it — no vendor can grant you compliance — but it's a documented position rather than an assertion.
 
@@ -463,7 +463,7 @@ The choice is about **what your data represents**. In EU markets GA4 shows you a
 - [GA4 vs Sealmetrics FAQ](/faq/ga4-vs-sealmetrics)
 
 **Legal references**:
-- [GDPR Article 6(1)(f) — legitimate interest](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
+- [GDPR Recital 26 — anonymous information](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
 - [CNIL guidance on cookies and trackers](https://www.cnil.fr/en/cookies-and-other-trackers)
 - [ePrivacy Directive Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058)
 

@@ -3,8 +3,8 @@ title: "Custom Dimensions"
 description: "Capture business-specific data fields with custom properties sent from your pixel."
 canonical_url: "https://docs.sealmetrics.com/platform/settings/tracking/custom-dimensions"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "09b0a15b175a272f4378cf95a0f3c32f21021a34eaeb18901451245102da1f6b"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "efffdfbe8163b7269c54f6a259fe18f59f86c6b5d09d0ad9e7ed2054f76180d0"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -65,7 +65,7 @@ For "user" context (e.g. customer tier or plan), inject the value server-side so
 **Dimension not appearing**
 1. Confirm you're actually sending the property with your events (check in the browser network tab).
 2. The property name is case-sensitive — it must match exactly between calls.
-3. Allow a few minutes for data processing.
+3. Confirm hits are arriving at all: the **Last hit** timestamp at the top right of the **Overview** report updates within seconds of a tracked visit. See [Data delay](/troubleshooting/data-delay).
 
 **Values show as `(not set)`**
 1. The property wasn't sent on that event.

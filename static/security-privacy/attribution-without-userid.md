@@ -1,10 +1,10 @@
 ---
 title: "How Attribution Works Without a User-ID"
-description: "Learn how Sealmetrics attributes traffic and conversions without using User-IDs, cookies, or cross-session tracking — fully compliant and consentless."
+description: "How Sealmetrics attributes traffic and conversions without User-IDs, cookies or cross-session tracking — last-click attribution read from the URL on every hit."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/attribution-without-userid"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "298999eaf679c506eabcf30584aa8b6203d0d81fbdb521b4f98022ed7546c958"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "2a24e1948e12ed46b7c3d618c2fbbb2b9608cb908f63875a436274a4664888a5"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -44,7 +44,7 @@ Sealmetrics does **not**:
 ❌ Store IP addresses
 ❌ Use cookies or persistent identifiers
 
-The user agent is stored 24 months for anonymous device classification (browser/OS category), but it cannot be joined with anything that identifies the person — because no such identifier exists. Short-lived session context exists inside a single browsing session (~2-hour inactivity), never across sessions or devices.
+The user agent is used for anonymous device classification (browser/OS category): the raw string is purged with the event row after 1 day, and only the derived categories persist in the 24-month aggregates. Neither can be joined with anything that identifies the person — because no such identifier exists. Short-lived session context exists inside a single browsing session (~2-hour inactivity), never across sessions or devices.
 
 ---
 
@@ -92,9 +92,9 @@ No user identification required.
 
 ---
 
-## Why This Is Fully Privacy-Compliant
+## Why This Needs No Consent
 
-This method complies with GDPR, ePrivacy, CCPA, PECR:
+Because no identifier is created and nothing is stored on the device, the obligations these frameworks attach to personal data and to terminal storage are not triggered:
 
 - ✔ No personal data
 - ✔ No user identification
@@ -136,12 +136,11 @@ Sealmetrics proves that accurate attribution **does not** require user tracking.
 
 We achieve attribution by grouping hits by **campaign characteristics**, not by individuals.
 
-- 🟢 100% privacy-preserving
-- 🟢 100% compliant
-- 🟢 100% traffic captured
-- 🟢 No User-IDs, no cookies, no consent
+- 🟢 No personal data processed
+- 🟢 Every hit measured — no loss from consent rejection
+- 🟢 No User-IDs, no cookies, no consent banner
 
-This is the future of ethical analytics.
+Because no personal data is involved, no consent is required — see [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent). Sealmetrics holds no third-party security certification, and the [compliance pages](/compliance) are self-assessments.
 
 ## Related documentation
 

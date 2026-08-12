@@ -3,8 +3,8 @@ title: "LENS AI Overview"
 description: "The natural-language assistant for your analytics data — ask questions, build reports. Automated detection rules are on the roadmap."
 canonical_url: "https://docs.sealmetrics.com/lens"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "627b979850d1c91564475c3e0b8801f25de94362c8263216209c531ee313e474"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "c5899f6b18f396d711f7b6d73d568e10de14d1b4f2a4608b71ec425513cf7a40"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -71,7 +71,7 @@ The assistant supports two provider modes: **[Seal AI Private](/billing/seal-ai-
 
 Receive proactive insights without lifting a finger:
 
-- **In-app insights** - New insights appear in the LENS dashboard as they're detected
+- **In-app insights** (planned) - Once detection ships, new insights will appear in the LENS dashboard as they are detected
 - **Email summaries** - Key metrics, trends, and recommendations delivered to your inbox
 
 Email is currently the only delivery channel for LENS notifications.

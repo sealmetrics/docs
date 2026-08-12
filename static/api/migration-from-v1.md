@@ -1,10 +1,10 @@
 ---
-title: "Migration from v1"
+title: "API v1 to v2 Migration"
 description: "Guide for data analysts moving from the legacy Sealmetrics API v1.0 (Postman collection) to the current REST API — host, auth, pagination, and endpoint-by-endpoint mapping."
 canonical_url: "https://docs.sealmetrics.com/api/migration-from-v1"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e171b9ee18cce739c99ecaf7fcbf0d726cb5100d38079748bdd9858a5e2778c1"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "9e6ae02f6b36c9b157a40599c21ee9a1340b441f9ab05c3fab3a6783d009811f"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,7 +12,7 @@ source_file: "api/migration-from-v1.mdx"
 publisher: "SealMetrics"
 ---
 
-# Migration from v1
+# API v1 to v2 Migration
 
 Canonical page: https://docs.sealmetrics.com/api/migration-from-v1
 

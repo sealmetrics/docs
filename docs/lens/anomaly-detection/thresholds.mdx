@@ -2,9 +2,21 @@
 sidebar_position: 4
 title: How Thresholds Work
 description: How LENS sets and dynamically adjusts the thresholds that decide when an anomaly is worth an alert.
+tags: [lens, anomaly-detection, thresholds, confidence, seasonality]
+keywords:
+  - how lens thresholds work
+  - anomaly detection threshold explained
+  - confidence level analytics detection
+  - seasonality threshold adjustment
+  - wilson score confidence interval
+  - why an anomaly was not flagged
 ---
 
 # How Thresholds Work
+
+:::caution Not live yet
+Automated anomaly detection is **built but not active**. No detection rule currently runs on customer accounts and no automated alert is generated. This page documents the intended behaviour; the thresholds below describe how rules will decide once enabled. For what LENS does today, see [LENS AI](/lens).
+:::
 
 A threshold is the boundary between a "normal" fluctuation and an anomaly worth surfacing. In LENS, thresholds are **not** a single static percentage you pick from a menu. Each rule starts from a base threshold and then **adjusts it automatically** based on how much data is available and on seasonality.
 
@@ -82,4 +94,4 @@ The confidence multipliers and data-volume thresholds described above are manage
 ## Next steps
 
 - [How anomaly detection works →](/lens/anomaly-detection)
-- [View the active rules →](/lens/anomaly-detection/rule-types)
+- [View the planned rule library →](/lens/anomaly-detection/rule-types)

@@ -3,8 +3,8 @@ title: "Conversions Not Appearing"
 description: "A checklist for conversions that never reach the Conversions report: correct conv() snippet, numeric amount, base pixel firing first, and how to verify the beacon payload."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/conversions-not-appearing"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "8aed1316cdc39b881bde27b888afe4bc9d0c9350ac90ff661d9e93d87e3655de"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "2421eb63e7a5bc43bded0e0c3c1a4d79ef471e9d18f2467ba4a6536fcbb8459e"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -80,7 +80,7 @@ If the conversion beacon has `"e"` but no `"v"`, you are hitting step 2 (string 
 1. Open the **Conversions** report (sidebar → **Conversions**).
 2. Make sure the top-right toggle is on **Conversions** — if you fired `sealmetrics.micro(...)`, the event lands in the **Microconversions** view instead.
 3. Set the date range to **today** (site timezone — see [Dates & timezone mismatch](/troubleshooting/dates-timezone-mismatch)).
-4. Wait 1–2 minutes and reload. The **Last hit** timestamp on the **Overview** report confirms hits are arriving at all.
+4. Reload the report. Hits arrive in seconds, so the **Last hit** timestamp at the top right of the **Overview** report should already show your test — if it doesn't move, nothing is being ingested (see [Data delay](/troubleshooting/data-delay)).
 
 ---
 

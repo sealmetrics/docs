@@ -1,10 +1,10 @@
 ---
-title: "Your Test Traffic Is Being Filtered as a Bot"
+title: "Test Visits Not Appearing (Filtered as Bot Traffic)"
 description: "Why visits generated with curl, Selenium, Playwright, headless Chrome, or load-testing tools never appear in Sealmetrics, how to diagnose it, and how to test without tripping the filters."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/test-traffic-blocked-as-bot"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "acd66e79bda1a19c1450652c95ae20ecb82d946f20ce8c8b2d1806d49ec13a48"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "af3be8eb854e0adafaa9b6cb8f3aecdcd04bfd6d76e437ae80fa592f178d70eb"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -12,7 +12,7 @@ source_file: "troubleshooting/test-traffic-blocked-as-bot.mdx"
 publisher: "SealMetrics"
 ---
 
-# Your Test Traffic Is Being Filtered as a Bot
+# Test Visits Not Appearing (Filtered as Bot Traffic)
 
 Canonical page: https://docs.sealmetrics.com/troubleshooting/test-traffic-blocked-as-bot
 

@@ -2,6 +2,13 @@
 sidebar_position: 3
 title: Custom Dimensions
 description: Capture business-specific data fields with custom properties sent from your pixel.
+tags: [settings, tracking, custom-dimensions, properties, pixel]
+keywords:
+  - how to create a custom dimension
+  - send custom properties with a conversion
+  - site config properties page
+  - custom dimension not appearing in reports
+  - property value shows as not set
 ---
 
 # Custom Dimensions
@@ -56,7 +63,7 @@ For "user" context (e.g. customer tier or plan), inject the value server-side so
 **Dimension not appearing**
 1. Confirm you're actually sending the property with your events (check in the browser network tab).
 2. The property name is case-sensitive — it must match exactly between calls.
-3. Allow a few minutes for data processing.
+3. Confirm hits are arriving at all: the **Last hit** timestamp at the top right of the **Overview** report updates within seconds of a tracked visit. See [Data delay](/troubleshooting/data-delay).
 
 **Values show as `(not set)`**
 1. The property wasn't sent on that event.

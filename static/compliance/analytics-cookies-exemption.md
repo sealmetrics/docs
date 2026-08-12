@@ -3,8 +3,8 @@ title: "Analytics Cookies: Consent Exemption Requirements"
 description: "AEPD and EU guidance on when analytics cookies are exempt from consent requirements"
 canonical_url: "https://docs.sealmetrics.com/compliance/analytics-cookies-exemption"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "5037f0d350cdbacdc93e25cdbac63106455530ba4abccba30d55dfd120085c1f"
+date_generated: "2026-08-12T08:55:31.400Z"
+source_hash: "11a206d0d51a53f6d130c996ac7a27ef0d87d99249943422c39e18deb25a7c5f"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -15,6 +15,9 @@ publisher: "SealMetrics"
 # Analytics Cookies: Consent Exemption Requirements
 
 Canonical page: https://docs.sealmetrics.com/compliance/analytics-cookies-exemption
+
+**Info:**
+Any statement here about how Sealmetrics meets a criterion is a **self-assessment**, not a certification. No supervisory authority certifies or validates analytics tools, and Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2). This page is general regulatory analysis, not legal advice.
 
 Analytics cookies can be exempt from consent requirements under specific conditions defined by EU data protection authorities, including Spain's AEPD (Agencia Española de Protección de Datos). This guide explains when analytics tools can operate without cookie banners and what requirements must be met.
 
@@ -278,9 +281,9 @@ The French DPA (CNIL) developed similar framework:
 - Used solely for client's own analytics
 
 **Alignment with AEPD**:
-- Meets all AEPD exemption criteria
+- Meets the AEPD exemption criteria on our own assessment
 - No cookie banner required
-- Compliant with Digital Omnibus Article 88a(3)(c) when it takes effect
+- Expected to fall within Digital Omnibus Article 88a(3)(c) once it takes effect (the text is not yet in force)
 
 #### Server-Side Analytics
 
@@ -354,9 +357,9 @@ The French DPA (CNIL) developed similar framework:
 - Document configuration
 
 **If using Sealmetrics**:
-- Default configuration already compliant
+- The default configuration already meets these criteria
 - Update privacy policy to mention analytics
-- No further action needed
+- No further configuration needed on your side
 
 ### Step 4: Update Privacy Policy
 
@@ -377,7 +380,7 @@ We use [analytics tool name] to understand how visitors use our website. This he
 
 **Purpose**: Website performance analysis and improvement
 
-**Legal basis**: Legitimate interest (GDPR Article 6(1)(f))
+**Legal basis**: Legitimate interest (GDPR Article 6(1)(f)) — *note: if your analytics tool stores no personal data, as Sealmetrics does not, you have no Article 6 processing to declare for it; this line is for tools that do*
 
 **Data retention**: 24 months maximum
 

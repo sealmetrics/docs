@@ -1,10 +1,10 @@
 ---
-title: "Hits From an Unauthorized Domain"
+title: "No Data From a New or Staging Domain"
 description: "What happens when the tracker fires from a domain that is not registered on your Sealmetrics site — the hit is silently rejected — and how to add domains from the Domains tab."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/unauthorized-domain"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "3b1c7aae9650b96b792803440272260735c0988fc50299f779c72f81bd5d6a66"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "483fe362807e6eba875a22189d312228b92d8e0cd3978aaa99e17da90f2ab7f6"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -12,7 +12,7 @@ source_file: "troubleshooting/unauthorized-domain.mdx"
 publisher: "SealMetrics"
 ---
 
-# Hits From an Unauthorized Domain
+# No Data From a New or Staging Domain
 
 Canonical page: https://docs.sealmetrics.com/troubleshooting/unauthorized-domain
 

@@ -3,8 +3,8 @@ title: "Sealmetrics vs Plausible: Which is Better? [2026 Comparison]"
 description: "Sealmetrics vs Plausible compared in 2026. Both are cookieless, but only one avoids deriving any identifier from the visitor's IP. Features, AI, pricing and GDPR reviewed."
 canonical_url: "https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "626ee364cc3ae7317d570f87706421515a8ca113f86c7dc1591f4546c907c338"
+date_generated: "2026-08-12T11:53:00.332Z"
+source_hash: "536e1cf51dd966f31b0fe746ac1d581811532a1f68f69c934d9a790448f89c8f"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -73,7 +73,7 @@ This comparison is updated for **July 2026** and covers architecture, privacy, f
 
 ### What is Sealmetrics?
 
-**Sealmetrics** launched in 2023 to solve the "consent paradox" in web analytics — the fact that cookie- and consent-based analytics lose a large share of data in EU markets to banner rejection. Sealmetrics pioneered *consentless analytics* operating under GDPR Article 6(1)(f), and in February 2026 shipped **V2**, a full rebuild of the platform.
+**Sealmetrics** launched in 2023 to solve the "consent paradox" in web analytics — the fact that cookie- and consent-based analytics lose 15-60% of their data in EU markets to banner rejection and ghosting. Sealmetrics pioneered *consentless analytics*, storing no personal data at all so that no GDPR legal basis is required, and in February 2026 shipped **V2**, a full rebuild of the platform.
 
 **Key characteristics**:
 - Proprietary (closed-source), cloud-hosted only
@@ -152,7 +152,7 @@ This is the sharpest technical distinction, and it deserves to be stated precise
 **Sealmetrics' position**: no consent banner required, on the basis that:
 
 1. **No IP-derived identifier**: nothing in the pipeline is derived from an IP address
-2. **GDPR Article 6(1)(f)**: documented legitimate interest for website analytics
+2. **No Article 6 basis needed**: no personal data is stored, so under Recital 26 the dataset falls outside the GDPR's material scope — we deliberately don't claim legitimate interest, since invoking it would concede that personal data is being processed
 3. **Purpose limitation**: analytics only, never advertising, never data sales
 4. **Data minimisation**: aggregated, non-personal data only
 5. **Regulator alignment**: published self-assessments against [CNIL](/compliance/cnil-self-assessment) (France), [TTDSG](/compliance/germany-ttdsg-self-assessment) (Germany), [Garante](/compliance/italy-garante-self-assessment) (Italy), [UK PECR](/compliance/uk-pecr-self-assessment) and [Swiss FADP](/compliance/switzerland-fadp-self-assessment)

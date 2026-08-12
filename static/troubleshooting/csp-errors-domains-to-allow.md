@@ -1,10 +1,10 @@
 ---
-title: "Content Security Policy (CSP): Which Domains to Allow"
+title: "Tracker Blocked by Content Security Policy (CSP)"
 description: "How to detect Content-Security-Policy blocks in the browser console and which directives (script-src, connect-src) must allow the Sealmetrics tracker domain."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/csp-errors-domains-to-allow"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "972188c3d332042feb27582e85e21ed8b2cfc8095a3178c50ad570b4dd4de2c8"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "7b0160963022ed79eae901e6f5f43db5fa2a9ee267c103719044a90a58a51612"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -12,7 +12,7 @@ source_file: "troubleshooting/csp-errors-domains-to-allow.mdx"
 publisher: "SealMetrics"
 ---
 
-# Content Security Policy (CSP): Which Domains to Allow
+# Tracker Blocked by Content Security Policy (CSP)
 
 Canonical page: https://docs.sealmetrics.com/troubleshooting/csp-errors-domains-to-allow
 

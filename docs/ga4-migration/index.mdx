@@ -3,6 +3,7 @@ title: GA4 Migration Guide
 sidebar_label: Overview
 sidebar_position: 1
 description: How to migrate from Google Analytics 4 to Sealmetrics — what to export from GA4, how metrics map, and how to run both in parallel during the transition.
+tags: [ga4-migration, google-analytics, migration, attribution]
 keywords:
   - ga4 migration
   - google analytics 4 alternative
@@ -51,7 +52,7 @@ Document the following from your current GA4 property:
 
 ## What's different
 
-- **No cookies, no consent banner.** Sealmetrics captures 100% of traffic under GDPR legitimate interest (Article 6(1)(f)).
+- **No cookies, no consent banner.** Sealmetrics captures 100% of traffic without collecting personal data, so there is nothing to obtain consent for.
 - **Google Ads tracking, no audience sync.** Sealmetrics tracks Google Ads campaigns via UTM parameters end-to-end (source, medium, campaign, term, content) and provides ROAS reporting. What it does **not** do is push audience segments back to Google Ads for automated bidding — that requires GA4 with consented users. Teams commonly run both: GA4 for Ads audience/bidding, Sealmetrics as the source of truth for total traffic and conversions.
 - **No predictive metrics** (purchase probability, churn probability). Sealmetrics reports observed behavior.
 - **Simpler attribution model.** Last non-direct click by default; configurable.

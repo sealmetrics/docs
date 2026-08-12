@@ -3,8 +3,8 @@ title: "Why Sealmetrics Is Not Blocked by AdBlockers"
 description: "Learn why Sealmetrics bypasses AdBlockers through 1st-party tracking and a privacy-first architecture that avoids third-party domain blocking."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/adblocker-bypass"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "0eb786f19f6f2981f03c34c2d5aabe198380a7833aee00314f987061415e9756"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "d9c6c92d1ffcf3ffd5d45d457dcde15ed7f36cf9d46a083b72600f41cbaa688e"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -32,7 +32,7 @@ AdBlockers typically block requests to well-known tracking domains such as:
 
 When a pixel or script loads from a recognized third-party tracker, the AdBlocker intercepts and blocks it automatically.
 
-This is why traditional analytics frequently lose **20–50% of traffic data**.
+This is one of the reasons traditional analytics lose data — alongside consent rejection, which costs them 15–60% depending on sector, brand strength and traffic mix.
 
 ---
 
@@ -53,8 +53,8 @@ Because the request is served from a subdomain of your own site, AdBlockers trea
 
 - **No data loss** from ad-blocking users (typically 25–40% of tech-literate audiences).
 - **Accurate attribution** — cookieless, server-side attribution works without cookies or third-party domains.
-- **GDPR-safe** — first-party collection under legitimate interest does not require consent banners.
-- **Future-proof** — Safari ITP, Firefox ETP, and Chrome's Privacy Sandbox all exempt first-party hosts.
+- **GDPR-safe** — first-party collection of non-personal data requires no consent banner.
+- **Resilient** — Safari ITP, Firefox ETP and Chrome's Privacy Sandbox target cross-site tracking, not first-party requests, so first-party delivery is not what those mechanisms are built to block.
 
 ---
 

@@ -3,8 +3,8 @@ title: "Why Do I See More Conversions or Revenue in Sealmetrics Than in My ERP?"
 description: "Understand why Sealmetrics may show more conversions or revenue than your ERP and how to properly configure your tracking to avoid discrepancies."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/why-more-conversions-than-erp"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "5d311de213b8642f5a4ec73bae3de7caed65e1795f0e5c834d5d29bdf04daf72"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "bd731efccf7e3d7c2e748647d0d7b912af151bb11f95a431c40367ec6b9b7ffd"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -89,7 +89,8 @@ If someone loads the confirmation page but payment fails, Sealmetrics counts the
 
 ## How to Fix These Issues
 
-### ✔ 1. Place the Pixel Only on the Final Thank-You Page
+### 1. Place the Pixel Only on the Final Thank-You Page
+
 Avoid:
 - Cached pages
 - Pages that users may revisit
@@ -101,7 +102,8 @@ Ensure the page is:
 
 ---
 
-### ✔ 2. Add Server-Side Conditions
+### 2. Add Server-Side Conditions
+
 Example condition logic:
 
 > Fire the pixel ONLY if the order is confirmed.
@@ -113,7 +115,8 @@ This prevents:
 
 ---
 
-### ✔ 3. Fire the Pixel Only Once Per Session
+### 3. Fire the Pixel Only Once Per Session
+
 Your developers can enforce session-based logic to avoid double counting.
 
 Example safeguards:
@@ -136,7 +139,7 @@ By tightening pixel placement and adding safeguards, you can align metrics betwe
 
 ## Related documentation
 
-- [Reconciling SealMetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — Full reconciliation guide for backend discrepancies
+- [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — Full reconciliation guide for backend discrepancies
 - [Conversions](/implementation/tracker/conversions) — How the conversion pixel fires and is configured
 - [Conversions Report](/reports/conversions) — Where conversions and revenue appear in Sealmetrics
 - [How Attribution Accuracy Works](/reports/insights/attribution-accuracy) — Why totals are exact in Sealmetrics

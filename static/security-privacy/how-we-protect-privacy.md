@@ -1,10 +1,10 @@
 ---
 title: "How Sealmetrics Protects User Privacy"
-description: "Learn how Sealmetrics ensures genuine user privacy through data minimization, anonymization, and zero personal data processing."
+description: "The concrete protections behind Sealmetrics — no cookies, no persistent identifiers, no stored IP addresses, EU-only storage and short retention."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "bab9836d5dc468be51952d306ffdb966564e8a7ecc8eafe0f000babb88eff1f4"
+date_generated: "2026-08-12T08:33:12.834Z"
+source_hash: "634dc284ca9d31ccabf992e1a3002fa0e2f7931620ca8eea7520263bcf3d4345"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,114 +16,23 @@ publisher: "SealMetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy
 
-At **Sealmetrics**, privacy is not a regulation to comply with — it’s a core philosophy.
-Our platform is designed to protect users’ data beyond legal requirements.
+Sealmetrics protects visitors by **not collecting the data that would put them at risk in the first place**. The protection is architectural rather than procedural: there is no personal data to secure, disclose, leak or hand over, because none is collected.
 
----
+In practice that means four things:
 
-## Core Privacy Principles
+- **Nothing is written to the visitor's device.** No cookies, no localStorage, no sessionStorage, no fingerprinting. The session marker used to group hits within one visit is held in memory, expires with the visit, and cannot recognise a returning visitor.
+- **No identifier is stored.** No IP addresses in the analytics database (they are used in memory only for anti-abuse checks and site-configured exclusions), no user IDs, no device IDs, no cross-session or cross-device linking. The user agent is kept for anonymous device classification only — the raw string for 1 day, then only the derived browser/OS/device categories inside aggregates.
+- **Data is minimised, then aged out.** Event-level rows are purged after 1 day, hourly aggregates after 90 days, daily aggregates and conversions after 24 months. Retention is fixed for every plan and enforced by database TTLs.
+- **Storage stays in the EU.** All customer analytics data is stored and processed in Dublin, Ireland, encrypted in transit and at rest, under role-based access control.
 
-1. **Privacy Over Profit**
-   No tracking if it compromises user privacy.
+Because visitor analytics data carries no identifier, a visitor access or deletion request cannot be matched to any record — there is nothing tied to an individual to produce or erase. Account data (your dashboard users: name, email, billing) is a different category and data subject rights apply to it in full; see [Data Subject Rights (DSAR)](/compliance/data-subject-rights). A Data Processing Agreement is included and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/).
 
-2. **No Individual Tracking**
-   No user profiles or personal identifiers — only aggregated behavior.
-
-3. **Data Minimization**
-   Collect only what’s necessary for meaningful analytics.
-
----
-
-## Technical Privacy Protections
-
-### No Cookies Technology
-- No cookies or local storage
-- Session-only identifiers (expire automatically)
-
-### No Personal Data Collection
-- **No IP addresses** persisted (used in-memory only for bot filtering / GeoIP when opt-in)
-- **No device fingerprints** or cross-session identifiers
-- **User agent stored** for anonymous device classification only — never linked to any personal identifier
-- Only aggregated session data
-
-### Advanced Anonymization
-- Immediate anonymization at data collection
-- Impossible to reverse or re-identify data
-
----
-
-## Dual Tracking System Privacy
-
-### Session-ID Tracking
-- Temporary per-visit identifiers
-- No cross-session linkage
-
-### Isolated Hits
-- Each interaction logged separately
-- Aggregated for trends, not individuals
-
----
-
-## Regulatory Compliance Framework
-
-- **GDPR:** No personal data processing, no consent required
-- **ePrivacy Directive:** No cookies, fully compliant
-- **CCPA:** No personal information collection
-- **PECR:** No user device tracking
-
-**Validated by third-party legal audits** and continuous compliance reviews.
-
----
-
-## Data Protection Measures
-
-- EU-based infrastructure (Ireland)
-- Encryption in transit and at rest
-- Strict internal access control
-- Automated data deletion
-
----
-
-## Transparency and User Rights
-
-- Clear documentation of data practices
-- Open privacy policy communication
-- No need for consent or deletion requests (no personal data stored)
-
----
-
-## Traditional vs. Sealmetrics Analytics
-
-| Feature | Traditional Tools | Sealmetrics |
-|----------|------------------|--------------|
-| Cookies | Required | None |
-| IP Tracking | Yes | Never |
-| Consent Banner | Required | Not needed |
-| Cross-Session Tracking | Yes | No |
-| Personal Data | Collected | None |
-
----
-
-## The Sealmetrics Privacy Commitment
-
-- **Privacy First:** Over data collection
-- **Regulatory Leadership:** Exceeds compliance
-- **User Respect:** Privacy as a right
-- **Transparency:** Open and honest data use
-- **Continuous Improvement:** Ongoing enhancements
-
----
-
-Sealmetrics redefines analytics by making **privacy the foundation** — enabling insights without compromising trust.
-
----
-
-*Want analytics that respects privacy by design? [Start your free trial](https://my.sealmetrics.com/register) — full GDPR compliance, zero personal data collection.*
+Sealmetrics holds no third-party security certification such as ISO 27001 or SOC 2, and no supervisory authority certifies analytics tools. What exists is our own [compliance self-assessments](/compliance) against published criteria.
 
 ## Related documentation
 
-- [Privacy by Design Principles](/security-privacy/privacy-by-design) — the seven principles this protection is built on
-- [What We Track vs What We Don't](/security-privacy/what-we-track) — the specific data points behind our minimization approach
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the anonymization and isolated-hit mechanics
-- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — why zero personal data means no consent
-- [Frequently Asked Questions](/faq/privacy-security) — answers to common privacy questions
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the field-by-field detail, with retention
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and its legal basis
+- [Data Location & Retention](/security-privacy/data-location) — EU hosting, encryption, retention schedule, account closure
+- [Privacy by Design Principles](/security-privacy/privacy-by-design) — how these choices map to the privacy-by-design framework
+- [Account Security](/security-privacy/account-security/two-factor-auth) — protecting the dashboard account itself

@@ -2,6 +2,14 @@
 sidebar_position: 2
 title: Event Properties
 description: Attach custom data to conversions and microconversions for detailed analysis.
+tags: [event-properties, conversions, microconversions, debugging]
+keywords:
+  - sealmetrics event properties
+  - sealmetrics.conv() third parameter
+  - sealmetrics.micro() second parameter
+  - properties not appearing in reports
+  - break down conversions by property
+  - event payload x key in devtools
 ---
 
 # Event Properties
@@ -254,7 +262,7 @@ Check properties arrived correctly:
 ### Properties Not Appearing
 
 1. **Check property names** — Use alphanumeric characters and underscores
-2. **Wait for processing** — Data can take a few minutes to appear
+2. **Confirm the hit arrived** — the **Last hit** timestamp on the **Overview** report updates within seconds of a tracked visit. If it doesn't move, the event never arrived — see [Data Delay](/troubleshooting/data-delay)
 3. **Inspect the network request** — Check the DevTools Network tab for the request to `t.sealmetrics.com/event` and confirm your properties appear under the `x` key in the payload
 
 ### Wrong Values

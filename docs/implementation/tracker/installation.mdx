@@ -2,6 +2,15 @@
 sidebar_position: 2
 title: Installation
 description: "Install the Sealmetrics tracker with one script tag: basic setup, content grouping via the group parameter, custom endpoints, and parameter reference."
+tags: [installation, tracker, setup, google-tag-manager, wordpress]
+keywords:
+  - how to install sealmetrics tracker
+  - sealmetrics script tag
+  - t.sealmetrics.com/t.js
+  - add tracking code to website
+  - "?auto=0 manual pageview"
+  - install sealmetrics on wordpress or shopify
+  - google tag manager sealmetrics setup
 ---
 
 # Installation
@@ -97,7 +106,15 @@ When using the stub to enqueue a pageview, load the tracker with `auto=0` so the
 
 ## Verifying Installation
 
-### Option 1: Browser Console
+### Option 1: Pixel Status in the dashboard
+
+The **Pixel Status** section on the **Pixels** page shows the install status for each site:
+
+- **Active** — the pixel is receiving data
+- **Inactive** — no hits received recently
+- **Not installed** — no hits received yet
+
+### Option 2: Browser Console
 
 Open DevTools (F12) and type:
 
@@ -106,14 +123,14 @@ typeof sealmetrics === 'function'
 // Should return: true
 ```
 
-### Option 2: Network Tab
+### Option 3: Network Tab
 
 1. Open DevTools > Network
 2. Filter by "event"
 3. Reload the page
 4. Look for a POST request to `/event` with status 204
 
-### Option 3: Inspect Tracker State
+### Option 4: Inspect Tracker State
 
 In the console you can read the tracker's own state to confirm it initialized correctly:
 
@@ -123,75 +140,26 @@ sealmetrics.accountId; // your site ID
 sealmetrics.autoMode;  // "1" (auto-pageview) or "0" (manual mode)
 ```
 
-## Common Installation Patterns
+## Platform-Specific Guides
 
-### WordPress (without plugin)
+The script tag above is all you need on any platform that lets you edit the `<head>`. If your site runs on a CMS, store platform, site builder or framework, follow the dedicated guide instead — each one covers where exactly to paste the snippet plus the platform's own conversion hooks:
 
-Add to `header.php` or use a "Header Scripts" plugin:
+- [WordPress](/integrations/cms/wordpress)
+- [WooCommerce](/integrations/ecommerce/woocommerce)
+- [Shopify](/integrations/ecommerce/shopify)
+- [Wix](/integrations/website-builders/wix)
+- [Squarespace](/integrations/website-builders/squarespace)
+- [Webflow](/integrations/website-builders/webflow)
+- [Next.js](/integrations/frameworks/nextjs)
+- [Nuxt 3](/integrations/frameworks/nuxt)
+- [React](/integrations/frameworks/react)
+- [Google Tag Manager](/integrations/google-tag-manager)
 
-```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
-```
+See [all integrations](/integrations) for the full list (Drupal, Joomla, Magento, PrestaShop, BigCommerce, OpenCart and more).
 
-### Next.js
+## Generating Event Snippets
 
-In `app/layout.tsx` or `pages/_app.tsx`:
-
-```tsx
-import Script from 'next/script';
-
-export default function RootLayout({ children }) {
-  return (
-    <html>
-      <head>
-        <Script
-          src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID"
-          strategy="afterInteractive"
-        />
-      </head>
-      <body>{children}</body>
-    </html>
-  );
-}
-```
-
-### Nuxt.js
-
-In `nuxt.config.ts`:
-
-```typescript
-export default defineNuxtConfig({
-  app: {
-    head: {
-      script: [
-        {
-          src: 'https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID',
-          defer: true
-        }
-      ]
-    }
-  }
-});
-```
-
-### Google Tag Manager
-
-1. Create a new Custom HTML tag
-2. Paste:
-```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
-```
-3. Set trigger to "All Pages"
-4. Publish
-
-### Shopify
-
-1. Go to Online Store > Themes > Edit code
-2. Open `theme.liquid`
-3. Add before `</head>`:
-```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
-```
+Once the tracker is installed, the **Pixel Builder** on the Pixels page generates ready-to-copy `conv()` / `micro()` snippets for JavaScript, GTM or Tealium — see the [Pixel Builder guide](/platform/settings/tracking/pixel-builder). To write the calls yourself, see [Conversions](/implementation/tracker/conversions) and [Microconversions](/implementation/tracker/microconversions).
 
 ## Troubleshooting
 
@@ -203,7 +171,7 @@ export default defineNuxtConfig({
 
 ### Events not appearing in dashboard
 
-1. Events are processed in batches; wait 2-5 minutes
+1. Check the **Last hit** timestamp at the top right of the **Overview** report — hits arrive in seconds, so it should move to "seconds ago" right after a test visit. If it does, the hit arrived and the problem is on the report side (date range, timezone, filters). If it doesn't, nothing is being ingested — see [Data Delay](/troubleshooting/data-delay)
 2. Verify the domain is registered in Settings → Sites → [your site] → Domains
 3. Check if adblockers are blocking requests (unlikely with first-party setup)
 

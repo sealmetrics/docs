@@ -3,8 +3,8 @@ title: "Troubleshooting"
 description: "Diagnose and fix common SealMetrics issues: verify tracker installation in DevTools, confirm data collection with the Last hit timestamp, and resolve missing data."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "fa6e446e9d0961aa96c838e166803ee0373835dd32f28b7506d2a85cf86f385d"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "011e111c7f37823f02252c7fc38303cbb3a25e86a84d66f6244070a7707538c6"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -111,7 +111,7 @@ You should see:
 
 4. **Full checklist** — [Conversions not appearing](/troubleshooting/conversions-not-appearing) covers snippet signature, numeric amounts, flow variants, and report verification step by step
 
-For substantial discrepancies between SealMetrics and your ERP / CRM / internal database (missing conversions when reconciling totals), see [Reconciling SealMetrics with Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — it walks through the firing-order requirement of the base pixel vs. the conversion pixel and the long tail of secondary causes.
+For substantial discrepancies between SealMetrics and your ERP / CRM / internal database (missing conversions when reconciling totals), see [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — it walks through the firing-order requirement of the base pixel vs. the conversion pixel and the long tail of secondary causes.
 
 ### Duplicate Conversions
 

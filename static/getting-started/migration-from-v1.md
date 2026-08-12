@@ -1,10 +1,10 @@
 ---
-title: "Migrate from Sealmetrics v1"
+title: "Migrate Your Historical Data from v1"
 description: "Import historical conversions, microconversions and pageviews from Sealmetrics v1 to v2 with the Migration Wizard — connect, pick a date range, and let the nocturnal worker do the rest."
 canonical_url: "https://docs.sealmetrics.com/getting-started/migration-from-v1"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c613c77825babf5b3bf73481dc4c733e5e15eaab27579dc6643436f27868ae0b"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "9ff999f5129e4999c9e37c7bccce678831d94c681b83d5f9e4a9bbac301782a8"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -12,7 +12,7 @@ source_file: "getting-started/migration-from-v1.mdx"
 publisher: "SealMetrics"
 ---
 
-# Migrate from Sealmetrics v1
+# Migrate Your Historical Data from v1
 
 Canonical page: https://docs.sealmetrics.com/getting-started/migration-from-v1
 

@@ -2,6 +2,7 @@
 sidebar_position: 6
 title: "AI Act Amendments in the Digital Omnibus"
 description: "How the Digital Omnibus simplifies AI compliance and clarifies GDPR-AI intersection"
+tags: [compliance, digital-omnibus, ai-act, gdpr, article-88c, ai-training]
 keywords: [AI Act amendments, AI regulation EU, GDPR AI, AI compliance]
 ---
 

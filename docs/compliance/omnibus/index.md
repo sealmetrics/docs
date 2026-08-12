@@ -2,6 +2,7 @@
 sidebar_position: 1
 title: "EU Digital Omnibus Regulation"
 description: "Complete guide to the EU Digital Omnibus Regulation (COM(2025) 837) simplifying GDPR, ePrivacy, and data legislation"
+tags: [compliance, digital-omnibus, eu-regulation, gdpr, eprivacy, data-act]
 keywords: [EU Omnibus, Digital Omnibus, GDPR simplification, ePrivacy reform, data regulation EU]
 ---
 

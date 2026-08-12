@@ -2,6 +2,14 @@
 sidebar_position: 4
 title: Dynamic Content Grouping
 description: Set content groups dynamically with JavaScript for SPAs and complex sites.
+tags: [content-grouping, spa, javascript, tracker, wordpress]
+keywords:
+  - set content group dynamically
+  - "sealmetrics({ group: 'blog' })"
+  - group url parameter in tracker script
+  - content grouping in react and next.js
+  - wordpress content group php
+  - content group not appearing
 ---
 
 # Dynamic Content Grouping
@@ -241,7 +249,7 @@ function getContentGroup() {
 1. Open DevTools → Network and look for the request to `t.sealmetrics.com/event`
 2. Confirm the payload includes a `g` field with your group value
 3. Verify `sealmetrics` is defined before calling it
-4. Wait 5 minutes for data processing
+4. Confirm the hit arrived: the **Last hit** timestamp on the **Overview** report should move to "seconds ago" after your test visit
 
 ### Wrong Group Assigned
 

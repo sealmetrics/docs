@@ -3,8 +3,8 @@ title: "First Steps with Sealmetrics"
 description: "Get started with Sealmetrics in under 5 minutes — from account setup and tracking installation to your first privacy-first analytics insights."
 canonical_url: "https://docs.sealmetrics.com/getting-started/quick-start"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e5a9722626b23370ad8bb0c8e9c20717d5f41686a40897966068fbc7acaefa14"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "c67553b9d8d3a4f173fd98bdf3648ede1b36778c164b3864e0782f71107722e9"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -70,8 +70,8 @@ Your site is now ready for tracking code installation.
 
 ### Getting Your Tracking Code
 
-1. Open your site and go to **Site Config → Settings**, then select the **Pixel Code** tab — the Pixel Builder there generates your snippet
-2. Alternatively, run the **Setup Wizard** (under **Settings → Pixels**) for a guided installation
+1. Go to **Settings → Sites → [your site] → Pixel Code** — the tab generates your install snippet
+2. Alternatively, run the **Setup Wizard** (**Settings → Setup Wizard**, `/settings/wizard`) for a guided installation
 3. Copy your unique tracking code and choose your preferred installation method
 
 ### Installation Methods
@@ -172,7 +172,7 @@ A chart lets you toggle between Entrances, Pageviews, and Conversions over time.
 - Verify code placement
 - Check for JavaScript errors
 - Ensure code appears on all pages
-- Allow 24 hours for processing
+- Check the **Last hit** timestamp at the top right of the **Overview** report — it updates within seconds of a tracked visit. If it doesn't move after you visit your site, the hit never arrived (see [Data delay](/troubleshooting/data-delay))
 
 ### Duplicate Tracking
 

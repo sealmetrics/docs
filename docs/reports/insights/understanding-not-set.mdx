@@ -2,6 +2,13 @@
 title: Understanding the "(not set)" Value in Sealmetrics Reports
 sidebar_label: "(not set) value explained"
 description: Learn why Sealmetrics shows "(not set)" in your reports, what causes missing UTM parameters, and how to avoid attribution gaps.
+tags: [not-set, utm, attribution, troubleshooting, campaigns]
+keywords:
+  - what does (not set) mean
+  - why do i see not set in my reports
+  - missing utm medium shows none
+  - how to avoid not set values
+  - my utm parameters are not showing up
 sidebar_position: 4
 ---
 
@@ -19,9 +26,11 @@ When Sealmetrics processes UTM parameters, it reads exactly what is present.
 If the URL contains some UTMs but not all, the missing ones become **(not set)**.
 
 ### Example URL
-````
+
+```
 domain.com?utm_source=google&utm_campaign=no-cookies&utm_term=kw1
-````
+```
+
 Parameters found:
 
 - `utm_source = google`
@@ -40,9 +49,11 @@ Because `utm_medium` does not exist in the URL, Sealmetrics assigns **(none)** (
 
 ### 1. Missing UTM Medium  
 If `utm_source` exists, but `utm_medium` is missing:
-````
+
+```
 utm_source=facebook&utm_campaign=winter_sale
-````
+```
+
 Result:
 
 - **Source:** facebook  
@@ -52,9 +63,11 @@ Result:
 
 ### 2. Missing UTM Source  
 If `utm_medium` exists but `utm_source` is missing:
-````
+
+```
 utm_medium=cpc&utm_campaign=promo
-`````
+```
+
 Result:
 
 - **Medium:** cpc  
@@ -79,15 +92,15 @@ If a parameter is malformed, Sealmetrics treats it as **not included**, resultin
 
 Unlike some analytics tools:
 
-❌ No guessing missing UTMs  
-❌ No automatic inference  
-❌ No cross-hit reconstruction  
+- No guessing missing UTMs
+- No automatic inference
+- No cross-hit reconstruction
 
 Sealmetrics maintains:
 
-✔ Privacy-first measurement  
-✔ Strict attribution rules  
-✔ Complete transparency  
+- Privacy-first measurement
+- Strict attribution rules
+- Complete transparency
 
 If a UTM is missing → its value is **(not set)**.  
 This ensures your data is always accurate and compliant.
@@ -99,11 +112,13 @@ This ensures your data is always accurate and compliant.
 ### 1. Always Use Full UTM Sets
 
 Minimum recommended:
-````
+
+```
 utm_source=
 utm_medium=
 utm_campaign=
-````
+```
+
 ### 2. Use UTM Templates or Builders
 
 This reduces human errors and helps ensure consistency.

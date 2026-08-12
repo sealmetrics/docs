@@ -1,10 +1,10 @@
 ---
 title: "Do Temporary Session Identifiers (Session IDs) Require Consent Under GDPR?"
-description: "Understanding when Session IDs require user consent under GDPR and ePrivacy, and how Sealmetrics ensures full regulatory compliance."
+description: "When a session ID triggers the ePrivacy consent requirement and when it does not, and why Sealmetrics' short-lived, context-derived marker falls on the no-consent side."
 canonical_url: "https://docs.sealmetrics.com/legal/gdpr-and-eprivacy/do-session-ids-require-consent"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "d432cc1b8dd2349796c2a7380cb6e47cd1f32c3b9a69641fc159ebd9a395e5f4"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "9c3f15bc92005213e20448f46ac59989bc6fd09fe8f6fab77c5dd388638ffc0a"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -51,10 +51,10 @@ If all these requirements are met, the Session ID is considered **non-identifyin
 
 ## How Sealmetrics Ensures Compliance
 
-Sealmetrics uses temporary Session IDs that are fully compliant with CNIL & AEPD consent exemptions:
+Sealmetrics uses a temporary, context-derived session marker that meets the CNIL and AEPD audience-measurement criteria for operating without consent:
 
 ✔ Temporary Session IDs
-✔ Fully compliant with CNIL & AEPD consent exemptions
+✔ Meets the CNIL and AEPD audience-measurement criteria (self-assessed)
 ✔ No persistence
 ✔ No personal identification
 
@@ -71,7 +71,7 @@ Session IDs are used only within the active session to group hits — never to t
 
 ---
 
-**Sealmetrics ensures that all tracking remains fully compliant with GDPR and ePrivacy, without compromising your analytics.**
+**The marker is never stored on the device and never joins hits across sessions, which is what keeps measurement outside the ePrivacy consent requirement — without compromising your analytics.**
 
 ## Related documentation
 

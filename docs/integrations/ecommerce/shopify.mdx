@@ -2,6 +2,14 @@
 sidebar_position: 6
 title: Shopify
 description: "Connect Sealmetrics to Shopify via the Pixel app and a theme app embed, with purchases confirmed server-side by webhook — cookieless funnel tracking."
+tags: [integrations, shopify, ecommerce, conversion-tracking, app-embed]
+keywords:
+  - install sealmetrics on shopify
+  - sealmetrics shopify app embed
+  - shopify analytics without cookies
+  - track shopify purchases gdpr
+  - shopify view_product add_to_cart begin_checkout
+  - shopify orders/create purchase webhook
 ---
 
 # Shopify Integration
@@ -20,7 +28,7 @@ No shopper-facing UI is rendered. SealMetrics is invisible by design (privacy-fi
 ## Requirements
 
 - A Shopify store on a plan that allows app embeds.
-- A SealMetrics account (your **Account ID** identifies the site you want to track).
+- A SealMetrics account (your **Account ID** — the same value as your Site ID — identifies the site you want to track).
 
 ## Connect from the dashboard
 
@@ -66,7 +74,7 @@ SealMetrics tracks the following events automatically once the app embed is acti
 | `pageview` | Auto | Tracker (`t.js`) | Standard pageview |
 | `view_product` | Microconversion | App embed loader (on `/products/{handle}` pages) | product_name, sku, price, currency, product_id |
 | `add_to_cart` | Microconversion | App embed loader (intercepts `/cart/add`) | product_id, product_name, sku, price, quantity, currency |
-| `initiate_checkout` | Microconversion | App embed loader (checkout submit/click and `/checkout` requests) | cart_url |
+| `begin_checkout` | Microconversion | App embed loader (checkout submit/click and `/checkout` requests) | cart_url |
 | `purchase` | Conversion | Shopify `orders/create` webhook (server-side) | revenue, currency, items array |
 
 ### `view_product`
@@ -77,7 +85,7 @@ Fired on product pages (`/products/{handle}`). The loader reads product data fro
 
 The loader intercepts `fetch` and `XHR` calls to `/cart/add` and emits one `add_to_cart` per line item, with the price normalized from cents to a decimal value.
 
-### `initiate_checkout`
+### `begin_checkout`
 
 Fired (once per checkout attempt) when the shopper submits the cart form, clicks a checkout link/button, a Shopify dynamic checkout (Buy Now) button, or when a `/checkout` request is detected. A dedup flag prevents duplicate events; it resets on SPA navigation.
 

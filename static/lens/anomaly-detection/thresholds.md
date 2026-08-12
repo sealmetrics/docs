@@ -3,8 +3,8 @@ title: "How Thresholds Work"
 description: "How LENS sets and dynamically adjusts the thresholds that decide when an anomaly is worth an alert."
 canonical_url: "https://docs.sealmetrics.com/lens/anomaly-detection/thresholds"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a037a0f85d2855f150d3b3a609f125b25fa694aa585d7172f05a39bc93498680"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "321fc47f67fcbe8427dc2cc718aa6762b801c2f856b964d7c4cc9b1d597dae07"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,9 @@ publisher: "SealMetrics"
 # How Thresholds Work
 
 Canonical page: https://docs.sealmetrics.com/lens/anomaly-detection/thresholds
+
+**Caution:**
+Automated anomaly detection is **built but not active**. No detection rule currently runs on customer accounts and no automated alert is generated. This page documents the intended behaviour; the thresholds below describe how rules will decide once enabled. For what LENS does today, see [LENS AI](/lens).
 
 A threshold is the boundary between a "normal" fluctuation and an anomaly worth surfacing. In LENS, thresholds are **not** a single static percentage you pick from a menu. Each rule starts from a base threshold and then **adjusts it automatically** based on how much data is available and on seasonality.
 
@@ -92,4 +95,4 @@ The confidence multipliers and data-volume thresholds described above are manage
 ## Next steps
 
 - [How anomaly detection works →](/lens/anomaly-detection)
-- [View the active rules →](/lens/anomaly-detection/rule-types)
+- [View the planned rule library →](/lens/anomaly-detection/rule-types)

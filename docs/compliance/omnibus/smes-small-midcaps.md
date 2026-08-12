@@ -2,6 +2,7 @@
 sidebar_position: 8
 title: "SME and Small Mid-Cap Exemptions"
 description: "How the Digital Omnibus extends small business protections to companies with up to 749 employees"
+tags: [compliance, digital-omnibus, sme, small-mid-cap, exemptions, gdpr]
 keywords: [SME exemptions EU, small mid-cap definition, SMC exemptions, GDPR SME]
 ---
 

@@ -3,8 +3,8 @@ title: "Features"
 description: "Explore the complete feature set of Sealmetrics - from core analytics reports to API access, conversion tracking, and privacy-first capabilities."
 canonical_url: "https://docs.sealmetrics.com/getting-started/features"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "d935358e691b71f81d13090a4de91b852027535916a4853972f93ac16ab3c75c"
+date_generated: "2026-08-12T11:53:00.332Z"
+source_hash: "d432f9d7bf8e113fc5b13b53794095d00599ca2d21a0f4126a2974ec85f85c71"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -226,8 +226,10 @@ Infrastructure scales automatically with your traffic. Handle traffic spikes wit
 ### Bot Filtering
 Sophisticated bot detection removes scrapers, search engine crawlers, and monitoring tools. Only see real human visitors.
 
-### AI & Agent Traffic Analytics
-Detect and analyze traffic from AI agents and automated browsers visiting your site. Sealmetrics classifies sessions as human or agent traffic so you can understand how much of your traffic comes from AI tools — a growing share of the modern web. Learn more in [Bot & Agent Detection](/security-privacy/bot-detection) and the [Agentic Package](/integrations/agentic-package).
+### AI & Agent Traffic Analytics *(not available yet)*
+Classifying sessions as human or AI-agent traffic is designed but **not live**, and cannot be enabled on any account today. What does run is the bot filtering above. See [Bot & Agent Detection](/security-privacy/bot-detection) for the current state.
+
+(Not to be confused with the [Agentic Package](/integrations/agentic-package), which *is* available — it lets an AI assistant create your account and query your analytics from a chat.)
 
 ## Account Management
 

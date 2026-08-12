@@ -2,6 +2,7 @@
 sidebar_position: 11
 title: "EDPB-EDPS Joint Opinion on the Digital Omnibus"
 description: "Official position of European data protection authorities on the Digital Omnibus proposal - concerns, support, and recommendations"
+tags: [compliance, digital-omnibus, edpb, edps, gdpr, joint-opinion]
 keywords: [EDPB opinion, EDPS opinion, Digital Omnibus feedback, data protection authorities, GDPR amendments opinion]
 ---
 

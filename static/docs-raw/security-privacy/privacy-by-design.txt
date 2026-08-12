@@ -4,230 +4,24 @@ URL: https://docs.sealmetrics.com/security-privacy/privacy-by-design
 
 # Privacy by Design Principles
 
-At Sealmetrics, privacy is not an add-on — it is the foundation of the platform.  
-We don’t simply comply with privacy regulations; we exceed them through strict technical choices, architectural constraints, and a philosophy that prioritizes user privacy over data collection.
+Privacy by Design is the framework GDPR Article 25 refers to as *data protection by design and by default*. Sealmetrics satisfies it the blunt way: by not collecting personal data, so there is no personal data to protect, disclose or lose. The seven principles below map to specific architectural choices rather than to policies.
 
-This document explains the seven core Privacy-by-Design principles and how Sealmetrics implements each of them.
+| Principle | How it shows up in Sealmetrics |
+|-----------|-------------------------------|
+| **1. Proactive, not reactive** | Privacy constraints are structural. The system cannot start identifying visitors later without a redesign, because there is no identifier to switch on. |
+| **2. Privacy as the default** | Anonymous measurement from the first page load. Visitors do not opt in to anything, and there is no less-private mode to fall back to. |
+| **3. Full functionality** | Traffic, attribution, conversions, revenue and aggregate engagement are all reported without personal data. What is genuinely lost — unique visitors, session duration, cross-session journeys — is [documented rather than worked around](/security-privacy/consentless-analytics#what-consentless-analytics-can-and-cannot-measure). |
+| **4. End-to-end security** | EU-only storage in Dublin, Ireland; encryption in transit and at rest; role-based access control; short retention enforced by database TTLs. See [Data Location & Retention](/security-privacy/data-location). |
+| **5. Visibility and transparency** | The complete field list and its retention is published in [What We Track](/security-privacy/what-we-track). The tracker is client-side and inspectable. |
+| **6. Respect for user privacy** | No cookies, no device storage, no fingerprinting, no cross-session or cross-site linking. Session markers incorporate the publisher account, so the same browser yields different markers on different sites. |
+| **7. Accommodate all legitimate interests** | Site owners get the measurement they need for business decisions; visitors are not identified to provide it. |
 
----
-
-## 1. Proactive, Not Reactive  
-### Anticipating privacy risks before they arise
-
-**Core idea:** Prevent privacy issues instead of responding to them.
-
-#### Sealmetrics Implementation
-- Privacy safeguards embedded deeply into the architecture  
-- Designed with future regulations in mind, not just current ones  
-- Continuous privacy impact assessments  
-- Preventive system design to avoid risk  
-
-#### Practical Examples
-- Sealmetrics’ dual tracking system was implemented *before* consentless analytics became a regulatory topic  
-- Early legal consultation during development  
-- Architecture designed for future restrictions (GDPR evolution, ePrivacy, PECR updates)
-
----
-
-## 2. Privacy as the Default Setting  
-### Maximum privacy without requiring user action
-
-**Core idea:** Users should be protected automatically.
-
-#### Sealmetrics Implementation
-- No opt-in required for privacy  
-- Anonymous tracking by default  
-- No personal data collection  
-- No cookies  
-- Privacy protection enabled from first page load  
-
-#### Technical Architecture
-- Zero personal data  
-- No persistent identifiers  
-- No browser storage  
-- Anonymous processing at first touch  
-
----
-
-## 3. Full Functionality with Maximum Privacy  
-### Complete analytics without compromising user privacy
-
-Sealmetrics proves that advanced business intelligence **does not require personal data**.
-
-#### Capabilities Enabled
-- 100% website traffic measurement  
-- Full marketing attribution  
-- Real-time analytics  
-- Complete conversion tracking  
-- Aggregate behavior insights  
-
-#### Business Intelligence Still Possible
-- Track conversions anonymously  
-- Attribute revenue to channels without user IDs  
-- Understand trends without violating privacy  
-
----
-
-## 4. End-to-End Security  
-### Protecting data throughout its entire lifecycle
-
-#### Security Architecture
-- Encryption in transit  
-- Encryption at rest  
-- Strict internal access controls  
-- Complete audit trails  
-
-#### Infrastructure
-- 100% hosted in Dublin (Ireland)  
-- Redundant architecture  
-- Regular security audits  
-- Incident-response procedures
-
----
-
-## 5. Visibility & Transparency  
-### Verifiable privacy — no hidden tracking
-
-#### Sealmetrics Transparency
-- Public documentation about the 4-variable system  
-- Full disclosure: timestamp, user agent (event detail purged after 1 day; aggregated device classification kept 24 months), current URL, referral URL  
-- Technical documentation on isolated hits  
-- Regulatory compliance explained openly (GDPR, ePrivacy, CCPA, PECR)
-
-#### Operational Transparency
-- European company  
-- No hidden code execution on user devices  
-- Independent legal audits  
-- Clear explanation of all tracking capabilities and limits  
-
----
-
-## 6. Respect for User Privacy  
-### Privacy as a non-negotiable design requirement
-
-#### Technical Guarantees
-- No consent required (no personal data = no consent needed)  
-- Each hit processed independently  
-- No user-level tracking  
-- No reconstruction of journeys across sessions  
-- User agent stored for anonymous device classification only — never linked to any personal identifier  
-
-#### Architecture
-- No device intrusion  
-- No identifiers of any kind  
-- Immediate anonymization  
-
----
-
-## 7. Accommodate All Legitimate Interests  
-### Balance privacy, analytics needs, and legal obligations
-
-#### What Businesses Get
-- Complete performance analytics  
-- Conversion and revenue tracking  
-- Marketing attribution  
-- Funnel and behavioral insights  
-
-#### What Users Get
-- Total anonymity  
-- No tracking identifiers  
-- No privacy trade-offs  
-- No consent banners  
-
-#### What Regulators Get
-- A model that exceeds compliance requirements  
-- Clear, defensible privacy guarantees  
-
----
-
-## Technical Implementation of Privacy by Design
-
-### The Four-Variable Architecture
-Sealmetrics tracks only:  
-1. **Timestamp**  
-2. **User agent** (used for anonymous device classification — event detail purged after 1 day, aggregated categories kept 24 months; never linked to a person)  
-3. **Current URL**  
-4. **Referral URL**
-
-This minimal dataset ensures functionality without compromising privacy.
-
----
-
-### European Infrastructure
-- All processing in Dublin (Ireland)  
-- No international transfers  
-- Controlled under EU privacy law  
-- Regular oversight and auditability  
-
----
-
-### Isolated Hits Methodology
-- No correlation between hits  
-- No user-level stitching  
-- No session reconstruction  
-- No behavioral profiling  
-- Personal identification is technically impossible  
-
----
-
-## Privacy by Design in Daily Operations
-
-### Development
-- Legal review of every feature  
-- Privacy impact assessments  
-- Future-proofing for new regulations  
-- Conservative design choices  
-
-### Operations
-- Ongoing audits  
-- Monitoring of privacy safeguards  
-- Rapid adaptation to regulatory changes  
-- Transparent communication  
-
----
-
-## Future-Proofing
-- Designed for stricter future regulations  
-- Architecture compatible with privacy-enhancing technologies  
-- Aligns with global privacy frameworks  
-- Meets rising user expectations  
-
----
-
-## The Sealmetrics Privacy Advantage
-
-### Beyond Compliance
-- Exceeds regulatory requirements  
-- User-centric design  
-- Sustainable privacy-first analytics  
-- Market differentiation through true privacy  
-
-### Competitive Advantages
-- Unique isolated hits methodology  
-- Genuine consentless analytics  
-- No dependency on identifiers  
-- Earned user trust through real privacy protection  
-
----
-
-## Summary
-
-**Privacy by Design is not a feature at Sealmetrics — it is the foundation.**
-
-Through technical restraint, architectural constraints, and a strict adherence to privacy principles, Sealmetrics delivers:
-
-- Complete analytics  
-- Zero personal data collection  
-- Consent-free tracking  
-- Absolute user anonymity  
-- Future-proof compliance  
-
-Privacy and analytics **can** coexist. Sealmetrics proves it.
+Two claims worth keeping straight, because vendor reviews turn on them: privacy by design is an architectural property, **not a certification**. Sealmetrics holds no ISO 27001 or SOC 2 certification, and no supervisory authority certifies analytics tools. The pages under [compliance](/compliance) are our own self-assessments against published criteria, and a Data Processing Agreement is included at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/).
 
 ## Related documentation
 
-- [How Sealmetrics Protects User Privacy](/security-privacy/how-we-protect-privacy) — data minimization and anonymization in practice
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the isolated-hit methodology referenced above
-- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — the consent-free legal basis by design
-- [Frequently Asked Questions](/faq/privacy-security) — common privacy and security questions
-- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the regulatory analysis these principles satisfy
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the field-by-field disclosure behind principle 5
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and its legal basis
+- [How Sealmetrics Protects User Privacy](/security-privacy/how-we-protect-privacy) — the same protections in plain language
+- [Data Location & Retention](/security-privacy/data-location) — the security and retention detail behind principle 4
+- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the regulatory analysis

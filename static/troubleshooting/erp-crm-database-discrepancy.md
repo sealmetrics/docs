@@ -1,10 +1,10 @@
 ---
-title: "Reconciling SealMetrics with Your ERP, CRM, or Database"
+title: "Conversions Don't Match Your ERP, CRM, or Database"
 description: "How to diagnose and fix substantial discrepancies between SealMetrics conversions and your source of truth (ERP, CRM, internal database)."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "246cd78b32c0be34f42178dee7ad42ef4321586e6e5cd2a01c682e3a77fa56f4"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "6f442acbf0de6ecb113b7940d2b62348af64100f82ccb2c3388a19a0dd15e2fa"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -12,7 +12,7 @@ source_file: "troubleshooting/erp-crm-database-discrepancy.mdx"
 publisher: "SealMetrics"
 ---
 
-# Reconciling SealMetrics with Your ERP, CRM, or Database
+# Conversions Don't Match Your ERP, CRM, or Database
 
 Canonical page: https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy
 

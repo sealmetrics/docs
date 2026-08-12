@@ -3,8 +3,8 @@ title: "Fixing ReferenceError: sealmetrics is not defined"
 description: "How to keep your site working when ad blockers, privacy extensions, or DNS filters prevent the SealMetrics tracker from loading."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/sealmetrics-is-not-defined"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "15fb8846e1d7bc0298570945579f9388241eb346b35ec489a802e48e7a6c587b"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "47bacb90da933ce98941c49dd995c6fb7b43a30aa559c3ed0893809b810085b9"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -146,4 +146,4 @@ Then disable the blocker and repeat: the calls must reach the SealMetrics backen
 - [Tracker installation](/implementation/tracker/installation) — base setup, including the pre-load queue stub for deferred loading.
 - [Tracker API reference](/implementation/tracker/api-reference) — full `sealmetrics()`, `conv()`, and `micro()` signatures.
 - [Google Tag Manager integration](/integrations/google-tag-manager) — recommended setup for GTM.
-- [Reconciling SealMetrics with your ERP, CRM, or database](/troubleshooting/erp-crm-database-discrepancy) — diagnose substantial discrepancies between SealMetrics and your source of truth.
+- [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — diagnose substantial discrepancies between SealMetrics and your source of truth.

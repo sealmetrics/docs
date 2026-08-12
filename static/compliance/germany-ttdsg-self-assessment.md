@@ -3,8 +3,8 @@ title: "Germany TTDSG/TDDDG Self-Assessment: Sealmetrics Compliance"
 description: "Self-assessment of Sealmetrics against §25 TDDDG (formerly TTDSG) — analytics in Germany without cookies, terminal storage access, or consent banners."
 canonical_url: "https://docs.sealmetrics.com/compliance/germany-ttdsg-self-assessment"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a4fcd124aa4a661e95187bd302d2f7af9617ca4f7d6c2d12a81927914ecf81ce"
+date_generated: "2026-08-12T11:53:00.332Z"
+source_hash: "ea433b849d9c3bc8145a483da40da5dd75218b426460bbfc794048eb2da306c5"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -134,7 +134,7 @@ This is the structural difference from consent-managed tools: Sealmetrics does n
 
 During request handling, the visitor's IP address is technically received (as with any web server) and used **in memory only** for rate limiting and abuse prevention, then discarded. To the extent this transient handling constitutes processing of personal data, it is supported by **Article 6(1)(f) GDPR** (legitimate interest in network and service security), satisfies data minimization (Article 5(1)(c)), and results in no stored personal data.
 
-For customers who explicitly opt in to **Agent Analytics** (bot detection), a stateless GeoLite2 lookup derives a country label and datacenter/ASN signals from the IP; the IP itself is not retained — only the derived signals are kept. See [What We Track](/security-privacy/what-we-track).
+No other use of the IP occurs. A GeoLite2 lookup was designed for the **Agent Analytics** bot detector, but that feature is **not live and cannot be enabled on any account**, so it runs on no site today. See [What We Track](/security-privacy/what-we-track).
 
 **Assessment:** ✅ Compliant — minimal, transient, security-purposed, never persisted.
 
