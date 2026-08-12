@@ -3,8 +3,8 @@ title: "How Sealmetrics Blocks Bot Traffic (And Stays Consentless)"
 description: "How Sealmetrics filters bot traffic with layered, privacy-safe defenses — and why its ephemeral, in-memory use of IPs keeps the platform GDPR and ePrivacy compliant."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic"
 lang: "en"
-date_generated: "2026-08-10T18:27:20.920Z"
-source_hash: "ec3a6613236d6a3df21aee8992e22f381321de9cc1d2f42d53538959409ebf96"
+date_generated: "2026-08-12T11:53:00.332Z"
+source_hash: "13edcb1d24995cdbc2fd0f9943cefbf7710365bb6bc094cef2b109260a88b5ef"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -65,14 +65,17 @@ Automated clients frequently send request headers that are inconsistent with the
 
 ---
 
-## Layer 4 (opt-in) — Agent Analytics
+## Layer 4 — Agent Analytics (not available)
 
-For sites that explicitly enable [Agent Analytics](/integrations/agentic-package), Sealmetrics adds deeper detection of AI agents and automated browsers on entrance hits:
+**Caution:**
+Agent Analytics is **not live and cannot be enabled on any account**. No site performs the processing described below. It is documented here only so that this page stays a complete description of the detection design; treat it as roadmap, not as current behaviour.
 
-- A **stateless GeoLite2 lookup** derives datacenter/ISP signals from the IP (is this a datacenter? does the network belong to a known AI provider?) and a country label used to detect geo/timezone mismatches. **Only the derived signals are kept — the IP itself is discarded.**
-- **Environmental signals** about the browser (e.g. WebDriver flag, rendering characteristics) and **behavioral signals** about the interaction pattern (e.g. mouse-movement linearity, click-timing variance) feed a score that classifies each session as human or automated.
+If it ships, sites that explicitly enable it would get deeper detection of AI agents and automated browsers on entrance hits:
 
-These signals describe the *software environment*, not the person, and are never associated with an identifier. Standard accounts — the default — don't collect any of this.
+- A **stateless GeoLite2 lookup** deriving datacenter/ISP signals from the IP (is this a datacenter? does the network belong to a known AI provider?) and a country label used to detect geo/timezone mismatches, with only the derived signals kept and the IP discarded.
+- **Environmental signals** about the browser (e.g. WebDriver flag, rendering characteristics) and **behavioral signals** about the interaction pattern (e.g. mouse-movement linearity, click-timing variance) feeding a score that classifies each session as human or automated.
+
+Those signals would describe the *software environment*, not the person, and would never be associated with an identifier. **Today, no account collects any of it** — Layers 1 to 3 above are the whole of what runs.
 
 ---
 
@@ -94,7 +97,7 @@ This is why bot filtering requires **no consent banner** and creates **no person
 | Bot UA signatures | User-agent string | No | No |
 | IP/datacenter blocklists | IP, in memory only | No | No |
 | Header consistency | Request headers | No | No |
-| Agent Analytics (opt-in) | Derived geo/ISP + environment + behavior | No | No |
+| Agent Analytics *(not available)* | Derived geo/ISP + environment + behavior | No | No |
 
 The result: clean analytics, honest architecture, and zero consent requirements.
 

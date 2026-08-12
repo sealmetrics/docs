@@ -25,7 +25,7 @@ Understanding long-term user behavior is crucial for business growth, but tradit
 
 ## Key Takeaways
 
-- **24-month retention without consent**: Sealmetrics stores analytics data for over 2 years under GDPR Article 6(1)(f) legitimate interest
+- **24-month retention without consent**: Sealmetrics stores aggregate analytics for two years, and because none of it is personal data, the GDPR's retention rules aren't what constrains it
 - **No consent expiration risk**: Unlike cookie-based analytics, your data won't be deleted when consent expires
 - **Complete historical analysis**: Track seasonal trends, year-over-year growth, and long-term user behavior
 - **GDPR compliant by design**: Cookieless tracking with zero IP storage meets data minimization requirements
@@ -61,22 +61,20 @@ In B2B SaaS, where sales cycles often exceed 6 months, this data retention limit
 
 ## How Sealmetrics Enables 24-Month Data Retention
 
-Sealmetrics operates under **GDPR Article 6(1)(f) - legitimate interest** rather than consent, fundamentally changing the data retention equation.
+Sealmetrics stores **no personal data at all**, which changes the retention equation more fundamentally than picking a different legal basis would.
 
-### The Legal Basis: Legitimate Interest
+### The Legal Position: Outside the GDPR's Material Scope
 
-Under GDPR Article 6(1)(f), processing is lawful when:
+**GDPR Recital 26** states that the principles of data protection do not apply to anonymous information — information which does not relate to an identified or identifiable natural person. Retention limits are one of those principles. If the stored data isn't personal data, the storage limitation principle has nothing to attach to.
 
-> "Processing is necessary for the purposes of the legitimate interests pursued by the controller or by a third party, except where such interests are overridden by the interests or fundamental rights and freedoms of the data subject."
+Sealmetrics is in that position because:
 
-Sealmetrics qualifies for legitimate interest because:
+1. **No personal data stored**: no IP addresses, fingerprints, or cross-site identifiers
+2. **Session-based tracking**: each visit generates a temporary, non-identifying session identifier that is never written to the device
+3. **Data minimization**: only aggregate behavioural data, no individual profiles
+4. **Transparent processing**: a clear privacy policy explains what is measured
 
-1. **No personal data collection**: We don't store IP addresses, fingerprints, or cross-site identifiers
-2. **Session-based tracking**: Each visit generates a temporary, non-identifying session identifier
-3. **Data minimization**: Only aggregate behavioral data, no individual profiles
-4. **Transparent processing**: Clear privacy policy explains data usage
-
-As confirmed by CNIL's 2020 guidance, cookieless analytics that doesn't create persistent user profiles can operate under legitimate interest, not requiring consent.
+Note what we're *not* claiming. It would be easy to say "we rely on legitimate interest under Article 6(1)(f)" — plenty of vendors do — but naming any Article 6 basis concedes that personal data is being processed, and would put the retention question straight back on the table. CNIL's 2020 guidance confirms that cookieless analytics which doesn't create persistent user profiles can operate without consent.
 
 ### Technical Implementation: Zero Personal Data
 
@@ -112,7 +110,7 @@ Here's how long-term analytics capabilities compare across major platforms:
 
 | Feature | Google Analytics | Plausible | Matomo | Sealmetrics |
 |---------|------------------|-----------|--------|-------------|
-| **Legal Basis** | Consent (Article 6(1)(a)) | Legitimate Interest | Legitimate Interest | Legitimate Interest |
+| **Legal Basis** | Consent (Article 6(1)(a)) | Legitimate Interest | Legitimate Interest | **None required — no personal data** |
 | **Requires Consent Banner** | Yes | No | Depends | No |
 | **Maximum Retention (With Consent)** | 14-26 months | Unlimited | Unlimited | **24 months** |
 | **Maximum Retention (Without Consent)** |  0 months | 26 months | 26 months | **24 months** |
@@ -173,7 +171,8 @@ how visitors use our website. Sealmetrics:
 - Does not use cookies or require consent banners
 - Does not store IP addresses or personal identifiers
 - Retains aggregated analytics data for 24 months
-- Operates under legitimate interest (GDPR Article 6(1)(f))
+- Stores nothing on your device and retains no personal data,
+  so this measurement falls outside the scope of the GDPR
 
 No personal data is collected. For more: https://sealmetrics.com/privacy
 ```
@@ -248,20 +247,20 @@ Sealmetrics complies because:
 2. **24 months is proportionate**: Reasonable for business analytics needs
 3. **Automatic deletion**: Built-in expiration prevents indefinite storage
 
-### Legitimate Interest Assessment
+### The Assessment a DPO Will Actually Ask For
 
-Under Article 6(1)(f), three tests must pass:
+Not a balancing test — a scope analysis. Three questions:
 
-**Purpose Test**: Is the processing necessary for legitimate interests?  
-Yes - Website analytics is a recognized legitimate business interest
+**Is any of it personal data?**  
+No. Session identifiers are temporary, non-linkable, and never written to the device. No IP is stored, hashed or otherwise.
 
-**Necessity Test**: Is the processing necessary for that purpose?  
-Yes - Analytics requires data retention for pattern identification
+**Is anything stored on or read from the user's device?**  
+No. That is what keeps ePrivacy Article 5(3), the rule behind cookie banners, from applying.
 
-**Balancing Test**: Do user interests override business interests?  
-No - Zero personal data means minimal user impact, business needs prevail
+**So which Article 6 basis applies?**  
+None, and that is the point. Under Recital 26 the dataset is outside the GDPR's material scope, so no legal basis is required. Reaching for legitimate interest here would weaken the position, not strengthen it.
 
-CNIL's 2020 guidance explicitly confirms cookieless analytics can operate under legitimate interest when no personal data is collected.
+CNIL's 2020 guidance confirms that cookieless analytics can operate without consent when no personal data is collected.
 
 ## Best Practices for Long-Term Analytics
 
@@ -308,7 +307,7 @@ When data reaches 24 months:
 
 ### Is 24-month retention GDPR compliant?
 
-Yes. Sealmetrics operates under legitimate interest (Article 6(1)(f)) and doesn't collect personal data (no IPs, no cookies). The 24-month period is proportionate for business analytics needs and includes automatic deletion, satisfying GDPR's storage limitation principle.
+Yes. Sealmetrics stores no personal data (no IPs, no cookies), so the dataset falls outside the GDPR's material scope under Recital 26 and the storage limitation principle isn't what governs it. We apply 24 months anyway, with automatic deletion — it's proportionate for business analytics and it keeps the retention question uncontroversial in a vendor review.
 
 ### Why not unlimited retention like some competitors?
 
@@ -320,7 +319,7 @@ Data older than 24 months is automatically and permanently deleted from Sealmetr
 
 ### Do I need consent banners with 24-month retention?
 
-No. Sealmetrics operates under legitimate interest, not consent. You don't need cookie banners, consent management platforms, or consent tracking. Your privacy policy should mention Sealmetrics usage, but no active user consent is required.
+No. Nothing is stored on or read from the visitor's device, so ePrivacy Article 5(3) — the rule that mandates cookie banners — is never triggered, and no personal data is stored, so no GDPR legal basis is required either. You don't need cookie banners, consent management platforms, or consent tracking. Your privacy policy should mention Sealmetrics usage, but no active user consent is required.
 
 ### Can I reduce retention to less than 24 months?
 
@@ -366,7 +365,7 @@ Businesses using Sealmetrics can:
 - **Optimize seasonally** using multi-year comparison data
 - **Track customer lifecycles** beyond consent expiration limits
 
-All while maintaining **zero personal data collection** and **full GDPR compliance**.
+All while maintaining **zero personal data collection** — which is what keeps the dataset outside the GDPR's material scope in the first place.
 
 Unlike Google Analytics (which deletes data when consent expires), Plausible (which stores hashed IPs), or Matomo (which requires complex configuration), Sealmetrics provides the simplest path to long-term, privacy-first analytics.
 

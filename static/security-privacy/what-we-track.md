@@ -3,8 +3,8 @@ title: "What We Track vs What We Don’t"
 description: "Field-by-field list of what Sealmetrics records on every hit, how long each field is kept, and what it never collects."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/what-we-track"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "6cdb4e44bc32287fea9b6fa72b923e549fe1bb38ccf69aa82ac3f58c5a31c75d"
+date_generated: "2026-08-12T11:53:00.332Z"
+source_hash: "47af9bd5c98072577bfb90705ade3e3187967630524e38cd2f2781a29070b7fa"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -120,17 +120,15 @@ Exit pages and individual navigation paths are **not** tracked — reconstructin
 
 ### 8. Geographic Data
 - **Country — primary source: browser timezone.** Every visit's country comes from `Intl.DateTimeFormat().resolvedOptions().timeZone`, mapped to the country most represented by that IANA zone. No IP lookup involved.
-- **Optional GeoIP country — only when Agent Analytics is enabled on the site.** For customers who explicitly turn on the automated-traffic detector (a separate feature), the pixel does a **stateless** GeoLite2 lookup against the visitor's IP to derive a secondary country and datacenter/ISP signals used exclusively to score bot vs. human. The IP itself is **not stored**; only the derived country label and the boolean bot signals are kept.
-- ❌ Region / City — **not collected** in either mode.
+- ❌ GeoIP country — **not collected**. A stateless GeoLite2 lookup was designed for the Agent Analytics bot detector, but that feature is **not live and cannot be enabled**, so no IP-based country lookup runs on any account.
+- ❌ Region / City — **not collected**.
 
-### 9. Automated-traffic detection signals (opt-in)
+### 9. Automated-traffic detection signals — not collected
 
-Sites that enable Agent Analytics store aggregate, per-hit signals used to classify traffic as human vs. automated (browsers driven by Selenium, Playwright, AI assistants, etc.). These are **environmental** and **behavioral** signals about the browser and the interaction pattern — not about the person. Examples: WebDriver flag, whether the WebGL renderer is `SwiftShader`, screen size buckets, aggregate mouse-movement linearity, click-timing variance.
+**Caution:**
+Agent Analytics, an automated-traffic detector that would classify traffic as human vs. automated, is **designed but not live, and cannot be enabled on any account**. **No account collects any of the signals below today.** They are listed so this page stays a complete statement of what could ever be collected.
 
-- Never associated with an identifier.
-- Aggregate and per-hit; not tied to a user.
-- Purpose: filter bot traffic out of reports for accuracy. See [Bot Detection](/security-privacy/bot-detection) and the [agent detection integration](/integrations/agentic-package) for the full field list.
-- **This section is only active when the customer turns Agent Analytics on.** Standard privacy-first accounts don't collect these signals at all.
+If it ships, it would store aggregate, per-hit **environmental** and **behavioral** signals about the browser and the interaction pattern — not about the person. Examples: WebDriver flag, whether the WebGL renderer is `SwiftShader`, screen size buckets, aggregate mouse-movement linearity, click-timing variance. They would never be associated with an identifier, and the purpose would be filtering bot traffic out of reports. See [Bot Detection](/security-privacy/bot-detection) for what actually runs today.
 
 ### 10. Business Intelligence Metrics
 - Conversion rate

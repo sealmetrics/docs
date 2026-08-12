@@ -3,8 +3,8 @@ title: "Bot Detection & Traffic Quality"
 description: "How SealMetrics detects and filters bot traffic to ensure data accuracy. Multi-layer detection system protecting your analytics."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/bot-detection"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "cd68f7f8d0852f0bf0744b13f8125577be05024b55df820d3ac7fdd7ce0cb2e7"
+date_generated: "2026-08-12T11:53:00.332Z"
+source_hash: "bd1b884020d639153892300c9e6d217dd6379958e9c8515a82a0e2809cbc8531"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -108,28 +108,25 @@ When bot traffic is detected:
 
 ---
 
-## Agent Detection (Advanced)
+## Agent Detection (not available)
 
-For accounts requiring deeper analysis, SealMetrics offers advanced agent detection:
+**Caution:**
+Advanced agent detection — also referred to as Agent Analytics — is **designed but not live, and cannot be enabled on any account**, including on request. Nothing described in this section runs today, and no account collects behavioral signals. The layers above are the whole of what filters bot traffic.
 
-### How It Works
+If it ships, it would work like this:
 
-1. **Initial classification** — First hit analyzed
-2. **Behavioral signals** — Mouse movements, scroll patterns, timing
-3. **Final classification** — Human vs. suspected agent
+1. **Initial classification** — first hit analyzed
+2. **Behavioral signals** — mouse movements, scroll patterns, timing
+3. **Final classification** — human vs. suspected agent
 
-### Classification Results
+Planned classification results:
 
 | Classification | Meaning |
 |----------------|---------|
 | `human` | Confirmed human behavior |
 | `agent_suspected` | Automated behavior detected |
 
-Classification happens at session level: the entrance is classified and its pageviews inherit the result.
-
-### Enabling Agent Detection
-
-Contact support to enable advanced agent detection for your account.
+Classification would happen at session level: the entrance is classified and its pageviews inherit the result.
 
 ---
 

@@ -105,28 +105,26 @@ When bot traffic is detected:
 
 ---
 
-## Agent Detection (Advanced)
+## Agent Detection (not available)
 
-For accounts requiring deeper analysis, SealMetrics offers advanced agent detection:
+:::caution Not live
+Advanced agent detection — also referred to as Agent Analytics — is **designed but not live, and cannot be enabled on any account**, including on request. Nothing described in this section runs today, and no account collects behavioral signals. The layers above are the whole of what filters bot traffic.
+:::
 
-### How It Works
+If it ships, it would work like this:
 
-1. **Initial classification** — First hit analyzed
-2. **Behavioral signals** — Mouse movements, scroll patterns, timing
-3. **Final classification** — Human vs. suspected agent
+1. **Initial classification** — first hit analyzed
+2. **Behavioral signals** — mouse movements, scroll patterns, timing
+3. **Final classification** — human vs. suspected agent
 
-### Classification Results
+Planned classification results:
 
 | Classification | Meaning |
 |----------------|---------|
 | `human` | Confirmed human behavior |
 | `agent_suspected` | Automated behavior detected |
 
-Classification happens at session level: the entrance is classified and its pageviews inherit the result.
-
-### Enabling Agent Detection
-
-Contact support to enable advanced agent detection for your account.
+Classification would happen at session level: the entrance is classified and its pageviews inherit the result.
 
 ---
 
