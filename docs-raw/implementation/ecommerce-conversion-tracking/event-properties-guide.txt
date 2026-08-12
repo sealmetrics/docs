@@ -65,7 +65,7 @@ The properties object accepts any number of key-value pairs, with both keys and 
 
 ### 1. Richer Analytics Without Privacy Compromise
 
-Event properties enable Sealmetrics to collect detailed conversion data while maintaining GDPR Article 6(1)(f) compliance. Unlike cookie-based systems that track users across sessions, Sealmetrics captures rich context at the moment of conversion without building persistent user profiles.
+Event properties let Sealmetrics collect detailed conversion context without collecting personal data — never emails, order IDs or anything identifying a person. Unlike cookie-based systems that track users across sessions, Sealmetrics captures rich context at the moment of conversion without building persistent user profiles.
 
 For organizations concerned about privacy regulations, this approach provides the analytics depth of traditional platforms while avoiding consent requirements. As of November 2024, approximately 65% of European users reject cookie consent banners, making Sealmetrics' consentless approach with event properties particularly valuable for accurate data collection.
 
@@ -451,7 +451,7 @@ Sealmetrics' event properties approach trades cross-session user tracking for co
 **Solutions:**
 - Confirm BigQuery integration is active with Sealmetrics team
 - Verify BigQuery project permissions
-- Allow 24 hours for initial data sync
+- Check the integration status panel for **Last Sync** / **Next Sync**: BigQuery is a scheduled export (hourly, daily or manual), so a property sent minutes ago will not be in BigQuery until the next sync runs. An initial backfill can take several hours — see [BigQuery integration](/integrations/bigquery)
 - Check BigQuery dataset for Sealmetrics tables
 
 ## Frequently Asked Questions

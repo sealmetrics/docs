@@ -3,8 +3,8 @@ title: "How to Track Social Ads Campaigns"
 description: "Learn how to track Facebook and Meta Ads campaigns in Sealmetrics without cookies using UTM parameters and privacy-first attribution."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/how-to-track-social-ads-campaigns"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "70a2713680633cec978c75da259897887c4f9d2843f7dc806a1ead0641e4760f"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "33db382ba6c506f465177778b757913d2a47a79dba1f18082ee8c8cd2c31017d"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -27,16 +27,16 @@ Without UTMs, Sealmetrics cannot reliably distinguish paid vs. unpaid traffic co
 Meta traffic often arrives with minimal referrer information.
 If UTMs are *not* added:
 
-❌ Paid and organic Meta traffic blend together
-❌ Campaign-level reporting disappears
-❌ You cannot analyze ad set or creative performance
+- Paid and organic Meta traffic blend together
+- Campaign-level reporting disappears
+- You cannot analyze ad set or creative performance
 
 If UTMs *are* added:
 
-✔ Full campaign attribution
-✔ Clear performance insights
-✔ Correct paid vs. organic classification
-✔ No cookies required
+- Full campaign attribution
+- Clear performance insights
+- Correct paid vs. organic classification
+- No cookies required
 
 ---
 
@@ -51,7 +51,10 @@ UTM parameters are tags added to your ad URLs that Sealmetrics can read instantl
 3. Include all relevant UTM fields
 
 Recommended structure:
+
+```
 https://yourwebsite.com?utm_source=facebook&utm_medium=cpc&utm_campaign=summer_sale&utm_term=running_shoes
+```
 
 ## Related documentation
 

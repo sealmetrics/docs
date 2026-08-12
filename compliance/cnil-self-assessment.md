@@ -3,8 +3,8 @@ title: "CNIL Self-Assessment: Sealmetrics Compliance"
 description: "Official CNIL self-assessment documentation for Sealmetrics analytics - demonstrating compliance with French consent exemption requirements."
 canonical_url: "https://docs.sealmetrics.com/compliance/cnil-self-assessment"
 lang: "en"
-date_generated: "2026-08-10T18:27:20.920Z"
-source_hash: "50ab59aeeef011a545c64eb14ed73b0df69b689bfbb9f12e7f421b9b99b6e48e"
+date_generated: "2026-08-12T11:53:00.332Z"
+source_hash: "81c2b0e24a362c9b1b9b7b531c3c243addd2d64b458cddfcfc90d7ba8735a725"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -221,15 +221,15 @@ Maximum theoretical lifetime: Browser session only
 |--------|------------|
 | IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 1 day) |
 | Geolocation (default) | ✅ Country derived from browser timezone, not IP |
-| In-memory use | ✅ IP is used in-memory only for rate limiting, blocklist matching, and — when the customer explicitly opts in to Agent Analytics — a stateless GeoLite2 lookup that returns a country and datacenter/ASN signals used exclusively for bot detection. The IP itself is not retained after the lookup and is never associated with a hit that reaches ClickHouse. |
+| In-memory use | ✅ IP is used in-memory only for rate limiting and blocklist matching, then discarded. It is never associated with a hit that reaches ClickHouse. (A GeoIP lookup was designed for the Agent Analytics bot detector, but that feature is **not live and cannot be enabled**, so no such lookup runs today.) |
 
 **Technical Implementation:**
 ```javascript
 // Country detection (default): browser timezone API
 Intl.DateTimeFormat().resolvedOptions().timeZone
 
-// Agent Analytics (opt-in only): in-memory GeoIP lookup returns
-// country + is_datacenter + agent_isp; the IP itself is discarded.
+// No GeoIP lookup runs today: the Agent Analytics bot detector
+// that would use one is not live and cannot be enabled.
 ```
 
 **Note:** Sealmetrics goes beyond this requirement — no IP anonymization is needed because the IP is never persisted with analytics data in the first place.
@@ -395,7 +395,7 @@ Sealmetrics explicitly does **not** collect:
 |--------|--------|
 | **Processing location** | Dublin, Ireland (EU) |
 | **Data storage** | EU only |
-| **Subprocessors** | EU-based only |
+| **Subprocessors** | Visitor analytics data processed only in the EU (full list: Annex 3 of the [DPA](https://sealmetrics.com/dpa/)) |
 | **International transfers** | None required |
 
 ### Security Measures

@@ -1,10 +1,10 @@
 ---
 title: "Pages Report"
-description: "Analyze page-level performance: traffic, unique visitors, bounce rates, and entry pages across your site."
+description: "Analyze page-level performance: traffic, bounce rates, and entry pages across your site."
 canonical_url: "https://docs.sealmetrics.com/reports/pages"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4b98e7a9498df9243003e8ce7e3747bbffc3e4f5d216a650d832a847e260fe12"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "064b18bc4f1c3b4c71b25702d8df2e056466ba1e210cfccab6bdf7d18bb522c6"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"

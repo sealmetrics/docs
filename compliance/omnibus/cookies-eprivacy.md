@@ -3,8 +3,8 @@ title: "Cookie Consent Reform: The End of Banner Fatigue"
 description: "How the EU Digital Omnibus eliminates cookie banners for 60% of websites through unified GDPR processing rules"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "572b8af4432e4f970cbb76b0bd2dce2d4aab5d8d28fa9206627b3bfd25cc26c8"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "145a48b18b9c8fc30500416ba6d30716a2e3a137fb8d70f26270491df1eabe96"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -15,6 +15,9 @@ publisher: "SealMetrics"
 # Cookie Consent Reform: The End of Banner Fatigue
 
 Canonical page: https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy
+
+**Info:**
+The EU Digital Omnibus is a **legislative proposal still under negotiation**; article numbers and text may change before it is in force. Any statement about how Sealmetrics would fall under it is our own reading and a **self-assessment**, not a certification — no supervisory authority certifies analytics tools.
 
 The EU Digital Omnibus proposes the most significant reform to cookie consent rules since the ePrivacy Directive of 2009. By moving cookie consent under the GDPR framework, the regulation promises to eliminate cookie banners for an estimated 60% of websites while maintaining strong privacy protections.
 

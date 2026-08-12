@@ -99,7 +99,7 @@ These percentages are email alert thresholds only — reaching 120% in a single 
 
 ### Data Retention
 
-Data retention is **fixed and identical for every plan** — it is enforced by database TTLs, not by plan tier: daily aggregates and conversions are kept **24 months**, hourly aggregates 90 days, and event-level detail 14 days. See [Data Location & Retention](/security-privacy/data-location).
+Data retention is **fixed and identical for every plan** — it is enforced by database TTLs, not by plan tier: daily aggregates and conversions are kept **24 months**, hourly aggregates 90 days, and event-level detail 1 day. See [Data Location & Retention](/security-privacy/data-location).
 
 ### LENS AI usage
 
@@ -122,7 +122,7 @@ If you're approaching limits, consider:
 
 1. **Exclude internal traffic** — Don't install pixel on staging/development environments
 2. **Filter bot traffic** — Enabled by default, removes known bots
-3. **Agent Analytics** — AI agent events are excluded from your event count automatically
+3. **Agent Analytics** *(coming soon)* — AI agent events will be excluded from your event count automatically
 
 ### Monitor by Website
 
@@ -148,7 +148,7 @@ Consider upgrading when:
 
 ### Do AI agent events count toward my limit?
 
-Agent Analytics detects AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) and tracks it separately. These events do not count toward your monthly event limit, and the feature is included on all plans.
+Agent Analytics *(coming soon — not live today)* will detect AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) and track it separately. Those events will not count toward your monthly event limit, and the feature will be included on all plans.
 
 ### What happens if I hit my limit mid-month?
 

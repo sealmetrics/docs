@@ -3,8 +3,8 @@ title: "Impact on Web Analytics and Tracking"
 description: "How the Digital Omnibus affects web analytics, consent requirements, and consentless tracking solutions"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/impact-analytics"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "2f96d3296940af576e45b16cee1b3c5a287f46b1300c35253821c3187c381482"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "20afd7b5b63e840bf7f98ddf6f19710b5e6c305587dfc73357d9b75f2d1c8387"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -15,6 +15,9 @@ publisher: "SealMetrics"
 # Impact on Web Analytics and Tracking
 
 Canonical page: https://docs.sealmetrics.com/compliance/omnibus/impact-analytics
+
+**Info:**
+The EU Digital Omnibus is a **legislative proposal still under negotiation**; article numbers and text may change before it is in force. Any statement about how Sealmetrics would fall under it is our own reading and a **self-assessment**, not a certification — no supervisory authority certifies analytics tools.
 
 The EU Digital Omnibus fundamentally reshapes the web analytics landscape. By creating a clear exemption for aggregated audience measurement, the regulation validates privacy-first analytics while maintaining restrictions on invasive tracking.
 
@@ -581,7 +584,7 @@ If you need individual user tracking, cross-device tracking, or behavioral profi
 3. **Winners**: Consentless analytics, first-party data, privacy-first platforms
 4. **Losers**: Cross-site trackers, third-party cookie networks, consent-dependent models
 5. **Browser signals coming** in 24-48 months will further impact consent-based tracking
-6. **Sealmetrics is compliant** with Article 88a(3)(c) exemption
+6. **Sealmetrics expects to fall within** the Article 88a(3)(c) exemption once it is in force — our own reading, on a text still under negotiation
 7. **Audit your analytics** to identify what needs consent and what doesn't
 8. **Prepare for first-party future** by reducing consent dependencies now
 

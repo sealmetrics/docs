@@ -59,7 +59,7 @@ This comparison is updated for **July 2026** and covers architecture, privacy, f
 
 ### What is Sealmetrics?
 
-**Sealmetrics** launched in 2023 to solve the "consent paradox" in web analytics — the fact that cookie- and consent-based analytics lose a large share of data in EU markets to banner rejection. Sealmetrics pioneered *consentless analytics* operating under GDPR Article 6(1)(f), and in February 2026 shipped **V2**, a full rebuild of the platform.
+**Sealmetrics** launched in 2023 to solve the "consent paradox" in web analytics — the fact that cookie- and consent-based analytics lose 15-60% of their data in EU markets to banner rejection and ghosting. Sealmetrics pioneered *consentless analytics*, storing no personal data at all so that no GDPR legal basis is required, and in February 2026 shipped **V2**, a full rebuild of the platform.
 
 **Key characteristics**:
 - Proprietary (closed-source), cloud-hosted only
@@ -138,7 +138,7 @@ This is the sharpest technical distinction, and it deserves to be stated precise
 **Sealmetrics' position**: no consent banner required, on the basis that:
 
 1. **No IP-derived identifier**: nothing in the pipeline is derived from an IP address
-2. **GDPR Article 6(1)(f)**: documented legitimate interest for website analytics
+2. **No Article 6 basis needed**: no personal data is stored, so under Recital 26 the dataset falls outside the GDPR's material scope — we deliberately don't claim legitimate interest, since invoking it would concede that personal data is being processed
 3. **Purpose limitation**: analytics only, never advertising, never data sales
 4. **Data minimisation**: aggregated, non-personal data only
 5. **Regulator alignment**: published self-assessments against [CNIL](/compliance/cnil-self-assessment) (France), [TTDSG](/compliance/germany-ttdsg-self-assessment) (Germany), [Garante](/compliance/italy-garante-self-assessment) (Italy), [UK PECR](/compliance/uk-pecr-self-assessment) and [Swiss FADP](/compliance/switzerland-fadp-self-assessment)

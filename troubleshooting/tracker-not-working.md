@@ -3,8 +3,8 @@ title: "Tracker or Pixel Not Working: No Data Appearing"
 description: "What to check when the Sealmetrics tracker or pixel is not working and no data appears in your dashboard: a 60-second check plus a symptom-by-symptom triage to the right fix."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/tracker-not-working"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a3c3fcb578793aaa64ffce3de8c0eef1fae1d35fd1a59b8037eeb8cc98c70532"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "9cbcb4ff7f243180019f510cc12889ad5b0f3d3a5315ec08276b26312b59b963"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -63,7 +63,7 @@ No `t.js` request appears in the Network tab. Most common causes, in order:
 The beacon request appears in the Network tab, but **Last hit** never updates. The hit is being rejected server-side:
 
 1. **Unauthorized domain** — the most common cause. Hits from domains not listed for the site are silently dropped. Go to Settings → Sites → [your site] → Domains and check the exact hostname (including `www.` vs apex). Full guide: [Unauthorized domain](/troubleshooting/unauthorized-domain).
-2. **Wrong Site ID.** The `id=` in your snippet must match the Site ID in Settings → Sites → General. See [How to find your Site ID](/platform/account-setup/find-account-id).
+2. **Wrong Site ID.** The `id=` in your snippet must match the Site ID in Settings → Sites → [your site] → General tab (the same value the **Pixel Code** tab embeds in the generated snippet). See [How to find your Site ID](/platform/account-setup/find-account-id).
 3. **Your IP is excluded.** If your office or VPN IP is listed under [IP exclusions](/platform/settings/tracking/ip-exclusions), your own visits will never appear — test from another network or a mobile connection.
 4. **Your test visits look like a bot.** Automated visits (Selenium, Playwright, curl, headless Chrome) are filtered. See [Test traffic blocked as bot](/troubleshooting/test-traffic-blocked-as-bot).
 

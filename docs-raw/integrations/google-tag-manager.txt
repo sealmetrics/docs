@@ -143,13 +143,14 @@ Choose what type of event to track:
 
 #### Account ID (Required)
 
-Your Sealmetrics Account ID. Find it in your [Sealmetrics dashboard](https://my.sealmetrics.com) under **Settings**.
+Your Sealmetrics Account ID — this is your **Site ID**; the GTM template's field is labelled "Account ID".
 
 **Tip:**
 1. Log in to Sealmetrics
-2. Go to **Settings → Sites**
-3. Click on your site
-4. Your Account ID is displayed in the **General** tab
+2. Go to **Settings → Sites → [your site] → General** tab
+3. The **Site ID** is shown next to the **Site Name** field — that is the value the template calls Account ID
+
+See [How to find your Site ID](/platform/account-setup/find-account-id).
 
 #### Pixel URL
 
@@ -352,7 +353,7 @@ If you push values to the Data Layer **after** the GTM snippet, those values are
 
 1. Verify your **Account ID** is correct
 2. Check that tags are firing (use Preview mode)
-3. Wait a few minutes — data may take time to appear
+3. Check the **Last hit** timestamp at the top right of the **Overview** report — hits arrive in seconds, so it should move as soon as the tag fires (see [Data delay](/troubleshooting/data-delay))
 4. Ensure your website domain is registered in Sealmetrics
 
 ## Resources

@@ -1,10 +1,10 @@
 ---
-title: "Migration from v1"
+title: "Tracker v1 to v2: Breaking Changes"
 description: "Breaking changes and migration steps from Sealmetrics tracker v1 to v2: one-line install, new conv() and micro() syntax, and no cookies or localStorage."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker/migration-from-v1"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "7a1a63853d67fccafe19ba2039fff2b50a5faeb37773a9eded72154d9bed65d3"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "ea59e569799462d688f1db931d32a1bfcb7ce029ee294e0e7aa5078854a4501f"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,7 +12,7 @@ source_file: "implementation/tracker/migration-from-v1.mdx"
 publisher: "SealMetrics"
 ---
 
-# Migration from v1
+# Tracker v1 to v2: Breaking Changes
 
 Canonical page: https://docs.sealmetrics.com/implementation/tracker/migration-from-v1
 

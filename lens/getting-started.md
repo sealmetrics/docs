@@ -3,8 +3,8 @@ title: "Getting Started with LENS"
 description: "Set up LENS AI and start receiving intelligent insights about your analytics data."
 canonical_url: "https://docs.sealmetrics.com/lens/getting-started"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "356d9aa22ff3ae7dc407a17c69f604119c66722236375f44384f6fa84959f942"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "1904eda87774582f4b77545555970653fa2bfe95da5f2e18d1ee7ca83ffe3447"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -28,7 +28,7 @@ Get LENS configured and receiving insights in under 5 minutes.
 
 1. Log in to your Sealmetrics dashboard
 2. Click **LENS** in the main navigation
-3. You'll see the LENS overview with any detected anomalies
+3. You'll land on the LENS overview, where you can open **Chat** or **Reports**
 
 ## Step 2: Pick a provider
 
@@ -54,26 +54,7 @@ Mark one provider as your default and save.
 **Info:**
 Seal AI Private includes **5M tokens per calendar month** for the whole organization, plus any [token packs](/billing/seal-ai-private#extra-token-packs) you've purchased (packs never expire). The org gets an email at 80% and 100% consumption; once quota and packs are exhausted, Seal AI stops with a "token limit reached" message until the monthly reset — the owner can buy a pack from the [Seal AI Usage screen](/platform/settings/seal-ai-usage), and any user can switch the chat to a BYOK provider for immediate headroom.
 
-## Step 3: Review LENS Insights
-
-LENS analyzes your data on a configurable cadence and generates insights automatically:
-
-1. Go to **LENS** in the main navigation
-2. Review the detected insights
-
-LENS produces five types of insight, so it's not just about anomalies:
-
-| Type | What it means |
-|------|---------------|
-| Anomaly | An unexpected change in a metric |
-| Opportunity | A potential improvement worth acting on |
-| Trend | A significant directional change over time |
-| Alert | A warning that needs attention |
-| Health | A tracking or data-quality issue |
-
-The launch set ("LENS Basic") includes around 25 active rules covering traffic drops and spikes, conversion drops, tracking health, device and landing-page performance, channel efficiency, and source-concentration risk — all without requiring e-commerce or microconversion setup.
-
-## Step 4: Ask Your First Question
+## Step 3: Ask Your First Question
 
 Try the AI assistant:
 
@@ -96,7 +77,7 @@ Try the AI assistant:
 
 **Less helpful:** *"Why is traffic down?"*
 
-## Step 5: Review Your LENS Reports
+## Step 4: Review Your LENS Reports
 
 LENS produces **weekly** and **monthly** reports — an executive summary plus key metrics, channel performance, top insights and action items. Reports are generated for a completed period (there are no custom templates or per-report recipient lists).
 
@@ -106,9 +87,24 @@ LENS produces **weekly** and **monthly** reports — an executive summary plus k
 
 See [LENS Reports](/lens/reports) for what each report contains.
 
-## Understanding LENS Insights
+## Automated insight detection (roadmap)
 
-When LENS detects an insight, you'll see something like this (here, an anomaly):
+**Caution:**
+The rule-based detection library is **built but not active**. No detection rule currently runs on customer accounts, and no automated insight or anomaly alert is generated today. This section documents the planned behaviour — see the [LENS overview](/lens) for what is live. What works today is LENS chat (Step 3) and LENS reports (Step 4).
+
+The planned library produces five types of insight, so it won't be only about anomalies:
+
+| Type | What it means |
+|------|---------------|
+| Anomaly | An unexpected change in a metric |
+| Opportunity | A potential improvement worth acting on |
+| Trend | A significant directional change over time |
+| Alert | A warning that needs attention |
+| Health | A tracking or data-quality issue |
+
+The planned launch set ("LENS Basic") covers traffic drops and spikes, conversion drops, tracking health, device and landing-page performance, channel efficiency, and source-concentration risk — none of which will require e-commerce or microconversion setup.
+
+Once detection ships, an insight will look something like this (here, an anomaly):
 
 ```
 🔴 HIGH PRIORITY
@@ -121,7 +117,7 @@ Current: 1.2%
 Previous: 1.85%
 Change: -35.1%
 
-Detected: 2024-01-15 14:32 UTC
+Detected: 2026-08-10 14:32 UTC
 Affected segment: All traffic
 
 [View Details] [Investigate] [Dismiss]
@@ -139,16 +135,21 @@ Affected segment: All traffic
 
 ## Troubleshooting
 
-### "No anomalies detected"
+### "No insights or anomalies shown"
 
-This is normal if:
-- Your account is new (less than 7 days of data)
-- Your traffic patterns are stable
-- LENS hasn't run its next analysis yet for the configured cadence
+Expected: automated detection is not active yet (see the roadmap note above), so
+no account currently generates insights. Use **Chat** to ask about your data, and
+**Reports** for the weekly and monthly summaries.
 
 ### "Assistant not responding"
 
-The assistant needs a working LLM provider key. Check:
+The answer depends on which provider you're on — check **My Account → LLM Providers** to see which one is active.
+
+**On Seal AI Private** (no API key involved):
+1. Your organization may have exhausted its 5M monthly tokens plus any packs — the chat says "token limit reached". Check **Organization → Seal AI Usage**; an owner can buy a [token pack](/billing/seal-ai-private#extra-token-packs), or any user can switch to a BYOK provider for immediate headroom.
+2. Confirm your plan still includes Seal AI (add-on on Growth, included in Scale and Enterprise).
+
+**On bring-your-own-key:**
 1. You've added an API key in **My Account → LLM Providers**
 2. A default provider is selected and enabled
 3. The key is still valid and hasn't expired or hit your provider's own rate limit

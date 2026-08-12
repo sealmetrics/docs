@@ -3,8 +3,8 @@ title: "LENS API Endpoints"
 description: "REST API reference for LENS: insights, settings and usage, weekly and monthly reports, and AI assistant chat endpoints with Bearer authentication."
 canonical_url: "https://docs.sealmetrics.com/lens/api/lens-endpoints"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e04633766c336c4eee089de62a4d6735ac41f04db2153ba356c2059b22c95594"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "29bf26f0defb2781ecf5ec738868a6b0c75b0757ba6474b35f0180aaaf00d501"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -117,8 +117,8 @@ Insights are the AI-generated findings produced by LENS.
 | `dismissed_at` | string \| null | When it was dismissed |
 | `is_read` | boolean | Whether the current user has read it |
 | `is_dismissed` | boolean | Whether it is dismissed |
-| `is_locked` | boolean | Whether the insight is locked behind a higher tier |
-| `locked_tier` | string \| null | Tier required to unlock, if locked |
+| `is_locked` | boolean | Reserved. Always `false` — no rule or category is locked by plan ([plans differ by data volume](/lens/anomaly-detection/rule-types)) |
+| `locked_tier` | string \| null | Reserved. Always `null`, for the same reason |
 | `evidence` | object \| null | Statistical basis for the insight |
 | `user_feedback` | string \| null | Current user's feedback, if any |
 
@@ -437,9 +437,13 @@ Returns the updated settings object.
 
 ## Chat usage
 
-LENS uses a Bring-Your-Own-Key (BYOK) model for the AI assistant, so chat usage
-is effectively unlimited. These endpoints exist for compatibility with usage UIs
-and report very high limits.
+These endpoints report a **question** count, not token consumption. On
+bring-your-own-key (BYOK) there is no Sealmetrics-imposed limit, so they return a
+sentinel high value — you pay your provider directly. They are not the way to
+track **Seal AI Private** consumption: that quota is measured in tokens (5M per
+month per organization, plus any packs) and exhausting it makes
+`/lens/assistant/chat` return `seal_ai_quota_exceeded`. See
+[Seal AI Private](/billing/seal-ai-private) for the token quota.
 
 ### Get chat question usage
 

@@ -3,8 +3,8 @@ title: "How to Measure Conversions"
 description: "Learn how to track conversions and microconversions with SealMetrics. Measure purchases, signups, leads, and user interactions."
 canonical_url: "https://docs.sealmetrics.com/getting-started/measure-conversions"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "70408487d7c546ce53172700c6ab8f01294c4f5207ee8a7de9b00ca8947d4b75"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "51a00974adf5418c0d37f160645d281f1eb0c04fd72d5282cffba26c41848a6c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -297,7 +297,7 @@ window.addEventListener('load', function() {
 
 1. Check the browser Network tab for requests to `t.sealmetrics.com`
 2. Verify your Site ID is correct
-3. Wait 1-2 minutes and check the **Conversions** report (set the date range to today); the **Last hit** timestamp on the **Overview** report confirms hits are arriving
+3. Check the **Conversions** report (set the date range to today); hits arrive in seconds, so the **Last hit** timestamp at the top right of the **Overview** report should already show your test visit
 4. Ensure the domain is authorized in your SealMetrics account
 
 ### Duplicate conversions

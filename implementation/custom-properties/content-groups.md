@@ -3,8 +3,8 @@ title: "Dynamic Content Grouping"
 description: "Set content groups dynamically with JavaScript for SPAs and complex sites."
 canonical_url: "https://docs.sealmetrics.com/implementation/custom-properties/content-groups"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a4fe89a21c7fa1b62a43355aab2f1e58deb54b658517d3f8e902c10b3b27ce84"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "47d8d66259b5dce1d50289bb502392997e264b9d47b2187393a16e9953b377c0"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -248,7 +248,7 @@ function getContentGroup() {
 1. Open DevTools → Network and look for the request to `t.sealmetrics.com/event`
 2. Confirm the payload includes a `g` field with your group value
 3. Verify `sealmetrics` is defined before calling it
-4. Wait 5 minutes for data processing
+4. Confirm the hit arrived: the **Last hit** timestamp on the **Overview** report should move to "seconds ago" after your test visit
 
 ### Wrong Group Assigned
 

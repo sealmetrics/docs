@@ -3,8 +3,8 @@ title: "How Anomaly Detection Works"
 description: "How LENS detects anomalies in your analytics data using dynamic statistical thresholds and seasonality awareness."
 canonical_url: "https://docs.sealmetrics.com/lens/anomaly-detection"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "5f3d5a0431c22b7b3d7d2b2bdab9cc267b3db89f05b630846cc8236a7a1017bf"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "385525ea2579a72988721ccbd1a516c8e15af15843b83291e692e2b17d5022c7"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -128,5 +128,5 @@ LENS reduces false positives automatically through seasonality awareness and con
 
 ## Next steps
 
-- [View the active rules →](/lens/anomaly-detection/rule-types)
+- [View the planned rule library →](/lens/anomaly-detection/rule-types)
 - [Configure thresholds →](/lens/anomaly-detection/thresholds)

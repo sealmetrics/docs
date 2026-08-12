@@ -3,8 +3,8 @@ title: "Understanding the \"(not set)\" Value in Sealmetrics Reports"
 description: "Learn why Sealmetrics shows \"(not set)\" in your reports, what causes missing UTM parameters, and how to avoid attribution gaps."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/understanding-not-set"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "7b113ca949e1d76037a63c8f40e50c0861bd7e020be06582ad821e30de1845bd"
+date_generated: "2026-08-12T08:28:08.079Z"
+source_hash: "4fe54527ea64e8bc34e1d49732a913e58aefa8b894791835172b03d985ee8d63"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -28,9 +28,11 @@ When Sealmetrics processes UTM parameters, it reads exactly what is present.
 If the URL contains some UTMs but not all, the missing ones become **(not set)**.
 
 ### Example URL
-````
+
+```
 domain.com?utm_source=google&utm_campaign=no-cookies&utm_term=kw1
-````
+```
+
 Parameters found:
 
 - `utm_source = google`
@@ -49,9 +51,11 @@ Because `utm_medium` does not exist in the URL, Sealmetrics assigns **(none)** (
 
 ### 1. Missing UTM Medium
 If `utm_source` exists, but `utm_medium` is missing:
-````
+
+```
 utm_source=facebook&utm_campaign=winter_sale
-````
+```
+
 Result:
 
 - **Source:** facebook
@@ -61,9 +65,11 @@ Result:
 
 ### 2. Missing UTM Source
 If `utm_medium` exists but `utm_source` is missing:
-````
+
+```
 utm_medium=cpc&utm_campaign=promo
-`````
+```
+
 Result:
 
 - **Medium:** cpc
@@ -88,15 +94,15 @@ If a parameter is malformed, Sealmetrics treats it as **not included**, resultin
 
 Unlike some analytics tools:
 
-❌ No guessing missing UTMs
-❌ No automatic inference
-❌ No cross-hit reconstruction
+- No guessing missing UTMs
+- No automatic inference
+- No cross-hit reconstruction
 
 Sealmetrics maintains:
 
-✔ Privacy-first measurement
-✔ Strict attribution rules
-✔ Complete transparency
+- Privacy-first measurement
+- Strict attribution rules
+- Complete transparency
 
 If a UTM is missing → its value is **(not set)**.
 This ensures your data is always accurate and compliant.
@@ -108,11 +114,13 @@ This ensures your data is always accurate and compliant.
 ### 1. Always Use Full UTM Sets
 
 Minimum recommended:
-````
+
+```
 utm_source=
 utm_medium=
 utm_campaign=
-````
+```
+
 ### 2. Use UTM Templates or Builders
 
 This reduces human errors and helps ensure consistency.

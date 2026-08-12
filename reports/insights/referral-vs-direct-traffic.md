@@ -3,8 +3,8 @@ title: "Referral vs Direct Traffic"
 description: "Learn how Sealmetrics classifies referrer traffic vs direct traffic using privacy-first principles and advanced attribution logic."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/referral-vs-direct-traffic"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e79409adb86a3c16ff3beaf7e76b64fbaa38a62d9d69bc40b266c22a275ce393"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "292001e555ace0c9837fd957232cecb49ca7262efc1664cfd0ffb9afacd1d460"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -67,12 +67,12 @@ When referrer information is present, Sealmetrics performs domain-based enrichme
 ### Examples
 
 #### Search Engine → SEO Traffic
-- Referrer: https://google.com/search?q=privacy+analytics
+- Referrer: `https://google.com/search?q=privacy+analytics`
 - Initial classification: Referrer
 - Final classification: SEO
 
 #### Social Platform → Social Traffic
-- Referrer: https://facebook.com/post/12345
+- Referrer: `https://facebook.com/post/12345`
 - Final classification: Social (Facebook)
 
 ### Recognized Categories
@@ -125,8 +125,8 @@ Referrer may be missing due to:
 
 If the referrer domain matches your domain, it is internal navigation — not a new visit.
 
-- Referrer: https://yoursite.com/home
-- Page: https://yoursite.com/product
+- Referrer: `https://yoursite.com/home`
+- Page: `https://yoursite.com/product`
 - Classification: Internal Pageview
 
 ### Cross-Subdomain Navigation
@@ -148,16 +148,16 @@ Sealmetrics follows a strict priority order:
 ### Example Priority Cases
 
 #### Case 1 — UTM Override
-- Referrer: facebook.com
+- Referrer: `facebook.com`
 - Landing URL: `?utm_source=newsletter`
 **Result → Email Campaign Traffic**
 
 #### Case 2 — Platform Recognition
-- Referrer: google.com/search…
+- Referrer: `google.com/search…`
 **Result → SEO Traffic**
 
 #### Case 3 — Unknown Referrer
-- Referrer: unknownsite.org/article
+- Referrer: `unknownsite.org/article`
 **Result → Referrer Traffic**
 
 ---
@@ -181,8 +181,7 @@ Sealmetrics follows a strict priority order:
 
 ## 8. Data Accuracy Considerations
 
-### ⚠️ High Direct Traffic ≠ Always Brand-Aware Users
-
+**Warning:**
 Referrer loss can artificially inflate direct numbers.
 
 ### Common Indicators of Referrer Loss

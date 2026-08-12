@@ -3,8 +3,8 @@ title: "Integrations Overview"
 description: "Connect SealMetrics with your favorite platforms, frameworks, and tools"
 canonical_url: "https://docs.sealmetrics.com/integrations"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "52bad1db0e58508252a7189a95fbc3c685e7826d43544d22e908aadcc72461e8"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "6bc2745464019cd5be142d8d5c884d1ea0121db74145e248d96946b21bd21daf"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -51,7 +51,7 @@ Install SealMetrics on any platform with our official integrations. All integrat
 1. Choose your platform from the list above
 2. Download the plugin/module/script
 3. Install following the platform-specific instructions
-4. Enter your **Account ID** (found in your [SealMetrics dashboard](https://my.sealmetrics.com))
+4. Enter your **Account ID** — this is your Site ID, shown in **Settings → Sites → [your site] → General** ([how to find it](/platform/account-setup/find-account-id))
 5. Save and publish
 
 ### For Custom Implementations

@@ -3,8 +3,8 @@ title: "How Seal AI Works: Private AI on European Infrastructure"
 description: "The architecture behind Seal AI: EU-only inference on Scaleway Paris, zero retention, no training on your data, and why no data is ever transferred to the United States."
 canonical_url: "https://docs.sealmetrics.com/lens/seal-ai/private-ai-architecture"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "3ed874a6badac3e2d6557f16444e572e6e2581188f64dcb38c07ab1aa3270ed6"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "8c5b8a66f3147c77c50814c4f787089d8045080f4c034776fe2672a4fd0f0398"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -23,7 +23,7 @@ How Sealmetrics' AI layer is built, why it qualifies as private AI, how it compl
 [Seal AI Private](/billing/seal-ai-private) is the platform-provided AI of Sealmetrics. It powers two features:
 
 - **The AI assistant** — you ask questions about your analytics in natural language; an AI analyst answers by querying your data through Sealmetrics' internal tools and explaining the results.
-- **Automated insights** — scheduled analyses that turn your aggregated metrics into written, actionable findings.
+- **Automated insights** (planned) — scheduled analyses that will turn your aggregated metrics into written, actionable findings. Not active on accounts yet.
 
 It requires zero configuration: no API keys to create, no AI vendor account, no settings. You enable it and it works. That is possible because the inference endpoint, the model and the key all belong to the platform — and all of them live in the European Union.
 

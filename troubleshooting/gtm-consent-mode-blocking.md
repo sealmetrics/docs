@@ -1,10 +1,10 @@
 ---
-title: "GTM Consent Mode Is Blocking the Sealmetrics Tag"
+title: "Sealmetrics Tag Not Firing in GTM (Consent Mode)"
 description: "Why gating the Sealmetrics tag behind a consent management platform silently drops most of your data, how to diagnose it in GTM Preview, and how to configure the tag correctly."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/gtm-consent-mode-blocking"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a8c4a808bcde12338216c61af13227c297cc68d00a17f97559ef17f02ba67bed"
+date_generated: "2026-08-11T17:34:37.681Z"
+source_hash: "c2565ac6a462f34b265a9ff0426db2732a7d1ab7ab3ec6185eab5ed9c1185c6f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -12,7 +12,7 @@ source_file: "troubleshooting/gtm-consent-mode-blocking.mdx"
 publisher: "SealMetrics"
 ---
 
-# GTM Consent Mode Is Blocking the Sealmetrics Tag
+# Sealmetrics Tag Not Firing in GTM (Consent Mode)
 
 Canonical page: https://docs.sealmetrics.com/troubleshooting/gtm-consent-mode-blocking
 
