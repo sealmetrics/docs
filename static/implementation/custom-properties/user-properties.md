@@ -3,8 +3,8 @@ title: "User Segmentation"
 description: "Segment users by including business attributes in your conversion and microconversion properties."
 canonical_url: "https://docs.sealmetrics.com/implementation/custom-properties/user-properties"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "ce9edbfa66c0d96e74387126efa95e3e238bfc1144c99cad0f04907dda43965d"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "6a6fc1b92a1142fcbc1d6758214a7e7098e87b2f465529488ef1eccec03dfbfd"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -251,7 +251,7 @@ free                   89       €4,450     €50
 ### Segments Not Appearing in Reports
 
 1. Ensure properties are being sent with events (inspect the DevTools Network request to `t.sealmetrics.com/event` and check the `x` key in the payload)
-2. Wait a few minutes for data processing
+2. Confirm the hit arrived: the **Last hit** timestamp on the **Overview** report updates within seconds of a tracked visit — if it doesn't move, the event never arrived ([Data Delay](/troubleshooting/data-delay))
 3. Verify property names match what you're filtering by
 
 ### Inconsistent Segments

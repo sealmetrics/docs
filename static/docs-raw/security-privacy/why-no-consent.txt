@@ -4,80 +4,21 @@ URL: https://docs.sealmetrics.com/security-privacy/why-no-consent
 
 # Why Sealmetrics Can Measure Without Consent
 
-Sealmetrics needs **no consent** because it collects no personal data and sets no cookies — it processes only anonymous, non-identifying signals (isolated "hits"), which falls outside the consent requirements of GDPR and the ePrivacy Directive. It's the question we're asked most often, and the answer is simple and 100% compliant.
+Sealmetrics needs no consent banner because it collects **no personal data** and stores **nothing on the visitor's device**. Two separate rules are in play, and neither one attaches:
 
----
+- **GDPR** governs the processing of personal data. Sealmetrics stores no IP address, no user ID, no persistent identifier and no profile, so the obligations that apply to personal data — including the consent question — are not triggered.
+- **The ePrivacy Directive** (Article 5(3)) requires consent to store or read information on a user's terminal equipment. Sealmetrics sets no cookies and uses no localStorage or sessionStorage, so there is nothing on the device to ask about.
 
-## Full Legal Compliance
+What Sealmetrics records instead is four non-identifying variables per hit: **timestamp**, **user agent** (used for anonymous device classification — the raw string is purged after 1 day, and only the derived browser/OS/device categories persist in aggregates for 24 months), **current URL** and **referral URL**. Hits are measured on their own; they are never joined to a person or linked across sessions.
 
-Sealmetrics operates **fully within current privacy regulations** and adheres to the strictest guidelines set by both:
+This distinction matters more than it looks. Under ePrivacy, tracking individuals requires consent *even when the tracking is anonymous* — which is why moving tags server-side does not remove the consent requirement. Sealmetrics does not track individuals at all, which is a different thing from tracking them anonymously.
 
-- 🇪🇸 **AEPD** (Agencia Española de Protección de Datos)  
-- 🇫🇷 **CNIL** (Commission Nationale de l’Informatique et des Libertés)
-
-These organizations explicitly recognize that **aggregated, non-identifiable measurement systems** can operate **without requiring user consent**.
-
-Sealmetrics follows these principles rigorously and undergoes continuous legal and technical reviews to maintain compliance.
-
----
-
-## Cookieless and Consentless by Design
-
-**Sealmetrics is a 100% cookieless tracking system.**
-
-Our technology collects only **aggregated, non-personal data**, ensuring that **no individual user can ever be identified**.  
-Sealmetrics measures "hits" — not users, sessions, or journeys.
-
-Each interaction is treated as an **independent event**, making it technically and legally impossible to connect actions to a single user.
-
----
-
-## What Sealmetrics Tracks
-
-For each hit (or page view), Sealmetrics records only four variables:
-
-- **Timestamp** — When the event occurred  
-- **User Agent** — Used for anonymous device classification (browser/OS category); the raw string is purged after 1 day and only the derived categories persist in aggregated reports. Never linked to a person  
-- **Current URL** — The page where the event happened  
-- **Referral URL** — Where the visitor came from
-
-That’s it — no cookies, no IP addresses, no device IDs, and no fingerprinting.
-
----
-
-## In Line with ePrivacy and GDPR
-
-According to the **ePrivacy Regulation**, if you wish to **track users individually** — even anonymously — **you must obtain consent**.
-
-Sealmetrics doesn’t track users.  
-We measure **isolated page views ("hits")**, not behavioral journeys.  
-This ensures full compliance with:
-
-- **GDPR (General Data Protection Regulation)**  
-- **CCPA (California Consumer Privacy Act)**  
-- **PECR (UK Privacy and Electronic Communications Regulations)**  
-- **ePrivacy Directive**
-
----
-
-## Why This Matters
-
-Sealmetrics provides marketers and analysts with **accurate, consentless insights** —  
-ensuring **100% traffic measurement** without violating user privacy.
-
-> By design, Sealmetrics can’t track individuals — and that’s exactly why it doesn’t need consent.
-
-This approach guarantees a **sustainable, privacy-first future for analytics**, built on trust, transparency, and compliance.
-
----
-
-Sealmetrics:  
-**The only analytics platform engineered to measure 100% of your data — legally, ethically, and without consent.**
+Both the CNIL (France) and the AEPD (Spain) have published criteria under which audience measurement can operate without consent, and Sealmetrics has self-assessed against them. To be clear about what that is and is not: no supervisory authority certifies or approves analytics tools, so the [compliance pages](/compliance) are our own assessments against published criteria, not third-party validations. Sealmetrics also holds no ISO 27001 or SOC 2 certification. A Data Processing Agreement is included and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/).
 
 ## Related documentation
 
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the consentless concept in full
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the technical mechanism behind no-consent measurement
-- [What We Track vs What We Don't](/security-privacy/what-we-track) — the four variables that keep data non-identifying
-- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — full legal analysis with article references
-- [Frequently Asked Questions](/faq/privacy-security) — quick answers on privacy and consent
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the full legal basis, with the GDPR and ePrivacy articles and the regulatory guidance
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — every variable recorded, with its retention
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the technical mechanism
+- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the detailed regulatory analysis
+- [Consentless Analytics FAQ](/faq/consentless-analytics) — the same question in Q&A form

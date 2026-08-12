@@ -3,8 +3,8 @@ title: "Understanding Event Properties in Sealmetrics"
 description: "Learn how to use event properties in Sealmetrics for advanced conversion tracking, custom data collection, and detailed analytics segmentation while maintaining GDPR compliance."
 canonical_url: "https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties-guide"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "3d874881997e6057997eeb5348112f4dd6bfcebad9df6f4aa864ef595332a28f"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "c27ab637b8d247905e5910d747e336c390bc602972106e0217b0c1a03b34ee2b"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -463,7 +463,7 @@ Sealmetrics' event properties approach trades cross-session user tracking for co
 **Solutions:**
 - Confirm BigQuery integration is active with Sealmetrics team
 - Verify BigQuery project permissions
-- Allow 24 hours for initial data sync
+- Check the integration status panel for **Last Sync** / **Next Sync**: BigQuery is a scheduled export (hourly, daily or manual), so a property sent minutes ago will not be in BigQuery until the next sync runs. An initial backfill can take several hours — see [BigQuery integration](/integrations/bigquery)
 - Check BigQuery dataset for Sealmetrics tables
 
 ## Frequently Asked Questions

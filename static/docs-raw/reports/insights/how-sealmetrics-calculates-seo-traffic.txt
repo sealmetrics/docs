@@ -13,11 +13,11 @@ This document explains how SEO (organic search) traffic is detected and how we a
 
 Sealmetrics attributes a visit to **SEO traffic** when the following two conditions are true:
 
-### ✅ **Condition 1: The referrer is a recognized search engine**
+### **Condition 1: The referrer is a recognized search engine**
 
 Sealmetrics classifies the referrer using configurable referrer mapping tables rather than a hardcoded list of domains. When the referrer domain matches a mapping entry categorized as organic search (for example, Google), the hit may be considered SEO traffic.
 
-### ❌ **Condition 2: No advertising parameters are present**
+### **Condition 2: No advertising parameters are present**
 
 If the landing URL contains **any** of the following parameters, it is *not* SEO traffic:
 
@@ -26,15 +26,17 @@ If the landing URL contains **any** of the following parameters, it is *not* SEO
 - `wbraid` (Google Ads, web-to-app)
 - Any `utm_` parameter (utm_source, utm_medium, utm_campaign, utm_term, etc.)
 
-### 🟦 **If BOTH conditions are met → Sealmetrics classifies the hit as SEO traffic**
+### **If BOTH conditions are met → Sealmetrics classifies the hit as SEO traffic**
 
 Example:
-````
+
+```
 Referrer: https://google.com/search?q=analytics+tools
 Landing URL: https://yoursite.com/pricing
 Parameters: none
 Result: SEO Traffic
-````
+```
+
 ---
 
 ## 2. Avoiding Confusion with Google Ads Traffic
@@ -42,7 +44,8 @@ Result: SEO Traffic
 A common question:  
 **“Could Google Ads traffic ever be classified as SEO traffic?”**
 
-### ✔️ Sealmetrics keeps this risk extremely low — under 1%.  
+### Sealmetrics keeps this risk extremely low — under 1%
+
 For misclassification to happen, TWO things must occur simultaneously:
 
 1. The referrer must be Google  

@@ -78,7 +78,7 @@ If the conversion beacon has `"e"` but no `"v"`, you are hitting step 2 (string 
 1. Open the **Conversions** report (sidebar → **Conversions**).
 2. Make sure the top-right toggle is on **Conversions** — if you fired `sealmetrics.micro(...)`, the event lands in the **Microconversions** view instead.
 3. Set the date range to **today** (site timezone — see [Dates & timezone mismatch](/troubleshooting/dates-timezone-mismatch)).
-4. Wait 1–2 minutes and reload. The **Last hit** timestamp on the **Overview** report confirms hits are arriving at all.
+4. Reload the report. Hits arrive in seconds, so the **Last hit** timestamp at the top right of the **Overview** report should already show your test — if it doesn't move, nothing is being ingested (see [Data delay](/troubleshooting/data-delay)).
 
 ---
 

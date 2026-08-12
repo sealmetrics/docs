@@ -469,7 +469,7 @@ Sealmetrics' event properties approach trades cross-session user tracking for co
 **Solutions:**
 - Confirm BigQuery integration is active with Sealmetrics team
 - Verify BigQuery project permissions
-- Allow 24 hours for initial data sync
+- Check the integration status panel for **Last Sync** / **Next Sync**: BigQuery is a scheduled export (hourly, daily or manual), so a property sent minutes ago will not be in BigQuery until the next sync runs. An initial backfill can take several hours — see [BigQuery integration](/integrations/bigquery)
 - Check BigQuery dataset for Sealmetrics tables
 
 ## Frequently Asked Questions

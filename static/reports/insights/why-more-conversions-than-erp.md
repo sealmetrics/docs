@@ -3,8 +3,8 @@ title: "Why Do I See More Conversions or Revenue in Sealmetrics Than in My ERP?"
 description: "Understand why Sealmetrics may show more conversions or revenue than your ERP and how to properly configure your tracking to avoid discrepancies."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/why-more-conversions-than-erp"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "e69869520113ceeebd76bd9b5d56a382ec8f79831b4ea9c8a3c192d085c34964"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "bd731efccf7e3d7c2e748647d0d7b912af151bb11f95a431c40367ec6b9b7ffd"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -89,7 +89,8 @@ If someone loads the confirmation page but payment fails, Sealmetrics counts the
 
 ## How to Fix These Issues
 
-### ✔ 1. Place the Pixel Only on the Final Thank-You Page
+### 1. Place the Pixel Only on the Final Thank-You Page
+
 Avoid:
 - Cached pages
 - Pages that users may revisit
@@ -101,7 +102,8 @@ Ensure the page is:
 
 ---
 
-### ✔ 2. Add Server-Side Conditions
+### 2. Add Server-Side Conditions
+
 Example condition logic:
 
 > Fire the pixel ONLY if the order is confirmed.
@@ -113,7 +115,8 @@ This prevents:
 
 ---
 
-### ✔ 3. Fire the Pixel Only Once Per Session
+### 3. Fire the Pixel Only Once Per Session
+
 Your developers can enforce session-based logic to avoid double counting.
 
 Example safeguards:

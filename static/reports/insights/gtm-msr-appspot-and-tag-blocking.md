@@ -3,8 +3,8 @@ title: "What is gtm-msr.appspot.com and How to Prevent It from Triggering Tags i
 description: "Learn why gtm-msr.appspot.com appears in Google Tag Manager and how to prevent it from firing tags or polluting your analytics."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/gtm-msr-appspot-and-tag-blocking"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a84cfb233160fd59b84fab3630828669ca9d242de82ee20b81ff44ffe6ae9b48"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "bc26e69552a7376912715230b832eb197e32ba870b184a254e12bca71465fedc"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -30,7 +30,7 @@ This domain appears when:
 - A **browser extension** or tool triggers a render for debugging
 - GTM loads your container inside an **Appspot sandbox environment**
 
-⚠️ **Important:**
+**Warning:**
 This traffic **is NOT from real users** — but it *can* cause your tags to fire, which leads to:
 
 - Fake pageviews
@@ -44,10 +44,10 @@ This traffic **is NOT from real users** — but it *can* cause your tags to fire
 
 If tags fire when GTM loads from `gtm-msr.appspot.com`, you may experience:
 
-- ❌ Inflated events
-- ❌ Artificial conversions in Meta Ads / Google Ads / TikTok
-- ❌ Incorrect GTM trigger debugging
-- ❌ Polluted analytics reports
+- Inflated events
+- Artificial conversions in Meta Ads / Google Ads / TikTok
+- Incorrect GTM trigger debugging
+- Polluted analytics reports
 
 This is especially harmful for:
 - Conversion tracking
@@ -60,50 +60,46 @@ This is especially harmful for:
 
 You can fully block this domain at the trigger level by using a simple variable.
 
----
-
-## Step 1 — Create a Blocking Variable in GTM
+### Step 1 — Create a blocking variable in GTM
 
 1. Go to **Variables**
 2. Click **New → Custom JavaScript Variable**
 3. Name it: `IsNotGTMAppspot`
 4. Use this code:
 
-```js
-function() {
-  return location.hostname !== "gtm-msr.appspot.com";
-}
+   ```js
+   function() {
+     return location.hostname !== "gtm-msr.appspot.com";
+   }
+   ```
 
-Save
+5. Click **Save**
 
-This variable will return true only when the page is not GTM’s sandbox domain.
+This variable returns `true` only when the page is **not** GTM's sandbox domain.
 
-## Step 2 - Add the condition in all triggers
+### Step 2 — Add the condition to all triggers
 
 For every trigger that launches tags (pageviews, clicks, conversions, etc.):
-	1.	Open the trigger
-	2.	Add this condition:
 
-IsNotGTMAppspot  equals  true
+1. Open the trigger
+2. Add this condition:
 
-This ensures:
+   ```
+   IsNotGTMAppspot  equals  true
+   ```
 
-Tags fire everywhere except inside GTM’s Appspot preview environment.
+This ensures tags fire everywhere **except** inside GTM's Appspot preview environment.
 
-## How to test it
-	1.	Click Preview in Google Tag Manager
-	2.	Confirm the debug URL becomes:
+### Step 3 — Test it
 
-    ```
-    https://gtm-msr.appspot.com/...
-    ```
-
-    3.	Check the tag panel → No tags should fire
+1. Click **Preview** in Google Tag Manager
+2. Confirm the debug URL becomes `https://gtm-msr.appspot.com/...`
+3. Check the tag panel — no tags should fire
 
 If everything looks correct:
 
-✔ Publish your container
-✔ Your tags are now protected from false firing
+- Publish your container
+- Your tags are now protected from false firing
 
 ## Related documentation
 

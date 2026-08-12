@@ -127,99 +127,45 @@ URL: https://docs.sealmetrics.com/getting-started/how-it-works
 
 # How Sealmetrics Works
 
-Sealmetrics measures 100% of your website traffic without cookies, consent banners, or personal data collection, built on a simple principle: **measure everything, identify no one**. It works by capturing just four non-identifying data points per interaction — timestamp, user agent, current URL, and referral URL — so there is nothing to consent to and nothing ad blockers can strip out.
+Sealmetrics measures your website traffic without cookies, consent banners or personal data, on a simple principle: **measure everything, identify no one**. You add one script tag; every visit is recorded as a set of non-identifying signals; your reports show aggregate patterns.
 
-## The Challenge We Solve
+## What gets recorded
 
-Traditional analytics tools lose 60-87% of visitor data in EU markets because users reject cookies. That means you're making business decisions with incomplete information. Sealmetrics captures every visitor while staying fully compliant with GDPR, ePrivacy, CCPA, and PECR.
+Four variables per hit:
 
-## The Four-Variable System
+1. **Timestamp** — when the visit happened
+2. **User Agent** — used for anonymous device classification (browser, OS, device type). The raw string is purged after 1 day; only the derived categories persist in aggregates
+3. **Current URL** — which page was viewed
+4. **Referral URL** — where the visitor came from
 
-Every interaction on your website is captured using just four data points:
+No IP addresses stored, no cookies, no localStorage, no persistent identifiers. Hits within one visit are grouped by a short-lived, in-memory session marker (roughly a two-hour inactivity window) that is never written to the device and cannot recognise a returning visitor.
 
-1. **Timestamp** - When the visit happened
-2. **User Agent** - Browser and device type (stored 24 months for anonymous device classification; never linked to a person)
-3. **Current URL** - Which page was viewed
-4. **Referral URL** - Where the visitor came from
+Because no personal data is collected and nothing is stored on the visitor's device, there is no consent to ask for — which is also why cookie-based tools lose 30–60% of visitor data in EU markets while Sealmetrics does not. The full reasoning is in [What is Consentless Analytics?](/security-privacy/consentless-analytics), and the exact field list with retention is in [What We Track](/security-privacy/what-we-track).
 
-That's it. No IP addresses, no cookies, no persistent identifiers. This minimal approach makes it legally impossible to identify individual users while still giving you actionable insights.
+## What you get in reports
 
-## Session-Based Tracking
+Traffic and entrances, traffic sources and campaigns, conversions and revenue with last-click attribution at channel level, aggregate engagement (bounce rate, engagement rate, pages per session), country from browser timezone, and device/browser breakdowns. Hits appear within seconds — the **Last hit** timestamp on the Overview report lets you verify your install immediately.
 
-Sealmetrics groups the hits of a single visit using a temporary session marker derived from the browser context — nothing is stored on the device (no cookies, no local storage). A session ends after roughly two hours of inactivity. This allows you to:
+What you do not get is anything that needs a persistent identifier: unique visitors, session duration, cross-session journeys or cohorts. See the [Metrics Reference](/reports/definitions) for how each metric is calculated.
 
-- Count page views within a single visit
-- Measure engagement in aggregate — bounce rate, engagement rate, pages per session
-- See which pages start sessions, and which convert
-- Track drop-off between funnel steps
+## How the data flows
 
-Session duration and individual navigation paths are not measured: both need a visitor's pageviews sequenced against each other, which the session marker deliberately makes impossible. See the [Metrics Reference](/reports/definitions).
+1. The tracker (1.3 KB gzipped, asynchronous) detects page views and the events you instrument.
+2. Hits are sent to Sealmetrics infrastructure in **Dublin, Ireland**. IPs are used in memory only for anti-abuse checks and are never persisted in the analytics database.
+3. Each hit is processed on its own and aggregated. Event-level rows are purged after 1 day; daily aggregates and conversions are kept 24 months.
+4. Known bots, crawlers, scrapers and monitoring tools are filtered out so reports show real visitors — see [Bot Detection](/security-privacy/bot-detection).
 
-The session marker contains no persistent identifier and Sealmetrics never recognizes visitors across sessions — separate visits are never linked together, so no browsing profile of any person can be built.
+## Getting started
 
-## How Data Flows Through Sealmetrics
-
-**Step 1: Event Detection**
-A lightweight JavaScript snippet on your website detects page views and events. The script is asynchronous and won't slow down your site.
-
-**Step 2: Instant Anonymization**
-Data is immediately anonymized at the collection layer. User agents are parsed for anonymous device classification and stored 24 months alongside the hit, but never joined with any personal identifier (there isn't one). No IP addresses are persisted in the analytics database — IPs are used only transiently server-side for anti-abuse protection.
-
-**Step 3: Secure Processing**
-All data is processed on EU-based servers in Dublin, Ireland. We use encryption in transit and at rest, with strict access controls and complete audit trails.
-
-**Step 4: Aggregate Insights**
-Your dashboard shows statistical patterns across all visitors. You see traffic sources, popular pages, conversion rates, and revenue attribution—all without tracking individuals.
-
-## Attribution Without Personal Data
-
-Sealmetrics uses **last-click attribution** at the channel level. When someone converts, we attribute that conversion to the traffic source (like "Google Organic" or "Facebook Ads") without connecting it to any individual person.
-
-This gives you the marketing intelligence you need—which channels drive results—without the privacy risks of user-level tracking.
-
-## Data in Seconds
-
-Hits reach your reports within seconds of happening. The **Last hit** timestamp on the Overview report shows exactly when the most recent hit arrived, so you can verify your tracking implementation instantly — without compromising anyone's privacy.
-
-## Integration Made Simple
-
-Getting started takes two minutes:
-
-1. Add one script tag to your website's `<head>` section
-2. Start seeing data immediately
-3. Instrument conversions and events as needed with `sealmetrics.conv()`
-
-Works with any framework: WordPress, React, Vue, standard HTML. Use our native plugins or integrate via Google Tag Manager.
-
-## Bot Filtering
-
-We automatically filter out known bots, scrapers, and monitoring tools so you only see real human visitors. Our system recognizes search engine crawlers, uptime monitors, and datacenter traffic.
-
-## API Access for Custom Needs
-
-Need to pull data into your own systems? Our REST API gives you programmatic access to all your analytics data. Export to CSV or integrate with your existing tools.
-
-## The Result: Complete Data, Zero Compromise
-
-- **5-8x more complete data** than cookie-based analytics in EU markets
-- **Zero consent requirements** - no banners, no data loss
-- **Fully compliant** - GDPR, ePrivacy, CCPA, PECR by design
-- **Always accurate** - no ad blocker interference
-- **EU infrastructure only** - all servers in Dublin, Ireland
-
-Sealmetrics proves you don't need to track people to understand your traffic. You just need to measure the right things, the right way.
-
----
-
-**Ready to see all your data?** Start your free trial today and discover what you've been missing.
+Add one script tag to your `<head>`, then instrument conversions with `sealmetrics.conv()`. It works with any stack — WordPress, React, Vue, plain HTML — natively or through Google Tag Manager. A REST API and CSV export are available for pulling the data into your own systems.
 
 ## Related documentation
 
 - [First Steps with Sealmetrics](/getting-started/quick-start) — go from signup to live data
-- [Installation](/implementation/tracker/installation) — add the script tag described above
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — technical detail on the Four-Variable System
-- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — the legal basis behind consentless measurement
-- [Overview Report](/reports/overview) — see the aggregate insights this architecture produces
+- [Installation](/implementation/tracker/installation) — add the script tag
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and its legal basis
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — every field, with retention
+- [Overview Report](/reports/overview) — the aggregate insights this architecture produces
 
 
 
@@ -285,8 +231,8 @@ Your site is now ready for tracking code installation.
 
 ### Getting Your Tracking Code
 
-1. Open your site and go to **Site Config → Settings**, then select the **Pixel Code** tab — the Pixel Builder there generates your snippet
-2. Alternatively, run the **Setup Wizard** (under **Settings → Pixels**) for a guided installation
+1. Go to **Settings → Sites → [your site] → Pixel Code** — the tab generates your install snippet
+2. Alternatively, run the **Setup Wizard** (**Settings → Setup Wizard**, `/settings/wizard`) for a guided installation
 3. Copy your unique tracking code and choose your preferred installation method
 
 ### Installation Methods
@@ -387,7 +333,7 @@ A chart lets you toggle between Entrances, Pageviews, and Conversions over time.
 - Verify code placement  
 - Check for JavaScript errors  
 - Ensure code appears on all pages  
-- Allow 24 hours for processing  
+- Check the **Last hit** timestamp at the top right of the **Overview** report — it updates within seconds of a tracked visit. If it doesn't move after you visit your site, the hit never arrived (see [Data delay](/troubleshooting/data-delay))  
 
 ### Duplicate Tracking
 
@@ -1216,7 +1162,7 @@ window.addEventListener('load', function() {
 
 1. Check the browser Network tab for requests to `t.sealmetrics.com`
 2. Verify your Site ID is correct
-3. Wait 1-2 minutes and check the **Conversions** report (set the date range to today); the **Last hit** timestamp on the **Overview** report confirms hits are arriving
+3. Check the **Conversions** report (set the date range to today); hits arrive in seconds, so the **Last hit** timestamp at the top right of the **Overview** report should already show your test visit
 4. Ensure the domain is authorized in your SealMetrics account
 
 ### Duplicate conversions
@@ -6661,12 +6607,12 @@ When referrer information is present, Sealmetrics performs domain-based enrichme
 ### Examples
 
 #### Search Engine → SEO Traffic
-- Referrer: https://google.com/search?q=privacy+analytics  
+- Referrer: `https://google.com/search?q=privacy+analytics`  
 - Initial classification: Referrer  
 - Final classification: SEO  
 
 #### Social Platform → Social Traffic
-- Referrer: https://facebook.com/post/12345  
+- Referrer: `https://facebook.com/post/12345`  
 - Final classification: Social (Facebook)  
 
 ### Recognized Categories
@@ -6719,8 +6665,8 @@ Referrer may be missing due to:
 
 If the referrer domain matches your domain, it is internal navigation — not a new visit.
 
-- Referrer: https://yoursite.com/home  
-- Page: https://yoursite.com/product  
+- Referrer: `https://yoursite.com/home`  
+- Page: `https://yoursite.com/product`  
 - Classification: Internal Pageview  
 
 ### Cross-Subdomain Navigation
@@ -6742,16 +6688,16 @@ Sealmetrics follows a strict priority order:
 ### Example Priority Cases
 
 #### Case 1 — UTM Override
-- Referrer: facebook.com  
+- Referrer: `facebook.com`  
 - Landing URL: `?utm_source=newsletter`  
 **Result → Email Campaign Traffic**
 
 #### Case 2 — Platform Recognition
-- Referrer: google.com/search…  
+- Referrer: `google.com/search…`  
 **Result → SEO Traffic**
 
 #### Case 3 — Unknown Referrer
-- Referrer: unknownsite.org/article  
+- Referrer: `unknownsite.org/article`  
 **Result → Referrer Traffic**
 
 ---
@@ -6775,8 +6721,7 @@ Sealmetrics follows a strict priority order:
 
 ## 8. Data Accuracy Considerations
 
-### ⚠️ High Direct Traffic ≠ Always Brand-Aware Users
-
+**Warning:**
 Referrer loss can artificially inflate direct numbers.
 
 ### Common Indicators of Referrer Loss
@@ -7802,9 +7747,11 @@ When Sealmetrics processes UTM parameters, it reads exactly what is present.
 If the URL contains some UTMs but not all, the missing ones become **(not set)**.
 
 ### Example URL
-````
+
+```
 domain.com?utm_source=google&utm_campaign=no-cookies&utm_term=kw1
-````
+```
+
 Parameters found:
 
 - `utm_source = google`
@@ -7823,9 +7770,11 @@ Because `utm_medium` does not exist in the URL, Sealmetrics assigns **(none)** (
 
 ### 1. Missing UTM Medium  
 If `utm_source` exists, but `utm_medium` is missing:
-````
+
+```
 utm_source=facebook&utm_campaign=winter_sale
-````
+```
+
 Result:
 
 - **Source:** facebook  
@@ -7835,9 +7784,11 @@ Result:
 
 ### 2. Missing UTM Source  
 If `utm_medium` exists but `utm_source` is missing:
-````
+
+```
 utm_medium=cpc&utm_campaign=promo
-`````
+```
+
 Result:
 
 - **Medium:** cpc  
@@ -7862,15 +7813,15 @@ If a parameter is malformed, Sealmetrics treats it as **not included**, resultin
 
 Unlike some analytics tools:
 
-❌ No guessing missing UTMs  
-❌ No automatic inference  
-❌ No cross-hit reconstruction  
+- No guessing missing UTMs
+- No automatic inference
+- No cross-hit reconstruction
 
 Sealmetrics maintains:
 
-✔ Privacy-first measurement  
-✔ Strict attribution rules  
-✔ Complete transparency  
+- Privacy-first measurement
+- Strict attribution rules
+- Complete transparency
 
 If a UTM is missing → its value is **(not set)**.  
 This ensures your data is always accurate and compliant.
@@ -7882,11 +7833,13 @@ This ensures your data is always accurate and compliant.
 ### 1. Always Use Full UTM Sets
 
 Minimum recommended:
-````
+
+```
 utm_source=
 utm_medium=
 utm_campaign=
-````
+```
+
 ### 2. Use UTM Templates or Builders
 
 This reduces human errors and helps ensure consistency.
@@ -9170,9 +9123,11 @@ When a user clicks a link from one website to another, the browser normally send
 This header contains the URL of the previous page and helps website owners understand **where traffic comes from**.
 
 Example referrer header:
-````
+
+```
 Referrer: https://google.com/search?q=analytics
-````
+```
+
 Sealmetrics reads this header (without storing personal information) to classify traffic sources.
 
 ---
@@ -9181,7 +9136,8 @@ Sealmetrics reads this header (without storing personal information) to classify
 
 If a referrer exists, Sealmetrics analyzes the domain and performs **category-based enrichment**:
 
-### ✔ Domain recognition  
+### Domain recognition
+
 Certain domains are automatically recognized and reclassified:
 
 - **google.com** → SEO  
@@ -9189,7 +9145,8 @@ Certain domains are automatically recognized and reclassified:
 - **facebook.com** → Social  
 - **instagram.com** → Social  
 
-### ✔ Why this reclassification matters  
+### Why this reclassification matters
+
 It provides more meaningful insight into *which channels* bring traffic to your site, instead of treating everything as a generic “referrer”.
 
 ---
@@ -9346,13 +9303,13 @@ This domain appears when:
 - A **browser extension** or tool triggers a render for debugging  
 - GTM loads your container inside an **Appspot sandbox environment**
 
-⚠️ **Important:**  
+**Warning:**
 This traffic **is NOT from real users** — but it *can* cause your tags to fire, which leads to:
 
-- Fake pageviews  
-- Phantom conversions  
-- Polluted campaign attribution  
-- Incorrect ROAS calculations  
+- Fake pageviews
+- Phantom conversions
+- Polluted campaign attribution
+- Incorrect ROAS calculations
 
 ---
 
@@ -9360,10 +9317,10 @@ This traffic **is NOT from real users** — but it *can* cause your tags to fire
 
 If tags fire when GTM loads from `gtm-msr.appspot.com`, you may experience:
 
-- ❌ Inflated events  
-- ❌ Artificial conversions in Meta Ads / Google Ads / TikTok  
-- ❌ Incorrect GTM trigger debugging  
-- ❌ Polluted analytics reports  
+- Inflated events
+- Artificial conversions in Meta Ads / Google Ads / TikTok
+- Incorrect GTM trigger debugging
+- Polluted analytics reports
 
 This is especially harmful for:
 - Conversion tracking  
@@ -9376,46 +9333,53 @@ This is especially harmful for:
 
 You can fully block this domain at the trigger level by using a simple variable.
 
----
+### Step 1 — Create a blocking variable in GTM
 
-## Step 1 — Create a Blocking Variable in GTM
-
-1. Go to **Variables**  
-2. Click **New → Custom JavaScript Variable**  
-3. Name it: `IsNotGTMAppspot`  
+1. Go to **Variables**
+2. Click **New → Custom JavaScript Variable**
+3. Name it: `IsNotGTMAppspot`
 4. Use this code:
 
-```js
-function() {
-  return location.hostname !== "gtm-msr.appspot.com";
-}
+   ```js
+   function() {
+     return location.hostname !== "gtm-msr.appspot.com";
+   }
+   ```
 
-Save
+5. Click **Save**
 
-This variable will return true only when the page is not GTM’s sandbox domain.
+This variable returns `true` only when the page is **not** GTM's sandbox domain.
 
-## Step 2 - Add the condition in all triggers
+### Step 2 — Add the condition to all triggers
 
 For every trigger that launches tags (pageviews, clicks, conversions, etc.):
-	1.	Open the trigger
-	2.	Add this condition:
 
-IsNotGTMAppspot  equals  true
+1. Open the trigger
+2. Add this condition:
 
-This ensures:
+   ```
+   IsNotGTMAppspot  equals  true
+   ```
 
-Tags fire everywhere except inside GTM’s Appspot preview environment.
+This ensures tags fire everywhere **except** inside GTM's Appspot preview environment.
 
-## How to test it
-	1.	Click Preview in Google Tag Manager
-	2.	Confirm the debug URL becomes:
+### Step 3 — Test it
 
-    ```
-    https://gtm-msr.appspot.com/...
-    ```
+1. Click **Preview** in Google Tag Manager
+2. Confirm the debug URL becomes `https://gtm-msr.appspot.com/...`
+3. Check the tag panel — no tags should fire
 
-    3.	Check the tag panel → No tags should fire
+If everything looks correct:
 
+- Publish your container
+- Your tags are now protected from false firing
+
+## Related documentation
+
+- [Google Tag Manager Template](/integrations/google-tag-manager) — Install the Sealmetrics pixel through GTM
+- [Bot Detection & Traffic Quality](/security-privacy/bot-detection) — How Sealmetrics filters non-human traffic
+- [How to Track Google Ads Campaigns](/reports/insights/how-to-track-google-ads-campaigns) — Prevent inflated ad conversions
+- [Sources Report](/reports/sources) — Verify campaign attribution stays clean
 
 
 
@@ -9441,11 +9405,11 @@ Concretely, Sealmetrics counts a new Entrance whenever a hit arrives with an **e
 
 If the same visitor lands on your site at **9:00**, keeps browsing until **9:30**, and comes back at **3:00 PM** the same day:
 
-**➡️ 2 Entrances, one for each session** (the 3:00 PM return is a new session because the 2-hour inactivity window elapsed).
+**2 Entrances, one for each session** (the 3:00 PM return is a new session because the 2-hour inactivity window elapsed).
 
 If instead they lands, closes the tab and reopens the same landing page 30 seconds later within the same session context:
 
-**➡️ 1 Entrance** — the second hit is a pageview inside the same session.
+**1 Entrance** — the second hit is a pageview inside the same session.
 
 Sealmetrics tracks sessions **without** tracking the individual. Session boundaries are derived from referrer + inactivity, not from a cookie or fingerprint, which is what keeps the entire model consentless.
 
@@ -9455,8 +9419,8 @@ Sealmetrics tracks sessions **without** tracking the individual. Session boundar
 
 | Metric | How It Works | Requires Consent? | Why |
 |--------|--------------|-------------------|-----|
-| **Visits (GA4)** | Groups interactions into a session using a persistent client ID | ✔️ Yes | GA4 identifies the returning visitor across sessions to unify their history |
-| **Entrances (Sealmetrics)** | Starts a session on the first arrival; groups follow-up hits within the session's ~2-hour inactivity window | ❌ No | Sessions are derived from context, not from a per-user identifier |
+| **Visits (GA4)** | Groups interactions into a session using a persistent client ID | Yes | GA4 identifies the returning visitor across sessions to unify their history |
+| **Entrances (Sealmetrics)** | Starts a session on the first arrival; groups follow-up hits within the session's ~2-hour inactivity window | No | Sessions are derived from context, not from a per-user identifier |
 
 ### Key Difference
 
@@ -9526,10 +9490,10 @@ While Entrances are not equivalent to “sessions” or “unique visitors,” t
 
 This method ensures:
 
-✔ No user tracking  
-✔ No identifiers  
-✔ No consent required  
-✔ Accurate, transparent traffic measurement  
+- No user tracking
+- No identifiers
+- No consent required
+- Accurate, transparent traffic measurement
 
 Sealmetrics delivers analytics designed for the privacy-first era — without compromising data integrity.
 
@@ -9992,11 +9956,11 @@ This document explains how SEO (organic search) traffic is detected and how we a
 
 Sealmetrics attributes a visit to **SEO traffic** when the following two conditions are true:
 
-### ✅ **Condition 1: The referrer is a recognized search engine**
+### **Condition 1: The referrer is a recognized search engine**
 
 Sealmetrics classifies the referrer using configurable referrer mapping tables rather than a hardcoded list of domains. When the referrer domain matches a mapping entry categorized as organic search (for example, Google), the hit may be considered SEO traffic.
 
-### ❌ **Condition 2: No advertising parameters are present**
+### **Condition 2: No advertising parameters are present**
 
 If the landing URL contains **any** of the following parameters, it is *not* SEO traffic:
 
@@ -10005,15 +9969,17 @@ If the landing URL contains **any** of the following parameters, it is *not* SEO
 - `wbraid` (Google Ads, web-to-app)
 - Any `utm_` parameter (utm_source, utm_medium, utm_campaign, utm_term, etc.)
 
-### 🟦 **If BOTH conditions are met → Sealmetrics classifies the hit as SEO traffic**
+### **If BOTH conditions are met → Sealmetrics classifies the hit as SEO traffic**
 
 Example:
-````
+
+```
 Referrer: https://google.com/search?q=analytics+tools
 Landing URL: https://yoursite.com/pricing
 Parameters: none
 Result: SEO Traffic
-````
+```
+
 ---
 
 ## 2. Avoiding Confusion with Google Ads Traffic
@@ -10021,7 +9987,8 @@ Result: SEO Traffic
 A common question:  
 **“Could Google Ads traffic ever be classified as SEO traffic?”**
 
-### ✔️ Sealmetrics keeps this risk extremely low — under 1%.  
+### Sealmetrics keeps this risk extremely low — under 1%
+
 For misclassification to happen, TWO things must occur simultaneously:
 
 1. The referrer must be Google  
@@ -10347,26 +10314,96 @@ Sealmetrics reads the UTM parameters located in your URLs.
 
 By incorporating these URL tracking templates into your Google Ads campaigns, SEAL can track campaigns, terms/keywords, placements, or product IDs from Google Ads.
 
+Because Sealmetrics is cookieless, the landing URL is the only place attribution data can come from: UTM tags and ad click IDs are extracted **server-side from the page URL** the visitor actually lands on. If a parameter is not in that URL, it cannot be reported.
+
 ---
 
 ## Google Search & Display (GDN)
 
 ```
 {lpurl}?utm_medium=cpc&utm_source=google&utm_campaign={Campaignid}&utm_term={ifsearch:{keyword}\{matchtype}}{ifcontent:{placement}}
-````
+```
+
 ## Google Shopping
 
 ```
 {lpurl}?utm_medium=cpc&utm_source=google&utm_campaign={Campaignid}&utm_term={_term}
-````
+```
+
+---
+
+## What the template does
+
+Everything in `{curly braces}` is a **Google Ads ValueTrack parameter**. Google replaces it at click time, before the visitor reaches your site, so Sealmetrics only ever sees the final resolved values.
+
+| Placeholder | Replaced by | Lands in Sealmetrics as |
+|---|---|---|
+| `{lpurl}` | The ad's final URL | The landing page |
+| `{Campaignid}` | The campaign's numeric ID | **Campaign** in the [Campaigns tab](/reports/sources#4-campaigns-tab) |
+| `{keyword}` | The keyword that triggered the ad | Part of **Term** |
+| `{matchtype}` | The keyword's match type (`e` exact, `p` phrase, `b` broad) | Part of **Term** |
+| `{placement}` | The site or app where a Display ad was shown | **Term**, for Display clicks |
+| `{_term}` | A custom parameter you define in Google Ads | **Term**, for Shopping clicks |
+
+The two conditional wrappers are what let a **single template cover both networks**:
+
+- `{ifsearch:…}` resolves only when the click came from the **Search** network. Everything else is dropped.
+- `{ifcontent:…}` resolves only when the click came from the **Display** network.
+
+So `utm_term={ifsearch:{keyword}\{matchtype}}{ifcontent:{placement}}` produces a `utm_term` that holds the **keyword and its match type** on Search clicks, and the **placement domain** on Display clicks — never both, and never an empty tag on either network. Sealmetrics then reports whichever value arrived as the [TERM](/reports/insights/what-is-a-term).
+
+`utm_medium=cpc` and `utm_source=google` are fixed values, not ValueTrack. They are what keep these visits classified as paid: a hit carrying `utm_` parameters or a `gclid` is never counted as organic search. See [How Sealmetrics Calculates SEO Traffic](/reports/insights/how-sealmetrics-calculates-seo-traffic).
+
+**Note:**
+
+---
 
 ## Google Ads Account-Level Setup
 
-ou can add this code directly at the Account level following these Google Ads instructions:
-
-https://support.google.com/google-ads/answer/6305348?hl=en
+You can add this code directly at the Account level following these [Google Ads instructions](https://support.google.com/google-ads/answer/6305348?hl=en).
 
 When configured at the account level, Google Ads will automatically append all value-track parameters to every campaign — including new ones — ensuring reliable attribution in Sealmetrics.
+
+---
+
+## How to verify it works
+
+You do not have to wait for a real click. Sealmetrics processes hits in **seconds, not hours**, so you can confirm the setup end to end in a couple of minutes.
+
+**1. Test the resolved URL first.** In Google Ads, use the **Test** button next to the tracking template. Google shows you the final URL a click would produce. Check that the UTM parameters are present and filled in — not left as literal `{keyword}` text.
+
+**2. Land on your own site with a tagged URL.** Paste that resolved URL into a browser and load the page. Any URL with the same parameters works for a smoke test, for example:
+
+```
+https://yoursite.com/landing?utm_medium=cpc&utm_source=google&utm_campaign=123456789&utm_term=running+shoes
+```
+
+**3. Confirm the hit arrived.** Open the **Overview** report and check the **Last hit** timestamp at the top right — it should read "seconds ago". If it does not move, the hit never arrived and the problem is with your tracking installation, not the template. See [Data Delay](/troubleshooting/data-delay).
+
+**4. Confirm the values landed in the right tabs.** Open the [Sources report](/reports/sources) and check:
+
+| Tab | What you should see |
+|---|---|
+| **Mediums** | `cpc` |
+| **Sources** | `google` |
+| **Campaigns** | Your campaign ID (the numeric value `{Campaignid}` resolved to) |
+| **Terms** | Your keyword and match type, or the placement for Display clicks |
+
+---
+
+## Troubleshooting
+
+**Terms show `(not set)`, or campaigns show numeric IDs you can't read.**  
+`(not set)` means the parameter never reached the landing URL. `{Campaignid}` resolves to Google's numeric campaign ID, not the campaign name, so numbers in the Campaigns tab are expected behaviour rather than a fault. See [Understanding the "(not set)" Value](/reports/insights/understanding-not-set).
+
+**A redirect sits between the ad and the landing page.**  
+Redirect chains frequently strip query parameters. Because Sealmetrics reads UTMs from the URL of the page where the pixel fires, anything dropped in a redirect is gone for good. Load the ad URL and inspect the address bar *after* all redirects settle — the parameters must still be there.
+
+**Your marketing stack uses different parameter names.**  
+If your team standardises on names like `campaign_id` instead of `utm_campaign`, map them in **Settings → Sites → UTM Mappings** rather than editing the template. See [How to Change UTM Parameters](/reports/insights/how-to-change-utm-parameters).
+
+**Medium shows `(none)` instead of `(not set)`.**  
+That is specific to a missing `utm_medium`, and is aligned with GA4's behaviour. It means `utm_medium=cpc` did not survive to the landing URL.
 
 ## Related documentation
 
@@ -10723,16 +10760,16 @@ Without UTMs, Sealmetrics cannot reliably distinguish paid vs. unpaid traffic co
 Meta traffic often arrives with minimal referrer information.  
 If UTMs are *not* added:
 
-❌ Paid and organic Meta traffic blend together  
-❌ Campaign-level reporting disappears  
-❌ You cannot analyze ad set or creative performance  
+- Paid and organic Meta traffic blend together
+- Campaign-level reporting disappears
+- You cannot analyze ad set or creative performance
 
 If UTMs *are* added:
 
-✔ Full campaign attribution  
-✔ Clear performance insights  
-✔ Correct paid vs. organic classification  
-✔ No cookies required
+- Full campaign attribution
+- Clear performance insights
+- Correct paid vs. organic classification
+- No cookies required
 
 ---
 
@@ -10747,7 +10784,10 @@ UTM parameters are tags added to your ad URLs that Sealmetrics can read instantl
 3. Include all relevant UTM fields  
 
 Recommended structure:
+
+```
 https://yourwebsite.com?utm_source=facebook&utm_medium=cpc&utm_campaign=summer_sale&utm_term=running_shoes
+```
 
 ## Related documentation
 
@@ -10772,7 +10812,7 @@ Since we don’t track users or sessions, **the referrer becomes the most import
 But on modern websites, the referrer is frequently lost due to technical, browser-level, or security-related factors.  
 When this happens, Sealmetrics has only one valid classification:
 
-👉 **Empty referrer → Direct Traffic**
+**Empty referrer → Direct Traffic**
 
 This article explains *why* referrers disappear and *why your Direct traffic may look higher than expected*.
 
@@ -10798,9 +10838,7 @@ If the referrer is missing, lost, or blocked, Sealmetrics cannot determine the o
 
 Below are the most frequent technical and browser-related causes that lead to missing referrer data.
 
----
-
-## 1. Redirects (301, 302)
+### 1. Redirects (301, 302)
 
 Server-side redirects often suppress the original referrer, especially:
 
@@ -10808,9 +10846,7 @@ Server-side redirects often suppress the original referrer, especially:
 - CDN-level redirects  
 - Cross-domain redirects  
 
----
-
-## 2. Cross-domain navigation without proper referrer policy
+### 2. Cross-domain navigation without proper referrer policy
 
 Modern browsers block the referrer when going from:
 
@@ -10820,9 +10856,7 @@ Modern browsers block the referrer when going from:
 
 unless the site uses a permissive **Referrer-Policy** header.
 
----
-
-## 3. Referrer-Policy header issues
+### 3. Referrer-Policy header issues
 
 The following policies remove referrer data entirely:
 
@@ -10831,17 +10865,13 @@ The following policies remove referrer data entirely:
 - `same-origin` (for cross-domain)
 - `strict-origin-when-cross-origin` (in some cross-origin hops)
 
----
-
-## 4. HTTPS → HTTP transitions
+### 4. HTTPS → HTTP transitions
 
 Browsers block referrers for security reasons when navigating:
 
 `https://securepage.com` → `http://nonsecurepage.com`
 
----
-
-## 5. Native mobile apps
+### 5. Native mobile apps
 
 Traffic coming from:
 
@@ -10853,15 +10883,11 @@ Traffic coming from:
 
 often arrives **without a browser referrer**.
 
----
-
-## 6. Private / Incognito browsing
+### 6. Private / Incognito browsing
 
 Some browsers (Safari, Firefox, Brave) suppress or anonymize referrers in private mode.
 
----
-
-## 7. Tracking or link shorteners
+### 7. Tracking or link shorteners
 
 Tools like:
 
@@ -10872,45 +10898,48 @@ Tools like:
 
 may perform multiple redirects, losing referrer data in the process.
 
----
+### 8. JavaScript-based and meta-refresh redirects
 
-## 8. JavaScript-based redirects
-
-Redirects via:
+Redirects performed in the browser also drop the referrer. In JavaScript:
 
 ```js
 window.location
 location.replace
 window.open
-
 ```
 
-```
+And with a meta refresh tag:
+
+```html
 <meta http-equiv="refresh" content="0; url=/new-page"/>
 ```
 
-3. Referrer Traffic Classification
-----------------------------------
+---
+
+## Referrer Traffic Classification
 
 When referrer information is present, Sealmetrics performs domain-based enrichment:
 
-### **Classification Flow**
+### Classification Flow
+
 1. Detect referrer domain  
 2. Check domain category (search, social, news, etc.)  
 3. Reclassify traffic accordingly  
 
-### **Examples**
+### Examples
 
-#### **Search Engine → SEO Traffic**
+#### Search Engine → SEO Traffic
+
 - Referrer: `https://google.com/search?q=privacy+analytics`
 - Initial classification: Referrer
 - Final classification: **SEO**
 
-#### **Social Platform → Social Traffic**
+#### Social Platform → Social Traffic
+
 - Referrer: `https://facebook.com/post/12345`
 - Final classification: **Social (Facebook)**
 
-### **Recognized Categories**
+### Recognized Categories
 
 **Search engines:**  
 Google, Bing, Yahoo, DuckDuckGo, Yandex, Baidu…
@@ -10926,12 +10955,11 @@ Remain **Referrer traffic**.
 
 ---
 
-4. Direct Traffic Identification
---------------------------------
+## Direct Traffic Identification
 
 Direct traffic is recorded when no referrer information exists.
 
-### **Legitimate Direct Traffic**
+### Legitimate Direct Traffic
 
 Occurs when users:
 
@@ -10940,7 +10968,7 @@ Occurs when users:
 - Use browser shortcuts  
 - Navigate from offline sources  
 
-### **Technical Direct Traffic (Referrer Loss)**
+### Technical Direct Traffic (Referrer Loss)
 
 Referrer may be missing due to:
 
@@ -10955,10 +10983,9 @@ Referrer may be missing due to:
 
 ---
 
-5. Advanced Classification Logic
---------------------------------
+## Advanced Classification Logic
 
-### **Same-Domain Navigation**
+### Same-Domain Navigation
 
 If the referrer domain matches your domain, it is internal navigation, not a new visit.
 
@@ -10966,15 +10993,14 @@ If the referrer domain matches your domain, it is internal navigation, not a new
 - Page: `https://yoursite.com/product`  
 - Classification: **Internal Pageview**
 
-### **Cross-Subdomain Navigation**
+### Cross-Subdomain Navigation
 
 `blog.yoursite.com → shop.yoursite.com`  
 Still considered **internal navigation**.
 
 ---
 
-6. Traffic Source Priority System
----------------------------------
+## Traffic Source Priority System
 
 Sealmetrics follows a strict priority order:
 
@@ -10983,53 +11009,57 @@ Sealmetrics follows a strict priority order:
 3. **Generic Referrer Traffic**  
 4. **Direct Traffic** (fallback category)
 
-### **Example Priority Cases**
+### Example Priority Cases
 
-#### **Case 1 — UTM Override**
+#### Case 1 — UTM Override
+
 Referrer: `facebook.com`  
 Landing URL: `?utm_source=newsletter`  
 **Result → Email Campaign Traffic**
 
-#### **Case 2 — Platform Recognition**
+#### Case 2 — Platform Recognition
+
 Referrer: `google.com/search…`  
 **Result → SEO Traffic**
 
-#### **Case 3 — Unknown Referrer**
+#### Case 3 — Unknown Referrer
+
 Referrer: `unknownsite.org/article`  
 **Result → Referrer Traffic**
 
 ---
 
-7. Practical Applications
--------------------------
+## Practical Applications
 
-### **Marketing Attribution**
+### Marketing Attribution
+
 - Compare channel performance  
 - Assess brand awareness with direct traffic  
 - Track partnership and PR impact  
 - Evaluate campaign ROI  
 
-### **Content Strategy**
+### Content Strategy
+
 - Identify high-value referral sources  
 - Optimize content for referral platforms  
 - Strengthen partner relationships  
 
 ---
 
-8. Data Accuracy Considerations
--------------------------------
+## Data Accuracy Considerations
 
-### ⚠️ **Warning:** High Direct Traffic ≠ Always Brand-Aware Users
-
+**Warning:**
 Referrer loss can artificially inflate Direct numbers.
 
-### **Common Indicators of Referrer Loss**
+### Common Indicators of Referrer Loss
+
 - Sudden unexplained spikes  
 - Low engagement from “direct”  
 - Device/browser-specific anomalies  
 - Referrer loss after redirects or redesigns  
 
-### **How to Reduce Referrer Loss**
+### How to Reduce Referrer Loss
+
 - Use UTMs everywhere  
 - Avoid unnecessary redirects  
 - Maintain full HTTPS consistency  
@@ -11037,48 +11067,53 @@ Referrer loss can artificially inflate Direct numbers.
 
 ---
 
-9. Best Practices for Traffic Attribution
------------------------------------------
+## Best Practices for Traffic Attribution
 
-### **UTM Strategy**
+### UTM Strategy
+
 - Tag all campaigns (email, social, paid, partnerships)  
 - Use consistent naming  
 - Document naming conventions  
 
-### **Technical Optimization**
+### Technical Optimization
+
 - Avoid redirect chains  
 - Ensure HTTPS across the site  
 - Review referrer-policy settings  
 
-### **Reporting Tips**
+### Reporting Tips
+
 - Compare SEO vs Social vs Direct  
 - Analyze engagement differences  
 - Use Direct traffic as a brand indicator  
 
 ---
 
-10. Troubleshooting Common Issues
----------------------------------
+## Troubleshooting Common Issues
 
-### **High Direct Traffic — Investigate:**
+### High Direct Traffic — Investigate
+
 - Historical patterns  
 - Industry benchmarks  
 - Referrer blocking  
 - Recent marketing changes  
 
-### **Typical Direct Traffic Ranges**
+### Typical Direct Traffic Ranges
+
 - E-commerce: **15–30%**  
 - B2B SaaS: **20–35%**  
 - Media/Content: **10–25%**  
 - Local business: **25–40%**  
 
-### **Low Referrer Traffic — Common Causes**
+### Low Referrer Traffic — Common Causes
+
 - Weak content marketing  
 - Few industry mentions  
 - Lack of partnerships  
 - Low social presence  
 
-### **How to Improve**
+### How to Improve
+
 - Produce link-worthy content  
 - Build industry partnerships  
 - Increase PR/media exposure  
@@ -11086,7 +11121,7 @@ Referrer loss can artificially inflate Direct numbers.
 
 ---
 
-### **Summary**
+## Summary
 
 Referrer vs Direct classification in Sealmetrics creates a clear, privacy-first understanding of how users reach your site.
 
@@ -11126,7 +11161,7 @@ Understanding TERM helps you better analyze user intent, keyword performance, an
 
 ## TERM by Traffic Source
 
-### 🔍 **1. SEO Traffic**
+### 1. SEO Traffic
 **TERM = Landing Page URL**
 
 Because Sealmetrics does not track individual search queries, SEO traffic is categorized based on the **landing page** the user arrives on.
@@ -11138,7 +11173,7 @@ This allows you to understand:
 
 ---
 
-### 🌐 **2. Referrer Traffic**
+### 2. Referrer Traffic
 **TERM = Referrer URL** (stored, but analyzed in the Referrers tab)
 
 For any external website linking to you, Sealmetrics stores the **exact URL** that sent the visitor. Since July 2026, these referral rows are **excluded from the Terms tab** — analyze them in the [Referrers tab](/reports/sources#7-referrers-tab), which lists one row per referring URL.
@@ -11151,7 +11186,7 @@ This helps you identify:
 
 ---
 
-### 🔎 **3. Google Ads Traffic**
+### 3. Google Ads Traffic
 **TERM = Keyword that triggered the ad**
 
 Sealmetrics reads the keyword or targeting parameter used by Google Ads (via UTMs or value-track parameters).
@@ -11164,7 +11199,7 @@ This gives insight into:
 
 ---
 
-### 🏷️ **4. UTM Term Traffic**
+### 4. UTM Term Traffic
 **TERM = Value of the `utm_term` parameter**
 
 If your URLs include `utm_term`, Sealmetrics uses it directly as the TERM.
@@ -11279,7 +11314,8 @@ If someone loads the confirmation page but payment fails, Sealmetrics counts the
 
 ## How to Fix These Issues
 
-### ✔ 1. Place the Pixel Only on the Final Thank-You Page  
+### 1. Place the Pixel Only on the Final Thank-You Page
+
 Avoid:
 - Cached pages  
 - Pages that users may revisit  
@@ -11291,7 +11327,8 @@ Ensure the page is:
 
 ---
 
-### ✔ 2. Add Server-Side Conditions  
+### 2. Add Server-Side Conditions
+
 Example condition logic:
 
 > Fire the pixel ONLY if the order is confirmed.
@@ -11303,7 +11340,8 @@ This prevents:
 
 ---
 
-### ✔ 3. Fire the Pixel Only Once Per Session  
+### 3. Fire the Pixel Only Once Per Session
+
 Your developers can enforce session-based logic to avoid double counting.
 
 Example safeguards:
@@ -11416,7 +11454,7 @@ Single-page applications, React sites, and AJAX-based interfaces need different 
 
 - [How to Track AJAX Forms](/implementation/tracking-methods/how-to-track-ajax-forms) - Capture form submissions without page reloads
 - [How to Track React](/implementation/tracking-methods/how-to-track-react) - Integrate Sealmetrics with React applications
-- [How to Track SPA Sites](/implementation/tracking-methods/how-to-track-spa-sites) - Implement tracking for single-page applications and client-side routing
+- [SPA Support](/implementation/tracker/spa-support) - Implement tracking for single-page applications and client-side routing
 - [Ignore Page View](/implementation/tracking-methods/ignore-page-view) - Prevent specific pages from being tracked
 
 
@@ -11679,7 +11717,7 @@ function get_content_group() {
 ### Content group not appearing in reports
 
 1. Ensure the tracker includes the `group` parameter
-2. Wait 5 minutes for data processing
+2. Confirm the hit arrived: the **Last hit** timestamp on the **Overview** report should move to "seconds ago" after your test visit
 3. Check that the page has received traffic since adding the group
 
 ### "Other" or empty content group
@@ -12529,15 +12567,48 @@ This guide walks you through implementing Sealmetrics tracking on your website. 
 
 ### 1.1 Add the Script Tag
 
-Add this single line to your website's ``
-4. Paste the script before it
-5. Click **Update File**
+Add this single line to your website's `<head>` section:
 
-**Option B: Plugin (recommended)**
-1. Install "Insert Headers and Footers" plugin
-2. Go to **Settings → Insert Headers and Footers**
-3. Paste the script in "Scripts in Header"
-4. Save
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
+```
+
+Replace `YOUR_SITE_ID` with your actual Site ID.
+
+### 1.2 Where to Add It
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+
+    <!-- Add Sealmetrics here, before </head> -->
+    <script src="https://t.sealmetrics.com/t.js?id=67a1d6c0bb10b861397fdd3a" defer></script>
+</head>
+<body>
+    <!-- Your content -->
+</body>
+</html>
+```
+
+### 1.3 Platform-Specific Instructions
+
+If you can't edit the HTML directly, follow the guide for your platform — each one shows exactly where the snippet goes:
+
+- [WordPress](/integrations/cms/wordpress)
+- [WooCommerce](/integrations/ecommerce/woocommerce)
+- [Shopify](/integrations/ecommerce/shopify)
+- [Wix](/integrations/website-builders/wix)
+- [Squarespace](/integrations/website-builders/squarespace)
+- [Webflow](/integrations/website-builders/webflow)
+- [Next.js](/integrations/frameworks/nextjs)
+- [Nuxt 3](/integrations/frameworks/nuxt)
+- [React](/integrations/frameworks/react)
+- [Google Tag Manager](/integrations/google-tag-manager)
+
+Using something else? See [all integrations](/integrations), or the [Installation guide](/implementation/tracker/installation) for the manual snippet and its parameters.
 
 ---
 
@@ -12943,7 +13014,7 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 
 | Symptom | Solution |
 |---------|----------|
-| 204 response but no data | Wait 2-5 minutes, check correct account |
+| 204 response but no data | Check the **Last hit** timestamp on the Overview report — if it doesn't move within seconds of a test visit, nothing is arriving ([Data Delay](/troubleshooting/data-delay)). If it does move, check you're looking at the correct account, date range and timezone |
 | Non-204 response | Check Site ID, domain authorization |
 | Data in wrong account | Verify Site ID in script matches dashboard |
 
@@ -13240,7 +13311,7 @@ Check properties arrived correctly:
 ### Properties Not Appearing
 
 1. **Check property names** — Use alphanumeric characters and underscores
-2. **Wait for processing** — Data can take a few minutes to appear
+2. **Confirm the hit arrived** — the **Last hit** timestamp on the **Overview** report updates within seconds of a tracked visit. If it doesn't move, the event never arrived — see [Data Delay](/troubleshooting/data-delay)
 3. **Inspect the network request** — Check the DevTools Network tab for the request to `t.sealmetrics.com/event` and confirm your properties appear under the `x` key in the payload
 
 ### Wrong Values
@@ -13265,10 +13336,151 @@ URL: https://docs.sealmetrics.com/implementation/tracker/installation
 
 # Installation
 
-Installing the Sealmetrics tracker adds cookieless, consentless analytics to your site — it fires the initial pageview automatically and exposes the `sealmetrics` object for tracking conversions and microconversions. The method is a single `<script>` tag with your Site ID, placed in your page's ``:
+Installing the Sealmetrics tracker adds cookieless, consentless analytics to your site — it fires the initial pageview automatically and exposes the `sealmetrics` object for tracking conversions and microconversions. The method is a single `<script>` tag with your Site ID, placed in your page's `<head>`.
+
+## Basic Installation
+
+Add this script tag to your HTML, preferably in `<head>`:
+
 ```html
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
+
+Replace `YOUR_SITE_ID` with your Sealmetrics Site ID (found in Settings → Sites → [your site]).
+
+The `defer` attribute ensures the script loads asynchronously without blocking page rendering.
+
+## With Content Grouping
+
+Content grouping categorizes pages into sections for analysis (e.g., "blog", "product", "checkout").
+
+Add the `group` parameter:
+
+```html
+<!-- Blog pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID&group=blog" defer></script>
+
+<!-- Product pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID&group=product" defer></script>
+
+<!-- Documentation pages -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID&group=docs" defer></script>
+
+<!-- Checkout flow -->
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID&group=checkout" defer></script>
+```
+
+Content grouping enables reports like:
+- Conversions by content group
+- Bounce rate per section
+- Traffic distribution across page types
+
+## Custom Endpoint
+
+For self-hosted deployments or custom domains:
+
+```html
+<script src="https://your-pixel-domain.com/t.js?id=YOUR_SITE_ID" defer></script>
+```
+
+## Parameters Reference
+
+| Parameter | Required | Description | Example |
+|-----------|----------|-------------|---------|
+| `id` | Yes | Your Sealmetrics Site ID | `id=67a1d6c0bb10b861397fdd3a` |
+| `group` | No | Content grouping for this page. Must match `^[a-zA-Z0-9_-]{0,64}$`; an invalid value makes `/t.js` return HTTP 400 | `group=blog` |
+| `auto` | No | Set `auto=0` to suppress the automatic initial pageview (manual mode). Any other value keeps it on | `auto=0` |
+| `spa` | No | Set `spa=0` to suppress automatic pageview on SPA navigation (pushState/replaceState/popstate). SPA listeners stay wired and URL state still updates. Independent from `auto`. | `spa=0` |
+
+### Manual Pageview Mode (`auto=0`)
+
+By default the tracker fires the initial pageview as soon as it loads. Add `auto=0` to keep everything wired up (SPA listeners, `conv()`, `micro()`) while firing the pageview yourself — useful when you need to set a content group after your dataLayer is ready:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID&auto=0" defer></script>
+<script>
+  window.addEventListener('load', function () {
+    sealmetrics({ group: 'checkout' });
+  });
+</script>
+```
+
+### Deferred Loading / GTM (pre-load queue)
+
+If a `sealmetrics(...)` call may run **before** the library finishes loading (e.g., Google Tag Manager), inject this fbq-style stub **before** the script tag. It buffers calls in `sealmetrics.q` and replays them once the library boots:
+
+```html
+<script>
+!function(w){w.sealmetrics=w.sealmetrics||function(){(w.sealmetrics.q=w.sealmetrics.q||[]).push(['pv',arguments])};w.sealmetrics.q=w.sealmetrics.q||[];w.sealmetrics.conv=w.sealmetrics.conv||function(){w.sealmetrics.q.push(['cv',arguments])};w.sealmetrics.micro=w.sealmetrics.micro||function(){w.sealmetrics.q.push(['mc',arguments])}}(window);
+</script>
+```
+
+When using the stub to enqueue a pageview, load the tracker with `auto=0` so the queued pageview and the automatic one do not both fire. See the [API Reference](/implementation/tracker/api-reference#pre-load-queue-stub) for details.
+
+## What Happens After Installation
+
+1. The script loads asynchronously (does not block rendering)
+2. A session ID is generated automatically without cookies
+3. An anti-spam token is validated (embedded in the script, valid for 24 hours)
+4. The initial pageview is tracked automatically
+5. SPA navigation is detected automatically (History API)
+
+## Verifying Installation
+
+### Option 1: Pixel Status in the dashboard
+
+The **Pixel Status** section on the **Pixels** page shows the install status for each site:
+
+- **Active** — the pixel is receiving data
+- **Inactive** — no hits received recently
+- **Not installed** — no hits received yet
+
+### Option 2: Browser Console
+
+Open DevTools (F12) and type:
+
+```javascript
+typeof sealmetrics === 'function'
+// Should return: true
+```
+
+### Option 3: Network Tab
+
+1. Open DevTools > Network
+2. Filter by "event"
+3. Reload the page
+4. Look for a POST request to `/event` with status 204
+
+### Option 4: Inspect Tracker State
+
+In the console you can read the tracker's own state to confirm it initialized correctly:
+
+```javascript
+sealmetrics.sessionId; // current session ID
+sealmetrics.accountId; // your site ID
+sealmetrics.autoMode;  // "1" (auto-pageview) or "0" (manual mode)
+```
+
+## Platform-Specific Guides
+
+The script tag above is all you need on any platform that lets you edit the `<head>`. If your site runs on a CMS, store platform, site builder or framework, follow the dedicated guide instead — each one covers where exactly to paste the snippet plus the platform's own conversion hooks:
+
+- [WordPress](/integrations/cms/wordpress)
+- [WooCommerce](/integrations/ecommerce/woocommerce)
+- [Shopify](/integrations/ecommerce/shopify)
+- [Wix](/integrations/website-builders/wix)
+- [Squarespace](/integrations/website-builders/squarespace)
+- [Webflow](/integrations/website-builders/webflow)
+- [Next.js](/integrations/frameworks/nextjs)
+- [Nuxt 3](/integrations/frameworks/nuxt)
+- [React](/integrations/frameworks/react)
+- [Google Tag Manager](/integrations/google-tag-manager)
+
+See [all integrations](/integrations) for the full list (Drupal, Joomla, Magento, PrestaShop, BigCommerce, OpenCart and more).
+
+## Generating Event Snippets
+
+Once the tracker is installed, the **Pixel Builder** on the Pixels page generates ready-to-copy `conv()` / `micro()` snippets for JavaScript, GTM or Tealium — see the [Pixel Builder guide](/platform/settings/tracking/pixel-builder). To write the calls yourself, see [Conversions](/implementation/tracker/conversions) and [Microconversions](/implementation/tracker/microconversions).
 
 ## Troubleshooting
 
@@ -13280,7 +13492,7 @@ Installing the Sealmetrics tracker adds cookieless, consentless analytics to you
 
 ### Events not appearing in dashboard
 
-1. Events are processed in batches; wait 2-5 minutes
+1. Check the **Last hit** timestamp at the top right of the **Overview** report — hits arrive in seconds, so it should move to "seconds ago" right after a test visit. If it does, the hit arrived and the problem is on the report side (date range, timezone, filters). If it doesn't, nothing is being ingested — see [Data Delay](/troubleshooting/data-delay)
 2. Verify the domain is registered in Settings → Sites → [your site] → Domains
 3. Check if adblockers are blocking requests (unlikely with first-party setup)
 
@@ -13294,367 +13506,6 @@ The server returns 204 for all requests (valid or rejected) to prevent informati
 ---
 
 *Need help with installation? Contact us at support@sealmetrics.com or [start your free trial](https://my.sealmetrics.com/register).*
-
-
-
-## How to Track SPA Sites
-
-
-URL: https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites
-
-
-# How to Track SPA Sites
-
-SealMetrics tracks Single Page Applications (SPAs) **automatically**. The tracker hooks the History API, fires a pageview on initial load and on every route change, and de-duplicates same-URL events. No router-specific code is needed for any framework that uses `pushState` / `replaceState`.
-
----
-
-## Quick Start
-
-Add the standard tracker script to your site (once, in the document `<head>`):
-
-```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
-```
-
-That's it. From this point on the tracker will:
-
-1. Fire a pageview on initial load.
-2. Fire a pageview when your router calls `history.pushState()`.
-3. Fire a pageview when your router calls `history.replaceState()`.
-4. Fire a pageview when the user clicks **Back** / **Forward** (`popstate`).
-5. Skip duplicates: if the new URL is identical to the previous one, no event is sent.
-6. Update the `referrer` of each SPA pageview to the previous in-app URL — so internal navigation flows are preserved in reports.
-
-The canonical global is **`window.sealmetrics`** — always use it in your integrations. (`window.sm` and `window._sm` exist as best-effort aliases, but they are only claimed when free — e.g. during a v1→v2 migration `window.sm` is the *old* tracker — so don't rely on them.)
-
----
-
-## Supported Frameworks
-
-Any router built on the History API is supported out of the box:
-
-| Framework  | Router                          | Auto-Tracking |
-| ---------- | ------------------------------- | :-----------: |
-| React      | react-router v5 / v6            |       ✅       |
-| Vue        | vue-router v3 / v4              |       ✅       |
-| Angular    | @angular/router                 |       ✅       |
-| Next.js    | App Router / Pages Router       |       ✅       |
-| Nuxt.js    | nuxt/router                     |       ✅       |
-| Svelte     | SvelteKit                       |       ✅       |
-| Remix      | @remix-run/react                |       ✅       |
-| Astro      | View Transitions / client:load  |       ✅       |
-| Solid      | @solidjs/router                 |       ✅       |
-
-Hash-based routers (`/#/path`) are **not** auto-detected — see [Hash-Based Routing](#hash-based-routing) below.
-
----
-
-## Tracking Conversions in SPAs
-
-The pageview is automatic; you only need to fire the conversion itself on the success page / step. Always guard with `typeof sealmetrics !== 'undefined'` because the script is `defer`-ed and may not be ready on the very first paint of an SSR app.
-
-### React
-
-```jsx
-// CheckoutSuccess.jsx
-import { useEffect } from 'react';
-
-export default function CheckoutSuccess({ order }) {
-  useEffect(() => {
-    if (typeof sealmetrics === 'undefined') return;
-
-    sealmetrics.conv('purchase', order.total, {
-      currency: order.currency,
-      payment_method: order.paymentMethod,
-    });
-  }, [order]);
-
-  return <div>Thank you for your order!</div>;
-}
-```
-
-### Vue 3
-
-```vue
-<script setup>
-import { onMounted } from 'vue';
-
-const props = defineProps(['order']);
-
-onMounted(() => {
-  if (typeof sealmetrics === 'undefined') return;
-
-  sealmetrics.conv('purchase', props.order.total, {
-    currency: props.order.currency,
-  });
-});
-</script>
-
-<template>
-  <div>Thank you for your order!</div>
-</template>
-```
-
-### Angular
-
-```typescript
-// checkout-success.component.ts
-import { Component, Input, OnInit } from '@angular/core';
-
-declare global {
-  interface Window {
-    sealmetrics?: any;
-  }
-}
-
-@Component({
-  selector: 'app-checkout-success',
-  template: '<div>Thank you for your order!</div>',
-})
-export class CheckoutSuccessComponent implements OnInit {
-  @Input() order!: { id: string; total: number; currency: string };
-
-  ngOnInit() {
-    if (typeof window.sealmetrics === 'undefined') return;
-
-    window.sealmetrics.conv('purchase', this.order.total, {
-      currency: this.order.currency,
-    });
-  }
-}
-```
-
-### Next.js (App Router)
-
-```tsx
-// app/checkout/success/page.tsx
-'use client';
-
-import { useEffect } from 'react';
-
-export default function SuccessPage({ searchParams }: { searchParams: { order: string } }) {
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof sealmetrics === 'undefined') return;
-
-    fetch(`/api/orders/${searchParams.order}`)
-      .then((r) => r.json())
-      .then((order) => {
-        sealmetrics.conv('purchase', order.total, {
-          currency: order.currency,
-        });
-      });
-  }, [searchParams.order]);
-
-  return <div>Thanks!</div>;
-}
-```
-
----
-
-## Tracking Microconversions
-
-Use `micro()` for funnel steps that are **not** the final goal (add-to-cart, signup-started, video-played, etc.). All values in the properties map are sent as strings.
-
-```javascript
-function handleAddToCart(product) {
-  // ... your cart logic
-
-  if (typeof sealmetrics === 'undefined') return;
-
-  sealmetrics.micro('add_to_cart', {
-    product_id: product.id,
-    product_name: product.name,
-    price: String(product.price),
-    currency: 'EUR',
-  });
-}
-```
-
----
-
-## Content Grouping
-
-Content groups let you bucket pageviews together (e.g. `blog`, `product`, `checkout`) and view aggregated reports per group.
-
-### Recommended: set the group at script load
-
-This is the cleanest pattern. The group is sticky for **every** automatic pageview, including all SPA navigations:
-
-```html
-<script
-  src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=storefront"
-  defer
-></script>
-```
-
-### Per-route grouping (advanced)
-
-The tracker has **no API to update the group of an already-fired pageview**. If you need a different group per route, you have two options:
-
-#### Option A — Full manual mode (`?auto=0&spa=0`), fire pageviews yourself
-
-Best for apps where every route needs a specific group. Two flags on the script URL give you full control:
-
-- `auto=0` suppresses the **initial** auto-pageview on load.
-- `spa=0` suppresses the **automatic pageview on SPA route changes**. The History API listeners still update the tracker's URL/referrer state, so your manual pageviews carry the correct referrer chain.
-
-```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0&spa=0" defer></script>
-```
-
-With both flags set, no pageview fires unless you fire it — so you pass the group on every route, with no risk of double counting:
-
-```jsx
-// after router resolves a route
-useEffect(() => {
-  if (typeof sealmetrics === 'undefined') return;
-  sealmetrics({ group: routeGroupFor(pathname) }); // pathname → 'blog' | 'product' | ...
-}, [pathname]);
-```
-
-⚠️ Don't use `?auto=0` alone for this pattern: without `spa=0`, route changes via `pushState`/`replaceState`/`popstate` still fire an automatic (group-less) pageview, and your manual call would make it **two pageviews** for the same URL. Always pair them (`?auto=0&spa=0`) when firing SPA pageviews manually.
-
-#### Option B — Use a single global group per site
-
-Set the group once at script load (the recommended pattern above) and rely on URL paths in reports to slice further. This is what most SPAs should do.
-
----
-
-## Hash-Based Routing
-
-Hash routing (`/#/path`) uses the `hashchange` event instead of the History API, so SealMetrics does **not** track it automatically.
-
-Add this listener once at app startup:
-
-```javascript
-window.addEventListener('hashchange', function () {
-  if (typeof sealmetrics !== 'undefined') {
-    sealmetrics();
-  }
-});
-```
-
-> **Migrating?** Hash routing is deprecated in most modern routers. If you're on react-router v6, prefer `BrowserRouter` over `HashRouter` — automatic tracking will then work without the listener.
-
----
-
-## Frameworks With Custom Navigation
-
-A few routers (or custom navigation code) bypass `pushState` / `replaceState` and update the URL via other mechanisms. In that case, call `sealmetrics()` manually inside your router's `afterEach` hook:
-
-```javascript
-// Vue Router
-router.afterEach(() => {
-  if (typeof sealmetrics !== 'undefined') sealmetrics();
-});
-```
-
-⚠️ **The tracker does not de-duplicate manual calls** — `sealmetrics()` always sends a pageview when invoked. (The URL-change check only gates the *automatic* History API hook.) Only add this listener if your router genuinely bypasses `pushState`/`replaceState` — verify in the Network tab first. If both the automatic hook and your manual call fire, every navigation is counted **twice**. If you want deterministic control, load the tracker with `?spa=0` (see Option A above) and fire all SPA pageviews manually.
-
----
-
-## Server-Side Rendering (SSR)
-
-The tracker only runs in the browser. In SSR frameworks (Next.js, Nuxt, SvelteKit, Remix), always check the environment **and** the global before calling:
-
-```javascript
-if (typeof window !== 'undefined' && typeof sealmetrics !== 'undefined') {
-  sealmetrics.conv('purchase', 99.99, { currency: 'EUR' });
-}
-```
-
-For Next.js App Router, wrap the call in `useEffect` inside a `'use client'` component (see the example in [Tracking Conversions](#nextjs-app-router)).
-
----
-
-## TypeScript Declarations
-
-Drop this in `types/sealmetrics.d.ts` (or any `.d.ts` picked up by your `tsconfig`):
-
-```typescript
-interface SealmetricsOptions {
-  group?: string;
-}
-
-interface SealmetricsFunction {
-  (options?: SealmetricsOptions): void;
-  conv(type: string, amount?: number, properties?: Record<string, string | number>): void;
-  micro(type: string, properties?: Record<string, string | number>): void;
-  sessionId: string;
-  accountId: string;
-  tz: string;
-}
-
-declare global {
-  // eslint-disable-next-line no-var
-  var sealmetrics: SealmetricsFunction;
-  // eslint-disable-next-line no-var
-  var sm: SealmetricsFunction;
-  // eslint-disable-next-line no-var
-  var _sm: SealmetricsFunction;
-}
-
-export {};
-```
-
----
-
-## Iframes & Embedded Contexts
-
-If the tracker script is loaded **inside an iframe** (for example, a Shopify Web Pixel sandbox), auto-pageview tracking and SPA listeners are intentionally **disabled** — only `conv()` and `micro()` remain exposed. This prevents duplicate pageviews when the same site loads SealMetrics on both the parent page and an embedded pixel.
-
-You don't need to do anything special: the tracker detects iframes via `window.self !== window.top`.
-
----
-
-## Troubleshooting
-
-### Duplicate pageviews
-
-Most common causes, in order:
-
-1. **Script included twice.** Search the rendered HTML for `t.sealmetrics.com/t.js` — there should be exactly one match.
-2. **Manual `sealmetrics()` call after auto-tracking.** The tracker already fires on `pushState`/`replaceState`/`popstate`. Don't call it again in your router's `afterEach` unless you've confirmed auto-tracking isn't firing.
-3. **Per-route grouping pattern.** See [Option A above](#option-a--full-manual-mode-auto0spa0-fire-pageviews-yourself) — calling `sealmetrics({ group: '...' })` after an automatic pageview produces a second event. Use `?auto=0&spa=0` together: `?auto=0` alone only suppresses the *initial* pageview, not SPA route-change pageviews.
-4. **Animations using `replaceState`.** Some libraries call `history.replaceState()` for non-navigation purposes (e.g. saving scroll position into the URL hash). This will trigger a pageview if the full URL changes. Use a query-param-only update where possible, or strip the param before tracking.
-
-### Missing pageviews on route change
-
-1. Confirm your router uses the History API (open DevTools → Console and run `history.pushState({}, '', '/test')` — the tracker should fire a pageview).
-2. If you use hash routing, add the [hashchange listener](#hash-based-routing).
-3. If your router bypasses `pushState`, fire manually in the [`afterEach` hook](#frameworks-with-custom-navigation).
-
-### Pageview fires but `referrer` is wrong
-
-For SPA navigations, SealMetrics sets `referrer` to the **previous in-app URL** (not `document.referrer`). This is intentional — it lets you build true in-app flow reports. The original external referrer is only used on the very first pageview of the session.
-
-### The `sealmetrics` global is undefined
-
-The script is loaded with `defer`, so it executes after the DOM is parsed but before `DOMContentLoaded`. If your app fires a conversion synchronously during initial render, the global may not exist yet. Always guard:
-
-```javascript
-if (typeof sealmetrics === 'undefined') return;
-```
-
-Or retry once after a microtask:
-
-```javascript
-queueMicrotask(() => {
-  if (typeof sealmetrics !== 'undefined') {
-    sealmetrics.conv('signup', 0);
-  }
-});
-```
-
----
-
-## Related Documentation
-
-- [SPA Support — framework-specific examples](/implementation/tracker/spa-support)
-- [Conversions](/implementation/tracker/conversions) — full conversion property reference
-- [Microconversions](/implementation/tracker/microconversions)
-- [Tracker Installation](/implementation/tracker/installation)
 
 
 
@@ -13901,7 +13752,7 @@ free                   89       €4,450     €50
 ### Segments Not Appearing in Reports
 
 1. Ensure properties are being sent with events (inspect the DevTools Network request to `t.sealmetrics.com/event` and check the `x` key in the payload)
-2. Wait a few minutes for data processing
+2. Confirm the hit arrived: the **Last hit** timestamp on the **Overview** report updates within seconds of a tracked visit — if it doesn't move, the event never arrived ([Data Delay](/troubleshooting/data-delay))
 3. Verify property names match what you're filtering by
 
 ### Inconsistent Segments
@@ -14849,7 +14700,7 @@ function getContentGroup() {
 1. Open DevTools → Network and look for the request to `t.sealmetrics.com/event`
 2. Confirm the payload includes a `g` field with your group value
 3. Verify `sealmetrics` is defined before calling it
-4. Wait 5 minutes for data processing
+4. Confirm the hit arrived: the **Last hit** timestamp on the **Overview** report should move to "seconds ago" after your test visit
 
 ### Wrong Group Assigned
 
@@ -15318,7 +15169,7 @@ Sealmetrics' event properties approach trades cross-session user tracking for co
 **Solutions:**
 - Confirm BigQuery integration is active with Sealmetrics team
 - Verify BigQuery project permissions
-- Allow 24 hours for initial data sync
+- Check the integration status panel for **Last Sync** / **Next Sync**: BigQuery is a scheduled export (hourly, daily or manual), so a property sent minutes ago will not be in BigQuery until the next sync runs. An initial backfill can take several hours — see [BigQuery integration](/integrations/bigquery)
 - Check BigQuery dataset for Sealmetrics tables
 
 ## Frequently Asked Questions
@@ -16121,104 +15972,6 @@ sealmetrics({ group: 'product' });
 
 
 
-## Setting Up Tracking in Sealmetrics
-
-
-URL: https://docs.sealmetrics.com/implementation/tracker/setup
-
-
-# Setting Up Tracking in Sealmetrics
-
-To set up tracking, copy your pixel script from **Settings → Pixels** in the dashboard and install it in your site's ``
-- **Wix** — Go to Settings → Custom Code
-- **Next.js** — Use the `Script` component with `strategy="afterInteractive"`
-- **Google Tag Manager** — Create a Custom HTML tag with trigger "All Pages"
-- **Manual HTML** — Paste the script in the `<head>` of every page
-
-For detailed installation instructions, see the [Installation Guide](/implementation/tracker/installation).
-
----
-
-## Step 3: Verify Installation
-
-The **Pixel Status** section on the Pixels page shows real-time status for each site:
-
-- **Active** — The pixel is receiving data
-- **Inactive** — No hits received recently
-- **Not installed** — No hits received yet
-
-You can also verify manually:
-
-1. Open your website in a browser
-2. Open DevTools (F12) → Console
-3. Type `typeof sealmetrics` — it should return `"function"`
-4. Check the Network tab for a POST to `/event` with status **204**
-
----
-
-## Step 4: Track Conversions
-
-Conversions track goal completions with monetary value (purchases, leads, signups).
-
-Call `sealmetrics.conv()` on your confirmation or thank-you page:
-
-```javascript
-sealmetrics.conv('purchase', 99.99);
-```
-
-You can add custom properties:
-
-```javascript
-sealmetrics.conv('purchase', 149.99, {
-  currency: 'EUR',
-  payment_method: 'credit_card'
-});
-```
-
----
-
-## Step 5: Track Microconversions
-
-Microconversions track user interactions that indicate progress toward a conversion (add to cart, form starts, video plays).
-
-```javascript
-sealmetrics.micro('add_to_cart');
-
-sealmetrics.micro('add_to_cart', {
-  product_id: 'SKU-123',
-  price: '89.99'
-});
-```
-
----
-
-## Step 6: Use the Pixel Builder (Optional)
-
-For more complex setups, use the **Pixel Builder** on the Pixels page to create reusable pixel configurations:
-
-1. Click **Create Pixel** in the Saved Pixels section
-2. Choose the pixel type: **Pageview**, **Conversion**, or **Microconversion**
-3. Configure the event label, value, and custom properties
-4. Select your target platform: **JavaScript**, **GTM**, or **Tealium**
-5. Copy the generated code from the preview
-
-Saved pixels can be edited or deleted at any time.
-
----
-
-## Privacy Considerations
-
-Sealmetrics does not use cookies or store personal data. When tracking conversions and microconversions:
-
-- Never include personal identifiers (order IDs, user IDs, emails) in properties
-- Only track event types and aggregate values
-
----
-
-If you have questions, contact [support@sealmetrics.com](mailto:support@sealmetrics.com).
-
-
-
 ## SPA Support
 
 
@@ -16227,33 +15980,46 @@ URL: https://docs.sealmetrics.com/implementation/tracker/spa-support
 
 # Single Page Application (SPA) Support
 
-The tracker automatically detects navigation in Single Page Applications. No configuration required.
+The tracker automatically detects navigation in Single Page Applications. No configuration required, and no router-specific code for any framework built on the History API.
 
 ## How It Works
 
-The tracker intercepts:
+Once the script is on the page, the tracker will:
 
-1. `history.pushState()` - Triggered when navigating to a new URL
-2. `history.replaceState()` - Triggered when replacing current URL
-3. `popstate` event - Triggered when user clicks back/forward
+1. Fire a pageview on initial load.
+2. Fire a pageview when your router calls `history.pushState()`.
+3. Fire a pageview when your router calls `history.replaceState()`.
+4. Fire a pageview when the user clicks **Back** / **Forward** (`popstate`).
+5. Skip duplicates: if the new URL is identical to the previous one, no event is sent.
+6. Set the `referrer` of each SPA pageview to the previous in-app URL — so internal navigation flows are preserved in reports.
 
-Each URL change triggers a new pageview event automatically.
+The canonical global is **`window.sealmetrics`** — always use it in your integrations. (`window.sm` and `window._sm` exist as best-effort aliases, but they are only claimed when free — e.g. during a v1→v2 migration `window.sm` is the *old* tracker — so don't rely on them.)
 
 ## Supported Frameworks
 
-Works out of the box with:
+Any router built on the History API is supported out of the box:
 
-| Framework | Router | Tested |
-|-----------|--------|--------|
-| React | react-router v5/v6 | Yes |
-| Vue | vue-router v3/v4 | Yes |
+| Framework | Router | Auto-Tracking |
+|-----------|--------|:-------------:|
+| React | react-router v5 / v6 | Yes |
+| Vue | vue-router v3 / v4 | Yes |
 | Angular | @angular/router | Yes |
-| Next.js | App Router, Pages Router | Yes |
+| Next.js | App Router / Pages Router | Yes |
 | Nuxt.js | nuxt/router | Yes |
 | Svelte | svelte-routing, SvelteKit | Yes |
 | Remix | @remix-run/react | Yes |
+| Astro | View Transitions / client:load | Yes |
+| Solid | @solidjs/router | Yes |
 
-Any router that uses the History API is automatically supported.
+Hash-based routers (`/#/path`) are **not** auto-detected — see [Hash-Based Routing](#hash-based-routing) below.
+
+## Installation
+
+Same as regular installation — one script tag, once, in the document `<head>`:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
 
 ## Manual Initial Pageview (`?auto=0`)
 
@@ -16281,13 +16047,51 @@ With `spa=0` the History API listeners still run — they keep the tracker's URL
 
 Use `?auto=0&spa=0` together for fully manual control (e.g. the canonical GTM pattern, or per-route content grouping). ⚠️ Never fire manual route-change pageviews *without* `spa=0`: the automatic hook would fire too and every navigation would be counted twice.
 
-## Installation
+## Content Grouping
 
-Same as regular installation:
+Content groups let you bucket pageviews together (e.g. `blog`, `product`, `checkout`) and view aggregated reports per group.
+
+### Recommended: set the group at script load
+
+This is the cleanest pattern. The group is sticky for **every** automatic pageview, including all SPA navigations:
 
 ```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script
+  src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=storefront"
+  defer
+></script>
 ```
+
+### Per-route grouping (advanced)
+
+The tracker has **no API to update the group of an already-fired pageview**. If you need a different group per route, you have two options:
+
+#### Option A — Full manual mode (`?auto=0&spa=0`), fire pageviews yourself
+
+Best for apps where every route needs a specific group. Both flags are required:
+
+- `auto=0` suppresses the **initial** auto-pageview on load.
+- `spa=0` suppresses the **automatic pageview on SPA route changes**.
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0&spa=0" defer></script>
+```
+
+With both flags set, no pageview fires unless you fire it — so you pass the group on every route, with no risk of double counting:
+
+```jsx
+// after router resolves a route
+useEffect(() => {
+  if (typeof sealmetrics === 'undefined') return;
+  sealmetrics({ group: routeGroupFor(pathname) }); // pathname → 'blog' | 'product' | ...
+}, [pathname]);
+```
+
+⚠️ Don't use `?auto=0` alone for this pattern: without `spa=0`, route changes via `pushState`/`replaceState`/`popstate` still fire an automatic (group-less) pageview, and your manual call would make it **two pageviews** for the same URL.
+
+#### Option B — Use a single global group per site
+
+Set the group once at script load (the recommended pattern above) and rely on URL paths in reports to slice further. This is what most SPAs should do.
 
 ## React Example
 
@@ -16315,18 +16119,20 @@ No additional setup needed. Navigation between routes is tracked automatically.
 
 ### Tracking Conversions
 
+The pageview is automatic; you only need to fire the conversion itself on the success page or step. Always guard with `typeof sealmetrics !== 'undefined'` — the script is `defer`-ed and may not be ready on the very first paint of an SSR app.
+
 ```jsx
 // CheckoutSuccess.jsx
 import { useEffect } from 'react';
 
-function CheckoutSuccess({ order }) {
+export default function CheckoutSuccess({ order }) {
   useEffect(() => {
-    // Pageview is automatic, just track conversion
-    if (typeof sealmetrics !== 'undefined') {
-      sealmetrics.conv('purchase', order.total, {
-        currency: order.currency
-      });
-    }
+    if (typeof sealmetrics === 'undefined') return;
+
+    sealmetrics.conv('purchase', order.total, {
+      currency: order.currency,
+      payment_method: order.paymentMethod,
+    });
   }, [order]);
 
   return <div>Thank you for your order!</div>;
@@ -16336,14 +16142,12 @@ function CheckoutSuccess({ order }) {
 ### With Content Grouping
 
 ```jsx
-// Use the group parameter in the script tag per page type,
-// or set it dynamically:
+// Requires ?auto=0&spa=0 on the script tag — see Option A above.
 
 function ProductPage({ product }) {
   useEffect(() => {
-    if (typeof sealmetrics !== 'undefined') {
-      sealmetrics({ group: 'product' });
-    }
+    if (typeof sealmetrics === 'undefined') return;
+    sealmetrics({ group: 'product' });
   }, [product.id]);
 
   return <div>{product.name}</div>;
@@ -16392,22 +16196,28 @@ export default function MyApp({ Component, pageProps }) {
 }
 ```
 
-### Dynamic Content Grouping
+### Conversion on a Success Page
 
 ```tsx
-// app/blog/[slug]/page.tsx
+// app/checkout/success/page.tsx
 'use client';
 
 import { useEffect } from 'react';
 
-export default function BlogPost({ params }) {
+export default function SuccessPage({ searchParams }: { searchParams: { order: string } }) {
   useEffect(() => {
-    if (typeof window !== 'undefined' && typeof sealmetrics !== 'undefined') {
-      sealmetrics({ group: 'blog' });
-    }
-  }, [params.slug]);
+    if (typeof window === 'undefined' || typeof sealmetrics === 'undefined') return;
 
-  return <article>...</article>;
+    fetch(`/api/orders/${searchParams.order}`)
+      .then((r) => r.json())
+      .then((order) => {
+        sealmetrics.conv('purchase', order.total, {
+          currency: order.currency,
+        });
+      });
+  }, [searchParams.order]);
+
+  return <div>Thanks!</div>;
 }
 ```
 
@@ -16431,6 +16241,28 @@ const router = createRouter({
 });
 
 createApp(App).use(router).mount('#app');
+```
+
+### Tracking a Conversion (Vue 3)
+
+```vue
+<script setup>
+import { onMounted } from 'vue';
+
+const props = defineProps(['order']);
+
+onMounted(() => {
+  if (typeof sealmetrics === 'undefined') return;
+
+  sealmetrics.conv('purchase', props.order.total, {
+    currency: props.order.currency,
+  });
+});
+</script>
+
+<template>
+  <div>Thank you for your order!</div>
+</template>
 ```
 
 ### Tracking Events in Components
@@ -16552,12 +16384,77 @@ export function useAnalytics() {
 }
 ```
 
+## Microconversions in SPAs
+
+Use `micro()` for funnel steps that are **not** the final goal (add-to-cart, signup-started, video-played, etc.). All values in the properties map are sent as strings.
+
+```javascript
+function handleAddToCart(product) {
+  // ... your cart logic
+
+  if (typeof sealmetrics === 'undefined') return;
+
+  sealmetrics.micro('add_to_cart', {
+    product_id: product.id,
+    product_name: product.name,
+    price: String(product.price),
+    currency: 'EUR',
+  });
+}
+```
+
+## Hash-Based Routing
+
+Hash routing (`/#/path`) uses the `hashchange` event instead of the History API, so Sealmetrics does **not** track it automatically.
+
+Add this listener once at app startup:
+
+```javascript
+window.addEventListener('hashchange', function () {
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics();
+  }
+});
+```
+
+> **Migrating?** Hash routing is deprecated in most modern routers. If you're on react-router v6, prefer `BrowserRouter` over `HashRouter` — automatic tracking will then work without the listener.
+
+## Frameworks With Custom Navigation
+
+A few routers (or custom navigation code) bypass `pushState` / `replaceState` and update the URL via other mechanisms. In that case, call `sealmetrics()` manually inside your router's `afterEach` hook:
+
+```javascript
+// Vue Router
+router.afterEach(() => {
+  if (typeof sealmetrics !== 'undefined') sealmetrics();
+});
+```
+
+⚠️ **The tracker does not de-duplicate manual calls** — `sealmetrics()` always sends a pageview when invoked. (The URL-change check only gates the *automatic* History API hook.) Only add this listener if your router genuinely bypasses `pushState`/`replaceState` — verify in the Network tab first. If both the automatic hook and your manual call fire, every navigation is counted **twice**. If you want deterministic control, load the tracker with `?spa=0` (see [Option A](#option-a--full-manual-mode-auto0spa0-fire-pageviews-yourself)) and fire all SPA pageviews manually.
+
+## Server-Side Rendering (SSR)
+
+The tracker only runs in the browser. In SSR frameworks (Next.js, Nuxt, SvelteKit, Remix), always check the environment **and** the global before calling:
+
+```javascript
+if (typeof window !== 'undefined' && typeof sealmetrics !== 'undefined') {
+  sealmetrics.conv('purchase', 99.99, { currency: 'EUR' });
+}
+```
+
+For Next.js App Router, wrap the call in `useEffect` inside a `'use client'` component.
+
+## Iframes & Embedded Contexts
+
+If the tracker script is loaded **inside an iframe** (for example, a Shopify Web Pixel sandbox), auto-pageview tracking and SPA listeners are intentionally **disabled** — only `conv()` and `micro()` remain exposed. This prevents duplicate pageviews when the same site loads Sealmetrics on both the parent page and an embedded pixel.
+
+You don't need to do anything special: the tracker detects iframes via `window.self !== window.top`.
+
 ## TypeScript Declarations
 
-Add type declarations for better IDE support:
+Drop this in `types/sealmetrics.d.ts` (or any `.d.ts` picked up by your `tsconfig`) for better IDE support:
 
 ```typescript
-// types/sealmetrics.d.ts
 interface SealmetricsOptions {
   group?: string;
 }
@@ -16585,57 +16482,48 @@ export {};
 
 ### Duplicate Pageviews
 
-If you see duplicate pageviews, check:
+Most common causes, in order:
 
-1. Script is not included multiple times
-2. Not calling `sealmetrics()` manually when automatic tracking is sufficient
-3. No other analytics wrapper is re-triggering events
+1. **Script included twice.** Search the rendered HTML for `t.sealmetrics.com/t.js` — there should be exactly one match.
+2. **Manual `sealmetrics()` call after auto-tracking.** The tracker already fires on `pushState`/`replaceState`/`popstate`. Don't call it again in your router's `afterEach` unless you've confirmed auto-tracking isn't firing.
+3. **Per-route grouping pattern.** Calling `sealmetrics({ group: '...' })` after an automatic pageview produces a second event. Use `?auto=0&spa=0` together — `?auto=0` alone only suppresses the *initial* pageview, not SPA route-change pageviews.
+4. **Animations using `replaceState`.** Some libraries call `history.replaceState()` for non-navigation purposes (e.g. saving scroll position into the URL). This triggers a pageview if the full URL changes. Use a query-param-only update where possible, or strip the param before tracking.
+5. **Another analytics wrapper re-triggering events.**
 
 ### Missing Pageviews on Route Change
 
-The tracker uses the History API. If your framework uses a custom navigation method that bypasses `pushState`/`replaceState`, pageviews won't be tracked.
+1. Confirm your router uses the History API (open DevTools → Console and run `history.pushState({}, '', '/test')` — the tracker should fire a pageview).
+2. If you use hash routing, add the [hashchange listener](#hash-based-routing).
+3. If your router bypasses `pushState`, fire manually in the [`afterEach` hook](#frameworks-with-custom-navigation).
 
-Solution: Call `sealmetrics()` manually after navigation:
+### Pageview Fires but `referrer` Is Wrong
+
+For SPA navigations, Sealmetrics sets `referrer` to the **previous in-app URL** (not `document.referrer`). This is intentional — it lets you build true in-app flow reports. The original external referrer is only used on the very first pageview of the session.
+
+### The `sealmetrics` Global Is Undefined
+
+The script is loaded with `defer`, so it executes after the DOM is parsed but before `DOMContentLoaded`. If your app fires a conversion synchronously during initial render, the global may not exist yet. Always guard:
 
 ```javascript
-router.afterEach(() => {
+if (typeof sealmetrics === 'undefined') return;
+```
+
+Or retry once after a microtask:
+
+```javascript
+queueMicrotask(() => {
   if (typeof sealmetrics !== 'undefined') {
-    sealmetrics();
+    sealmetrics.conv('signup', 0);
   }
 });
 ```
 
-### Hash-Based Routing
+## Related Documentation
 
-If your SPA uses hash-based routing (`/#/path`), the tracker will not automatically detect changes.
-
-Solution: Listen for `hashchange` and track manually:
-
-```javascript
-window.addEventListener('hashchange', function() {
-  if (typeof sealmetrics !== 'undefined') {
-    sealmetrics();
-  }
-});
-```
-
-### Server-Side Rendering (SSR)
-
-Always check if `sealmetrics` exists before calling it:
-
-```javascript
-if (typeof sealmetrics !== 'undefined') {
-  sealmetrics.conv('purchase', 99.99);
-}
-```
-
-Or for Next.js/Nuxt:
-
-```javascript
-if (typeof window !== 'undefined' && typeof sealmetrics !== 'undefined') {
-  sealmetrics.conv('purchase', 99.99);
-}
-```
+- [Conversions](/implementation/tracker/conversions) — full conversion property reference
+- [Microconversions](/implementation/tracker/microconversions)
+- [Tracker Installation](/implementation/tracker/installation)
+- [How to Track React](/implementation/tracking-methods/how-to-track-react)
 
 
 
@@ -17604,7 +17492,7 @@ Install SealMetrics on any platform with our official integrations. All integrat
 1. Choose your platform from the list above
 2. Download the plugin/module/script
 3. Install following the platform-specific instructions
-4. Enter your **Account ID** (found in your [SealMetrics dashboard](https://my.sealmetrics.com))
+4. Enter your **Account ID** — this is your Site ID, shown in **Settings → Sites → [your site] → General** ([how to find it](/platform/account-setup/find-account-id))
 5. Save and publish
 
 ### For Custom Implementations
@@ -17873,7 +17761,7 @@ Download the latest version of the SealMetrics WordPress plugin:
 ### Step 3: Configure
 
 1. Go to **Settings > SealMetrics**
-2. Enter your **Account ID** (found in your [SealMetrics dashboard](https://my.sealmetrics.com))
+2. Enter your **Account ID** — this is your Site ID, shown in **Settings → Sites → [your site] → General** ([how to find it](/platform/account-setup/find-account-id))
 3. Save changes
 
 ## Configuration Options
@@ -18047,7 +17935,7 @@ Download the latest version of the SealMetrics WooCommerce plugin:
 ### Step 3: Configure
 
 1. Go to **Settings > SealMetrics**
-2. Enter your **Account ID** (found in your [SealMetrics dashboard](https://my.sealmetrics.com))
+2. Enter your **Account ID** — this is your Site ID, shown in **Settings → Sites → [your site] → General** ([how to find it](/platform/account-setup/find-account-id))
 3. Save changes
 
 ## Configuration Options
@@ -18881,7 +18769,7 @@ drush en sealmetrics
 ## Configuration
 
 1. Go to `/admin/config/system/sealmetrics`
-2. Enter your **Account ID** (from your SealMetrics dashboard)
+2. Enter your **Account ID** — this is your Site ID, shown in **Settings → Sites → [your site] → General** ([how to find it](/platform/account-setup/find-account-id))
 3. Configure tracking options:
 
 | Setting | Description |
@@ -20608,13 +20496,14 @@ Choose what type of event to track:
 
 #### Account ID (Required)
 
-Your Sealmetrics Account ID. Find it in your [Sealmetrics dashboard](https://my.sealmetrics.com) under **Settings**.
+Your Sealmetrics Account ID — this is your **Site ID**; the GTM template's field is labelled "Account ID".
 
 **Tip:**
 1. Log in to Sealmetrics
-2. Go to **Settings → Sites**
-3. Click on your site
-4. Your Account ID is displayed in the **General** tab
+2. Go to **Settings → Sites → [your site] → General** tab
+3. The **Site ID** is shown next to the **Site Name** field — that is the value the template calls Account ID
+
+See [How to find your Site ID](/platform/account-setup/find-account-id).
 
 #### Pixel URL
 
@@ -20817,7 +20706,7 @@ If you push values to the Data Layer **after** the GTM snippet, those values are
 
 1. Verify your **Account ID** is correct
 2. Check that tags are firing (use Preview mode)
-3. Wait a few minutes — data may take time to appear
+3. Check the **Last hit** timestamp at the top right of the **Overview** report — hits arrive in seconds, so it should move as soon as the tag fires (see [Data delay](/troubleshooting/data-delay))
 4. Ensure your website domain is registered in Sealmetrics
 
 ## Resources
@@ -22611,7 +22500,7 @@ No shopper-facing UI is rendered. SealMetrics is invisible by design (privacy-fi
 ## Requirements
 
 - A Shopify store on a plan that allows app embeds.
-- A SealMetrics account (your **Account ID** identifies the site you want to track).
+- A SealMetrics account (your **Account ID** — the same value as your Site ID — identifies the site you want to track).
 
 ## Connect from the dashboard
 
@@ -38639,7 +38528,7 @@ URL: https://docs.sealmetrics.com/security-privacy/consentless-analytics
 
 **Consentless analytics** is a method of measuring website traffic and user behavior without requiring visitor consent. It achieves this by not collecting personal data, not setting cookies, and not using any form of user identification — making consent legally unnecessary under GDPR, ePrivacy Directive, and other privacy regulations.
 
-Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When visitors reject consent — which happens 50–87% of the time across EU markets — the tool records nothing. The result: businesses make decisions based on a fraction of their actual traffic.
+Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When a visitor rejects consent, the tool records nothing — which is why cookie-based analytics typically lose **30–60% of visitor data in EU markets**. The result: businesses make decisions based on a fraction of their actual traffic.
 
 Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Every visitor is measured. Every page view is counted. Every conversion is attributed to its source. No consent is needed because no personal data is involved.
 
@@ -38647,7 +38536,7 @@ Consentless analytics solves this by measuring aggregate behavior rather than tr
 
 ## How It Works: The Four-Variable System
 
-Sealmetrics pioneered a consentless tracking approach built on four anonymous variables per event:
+Sealmetrics uses a consentless tracking approach built on four non-identifying variables per event:
 
 1. **Timestamp** — when the event occurred
 2. **User Agent** — browser and device type (used for anonymous device classification; the event-level raw string is purged after 1 day)
@@ -38687,9 +38576,16 @@ Privacy authorities have explicitly recognized that certain analytics tools can 
 - **AEPD (Spain)** — Allows audience measurement without consent when data is aggregated daily and no personal identification is possible.
 - **ICO (United Kingdom)** — Under the DUAA 2025 update to PECR, strictly necessary analytics cookies are exempt from consent.
 
-Sealmetrics has completed self-assessments against [CNIL criteria](/compliance/cnil-self-assessment) and [UK PECR criteria](/compliance/uk-pecr-self-assessment), both available publicly in the compliance section.
+Sealmetrics has completed self-assessments against [CNIL criteria](/compliance/cnil-self-assessment) and [UK PECR criteria](/compliance/uk-pecr-self-assessment), both available publicly in the compliance section. No supervisory authority certifies or approves analytics tools, and Sealmetrics holds no third-party security certification such as ISO 27001 or SOC 2 — those pages are our own assessments against published criteria, not external validations.
 
 For a full legal analysis, see [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics).
+
+### What this means for you as the data controller
+
+- **No consent banner is required** for Sealmetrics measurement, and no Consent Management Platform, Consent Mode configuration or conditional tag firing is needed.
+- **A DPA is included** — public and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/). Your DPO will ask for one, so we provide it out of the box rather than arguing it is unnecessary. Annex 3 of that DPA is the authoritative subprocessor list.
+- **One paragraph in your privacy policy.** The AEPD audience-measurement guidance asks you to inform visitors about audience measurement; we provide ready-made wording.
+- **Vendor review material** is collected in the [compliance section](/compliance), including the self-assessments above.
 
 ---
 
@@ -38699,18 +38595,17 @@ For a full legal analysis, see [GDPR and Cookieless Analytics](/compliance/gdpr-
 |--|---------------------------|---------------------------|
 | **Tracking method** | Cookies + client ID | Aggregate event measurement |
 | **Consent required** | Yes | No |
-| **Data capture (EU)** | 15–50% of traffic | 100% of traffic |
+| **Data capture (EU)** | Partial — 30–60% of visitor data lost to consent rejection | Every hit measured |
 | **Cookie banners** | Required | Not needed |
 | **Personal data** | Yes (client ID, IP) | No |
 | **Cross-session tracking** | Yes | No |
 | **User-level profiles** | Yes | No |
-| **Data hosting** | Often US-based | EU-only (Dublin) |
-| **Legal risk (GDPR)** | Moderate to high | None |
+| **Data hosting** | Often US-based | EU-only (Dublin, Ireland) |
 | **Script size** | 50–365 KB | 1.3 KB (gzipped) |
 
-The trade-off is clear: cookie-based tools offer user-level metrics (unique visitors, session duration, cohort analysis) but lose most of their data to consent rejection. Consentless analytics captures everything but measures aggregate behavior rather than individual journeys.
+The trade-off is clear: cookie-based tools offer user-level metrics (unique visitors, session duration, cohort analysis) but lose a large share of their data to consent rejection. Consentless analytics measures every visit but reports aggregate behaviour rather than individual journeys.
 
-For most business decisions — which campaigns drive revenue, which pages convert, where traffic comes from — aggregate data from 100% of visitors is more useful than user-level data from 15% of visitors.
+For most business decisions — which campaigns drive revenue, which pages convert, where traffic comes from — aggregate data covering all visitors is more useful than user-level data covering only those who accepted a banner.
 
 ---
 
@@ -38718,7 +38613,7 @@ For most business decisions — which campaigns drive revenue, which pages conve
 
 ### What it measures
 
-- Page views and sessions (aggregate)
+- Page views and entrances (aggregate)
 - Traffic sources (UTM parameters, referrers)
 - Conversions and revenue
 - Funnel progression (anonymous steps)
@@ -38727,18 +38622,19 @@ For most business decisions — which campaigns drive revenue, which pages conve
 - Campaign performance and ROAS
 - Content performance (pages, groups)
 - Real-time traffic (aggregated snapshots)
+- Within-session engagement — bounce rate, engaged entrances, engagement rate and pages per session, all computed from the short-lived session marker described in [What We Track](/security-privacy/what-we-track)
 
 ### What it cannot measure
 
 - **Unique visitors** — requires identifying returning individuals
-- **Bounce rate** — requires knowing a visitor saw only one page in a session
-- **Session duration** — requires tracking individual session start/end
-- **User journeys** — requires linking page views to a single user
+- **Session duration** — requires timing an individual session from start to end
+- **The page a visit ended on, and navigation paths** — both require sequencing one visitor's pageviews
+- **User journeys across sessions** — requires linking page views to a single person over time
 - **Cohort analysis** — requires identifying users over time
 
-These metrics are excluded by design, not by limitation. Tracking them would require personal data, which would require consent — defeating the purpose of consentless analytics.
+These metrics are excluded by design, not by limitation. Tracking them would require a persistent identifier, which is personal data, which would require consent — defeating the purpose of consentless analytics.
 
-Sealmetrics provides alternative metrics: **entrances** (instead of visits), **engaged entrances** (instead of bounce rate), and **pages per session** as privacy-safe substitutes.
+Sealmetrics provides **entrances** instead of unique visitors as the audience-size signal. See the [Metrics Reference](/reports/definitions) for the exact formula behind each metric.
 
 ---
 
@@ -38761,6 +38657,22 @@ Key properties:
 Each page view is recorded as an independent, anonymous event. No attempt is made to link hits to a user or to other hits. This provides the most privacy-preserving form of measurement: pure aggregate counting.
 
 Both methods can run simultaneously or independently, depending on the account configuration. See [tracker documentation](/implementation/tracker) for technical details.
+
+### How data flows
+
+1. **Event detection** — the JavaScript tracker detects a page view or event. Nothing is written to or read from the device: no cookies, no localStorage, no sessionStorage, no fingerprinting.
+2. **Transmission** — the hit is sent as a lightweight beacon request to Sealmetrics' EU infrastructure. IP addresses appear at the network layer as they do for any HTTP request, but are never persisted in the analytics database; they are used in memory only for anti-abuse checks and site-configured exclusions.
+3. **Processing** — each hit is processed on its own. Hits are not joined to a person, and are not linked across sessions.
+4. **Aggregation and reporting** — dashboards report statistical patterns. Event-level detail is short-lived: it is purged after 1 day, hourly aggregates are kept 90 days, and daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs — see [Data Location & Retention](/security-privacy/data-location).
+
+All processing and storage of customer analytics data happens in **Dublin, Ireland**.
+
+### Practical effects of having no identifiers
+
+- **Nothing for privacy tooling to strip.** Ad blockers and browser tracking protections such as ITP target identifiers and known tracking domains; Sealmetrics sets none and uses its own domain, so measurement stays consistent across Safari, Firefox and private browsing modes.
+- **No CMP dependency.** No cookie categorisation, no Consent Mode v2, no region-conditional GTM triggers, and no re-testing the analytics setup every time a banner changes.
+- **No consent-driven attribution gaps.** UTM values are read on arrival rather than after a banner interaction, so traffic is not misfiled as Direct when a visitor accepts cookies mid-journey.
+- **Light footprint.** The tracker is 1.3 KB gzipped, loads asynchronously and does not block rendering.
 
 ---
 
@@ -39211,117 +39123,26 @@ URL: https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy
 
 # How Sealmetrics Protects User Privacy
 
-At **Sealmetrics**, privacy is not a regulation to comply with — it’s a core philosophy.  
-Our platform is designed to protect users’ data beyond legal requirements.
+Sealmetrics protects visitors by **not collecting the data that would put them at risk in the first place**. The protection is architectural rather than procedural: there is no personal data to secure, disclose, leak or hand over, because none is collected.
 
----
+In practice that means four things:
 
-## Core Privacy Principles
+- **Nothing is written to the visitor's device.** No cookies, no localStorage, no sessionStorage, no fingerprinting. The session marker used to group hits within one visit is held in memory, expires with the visit, and cannot recognise a returning visitor.
+- **No identifier is stored.** No IP addresses in the analytics database (they are used in memory only for anti-abuse checks and site-configured exclusions), no user IDs, no device IDs, no cross-session or cross-device linking. The user agent is kept for anonymous device classification only — the raw string for 1 day, then only the derived browser/OS/device categories inside aggregates.
+- **Data is minimised, then aged out.** Event-level rows are purged after 1 day, hourly aggregates after 90 days, daily aggregates and conversions after 24 months. Retention is fixed for every plan and enforced by database TTLs.
+- **Storage stays in the EU.** All customer analytics data is stored and processed in Dublin, Ireland, encrypted in transit and at rest, under role-based access control.
 
-1. **Privacy Over Profit**  
-   No tracking if it compromises user privacy.  
+Because visitor analytics data carries no identifier, a visitor access or deletion request cannot be matched to any record — there is nothing tied to an individual to produce or erase. Account data (your dashboard users: name, email, billing) is a different category and data subject rights apply to it in full; see [Data Subject Rights (DSAR)](/compliance/data-subject-rights). A Data Processing Agreement is included and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/).
 
-2. **No Individual Tracking**  
-   No user profiles or personal identifiers — only aggregated behavior.  
-
-3. **Data Minimization**  
-   Collect only what’s necessary for meaningful analytics.
-
----
-
-## Technical Privacy Protections
-
-### No Cookies Technology
-- No cookies or local storage  
-- Session-only identifiers (expire automatically)  
-
-### No Personal Data Collection
-- **No IP addresses** persisted (used in-memory only for bot filtering / GeoIP when opt-in)
-- **No device fingerprints** or cross-session identifiers
-- **User agent stored** for anonymous device classification only — never linked to any personal identifier
-- Only aggregated session data  
-
-### Advanced Anonymization
-- Immediate anonymization at data collection  
-- Impossible to reverse or re-identify data  
-
----
-
-## Dual Tracking System Privacy
-
-### Session-ID Tracking
-- Temporary per-visit identifiers  
-- No cross-session linkage  
-
-### Isolated Hits
-- Each interaction logged separately  
-- Aggregated for trends, not individuals  
-
----
-
-## Regulatory Compliance Framework
-
-- **GDPR:** No personal data processing, no consent required  
-- **ePrivacy Directive:** No cookies, fully compliant  
-- **CCPA:** No personal information collection  
-- **PECR:** No user device tracking  
-
-**Validated by third-party legal audits** and continuous compliance reviews.
-
----
-
-## Data Protection Measures
-
-- EU-based infrastructure (Ireland)  
-- Encryption in transit and at rest  
-- Strict internal access control  
-- Automated data deletion  
-
----
-
-## Transparency and User Rights
-
-- Clear documentation of data practices  
-- Open privacy policy communication  
-- No need for consent or deletion requests (no personal data stored)
-
----
-
-## Traditional vs. Sealmetrics Analytics
-
-| Feature | Traditional Tools | Sealmetrics |
-|----------|------------------|--------------|
-| Cookies | Required | None |
-| IP Tracking | Yes | Never |
-| Consent Banner | Required | Not needed |
-| Cross-Session Tracking | Yes | No |
-| Personal Data | Collected | None |
-
----
-
-## The Sealmetrics Privacy Commitment
-
-- **Privacy First:** Over data collection  
-- **Regulatory Leadership:** Exceeds compliance  
-- **User Respect:** Privacy as a right  
-- **Transparency:** Open and honest data use  
-- **Continuous Improvement:** Ongoing enhancements  
-
----
-
-Sealmetrics redefines analytics by making **privacy the foundation** — enabling insights without compromising trust.
-
----
-
-*Want analytics that respects privacy by design? [Start your free trial](https://my.sealmetrics.com/register) — full GDPR compliance, zero personal data collection.*
+Sealmetrics holds no third-party security certification such as ISO 27001 or SOC 2, and no supervisory authority certifies analytics tools. What exists is our own [compliance self-assessments](/compliance) against published criteria.
 
 ## Related documentation
 
-- [Privacy by Design Principles](/security-privacy/privacy-by-design) — the seven principles this protection is built on
-- [What We Track vs What We Don't](/security-privacy/what-we-track) — the specific data points behind our minimization approach
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the anonymization and isolated-hit mechanics
-- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — why zero personal data means no consent
-- [Frequently Asked Questions](/faq/privacy-security) — answers to common privacy questions
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the field-by-field detail, with retention
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and its legal basis
+- [Data Location & Retention](/security-privacy/data-location) — EU hosting, encryption, retention schedule, account closure
+- [Privacy by Design Principles](/security-privacy/privacy-by-design) — how these choices map to the privacy-by-design framework
+- [Account Security](/security-privacy/account-security/two-factor-auth) — protecting the dashboard account itself
 
 
 
@@ -39580,7 +39401,7 @@ Sealmetrics does **not**:
 ❌ Store IP addresses
 ❌ Use cookies or persistent identifiers
 
-The user agent is stored 24 months for anonymous device classification (browser/OS category), but it cannot be joined with anything that identifies the person — because no such identifier exists. Short-lived session context exists inside a single browsing session (~2-hour inactivity), never across sessions or devices.
+The user agent is used for anonymous device classification (browser/OS category): the raw string is purged with the event row after 1 day, and only the derived categories persist in the 24-month aggregates. Neither can be joined with anything that identifies the person — because no such identifier exists. Short-lived session context exists inside a single browsing session (~2-hour inactivity), never across sessions or devices.
 
 ---
 
@@ -39672,12 +39493,11 @@ Sealmetrics proves that accurate attribution **does not** require user tracking.
 
 We achieve attribution by grouping hits by **campaign characteristics**, not by individuals.
 
-- 🟢 100% privacy-preserving  
-- 🟢 100% compliant  
-- 🟢 100% traffic captured  
-- 🟢 No User-IDs, no cookies, no consent  
+- 🟢 No personal data processed
+- 🟢 Every hit measured — no loss from consent rejection
+- 🟢 No User-IDs, no cookies, no consent banner
 
-This is the future of ethical analytics.
+Because no personal data is involved, no consent is required — see [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent). Sealmetrics holds no third-party security certification, and the [compliance pages](/compliance) are self-assessments.
 
 ## Related documentation
 
@@ -39697,353 +39517,52 @@ URL: https://docs.sealmetrics.com/security-privacy/overview
 
 # Security & Privacy
 
-Sealmetrics was built from the ground up with one core principle: **privacy is not a feature, it's the foundation**. Every architectural decision, every line of code, every system design choice prioritizes user privacy and data security.
+Sealmetrics measures websites **without collecting personal data**: four non-identifying variables per hit, nothing written to the visitor's device, no identifier carried across sessions, and all customer analytics data stored in Dublin, Ireland. Because there is no personal data, the consent requirements of GDPR and the ePrivacy Directive are not triggered — the reasoning is set out in full in [What is Consentless Analytics?](/security-privacy/consentless-analytics).
 
-## Privacy by Design
+Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2), and no supervisory authority certifies analytics tools. The pages under [compliance](/compliance) are our own self-assessments against published criteria. A Data Processing Agreement is included and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/); Annex 3 of that DPA is the authoritative subprocessor list.
 
-### What We Don't Collect (Ever)
+## Start here
 
-Sealmetrics is built on what we **don't** track:
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the concept, the legal basis under GDPR and ePrivacy, and what the model can and cannot measure
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the field-by-field list, with retention for each field
 
-- **No IP addresses** - Never persisted in the analytics database; used only transiently server-side for anti-abuse protection
-- **No cookies** - Zero cookies, zero local storage, zero fingerprinting
-- **No persistent identifiers** - No user IDs, device IDs, or tracking tokens
-- **No personal information** - No emails, names, phone numbers, addresses
-- **No user journeys** - Cannot reconstruct individual browsing patterns across sessions
-- **No behavioral profiles** - Cannot build personality or preference models
-- **No cross-site tracking** - Only measures your website, never follows users elsewhere
-- **No sensitive data** - No health information, financial data, political views, religious beliefs
+## The consentless model
 
-This isn't a marketing claim. It's architecturally impossible for Sealmetrics to identify individual users.
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the technical mechanics, step by step
+- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — the short answer on consent
+- [Benefits of Consentless Tracking](/security-privacy/consentless-benefits) — what complete data changes in practice
+- [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — last-click attribution without identifiers
 
-### The Four-Variable System
+## Privacy practice
 
-Every interaction on your website is captured using exactly four data points:
+- [How Sealmetrics Protects User Privacy](/security-privacy/how-we-protect-privacy) — the concrete protections
+- [Privacy by Design Principles](/security-privacy/privacy-by-design) — the seven principles mapped to architecture
+- [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) — timezone-based geolocation
 
-1. **Timestamp** - When the event occurred
-2. **User Agent** - Browser and device type (event-level rows purged after 1 day; derived device categories persist in aggregated reports for 24 months; never linked to a person)
-3. **Current URL** - The page being viewed
-4. **Referral URL** - Where the visitor came from
+## Data, hosting and quality
 
-That's the complete data set. Nothing more is collected. Nothing more is stored.
+- [Data Location & Retention](/security-privacy/data-location) — EU hosting, retention schedule, encryption, deletion and export
+- [Bot Detection & Traffic Quality](/security-privacy/bot-detection) — how automated traffic is filtered out of reports
+- [Why Sealmetrics Is Not Blocked by AdBlockers](/security-privacy/adblocker-bypass) — first-party delivery and why filter lists do not match
 
-### How Anonymization Works
+## Account security
 
-**At Collection:**
-- User agent strings are parsed for browser/device category insights (Chrome/Safari/Firefox, Windows/macOS/iOS/Android, desktop/mobile/tablet)
-- The user agent is stored alongside the hit in event-level rows (purged after 1 day); only derived category dimensions persist in the 24-month aggregates. It is **never joined with a personal identifier** (there isn't one) and never used to reconstruct a user's history across sessions
-- No fingerprinting algorithms are applied
-- No attempt is made to create persistent identifiers
+- [Two-Factor Authentication](/security-privacy/account-security/two-factor-auth)
+- [Backup Codes](/security-privacy/account-security/backup-codes)
+- [Session Management](/security-privacy/account-security/session-management)
+- [IP Allowlist](/security-privacy/account-security/ip-allowlist)
 
-**At Processing:**
-- Each event is processed in isolation
-- No correlation with other events from the same user
-- Statistical aggregation only
-- Individual-level data is never accessible
+## Auditing someone else's tags
 
-**At Storage:**
-- Only aggregate patterns are stored
-- No way to reverse-engineer individual users
-- No raw user-level data persists anywhere in the system
-
-## Legal Compliance by Design
-
-### GDPR Compliance (No Consent Required)
-
-Sealmetrics operates under Article 6(1)(f) of GDPR: **Legitimate Interest**.
-
-**Why no consent is required:**
-- We don't collect personal data as defined by GDPR
-- No IP addresses = no personal identifiers
-- Anonymous aggregate data only
-- No possibility of individual identification
-- Processing is strictly necessary for analytics purposes
-- Minimal data collection approach
-
-**Data retention:** 24 months for aggregated reports and conversions (fixed for all plans) — without requiring user consent.
-
-**What this means for you as a data controller:**
-- No consent banner needed for analytics measurement
-- No personal-data processing to disclose in your privacy policy for this purpose
-- **A DPA is included** — public and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/). Your DPO will ask for one, so we provide it out of the box rather than arguing it is unnecessary
-- Nothing here is a third-party certification: these pages are our own [compliance self-assessments](/compliance)
-
-### ePrivacy Directive Compliance (No Cookies = No Consent)
-
-The ePrivacy Directive (Cookie Law) requires consent for cookies and terminal storage.
-
-**Sealmetrics compliance:**
-- Zero cookies used
-- No local storage access
-- No code stored on user devices
-- No fingerprinting techniques
-- No session reconstruction across visits
-
-**Result:** No consent banner required. No data loss from cookie rejection.
-
-### CCPA Compliance
-
-The California Consumer Privacy Act regulates "personal information."
-
-**Sealmetrics compliance:**
-- No personal information collected as defined by CCPA
-- No sale of data (we don't have data to sell)
-- No third-party sharing
-- Anonymous analytics only
-
-**User rights:** Because we don't collect personal information, CCPA disclosure and deletion requirements don't apply.
-
-### PECR Compliance (UK Cookie Law)
-
-The Privacy and Electronic Communications Regulations apply in the UK.
-
-**Sealmetrics compliance:**
-- No cookies or similar technologies
-- No information stored on user devices
-- No access to device information beyond standard HTTP headers
-- Fully compliant without consent requirements
-
-## Data Security Measures
-
-### Infrastructure Security
-
-**Geographic isolation:**
-- All servers located in Dublin, Ireland (EU)
-- No international data transfers
-- EU data protection laws apply
-- No exposure to weaker privacy jurisdictions
-
-**Encryption:**
-- **In transit:** HTTPS/TLS encryption for all data transmission
-- **At rest:** Full encryption of stored data
-- End-to-end encryption throughout the entire system
-
-**Access controls:**
-- Strict role-based access controls
-- Granular permissions system
-- Principle of least privilege
-- Multi-factor authentication for administrative access
-
-**Audit trails:**
-- Complete logging of all system access
-- Operational activity monitoring
-- Security event tracking
-- Compliance audit support
-
-### Operational Security
-
-**Infrastructure redundancy:**
-- Multiple backup systems
-- Automatic failover capabilities
-- Geographic distribution within EU
-- 99.9% uptime SLA
-
-**Security monitoring:**
-- 24/7 system monitoring
-- Intrusion detection systems
-- Automated threat response
-- Regular vulnerability scanning
-
-**Incident response:**
-- Established incident response procedures
-- Security breach protocols
-- Rapid response capabilities
-- Transparent communication commitments
-
-**Regular audits:**
-- Ongoing security assessments
-- Third-party security audits
-- Penetration testing
-- Code security reviews
-
-### Application Security
-
-**Bot filtering:**
-- Sophisticated bot detection algorithms
-- Filters search engine crawlers (Googlebot, Bingbot)
-- Removes monitoring tools and scrapers
-- Blocks datacenter traffic
-- Protects data quality and system resources
-
-**Data validation:**
-- Input sanitization on all endpoints
-- Protection against injection attacks
-- Rate limiting on API endpoints
-- DDoS protection
-
-**Secure API access:**
-- Bearer token authentication
-- Token expiration policies
-- Secure token storage requirements
-- HTTPS-only API endpoints
-
-## Privacy Transparency
-
-### What We Track (The Complete List)
-
-**Page views:**
-- URL visited
-- Timestamp of visit
-- Referring URL
-- Browser type (derived from user agent)
-- Device type (derived from user agent)
-- Operating system (derived from user agent)
-- Country (derived from time zone, not IP)
-- Screen size category
-- Language preference
-
-**Events:**
-- Event name (e.g., "Purchase", "Signup")
-- Event timestamp
-- Associated page URL
-- Optional revenue value
-- Optional custom properties (you define these)
-
-**Sessions (GlobalTracker mode only):**
-- Temporary session ID (expires when browser closes)
-- Session start time
-- Pages viewed in that session only
-- Session duration
-
-**Nothing else.** This is the exhaustive list.
-
-### What We Can't Do (Technical Limitations)
-
-Because of our privacy-first architecture, Sealmetrics **cannot:**
-
-- Identify individual users across sessions
-- Rebuild complete user journeys over time
-- Track users across different websites
-- Create behavioral profiles
-- Correlate visits from the same person
-- Identify returning visitors (across sessions)
-- Determine demographic information
-- Infer sensitive personal attributes
-- Share data with third parties (we don't have data to share)
-- Sell user data (legally impossible—no user data exists)
-
-These aren't policy choices. They're architectural constraints. The system is fundamentally incapable of these actions.
-
-## Why Ad Blockers Don't Block Sealmetrics
-
-Ad blockers target tools that:
-- Build user profiles
-- Track users across websites
-- Serve advertisements
-- Implement behavioral targeting
-- Use known tracking domains
-
-**Sealmetrics doesn't do any of these things:**
-- First-party analytics only (measures your site, not users across sites)
-- No user profiling
-- No advertisements
-- No behavioral targeting
-- Unique domain (my.sealmetrics.com)
-- Doesn't match ad blocker filter patterns
-
-**Result:** Your analytics work for 100% of visitors, even those using privacy tools.
-
-## Privacy Philosophy
-
-### Our Commitment
-
-We believe website owners deserve accurate analytics. We also believe internet users deserve privacy. These goals are not in conflict.
-
-**Our principles:**
-1. **Privacy is non-negotiable** - We will never compromise user privacy for features
-2. **Transparency is mandatory** - We fully disclose what we collect and how it works
-3. **Compliance is inherent** - Privacy compliance is built in, not bolted on
-4. **Security is foundational** - Data security is a system-wide priority
-5. **Users come first** - When in doubt, we choose the more private approach
-
-### Independent Verification
-
-Don't take our word for it:
-
-- **Open documentation** - Our four-variable system is fully documented
-- **Transparent jurisdiction** - European company under strict EU privacy law
-- **Public architecture** - No hidden tracking mechanisms
-- **Legal compliance** - Independently verified GDPR compliance
-- **Source code transparency** - Tracking script is inspectable
-
-### The Sealmetrics Guarantee
-
-We guarantee:
-- We will never collect personal data
-- We will never sell or share your analytics data
-- We will never introduce user-level tracking
-- We will never move infrastructure outside the EU
-- We will always prioritize privacy over features
-
-This isn't just policy. It's who we are.
-
-## Data Governance
-
-### Data ownership
-
-**You own your data.** Period.
-
-- Full access via dashboard and API
-- Export to CSV anytime
-- Delete your account and all data instantly
-- No lock-in, no proprietary formats
-- Fixed, predictable retention windows
-
-### Data retention
-
-**Retention is fixed and identical for every plan** (enforced by database TTLs): daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and event-level detail 1 day.
-
-**Your control:**
-- Delete specific date ranges
-- Export before deletion
-- Account deletion removes all data permanently
-- No backups retained after deletion
-
-### Data portability
-
-Export your complete dataset at any time:
-- CSV export for all reports
-- API access for programmatic extraction
-- Standard formats for easy migration
-- No export fees, no restrictions
-
-## Compliance Support
-
-### For Your Legal Team
-
-Sealmetrics simplifies compliance:
-
-- **DPA included, public and ready to sign** - Short-lived pseudonymous analytics data deserves a proper Article 28 contract, so we provide one out of the box (your DPO will ask for it anyway): [sealmetrics.com/dpa](https://sealmetrics.com/dpa/)
-- **One paragraph in your privacy policy** - The AEPD audience-measurement guide asks you to inform users via your privacy policy — we provide ready-made wording, so this takes minutes
-- **No consent management** - No consent banner required for cookieless analytics
-- **No DPIA required** - Low privacy risk = no Data Protection Impact Assessment needed
-- **Simple vendor assessment** - Minimal third-party risk to evaluate
-
-### Documentation Available
-
-- Privacy architecture documentation
-- Legal compliance white papers
-- GDPR compliance analysis
-- Security infrastructure overview
-- Audit support materials
-
----
-
-**Privacy-first analytics isn't a compromise. It's an upgrade.**
-
-Sealmetrics proves you can have complete analytics data, powerful insights, and uncompromising privacy—all at the same time.
-
-**Questions about our privacy or security practices?** Contact our team or review our comprehensive privacy documentation.
-
-Ready to measure your traffic the right way? Start your free trial today.
+- [What Is This Domain in My Cookie Audit?](/security-privacy/third-party-analytics-domains) — lookup table of external analytics domains
+- [What Is demdex.net?](/security-privacy/demdex-net-cookies) — Adobe's Experience Cloud ID cookies
+- [What Is omtrdc.net?](/security-privacy/omtrdc-net-requests) — Adobe Analytics' collection domain
 
 ## Related documentation
 
-- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — the legal basis for consentless measurement
-- [What We Track vs What We Don't](/security-privacy/what-we-track) — the exhaustive list of collected and excluded data
-- [Privacy by Design Principles](/security-privacy/privacy-by-design) — the seven principles behind the architecture
-- [Frequently Asked Questions](/faq/privacy-security) — common privacy and security questions answered
-- [Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?](/compliance/compliance-overview/is-sealmetrics-privacy-compliant) — compliance across major regulations
+- [Compliance self-assessments](/compliance) — GDPR, ePrivacy, CNIL, AEPD, PECR analysed one by one
+- [Data Subject Rights (DSAR)](/compliance/data-subject-rights) — how access and erasure requests work
+- [Privacy and security FAQ](/faq/privacy-security) — common questions in Q&A form
 
 
 
@@ -40055,83 +39574,24 @@ URL: https://docs.sealmetrics.com/security-privacy/why-no-consent
 
 # Why Sealmetrics Can Measure Without Consent
 
-Sealmetrics needs **no consent** because it collects no personal data and sets no cookies — it processes only anonymous, non-identifying signals (isolated "hits"), which falls outside the consent requirements of GDPR and the ePrivacy Directive. It's the question we're asked most often, and the answer is simple and 100% compliant.
+Sealmetrics needs no consent banner because it collects **no personal data** and stores **nothing on the visitor's device**. Two separate rules are in play, and neither one attaches:
 
----
+- **GDPR** governs the processing of personal data. Sealmetrics stores no IP address, no user ID, no persistent identifier and no profile, so the obligations that apply to personal data — including the consent question — are not triggered.
+- **The ePrivacy Directive** (Article 5(3)) requires consent to store or read information on a user's terminal equipment. Sealmetrics sets no cookies and uses no localStorage or sessionStorage, so there is nothing on the device to ask about.
 
-## Full Legal Compliance
+What Sealmetrics records instead is four non-identifying variables per hit: **timestamp**, **user agent** (used for anonymous device classification — the raw string is purged after 1 day, and only the derived browser/OS/device categories persist in aggregates for 24 months), **current URL** and **referral URL**. Hits are measured on their own; they are never joined to a person or linked across sessions.
 
-Sealmetrics operates **fully within current privacy regulations** and adheres to the strictest guidelines set by both:
+This distinction matters more than it looks. Under ePrivacy, tracking individuals requires consent *even when the tracking is anonymous* — which is why moving tags server-side does not remove the consent requirement. Sealmetrics does not track individuals at all, which is a different thing from tracking them anonymously.
 
-- 🇪🇸 **AEPD** (Agencia Española de Protección de Datos)  
-- 🇫🇷 **CNIL** (Commission Nationale de l’Informatique et des Libertés)
-
-These organizations explicitly recognize that **aggregated, non-identifiable measurement systems** can operate **without requiring user consent**.
-
-Sealmetrics follows these principles rigorously and undergoes continuous legal and technical reviews to maintain compliance.
-
----
-
-## Cookieless and Consentless by Design
-
-**Sealmetrics is a 100% cookieless tracking system.**
-
-Our technology collects only **aggregated, non-personal data**, ensuring that **no individual user can ever be identified**.  
-Sealmetrics measures "hits" — not users, sessions, or journeys.
-
-Each interaction is treated as an **independent event**, making it technically and legally impossible to connect actions to a single user.
-
----
-
-## What Sealmetrics Tracks
-
-For each hit (or page view), Sealmetrics records only four variables:
-
-- **Timestamp** — When the event occurred  
-- **User Agent** — Used for anonymous device classification (browser/OS category); the raw string is purged after 1 day and only the derived categories persist in aggregated reports. Never linked to a person  
-- **Current URL** — The page where the event happened  
-- **Referral URL** — Where the visitor came from
-
-That’s it — no cookies, no IP addresses, no device IDs, and no fingerprinting.
-
----
-
-## In Line with ePrivacy and GDPR
-
-According to the **ePrivacy Regulation**, if you wish to **track users individually** — even anonymously — **you must obtain consent**.
-
-Sealmetrics doesn’t track users.  
-We measure **isolated page views ("hits")**, not behavioral journeys.  
-This ensures full compliance with:
-
-- **GDPR (General Data Protection Regulation)**  
-- **CCPA (California Consumer Privacy Act)**  
-- **PECR (UK Privacy and Electronic Communications Regulations)**  
-- **ePrivacy Directive**
-
----
-
-## Why This Matters
-
-Sealmetrics provides marketers and analysts with **accurate, consentless insights** —  
-ensuring **100% traffic measurement** without violating user privacy.
-
-> By design, Sealmetrics can’t track individuals — and that’s exactly why it doesn’t need consent.
-
-This approach guarantees a **sustainable, privacy-first future for analytics**, built on trust, transparency, and compliance.
-
----
-
-Sealmetrics:  
-**The only analytics platform engineered to measure 100% of your data — legally, ethically, and without consent.**
+Both the CNIL (France) and the AEPD (Spain) have published criteria under which audience measurement can operate without consent, and Sealmetrics has self-assessed against them. To be clear about what that is and is not: no supervisory authority certifies or approves analytics tools, so the [compliance pages](/compliance) are our own assessments against published criteria, not third-party validations. Sealmetrics also holds no ISO 27001 or SOC 2 certification. A Data Processing Agreement is included and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/).
 
 ## Related documentation
 
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the consentless concept in full
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the technical mechanism behind no-consent measurement
-- [What We Track vs What We Don't](/security-privacy/what-we-track) — the four variables that keep data non-identifying
-- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — full legal analysis with article references
-- [Frequently Asked Questions](/faq/privacy-security) — quick answers on privacy and consent
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the full legal basis, with the GDPR and ePrivacy articles and the regulatory guidance
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — every variable recorded, with its retention
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the technical mechanism
+- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the detailed regulatory analysis
+- [Consentless Analytics FAQ](/faq/consentless-analytics) — the same question in Q&A form
 
 
 
@@ -40553,256 +40013,29 @@ Export your data anytime:
 URL: https://docs.sealmetrics.com/security-privacy/consentless-benefits
 
 
-# Benefits of Consentless Tracking  
-## Why Sealmetrics’ Architecture Outperforms Traditional Analytics
+# Benefits of Consentless Tracking
 
-Consentless tracking is not a workaround — it is a **superior analytics architecture** designed for accuracy, compliance, operational efficiency, and long-term sustainability in an increasingly privacy-restrictive ecosystem.
+The practical case for consentless tracking is that **the data arrives complete and stays complete**. Cookie-based analytics typically lose 30–60% of visitor data in EU markets, because a tool that only fires after consent records nothing from visitors who decline. Sealmetrics fires on every visit, so there is no consent-shaped hole in the numbers.
 
-Below is a deep-dive into why Sealmetrics’ model delivers more reliable and compliant analytics than any cookie-based or user-ID-based platform.
+Four benefits follow from having no cookies and no identifiers.
 
----
+**Complete data.** Every hit is measured regardless of whether a banner was accepted, what the browser's privacy settings are, or whether the visitor is in a private window. That removes the two most common distortions in EU reporting: missing traffic and the "dark traffic" that gets filed as Direct.
 
-## 1. 100% Traffic Capture (No Data Loss, No Consent Drop-Off)
+**Nothing for privacy tooling to block.** Ad blockers and browser protections such as Safari's ITP target identifiers, third-party cookies and known tracking domains. Sealmetrics sets no identifiers, stores nothing on the device and serves from its own domain, so measurement stays consistent across browsers and browser versions.
 
-Traditional analytics platforms lose between **50–85%** of data because:
+**Cleaner attribution.** UTM values are read when the visitor arrives, not after they interact with a banner, so a mid-journey consent acceptance cannot overwrite the original source. Attribution is last-click at channel level — the model that works without linking touchpoints to a person. Multi-touch attribution is not available for exactly that reason.
 
-- Users reject cookie banners  
-- Browsers block tracking cookies  
-- Consent Mode restricts data  
-- Ad blockers suppress tracking scripts  
-- Session stitching breaks when consent is given mid-journey  
+**No consent machinery to run.** No CMP, no Consent Mode v2 configuration, no cookie categorisation, no region-conditional GTM triggers, and no re-testing analytics every time the banner changes. The tracker is 1.3 KB gzipped, loads asynchronously and does not block rendering.
 
-**Result:** incomplete, inaccurate, inconsistent data.
-
-### Sealmetrics Advantage
-
-Sealmetrics captures **every hit**, regardless of:
-
-- Consent acceptance or refusal  
-- Browser privacy settings  
-- Ad blocker usage  
-- Private browsing modes  
-- Legal region differences  
-
-No consent banner → no interruption → **no data loss**.
-
-**Business Impact:**
-
-- Reliable ROAS  
-- Accurate acquisition costs  
-- Complete campaign attribution  
-- No "dark traffic"  
-- No "direct traffic inflation"  
-- Full funnel accuracy  
-
----
-
-## 2. No Cookies, No IDs, No Fingerprinting (Nothing to Block)
-
-Privacy tools block **identifiers**, not analytics scripts.
-
-Sealmetrics uses **none**:
-
-- ❌ No cookies  
-- ❌ No local storage  
-- ❌ No device IDs  
-- ❌ No fingerprinting  
-- ❌ No cross-session identifiers  
-- ❌ No persistent user IDs  
-
-### Sealmetrics Advantage
-
-The tracker behaves like a simple “ping” request:
-
-- Not classed as a tracker  
-- Nothing stored on the device  
-- Nothing persists across sessions  
-- Nothing to classify as personal data  
-
-**Result:** Sealmetrics is resilient where other tools fail.
-
-**Business Impact:**
-
-- Accurate Safari/Firefox data  
-- Accurate mobile traffic  
-- Works even in hardened privacy environments  
-- Consistent data across browser versions  
-
----
-
-## 3. Operational Simplicity (Zero CMP Dependencies)
-
-Consent-based analytics require:
-
-- A Consent Management Platform (CMP)  
-- Consent Mode implementation  
-- Region-based rules  
-- GTM conditional firing  
-- Legal audits  
-- Continuous updates  
-
-This adds technical overhead, legal risk, and real engineering cost.
-
-### Sealmetrics Advantage
-
-Sealmetrics requires **none** of that:
-
-- No CMP  
-- No Consent Mode v2  
-- No cookie categorization  
-- No conditional GTM triggers  
-- No banner integration  
-- No legal revalidation  
-
-Because Sealmetrics does not process personal data, **no consent is required** under GDPR, ePrivacy, CCPA, or PECR.
-
-**Business Impact:**
-
-- No compliance risk  
-- No developer maintenance  
-- Faster implementation  
-- Lower total cost of ownership  
-
----
-
-## 4. Future-Proof Measurement Architecture
-
-The web is shifting permanently toward privacy:
-
-### Browser Trends
-- Chrome ending third-party cookies  
-- Safari and Firefox blocking trackers by default  
-- Browsers tightening fingerprinting protections  
-- Reduced client-side storage windows  
-
-### Regulatory Trends
-- Stricter GDPR enforcement  
-- ePrivacy tightening  
-- CCPA/CPRA extending definitions  
-- CNIL/AEPD cracking down on tracking practices  
-
-Traditional tracking **will continue breaking**.
-
-### Sealmetrics Advantage
-
-Sealmetrics is already aligned with the future:
-
-- Browser-independent  
-- Cookie-independent  
-- Consent-independent  
-- ID-independent  
-- Regulation-resilient  
-- Anonymous-by-design  
-
-**Business Impact:**
-
-- Zero future migrations  
-- Stable long-term analytics foundation  
-- No API changes due to browser privacy updates  
-- Guaranteed continuity  
-
----
-
-## 5. Full Regulatory Compliance by Design
-
-Sealmetrics collects **zero personal data**.
-
-This means:
-
-- No IP storage  
-- No fingerprinting  
-- No persistent identifiers  
-- No linked sessions  
-- No reconstructable journeys  
-
-The architecture inherently satisfies:
-
-- **GDPR** (no personal data processing)  
-- **ePrivacy** (no terminal equipment access requiring consent)  
-- **CCPA/CPRA** (no personal information collected)  
-- **PECR** (no cookie-based tracking)  
-
-**Result:** legal compliance is built into the technology itself.
-
----
-
-## 6. More Accurate Attribution Than Traditional Tools
-
-Platforms like GA4 suffer from:
-
-- Inflated direct traffic  
-- Lost attribution due to consent  
-- Broken session stitching  
-- UTMs overwritten after cookies accepted  
-- Partial or modelled data  
-
-### Sealmetrics Advantage
-
-- Accurate UTM attribution  
-- Clean last-click attribution  
-- Zero overwriting  
-- Zero consent fragmentation  
-- Zero session stitching errors  
-- Zero sampling  
-
-**Business Impact:**
-
-- More accurate ROAS  
-- Reliable media-mix decisions  
-- Clear performance ranking across channels  
-- Better budget allocation  
-
----
-
-## 7. Faster, Lightweight, Reliable Measurement
-
-Sealmetrics tracking requests:
-
-- Load asynchronously  
-- Are extremely lightweight  
-- Do not block rendering  
-- Have no heavy libraries  
-- Work without browser APIs that get restricted  
-
-**Result:** optimal website performance and Core Web Vitals.
-
----
-
-## Summary: Why Consentless Tracking Wins
-
-Sealmetrics’ architecture outperforms traditional analytics thanks to:
-
-- **Complete traffic capture**  
-- **Zero personal data collection**  
-- **Stable attribution without cookies**  
-- **Operational simplicity with no CMP**  
-- **Long-term regulatory compliance**  
-- **Technical resilience across all browsers**  
-- **Lightweight, fast implementation**  
-
-This is not just a different way to measure — it is the **superior measurement model** for the privacy-first era.
-
-Sealmetrics proves that **privacy and analytics are not competing goals**, but complementary forces that produce better, cleaner, more accurate business intelligence.
-
----
-
-**Related reading:**
-
-- [Cookie Banner Ghosting: Why 80-90% of Data Disappears](/blog/cookie-banner-ghosting-data-loss) — The consent problem that consentless tracking solves
-- [Cookieless vs Cookie-Based Analytics](/blog/cookieless-analytics-vs-cookie-based) — Technical comparison of both approaches
-- [Long-Term Analytics Without Consent](/blog/long-term-analytics-data-retention) — 24-month data retention with privacy compliance
-
----
-
-*Experience the difference complete data makes. [Start your free trial](https://my.sealmetrics.com/register) — no cookies, no consent banners, no data loss.*
+The trade-off is real and worth stating plainly: consentless measurement gives up user-level metrics. There are no unique visitors, no session duration, no cross-session journeys and no cohorts, because each of those requires a persistent identifier. See [what the model can and cannot measure](/security-privacy/consentless-analytics#what-consentless-analytics-can-and-cannot-measure).
 
 ## Related documentation
 
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the concept these benefits build on
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the technical architecture behind the advantages
-- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — the compliance foundation
-- [GA4 vs Sealmetrics — Complete Comparison](/faq/ga4-vs-sealmetrics) — how these benefits compare to Google Analytics
-- [Frequently Asked Questions](/faq/privacy-security) — common privacy and security questions
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the concept, legal basis and full comparison with cookie-based tools
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — every field recorded, with retention
+- [GA4 vs Sealmetrics](/faq/ga4-vs-sealmetrics) — feature-by-feature comparison
+- [Cookie Banner Ghosting: Why Data Disappears](/blog/cookie-banner-ghosting-data-loss) — the consent problem behind the data loss
+- [Cookieless vs Cookie-Based Analytics](/blog/cookieless-analytics-vs-cookie-based) — technical comparison of both approaches
 
 
 
@@ -40814,219 +40047,37 @@ URL: https://docs.sealmetrics.com/security-privacy/how-consentless-works
 
 # How Consentless Tracking Works
 
-Consentless tracking represents a fundamental evolution in web analytics:  
-shifting from **individual user tracking** to **aggregate, privacy-preserving measurement**.
+Consentless tracking measures **events in aggregate instead of following people**. The tracker records four non-identifying variables per hit — timestamp, user agent, current URL and referral URL — sends them to EU infrastructure, and never writes anything to the visitor's device. Because there is no identifier and nothing stored on the device, there is nothing to ask consent for.
 
-Sealmetrics pioneered this approach through dual tracking technologies designed to capture complete website behavior **without personal data, without cookies, and without requiring user consent**.
+## The mechanics, in four steps
 
----
+1. **Event detection.** A JavaScript tracker (1.3 KB gzipped) fires on page load and on events you instrument. It sets no cookies and uses no localStorage, sessionStorage or fingerprinting.
+2. **Transmission.** The hit is sent as a lightweight beacon request. The visitor's IP appears at the network layer, as it does for any HTTP request, but is never persisted in the analytics database — it is used in memory only for anti-abuse checks and site-configured exclusions.
+3. **Isolated processing.** Each hit is processed on its own. Hits from the same person are never joined across sessions, so no journey or profile can be reconstructed.
+4. **Aggregation.** Reports are built from aggregate counts. Event-level rows — including the raw user agent string — are purged after 1 day; hourly aggregates are kept 90 days; daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs.
 
-## 1. The Core Methodology
-### Aggregate Measurement Instead of Individual Tracking
+All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 
-### Traditional Analytics (❌ Requires Consent)
-- Uses cookies to store visitor IDs  
-- Reconstructs individual user journeys  
-- Builds detailed behavioral profiles  
-- Tracks users across sessions  
-- Loses **50–85%** of data when users decline cookies  
+## Two measurement modes
 
-### Sealmetrics Consentless Approach (✅ No Consent Required)
-- Measures **isolated, aggregate events**, not people  
-- No cookies, no fingerprinting, no local storage  
-- No user identification or profiling  
-- 100% traffic capture — every hit is measured  
-- Fully compliant with GDPR, ePrivacy, CCPA, PECR  
+**Isolated hits** — every page view is an independent, anonymous event with no link to any other event. This is the most privacy-preserving mode: pure aggregate counting.
 
----
+**Session-marked hits** — a short-lived, context-derived marker groups the hits of one visit (roughly a two-hour inactivity window). It is held in memory, never written to the device, and cannot recognise a returning visitor. Markers incorporate the publisher account, so the same browser produces different markers on different sites and no cross-site correlation is possible. This is what makes within-session metrics such as bounce rate and pages per session possible without an identifier.
 
-## 2. Session-Based Tracking
+## Why this needs no consent
 
-Sealmetrics uses a privacy-preserving session tracking approach.
+No personal data is collected, so the GDPR obligations that attach to personal data are not triggered; and nothing is stored on or read from the visitor's terminal equipment, so the ePrivacy Directive's Article 5(3) consent requirement does not attach either. Cookie-based tools face the opposite situation, which is why they typically lose **30–60% of visitor data** in EU markets when visitors decline.
 
-## **Session-ID Based Tracking**  
-### How It Works
-- Generates a **temporary, session-limited ID**  
-- ID expires as soon as the session ends  
-- No cross-session linking  
-- No persistent identifiers  
-- Session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites  
+Sealmetrics holds no third-party security certification, and no supervisory authority certifies analytics tools — the [compliance pages](/compliance) are self-assessments against published criteria.
 
-### Data Captured
-- Page views for the duration of the session  
-- Events happening in the same visit  
+## Where to read the detail
 
-### Privacy Safeguards
-- No user-level profiles  
-- No personal data collected  
-- Session IDs cannot identify individuals  
-- Immediate anonymization at point of capture  
-
----
-
----
-
-## 3. The Four-Variable System
-### Sealmetrics Only Captures These Four Anonymous Variables
-
-Each hit includes:
-
-1. **Timestamp**  
-2. **User Agent** *(used for anonymous device classification; event detail purged after 1 day, aggregated categories kept 24 months; never linked to a person)*  
-3. **Current URL**  
-4. **Referral URL**
-
-Nothing more.
-
-This extremely minimal dataset makes personal identification technically impossible.
-
----
-
-## 4. How Data Is Collected and Processed
-### Technical Flow of Consentless Tracking
-
-### Step 1 — Event Detection
-- JavaScript tracker detects page views or events  
-- No cookies, local storage, or fingerprinting  
-- Immediate anonymization  
-
-### Step 2 — Processing Layer
-- Events processed through privacy-preserving algorithms  
-- Patterns aggregated statistically  
-- No cross-hit linking  
-
-### Step 3 — Insight Generation
-- Dashboards and reports show aggregate behavior  
-- No user journeys  
-- No personal data, ever  
-
----
-
-## 5. The “Ping” Methodology
-Sealmetrics uses a privacy-safe request system similar to search engines’ crawlers.
-
-### Traditional Analytics “Pings”  
-❌ Associated with user identifiers  
-❌ Require consent  
-❌ Build behavioral profiles  
-
-### Sealmetrics Privacy Pings  
-✅ Fully anonymous  
-✅ No consent required  
-✅ Used only to understand aggregate behavior  
-
----
-
-## 6. Data Storage and Retention
-
-Sealmetrics stores analytics data in aggregated form using a privacy-preserving architecture:
-
-- **No raw personal data** is stored at any point
-- **Aggregated metrics** are stored in ClickHouse for high-performance querying
-- **Fixed data retention**, identical for every plan and enforced by database TTLs: event-level detail 1 day, hourly aggregates 90 days, daily aggregates and conversions 24 months
-- **European infrastructure** — all data hosted in Dublin, Ireland (EU)
-- **No international data transfers** — data never leaves the EU
-
----
-
-## 7. Privacy-Safe Attribution
-### How Conversions Are Attributed Without Tracking People
-
-Sealmetrics uses:
-
-- **Last-click attribution**
-- **UTM parameter processing**
-- **Anonymous channel assignment**
-
-Conversions are linked to channels — **not to individuals**.
-
----
-
-## 8. Compliance by Design
-### Why Sealmetrics Doesn’t Require Consent
-
-### GDPR
-- No personal data → GDPR does not apply  
-- No identifiers, no profiles, no tracking of individuals  
-
-### ePrivacy Directive
-- No cookies  
-- No local storage  
-- No access to terminal equipment  
-
-### CCPA / PECR
-- No personal information  
-- No sale or sharing of user-level data  
-
-### European Infrastructure
-- 100% hosted in Dublin (Ireland)  
-- No international data transfers  
-
-This is **privacy-by-design**, not privacy-by-policy.
-
----
-
-## 9. Real-World Implementation Example
-
-```html
-<!-- Basic Sealmetrics Implementation -->
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
-```
-
-That's it. One line. The tracker automatically:
-
-- Captures pageviews on load
-- Handles SPA navigation
-- Sends data via privacy-safe beacon requests
-
-### Tracking Conversions
-
-```javascript
-// Track a conversion
-sealmetrics.conv('purchase', 99.99, {
-  currency: 'EUR',
-  product_id: 'SKU-123'
-});
-
-// Track a micro-conversion (funnel step)
-sealmetrics.micro('add_to_cart', {
-  product_id: 'SKU-123'
-});
-```
-
----
-
-## 10. Summary
-
-Sealmetrics consentless tracking provides:
-
-- **100% traffic capture** — no data loss from consent rejection
-- **Full GDPR/ePrivacy compliance** — privacy by design
-- **Session-based tracking** — temporary IDs that expire with browser session
-- **Simple implementation** — one script tag
-- **Rich analytics** — conversions, funnels, attribution
-
-No cookies. No consent banners. Complete data.
-
----
-
-**Related reading:**
-
-- [Cookieless Tracking: Technical Deep Dive](/blog/cookieless-tracking-technical-deep-dive) — Extended analysis of the architecture behind consentless tracking
-- [Privacy-First Analytics: Why It Matters](/blog/privacy-first-analytics-2025) — The business case for privacy-first measurement
-- [Real-Time Analytics and Consent](/blog/real-time-tracking-consent) — How daily aggregation enables consentless real-time dashboards
-
----
-
-*See it in action — [start a free trial](https://my.sealmetrics.com/register) and capture 100% of your traffic from day one.*
-
-## Related documentation
-
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the concept and legal basis in full
-- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — why this architecture needs no consent
-- [What We Track vs What We Don't](/security-privacy/what-we-track) — the four variables detailed here
-- [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — privacy-safe attribution mechanics
-- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the regulatory analysis behind the model
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the full concept, the legal basis, the comparison with cookie-based tools, and what the model can and cannot measure
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — every field recorded, with its retention
+- [Data Location & Retention](/security-privacy/data-location) — EU hosting, complete retention schedule, encryption
+- [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — last-click attribution mechanics
+- [Installation](/implementation/tracker/installation) — adding the script tag and instrumenting conversions
+- [Cookieless Tracking: Technical Deep Dive](/blog/cookieless-tracking-technical-deep-dive) — extended analysis of the architecture
 
 
 
@@ -41038,233 +40089,27 @@ URL: https://docs.sealmetrics.com/security-privacy/privacy-by-design
 
 # Privacy by Design Principles
 
-At Sealmetrics, privacy is not an add-on — it is the foundation of the platform.  
-We don’t simply comply with privacy regulations; we exceed them through strict technical choices, architectural constraints, and a philosophy that prioritizes user privacy over data collection.
+Privacy by Design is the framework GDPR Article 25 refers to as *data protection by design and by default*. Sealmetrics satisfies it the blunt way: by not collecting personal data, so there is no personal data to protect, disclose or lose. The seven principles below map to specific architectural choices rather than to policies.
 
-This document explains the seven core Privacy-by-Design principles and how Sealmetrics implements each of them.
+| Principle | How it shows up in Sealmetrics |
+|-----------|-------------------------------|
+| **1. Proactive, not reactive** | Privacy constraints are structural. The system cannot start identifying visitors later without a redesign, because there is no identifier to switch on. |
+| **2. Privacy as the default** | Anonymous measurement from the first page load. Visitors do not opt in to anything, and there is no less-private mode to fall back to. |
+| **3. Full functionality** | Traffic, attribution, conversions, revenue and aggregate engagement are all reported without personal data. What is genuinely lost — unique visitors, session duration, cross-session journeys — is [documented rather than worked around](/security-privacy/consentless-analytics#what-consentless-analytics-can-and-cannot-measure). |
+| **4. End-to-end security** | EU-only storage in Dublin, Ireland; encryption in transit and at rest; role-based access control; short retention enforced by database TTLs. See [Data Location & Retention](/security-privacy/data-location). |
+| **5. Visibility and transparency** | The complete field list and its retention is published in [What We Track](/security-privacy/what-we-track). The tracker is client-side and inspectable. |
+| **6. Respect for user privacy** | No cookies, no device storage, no fingerprinting, no cross-session or cross-site linking. Session markers incorporate the publisher account, so the same browser yields different markers on different sites. |
+| **7. Accommodate all legitimate interests** | Site owners get the measurement they need for business decisions; visitors are not identified to provide it. |
 
----
-
-## 1. Proactive, Not Reactive  
-### Anticipating privacy risks before they arise
-
-**Core idea:** Prevent privacy issues instead of responding to them.
-
-#### Sealmetrics Implementation
-- Privacy safeguards embedded deeply into the architecture  
-- Designed with future regulations in mind, not just current ones  
-- Continuous privacy impact assessments  
-- Preventive system design to avoid risk  
-
-#### Practical Examples
-- Sealmetrics’ dual tracking system was implemented *before* consentless analytics became a regulatory topic  
-- Early legal consultation during development  
-- Architecture designed for future restrictions (GDPR evolution, ePrivacy, PECR updates)
-
----
-
-## 2. Privacy as the Default Setting  
-### Maximum privacy without requiring user action
-
-**Core idea:** Users should be protected automatically.
-
-#### Sealmetrics Implementation
-- No opt-in required for privacy  
-- Anonymous tracking by default  
-- No personal data collection  
-- No cookies  
-- Privacy protection enabled from first page load  
-
-#### Technical Architecture
-- Zero personal data  
-- No persistent identifiers  
-- No browser storage  
-- Anonymous processing at first touch  
-
----
-
-## 3. Full Functionality with Maximum Privacy  
-### Complete analytics without compromising user privacy
-
-Sealmetrics proves that advanced business intelligence **does not require personal data**.
-
-#### Capabilities Enabled
-- 100% website traffic measurement  
-- Full marketing attribution  
-- Real-time analytics  
-- Complete conversion tracking  
-- Aggregate behavior insights  
-
-#### Business Intelligence Still Possible
-- Track conversions anonymously  
-- Attribute revenue to channels without user IDs  
-- Understand trends without violating privacy  
-
----
-
-## 4. End-to-End Security  
-### Protecting data throughout its entire lifecycle
-
-#### Security Architecture
-- Encryption in transit  
-- Encryption at rest  
-- Strict internal access controls  
-- Complete audit trails  
-
-#### Infrastructure
-- 100% hosted in Dublin (Ireland)  
-- Redundant architecture  
-- Regular security audits  
-- Incident-response procedures
-
----
-
-## 5. Visibility & Transparency  
-### Verifiable privacy — no hidden tracking
-
-#### Sealmetrics Transparency
-- Public documentation about the 4-variable system  
-- Full disclosure: timestamp, user agent (event detail purged after 1 day; aggregated device classification kept 24 months), current URL, referral URL  
-- Technical documentation on isolated hits  
-- Regulatory compliance explained openly (GDPR, ePrivacy, CCPA, PECR)
-
-#### Operational Transparency
-- European company  
-- No hidden code execution on user devices  
-- Independent legal audits  
-- Clear explanation of all tracking capabilities and limits  
-
----
-
-## 6. Respect for User Privacy  
-### Privacy as a non-negotiable design requirement
-
-#### Technical Guarantees
-- No consent required (no personal data = no consent needed)  
-- Each hit processed independently  
-- No user-level tracking  
-- No reconstruction of journeys across sessions  
-- User agent stored for anonymous device classification only — never linked to any personal identifier  
-
-#### Architecture
-- No device intrusion  
-- No identifiers of any kind  
-- Immediate anonymization  
-
----
-
-## 7. Accommodate All Legitimate Interests  
-### Balance privacy, analytics needs, and legal obligations
-
-#### What Businesses Get
-- Complete performance analytics  
-- Conversion and revenue tracking  
-- Marketing attribution  
-- Funnel and behavioral insights  
-
-#### What Users Get
-- Total anonymity  
-- No tracking identifiers  
-- No privacy trade-offs  
-- No consent banners  
-
-#### What Regulators Get
-- A model that exceeds compliance requirements  
-- Clear, defensible privacy guarantees  
-
----
-
-## Technical Implementation of Privacy by Design
-
-### The Four-Variable Architecture
-Sealmetrics tracks only:  
-1. **Timestamp**  
-2. **User agent** (used for anonymous device classification — event detail purged after 1 day, aggregated categories kept 24 months; never linked to a person)  
-3. **Current URL**  
-4. **Referral URL**
-
-This minimal dataset ensures functionality without compromising privacy.
-
----
-
-### European Infrastructure
-- All processing in Dublin (Ireland)  
-- No international transfers  
-- Controlled under EU privacy law  
-- Regular oversight and auditability  
-
----
-
-### Isolated Hits Methodology
-- No correlation between hits  
-- No user-level stitching  
-- No session reconstruction  
-- No behavioral profiling  
-- Personal identification is technically impossible  
-
----
-
-## Privacy by Design in Daily Operations
-
-### Development
-- Legal review of every feature  
-- Privacy impact assessments  
-- Future-proofing for new regulations  
-- Conservative design choices  
-
-### Operations
-- Ongoing audits  
-- Monitoring of privacy safeguards  
-- Rapid adaptation to regulatory changes  
-- Transparent communication  
-
----
-
-## Future-Proofing
-- Designed for stricter future regulations  
-- Architecture compatible with privacy-enhancing technologies  
-- Aligns with global privacy frameworks  
-- Meets rising user expectations  
-
----
-
-## The Sealmetrics Privacy Advantage
-
-### Beyond Compliance
-- Exceeds regulatory requirements  
-- User-centric design  
-- Sustainable privacy-first analytics  
-- Market differentiation through true privacy  
-
-### Competitive Advantages
-- Unique isolated hits methodology  
-- Genuine consentless analytics  
-- No dependency on identifiers  
-- Earned user trust through real privacy protection  
-
----
-
-## Summary
-
-**Privacy by Design is not a feature at Sealmetrics — it is the foundation.**
-
-Through technical restraint, architectural constraints, and a strict adherence to privacy principles, Sealmetrics delivers:
-
-- Complete analytics  
-- Zero personal data collection  
-- Consent-free tracking  
-- Absolute user anonymity  
-- Future-proof compliance  
-
-Privacy and analytics **can** coexist. Sealmetrics proves it.
+Two claims worth keeping straight, because vendor reviews turn on them: privacy by design is an architectural property, **not a certification**. Sealmetrics holds no ISO 27001 or SOC 2 certification, and no supervisory authority certifies analytics tools. The pages under [compliance](/compliance) are our own self-assessments against published criteria, and a Data Processing Agreement is included at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/).
 
 ## Related documentation
 
-- [How Sealmetrics Protects User Privacy](/security-privacy/how-we-protect-privacy) — data minimization and anonymization in practice
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the isolated-hit methodology referenced above
-- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — the consent-free legal basis by design
-- [Frequently Asked Questions](/faq/privacy-security) — common privacy and security questions
-- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the regulatory analysis these principles satisfy
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the field-by-field disclosure behind principle 5
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and its legal basis
+- [How Sealmetrics Protects User Privacy](/security-privacy/how-we-protect-privacy) — the same protections in plain language
+- [Data Location & Retention](/security-privacy/data-location) — the security and retention detail behind principle 4
+- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the regulatory analysis
 
 
 
@@ -41276,7 +40121,7 @@ URL: https://docs.sealmetrics.com/security-privacy/what-we-track
 
 # What We Track vs What We Don’t
 
-Sealmetrics records a small set of **non-identifying variables** per page view ("hit") — timestamp, user agent (for anonymous device classification), current URL, referral URL, and a short-lived contextual session marker — and never collects personal data or sets cookies. **No IP address, user ID, cross-session identifier, name, email or persistent device fingerprint is stored.** This minimal, aggregation-only dataset is what enables full GDPR/ePrivacy compliance without user consent.
+Sealmetrics records a small set of **non-identifying variables** per page view ("hit") — timestamp, user agent (for anonymous device classification), current URL, referral URL, and a short-lived contextual session marker — and never collects personal data or sets cookies. **No IP address, user ID, cross-session identifier, name, email or persistent device fingerprint is stored.** Because this minimal, aggregation-only dataset contains no personal data, the GDPR obligations that attach to personal data are not triggered, and there is nothing stored on the visitor's device for the ePrivacy Directive to require consent for. This page is the authority on what is collected and for how long; for the concept and the legal reasoning, see [What is Consentless Analytics?](/security-privacy/consentless-analytics).
 
 ---
 
@@ -41312,6 +40157,23 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 ---
 
+## How Long Each Field Is Kept
+
+Retention is **fixed and identical for every plan**, enforced by database TTLs. Nothing here is configurable per customer.
+
+| What | Retention | Notes |
+|------|-----------|-------|
+| Event-level rows (including the raw user agent string) | **1 day** | The row that holds the individual hit, then purged |
+| Session context marker | ~2 hours | In-memory only (Redis), expires with the inactivity window |
+| Hourly aggregates | 90 days | Hour-by-hour reporting |
+| Daily aggregates and conversions | 24 months | Includes the *derived* device categories — browser family, OS family, device type |
+
+The distinction that matters for the user agent: **the raw UA string lives for 1 day** in the event row. What survives for 24 months is only the derived category (for example "Chrome / Windows / desktop") inside aggregate counts — never the original string, and never attached to anything that identifies a person.
+
+Full operational retention (logs, backups, account closure) is documented in [Data Location & Retention](/security-privacy/data-location).
+
+---
+
 ## What This Allows Us to Measure
 
 ### 1. Page Analytics
@@ -41323,6 +40185,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 - Entrances (anonymous hits)
 - Traffic volume trends
 - Marketing channel performance
+- Within-session engagement — bounce rate, engaged entrances, engagement rate, pages per session. These are computed inside a single session from the session context marker; they never require recognising a returning visitor. Session *duration* and unique visitors are not measured. See the [Metrics Reference](/reports/definitions).
 
 ### 3. Engagement Behavior (Custom Events)
 - Click events  
@@ -41436,25 +40299,13 @@ Sites that enable Agent Analytics store aggregate, per-hit signals used to class
 
 ---
 
-## Compliance Framework
+## Why This Dataset Needs No Consent
 
-### GDPR
-- European company  
-- Servers in Dublin  
-- No personal data  
-- Isolated hit processing  
-- Avoids all identifiers  
+- **GDPR** — European company, customer analytics data stored only in Dublin, Ireland. No personal data is collected, so the obligations that attach to personal data are not triggered. Hits are processed in isolation and no identifier is carried across sessions.
+- **ePrivacy Directive** — nothing is stored on or read from the visitor's device (no cookies, no localStorage, no sessionStorage), so the Article 5(3) consent requirement does not attach.
+- **CCPA / PECR** — no personal information is collected and no user-level data is sold or shared.
 
-### ePrivacy Directive
-- No terminal code  
-- No personal data  
-- No user-level tracking  
-- Consent **not required**
-
-### CCPA / PECR / Global Compliance
-- No personal information  
-- Anonymous by design  
-- Future-proof data architecture  
+Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2), and no supervisory authority certifies analytics tools. The pages under [compliance](/compliance) are our own self-assessments against published criteria. A signed DPA is available at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/).
 
 ---
 
@@ -41472,25 +40323,21 @@ Sealmetrics always chooses the **more restrictive option**.
 
 ---
 
-## Summary: Privacy-First Analytics, Without Compromising Insights
+## Summary
 
-Sealmetrics proves that advanced web analytics **does not require personal data**.
+Web analytics that answers business questions does not require personal data. From the fields above, Sealmetrics reports:
 
-You get:
+- every hit, with no loss from consent rejection
+- channel and campaign attribution
+- conversions, revenue and ROAS
+- aggregate engagement and funnel performance
 
-- **100% traffic measurement**  
-- **Full attribution clarity**  
-- **Accurate ROAS**  
-- **Reliable e-commerce insights**  
-- **Complete privacy protection**
-
-Our promise:
-
-> Every metric we show is compliant, anonymous, and future-proof.  
-> Privacy and analytics no longer conflict — they reinforce each other.
+What it does not report is anything tied to an individual — that is the deliberate trade-off that removes the consent requirement.
 
 ## Related documentation
 
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the concept and the legal basis in full
+- [Data Location & Retention](/security-privacy/data-location) — where the data lives and the complete retention schedule
 - [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — how the four variables still produce attribution
 - [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) — timezone-based geo without personal data
 - [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — why this minimal dataset needs no consent
@@ -54552,7 +53399,7 @@ Access to settings depends on your organization role and site-level role:
 
 ### Set Up Tracking
 
-1. In the sidebar, expand **Site Config** and click **Settings**
+1. Go to **Settings → Sites → [your site]** (`/settings/sites/{siteId}`)
 2. Open the **Pixel Code** tab and configure your pixel options
 3. Copy the generated code
 4. Install on your website
@@ -55916,6 +54763,8 @@ URL: https://docs.sealmetrics.com/platform/account-setup/find-account-id
 
 Your **Site ID** is a unique identifier assigned to each site in Sealmetrics. You need it to install the tracking pixel, configure API access, and set up integrations.
 
+Some screens, plugins and integration fields label the same value **Account ID** — Site ID and Account ID are the same identifier.
+
 The Site ID is set when the site is created and **cannot be changed** afterwards.
 
 ---
@@ -56157,7 +55006,7 @@ For "user" context (e.g. customer tier or plan), inject the value server-side so
 **Dimension not appearing**
 1. Confirm you're actually sending the property with your events (check in the browser network tab).
 2. The property name is case-sensitive — it must match exactly between calls.
-3. Allow a few minutes for data processing.
+3. Confirm hits are arriving at all: the **Last hit** timestamp at the top right of the **Overview** report updates within seconds of a tracked visit. See [Data delay](/troubleshooting/data-delay).
 
 **Values show as `(not set)`**
 1. The property wasn't sent on that event.
@@ -59424,7 +58273,7 @@ No `t.js` request appears in the Network tab. Most common causes, in order:
 The beacon request appears in the Network tab, but **Last hit** never updates. The hit is being rejected server-side:
 
 1. **Unauthorized domain** — the most common cause. Hits from domains not listed for the site are silently dropped. Go to Settings → Sites → [your site] → Domains and check the exact hostname (including `www.` vs apex). Full guide: [Unauthorized domain](/troubleshooting/unauthorized-domain).
-2. **Wrong Site ID.** The `id=` in your snippet must match the Site ID in Settings → Sites → General. See [How to find your Site ID](/platform/account-setup/find-account-id).
+2. **Wrong Site ID.** The `id=` in your snippet must match the Site ID in Settings → Sites → [your site] → General tab (the same value the **Pixel Code** tab embeds in the generated snippet). See [How to find your Site ID](/platform/account-setup/find-account-id).
 3. **Your IP is excluded.** If your office or VPN IP is listed under [IP exclusions](/platform/settings/tracking/ip-exclusions), your own visits will never appear — test from another network or a mobile connection.
 4. **Your test visits look like a bot.** Automated visits (Selenium, Playwright, curl, headless Chrome) are filtered. See [Test traffic blocked as bot](/troubleshooting/test-traffic-blocked-as-bot).
 
@@ -60153,7 +59002,7 @@ If the conversion beacon has `"e"` but no `"v"`, you are hitting step 2 (string 
 1. Open the **Conversions** report (sidebar → **Conversions**).
 2. Make sure the top-right toggle is on **Conversions** — if you fired `sealmetrics.micro(...)`, the event lands in the **Microconversions** view instead.
 3. Set the date range to **today** (site timezone — see [Dates & timezone mismatch](/troubleshooting/dates-timezone-mismatch)).
-4. Wait 1–2 minutes and reload. The **Last hit** timestamp on the **Overview** report confirms hits are arriving at all.
+4. Reload the report. Hits arrive in seconds, so the **Last hit** timestamp at the top right of the **Overview** report should already show your test — if it doesn't move, nothing is being ingested (see [Data delay](/troubleshooting/data-delay)).
 
 ---
 
@@ -60527,7 +59376,7 @@ Use the links below to explore detailed answers for each topic.
 ## FAQ Categories
 
 ### Consentless Analytics
-Learn how Sealmetrics measures 100% of traffic without consent and why it is fully compliant with GDPR and ePrivacy.
+Why no consent banner is needed: no cookies, no personal data, and what exactly is recorded on each hit.
 
 [Read more →](/faq/consentless-analytics)
 
@@ -60557,7 +59406,7 @@ Funnels, ROAS, dashboards, real-time, ecommerce tracking, API access, and export
 [Read more →](/faq/product)
 
 ### Legal & Compliance
-Sealmetrics compliance with GDPR, ePrivacy, CNIL, AEPD, CCPA, and PECR. Third-party audits and legal basis.
+Sealmetrics and GDPR, ePrivacy, CNIL, AEPD, CCPA and PECR — self-assessments and the legal basis.
 
 [Read more →](/compliance/compliance-overview/legal-faq)
 
@@ -61005,8 +59854,8 @@ Industry data shows rejection rates vary significantly by country:
 |---------|-----|-------------|
 | GDPR compliant without consent | No | Yes |
 | ePrivacy Directive compliant | Requires consent | Yes |
-| CNIL exempt (analytics sans consentement) | No | Yes |
-| AEPD exempt | No | Yes |
+| Meets CNIL criteria for *analytics sans consentement* | No | Yes ([self-assessment](/compliance/cnil-self-assessment)) |
+| Meets AEPD audience-measurement criteria | No | Yes (self-assessed) |
 | UK PECR compliant | Requires consent | Yes |
 | Data hosting | US (Google Cloud) | EU only (Dublin, Ireland) |
 | Sub-processors | Multiple (Google) | Short list — visitor analytics data processed only in the EU ([see list](/compliance/subprocessors)) |
@@ -61078,7 +59927,7 @@ Sealmetrics is the better choice if you:
 
 - Need **accurate data** across all EU markets
 - Want to **remove cookie banners** or reduce consent friction
-- Need **GDPR/CNIL/AEPD compliance** without legal risk
+- Want to **measure without processing personal data**, so GDPR, CNIL and AEPD questions about analytics have a short answer
 - Want **100% conversion attribution** for budget decisions
 - Need a **lightweight tracker** that does not slow down your site
 - Want an **AI assistant on your own data** (LENS) out of the box
@@ -61151,7 +60000,7 @@ Sealmetrics includes built-in [bot detection](/compliance/compliance-overview/ho
 | **Best for** | Google Ads optimization, user-level analysis | Accurate total traffic, privacy compliance |
 | **Data accuracy (EU)** | 15–50% of traffic | 100% of traffic |
 | **Consent required** | Yes | No |
-| **Legal risk** | Moderate (GDPR, Schrems II) | None (privacy by design) |
+| **Privacy exposure** | Personal data processed, transferred to the US | No personal data processed, EU-only storage |
 | **Script size** | ~146 KB | 1.1 KB |
 | **Pricing** | Free (with hidden costs) | From €499/mo (annual billing) |
 
@@ -61290,7 +60139,7 @@ This is why Sealmetrics measures **entrances**, not GA4-style "visits" tied to a
 What do you mean by “non-unique data”?
 
 Sealmetrics tracks **every single hit** on your website with precision.  
-We have been audited multiple times (technical and legal), and our methodology is validated.
+The methodology has been reviewed internally and legally, and is documented in full in [What We Track](/security-privacy/what-we-track); note that no supervisory authority certifies analytics tools, and Sealmetrics holds no third-party security certification.
 
 If you want to test it yourself, open an account and watch real-time hits appear instantly.
 
@@ -61323,7 +60172,7 @@ You can send values from your data layer (ecommerce values, custom variables, ev
 Yes, absolutely.
 
 This is why many customers start using Sealmetrics:  
-they need to uncover the real ROAS of their campaigns without losing 50–85% of data due to cookie rejects.
+they need to uncover the real ROAS of their campaigns without losing the 30–60% of visitor data that cookie rejection typically costs in EU markets.
 
 Once they validate that Sealmetrics shows the true business metrics, it becomes their **single source of truth**.
 

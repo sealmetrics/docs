@@ -2,227 +2,46 @@
 sidebar_position: 11
 title: How Consentless Tracking Works
 sidebar_label: How Consentless Tracking Works
-description: Learn how Sealmetrics delivers 100% consentless web analytics through aggregate, privacy-preserving measurement technologies.
+description: The mechanics of consentless tracking — four non-identifying variables, isolated hits, a short-lived session marker, and EU-only aggregate storage.
+tags: [consentless analytics, tracking architecture, cookieless, privacy]
 keywords:
   - how consentless tracking works
   - consentless analytics architecture
   - four-variable system
   - session-based tracking
-  - privacy-preserving analytics
+  - tracking without cookies
 ---
 
 # How Consentless Tracking Works
 
-Consentless tracking represents a fundamental evolution in web analytics:  
-shifting from **individual user tracking** to **aggregate, privacy-preserving measurement**.
+Consentless tracking measures **events in aggregate instead of following people**. The tracker records four non-identifying variables per hit — timestamp, user agent, current URL and referral URL — sends them to EU infrastructure, and never writes anything to the visitor's device. Because there is no identifier and nothing stored on the device, there is nothing to ask consent for.
 
-Sealmetrics pioneered this approach through dual tracking technologies designed to capture complete website behavior **without personal data, without cookies, and without requiring user consent**.
+## The mechanics, in four steps
 
----
+1. **Event detection.** A JavaScript tracker (1.3 KB gzipped) fires on page load and on events you instrument. It sets no cookies and uses no localStorage, sessionStorage or fingerprinting.
+2. **Transmission.** The hit is sent as a lightweight beacon request. The visitor's IP appears at the network layer, as it does for any HTTP request, but is never persisted in the analytics database — it is used in memory only for anti-abuse checks and site-configured exclusions.
+3. **Isolated processing.** Each hit is processed on its own. Hits from the same person are never joined across sessions, so no journey or profile can be reconstructed.
+4. **Aggregation.** Reports are built from aggregate counts. Event-level rows — including the raw user agent string — are purged after 1 day; hourly aggregates are kept 90 days; daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs.
 
-## 1. The Core Methodology
-### Aggregate Measurement Instead of Individual Tracking
+All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 
-### Traditional Analytics (❌ Requires Consent)
-- Uses cookies to store visitor IDs  
-- Reconstructs individual user journeys  
-- Builds detailed behavioral profiles  
-- Tracks users across sessions  
-- Loses **50–85%** of data when users decline cookies  
+## Two measurement modes
 
-### Sealmetrics Consentless Approach (✅ No Consent Required)
-- Measures **isolated, aggregate events**, not people  
-- No cookies, no fingerprinting, no local storage  
-- No user identification or profiling  
-- 100% traffic capture — every hit is measured  
-- Fully compliant with GDPR, ePrivacy, CCPA, PECR  
+**Isolated hits** — every page view is an independent, anonymous event with no link to any other event. This is the most privacy-preserving mode: pure aggregate counting.
 
----
+**Session-marked hits** — a short-lived, context-derived marker groups the hits of one visit (roughly a two-hour inactivity window). It is held in memory, never written to the device, and cannot recognise a returning visitor. Markers incorporate the publisher account, so the same browser produces different markers on different sites and no cross-site correlation is possible. This is what makes within-session metrics such as bounce rate and pages per session possible without an identifier.
 
-## 2. Session-Based Tracking
+## Why this needs no consent
 
-Sealmetrics uses a privacy-preserving session tracking approach.
+No personal data is collected, so the GDPR obligations that attach to personal data are not triggered; and nothing is stored on or read from the visitor's terminal equipment, so the ePrivacy Directive's Article 5(3) consent requirement does not attach either. Cookie-based tools face the opposite situation, which is why they typically lose **30–60% of visitor data** in EU markets when visitors decline.
 
-## **Session-ID Based Tracking**  
-### How It Works
-- Generates a **temporary, session-limited ID**  
-- ID expires as soon as the session ends  
-- No cross-session linking  
-- No persistent identifiers  
-- Session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites  
+Sealmetrics holds no third-party security certification, and no supervisory authority certifies analytics tools — the [compliance pages](/compliance) are self-assessments against published criteria.
 
-### Data Captured
-- Page views for the duration of the session  
-- Events happening in the same visit  
+## Where to read the detail
 
-### Privacy Safeguards
-- No user-level profiles  
-- No personal data collected  
-- Session IDs cannot identify individuals  
-- Immediate anonymization at point of capture  
-
----
-
----
-
-## 3. The Four-Variable System
-### Sealmetrics Only Captures These Four Anonymous Variables
-
-Each hit includes:
-
-1. **Timestamp**  
-2. **User Agent** *(used for anonymous device classification; event detail purged after 1 day, aggregated categories kept 24 months; never linked to a person)*  
-3. **Current URL**  
-4. **Referral URL**
-
-Nothing more.
-
-This extremely minimal dataset makes personal identification technically impossible.
-
----
-
-## 4. How Data Is Collected and Processed
-### Technical Flow of Consentless Tracking
-
-### Step 1 — Event Detection
-- JavaScript tracker detects page views or events  
-- No cookies, local storage, or fingerprinting  
-- Immediate anonymization  
-
-### Step 2 — Processing Layer
-- Events processed through privacy-preserving algorithms  
-- Patterns aggregated statistically  
-- No cross-hit linking  
-
-### Step 3 — Insight Generation
-- Dashboards and reports show aggregate behavior  
-- No user journeys  
-- No personal data, ever  
-
----
-
-## 5. The “Ping” Methodology
-Sealmetrics uses a privacy-safe request system similar to search engines’ crawlers.
-
-### Traditional Analytics “Pings”  
-❌ Associated with user identifiers  
-❌ Require consent  
-❌ Build behavioral profiles  
-
-### Sealmetrics Privacy Pings  
-✅ Fully anonymous  
-✅ No consent required  
-✅ Used only to understand aggregate behavior  
-
----
-
-## 6. Data Storage and Retention
-
-Sealmetrics stores analytics data in aggregated form using a privacy-preserving architecture:
-
-- **No raw personal data** is stored at any point
-- **Aggregated metrics** are stored in ClickHouse for high-performance querying
-- **Fixed data retention**, identical for every plan and enforced by database TTLs: event-level detail 1 day, hourly aggregates 90 days, daily aggregates and conversions 24 months
-- **European infrastructure** — all data hosted in Dublin, Ireland (EU)
-- **No international data transfers** — data never leaves the EU
-
----
-
-## 7. Privacy-Safe Attribution
-### How Conversions Are Attributed Without Tracking People
-
-Sealmetrics uses:
-
-- **Last-click attribution**
-- **UTM parameter processing**
-- **Anonymous channel assignment**
-
-Conversions are linked to channels — **not to individuals**.
-
----
-
-## 8. Compliance by Design
-### Why Sealmetrics Doesn’t Require Consent
-
-### GDPR
-- No personal data → GDPR does not apply  
-- No identifiers, no profiles, no tracking of individuals  
-
-### ePrivacy Directive
-- No cookies  
-- No local storage  
-- No access to terminal equipment  
-
-### CCPA / PECR
-- No personal information  
-- No sale or sharing of user-level data  
-
-### European Infrastructure
-- 100% hosted in Dublin (Ireland)  
-- No international data transfers  
-
-This is **privacy-by-design**, not privacy-by-policy.
-
----
-
-## 9. Real-World Implementation Example
-
-```html
-<!-- Basic Sealmetrics Implementation -->
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
-```
-
-That's it. One line. The tracker automatically:
-
-- Captures pageviews on load
-- Handles SPA navigation
-- Sends data via privacy-safe beacon requests
-
-### Tracking Conversions
-
-```javascript
-// Track a conversion
-sealmetrics.conv('purchase', 99.99, {
-  currency: 'EUR',
-  product_id: 'SKU-123'
-});
-
-// Track a micro-conversion (funnel step)
-sealmetrics.micro('add_to_cart', {
-  product_id: 'SKU-123'
-});
-```
-
----
-
-## 10. Summary
-
-Sealmetrics consentless tracking provides:
-
-- **100% traffic capture** — no data loss from consent rejection
-- **Full GDPR/ePrivacy compliance** — privacy by design
-- **Session-based tracking** — temporary IDs that expire with browser session
-- **Simple implementation** — one script tag
-- **Rich analytics** — conversions, funnels, attribution
-
-No cookies. No consent banners. Complete data.
-
----
-
-**Related reading:**
-
-- [Cookieless Tracking: Technical Deep Dive](/blog/cookieless-tracking-technical-deep-dive) — Extended analysis of the architecture behind consentless tracking
-- [Privacy-First Analytics: Why It Matters](/blog/privacy-first-analytics-2025) — The business case for privacy-first measurement
-- [Real-Time Analytics and Consent](/blog/real-time-tracking-consent) — How daily aggregation enables consentless real-time dashboards
-
----
-
-*See it in action — [start a free trial](https://my.sealmetrics.com/register) and capture 100% of your traffic from day one.*
-
-## Related documentation
-
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the concept and legal basis in full
-- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — why this architecture needs no consent
-- [What We Track vs What We Don't](/security-privacy/what-we-track) — the four variables detailed here
-- [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — privacy-safe attribution mechanics
-- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the regulatory analysis behind the model
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the full concept, the legal basis, the comparison with cookie-based tools, and what the model can and cannot measure
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — every field recorded, with its retention
+- [Data Location & Retention](/security-privacy/data-location) — EU hosting, complete retention schedule, encryption
+- [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — last-click attribution mechanics
+- [Installation](/implementation/tracker/installation) — adding the script tag and instrumenting conversions
+- [Cookieless Tracking: Technical Deep Dive](/blog/cookieless-tracking-technical-deep-dive) — extended analysis of the architecture

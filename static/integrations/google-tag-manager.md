@@ -3,8 +3,8 @@ title: "Google Tag Manager Template"
 description: "Install Sealmetrics tracking on your website using the official Google Tag Manager template. Track pageviews, conversions, and microconversions without writing code."
 canonical_url: "https://docs.sealmetrics.com/integrations/google-tag-manager"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "36a1d527721370767bfc6209ff78834c48e7a737ef5fe16d8ab95eeb8423e269"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "cd8e68a7f2632510447ecee2c7274f6e689fed933299f5e0801367456d1f3742"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -155,13 +155,14 @@ Choose what type of event to track:
 
 #### Account ID (Required)
 
-Your Sealmetrics Account ID. Find it in your [Sealmetrics dashboard](https://my.sealmetrics.com) under **Settings**.
+Your Sealmetrics Account ID — this is your **Site ID**; the GTM template's field is labelled "Account ID".
 
 **Tip:**
 1. Log in to Sealmetrics
-2. Go to **Settings → Sites**
-3. Click on your site
-4. Your Account ID is displayed in the **General** tab
+2. Go to **Settings → Sites → [your site] → General** tab
+3. The **Site ID** is shown next to the **Site Name** field — that is the value the template calls Account ID
+
+See [How to find your Site ID](/platform/account-setup/find-account-id).
 
 #### Pixel URL
 
@@ -364,7 +365,7 @@ If you push values to the Data Layer **after** the GTM snippet, those values are
 
 1. Verify your **Account ID** is correct
 2. Check that tags are firing (use Preview mode)
-3. Wait a few minutes — data may take time to appear
+3. Check the **Last hit** timestamp at the top right of the **Overview** report — hits arrive in seconds, so it should move as soon as the tag fires (see [Data delay](/troubleshooting/data-delay))
 4. Ensure your website domain is registered in Sealmetrics
 
 ## Resources

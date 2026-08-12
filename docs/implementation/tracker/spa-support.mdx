@@ -2,12 +2,17 @@
 sidebar_position: 7
 title: SPA Support
 description: "How the Sealmetrics tracker auto-detects SPA navigation via the History API in React, Vue, Angular, Next.js and more, plus manual first-pageview control."
-tags: [spa, react, vue, angular, nextjs, tracker]
+tags: [spa, single page application, react, vue, angular, nextjs, tracker]
 keywords:
   - how to track spa pageviews
+  - spa tracking
+  - single page application
   - "?spa=0"
   - "?auto=0"
   - react router pageview tracking
+  - react analytics
+  - vue analytics
+  - angular tracking
   - next.js analytics setup
   - duplicate pageviews on route change
   - hash based routing not tracked
@@ -15,33 +20,46 @@ keywords:
 
 # Single Page Application (SPA) Support
 
-The tracker automatically detects navigation in Single Page Applications. No configuration required.
+The tracker automatically detects navigation in Single Page Applications. No configuration required, and no router-specific code for any framework built on the History API.
 
 ## How It Works
 
-The tracker intercepts:
+Once the script is on the page, the tracker will:
 
-1. `history.pushState()` - Triggered when navigating to a new URL
-2. `history.replaceState()` - Triggered when replacing current URL
-3. `popstate` event - Triggered when user clicks back/forward
+1. Fire a pageview on initial load.
+2. Fire a pageview when your router calls `history.pushState()`.
+3. Fire a pageview when your router calls `history.replaceState()`.
+4. Fire a pageview when the user clicks **Back** / **Forward** (`popstate`).
+5. Skip duplicates: if the new URL is identical to the previous one, no event is sent.
+6. Set the `referrer` of each SPA pageview to the previous in-app URL — so internal navigation flows are preserved in reports.
 
-Each URL change triggers a new pageview event automatically.
+The canonical global is **`window.sealmetrics`** — always use it in your integrations. (`window.sm` and `window._sm` exist as best-effort aliases, but they are only claimed when free — e.g. during a v1→v2 migration `window.sm` is the *old* tracker — so don't rely on them.)
 
 ## Supported Frameworks
 
-Works out of the box with:
+Any router built on the History API is supported out of the box:
 
-| Framework | Router | Tested |
-|-----------|--------|--------|
-| React | react-router v5/v6 | Yes |
-| Vue | vue-router v3/v4 | Yes |
+| Framework | Router | Auto-Tracking |
+|-----------|--------|:-------------:|
+| React | react-router v5 / v6 | Yes |
+| Vue | vue-router v3 / v4 | Yes |
 | Angular | @angular/router | Yes |
-| Next.js | App Router, Pages Router | Yes |
+| Next.js | App Router / Pages Router | Yes |
 | Nuxt.js | nuxt/router | Yes |
 | Svelte | svelte-routing, SvelteKit | Yes |
 | Remix | @remix-run/react | Yes |
+| Astro | View Transitions / client:load | Yes |
+| Solid | @solidjs/router | Yes |
 
-Any router that uses the History API is automatically supported.
+Hash-based routers (`/#/path`) are **not** auto-detected — see [Hash-Based Routing](#hash-based-routing) below.
+
+## Installation
+
+Same as regular installation — one script tag, once, in the document `<head>`:
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+```
 
 ## Manual Initial Pageview (`?auto=0`)
 
@@ -69,13 +87,51 @@ With `spa=0` the History API listeners still run — they keep the tracker's URL
 
 Use `?auto=0&spa=0` together for fully manual control (e.g. the canonical GTM pattern, or per-route content grouping). ⚠️ Never fire manual route-change pageviews *without* `spa=0`: the automatic hook would fire too and every navigation would be counted twice.
 
-## Installation
+## Content Grouping
 
-Same as regular installation:
+Content groups let you bucket pageviews together (e.g. `blog`, `product`, `checkout`) and view aggregated reports per group.
+
+### Recommended: set the group at script load
+
+This is the cleanest pattern. The group is sticky for **every** automatic pageview, including all SPA navigations:
 
 ```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
+<script
+  src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&group=storefront"
+  defer
+></script>
 ```
+
+### Per-route grouping (advanced)
+
+The tracker has **no API to update the group of an already-fired pageview**. If you need a different group per route, you have two options:
+
+#### Option A — Full manual mode (`?auto=0&spa=0`), fire pageviews yourself
+
+Best for apps where every route needs a specific group. Both flags are required:
+
+- `auto=0` suppresses the **initial** auto-pageview on load.
+- `spa=0` suppresses the **automatic pageview on SPA route changes**.
+
+```html
+<script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID&auto=0&spa=0" defer></script>
+```
+
+With both flags set, no pageview fires unless you fire it — so you pass the group on every route, with no risk of double counting:
+
+```jsx
+// after router resolves a route
+useEffect(() => {
+  if (typeof sealmetrics === 'undefined') return;
+  sealmetrics({ group: routeGroupFor(pathname) }); // pathname → 'blog' | 'product' | ...
+}, [pathname]);
+```
+
+⚠️ Don't use `?auto=0` alone for this pattern: without `spa=0`, route changes via `pushState`/`replaceState`/`popstate` still fire an automatic (group-less) pageview, and your manual call would make it **two pageviews** for the same URL.
+
+#### Option B — Use a single global group per site
+
+Set the group once at script load (the recommended pattern above) and rely on URL paths in reports to slice further. This is what most SPAs should do.
 
 ## React Example
 
@@ -103,18 +159,20 @@ No additional setup needed. Navigation between routes is tracked automatically.
 
 ### Tracking Conversions
 
+The pageview is automatic; you only need to fire the conversion itself on the success page or step. Always guard with `typeof sealmetrics !== 'undefined'` — the script is `defer`-ed and may not be ready on the very first paint of an SSR app.
+
 ```jsx
 // CheckoutSuccess.jsx
 import { useEffect } from 'react';
 
-function CheckoutSuccess({ order }) {
+export default function CheckoutSuccess({ order }) {
   useEffect(() => {
-    // Pageview is automatic, just track conversion
-    if (typeof sealmetrics !== 'undefined') {
-      sealmetrics.conv('purchase', order.total, {
-        currency: order.currency
-      });
-    }
+    if (typeof sealmetrics === 'undefined') return;
+
+    sealmetrics.conv('purchase', order.total, {
+      currency: order.currency,
+      payment_method: order.paymentMethod,
+    });
   }, [order]);
 
   return <div>Thank you for your order!</div>;
@@ -124,14 +182,12 @@ function CheckoutSuccess({ order }) {
 ### With Content Grouping
 
 ```jsx
-// Use the group parameter in the script tag per page type,
-// or set it dynamically:
+// Requires ?auto=0&spa=0 on the script tag — see Option A above.
 
 function ProductPage({ product }) {
   useEffect(() => {
-    if (typeof sealmetrics !== 'undefined') {
-      sealmetrics({ group: 'product' });
-    }
+    if (typeof sealmetrics === 'undefined') return;
+    sealmetrics({ group: 'product' });
   }, [product.id]);
 
   return <div>{product.name}</div>;
@@ -180,22 +236,28 @@ export default function MyApp({ Component, pageProps }) {
 }
 ```
 
-### Dynamic Content Grouping
+### Conversion on a Success Page
 
 ```tsx
-// app/blog/[slug]/page.tsx
+// app/checkout/success/page.tsx
 'use client';
 
 import { useEffect } from 'react';
 
-export default function BlogPost({ params }) {
+export default function SuccessPage({ searchParams }: { searchParams: { order: string } }) {
   useEffect(() => {
-    if (typeof window !== 'undefined' && typeof sealmetrics !== 'undefined') {
-      sealmetrics({ group: 'blog' });
-    }
-  }, [params.slug]);
+    if (typeof window === 'undefined' || typeof sealmetrics === 'undefined') return;
 
-  return <article>...</article>;
+    fetch(`/api/orders/${searchParams.order}`)
+      .then((r) => r.json())
+      .then((order) => {
+        sealmetrics.conv('purchase', order.total, {
+          currency: order.currency,
+        });
+      });
+  }, [searchParams.order]);
+
+  return <div>Thanks!</div>;
 }
 ```
 
@@ -219,6 +281,28 @@ const router = createRouter({
 });
 
 createApp(App).use(router).mount('#app');
+```
+
+### Tracking a Conversion (Vue 3)
+
+```vue
+<script setup>
+import { onMounted } from 'vue';
+
+const props = defineProps(['order']);
+
+onMounted(() => {
+  if (typeof sealmetrics === 'undefined') return;
+
+  sealmetrics.conv('purchase', props.order.total, {
+    currency: props.order.currency,
+  });
+});
+</script>
+
+<template>
+  <div>Thank you for your order!</div>
+</template>
 ```
 
 ### Tracking Events in Components
@@ -340,12 +424,77 @@ export function useAnalytics() {
 }
 ```
 
+## Microconversions in SPAs
+
+Use `micro()` for funnel steps that are **not** the final goal (add-to-cart, signup-started, video-played, etc.). All values in the properties map are sent as strings.
+
+```javascript
+function handleAddToCart(product) {
+  // ... your cart logic
+
+  if (typeof sealmetrics === 'undefined') return;
+
+  sealmetrics.micro('add_to_cart', {
+    product_id: product.id,
+    product_name: product.name,
+    price: String(product.price),
+    currency: 'EUR',
+  });
+}
+```
+
+## Hash-Based Routing
+
+Hash routing (`/#/path`) uses the `hashchange` event instead of the History API, so Sealmetrics does **not** track it automatically.
+
+Add this listener once at app startup:
+
+```javascript
+window.addEventListener('hashchange', function () {
+  if (typeof sealmetrics !== 'undefined') {
+    sealmetrics();
+  }
+});
+```
+
+> **Migrating?** Hash routing is deprecated in most modern routers. If you're on react-router v6, prefer `BrowserRouter` over `HashRouter` — automatic tracking will then work without the listener.
+
+## Frameworks With Custom Navigation
+
+A few routers (or custom navigation code) bypass `pushState` / `replaceState` and update the URL via other mechanisms. In that case, call `sealmetrics()` manually inside your router's `afterEach` hook:
+
+```javascript
+// Vue Router
+router.afterEach(() => {
+  if (typeof sealmetrics !== 'undefined') sealmetrics();
+});
+```
+
+⚠️ **The tracker does not de-duplicate manual calls** — `sealmetrics()` always sends a pageview when invoked. (The URL-change check only gates the *automatic* History API hook.) Only add this listener if your router genuinely bypasses `pushState`/`replaceState` — verify in the Network tab first. If both the automatic hook and your manual call fire, every navigation is counted **twice**. If you want deterministic control, load the tracker with `?spa=0` (see [Option A](#option-a--full-manual-mode-auto0spa0-fire-pageviews-yourself)) and fire all SPA pageviews manually.
+
+## Server-Side Rendering (SSR)
+
+The tracker only runs in the browser. In SSR frameworks (Next.js, Nuxt, SvelteKit, Remix), always check the environment **and** the global before calling:
+
+```javascript
+if (typeof window !== 'undefined' && typeof sealmetrics !== 'undefined') {
+  sealmetrics.conv('purchase', 99.99, { currency: 'EUR' });
+}
+```
+
+For Next.js App Router, wrap the call in `useEffect` inside a `'use client'` component.
+
+## Iframes & Embedded Contexts
+
+If the tracker script is loaded **inside an iframe** (for example, a Shopify Web Pixel sandbox), auto-pageview tracking and SPA listeners are intentionally **disabled** — only `conv()` and `micro()` remain exposed. This prevents duplicate pageviews when the same site loads Sealmetrics on both the parent page and an embedded pixel.
+
+You don't need to do anything special: the tracker detects iframes via `window.self !== window.top`.
+
 ## TypeScript Declarations
 
-Add type declarations for better IDE support:
+Drop this in `types/sealmetrics.d.ts` (or any `.d.ts` picked up by your `tsconfig`) for better IDE support:
 
 ```typescript
-// types/sealmetrics.d.ts
 interface SealmetricsOptions {
   group?: string;
 }
@@ -373,54 +522,45 @@ export {};
 
 ### Duplicate Pageviews
 
-If you see duplicate pageviews, check:
+Most common causes, in order:
 
-1. Script is not included multiple times
-2. Not calling `sealmetrics()` manually when automatic tracking is sufficient
-3. No other analytics wrapper is re-triggering events
+1. **Script included twice.** Search the rendered HTML for `t.sealmetrics.com/t.js` — there should be exactly one match.
+2. **Manual `sealmetrics()` call after auto-tracking.** The tracker already fires on `pushState`/`replaceState`/`popstate`. Don't call it again in your router's `afterEach` unless you've confirmed auto-tracking isn't firing.
+3. **Per-route grouping pattern.** Calling `sealmetrics({ group: '...' })` after an automatic pageview produces a second event. Use `?auto=0&spa=0` together — `?auto=0` alone only suppresses the *initial* pageview, not SPA route-change pageviews.
+4. **Animations using `replaceState`.** Some libraries call `history.replaceState()` for non-navigation purposes (e.g. saving scroll position into the URL). This triggers a pageview if the full URL changes. Use a query-param-only update where possible, or strip the param before tracking.
+5. **Another analytics wrapper re-triggering events.**
 
 ### Missing Pageviews on Route Change
 
-The tracker uses the History API. If your framework uses a custom navigation method that bypasses `pushState`/`replaceState`, pageviews won't be tracked.
+1. Confirm your router uses the History API (open DevTools → Console and run `history.pushState({}, '', '/test')` — the tracker should fire a pageview).
+2. If you use hash routing, add the [hashchange listener](#hash-based-routing).
+3. If your router bypasses `pushState`, fire manually in the [`afterEach` hook](#frameworks-with-custom-navigation).
 
-Solution: Call `sealmetrics()` manually after navigation:
+### Pageview Fires but `referrer` Is Wrong
+
+For SPA navigations, Sealmetrics sets `referrer` to the **previous in-app URL** (not `document.referrer`). This is intentional — it lets you build true in-app flow reports. The original external referrer is only used on the very first pageview of the session.
+
+### The `sealmetrics` Global Is Undefined
+
+The script is loaded with `defer`, so it executes after the DOM is parsed but before `DOMContentLoaded`. If your app fires a conversion synchronously during initial render, the global may not exist yet. Always guard:
 
 ```javascript
-router.afterEach(() => {
+if (typeof sealmetrics === 'undefined') return;
+```
+
+Or retry once after a microtask:
+
+```javascript
+queueMicrotask(() => {
   if (typeof sealmetrics !== 'undefined') {
-    sealmetrics();
+    sealmetrics.conv('signup', 0);
   }
 });
 ```
 
-### Hash-Based Routing
+## Related Documentation
 
-If your SPA uses hash-based routing (`/#/path`), the tracker will not automatically detect changes.
-
-Solution: Listen for `hashchange` and track manually:
-
-```javascript
-window.addEventListener('hashchange', function() {
-  if (typeof sealmetrics !== 'undefined') {
-    sealmetrics();
-  }
-});
-```
-
-### Server-Side Rendering (SSR)
-
-Always check if `sealmetrics` exists before calling it:
-
-```javascript
-if (typeof sealmetrics !== 'undefined') {
-  sealmetrics.conv('purchase', 99.99);
-}
-```
-
-Or for Next.js/Nuxt:
-
-```javascript
-if (typeof window !== 'undefined' && typeof sealmetrics !== 'undefined') {
-  sealmetrics.conv('purchase', 99.99);
-}
-```
+- [Conversions](/implementation/tracker/conversions) — full conversion property reference
+- [Microconversions](/implementation/tracker/microconversions)
+- [Tracker Installation](/implementation/tracker/installation)
+- [How to Track React](/implementation/tracking-methods/how-to-track-react)

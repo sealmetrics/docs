@@ -31,9 +31,11 @@ When a user clicks a link from one website to another, the browser normally send
 This header contains the URL of the previous page and helps website owners understand **where traffic comes from**.
 
 Example referrer header:
-````
+
+```
 Referrer: https://google.com/search?q=analytics
-````
+```
+
 Sealmetrics reads this header (without storing personal information) to classify traffic sources.
 
 ---
@@ -42,7 +44,8 @@ Sealmetrics reads this header (without storing personal information) to classify
 
 If a referrer exists, Sealmetrics analyzes the domain and performs **category-based enrichment**:
 
-### ✔ Domain recognition  
+### Domain recognition
+
 Certain domains are automatically recognized and reclassified:
 
 - **google.com** → SEO  
@@ -50,7 +53,8 @@ Certain domains are automatically recognized and reclassified:
 - **facebook.com** → Social  
 - **instagram.com** → Social  
 
-### ✔ Why this reclassification matters  
+### Why this reclassification matters
+
 It provides more meaningful insight into *which channels* bring traffic to your site, instead of treating everything as a generic “referrer”.
 
 ---

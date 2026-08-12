@@ -3,8 +3,8 @@ title: "Tracking Methods"
 description: "Advanced Sealmetrics tracking guides for SPAs, React apps, and AJAX forms, plus how to exclude specific pages from your cookieless analytics data."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracking-methods"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "6649d0181c6b03b2d55d2a388939406bde3e71527ec2e276028417f585fae1b3"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "2150ae0fd1e6db498ac56030bb081427fa395b699982d8206df38b1363c4caac"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -24,5 +24,5 @@ Single-page applications, React sites, and AJAX-based interfaces need different 
 
 - [How to Track AJAX Forms](/implementation/tracking-methods/how-to-track-ajax-forms) - Capture form submissions without page reloads
 - [How to Track React](/implementation/tracking-methods/how-to-track-react) - Integrate Sealmetrics with React applications
-- [How to Track SPA Sites](/implementation/tracking-methods/how-to-track-spa-sites) - Implement tracking for single-page applications and client-side routing
+- [SPA Support](/implementation/tracker/spa-support) - Implement tracking for single-page applications and client-side routing
 - [Ignore Page View](/implementation/tracking-methods/ignore-page-view) - Prevent specific pages from being tracked

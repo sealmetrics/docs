@@ -3,8 +3,8 @@ title: "Settings Overview"
 description: "Configure your Sealmetrics account, tracking, integrations, and preferences."
 canonical_url: "https://docs.sealmetrics.com/platform/settings"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "d494ee8d992fbea7f2e700036bdbfc328de8cf8393d01e1d187638c9f77e6bba"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "bcc44976e76baca1dc02b6002a00d05a592cdf3d719baf12735aca26ebbfa267"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -82,7 +82,7 @@ Access to settings depends on your organization role and site-level role:
 
 ### Set Up Tracking
 
-1. In the sidebar, expand **Site Config** and click **Settings**
+1. Go to **Settings → Sites → [your site]** (`/settings/sites/{siteId}`)
 2. Open the **Pixel Code** tab and configure your pixel options
 3. Copy the generated code
 4. Install on your website

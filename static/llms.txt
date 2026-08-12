@@ -70,7 +70,7 @@ Base URL: https://docs.sealmetrics.com
 
 - [First Steps Overview](https://docs.sealmetrics.com/getting-started.md): Start your journey with Sealmetrics — from installing your first tracker to seeing real-time, privacy-first analytics in action.
 
-- [How It Works](https://docs.sealmetrics.com/getting-started/how-it-works.md): Understand how Sealmetrics measures 100% of your website traffic without cookies, consent banners, or personal data collection.
+- [How It Works](https://docs.sealmetrics.com/getting-started/how-it-works.md): How Sealmetrics measures your traffic — one script tag, four non-identifying variables per hit, aggregate reports, and no consent banner.
 
 - [First Steps with Sealmetrics](https://docs.sealmetrics.com/getting-started/quick-start.md): Get started with Sealmetrics in under 5 minutes — from account setup and tracking installation to your first privacy-first analytics insights.
 
@@ -242,8 +242,6 @@ Base URL: https://docs.sealmetrics.com
 
 - [Installation](https://docs.sealmetrics.com/implementation/tracker/installation.md): Install the Sealmetrics tracker with one script tag: basic setup, content grouping via the group parameter, custom endpoints, and parameter reference.
 
-- [How to Track SPA Sites](https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-spa-sites.md): Track Single Page Applications (React, Vue, Angular, Next.js, Nuxt, SvelteKit, Remix) with SealMetrics — automatic History API detection, conversions, microconversions, and content grouping.
-
 - [User Segmentation](https://docs.sealmetrics.com/implementation/custom-properties/user-properties.md): Segment users by including business attributes in your conversion and microconversion properties.
 
 - [Conversions](https://docs.sealmetrics.com/implementation/tracker/conversions.md): Track purchases, leads, and signups with sealmetrics.conv(): syntax, monetary values, custom properties, and item arrays for e-commerce, cookie-free.
@@ -261,8 +259,6 @@ Base URL: https://docs.sealmetrics.com
 - [Microconversions](https://docs.sealmetrics.com/implementation/tracker/microconversions.md): Track funnel steps and engagement events like add-to-cart, video plays, and scroll depth with sealmetrics.micro().
 
 - [Manual Pageview Control](https://docs.sealmetrics.com/implementation/tracking-methods/ignore-page-view.md): Control when pageviews are tracked in SealMetrics. Useful for SPAs, multi-step forms, and custom navigation patterns.
-
-- [Setting Up Tracking in Sealmetrics](https://docs.sealmetrics.com/implementation/tracker/setup.md): Learn how to configure and set up pageview tracking, conversions, and microconversions in Sealmetrics.
 
 - [SPA Support](https://docs.sealmetrics.com/implementation/tracker/spa-support.md): How the Sealmetrics tracker auto-detects SPA navigation via the History API in React, Vue, Angular, Next.js and more, plus manual first-pageview control.
 
@@ -422,7 +418,7 @@ Base URL: https://docs.sealmetrics.com
 
 - [Two-Factor Authentication](https://docs.sealmetrics.com/security-privacy/account-security/two-factor-auth.md): Add an extra layer of security to your Sealmetrics account with 2FA/TOTP.
 
-- [What is Consentless Analytics?](https://docs.sealmetrics.com/security-privacy/consentless-analytics.md): Consentless analytics captures 100% of web traffic without cookies or consent banners while staying fully GDPR compliant.
+- [What is Consentless Analytics?](https://docs.sealmetrics.com/security-privacy/consentless-analytics.md): What consentless analytics is, the four non-identifying variables Sealmetrics records, and why measuring without personal data means no consent banner is required.
 
 - [Backup Codes](https://docs.sealmetrics.com/security-privacy/account-security/backup-codes.md): Recovery codes for accessing your account when you can't use your authenticator.
 
@@ -430,7 +426,7 @@ Base URL: https://docs.sealmetrics.com
 
 - [IP Allowlist](https://docs.sealmetrics.com/security-privacy/account-security/ip-allowlist.md): Restrict account access to specific IP addresses, CIDR ranges, or regex patterns.
 
-- [How Sealmetrics Protects User Privacy](https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy.md): Learn how Sealmetrics ensures genuine user privacy through data minimization, anonymization, and zero personal data processing.
+- [How Sealmetrics Protects User Privacy](https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy.md): The concrete protections behind Sealmetrics — no cookies, no persistent identifiers, no stored IP addresses, EU-only storage and short retention.
 
 - [Session Management](https://docs.sealmetrics.com/security-privacy/account-security/session-management.md): View your active Sealmetrics sessions across devices, check the browser, OS, and IP of each one, and sign out of any session you don't recognize.
 
@@ -438,21 +434,21 @@ Base URL: https://docs.sealmetrics.com
 
 - [How Attribution Works Without a User-ID](https://docs.sealmetrics.com/security-privacy/attribution-without-userid.md): Learn how Sealmetrics attributes traffic and conversions without using User-IDs, cookies, or cross-session tracking — fully compliant and consentless.
 
-- [Security & Privacy](https://docs.sealmetrics.com/security-privacy/overview.md): Understand Sealmetrics' privacy-by-design architecture, GDPR compliance, data security measures, and why we never collect personal data.
+- [Security & Privacy](https://docs.sealmetrics.com/security-privacy/overview.md): Index of the Sealmetrics security and privacy documentation — what is collected, why no consent is required, where data is stored, and account security.
 
-- [Why Sealmetrics Can Measure Without Consent](https://docs.sealmetrics.com/security-privacy/why-no-consent.md): Discover why Sealmetrics can measure web traffic without user consent while fully complying with GDPR, ePrivacy, and CNIL guidelines.
+- [Why Sealmetrics Can Measure Without Consent](https://docs.sealmetrics.com/security-privacy/why-no-consent.md): Sealmetrics needs no consent banner because it collects no personal data and stores nothing on the visitor's device — the short version of the legal basis.
 
 - [Bot Detection & Traffic Quality](https://docs.sealmetrics.com/security-privacy/bot-detection.md): How SealMetrics detects and filters bot traffic to ensure data accuracy. Multi-layer detection system protecting your analytics.
 
 - [Data Location & Retention](https://docs.sealmetrics.com/security-privacy/data-location.md): Where Sealmetrics stores your data and how long it's retained. EU-based infrastructure with clear retention policies.
 
-- [Benefits of Consentless Tracking](https://docs.sealmetrics.com/security-privacy/consentless-benefits.md): Understand why Sealmetrics’ consentless architecture outperforms traditional analytics tools, offering accurate, future-proof, privacy-first measurement.
+- [Benefits of Consentless Tracking](https://docs.sealmetrics.com/security-privacy/consentless-benefits.md): What you gain by measuring without consent — no data lost to banner rejection, nothing for ad blockers to strip, no CMP to maintain, and cleaner attribution.
 
-- [How Consentless Tracking Works](https://docs.sealmetrics.com/security-privacy/how-consentless-works.md): Learn how Sealmetrics delivers 100% consentless web analytics through aggregate, privacy-preserving measurement technologies.
+- [How Consentless Tracking Works](https://docs.sealmetrics.com/security-privacy/how-consentless-works.md): The mechanics of consentless tracking — four non-identifying variables, isolated hits, a short-lived session marker, and EU-only aggregate storage.
 
-- [Privacy by Design Principles](https://docs.sealmetrics.com/security-privacy/privacy-by-design.md): Learn how Sealmetrics implements Privacy by Design through its architecture, processes, and technical safeguards.
+- [Privacy by Design Principles](https://docs.sealmetrics.com/security-privacy/privacy-by-design.md): How Sealmetrics maps to the seven Privacy by Design principles — with the concrete architectural choice behind each one.
 
-- [What We Track vs What We Don’t](https://docs.sealmetrics.com/security-privacy/what-we-track.md): Learn exactly what Sealmetrics collects — and what it never collects — through its privacy-first, consentless analytics architecture.
+- [What We Track vs What We Don’t](https://docs.sealmetrics.com/security-privacy/what-we-track.md): Field-by-field list of what Sealmetrics records on every hit, how long each field is kept, and what it never collects.
 
 - [What Is This Domain in My Cookie Audit?](https://docs.sealmetrics.com/security-privacy/third-party-analytics-domains.md): A lookup table of the external domains analytics tools contact — Adobe, GA4, Mixpanel, PostHog, Piwik PRO and others. Which tool owns each one, and where it resolves.
 

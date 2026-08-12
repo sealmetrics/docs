@@ -75,94 +75,20 @@ Replace `YOUR_SITE_ID` with your actual Site ID.
 
 ### 1.3 Platform-Specific Instructions
 
-<details>
-<summary><strong>WordPress</strong></summary>
+If you can't edit the HTML directly, follow the guide for your platform — each one shows exactly where the snippet goes:
 
-**Option A: Theme Editor**
-1. Go to **Appearance → Theme Editor**
-2. Select `header.php`
-3. Find `</head>`
-4. Paste the script before it
-5. Click **Update File**
+- [WordPress](/integrations/cms/wordpress)
+- [WooCommerce](/integrations/ecommerce/woocommerce)
+- [Shopify](/integrations/ecommerce/shopify)
+- [Wix](/integrations/website-builders/wix)
+- [Squarespace](/integrations/website-builders/squarespace)
+- [Webflow](/integrations/website-builders/webflow)
+- [Next.js](/integrations/frameworks/nextjs)
+- [Nuxt 3](/integrations/frameworks/nuxt)
+- [React](/integrations/frameworks/react)
+- [Google Tag Manager](/integrations/google-tag-manager)
 
-**Option B: Plugin (recommended)**
-1. Install "Insert Headers and Footers" plugin
-2. Go to **Settings → Insert Headers and Footers**
-3. Paste the script in "Scripts in Header"
-4. Save
-
-</details>
-
-<details>
-<summary><strong>Shopify</strong></summary>
-
-1. Go to **Online Store → Themes**
-2. Click **Actions → Edit code**
-3. Open `theme.liquid`
-4. Find `</head>`
-5. Paste the script before it
-6. Save
-
-</details>
-
-<details>
-<summary><strong>Wix</strong></summary>
-
-1. Go to **Settings → Custom Code**
-2. Click **+ Add Custom Code**
-3. Paste the script
-4. Set placement to **Head**
-5. Apply to **All pages**
-6. Save
-
-</details>
-
-<details>
-<summary><strong>Squarespace</strong></summary>
-
-1. Go to **Settings → Advanced → Code Injection**
-2. Paste in **Header** section
-3. Save
-
-</details>
-
-<details>
-<summary><strong>Next.js</strong></summary>
-
-In `app/layout.tsx`:
-
-```tsx
-import Script from 'next/script';
-
-export default function RootLayout({ children }) {
-  return (
-    <html>
-      <head>
-        <Script
-          src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID"
-          strategy="afterInteractive"
-        />
-      </head>
-      <body>{children}</body>
-    </html>
-  );
-}
-```
-
-</details>
-
-<details>
-<summary><strong>Google Tag Manager</strong></summary>
-
-1. Create new **Custom HTML** tag
-2. Paste:
-```html
-<script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
-```
-3. Set trigger: **All Pages**
-4. Publish
-
-</details>
+Using something else? See [all integrations](/integrations), or the [Installation guide](/implementation/tracker/installation) for the manual snippet and its parameters.
 
 ---
 
@@ -579,7 +505,7 @@ document.querySelector('#newsletter').addEventListener('submit', function() {
 
 | Symptom | Solution |
 |---------|----------|
-| 204 response but no data | Wait 2-5 minutes, check correct account |
+| 204 response but no data | Check the **Last hit** timestamp on the Overview report — if it doesn't move within seconds of a test visit, nothing is arriving ([Data Delay](/troubleshooting/data-delay)). If it does move, check you're looking at the correct account, date range and timezone |
 | Non-204 response | Check Site ID, domain authorization |
 | Data in wrong account | Verify Site ID in script matches dashboard |
 

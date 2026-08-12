@@ -3,8 +3,8 @@ title: "How Sealmetrics Calculates SEO Traffic"
 description: "Learn how Sealmetrics differentiates SEO traffic from paid traffic using a privacy-first methodology."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-seo-traffic"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "b8afdcfc1659525cf9dba10fce22b8c34b03d75c422fab417bd3f91710982cb6"
+date_generated: "2026-08-12T08:28:08.079Z"
+source_hash: "2548d2a059a1d9e804e20189f9b2494d83555d7948c6170e4ca1f625a74cc410"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -25,11 +25,11 @@ This document explains how SEO (organic search) traffic is detected and how we a
 
 Sealmetrics attributes a visit to **SEO traffic** when the following two conditions are true:
 
-### ✅ **Condition 1: The referrer is a recognized search engine**
+### **Condition 1: The referrer is a recognized search engine**
 
 Sealmetrics classifies the referrer using configurable referrer mapping tables rather than a hardcoded list of domains. When the referrer domain matches a mapping entry categorized as organic search (for example, Google), the hit may be considered SEO traffic.
 
-### ❌ **Condition 2: No advertising parameters are present**
+### **Condition 2: No advertising parameters are present**
 
 If the landing URL contains **any** of the following parameters, it is *not* SEO traffic:
 
@@ -38,15 +38,17 @@ If the landing URL contains **any** of the following parameters, it is *not* SEO
 - `wbraid` (Google Ads, web-to-app)
 - Any `utm_` parameter (utm_source, utm_medium, utm_campaign, utm_term, etc.)
 
-### 🟦 **If BOTH conditions are met → Sealmetrics classifies the hit as SEO traffic**
+### **If BOTH conditions are met → Sealmetrics classifies the hit as SEO traffic**
 
 Example:
-````
+
+```
 Referrer: https://google.com/search?q=analytics+tools
 Landing URL: https://yoursite.com/pricing
 Parameters: none
 Result: SEO Traffic
-````
+```
+
 ---
 
 ## 2. Avoiding Confusion with Google Ads Traffic
@@ -54,7 +56,8 @@ Result: SEO Traffic
 A common question:
 **“Could Google Ads traffic ever be classified as SEO traffic?”**
 
-### ✔️ Sealmetrics keeps this risk extremely low — under 1%.
+### Sealmetrics keeps this risk extremely low — under 1%
+
 For misclassification to happen, TWO things must occur simultaneously:
 
 1. The referrer must be Google

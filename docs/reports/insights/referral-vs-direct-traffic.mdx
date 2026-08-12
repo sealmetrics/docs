@@ -58,12 +58,12 @@ When referrer information is present, Sealmetrics performs domain-based enrichme
 ### Examples
 
 #### Search Engine → SEO Traffic
-- Referrer: https://google.com/search?q=privacy+analytics  
+- Referrer: `https://google.com/search?q=privacy+analytics`  
 - Initial classification: Referrer  
 - Final classification: SEO  
 
 #### Social Platform → Social Traffic
-- Referrer: https://facebook.com/post/12345  
+- Referrer: `https://facebook.com/post/12345`  
 - Final classification: Social (Facebook)  
 
 ### Recognized Categories
@@ -116,8 +116,8 @@ Referrer may be missing due to:
 
 If the referrer domain matches your domain, it is internal navigation — not a new visit.
 
-- Referrer: https://yoursite.com/home  
-- Page: https://yoursite.com/product  
+- Referrer: `https://yoursite.com/home`  
+- Page: `https://yoursite.com/product`  
 - Classification: Internal Pageview  
 
 ### Cross-Subdomain Navigation
@@ -139,16 +139,16 @@ Sealmetrics follows a strict priority order:
 ### Example Priority Cases
 
 #### Case 1 — UTM Override
-- Referrer: facebook.com  
+- Referrer: `facebook.com`  
 - Landing URL: `?utm_source=newsletter`  
 **Result → Email Campaign Traffic**
 
 #### Case 2 — Platform Recognition
-- Referrer: google.com/search…  
+- Referrer: `google.com/search…`  
 **Result → SEO Traffic**
 
 #### Case 3 — Unknown Referrer
-- Referrer: unknownsite.org/article  
+- Referrer: `unknownsite.org/article`  
 **Result → Referrer Traffic**
 
 ---
@@ -172,9 +172,9 @@ Sealmetrics follows a strict priority order:
 
 ## 8. Data Accuracy Considerations
 
-### ⚠️ High Direct Traffic ≠ Always Brand-Aware Users
-
+:::warning High Direct Traffic ≠ Always Brand-Aware Users
 Referrer loss can artificially inflate direct numbers.
+:::
 
 ### Common Indicators of Referrer Loss
 

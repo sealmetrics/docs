@@ -3,8 +3,8 @@ title: "Understanding Direct Traffic in Sealmetrics"
 description: "Learn how Sealmetrics classifies Direct traffic and how referrer detection impacts traffic source attribution."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/direct-traffic"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "7d73b70719928143a4547cfad2b210ee7361636616bfbbb5f7e43640b7c2859e"
+date_generated: "2026-08-12T08:28:08.079Z"
+source_hash: "1c2a67eaa5a8ee6ba1b7ece25eeaa8eec7396035f9bd615da3d63961fb0d99f3"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -43,9 +43,11 @@ When a user clicks a link from one website to another, the browser normally send
 This header contains the URL of the previous page and helps website owners understand **where traffic comes from**.
 
 Example referrer header:
-````
+
+```
 Referrer: https://google.com/search?q=analytics
-````
+```
+
 Sealmetrics reads this header (without storing personal information) to classify traffic sources.
 
 ---
@@ -54,7 +56,8 @@ Sealmetrics reads this header (without storing personal information) to classify
 
 If a referrer exists, Sealmetrics analyzes the domain and performs **category-based enrichment**:
 
-### ✔ Domain recognition
+### Domain recognition
+
 Certain domains are automatically recognized and reclassified:
 
 - **google.com** → SEO
@@ -62,7 +65,8 @@ Certain domains are automatically recognized and reclassified:
 - **facebook.com** → Social
 - **instagram.com** → Social
 
-### ✔ Why this reclassification matters
+### Why this reclassification matters
+
 It provides more meaningful insight into *which channels* bring traffic to your site, instead of treating everything as a generic “referrer”.
 
 ---

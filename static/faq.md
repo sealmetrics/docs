@@ -3,8 +3,8 @@ title: "Frequently Asked Questions (FAQ)"
 description: "Answers to the most common questions about Sealmetrics, consentless analytics, attribution, implementation, privacy, product features, and legal compliance."
 canonical_url: "https://docs.sealmetrics.com/faq"
 lang: "en"
-date_generated: "2026-08-11T17:20:18.521Z"
-source_hash: "43c32e44576b43a8a44be58a4d3f2b64755752f802821992e170b07a523cadcb"
+date_generated: "2026-08-12T08:33:12.834Z"
+source_hash: "0288c8c1c39f747d92e6e6675d60d40bd37df761091eba3c8af6e8f44e8694b4"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -25,7 +25,7 @@ Use the links below to explore detailed answers for each topic.
 ## FAQ Categories
 
 ### Consentless Analytics
-Learn how Sealmetrics measures 100% of traffic without consent and why it is fully compliant with GDPR and ePrivacy.
+Why no consent banner is needed: no cookies, no personal data, and what exactly is recorded on each hit.
 
 [Read more →](/faq/consentless-analytics)
 
@@ -55,6 +55,6 @@ Funnels, ROAS, dashboards, real-time, ecommerce tracking, API access, and export
 [Read more →](/faq/product)
 
 ### Legal & Compliance
-Sealmetrics compliance with GDPR, ePrivacy, CNIL, AEPD, CCPA, and PECR. Third-party audits and legal basis.
+Sealmetrics and GDPR, ePrivacy, CNIL, AEPD, CCPA and PECR — self-assessments and the legal basis.
 
 [Read more →](/compliance/compliance-overview/legal-faq)

@@ -77,7 +77,8 @@ If someone loads the confirmation page but payment fails, Sealmetrics counts the
 
 ## How to Fix These Issues
 
-### ✔ 1. Place the Pixel Only on the Final Thank-You Page  
+### 1. Place the Pixel Only on the Final Thank-You Page
+
 Avoid:
 - Cached pages  
 - Pages that users may revisit  
@@ -89,7 +90,8 @@ Ensure the page is:
 
 ---
 
-### ✔ 2. Add Server-Side Conditions  
+### 2. Add Server-Side Conditions
+
 Example condition logic:
 
 > Fire the pixel ONLY if the order is confirmed.
@@ -101,7 +103,8 @@ This prevents:
 
 ---
 
-### ✔ 3. Fire the Pixel Only Once Per Session  
+### 3. Fire the Pixel Only Once Per Session
+
 Your developers can enforce session-based logic to avoid double counting.
 
 Example safeguards:

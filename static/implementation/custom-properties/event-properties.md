@@ -3,8 +3,8 @@ title: "Event Properties"
 description: "Attach custom data to conversions and microconversions for detailed analysis."
 canonical_url: "https://docs.sealmetrics.com/implementation/custom-properties/event-properties"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "67f2d6241836810a837fbb9dcf62ff26a967bdc8ca99d47333442fe909a74555"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "a1285a96de553d9bf21e00da329619886e55904b5fd052172828c0ffedcd742d"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -264,7 +264,7 @@ Check properties arrived correctly:
 ### Properties Not Appearing
 
 1. **Check property names** — Use alphanumeric characters and underscores
-2. **Wait for processing** — Data can take a few minutes to appear
+2. **Confirm the hit arrived** — the **Last hit** timestamp on the **Overview** report updates within seconds of a tracked visit. If it doesn't move, the event never arrived — see [Data Delay](/troubleshooting/data-delay)
 3. **Inspect the network request** — Check the DevTools Network tab for the request to `t.sealmetrics.com/event` and confirm your properties appear under the `x` key in the payload
 
 ### Wrong Values

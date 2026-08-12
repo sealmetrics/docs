@@ -3,8 +3,8 @@ title: "Drupal"
 description: "Install the Sealmetrics Drupal module (9, 10, and 11) via Composer or manually for cookieless analytics with form, search, and 404 error tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/cms/drupal"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "0c43e687b07b34a98ed69988bcefa4f669bc0577c6dda0cb420f3bda03b31d18"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "64221bc4459f85e702153915599c8af7b4f6c446ce8b8e78801045854d4171ad"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -42,7 +42,7 @@ drush en sealmetrics
 ## Configuration
 
 1. Go to `/admin/config/system/sealmetrics`
-2. Enter your **Account ID** (from your SealMetrics dashboard)
+2. Enter your **Account ID** — this is your Site ID, shown in **Settings → Sites → [your site] → General** ([how to find it](/platform/account-setup/find-account-id))
 3. Configure tracking options:
 
 | Setting | Description |

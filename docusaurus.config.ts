@@ -177,7 +177,16 @@ const config: Config = {
           { from: '/product/how-it-works', to: '/getting-started/how-it-works' },
           { from: '/privacy-and-consentless/faq', to: '/faq/privacy-security' },
           { from: '/first-steps/first-steps-with-sealmetrics', to: '/getting-started/quick-start' },
-          { from: '/first-steps/setting-up-trackers', to: '/implementation/tracker/setup' },
+          { from: '/first-steps/setting-up-trackers', to: '/implementation/tracker/installation' },
+          // setup.mdx merged into installation.mdx (it re-narrated install →
+          // verify → conv() → micro() with nothing of its own).
+          { from: '/implementation/tracker/setup', to: '/implementation/tracker/installation' },
+          { from: '/tracker/setup', to: '/implementation/tracker/installation' },
+          // The two SPA pages were near-identical; tracker/spa-support won.
+          {
+            from: '/implementation/tracking-methods/how-to-track-spa-sites',
+            to: '/implementation/tracker/spa-support',
+          },
           { from: '/first-steps/first-party-tracker', to: '/implementation/tracker/first-party' },
           { from: '/implementation/event-tracking', to: '/implementation/custom-properties/event-properties' },
           { from: '/getting-started/quick-journey', to: '/getting-started/quick-start' },

@@ -3,8 +3,8 @@ title: "Content Grouping"
 description: "Group pages into categories like blog, product, or checkout with Sealmetrics content grouping, set via a URL parameter or the JavaScript API."
 canonical_url: "https://docs.sealmetrics.com/implementation/content-site-structure/content-grouping"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "95c35641cfb24f27254ed4b05fd2f69aec67de07bdfae48a4dbaf12209862a04"
+date_generated: "2026-08-12T08:27:36.924Z"
+source_hash: "a0be5c4813f3a87f3acddfe61b43d391d513706b6fdd306007175b47d47630d0"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -266,7 +266,7 @@ function get_content_group() {
 ### Content group not appearing in reports
 
 1. Ensure the tracker includes the `group` parameter
-2. Wait 5 minutes for data processing
+2. Confirm the hit arrived: the **Last hit** timestamp on the **Overview** report should move to "seconds ago" after your test visit
 3. Check that the page has received traffic since adding the group
 
 ### "Other" or empty content group

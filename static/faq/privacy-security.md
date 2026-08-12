@@ -3,8 +3,8 @@ title: "Frequently Asked Questions"
 description: "Why Sealmetrics numbers differ from GA4 — inflated Direct traffic, entrances instead of persistent-ID sessions, last-click as the only consent-free attribution model, ITP resistance, and why server-side tracking still needs a consent banner."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-security"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "9d9ea38297ae269822a93b0beef98a5a6ecfcc32c61290ab7854706184256313"
+date_generated: "2026-08-12T08:33:12.834Z"
+source_hash: "1ef6dd4328398d45ed4e6e68b87a058852f161adb54a66fe3cb0f6d57f764523"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -48,7 +48,7 @@ This is why Sealmetrics measures **entrances**, not GA4-style "visits" tied to a
 What do you mean by “non-unique data”?
 
 Sealmetrics tracks **every single hit** on your website with precision.
-We have been audited multiple times (technical and legal), and our methodology is validated.
+The methodology has been reviewed internally and legally, and is documented in full in [What We Track](/security-privacy/what-we-track); note that no supervisory authority certifies analytics tools, and Sealmetrics holds no third-party security certification.
 
 If you want to test it yourself, open an account and watch real-time hits appear instantly.
 
@@ -81,7 +81,7 @@ You can send values from your data layer (ecommerce values, custom variables, ev
 Yes, absolutely.
 
 This is why many customers start using Sealmetrics:
-they need to uncover the real ROAS of their campaigns without losing 50–85% of data due to cookie rejects.
+they need to uncover the real ROAS of their campaigns without losing the 30–60% of visitor data that cookie rejection typically costs in EU markets.
 
 Once they validate that Sealmetrics shows the true business metrics, it becomes their **single source of truth**.
 

@@ -3,8 +3,8 @@ title: "GA4 vs Sealmetrics — Complete Comparison"
 description: "Detailed comparison of Google Analytics 4 and Sealmetrics covering data accuracy, privacy compliance, features, and pricing."
 canonical_url: "https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "6dc82b9119f1cd44e938b6a53a608fd290af1bb2efa414c7508c64fc8fd6d9a6"
+date_generated: "2026-08-12T08:33:12.834Z"
+source_hash: "ba302708f69ea00f414d995bfb757d5c830dba6aa7a827761e97273ee1f87a40"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -82,8 +82,8 @@ Industry data shows rejection rates vary significantly by country:
 |---------|-----|-------------|
 | GDPR compliant without consent | No | Yes |
 | ePrivacy Directive compliant | Requires consent | Yes |
-| CNIL exempt (analytics sans consentement) | No | Yes |
-| AEPD exempt | No | Yes |
+| Meets CNIL criteria for *analytics sans consentement* | No | Yes ([self-assessment](/compliance/cnil-self-assessment)) |
+| Meets AEPD audience-measurement criteria | No | Yes (self-assessed) |
 | UK PECR compliant | Requires consent | Yes |
 | Data hosting | US (Google Cloud) | EU only (Dublin, Ireland) |
 | Sub-processors | Multiple (Google) | Short list — visitor analytics data processed only in the EU ([see list](/compliance/subprocessors)) |
@@ -155,7 +155,7 @@ Sealmetrics is the better choice if you:
 
 - Need **accurate data** across all EU markets
 - Want to **remove cookie banners** or reduce consent friction
-- Need **GDPR/CNIL/AEPD compliance** without legal risk
+- Want to **measure without processing personal data**, so GDPR, CNIL and AEPD questions about analytics have a short answer
 - Want **100% conversion attribution** for budget decisions
 - Need a **lightweight tracker** that does not slow down your site
 - Want an **AI assistant on your own data** (LENS) out of the box
@@ -228,7 +228,7 @@ Sealmetrics includes built-in [bot detection](/compliance/compliance-overview/ho
 | **Best for** | Google Ads optimization, user-level analysis | Accurate total traffic, privacy compliance |
 | **Data accuracy (EU)** | 15–50% of traffic | 100% of traffic |
 | **Consent required** | Yes | No |
-| **Legal risk** | Moderate (GDPR, Schrems II) | None (privacy by design) |
+| **Privacy exposure** | Personal data processed, transferred to the US | No personal data processed, EU-only storage |
 | **Script size** | ~146 KB | 1.1 KB |
 | **Pricing** | Free (with hidden costs) | From €499/mo (annual billing) |
 
