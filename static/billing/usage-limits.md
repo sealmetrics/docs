@@ -3,8 +3,8 @@ title: "Usage & Limits"
 description: "Understanding event limits, usage tracking, and how Sealmetrics handles overages."
 canonical_url: "https://docs.sealmetrics.com/billing/usage-limits"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "bfc259d12cdc3840fdd6fe5b519667943cef31c9cb0f8cecd215d9b9ba377e44"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "d27432d8a48168b6a6e196f3e7cb727a3abe81f9a0a495684834614d046716b8"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -111,7 +111,7 @@ These percentages are email alert thresholds only — reaching 120% in a single 
 
 ### Data Retention
 
-Data retention is **fixed and identical for every plan** — it is enforced by database TTLs, not by plan tier: daily aggregates and conversions are kept **24 months**, hourly aggregates 90 days, and event-level detail 14 days. See [Data Location & Retention](/security-privacy/data-location).
+Data retention is **fixed and identical for every plan** — it is enforced by database TTLs, not by plan tier: daily aggregates and conversions are kept **24 months**, hourly aggregates 90 days, and event-level detail 1 day. See [Data Location & Retention](/security-privacy/data-location).
 
 ### LENS AI usage
 
@@ -134,7 +134,7 @@ If you're approaching limits, consider:
 
 1. **Exclude internal traffic** — Don't install pixel on staging/development environments
 2. **Filter bot traffic** — Enabled by default, removes known bots
-3. **Agent Analytics** — AI agent events are excluded from your event count automatically
+3. **Agent Analytics** *(coming soon)* — AI agent events will be excluded from your event count automatically
 
 ### Monitor by Website
 
@@ -160,7 +160,7 @@ Consider upgrading when:
 
 ### Do AI agent events count toward my limit?
 
-Agent Analytics detects AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) and tracks it separately. These events do not count toward your monthly event limit, and the feature is included on all plans.
+Agent Analytics *(coming soon — not live today)* will detect AI agent traffic (bots from OpenAI, Anthropic, Google, etc.) and track it separately. Those events will not count toward your monthly event limit, and the feature will be included on all plans.
 
 ### What happens if I hit my limit mid-month?
 

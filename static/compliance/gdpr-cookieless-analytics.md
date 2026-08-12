@@ -3,8 +3,8 @@ title: "GDPR and Cookieless Analytics"
 description: "How cookieless analytics comply with GDPR requirements and provide better data without consent banners"
 canonical_url: "https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "05e7f7dcfeed5ade736ee3b8d6b5d99ce7f76515df65e8e3e864fc9fd9934703"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "268f5fede60a5ec26d5282a923f9b5427f50e68d2d5eea7cacee86b2bb51b3ca"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -15,6 +15,9 @@ publisher: "SealMetrics"
 # GDPR and Cookieless Analytics
 
 Canonical page: https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics
+
+**Info:**
+Any statement here about how Sealmetrics meets a criterion is a **self-assessment**, not a certification. No supervisory authority certifies or validates analytics tools, and Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2). This page is general regulatory analysis, not legal advice.
 
 Cookieless analytics represent a fundamental shift in how websites measure traffic while complying with GDPR. By eliminating persistent user identifiers, cookieless solutions can provide comprehensive analytics without consent banners, data loss, or privacy violations.
 
@@ -421,7 +424,7 @@ When a cookie contains a unique identifier that can be linked to an individualâ€
 - Cookieless by design
 - Aggregated measurement
 - First-party data only
-- GDPR-compliant out of the box
+- Meets these criteria out of the box, with no configuration needed
 
 **Server-side analytics**:
 - Parse server logs
@@ -437,7 +440,7 @@ When a cookie contains a unique identifier that can be linked to an individualâ€
 
 ### Step 2: Configure for Privacy
 
-**If using Sealmetrics**: Default configuration is compliant
+**If using Sealmetrics**: the default configuration already meets the criteria above
 
 **If using other tools**:
 - âœ… Disable cookies
@@ -623,7 +626,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 - Less data to transfer (no user profiles)
 - Can keep data in EU more easily (self-hosted or EU providers)
 
-**Sealmetrics**: Data stays in EU; no international transfer issues.
+**Sealmetrics**: customer analytics data stays in the EU (Dublin), so Chapter V transfer rules are not engaged for it.
 
 **US-based analytics**: Proceed with caution post-Schrems II; ensure SCCs and supplementary measures.
 

@@ -3,8 +3,8 @@ title: "How It Works"
 description: "How Sealmetrics measures your traffic — one script tag, four non-identifying variables per hit, aggregate reports, and no consent banner."
 canonical_url: "https://docs.sealmetrics.com/getting-started/how-it-works"
 lang: "en"
-date_generated: "2026-08-12T08:33:12.834Z"
-source_hash: "9b06386cacabb065dd0c876c7b33190c7b7ae45a08e1a529748192b6ec78902c"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "edefcbc0fadafe6283b0ac95dfb89af4b09e8595e01de50e7c963d22f3fec6b5"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -29,7 +29,7 @@ Four variables per hit:
 
 No IP addresses stored, no cookies, no localStorage, no persistent identifiers. Hits within one visit are grouped by a short-lived, in-memory session marker (roughly a two-hour inactivity window) that is never written to the device and cannot recognise a returning visitor.
 
-Because no personal data is collected and nothing is stored on the visitor's device, there is no consent to ask for — which is also why cookie-based tools lose 30–60% of visitor data in EU markets while Sealmetrics does not. The full reasoning is in [What is Consentless Analytics?](/security-privacy/consentless-analytics), and the exact field list with retention is in [What We Track](/security-privacy/what-we-track).
+Because no personal data is collected and nothing is stored on the visitor's device, there is no consent to ask for — which is also why cookie-based tools lose 15–60% of visitor data in EU markets — depending on sector, brand strength and traffic mix — while Sealmetrics does not. The full reasoning is in [What is Consentless Analytics?](/security-privacy/consentless-analytics), and the exact field list with retention is in [What We Track](/security-privacy/what-we-track).
 
 ## What you get in reports
 

@@ -3,8 +3,8 @@ title: "GA4 vs Sealmetrics — Complete Comparison"
 description: "Detailed comparison of Google Analytics 4 and Sealmetrics covering data accuracy, privacy compliance, features, and pricing."
 canonical_url: "https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics"
 lang: "en"
-date_generated: "2026-08-12T08:33:12.834Z"
-source_hash: "ba302708f69ea00f414d995bfb757d5c830dba6aa7a827761e97273ee1f87a40"
+date_generated: "2026-08-12T08:55:31.400Z"
+source_hash: "44361fdebcfe4448b076acfafe3626e1ce4e421e51274723aff5efd42dc4a8c5"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -38,7 +38,7 @@ Industry data shows rejection rates vary significantly by country:
 
 *Rates vary by industry, banner design, and implementation. Sources: CNIL annual reports, Eurostat digital economy surveys, CMP vendor benchmarks.*
 
-**Result:** GA4 typically captures only 15–50% of actual EU traffic, depending on the market. Sealmetrics captures 100% because it never requires consent — no cookies are set, and no personal data is collected.
+**Result:** rejection is not the same as data loss — some visitors accept, and Consent Mode models part of the rest — but in practice GA4 loses **15–60% of EU visitor data**, depending on sector, brand strength and traffic mix. Branded direct traffic consents at a very different rate from cold paid social. Sealmetrics captures 100% because it never requires consent — no cookies are set, and no personal data is collected.
 
 ---
 
@@ -50,7 +50,7 @@ Industry data shows rejection rates vary significantly by country:
 |---------|-----|-------------|
 | Tracking method | Cookies + client ID | Cookieless session + isolated hits |
 | Consent required | Yes (GDPR) | No |
-| Data capture rate (EU) | 15–50% | 100% |
+| Data capture rate (EU) | 40–85% (15–60% lost to consent) | 100% |
 | Cookie banners needed | Yes | No |
 | IP address storage | Yes (processed) | No (never stored) |
 | Cross-site tracking | Yes | No |
@@ -106,16 +106,18 @@ Industry data shows rejection rates vary significantly by country:
 
 ## Data Accuracy: A Practical Example
 
-Consider an e-commerce site with 100,000 monthly visitors in Germany, where the cookie rejection rate averages 80%.
+Consider an e-commerce site with 100,000 monthly visitors in an EU market, losing 60% of its analytics data to consent — the high end of the range, typical of a site with weak brand recognition running mostly cold paid traffic.
 
 | Metric | GA4 reports | Sealmetrics reports | Difference |
 |--------|-------------|---------------------|------------|
-| Visitors tracked | ~20,000 | 100,000 | **5x more** |
-| Conversions tracked | ~200 (2% of 20K visible) | 1,000 (1% of 100K actual) | **5x more** |
-| Revenue attributed | €20,000 | €100,000 | **€80,000 missing in GA4** |
+| Visitors tracked | ~40,000 | 100,000 | **2.5x more** |
+| Conversions tracked | ~400 | 1,000 (1% of 100K actual) | **2.5x more** |
+| Revenue attributed | €40,000 | €100,000 | **€60,000 missing in GA4** |
 | Traffic sources accurate | Partial (consent bias) | Complete | GA4 over-reports "Direct" |
 
-**The consent bias problem:** Visitors who accept cookies tend to be more engaged, creating a skewed sample. GA4's data does not just have fewer rows — it represents a biased subset of actual traffic. Marketing decisions based on 20% of data carry significant risk.
+A strong consumer brand whose visitors mostly arrive direct would sit nearer the 15% end, and the gap would be correspondingly smaller.
+
+**The consent bias problem:** the shortfall is not evenly distributed. Visitors who accept cookies tend to be more engaged, so what is left is a skewed sample, not a smaller random one — GA4's data does not just have fewer rows, it over-represents your most engaged visitors. That biases exactly the comparisons budget decisions rest on.
 
 ---
 
@@ -226,13 +228,13 @@ Sealmetrics includes built-in [bot detection](/compliance/compliance-overview/ho
 | | GA4 | Sealmetrics |
 |--|-----|-------------|
 | **Best for** | Google Ads optimization, user-level analysis | Accurate total traffic, privacy compliance |
-| **Data accuracy (EU)** | 15–50% of traffic | 100% of traffic |
+| **Data accuracy (EU)** | 40–85% of traffic | 100% of traffic |
 | **Consent required** | Yes | No |
 | **Privacy exposure** | Personal data processed, transferred to the US | No personal data processed, EU-only storage |
 | **Script size** | ~146 KB | 1.1 KB |
 | **Pricing** | Free (with hidden costs) | From €499/mo (annual billing) |
 
-The question is not whether GA4 or Sealmetrics has more features. The question is whether you can make business decisions based on 15–50% of your actual data.
+The question is not whether GA4 or Sealmetrics has more features. The question is whether you can make business decisions while 15–60% of your actual data is missing.
 
 ---
 
@@ -240,7 +242,7 @@ The question is not whether GA4 or Sealmetrics has more features. The question i
 
 - [Sealmetrics vs Google Analytics: Complete Comparison](/blog/google-analytics-vs-sealmetrics) — In-depth blog post with real-world data examples
 - [Sealmetrics vs Plausible](/blog/sealmetrics-vs-plausible) — How Sealmetrics compares to another privacy-first alternative
-- [Cookie Banner Ghosting](/blog/cookie-banner-ghosting-data-loss) — Why GA4 loses 80-90% of analytics data in the EU
+- [Cookie Banner Ghosting](/blog/cookie-banner-ghosting-data-loss) — why visitors who ignore the banner are the largest missing group
 
 ---
 

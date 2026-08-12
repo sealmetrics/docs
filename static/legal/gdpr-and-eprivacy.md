@@ -1,10 +1,10 @@
 ---
 title: "GDPR and ePrivacy"
-description: "How GDPR Article 6(1)(f) legitimate interest and ePrivacy exemptions enable Sealmetrics' consentless analytics, including session IDs without consent."
+description: "Why a dataset with no personal data sits outside the GDPR, how the ePrivacy consent rule works, and when a session ID does or does not require consent."
 canonical_url: "https://docs.sealmetrics.com/legal/gdpr-and-eprivacy"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c8b8ba4ef9b18d87fb0e6c03b4c2e1b6b8e17c0e9e0b9692040efdd354ab423c"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "46f5fe2a20ed2d875d2252adcd13e213285454b1d61e1af51e38024d7be7d511"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -18,7 +18,7 @@ Canonical page: https://docs.sealmetrics.com/legal/gdpr-and-eprivacy
 
 Learn about GDPR and ePrivacy compliance with Sealmetrics. This section addresses the legal framework that enables consentless analytics in the European Union.
 
-Understanding GDPR Article 6(1)(f) legitimate interest and ePrivacy Directive exemptions is crucial for implementing privacy-compliant analytics. We explain how session-based tracking works within these legal frameworks, why session identifiers don't require consent when properly implemented, and how Sealmetrics ensures full compliance while capturing complete visitor data.
+Two separate rules decide whether analytics needs consent: the ePrivacy Directive governs what you store on or read from the device, and the GDPR governs the processing of personal data. Sealmetrics triggers neither — nothing is written to the device, and the stored dataset holds no personal data. These pages explain how session markers fit into that framework and when a session identifier does require consent.
 
 ## Available Documentation
 

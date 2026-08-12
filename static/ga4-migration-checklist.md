@@ -3,8 +3,8 @@ title: "GA4 to Sealmetrics: The Complete Migration Checklist"
 description: "A phase-by-phase checklist for migrating from Google Analytics 4 to Sealmetrics: audit your GA4 events, map them to conv()/micro(), install the tracker, run 30 days in parallel, know which data differences to expect, and switch GA4 off safely."
 canonical_url: "https://docs.sealmetrics.com/ga4-migration-checklist"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "d8fbcef9df6a3bccda7e55843c2703c8dc4e5dfd74fe2bf185752a61b9e464f3"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "b3e6c3cb47e651b8430623140c6ab4e20df88c53a8038dcc53177b2d82e1ce19"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -164,7 +164,7 @@ Only after Phase 3 sign-off and Phase 4 exports:
 
 - [ ] **Remove the GA4 tag** (gtag snippet or the GTM tag) from your site — unless you decided in Phase 0 to keep GA4 alive for Google Ads audience sync, in which case scope it to that and stop using it for reporting.
 - [ ] **Archive, don't delete, the GA4 property** — it costs nothing to keep and preserves whatever history remains accessible.
-- [ ] **Revisit your consent banner.** With GA4 gone, analytics no longer requires consent — Sealmetrics operates consentless under GDPR legitimate interest. If other cookie-setting tools remain (ad pixels, etc.) you still need consent for *those*; if analytics was the only reason for the banner, you can now remove it. See the [compliance overview](/compliance).
+- [ ] **Revisit your consent banner.** With GA4 gone, analytics no longer requires consent — Sealmetrics operates consentless because it stores no personal data. If other cookie-setting tools remain (ad pixels, etc.) you still need consent for *those*; if analytics was the only reason for the banner, you can now remove it. See the [compliance overview](/compliance).
 - [ ] **Announce the cutover date** internally: from this date, Sealmetrics is the source of truth and GA4 numbers are historical reference only. Comparing across the boundary without the equivalence table above is banned in polite company.
 
 ## Common Migration Pitfalls

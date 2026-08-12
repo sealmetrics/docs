@@ -2,6 +2,7 @@
 sidebar_position: 4
 title: "Data Law Consolidation: From 5 Acts to 2"
 description: "How the Digital Omnibus merges FFDR, DGA, and Open Data Directive into the Data Act"
+tags: [compliance, digital-omnibus, data-act, data-governance-act, open-data-directive]
 keywords: [Data Act consolidation, FFDR repeal, DGA merger, Open Data Directive, EU data laws]
 ---
 

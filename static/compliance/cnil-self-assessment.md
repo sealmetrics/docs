@@ -3,8 +3,8 @@ title: "CNIL Self-Assessment: Sealmetrics Compliance"
 description: "Official CNIL self-assessment documentation for Sealmetrics analytics - demonstrating compliance with French consent exemption requirements."
 canonical_url: "https://docs.sealmetrics.com/compliance/cnil-self-assessment"
 lang: "en"
-date_generated: "2026-08-10T18:27:20.920Z"
-source_hash: "50ab59aeeef011a545c64eb14ed73b0df69b689bfbb9f12e7f421b9b99b6e48e"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "4b3a5838ae6ec1e2a495696fba1e797e78e363d72e33e730955b9f64b36f6010"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -395,7 +395,7 @@ Sealmetrics explicitly does **not** collect:
 |--------|--------|
 | **Processing location** | Dublin, Ireland (EU) |
 | **Data storage** | EU only |
-| **Subprocessors** | EU-based only |
+| **Subprocessors** | Visitor analytics data processed only in the EU (full list: Annex 3 of the [DPA](https://sealmetrics.com/dpa/)) |
 | **International transfers** | None required |
 
 ### Security Measures

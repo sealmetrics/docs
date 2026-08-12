@@ -3,8 +3,8 @@ title: "What is Consentless Analytics?"
 description: "What consentless analytics is, the four non-identifying variables Sealmetrics records, and why measuring without personal data means no consent banner is required."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-analytics"
 lang: "en"
-date_generated: "2026-08-12T08:33:12.834Z"
-source_hash: "fe94a5722714c169e42fad6bbc71a14fe901c8c9a4aa61615f1cfc611df90ce2"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "219bd6aa28da33c9729db7a4c0617580390b844a130e040dadf3171604543b74"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -18,7 +18,7 @@ Canonical page: https://docs.sealmetrics.com/security-privacy/consentless-analyt
 
 **Consentless analytics** is a method of measuring website traffic and user behavior without requiring visitor consent. It achieves this by not collecting personal data, not setting cookies, and not using any form of user identification — making consent legally unnecessary under GDPR, ePrivacy Directive, and other privacy regulations.
 
-Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When a visitor rejects consent, the tool records nothing — which is why cookie-based analytics typically lose **30–60% of visitor data in EU markets**. The result: businesses make decisions based on a fraction of their actual traffic.
+Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When a visitor rejects consent, the tool records nothing — which is why cookie-based analytics typically lose **15–60% of visitor data in EU markets** — how much depends on sector, brand strength and traffic mix. The result: businesses make decisions based on a fraction of their actual traffic.
 
 Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Every visitor is measured. Every page view is counted. Every conversion is attributed to its source. No consent is needed because no personal data is involved.
 
@@ -85,7 +85,7 @@ For a full legal analysis, see [GDPR and Cookieless Analytics](/compliance/gdpr-
 |--|---------------------------|---------------------------|
 | **Tracking method** | Cookies + client ID | Aggregate event measurement |
 | **Consent required** | Yes | No |
-| **Data capture (EU)** | Partial — 30–60% of visitor data lost to consent rejection | Every hit measured |
+| **Data capture (EU)** | Partial — 15–60% of visitor data lost to consent rejection | Every hit measured |
 | **Cookie banners** | Required | Not needed |
 | **Personal data** | Yes (client ID, IP) | No |
 | **Cross-session tracking** | Yes | No |

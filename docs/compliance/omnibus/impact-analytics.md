@@ -2,10 +2,16 @@
 sidebar_position: 10
 title: "Impact on Web Analytics and Tracking"
 description: "How the Digital Omnibus affects web analytics, consent requirements, and consentless tracking solutions"
+tags: [compliance, digital-omnibus, web-analytics, consentless-analytics, audience-measurement]
 keywords: [web analytics EU, consentless analytics, GDPR analytics, cookie-free tracking, privacy-first analytics]
 ---
 
 # Impact on Web Analytics and Tracking
+
+:::info Important Notice
+The EU Digital Omnibus is a **legislative proposal still under negotiation**; article numbers and text may change before it is in force. Any statement about how Sealmetrics would fall under it is our own reading and a **self-assessment**, not a certification — no supervisory authority certifies analytics tools.
+:::
+
 
 The EU Digital Omnibus fundamentally reshapes the web analytics landscape. By creating a clear exemption for aggregated audience measurement, the regulation validates privacy-first analytics while maintaining restrictions on invasive tracking.
 
@@ -573,7 +579,7 @@ If you need individual user tracking, cross-device tracking, or behavioral profi
 3. **Winners**: Consentless analytics, first-party data, privacy-first platforms
 4. **Losers**: Cross-site trackers, third-party cookie networks, consent-dependent models
 5. **Browser signals coming** in 24-48 months will further impact consent-based tracking
-6. **Sealmetrics is compliant** with Article 88a(3)(c) exemption
+6. **Sealmetrics expects to fall within** the Article 88a(3)(c) exemption once it is in force — our own reading, on a text still under negotiation
 7. **Audit your analytics** to identify what needs consent and what doesn't
 8. **Prepare for first-party future** by reducing consent dependencies now
 

@@ -2,6 +2,7 @@
 sidebar_position: 5
 title: "Data Intermediation Services: From Mandatory to Voluntary"
 description: "Changes to data intermediation and data altruism rules under the Digital Omnibus"
+tags: [compliance, digital-omnibus, data-intermediation, data-altruism, data-act]
 keywords: [data intermediation services, data altruism, DGA changes, data sharing EU]
 ---
 

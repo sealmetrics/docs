@@ -3,8 +3,8 @@ title: "Benefits of Consentless Tracking"
 description: "What you gain by measuring without consent — no data lost to banner rejection, nothing for ad blockers to strip, no CMP to maintain, and cleaner attribution."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-benefits"
 lang: "en"
-date_generated: "2026-08-12T08:33:12.834Z"
-source_hash: "445c4a6fbda64127688192a1832e6446fb655a21396e43e752f6780d147684cf"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "580dfceb8398b2be4c6aff3639212380426977a204b9da175728d1c4996f5c45"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,7 +16,7 @@ publisher: "SealMetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/consentless-benefits
 
-The practical case for consentless tracking is that **the data arrives complete and stays complete**. Cookie-based analytics typically lose 30–60% of visitor data in EU markets, because a tool that only fires after consent records nothing from visitors who decline. Sealmetrics fires on every visit, so there is no consent-shaped hole in the numbers.
+The practical case for consentless tracking is that **the data arrives complete and stays complete**. Cookie-based analytics typically lose 15–60% of visitor data in EU markets — the range depends on sector, brand strength and traffic mix — because a tool that only fires after consent records nothing from visitors who decline. Sealmetrics fires on every visit, so there is no consent-shaped hole in the numbers.
 
 Four benefits follow from having no cookies and no identifiers.
 

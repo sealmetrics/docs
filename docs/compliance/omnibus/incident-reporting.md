@@ -2,6 +2,7 @@
 sidebar_position: 7
 title: "Single Entry Point for Incident Reporting"
 description: "New unified cybersecurity and data breach reporting system operated by ENISA"
+tags: [compliance, digital-omnibus, incident-reporting, enisa, data-breach, nis2]
 keywords: [incident reporting EU, ENISA single entry point, NIS2 reporting, DORA reporting, GDPR breach]
 ---
 

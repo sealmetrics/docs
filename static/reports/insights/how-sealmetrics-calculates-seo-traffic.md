@@ -3,8 +3,8 @@ title: "How Sealmetrics Calculates SEO Traffic"
 description: "Learn how Sealmetrics differentiates SEO traffic from paid traffic using a privacy-first methodology."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-seo-traffic"
 lang: "en"
-date_generated: "2026-08-12T08:28:08.079Z"
-source_hash: "2548d2a059a1d9e804e20189f9b2494d83555d7948c6170e4ca1f625a74cc410"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "bafec6e00cfe4f9fec7d3ec2e007690a748cd3078ff03b325eb55c160c052917"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -93,7 +93,7 @@ SEO attribution in Sealmetrics is designed to be:
 
 - Accurate
 - Privacy-safe
-- Fully compliant with GDPR/ePrivacy
+- No personal data collected, so no consent needed under GDPR/ePrivacy
 - Resistant to false classification
 
 This ensures your organic search performance is measured correctly—even in a consentless, cookieless environment.

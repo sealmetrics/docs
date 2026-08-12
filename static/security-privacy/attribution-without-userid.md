@@ -1,10 +1,10 @@
 ---
 title: "How Attribution Works Without a User-ID"
-description: "Learn how Sealmetrics attributes traffic and conversions without using User-IDs, cookies, or cross-session tracking — fully compliant and consentless."
+description: "How Sealmetrics attributes traffic and conversions without User-IDs, cookies or cross-session tracking — last-click attribution read from the URL on every hit."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/attribution-without-userid"
 lang: "en"
-date_generated: "2026-08-12T08:33:12.834Z"
-source_hash: "5d9b81905d66bb725870c69e22b4d4d60df19e2f7bf8e659f63a175b03c30e9f"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "2a24e1948e12ed46b7c3d618c2fbbb2b9608cb908f63875a436274a4664888a5"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -92,9 +92,9 @@ No user identification required.
 
 ---
 
-## Why This Is Fully Privacy-Compliant
+## Why This Needs No Consent
 
-This method complies with GDPR, ePrivacy, CCPA, PECR:
+Because no identifier is created and nothing is stored on the device, the obligations these frameworks attach to personal data and to terminal storage are not triggered:
 
 - ✔ No personal data
 - ✔ No user identification

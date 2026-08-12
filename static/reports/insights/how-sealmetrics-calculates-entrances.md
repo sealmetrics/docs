@@ -3,8 +3,8 @@ title: "How Sealmetrics Calculates Entrances"
 description: "Learn what an Entrance is in Sealmetrics, how it differs from GA4 Visits, and how it compares to Pageviews in a privacy-first analytics system."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-entrances"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "6ef15cf01f9e8d9126fbf9121caa2f85ac8ed7d35c47780d3942f8ee518d5026"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "ffa3920c40b734cf54749a198af754a96dfca81d84e938146de132009e21ff1a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -99,7 +99,7 @@ Entrances give you:
 - A consistent way to track traffic across all browsers and privacy restrictions
 
 Even if the same person enters multiple times from SEO, each access is counted independently.
-This is intentional — it’s how Sealmetrics remains fully compliant while still providing meaningful traffic volume insights.
+This is intentional: counting entrances rather than unique people is what lets Sealmetrics report meaningful traffic volume without identifying anyone.
 
 ---
 

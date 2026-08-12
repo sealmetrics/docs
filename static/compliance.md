@@ -1,10 +1,10 @@
 ---
 title: "Legal & Compliance"
-description: "GDPR, CNIL, UK PECR, and ePrivacy compliance for consentless analytics — legitimate interest under Article 6(1)(f), legal basis, and audit-ready documentation."
+description: "GDPR, CNIL, UK PECR and ePrivacy self-assessments for consentless analytics — why no personal data means no consent, and audit-ready documentation for vendor reviews."
 canonical_url: "https://docs.sealmetrics.com/compliance"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "596c9124454fbd1d0ba12ee9c88d4c0403d0fefedad594ecc5327f4d49a35b33"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "8ab5a9b5061fb0e454779957c6ea4444137a8be93ea40024aa0edbd0ee5ac01b"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -18,7 +18,7 @@ Canonical page: https://docs.sealmetrics.com/compliance
 
 Learn how Sealmetrics ensures GDPR, CNIL, UK PECR, and ePrivacy compliance while enabling consentless analytics. This section provides comprehensive legal documentation for implementing privacy-first web analytics in the European Union, United Kingdom, and beyond.
 
-Understanding the legal framework behind consentless analytics is essential for making informed decisions about your analytics stack. We explain the regulatory foundations, legitimate interest basis under GDPR Article 6(1)(f), and how our approach aligns with guidance from privacy authorities like CNIL, ensuring you can track visitors legally without cookie banners or consent management platforms.
+Understanding the legal framework behind consentless analytics is essential for making informed decisions about your analytics stack. We explain the regulatory foundations, why a dataset holding no personal data falls outside the GDPR's material scope (Recital 26), and how the architecture maps onto the audience-measurement criteria published by authorities such as the CNIL — so you can measure without cookie banners or a consent management platform.
 
 ## Available Documentation
 
@@ -31,7 +31,7 @@ Understanding the legal framework behind consentless analytics is essential for 
 - [**Italy Garante Self-Assessment**](/compliance/italy-garante-self-assessment) - Auto-evaluation against the Garante's cookie guidelines and analytics decisions
 - [**Switzerland FADP Self-Assessment**](/compliance/switzerland-fadp-self-assessment) - Auto-evaluation against the revised Swiss FADP (nFADP): no personal data, no non-adequate transfers
 - [GDPR and ePrivacy](/legal/gdpr-and-eprivacy) - Detailed analysis of EU privacy laws and session-based tracking requirements
-- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) - How cookieless analytics comply with GDPR using legitimate interest
+- [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) - The regulatory analysis behind cookieless measurement, and the legal-basis options open to site owners
 - [Analytics Cookies: Consent Exemption](/compliance/analytics-cookies-exemption) - AEPD and EU DPA requirements for analytics without consent
 
 ### Data Processing Transparency

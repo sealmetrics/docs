@@ -3,8 +3,8 @@ title: "Understanding Event Properties in Sealmetrics"
 description: "Learn how to use event properties in Sealmetrics for advanced conversion tracking, custom data collection, and detailed analytics segmentation while maintaining GDPR compliance."
 canonical_url: "https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties-guide"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "c27ab637b8d247905e5910d747e336c390bc602972106e0217b0c1a03b34ee2b"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "1fa939660df3ca87d63ba03c5e3694499023359b28eaef73e33b9551a0319ec0"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -77,7 +77,7 @@ The properties object accepts any number of key-value pairs, with both keys and 
 
 ### 1. Richer Analytics Without Privacy Compromise
 
-Event properties enable Sealmetrics to collect detailed conversion data while maintaining GDPR Article 6(1)(f) compliance. Unlike cookie-based systems that track users across sessions, Sealmetrics captures rich context at the moment of conversion without building persistent user profiles.
+Event properties let Sealmetrics collect detailed conversion context without collecting personal data — never emails, order IDs or anything identifying a person. Unlike cookie-based systems that track users across sessions, Sealmetrics captures rich context at the moment of conversion without building persistent user profiles.
 
 For organizations concerned about privacy regulations, this approach provides the analytics depth of traditional platforms while avoiding consent requirements. As of November 2024, approximately 65% of European users reject cookie consent banners, making Sealmetrics' consentless approach with event properties particularly valuable for accurate data collection.
 

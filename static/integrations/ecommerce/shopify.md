@@ -3,8 +3,8 @@ title: "Shopify"
 description: "Connect Sealmetrics to Shopify via the Pixel app and a theme app embed, with purchases confirmed server-side by webhook — cookieless funnel tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/shopify"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "9175fb887fb731afa0246ec7123fb823f72a6bbfd00739824352b0faed358c12"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "0794a028d1090e6c0e875ac272799a3f2402b4e3850d56dfc006728f8732a4f1"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -76,7 +76,7 @@ SealMetrics tracks the following events automatically once the app embed is acti
 | `pageview` | Auto | Tracker (`t.js`) | Standard pageview |
 | `view_product` | Microconversion | App embed loader (on `/products/{handle}` pages) | product_name, sku, price, currency, product_id |
 | `add_to_cart` | Microconversion | App embed loader (intercepts `/cart/add`) | product_id, product_name, sku, price, quantity, currency |
-| `initiate_checkout` | Microconversion | App embed loader (checkout submit/click and `/checkout` requests) | cart_url |
+| `begin_checkout` | Microconversion | App embed loader (checkout submit/click and `/checkout` requests) | cart_url |
 | `purchase` | Conversion | Shopify `orders/create` webhook (server-side) | revenue, currency, items array |
 
 ### `view_product`
@@ -87,7 +87,7 @@ Fired on product pages (`/products/{handle}`). The loader reads product data fro
 
 The loader intercepts `fetch` and `XHR` calls to `/cart/add` and emits one `add_to_cart` per line item, with the price normalized from cents to a decimal value.
 
-### `initiate_checkout`
+### `begin_checkout`
 
 Fired (once per checkout attempt) when the shopper submits the cart form, clicks a checkout link/button, a Shopify dynamic checkout (Buy Now) button, or when a `/checkout` request is detected. A dedup flag prevents duplicate events; it resets on SPA navigation.
 

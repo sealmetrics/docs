@@ -3,8 +3,8 @@ title: "UK PECR Self-Assessment: Sealmetrics Compliance"
 description: "Official UK PECR self-assessment documentation for Sealmetrics analytics - demonstrating compliance with UK analytics exemption requirements under the Data Use and Access Act 2025."
 canonical_url: "https://docs.sealmetrics.com/compliance/uk-pecr-self-assessment"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "2a5a6bd16a5eb6d3e9244a38f6f33e82654e3201504d589e5844caaf3e007890"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "a9a6c3d45dd6b8ac548ff2982980b4efad1038d0c47472d048fd1182370e930f"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -154,7 +154,7 @@ The ICO guidance clarifies what activities are permitted under the analytics exe
 |----------|---------------------|------------|
 | Aggregate visitor counts | ✅ Yes | ✅ Compliant |
 | Page interaction metrics | ✅ Yes | ✅ Compliant |
-| Session duration (aggregate) | ✅ Yes | ✅ Compliant |
+| Session duration | ❌ Not measured — it would require following a visitor across page loads | ✅ Compliant |
 | Device and browser info | ✅ Yes (aggregated) | ✅ Compliant |
 | Referrer source analysis | ✅ Yes | ✅ Compliant |
 | A/B testing | ✅ Via events | ✅ Compliant |

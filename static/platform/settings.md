@@ -3,8 +3,8 @@ title: "Settings Overview"
 description: "Configure your Sealmetrics account, tracking, integrations, and preferences."
 canonical_url: "https://docs.sealmetrics.com/platform/settings"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "bcc44976e76baca1dc02b6002a00d05a592cdf3d719baf12735aca26ebbfa267"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "64251751d41d1de73eb385e28a8a0a793d3530235a724c8cc3e3241cde79dd04"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -83,9 +83,11 @@ Access to settings depends on your organization role and site-level role:
 ### Set Up Tracking
 
 1. Go to **Settings → Sites → [your site]** (`/settings/sites/{siteId}`)
-2. Open the **Pixel Code** tab and configure your pixel options
+2. Open the **Pixel Code** tab, which holds the base tracking snippet for that site
 3. Copy the generated code
 4. Install on your website
+
+To build a **conversion or microconversion** pixel rather than the base snippet, use the Pixel Builder — a separate, organization-level screen at **Organization → Pixels** (`/settings/pixels`), which also shows pixel status across your sites.
 
 [Pixel Builder guide →](/platform/settings/tracking/pixel-builder)
 

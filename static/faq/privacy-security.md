@@ -3,8 +3,8 @@ title: "Frequently Asked Questions"
 description: "Why Sealmetrics numbers differ from GA4 — inflated Direct traffic, entrances instead of persistent-ID sessions, last-click as the only consent-free attribution model, ITP resistance, and why server-side tracking still needs a consent banner."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-security"
 lang: "en"
-date_generated: "2026-08-12T08:33:12.834Z"
-source_hash: "1ef6dd4328398d45ed4e6e68b87a058852f161adb54a66fe3cb0f6d57f764523"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "8974370a479f45c607c1cc9b1a760c8343d1a5765b90e4ec1defda48567ec269"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -81,7 +81,7 @@ You can send values from your data layer (ecommerce values, custom variables, ev
 Yes, absolutely.
 
 This is why many customers start using Sealmetrics:
-they need to uncover the real ROAS of their campaigns without losing the 30–60% of visitor data that cookie rejection typically costs in EU markets.
+they need to uncover the real ROAS of their campaigns without losing the 15–60% of visitor data that cookie rejection typically costs in EU markets.
 
 Once they validate that Sealmetrics shows the true business metrics, it becomes their **single source of truth**.
 

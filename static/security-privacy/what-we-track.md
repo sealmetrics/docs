@@ -3,8 +3,8 @@ title: "What We Track vs What We Don’t"
 description: "Field-by-field list of what Sealmetrics records on every hit, how long each field is kept, and what it never collects."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/what-we-track"
 lang: "en"
-date_generated: "2026-08-12T08:28:08.079Z"
-source_hash: "68d708fcebf98d52eba903dc0e1a02c8e3e6a47c43b26ad416abf157880ed6a6"
+date_generated: "2026-08-12T08:53:56.085Z"
+source_hash: "6cdb4e44bc32287fea9b6fa72b923e549fe1bb38ccf69aa82ac3f58c5a31c75d"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -48,7 +48,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 - **What it is:** an in-memory, short-lived identifier scoped to a single browsing session (~2-hour inactivity timeout, GA4-style), derived from the visitor's browser context. It exists so that within one session we can distinguish "second pageview" from "new entrance".
 - **What it isn't:** a cross-session identifier. It is not a cookie, it is not stored in the browser (localStorage, sessionStorage, or otherwise), and it does not persist beyond the session. It cannot be used to recognize a returning visitor.
 - **Site-isolated by design:** session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites — no cross-site correlation is possible at the identifier level.
-- **Why it's compliant:** the identifier is context-derived and short-lived — it does not enable individual tracking under GDPR Article 4(1), which is why analytics without user identifiers qualify for consent-free operation under CNIL guidance (`analytics without consent`) and Article 6(1)(f).
+- **Why it's compliant:** the identifier is context-derived and short-lived — it does not enable individual tracking under GDPR Article 4(1), which is why analytics without user identifiers can operate without consent under the CNIL's audience-measurement criteria. Note that no Article 6 legal basis is needed for the stored dataset: with no personal data in it, the GDPR does not apply to it (Recital 26).
 
 ---
 

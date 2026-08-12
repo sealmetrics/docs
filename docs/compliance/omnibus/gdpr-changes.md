@@ -2,6 +2,7 @@
 sidebar_position: 2
 title: "GDPR Amendments in the Digital Omnibus"
 description: "Detailed analysis of GDPR changes: personal data definition, pseudonymization, AI training, breach notifications"
+tags: [compliance, digital-omnibus, gdpr, personal-data, pseudonymization, breach-notification]
 keywords: [GDPR amendments, personal data definition, pseudonymization EU, data breach notification, GDPR AI]
 ---
 
