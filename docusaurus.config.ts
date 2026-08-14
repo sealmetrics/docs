@@ -343,7 +343,8 @@ const config: Config = {
       logo: {
         alt: 'Sealmetrics',
         src: 'img/logo.svg',
-        width: 191,
+        srcDark: 'img/logo-white.svg',
+        width: 180,
         height: 32,
       },
       items: [
