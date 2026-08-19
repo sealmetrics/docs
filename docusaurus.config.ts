@@ -69,6 +69,14 @@ const config: Config = {
       },
     },
     {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://t.sealmetrics.com',
+        crossorigin: 'anonymous',
+      },
+    },
+    {
       tagName: 'meta',
       attributes: {
         name: 'theme-color',
@@ -95,7 +103,7 @@ const config: Config = {
       attributes: {
         'http-equiv': 'Content-Security-Policy',
         content:
-          "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pixel-pre.sealmetrics.com https://*.algolia.net https://*.algolianet.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self' https://sealmetrics.com;",
+          "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pixel-pre.sealmetrics.com https://t.sealmetrics.com https://*.algolia.net https://*.algolianet.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self' https://sealmetrics.com;",
       },
     },
     {
@@ -152,15 +160,11 @@ const config: Config = {
     },
   ],
 
-  // Dogfooding: v2 tracker in fully-manual mode (auto=0&spa=0); pageviews are
-  // fired per-route with a section content group from src/clientModules/sealmetrics.js
-  scripts: [
-    {
-      src: 'https://pixel-pre.sealmetrics.com/t.js?id=sealmetrics2&auto=0&spa=0',
-      defer: true,
-    },
-  ],
-
+  // Dogfooding: two v2 trackers in fully-manual mode (auto=0&spa=0), the same
+  // pre + prod pair sealmetrics.com runs. Both scripts are injected — and their
+  // per-pageview content group chosen — by src/clientModules/sealmetrics.js,
+  // which has to capture each instance from `window.sealmetrics` on its own
+  // onload before the next script overwrites the global.
   clientModules: ['./src/clientModules/sealmetrics.js'],
 
   // 301-equivalent client redirects for URLs renamed since launch.
