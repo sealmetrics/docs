@@ -3,8 +3,8 @@ title: "Release Notes"
 description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release privacy hardening (August 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-08-24T11:16:16.348Z"
-source_hash: "2aaced819493a55ca872d2d0b84e62205d9ff031507f4fc65c91e512ff1f51bf"
+date_generated: "2026-08-24T12:55:48.931Z"
+source_hash: "317f4f7cb740c067cd844c85193aa7579eff709997a44d145d3e1c4b0caf026b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -30,7 +30,7 @@ Three privacy improvements are now live for all accounts. Reports, historical da
 
 ### Heads-up for API and BigQuery users
 
-If you consume the raw-data endpoints (`/stats/conversions/raw`, `/stats/conversion-items/raw`) or the BigQuery export, the click ID **value** field now comes back empty (`NULL` in existing BigQuery tables — the column remains, so queries don't break). The click ID **type** (e.g. `gclid`) is still reported.
+If you consume the raw-data endpoints (`/stats/conversions/raw`, `/stats/conversion-items/raw`), the `clid` field no longer appears in the responses. In the BigQuery export, `fact_conversions` no longer receives `click_id`: the column remains in existing tables (queries don't break) and is `NULL` for new rows — and with the click ID out of the aggregation you may see slightly fewer rows, with identical totals. Channel and campaign attribution is unaffected.
 
 ---
 
