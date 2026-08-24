@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release Seal AI Private (July 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release privacy hardening (August 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c143233e592bf0c7806df1e9794c1c187327b0325a06780ee7a890d744750649"
+date_generated: "2026-08-24T11:16:16.348Z"
+source_hash: "2aaced819493a55ca872d2d0b84e62205d9ff031507f4fc65c91e512ff1f51bf"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,22 @@ publisher: "SealMetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## Privacy hardening — ephemeral session identifiers, click IDs no longer stored (August 24, 2026)
+
+Three privacy improvements are now live for all accounts. Reports, historical data and the API keep working exactly as before, and **no action is required**.
+
+### What changed
+
+- **Ephemeral session identifiers.** The session identifier used to count visits without cookies now expires and regenerates every day, and the key material behind each rotation is destroyed immediately afterwards. Activity from the same device can no longer be linked across days or across sites — by anyone, Sealmetrics included.
+- **Click IDs are no longer stored.** Ad-platform click identifiers (`gclid`, `fbclid`, `msclkid` and similar) are used only at the moment of the visit to attribute the channel, then discarded — they are not persisted as a field nor inside stored URLs. Campaign attribution works unchanged.
+- **Raw User-Agents and IPs removed.** The full browser User-Agent string is no longer retained in analytics storage, and edge access logs no longer record visitor IP addresses or User-Agents. Browser, device and country reports are computed in flight and are unaffected.
+
+### Heads-up for API and BigQuery users
+
+If you consume the raw-data endpoints (`/stats/conversions/raw`, `/stats/conversion-items/raw`) or the BigQuery export, the click ID **value** field now comes back empty (`NULL` in existing BigQuery tables — the column remains, so queries don't break). The click ID **type** (e.g. `gclid`) is still reported.
 
 ---
 
