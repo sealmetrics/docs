@@ -60356,7 +60356,7 @@ Three privacy improvements are now live for all accounts. Reports, historical da
 
 ### Heads-up for API and BigQuery users
 
-If you consume the raw-data endpoints (`/stats/conversions/raw`, `/stats/conversion-items/raw`) or the BigQuery export, the click ID **value** field now comes back empty (`NULL` in existing BigQuery tables — the column remains, so queries don't break). The click ID **type** (e.g. `gclid`) is still reported.
+If you consume the raw-data endpoints (`/stats/conversions/raw`, `/stats/conversion-items/raw`), the `clid` field no longer appears in the responses. In the BigQuery export, `fact_conversions` no longer receives `click_id`: the column remains in existing tables (queries don't break) and is `NULL` for new rows — and with the click ID out of the aggregation you may see slightly fewer rows, with identical totals. Channel and campaign attribution is unaffected.
 
 ---
 
