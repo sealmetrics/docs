@@ -1,6 +1,6 @@
 # Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics
 
-URL: https://docs.sealmetrics.com/tracker-performance-three-way
+URL: https://docs.sealmetrics.com/guides/tracker-performance-three-way
 
 This guide puts the three trackers side by side: the **Sealmetrics tracker**, **GA4's `gtag.js`**, and the **Adobe Analytics stack** (Launch + AppMeasurement). It condenses our two detailed reports — [Sealmetrics vs GA4](/guides/tracker-performance-report) and [Sealmetrics vs Adobe Analytics](/guides/tracker-performance-adobe-analytics) — into one comparison table set, with the same methodology and the same anonymized reference sites.
 
@@ -9,7 +9,7 @@ This guide puts the three trackers side by side: the **Sealmetrics tracker**, **
 | | Sealmetrics | GA4 | Adobe Analytics |
 |---|---|---|---|
 | Wire weight (scripts, gzip) | **1.1 KB** | ~146 KB (~132×) | ~170 KB (~155×) |
-| JavaScript to parse | **2.0 KB** | ~409 KB (~255×) | ~730 KB (~365×) |
+| JavaScript to parse | **2.0 KB** | ~409 KB (~205×) | ~730 KB (~365×) |
 | Hit secured (`<head>` install, fiber) | **~0.1–0.3 s** | ~0.5–0.7 s (best case) | ~3.0 s (field-measured) |
 | Hit transport | `sendBeacon` — survives page close | beacon-style | image GET — cancelable |
 | Consent required in the EU | **No — consentless by design** | Yes (Consent Mode models the gap) | Yes in most installs |
