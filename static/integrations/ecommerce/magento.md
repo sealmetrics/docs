@@ -1,15 +1,15 @@
 ---
 title: "Magento 2"
-description: "Install the SealMetrics Magento 2.4+ (Adobe Commerce) module via app/code for cookieless analytics with product, cart, checkout, and purchase tracking."
+description: "Install the Sealmetrics Magento 2.4+ (Adobe Commerce) module via app/code for cookieless analytics with product, cart, checkout, and purchase tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/magento"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "d5e14253fe28d99c591ac4ccf7102f5c3e207d16c46102c0c2ab431d721a16ef"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "f41edcbf49a7cbde41c8f6447955aa17c69e0de3c483eb1f955dd6b1bdd1011d"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/ecommerce/magento.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Magento 2
@@ -39,7 +39,7 @@ bin/magento cache:clean
 
 ## Configuration
 
-1. Go to **Admin > Stores > Configuration > SealMetrics > Analytics**
+1. Go to **Admin > Stores > Configuration > Sealmetrics > Analytics**
 2. Enable the module
 3. Enter your Account ID
 4. Configure tracking options
@@ -50,7 +50,7 @@ bin/magento cache:clean
 | Setting | Description |
 |---------|-------------|
 | **Enable** | Turn tracking on/off |
-| **Account ID** | Your SealMetrics Account ID (required) |
+| **Account ID** | Your Sealmetrics Account ID (required) |
 | **Pixel URL** | Custom pixel domain (optional) |
 | **Track Product Views** | Enable `view_item` events |
 | **Track Add to Cart** | Enable `add_to_cart` events |

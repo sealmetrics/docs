@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/user-management/roles-management.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Roles & Permissions

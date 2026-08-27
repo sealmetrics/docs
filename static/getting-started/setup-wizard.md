@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "getting-started/setup-wizard.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Setup Wizard

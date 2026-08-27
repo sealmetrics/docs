@@ -1,22 +1,22 @@
 ---
 title: "How to Measure Conversions"
-description: "Learn how to track conversions and microconversions with SealMetrics. Measure purchases, signups, leads, and user interactions."
+description: "Learn how to track conversions and microconversions with Sealmetrics. Measure purchases, signups, leads, and user interactions."
 canonical_url: "https://docs.sealmetrics.com/getting-started/measure-conversions"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "51a00974adf5418c0d37f160645d281f1eb0c04fd72d5282cffba26c41848a6c"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "d5b90e7ff601e734ccd422e1f98c4cce6a26c6519bdf25bc979c0a981a849b3b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "getting-started/measure-conversions.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How to Measure Conversions
 
 Canonical page: https://docs.sealmetrics.com/getting-started/measure-conversions
 
-To measure conversions in SealMetrics, install the tracker and call `sealmetrics.conv('type', amount?, { ...props })` when a goal completes — for example `sealmetrics.conv('purchase', 99.99)`. Use `sealmetrics.conv()` for **conversions** (goal completions with an optional monetary value like purchases, signups, and leads) and `sealmetrics.micro()` for **microconversions** (user interactions and funnel steps such as add-to-cart or video plays).
+To measure conversions in Sealmetrics, install the tracker and call `sealmetrics.conv('type', amount?, { ...props })` when a goal completes — for example `sealmetrics.conv('purchase', 99.99)`. Use `sealmetrics.conv()` for **conversions** (goal completions with an optional monetary value like purchases, signups, and leads) and `sealmetrics.micro()` for **microconversions** (user interactions and funnel steps such as add-to-cart or video plays).
 
 ---
 
@@ -298,7 +298,7 @@ window.addEventListener('load', function() {
 1. Check the browser Network tab for requests to `t.sealmetrics.com`
 2. Verify your Site ID is correct
 3. Check the **Conversions** report (set the date range to today); hits arrive in seconds, so the **Last hit** timestamp at the top right of the **Overview** report should already show your test visit
-4. Ensure the domain is authorized in your SealMetrics account
+4. Ensure the domain is authorized in your Sealmetrics account
 
 ### Duplicate conversions
 

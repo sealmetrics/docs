@@ -3,20 +3,20 @@ title: "Organization Invitations"
 description: "Public endpoints for accepting organization invitations — the token is the credential, with auto-login for newly created users"
 canonical_url: "https://docs.sealmetrics.com/api/invitations"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c3c28776956579592eb20324d48b7787272993294ea374a2eb0188f581b1c628"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "a2614445147c042f16b47780a387faf79a717b6ad66339008a8e125ff7ef5d99"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/invitations.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Organization Invitations
 
 Canonical page: https://docs.sealmetrics.com/api/invitations
 
-Public endpoints for **accepting** invitations sent via the [Organizations API](./organizations#send-invitation). The invitation token itself is the authentication for `GET /invitations/{token}` and `POST /invitations/accept` — no other credentials needed. `POST /invitations/accept-existing` is for users who already have a SealMetrics account and just need to join the new org.
+Public endpoints for **accepting** invitations sent via the [Organizations API](./organizations#send-invitation). The invitation token itself is the authentication for `GET /invitations/{token}` and `POST /invitations/accept` — no other credentials needed. `POST /invitations/accept-existing` is for users who already have a Sealmetrics account and just need to join the new org.
 
 **Base path:** `/invitations`
 
@@ -93,7 +93,7 @@ Errors: `404` invitation not found, `410` expired/already accepted, `409` user a
 POST /invitations/accept-existing
 ```
 
-For authenticated users who already have a SealMetrics account. The endpoint verifies the invitation's email matches the caller's email before adding them to the org.
+For authenticated users who already have a Sealmetrics account. The endpoint verifies the invitation's email matches the caller's email before adding them to the org.
 
 Authentication: regular session (JWT or cookie).
 

@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/settings/tracking/utm-mapping.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # UTM Mapping

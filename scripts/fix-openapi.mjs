@@ -479,10 +479,31 @@ spec.tags = tagOrder.map((name) => {
 log.push(`added top-level tags array (${spec.tags.length} tags)`);
 
 // 8. info
-spec.info.contact = {name: 'SealMetrics Support', email: 'support@sealmetrics.com', url: `${DOCS}/api`};
+spec.info.contact = {name: 'Sealmetrics Support', email: 'support@sealmetrics.com', url: `${DOCS}/api`};
 spec.info.termsOfService = 'https://sealmetrics.com/terms';
-spec.externalDocs = {description: 'SealMetrics API documentation', url: `${DOCS}/api`};
+spec.externalDocs = {description: 'Sealmetrics API documentation', url: `${DOCS}/api`};
 log.push('added info.contact, info.termsOfService, externalDocs');
+
+// 9. brand casing. The upstream spec writes "SealMetrics"; the brand is
+// "Sealmetrics". Normalising here rather than in the checked-in JSON means it
+// survives the next spec re-sync. Only the standalone word is touched — a
+// SealMetrics* identifier (SDK class, component, module) keeps its casing.
+let brandFixes = 0;
+const normalizeBrand = (value) => {
+  if (typeof value === 'string') {
+    return value.replace(/SealMetrics(?![A-Za-z0-9_(/])/g, () => {
+      brandFixes += 1;
+      return 'Sealmetrics';
+    });
+  }
+  if (Array.isArray(value)) return value.map(normalizeBrand);
+  if (value && typeof value === 'object') {
+    for (const k of Object.keys(value)) value[k] = normalizeBrand(value[k]);
+  }
+  return value;
+};
+normalizeBrand(spec);
+if (brandFixes) log.push(`normalized ${brandFixes} SealMetrics → Sealmetrics`);
 
 fs.writeFileSync(SPEC, `${JSON.stringify(spec, null, 2)}\n`);
 

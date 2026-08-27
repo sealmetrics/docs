@@ -1,15 +1,15 @@
 ---
 title: "Spend Efficiency"
-description: "Pause underperforming campaigns, surface zero-conversion paid landings, and surface pages worth deindexing. SealMetrics MCP prompts to cut waste."
+description: "Pause underperforming campaigns, surface zero-conversion paid landings, and surface pages worth deindexing. Sealmetrics MCP prompts to cut waste."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/spend-efficiency"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "bda1f29d8cc68520f5c8ed9f86866f9e77a8d170feb8e3fef972a8bab274db16"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "f9aa18766aaeef9405fba395fffabdeeae299a590216eb932c1b2877af9f50c8"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "web-analytics-prompts/06-spend-efficiency.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Spend Efficiency
@@ -18,14 +18,14 @@ Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/spend-efficie
 
 Cut waste before scaling. These prompts surface candidates to pause, fix, or deindex.
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 
 ---
 
 ## SEAL-034 — Pages with traffic but no conversion contribution
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 90 days:
+Using Sealmetrics MCP for site {site_id}, for the last 90 days:
 
 List every page with more than 1000 pageviews that contributed to zero conversions (neither as a landing nor as a path step). Include both landing pages and internal pages.
 
@@ -44,7 +44,7 @@ End with a count by tag and a "first 10 to deindex" list.
 ## SEAL-035 — Active campaigns with no micro-conversions
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 14 days.
+For site {site_id}, query Sealmetrics MCP for the last 14 days.
 
 List every active utm_campaign with more than 200 entrances and zero micro-conversions (no add_to_cart, no signup, no view_product, no view_room, etc.).
 
@@ -58,7 +58,7 @@ Verdict per campaign: PAUSE NOW (low intent traffic), FIX LANDING (intent OK but
 ## SEAL-036 — Worst entrance-to-conversion ratio landings
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 30 days:
+Using Sealmetrics MCP for site {site_id}, for the last 30 days:
 
 List the 10 landing pages with the worst entrance-to-conversion ratio AND more than 500 entrances.
 
@@ -74,7 +74,7 @@ End with a prioritized fix list ordered by lost revenue potential = entrances ×
 ## SEAL-037 — Indexed pages with no conversions in 90 days
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 90 days:
+Using Sealmetrics MCP for site {site_id}, for the last 90 days:
 
 List every URL that received at least 1 organic visit and contributed zero conversions.
 
@@ -90,7 +90,7 @@ Sort by organic entrances desc to prioritize the high-traffic noisy ones.
 ## SEAL-038 — Channel micro-conversion efficiency
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 30 days.
+For site {site_id}, query Sealmetrics MCP for the last 30 days.
 
 For every channel (utm_source / utm_medium): entrances, micro-conversions, macro conversions, micro-to-macro ratio, revenue per session.
 
@@ -104,5 +104,5 @@ End with a budget reallocation suggestion in 3 bullets: where to spend more, whe
 ## See also
 
 - [Attribution & Channels](./attribution-channels)
-- [SealMetrics + Google Ads](./google-ads)
+- [Sealmetrics + Google Ads](./google-ads)
 - [Cross-platform](./cross-platform)

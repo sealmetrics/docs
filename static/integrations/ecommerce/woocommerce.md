@@ -3,13 +3,13 @@ title: "WooCommerce"
 description: "Install the Sealmetrics WooCommerce plugin for cookieless tracking of the full e-commerce funnel — product views, cart, checkout, and purchase revenue."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/woocommerce"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "c7d6a2993e516c5a46abe206d762f67cb6180757a4fae0d340dd1e0ef305c8d8"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "5ca9cce61b7b6a7529a35719b50a18b5963425e4544a3f927e463b7273a2e550"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/ecommerce/woocommerce.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # WooCommerce
@@ -28,7 +28,7 @@ Privacy-first, cookieless analytics for WordPress + WooCommerce stores with comp
 
 ### Step 1: Download the Plugin
 
-Download the latest version of the SealMetrics WooCommerce plugin:
+Download the latest version of the Sealmetrics WooCommerce plugin:
 
 ### Step 2: Upload to WordPress
 
@@ -38,7 +38,7 @@ Download the latest version of the SealMetrics WooCommerce plugin:
 
 ### Step 3: Configure
 
-1. Go to **Settings > SealMetrics**
+1. Go to **Settings > Sealmetrics**
 2. Enter your **Account ID** — this is your Site ID, shown in **Settings → Sites → [your site] → General** ([how to find it](/platform/account-setup/find-account-id))
 3. Save changes
 
@@ -46,7 +46,7 @@ Download the latest version of the SealMetrics WooCommerce plugin:
 
 | Setting | Description |
 |---------|-------------|
-| **Account ID** | Your SealMetrics Account ID (required) |
+| **Account ID** | Your Sealmetrics Account ID (required) |
 | **Pixel URL** | Custom pixel domain for first-party tracking (optional) |
 
 ## E-commerce Events
@@ -149,7 +149,7 @@ The plugin prevents duplicate purchase tracking:
 
 ### Tracker not loading
 
-1. Verify Account ID is configured in **Settings > SealMetrics**
+1. Verify Account ID is configured in **Settings > Sealmetrics**
 2. Clear WordPress cache
 3. Check browser console for JavaScript errors
 

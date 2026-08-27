@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "use-cases/content-media.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Content & Media Sites

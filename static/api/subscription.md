@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/subscription.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Subscription Status

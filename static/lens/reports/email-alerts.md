@@ -3,13 +3,13 @@ title: "Email Alerts"
 description: "Configure email notifications for LENS insights and the weekly digest."
 canonical_url: "https://docs.sealmetrics.com/lens/reports/email-alerts"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "9e1167d48e7db038f9d5c194fbb631cf6cd94e80692d6937aef9827e1a0640bd"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "6c608841b3625ba6a121cdfd268ec745d270ad6a0b4e9e0512af3eb117931a23"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "lens/reports/email-alerts.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Email Alerts
@@ -30,7 +30,7 @@ LENS sends two kinds of email:
 When LENS detects a new insight, it can email the configured recipients. Each insight has a severity, and you choose which severities trigger an email (see [Configuring Notifications](#configuring-notifications)).
 
 ```
-From: SealMetrics LENS
+From: Sealmetrics LENS
 Subject: 🔴 [Critical] Conversion Rate Drop - My Store
 
 ──────────────────────────────────────
@@ -64,7 +64,7 @@ LENS can send a weekly digest email summarizing the week. The digest includes:
 - A link to open LENS in the dashboard
 
 ```
-From: SealMetrics LENS
+From: Sealmetrics LENS
 Subject: Weekly LENS Digest - My Store (Jan 8 - Jan 14, 2024)
 
 ──────────────────────────────────────

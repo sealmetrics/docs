@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/gdpr-cookieless-analytics.md"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # GDPR and Cookieless Analytics

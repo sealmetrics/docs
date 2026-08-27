@@ -3,13 +3,13 @@ title: "Squarespace"
 description: "Privacy-first, cookieless analytics for Squarespace websites and Squarespace Commerce"
 canonical_url: "https://docs.sealmetrics.com/integrations/website-builders/squarespace"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "5436357cd7f133d12c2ce59fa5fe7c74464beb02c85f80abb590d6bc630977bf"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "9063d9781e90d0f7f27dc860ee029a1d0a1476aa354b9a3f4eecd00b1b104e8b"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/website-builders/squarespace.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Squarespace
@@ -22,7 +22,7 @@ Privacy-first, cookieless analytics for Squarespace websites and Squarespace Com
 
 1. Go to **Settings > Advanced > Code Injection**
 2. Paste the entire contents of `sealmetrics-squarespace.js` (wrapped in `<script>` tags) in the **Header** section
-3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+3. Replace `YOUR_ACCOUNT_ID` with your Sealmetrics Account ID
 4. Click **Save** and **Publish**
 
 ## Configuration
@@ -30,7 +30,7 @@ Privacy-first, cookieless analytics for Squarespace websites and Squarespace Com
 Edit these values at the top of the pasted script:
 
 ```javascript
-// Required: Your SealMetrics Account ID
+// Required: Your Sealmetrics Account ID
 var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
 
 // Optional: Track contact forms as lead conversions (default: false)

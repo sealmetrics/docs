@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "getting-started/migration-from-v1.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Migrate Your Historical Data from v1

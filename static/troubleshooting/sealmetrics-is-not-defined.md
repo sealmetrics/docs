@@ -1,15 +1,15 @@
 ---
 title: "Fixing ReferenceError: sealmetrics is not defined"
-description: "How to keep your site working when ad blockers, privacy extensions, or DNS filters prevent the SealMetrics tracker from loading."
+description: "How to keep your site working when ad blockers, privacy extensions, or DNS filters prevent the Sealmetrics tracker from loading."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/sealmetrics-is-not-defined"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "47bacb90da933ce98941c49dd995c6fb7b43a30aa559c3ed0893809b810085b9"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "56bc5cc169989a4fc8cd61fc10aa0b5add3762cfe4d4070585877d6ab78e21e1"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/sealmetrics-is-not-defined.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Fixing ReferenceError: sealmetrics is not defined
@@ -32,7 +32,7 @@ sealmetrics.micro("Add_to_cart", { ... });
 
 the browser throws `ReferenceError: sealmetrics is not defined`. That error halts execution of the JavaScript block where the call lives. If that block also contains UI, form, or navigation logic, the page breaks for the user.
 
-This is **not a tracker bug**. It is the normal consequence of invoking any third-party library (GA4, Meta Pixel, Hotjar, SealMetrics…) without protecting yourself against the "script blocked" case.
+This is **not a tracker bug**. It is the normal consequence of invoking any third-party library (GA4, Meta Pixel, Hotjar, Sealmetrics…) without protecting yourself against the "script blocked" case.
 
 ---
 
@@ -137,7 +137,7 @@ After installing the stub:
 4. `ReferenceError: sealmetrics is not defined` must **not** appear.
 5. The page must continue working normally (forms, navigation, UI).
 
-Then disable the blocker and repeat: the calls must reach the SealMetrics backend exactly as before.
+Then disable the blocker and repeat: the calls must reach the Sealmetrics backend exactly as before.
 
 ---
 
@@ -146,4 +146,4 @@ Then disable the blocker and repeat: the calls must reach the SealMetrics backen
 - [Tracker installation](/implementation/tracker/installation) — base setup, including the pre-load queue stub for deferred loading.
 - [Tracker API reference](/implementation/tracker/api-reference) — full `sealmetrics()`, `conv()`, and `micro()` signatures.
 - [Google Tag Manager integration](/integrations/google-tag-manager) — recommended setup for GTM.
-- [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — diagnose substantial discrepancies between SealMetrics and your source of truth.
+- [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — diagnose substantial discrepancies between Sealmetrics and your source of truth.

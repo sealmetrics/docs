@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/insights/understanding-referrer-loss-and-direct-traffic.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Understanding Referrer Loss and Direct Traffic in Sealmetrics

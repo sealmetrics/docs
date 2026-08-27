@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/account-setup/how-to-change-timezone.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How to Change Your Time Zone

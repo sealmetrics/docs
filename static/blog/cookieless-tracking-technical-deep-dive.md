@@ -9,7 +9,7 @@ content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "cookieless-tracking-technical-deep-dive.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How Session-Based Tracking Works: Cookieless Architecture Explained

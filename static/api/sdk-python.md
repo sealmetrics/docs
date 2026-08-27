@@ -3,13 +3,13 @@ title: "Python SDK (unreleased)"
 description: "Design reference for the Sealmetrics Python SDK — not yet published to PyPI. Use the OpenAPI spec, the REST API or the MCP server today."
 canonical_url: "https://docs.sealmetrics.com/api/sdk-python"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "1915ba008b8843dad3e7467da79ef9bc7e09c688cdbb8a48d7435d30c640c182"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "51cbc1e7722aec1a068d3d2ffd46ba15ac303d0ba5817b7c17396b3e7a9e02cb"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/sdk-python.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Python SDK (unreleased)
@@ -75,7 +75,7 @@ The SDK authenticates with a Sealmetrics **API key**. Generate one in **Settings
 API keys are **read-only**: they hold the `stats:read`, `sites:read`, and `accounts:read` scopes, which is exactly what the analytics methods below require. Write operations (such as creating or updating segments) need a JWT session instead. See [Authentication](/api/authentication) and [API Tokens](/api/api-tokens) for details.
 
 ```python
-from sealmetrics import SealMetrics
+from sealmetrics import Sealmetrics
 
 client = SealMetrics(
     api_key="sm_live_xxxxx",   # Settings → API Keys
@@ -88,7 +88,7 @@ client = SealMetrics(
 The main entry point is the `SealMetrics` class.
 
 ```python
-from sealmetrics import SealMetrics
+from sealmetrics import Sealmetrics
 
 client = SealMetrics(
     api_key="sm_live_xxxxx",
@@ -183,7 +183,7 @@ Query methods return a `QueryResult` (see below) unless noted otherwise. They ac
 ### Example
 
 ```python
-from sealmetrics import CompareMode, Period, SealMetrics
+from sealmetrics import CompareMode, Period, Sealmetrics
 
 client = SealMetrics(api_key="sm_live_xxxxx", account_id="acc_123")
 
@@ -353,7 +353,7 @@ Use the async methods (prefixed with `async_`) for concurrent operations.
 
 ```python
 import asyncio
-from sealmetrics import SealMetrics
+from sealmetrics import Sealmetrics
 
 async def analyze():
     async with SealMetrics(api_key="...", account_id="...") as client:
@@ -373,7 +373,7 @@ All SDK errors inherit from `SealMetricsError`.
 
 ```python
 from sealmetrics import (
-    SealMetrics,
+    Sealmetrics,
     AuthenticationError,
     AuthorizationError,
     RateLimitError,

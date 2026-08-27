@@ -1,22 +1,22 @@
 ---
 title: "GTM Container Template"
-description: "Ready-to-import Google Tag Manager container template with pre-configured SealMetrics tags, triggers, and variables for pageviews and conversions."
+description: "Ready-to-import Google Tag Manager container template with pre-configured Sealmetrics tags, triggers, and variables for pageviews and conversions."
 canonical_url: "https://docs.sealmetrics.com/integrations/tag-management/gtm-template"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "8c6fed7caf61efe288a2ffd5600efb3d8d609f2f44e7d74c9c9059e66aa3b5f9"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "8d3f49decd179048fb1b63887055a766e69031e04d8e4e05c36a905ce3cbb8fc"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/tag-management/gtm-template.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # GTM Container Template
 
 Canonical page: https://docs.sealmetrics.com/integrations/tag-management/gtm-template
 
-Ready-to-import GTM container template with pre-configured tags for SealMetrics tracking.
+Ready-to-import GTM container template with pre-configured tags for Sealmetrics tracking.
 
 **Tip:**
 This template includes all the tags, triggers, and variables you need. Just import, configure your Account ID, and publish.
@@ -31,14 +31,14 @@ This template includes all the tags, triggers, and variables you need. Just impo
 
 ## Included Tags
 
-### 1. SealMetrics - Base Tracker
+### 1. Sealmetrics - Base Tracker
 
 - **Trigger**: All Pages
-- **Purpose**: Loads the SealMetrics tracker on every page
+- **Purpose**: Loads the Sealmetrics tracker on every page
 
 This tag loads automatically on all pages and initializes the tracker with your Account ID.
 
-### 2. SealMetrics - Conversion
+### 2. Sealmetrics - Conversion
 
 - **Trigger**: Custom Event `sealmetrics_conversion`
 - **Purpose**: Track conversions with monetary value
@@ -56,7 +56,7 @@ dataLayer.push({
 });
 ```
 
-### 3. SealMetrics - Microconversion
+### 3. Sealmetrics - Microconversion
 
 - **Trigger**: Custom Event `sealmetrics_micro`
 - **Purpose**: Track engagement events (microconversions)
@@ -73,13 +73,13 @@ dataLayer.push({
 });
 ```
 
-### 4. SealMetrics - E-commerce Purchase
+### 4. Sealmetrics - E-commerce Purchase
 
 - **Trigger**: Custom Event `purchase`
 - **Purpose**: Track purchases from standard e-commerce dataLayer
 - **Compatible with**: GA4 e-commerce, UA Enhanced Ecommerce
 
-This tag automatically converts your existing e-commerce dataLayer events to SealMetrics format.
+This tag automatically converts your existing e-commerce dataLayer events to Sealmetrics format.
 
 ## Variables
 
@@ -204,7 +204,7 @@ dataLayer.push({
 
 ## Privacy
 
-SealMetrics does not use cookies or store personal data. No consent banner required.
+Sealmetrics does not use cookies or store personal data. No consent banner required.
 
 ## Troubleshooting
 

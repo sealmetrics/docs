@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "guides/tracker-performance-adobe-analytics.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Tracker Performance Report: Sealmetrics vs Adobe Analytics

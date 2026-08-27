@@ -1,33 +1,33 @@
 ---
 title: "Attribution & Channels"
-description: "Real channel performance using last-click attribution, campaign cannibalization detection, direct traffic spike investigation, and channel decay alerts. SealMetrics MCP prompts."
+description: "Real channel performance using last-click attribution, campaign cannibalization detection, direct traffic spike investigation, and channel decay alerts. Sealmetrics MCP prompts."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/attribution-channels"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "f8244a340f3bbadcfdd3fe422f1c15d4551ef030366373f93a0089ee14df35be"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "f235b8188f07f706ba58bdedddd755b07c15678a08d4bfa69367069adfb78465"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "web-analytics-prompts/04-attribution-channels.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Attribution & Channels
 
 Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/attribution-channels
 
-True channel performance using SealMetrics last-click data — no GA4 modeling, no sampling.
+True channel performance using Sealmetrics last-click data — no GA4 modeling, no sampling.
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 
 ---
 
 ## SEAL-021 — Channel revenue ranking, last 90 days
 
 ```text
-Using SealMetrics MCP for site {site_id}, return the channel ranking by real revenue for the last 90 days.
+Using Sealmetrics MCP for site {site_id}, return the channel ranking by real revenue for the last 90 days.
 
-Group by utm_source / utm_medium pair (or by SealMetrics channel rule if more meaningful). For each row: channel, entrances, conversions, conversion rate, revenue, revenue per session, % of total revenue, 90-day vs prior-90-day delta.
+Group by utm_source / utm_medium pair (or by Sealmetrics channel rule if more meaningful). For each row: channel, entrances, conversions, conversion rate, revenue, revenue per session, % of total revenue, 90-day vs prior-90-day delta.
 
 Sort by revenue desc. Highlight the top 3 growing channels and the top 3 shrinking channels.
 End with one-line recommendations for budget reallocation.
@@ -38,7 +38,7 @@ End with one-line recommendations for budget reallocation.
 ## SEAL-022 — Best and worst utm_source by CR
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 60 days.
+For site {site_id}, query Sealmetrics MCP for the last 60 days.
 
 For every utm_source with at least 500 entrances:
 - Entrances, conversions, CR, revenue, AOV, bounce rate, % bot.
@@ -54,7 +54,7 @@ For the bottom tier, recommend which to pause and which to fix (label each: paus
 ## SEAL-023 — Best and worst utm_term keywords
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 90 days.
+For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
 Top 10 utm_term values by conversions (best performers): term, entrances, conversions, CR, revenue.
 Bottom 10 utm_term values among those with at least 200 entrances and 0 or near-zero conversions (worst performers): same columns.
@@ -67,7 +67,7 @@ For each bottom-10 term suggest: pause, change match type, or rewrite the landin
 ## SEAL-024 — Zero-conversion campaigns to pause
 
 ```text
-Using SealMetrics MCP for site {site_id}, list every utm_campaign with more than 1000 entrances in the last 30 days and zero macro conversions.
+Using Sealmetrics MCP for site {site_id}, list every utm_campaign with more than 1000 entrances in the last 30 days and zero macro conversions.
 
 For each: campaign name, source, medium, entrances, micro-conversions, top landing pages, average bounce rate.
 
@@ -79,7 +79,7 @@ Output a "candidates to pause" table. For each candidate, indicate whether to "p
 ## SEAL-025 — Campaign cannibalization detector
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 60 days.
+For site {site_id}, query Sealmetrics MCP for the last 60 days.
 
 Find every pair of utm_campaigns that share more than 60% of the same landing pages in their traffic distribution.
 
@@ -93,7 +93,7 @@ End with: which campaign in each pair should be kept, which should be paused or 
 ## SEAL-026 — Direct traffic spike investigation
 
 ```text
-Using SealMetrics MCP for site {site_id}, check whether direct traffic (utm_source = direct or null) increased by more than 25% week over week.
+Using Sealmetrics MCP for site {site_id}, check whether direct traffic (utm_source = direct or null) increased by more than 25% week over week.
 
 If yes:
 1. List the top 20 landing pages receiving the extra direct traffic.
@@ -108,7 +108,7 @@ Output: "Yes/No spike" verdict + investigation table + 3 hypotheses for what is 
 ## SEAL-027 — Channel decay month over month
 
 ```text
-For site {site_id}, query SealMetrics MCP and compare entrances and conversions by channel for current month vs previous month.
+For site {site_id}, query Sealmetrics MCP and compare entrances and conversions by channel for current month vs previous month.
 
 List channels where entrances dropped more than 20% MoM. For each, pull the top 5 utm_campaigns responsible for the decline.
 
@@ -120,5 +120,5 @@ Output: 1 main "decay" table + a nested list of campaigns to investigate per cha
 ## See also
 
 - [Spend Efficiency](./spend-efficiency)
-- [SealMetrics + Google Ads](./google-ads)
+- [Sealmetrics + Google Ads](./google-ads)
 - [Cross-platform](./cross-platform)

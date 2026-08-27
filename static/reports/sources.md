@@ -3,13 +3,13 @@ title: "Sources Report"
 description: "Analyze traffic sources with UTM parameters and referrers. View by channel, source, medium, campaign, content, and term."
 canonical_url: "https://docs.sealmetrics.com/reports/sources"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "91500cea8ba728336d77e98c538b9f6c11b4467c0eac9b037624b8c4927c10cf"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "da40b9c8effd2b175d314a381893690226ad4048d07d97520a34516a47a14ab6"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/sources.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Sources Report
@@ -65,7 +65,7 @@ You can view and customize these rules per account from the [Channel Grouping se
 
 #### Default channels
 
-SealMetrics ships with the following default channels, listed here from highest to lowest priority (the order in which they are matched):
+Sealmetrics ships with the following default channels, listed here from highest to lowest priority (the order in which they are matched):
 
 | Channel | Matches (simplified) |
 |---------|----------------------|

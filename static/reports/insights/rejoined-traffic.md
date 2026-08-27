@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/insights/rejoined-traffic.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # What is Rejoined Traffic?

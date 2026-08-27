@@ -9,7 +9,7 @@ content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/bigquery.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # BigQuery

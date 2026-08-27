@@ -1,22 +1,22 @@
 ---
 title: "Metrics Reference"
-description: "Detailed reference of all SealMetrics report metrics — formulas, benchmarks, and interpretation for entrances, pageviews, conversions, revenue, and advanced KPIs."
+description: "Detailed reference of all Sealmetrics report metrics — formulas, benchmarks, and interpretation for entrances, pageviews, conversions, revenue, and advanced KPIs."
 canonical_url: "https://docs.sealmetrics.com/reports/definitions"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4d574dd78c5b51a248d195a35b395a337e51cb0d97d2fb656aceffe5815e9c41"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "89786fd4504093e645effb30a74a6a7da150e2b005636b9e095fa94d49127cfa"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/definitions.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Metrics Reference
 
 Canonical page: https://docs.sealmetrics.com/reports/definitions
 
-Detailed formulas, benchmarks, and interpretation guidelines for every metric in SealMetrics reports.
+Detailed formulas, benchmarks, and interpretation guidelines for every metric in Sealmetrics reports.
 
 For a complete glossary of all terms (including privacy, platform, and technical concepts), see the [Glossary](/faq/glossary).
 

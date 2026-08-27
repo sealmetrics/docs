@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "security-privacy/how-we-protect-privacy.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How Sealmetrics Protects User Privacy

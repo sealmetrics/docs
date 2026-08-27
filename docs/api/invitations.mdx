@@ -13,7 +13,7 @@ keywords:
 
 # Organization Invitations API
 
-Public endpoints for **accepting** invitations sent via the [Organizations API](./organizations#send-invitation). The invitation token itself is the authentication for `GET /invitations/{token}` and `POST /invitations/accept` — no other credentials needed. `POST /invitations/accept-existing` is for users who already have a SealMetrics account and just need to join the new org.
+Public endpoints for **accepting** invitations sent via the [Organizations API](./organizations#send-invitation). The invitation token itself is the authentication for `GET /invitations/{token}` and `POST /invitations/accept` — no other credentials needed. `POST /invitations/accept-existing` is for users who already have a Sealmetrics account and just need to join the new org.
 
 **Base path:** `/invitations`
 
@@ -90,7 +90,7 @@ Errors: `404` invitation not found, `410` expired/already accepted, `409` user a
 POST /invitations/accept-existing
 ```
 
-For authenticated users who already have a SealMetrics account. The endpoint verifies the invitation's email matches the caller's email before adding them to the org.
+For authenticated users who already have a Sealmetrics account. The endpoint verifies the invitation's email matches the caller's email before adding them to the org.
 
 Authentication: regular session (JWT or cookie).
 

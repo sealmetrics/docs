@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "lens/ai-assistant/index.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # AI Chat Assistant

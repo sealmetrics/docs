@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/2fa.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Two-Factor Authentication

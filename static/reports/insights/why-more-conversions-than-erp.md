@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/insights/why-more-conversions-than-erp.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Why Do I See More Conversions or Revenue in Sealmetrics Than in My ERP?

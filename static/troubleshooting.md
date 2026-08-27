@@ -1,22 +1,22 @@
 ---
 title: "Troubleshooting"
-description: "Diagnose and fix common SealMetrics issues: verify tracker installation in DevTools, confirm data collection with the Last hit timestamp, and resolve missing data."
+description: "Diagnose and fix common Sealmetrics issues: verify tracker installation in DevTools, confirm data collection with the Last hit timestamp, and resolve missing data."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "011e111c7f37823f02252c7fc38303cbb3a25e86a84d66f6244070a7707538c6"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "a9d3a6156c76125755e68e09510fb176de9973d1a102f09d68332684521a2d4c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/index.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Troubleshooting
 
 Canonical page: https://docs.sealmetrics.com/troubleshooting
 
-Solutions for common issues with SealMetrics tracking and reporting.
+Solutions for common issues with Sealmetrics tracking and reporting.
 
 ## Guides
 
@@ -30,7 +30,7 @@ Solutions for common issues with SealMetrics tracking and reporting.
 | [Unauthorized domain](/troubleshooting/unauthorized-domain) | The snippet is installed but hits from a domain are silently rejected |
 | [Data delay](/troubleshooting/data-delay) | Data seems to take longer than seconds to appear |
 | [Conversions not appearing](/troubleshooting/conversions-not-appearing) | Pageviews work but a conversion never reaches the Conversions report |
-| [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) | SealMetrics reports fewer visits than GA4 or another tool |
+| [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) | Sealmetrics reports fewer visits than GA4 or another tool |
 | [Test traffic blocked as bot](/troubleshooting/test-traffic-blocked-as-bot) | Your own automated test visits (Selenium, Playwright, curl…) never show up |
 | [Reconciling with your ERP, CRM, or database](/troubleshooting/erp-crm-database-discrepancy) | Substantial conversion gaps against your source of truth |
 | [Fixing `ReferenceError: sealmetrics is not defined`](/troubleshooting/sealmetrics-is-not-defined) | Ad blockers break pages that call `sealmetrics.*` directly |
@@ -111,7 +111,7 @@ You should see:
 
 4. **Full checklist** — [Conversions not appearing](/troubleshooting/conversions-not-appearing) covers snippet signature, numeric amounts, flow variants, and report verification step by step
 
-For substantial discrepancies between SealMetrics and your ERP / CRM / internal database (missing conversions when reconciling totals), see [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — it walks through the firing-order requirement of the base pixel vs. the conversion pixel and the long tail of secondary causes.
+For substantial discrepancies between Sealmetrics and your ERP / CRM / internal database (missing conversions when reconciling totals), see [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — it walks through the firing-order requirement of the base pixel vs. the conversion pixel and the long tail of secondary causes.
 
 ### Duplicate Conversions
 
@@ -160,14 +160,14 @@ The tracker automatically detects History API navigation. If it's not working:
 
 **Symptoms:** Different numbers than Google Analytics
 
-This is expected. SealMetrics differs because:
+This is expected. Sealmetrics differs because:
 
-1. **No cookies** — SealMetrics uses cookieless session identification, GA uses cookies
-2. **Bot filtering** — SealMetrics has different bot detection
+1. **No cookies** — Sealmetrics uses cookieless session identification, GA uses cookies
+2. **Bot filtering** — Sealmetrics has different bot detection
 3. **Session definition** — Different session timeout rules
-4. **Ad blocker immunity** — SealMetrics tracks users blocked by ad blockers
+4. **Ad blocker immunity** — Sealmetrics tracks users blocked by ad blockers
 
-See [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) for the diagnosis guide and [GA4 vs SealMetrics](/faq/ga4-vs-sealmetrics) for the detailed comparison.
+See [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) for the diagnosis guide and [GA4 vs Sealmetrics](/faq/ga4-vs-sealmetrics) for the detailed comparison.
 
 ---
 
@@ -175,7 +175,7 @@ See [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-
 
 ### Blocked by Ad Blockers
 
-SealMetrics is designed to work with ad blockers. If blocked:
+Sealmetrics is designed to work with ad blockers. If blocked:
 
 1. **First-party tracking** — Set up [first-party tracking](/implementation/tracker/first-party)
 2. **Custom domain** — Use your own subdomain for the pixel

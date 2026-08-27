@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "lens/api/lens-endpoints.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # LENS API Endpoints

@@ -3,13 +3,13 @@ title: "Wix"
 description: "Add Sealmetrics cookieless analytics to Wix sites and Wix Stores via Settings > Custom Code or an embed element, with automatic event tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/website-builders/wix"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "f8310ff5df533a8858f2e311ee70aeef5a6b7830b0c717202f66ef3038cf4f90"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "3f806368a2f7ea2350b1707524da9b8051ee2bd7282be681307cb9bc7a25ca22"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/website-builders/wix.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Wix
@@ -25,7 +25,7 @@ Privacy-first, cookieless analytics for Wix websites and Wix Stores.
 1. Go to **Settings > Custom Code** (or **Marketing & SEO > Custom Code**)
 2. Click **"+ Add Custom Code"**
 3. Paste the entire contents of `sealmetrics-wix.js` inside `<script>` tags
-4. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+4. Replace `YOUR_ACCOUNT_ID` with your Sealmetrics Account ID
 5. Set **Placement** to **Head**
 6. Set **Pages** to **All pages**
 7. Click **Apply** and **Publish**
@@ -42,7 +42,7 @@ Privacy-first, cookieless analytics for Wix websites and Wix Stores.
 Edit these values at the top of the pasted script:
 
 ```javascript
-// Required: Your SealMetrics Account ID
+// Required: Your Sealmetrics Account ID
 var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
 
 // Optional: Track contact forms as lead conversions (default: false)

@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "faq/consentless-analytics.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Consentless Analytics

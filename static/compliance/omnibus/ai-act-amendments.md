@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/omnibus/ai-act-amendments.md"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # AI Act Amendments in the Digital Omnibus

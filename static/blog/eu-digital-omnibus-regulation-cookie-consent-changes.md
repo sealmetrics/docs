@@ -9,7 +9,7 @@ content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "2025-12-06-eu-omnibus-regulation.md"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # EU Digital Omnibus: The End of Cookie Banner Fatigue?

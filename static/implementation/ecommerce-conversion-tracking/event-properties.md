@@ -9,7 +9,7 @@ content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/ecommerce-conversion-tracking/event-properties-guide.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Understanding Event Properties in Sealmetrics

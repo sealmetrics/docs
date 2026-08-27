@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/settings/advanced/audit-log.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Audit Logs

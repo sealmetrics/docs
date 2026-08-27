@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "lens/seal-ai/model-selection.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Why Seal AI Runs on gpt-oss-120b

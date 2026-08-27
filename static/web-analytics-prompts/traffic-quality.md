@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "web-analytics-prompts/03-traffic-quality.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Traffic & Quality Control

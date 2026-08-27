@@ -1,22 +1,22 @@
 ---
 title: "Referrer Mappings"
-description: "Learn how to map known referrer domains to specific source, medium, and campaign values so traffic from partners, affiliates, or internal domains is attributed correctly in SealMetrics."
+description: "Learn how to map known referrer domains to specific source, medium, and campaign values so traffic from partners, affiliates, or internal domains is attributed correctly in Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/referrer-mappings"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c40aeb39069e0bc6a9d196003779d8c2f5ce70a4c86dc53cf2eb54e64167a895"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "23c54659ff1bc4242016b96c9669ed88fc3b696cb535c88d80d10f33ded13cbc"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/tracking-and-attribution-settings/referrer-mappings.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Referrer Mappings
 
 Canonical page: https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/referrer-mappings
 
-**Referrer Mappings** let you assign a specific source, medium, and campaign to traffic that arrives from a known referrer domain. When a visit comes from a domain you have mapped **and the URL carries no UTM parameters**, SealMetrics applies the UTM values you configured automatically.
+**Referrer Mappings** let you assign a specific source, medium, and campaign to traffic that arrives from a known referrer domain. When a visit comes from a domain you have mapped **and the URL carries no UTM parameters**, Sealmetrics applies the UTM values you configured automatically.
 
 This is useful for properly attributing traffic from:
 

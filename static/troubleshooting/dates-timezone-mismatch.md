@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/dates-timezone-mismatch.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Report Dates Don't Match Another Tool

@@ -3,13 +3,13 @@ title: "Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?"
 description: "Learn how Sealmetrics ensures full compliance with GDPR, ePrivacy, CCPA, PECR, and global privacy regulations through its privacy-first, isolated-hit architecture."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/is-sealmetrics-privacy-compliant"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "d2ee1efe677ccee39d05a639e4f1cb7629e086d7cceac8483169e0f77dc518ba"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "b75db2ebfff8e91fb6775e968fe700250d5e91d9a0521abbba45c676fbb2950d"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/compliance-overview/is-sealmetrics-privacy-compliant.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?
@@ -122,7 +122,7 @@ This enables marketers and analysts to access reliable, actionable analytics **w
 
 ## Related documentation
 
-- [Does SealMetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) — the French consent-exemption criteria in detail.
+- [Does Sealmetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) — the French consent-exemption criteria in detail.
 - [Legal FAQ — Sealmetrics Compliance Questions](/compliance/compliance-overview/legal-faq) — audits, DPIA, data processing, and retention questions.
 - [UK PECR Self-Assessment: Sealmetrics Compliance](/compliance/uk-pecr-self-assessment) — the UK analytics exemption under DUAA 2025.
 - [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the GDPR reasoning behind the isolated-hit model.

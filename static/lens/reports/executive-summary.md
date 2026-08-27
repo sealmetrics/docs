@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "lens/reports/executive-summary.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Executive Summary

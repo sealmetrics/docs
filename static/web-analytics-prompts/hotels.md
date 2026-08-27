@@ -1,15 +1,15 @@
 ---
 title: "Hotels — Sales & Direct Director"
-description: "Direct booking funnel, OTA-to-direct shift, BAR page diagnostics, country mix for direct revenue, last-minute vs early-booking distribution. SealMetrics MCP prompts for hospitality."
+description: "Direct booking funnel, OTA-to-direct shift, BAR page diagnostics, country mix for direct revenue, last-minute vs early-booking distribution. Sealmetrics MCP prompts for hospitality."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/hotels"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "3911b506f243f92e496ae442832c1062d5f2a4b748e05e39cc287f6011dc8ddf"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "2c1fa95a279946248a4288bd1aa336da5d831b0bf4b0633bf3a95f3277bb8b47"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "web-analytics-prompts/09-hotels.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Hotels — Sales & Direct Director
@@ -18,7 +18,7 @@ Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/hotels
 
 Built for hotels and chains that want more direct bookings, less OTA dependency, and a clear view of country mix and pickup behavior.
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 **Best for:** Sales & Direct Directors, Revenue Managers, Marketing Directors of hospitality groups
 
 ---
@@ -26,7 +26,7 @@ Built for hotels and chains that want more direct bookings, less OTA dependency,
 ## SEAL-051 — Direct booking funnel by step and device
 
 ```text
-Using SealMetrics MCP for site {site_id} (a hotel), build the direct booking funnel for the last 30 days.
+Using Sealmetrics MCP for site {site_id} (a hotel), build the direct booking funnel for the last 30 days.
 
 Funnel steps (adjust if my booking flow differs):
 1. Landing entrance
@@ -46,7 +46,7 @@ Highlight the worst-performing step per device. End with one optimization hypoth
 ## SEAL-052 — BAR / rates page diagnostics
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 90 days.
+For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
 Pull metrics for the BAR / rates / "best available rate" page (URL pattern: {bar_url_pattern}):
 - Entrances, pageviews, bounce rate, time on page, conversion rate from this page, revenue attributed.
@@ -61,7 +61,7 @@ Compare to site averages. Flag any metric more than 30% worse than site average.
 ## SEAL-053 — Top countries by direct conversions
 
 ```text
-Using SealMetrics MCP for site {site_id} (hotel), for the last 90 days:
+Using Sealmetrics MCP for site {site_id} (hotel), for the last 90 days:
 
 Top 10 countries by direct booking conversions (utm_source = direct or null, organic, brand search):
 - Country, conversions, revenue, AOV, average length of stay (if `nights` property is captured), top room type purchased.
@@ -77,7 +77,7 @@ End with: 3 countries to push direct campaigns to (high direct intent already), 
 ## SEAL-054 — Last-minute vs early-booking distribution
 
 ```text
-For site {site_id}, query SealMetrics MCP and use the property `check_in` on macro conversions (or `days_to_check_in` if pre-computed) for the last 90 days.
+For site {site_id}, query Sealmetrics MCP and use the property `check_in` on macro conversions (or `days_to_check_in` if pre-computed) for the last 90 days.
 
 Compute days-to-check-in = check_in - conversion_date. Bucket into:
 - Same-day, 1-3 days, 4-7 days, 8-14 days, 15-30 days, 31-60 days, 60+ days.
@@ -93,7 +93,7 @@ End with a 3-bullet revenue-management recommendation.
 ## SEAL-055 — Geo mix of high-revenue direct guests
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 6 months:
+Using Sealmetrics MCP for site {site_id}, for the last 6 months:
 
 Identify the top 10 countries that generated the most direct revenue. For each: bookings, revenue, AOV, average length of stay, average days-to-check-in, dominant room type.
 

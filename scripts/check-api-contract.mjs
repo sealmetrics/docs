@@ -139,7 +139,7 @@ for (const f of files) {
     const urlMatch = line.match(CURL_URL_RE);
     if (!urlMatch) return;
     const url = urlMatch[1];
-    // only SealMetrics API URLs; skip everything without a query string
+    // only Sealmetrics API URLs; skip everything without a query string
     if (!/sealmetrics\.[a-z]+\/api\//.test(url) || !url.includes('?')) return;
     curlChecked += 1;
     const loc = `${path.relative(ROOT, f)}:${i + 1}`;

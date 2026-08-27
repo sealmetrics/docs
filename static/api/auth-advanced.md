@@ -3,13 +3,13 @@ title: "Auth Advanced"
 description: "Session management, password reset, and two-factor authentication reference — list active sessions and terminate them per device"
 canonical_url: "https://docs.sealmetrics.com/api/auth-advanced"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "b6d5f679d720e5affa7036753f0ee96efb6ef0f731fa31ae8b1c7dd18b875de7"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "6a8e0aabbdc974fec19a7aacf0a3d9db0bc66bc03cbae728f39b51e8d6de9e49"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/auth-advanced.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Auth Advanced
@@ -487,7 +487,7 @@ Authentication: standard session (JWT or cookie).
   "active": true,
   "impersonated_by_user_id": 1,
   "impersonated_by_email": "support@sealmetrics.com",
-  "impersonated_by_name": "SealMetrics Support",
+  "impersonated_by_name": "Sealmetrics Support",
   "started_at": "2025-01-08T13:55:00Z"
 }
 ```

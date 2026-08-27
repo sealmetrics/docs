@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "getting-started/see-your-data-flow.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # See Your Data Flow in Real-Time with Sealmetrics

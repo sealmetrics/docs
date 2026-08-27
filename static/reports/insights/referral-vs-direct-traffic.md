@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/insights/referral-vs-direct-traffic.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Referral vs Direct Traffic

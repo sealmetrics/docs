@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "faq/ga4-vs-sealmetrics.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # GA4 vs Sealmetrics — Complete Comparison

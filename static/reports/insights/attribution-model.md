@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/insights/attribution-model.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How Sealmetrics Attributes Conversions: The Attribution Model

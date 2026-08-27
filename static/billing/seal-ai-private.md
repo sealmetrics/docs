@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "billing/seal-ai-private.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Seal AI Private

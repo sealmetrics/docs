@@ -9,7 +9,7 @@ content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/google-tag-manager.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Google Tag Manager Template

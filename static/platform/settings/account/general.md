@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/settings/account/general.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Site Settings

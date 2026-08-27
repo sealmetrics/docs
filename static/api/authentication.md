@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/authentication.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Authentication

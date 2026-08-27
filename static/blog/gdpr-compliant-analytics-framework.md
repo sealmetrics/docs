@@ -3,13 +3,13 @@ title: "GDPR Compliant Analytics: Complete Framework 2026"
 description: "GDPR framework for web analytics: which legal basis you actually need, the technical requirements, and how to stop losing 15-60% of your data to consent."
 canonical_url: "https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "d6fad0b9297ce7eb602421525a7ee9c0ec7fc22889cc57c55c68aea7cfbd8793"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "ed062ca87c795a771dcb63822235924d01db4adda453906c8f1251830d9202eb"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "gdpr-compliant-analytics-framework.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # GDPR Compliant Analytics: Complete Framework 2026
@@ -512,7 +512,7 @@ Unlike cookie-based analytics tools that retrofit GDPR compliance onto existing 
 
 6. **Documented Retention**: 24-month retention justified and documented as necessary for trend analysis, with automatic purging of older data.
 
-This technical foundation is what puts the dataset outside the GDPR's material scope rather than inside it needing a justification — consistent with CNIL's guidance, and accepted by DPOs across the EU. To be clear about what that is and isn't: DPO acceptance is a customer assessment, not a regulatory endorsement. No supervisory authority certifies analytics tools, and SealMetrics holds no ISO 27001 or SOC 2 certification.
+This technical foundation is what puts the dataset outside the GDPR's material scope rather than inside it needing a justification — consistent with CNIL's guidance, and accepted by DPOs across the EU. To be clear about what that is and isn't: DPO acceptance is a customer assessment, not a regulatory endorsement. No supervisory authority certifies analytics tools, and Sealmetrics holds no ISO 27001 or SOC 2 certification.
 
 ---
 
