@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "getting-started/install-with-ai.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Set Up Sealmetrics with Your AI Assistant

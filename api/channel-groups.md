@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/channel-groups.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Channel Groups

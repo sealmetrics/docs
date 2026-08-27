@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/omnibus/impact-analytics.md"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Impact on Web Analytics and Tracking

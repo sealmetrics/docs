@@ -1,26 +1,26 @@
 ---
 title: "Conversions Don't Match Your ERP, CRM, or Database"
-description: "How to diagnose and fix substantial discrepancies between SealMetrics conversions and your source of truth (ERP, CRM, internal database)."
+description: "How to diagnose and fix substantial discrepancies between Sealmetrics conversions and your source of truth (ERP, CRM, internal database)."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "6f442acbf0de6ecb113b7940d2b62348af64100f82ccb2c3388a19a0dd15e2fa"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "3efb463d87ed19ef9578b99fa4c1314ff75870daad313d06a0844e593e2494ea"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/erp-crm-database-discrepancy.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Conversions Don't Match Your ERP, CRM, or Database
 
 Canonical page: https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy
 
-Your **ERP, CRM, or internal database is the source of truth** for what actually happened in your business: the orders that were placed, the leads that were captured, the contracts that were signed. SealMetrics is the measurement layer on top of that reality.
+Your **ERP, CRM, or internal database is the source of truth** for what actually happened in your business: the orders that were placed, the leads that were captured, the contracts that were signed. Sealmetrics is the measurement layer on top of that reality.
 
-When both systems are correctly wired, **SealMetrics should reconcile with your source of truth with only a minimal discrepancy** — typically a small percentage caused by edge cases (users disabling JavaScript, network failures at the exact moment of the request, manual orders entered directly into the back office, refunds, etc.).
+When both systems are correctly wired, **Sealmetrics should reconcile with your source of truth with only a minimal discrepancy** — typically a small percentage caused by edge cases (users disabling JavaScript, network failures at the exact moment of the request, manual orders entered directly into the back office, refunds, etc.).
 
-If the gap you are seeing is **substantial** — for example, your ERP shows 1,000 orders this month and SealMetrics shows 600 — this is almost never a measurement bug on the platform side. In our experience, it comes down to one of two implementation problems on the website, with a long tail of secondary causes.
+If the gap you are seeing is **substantial** — for example, your ERP shows 1,000 orders this month and Sealmetrics shows 600 — this is almost never a measurement bug on the platform side. In our experience, it comes down to one of two implementation problems on the website, with a long tail of secondary causes.
 
 **Warning:**
 The **base pixel (`t.js`) must finish loading and register the pageview *before* `sealmetrics.conv(...)` is called** for any conversion or microconversion. The conversion call is not standalone — it attaches to the session created by the base pixel. If the order is wrong, or the base pixel is missing on the confirmation page, the conversion is sent without a session and the platform cannot count or attribute it correctly. This is the first thing to verify on any reconciliation issue.
@@ -39,7 +39,7 @@ Before digging into the causes, it helps to establish what "normal" looks like:
 
 ## Cause 1: The Conversion Pixel Is Not Firing on Every Conversion
 
-The SealMetrics conversion pixel (`sealmetrics.conv(...)`) must be executed **every single time** a real conversion happens in your business. If it is not called, SealMetrics has no way to know the conversion exists — and your ERP will record an order that never reached the dashboard.
+The Sealmetrics conversion pixel (`sealmetrics.conv(...)`) must be executed **every single time** a real conversion happens in your business. If it is not called, Sealmetrics has no way to know the conversion exists — and your ERP will record an order that never reached the dashboard.
 
 ### How to verify it
 
@@ -70,7 +70,7 @@ If you do **not** see that request, the conversion pixel is not being called.
 
 ## Cause 2: The Base Pixel Is Not Firing Before the Conversion Pixel
 
-The base pixel (the `t.js` tracker that registers the pageview) is what gives SealMetrics the **session context** needed to attribute a conversion. The conversion pixel does not work in isolation — it relies on the base pixel having loaded and registered the pageview **first**.
+The base pixel (the `t.js` tracker that registers the pageview) is what gives Sealmetrics the **session context** needed to attribute a conversion. The conversion pixel does not work in isolation — it relies on the base pixel having loaded and registered the pageview **first**.
 
 If the conversion pixel is called **before** the base pixel has finished loading and registering the pageview, the conversion request will be sent without the session it belongs to, and the platform may not be able to count or attribute it correctly.
 
@@ -141,30 +141,30 @@ Once the two primary causes above are confirmed clean, the remaining gap usually
 
 ### High likelihood
 
-1. **Offline or non-web conversions.** Phone sales, B2B reps, in-store purchases, marketplaces (Amazon, eBay, Idealista), Shopify POS. The ERP records them; SealMetrics never sees a browser event for them.
+1. **Offline or non-web conversions.** Phone sales, B2B reps, in-store purchases, marketplaces (Amazon, eBay, Idealista), Shopify POS. The ERP records them; Sealmetrics never sees a browser event for them.
 2. **Recurring subscriptions and automatic renewals.** Stripe, Chargebee, GoCardless renew on the server every cycle. The ERP books the revenue; no browser session is generated.
 3. **Orders created in the back office.** Manual entries from sales agents, CSV imports, B2B invoices, customer-service-issued orders. These never reach the browser.
 4. **Confirmation page hosted off-domain or skipped entirely.** Stripe Checkout, PayPal, Redsys, Bizum, bank transfer, and 3DS flows often redirect the user away and either return to a thank-you page without the pixel or complete server-side (PayPal IPN, webhook fulfillment) without the user ever loading a confirmation page.
-5. **The ERP counts pending, fraudulent, or cancelled orders.** Created but unpaid, chargebacks, refunds, test orders, and abandoned-but-saved carts inflate the ERP total. SealMetrics only counts conversions whose pixel fired.
+5. **The ERP counts pending, fraudulent, or cancelled orders.** Created but unpaid, chargebacks, refunds, test orders, and abandoned-but-saved carts inflate the ERP total. Sealmetrics only counts conversions whose pixel fired.
 
 ### Medium likelihood
 
-6. **Ad blockers and script blocking.** Brave Shields, uBlock Origin, Ghostery, AdGuard DNS, Pi-hole, and corporate proxies can still block the `t.js` script by domain or heuristic — even though SealMetrics is consentless and does not set cookies. Mitigate with [first-party tracking](/implementation/tracker/first-party).
+6. **Ad blockers and script blocking.** Brave Shields, uBlock Origin, Ghostery, AdGuard DNS, Pi-hole, and corporate proxies can still block the `t.js` script by domain or heuristic — even though Sealmetrics is consentless and does not set cookies. Mitigate with [first-party tracking](/implementation/tracker/first-party).
 7. **Conversion code present but not fired for every variant of the flow.** The `conv()` call exists for credit-card checkout but not for PayPal, only on desktop but not on the mobile theme, only on the first purchase but not on upsells or one-click reorders, only in the default language but not on translated checkouts.
 8. **SPA routing and JavaScript errors.** Next.js / React / Vue checkouts where the route change does not re-run the conversion script, or an unrelated JS error earlier in the page aborts execution before `sealmetrics.conv()` runs.
 
 ### Lower likelihood
 
-9. **Attribution-window or accounting-date mismatch.** The ERP books the conversion on payment-capture date; SealMetrics records it on event date. Same conversions, different buckets at the boundary of the period — looks like "missing" conversions on the edges.
+9. **Attribution-window or accounting-date mismatch.** The ERP books the conversion on payment-capture date; Sealmetrics records it on event date. Same conversions, different buckets at the boundary of the period — looks like "missing" conversions on the edges.
 10. **Pixel installed on the main domain only.** The checkout lives on `pay.example.com`, `checkout.example.com`, a separate landing-page builder (Unbounce, Instapage), a country-specific subdomain, or a partner site — and the base pixel was never added there.
 11. **Agent or bot filtering.** Traffic classified as bot or agent is excluded from the human conversion reports. A legitimate user behind unusual automation tooling can end up filtered. See [Bot detection](/security-privacy/bot-detection).
-12. **Timezone of day-cutoff mismatch.** SealMetrics rolls the day in the account timezone (`accounts.timezone`); the ERP may roll in UTC or in a different timezone. Around the day boundary the totals shift.
+12. **Timezone of day-cutoff mismatch.** Sealmetrics rolls the day in the account timezone (`accounts.timezone`); the ERP may roll in UTC or in a different timezone. Around the day boundary the totals shift.
 
 ### Edge cases
 
 13. **IP blocklist.** Datacenter ranges, internal corporate IPs, or known abusive IPs configured at the site level. A real customer behind one of those — for example, on a corporate VPN — will not be registered.
 14. **Pipeline loss under load.** Spikes that exceed buffer capacity, transient network errors between the browser and the pixel ingest endpoint, or temporary back-end issues. Rare, but possible.
-15. **Session-level deduplication.** A user who double-submits the checkout form in the same session counts as one conversion in SealMetrics; the ERP may register two orders (one of which is usually voided afterwards).
+15. **Session-level deduplication.** A user who double-submits the checkout form in the same session counts as one conversion in Sealmetrics; the ERP may register two orders (one of which is usually voided afterwards).
 
 ---
 
@@ -180,7 +180,7 @@ Before contacting support about a large discrepancy, run through this list:
 - [ ] You are comparing **the same window of time and the same timezone** in both systems.
 - [ ] You are excluding **refunds, cancellations, and test orders** when reconciling.
 
-If all of the above check out and the discrepancy is still substantial, contact **support@sealmetrics.com** with a sample order ID present in your ERP but missing in SealMetrics, and we will trace the request.
+If all of the above check out and the discrepancy is still substantial, contact **support@sealmetrics.com** with a sample order ID present in your ERP but missing in Sealmetrics, and we will trace the request.
 
 ---
 

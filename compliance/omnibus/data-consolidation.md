@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/omnibus/data-consolidation.md"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Data Law Consolidation: From 5 Acts to 2

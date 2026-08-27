@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/cnil-self-assessment.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # CNIL Self-Assessment: Sealmetrics Compliance

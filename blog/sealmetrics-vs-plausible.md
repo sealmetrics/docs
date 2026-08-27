@@ -9,7 +9,7 @@ content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "sealmetrics-vs-plausible.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Sealmetrics vs Plausible: Which is Better? [2026 Comparison]

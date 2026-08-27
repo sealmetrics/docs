@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/insights/how-to-track-social-ads-campaigns.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How to Track Social Ads Campaigns

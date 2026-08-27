@@ -3,13 +3,13 @@ title: "BigQuery Integration"
 description: "Sync Sealmetrics analytics to Google BigQuery with hourly or daily schedules, backfill options, and BI tool integration"
 canonical_url: "https://docs.sealmetrics.com/api/bigquery"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "7de95e9c433e73c857a01e46d14b77ee40eadde2745965e104e6f39fdae55f72"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "d1aab69334ff10552c17883acdda18fe22fc4c8445dcafa7b016e08cb09f6e05"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/bigquery.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # BigQuery Integration
@@ -389,7 +389,7 @@ Returns detailed information for a single sync operation, including per-table re
 
 ## Schema Information
 
-SealMetrics is a **cookieless, aggregated** analytics platform. The BigQuery export is a **star schema** of pre-aggregated daily (and optionally hourly) facts — there is **no session-, visitor-, or event-level data**. Every fact table is aggregated by `date` and a set of dimensions (UTM, geo, device, channel).
+Sealmetrics is a **cookieless, aggregated** analytics platform. The BigQuery export is a **star schema** of pre-aggregated daily (and optionally hourly) facts — there is **no session-, visitor-, or event-level data**. Every fact table is aggregated by `date` and a set of dimensions (UTM, geo, device, channel).
 
 The tables created depend on the integration's `data_types`:
 
@@ -413,7 +413,7 @@ All fact tables are partitioned by `date` and clustered (primarily by `account_i
 GET /integrations/bigquery/schema
 ```
 
-Returns the schema for all BigQuery tables that SealMetrics creates. This endpoint does not require an `account_id` — it describes the static star-schema definition.
+Returns the schema for all BigQuery tables that Sealmetrics creates. This endpoint does not require an `account_id` — it describes the static star-schema definition.
 
 **Response:**
 
@@ -596,7 +596,7 @@ Per-sync audit record, always created.
 | `tables_synced` | STRING (REPEATED) | Tables included in the sync |
 | `total_rows` | INT64 | Total rows synced |
 | `duration_seconds` | FLOAT64 | Sync duration |
-| `sealmetrics_version` | STRING | SealMetrics export version |
+| `sealmetrics_version` | STRING | Sealmetrics export version |
 
 ---
 

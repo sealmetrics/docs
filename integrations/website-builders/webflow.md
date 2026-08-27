@@ -3,13 +3,13 @@ title: "Webflow"
 description: "Add Sealmetrics cookieless analytics to Webflow by pasting a script in Project Settings > Custom Code, with automatic event and lead form tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/website-builders/webflow"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "aaee74d5269f04feec1503067410f90beeba1c082fecc802d01ce4403098cca6"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "60bd1c1964e28151a9e3d5648d0e1e21d7a01d724d52ecfbe36f0ec252d00ed6"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/website-builders/webflow.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Webflow
@@ -24,7 +24,7 @@ Privacy-first, cookieless analytics for Webflow sites with automatic event track
 
 1. Go to **Project Settings > Custom Code**
 2. In the **Head Code** section, paste the entire contents of `sealmetrics-webflow.js` wrapped in `<script>` tags
-3. Replace `YOUR_ACCOUNT_ID` with your SealMetrics Account ID
+3. Replace `YOUR_ACCOUNT_ID` with your Sealmetrics Account ID
 4. Publish your site
 
 ```html
@@ -46,7 +46,7 @@ Privacy-first, cookieless analytics for Webflow sites with automatic event track
 Edit these values at the top of the pasted script:
 
 ```javascript
-// Required: Your SealMetrics Account ID
+// Required: Your Sealmetrics Account ID
 var SEALMETRICS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID';
 
 // Optional: Track contact forms as lead conversions (default: false)
@@ -116,7 +116,7 @@ Track custom events anywhere on your site:
 
 ```html
 <script>
-// Wait for SealMetrics to load
+// Wait for Sealmetrics to load
 function trackEvent() {
   if (typeof sealmetrics !== 'undefined') {
     sealmetrics.micro('custom_event', {

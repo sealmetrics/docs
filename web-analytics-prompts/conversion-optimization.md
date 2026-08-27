@@ -1,15 +1,15 @@
 ---
 title: "Conversion Optimization"
-description: "Funnel drop-off, micro-to-macro conversion ratios, mobile-vs-desktop gaps, content group performance, and search-term opportunities. SealMetrics MCP prompts for revenue lift."
+description: "Funnel drop-off, micro-to-macro conversion ratios, mobile-vs-desktop gaps, content group performance, and search-term opportunities. Sealmetrics MCP prompts for revenue lift."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/conversion-optimization"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "67356d4cbfa0786d31083c5c781ed6072967f40f425730d983a85cd1df2aa231"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "4a804bb33dbb6723b0c741e44cc9e9e982658c033bf6b0d0efd9a66b33f524bc"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "web-analytics-prompts/02-conversion-optimization.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Conversion Optimization
@@ -18,7 +18,7 @@ Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/conversion-op
 
 Find where users drop off, which devices underperform, and which content groups deserve more investment.
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 **Best for:** CMOs, Ecommerce Managers, Sales & Direct Directors
 
 ---
@@ -26,7 +26,7 @@ Find where users drop off, which devices underperform, and which content groups 
 ## SEAL-006 — Weekly funnel drop-off alert
 
 ```text
-Using SealMetrics MCP for site {site_id}, compute the main conversion funnel week over week for the last 8 weeks.
+Using Sealmetrics MCP for site {site_id}, compute the main conversion funnel week over week for the last 8 weeks.
 
 Funnel steps (adjust if my actual funnel differs — ask me first if unclear):
 1. Landing page entrance
@@ -47,7 +47,7 @@ Output: a 5-row × 8-week matrix + an "Alerts" section underneath.
 ## SEAL-007 — Micro-to-macro conversion ratio
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 30 days.
+For site {site_id}, query Sealmetrics MCP for the last 30 days.
 
 For every micro-conversion type (add_to_cart, view_product, search, signup, view_room, etc.):
 - Total micro events
@@ -65,7 +65,7 @@ Output: 1 table + a 3-bullet "what to amplify, what to fix" summary.
 ## SEAL-008 — Top 10 landing pages and shared patterns
 
 ```text
-Using SealMetrics MCP for site {site_id}, return the top 10 landing pages by conversion rate in the last 90 days, with at least 200 entrances each.
+Using Sealmetrics MCP for site {site_id}, return the top 10 landing pages by conversion rate in the last 90 days, with at least 200 entrances each.
 
 For every page provide: URL, entrances, conversions, CR, revenue, top traffic source, top device, content group, average time on page.
 
@@ -79,7 +79,7 @@ Final block: pick 3 pages from the rest of the catalog that violate these rules 
 ## SEAL-009 — Mobile vs desktop conversion gap
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 30 days.
+For site {site_id}, query Sealmetrics MCP for the last 30 days.
 
 Per landing page (top 50 by entrances), return CR for desktop and CR for mobile, side by side, with the absolute gap and the relative gap.
 
@@ -93,7 +93,7 @@ Output: a sortable markdown table + a top-5 list of "mobile experience suspects"
 ## SEAL-010 — Conversions by content group
 
 ```text
-Using SealMetrics MCP for site {site_id}, give me a full breakdown of conversions and revenue by content group for the last 90 days.
+Using Sealmetrics MCP for site {site_id}, give me a full breakdown of conversions and revenue by content group for the last 90 days.
 
 For every content group: entrances, conversions, conversion rate, revenue, AOV (revenue / conversions), share of total revenue.
 
@@ -107,7 +107,7 @@ End with a recommendation: which content groups should get more SEO/Ads/email in
 ## SEAL-011 — Top SKUs per landing page (ecommerce)
 
 ```text
-For site {site_id}, query SealMetrics MCP using property breakdown on conversion_items.
+For site {site_id}, query Sealmetrics MCP using property breakdown on conversion_items.
 
 For each of the top 30 landing pages by revenue last 30 days, return:
 - Landing URL, conversions, revenue
@@ -123,7 +123,7 @@ Output: nested table grouped by landing page + a "missed merchandising opportuni
 ## SEAL-012 — Cart-to-purchase ratio per category (ecommerce)
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 30 days:
+Using Sealmetrics MCP for site {site_id}, for the last 30 days:
 
 1. For every product category (property `category` on micro-conversion add_to_cart and on conversion_items): count add_to_cart events and count purchases.
 2. Compute cart-to-purchase ratio per category.
@@ -139,7 +139,7 @@ For each of the top 5 leaks, suggest 2 likely causes (price, shipping, stock, pa
 ## SEAL-013 — High-intent search terms without dedicated landings
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 90 days.
+For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
 List every utm_term (paid keyword) or organic search term with 3 or more conversions that did NOT land on a URL containing the term as a slug fragment.
 

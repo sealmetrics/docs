@@ -3,22 +3,22 @@ title: "Product Properties — SKU, Size, Color, Room Type"
 description: "Use the property breakdown of conversion_items and micro-conversions to find SKU, variant, size, color, room type, and length-of-stay opportunities."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/product-properties"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "4fff4eab6921cc33fb843c99d6309ab3e5badab363ce338d9ccff162a34344b3"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "4a455ce75b1167cd0f8feb6410aa2f466897a50562a3c840ca7d2172c870dfc9"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "web-analytics-prompts/11-product-properties.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Product Properties — SKU, Size, Color, Room Type
 
 Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/product-properties
 
-The most powerful prompts in the library. They lean on SealMetrics' `conversion_items` table (one row per product, denormalized properties) and on `Map(String, String)` properties on micro-conversions like `add_to_cart`, `view_product`, `view_room`.
+The most powerful prompts in the library. They lean on Sealmetrics' `conversion_items` table (one row per product, denormalized properties) and on `Map(String, String)` properties on micro-conversions like `add_to_cart`, `view_product`, `view_room`.
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 **Pre-flight check:** before running these, confirm which properties your site actually captures. Use `list_property_keys` and `get_property_values` to validate.
 
 ---
@@ -28,7 +28,7 @@ The most powerful prompts in the library. They lean on SealMetrics' `conversion_
 ### SEAL-061 — SKUs viewed vs purchased
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 30 days:
+Using Sealmetrics MCP for site {site_id}, for the last 30 days:
 
 For every SKU that received at least 100 view_product events:
 - view_product count, add_to_cart count, purchases (from conversion_items), view-to-purchase ratio.
@@ -45,7 +45,7 @@ Output: 1 sortable table + a "investigate first" top-10 list.
 ### SEAL-062 — Add-to-cart without purchase by SKU
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 30 days.
+For site {site_id}, query Sealmetrics MCP for the last 30 days.
 
 Per SKU with more than 30 add_to_cart events:
 - Add-to-cart count, purchases, cart-to-purchase ratio.
@@ -60,7 +60,7 @@ For each, identify whether the leak is shipping cost (compare AOV vs free-shippi
 ### SEAL-063 — Worst-converting sizes (per top product)
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 60 days:
+Using Sealmetrics MCP for site {site_id}, for the last 60 days:
 
 For the top 20 products by add_to_cart, break down view-to-purchase ratio by `size` variant.
 
@@ -74,7 +74,7 @@ Output: a nested table per product. End with a "stock or size guide" recommendat
 ### SEAL-064 — Color winners and losers per category
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 90 days.
+For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
 Per product category: distribution of view_product events by `color`, distribution of purchases by `color`.
 
@@ -88,7 +88,7 @@ Output: 1 nested table by category × color. End with a 5-bullet merchandising b
 ### SEAL-065 — Price sensitivity by category
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 90 days:
+Using Sealmetrics MCP for site {site_id}, for the last 90 days:
 
 Per product category, distribute purchases by price bucket (0-25, 25-50, 50-100, 100-200, 200-500, 500+ in store currency).
 
@@ -102,7 +102,7 @@ End with a 3-bullet pricing recommendation per top-3 categories.
 ### SEAL-066 — Hidden cross-sell opportunities
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 90 days.
+For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
 For every conversion that includes more than one item in conversion_items, identify SKU pairs that co-occur. Compute pair frequency and pair lift (observed pair frequency / expected if independent).
 
@@ -116,7 +116,7 @@ End with 5 cross-sell pairs to promote on PDP and at checkout.
 ### SEAL-067 — SKUs in cart but never bought
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 30 days:
+Using Sealmetrics MCP for site {site_id}, for the last 30 days:
 
 List every SKU with more than 50 add_to_cart events and zero purchases.
 
@@ -130,7 +130,7 @@ Recommendation per SKU: pause exposure / lower price / improve PDP / check stock
 ### SEAL-068 — Orphan size-color variants
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 60 days.
+For site {site_id}, query Sealmetrics MCP for the last 60 days.
 
 For every (size, color) variant combination across the catalog: view events, purchases.
 
@@ -144,7 +144,7 @@ Output: 1 ranking table. End with a "discontinue / restock / reprice" verdict pe
 ### SEAL-069 — Discount lift per SKU
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 90 days:
+Using Sealmetrics MCP for site {site_id}, for the last 90 days:
 
 Per SKU, compare conversions with `discount_code` present vs without. Compute lift in CR and lift in revenue per session.
 
@@ -158,7 +158,7 @@ Output: ranked list of SKUs by lift, marking the bleeders. End with a 3-bullet r
 ### SEAL-070 — AOV by landing page and source
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 60 days.
+For site {site_id}, query Sealmetrics MCP for the last 60 days.
 
 Compute AOV per landing page (top 50 by entrances) and per utm_source (top 20).
 
@@ -173,7 +173,7 @@ Output: two tables (landing × AOV, source × AOV) + a 3-bullet brief.
 ### SEAL-071 — Stock-out detection (proxy)
 
 ```text
-Using SealMetrics MCP for site {site_id}, scan the last 14 days for SKUs with a sudden drop in view_product events without a corresponding drop in upstream traffic (search, listing, ads).
+Using Sealmetrics MCP for site {site_id}, scan the last 14 days for SKUs with a sudden drop in view_product events without a corresponding drop in upstream traffic (search, listing, ads).
 
 A drop is sudden if 7-day average drops more than 60% vs prior 14-day average.
 
@@ -185,7 +185,7 @@ Output: candidate SKUs likely hidden by stock-zero rules in the storefront. Cros
 ### SEAL-072 — Returning category buyers
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 90 days.
+For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
 Per category, % of purchases made by returning customers (sessions with login micro-conversion before purchase) vs new customers.
 
@@ -199,7 +199,7 @@ Output: 1 ranking + 3 retention bullets.
 ### SEAL-073 — Cart abandonment by payment method
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 30 days:
+Using Sealmetrics MCP for site {site_id}, for the last 30 days:
 
 If `payment_method` is captured on the reach_payment micro-conversion or on the conversion macro:
 Per payment method: reach_payment events, conversions, completion ratio, average AOV.
@@ -214,7 +214,7 @@ Output: 1 table + a 3-bullet recommendation.
 ### SEAL-074 — Currency mix vs country
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 60 days.
+For site {site_id}, query Sealmetrics MCP for the last 60 days.
 
 Cross `currency` from conversions with the country of origin of the session. Identify users buying in a currency that is NOT their country's default — opportunity for currency localization.
 
@@ -226,7 +226,7 @@ Output: top 10 country-currency mismatches by lost revenue potential. End with t
 ### SEAL-075 — Pareto of revenue by SKU
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 180 days:
+Using Sealmetrics MCP for site {site_id}, for the last 180 days:
 
 Build a Pareto curve of revenue by SKU. Compute how many SKUs produce 80% of total revenue and how many produce the long tail.
 
@@ -240,7 +240,7 @@ For the bottom 40% of SKUs by revenue (catalog drag), output the count, % of tot
 ### SEAL-076 — Room type oversold vs undersold
 
 ```text
-For site {site_id} (a hotel), query SealMetrics MCP for the last 90 days.
+For site {site_id} (a hotel), query Sealmetrics MCP for the last 90 days.
 
 Per `room_type`: view_room count, bookings, view-to-book ratio, revenue, average ADR.
 
@@ -254,7 +254,7 @@ End with a 3-bullet brief: which room type to feature on the homepage, which to 
 ### SEAL-077 — Pickup curve by days-to-check-in
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 90 days:
+Using Sealmetrics MCP for site {site_id}, for the last 90 days:
 
 For every booking, compute days-to-check-in = check_in - booking date (using the property `check_in` on conversions). Bucket: same-day, 1-3, 4-7, 8-14, 15-30, 31-60, 60+.
 
@@ -269,7 +269,7 @@ End with a 3-bullet revenue management recommendation.
 ### SEAL-078 — Length-of-stay opportunities
 
 ```text
-For site {site_id} (a hotel), query SealMetrics MCP for the last 90 days.
+For site {site_id} (a hotel), query Sealmetrics MCP for the last 90 days.
 
 Distribution of bookings by `nights` (length of stay), per month and per country of origin.
 
@@ -283,7 +283,7 @@ Output: 1 heatmap-style table country × month. End with 3 specific package idea
 ### SEAL-079 — Rate plan winners
 
 ```text
-Using SealMetrics MCP for site {site_id}, if `rate_plan` or `board` (BB, HB, FB, AI) is captured:
+Using Sealmetrics MCP for site {site_id}, if `rate_plan` or `board` (BB, HB, FB, AI) is captured:
 For the last 90 days, per rate plan: view-to-book ratio, bookings, revenue, ADR, average length of stay.
 
 Identify rate plans frequently viewed but rarely booked (priced wrong or competing with cheaper plan in same flow) and rate plans rarely viewed but frequently booked (under-merchandised).
@@ -296,7 +296,7 @@ Output: 1 ranking + 3-bullet packaging recommendation.
 ### SEAL-080 — Channel × room type matrix
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 90 days.
+For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
 Cross utm_source / channel with `room_type` purchased. Per channel: distribution of bookings by room type, ADR per channel, revenue contribution.
 

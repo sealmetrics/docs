@@ -3,13 +3,13 @@ title: "How to Avoid Conversions Being Attributed to “Payment”"
 description: "Learn why conversions sometimes appear with “payment” as the source and how to prevent incorrect attribution."
 canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/avoid-conversions-attributed-to-payment"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a3d44556a9cad9853836e75d6e653e7b629885f8bc80b7853accddd01da441ed"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "ca98a6827006168e7f6a05cc511efcaec62d469235173ae7b5a880b255d3bcc6"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/tracking-and-attribution-settings/avoid-conversions-attributed-to-payment.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How to Avoid Conversions Being Attributed to “Payment”
@@ -17,7 +17,7 @@ publisher: "SealMetrics"
 Canonical page: https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/avoid-conversions-attributed-to-payment
 
 When a user makes a purchase and is redirected to a payment gateway (Stripe, PayPal, Redsys…), they temporarily leave your website.
-When they return to your **thank-you page**, SealMetrics may treat it as a **new session**.
+When they return to your **thank-you page**, Sealmetrics may treat it as a **new session**.
 
 If the payment domain is not excluded, the conversion is attributed to source: **payment**.
 
@@ -32,9 +32,9 @@ For accurate marketing attribution, this must be corrected.
 
 ---
 
-## Why SealMetrics Attributes “Payment” as a Source
+## Why Sealmetrics Attributes “Payment” as a Source
 
-Because SealMetrics is **privacy-first** and does not use cookies or fingerprinting.
+Because Sealmetrics is **privacy-first** and does not use cookies or fingerprinting.
 We only detect:
 - Browser
 - OS
@@ -42,7 +42,7 @@ We only detect:
 - Timestamp
 
 So when the user returns from a third-party payment domain:
-- SealMetrics creates a new session
+- Sealmetrics creates a new session
 - And assigns its domain as the referrer
 
 Unless you register it as a **passthrough referrer**.
@@ -61,7 +61,7 @@ Example:
 2. Adds items → proceeds to checkout
 3. Pays via `payments.xyz.com`
 4. Returns to your thank-you page
-5. SealMetrics detects referrer = payment domain → Conversion is attributed incorrectly
+5. Sealmetrics detects referrer = payment domain → Conversion is attributed incorrectly
 
 ---
 

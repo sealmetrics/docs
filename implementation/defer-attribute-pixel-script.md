@@ -1,22 +1,22 @@
 ---
-title: "Why Use the Defer Attribute on the SealMetrics Pixel"
-description: "Learn why adding defer to the SealMetrics pixel script improves page load performance and prevents rendering delays without affecting tracking accuracy."
+title: "Why Use the Defer Attribute on the Sealmetrics Pixel"
+description: "Learn why adding defer to the Sealmetrics pixel script improves page load performance and prevents rendering delays without affecting tracking accuracy."
 canonical_url: "https://docs.sealmetrics.com/implementation/defer-attribute-pixel-script"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "98e1bd3cd7fa2611cc6a47e8264ba6e29ce23f6a809d67b63f864d13d2e2791c"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "debf196a271327d89d4e201d859f97474e0c5c3416eb6fc4195e14d7c506fd2d"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/defer-attribute-pixel-script.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
-# Why Use the Defer Attribute on the SealMetrics Pixel
+# Why Use the Defer Attribute on the Sealmetrics Pixel
 
 Canonical page: https://docs.sealmetrics.com/implementation/defer-attribute-pixel-script
 
-Adding `defer` to your SealMetrics pixel script is a small change with a measurable impact on page load performance. This page explains what `defer` does, why it matters for analytics scripts, and how to apply it correctly.
+Adding `defer` to your Sealmetrics pixel script is a small change with a measurable impact on page load performance. This page explains what `defer` does, why it matters for analytics scripts, and how to apply it correctly.
 
 ## What Is the Defer Attribute
 
@@ -24,9 +24,9 @@ The `defer` attribute is a standard HTML attribute for `<script>` tags. It tells
 
 Without `defer`, a `<script src="...">` tag is **render-blocking** by default: the browser stops parsing HTML, waits for the script to download and execute, and only then continues building the page.
 
-## Why It Matters for the SealMetrics Pixel
+## Why It Matters for the Sealmetrics Pixel
 
-The SealMetrics tracker is a tiny script (around 1 KB gzipped) that runs once on load, hooks the History API for SPA navigation, and sends the initial pageview. None of this work needs to happen before the page renders, so making it render-blocking only delays your content for no benefit. Adding `defer` lets the browser paint your page first and run the tracker afterward, with no loss of tracking accuracy.
+The Sealmetrics tracker is a tiny script (around 1 KB gzipped) that runs once on load, hooks the History API for SPA navigation, and sends the initial pageview. None of this work needs to happen before the page renders, so making it render-blocking only delays your content for no benefit. Adding `defer` lets the browser paint your page first and run the tracker afterward, with no loss of tracking accuracy.
 
 `defer` does **not** change what the tracker does or measures. It only changes *when* the script executes:
 
@@ -65,4 +65,4 @@ For an analytics pixel, prefer `defer` over `async`:
 - **`defer`** preserves execution order and runs after the document is parsed — predictable, and the page DOM is fully available.
 - **`async`** executes as soon as the script finishes downloading, which can happen mid-parse and in an unpredictable order relative to other scripts.
 
-Both are non-render-blocking, but `defer` gives the more reliable behavior for the SealMetrics tracker.
+Both are non-render-blocking, but `defer` gives the more reliable behavior for the Sealmetrics tracker.

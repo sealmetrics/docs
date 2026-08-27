@@ -1,22 +1,22 @@
 ---
 title: "Integrations Overview"
-description: "Connect SealMetrics with your favorite platforms, frameworks, and tools"
+description: "Connect Sealmetrics with your favorite platforms, frameworks, and tools"
 canonical_url: "https://docs.sealmetrics.com/integrations"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "6bc2745464019cd5be142d8d5c884d1ea0121db74145e248d96946b21bd21daf"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "59267d91a6cc3c5285aee3d8a0ad163e57e674918dd27b5b42ca3115f29c65ab"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/index.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Integrations Overview
 
 Canonical page: https://docs.sealmetrics.com/integrations
 
-Install SealMetrics on any platform with our official integrations. All integrations are privacy-first, cookieless, and GDPR compliant by design.
+Install Sealmetrics on any platform with our official integrations. All integrations are privacy-first, cookieless, and GDPR compliant by design.
 
 ## Platform Integrations
 

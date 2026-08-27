@@ -9,7 +9,7 @@ content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "cookieless-analytics-vs-cookie-based.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Cookie-Based vs Cookieless Analytics: Technical Comparison

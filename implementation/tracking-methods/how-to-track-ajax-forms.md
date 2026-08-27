@@ -1,15 +1,15 @@
 ---
 title: "How to Track AJAX Forms"
-description: "Track form submissions and conversions from AJAX forms with SealMetrics. Works with any JavaScript framework."
+description: "Track form submissions and conversions from AJAX forms with Sealmetrics. Works with any JavaScript framework."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-ajax-forms"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "b3bc87198b1389ba020d37c1dd8f16c56e129bb1560c5b3326c74bae089831a3"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "3a6d1161f23534825ef039e24b9a1ead9b5d46398d25c060fd1d4996d0ca5aa5"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/tracking-methods/how-to-track-ajax-forms.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How to Track AJAX Forms
@@ -22,7 +22,7 @@ Track conversions when AJAX forms are submitted successfully.
 
 ## Prerequisites
 
-Ensure the SealMetrics tracker is installed on your page:
+Ensure the Sealmetrics tracker is installed on your page:
 
 ```html
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>

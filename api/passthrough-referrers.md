@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/passthrough-referrers.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Passthrough Referrers

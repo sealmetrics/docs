@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/oauth.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # OAuth 2.1

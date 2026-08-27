@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/gtm-consent-mode-blocking.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Sealmetrics Tag Not Firing in GTM (Consent Mode)

@@ -3,13 +3,13 @@ title: "Preserve Attribution Through External Login or SSO Flows"
 description: "Learn how to keep the original traffic source when your signup or login flow passes through an external authentication domain (SSO) and returns to your site."
 canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/external-auth-sso-attribution"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "b4923664d6ed4ecde23d60d088e581a792e4e6ccb9fbcf3ac9ab2b25203ffd00"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "c65977a6c0a1ce3c86aa887ecd2576951726da8472069ca40c24109a9c88c147"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/tracking-and-attribution-settings/external-auth-sso-attribution.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Preserve Attribution Through External Login or SSO Flows
@@ -34,10 +34,10 @@ This guide explains why this happens and how to fix it.
 
 ## Why the Source Becomes "Referral"
 
-SealMetrics counts a new **entrance** when the referrer is empty or comes from a domain different from your own.
+Sealmetrics counts a new **entrance** when the referrer is empty or comes from a domain different from your own.
 
 - `www.yourproduct.com` → `app.yourproduct.com` is **cross-subdomain navigation** of the same root domain. It is treated as internal navigation — session and attribution are preserved. See [Referral vs Direct Traffic](/reports/insights/referral-vs-direct-traffic).
-- `accounts.yourcompany.com` → `app.yourproduct.com` is a **cross-domain jump**. The auth domain becomes the referrer, SealMetrics detects a new entrance, and the original source (SEO, Paid, Email…) is overwritten by **Referral**.
+- `accounts.yourcompany.com` → `app.yourproduct.com` is a **cross-domain jump**. The auth domain becomes the referrer, Sealmetrics detects a new entrance, and the original source (SEO, Paid, Email…) is overwritten by **Referral**.
 
 The problem is never the subdomain change — it is the external domain in the middle of the journey.
 
@@ -63,7 +63,7 @@ curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id
 
 Add every external domain in the journey the same way. Entries can be listed, updated, and deleted through the same API — see the [Passthrough Referrers API reference](/api/passthrough-referrers).
 
-Once excluded, SealMetrics ignores that domain as a referrer. When the user returns from the auth flow, the original session source remains active, and the conversion inherits the real acquisition channel.
+Once excluded, Sealmetrics ignores that domain as a referrer. When the user returns from the auth flow, the original session source remains active, and the conversion inherits the real acquisition channel.
 
 This is the same mechanism used to [avoid conversions attributed to payment gateways](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer).
 
@@ -73,7 +73,7 @@ This is the same mechanism used to [avoid conversions attributed to payment gate
 
 To attribute conversions correctly when acquisition happens on your public website and conversion happens in your app:
 
-1. **Same Account ID everywhere** — install the same SealMetrics pixel on the public site (`www.`) and the app (`app.`). See the [SaaS implementation guide](/use-cases/saas).
+1. **Same Account ID everywhere** — install the same Sealmetrics pixel on the public site (`www.`) and the app (`app.`). See the [SaaS implementation guide](/use-cases/saas).
 2. **Exclude external auth domains** — register every third-party domain in the journey (SSO, identity provider, payment gateway) as a [passthrough referrer](/api/passthrough-referrers).
 3. **Differentiate areas with content grouping** — use `group=marketing`, `group=app`, etc., to keep reports readable. See [Content Grouping](/platform/settings/tracking/content-grouping).
 4. **Track signup as a conversion** — fire the conversion on the post-signup page (e.g. email verification completed) so it inherits the session source.

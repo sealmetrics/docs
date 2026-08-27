@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/insights/what-is-a-term.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # What Is a TERM in Sealmetrics?

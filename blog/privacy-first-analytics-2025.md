@@ -3,13 +3,13 @@ title: "Privacy-First Analytics: Why It Matters"
 description: "Privacy-first analytics is now essential. GDPR enforcement and cookie phase-outs make consentless, cookieless analytics the only sustainable path."
 canonical_url: "https://docs.sealmetrics.com/blog/privacy-first-analytics-2025"
 lang: "en"
-date_generated: "2026-08-12T11:53:36.394Z"
-source_hash: "2cb1322c1ed167dbc370b7c314a0c6e4a3ce9fbf3cecf1f7b83f86497e7b6394"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "dcb2b103efb68c5085761ad5488088ee003679e7785ecfb4e9f94e0d98810771"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "privacy-first-analytics-2025.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Privacy-First Analytics: Why It Matters
@@ -435,7 +435,7 @@ Yes — but note *how*. A properly cookieless, consentless tool doesn't rely on 
 - Purpose limitation (analytics only, not advertising)
 - User rights respected (privacy policy, right to object)
 
-**Sealmetrics** is built around this position and has passed DPO reviews in Germany, France, and other strict jurisdictions. Those are customer assessments — no supervisory authority certifies analytics tools, and SealMetrics holds no ISO 27001 or SOC 2 certification.
+**Sealmetrics** is built around this position and has passed DPO reviews in Germany, France, and other strict jurisdictions. Those are customer assessments — no supervisory authority certifies analytics tools, and Sealmetrics holds no ISO 27001 or SOC 2 certification.
 
 ### Do I need a cookie consent banner with consentless analytics?
 

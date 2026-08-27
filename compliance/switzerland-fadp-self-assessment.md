@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/switzerland-fadp-self-assessment.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Switzerland FADP Self-Assessment: Sealmetrics Compliance

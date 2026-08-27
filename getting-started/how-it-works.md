@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "getting-started/how-it-works.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How It Works

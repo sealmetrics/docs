@@ -3,13 +3,13 @@ title: "What Is This Domain in My Cookie Audit?"
 description: "A lookup table of the external domains analytics tools contact — Adobe, GA4, Mixpanel, PostHog, Piwik PRO and others. Which tool owns each one, and where it resolves."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/third-party-analytics-domains"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "d835ccacbd8d1b1b71ac7c63daf04333b8156cb133b226553a020cb2fae4f580"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "3757c9dd9c57d98ea371324849c781f78de0311b227489866c396d3eb0a69a5b"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "security-privacy/third-party-analytics-domains.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # What Is This Domain in My Cookie Audit?
@@ -36,7 +36,7 @@ Sorted alphabetically by domain, which is how you will be reading it.
 | `assets.adobedtm.com` | Adobe Launch | Tag manager delivery | Third | Akamai CDN |
 | `cdn.mxpnl.com` | Mixpanel | Library delivery | Third | US |
 | `cdn.usefathom.com` | Fathom Analytics | Script and collection | Third | — |
-| `collect.yourdomain.com` | SealMetrics | Collection, on your own subdomain | **First** | Your DNS |
+| `collect.yourdomain.com` | Sealmetrics | Collection, on your own subdomain | **First** | Your DNS |
 | `d1.sc.omtrdc.net` | Adobe Analytics | Collection | Third | — |
 | `.demdex.net` | Adobe Experience Cloud ID | Identity and ID sync | Third | AWS Dublin |
 | `dpm.demdex.net` | Adobe Experience Cloud ID | ID sync endpoint | Third | AWS Dublin |
@@ -125,6 +125,6 @@ Domains with enough going on to need their own page:
 ## 6. Related documentation
 
 - [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without storing anything on the device, so Article 5(3) is never engaged
-- [What We Track](/security-privacy/what-we-track) — the full list of what SealMetrics collects
+- [What We Track](/security-privacy/what-we-track) — the full list of what Sealmetrics collects
 - [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints
-- [Data Location](/security-privacy/data-location) — where SealMetrics processes and stores data
+- [Data Location](/security-privacy/data-location) — where Sealmetrics processes and stores data

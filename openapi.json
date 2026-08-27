@@ -1,12 +1,12 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "SealMetrics API",
+    "title": "Sealmetrics API",
     "version": "2.0.0",
-    "description": "SealMetrics provides **first-party, cookie-free analytics** that deliver accurate marketing attribution and conversion tracking. Our powerful REST API gives you complete access to your analytics data:\n\n- **Real-time analytics** with accurate traffic and conversion data\n- **ROAS tracking** to measure return on ad spend across all channels\n- **Conversion & microconversion tracking** for complete funnel visibility\n- **UTM-based attribution** with multi-touch journey analysis\n- **Offline conversion support** for phone calls, CRM events, and more\n- **GDPR-compliant** first-party tracking without cookies\n\n## Getting Started\n\n1. [Create a SealMetrics account](https://my.sealmetrics.com/register)\n2. Obtain your API credentials from the dashboard\n3. Authenticate using the `/auth/login` endpoint\n4. Use the Bearer token for all subsequent requests\n\n## Developer Resources\n\n- [API Documentation](https://docs.sealmetrics.com/api)\n- [Implementation Guides](https://docs.sealmetrics.com/api/implementation-guide)\n- [Rate Limits & Best Practices](https://docs.sealmetrics.com/api/appendix/understanding-rate-limits)\n\n## Support\n\nNeed help? Contact us at [support@sealmetrics.com](mailto:support@sealmetrics.com)",
+    "description": "Sealmetrics provides **first-party, cookie-free analytics** that deliver accurate marketing attribution and conversion tracking. Our powerful REST API gives you complete access to your analytics data:\n\n- **Real-time analytics** with accurate traffic and conversion data\n- **ROAS tracking** to measure return on ad spend across all channels\n- **Conversion & microconversion tracking** for complete funnel visibility\n- **UTM-based attribution** with multi-touch journey analysis\n- **Offline conversion support** for phone calls, CRM events, and more\n- **GDPR-compliant** first-party tracking without cookies\n\n## Getting Started\n\n1. [Create a Sealmetrics account](https://my.sealmetrics.com/register)\n2. Obtain your API credentials from the dashboard\n3. Authenticate using the `/auth/login` endpoint\n4. Use the Bearer token for all subsequent requests\n\n## Developer Resources\n\n- [API Documentation](https://docs.sealmetrics.com/api)\n- [Implementation Guides](https://docs.sealmetrics.com/api/implementation-guide)\n- [Rate Limits & Best Practices](https://docs.sealmetrics.com/api/appendix/understanding-rate-limits)\n\n## Support\n\nNeed help? Contact us at [support@sealmetrics.com](mailto:support@sealmetrics.com)",
     "termsOfService": "https://sealmetrics.com/terms",
     "contact": {
-      "name": "SealMetrics Support",
+      "name": "Sealmetrics Support",
       "email": "support@sealmetrics.com",
       "url": "https://docs.sealmetrics.com/api"
     },
@@ -16,7 +16,7 @@
     },
     "x-logo": {
       "url": "https://docs.sealmetrics.com/img/logo.svg",
-      "altText": "SealMetrics Logo"
+      "altText": "Sealmetrics Logo"
     }
   },
   "paths": {
@@ -25100,7 +25100,7 @@
           "BigQuery Integration"
         ],
         "summary": "Delete BigQuery integration",
-        "description": "Delete BigQuery integration.\n\n**Important:** This only removes the integration configuration from SealMetrics.\nData already synced to BigQuery is NOT deleted - the client retains full\nownership of their BigQuery data.",
+        "description": "Delete BigQuery integration.\n\n**Important:** This only removes the integration configuration from Sealmetrics.\nData already synced to BigQuery is NOT deleted - the client retains full\nownership of their BigQuery data.",
         "operationId": "delete_bigquery_integration_api_v1_integrations_bigquery_delete",
         "security": [
           {
@@ -25658,7 +25658,7 @@
           "BigQuery Integration"
         ],
         "summary": "Get BigQuery table schemas",
-        "description": "Get the schema for all BigQuery tables that SealMetrics creates.\n\n**Star Schema Design:**\n- fact_* tables: Fact tables with metrics and dimensions\n- dim_* tables: Dimension tables for lookups and context\n- sync_metadata: Auditing and transparency\n\nThis is useful for:\n- Understanding what data will be synced\n- Building custom queries in BigQuery\n- Documentation purposes",
+        "description": "Get the schema for all BigQuery tables that Sealmetrics creates.\n\n**Star Schema Design:**\n- fact_* tables: Fact tables with metrics and dimensions\n- dim_* tables: Dimension tables for lookups and context\n- sync_metadata: Auditing and transparency\n\nThis is useful for:\n- Understanding what data will be synced\n- Building custom queries in BigQuery\n- Documentation purposes",
         "operationId": "get_bigquery_schema_api_v1_integrations_bigquery_schema_get",
         "responses": {
           "200": {
@@ -44913,7 +44913,7 @@
     }
   ],
   "externalDocs": {
-    "description": "SealMetrics API documentation",
+    "description": "Sealmetrics API documentation",
     "url": "https://docs.sealmetrics.com/api"
   },
   "security": [

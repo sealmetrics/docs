@@ -9,7 +9,7 @@ content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "cookie-banner-ghosting-data-loss.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Cookie Banner Ghosting: Why Analytics Loses 15-60% of Your Data

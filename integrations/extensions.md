@@ -1,22 +1,22 @@
 ---
 title: "Desktop Extension (.mcpb)"
-description: "Reference for the SealMetrics Desktop Extension for Claude — the one-click .mcpb bundle. Install, configure, update, and uninstall, plus the full settings reference."
+description: "Reference for the Sealmetrics Desktop Extension for Claude — the one-click .mcpb bundle. Install, configure, update, and uninstall, plus the full settings reference."
 canonical_url: "https://docs.sealmetrics.com/integrations/extensions"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e2ef5d2399a31c4d395d73145860c8bca9f794b05fcfcef54d238f2153a327c4"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "ed5375b6f087bd5712a085d1066302a2774d7bc4800a46af629391f768c0dfa0"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/extensions.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Desktop Extension (.mcpb)
 
 Canonical page: https://docs.sealmetrics.com/integrations/extensions
 
-The **SealMetrics Desktop Extension** is a one-click bundle (`.mcpb`) that adds SealMetrics analytics to **Claude Desktop** — no terminal, no `npx`, no JSON config. Download it, double-click, and you're done.
+The **Sealmetrics Desktop Extension** is a one-click bundle (`.mcpb`) that adds Sealmetrics analytics to **Claude Desktop** — no terminal, no `npx`, no JSON config. Download it, double-click, and you're done.
 
 This page is the **reference** for the extension itself (install, settings, updates). For the guided flows, see:
 
@@ -33,14 +33,14 @@ This page is the **reference** for the extension itself (install, settings, upda
 
 | | |
 |---|---|
-| **Name** | SealMetrics Analytics |
+| **Name** | Sealmetrics Analytics |
 | **Type** | Claude Desktop Extension — MCP bundle (`.mcpb`) |
 | **Latest version** | `1.3.0` |
 | **Package** | [`@sealmetrics/mcp`](https://www.npmjs.com/package/@sealmetrics/mcp) (npm) |
 | **License** | MIT |
-| **Runs** | Locally inside Claude Desktop, over HTTPS to the SealMetrics API. No data stored on your machine. |
+| **Runs** | Locally inside Claude Desktop, over HTTPS to the Sealmetrics API. No data stored on your machine. |
 
-A `.mcpb` (MCP bundle) packages the SealMetrics MCP server plus its manifest so Claude Desktop can install and run it with a single click — the same server you'd otherwise wire up manually with `npx -y @sealmetrics/mcp`.
+A `.mcpb` (MCP bundle) packages the Sealmetrics MCP server plus its manifest so Claude Desktop can install and run it with a single click — the same server you'd otherwise wire up manually with `npx -y @sealmetrics/mcp`.
 
 ---
 
@@ -54,7 +54,7 @@ A `.mcpb` (MCP bundle) packages the SealMetrics MCP server plus its manifest so 
 
 ## Install
 
-1. **Download the extension:** **[Download SealMetrics for Claude Desktop](https://cdn.jsdelivr.net/npm/@sealmetrics/mcp/dist/sealmetrics.mcpb)** &nbsp;*(`sealmetrics.mcpb`)*.
+1. **Download the extension:** **[Download Sealmetrics for Claude Desktop](https://cdn.jsdelivr.net/npm/@sealmetrics/mcp/dist/sealmetrics.mcpb)** &nbsp;*(`sealmetrics.mcpb`)*.
 2. Open **Claude Desktop → Settings → Extensions**.
 3. **Drag** the `sealmetrics.mcpb` file into the window (or click **Install extension** and pick the file).
 4. Click **Install**, then make sure the extension is **enabled**.
@@ -69,8 +69,8 @@ On the extension's settings screen you'll find two fields:
 
 | Setting | Required | What it does |
 |---------|----------|--------------|
-| **SealMetrics API key** | No | **Leave empty to register a brand-new site from the chat** (the read-only analytics tools turn on automatically after you provision). Paste an **existing read-only key** to query your data immediately. Find it in your welcome email or at **Settings → API Tokens**. The key is **read-only** and scoped to your account. |
-| **API base URL** *(advanced)* | No | SealMetrics API base URL. Default: `https://my.sealmetrics.com/api/v1`. Leave as-is unless instructed otherwise. |
+| **Sealmetrics API key** | No | **Leave empty to register a brand-new site from the chat** (the read-only analytics tools turn on automatically after you provision). Paste an **existing read-only key** to query your data immediately. Find it in your welcome email or at **Settings → API Tokens**. The key is **read-only** and scoped to your account. |
+| **API base URL** *(advanced)* | No | Sealmetrics API base URL. Default: `https://my.sealmetrics.com/api/v1`. Leave as-is unless instructed otherwise. |
 
 **Info:**
 - **Empty** → "I don't have an account yet, create one for me." → see [Agentic Package](/integrations/agentic-package).
@@ -84,7 +84,7 @@ The extension registers the setup tools plus **~47 read-only analytics tools**. 
 
 | Tool | Purpose |
 |------|---------|
-| `provision_site` | Register a **new** free SealMetrics site from the chat. Returns the tracker snippet and emails a claim link. |
+| `provision_site` | Register a **new** free Sealmetrics site from the chat. Returns the tracker snippet and emails a claim link. |
 | `verify_setup` | Poll until the pixel is confirmed installed (a real pageview reached the backend). |
 | `get_setup_status` | Report whether a site is provisioned and its pixel verified. |
 | `detect_framework` | Best-effort detect your framework/CMS so the snippet is placed correctly. |
@@ -103,22 +103,22 @@ To update to a newer version:
 1. Download the latest **[`sealmetrics.mcpb`](https://cdn.jsdelivr.net/npm/@sealmetrics/mcp/dist/sealmetrics.mcpb)** (the jsDelivr link always serves the latest published build).
 2. Install it the same way — Claude Desktop replaces the existing extension and keeps your settings.
 
-You can check the installed version under **Settings → Extensions → SealMetrics Analytics**.
+You can check the installed version under **Settings → Extensions → Sealmetrics Analytics**.
 
 ---
 
 ## Uninstall
 
-Go to **Settings → Extensions → SealMetrics Analytics** and click **Remove** (or toggle it off to disable temporarily). Your SealMetrics account and data are unaffected — removing the extension only disconnects Claude Desktop.
+Go to **Settings → Extensions → Sealmetrics Analytics** and click **Remove** (or toggle it off to disable temporarily). Your Sealmetrics account and data are unaffected — removing the extension only disconnects Claude Desktop.
 
 ---
 
 ## Privacy & safety
 
-- The extension runs **locally** and talks to the SealMetrics API over HTTPS. **No analytics data is stored on your machine.**
+- The extension runs **locally** and talks to the Sealmetrics API over HTTPS. **No analytics data is stored on your machine.**
 - The API key it uses is **read-only** and scoped to your account.
 - `provision_site` is the **only** tool that writes anything, and only after you explicitly accept the [Terms of Service](https://sealmetrics.com/terms). Everything else is read-only.
-- SealMetrics is **cookieless and GDPR-compliant by design** — see [Security & Privacy](/security-privacy).
+- Sealmetrics is **cookieless and GDPR-compliant by design** — see [Security & Privacy](/security-privacy).
 
 ---
 

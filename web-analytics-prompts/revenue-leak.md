@@ -1,24 +1,24 @@
 ---
 title: "Revenue Leak Detection"
-description: "Find invisible revenue loss caused by bot traffic, broken pages, weak landing pages, and channel decay. SealMetrics MCP prompts for ICPs in hospitality and ecommerce."
+description: "Find invisible revenue loss caused by bot traffic, broken pages, weak landing pages, and channel decay. Sealmetrics MCP prompts for ICPs in hospitality and ecommerce."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/revenue-leak"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "83ac142a3034db77d92405b37dba497ae8da3b3e3addbb04126803d201e7fcf4"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "93060aae9f770793b2299ca6270e2519cd2842983668aecb4794579716619246"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "web-analytics-prompts/01-revenue-leak.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Revenue Leak Detection
 
 Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/revenue-leak
 
-Surface hidden revenue loss caused by broken landing pages, bot traffic, and decaying channels. All prompts use the SealMetrics MCP server only.
+Surface hidden revenue loss caused by broken landing pages, bot traffic, and decaying channels. All prompts use the Sealmetrics MCP server only.
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 **Best for:** CMOs, Ecommerce Managers, Sales & Direct Directors
 **Difficulty:** Basic to intermediate
 
@@ -27,7 +27,7 @@ Surface hidden revenue loss caused by broken landing pages, bot traffic, and dec
 ## SEAL-001 — High-bounce landing pages with traffic
 
 ```text
-You are a senior web analyst with access to the SealMetrics MCP for site {site_id}.
+You are a senior web analyst with access to the Sealmetrics MCP for site {site_id}.
 
 Context:
 - Today is {today}.
@@ -48,7 +48,7 @@ Output format: a markdown table sorted by lost entrances desc, followed by the t
 ## SEAL-002 — Pages with traffic but zero conversions
 
 ```text
-Using SealMetrics MCP for site {site_id}, find every page that received more than 200 visits in the last 14 days and has zero conversions AND zero micro-conversions.
+Using Sealmetrics MCP for site {site_id}, find every page that received more than 200 visits in the last 14 days and has zero conversions AND zero micro-conversions.
 
 For each page return:
 - URL, page type (landing or internal), entrances, pageviews, bounce rate, average time on page, top 3 traffic sources.
@@ -63,7 +63,7 @@ Order the table by entrances desc. Limit output to 25 pages max.
 ## SEAL-003 — Bot and agent traffic cost estimate
 
 ```text
-For site {site_id}, retrieve bot and agent-suspected traffic from SealMetrics MCP for the last quarter (last 90 days).
+For site {site_id}, retrieve bot and agent-suspected traffic from Sealmetrics MCP for the last quarter (last 90 days).
 
 Compute and report:
 1. Total sessions classified as bot or agent_suspected.
@@ -80,7 +80,7 @@ Format: 1 summary table + 1 narrative paragraph with the wasted spend estimate f
 ## SEAL-004 — Channel decay alert
 
 ```text
-Using SealMetrics MCP for site {site_id}, compare conversions and revenue by channel (utm_source / utm_medium) for the last 30 days vs the prior 30 days.
+Using Sealmetrics MCP for site {site_id}, compare conversions and revenue by channel (utm_source / utm_medium) for the last 30 days vs the prior 30 days.
 
 For each channel return:
 - Channel name, entrances current vs previous, conversions current vs previous, revenue current vs previous, % delta on each metric.
@@ -95,7 +95,7 @@ Output: 1 main table sorted by revenue lost desc, plus a "campaigns to investiga
 ## SEAL-005 — Catastrophic landing pages audit
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 30 days and return every page with ALL of the following:
+For site {site_id}, query Sealmetrics MCP for the last 30 days and return every page with ALL of the following:
 - More than 100 visits
 - Bounce rate above 85%
 - Zero micro-conversions

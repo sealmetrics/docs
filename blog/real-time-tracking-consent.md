@@ -9,7 +9,7 @@ content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "real-time-tracking-consent.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Real-Time Analytics: AEPD and CNIL Consent Rules

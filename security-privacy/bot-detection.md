@@ -1,22 +1,22 @@
 ---
 title: "Bot Detection & Traffic Quality"
-description: "How SealMetrics detects and filters bot traffic to ensure data accuracy. Multi-layer detection system protecting your analytics."
+description: "How Sealmetrics detects and filters bot traffic to ensure data accuracy. Multi-layer detection system protecting your analytics."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/bot-detection"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "bd1b884020d639153892300c9e6d217dd6379958e9c8515a82a0e2809cbc8531"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "71c376bdb3e3b5ca0a42b9e60560cb2bc03ffeb06bd38bcd44a284a5ec5f6f4e"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "security-privacy/bot-detection.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Bot Detection & Traffic Quality
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/bot-detection
 
-SealMetrics employs multiple layers of protection to ensure your analytics data reflects real human visitors, not bots or spam traffic.
+Sealmetrics employs multiple layers of protection to ensure your analytics data reflects real human visitors, not bots or spam traffic.
 
 ---
 
@@ -190,7 +190,7 @@ In your reports, look for:
 
 ## Comparison with Other Tools
 
-| Feature | SealMetrics | Google Analytics |
+| Feature | Sealmetrics | Google Analytics |
 |---------|-------------|------------------|
 | Bot filtering | Multi-layer | Single checkbox |
 | Custom blocklists | Yes | Limited |

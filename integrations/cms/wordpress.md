@@ -3,13 +3,13 @@ title: "WordPress"
 description: "Install the Sealmetrics WordPress plugin for cookieless analytics with search, 404, and Contact Form 7 lead tracking — no consent banner required."
 canonical_url: "https://docs.sealmetrics.com/integrations/cms/wordpress"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "a6331bfb8d37f7a238938db3eb93a1cf68ddd16eb34ac2e00dc9cdd36c198455"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "d3ed9dd2bf381470ed654c1f88b76c3db9e540cb4fec74cefb0e873f63fc6122"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/cms/wordpress.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # WordPress
@@ -30,7 +30,7 @@ If you're using WooCommerce, use the [WooCommerce plugin](/integrations/ecommerc
 
 ### Step 1: Download the Plugin
 
-Download the latest version of the SealMetrics WordPress plugin:
+Download the latest version of the Sealmetrics WordPress plugin:
 
 ### Step 2: Upload to WordPress
 
@@ -40,7 +40,7 @@ Download the latest version of the SealMetrics WordPress plugin:
 
 ### Step 3: Configure
 
-1. Go to **Settings > SealMetrics**
+1. Go to **Settings > Sealmetrics**
 2. Enter your **Account ID** — this is your Site ID, shown in **Settings → Sites → [your site] → General** ([how to find it](/platform/account-setup/find-account-id))
 3. Save changes
 
@@ -48,7 +48,7 @@ Download the latest version of the SealMetrics WordPress plugin:
 
 | Setting | Description |
 |---------|-------------|
-| **Account ID** | Your SealMetrics Account ID (required) |
+| **Account ID** | Your Sealmetrics Account ID (required) |
 | **Pixel URL** | Custom pixel domain for first-party tracking (optional) |
 | **Search Tracking** | Track search queries as microconversions (default on) |
 | **404 Tracking** | Track 404 errors as microconversions (default on) |
@@ -157,7 +157,7 @@ Custom post types are automatically tracked with their own content group. For ex
 
 ### Tracker not loading
 
-1. Verify Account ID is configured in **Settings > SealMetrics**
+1. Verify Account ID is configured in **Settings > Sealmetrics**
 2. Clear WordPress cache (if using a caching plugin)
 3. Clear browser cache
 4. Check browser console for JavaScript errors

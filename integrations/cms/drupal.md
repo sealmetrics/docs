@@ -3,13 +3,13 @@ title: "Drupal"
 description: "Install the Sealmetrics Drupal module (9, 10, and 11) via Composer or manually for cookieless analytics with form, search, and 404 error tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/cms/drupal"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "64221bc4459f85e702153915599c8af7b4f6c446ce8b8e78801045854d4171ad"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "dc33f28458f84a5f527eff1dc36ccc60e1a7d6efdd04e27e2928db7d57d9f6b4"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/cms/drupal.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Drupal
@@ -29,8 +29,8 @@ Privacy-first, cookieless analytics for Drupal 9, 10, and 11.
 1. Download and extract the module
 2. Copy to `modules/contrib/sealmetrics` or `modules/custom/sealmetrics`
 3. Go to **Extend** (`/admin/modules`)
-4. Enable "SealMetrics Analytics"
-5. Configure at **Configuration > System > SealMetrics Analytics**
+4. Enable "Sealmetrics Analytics"
+5. Configure at **Configuration > System > Sealmetrics Analytics**
 
 ### Option 2: Composer
 
@@ -47,7 +47,7 @@ drush en sealmetrics
 
 | Setting | Description |
 |---------|-------------|
-| **Account ID** | Your SealMetrics Account ID (required) |
+| **Account ID** | Your Sealmetrics Account ID (required) |
 | **Skip admin pages** | Don't track admin page views |
 | **Track form submissions** | Track contact forms, webforms |
 | **Track contact forms as leads** | Track as conversions instead of events |
@@ -111,7 +111,7 @@ Full support for the Webform module:
 Track custom events in your theme or module:
 
 ```javascript
-// Wait for SealMetrics to load
+// Wait for Sealmetrics to load
 (function() {
   function track() {
     if (typeof sealmetrics !== 'undefined') {

@@ -3,13 +3,13 @@ title: "Nuxt 3"
 description: "Add cookieless analytics to Nuxt 3 with the @sealmetrics/nuxt module — one entry in nuxt.config.ts auto-loads the tracker on every page, no cookies."
 canonical_url: "https://docs.sealmetrics.com/integrations/frameworks/nuxt"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4a49d98bc73898f3b58e73bef6c995f3151589ac400e00e30fa846e6763363c8"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "03cfef3df89009c875b125c2ee7fef0386e7bf68f72cc962a905ad83b2f19bb5"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/frameworks/nuxt.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Nuxt 3
@@ -52,7 +52,7 @@ That's it! The tracker will be automatically loaded on all pages.
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `accountId` | `string` | **required** | Your SealMetrics Account ID |
+| `accountId` | `string` | **required** | Your Sealmetrics Account ID |
 | `pixelUrl` | `string` | `https://t.sealmetrics.com` | Custom pixel URL |
 | `debug` | `boolean` | `false` | Enable debug logging |
 | `disabled` | `boolean` | `false` | Disable tracking |

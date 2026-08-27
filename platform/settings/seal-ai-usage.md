@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/settings/seal-ai-usage.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Seal AI Usage

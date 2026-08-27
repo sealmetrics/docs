@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/pagination-sorting.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Pagination & Filtering

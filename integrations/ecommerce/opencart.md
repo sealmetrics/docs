@@ -3,13 +3,13 @@ title: "OpenCart"
 description: "Install the Sealmetrics OpenCart extension (3.x/4.x OCMOD package) for cookieless store analytics with product view, cart, checkout, and purchase events."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/opencart"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "474aec4a7f7aa995ec5a7a33d85d2aea4a4b28d9bfe6885b7794aa1ddb3e8544"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "a3078888d368a89c2b8806f5a5c0287156172ce02a78e496986d4cd63f8fd658"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/ecommerce/opencart.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # OpenCart
@@ -32,7 +32,7 @@ Privacy-first, cookieless analytics for OpenCart stores.
 2. Go to **Extensions > Installer**
 3. Upload `sealmetrics.ocmod.zip`
 4. Go to **Extensions > Extensions > Analytics**
-5. Install **SealMetrics Analytics**
+5. Install **Sealmetrics Analytics**
 6. Click **Edit** and configure your Account ID
 7. Enable the extension and save
 
@@ -41,14 +41,14 @@ Privacy-first, cookieless analytics for OpenCart stores.
 1. Upload the `upload` folder contents to your OpenCart root
 2. Go to **Extensions > Modifications** and click **Refresh**
 3. Go to **Extensions > Analytics**
-4. Install **SealMetrics Analytics**
+4. Install **Sealmetrics Analytics**
 5. Configure your Account ID and enable
 
 ## Configuration
 
 | Setting | Description |
 |---------|-------------|
-| **Account ID** | Your SealMetrics Account ID (required) |
+| **Account ID** | Your Sealmetrics Account ID (required) |
 | **Pixel URL** | Custom pixel domain (optional) |
 | **Track Product Views** | Enable `view_item` tracking |
 | **Track Add to Cart** | Enable `add_to_cart` tracking |
@@ -153,7 +153,7 @@ sealmetrics.conv('lead', 0, {
 ## Multi-store Support
 
 For multi-store OpenCart installations:
-- Configure SealMetrics separately for each store
+- Configure Sealmetrics separately for each store
 - Use different Account IDs if needed
 - Each store tracks independently
 

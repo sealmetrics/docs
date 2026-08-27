@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/lower-numbers-than-other-tools.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Numbers Lower Than Another Tool

@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/test-traffic-blocked-as-bot.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Test Visits Not Appearing (Filtered as Bot Traffic)

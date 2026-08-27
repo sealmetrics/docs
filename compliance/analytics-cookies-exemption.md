@@ -3,13 +3,13 @@ title: "Analytics Cookies: Consent Exemption Requirements"
 description: "AEPD and EU guidance on when analytics cookies are exempt from consent requirements"
 canonical_url: "https://docs.sealmetrics.com/compliance/analytics-cookies-exemption"
 lang: "en"
-date_generated: "2026-08-12T08:55:31.400Z"
-source_hash: "11a206d0d51a53f6d130c996ac7a27ef0d87d99249943422c39e18deb25a7c5f"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "6e0683fcad967dd4e3ed6dfdd98b7ed77349b4bd79cf866a9d741d313b66f25a"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/analytics-cookies-exemption.md"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Analytics Cookies: Consent Exemption Requirements
@@ -477,7 +477,7 @@ Organizations complying with AEPD requirements today will be well-positioned for
 - [EU Digital Omnibus - Cookie Consent Reform](./omnibus/cookies-eprivacy.md) - Future framework for analytics exemption
 - [EU Digital Omnibus - Impact on Analytics](./omnibus/impact-analytics.md) - How Omnibus affects analytics industry
 - [GDPR and Cookieless Analytics](./gdpr-cookieless-analytics.md) - GDPR compliance without cookies
-- [Does SealMetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) - CNIL consent-exemption criteria in practice
+- [Does Sealmetrics comply with CNIL guidelines?](/compliance/cnil-self-assessment) - CNIL consent-exemption criteria in practice
 - [CNIL Self-Assessment: Sealmetrics Compliance](/compliance/cnil-self-assessment) - Point-by-point evaluation against the exemption criteria
 - [UK PECR Self-Assessment: Sealmetrics Compliance](/compliance/uk-pecr-self-assessment) - The equivalent UK analytics exemption under DUAA 2025
 

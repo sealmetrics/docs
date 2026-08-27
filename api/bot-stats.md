@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/bot-stats.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Bot Stats

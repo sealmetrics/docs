@@ -1,22 +1,22 @@
 ---
 title: "Organizations"
-description: "Manage organizations, team members, roles, invitations, and site-level access in the SealMetrics multi-tenancy model"
+description: "Manage organizations, team members, roles, invitations, and site-level access in the Sealmetrics multi-tenancy model"
 canonical_url: "https://docs.sealmetrics.com/api/organizations"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e670899139c8d01d6dea0041b518e02079f80c024080caa242b94515e3bdc04b"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "49c6b787cd6b71d45418af895fa472fc9d32a0106847ec1100fe72d914fed71e"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/organizations.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Organizations
 
 Canonical page: https://docs.sealmetrics.com/api/organizations
 
-Complete reference for managing organizations, team members, site access, and invitations in SealMetrics multi-tenancy system.
+Complete reference for managing organizations, team members, site access, and invitations in Sealmetrics multi-tenancy system.
 
 ## Overview
 
@@ -33,7 +33,7 @@ The Organizations API allows you to:
 
 ## Understanding Multi-Tenancy
 
-SealMetrics uses a three-level access model:
+Sealmetrics uses a three-level access model:
 
 ```
 Users <--M:N--> Organizations <--1:N--> Sites
@@ -543,7 +543,7 @@ Removes a member's access to a specific site.
 
 ## Invitation Endpoints
 
-Invitations allow you to add team members who don't have a SealMetrics account yet.
+Invitations allow you to add team members who don't have a Sealmetrics account yet.
 
 ### List Invitations
 

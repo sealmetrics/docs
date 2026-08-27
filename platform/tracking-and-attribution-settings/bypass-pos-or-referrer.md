@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/tracking-and-attribution-settings/bypass-pos-or-referrer.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Bypass POS or Referrer

@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "security-privacy/adblocker-bypass.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Why Sealmetrics Is Not Blocked by AdBlockers

@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "lens/seal-ai/internal-benchmark.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Seal AI Internal Benchmark (Bilingual, July 2026)

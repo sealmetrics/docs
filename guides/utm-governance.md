@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "guides/utm-governance.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # UTM Governance: Naming Conventions That Keep Attribution Clean

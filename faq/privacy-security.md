@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "faq/privacy-security.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Frequently Asked Questions

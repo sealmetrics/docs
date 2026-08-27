@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "lens/anomaly-detection/rule-types.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Detection Rules Catalog

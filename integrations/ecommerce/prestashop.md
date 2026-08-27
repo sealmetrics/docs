@@ -3,13 +3,13 @@ title: "PrestaShop"
 description: "Privacy-first, cookieless analytics for PrestaShop 1.7+ and 8.x stores"
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/prestashop"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a952d673b638a1cdd59ce73c26762e824f283eae5c97aeda5e820acd100c826b"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "9a00896122c1e3e2a20113c8b48f7250c9f63cb4521a005164112b7bb6c13d5a"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/ecommerce/prestashop.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # PrestaShop
@@ -35,7 +35,7 @@ Privacy-first, cookieless analytics for PrestaShop 1.7+ and 8.x stores.
 
 | Setting | Description |
 |---------|-------------|
-| **Account ID** | Your SealMetrics Account ID (required) |
+| **Account ID** | Your Sealmetrics Account ID (required) |
 | **Pixel URL** | Custom pixel domain (optional) |
 
 ## Tracked Events

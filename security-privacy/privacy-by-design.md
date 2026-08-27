@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "security-privacy/privacy-by-design.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Privacy by Design Principles

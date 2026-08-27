@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/data-delay.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Data Taking Longer Than Expected to Appear

@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/italy-garante-self-assessment.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Italy Garante Self-Assessment: Sealmetrics Compliance

@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/duplicate-pageviews.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Duplicate Pageviews

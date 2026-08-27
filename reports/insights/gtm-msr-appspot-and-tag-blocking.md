@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/insights/gtm-msr-appspot-and-tag-blocking.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # What is gtm-msr.appspot.com and How to Prevent It from Triggering Tags in GTM

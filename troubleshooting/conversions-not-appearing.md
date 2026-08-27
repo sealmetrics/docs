@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/conversions-not-appearing.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Conversions Not Appearing

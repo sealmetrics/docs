@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "security-privacy/account-security/ip-allowlist.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # IP Allowlist
