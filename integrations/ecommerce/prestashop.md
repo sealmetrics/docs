@@ -3,8 +3,8 @@ title: "PrestaShop"
 description: "Privacy-first, cookieless analytics for PrestaShop 1.7+ and 8.x stores"
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/prestashop"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "9a00896122c1e3e2a20113c8b48f7250c9f63cb4521a005164112b7bb6c13d5a"
+date_generated: "2026-08-27T14:52:37.188Z"
+source_hash: "b709473a2bfb0ec605ba53827a8961cc929aa468c77af190fc483a92a80ec898"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -25,7 +25,7 @@ Privacy-first, cookieless analytics for PrestaShop 1.7+ and 8.x stores.
 
 ## Installation
 
-1. Download `sealmetrics-prestashop.zip`
+1. Download `sealmetrics-prestashop.zip` from our [integrations page](https://sealmetrics.com/integrations/)
 2. Go to **PrestaShop Admin > Modules > Module Manager**
 3. Click **Upload a module**
 4. Upload the ZIP file

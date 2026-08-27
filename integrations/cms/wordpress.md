@@ -3,8 +3,8 @@ title: "WordPress"
 description: "Install the Sealmetrics WordPress plugin for cookieless analytics with search, 404, and Contact Form 7 lead tracking — no consent banner required."
 canonical_url: "https://docs.sealmetrics.com/integrations/cms/wordpress"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "d3ed9dd2bf381470ed654c1f88b76c3db9e540cb4fec74cefb0e873f63fc6122"
+date_generated: "2026-08-27T14:52:37.188Z"
+source_hash: "229943d3ac58a40532e1c2812ddaab48a1e3d356a7c5ef25a25f6345c27f04f9"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -28,9 +28,9 @@ If you're using WooCommerce, use the [WooCommerce plugin](/integrations/ecommerc
 
 ## Installation
 
-### Step 1: Download the Plugin
+### Step 1: Get the Plugin
 
-Download the latest version of the Sealmetrics WordPress plugin:
+Download the Sealmetrics WordPress plugin from our [integrations page](https://sealmetrics.com/integrations/).
 
 ### Step 2: Upload to WordPress
 
