@@ -3,8 +3,8 @@ title: "Joomla"
 description: "Install the Sealmetrics Joomla plugin (4.x and 5.x) for cookieless analytics with form, newsletter, search, and 404 tracking — no consent banner needed."
 canonical_url: "https://docs.sealmetrics.com/integrations/cms/joomla"
 lang: "en"
-date_generated: "2026-08-27T14:52:37.188Z"
-source_hash: "a4def7149db26bc848f919d805c4394baa768fb5d8e3d659c603f80e288ebc5a"
+date_generated: "2026-08-27T15:00:33.527Z"
+source_hash: "4a9670347c171683154532349daf5bea3fdd9aad79ca77212155d9a17ee73cba"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -25,7 +25,7 @@ Privacy-first, cookieless analytics for Joomla 4.x and 5.x.
 
 ## Installation
 
-1. Download `sealmetrics-joomla.zip` from our [integrations page](https://sealmetrics.com/integrations/)
+1. Download `sealmetrics-joomla.zip` from your Sealmetrics dashboard, under **Settings → Integrations**
 2. Go to **System > Install > Extensions**
 3. Upload and install the ZIP file
 4. Go to **System > Manage > Plugins**

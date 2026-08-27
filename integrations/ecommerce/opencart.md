@@ -3,8 +3,8 @@ title: "OpenCart"
 description: "Install the Sealmetrics OpenCart extension (3.x/4.x OCMOD package) for cookieless store analytics with product view, cart, checkout, and purchase events."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/opencart"
 lang: "en"
-date_generated: "2026-08-27T14:52:37.188Z"
-source_hash: "4235bc5bd55ed698815eea91c6a463e216dde206ca0797d66fec0cc948957a2b"
+date_generated: "2026-08-27T15:00:33.527Z"
+source_hash: "0a9efc811460f38d51770dd7ffa68715e5f92ff87cd0f0f46dbbebb1b65c0c84"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -28,7 +28,7 @@ Privacy-first, cookieless analytics for OpenCart stores.
 
 ### OpenCart 4.x
 
-1. Download the extension package from our [integrations page](https://sealmetrics.com/integrations/)
+1. Download the extension package from your Sealmetrics dashboard, under **Settings → Integrations**
 2. Go to **Extensions > Installer**
 3. Upload `sealmetrics.ocmod.zip`
 4. Go to **Extensions > Extensions > Analytics**
