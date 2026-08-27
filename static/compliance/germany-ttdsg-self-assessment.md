@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/germany-ttdsg-self-assessment.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Germany TTDSG/TDDDG Self-Assessment: Sealmetrics Compliance

@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "getting-started/index.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # First Steps Overview

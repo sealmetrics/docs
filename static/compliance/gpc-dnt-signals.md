@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/gpc-dnt-signals.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Global Privacy Control (GPC) and Do Not Track (DNT)

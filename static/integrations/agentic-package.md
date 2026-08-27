@@ -1,24 +1,24 @@
 ---
 title: "AI Agentic Package (Claude & Codex)"
-description: "One-click AI package that creates a free SealMetrics account, hands you the tracking pixel, and lets your AI assistant query your analytics — all from chat, no terminal and no dashboard login required to start."
+description: "One-click AI package that creates a free Sealmetrics account, hands you the tracking pixel, and lets your AI assistant query your analytics — all from chat, no terminal and no dashboard login required to start."
 canonical_url: "https://docs.sealmetrics.com/integrations/agentic-package"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "bca510ed4d175ff364b07639f6a158e6baedc688a1406d7c9769608d0288e719"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "8510df2cda8a2b8ba2a2017691a4c7f4b9e1eb0e9d539ec36f8302bfdc0f72c5"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/agentic-package.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # AI Agentic Package (Claude & Codex)
 
 Canonical page: https://docs.sealmetrics.com/integrations/agentic-package
 
-The **SealMetrics Agentic Package** lets an AI assistant set up analytics for you end to end — **from a chat, with no terminal and no dashboard login required to start**. Once installed, your assistant can:
+The **Sealmetrics Agentic Package** lets an AI assistant set up analytics for you end to end — **from a chat, with no terminal and no dashboard login required to start**. Once installed, your assistant can:
 
-1. **Create a free SealMetrics account** for your site.
+1. **Create a free Sealmetrics account** for your site.
 2. **Give you the tracking pixel** (and place it for you if it has access to your code).
 3. **Query your traffic and conversions** through ~47 read-only analytics tools.
 
@@ -36,7 +36,7 @@ It ships as a one-click **extension for Claude Desktop** (a `.mcpb` bundle) and 
 - An **email address** — you'll receive a link to claim the account and set a password.
 - *(Optional)* Access to your website's code, so the assistant can place the pixel for you. Not required — you can paste the snippet yourself.
 
-You do **not** need an existing SealMetrics account, an API key, or the terminal to get started.
+You do **not** need an existing Sealmetrics account, an API key, or the terminal to get started.
 
 ---
 
@@ -44,7 +44,7 @@ You do **not** need an existing SealMetrics account, an API key, or the terminal
 
 ### Step 1: Download and install the extension
 
-1. Download the extension: **[Download SealMetrics for Claude Desktop](https://cdn.jsdelivr.net/npm/@sealmetrics/mcp/dist/sealmetrics.mcpb)** &nbsp;*(`sealmetrics.mcpb`)*.
+1. Download the extension: **[Download Sealmetrics for Claude Desktop](https://cdn.jsdelivr.net/npm/@sealmetrics/mcp/dist/sealmetrics.mcpb)** &nbsp;*(`sealmetrics.mcpb`)*.
 2. Open **Claude Desktop → Settings → Extensions**.
 3. Drag the `sealmetrics.mcpb` file into the window (or click **Install extension** and select it).
 4. Click **Install**.
@@ -53,7 +53,7 @@ You do **not** need an existing SealMetrics account, an API key, or the terminal
 For the full install, settings, update, and uninstall reference of the `.mcpb`, see [Desktop Extension (.mcpb)](/integrations/extensions).
 
 **Tip:**
-On the extension's settings screen, **leave the “SealMetrics API key” field empty**. That's what tells the package to **register a brand-new site from the chat**. (You'd only paste a key here if you already have one and want to query existing data right away.)
+On the extension's settings screen, **leave the “Sealmetrics API key” field empty**. That's what tells the package to **register a brand-new site from the chat**. (You'd only paste a key here if you already have one and want to query existing data right away.)
 
 5. Make sure the extension is **enabled**, then close Settings.
 
@@ -61,11 +61,11 @@ On the extension's settings screen, **leave the “SealMetrics API key” field 
 
 Open a new chat and just ask, for example:
 
-> *"Create a SealMetrics analytics site for myshop.com"*
+> *"Create a Sealmetrics analytics site for myshop.com"*
 
 Claude will:
 
-1. Show you the [SealMetrics Terms of Service](https://sealmetrics.com/terms) and ask you to **confirm you accept them** (it will not accept on your behalf).
+1. Show you the [Sealmetrics Terms of Service](https://sealmetrics.com/terms) and ask you to **confirm you accept them** (it will not accept on your behalf).
 2. Ask for your **email** (and optionally a site name and your name).
 3. Run the `provision_site` tool, which creates the account and returns:
    - your **account ID**,
@@ -83,7 +83,7 @@ Claude gives you a `<script>` snippet. Place it **once, inside the `<head>` of e
 
 Then confirm it's live:
 
-> *"Verify my SealMetrics pixel is installed"*
+> *"Verify my Sealmetrics pixel is installed"*
 
 Claude runs `verify_setup`, which polls until a real pageview reaches the backend. Load a page of your site if it reports no hits yet, then re-run it.
 
@@ -107,8 +107,8 @@ See the full list of analytics tools and example questions on the [MCP Server](/
 The read-only tools are enabled **for the current session**. To keep them available after you quit and reopen Claude Desktop:
 
 1. Open your **welcome email** and copy the **API key**.
-2. Go to **Settings → Extensions → SealMetrics**.
-3. Paste it into the **SealMetrics API key** field and save.
+2. Go to **Settings → Extensions → Sealmetrics**.
+3. Paste it into the **Sealmetrics API key** field and save.
 
 ### Claim your account (set a password)
 
@@ -120,7 +120,7 @@ Provisioning emails you a **claim link**. Click it to **set a password** — thi
 
 ## Option B — Codex CLI
 
-Codex runs the same SealMetrics MCP server via `npx` — no download needed. Add this to `~/.codex/config.toml`:
+Codex runs the same Sealmetrics MCP server via `npx` — no download needed. Add this to `~/.codex/config.toml`:
 
 ```toml
 [mcp_servers.sealmetrics]
@@ -130,7 +130,7 @@ args = ["-y", "@sealmetrics/mcp"]
 
 Leaving out the API key is what tells the server to **create a new account from the chat**. Restart Codex, then ask:
 
-> *"Create a SealMetrics site for myshop.com"*
+> *"Create a Sealmetrics site for myshop.com"*
 
 From here the flow is identical to Claude — see **Steps 2–4** above: accept the Terms, give your email, place the pixel, and run verify.
 
@@ -181,7 +181,7 @@ It creates your account and wires up your MCP client in one step.
 
 | Tool | What it does |
 |------|--------------|
-| `provision_site` | Registers a **new** free SealMetrics site from the chat. Returns the snippet and emails a claim link. |
+| `provision_site` | Registers a **new** free Sealmetrics site from the chat. Returns the snippet and emails a claim link. |
 | `verify_setup` | Polls until the pixel is confirmed installed (a real pageview reached the backend). |
 | `get_setup_status` | Reports whether a site is provisioned and whether its pixel is verified. |
 | `detect_framework` | Best-effort detects your framework/CMS so the snippet is placed correctly. |
@@ -193,10 +193,10 @@ It creates your account and wires up your MCP client in one step.
 
 ## Privacy & safety
 
-- The package runs **locally** (inside Claude Desktop / Codex) and talks to the SealMetrics API over HTTPS. **No analytics data is stored on your machine.**
+- The package runs **locally** (inside Claude Desktop / Codex) and talks to the Sealmetrics API over HTTPS. **No analytics data is stored on your machine.**
 - The API key it uses is **read-only** and scoped to your account.
 - `provision_site` is the **only** tool that writes anything — and it only creates an account after you explicitly accept the Terms of Service. Everything else is read-only.
-- SealMetrics is **cookieless and GDPR-compliant by design** — see [Security & Privacy](/security-privacy).
+- Sealmetrics is **cookieless and GDPR-compliant by design** — see [Security & Privacy](/security-privacy).
 
 ---
 

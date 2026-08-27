@@ -3,20 +3,20 @@ title: "Passthrough Referrers"
 description: "Learn what a passthrough referrer is and how to preserve the original traffic source when visitors return from external domains such as payment gateways, SSO providers, or booking engines."
 canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/passthrough-referrers"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4a61eb966fa28e8d4b6b96b29e61b735fd4af56e87f1430a7c71630ef8fc7f2f"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "1cb35cf40019d25a9d40ebc4d1b1ddf72f856a1e6b2fb05737f79fcf6dd636d2"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/tracking-and-attribution-settings/passthrough-referrers.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Passthrough Referrers
 
 Canonical page: https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/passthrough-referrers
 
-A **passthrough referrer** is an external domain that your visitors temporarily pass through during a journey — and then return to your site. Instead of treating the return as a brand-new visit, SealMetrics keeps the **original session source** intact.
+A **passthrough referrer** is an external domain that your visitors temporarily pass through during a journey — and then return to your site. Instead of treating the return as a brand-new visit, Sealmetrics keeps the **original session source** intact.
 
 This is the right setting whenever a journey leaves your domain and comes back, for example:
 
@@ -24,7 +24,7 @@ This is the right setting whenever a journey leaves your domain and comes back, 
 - **External authentication / SSO** — an identity provider or a shared accounts domain.
 - **Booking and ticketing engines** — hotel booking engines, external ticketing, third-party checkout flows.
 
-Without this configuration, when the visitor returns SealMetrics may detect the external domain as the referrer, count a new entrance, and overwrite the real acquisition source (Google Ads, Facebook, Email…) with **Referral** or **payment**.
+Without this configuration, when the visitor returns Sealmetrics may detect the external domain as the referrer, count a new entrance, and overwrite the real acquisition source (Google Ads, Facebook, Email…) with **Referral** or **payment**.
 
 ---
 
@@ -32,8 +32,8 @@ Without this configuration, when the visitor returns SealMetrics may detect the 
 
 When a passthrough referrer is configured and a visit arrives from that domain:
 
-- **If the original session still exists**, SealMetrics treats the hit as a continuation (a pageview) and **preserves the session's original UTMs** — source, medium, campaign, term, content. The external domain is *not* counted as a new source.
-- **If no session exists** (for example, the visitor's session has expired), SealMetrics falls back to the UTM values you configured for that passthrough domain so the visit is still attributed sensibly instead of becoming an unknown referral.
+- **If the original session still exists**, Sealmetrics treats the hit as a continuation (a pageview) and **preserves the session's original UTMs** — source, medium, campaign, term, content. The external domain is *not* counted as a new source.
+- **If no session exists** (for example, the visitor's session has expired), Sealmetrics falls back to the UTM values you configured for that passthrough domain so the visit is still attributed sensibly instead of becoming an unknown referral.
 
 This is the same preservation behavior used for payment gateways, applied per account to any external domain you choose.
 

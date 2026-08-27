@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/settings/account/users.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Users & Teams

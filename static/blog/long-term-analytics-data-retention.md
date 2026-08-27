@@ -9,7 +9,7 @@ content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "long-term-analytics.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Long-Term Analytics: 24-Month Data Retention Without Consent

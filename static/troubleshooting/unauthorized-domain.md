@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/unauthorized-domain.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # No Data From a New or Staging Domain

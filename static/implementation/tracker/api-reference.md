@@ -1,22 +1,22 @@
 ---
 title: "Tracker API Reference"
-description: "Complete API reference for the SealMetrics JavaScript tracker. Includes all methods, parameters, and payload specifications."
+description: "Complete API reference for the Sealmetrics JavaScript tracker. Includes all methods, parameters, and payload specifications."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker/api-reference"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "bc59d973872badddbffd65724adce067c0eae1fd745a7beb88612f3358d8676b"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "1a16d6ec97a72c61876ace5b8bcd9def7580fef1c17c542b72e9f10b261f5640"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/tracker/api-reference.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Tracker API Reference
 
 Canonical page: https://docs.sealmetrics.com/implementation/tracker/api-reference
 
-Complete reference for the SealMetrics JavaScript tracker API.
+Complete reference for the Sealmetrics JavaScript tracker API.
 
 ---
 

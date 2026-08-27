@@ -3,13 +3,13 @@ title: "Joomla"
 description: "Install the Sealmetrics Joomla plugin (4.x and 5.x) for cookieless analytics with form, newsletter, search, and 404 tracking — no consent banner needed."
 canonical_url: "https://docs.sealmetrics.com/integrations/cms/joomla"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "461ea5d6138d73daa861ec1c03fe2128e3a24b2fd7669d0c5dedbda9b486b668"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "092d80c35457a36b3199304b893b8ef3478e2edfeffd08b2bc56f1be95285c2c"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "integrations/cms/joomla.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Joomla
@@ -29,14 +29,14 @@ Privacy-first, cookieless analytics for Joomla 4.x and 5.x.
 2. Go to **System > Install > Extensions**
 3. Upload and install the ZIP file
 4. Go to **System > Manage > Plugins**
-5. Search for "SealMetrics" and **enable** the plugin
+5. Search for "Sealmetrics" and **enable** the plugin
 6. Click on the plugin to configure your Account ID
 
 ## Configuration
 
 | Setting | Description |
 |---------|-------------|
-| **Account ID** | Your SealMetrics Account ID (required) |
+| **Account ID** | Your Sealmetrics Account ID (required) |
 | **Enable Tracking** | Turn tracking on/off |
 | **Skip Admin Pages** | Don't track administrator pages |
 | **Track Form Submissions** | Track contact and other forms |
@@ -121,7 +121,7 @@ Tracked as `form_submit` or `lead`:
 Add custom tracking in your template:
 
 ```javascript
-// Wait for SealMetrics to load
+// Wait for Sealmetrics to load
 (function() {
     function track() {
         if (typeof sealmetrics !== 'undefined') {

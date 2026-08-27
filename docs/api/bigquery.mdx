@@ -395,7 +395,7 @@ Returns detailed information for a single sync operation, including per-table re
 
 ## Schema Information
 
-SealMetrics is a **cookieless, aggregated** analytics platform. The BigQuery export is a **star schema** of pre-aggregated daily (and optionally hourly) facts — there is **no session-, visitor-, or event-level data**. Every fact table is aggregated by `date` and a set of dimensions (UTM, geo, device, channel).
+Sealmetrics is a **cookieless, aggregated** analytics platform. The BigQuery export is a **star schema** of pre-aggregated daily (and optionally hourly) facts — there is **no session-, visitor-, or event-level data**. Every fact table is aggregated by `date` and a set of dimensions (UTM, geo, device, channel).
 
 The tables created depend on the integration's `data_types`:
 
@@ -419,7 +419,7 @@ All fact tables are partitioned by `date` and clustered (primarily by `account_i
 GET /integrations/bigquery/schema
 ```
 
-Returns the schema for all BigQuery tables that SealMetrics creates. This endpoint does not require an `account_id` — it describes the static star-schema definition.
+Returns the schema for all BigQuery tables that Sealmetrics creates. This endpoint does not require an `account_id` — it describes the static star-schema definition.
 
 **Response:**
 
@@ -602,7 +602,7 @@ Per-sync audit record, always created.
 | `tables_synced` | STRING (REPEATED) | Tables included in the sync |
 | `total_rows` | INT64 | Total rows synced |
 | `duration_seconds` | FLOAT64 | Sync duration |
-| `sealmetrics_version` | STRING | SealMetrics export version |
+| `sealmetrics_version` | STRING | Sealmetrics export version |
 
 ---
 

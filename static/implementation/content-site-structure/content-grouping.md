@@ -9,7 +9,7 @@ content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/content-site-structure/content-grouping.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Content Grouping

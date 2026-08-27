@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/migration-from-v1.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # API v1 to v2 Migration

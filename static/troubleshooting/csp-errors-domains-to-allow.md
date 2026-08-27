@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "troubleshooting/csp-errors-domains-to-allow.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Tracker Blocked by Content Security Policy (CSP)

@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "security-privacy/what-we-track.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # What We Track vs What We Don’t

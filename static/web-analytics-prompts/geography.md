@@ -1,15 +1,15 @@
 ---
 title: "Geography & Segmentation"
-description: "Country revenue trends, growth markets, conversion blockers, geo bid optimization opportunities. SealMetrics MCP prompts for global brands and hospitality groups."
+description: "Country revenue trends, growth markets, conversion blockers, geo bid optimization opportunities. Sealmetrics MCP prompts for global brands and hospitality groups."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/geography"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "7600c2beaa1759a0604b7ec1a5ce0299a6971ef6bc8096e524911beff580ff51"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "83c0bf8da2d579d86edcb5c038fd8024980cfebf485fe89abaf2f4455b9001db"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "web-analytics-prompts/05-geography.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Geography & Segmentation
@@ -18,14 +18,14 @@ Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/geography
 
 Where is your revenue coming from, where could it come from, and where are you leaking?
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 
 ---
 
 ## SEAL-028 — Country revenue with monthly trend
 
 ```text
-Using SealMetrics MCP for site {site_id}, return revenue by country for the last 6 full months.
+Using Sealmetrics MCP for site {site_id}, return revenue by country for the last 6 full months.
 
 Output: one row per country, one column per month, plus columns for: total revenue 6m, % share of total, MoM trend (up/flat/down), CAGR over the 6 months.
 
@@ -37,7 +37,7 @@ Limit to the top 20 countries by revenue. End with a 3-bullet summary: top growi
 ## SEAL-029 — Top 5 fastest-growing entrance countries
 
 ```text
-For site {site_id}, query SealMetrics MCP and compute entrances by country for the last 90 days vs the prior 90 days.
+For site {site_id}, query Sealmetrics MCP and compute entrances by country for the last 90 days vs the prior 90 days.
 
 Identify the top 5 countries with the largest absolute entrance growth. For each, return: entrances current, entrances previous, % growth, conversions, conversion rate, revenue, dominant traffic source.
 
@@ -51,7 +51,7 @@ End with a recommendation: which growth markets deserve localized landing pages 
 ## SEAL-030 — Countries with traffic but zero conversions
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 90 days:
+Using Sealmetrics MCP for site {site_id}, for the last 90 days:
 
 List every country with more than 500 entrances and zero macro conversions.
 
@@ -65,7 +65,7 @@ Diagnose plausible blockers per country: language, payment method, shipping poli
 ## SEAL-031 — Best country per active campaign
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 60 days.
+For site {site_id}, query Sealmetrics MCP for the last 60 days.
 
 For every active utm_campaign with more than 200 entrances:
 - Top 3 countries by conversion rate
@@ -80,7 +80,7 @@ Output: a nested table grouped by campaign. End with 3 cross-campaign patterns y
 ## SEAL-032 — Hotels: direct booking countries vs OTA-coming countries
 
 ```text
-Using SealMetrics MCP for site {site_id} (a hotel site), for the last 90 days:
+Using Sealmetrics MCP for site {site_id} (a hotel site), for the last 90 days:
 
 1. Identify the top 10 countries by direct conversions (utm_source = direct or null, organic, brand search).
 2. Identify the top 10 countries arriving via OTA-style referrers (booking.com, expedia.com, hotels.com, agoda, kayak, trivago).
@@ -94,7 +94,7 @@ Highlight countries with high OTA arrivals but low direct conversions — potent
 ## SEAL-033 — Geo conversion mismatch (under-converted markets)
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 90 days.
+For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
 Compute two rankings:
 - Top 20 countries by entrances
@@ -111,4 +111,4 @@ For each, pull entrances, CR, revenue, dominant device, dominant language. Propo
 
 - [Hotels prompts](./hotels)
 - [Ecommerce prompts](./ecommerce)
-- [SealMetrics + Google Ads](./google-ads)
+- [Sealmetrics + Google Ads](./google-ads)

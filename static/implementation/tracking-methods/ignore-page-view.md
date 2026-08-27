@@ -1,22 +1,22 @@
 ---
 title: "Manual Pageview Control"
-description: "Control when pageviews are tracked in SealMetrics. Useful for SPAs, multi-step forms, and custom navigation patterns."
+description: "Control when pageviews are tracked in Sealmetrics. Useful for SPAs, multi-step forms, and custom navigation patterns."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracking-methods/ignore-page-view"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c06525448c7e18fdadc32d03741ba6dba1a1445ea961881d4cc2e2a384cc88cb"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "40c629dcc70797753ee694a268871a74954f6af90b0482ac4bcf5a01ed5ab3a2"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/tracking-methods/ignore-page-view.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Manual Pageview Control
 
 Canonical page: https://docs.sealmetrics.com/implementation/tracking-methods/ignore-page-view
 
-The SealMetrics tracker automatically tracks pageviews on page load and SPA navigation. However, there are scenarios where you need manual control over when pageviews are recorded.
+The Sealmetrics tracker automatically tracks pageviews on page load and SPA navigation. However, there are scenarios where you need manual control over when pageviews are recorded.
 
 ---
 

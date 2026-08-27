@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/email-reports.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Email Reports

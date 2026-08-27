@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/settings/integrations/bigquery.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # BigQuery Integration

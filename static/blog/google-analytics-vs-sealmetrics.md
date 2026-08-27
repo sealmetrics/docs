@@ -3,13 +3,13 @@ title: "Sealmetrics vs Google Analytics: Complete Comparison 2026"
 description: "Sealmetrics vs Google Analytics 4 compared in 2026: consent-driven data loss, GDPR and Schrems II, features, AI, pricing and migration."
 canonical_url: "https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "9548b920937adaa164765f6dc9c1c5be03a3e666cfdd0f52b37b6b4409758c96"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "8f8c1abd0df60e33e28c64817e7bb08429e5082b8e17d72387e5b62a9e6aae0d"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "google-analytics-vs-sealmetrics.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Sealmetrics vs Google Analytics: Complete Comparison 2026
@@ -126,7 +126,7 @@ Two published customer results, both from hotel groups running Sealmetrics along
 
 Measuring DV360 display on cost-per-availability-search and rebalancing the mix on that basis produced a **165% improvement in cost-per-search** — same budget, different measurement, different decisions.
 
-> "The data SealMetrics delivers is agnostic, unbiased and neutral. There's no black box."
+> "The data Sealmetrics delivers is agnostic, unbiased and neutral. There's no black box."
 > — Toni Andújar, Digital & Direct Sales Director, Palladium Hotel Group
 
 ### Note the size of that gap

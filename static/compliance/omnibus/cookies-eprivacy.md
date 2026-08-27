@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/omnibus/cookies-eprivacy.md"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Cookie Consent Reform: The End of Banner Fatigue

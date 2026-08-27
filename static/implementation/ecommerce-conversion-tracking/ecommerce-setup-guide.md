@@ -1,22 +1,22 @@
 ---
 title: "E-commerce Setup Guide"
-description: "Complete guide to tracking e-commerce conversions, revenue, and customer journey with SealMetrics. Includes examples for WooCommerce, Shopify, and custom platforms."
+description: "Complete guide to tracking e-commerce conversions, revenue, and customer journey with Sealmetrics. Includes examples for WooCommerce, Shopify, and custom platforms."
 canonical_url: "https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "67eab2a399a1e7e4b6066db80b9a280e0d44ab4af4c37ae4ea8195b96e9aba00"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "0ee0c70cadb477736f0d5caab343f323db0fe6109ecd6cc997522fedf70bbc61"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/ecommerce-conversion-tracking/ecommerce-setup-guide.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # E-commerce Setup Guide
 
 Canonical page: https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide
 
-This guide covers how to implement complete e-commerce tracking with SealMetrics, from product views to purchase completion.
+This guide covers how to implement complete e-commerce tracking with Sealmetrics, from product views to purchase completion.
 
 ---
 
@@ -413,7 +413,7 @@ Each object in the `items` array can contain any combination of these fields (al
 
 Once you're tracking purchases with `items`, your product data is available in the **Properties** report.
 
-1. Go to your site in the SealMetrics dashboard
+1. Go to your site in the Sealmetrics dashboard
 2. Click **Properties** in the sidebar
 3. Select the **Conv. Items** tab
 
@@ -474,7 +474,7 @@ if (!localStorage.getItem('tracked_' + orderId)) {
 
 ### Check Data Is Arriving
 
-1. Log in to [SealMetrics dashboard](https://my.sealmetrics.com)
+1. Log in to [Sealmetrics dashboard](https://my.sealmetrics.com)
 2. Open your site's **Overview** report
 3. Within seconds, the **Last hit** timestamp at the top right updates and your test events are reflected in the numbers
 

@@ -27,7 +27,7 @@ Privacy-first, cookieless analytics for Joomla 4.x and 5.x.
 2. Go to **System > Install > Extensions**
 3. Upload and install the ZIP file
 4. Go to **System > Manage > Plugins**
-5. Search for "SealMetrics" and **enable** the plugin
+5. Search for "Sealmetrics" and **enable** the plugin
 6. Click on the plugin to configure your Account ID
 
 <a className="button button--primary" href="https://github.com/sealmetrics/modules/releases/latest/download/sealmetrics-joomla.zip">Download Plugin</a>
@@ -36,7 +36,7 @@ Privacy-first, cookieless analytics for Joomla 4.x and 5.x.
 
 | Setting | Description |
 |---------|-------------|
-| **Account ID** | Your SealMetrics Account ID (required) |
+| **Account ID** | Your Sealmetrics Account ID (required) |
 | **Enable Tracking** | Turn tracking on/off |
 | **Skip Admin Pages** | Don't track administrator pages |
 | **Track Form Submissions** | Track contact and other forms |
@@ -121,7 +121,7 @@ Tracked as `form_submit` or `lead`:
 Add custom tracking in your template:
 
 ```javascript
-// Wait for SealMetrics to load
+// Wait for Sealmetrics to load
 (function() {
     function track() {
         if (typeof sealmetrics !== 'undefined') {

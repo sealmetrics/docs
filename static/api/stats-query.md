@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/stats-query.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Multi-Dimensional Query

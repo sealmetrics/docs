@@ -3,13 +3,13 @@ title: "LLM Settings (BYOK)"
 description: "Manage per-user Bring-Your-Own-Key LLM configs for LENS AI — store, test, and set default keys for OpenAI, Anthropic, Gemini, or DeepSeek"
 canonical_url: "https://docs.sealmetrics.com/api/llm-settings"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c8c2a2851f9d633b180dc10ae9cfbbdad6f54fc35b4742abbfbca7988964d91d"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "1c8bd6301eb9f544056b9e3304ecab16ecb3ef6f5ca83691b6e3b10897de1ac0"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/llm-settings.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # LLM Settings (BYOK)
@@ -43,7 +43,7 @@ No auth scope required beyond a valid session. Returns the BYOK-capable provider
     {
       "id": "seal_ai",
       "name": "Seal AI (Private, EU)",
-      "description": "SealMetrics private AI. Processed entirely in the EU, no prompt retention, your data never trains third-party models. No API key needed.",
+      "description": "Sealmetrics private AI. Processed entirely in the EU, no prompt retention, your data never trains third-party models. No API key needed.",
       "requires_api_key": false,
       "requires_plan_upgrade": false,
       "default_models": {

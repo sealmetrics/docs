@@ -27,8 +27,8 @@ Privacy-first, cookieless analytics for Drupal 9, 10, and 11.
 1. Download and extract the module
 2. Copy to `modules/contrib/sealmetrics` or `modules/custom/sealmetrics`
 3. Go to **Extend** (`/admin/modules`)
-4. Enable "SealMetrics Analytics"
-5. Configure at **Configuration > System > SealMetrics Analytics**
+4. Enable "Sealmetrics Analytics"
+5. Configure at **Configuration > System > Sealmetrics Analytics**
 
 ### Option 2: Composer
 
@@ -45,7 +45,7 @@ drush en sealmetrics
 
 | Setting | Description |
 |---------|-------------|
-| **Account ID** | Your SealMetrics Account ID (required) |
+| **Account ID** | Your Sealmetrics Account ID (required) |
 | **Skip admin pages** | Don't track admin page views |
 | **Track form submissions** | Track contact forms, webforms |
 | **Track contact forms as leads** | Track as conversions instead of events |
@@ -109,7 +109,7 @@ Full support for the Webform module:
 Track custom events in your theme or module:
 
 ```javascript
-// Wait for SealMetrics to load
+// Wait for Sealmetrics to load
 (function() {
   function track() {
     if (typeof sealmetrics !== 'undefined') {

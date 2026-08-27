@@ -20,7 +20,7 @@ sealmetrics.micro("Add_to_cart", { ... });
 
 the browser throws `ReferenceError: sealmetrics is not defined`. That error halts execution of the JavaScript block where the call lives. If that block also contains UI, form, or navigation logic, the page breaks for the user.
 
-This is **not a tracker bug**. It is the normal consequence of invoking any third-party library (GA4, Meta Pixel, Hotjar, SealMetrics…) without protecting yourself against the "script blocked" case.
+This is **not a tracker bug**. It is the normal consequence of invoking any third-party library (GA4, Meta Pixel, Hotjar, Sealmetrics…) without protecting yourself against the "script blocked" case.
 
 ---
 
@@ -125,7 +125,7 @@ After installing the stub:
 4. `ReferenceError: sealmetrics is not defined` must **not** appear.
 5. The page must continue working normally (forms, navigation, UI).
 
-Then disable the blocker and repeat: the calls must reach the SealMetrics backend exactly as before.
+Then disable the blocker and repeat: the calls must reach the Sealmetrics backend exactly as before.
 
 ---
 
@@ -134,4 +134,4 @@ Then disable the blocker and repeat: the calls must reach the SealMetrics backen
 - [Tracker installation](/implementation/tracker/installation) — base setup, including the pre-load queue stub for deferred loading.
 - [Tracker API reference](/implementation/tracker/api-reference) — full `sealmetrics()`, `conv()`, and `micro()` signatures.
 - [Google Tag Manager integration](/integrations/google-tag-manager) — recommended setup for GTM.
-- [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — diagnose substantial discrepancies between SealMetrics and your source of truth.
+- [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) — diagnose substantial discrepancies between Sealmetrics and your source of truth.

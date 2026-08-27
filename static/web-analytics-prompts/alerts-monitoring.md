@@ -1,31 +1,31 @@
 ---
 title: "Alerts & Monitoring"
-description: "Build daily, weekly, and threshold-based alert rules. Pull-style MCP prompts for review plus configuration ideas for SealMetrics native Alerts + webhooks."
+description: "Build daily, weekly, and threshold-based alert rules. Pull-style MCP prompts for review plus configuration ideas for Sealmetrics native Alerts + webhooks."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/alerts-monitoring"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "265a74b2516a5a5f1694b7052c98ddb0497c119bc67655b2a1bf4136245cd6e2"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "e81fa58c7c4ca8282bd3c1b99ff956dfa99b049cbfc9cb69aa297ce7f4e87c17"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "web-analytics-prompts/07-alerts-monitoring.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Alerts & Monitoring
 
 Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/alerts-monitoring
 
-These prompts run on demand via the MCP. To get **push** notifications without asking the agent, configure SealMetrics native Alerts and Webhooks (see [Alerts API](/api/alerts)). Use these prompts to design and review them.
+These prompts run on demand via the MCP. To get **push** notifications without asking the agent, configure Sealmetrics native Alerts and Webhooks (see [Alerts API](/api/alerts)). Use these prompts to design and review them.
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 
 ---
 
 ## SEAL-039 — Daily conversion drop check
 
 ```text
-Using SealMetrics MCP for site {site_id}, compare conversions for yesterday vs the trailing 7-day mean.
+Using Sealmetrics MCP for site {site_id}, compare conversions for yesterday vs the trailing 7-day mean.
 
 If yesterday's conversions are more than 25% below that mean, return:
 - Yesterday total, baseline mean, % delta
@@ -41,7 +41,7 @@ If the drop is below threshold, just say "All clear" with the actual delta.
 ## SEAL-040 — Channel halving alert
 
 ```text
-For site {site_id}, query SealMetrics MCP and compare entrances by channel for yesterday vs the day before.
+For site {site_id}, query Sealmetrics MCP and compare entrances by channel for yesterday vs the day before.
 
 Flag any channel that lost more than 50% entrances day over day.
 
@@ -55,7 +55,7 @@ Output: alert message + investigation block. If nothing flagged, return "All cle
 ## SEAL-041 — New high-volume campaign alert
 
 ```text
-Using SealMetrics MCP for site {site_id}, list every utm_campaign that crossed 100 entrances for the first time in the last 24 hours.
+Using Sealmetrics MCP for site {site_id}, list every utm_campaign that crossed 100 entrances for the first time in the last 24 hours.
 
 For each: campaign, source, medium, entrances, micro-conversions, conversions, top landing pages, % bot.
 
@@ -67,7 +67,7 @@ Verdict per new campaign: HEALTHY, AUDIT (high bot share or high bounce), or REV
 ## SEAL-042 — Bot share threshold alert
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 24 hours.
+For site {site_id}, query Sealmetrics MCP for the last 24 hours.
 
 Compute % of bot/agent_suspected sessions. If above 15%, trigger an alert.
 
@@ -76,7 +76,7 @@ Alert payload:
 - Top 5 sources contributing
 - Top 5 user-agents
 - Top 5 IP prefixes if available
-- Suggested rules to add to the SealMetrics blocklist or rate limiter
+- Suggested rules to add to the Sealmetrics blocklist or rate limiter
 
 If below threshold, return "All clear, X% bot share".
 ```
@@ -86,7 +86,7 @@ If below threshold, return "All clear, X% bot share".
 ## SEAL-043 — Channel rules fired in 24h
 
 ```text
-Using SealMetrics MCP for site {site_id}, list every channel rule that fired in the last 24 hours.
+Using Sealmetrics MCP for site {site_id}, list every channel rule that fired in the last 24 hours.
 
 Per rule: rule name, times triggered, total entrances reclassified, revenue impact (if computable).
 
@@ -98,7 +98,7 @@ End with a one-paragraph summary for a marketing standup: which rules are doing 
 ## SEAL-044 — Failed webhook deliveries (last 7 days)
 
 ```text
-For site {site_id}, query SealMetrics MCP webhooks for the last 7 days.
+For site {site_id}, query Sealmetrics MCP webhooks for the last 7 days.
 
 List every webhook delivery that failed. Group by webhook endpoint and by failure reason (timeout, 4xx, 5xx, network).
 

@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "billing/faq.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Billing FAQ

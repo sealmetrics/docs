@@ -9,7 +9,7 @@ content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/custom-properties/event-properties.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Event Properties

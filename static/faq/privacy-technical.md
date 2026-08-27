@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "faq/privacy-technical.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Technical Privacy Model

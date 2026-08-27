@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "security-privacy/attribution-without-userid.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How Attribution Works Without a User-ID

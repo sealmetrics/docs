@@ -1,15 +1,15 @@
 ---
 title: "Ecommerce — CMO & Ecommerce Manager"
-description: "Cart-to-purchase ratios, AOV by channel, returning customer revenue, top categories. SealMetrics MCP prompts for online stores."
+description: "Cart-to-purchase ratios, AOV by channel, returning customer revenue, top categories. Sealmetrics MCP prompts for online stores."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/ecommerce"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "ff1dbd99ef878d3c88ea3ead0b69054aaadda5655589a689fe72a843fdf96c34"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "0728ab21428bdf00fdedddbad9ab88c51e9061305bbf13920787f47bd5b90eb1"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "web-analytics-prompts/10-ecommerce.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Ecommerce — CMO & Ecommerce Manager
@@ -18,7 +18,7 @@ Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/ecommerce
 
 Prompts crafted for online stores that need to grow revenue, defend margin, and understand customer behavior with clean, unmodeled data.
 
-**MCPs required:** SealMetrics MCP
+**MCPs required:** Sealmetrics MCP
 **Best for:** CMOs and Ecommerce Managers
 
 ---
@@ -26,7 +26,7 @@ Prompts crafted for online stores that need to grow revenue, defend margin, and 
 ## SEAL-056 — Cart-to-purchase ratio by category
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 30 days:
+Using Sealmetrics MCP for site {site_id}, for the last 30 days:
 
 For every product category (property `category` on add_to_cart and on conversion_items):
 - Add-to-cart events, purchases, cart-to-purchase ratio, % vs site average.
@@ -43,7 +43,7 @@ Output: 1 main table + a "deep dive next" section.
 ## SEAL-057 — Discount code attribution
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 90 days.
+For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
 For every utm_campaign that includes a discount code (property `discount_code` present on conversion):
 - Conversions with discount, conversions without discount on same campaign (if applicable), revenue with vs without, average discount, estimated margin impact.
@@ -58,7 +58,7 @@ End with a 3-bullet recommendation: which discounts to keep, which to retire, wh
 ## SEAL-058 — Worst product detail pages
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 30 days:
+Using Sealmetrics MCP for site {site_id}, for the last 30 days:
 
 Filter to product detail pages (URL pattern: {pdp_url_pattern} or content group `product_detail`) with more than 500 visits per month.
 
@@ -74,7 +74,7 @@ Output: 1 ranking table + 10 hypothesis cards.
 ## SEAL-059 — Returning vs new customer revenue
 
 ```text
-For site {site_id}, query SealMetrics MCP for the last 90 days.
+For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
 Use the micro-conversion `login` or `account_returning` (or whichever property identifies a returning customer in this site) to split sessions into new vs returning.
 
@@ -90,7 +90,7 @@ End with a 3-bullet recommendation: how to allocate budget between acquisition a
 ## SEAL-060 — Top categories by revenue and CR
 
 ```text
-Using SealMetrics MCP for site {site_id}, for the last 90 days, cross content groups with conversion_items by category.
+Using Sealmetrics MCP for site {site_id}, for the last 90 days, cross content groups with conversion_items by category.
 
 Per category: entrances to category landing pages, conversions, CR, revenue, AOV, % share of total revenue.
 

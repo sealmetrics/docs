@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/user-management/authorized-ips.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Access Restricted to Authorized IPs

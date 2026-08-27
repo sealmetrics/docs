@@ -9,7 +9,7 @@ content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/tracker/spa-support.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # SPA Support

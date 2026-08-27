@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/geography.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Geography Report

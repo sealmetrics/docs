@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/insights/how-sealmetrics-calculates-seo-traffic.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How Sealmetrics Calculates SEO Traffic

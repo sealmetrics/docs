@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/omnibus/incident-reporting.md"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Single Entry Point for Incident Reporting

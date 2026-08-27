@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "guides/tracker-performance-three-way.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics

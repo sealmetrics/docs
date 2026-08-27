@@ -3,13 +3,13 @@ title: "What Is omtrdc.net? Adobe's Collection Domain, Explained"
 description: "omtrdc.net is where Adobe Analytics sends every hit. What the requests are, when they fire, why an image GET loses data, and how to check your own site."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/omtrdc-net-requests"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "328427370978edab4b73d90abe75b839a2cb477e4e06564b7e1dd083b1c77173"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "ac784f194c5e5d9db8c78510684f9f5a3019fc93e9a2a3035658492da11d9370"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "security-privacy/omtrdc-net-requests.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # What Is omtrdc.net? Adobe's Collection Domain, Explained
@@ -62,7 +62,7 @@ means it is **cancelled if the visitor leaves the page before it completes**. A 
 bounces, or a user who taps back quickly, can produce no hit at all.
 
 The modern alternative is `navigator.sendBeacon()`, which hands the payload to the browser
-and survives page unload by design. SealMetrics uses `sendBeacon`; Adobe's AppMeasurement
+and survives page unload by design. Sealmetrics uses `sendBeacon`; Adobe's AppMeasurement
 uses the image GET.
 
 ---
@@ -73,11 +73,11 @@ We measured this on a real European media site running both vendors side by side
 
 | Time | Event |
 |---|---|
-| ~1.5–1.6 s | SealMetrics `t.js` loads (late — through the site's own tag chain) |
-| **~1.8 s** | SealMetrics pageview dispatched via `sendBeacon` — secured |
+| ~1.5–1.6 s | Sealmetrics `t.js` loads (late — through the site's own tag chain) |
+| **~1.8 s** | Sealmetrics pageview dispatched via `sendBeacon` — secured |
 | **~3.0 s** | Adobe Analytics pageview fires — image GET to the collection domain |
 
-Installed directly in the `<head>` rather than through a tag chain, the SealMetrics hit is
+Installed directly in the `<head>` rather than through a tag chain, the Sealmetrics hit is
 secured at ~0.1–0.3 s.
 
 **In fairness to Adobe:** part of that 3.0 seconds is this specific site's rule sequencing —
@@ -87,7 +87,7 @@ fire sooner. The structural floor is what remains: roughly 730 KB of JavaScript 
 a multi-stage chain to walk before any hit can leave the device.
 
 Over a 30-day dual-tag run on that reference site, the gap came to **+25% pageviews** measured
-by SealMetrics over Adobe — with Adobe firing without a consent gate at all.
+by Sealmetrics over Adobe — with Adobe firing without a consent gate at all.
 
 Full methodology: [Adobe Analytics tracker performance](/guides/tracker-performance-adobe-analytics).
 

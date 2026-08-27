@@ -505,7 +505,7 @@ function generateMarkdownMirrors(docs) {
       `owner: ${JSON.stringify(markdownOwner(type))}`,
       `llm_priority: ${JSON.stringify(markdownPriority(type, doc))}`,
       `source_file: ${JSON.stringify(doc.relativePath)}`,
-      'publisher: "SealMetrics"',
+      'publisher: "Sealmetrics"',
       '---',
       '',
       `# ${doc.title}`,

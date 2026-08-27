@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "platform/settings/tracking/content-grouping.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Content Grouping

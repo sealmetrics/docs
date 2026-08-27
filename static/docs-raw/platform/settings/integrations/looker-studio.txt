@@ -4,36 +4,36 @@ URL: https://docs.sealmetrics.com/platform/settings/integrations/looker-studio
 
 # Data Studio Integration
 
-Build custom dashboards and visual reports in Google Data Studio using your SealMetrics analytics data. The official SealMetrics connector pulls traffic, sources, pages, conversions, and more directly into Data Studio charts and tables.
+Build custom dashboards and visual reports in Google Data Studio using your Sealmetrics analytics data. The official Sealmetrics connector pulls traffic, sources, pages, conversions, and more directly into Data Studio charts and tables.
 
 **Note:**
 Google renamed Looker Studio back to **Data Studio** in April 2026, reversing the 2022 rebrand. Same product, same reports, same connector — only the name changed.
 
-This page keeps its `looker-studio` URL on purpose: the SealMetrics Apps Script manifest points its `addOnUrl` and `supportUrl` here, and changing it would break those and any existing bookmarks.
+This page keeps its `looker-studio` URL on purpose: the Sealmetrics Apps Script manifest points its `addOnUrl` and `supportUrl` here, and changing it would break those and any existing bookmarks.
 
 ## Prerequisites
 
-- SealMetrics account with an active API key
+- Sealmetrics account with an active API key
 - Google account with access to [Data Studio](https://datastudio.google.com)
 
 ## How It Works
 
-The SealMetrics connector for Data Studio fetches data in real-time from the SealMetrics API using your API key. Each time you view a dashboard, Data Studio requests the latest data for your selected date range.
+The Sealmetrics connector for Data Studio fetches data in real-time from the Sealmetrics API using your API key. Each time you view a dashboard, Data Studio requests the latest data for your selected date range.
 
 ```
-Data Studio → SealMetrics Connector → SealMetrics API → Your analytics data
+Data Studio → Sealmetrics Connector → Sealmetrics API → Your analytics data
 ```
 
 Data is cached for 5 minutes to ensure fast loading. Data Studio may also apply its own caching.
 
 **Note:**
-The SealMetrics Data Studio connector is currently pending listing in the Data Studio Partner Connector Gallery. While the listing is being reviewed, your Google account must be granted **Viewer** access to the underlying connector. If the authorization page redirects you to the Data Studio home with no error, contact us at [support@sealmetrics.com](mailto:support@sealmetrics.com) with the Google email you want whitelisted and we'll grant access within one business day.
+The Sealmetrics Data Studio connector is currently pending listing in the Data Studio Partner Connector Gallery. While the listing is being reviewed, your Google account must be granted **Viewer** access to the underlying connector. If the authorization page redirects you to the Data Studio home with no error, contact us at [support@sealmetrics.com](mailto:support@sealmetrics.com) with the Google email you want whitelisted and we'll grant access within one business day.
 
 ## Setup
 
 ### Step 1: Get Your API Key
 
-1. In SealMetrics, go to **My Account > API Keys**
+1. In Sealmetrics, go to **My Account > API Keys**
 2. Create a new API key or copy an existing one
 3. Keep it handy — you'll need it in the next step
 
@@ -41,9 +41,9 @@ The SealMetrics Data Studio connector is currently pending listing in the Data S
 
 ### Step 2: Open the Connector in Data Studio
 
-1. Click the link below to open the SealMetrics connector in Data Studio:
+1. Click the link below to open the Sealmetrics connector in Data Studio:
 
-   **[Open SealMetrics Connector](https://datastudio.google.com/datasources/create?connectorId=AKfycbz0OeJk_X454_DijtnmO12DZeFBRL_u_-anvWX_f5oTvxUDlxdc6yIADlcRzOr2aOPAcg)**
+   **[Open Sealmetrics Connector](https://datastudio.google.com/datasources/create?connectorId=AKfycbz0OeJk_X454_DijtnmO12DZeFBRL_u_-anvWX_f5oTvxUDlxdc6yIADlcRzOr2aOPAcg)**
 
 2. You'll be asked to authorize the connector on first use — click **Authorize**
 
@@ -158,7 +158,7 @@ Traffic grouped by marketing channel.
 ### Creating Your First Report
 
 1. Go to [Data Studio](https://datastudio.google.com) and click **+ Create > Report**
-2. Select your SealMetrics data source (created during setup)
+2. Select your Sealmetrics data source (created during setup)
 3. Start adding charts, tables, and scorecards using the available fields
 
 ### Combining Multiple Report Types
@@ -175,7 +175,7 @@ For a complete analytics dashboard, create one data source per report type and a
 To add a new data source to an existing report:
 1. Click **Resource > Manage added data sources**
 2. Click **Add a data source**
-3. Search for "SealMetrics" and configure with a different report type
+3. Search for "Sealmetrics" and configure with a different report type
 
 ### Using Date Range Controls
 
@@ -183,13 +183,13 @@ The connector respects Data Studio's date range controls. Add a date range picke
 
 1. Click **Add a control > Date range control**
 2. Place it at the top of your report
-3. All SealMetrics charts will automatically filter to the selected range
+3. All Sealmetrics charts will automatically filter to the selected range
 
 ## Tips
 
 - **Data caching**: Data is cached for 5 minutes on the connector side. Data Studio may also cache on its side. To force a refresh, click the refresh button in the report viewer.
 - **Multiple sites**: Create separate data sources for each site you want to report on. You can combine them in the same dashboard.
-- **API key rotation**: If you rotate your API key, update it in each Data Studio data source by going to **Resource > Manage added data sources > Edit** for each SealMetrics source.
+- **API key rotation**: If you rotate your API key, update it in each Data Studio data source by going to **Resource > Manage added data sources > Edit** for each Sealmetrics source.
 - **Sharing**: When you share a Data Studio report, viewers use the data source owner's API key — they don't need their own.
 - **Blending data**: Use Data Studio's [data blending](https://docs.cloud.google.com/data-studio/create-edit-and-manage-blends) to combine metrics from different report types in a single chart (e.g., join Traffic Sources with Landing Pages by a common dimension).
 
@@ -204,12 +204,12 @@ The connector respects Data Studio's date range controls. Add a date range picke
 ### No Sites Listed
 
 1. Confirm your API key has access to at least one site
-2. Check that sites are active in your SealMetrics account
+2. Check that sites are active in your Sealmetrics account
 
 ### Data Not Loading
 
 1. Verify the selected date range contains data
-2. Check that your SealMetrics account is active
+2. Check that your Sealmetrics account is active
 3. Try refreshing the data source (click the refresh icon in the report)
 4. If the issue persists, create a new data source — the connector may need to be re-authorized
 
@@ -227,13 +227,13 @@ If you also use the [BigQuery integration](/platform/settings/integrations/bigqu
 - **Data Studio connector** — best for quick dashboards with standard metrics, no setup required beyond an API key
 - **BigQuery as data source in Data Studio** — best for custom SQL queries, cross-table joins, and advanced analysis
 
-You can use BigQuery as a Data Studio data source by selecting **BigQuery** instead of the SealMetrics connector when creating a data source, and pointing it to your SealMetrics BigQuery dataset.
+You can use BigQuery as a Data Studio data source by selecting **BigQuery** instead of the Sealmetrics connector when creating a data source, and pointing it to your Sealmetrics BigQuery dataset.
 
 ## Support
 
 Need help with the connector? Email **[support@sealmetrics.com](mailto:support@sealmetrics.com)** and include:
 
-- Your SealMetrics account email
+- Your Sealmetrics account email
 - The report type that fails
 - A screenshot of the error message
 - The Data Studio data source URL (visible in the address bar)
@@ -242,9 +242,9 @@ We aim to respond within one business day.
 
 ## Legal
 
-By using the SealMetrics Data Studio connector, you agree to:
+By using the Sealmetrics Data Studio connector, you agree to:
 
-- [SealMetrics Privacy Policy](https://sealmetrics.com/privacy/)
-- [SealMetrics Terms of Service](https://sealmetrics.com/terms/)
+- [Sealmetrics Privacy Policy](https://sealmetrics.com/privacy/)
+- [Sealmetrics Terms of Service](https://sealmetrics.com/terms/)
 
-The connector reads analytics data from your SealMetrics account via the SealMetrics REST API. It does not write to or modify your account. Your API key is stored by Data Studio in your data source configuration; rotate it from **Settings > API Keys** at any time.
+The connector reads analytics data from your Sealmetrics account via the Sealmetrics REST API. It does not write to or modify your account. Your API key is stored by Data Studio in your data source configuration; rotate it from **Settings > API Keys** at any time.

@@ -9,7 +9,7 @@ content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
 source_file: "compliance/compliance-overview/legal-faq.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Legal FAQ — Sealmetrics Compliance Questions

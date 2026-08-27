@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "reports/insights/understanding-not-set.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Understanding the "(not set)" Value in Sealmetrics Reports

@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
 source_file: "guides/complete-guide-cookieless-analytics.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Complete Guide to Cookieless Analytics 2026

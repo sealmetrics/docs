@@ -9,7 +9,7 @@ content_type: "blog"
 owner: "content"
 llm_priority: "useful"
 source_file: "seal-ai-private-launch.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Introducing Seal AI Private: AI-Powered Analytics That Never Leaves the EU

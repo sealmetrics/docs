@@ -63,7 +63,7 @@ The SDK authenticates with a Sealmetrics **API key**. Generate one in **Settings
 API keys are **read-only**: they hold the `stats:read`, `sites:read`, and `accounts:read` scopes, which is exactly what the analytics methods below require. Write operations (such as creating or updating segments) need a JWT session instead. See [Authentication](/api/authentication) and [API Tokens](/api/api-tokens) for details.
 
 ```python
-from sealmetrics import SealMetrics
+from sealmetrics import Sealmetrics
 
 client = SealMetrics(
     api_key="sm_live_xxxxx",   # Settings → API Keys
@@ -76,7 +76,7 @@ client = SealMetrics(
 The main entry point is the `SealMetrics` class.
 
 ```python
-from sealmetrics import SealMetrics
+from sealmetrics import Sealmetrics
 
 client = SealMetrics(
     api_key="sm_live_xxxxx",
@@ -171,7 +171,7 @@ Query methods return a `QueryResult` (see below) unless noted otherwise. They ac
 ### Example
 
 ```python
-from sealmetrics import CompareMode, Period, SealMetrics
+from sealmetrics import CompareMode, Period, Sealmetrics
 
 client = SealMetrics(api_key="sm_live_xxxxx", account_id="acc_123")
 
@@ -341,7 +341,7 @@ Use the async methods (prefixed with `async_`) for concurrent operations.
 
 ```python
 import asyncio
-from sealmetrics import SealMetrics
+from sealmetrics import Sealmetrics
 
 async def analyze():
     async with SealMetrics(api_key="...", account_id="...") as client:
@@ -361,7 +361,7 @@ All SDK errors inherit from `SealMetricsError`.
 
 ```python
 from sealmetrics import (
-    SealMetrics,
+    Sealmetrics,
     AuthenticationError,
     AuthorizationError,
     RateLimitError,

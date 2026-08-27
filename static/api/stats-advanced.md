@@ -9,7 +9,7 @@ content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "api/stats-advanced.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Stats Advanced

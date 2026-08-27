@@ -9,7 +9,7 @@ content_type: "documentation"
 owner: "docs"
 llm_priority: "critical"
 source_file: "index.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # Sealmetrics Docs — Consentless Web Analytics

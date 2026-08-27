@@ -1,22 +1,22 @@
 ---
 title: "How to Track React Sites"
-description: "Complete guide to tracking React applications with SealMetrics. Includes examples for react-router, conversions, and microconversions."
+description: "Complete guide to tracking React applications with Sealmetrics. Includes examples for react-router, conversions, and microconversions."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-react"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "09a551d124f740073ae5254eadfc9a59081f12c58eb7c7c0c5a568b7fb6f3a29"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "64ed15811b7838daac1a9140f96e166627574dc3d9744f58f8b57def7d05e5d1"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/tracking-methods/how-to-track-react.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # How to Track React Sites
 
 Canonical page: https://docs.sealmetrics.com/implementation/tracking-methods/how-to-track-react
 
-SealMetrics works seamlessly with React applications. The tracker automatically detects navigation via react-router and tracks pageviews without additional configuration.
+Sealmetrics works seamlessly with React applications. The tracker automatically detects navigation via react-router and tracks pageviews without additional configuration.
 
 ---
 
@@ -31,7 +31,7 @@ Add the tracker script to your `index.html` or use React's Script handling:
 <html>
 <head>
   <title>My React App</title>
-  <!-- SealMetrics Tracker -->
+  <!-- Sealmetrics Tracker -->
   <script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 </head>
 <body>
@@ -414,7 +414,7 @@ if (typeof sealmetrics !== 'undefined') {
 
 1. Check the browser Network tab for requests to `t.sealmetrics.com`
 2. Verify your Site ID is correct
-3. Check the **Last hit** timestamp on the **Overview** report in your SealMetrics dashboard — it updates within seconds of a tracked hit; conversions appear in the **Conversions** report
+3. Check the **Last hit** timestamp on the **Overview** report in your Sealmetrics dashboard — it updates within seconds of a tracked hit; conversions appear in the **Conversions** report
 
 ---
 

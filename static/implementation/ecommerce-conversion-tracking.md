@@ -3,13 +3,13 @@ title: "E-commerce Conversion Tracking"
 description: "Set up e-commerce conversion tracking in Sealmetrics: purchase and revenue tracking, event properties, and ERP/CRM reconciliation — no cookie consent."
 canonical_url: "https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "c12b77bef528eac6d2ff627d9dc8e6de46551c72caf586a4ac4972a357cde8c0"
+date_generated: "2026-08-27T14:18:06.639Z"
+source_hash: "78dbbeab6b074449a92cf63f6f1686eb297f9cff6c1da85c9093b4d7458bcfad"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
 source_file: "implementation/ecommerce-conversion-tracking/index.mdx"
-publisher: "SealMetrics"
+publisher: "Sealmetrics"
 ---
 
 # E-commerce Conversion Tracking
@@ -27,4 +27,4 @@ Proper e-commerce tracking enables you to calculate accurate ROI, understand whi
 
 ## Reconciling Against Your ERP / CRM
 
-If SealMetrics shows substantially fewer conversions than your ERP, CRM, or internal database, the cause is almost always the same: the **base pixel must fire and register the pageview before `sealmetrics.conv(...)` is called** on the confirmation page. See [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) for the full diagnostic — firing order, off-domain confirmation pages, payment methods that skip the thank-you page, and the rest of the secondary causes.
+If Sealmetrics shows substantially fewer conversions than your ERP, CRM, or internal database, the cause is almost always the same: the **base pixel must fire and register the pageview before `sealmetrics.conv(...)` is called** on the confirmation page. See [Conversions Don't Match Your ERP, CRM, or Database](/troubleshooting/erp-crm-database-discrepancy) for the full diagnostic — firing order, off-domain confirmation pages, payment methods that skip the thank-you page, and the rest of the secondary causes.
