@@ -3,8 +3,8 @@ title: "Magento 2"
 description: "Install the Sealmetrics Magento 2.4+ (Adobe Commerce) module via app/code for cookieless analytics with product, cart, checkout, and purchase tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/magento"
 lang: "en"
-date_generated: "2026-08-27T14:52:37.188Z"
-source_hash: "a3eac02e66fa2aee35667f15bc643de0a0b54a2b2ab2bb8f0e23149570d64c6b"
+date_generated: "2026-08-27T15:00:33.527Z"
+source_hash: "bb030087e8110c57e2db0dd028a3adc3e749752335d2293544d21d9724d5ae3f"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -25,7 +25,7 @@ Privacy-first, cookieless analytics for Magento 2.4+ (Adobe Commerce).
 
 ## Installation
 
-Download the module from our [integrations page](https://sealmetrics.com/integrations/), then install it by copying its files into `app/code`:
+Download the module from your Sealmetrics dashboard, under **Settings → Integrations**, then install it by copying its files into `app/code`:
 
 1. Create directory: `app/code/SealMetrics/Analytics`
 2. Copy the module files into that directory
