@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
 
-export type SeriesColor = 'seal' | 'ga4' | 'adobe' | 'legacy';
+export type SeriesColor = 'seal' | 'ga4' | 'adobe' | 'legacy' | 'matomo' | 'piwik';
 
 export interface BarItem {
   label: string;

@@ -1,18 +1,27 @@
-# Tracker Performance Report: Sealmetrics vs GA4
+# Tracker Performance Report: Sealmetrics vs GA4, Matomo and Piwik PRO
 
 URL: https://docs.sealmetrics.com/tracker-performance-report
 
-The current Sealmetrics tracker weighs **1.1 KB on the wire** — 12× less than the legacy Sealmetrics v1 tracker and roughly 132× less than GA4's `gtag.js`. That weight, combined with a single-step dispatch chain and an ingestion pipeline rebuilt from scratch (Go → RabbitMQ → ClickHouse), translates into more hits captured: dual-tagged sites (running both Sealmetrics trackers in parallel) measure **25–30% more traffic on average with the current tracker than with v1**, with the gain concentrated in mobile traffic and in visitors geographically far from our Dublin servers.
+The current Sealmetrics tracker weighs **1.1 KB on the wire** — 12× less than the legacy Sealmetrics v1 tracker and roughly 132× less than GA4's `gtag.js`. The two open-source-lineage alternatives sit in between and much closer to GA4 than to Sealmetrics: Piwik PRO's `ppms.js` is ~24× heavier than `t.js`, Matomo's `matomo.js` ~42× heavier. That weight, combined with a single-step dispatch chain and an ingestion pipeline rebuilt from scratch (Go → RabbitMQ → ClickHouse), translates into more hits captured: dual-tagged sites (running both Sealmetrics trackers in parallel) measure **25–30% more traffic on average with the current tracker than with v1**, with the gain concentrated in mobile traffic and in visitors geographically far from our Dublin servers.
 
 **Key numbers at a glance:**
 
-| | vs legacy v1 | vs GA4 |
+| Sealmetrics compared with | Wire weight advantage | Measured traffic difference |
 |---|---|---|
-| Wire weight advantage | 12× lighter | ~132× lighter |
-| Measured traffic difference | +25–30% (dual-tag average) | +25–45% (EU markets, estimate) |
+| Legacy Sealmetrics v1 | 12× lighter | +25–30% (dual-tag average) |
+| GA4 (`gtag.js`) | ~132× lighter | +25–45% (EU markets, estimate) |
+| Matomo (`matomo.js`) | ~42× lighter | not measured |
+| Piwik PRO (`ppms.js`) | ~24× lighter | not measured |
+
+Matomo and Piwik PRO appear here on **script weight only** — see [Matomo and Piwik PRO](#matomo-and-piwik-pro) for why this report makes no timing or traffic-capture claim about either.
 
 **Note:**
-Script weights re-measured **9 August 2026** from each vendor's production CDN: one GET with `Accept-Encoding: gzip`, bytes counted on disk. Vendor scripts change — `gtag.js` alone went from ~171 KB to ~146 KB between passes — so treat these as a dated snapshot.
+Two dated passes, both taken the same way: one GET per script with `Accept-Encoding: gzip`, bytes counted on disk, headers read from that same GET.
+
+- **9 August 2026** — Sealmetrics (current and v1) and GA4. These are the figures used throughout the report.
+- **27 August 2026** — Matomo and Piwik PRO added, with Sealmetrics and GA4 re-measured alongside them so the comparison shares one pass.
+
+Vendor scripts change: `gtag.js` went from ~171 KB to ~146 KB between earlier passes, and drifted another ~1 KB between these two. Treat every figure here as a dated snapshot, not a constant.
 
 ## Methodology
 
@@ -21,6 +30,8 @@ The weight and latency figures in this report come from **direct measurements** 
 - **Sealmetrics (current)**: `t.sealmetrics.com/t.js` — the production script.
 - **Sealmetrics v1 (legacy)**: `app.sealmetrics.com/tag/v3/tracker` (version `sm 16.x`).
 - **GA4**: `googletagmanager.com/gtag/js` with the ID of a real GA4 property in production.
+- **Matomo**: `demo.matomo.cloud/matomo.js` — the vendor's own public demo instance (27 August pass).
+- **Piwik PRO**: `demo.piwik.pro/ppms.js` — the vendor's own public demo instance (27 August pass).
 
 Script URLs and tag configurations were extracted from the **real Google Tag Manager container** of a European e-commerce site that runs both Sealmetrics trackers in parallel alongside GA4. To preserve the site's anonymity, the GA4 figures and latency values have been rounded and lightly adjusted; orders of magnitude and ratios between systems are preserved. The Sealmetrics tracker weights are exact — they are product scripts, identical for every customer.
 
@@ -29,6 +40,15 @@ Script URLs and tag configurations were extracted from the **real Google Tag Man
 - **Measured**: script weights (exact bytes, compressed and uncompressed), HTTP protocol and headers, the latency table below (median of 3 samples from a single location), IP addresses, and GTM configuration. Absolute latency values depend on the origin network; the relative differences between systems hold.
 - **Modeled**: the four network scenarios (round-trip, bandwidth, and CPU arithmetic built on top of the measurements) and the per-device parse costs. These are always labeled as estimates.
 - **Business data**: the +25–30% traffic difference vs v1 comes from Sealmetrics accounts running both trackers in parallel on the same site (dual-tagging). The +25–45% vs GA4 is a reasoned estimate, not a measurement of any single site.
+
+### Reproducing the weight measurements
+
+The weight figures are the part of this report easiest to verify independently, and the one most often cited back at us. Four things trip up a re-run:
+
+- **`t.js` needs a query parameter**: `https://t.sealmetrics.com/t.js?id=<account-id>`. A bare GET returns HTTP 400. The account id is echoed into the script body, so the uncompressed size is a function of its length by a handful of bytes — the canonical 1,991 B corresponds to a 4-character id.
+- **Do not read `content-encoding` from `curl -I`.** Servers routinely skip compression on HEAD requests, so a gzipped asset looks uncompressed and the wire figure comes out several times too high. Read the headers from the same GET that fetches the bytes.
+- **Do not use `curl`'s `%{size_download}`.** It reports bytes handed to the transfer regardless of `--compressed`. Count the bytes on disk instead.
+- **Validate against `t.js` before measuring any vendor.** It should return ~1,128 B on the wire and 1,991 B uncompressed (the wire figure varies by a byte or two — gzip encoder variance). If it does not, the method is wrong and every other number in the run is too.
 
 ### How consent is treated
 
@@ -45,6 +65,30 @@ What travels over the network determines when the first hit can fire. The legacy
 | **Relative wire weight** | 1× | 12× | ~132× |
 
 **The TCP detail that matters:** the current tracker's 1.1 KB fits in a single packet and arrives in the first round-trip. The v1 tracker's 13.7 KB uncompressed sits right at the edge of TCP's initial congestion window (~14.6 KB), and GA4's ~146 KB needs 4–5 slow-start round-trips. When the visitor is far from the server, every extra round-trip multiplies latency.
+
+## Matomo and Piwik PRO
+
+Matomo and Piwik PRO are the alternatives most often evaluated alongside Sealmetrics by teams leaving GA4 for privacy reasons, so they belong in a weight comparison even though the rest of this report predates them. Both descend from the same open-source `piwik.js` tracking client, and both land between Sealmetrics and GA4 — far closer to GA4.
+
+Measured **27 August 2026**, identical method to the pass above: one GET per script with `Accept-Encoding: gzip`, bytes counted on disk, headers read from that same GET. Sealmetrics and GA4 were re-measured in the same pass so all four rows share one snapshot.
+
+| Vendor | Script measured | On the wire (gzip) | Parsed by the CPU | Wire weight vs Sealmetrics |
+|---|---|---|---|---|
+| **Sealmetrics** | `t.sealmetrics.com/t.js` | **1,126 B** | **1,991 B** | 1× |
+| Piwik PRO | `demo.piwik.pro/ppms.js` | 26,762 B (~26 KB) | 69,075 B (~67 KB) | **~24×** |
+| Matomo | `demo.matomo.cloud/matomo.js` | 47,354 B (~46 KB) | 156,183 B (~153 KB) | **~42×** |
+| GA4 | `googletagmanager.com/gtag/js` | 148,679 B (~145 KB) | 417,429 B (~408 KB) | **132×** |
+
+Reading these numbers:
+
+- **Piwik PRO is the lightest of the three incumbents**, and by a wide margin over GA4 — roughly a fifth of `gtag.js` on the wire. It is still ~24× the Sealmetrics tracker, and its ~67 KB of JavaScript still has to be parsed on the visitor's device.
+- **Matomo sits between the two**, at ~42×. Its ~153 KB parse cost is the figure that matters on mobile: the TCP and CPU arguments made earlier in this report apply to it in the same direction as to GA4, just at a smaller multiple.
+- **`matomo.js` is not a fixed size.** Matomo compiles the tracker code of installed plugins into the file it serves — the build measured here carries the MediaAnalytics and FormAnalytics extensions. A bare install serves less, a plugin-heavy one more. Treat ~46 KB as this instance's figure, not a constant for every Matomo deployment.
+- **Only the Sealmetrics tracker fits in one TCP packet.** At 1,126 B it arrives in the first round-trip; `ppms.js` and `matomo.js` both exceed TCP's initial congestion window (~14.6 KB) and need extra slow-start round-trips before the script is even complete.
+- **GA4 drifted ~1 KB between the 9 and 27 August passes** — visible in the ~146 KB above versus ~145 KB here. The ratio holds at 132×, and the drift is the reason these figures carry dates.
+
+**Note:**
+This is a **script-weight measurement only**. The delivery-chain, latency, time-to-first-hit, hit-transport and traffic-capture sections of this report rest on a field run over a real site carrying the Sealmetrics trackers and GA4, plus dual-tag traffic data. **No equivalent run exists for Matomo or Piwik PRO**, so this report deliberately makes no timing, transport or capture claim about either: their rows appear in the weight tables and nowhere else. The structural arguments about download and parse cost follow from the measured weights; anything about when their hit actually leaves the device would be an estimate we have not made.
 
 ## Delivery protocol and infrastructure
 
@@ -203,4 +247,6 @@ This effect is **more granular measurement, not newly captured traffic**: it add
 - The +25–30% vs v1 is an average across dual-tagged accounts; each site will have its own figure depending on its device, network, and geography mix. The GA4 range depends critically on each site's CMP acceptance rate.
 - Part of the entrance increase vs v1 is definitional, not capture: the Rejoined session window changed from 6 h (v1) to 2 h (current tracker).
 - EasyPrivacy includes the rule `||sealmetrics.com^$third-party`: visitors with uBlock/AdGuard block both Sealmetrics tracker versions equally. The advantage over GA4 lies in consent and timing, not in ad blockers.
+- Matomo and Piwik PRO were measured on **each vendor's own public demo instance**, the most neutral source available for products that are otherwise self-hosted or account-provisioned. The file a given install serves can differ — Matomo in particular bundles installed plugins' tracker code into `matomo.js`.
+- There is **no field run, no dual-tag data and no latency measurement for Matomo or Piwik PRO**. Their script weights are measured; nothing else about them in this report is claimed.
 - To preserve the anonymity of the reference site, GA4 figures and latencies are rounded and lightly adjusted (see methodology); Sealmetrics tracker weights are exact.
