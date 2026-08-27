@@ -1,10 +1,10 @@
 ---
 title: "UTM Governance: Naming Conventions That Keep Attribution Clean"
 description: "A practical UTM governance playbook: naming conventions, a source/medium taxonomy aligned with Sealmetrics default channels, the mistakes that silently corrupt attribution, a spreadsheet template, and how Sealmetrics processes UTMs end to end."
-canonical_url: "https://docs.sealmetrics.com/utm-governance"
+canonical_url: "https://docs.sealmetrics.com/guides/utm-governance"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "ccb9e8045b1291868220142ffc97297b3fd758bb3366591186d554244e030f31"
+date_generated: "2026-08-27T14:00:32.362Z"
+source_hash: "24b4f3f5d6adccf2b7fbfedcc2c9939b398dbd7486a4b1b4e4aca2499b26a05b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # UTM Governance: Naming Conventions That Keep Attribution Clean
 
-Canonical page: https://docs.sealmetrics.com/utm-governance
+Canonical page: https://docs.sealmetrics.com/guides/utm-governance
 
 Every marketing report you will ever read starts with a decision someone made while pasting a link: what to type after `utm_source=`. Get that decision right consistently and your Sources report tells you exactly which channels make money. Get it wrong — `Facebook` here, `facebook` there, `fb` in the ESP — and the same channel splinters into three rows, your channel grouping misfires, and every downstream decision is made on fragmented data.
 

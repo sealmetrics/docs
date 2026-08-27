@@ -1,10 +1,10 @@
 ---
 title: "Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics"
 description: "The three-way comparison: tracking pixel weight, delivery chain, time to first hit, transport, consent, and measured traffic differences between Sealmetrics, GA4's gtag.js, and the Adobe Launch + AppMeasurement stack."
-canonical_url: "https://docs.sealmetrics.com/tracker-performance-three-way"
+canonical_url: "https://docs.sealmetrics.com/guides/tracker-performance-three-way"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "edb4f0eeebfd6b9b734743cabedef4090f2dfe117f62420f3235e66dc5540b18"
+date_generated: "2026-08-27T14:00:32.362Z"
+source_hash: "d3367745a38c94c7093ac2e6638c14ecd945592b6576dd31b0d3a97f09e2d908"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics
 
-Canonical page: https://docs.sealmetrics.com/tracker-performance-three-way
+Canonical page: https://docs.sealmetrics.com/guides/tracker-performance-three-way
 
 This guide puts the three trackers side by side: the **Sealmetrics tracker**, **GA4's `gtag.js`**, and the **Adobe Analytics stack** (Launch + AppMeasurement). It condenses our two detailed reports — [Sealmetrics vs GA4](/guides/tracker-performance-report) and [Sealmetrics vs Adobe Analytics](/guides/tracker-performance-adobe-analytics) — into one comparison table set, with the same methodology and the same anonymized reference sites.
 
@@ -23,7 +23,7 @@ This guide puts the three trackers side by side: the **Sealmetrics tracker**, **
 | | Sealmetrics | GA4 | Adobe Analytics |
 |---|---|---|---|
 | Wire weight (scripts, gzip) | **1.1 KB** | ~146 KB (~132×) | ~170 KB (~155×) |
-| JavaScript to parse | **2.0 KB** | ~409 KB (~255×) | ~730 KB (~365×) |
+| JavaScript to parse | **2.0 KB** | ~409 KB (~205×) | ~730 KB (~365×) |
 | Hit secured (`<head>` install, fiber) | **~0.1–0.3 s** | ~0.5–0.7 s (best case) | ~3.0 s (field-measured) |
 | Hit transport | `sendBeacon` — survives page close | beacon-style | image GET — cancelable |
 | Consent required in the EU | **No — consentless by design** | Yes (Consent Mode models the gap) | Yes in most installs |

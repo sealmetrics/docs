@@ -1,10 +1,10 @@
 ---
 title: "Executive Reporting"
 description: "C-level monthly digests, QoQ KPI deltas, silent winners, and weekly natural-language reports. Built for CMOs, Sales & Direct Directors, and Ecommerce Managers."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/08-executive-reporting"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/executive-reporting"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "9467e31bb675f493405d245b831a299143aef605c3a7375ace8fc2bd8ddf4f1e"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "cf70776411635b1570e14dc36801673656a995cd1f98cbe6252732d14d1cac2b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Executive Reporting
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/08-executive-reporting
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/executive-reporting
 
 For ICPs who do not want dashboards — they want one paragraph and three bullets. These prompts produce ready-to-share natural-language reports.
 

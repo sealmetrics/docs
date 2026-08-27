@@ -1,10 +1,10 @@
 ---
 title: "SealMetrics + Meta Ads"
 description: "iOS attribution gap, audience ROAS, creative fatigue, placement optimization, retargeting cannibalization. Cross-MCP prompts combining SealMetrics with Meta Ads."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/14-meta-ads"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/meta-ads"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a6308360ad5494994a891a132d75b7947eedb7e9b46ea9c0cb01b1632fa7b53c"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "d7e968f768ab6f4ccfd5da6b55ed64850c6fc8bffff33873b03fb154539ce174"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # SealMetrics + Meta Ads
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/14-meta-ads
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/meta-ads
 
 Meta's reported numbers are an estimate, especially post-iOS 14.5. SealMetrics gives you the deterministic baseline. These prompts compare the two.
 

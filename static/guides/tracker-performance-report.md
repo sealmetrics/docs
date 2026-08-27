@@ -1,10 +1,10 @@
 ---
 title: "Tracker Performance Report: Sealmetrics vs GA4, Matomo and Piwik PRO"
 description: "A technical comparison of tracking pixel weight, protocol, latency, and traffic capture: the current Sealmetrics tracker vs the legacy v1 tracker vs GA4's gtag.js, plus measured script weights for Matomo and Piwik PRO — with methodology, real measurements, and modeled network scenarios."
-canonical_url: "https://docs.sealmetrics.com/tracker-performance-report"
+canonical_url: "https://docs.sealmetrics.com/guides/tracker-performance-report"
 lang: "en"
-date_generated: "2026-08-27T12:22:30.844Z"
-source_hash: "5c70723f90e469999a088002ced2208996f17c66ff518dd9c5d11af695f5e28e"
+date_generated: "2026-08-27T14:00:32.362Z"
+source_hash: "bb952978f2e0ad75fd6e5760bdec6ce1229280e88ff47d49f5d0679041824592"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Tracker Performance Report: Sealmetrics vs GA4, Matomo and Piwik PRO
 
-Canonical page: https://docs.sealmetrics.com/tracker-performance-report
+Canonical page: https://docs.sealmetrics.com/guides/tracker-performance-report
 
 The current Sealmetrics tracker weighs **1.1 KB on the wire** — 12× less than the legacy Sealmetrics v1 tracker and roughly 132× less than GA4's `gtag.js`. The two open-source-lineage alternatives sit in between and much closer to GA4 than to Sealmetrics: Piwik PRO's `ppms.js` is ~24× heavier than `t.js`, Matomo's `matomo.js` ~42× heavier. That weight, combined with a single-step dispatch chain and an ingestion pipeline rebuilt from scratch (Go → RabbitMQ → ClickHouse), translates into more hits captured: dual-tagged sites (running both Sealmetrics trackers in parallel) measure **25–30% more traffic on average with the current tracker than with v1**, with the gain concentrated in mobile traffic and in visitors geographically far from our Dublin servers.
 

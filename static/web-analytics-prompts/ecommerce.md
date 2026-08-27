@@ -1,10 +1,10 @@
 ---
 title: "Ecommerce — CMO & Ecommerce Manager"
 description: "Cart-to-purchase ratios, AOV by channel, returning customer revenue, top categories. SealMetrics MCP prompts for online stores."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/10-ecommerce"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/ecommerce"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "55397966cb4fe4c35b7863e79581b922b06e7b0b7d5b425945928f26280e42e3"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "ff1dbd99ef878d3c88ea3ead0b69054aaadda5655589a689fe72a843fdf96c34"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Ecommerce — CMO & Ecommerce Manager
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/10-ecommerce
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/ecommerce
 
 Prompts crafted for online stores that need to grow revenue, defend margin, and understand customer behavior with clean, unmodeled data.
 

@@ -1,10 +1,10 @@
 ---
 title: "Traffic & Quality Control"
 description: "Daily anomaly detection, bot share, suspicious sessions, referrer spam, UTM hygiene, and tracking health checks. Sealmetrics MCP prompts to keep your data clean."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/03-traffic-quality"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/traffic-quality"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "f8b493c332bec993f548c38c8d76223763228810dc33275cb60606ac65be7b1f"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "360d6b46f831a0460dd079f0bdbde47fc8f9ff6d4b800e697cbff6b37d94e341"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Traffic & Quality Control
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/03-traffic-quality
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/traffic-quality
 
 Keep your data clean: detect anomalies, suspicious traffic, broken UTMs, and tracking regressions before they corrupt decisions.
 

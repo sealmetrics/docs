@@ -1,10 +1,10 @@
 ---
 title: "Cross-platform — All MCPs"
 description: "Triangulate SealMetrics with Google Ads, Meta Ads, and Search Console for full-funnel ROAS, budget reallocation, cannibalization, and CMO-grade weekly digests."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/16-cross-platform"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/cross-platform"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c4cfebfca4b253fc27e8ebd134a3f4d429c11bf33230f05c70ca687a1227c0c8"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "c8f6a1d692e4f19cb3fc50e7846a1fdbf4fbbde50c80b44d4128f00ab89eaa24"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Cross-platform — All MCPs
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/16-cross-platform
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/cross-platform
 
 The most powerful prompts in the library. Combine SealMetrics with two or more platform MCPs (Google Ads, Meta Ads, GSC) to triangulate truth, expose waste, and reallocate budget.
 

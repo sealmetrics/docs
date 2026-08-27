@@ -1,10 +1,10 @@
 ---
 title: "Attribution & Channels"
 description: "Real channel performance using last-click attribution, campaign cannibalization detection, direct traffic spike investigation, and channel decay alerts. SealMetrics MCP prompts."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/04-attribution-channels"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/attribution-channels"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "0b7384c5c38f6078b3febe957f5756d4b74e08a8c38e6b1882ee2204b5961450"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "f8244a340f3bbadcfdd3fe422f1c15d4551ef030366373f93a0089ee14df35be"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Attribution & Channels
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/04-attribution-channels
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/attribution-channels
 
 True channel performance using SealMetrics last-click data — no GA4 modeling, no sampling.
 
