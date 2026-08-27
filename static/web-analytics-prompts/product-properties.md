@@ -1,10 +1,10 @@
 ---
 title: "Product Properties — SKU, Size, Color, Room Type"
 description: "Use the property breakdown of conversion_items and micro-conversions to find SKU, variant, size, color, room type, and length-of-stay opportunities."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/11-product-properties"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/product-properties"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "d86d33f050e03b1e97f63d5765918ae65464dfbde593927b5f10eb315d139be8"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "4fff4eab6921cc33fb843c99d6309ab3e5badab363ce338d9ccff162a34344b3"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Product Properties — SKU, Size, Color, Room Type
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/11-product-properties
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/product-properties
 
 The most powerful prompts in the library. They lean on SealMetrics' `conversion_items` table (one row per product, denormalized properties) and on `Map(String, String)` properties on micro-conversions like `add_to_cart`, `view_product`, `view_room`.
 

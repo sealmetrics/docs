@@ -1,10 +1,10 @@
 ---
 title: "Conversion Optimization"
 description: "Funnel drop-off, micro-to-macro conversion ratios, mobile-vs-desktop gaps, content group performance, and search-term opportunities. SealMetrics MCP prompts for revenue lift."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/conversion-optimization"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "eb992dff38dd5912a11c1c2df66d61bcd529328053aee583331a44f4f7fc4c24"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "67356d4cbfa0786d31083c5c781ed6072967f40f425730d983a85cd1df2aa231"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Conversion Optimization
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/02-conversion-optimization
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/conversion-optimization
 
 Find where users drop off, which devices underperform, and which content groups deserve more investment.
 

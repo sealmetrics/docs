@@ -1,10 +1,10 @@
 ---
 title: "SealMetrics + Google Search Console"
 description: "Cross queries with real conversion rate, surface rankings without traffic, detect cannibalization, and quantify lost revenue from ranking drops. Cross-MCP prompts."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/15-search-console"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/search-console"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "8ec68ee7eee68186a236de16961b51379d5eb5623742bc170f8b09377741d199"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "515fd6be5a1e44cfb5814fa1b8d3d91c337b937106bb7eb1c3af1b3ee6d1293f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # SealMetrics + Google Search Console
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/15-search-console
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/search-console
 
 GSC tells you what people searched. SealMetrics tells you what they did after clicking. Combine them.
 

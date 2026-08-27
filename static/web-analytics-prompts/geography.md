@@ -1,10 +1,10 @@
 ---
 title: "Geography & Segmentation"
 description: "Country revenue trends, growth markets, conversion blockers, geo bid optimization opportunities. SealMetrics MCP prompts for global brands and hospitality groups."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/05-geography"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/geography"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "ad0d16153ac21c2efe04b7c996bce0342d0dbdb847b23b785440d03fc32ee19b"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "7600c2beaa1759a0604b7ec1a5ce0299a6971ef6bc8096e524911beff580ff51"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Geography & Segmentation
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/05-geography
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/geography
 
 Where is your revenue coming from, where could it come from, and where are you leaking?
 

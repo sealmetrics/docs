@@ -1,10 +1,10 @@
 ---
 title: "Revenue Leak Detection"
 description: "Find invisible revenue loss caused by bot traffic, broken pages, weak landing pages, and channel decay. SealMetrics MCP prompts for ICPs in hospitality and ecommerce."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/01-revenue-leak"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/revenue-leak"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "7e2424f9fa6e04a4f82fec6bd5bbc2191aaa7de5b86e9029355ba20dbc78c309"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "83ac142a3034db77d92405b37dba497ae8da3b3e3addbb04126803d201e7fcf4"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Revenue Leak Detection
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/01-revenue-leak
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/revenue-leak
 
 Surface hidden revenue loss caused by broken landing pages, bot traffic, and decaying channels. All prompts use the SealMetrics MCP server only.
 

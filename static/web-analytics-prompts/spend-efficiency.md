@@ -1,10 +1,10 @@
 ---
 title: "Spend Efficiency"
 description: "Pause underperforming campaigns, surface zero-conversion paid landings, and surface pages worth deindexing. SealMetrics MCP prompts to cut waste."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/06-spend-efficiency"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/spend-efficiency"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "9bf3e071a95a4a7445fa9638aba6a6ecdd4bb4a2c7a23be7355937f02a47e14b"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "bda1f29d8cc68520f5c8ed9f86866f9e77a8d170feb8e3fef972a8bab274db16"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Spend Efficiency
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/06-spend-efficiency
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/spend-efficiency
 
 Cut waste before scaling. These prompts surface candidates to pause, fix, or deindex.
 

@@ -245,23 +245,37 @@ function walkDir(dir) {
   return files;
 }
 
-function docPathToUrl(filePath, slug) {
-  // If frontmatter has a slug override, use it
+/**
+ * Resolve the public route for a doc, mirroring Docusaurus' own rules:
+ *  - a frontmatter `slug` starting with "/" is absolute from the docs root;
+ *    any other slug is relative to the document's own directory;
+ *  - a frontmatter `id` replaces the filename-derived last segment;
+ *  - numeric ordering prefixes ("01-", "02_") are stripped from every segment.
+ * Getting any of these wrong emits a canonical URL that 404s.
+ */
+function docPathToUrl(filePath, slug, id) {
+  const stripOrderPrefix = (segment) => segment.replace(/^\d+[-_.]/, '');
+  const rel = relative(DOCS_DIR, filePath);
+  const dir = dirname(rel);
+  const dirSegments = dir === '.' ? [] : dir.split('/').map(stripOrderPrefix);
+
+  const build = (segments) => {
+    const path = segments.filter(Boolean).join('/');
+    return path ? `${BASE_URL}/${path}` : BASE_URL;
+  };
+
   if (slug) {
-    const cleanSlug = slug.startsWith('/') ? slug.slice(1) : slug;
-    if (!cleanSlug) return BASE_URL;
-    return `${BASE_URL}/${cleanSlug}`;
+    if (slug.startsWith('/')) return build([slug.slice(1)]);
+    return build([...dirSegments, slug.replace(/^\.\//, '')]);
   }
 
-  let rel = relative(DOCS_DIR, filePath);
-  // Remove extension
-  rel = rel.replace(/\.(mdx?|md)$/, '');
-  // index files → parent directory
-  if (rel.endsWith('/index') || rel === 'index') {
-    rel = rel.replace(/\/?index$/, '');
-  }
-  if (!rel) return BASE_URL;
-  return `${BASE_URL}/${rel}`;
+  // `id` overrides the file's own segment but keeps its directory.
+  if (id) return build([...dirSegments, id]);
+
+  let name = stripOrderPrefix(basename(rel).replace(/\.(mdx?|md)$/, ''));
+  // index files resolve to their parent directory
+  if (name === 'index') return build(dirSegments);
+  return build([...dirSegments, name]);
 }
 
 function discoverDocs() {
@@ -281,7 +295,7 @@ function discoverDocs() {
       relativePath: rel,
       rawRelPath: rel.replace(/\.(mdx?|md)$/, '.txt'),
       topDir,
-      url: docPathToUrl(filePath, frontmatter.slug),
+      url: docPathToUrl(filePath, frontmatter.slug, frontmatter.id),
       title: frontmatter.title || basename(filePath, extname(filePath)),
       description: frontmatter.description || '',
       sidebarPosition: typeof frontmatter.sidebar_position === 'number'

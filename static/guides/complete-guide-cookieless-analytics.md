@@ -1,10 +1,10 @@
 ---
 title: "Complete Guide to Cookieless Analytics 2026"
 description: "Learn how cookieless analytics captures 100% of visitor data without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages."
-canonical_url: "https://docs.sealmetrics.com/complete-guide-cookieless-analytics"
+canonical_url: "https://docs.sealmetrics.com/guides/complete-guide-cookieless-analytics"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "00d753531a60a30b439a154586077d1da5ef9bf9c3d4868be8660a7ad663f0eb"
+date_generated: "2026-08-27T14:00:32.362Z"
+source_hash: "76e9393cd3293fb1f3faf504405a4fa6a99e7e3cc96cd6f63e0ed319363ab3a4"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Complete Guide to Cookieless Analytics 2026
 
-Canonical page: https://docs.sealmetrics.com/complete-guide-cookieless-analytics
+Canonical page: https://docs.sealmetrics.com/guides/complete-guide-cookieless-analytics
 
 Website analytics is fundamental to understanding visitor behavior. Yet a large share of EU visitors never consent — some reject, many simply ignore the banner — and cookie-based analytics typically lose 15-60% of their data as a result, depending on sector, brand strength and traffic mix. This represents the critical challenge of modern analytics: how do you capture meaningful insights when cookie-based solutions fail across Europe?
 

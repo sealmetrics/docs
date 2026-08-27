@@ -1,10 +1,10 @@
 ---
 title: "Forecasting"
 description: "Project month-end, quarter, year, Black Friday, hotel pickup curves, and campaign trajectories using clean SealMetrics data and historical YoY comparisons."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/12-forecasting"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/forecasting"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "22d8cb37137eabcd975b2c796efc688c8b0228b434fe48ea8f5de4cb97513bfe"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "63064c71fc64fdafb26bb7e01ac13b9bdd2c55551a5e357e42172219a83783b1"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Forecasting
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/12-forecasting
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/forecasting
 
 These prompts combine current run-rate, historical seasonality, and YoY comparisons to project where you will end the period. The MCP returns the data; the agent extrapolates.
 

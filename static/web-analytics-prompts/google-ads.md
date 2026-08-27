@@ -1,10 +1,10 @@
 ---
 title: "SealMetrics + Google Ads"
 description: "Real CPA, ROAS, wasted spend detection, keyword landing leaks, geo bid optimization, brand cannibalization. Cross-MCP prompts combining SealMetrics with Google Ads."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/13-google-ads"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/google-ads"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "005bfd72bf90465feb989227fb15d791161cb9fca2f8bdb8403606e0219eba50"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "4f95a9f8eae4fee21ba178e250b654054064bca228494da22f8e3db66750760d"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # SealMetrics + Google Ads
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/13-google-ads
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/google-ads
 
 Cross what Google says happened with what actually happened. These prompts assume both MCPs are connected.
 

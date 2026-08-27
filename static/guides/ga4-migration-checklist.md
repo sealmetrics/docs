@@ -1,10 +1,10 @@
 ---
 title: "GA4 to Sealmetrics: The Complete Migration Checklist"
 description: "A phase-by-phase checklist for migrating from Google Analytics 4 to Sealmetrics: audit your GA4 events, map them to conv()/micro(), install the tracker, run 30 days in parallel, know which data differences to expect, and switch GA4 off safely."
-canonical_url: "https://docs.sealmetrics.com/ga4-migration-checklist"
+canonical_url: "https://docs.sealmetrics.com/guides/ga4-migration-checklist"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "b3e6c3cb47e651b8430623140c6ab4e20df88c53a8038dcc53177b2d82e1ce19"
+date_generated: "2026-08-27T14:00:32.362Z"
+source_hash: "2813f73b049c0815442d038d0a73b7d57c985e03eed8978c017fa7398902307f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # GA4 to Sealmetrics: The Complete Migration Checklist
 
-Canonical page: https://docs.sealmetrics.com/ga4-migration-checklist
+Canonical page: https://docs.sealmetrics.com/guides/ga4-migration-checklist
 
 Migrating from Google Analytics 4 to Sealmetrics is not technically hard — the tracker is one script tag and conversions are one JavaScript call. What trips teams up is everything *around* the install: forgetting an event that a monthly report depends on, comparing metrics that aren't defined the same way, or switching GA4 off before anyone validated the new numbers.
 

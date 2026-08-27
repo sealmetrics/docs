@@ -1,6 +1,6 @@
 # Tracker Performance Report: Sealmetrics vs Adobe Analytics
 
-URL: https://docs.sealmetrics.com/tracker-performance-adobe-analytics
+URL: https://docs.sealmetrics.com/guides/tracker-performance-adobe-analytics
 
 The Sealmetrics tracker weighs **1.1 KB on the wire**. The Adobe Analytics stack it competed against on a real page — Adobe Launch container, AppMeasurement, ActivityMap module, and rule payloads — weighs **~170 KB on the wire and ~730 KB once decompressed**. And the difference is not just weight: measured on a real European media site that runs both vendors side by side, **Adobe's pageview left the device at ~3.0 seconds** into the page load, while the Sealmetrics hit was secured at ~1.8 seconds — despite Sealmetrics being loaded late through the site's own tag chain. Installed directly in the `<head>`, Sealmetrics secures the hit at ~0.1–0.3 s.
 

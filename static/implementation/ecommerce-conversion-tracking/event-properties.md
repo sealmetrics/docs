@@ -1,10 +1,10 @@
 ---
 title: "Understanding Event Properties in Sealmetrics"
 description: "Learn how to use event properties in Sealmetrics for advanced conversion tracking, custom data collection, and detailed analytics segmentation while maintaining GDPR compliance."
-canonical_url: "https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties-guide"
+canonical_url: "https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "1fa939660df3ca87d63ba03c5e3694499023359b28eaef73e33b9551a0319ec0"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "efbea0b18e019dc1ad5a6385eebdd311860ff679ba9916b7fbad7811f70b3748"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Understanding Event Properties in Sealmetrics
 
-Canonical page: https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties-guide
+Canonical page: https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties
 
 Event properties represent one of Sealmetrics' most powerful features for businesses requiring detailed conversion tracking without compromising GDPR compliance. This comprehensive guide explains how to implement, optimize, and leverage event properties to transform your cookieless analytics into a sophisticated business intelligence system.
 

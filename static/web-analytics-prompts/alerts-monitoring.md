@@ -1,10 +1,10 @@
 ---
 title: "Alerts & Monitoring"
 description: "Build daily, weekly, and threshold-based alert rules. Pull-style MCP prompts for review plus configuration ideas for SealMetrics native Alerts + webhooks."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/07-alerts-monitoring"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/alerts-monitoring"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "2b99bf2767c873ce5c0c2340f4484e0559a7af368f968868db7e4ba504dc2409"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "265a74b2516a5a5f1694b7052c98ddb0497c119bc67655b2a1bf4136245cd6e2"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Alerts & Monitoring
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/07-alerts-monitoring
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/alerts-monitoring
 
 These prompts run on demand via the MCP. To get **push** notifications without asking the agent, configure SealMetrics native Alerts and Webhooks (see [Alerts API](/api/alerts)). Use these prompts to design and review them.
 

@@ -1,10 +1,10 @@
 ---
 title: "Hotels — Sales & Direct Director"
 description: "Direct booking funnel, OTA-to-direct shift, BAR page diagnostics, country mix for direct revenue, last-minute vs early-booking distribution. SealMetrics MCP prompts for hospitality."
-canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/09-hotels"
+canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/hotels"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a1b9c25e0af3b8a8723351b4a487d5894d66a4128234bec981cda01b7509dff6"
+date_generated: "2026-08-27T14:02:28.741Z"
+source_hash: "3911b506f243f92e496ae442832c1062d5f2a4b748e05e39cc287f6011dc8ddf"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -14,7 +14,7 @@ publisher: "SealMetrics"
 
 # Hotels — Sales & Direct Director
 
-Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/09-hotels
+Canonical page: https://docs.sealmetrics.com/web-analytics-prompts/hotels
 
 Built for hotels and chains that want more direct bookings, less OTA dependency, and a clear view of country mix and pickup behavior.
 
