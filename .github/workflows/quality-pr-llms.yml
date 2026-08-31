@@ -1,0 +1,59 @@
+name: Regenerate LLM mirrors on quality PRs
+
+# Los PRs que abre docs-agent editan solo el fichero fuente, así que los
+# espejos derivados (llms.txt, llms-full.txt, docs-raw/) quedan obsoletos y
+# el check "llms.txt and docs-raw are in sync" los bloquea. Hasta ahora había
+# que regenerarlos a mano en cada PR (visto el 2026-08-31 con el PR #98).
+#
+# El workflow diario ya hace esto sobre main; esto es lo mismo, pero sobre la
+# rama del PR para que llegue mergeable. Se limita a las ramas `quality/*`
+# —las que abre el agente— para no tocar el trabajo de nadie más.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'blog/**'
+      - 'docs/**'
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    name: Regenerate mirrors
+    # Solo ramas del agente, y nunca desde un fork (no tendría permisos y
+    # además dejaría escribir a cualquiera con un PR).
+    if: >
+      startsWith(github.head_ref, 'quality/') &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate llms.txt files
+        run: node scripts/generate-llms.mjs
+
+      - name: Check for changes
+        id: diff
+        run: |
+          changed_files=$(git status --porcelain -- static/llms.txt static/llms-full.txt static/docs-raw static/knowledge-manifest.json)
+          changed_markdown=$(git status --porcelain -- ':(glob)static/*.md' ':(glob)static/**/*.md')
+          changed=$(printf '%s\n%s\n' "$changed_files" "$changed_markdown" | sed '/^$/d' | sort -u | wc -l | tr -d ' ')
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push to the PR branch
+        if: steps.diff.outputs.changed != '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add static/llms.txt static/llms-full.txt static/docs-raw static/knowledge-manifest.json
+          find static -type f -name '*.md' -print0 | xargs -0 -r git add --
+          git commit -m "chore: regenera los espejos LLM del PR de calidad"
+          git push origin HEAD:${{ github.head_ref }}
