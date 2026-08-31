@@ -3,8 +3,8 @@ title: "Cookie Banner Ghosting: Why Analytics Loses 15-60% of Your Data"
 description: "Many visitors never answer the cookie banner — they ignore it. Ghosting, not rejection, is the quiet reason cookie-based analytics loses 15-60% of data."
 canonical_url: "https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "97bdb728cc755f69986d633eaaa3531329f610e9ed808d5626d9f3e3d8dcbb92"
+date_generated: "2026-08-31T12:01:48.777Z"
+source_hash: "74cbcb848cd50d0fc00d80576c0906fd96b680e507faffad4a38a5ae65eb7271"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -1141,7 +1141,7 @@ Sealmetrics measures every visit, eliminates banner ghosting, eliminates cookie 
 
 **Legal Resources**:
 - [GDPR, including Recital 26 on anonymous information](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
-- [CNIL Guidance on Cookieless Analytics (2020)](https://www.cnil.fr/en/cookies-and-other-trackers/rules/cookies/how-comply-cookies-and-trackers)
+- [CNIL Guidance on Cookieless Analytics (2020)](https://www.cnil.fr/en/cnil-guidelines-cookies-and-other-tracking-devices)
 - [ePrivacy Directive Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058)
 
 **Psychological Research**:
