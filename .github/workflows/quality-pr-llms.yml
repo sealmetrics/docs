@@ -24,8 +24,13 @@ jobs:
     name: Regenerate mirrors
     # Solo ramas del agente, y nunca desde un fork (no tendría permisos y
     # además dejaría escribir a cualquiera con un PR).
+    #
+    # `changelog/` se añadió el 2026-08-31: el comando `changelog add` del
+    # docs-agent abre PRs con ese prefijo y editan docs/changelog.mdx, así
+    # que sin esto nacen en rojo por los mirrors desincronizados.
     if: >
-      startsWith(github.head_ref, 'quality/') &&
+      (startsWith(github.head_ref, 'quality/') ||
+       startsWith(github.head_ref, 'changelog/')) &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
