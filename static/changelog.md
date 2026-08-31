@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release privacy hardening (August 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a more accurate bounce rate (August 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-08-24T12:55:48.931Z"
-source_hash: "317f4f7cb740c067cd844c85193aa7579eff709997a44d145d3e1c4b0caf026b"
+date_generated: "2026-08-31T14:37:37.729Z"
+source_hash: "46a6cae348a9da0d1851bd1e410fc9dfbfe7fa5b92d54620bc1b398d4d3cf1d6"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,26 @@ publisher: "Sealmetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## More accurate bounce rate — microconversions no longer affect session counting (August 31, 2026)
+
+Bounce rate and engaged visits are now calculated from real page views only. Microconversions (CTA clicks, scroll events, pricing views, banner events…) and conversions are still recorded and keep their full attribution — they simply no longer take part in how a visit is counted.
+
+### What changed
+
+- **Only page views count toward engagement.** A visit is engaged when it sees more than one page. Until now other event types could take that role, and the engagement signal was not always picked up by the engagement report.
+- **Only page views can start or restart a visit.** An event fired on a URL that still carried `utm_*` parameters could be read as a new campaign arrival and restart the session, resetting its page count.
+- **Microconversions and conversions are unaffected.** Same reporting, same attribution (campaign, landing page, device).
+
+### What you will see in your reports
+
+- **Bounce rate drops by around 9% from August 31, 2026.** Your traffic has not changed: engaged visits that were not being counted now are.
+- **Historical data is not recalculated**, so there is a step in the time series on that date. Take it into account when comparing periods across the boundary.
+- **Small effect in the opposite direction** on sites with heavy microconversion tracking: a single-page visit is a bounce even if it fires many microconversions, which is what the definition above says. The net effect across accounts is a decrease.
+
+**No action is required** — no changes to your pixel, your events or the API.
 
 ---
 
