@@ -60390,6 +60390,26 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
+## More accurate bounce rate — microconversions no longer affect session counting (August 31, 2026)
+
+Bounce rate and engaged visits are now calculated from real page views only. Microconversions (CTA clicks, scroll events, pricing views, banner events…) and conversions are still recorded and keep their full attribution — they simply no longer take part in how a visit is counted.
+
+### What changed
+
+- **Only page views count toward engagement.** A visit is engaged when it sees more than one page. Until now other event types could take that role, and the engagement signal was not always picked up by the engagement report.
+- **Only page views can start or restart a visit.** An event fired on a URL that still carried `utm_*` parameters could be read as a new campaign arrival and restart the session, resetting its page count.
+- **Microconversions and conversions are unaffected.** Same reporting, same attribution (campaign, landing page, device).
+
+### What you will see in your reports
+
+- **Bounce rate drops by around 9% from August 31, 2026.** Your traffic has not changed: engaged visits that were not being counted now are.
+- **Historical data is not recalculated**, so there is a step in the time series on that date. Take it into account when comparing periods across the boundary.
+- **Small effect in the opposite direction** on sites with heavy microconversion tracking: a single-page visit is a bounce even if it fires many microconversions, which is what the definition above says. The net effect across accounts is a decrease.
+
+**No action is required** — no changes to your pixel, your events or the API.
+
+---
+
 ## Privacy hardening — ephemeral session identifiers, click IDs no longer stored (August 24, 2026)
 
 Three privacy improvements are now live for all accounts. Reports, historical data and the API keep working exactly as before, and **no action is required**.
