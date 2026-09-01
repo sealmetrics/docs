@@ -3,8 +3,8 @@ title: "What is Consentless Analytics?"
 description: "What consentless analytics is, the four non-identifying variables Sealmetrics records, and why measuring without personal data means no consent banner is required."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-analytics"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "219bd6aa28da33c9729db7a4c0617580390b844a130e040dadf3171604543b74"
+date_generated: "2026-09-01T16:46:45.852Z"
+source_hash: "bf36048c990b480edd8541d77573a7d5e64c80d4c1794b4ff91df31f5ec3e98d"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -176,7 +176,7 @@ Adding consentless analytics to any website requires one line of code:
 
 No consent management platform needed. No cookie banner configuration. No Consent Mode setup. The tracker loads asynchronously (1.3 KB gzipped), detects SPA navigation automatically, and begins capturing data immediately.
 
-For platform-specific installation, see guides for [WordPress](/integrations/cms/wordpress), [WooCommerce](/integrations/ecommerce/woocommerce), [Shopify](/integrations/ecommerce/bigcommerce), [Next.js](/integrations/frameworks/nextjs), and [more integrations](/integrations).
+For platform-specific installation, see guides for [WordPress](/integrations/cms/wordpress), [WooCommerce](/integrations/ecommerce/woocommerce), [Shopify](/integrations/ecommerce/shopify), [Next.js](/integrations/frameworks/nextjs), and [more integrations](/integrations).
 
 ---
 
