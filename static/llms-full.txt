@@ -54740,7 +54740,19 @@ Preservation depends on the original session still being active when the visitor
 **Info:**
 Passthrough referrers are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect them with the API calls shown below. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete request/response schema.
 
-Passthrough referrers are scoped to an account. Register one with your API key:
+### Built-in vs. account-specific
+
+There are two layers, and knowing which one covers you saves you from registering domains that are already handled:
+
+- **Built-in** — Sealmetrics maintains a list of common passthrough domains, chiefly the major payment gateways, that applies to **every account** with no configuration on your side. This is why most standard checkout flows attribute correctly out of the box.
+- **Account-specific** — everything else: your own PSP, a regional gateway, a booking engine, an SSO provider, a sibling domain in your group. You register these yourself, per account, with the API calls below.
+
+If a domain is showing up as a referral in your reports, it isn't covered by the built-in list — register it for your account.
+
+**Warning:**
+They are scoped to the account you register them against. Opening a new market, brand or property means registering the same domains again for that account — they are not inherited, and nothing warns you. If you run many accounts, make this a step in your site-provisioning checklist.
+
+Register a domain for your account with your API key:
 
 ```bash
 curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
@@ -55771,6 +55783,10 @@ You can configure Sealmetrics to **ignore specific referrers**, ensuring that on
 
 **Info:**
 Payment/POS domains are excluded by registering them as **passthrough referrers** through the **Sealmetrics API** — there is no dashboard screen for this. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema.
+
+**Check whether you need to do anything first.** Sealmetrics ships with a built-in list of common payment gateways that applies to every account, so the most standard checkout flows are already covered. If your payment domain still appears as a referral in your reports, it isn't on that list and you need to register it yourself — see [Built-in vs. account-specific](/platform/tracking-and-attribution-settings/passthrough-referrers#built-in-vs-account-specific).
+
+Entries you register are scoped to **one account**. If you run several accounts — one per market, brand or property — register the domain for each of them; it is not inherited when you create a new account.
 
 Register the payment domain for your account with your API key:
 

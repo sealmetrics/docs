@@ -3,8 +3,8 @@ title: "Passthrough Referrers"
 description: "Learn what a passthrough referrer is and how to preserve the original traffic source when visitors return from external domains such as payment gateways, SSO providers, or booking engines."
 canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/passthrough-referrers"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "1cb35cf40019d25a9d40ebc4d1b1ddf72f856a1e6b2fb05737f79fcf6dd636d2"
+date_generated: "2026-09-01T17:25:32.384Z"
+source_hash: "e936c622c9916106deaa7d1b00937af8472ba3424be58a13320ca68113a79a06"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -53,7 +53,19 @@ Preservation depends on the original session still being active when the visitor
 **Info:**
 Passthrough referrers are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect them with the API calls shown below. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete request/response schema.
 
-Passthrough referrers are scoped to an account. Register one with your API key:
+### Built-in vs. account-specific
+
+There are two layers, and knowing which one covers you saves you from registering domains that are already handled:
+
+- **Built-in** — Sealmetrics maintains a list of common passthrough domains, chiefly the major payment gateways, that applies to **every account** with no configuration on your side. This is why most standard checkout flows attribute correctly out of the box.
+- **Account-specific** — everything else: your own PSP, a regional gateway, a booking engine, an SSO provider, a sibling domain in your group. You register these yourself, per account, with the API calls below.
+
+If a domain is showing up as a referral in your reports, it isn't covered by the built-in list — register it for your account.
+
+**Warning:**
+They are scoped to the account you register them against. Opening a new market, brand or property means registering the same domains again for that account — they are not inherited, and nothing warns you. If you run many accounts, make this a step in your site-provisioning checklist.
+
+Register a domain for your account with your API key:
 
 ```bash
 curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
