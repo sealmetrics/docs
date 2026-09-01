@@ -125,6 +125,22 @@ function parseFrontmatter(content) {
   return { data, content: body };
 }
 
+// ─── Visibility ──────────────────────────────────────────────────────────────
+
+/**
+ * Docusaurus renders `unlisted: true` and `draft: true` pages with
+ * <meta name="robots" content="noindex, nofollow">, and keeps them out of the
+ * sitemap. Mirroring them would hand AI engines a page we deliberately keep
+ * out of search — llms.txt would advertise what the HTML says not to index.
+ *
+ * parseFrontmatter does no type coercion, so `true` arrives as the string
+ * "true"; accept both.
+ */
+function isHidden(frontmatter) {
+  const hidden = (value) => value === true || value === 'true';
+  return hidden(frontmatter.unlisted) || hidden(frontmatter.draft);
+}
+
 // ─── MDX/JSX stripper ────────────────────────────────────────────────────────
 
 function stripMdx(content) {
@@ -284,6 +300,7 @@ function discoverDocs() {
   for (const filePath of walkDir(DOCS_DIR)) {
     const raw = readFileSync(filePath, 'utf-8');
     const { data: frontmatter, content } = parseFrontmatter(raw);
+    if (isHidden(frontmatter)) continue;
     const rel = relative(DOCS_DIR, filePath);
 
     // Determine category directory
@@ -323,6 +340,7 @@ function discoverBlogPosts() {
   for (const filePath of walkDir(BLOG_DIR)) {
     const raw = readFileSync(filePath, 'utf-8');
     const { data: frontmatter, content } = parseFrontmatter(raw);
+    if (isHidden(frontmatter)) continue;
     const name = basename(filePath, extname(filePath));
 
     // Strip a leading YYYY-MM-DD- prefix when there's no explicit slug
