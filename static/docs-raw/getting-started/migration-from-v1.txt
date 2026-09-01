@@ -17,8 +17,18 @@ If you're upgrading from Sealmetrics v1, the Migration Wizard imports your histo
 
 All available data types are always migrated together — you don't need to (and can't) pick a subset. Properties on conversions and microconversions are preserved.
 
-**Info:**
-`engaged_entrances` is always **0** on migrated rows — Sealmetrics v1 didn't record this signal. Your v2 bounce-rate calculation will only be meaningful for traffic captured after you installed the v2 pixel.
+## What the migrated period won't have
+
+Three things are missing from the imported range, and none of them can be backfilled later. They are limits of what v1 recorded, not of the importer — so plan your year-on-year comparisons around them rather than filing them as bugs.
+
+| Missing | What you'll see | Why |
+|---------|-----------------|-----|
+| **Channel grouping** | Migrated traffic reports as **Unassigned** in the Channels report | v1 didn't store the channel classification, and Sealmetrics classifies at ingest time — there is nothing to reclassify after the fact |
+| **Hourly breakdown** | Migrated days resolve to daily totals only | v1 stored these rows pre-aggregated by day |
+| **Engagement / bounce rate** | `engaged_entrances` is always **0**, so migrated days read as 100% bounce | v1 didn't record this signal |
+
+**Warning:**
+A year-on-year or period-over-period comparison that spans the migration date will look like a collapse in engaged traffic and a spike in Unassigned channels. That's the seam, not a change in your traffic. When you need a like-for-like read, compare periods that sit entirely on one side of it.
 
 ## How the wizard works
 
@@ -106,7 +116,7 @@ Once the job reaches `completed`, imported data is available immediately in your
 
 - The **Conversions** and **Microconversions** reports show the merged history.
 - The **Pages** report includes v1 URLs with their page views and entrances.
-- Channel grouping is applied to imported rows using the **default v2 rules** (any custom channel rules you add later will only affect new traffic — same rule as everywhere else in Sealmetrics: **classification happens at ingest time**).
+- Channel grouping is **not** applied to imported rows — they report as **Unassigned**. Sealmetrics classifies traffic into channels at ingest time and v1 didn't store that classification, so there is nothing to carry over and nothing to recompute afterwards. Custom channel rules you create later affect new traffic only, never the migrated range. See [What the migrated period won't have](#what-the-migrated-period-wont-have).
 
 ## Troubleshooting
 
