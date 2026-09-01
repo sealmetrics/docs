@@ -3,8 +3,8 @@ title: "Growth Plan"
 description: "Everything included in the Sealmetrics Growth plan for growing teams and mid-size businesses."
 canonical_url: "https://docs.sealmetrics.com/billing/plans/growth"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "fc12e9c5e8908ef813590f191f1a9dd2aca713fec3afcddb8ea3f54c5494fa7e"
+date_generated: "2026-09-01T07:50:05.679Z"
+source_hash: "163bd9e146c53ff5c808e91f688c405abe716e70f00ca243c30b3de541abf73d"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -35,7 +35,7 @@ The Growth plan is designed for growing teams and mid-size e-commerce businesses
 | Websites | Unlimited |
 | Data retention | 24 months |
 | First-party tracking | Yes |
-| Cookie-free mode | Yes |
+| No cookies used | Yes |
 | Bot filtering | Yes |
 | Real-time data | Typically < 2 min |
 | Data complete before 6 AM | Yes (SLA) |
