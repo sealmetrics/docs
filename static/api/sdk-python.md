@@ -3,8 +3,8 @@ title: "Python SDK (unreleased)"
 description: "Design reference for the Sealmetrics Python SDK — not yet published to PyPI. Use the OpenAPI spec, the REST API or the MCP server today."
 canonical_url: "https://docs.sealmetrics.com/api/sdk-python"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "51cbc1e7722aec1a068d3d2ffd46ba15ac303d0ba5817b7c17396b3e7a9e02cb"
+date_generated: "2026-09-01T07:47:33.086Z"
+source_hash: "6487b549ff378123310d95e1de6a8e00d24f79615564b98463bd70d2bbccd447"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -163,7 +163,7 @@ Query methods return a `QueryResult` (see below) unless noted otherwise. They ac
 | `sources()` | By `utm_source` | `QueryResult[SourceMetrics]` |
 | `mediums()` | By `utm_medium` | `QueryResult[MediumMetrics]` |
 | `campaigns()` | By `utm_campaign` | `QueryResult[CampaignMetrics]` |
-| `channels()` | GA4-style channels | `QueryResult[ChannelMetrics]` |
+| `channels()` | Standard channel groupings | `QueryResult[ChannelMetrics]` |
 
 ### Geographic and device
 
