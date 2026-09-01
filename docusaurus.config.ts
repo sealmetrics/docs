@@ -27,11 +27,26 @@ const config: Config = {
   // Site-wide meta + Organization/WebSite JSON-LD only.
   // SoftwareApplication is injected on the homepage only via src/pages or docs/index.mdx <Head>.
   headTags: [
+    // Snippet and preview limits only — deliberately no `index, follow`.
+    //
+    // headTags is global: it lands on every page, including the ones
+    // Docusaurus marks `unlisted`, which get their own
+    // <meta name="robots" content="noindex, nofollow"> from the theme. Saying
+    // `index, follow` here put two contradictory robots tags on those pages.
+    // Crawlers resolve the conflict by taking the most restrictive directive,
+    // so noindex won and nothing was actually mis-indexed — but the page was
+    // telling them two different things.
+    //
+    // Dropping `index, follow` costs nothing: both are the default, and a page
+    // with no noindex is indexable regardless. The max-* directives are what
+    // this tag is really for, and they merge with noindex without conflict.
+    //
+    // Do not add `index, follow` back.
     {
       tagName: 'meta',
       attributes: {
         name: 'robots',
-        content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+        content: 'max-image-preview:large, max-snippet:-1, max-video-preview:-1',
       },
     },
     {
