@@ -3,8 +3,8 @@ title: "Invoices & Payments"
 description: "Managing invoices, payment methods, and billing information in Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/billing/invoices"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "9ba555d62ca0f7326de52c8ca83d0dbef944a809f409bb66748fd69d27eb5e40"
+date_generated: "2026-09-01T07:49:38.565Z"
+source_hash: "6bc6912a5aa9e48a00603cad7292b58e2a88bbfa8b3ea1b3cb6d885b3f05c647"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -291,7 +291,7 @@ For refund requests:
 1. Email billing@sealmetrics.com
 2. Include invoice number
 3. Explain circumstances
-4. Response within 2 business days
+4. Response within 1 business day
 
 ## Receipts & Tax Documents
 
