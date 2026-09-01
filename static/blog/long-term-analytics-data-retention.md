@@ -3,8 +3,8 @@ title: "Long-Term Analytics: 24-Month Data Retention Without Consent"
 description: "24-month analytics data retention without consent. How cookieless tracking enables long-term analysis while staying GDPR compliant."
 canonical_url: "https://docs.sealmetrics.com/blog/long-term-analytics-data-retention"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "4e7e1eba21f29c02b46ad867c03f83f36e4b50a7acc584fe5b183658aa51cbb3"
+date_generated: "2026-09-01T07:51:33.550Z"
+source_hash: "b951d1ada6d14f1ae53de9388c3fe33bf9a427544491c02f4bb5f63c0682e49c"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -107,6 +107,8 @@ Here's how long-term analytics capabilities compare across major platforms:
 
 | Feature | Google Analytics | Plausible | Matomo | Sealmetrics |
 |---------|------------------|-----------|--------|-------------|
+The block already contains the real snippet (``), so no change needed to that block. Here is the excerpt returned unchanged, as the offending empty code block pattern is not present in this excerpt in the way described:
+
 | **Legal Basis** | Consent (Article 6(1)(a)) | Legitimate Interest | Legitimate Interest | **None required — no personal data** |
 | **Requires Consent Banner** | Yes | No | Depends | No |
 | **Maximum Retention (With Consent)** | 14-26 months | Unlimited | Unlimited | **24 months** |
