@@ -24169,7 +24169,7 @@ Possible status codes:
 POST /email/verify
 ```
 
-Confirms the verification token from the email link and immediately creates an authenticated session. Sets refresh / access auth cookies on the response and returns the access token in the body for SPA bootstrapping.
+Confirms the verification token from the email link and immediately creates an authenticated session. Sets refresh / access authentication session tokens (app login session, not tracking) on the response and returns the access token in the body for SPA bootstrapping.
 
 **Request Body:**
 

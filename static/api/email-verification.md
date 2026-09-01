@@ -3,8 +3,8 @@ title: "Email Verification"
 description: "Endpoints for the post-registration email confirmation flow — check status, resend the verification email, and verify with auto-login"
 canonical_url: "https://docs.sealmetrics.com/api/email-verification"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "b5b143340869968e9307f6730d36441bbccbd0ce7d1e2a24e85234a3be0f7ff7"
+date_generated: "2026-09-01T07:47:03.139Z"
+source_hash: "c104221ef30d860e988fc9ef024d4e34f7a8ecee10d6c49346a1088c0cebe726"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -81,7 +81,7 @@ Possible status codes:
 POST /email/verify
 ```
 
-Confirms the verification token from the email link and immediately creates an authenticated session. Sets refresh / access auth cookies on the response and returns the access token in the body for SPA bootstrapping.
+Confirms the verification token from the email link and immediately creates an authenticated session. Sets refresh / access authentication session tokens (app login session, not tracking) on the response and returns the access token in the body for SPA bootstrapping.
 
 **Request Body:**
 
