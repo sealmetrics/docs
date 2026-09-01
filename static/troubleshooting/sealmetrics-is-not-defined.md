@@ -3,8 +3,8 @@ title: "Fixing ReferenceError: sealmetrics is not defined"
 description: "How to keep your site working when ad blockers, privacy extensions, or DNS filters prevent the Sealmetrics tracker from loading."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/sealmetrics-is-not-defined"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "56bc5cc169989a4fc8cd61fc10aa0b5add3762cfe4d4070585877d6ab78e21e1"
+date_generated: "2026-09-01T17:22:38.784Z"
+source_hash: "8efada930304d5908502a626ac9436a4f0bd3fcf183df727cd9bec2c9ed773b4"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -81,15 +81,15 @@ If for any reason you cannot inject the stub (restrictive policies, no access to
 ```javascript
 if (typeof window.sealmetrics !== "undefined" && typeof window.sealmetrics.micro === "function") {
   sealmetrics.micro("Add_to_cart", {
-    module_title:     google_tag_manager["rm"]["208828905"](16),
-    click_text:       google_tag_manager["rm"]["208828905"](17),
-    page_title:       google_tag_manager["rm"]["208828905"](18),
-    page_subcategory: google_tag_manager["rm"]["208828905"](19),
-    cookies:          google_tag_manager["rm"]["208828905"](20),
-    type_appointment: google_tag_manager["rm"]["208828905"](21)
+    product_id:   {{Product ID}},
+    product_name: {{Product Name}},
+    category:     {{Product Category}},
+    page_title:   {{Page Title}}
   });
 }
 ```
+
+The `{{...}}` placeholders are GTM variable references — replace them with your own Data Layer variables.
 
 For conversions:
 

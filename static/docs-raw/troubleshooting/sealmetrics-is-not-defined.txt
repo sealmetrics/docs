@@ -69,15 +69,15 @@ If for any reason you cannot inject the stub (restrictive policies, no access to
 ```javascript
 if (typeof window.sealmetrics !== "undefined" && typeof window.sealmetrics.micro === "function") {
   sealmetrics.micro("Add_to_cart", {
-    module_title:     google_tag_manager["rm"]["208828905"](16),
-    click_text:       google_tag_manager["rm"]["208828905"](17),
-    page_title:       google_tag_manager["rm"]["208828905"](18),
-    page_subcategory: google_tag_manager["rm"]["208828905"](19),
-    cookies:          google_tag_manager["rm"]["208828905"](20),
-    type_appointment: google_tag_manager["rm"]["208828905"](21)
+    product_id:   {{Product ID}},
+    product_name: {{Product Name}},
+    category:     {{Product Category}},
+    page_title:   {{Page Title}}
   });
 }
 ```
+
+The `{{...}}` placeholders are GTM variable references — replace them with your own Data Layer variables.
 
 For conversions:
 
