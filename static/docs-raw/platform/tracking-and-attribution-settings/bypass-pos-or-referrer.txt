@@ -24,6 +24,10 @@ You can configure Sealmetrics to **ignore specific referrers**, ensuring that on
 **Info:**
 Payment/POS domains are excluded by registering them as **passthrough referrers** through the **Sealmetrics API** — there is no dashboard screen for this. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema.
 
+**Check whether you need to do anything first.** Sealmetrics ships with a built-in list of common payment gateways that applies to every account, so the most standard checkout flows are already covered. If your payment domain still appears as a referral in your reports, it isn't on that list and you need to register it yourself — see [Built-in vs. account-specific](/platform/tracking-and-attribution-settings/passthrough-referrers#built-in-vs-account-specific).
+
+Entries you register are scoped to **one account**. If you run several accounts — one per market, brand or property — register the domain for each of them; it is not inherited when you create a new account.
+
 Register the payment domain for your account with your API key:
 
 ```bash
