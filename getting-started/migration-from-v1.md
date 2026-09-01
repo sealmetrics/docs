@@ -3,8 +3,8 @@ title: "Migrate Your Historical Data from v1"
 description: "Import historical conversions, microconversions and pageviews from Sealmetrics v1 to v2 with the Migration Wizard — connect, pick a date range, and let the nocturnal worker do the rest."
 canonical_url: "https://docs.sealmetrics.com/getting-started/migration-from-v1"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "9ff999f5129e4999c9e37c7bccce678831d94c681b83d5f9e4a9bbac301782a8"
+date_generated: "2026-09-01T17:24:31.918Z"
+source_hash: "f17f179d5974ea62c5c98048624f361e68c2806415b0ecadcc5e290ea2d753fa"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -25,12 +25,25 @@ If you're upgrading from Sealmetrics v1, the Migration Wizard imports your histo
 | **Conversions** | Yes | Your Conversions report |
 | **Microconversions** | Yes | Your Microconversions report |
 | **Pageviews** (pre-aggregated) | Yes | Your Pages report (URL → name, totals → page views, entrances) |
-| Terms / OS / Device dimensions | Yes | Rolled into your Sources & Devices reports |
+| Terms | Yes | Rolled into your Sources report |
+| Device on **conversions** | Yes | Your Conversions report keeps it |
 
 All available data types are always migrated together — you don't need to (and can't) pick a subset. Properties on conversions and microconversions are preserved.
 
-**Info:**
-`engaged_entrances` is always **0** on migrated rows — Sealmetrics v1 didn't record this signal. Your v2 bounce-rate calculation will only be meaningful for traffic captured after you installed the v2 pixel.
+## What the migrated period won't have
+
+Five things are missing from the imported range, and none of them can be backfilled later. They are limits of what v1 recorded, not of the importer — so plan your year-on-year comparisons around them rather than filing them as bugs.
+
+| Missing | What you'll see | Why |
+|---------|-----------------|-----|
+| **Channel grouping** | Migrated traffic reports as **Unassigned** in the Channels report | v1 didn't store the channel classification, and Sealmetrics classifies at ingest time — there is nothing to reclassify after the fact |
+| **Hourly breakdown** | Migrated days resolve to daily totals only | v1 stored these rows pre-aggregated by day |
+| **Engagement / bounce rate** | `engaged_entrances` is always **0**, so migrated days read as 100% bounce | v1 didn't record this signal |
+| **Traffic by device, browser and OS** | No device, browser or OS split on migrated traffic. Your **conversions** are unaffected — those do carry device | v1 aggregated its traffic rows without keeping the split |
+| **Landing Pages report** | Empty for the migrated range | The per-page traffic is still there, just in the **Pages** report instead — nothing is lost, only reported elsewhere |
+
+**Warning:**
+A year-on-year or period-over-period comparison that spans the migration date will look like a collapse in engaged traffic and a spike in Unassigned channels. That's the seam, not a change in your traffic. When you need a like-for-like read, compare periods that sit entirely on one side of it.
 
 ## How the wizard works
 
@@ -118,7 +131,7 @@ Once the job reaches `completed`, imported data is available immediately in your
 
 - The **Conversions** and **Microconversions** reports show the merged history.
 - The **Pages** report includes v1 URLs with their page views and entrances.
-- Channel grouping is applied to imported rows using the **default v2 rules** (any custom channel rules you add later will only affect new traffic — same rule as everywhere else in Sealmetrics: **classification happens at ingest time**).
+- Channel grouping is **not** applied to imported rows — they report as **Unassigned**. Sealmetrics classifies traffic into channels at ingest time and v1 didn't store that classification, so there is nothing to carry over and nothing to recompute afterwards. Custom channel rules you create later affect new traffic only, never the migrated range. See [What the migrated period won't have](#what-the-migrated-period-wont-have).
 
 ## Troubleshooting
 
