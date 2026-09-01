@@ -3,8 +3,8 @@ title: "Segments"
 description: "Create reusable saved filter configurations, apply them consistently across all analytics endpoints, and share segments with your team"
 canonical_url: "https://docs.sealmetrics.com/api/segments"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "3fa299eaa334e63fac55f6babd2e2b0a33ba37e8a7bc0bb84392a8f2c9ff2594"
+date_generated: "2026-09-01T07:47:55.519Z"
+source_hash: "575a93a380e5f85826a491f9a25f8a5ecd586eb3322d3612bd9d5743016348d7"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -540,7 +540,7 @@ console.table(comparison);
 complex_segment = create_segment(
     name="es-mobile-or-fr-desktop",
     display_name="ES Mobile OR FR Desktop",
-    filters={
+    conditions={
         "groups": [
             {
                 "conditions": [
