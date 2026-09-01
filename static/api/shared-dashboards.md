@@ -3,8 +3,8 @@ title: "Shared Dashboards"
 description: "Create public or password-protected shareable dashboards with share tokens, embed configs, allowed domains, and expiration dates"
 canonical_url: "https://docs.sealmetrics.com/api/shared-dashboards"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "098dda3740ad2efd9c85ede3b268651868361d6908160f7a674e6890c8d5cf67"
+date_generated: "2026-09-01T07:50:27.951Z"
+source_hash: "75f0cf2640c5e19ff8893a650efac3966808c3bafa6452f9e6af50d653a14e9a"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -207,7 +207,7 @@ No authentication. Returns metadata needed by the public viewer to decide whethe
 POST /shared-dashboards/public/{share_token}/access
 ```
 
-No authentication. Validates an optional password and logs the access (IP, user-agent, referer).
+No authentication. Validates an optional password and logs the access (user-agent, referer).
 
 **Request Body:**
 
