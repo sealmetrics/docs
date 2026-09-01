@@ -3,8 +3,8 @@ title: "Stats Advanced"
 description: "Advanced analytics endpoints for the UTM hierarchy — mediums, sources, campaigns, terms — plus landing pages, channels, and microconversions"
 canonical_url: "https://docs.sealmetrics.com/api/stats-advanced"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c73716ed9e32b59a98d2308cf1bb69e261bffafb76c78af175f7a1b03ab771a9"
+date_generated: "2026-09-01T07:48:27.900Z"
+source_hash: "c8b024767f288b7a384e72a8591e0f036aa585a96f97e26534f0c85db0b13d88"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -411,7 +411,7 @@ Aggregate landing page metrics by content group. Returns one row per group with 
 GET /stats/channels
 ```
 
-Get traffic by GA4-style channel grouping.
+Get traffic by standard channel grouping.
 
 Sealmetrics automatically classifies traffic into channels based on UTM parameters:
 
