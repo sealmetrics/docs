@@ -635,6 +635,26 @@ curl "https://my.sealmetrics.com/api/v1/stats/conversions/raw?site_id=acme&start
 }
 ```
 
+:::warning Use the root-level UTMs, not the ones inside `properties`
+`utm_source`, `utm_medium`, `utm_campaign`, `utm_term` and `utm_content` at the **root of the row** are the attribution Sealmetrics resolved for that conversion. Those are the values to analyse.
+
+If you also see UTM keys **inside `properties`**, they are not a second opinion from us — they are values *your own tracking code sent* with the conversion call, stored verbatim like any other custom property. Sealmetrics never writes into `properties`.
+
+The two can disagree, and the disagreement is usually meaningful rather than a bug:
+
+```json
+{
+  "utm_source": "Direct",
+  "utm_medium": "Direct",
+  "properties": { "utm_source": "", "utm_medium": "" }
+}
+```
+
+Here the page passed empty UTMs and Sealmetrics resolved the visit as Direct. Reading `properties.utm_source` would give you a blank where the answer is "Direct".
+
+**Rule:** for attribution, always read the root-level fields. Treat UTM keys inside `properties` as your own raw input, useful only for debugging your tagging. If you don't want them duplicated, stop sending them in the conversion call — the attribution is captured independently.
+:::
+
 :::tip Choosing between endpoints
 - **`/stats/conversions/raw`** — one row per conversion with full dimensions. Use for analysis, attribution, or feeding a warehouse incrementally.
 - **`/stats/conversions`** — aggregated totals by conversion type. Use for dashboards and KPIs.
