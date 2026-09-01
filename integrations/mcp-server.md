@@ -3,8 +3,8 @@ title: "MCP Server for AI Assistants"
 description: "Connect Claude, ChatGPT, Cursor, Codex, and other AI assistants to your Sealmetrics analytics using the Model Context Protocol (MCP) — either the hosted remote server (one URL, no install) or the local npx server."
 canonical_url: "https://docs.sealmetrics.com/integrations/mcp-server"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "2b5f677b8a0f141df94a9f57fe20ff1bfd2d5b217edac30aaec25411ef7e3fa9"
+date_generated: "2026-09-01T08:51:43.194Z"
+source_hash: "3e39331df684e5b1cde876fcbde2029eb8bff4a07af345ceb60d5dc93fe218d6"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -467,6 +467,18 @@ Ask "list my sites" to confirm which sites are available, then query one of thos
 ### Remote MCP: client won't accept a URL
 
 Some older clients only support local (stdio) servers. Bridge to the remote endpoint with `mcp-remote` — see [the note above](#vs-code-copilot--other-mcp-clients).
+
+### Local MCP: "404 Not Found" or "@sealmetrics/mcp-server is not in this registry"
+
+Your configuration points at the old package name. `@sealmetrics/mcp-server` was renamed to `@sealmetrics/mcp` in v1.3.0 (June 2026) and removed from the npm registry, so npx can no longer download it.
+
+Edit your config and replace the package name:
+
+```json
+"args": ["-y", "@sealmetrics/mcp@latest"]
+```
+
+Leave your API key and site ID unchanged. Save, restart your client completely, and ask "list my sites". If the error persists, npx may have cached the broken resolution — run `rm -rf ~/.npm/_npx` and restart again.
 
 ### Local MCP: Claude doesn't see the Sealmetrics tools
 

@@ -6,6 +6,32 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
+## Local MCP server — action required if you set it up before June 27 (September 1, 2026)
+
+If you connected Sealmetrics to Claude using the **local (npx) MCP server** and configured it before June 27, 2026, your connection has most likely been failing ever since. This affects the local server only: the [remote MCP server](/integrations/mcp-server#remote-mcp-server-recommended) and the Claude Desktop extension are unaffected.
+
+### What happened
+
+The npm package was renamed from `@sealmetrics/mcp-server` to `@sealmetrics/mcp` in version 1.3.0, and the old name was removed from the npm registry. Configurations still pointing at the old name receive a `404 Not Found` at startup. The failure is silent — the connector simply shows as unavailable, with no indication of why.
+
+We should have announced the rename when it happened. We didn't, and we're sorry for the time it cost you.
+
+### How to fix it
+
+Open your MCP configuration file, find the `sealmetrics` entry, and change the package name:
+
+```json
+"args": ["-y", "@sealmetrics/mcp@latest"]
+```
+
+Your API key and site ID stay exactly as they are — nothing else changes. Save the file, quit your client completely and reopen it, then ask "list my Sealmetrics sites" to confirm it works. If it still fails, npx may have cached the broken resolution: run `rm -rf ~/.npm/_npx` and restart once more.
+
+Updating brings you to version 1.8.1, which adds live documentation search from the chat, a troubleshooting guide, the marketing analysis playbook, and product-level conversion item data.
+
+Full setup guide: [MCP Server](/integrations/mcp-server).
+
+---
+
 ## More accurate bounce rate — microconversions no longer affect session counting (August 31, 2026)
 
 Bounce rate and engaged visits are now calculated from real page views only. Microconversions (CTA clicks, scroll events, pricing views, banner events…) and conversions are still recorded and keep their full attribution — they simply no longer take part in how a visit is counted.

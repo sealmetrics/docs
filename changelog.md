@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a more accurate bounce rate (August 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release local MCP server package rename (September 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-08-31T14:37:37.729Z"
-source_hash: "46a6cae348a9da0d1851bd1e410fc9dfbfe7fa5b92d54620bc1b398d4d3cf1d6"
+date_generated: "2026-09-01T09:24:39.001Z"
+source_hash: "f6057c5cf46af2c8da108f9ec2e57f3d25f99d381045a49cf5ffa0adb0ff8b1b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,32 @@ publisher: "Sealmetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## Local MCP server — action required if you set it up before June 27 (September 1, 2026)
+
+If you connected Sealmetrics to Claude using the **local (npx) MCP server** and configured it before June 27, 2026, your connection has most likely been failing ever since. This affects the local server only: the [remote MCP server](/integrations/mcp-server#remote-mcp-server-recommended) and the Claude Desktop extension are unaffected.
+
+### What happened
+
+The npm package was renamed from `@sealmetrics/mcp-server` to `@sealmetrics/mcp` in version 1.3.0, and the old name was removed from the npm registry. Configurations still pointing at the old name receive a `404 Not Found` at startup. The failure is silent — the connector simply shows as unavailable, with no indication of why.
+
+We should have announced the rename when it happened. We didn't, and we're sorry for the time it cost you.
+
+### How to fix it
+
+Open your MCP configuration file, find the `sealmetrics` entry, and change the package name:
+
+```json
+"args": ["-y", "@sealmetrics/mcp@latest"]
+```
+
+Your API key and site ID stay exactly as they are — nothing else changes. Save the file, quit your client completely and reopen it, then ask "list my Sealmetrics sites" to confirm it works. If it still fails, npx may have cached the broken resolution: run `rm -rf ~/.npm/_npx` and restart once more.
+
+Updating brings you to version 1.8.1, which adds live documentation search from the chat, a troubleshooting guide, the marketing analysis playbook, and product-level conversion item data.
+
+Full setup guide: [MCP Server](/integrations/mcp-server).
 
 ---
 
