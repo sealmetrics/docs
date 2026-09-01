@@ -474,6 +474,18 @@ Ask "list my sites" to confirm which sites are available, then query one of thos
 
 Some older clients only support local (stdio) servers. Bridge to the remote endpoint with `mcp-remote` — see [the note above](#vs-code-copilot--other-mcp-clients).
 
+### Local MCP: "404 Not Found" or "@sealmetrics/mcp-server is not in this registry"
+
+Your configuration points at the old package name. `@sealmetrics/mcp-server` was renamed to `@sealmetrics/mcp` in v1.3.0 (June 2026) and removed from the npm registry, so npx can no longer download it.
+
+Edit your config and replace the package name:
+
+```json
+"args": ["-y", "@sealmetrics/mcp@latest"]
+```
+
+Leave your API key and site ID unchanged. Save, restart your client completely, and ask "list my sites". If the error persists, npx may have cached the broken resolution — run `rm -rf ~/.npm/_npx` and restart again.
+
 ### Local MCP: Claude doesn't see the Sealmetrics tools
 
 1. **Claude Code**: Make sure `.mcp.json` is in your project root and restart Claude Code
