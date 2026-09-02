@@ -38,6 +38,28 @@ Both endpoints share the same constraints as `/stats/conversions/raw` (31-day ma
 
 ---
 
+## My conversion rows have UTMs twice — at the root and inside `properties`. Which one is real?
+
+**The root-level ones.** `utm_source`, `utm_medium`, `utm_campaign`, `utm_term` and `utm_content` at the root of the row are the attribution Sealmetrics resolved for that conversion. Analyse those.
+
+UTM keys **inside `properties`** are values your own tracking code sent along with the conversion call. Sealmetrics stores them verbatim, like any other custom property, and never writes into `properties` itself. There is no hierarchy between the two blocks and they do not represent different moments in the attribution — one is our answer, the other is your input.
+
+They can disagree, and that is usually informative:
+
+```json
+{
+  "utm_source": "Direct",
+  "utm_medium": "Direct",
+  "properties": { "utm_source": "", "utm_medium": "" }
+}
+```
+
+The page sent empty UTMs; Sealmetrics resolved the visit as Direct. Reading `properties.utm_source` would hand you a blank where the answer is "Direct".
+
+If the duplication is noise for your pipeline, stop passing UTMs in the conversion call — attribution is captured independently of what you send.
+
+---
+
 ## What value do I pass for `account_id`? My `site_id` is being rejected.
 
 Both parameters refer to **the same value: the site slug** (the identifier shown in the dashboard URL, e.g. `acme` in `my.sealmetrics.com/acme/...`).

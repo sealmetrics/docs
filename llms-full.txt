@@ -27834,6 +27834,25 @@ curl "https://my.sealmetrics.com/api/v1/stats/conversions/raw?site_id=acme&start
 }
 ```
 
+**Warning:**
+`utm_source`, `utm_medium`, `utm_campaign`, `utm_term` and `utm_content` at the **root of the row** are the attribution Sealmetrics resolved for that conversion. Those are the values to analyse.
+
+If you also see UTM keys **inside `properties`**, they are not a second opinion from us — they are values *your own tracking code sent* with the conversion call, stored verbatim like any other custom property. Sealmetrics never writes into `properties`.
+
+The two can disagree, and the disagreement is usually meaningful rather than a bug:
+
+```json
+{
+  "utm_source": "Direct",
+  "utm_medium": "Direct",
+  "properties": { "utm_source": "", "utm_medium": "" }
+}
+```
+
+Here the page passed empty UTMs and Sealmetrics resolved the visit as Direct. Reading `properties.utm_source` would give you a blank where the answer is "Direct".
+
+**Rule:** for attribution, always read the root-level fields. Treat UTM keys inside `properties` as your own raw input, useful only for debugging your tagging. If you don't want them duplicated, stop sending them in the conversion call — the attribution is captured independently.
+
 **Tip:**
 - **`/stats/conversions/raw`** — one row per conversion with full dimensions. Use for analysis, attribution, or feeding a warehouse incrementally.
 - **`/stats/conversions`** — aggregated totals by conversion type. Use for dashboards and KPIs.
@@ -37060,6 +37079,28 @@ If you only need to break down by **one** property at a time and want server-sid
 For per-item attribution on conversions (one row per product in a purchase, joinable by `timestamp_utc` or a shared property like `order_id`), use **`GET /api/v1/stats/conversion-items/raw`**.
 
 Both endpoints share the same constraints as `/stats/conversions/raw` (31-day max range, `page_size` up to 10,000, 2-year ClickHouse TTL).
+
+---
+
+## My conversion rows have UTMs twice — at the root and inside `properties`. Which one is real?
+
+**The root-level ones.** `utm_source`, `utm_medium`, `utm_campaign`, `utm_term` and `utm_content` at the root of the row are the attribution Sealmetrics resolved for that conversion. Analyse those.
+
+UTM keys **inside `properties`** are values your own tracking code sent along with the conversion call. Sealmetrics stores them verbatim, like any other custom property, and never writes into `properties` itself. There is no hierarchy between the two blocks and they do not represent different moments in the attribution — one is our answer, the other is your input.
+
+They can disagree, and that is usually informative:
+
+```json
+{
+  "utm_source": "Direct",
+  "utm_medium": "Direct",
+  "properties": { "utm_source": "", "utm_medium": "" }
+}
+```
+
+The page sent empty UTMs; Sealmetrics resolved the visit as Direct. Reading `properties.utm_source` would hand you a blank where the answer is "Direct".
+
+If the duplication is noise for your pipeline, stop passing UTMs in the conversion call — attribution is captured independently of what you send.
 
 ---
 
