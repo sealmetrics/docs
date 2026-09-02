@@ -527,7 +527,6 @@ Even with Article 88c, the standard legitimate interest assessment applies:
 ## Related Resources
 
 - [GDPR Amendments](./gdpr-changes.md) - Complete list of GDPR changes including Article 88c
-- [Timeline and Implementation](./timeline-implementation.md) - When Article 88c takes effect
 - [SME and Small Mid-Cap Exemptions](./smes-small-midcaps.md) - AI Act SME/SMC extensions
 - [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory position on AI processing provisions
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
