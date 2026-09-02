@@ -3,8 +3,8 @@ title: "Cookie Consent Reform: The End of Banner Fatigue"
 description: "How the EU Digital Omnibus eliminates cookie banners for 60% of websites through unified GDPR processing rules"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "145a48b18b9c8fc30500416ba6d30716a2e3a137fb8d70f26270491df1eabe96"
+date_generated: "2026-09-02T09:07:07.434Z"
+source_hash: "58f2a524abb56e0894f63fac4489166969583e503f54950654fb6f888957d8ad"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -323,7 +323,7 @@ Until browsers widely support automated signals (~2029-2031), manual consent mec
 
 ## Related Resources
 
-- [GDPR Amendments in the Digital Omnibus](./gdpr-changes.md) - Other changes to the GDPR
+- GDPR Amendments in the Digital Omnibus - Other changes to the GDPR
 - [Impact on Web Analytics](./impact-analytics.md) - What this means for analytics providers
 - [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory support for cookie consent reform
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
