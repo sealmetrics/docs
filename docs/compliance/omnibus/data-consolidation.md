@@ -447,8 +447,6 @@ All Other Data:
 Platform Regulation:
   ├─ Digital Services Act (DSA)
   └─ Digital Markets Act (DMA)
-```
-
 **Result**: Coherent, integrated, simplified
 
 ## Comparison Table
@@ -471,7 +469,6 @@ Platform Regulation:
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
 - [GDPR Amendments](./gdpr-changes.md) - What changes in the GDPR
 - [Data Intermediation Services](./data-intermediation.md) - Details on voluntary regime
-- [Timeline and Implementation](./timeline-implementation.md) - Key dates for consolidation
 - [EDPB-EDPS Joint Opinion on the Digital Omnibus](./edpb-edps-opinion.md) - Regulators' view on data acquis consolidation
 
 ## Key Takeaways
