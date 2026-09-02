@@ -3,8 +3,8 @@ title: "AI Act Amendments in the Digital Omnibus"
 description: "How the Digital Omnibus simplifies AI compliance and clarifies GDPR-AI intersection"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/ai-act-amendments"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "334b415b218653e3a323734df9aedb8ff85b49d7a4f60a9cb60b155522882089"
+date_generated: "2026-09-02T09:06:28.562Z"
+source_hash: "7a223a4585bcc7b6e9c337fef232cbc2df0a0ecee775e5f93454f82540d96561"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -533,7 +533,6 @@ Even with Article 88c, the standard legitimate interest assessment applies:
 
 ## Related Resources
 
-- [GDPR Amendments](./gdpr-changes.md) - Complete list of GDPR changes including Article 88c
 - [Timeline and Implementation](./timeline-implementation.md) - When Article 88c takes effect
 - [SME and Small Mid-Cap Exemptions](./smes-small-midcaps.md) - AI Act SME/SMC extensions
 - [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory position on AI processing provisions
