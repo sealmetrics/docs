@@ -8,6 +8,15 @@ on:
 permissions:
   contents: write
 
+# Only one deploy at a time. Every push to main starts a run, and each run
+# ends by pushing the built site to gh-pages — so runs that overlap race for
+# that branch and all but the first are rejected with "fetch first".
+# cancel-in-progress: false lets the running deploy finish its push instead
+# of being killed mid-write; later runs queue behind it.
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
     name: Deploy to GitHub Pages
