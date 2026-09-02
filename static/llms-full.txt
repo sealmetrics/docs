@@ -34364,6 +34364,17 @@ Conversion events aggregated by day and attribution dimensions.
 | `revenue` | NUMERIC | Total revenue |
 | `properties` | JSON | Conversion properties |
 
+**Note:**
+Everything your tracking code sends as a custom property on a conversion or microconversion — `transaction_id`, `event_type`, your own UTM copies, order metadata — lands inside the `properties` JSON field. It never becomes a top-level column, which is why a field list of the export shows only the standard dimensions above.
+
+Read individual keys with `JSON_VALUE`:
+
+```sql
+JSON_VALUE(properties, '$.transaction_id') AS transaction_id
+```
+
+Full query examples: [Custom Conversion Properties](/platform/settings/integrations/bigquery#custom-conversion-properties).
+
 #### `fact_microconversions`
 
 | Field | Type | Description |
