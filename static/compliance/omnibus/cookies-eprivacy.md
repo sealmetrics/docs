@@ -3,8 +3,8 @@ title: "Cookie Consent Reform: The End of Banner Fatigue"
 description: "How the EU Digital Omnibus eliminates cookie banners for 60% of websites through unified GDPR processing rules"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "145a48b18b9c8fc30500416ba6d30716a2e3a137fb8d70f26270491df1eabe96"
+date_generated: "2026-09-02T09:07:41.295Z"
+source_hash: "c387c7db44536953e74d3db92b9a1a10bd56c05af47d0fb38d120d7f88e41598"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -295,7 +295,7 @@ Until browsers widely support automated signals (~2029-2031), manual consent mec
 
 **Future browser controls (2029+):**
 - Set preferences once in browser
-- Automatic application across sites
+Automatic application across sites
 - Granular control if desired
 
 ## Timeline
@@ -324,7 +324,7 @@ Until browsers widely support automated signals (~2029-2031), manual consent mec
 ## Related Resources
 
 - [GDPR Amendments in the Digital Omnibus](./gdpr-changes.md) - Other changes to the GDPR
-- [Impact on Web Analytics](./impact-analytics.md) - What this means for analytics providers
+- [Impact on Web Analytics](./index.md) - What this means for analytics providers
 - [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory support for cookie consent reform
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
 - [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) - How analytics already qualifies for exemption today
