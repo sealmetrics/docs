@@ -3,8 +3,8 @@ title: "Data Law Consolidation: From 5 Acts to 2"
 description: "How the Digital Omnibus merges FFDR, DGA, and Open Data Directive into the Data Act"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/data-consolidation"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "9265ee4cb7008f250137fdc3e5c4bd09030ce0c5b66e2a872f67467e09aa81b4"
+date_generated: "2026-09-02T09:08:24.381Z"
+source_hash: "05a471cd21e74ec9147f8d4867ba322d477096bf7c4fed47d153338fc3939cb4"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -451,7 +451,6 @@ All Other Data:
       ├─ Data altruism (from DGA)
       ├─ Protected public data (from DGA)
       └─ Open data (from ODD)
-
 Platform Regulation:
   ├─ Digital Services Act (DSA)
   └─ Digital Markets Act (DMA)
@@ -478,7 +477,6 @@ Platform Regulation:
 
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
 - [GDPR Amendments](./gdpr-changes.md) - What changes in the GDPR
-- [Data Intermediation Services](./data-intermediation.md) - Details on voluntary regime
 - [Timeline and Implementation](./timeline-implementation.md) - Key dates for consolidation
 - [EDPB-EDPS Joint Opinion on the Digital Omnibus](./edpb-edps-opinion.md) - Regulators' view on data acquis consolidation
 
