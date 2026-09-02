@@ -59152,7 +59152,7 @@ URL: https://docs.sealmetrics.com/troubleshooting/lower-numbers-than-other-tools
 
 # Numbers Lower Than Another Tool
 
-Two analytics tools measuring the same site **never report identical numbers** — they count different things, filter different traffic, and cut the day at different moments. Before treating a gap as a tracking bug, check whether it is explained by these three legitimate model differences. If, after accounting for them, the gap is still large and unexplained, then troubleshoot it as missing data.
+Two analytics tools measuring the same site **never report identical numbers** — they count different things, filter different traffic, and cut the day at different moments. Before treating a gap as a tracking bug, check whether it is explained by these legitimate model differences. If, after accounting for them, the gap is still large and unexplained, then troubleshoot it as missing data.
 
 ---
 
@@ -59187,6 +59187,27 @@ So the *direction* of the gap is diagnostic:
 | Sealmetrics drastically below, or the ratio suddenly changed | A real tracking problem — go to the checklist below |
 
 The full side-by-side comparison of both measurement models is in [GA4 vs Sealmetrics](/faq/ga4-vs-sealmetrics).
+
+---
+
+## 4. Conversions on pages that navigate away immediately
+
+This one is specific to **conversion counts**, and it is the usual answer when your own tag manager or server log says an event fired but it never reaches the Conversions report.
+
+A conversion call has to execute *before* the browser leaves the page. Sealmetrics dispatches hits with `navigator.sendBeacon`, which survives page unload by design — so once the call runs, the send is safe. The risk is the call never running: a tag bound to DOM-ready or window-load on a page that redirects a few hundred milliseconds after it opens.
+
+The flows where this concentrates are the ones built out of redirects — links from business listings, ad platforms that bounce through a redirector, and any chain that lands, counts, and forwards.
+
+**How to tell it apart from a missing pixel.** Take the conversions you believe are missing and split them in two:
+
+| What you find for that visit | What it means |
+|---|---|
+| No pageview recorded at all | The tracker never ran on that domain or page — a coverage problem, not a timing one. Check the pixel is present on every hostname in the flow ([Unauthorized domain](/troubleshooting/unauthorized-domain)) |
+| Pageview recorded, conversion missing | The visit was tracked but the conversion call didn't execute in time — a timing problem. Move the call earlier, off DOM-ready and onto the earliest event that carries the data you need |
+
+A domain showing **100% loss** is always the first case, and it is worth checking before anything else: it means the pixel simply isn't there.
+
+**If you are comparing against a Sealmetrics v1 period,** expect v1 to be lower here. v1's transport did not survive fast navigation the way `sendBeacon` does, so redirect-heavy flows lost a meaningful share of conversions on v1 that v2 now captures. A step up in conversions after migrating is that gap closing, not double-counting.
 
 ---
 
