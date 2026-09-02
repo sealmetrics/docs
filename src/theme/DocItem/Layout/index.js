@@ -14,6 +14,7 @@ import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import ContentVisibility from '@theme/ContentVisibility';
 import DocFeedback from '@site/src/components/DocFeedback';
+import docDates from '@site/src/data/doc-dates.json';
 import styles from './styles.module.css';
 
 // Antes esto era una allow-list de ocho prefijos, y se quedó corta: dejaba
@@ -43,6 +44,18 @@ function TechArticleStructuredData() {
   const dateModified = metadata.lastUpdatedAt
     ? new Date(metadata.lastUpdatedAt).toISOString()
     : undefined;
+  // Fecha de publicación = primer commit del fichero, precalculada en
+  // src/data/doc-dates.json (ver scripts/generate-doc-dates.mjs). Docusaurus
+  // solo expone lastUpdatedAt, y usar la de modificación como si fuera de
+  // publicación sería declarar algo falso.
+  //
+  // La clave es la ruta del fichero, no metadata.id: el frontmatter puede
+  // redefinir el id y entonces dejaríamos de encontrar la fecha. Si no hay
+  // entrada no se emite el campo — preferimos no decir nada a inventarlo.
+  const docKey = (metadata.source || '')
+    .replace(/^@site\/docs\//, '')
+    .replace(/\.mdx?$/, '');
+  const datePublished = docDates[docKey];
   const data = {
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
@@ -78,6 +91,7 @@ function TechArticleStructuredData() {
         url: `${siteConfig.url}/img/logo.png`,
       },
     },
+    ...(datePublished ? {datePublished} : {}),
     ...(dateModified ? {dateModified} : {}),
     ...(frontMatter.keywords ? {keywords: frontMatter.keywords} : {}),
   };
