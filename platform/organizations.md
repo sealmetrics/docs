@@ -3,8 +3,8 @@ title: "Organizations"
 description: "Understanding organizations, sites, and team management in Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/platform/organizations"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "521adf622b39a98d71c0e36b7101eb8e92f1f84d7a6e1d733f5531b9d4a55813"
+date_generated: "2026-09-02T09:19:59.176Z"
+source_hash: "01e16192f3cde8bc285b27b136d817536829e4e8c145ddf07c0c623d5ed20b7b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -82,6 +82,11 @@ Share access with your team by inviting members to your organization.
 Invitations can only be sent with the **Admin** or **Member** role. To make someone an **Owner**, invite them first and then promote them from the Members list (only an existing Owner can do this).
 
 The invited person will receive an email with a link to join. If they do not have a Sealmetrics account yet, they can create one as part of the invitation process.
+
+**Note:**
+An invitation is sent first and takes effect when it is accepted and activated, so the two sides of the screen can disagree for a while: your **Members** list may already show the person with access to a site while their own account still doesn't list it.
+
+If that happens, it usually resolves on its own — have them confirm they accepted the invitation email, then re-check in a few minutes before treating it as a permissions problem. This is worth knowing when you create several sites at once and expect the whole team to see them immediately.
 
 For more details on managing your team, see [Users & Teams](./settings/account/users).
 
