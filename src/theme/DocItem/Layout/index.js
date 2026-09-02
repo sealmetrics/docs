@@ -101,6 +101,20 @@ function useDocTOC() {
   return {hidden, mobile, desktop};
 }
 
+// Firma visible. El schema ya declara la autoría, pero E-E-A-T es tanto lo
+// que leen los buscadores como lo que ve una persona evaluando si fiarse de
+// una página — y estas se leen en revisiones de proveedor. Va pegada al
+// bloque de "última actualización" que ya pinta DocItemFooter, de modo que
+// quién y cuándo queden juntos.
+function DocByline() {
+  return (
+    <div className={styles.docByline}>
+      Written and maintained by the <strong>Sealmetrics Team</strong>
+    </div>
+  );
+}
+
+
 export default function DocItemLayout({children}) {
   const docTOC = useDocTOC();
   const {metadata} = useDoc();
@@ -116,6 +130,7 @@ export default function DocItemLayout({children}) {
             <DocVersionBadge />
             {docTOC.mobile}
             <DocItemContent>{children}</DocItemContent>
+            <DocByline />
             <DocItemFooter />
             <DocFeedback />
           </article>
