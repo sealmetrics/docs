@@ -3,8 +3,8 @@ title: "Legal & Compliance"
 description: "GDPR, CNIL, UK PECR and ePrivacy self-assessments for consentless analytics — why no personal data means no consent, and audit-ready documentation for vendor reviews."
 canonical_url: "https://docs.sealmetrics.com/compliance"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "8ab5a9b5061fb0e454779957c6ea4444137a8be93ea40024aa0edbd0ee5ac01b"
+date_generated: "2026-09-02T09:06:09.030Z"
+source_hash: "3e279f9f9c0731cbd55a5cb397709606daf0b9fc964387a0b19a7a9cd502591f"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -30,7 +30,7 @@ Understanding the legal framework behind consentless analytics is essential for 
 - [**Germany TDDDG Self-Assessment**](/compliance/germany-ttdsg-self-assessment) - Auto-evaluation against §25 TDDDG (formerly TTDSG): no cookies, no terminal storage access
 - [**Italy Garante Self-Assessment**](/compliance/italy-garante-self-assessment) - Auto-evaluation against the Garante's cookie guidelines and analytics decisions
 - [**Switzerland FADP Self-Assessment**](/compliance/switzerland-fadp-self-assessment) - Auto-evaluation against the revised Swiss FADP (nFADP): no personal data, no non-adequate transfers
-- [GDPR and ePrivacy](/legal/gdpr-and-eprivacy) - Detailed analysis of EU privacy laws and session-based tracking requirements
+- [GDPR and ePrivacy](/compliance/gdpr-and-eprivacy) - Detailed analysis of EU privacy laws and session-based tracking requirements
 - [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) - The regulatory analysis behind cookieless measurement, and the legal-basis options open to site owners
 - [Analytics Cookies: Consent Exemption](/compliance/analytics-cookies-exemption) - AEPD and EU DPA requirements for analytics without consent
 
