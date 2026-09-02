@@ -3,8 +3,8 @@ title: "BigQuery Integration"
 description: "Sync Sealmetrics analytics to Google BigQuery with hourly or daily schedules, backfill options, and BI tool integration"
 canonical_url: "https://docs.sealmetrics.com/api/bigquery"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "d1aab69334ff10552c17883acdda18fe22fc4c8445dcafa7b016e08cb09f6e05"
+date_generated: "2026-09-02T09:19:35.257Z"
+source_hash: "97b2c0823d8ece19da1b8bc462ab7f31bc4bfdb2b5c621eef2ae462fd6541bec"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -537,6 +537,17 @@ Conversion events aggregated by day and attribution dimensions.
 | `amount` | NUMERIC | Per-conversion value |
 | `revenue` | NUMERIC | Total revenue |
 | `properties` | JSON | Conversion properties |
+
+**Note:**
+Everything your tracking code sends as a custom property on a conversion or microconversion — `transaction_id`, `event_type`, your own UTM copies, order metadata — lands inside the `properties` JSON field. It never becomes a top-level column, which is why a field list of the export shows only the standard dimensions above.
+
+Read individual keys with `JSON_VALUE`:
+
+```sql
+JSON_VALUE(properties, '$.transaction_id') AS transaction_id
+```
+
+Full query examples: [Custom Conversion Properties](/platform/settings/integrations/bigquery#custom-conversion-properties).
 
 #### `fact_microconversions`
 
