@@ -16,19 +16,18 @@ import ContentVisibility from '@theme/ContentVisibility';
 import DocFeedback from '@site/src/components/DocFeedback';
 import styles from './styles.module.css';
 
-const TECH_ARTICLE_PREFIXES = [
-  '/api/',
-  '/implementation/',
-  '/getting-started/',
-  '/reports/',
-  '/integrations/',
-  '/platform/',
-  '/security-privacy/',
-  '/lens/',
-];
-
+// Antes esto era una allow-list de ocho prefijos, y se quedó corta: dejaba
+// 93 páginas de documentación sin ningún schema de artículo — entre ellas las
+// 26 de /compliance, que son justo las que leen los DPO en las revisiones de
+// proveedor. Una allow-list hay que acordarse de ampliarla cada vez que nace
+// una sección, y nadie se acordó.
+//
+// Ahora se emite para toda la documentación. Este componente solo envuelve
+// DocItem, así que "toda la documentación" es exactamente eso: el blog tiene
+// su propio BlogPosting (con Person) por el plugin de blog, y las páginas de
+// /tags las genera Docusaurus como listados navegables y nunca pasan por aquí.
 function shouldEmitTechArticle(permalink) {
-  return TECH_ARTICLE_PREFIXES.some((p) => permalink.startsWith(p));
+  return Boolean(permalink);
 }
 
 function TechArticleStructuredData() {
@@ -59,7 +58,17 @@ function TechArticleStructuredData() {
       url: imageUrl,
       contentUrl: imageUrl,
     },
-    author: {'@id': 'https://sealmetrics.com/#organization'},
+    // Inline, no una referencia `{@id}` pelada: la referencia es JSON-LD
+    // válido y Google la resuelve contra el nodo Organization del @graph,
+    // pero obliga a cualquier consumidor a cruzar dos <script> distintos
+    // para saber quién firma. `publisher` ya se declara así unas líneas
+    // más abajo; esto solo lo hace consistente.
+    author: {
+      '@type': 'Organization',
+      '@id': 'https://sealmetrics.com/#organization',
+      name: 'Sealmetrics',
+      url: 'https://sealmetrics.com',
+    },
     publisher: {
       '@type': 'Organization',
       '@id': 'https://sealmetrics.com/#organization',
@@ -92,6 +101,20 @@ function useDocTOC() {
   return {hidden, mobile, desktop};
 }
 
+// Firma visible. El schema ya declara la autoría, pero E-E-A-T es tanto lo
+// que leen los buscadores como lo que ve una persona evaluando si fiarse de
+// una página — y estas se leen en revisiones de proveedor. Va pegada al
+// bloque de "última actualización" que ya pinta DocItemFooter, de modo que
+// quién y cuándo queden juntos.
+function DocByline() {
+  return (
+    <div className={styles.docByline}>
+      Written and maintained by the <strong>Sealmetrics Team</strong>
+    </div>
+  );
+}
+
+
 export default function DocItemLayout({children}) {
   const docTOC = useDocTOC();
   const {metadata} = useDoc();
@@ -107,6 +130,7 @@ export default function DocItemLayout({children}) {
             <DocVersionBadge />
             {docTOC.mobile}
             <DocItemContent>{children}</DocItemContent>
+            <DocByline />
             <DocItemFooter />
             <DocFeedback />
           </article>
