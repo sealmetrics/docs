@@ -3,8 +3,8 @@ title: "CNIL Self-Assessment: Sealmetrics Compliance"
 description: "Official CNIL self-assessment documentation for Sealmetrics analytics - demonstrating compliance with French consent exemption requirements."
 canonical_url: "https://docs.sealmetrics.com/compliance/cnil-self-assessment"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "81c2b0e24a362c9b1b9b7b531c3c243addd2d64b458cddfcfc90d7ba8735a725"
+date_generated: "2026-09-03T23:47:35.161Z"
+source_hash: "84d81025c59f9d5d045df357089aa52f564735281df469c22952d7692fd7c32d"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,14 +16,15 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/compliance/cnil-self-assessment
 
-This document provides the official self-assessment of Sealmetrics against CNIL's criteria for consent-exempt audience measurement tools, as defined in the [CNIL's auto-evaluation framework](https://www.cnil.fr/sites/default/files/2025-07/outil_d_auto-evaluation_mesure_d_audience.pdf) (July 2025).
+*Reviewed: 12 August 2026. This is a self-assessment; no supervisory authority certifies analytics tools.*\
+Sealmetrics is self-assessed as meeting all 5 permitted objectives and all 14 technical criteria of the [CNIL's auto-evaluation framework](https://www.cnil.fr/sites/default/files/2025-07/outil_d_auto-evaluation_mesure_d_audience.pdf) (July 2025) for consent-exempt audience measurement: no cookies, no stored IP address, country-level geolocation only, 24-month retention and per-publisher isolation. This document walks through each objective and criterion with the evidence and configuration behind it.
 
 **Info:**
 This self-assessment follows CNIL guidelines but **does not constitute CNIL certification**. Per CNIL guidance, providers cannot claim to be "certified" or "validated" by CNIL. This document demonstrates how Sealmetrics meets the published exemption criteria when properly configured.
 
 ---
 
-## Executive Summary
+## Does Sealmetrics meet the CNIL exemption criteria? {#executive-summary}
 
 | Category | Status |
 |----------|--------|
@@ -444,7 +445,7 @@ Sealmetrics declares that:
 3. We provide **documentation and configuration guidance** to ensure compliant implementation
 4. We **do not reuse client data** for any commercial purpose
 
-### What This Means
+### What does this mean for publishers in France?
 
 Publishers using Sealmetrics in France can:
 - ✅ Measure website traffic without consent banners
@@ -482,6 +483,11 @@ Publishers **cannot**:
 For compliance questions or DPO inquiries:
 - **Email:** privacy@sealmetrics.com
 - **DPO Contact:** dpo@sealmetrics.com
+
+**Note:**
+- All 5 permitted objectives and all 14 technical criteria of the CNIL's July 2025 auto-evaluation framework are met on Sealmetrics' own assessment (last assessed February 2026).
+- No cookies are used, the IP address is never persisted with analytics data, geolocation is country-level from the browser timezone, and retention is 24 months (below the 25-month ceiling).
+- Publishers may measure without a consent banner under Article 82 of French data protection law, but cannot claim Sealmetrics is "CNIL certified" or "CNIL validated".
 
 ## Related documentation
 

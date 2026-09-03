@@ -3,8 +3,8 @@ title: "Italy Garante Self-Assessment: Sealmetrics Compliance"
 description: "Self-assessment of Sealmetrics against the Italian Garante's cookie guidelines and analytics decisions — consent-free audience measurement in Italy."
 canonical_url: "https://docs.sealmetrics.com/compliance/italy-garante-self-assessment"
 lang: "en"
-date_generated: "2026-08-10T18:27:20.920Z"
-source_hash: "838fecba8c15acaed7dd5f129ca4ddbeeb146b0735a7479714f6bf4a6e30640e"
+date_generated: "2026-09-03T23:47:35.161Z"
+source_hash: "b957215409dd1b9e9c2a6d70a264a904d49570a465539e5604e2a3186ad0ca80"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,14 +16,15 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/compliance/italy-garante-self-assessment
 
-This document provides the self-assessment of Sealmetrics against the requirements of the Italian data protection authority (**Garante per la protezione dei dati personali**) for consent-free audience measurement, based on the Garante's **"Linee guida sui cookie e altri strumenti di tracciamento"** (Guidelines on cookies and other tracking tools, adopted 10 June 2021) and **Article 122 of the Italian Privacy Code** (d.lgs. 196/2003, as amended), Italy's transposition of Article 5(3) of the ePrivacy Directive.
+*Reviewed: 12 August 2026. This is a self-assessment; no supervisory authority certifies analytics tools.*\
+Sealmetrics does not trigger Article 122 of the Italian Privacy Code because it uses no cookies, no terminal storage and no fingerprinting, and it processes all data in Dublin, Ireland, so the transfer problem behind the Garante's 2022 Google Analytics decisions does not arise. This self-assessment follows the Italian data protection authority's (**Garante per la protezione dei dati personali**) **"Linee guida sui cookie e altri strumenti di tracciamento"** (Guidelines on cookies and other tracking tools, adopted 10 June 2021) and **Article 122 of the Italian Privacy Code** (d.lgs. 196/2003, as amended), Italy's transposition of Article 5(3) of the ePrivacy Directive.
 
 **Info:**
 This self-assessment follows the Garante's published guidelines but **does not constitute certification or approval by the Garante**. No such certification scheme for analytics tools exists in Italy. This document demonstrates how Sealmetrics meets the published requirements when properly configured.
 
 ---
 
-## Executive Summary
+## Is a consent banner required for Sealmetrics in Italy? {#executive-summary}
 
 | Category | Status |
 |----------|--------|
@@ -35,7 +36,7 @@ This self-assessment follows the Garante's published guidelines but **does not c
 
 ---
 
-## Background: The Italian Framework
+## What is the Italian framework for analytics?
 
 The Italian regime for analytics rests on three pillars:
 
@@ -221,6 +222,11 @@ Publishers **cannot** claim Sealmetrics is "certified" or "approved" by the Gara
 
 - **Email:** privacy@sealmetrics.com
 - **DPO Contact:** dpo@sealmetrics.com
+
+**Note:**
+- Article 122 of the Privacy Code and the Garante's 10 June 2021 cookie guidelines are not triggered: Sealmetrics sets no cookies, stores nothing on the device and uses no fingerprinting.
+- The Garante's minimization conditions for analytics are exceeded — aggregate statistics only, no stored IP, no cross-referencing, no third-party disclosure, per-publisher independence.
+- All data is processed in Dublin, Ireland, so the US-transfer issue from the 9 June 2022 Google Analytics decision does not arise; this is not a Garante certification.
 
 ## Related documentation
 

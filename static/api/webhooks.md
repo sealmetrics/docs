@@ -1,10 +1,10 @@
 ---
-title: "Webhooks"
+title: "Webhooks API"
 description: "Receive real-time HTTP callbacks for alerts and export events, signed with HMAC-SHA256 and retried up to 5 attempts on failure"
 canonical_url: "https://docs.sealmetrics.com/api/webhooks"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e5f072b0e23df373e53edad3c42dbe37023283fe5db5b9ea26dd2046df4b15f2"
+date_generated: "2026-09-03T23:35:47.317Z"
+source_hash: "88b5bd6af8bad6885f237338b586f58b39bba4a3562e85f87dc06ea16b8e43b0"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,7 +12,7 @@ source_file: "api/webhooks.mdx"
 publisher: "Sealmetrics"
 ---
 
-# Webhooks
+# Webhooks API
 
 Canonical page: https://docs.sealmetrics.com/api/webhooks
 

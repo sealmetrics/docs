@@ -1,10 +1,10 @@
 ---
-title: "Two-Factor Authentication"
+title: "Two-Factor Authentication API"
 description: "Manage the user's TOTP-based second factor — enable, verify at login, disable, and regenerate backup codes."
 canonical_url: "https://docs.sealmetrics.com/api/2fa"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "87020bf1f58da8d721fb24d10514df9988ece980abf241e85e05f0e84ef99323"
+date_generated: "2026-09-03T23:35:47.317Z"
+source_hash: "55513fa6d0114da37105422d7efc9256457e2d5867788761e6aac9ead44ee47f"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,7 +12,7 @@ source_file: "api/2fa.mdx"
 publisher: "Sealmetrics"
 ---
 
-# Two-Factor Authentication
+# Two-Factor Authentication API
 
 Canonical page: https://docs.sealmetrics.com/api/2fa
 

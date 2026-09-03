@@ -16,7 +16,7 @@ keywords:
 
 To track an online store with Sealmetrics, add the tracking script to your store's header, then instrument three event types across the funnel: **pageviews** (automatic, for product and category pages), **microconversions** via `sealmetrics.micro()` (add to cart, begin checkout), and **conversions** via `sealmetrics.conv()` (purchase, with revenue and items). This guide covers each step with copy-paste examples for WooCommerce, Shopify, Magento, and PrestaShop.
 
-## What You'll Track
+## What will you track?
 
 | Event Type | Example | Purpose |
 |------------|---------|---------|
@@ -497,7 +497,7 @@ document.querySelector('#search-form').addEventListener('submit', function() {
 
 ---
 
-## Dashboard Analysis
+## What can you analyze in the dashboard? {#dashboard-analysis}
 
 After implementing, you can analyze:
 
@@ -519,6 +519,12 @@ After implementing, you can analyze:
 ### Content Grouping
 - Compare conversion rates: home → product → checkout
 - Identify high-performing page types
+
+:::note In short
+- Three event types cover the store funnel: automatic pageviews, microconversions via `sealmetrics.micro()` (add_to_cart, view_cart, begin_checkout, shipping and payment steps) and the purchase conversion via `sealmetrics.conv('purchase', amount)`.
+- Pass `currency`, `payment_method` and an `items` array on the purchase call; the WooCommerce, Shopify, Magento 2 and PrestaShop examples include duplicate-tracking guards.
+- Content grouping (home, category, product, cart, checkout) lets you compare conversion rates by page type in the dashboard.
+:::
 
 ## Related documentation
 

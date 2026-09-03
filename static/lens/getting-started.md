@@ -3,8 +3,8 @@ title: "Getting Started with LENS"
 description: "Set up LENS AI and start receiving intelligent insights about your analytics data."
 canonical_url: "https://docs.sealmetrics.com/lens/getting-started"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "1904eda87774582f4b77545555970653fa2bfe95da5f2e18d1ee7ca83ffe3447"
+date_generated: "2026-09-03T23:35:47.317Z"
+source_hash: "53f6d19d77e72b1054c5d5416d8672d45ad3d5689cedcac71bf131d109c18df3"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -38,6 +38,17 @@ The LENS assistant supports two options:
 - **Bring-your-own-key (BYOK)** — connect your own provider API key. No quota imposed by Sealmetrics; you pay your provider directly.
 
 If your organization is entitled to Seal AI Private (included in Scale/Enterprise, add-on on Growth), it's active by default. To use a BYOK provider, go to **My Account → LLM Providers** and add an API key.
+
+Where a question goes depends only on which option is active:
+
+```mermaid
+flowchart LR
+    Q["Question in the LENS assistant"] --> L["LENS"]
+    L --> S["Seal AI Private: managed platform LLM, EU-hosted, no prompt retention, no API key"]
+    S --> SQ["Counts against the organization quota of 5M tokens per month"]
+    L --> B["BYOK: your own provider API key"]
+    B --> BP["Anthropic, OpenAI, DeepSeek or Google Gemini, paid to your provider directly"]
+```
 
 **Supported providers** (LENS picks the model automatically based on task complexity):
 

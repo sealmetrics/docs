@@ -3,8 +3,8 @@ title: "Global Privacy Control (GPC) and Do Not Track (DNT)"
 description: "Why Sealmetrics does not respond to GPC or DNT browser signals — you cannot opt out of a measurement that never tracked you in the first place."
 canonical_url: "https://docs.sealmetrics.com/compliance/gpc-dnt-signals"
 lang: "en"
-date_generated: "2026-08-10T18:27:20.920Z"
-source_hash: "34e0b1d944dfa6b49090bb2f2c488e8fa93318b98112d0843ed54223ffe2bcb9"
+date_generated: "2026-09-03T23:35:47.317Z"
+source_hash: "9c9fab67e3b83b02719d0748df39ab99cb2fb08a17ec7458ba40fc518688fa06"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -23,12 +23,12 @@ oversight.
 
 ## What these signals mean
 
-**GPC** is a browser signal through which an individual tells a website:
+**GPC** ([Global Privacy Control specification](https://w3c.github.io/gpc/)) is a browser signal through which an individual tells a website:
 *"do not sell or share my personal information."* It has legal force in
 certain jurisdictions (notably under California's CCPA/CPRA) for businesses
 that sell or share personal data.
 
-**DNT** was an earlier attempt at a universal opt-out from cross-site
+**DNT** ([W3C Tracking Preference Expression](https://www.w3.org/TR/tracking-dnt/)) was an earlier attempt at a universal opt-out from cross-site
 tracking. It never acquired legal standing, and its own standardization
 effort was abandoned.
 

@@ -3,8 +3,8 @@ title: "SaaS Application"
 description: "Implementation guide for tracking a SaaS product - from landing page to trial signup, onboarding, and subscription."
 canonical_url: "https://docs.sealmetrics.com/use-cases/saas"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "8f6f4866c4bdc73585a81f8d512f5e0ab0759864c0ac869407edfe69450a72b9"
+date_generated: "2026-09-03T23:47:35.161Z"
+source_hash: "6e8833914e8b25552282a6fe931ea30e4242aa384d266b2999f7e0c418689fcf"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,9 +16,9 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/use-cases/saas
 
-Complete guide to implement Sealmetrics tracking for your SaaS product. Track the full user journey from landing to paid subscription.
+To track a SaaS product with Sealmetrics, add the tracking script to your marketing site and app, then instrument three event types: **pageviews** (automatic, for pricing and feature pages), **microconversions** via `sealmetrics.micro()` (plan selection, signup steps, onboarding, feature usage) and **conversions** via `sealmetrics.conv()` (trial signup, subscription, upgrade). This guide covers each step with copy-paste examples, including a Next.js implementation.
 
-## What You'll Track
+## What will you track?
 
 | Event Type | Example | Purpose |
 |------------|---------|---------|
@@ -496,7 +496,7 @@ export function UpgradeButton({ toPlan, price }) {
 
 ---
 
-## Key Metrics to Track
+## Which SaaS metrics should you track? {#key-metrics-to-track}
 
 | Metric | How to Calculate | Events Needed |
 |--------|------------------|---------------|
@@ -532,6 +532,11 @@ After implementing, analyze:
 - Churn reasons
 - Feature usage before churn
 - Reactivation success
+
+**Note:**
+- Conversions: `signup` (trial, amount 0), `subscription`, `upgrade`, `annual_upgrade` and `reactivation` with the plan price; everything in between (plan selection, onboarding steps, feature activation, cancel flow) is a microconversion.
+- Key ratios: Visitor → Trial (signup / entrances), Trial → Paid (subscription / signup), onboarding completion and churn (cancel_confirmed / active subscriptions).
+- Use content groups (marketing, pricing, blog, docs, app, onboarding) so acquisition and activation can be analyzed separately.
 
 ## Related documentation
 

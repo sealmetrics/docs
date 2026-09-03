@@ -3,8 +3,8 @@ title: "E-commerce Store"
 description: "Complete implementation guide for tracking an online store with Sealmetrics - from product views to purchases."
 canonical_url: "https://docs.sealmetrics.com/use-cases/ecommerce"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "8de7f2a3fa31508d8eb2c9cae0b2916dd491f3aab9613f04a6525dbb7dfe631c"
+date_generated: "2026-09-03T23:47:35.161Z"
+source_hash: "365865090ee49ae731fbddfe225a5bb4256df7b0988c44692e9b305215b42f57"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -18,7 +18,7 @@ Canonical page: https://docs.sealmetrics.com/use-cases/ecommerce
 
 To track an online store with Sealmetrics, add the tracking script to your store's header, then instrument three event types across the funnel: **pageviews** (automatic, for product and category pages), **microconversions** via `sealmetrics.micro()` (add to cart, begin checkout), and **conversions** via `sealmetrics.conv()` (purchase, with revenue and items). This guide covers each step with copy-paste examples for WooCommerce, Shopify, Magento, and PrestaShop.
 
-## What You'll Track
+## What will you track?
 
 | Event Type | Example | Purpose |
 |------------|---------|---------|
@@ -497,7 +497,7 @@ document.querySelector('#search-form').addEventListener('submit', function() {
 
 ---
 
-## Dashboard Analysis
+## What can you analyze in the dashboard? {#dashboard-analysis}
 
 After implementing, you can analyze:
 
@@ -519,6 +519,11 @@ After implementing, you can analyze:
 ### Content Grouping
 - Compare conversion rates: home → product → checkout
 - Identify high-performing page types
+
+**Note:**
+- Three event types cover the store funnel: automatic pageviews, microconversions via `sealmetrics.micro()` (add_to_cart, view_cart, begin_checkout, shipping and payment steps) and the purchase conversion via `sealmetrics.conv('purchase', amount)`.
+- Pass `currency`, `payment_method` and an `items` array on the purchase call; the WooCommerce, Shopify, Magento 2 and PrestaShop examples include duplicate-tracking guards.
+- Content grouping (home, category, product, cart, checkout) lets you compare conversion rates by page type in the dashboard.
 
 ## Related documentation
 

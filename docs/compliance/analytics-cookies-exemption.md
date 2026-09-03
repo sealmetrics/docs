@@ -1,19 +1,21 @@
 ---
 sidebar_position: 1
 title: "Analytics Cookies: Consent Exemption Requirements"
-description: "AEPD and EU guidance on when analytics cookies are exempt from consent requirements"
+description: "When analytics cookies are exempt from consent under AEPD and CNIL criteria: user notification, 13-month cookies, 24-month retention, own purposes only."
 tags: [compliance, cookies, consent-exemption, aepd, cnil, analytics]
+last_update:
+  date: 2026-08-27
 keywords: [analytics cookies, consent exemption, AEPD, Spanish DPA, cookie consent, GDPR analytics, first-party analytics]
 ---
 
 # Analytics Cookies: Consent Exemption Requirements
 
+*Reviewed: 27 August 2026. This is a self-assessment; no supervisory authority certifies analytics tools.*\
+Analytics cookies can be exempt from consent requirements under specific conditions defined by EU data protection authorities, including Spain's AEPD (Agencia Española de Protección de Datos). This guide explains when analytics tools can operate without cookie banners and what requirements must be met.
+
 :::info Important Notice
 Any statement here about how Sealmetrics meets a criterion is a **self-assessment**, not a certification. No supervisory authority certifies or validates analytics tools, and Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2). This page is general regulatory analysis, not legal advice.
 :::
-
-
-Analytics cookies can be exempt from consent requirements under specific conditions defined by EU data protection authorities, including Spain's AEPD (Agencia Española de Protección de Datos). This guide explains when analytics tools can operate without cookie banners and what requirements must be met.
 
 ## Legal Framework
 
@@ -194,7 +196,7 @@ The French DPA (CNIL) developed similar framework:
 
 **Convergence**: Both authorities follow similar principles; organizations compliant with CNIL likely compliant with AEPD.
 
-## Google Analytics Compliance
+## Can Google Analytics be exempt from consent?
 
 ### Google Analytics 4 (GA4)
 
@@ -374,11 +376,11 @@ We use [analytics tool name] to understand how visitors use our website. This he
 
 **Purpose**: Website performance analysis and improvement
 
-**Legal basis**: Legitimate interest (GDPR Article 6(1)(f)) — *note: if your analytics tool stores no personal data, as Sealmetrics does not, you have no Article 6 processing to declare for it; this line is for tools that do*
+**Legal basis**: Our analytics do not process personal data — no IP address is stored, no cookie or identifier is set, and no visitor can be singled out. Under GDPR Recital 26 this information is anonymous and falls outside the Regulation, so no Article 6 legal basis (consent or legitimate interest) is required for it. *[If your tool does store personal data, e.g. a hashed IP, replace this with: "Legitimate interest (GDPR Article 6(1)(f))", and keep a legitimate interest assessment on file. Sealmetrics stores none, so the first wording applies.]*
 
 **Data retention**: 24 months maximum
 
-**Your rights**: You can object to analytics processing. Contact [email] to exercise your rights.
+**Your rights**: Because our analytics hold no personal data about you, there is nothing in them to access, correct, delete or object to. You keep every GDPR right over any personal data we process elsewhere. Contact [email] with any question. *[Tools that store personal data must instead offer a right to object.]*
 
 **Analytics provider**: [If third-party] [Provider name] acts as our data processor and does not use data for their own purposes.
 ```

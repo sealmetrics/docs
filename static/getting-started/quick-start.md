@@ -3,8 +3,8 @@ title: "First Steps with Sealmetrics"
 description: "Get started with Sealmetrics in under 5 minutes — from account setup and tracking installation to your first privacy-first analytics insights."
 canonical_url: "https://docs.sealmetrics.com/getting-started/quick-start"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "c67553b9d8d3a4f173fd98bdf3648ede1b36778c164b3864e0782f71107722e9"
+date_generated: "2026-09-03T23:47:35.161Z"
+source_hash: "093e4223a921f996f3d04006afc7734609b03beaf5e0b6fc21b5e0366e4caa37"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -94,7 +94,7 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 #### Google Tag Manager
 
-1. Create a new Custom HTML tag
+1. Create a new [Custom HTML tag](https://support.google.com/tagmanager/answer/6107167)
 2. Paste your Sealmetrics tracking code
 3. Set trigger to All Pages
 4. Publish your container
@@ -163,7 +163,7 @@ A chart lets you toggle between Entrances, Pageviews, and Conversions over time.
 
 ---
 
-## Common Setup Issues
+## What are the common setup issues?
 
 ### Tracking Not Working
 
@@ -234,3 +234,8 @@ A chart lets you toggle between Entrances, Pageviews, and Conversions over time.
 - **Async Loading:** Non-blocking performance
 - **CDN Delivery:** Global speed and reliability
 - **Regular Updates:** Always up to date and secure
+
+**Note:**
+- Setup takes under 5 minutes: sign up, create an organization and site, add one script tag (`https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID`) to the `<head>`, then check the **Last hit** timestamp on the Overview report.
+- Conversions are instrumented in code, not the dashboard: `sealmetrics.conv('purchase', 99.99)` for goals and `sealmetrics.micro('add_to_cart')` for funnel steps.
+- No cookies and no consent banner; Entrances are reported instead of unique visitors because identifying individuals is not done.

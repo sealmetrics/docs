@@ -16,25 +16,54 @@ import ContentVisibility from '@theme/ContentVisibility';
 import DocFeedback from '@site/src/components/DocFeedback';
 import styles from './styles.module.css';
 
-const TECH_ARTICLE_PREFIXES = [
-  '/api/',
-  '/implementation/',
-  '/getting-started/',
-  '/reports/',
-  '/integrations/',
-  '/platform/',
-  '/security-privacy/',
-  '/lens/',
+// Which schema.org type each section emits. TechArticle for anything a
+// developer or operator follows step by step; Article for the explanatory and
+// legal material (compliance self-assessments, guides, use cases, FAQ) where
+// "technical" would be a stretch. Sections not listed (root intro, changelog,
+// home) emit nothing here — the home page carries SoftwareApplication itself.
+const ARTICLE_TYPE_BY_PREFIX = [
+  ['/api/', 'TechArticle'],
+  ['/implementation/', 'TechArticle'],
+  ['/getting-started/', 'TechArticle'],
+  ['/reports/', 'TechArticle'],
+  ['/integrations/', 'TechArticle'],
+  ['/platform/', 'TechArticle'],
+  ['/security-privacy/', 'TechArticle'],
+  ['/lens/', 'TechArticle'],
+  ['/troubleshooting/', 'TechArticle'],
+  ['/billing/', 'TechArticle'],
+  ['/web-analytics-prompts/', 'TechArticle'],
+  ['/ga4-migration', 'TechArticle'],
+  ['/compliance/', 'Article'],
+  ['/guides/', 'Article'],
+  ['/use-cases/', 'Article'],
+  ['/faq/', 'Article'],
+  ['/compare/', 'Article'],
 ];
 
-function shouldEmitTechArticle(permalink) {
-  return TECH_ARTICLE_PREFIXES.some((p) => permalink.startsWith(p));
+const ORGANIZATION_ID = 'https://sealmetrics.com/#organization';
+const SOFTWARE_ID = 'https://sealmetrics.com/#software';
+const WEBSITE_ID = 'https://docs.sealmetrics.com/#website';
+
+function articleTypeFor(permalink) {
+  const hit = ARTICLE_TYPE_BY_PREFIX.find(([p]) => permalink.startsWith(p));
+  return hit ? hit[1] : null;
 }
 
-function TechArticleStructuredData() {
+// Frontmatter `date` (blog-style) or `last_update.date` are the only
+// publication dates we trust. Never derive datePublished from git: the first
+// commit of a file is a migration artefact for most of this site.
+function toIsoDate(value) {
+  if (!value) return undefined;
+  const d = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
+}
+
+function ArticleStructuredData() {
   const {metadata, frontMatter} = useDoc();
   const {siteConfig} = useDocusaurusContext();
-  if (!metadata?.permalink || !shouldEmitTechArticle(metadata.permalink)) {
+  const type = metadata?.permalink ? articleTypeFor(metadata.permalink) : null;
+  if (!type) {
     return null;
   }
   const url = `${siteConfig.url}${metadata.permalink}`;
@@ -42,11 +71,12 @@ function TechArticleStructuredData() {
     frontMatter.image || '/img/sealmetrics-social-card.jpg'
   }`;
   const dateModified = metadata.lastUpdatedAt
-    ? new Date(metadata.lastUpdatedAt).toISOString()
+    ? toIsoDate(metadata.lastUpdatedAt)
     : undefined;
+  const datePublished = toIsoDate(frontMatter.date);
   const data = {
     '@context': 'https://schema.org',
-    '@type': 'TechArticle',
+    '@type': type,
     '@id': url,
     mainEntityOfPage: url,
     url,
@@ -54,21 +84,24 @@ function TechArticleStructuredData() {
     name: metadata.title,
     description: metadata.description,
     inLanguage: 'en-US',
+    isPartOf: {'@id': WEBSITE_ID},
+    about: {'@id': SOFTWARE_ID},
     image: {
       '@type': 'ImageObject',
       url: imageUrl,
       contentUrl: imageUrl,
     },
-    author: {'@id': 'https://sealmetrics.com/#organization'},
+    author: {'@id': ORGANIZATION_ID},
     publisher: {
       '@type': 'Organization',
-      '@id': 'https://sealmetrics.com/#organization',
+      '@id': ORGANIZATION_ID,
       name: 'Sealmetrics',
       logo: {
         '@type': 'ImageObject',
         url: `${siteConfig.url}/img/logo.png`,
       },
     },
+    ...(datePublished ? {datePublished} : {}),
     ...(dateModified ? {dateModified} : {}),
     ...(frontMatter.keywords ? {keywords: frontMatter.keywords} : {}),
   };
@@ -99,7 +132,7 @@ export default function DocItemLayout({children}) {
     <div className="row">
       <div className={clsx('col', 'docMainCol', !docTOC.hidden && styles.docItemCol)}>
         <ContentVisibility metadata={metadata} />
-        <TechArticleStructuredData />
+        <ArticleStructuredData />
         <DocVersionBanner />
         <div className={styles.docItemContainer}>
           <article>

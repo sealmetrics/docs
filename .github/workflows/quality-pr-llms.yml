@@ -45,6 +45,10 @@ jobs:
       - name: Generate llms.txt files
         run: node scripts/generate-llms.mjs
 
+      # The generator never purges mirrors of deleted pages; this does.
+      - name: Remove stale mirrors
+        run: node scripts/check-geo.mjs --fix
+
       - name: Check for changes
         id: diff
         run: |

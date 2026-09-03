@@ -3,8 +3,8 @@ title: "What We Track vs What We Don’t"
 description: "Field-by-field list of what Sealmetrics records on every hit, how long each field is kept, and what it never collects."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/what-we-track"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "47af9bd5c98072577bfb90705ade3e3187967630524e38cd2f2781a29070b7fa"
+date_generated: "2026-09-03T23:47:35.161Z"
+source_hash: "c6a3a13ac88b6b3d965d47e9805dac1fd741fd800b9b450280d0393547dcbda0"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -48,11 +48,11 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 - **What it is:** an in-memory, short-lived identifier scoped to a single browsing session (~2-hour inactivity timeout, GA4-style), derived from the visitor's browser context. It exists so that within one session we can distinguish "second pageview" from "new entrance".
 - **What it isn't:** a cross-session identifier. It is not a cookie, it is not stored in the browser (localStorage, sessionStorage, or otherwise), and it does not persist beyond the session. It cannot be used to recognize a returning visitor.
 - **Site-isolated by design:** session identifiers incorporate the publisher account into their derivation, so the same browser yields different identifiers on different publishers' sites — no cross-site correlation is possible at the identifier level.
-- **Why it's compliant:** the identifier is context-derived and short-lived — it does not enable individual tracking under GDPR Article 4(1), which is why analytics without user identifiers can operate without consent under the CNIL's audience-measurement criteria. Note that no Article 6 legal basis is needed for the stored dataset: with no personal data in it, the GDPR does not apply to it (Recital 26).
+- **Why it's compliant:** the identifier is context-derived and short-lived — it does not enable individual tracking under [GDPR Article 4(1)](https://eur-lex.europa.eu/eli/reg/2016/679/oj), which is why analytics without user identifiers can operate without consent under the [CNIL's audience-measurement criteria](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications). Note that no Article 6 legal basis is needed for the stored dataset: with no personal data in it, the GDPR does not apply to it (Recital 26).
 
 ---
 
-## How Long Each Field Is Kept
+## How long is each field kept? {#how-long-each-field-is-kept}
 
 Retention is **fixed and identical for every plan**, enforced by database TTLs. Nothing here is configurable per customer.
 
@@ -119,7 +119,7 @@ Exit pages and individual navigation paths are **not** tracked — reconstructin
 - Language
 
 ### 8. Geographic Data
-- **Country — primary source: browser timezone.** Every visit's country comes from `Intl.DateTimeFormat().resolvedOptions().timeZone`, mapped to the country most represented by that IANA zone. No IP lookup involved.
+- **Country — primary source: browser timezone.** Every visit's country comes from [`Intl.DateTimeFormat().resolvedOptions().timeZone`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions), mapped to the country most represented by that [IANA zone](https://www.iana.org/time-zones). No IP lookup involved.
 - ❌ GeoIP country — **not collected**. A stateless GeoLite2 lookup was designed for the Agent Analytics bot detector, but that feature is **not live and cannot be enabled**, so no IP-based country lookup runs on any account.
 - ❌ Region / City — **not collected**.
 
@@ -192,7 +192,7 @@ If it ships, it would store aggregate, per-hit **environmental** and **behaviora
 
 ---
 
-## Why This Dataset Needs No Consent
+## Why does this dataset need no consent?
 
 - **GDPR** — European company, customer analytics data stored only in Dublin, Ireland. No personal data is collected, so the obligations that attach to personal data are not triggered. Hits are processed in isolation and no identifier is carried across sessions.
 - **ePrivacy Directive** — nothing is stored on or read from the visitor's device (no cookies, no localStorage, no sessionStorage), so the Article 5(3) consent requirement does not attach.

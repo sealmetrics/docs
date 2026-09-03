@@ -3,8 +3,8 @@ title: "How Consentless Tracking Works"
 description: "The mechanics of consentless tracking — four non-identifying variables, isolated hits, a short-lived session marker, and EU-only aggregate storage."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/how-consentless-works"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "f166240c487bb0190eea8615775fc7d55d7bef3b4187d1fea9cff1fdb0f7fbc6"
+date_generated: "2026-09-03T23:35:47.317Z"
+source_hash: "e24c4fb6e710ce10081432732f20c8a0f145d8653582192fb912a5f782c23913"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -35,7 +35,7 @@ All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 
 ## Why this needs no consent
 
-No personal data is collected, so the GDPR obligations that attach to personal data are not triggered; and nothing is stored on or read from the visitor's terminal equipment, so the ePrivacy Directive's Article 5(3) consent requirement does not attach either. Cookie-based tools face the opposite situation, which is why they typically lose **15–60% of visitor data** in EU markets when visitors decline, depending on sector, brand strength and traffic mix.
+No personal data is collected, so the GDPR obligations that attach to personal data are not triggered ([Article 4(1) and Recital 26](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)); and nothing is stored on or read from the visitor's terminal equipment, so the ePrivacy Directive's [Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058) consent requirement does not attach either. Cookie-based tools face the opposite situation, which is why they typically lose **15–60% of visitor data** in EU markets when visitors decline, depending on sector, brand strength and traffic mix.
 
 Sealmetrics holds no third-party security certification, and no supervisory authority certifies analytics tools — the [compliance pages](/compliance) are self-assessments against published criteria.
 

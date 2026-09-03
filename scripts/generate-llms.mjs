@@ -286,6 +286,11 @@ function discoverDocs() {
     const { data: frontmatter, content } = parseFrontmatter(raw);
     const rel = relative(DOCS_DIR, filePath);
 
+    // Docusaurus drops `draft: true` pages from the production build; the
+    // mirrors must not leak them either (unvalidated comparison drafts live
+    // under docs/compare/ until Rafa signs each one off).
+    if (String(frontmatter.draft) === 'true') continue;
+
     // Determine category directory
     const parts = rel.split('/');
     const topDir = parts.length > 1 ? parts[0] : null;
@@ -533,9 +538,10 @@ function generateMarkdownMirrors(docs) {
 function generateLlmsTxt(sections) {
   const parts = [];
 
-  // Curated header + instructions
+  // Curated header + instructions + the fact sheet LLMs quote from
   parts.push(loadTemplate('header.md'));
   parts.push(loadTemplate('instructions.md'));
+  parts.push(loadTemplate('key-facts.md'));
 
   // Auto-generated documentation index
   parts.push('## Documentation\n');
@@ -574,6 +580,7 @@ function generateLlmsFullTxt(sections) {
   // Header
   parts.push(loadTemplate('header.md'));
   parts.push(loadTemplate('instructions.md'));
+  parts.push(loadTemplate('key-facts.md'));
 
   // Full content for every doc
   for (const section of sections) {

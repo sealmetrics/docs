@@ -3,8 +3,8 @@ title: "Use Cases"
 description: "Sealmetrics implementation guides by business type, with ready-to-use code for tracking the full customer journey — e-commerce, SaaS, and more."
 canonical_url: "https://docs.sealmetrics.com/use-cases"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "41fac1b12fc5cd382ed1126419790ebe002e86cb5b18a2f673a88336862de6fe"
+date_generated: "2026-09-03T23:47:35.161Z"
+source_hash: "3fff4436b23b2ea67c0378666dadcf47838f77bf1ecc3318debfe2f60b483c3c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -67,6 +67,11 @@ These guides cover the most common scenarios. For custom implementations:
 - **[Tracker API Reference](/implementation/tracker/api-reference)** - Complete technical documentation
 - **[Step-by-Step Guide](/implementation/tracker/step-by-step-guide)** - General implementation walkthrough
 - **Support**: support@sealmetrics.com
+
+**Note:**
+- Four implementation guides by business type: E-commerce (`purchase` with revenue), SaaS (`signup`, `subscription`), Lead Gen (`lead`, `demo_request`) and Content (`newsletter_signup`).
+- Every guide includes installation with content grouping, ready-to-use event code, platform-specific examples, a funnel diagram and the key metrics to analyze.
+- Most businesses combine a primary guide with a secondary one — for example an online store with a blog uses E-commerce plus Content.
 
 ## Related documentation
 

@@ -47,7 +47,7 @@ Because no record in the analytics database relates to an identified or identifi
 
 ### The legal frame: GDPR Article 11
 
-GDPR anticipates exactly this situation. **Article 11** (processing which does not require identification) provides that where a controller's purposes do not require the identification of a data subject, the controller is **not obliged to acquire additional information** just to identify the data subject for the purpose of complying with the Regulation. Where the controller can demonstrate it is not in a position to identify the data subject, Articles 15–20 (access, rectification, erasure, restriction, portability) do not apply — unless the data subject themselves provides additional information enabling identification, which with Sealmetrics is not possible because no identifier exists to match it against.
+GDPR anticipates exactly this situation. **[Article 11](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)** (processing which does not require identification) provides that where a controller's purposes do not require the identification of a data subject, the controller is **not obliged to acquire additional information** just to identify the data subject for the purpose of complying with the Regulation. Where the controller can demonstrate it is not in a position to identify the data subject, Articles 15–20 (access, rectification, erasure, restriction, portability) do not apply — unless the data subject themselves provides additional information enabling identification, which with Sealmetrics is not possible because no identifier exists to match it against.
 
 :::info Not a loophole — a design property
 This is not a workaround to avoid answering DSARs. It is the direct consequence of not collecting personal data in the first place: data minimization taken to its logical conclusion. The best DSAR response is having nothing to search.
@@ -60,7 +60,7 @@ When a visitor rights request mentions your website analytics:
 1. **You can respond substantively** — explain that your analytics tool (Sealmetrics) stores no personal data or identifiers about visitors, so no stored record can be attributed to the requester.
 2. **You do not need to ask Sealmetrics to search** — there is nothing to search by: no email, no IP, no ID exists in the analytics data.
 3. **Document the reasoning** — reference your records of processing (ROPA) entry for Sealmetrics, which should describe the tool as processing anonymous, aggregate statistics. This page and [What We Track vs What We Don't](/security-privacy/what-we-track) can be attached as supporting documentation.
-4. **Remember Article 12(2)** — you must still facilitate rights requests in general; the point is that for this specific processing, identification is impossible and Article 11(2) applies.
+4. **Remember [Article 12(2)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)** — you must still facilitate rights requests in general; the point is that for this specific processing, identification is impossible and Article 11(2) applies.
 
 :::warning One caveat: what you send us
 This analysis holds for Sealmetrics as designed. If your implementation passes personal data into custom event properties (for example, an email address in a conversion property), you have introduced personal data into the system against our [configuration guidance](/compliance/cnil-self-assessment#part-5-configuration-checklist), and your DSAR analysis changes. Never send PII in custom properties.
@@ -106,6 +106,13 @@ For visitor analytics data, you (the website operator) are the controller and Se
 | Regulator asks where analytics data is stored | Dublin, Ireland (EU), 24-month retention — see [Data Location & Retention](/security-privacy/data-location) |
 
 ---
+
+## Primary sources
+
+- GDPR Art. 11 — no obligation to acquire extra data just to identify a data subject — [eur-lex](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)
+- GDPR Art. 12 — facilitating rights requests and the one-month response timeline — [eur-lex](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)
+- GDPR Arts. 15–22 — the individual rights this page maps against analytics data — [eur-lex](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)
+- GDPR Recital 26 — anonymous information falls outside the Regulation — [eur-lex](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)
 
 ## Related documentation
 

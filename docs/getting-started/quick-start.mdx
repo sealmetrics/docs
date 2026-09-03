@@ -94,7 +94,7 @@ The tracker fires the initial pageview automatically as soon as it loads, and ex
 
 #### Google Tag Manager
 
-1. Create a new Custom HTML tag
+1. Create a new [Custom HTML tag](https://support.google.com/tagmanager/answer/6107167)
 2. Paste your Sealmetrics tracking code
 3. Set trigger to All Pages
 4. Publish your container
@@ -163,7 +163,7 @@ A chart lets you toggle between Entrances, Pageviews, and Conversions over time.
 
 ---
 
-## Common Setup Issues
+## What are the common setup issues?
 
 ### Tracking Not Working
 
@@ -234,3 +234,9 @@ A chart lets you toggle between Entrances, Pageviews, and Conversions over time.
 - **Async Loading:** Non-blocking performance  
 - **CDN Delivery:** Global speed and reliability  
 - **Regular Updates:** Always up to date and secure  
+
+:::note In short
+- Setup takes under 5 minutes: sign up, create an organization and site, add one script tag (`https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID`) to the `<head>`, then check the **Last hit** timestamp on the Overview report.
+- Conversions are instrumented in code, not the dashboard: `sealmetrics.conv('purchase', 99.99)` for goals and `sealmetrics.micro('add_to_cart')` for funnel steps.
+- No cookies and no consent banner; Entrances are reported instead of unique visitors because identifying individuals is not done.
+:::

@@ -3,7 +3,7 @@ slug: tracker-performance-report
 title: "Tracker Performance Report: Sealmetrics vs GA4, Matomo and Piwik PRO"
 sidebar_position: 4
 tags: [tracker, performance, ga4, matomo, piwik-pro, sendbeacon, cookieless-analytics]
-description: "A technical comparison of tracking pixel weight, protocol, latency, and traffic capture: the current Sealmetrics tracker vs the legacy v1 tracker vs GA4's gtag.js, plus measured script weights for Matomo and Piwik PRO — with methodology, real measurements, and modeled network scenarios."
+description: "Sealmetrics t.js measures 1.1 KB on the wire — 12× lighter than the legacy v1 tracker and ~132× lighter than GA4 gtag.js; Matomo and Piwik PRO sit between."
 keywords:
   - tracking pixel performance
   - analytics script weight
@@ -55,7 +55,7 @@ The weight and latency figures in this report come from **direct measurements** 
 
 Script URLs and tag configurations were extracted from the **real Google Tag Manager container** of a European e-commerce site that runs both Sealmetrics trackers in parallel alongside GA4. To preserve the site's anonymity, the GA4 figures and latency values have been rounded and lightly adjusted; orders of magnitude and ratios between systems are preserved. The Sealmetrics tracker weights are exact — they are product scripts, identical for every customer.
 
-### What is measured and what is modeled
+### What is measured and what is modeled?
 
 - **Measured**: script weights (exact bytes, compressed and uncompressed), HTTP protocol and headers, the latency table below (median of 3 samples from a single location), IP addresses, and GTM configuration. Absolute latency values depend on the origin network; the relative differences between systems hold.
 - **Modeled**: the four network scenarios (round-trip, bandwidth, and CPU arithmetic built on top of the measurements) and the per-device parse costs. These are always labeled as estimates.
@@ -102,7 +102,7 @@ What travels over the network determines when the first hit can fire. The legacy
   ]}
 />
 
-**The TCP detail that matters:** the current tracker's 1.1 KB fits in a single packet and arrives in the first round-trip. The v1 tracker's 13.7 KB uncompressed sits right at the edge of TCP's initial congestion window (~14.6 KB), and GA4's ~146 KB needs 4–5 slow-start round-trips. When the visitor is far from the server, every extra round-trip multiplies latency.
+**The TCP detail that matters:** the current tracker's 1.1 KB fits in a single packet and arrives in the first round-trip. The v1 tracker's 13.7 KB uncompressed sits right at the edge of TCP's initial congestion window (~14.6 KB, [RFC 6928](https://datatracker.ietf.org/doc/html/rfc6928)), and GA4's ~146 KB needs 4–5 slow-start round-trips. When the visitor is far from the server, every extra round-trip multiplies latency.
 
 ## Matomo and Piwik PRO
 
@@ -242,7 +242,7 @@ A global edge brings bytes closer, but parsing always happens on the visitor's d
 
 This is the structural reason GA4 cannot compensate for its weight with infrastructure: Google can put an edge in every city, but it cannot put a faster CPU in every visitor's pocket. The current tracker attacks the problem from the other side — making sure there is almost nothing to download or parse.
 
-## Why the current tracker captures hits the others lose
+## Why does the current tracker capture hits the others lose? {#why-the-current-tracker-captures-hits-the-others-lose}
 
 Every visit that abandons the page **before** the pixel fires is invisible traffic. The current tracker's vulnerability window is ~0.1–0.9 s depending on network; v1's is 2–3× larger — and v1 can also lose the hit to a race condition even when the visitor stays.
 
@@ -263,7 +263,7 @@ Every visit that abandons the page **before** the pixel fires is invisible traff
 
 ### The hit's life insurance: sendBeacon
 
-There is a transport difference that multiplies everything above. A classic request (`XMLHttpRequest`, `fetch`) is **tied to the page's lifetime**: if the visitor closes the tab or navigates to another URL while the request is in flight, the browser cancels it and the hit is lost. `navigator.sendBeacon()` inverts the model: the page **hands the packet to the browser** and steps aside — the browser queues it internally and delivers it even after the page no longer exists. It is the API browsers themselves designed for telemetry.
+There is a transport difference that multiplies everything above. A classic request (`XMLHttpRequest`, `fetch`) is **tied to the page's lifetime**: if the visitor closes the tab or navigates to another URL while the request is in flight, the browser cancels it and the hit is lost. `navigator.sendBeacon()` inverts the model: the page **hands the packet to the browser** and steps aside — the browser queues it internally and delivers it even after the page no longer exists. It is the API browsers themselves designed for telemetry (see [`navigator.sendBeacon()` on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon)).
 
 Verified against the production scripts: the **current tracker uses `sendBeacon`** (with `fetch keepalive` as fallback, which has the same property), while the **legacy v1 tracker does not use it at all** — it sends via a cancelable `XMLHttpRequest`. In practice: as soon as the current tracker executes (~0.1–0.3 s), the hit already belongs to the browser and closing the page cannot lose it; v1 additionally needs to **complete the round-trip to the server** with the page still alive.
 
@@ -307,7 +307,13 @@ This effect is **more granular measurement, not newly captured traffic**: it add
 - The GA4 timings above are its **best case**: they exclude the consent wait, which for new EU visitors adds seconds or prevents measurement entirely.
 - The +25–30% vs v1 is an average across dual-tagged accounts; each site will have its own figure depending on its device, network, and geography mix. The GA4 range depends critically on each site's CMP acceptance rate.
 - Part of the entrance increase vs v1 is definitional, not capture: the Rejoined session window changed from 6 h (v1) to 2 h (current tracker).
-- EasyPrivacy includes the rule `||sealmetrics.com^$third-party`: visitors with uBlock/AdGuard block both Sealmetrics tracker versions equally. The advantage over GA4 lies in consent and timing, not in ad blockers.
+- [EasyPrivacy](https://easylist.to/) includes the rule `||sealmetrics.com^$third-party`: visitors with uBlock/AdGuard block both Sealmetrics tracker versions equally. The advantage over GA4 lies in consent and timing, not in ad blockers.
 - Matomo and Piwik PRO were measured on **each vendor's own public demo instance**, the most neutral source available for products that are otherwise self-hosted or account-provisioned. The file a given install serves can differ — Matomo in particular bundles installed plugins' tracker code into `matomo.js`.
 - There is **no field run, no dual-tag data and no latency measurement for Matomo or Piwik PRO**. Their script weights are measured; nothing else about them in this report is claimed.
 - To preserve the anonymity of the reference site, GA4 figures and latencies are rounded and lightly adjusted (see methodology); Sealmetrics tracker weights are exact.
+
+:::note In short
+- Measured 9 and 27 August 2026: Sealmetrics `t.js` is 1.1 KB on the wire (2.0 KB parsed) — 12× lighter than the legacy v1 tracker, ~24× lighter than Piwik PRO, ~42× lighter than Matomo and ~132× lighter than GA4's gtag.js.
+- Dual-tagged sites measure 25–30% more traffic with the current tracker than with v1; the +25–45% vs GA4 in EU markets is an estimate, and no timing or capture claim is made for Matomo or Piwik PRO.
+- The current tracker fires from a single 1-packet script via `sendBeacon`, so the hit survives page close; install it directly in the `<head>` and never gate it behind consent in GTM.
+:::

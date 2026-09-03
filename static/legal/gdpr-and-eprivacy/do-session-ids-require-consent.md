@@ -3,8 +3,8 @@ title: "Do Temporary Session Identifiers (Session IDs) Require Consent Under GDP
 description: "When a session ID triggers the ePrivacy consent requirement and when it does not, and why Sealmetrics' short-lived, context-derived marker falls on the no-consent side."
 canonical_url: "https://docs.sealmetrics.com/legal/gdpr-and-eprivacy/do-session-ids-require-consent"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "9c5e86ade8e52fa33886d2cd12b067831446565bd57d21aea9e36ac7c6514ee7"
+date_generated: "2026-09-03T23:35:47.317Z"
+source_hash: "bc8fc0789c39dc156441c22bcb58b9626f22daa6270c19489d821f74111fcdba"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -30,9 +30,9 @@ A temporary Session ID **requires consent** if:
 
 In these cases, the Session ID becomes a **personal identifier**, making consent mandatory under:
 
-- **GDPR**
-- **ePrivacy Directive**
-- Local guidelines (CNIL, AEPD, ICO…)
+- **GDPR** ([Article 4(1)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679))
+- **ePrivacy Directive** ([Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058))
+- Local guidelines ([CNIL](https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies-solutions-pour-les-outils-de-mesure-daudience), [AEPD](https://www.aepd.es/guias/guia-cookies.pdf), [ICO](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/cookies-and-similar-technologies/)…)
 
 ## When Session IDs *Do Not* Require Consent
 
@@ -72,6 +72,14 @@ Session IDs are used only within the active session to group hits — never to t
 ---
 
 **The marker is never stored on the device and never joins hits across sessions, which is what keeps measurement outside the ePrivacy consent requirement — without compromising your analytics.**
+
+## Primary sources
+
+- ePrivacy Directive 2002/58/EC — Art. 5(3): consent to store or access terminal-equipment data — [eur-lex](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058)
+- GDPR (Regulation 2016/679) — Art. 4(1) defines personal data; Recital 26 excludes anonymous data — [eur-lex](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)
+- EDPB Guidelines 2/2023 — technical scope of Art. 5(3): what counts as storage or access — [edpb.europa.eu](https://edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en)
+- CNIL — audience-measurement exemption, including the session-identifier conditions — [cnil.fr](https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies-solutions-pour-les-outils-de-mesure-daudience)
+- AEPD — Guía sobre el uso de las cookies, analytics-cookie exemption conditions — [aepd.es](https://www.aepd.es/guias/guia-cookies.pdf)
 
 ## Related documentation
 

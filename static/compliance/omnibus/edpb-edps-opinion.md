@@ -3,8 +3,8 @@ title: "EDPB-EDPS Joint Opinion on the Digital Omnibus"
 description: "Official position of European data protection authorities on the Digital Omnibus proposal - concerns, support, and recommendations"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/edpb-edps-opinion"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "af455f2db9e394184390091103901be26dcad1afa711f7c1bb31b643ba60bbe5"
+date_generated: "2026-09-03T23:47:35.161Z"
+source_hash: "573592a98617f9ab73536ae11ee4c923be7dab528a3e7e0cbe72ff9466fa7124"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -252,7 +252,7 @@ The Joint Opinion was published during the **feedback period** (deadline: March 
 
 The EDPB-EDPS **supports** the Article 88a(3)(c) exemption for audience measurement. Their recommendation for a contextual advertising exception, if adopted, would further reduce consent requirements.
 
-**For Sealmetrics users**: The Joint Opinion **reinforces** the legal basis for consentless analytics. The regulators are not challenging the audience measurement exemption.
+**For Sealmetrics users**: The Joint Opinion **reinforces** the position of consentless analytics. The regulators are not challenging the audience measurement exemption.
 
 ### First-Party Analytics: Validated
 

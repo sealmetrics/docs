@@ -3,8 +3,8 @@ title: "GA4 Migration Guide"
 description: "How to migrate from Google Analytics 4 to Sealmetrics — what to export from GA4, how metrics map, and how to run both in parallel during the transition."
 canonical_url: "https://docs.sealmetrics.com/ga4-migration"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "a1833261a3195af26ec300ed71e6873dda8875564c36f28122267f91dadbed52"
+date_generated: "2026-09-03T23:35:47.317Z"
+source_hash: "983ec55c96a91f65722f4a6137c11a6f07e1145f3e449c924e27e777a49556c0"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/ga4-migration
 
-Moving from Google Analytics 4 (GA4) to Sealmetrics takes most teams **1–2 weeks** end to end. This guide walks through what to prepare, how GA4 concepts map to Sealmetrics, and how to run both platforms in parallel so you can validate data before cutting GA4 off.
+Moving from Google Analytics 4 (GA4) to Sealmetrics takes most teams **1–2 weeks** to set up, followed by a **2–4 week** parallel validation period before GA4 is switched off. This guide walks through what to prepare, how GA4 concepts map to Sealmetrics, and how to run both platforms in parallel so you can validate data before cutting GA4 off.
 
 ## Before you start
 
@@ -48,10 +48,23 @@ Document the following from your current GA4 property:
 1. **Install the Sealmetrics tracker** alongside GA4 — see [Tracker installation](/implementation/tracker/installation). Both can run in parallel without conflict.
 2. **Map events.** Re-declare your GA4 custom events as Sealmetrics events. See [Conversion tracking](/implementation/ecommerce-conversion-tracking).
 3. **Configure attribution.** Set channel groupings, attribution windows, and excluded domains via the Platform settings — see [Bypass POS or referrer](/platform/tracking-and-attribution-settings/bypass-pos-or-referrer).
-4. **Validate in parallel** for 2–4 weeks. Expect Sealmetrics to report **5–8× more traffic** in EU markets because it captures consent-rejected visitors.
+4. **Validate in parallel** for 2–4 weeks. Expect Sealmetrics to report more traffic than GA4 in EU markets — consent-based tools lose 15–60% of visitors depending on sector, brand strength and traffic mix — so the two will never match 1:1.
 5. **Export GA4 history** you want to keep — raw events via BigQuery, reports via CSV. Sealmetrics retains data for 24 months without consent; GA4 maxes out at 14 months under consent-free operation.
 6. **Update dashboards.** Rebuild Data Studio / BI reports against [Sealmetrics exports](/api/exports) or the [Batch API](/api/batch).
 7. **Cut GA4 off** once parallel validation passes your QA.
+
+The steps in order, from the pre-migration inventory to switching GA4 off:
+
+```mermaid
+flowchart TD
+    A["Document your GA4 setup: metrics, custom events, e-commerce, integrations"] --> B["Install the Sealmetrics tracker alongside GA4"]
+    B --> C["Map GA4 custom events to Sealmetrics events and conversions"]
+    C --> D["Configure attribution: channel groupings, windows, excluded domains"]
+    D --> E["Validate in parallel for 2–4 weeks"]
+    E --> F["Export the GA4 history you want to keep"]
+    F --> G["Rebuild dashboards on Sealmetrics exports"]
+    G --> H["Cut GA4 off once validation passes QA"]
+```
 
 ## What's different
 

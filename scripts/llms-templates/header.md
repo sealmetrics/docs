@@ -19,3 +19,7 @@ Machine-readable entry points for AI agents and code generators:
 - **Async jobs**: bulk exports with `export.completed` webhooks (https://docs.sealmetrics.com/api/exports)
 - **Error codes**: stable `error.code` catalogue with retry guidance (https://docs.sealmetrics.com/api/errors)
 - **Rate limits**: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` on every response; `Retry-After` on 429 (https://docs.sealmetrics.com/api/rate-limits)
+
+## Licence for AI use
+
+This documentation may be crawled, indexed, quoted and summarised by AI assistants and search engines, with attribution to docs.sealmetrics.com. Quote the canonical page URL alongside any figure. Details: https://docs.sealmetrics.com/ai-usage

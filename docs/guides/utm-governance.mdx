@@ -3,7 +3,7 @@ slug: utm-governance
 title: "UTM Governance: Naming Conventions That Keep Attribution Clean"
 sidebar_position: 2
 tags: [utm, attribution, campaign-tracking, governance, sealmetrics]
-description: "A practical UTM governance playbook: naming conventions, a source/medium taxonomy aligned with Sealmetrics default channels, the mistakes that silently corrupt attribution, a spreadsheet template, and how Sealmetrics processes UTMs end to end."
+description: "UTM governance for Sealmetrics: lowercase values, one separator, one canonical name per source, mediums matching default channels, no UTMs on internal links."
 keywords:
   - utm naming conventions
   - utm governance
@@ -14,7 +14,7 @@ keywords:
 date: 2026-07-23
 ---
 
-Every marketing report you will ever read starts with a decision someone made while pasting a link: what to type after `utm_source=`. Get that decision right consistently and your Sources report tells you exactly which channels make money. Get it wrong — `Facebook` here, `facebook` there, `fb` in the ESP — and the same channel splinters into three rows, your channel grouping misfires, and every downstream decision is made on fragmented data.
+UTM governance is a small set of written naming rules, applied by everyone who creates a link, that keeps attribution clean. Every marketing report starts with a decision someone made while pasting a link — what to type after `utm_source=`. Get it right consistently and your Sources report tells you exactly which channels make money; get it wrong — `Facebook` here, `facebook` there, `fb` in the ESP — and the same channel splinters into three rows, your channel grouping misfires, and every downstream decision is made on fragmented data.
 
 This is what UTM governance means: a small set of written rules, applied by everyone who creates a link, forever. This guide gives you the complete playbook — naming conventions, a source/medium taxonomy that matches Sealmetrics's default channel definitions, the errors that silently corrupt attribution, a spreadsheet template your team can adopt today, and a walkthrough of how Sealmetrics actually processes UTM parameters so you understand *why* the rules matter.
 
@@ -47,7 +47,7 @@ The most common conceptual mistake is blurring the source/medium boundary. A use
 
 If you find yourself typing `utm_medium=facebook`, stop — Facebook is a source. The medium is `social` (organic posts) or `cpc`/`paid` (ads).
 
-## What happens when a parameter is missing
+## What happens when a UTM parameter is missing?
 
 When a UTM parameter is absent from the URL, Sealmetrics reports **"(not set)"** for that field — except `utm_medium`, which shows as **"(none)"**, aligned with GA4's convention. Untagged visits aren't lost: a visit arriving from an untagged external link is attributed to its **referring domain** with medium `referrer` (e.g. `reddit.com / referrer`), and a visit with no referrer at all is `direct`. See [Understanding the "(not set)" value](/reports/insights/understanding-not-set) and [Referral vs Direct Traffic](/reports/insights/referral-vs-direct-traffic).
 
@@ -225,6 +225,12 @@ Condensed version to copy into your team wiki:
 - [ ] Custom vendor parameters are handled via [UTM Mapping](/platform/settings/tracking/utm-mapping), values still follow the taxonomy
 - [ ] New values are checked in the [Channel Grouping "Test a visit" tool](/platform/settings/tracking/channel-grouping#using-test-a-visit) before launch
 - [ ] Monthly audit of the Sources report against the spreadsheet, with a named owner
+
+:::note In short
+- Four non-negotiables: always lowercase, one separator (`_` or `-`, never spaces), one canonical name per source and medium, and structured campaign names created in a shared spreadsheet first.
+- Sealmetrics reads UTMs from the URL on every page load without cookies, applies UTM Mappings at ingest, then evaluates channel rules (custom first, then default) — so consistent values mean deterministic channels.
+- Never put UTMs on internal links: they overwrite the acquisition source mid-visit; use microconversions or Content Grouping instead.
+:::
 
 ## Related documentation
 

@@ -37,6 +37,17 @@ The LENS assistant supports two options:
 
 If your organization is entitled to Seal AI Private (included in Scale/Enterprise, add-on on Growth), it's active by default. To use a BYOK provider, go to **My Account → LLM Providers** and add an API key.
 
+Where a question goes depends only on which option is active:
+
+```mermaid
+flowchart LR
+    Q["Question in the LENS assistant"] --> L["LENS"]
+    L --> S["Seal AI Private: managed platform LLM, EU-hosted, no prompt retention, no API key"]
+    S --> SQ["Counts against the organization quota of 5M tokens per month"]
+    L --> B["BYOK: your own provider API key"]
+    B --> BP["Anthropic, OpenAI, DeepSeek or Google Gemini, paid to your provider directly"]
+```
+
 **Supported providers** (LENS picks the model automatically based on task complexity):
 
 | Provider | Simple tasks | Complex / critical tasks |

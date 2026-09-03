@@ -3,8 +3,8 @@ title: "How It Works"
 description: "How Sealmetrics measures your traffic — one script tag, four non-identifying variables per hit, aggregate reports, and no consent banner."
 canonical_url: "https://docs.sealmetrics.com/getting-started/how-it-works"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "edefcbc0fadafe6283b0ac95dfb89af4b09e8595e01de50e7c963d22f3fec6b5"
+date_generated: "2026-09-03T23:35:47.317Z"
+source_hash: "918e8cc5f20af1c51911eca4d2f27bb2910469f99c219e5dbbb0a005e205d7d0"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -43,6 +43,19 @@ What you do not get is anything that needs a persistent identifier: unique visit
 2. Hits are sent to Sealmetrics infrastructure in **Dublin, Ireland**. IPs are used in memory only for anti-abuse checks and are never persisted in the analytics database.
 3. Each hit is processed on its own and aggregated. Event-level rows are purged after 1 day; daily aggregates and conversions are kept 24 months.
 4. Known bots, crawlers, scrapers and monitoring tools are filtered out so reports show real visitors — see [Bot Detection](/security-privacy/bot-detection).
+
+The same path, from the browser to your reports:
+
+```mermaid
+flowchart LR
+    A["Browser loads the tracker script"] --> B["Four variables per hit: timestamp, user agent, current URL, referral URL"]
+    B --> C["Hit sent to Sealmetrics in Dublin, Ireland"]
+    C --> D["Each hit processed on its own"]
+    D --> E["Bots and crawlers filtered out"]
+    E --> F["Aggregate reports"]
+    D -.-> G["Event-level rows purged after 1 day"]
+    A -.-> H["No cookies, nothing stored on the device"]
+```
 
 ## Getting started
 

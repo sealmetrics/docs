@@ -3,8 +3,8 @@ title: "Privacy by Design Principles"
 description: "How Sealmetrics maps to the seven Privacy by Design principles — with the concrete architectural choice behind each one."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/privacy-by-design"
 lang: "en"
-date_generated: "2026-08-12T08:33:12.834Z"
-source_hash: "b7ce4941fe81e62ac93ddd7ec22f498fe33bd1cc179a349cff4fa1b9bc338950"
+date_generated: "2026-09-03T23:47:35.161Z"
+source_hash: "74eda9300b372d0e74ea2193a5ca860ed0ca2a0aec5b0014af9a60cfc16e8e86"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,7 +16,9 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/privacy-by-design
 
-Privacy by Design is the framework GDPR Article 25 refers to as *data protection by design and by default*. Sealmetrics satisfies it the blunt way: by not collecting personal data, so there is no personal data to protect, disclose or lose. The seven principles below map to specific architectural choices rather than to policies.
+Privacy by Design is the framework [GDPR Article 25](https://eur-lex.europa.eu/eli/reg/2016/679/oj) refers to as *data protection by design and by default*. Sealmetrics satisfies it the blunt way: by not collecting personal data, so there is no personal data to protect, disclose or lose. The seven principles below map to specific architectural choices rather than to policies.
+
+## How does Sealmetrics map to the seven principles?
 
 | Principle | How it shows up in Sealmetrics |
 |-----------|-------------------------------|
@@ -28,7 +30,14 @@ Privacy by Design is the framework GDPR Article 25 refers to as *data protection
 | **6. Respect for user privacy** | No cookies, no device storage, no fingerprinting, no cross-session or cross-site linking. Session markers incorporate the publisher account, so the same browser yields different markers on different sites. |
 | **7. Accommodate all legitimate interests** | Site owners get the measurement they need for business decisions; visitors are not identified to provide it. |
 
+## Is privacy by design a certification?
+
 Two claims worth keeping straight, because vendor reviews turn on them: privacy by design is an architectural property, **not a certification**. Sealmetrics holds no ISO 27001 or SOC 2 certification, and no supervisory authority certifies analytics tools. The pages under [compliance](/compliance) are our own self-assessments against published criteria, and a Data Processing Agreement is included at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/).
+
+**Note:**
+- Sealmetrics satisfies GDPR Article 25 (data protection by design and by default) by collecting no personal data, so each of the seven principles maps to an architectural choice.
+- Anonymous measurement is the default and only mode: no cookies, no device storage, no fingerprinting, EU-only storage in Dublin with short retention enforced by TTLs.
+- Privacy by design is an architectural property, not a certification — Sealmetrics holds no ISO 27001 or SOC 2 and no supervisory authority certifies analytics tools.
 
 ## Related documentation
 
