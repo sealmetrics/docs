@@ -1,17 +1,20 @@
 ---
 title: "Sealmetrics vs Plausible: two cookieless tools, one hashes the IP"
-sidebar_position: 4
-description: Plausible identifies visitors with a daily hash of IP and user agent; Sealmetrics never derives an identifier from the IP. Both cookieless, both EU-hosted.
-tags: [comparison, plausible, cookieless analytics, open source, gdpr]
-keywords:
-  - sealmetrics vs plausible
-  - plausible daily hash ip user agent
-  - plausible alternative
-  - plausible hetzner germany
-  - cookieless analytics without ip
+description: "Plausible identifies visitors with a daily hash of IP and user agent; Sealmetrics never derives an identifier from the IP. Both cookieless, both EU-hosted."
+canonical_url: "https://docs.sealmetrics.com/compare/plausible"
+lang: "en"
+date_generated: "2026-09-04T11:01:07.053Z"
+source_hash: "a501416e05ad0afa09e1b26b7a5d16e1432ae363516343da1b5ccbb26e54fa38"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "compare/plausible.mdx"
+publisher: "Sealmetrics"
 ---
 
-# Sealmetrics vs Plausible
+# Sealmetrics vs Plausible: two cookieless tools, one hashes the IP
+
+Canonical page: https://docs.sealmetrics.com/compare/plausible
 
 Sealmetrics and Plausible are both cookieless, EU-hosted analytics tools that state no consent banner is needed. The main difference is how they tell two pageviews apart: Plausible computes a daily unique-visitor hash from the IP address and user agent, while Sealmetrics never derives any identifier from the IP and does not report unique visitors at all.
 
@@ -68,11 +71,10 @@ Plausible publishes 2.5 KB gzipped for its script; the Sealmetrics tracker measu
 
 Yes. Neither tool interferes with the other, and a parallel run is the simplest way to compare Plausible's daily uniques against Sealmetrics' entrances on your own traffic.
 
-:::note In short
+**Note:**
 - Both are cookieless and EU-hosted with no banner required per their own docs.
 - Plausible's daily identifier includes the IP address; Sealmetrics derives nothing from it.
 - Plausible reports unique visitors and is open source; Sealmetrics reports entrances and adds e-commerce depth and AI.
-:::
 
 ## Related documentation
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-04T00:07:24.876Z",
+  "generated_at": "2026-09-04T11:01:07.053Z",
   "routes": [
     {
       "route": "/ai-usage",
@@ -728,6 +728,97 @@
       "source_file": "changelog.mdx",
       "source_hash": "f6057c5cf46af2c8da108f9ec2e57f3d25f99d381045a49cf5ffa0adb0ff8b1b",
       "generated_at": "2026-09-01T09:24:39.001Z"
+    },
+    {
+      "route": "/compare/fathom",
+      "canonical": "https://docs.sealmetrics.com/compare/fathom",
+      "markdown": "https://docs.sealmetrics.com/compare/fathom.md",
+      "title": "Sealmetrics vs Fathom: EU Isolation vs EU-only storage",
+      "description": "Fathom hashes IP and user agent daily and stores anonymised data in the US after EU processing. Sealmetrics never hashes the IP and keeps all data in Dublin.",
+      "content_type": "documentation",
+      "owner": "docs",
+      "llm_priority": "useful",
+      "source_file": "compare/fathom.mdx",
+      "source_hash": "72eb1b7de5df40f4f22e4759660be3ff4e216c7e91e6968a534f8ffdceefb203",
+      "generated_at": "2026-09-04T11:01:07.053Z"
+    },
+    {
+      "route": "/compare/google-analytics-4",
+      "canonical": "https://docs.sealmetrics.com/compare/google-analytics-4",
+      "markdown": "https://docs.sealmetrics.com/compare/google-analytics-4.md",
+      "title": "Sealmetrics vs Google Analytics 4: consent-based vs consentless measurement",
+      "description": "GA4 needs cookies and consent, so it loses 15–60% of EU visitors. Sealmetrics measures every hit without cookies, IP storage or a banner, hosted in Dublin.",
+      "content_type": "documentation",
+      "owner": "docs",
+      "llm_priority": "useful",
+      "source_file": "compare/google-analytics-4.mdx",
+      "source_hash": "73f1a20cd1b22b0286145d6307773bd4f8d5c0c5bee37e76e33b409ef5ec2caf",
+      "generated_at": "2026-09-04T11:01:07.053Z"
+    },
+    {
+      "route": "/compare",
+      "canonical": "https://docs.sealmetrics.com/compare",
+      "markdown": "https://docs.sealmetrics.com/compare.md",
+      "title": "Sealmetrics compared with other analytics tools",
+      "description": "How Sealmetrics compares with GA4, Matomo, Plausible, Fathom, Piwik PRO and Simple Analytics on identifiers, IP handling, data residency, consent and script size.",
+      "content_type": "documentation",
+      "owner": "docs",
+      "llm_priority": "useful",
+      "source_file": "compare/index.mdx",
+      "source_hash": "c61e3a792019d07985360e01f791d323c7e3194d9cd9d171b232aeb6fa833940",
+      "generated_at": "2026-09-04T11:01:07.053Z"
+    },
+    {
+      "route": "/compare/matomo",
+      "canonical": "https://docs.sealmetrics.com/compare/matomo",
+      "markdown": "https://docs.sealmetrics.com/compare/matomo.md",
+      "title": "Sealmetrics vs Matomo: self-hosted open source vs managed consentless cloud",
+      "description": "Matomo is GPL-licensed and self-hostable, but its cookieless mode hashes the visitor's IP. Sealmetrics never uses the IP and stores everything in Dublin.",
+      "content_type": "documentation",
+      "owner": "docs",
+      "llm_priority": "useful",
+      "source_file": "compare/matomo.mdx",
+      "source_hash": "9385f3d0aa50b6ecba1965336c2bc5a0539e517823651bc3328232f9fd11068c",
+      "generated_at": "2026-09-04T11:01:07.053Z"
+    },
+    {
+      "route": "/compare/piwik-pro",
+      "canonical": "https://docs.sealmetrics.com/compare/piwik-pro",
+      "markdown": "https://docs.sealmetrics.com/compare/piwik-pro.md",
+      "title": "Sealmetrics vs Piwik PRO: enterprise suite with consent manager vs consentless by design",
+      "description": "Piwik PRO pairs analytics with a consent manager and an anonymous mode hashed from the IP. Sealmetrics needs no consent layer, no IP and stores only in Dublin.",
+      "content_type": "documentation",
+      "owner": "docs",
+      "llm_priority": "useful",
+      "source_file": "compare/piwik-pro.mdx",
+      "source_hash": "066153f6fa27cb208ab6853f92ef70fb6d761d8ffde22131eb3a18975594d984",
+      "generated_at": "2026-09-04T11:01:07.053Z"
+    },
+    {
+      "route": "/compare/plausible",
+      "canonical": "https://docs.sealmetrics.com/compare/plausible",
+      "markdown": "https://docs.sealmetrics.com/compare/plausible.md",
+      "title": "Sealmetrics vs Plausible: two cookieless tools, one hashes the IP",
+      "description": "Plausible identifies visitors with a daily hash of IP and user agent; Sealmetrics never derives an identifier from the IP. Both cookieless, both EU-hosted.",
+      "content_type": "documentation",
+      "owner": "docs",
+      "llm_priority": "useful",
+      "source_file": "compare/plausible.mdx",
+      "source_hash": "a501416e05ad0afa09e1b26b7a5d16e1432ae363516343da1b5ccbb26e54fa38",
+      "generated_at": "2026-09-04T11:01:07.053Z"
+    },
+    {
+      "route": "/compare/simple-analytics",
+      "canonical": "https://docs.sealmetrics.com/compare/simple-analytics",
+      "markdown": "https://docs.sealmetrics.com/compare/simple-analytics.md",
+      "title": "Sealmetrics vs Simple Analytics: the closest architecture, different depth",
+      "description": "Both skip cookies, IPs and consent banners and derive country from the timezone. Simple Analytics keeps it minimal; Sealmetrics adds attribution, e-commerce and AI.",
+      "content_type": "documentation",
+      "owner": "docs",
+      "llm_priority": "useful",
+      "source_file": "compare/simple-analytics.mdx",
+      "source_hash": "e6779efc2d7724c842b923fb2aae4d6b356ec99e6b8caea14e8893ff0c1445e7",
+      "generated_at": "2026-09-04T11:01:07.053Z"
     },
     {
       "route": "/legal/gdpr-and-eprivacy/do-session-ids-require-consent",

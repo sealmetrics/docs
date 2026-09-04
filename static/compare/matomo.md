@@ -1,17 +1,20 @@
 ---
 title: "Sealmetrics vs Matomo: self-hosted open source vs managed consentless cloud"
-sidebar_position: 3
-description: Matomo is GPL-licensed and self-hostable, but its cookieless mode hashes the visitor's IP. Sealmetrics never uses the IP and stores everything in Dublin.
-tags: [comparison, matomo, open source, consentless analytics, gdpr]
-keywords:
-  - sealmetrics vs matomo
-  - matomo cookieless config_id
-  - matomo alternative cloud
-  - matomo ip anonymisation
-  - matomo cloud frankfurt
+description: "Matomo is GPL-licensed and self-hostable, but its cookieless mode hashes the visitor's IP. Sealmetrics never uses the IP and stores everything in Dublin."
+canonical_url: "https://docs.sealmetrics.com/compare/matomo"
+lang: "en"
+date_generated: "2026-09-04T11:01:07.053Z"
+source_hash: "9385f3d0aa50b6ecba1965336c2bc5a0539e517823651bc3328232f9fd11068c"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "compare/matomo.mdx"
+publisher: "Sealmetrics"
 ---
 
-# Sealmetrics vs Matomo
+# Sealmetrics vs Matomo: self-hosted open source vs managed consentless cloud
+
+Canonical page: https://docs.sealmetrics.com/compare/matomo
 
 Sealmetrics and Matomo are both European-hosted alternatives to Google Analytics that can run without cookies. The main difference is architecture: Matomo is GPL-licensed software you can self-host, whose cookieless mode still builds a daily identifier from the visitor's IP address; Sealmetrics is a managed cloud service that never derives any identifier from the IP and stores data only in Dublin.
 
@@ -68,11 +71,10 @@ Matomo's position is that, with anonymisation configured, you can track visitors
 
 No. Sealmetrics starts collecting from the day the tracker is installed and keeps 24 months of aggregates. Run both in parallel during the transition if you need continuity.
 
-:::note In short
+**Note:**
 - Matomo is GPLv3 and self-hostable; Sealmetrics is a managed cloud in Dublin.
 - Matomo's cookieless identifier is a daily hash that includes the IP; Sealmetrics derives nothing from the IP.
 - Matomo gives you unique visitors with consent; Sealmetrics gives you every visitor without it.
-:::
 
 ## Related documentation
 

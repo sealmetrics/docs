@@ -49732,6 +49732,537 @@ The Joint Opinion provides valuable insight into how European data protection au
 
 ---
 
+# Compare
+
+
+## Sealmetrics compared with other analytics tools
+
+
+URL: https://docs.sealmetrics.com/compare
+
+
+# Sealmetrics compared with other analytics tools
+
+This section compares Sealmetrics with the six analytics tools most often evaluated alongside it. Each page follows the same structure: a side-by-side table, an explanation of how each tool identifies visitors, an honest list of cases where the other tool is the better choice, and a short FAQ.
+
+Every competitor fact on these pages was read on the vendor's own documentation or website, and each table row links to the page it was taken from. Sealmetrics facts come from the [security and privacy](/security-privacy) and [billing](/billing) sections of these docs. Vendor documentation changes; if a linked page no longer says what a row claims, the row is out of date, not the vendor.
+
+## The six criteria that separate these tools
+
+Most privacy comparisons collapse into "cookieless or not". That is the wrong axis: every tool below except GA4 can run without cookies. The differences that matter for a DPO or a procurement review are these:
+
+1. **What identifier links two pageviews together?** A cookie, a hash that includes the IP address, a short-lived in-memory marker, or nothing at all.
+2. **Is the visitor's IP address an input to that identifier, or to geolocation?** A hashed IP is still derived from personal data; a discarded IP is not.
+3. **Where is the data stored?** One region, a choice of regions, or the vendor's global infrastructure.
+4. **Does the vendor say a consent banner is needed?** Reported here as the vendor's own position, not our judgement.
+5. **Can you self-host it?** Open-source licence and on-premise availability.
+6. **How heavy is the tracking script?** The vendor's published figure where one exists, otherwise a dated Sealmetrics measurement.
+
+## Side-by-side
+
+Vendor facts checked 2026-09-04.
+
+| Tool | Identifier between pageviews | Visitor IP used | Data residency | Vendor's position on consent banner | Open source / self-host | Script (gzipped) |
+|---|---|---|---|---|---|---|
+| **Sealmetrics** | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | Never stored; country from browser timezone | Dublin, Ireland only | Not needed | No — cloud only | 1.1 KB ([measured](/guides/tracker-performance-report)) |
+| [Google Analytics 4](/compare/google-analytics-4) | First-party cookie `_ga`, 2-year default ([source](https://support.google.com/analytics/answer/11397207)) | Used for geolocation, then discarded for EU/UK/CH traffic ([source](https://support.google.com/analytics/answer/12017362)) | Collected on EU servers, then forwarded to Analytics servers; final location not stated ([source](https://support.google.com/analytics/answer/12017362)) | Consent required for cookies where legally required ([EU User Consent Policy](https://www.google.com/about/company/user-consent-policy/)) | No | ~145 KB (Sealmetrics measurement, Aug 2026) |
+| [Matomo](/compare/matomo) | Cookie by default; cookieless mode uses `config_id`, a daily-rotated hash of OS, browser, plugins, IP and language ([source](https://matomo.org/faq/general/how-is-the-visitor-config_id-processed/)) | Yes — input to `config_id`; masking optional ([source](https://matomo.org/faq/general/faq_18254/)) | Cloud: Frankfurt, Germany; On-Premise: anywhere ([source](https://matomo.org/pricing/)) | "No need for cookie consent screens" when anonymisation is configured ([source](https://matomo.org/gdpr-analytics/)) | Yes — GPLv3 ([source](https://matomo.org/free-software/)) | ~46 KB (Sealmetrics measurement, Aug 2026) |
+| [Plausible](/compare/plausible) | Daily hash of salt + domain + IP + user agent ([source](https://plausible.io/data-policy)) | Yes — hash input and geolocation; not stored ([source](https://plausible.io/data-policy)) | Hetzner, Falkenstein, Germany ([source](https://plausible.io/privacy-focused-web-analytics)) | "No need for cookie banners or GDPR consent" ([source](https://plausible.io/)) | Yes — AGPLv3 Community Edition ([source](https://plausible.io/docs/self-hosting)) | 2.5 KB ([source](https://plausible.io/lightweight-web-analytics)) |
+| [Fathom](/compare/fathom) | Daily per-site hash of salt + IP + user agent + hostname ([source](https://usefathom.com/data)) | Yes — hash input; stripped inside the EU for EU visitors ([source](https://usefathom.com/features/eu-isolation)) | EU IPs processed in the EU; anonymised data stored on US servers ([source](https://usefathom.com/features/eu-isolation)) | "You don't need to clutter your site with a cookie banner" ([source](https://usefathom.com/features)) | No — hosted product only ([source](https://usefathom.com/about)) | Not published |
+| [Piwik PRO](/compare/piwik-pro) | Cookie ID by default; anonymous mode uses a session hash of IP, OS, browser, language, plugins and site ID ([source](https://help.piwik.pro/support/questions/what-are-sessions-and-how-are-they-counted/)) | Yes — session-hash input; masking optional ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) | Sweden (EU-operated), DE, NL, US, HK, UAE ([source](https://piwik.pro/pricing/)) | Anonymous data can be collected without a consent form ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) | Proprietary; private cloud available ([source](https://piwik.pro/pricing/)) | ~26 KB (Sealmetrics measurement, Aug 2026) |
+| [Simple Analytics](/compare/simple-analytics) | None — unique visits inferred from the Referer hostname ([source](https://docs.simpleanalytics.com/what-we-collect)) | Not collected; country from timezone ([source](https://docs.simpleanalytics.com/what-we-collect)) | The Netherlands ([source](https://docs.simpleanalytics.com/what-we-collect)) | No consent needed, citing ICO guidance ([source](https://docs.simpleanalytics.com/compliance)) | Not published | 3.7 KB standard, 1.9 KB light ([source](https://docs.simpleanalytics.com/light)) |
+
+Sealmetrics measurements for GA4, Matomo and Piwik PRO were taken on 27 August 2026 with the method described in the [tracker performance report](/guides/tracker-performance-report); Matomo's figure depends on which plugins an instance has installed.
+
+## What the table does not say
+
+- **Consent positions are the vendors' own.** No supervisory authority certifies analytics tools, and Sealmetrics' own pages under [compliance](/compliance) are self-assessments. Read the vendors' claims the same way.
+- **Certifications.** Sealmetrics holds no ISO 27001 or SOC 2 certification. Where a vendor states that it holds one, the individual page says so.
+- **Prices.** Prices drift, so the pages link to each vendor's pricing page rather than quoting figures. Sealmetrics plans are on the [billing page](/billing).
+- **Feature parity.** Sealmetrics does not report unique visitors, session duration, exit pages or user journeys, because each requires an identifier that persists across pageviews. Every page states this plainly; it is the trade-off that removes the consent requirement.
+
+## Pages in this section
+
+- [Sealmetrics vs Google Analytics 4](/compare/google-analytics-4) — consent-based data loss versus consentless measurement
+- [Sealmetrics vs Matomo](/compare/matomo) — self-hosted open source versus a managed EU cloud
+- [Sealmetrics vs Plausible](/compare/plausible) — two cookieless tools, one hashes the IP
+- [Sealmetrics vs Fathom](/compare/fathom) — EU Isolation versus EU-only storage
+- [Sealmetrics vs Piwik PRO](/compare/piwik-pro) — enterprise suite with consent manager versus consentless by design
+- [Sealmetrics vs Simple Analytics](/compare/simple-analytics) — the closest architecture, different depth
+
+## Related documentation
+
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics)
+- [What We Track vs What We Don't](/security-privacy/what-we-track)
+- [Data Location & Retention](/security-privacy/data-location)
+- [Tracker Performance Report](/guides/tracker-performance-report)
+
+
+
+## Sealmetrics vs Google Analytics 4: consent-based vs consentless measurement
+
+
+URL: https://docs.sealmetrics.com/compare/google-analytics-4
+
+
+# Sealmetrics vs Google Analytics 4
+
+Sealmetrics and Google Analytics 4 are both web analytics tools that report traffic, sources, conversions and revenue. The main difference is the identifier: GA4 relies on a first-party cookie and therefore on visitor consent in the EU, while Sealmetrics sets no cookie, stores no IP address and needs no banner. In practice that means GA4 reports the visitors who accepted the banner, and Sealmetrics reports all of them.
+
+## Side-by-side
+
+Google facts checked 2026-09-04 on Google's own help pages; each row links to the page it was read on.
+
+| Criterion | Sealmetrics | Google Analytics 4 |
+|---|---|---|
+| Company / HQ | Sealmetrics, EU company | Google LLC, Mountain View, USA; Google Ireland Limited for EEA users ([source](https://policies.google.com/privacy)) |
+| Hosting model | Managed cloud only | Managed cloud only ([source](https://support.google.com/analytics/answer/6004245)) |
+| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP; no cookies or localStorage ([details](/security-privacy/what-we-track)) | First-party cookie `_ga` with a 2-year default expiry, used "to distinguish users" ([source](https://support.google.com/analytics/answer/11397207)) |
+| Visitor IP address | Never stored; country derived from browser timezone ([details](/security-privacy/country-detection)) | Not logged or stored for EU/UK/CH users; used for geolocation and then discarded ([source](https://support.google.com/analytics/answer/12017362)) |
+| Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | EU device data collected on EU servers "before forwarding traffic to Analytics servers for processing"; final location not stated ([source](https://support.google.com/analytics/answer/12017362)) |
+| Vendor's position on consent | No banner needed for measurement | Consent required for cookies "where legally required" under Google's EU User Consent Policy ([source](https://www.google.com/about/company/user-consent-policy/)) |
+| Behaviour when consent is denied | Not applicable — every hit measured | Tags send cookieless pings; gaps filled by conversion and behavioural modelling ([source](https://support.google.com/analytics/answer/9976101)) |
+| Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; Sealmetrics measured ~145 KB on 27 Aug 2026 ([method](/guides/tracker-performance-report)) |
+| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | Standard properties free; Analytics 360 paid with SLA ([source](https://support.google.com/analytics/answer/1070983)) |
+| Data retention | 24 months, fixed for every plan | 2 or 14 months for event data; up to 50 months on 360 ([source](https://support.google.com/analytics/answer/7667196)) |
+
+## How each one measures visitors
+
+GA4 writes a client ID into the `_ga` cookie on the first pageview and reads it back on every later one. That single mechanism is what makes unique visitors, session duration, cross-session journeys and audience lists possible — and it is also what puts GA4 inside the scope of the ePrivacy Directive's consent requirement. Google's own policy requires legally valid consent for cookies where the law demands it, and when a visitor declines, GA4 falls back to cookieless pings and statistical modelling rather than measurement.
+
+Sealmetrics records four non-identifying variables per hit — timestamp, user agent, current URL and referral URL — plus a session marker that lives in memory for roughly two hours and is never written to the device. Nothing is stored on the visitor's browser, the IP is used only in memory for anti-abuse checks, and the country comes from the browser's timezone. Because no personal data is stored, there is nothing for a banner to ask permission for. The cost of that design is fixed: no unique visitors, no session duration, no exit pages, no user journeys.
+
+## When Google Analytics 4 is the better choice
+
+- You optimise Google Ads with audience sync and automated bidding — Sealmetrics attributes campaigns via UTMs but does not push audiences back to Google Ads.
+- You need user-level analysis: cohorts, cross-device journeys, predictive metrics, or a BigQuery pipeline you have already built on GA4's event schema.
+- Most of your traffic comes from markets where consent rejection is low, so the data gap that motivates a switch is small.
+
+## When Sealmetrics is the better choice
+
+- Your EU traffic is material and you are losing 15–60% of it to the banner — the exact share depends on sector, brand strength and traffic mix.
+- Your DPO wants a short answer to "what personal data does the analytics tool process?" — the answer here is none, with a [DPA](https://sealmetrics.com/dpa/) ready to sign.
+- Page weight matters: the tracker fits in a single TCP packet and fires before a visitor can abandon the page.
+
+## Frequently asked questions
+
+### Can I run GA4 and Sealmetrics at the same time?
+
+Yes, and many teams do during a transition. The two scripts do not interfere, and running them side by side is the easiest way to see the size of the consent gap on your own traffic. The [GA4 migration checklist](/guides/ga4-migration-checklist) describes the parallel-run period.
+
+### Does GA4 store IP addresses?
+
+Google states that it does not log or store individual IP addresses from EU, UK or Swiss users, and that IP data is used for geolocation and then discarded. Sealmetrics goes one step further: the IP is never used for geolocation at all — country comes from the browser timezone.
+
+### Why does GA4 show more Direct traffic than Sealmetrics?
+
+When a visitor arrives from a campaign and declines the banner, GA4 cannot set its attribution cookie, so the visit is filed as Direct. Sealmetrics reads UTM parameters on arrival without any cookie, so attribution does not depend on the banner outcome.
+
+### Is Sealmetrics less detailed than GA4?
+
+For anything that requires following an individual — unique visitors, session duration, journeys — yes, by design. For aggregate traffic, conversions, revenue and attribution, Sealmetrics covers every visitor while GA4 covers the consenting subset.
+
+**Note:**
+- GA4's identifier is a 2-year cookie, so EU measurement depends on the banner; Sealmetrics uses no cookie and needs no banner.
+- GA4 discards EU IPs after geolocation; Sealmetrics never uses the IP for geolocation and stores data only in Dublin.
+- GA4 offers user-level analysis and Google Ads audience sync; Sealmetrics trades those for complete, consent-independent data.
+
+## Related documentation
+
+- [GA4 vs Sealmetrics — feature-by-feature FAQ](/faq/ga4-vs-sealmetrics)
+- [GA4 to Sealmetrics migration checklist](/guides/ga4-migration-checklist)
+- [Tracker performance report](/guides/tracker-performance-report)
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics)
+
+
+
+## Sealmetrics vs Matomo: self-hosted open source vs managed consentless cloud
+
+
+URL: https://docs.sealmetrics.com/compare/matomo
+
+
+# Sealmetrics vs Matomo
+
+Sealmetrics and Matomo are both European-hosted alternatives to Google Analytics that can run without cookies. The main difference is architecture: Matomo is GPL-licensed software you can self-host, whose cookieless mode still builds a daily identifier from the visitor's IP address; Sealmetrics is a managed cloud service that never derives any identifier from the IP and stores data only in Dublin.
+
+## Side-by-side
+
+Matomo facts checked 2026-09-04 on matomo.org; each row links to the page it was read on.
+
+| Criterion | Sealmetrics | Matomo |
+|---|---|---|
+| Company / HQ | Sealmetrics, EU company | InnoCraft Limited, Wellington, New Zealand ([source](https://matomo.org/privacy-policy/)) |
+| Hosting model | Managed cloud only | Matomo Cloud or self-hosted On-Premise ([source](https://matomo.org/pricing/)) |
+| Licence | Proprietary | GNU GPL v3 or later ([source](https://matomo.org/free-software/)) |
+| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | Cookie by default; without cookies a `config_id` hashed from OS, browser, plugins, IP address and language, valid for one session and at most 24 h ([source](https://matomo.org/faq/general/how-is-the-visitor-config_id-processed/)) |
+| Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Processed; "considered personal data, unless you have enabled the IP anonymisation to at least 2 bytes" ([source](https://matomo.org/faq/general/faq_18254/)) |
+| Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | Cloud: Frankfurt, Germany; On-Premise: your choice ([source](https://matomo.org/pricing/)) |
+| Vendor's position on consent | No banner needed for measurement | "No need for cookie consent screens" once anonymisation techniques are configured ([source](https://matomo.org/gdpr-analytics/)); consent-free operation depends on a checklist of settings ([source](https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-without-consent-or-cookie-banner/)) |
+| Accuracy without cookies | Designed for it — no unique-visitor metric to degrade | Unique and returning visitors "will be inaccurate" when cookies are disabled ([source](https://matomo.org/faq/general/faq_156/)) |
+| Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; Sealmetrics measured ~46 KB on the vendor demo instance, 27 Aug 2026 — varies with installed plugins ([method](/guides/tracker-performance-report)) |
+| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | On-Premise free; Cloud has a free trial, paid plans from about €29/month — see [pricing](https://matomo.org/pricing/) |
+
+## How each one measures visitors
+
+Matomo's default is a first-party visitor cookie, which gives it GA-style unique and returning visitor counts. Switch cookies off and Matomo falls back to `config_id`: a hash of operating system, browser, plugins, IP address and language, seeded with a value that is discarded daily so the identifier cannot outlive 24 hours. Matomo's own FAQ is candid that unique-visitor reports become inaccurate in that mode, and its consent-free checklist asks you to truncate IPs, disable User ID, anonymise referrers and limit tracking to a single site.
+
+Sealmetrics has no cookie mode to switch off. Every hit carries timestamp, user agent, URL and referrer, grouped within a visit by a session marker that exists only in memory for around two hours and includes nothing derived from the IP. The trade-off is that unique visitors are not reported at all — Sealmetrics uses entrances as the audience-size signal — but nothing degrades when a visitor blocks cookies, because nothing depended on them.
+
+## When Matomo is the better choice
+
+- You must run analytics on your own servers, in a specific country, or with no external processor at all — Sealmetrics is cloud-only.
+- You want unique and returning visitor counts, visit duration and visitor logs, and are prepared to obtain consent for the cookie that makes them accurate.
+- You want to read and modify the source, or extend the product with community plugins.
+
+## When Sealmetrics is the better choice
+
+- You want consent-free measurement without a configuration checklist — there is no IP masking to set, no cookie to disable, no User ID feature to leave off.
+- You do not want any identifier derived from the IP address, even a daily-rotated hash.
+- You want a light tracker: Matomo's script measured roughly 42 times heavier on the wire than Sealmetrics'.
+
+## Frequently asked questions
+
+### Is Matomo's cookieless mode the same as Sealmetrics' consentless design?
+
+No. Matomo's cookieless mode still computes a visitor fingerprint (`config_id`) that includes the IP address, rotated daily. Sealmetrics computes no visitor fingerprint at all; its session marker is short-lived, in-memory and not derived from the IP.
+
+### Where is Matomo Cloud data stored?
+
+Matomo's pricing FAQ states that Cloud data is stored in Frankfurt, Germany. Self-hosted installations store data wherever you run them. Sealmetrics stores all customer analytics data in Dublin, Ireland, with no choice of region.
+
+### Does Matomo require a cookie banner?
+
+Matomo's position is that, with anonymisation configured, you can track visitors without a cookie consent screen, and it publishes a self-assessment against the French CNIL criteria. That is the vendor's assessment, not a regulator's approval — the same is true of Sealmetrics' own [CNIL self-assessment](/compliance/cnil-self-assessment).
+
+### Can I import Matomo history into Sealmetrics?
+
+No. Sealmetrics starts collecting from the day the tracker is installed and keeps 24 months of aggregates. Run both in parallel during the transition if you need continuity.
+
+**Note:**
+- Matomo is GPLv3 and self-hostable; Sealmetrics is a managed cloud in Dublin.
+- Matomo's cookieless identifier is a daily hash that includes the IP; Sealmetrics derives nothing from the IP.
+- Matomo gives you unique visitors with consent; Sealmetrics gives you every visitor without it.
+
+## Related documentation
+
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works)
+- [How Sealmetrics determines the country without IP addresses](/security-privacy/country-detection)
+- [Tracker performance report](/guides/tracker-performance-report)
+- [Data Location & Retention](/security-privacy/data-location)
+
+
+
+## Sealmetrics vs Plausible: two cookieless tools, one hashes the IP
+
+
+URL: https://docs.sealmetrics.com/compare/plausible
+
+
+# Sealmetrics vs Plausible
+
+Sealmetrics and Plausible are both cookieless, EU-hosted analytics tools that state no consent banner is needed. The main difference is how they tell two pageviews apart: Plausible computes a daily unique-visitor hash from the IP address and user agent, while Sealmetrics never derives any identifier from the IP and does not report unique visitors at all.
+
+## Side-by-side
+
+Plausible facts checked 2026-09-04 on plausible.io; each row links to the page it was read on.
+
+| Criterion | Sealmetrics | Plausible |
+|---|---|---|
+| Company / HQ | Sealmetrics, EU company | Incorporated in Estonia, EU ([source](https://plausible.io/data-policy)) |
+| Hosting model | Managed cloud only | Managed cloud or self-hosted Community Edition ([source](https://plausible.io/docs/self-hosting)) |
+| Licence | Proprietary | AGPLv3 ([source](https://plausible.io/about)) |
+| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | `hash(daily_salt + website_domain + ip_address + user_agent)`, salt rotated every 24 h ([source](https://plausible.io/data-policy)) |
+| Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Input to the hash and to geolocation; raw IP not stored ([source](https://plausible.io/data-policy)) |
+| Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | Hetzner servers in Falkenstein, Germany ([source](https://plausible.io/privacy-focused-web-analytics)) |
+| Vendor's position on consent | No banner needed for measurement | "No need for cookie banners or GDPR consent" ([source](https://plausible.io/)) |
+| Cookies / local storage | None | "We do not use cookies, browser cache or local storage" ([source](https://plausible.io/data-policy)) |
+| Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | 2.5 KB, stated by the vendor ([source](https://plausible.io/lightweight-web-analytics)) |
+| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | 30-day free trial, no credit card; no free plan — see [pricing](https://plausible.io/) |
+
+## How each one measures visitors
+
+Plausible's data policy spells out its identifier: a hash of a daily salt, the site domain, the visitor's IP address and user agent. The salt is discarded every 24 hours, so the same person becomes a new visitor the next day and cannot be followed across sites. Raw IPs and user agents are never written to disk. This gives Plausible a daily unique-visitor count and visit duration while staying cookieless, at the price of feeding the IP into the identifier.
+
+Sealmetrics does not compute a visitor hash. Each hit is stored with timestamp, user agent, URL and referrer; a session marker held in memory for around two hours groups pageviews within a visit and is not derived from the IP. The IP is seen at the network layer, used in memory for anti-abuse checks and never persisted or used for geolocation — country comes from the browser timezone. The consequence is that Sealmetrics reports entrances rather than unique visitors, and has no visit-duration metric.
+
+## When Plausible is the better choice
+
+- You want daily unique visitors and visit duration without cookies, and are comfortable that the identifier is a rotated hash of the IP.
+- You want to self-host under an open-source licence or audit the source before trusting the privacy claims.
+- You run a small site and want a deliberately minimal dashboard at a low entry price.
+
+## When Sealmetrics is the better choice
+
+- Your legal review treats a hashed IP as derived from personal data and you would rather have no identifier to explain at all.
+- You need item-level e-commerce data, custom channel grouping, an API on every plan and an AI layer ([LENS](/lens), included in every paid plan and free to run on your own LLM key).
+- You want retention fixed at 24 months across the board, with no per-plan variation to document.
+
+## Frequently asked questions
+
+### Does Plausible store my visitors' IP addresses?
+
+No. Plausible's data policy says raw IPs and user agents are never stored; the IP is used as an input to the daily hash and to derive location, then dropped. Sealmetrics does not use the IP for either purpose.
+
+### Which tool needs a cookie banner?
+
+Neither, according to each vendor's own documentation. Both set no cookies and use no local storage. Both statements are vendor positions; no supervisory authority certifies analytics tools, and Sealmetrics' compliance pages are [self-assessments](/compliance).
+
+### Which script is lighter?
+
+Plausible publishes 2.5 KB gzipped for its script; the Sealmetrics tracker measured 1.1 KB gzipped in August 2026. Both are small enough that the difference rarely matters — the contrast with GA4 at roughly 145 KB is the one that does.
+
+### Can I run both together?
+
+Yes. Neither tool interferes with the other, and a parallel run is the simplest way to compare Plausible's daily uniques against Sealmetrics' entrances on your own traffic.
+
+**Note:**
+- Both are cookieless and EU-hosted with no banner required per their own docs.
+- Plausible's daily identifier includes the IP address; Sealmetrics derives nothing from it.
+- Plausible reports unique visitors and is open source; Sealmetrics reports entrances and adds e-commerce depth and AI.
+
+## Related documentation
+
+- [Sealmetrics vs Plausible — full blog comparison](/blog/sealmetrics-vs-plausible)
+- [What We Track vs What We Don't](/security-privacy/what-we-track)
+- [How Sealmetrics determines the country without IP addresses](/security-privacy/country-detection)
+- [Metrics Reference](/reports/definitions)
+
+
+
+## Sealmetrics vs Fathom: EU Isolation vs EU-only storage
+
+
+URL: https://docs.sealmetrics.com/compare/fathom
+
+
+# Sealmetrics vs Fathom
+
+Sealmetrics and Fathom Analytics are both cookieless tools whose vendors say no consent banner is needed. The main difference is where the data goes and what the identifier is made of: Fathom builds a daily hash from the visitor's IP and user agent, processes EU IPs inside the EU and then stores the anonymised data on US servers; Sealmetrics builds no hash from the IP and stores everything in Dublin, Ireland.
+
+## Side-by-side
+
+Fathom facts checked 2026-09-04 on usefathom.com; each row links to the page it was read on.
+
+| Criterion | Sealmetrics | Fathom Analytics |
+|---|---|---|
+| Company / HQ | Sealmetrics, EU company | Victoria, British Columbia, Canada ([source](https://usefathom.com/privacy)) |
+| Hosting model | Managed cloud only | Managed cloud only; the original open-source project is no longer the product ([source](https://usefathom.com/about)) |
+| Licence | Proprietary | Proprietary hosted product ([source](https://usefathom.com/about)) |
+| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | User signature hash of a per-site daily salt, IP address, user agent and hostname, deleted at midnight ([source](https://usefathom.com/data)) |
+| Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Input to the hash; raw IPs kept only for security, up to 24 h ([source](https://usefathom.com/data)) |
+| Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | EU visitors' IPs stripped on EU infrastructure; anonymised data "stored on our main US servers" ([source](https://usefathom.com/features/eu-isolation)) |
+| Vendor's position on consent | No banner needed for measurement | "You don't need to clutter your site with a cookie banner for analytics" ([source](https://usefathom.com/features)) |
+| Cookies | None | "We don't use cookies or similar technology" ([source](https://usefathom.com/privacy)) |
+| Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; the vendor cites typical load times of about 30 ms ([source](https://usefathom.com/data)) |
+| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | 7-day free trial, no credit card; no free plan — see [pricing](https://usefathom.com/pricing) |
+
+## How each one measures visitors
+
+Fathom's data page describes a "user signature hash" built from a salt that is unique per site and recycled at midnight, plus the IP address, user agent and hostname. The hash lets Fathom count unique visitors for a day and is deleted when the salt rotates. EU Isolation adds a routing layer: EU visitors' requests are handled on European infrastructure where the IP is stripped, and the resulting anonymised record is then stored in the US. Fathom's position is that no personal data is associated with what reaches the US servers.
+
+Sealmetrics never builds a hash from the IP. It records timestamp, user agent, URL and referrer per hit, with a session marker that lives in memory for around two hours and is scoped to one site by design. The IP is used in memory for anti-abuse checks and dropped; country comes from the browser timezone. All processing and storage happens in Dublin — there is no second region for the aggregated data to move to. The trade-off is the same one every consentless design makes: no unique visitors, no session duration, no journeys.
+
+## When Fathom is the better choice
+
+- You want daily unique visitor counts without cookies and accept a daily-rotated hash of the IP as the mechanism.
+- Your primary audience is outside the EU and a US-stored dashboard is not a review question for you.
+- You want a simple, single-dashboard product with a fast trial and a low entry price.
+
+## When Sealmetrics is the better choice
+
+- Your data residency requirement is "EU only, one region", not "EU-processed then stored elsewhere".
+- You do not want any visitor hash derived from the IP, even one that expires at midnight.
+- You need conversion and revenue attribution with item-level properties, an API on every plan, and an AI assistant ([LENS](/lens)) that is free to run on your own LLM key.
+
+## Frequently asked questions
+
+### Where does Fathom store EU visitor data?
+
+Per Fathom's EU Isolation page, EU visitors' IP addresses are stripped on EU-located infrastructure and the anonymised data is then stored on Fathom's main US servers. Sealmetrics stores all customer analytics data in Dublin and transfers none of it outside the EU.
+
+### Does Fathom process IP addresses?
+
+Yes. The IP is one input to Fathom's daily user signature hash, and raw IPs are retained for security purposes for up to 24 hours. Sealmetrics never persists the IP and never uses it to derive an identifier or a location.
+
+### Do either of these tools need a cookie banner?
+
+Both vendors say no for their own product. Neither claim has been validated by a supervisory authority — no such scheme exists for analytics tools — and Sealmetrics documents its reasoning as [self-assessments](/compliance).
+
+### Which reports does Sealmetrics not have that Fathom does?
+
+Unique visitors and time on site. Sealmetrics reports entrances, bounce rate, engagement rate and pages per session in aggregate instead. See the [Metrics Reference](/reports/definitions).
+
+**Note:**
+- Both are cookieless with no banner required per their own docs.
+- Fathom hashes IP and user agent daily and stores anonymised data in the US; Sealmetrics hashes nothing from the IP and stores only in Dublin.
+- Fathom reports daily unique visitors; Sealmetrics reports entrances and adds e-commerce depth and AI.
+
+## Related documentation
+
+- [Data Location & Retention](/security-privacy/data-location)
+- [What We Track vs What We Don't](/security-privacy/what-we-track)
+- [How Sealmetrics determines the country without IP addresses](/security-privacy/country-detection)
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics)
+
+
+
+## Sealmetrics vs Piwik PRO: enterprise suite with consent manager vs consentless by design
+
+
+URL: https://docs.sealmetrics.com/compare/piwik-pro
+
+
+# Sealmetrics vs Piwik PRO
+
+Sealmetrics and Piwik PRO are both European analytics platforms aimed at organisations with a data protection review to pass. The main difference is philosophy: Piwik PRO is a suite — analytics, tag manager and consent manager — that collects anonymous data before consent and full data after it, using a session hash that includes the IP; Sealmetrics removes the consent step entirely by never storing personal data or deriving anything from the IP.
+
+## Side-by-side
+
+Piwik PRO facts checked 2026-09-04 on piwik.pro and help.piwik.pro; each row links to the page it was read on.
+
+| Criterion | Sealmetrics | Piwik PRO |
+|---|---|---|
+| Company / HQ | Sealmetrics, EU company | Piwik PRO SA, Wrocław, Poland ([source](https://piwik.pro/contact/)) |
+| Hosting model | Managed cloud only | Public cloud, private cloud on Azure regions or Elastx ([source](https://piwik.pro/privacy-compliance/)) |
+| Licence | Proprietary | Proprietary ([source](https://piwik.pro/pricing/)) |
+| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | Cookie ID by default; anonymous mode uses a session hash of IP address, OS, browser name and version, language, plugins and site ID ([source](https://help.piwik.pro/support/questions/what-are-sessions-and-how-are-they-counted/)), used for 30 minutes since the last event ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
+| Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Processed; masking "removes the selected number of bytes from the address before saving it" ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
+| Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | EU-operated hosting in Sweden, plus Germany, the Netherlands, the US, Hong Kong and UAE North ([source](https://piwik.pro/pricing/)) |
+| Vendor's position on consent | No banner needed for measurement | Anonymous data can be collected without a consent form; full tracking after consent ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
+| Security certifications | None held | Vendor states ISO 27001 and SOC 2 ([source](https://piwik.pro/privacy-compliance/)) |
+| Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; Sealmetrics measured ~26 KB on the vendor demo instance, 27 Aug 2026 ([method](/guides/tracker-performance-report)) |
+| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | 30-day free trial; no free plan — see [pricing](https://piwik.pro/pricing/) |
+
+## How each one measures visitors
+
+Piwik PRO's default is a visitor cookie, which unlocks the full suite: visitor profiles, multi-session attribution and audience segments. For visitors who have not consented, it offers a privacy-friendly mode built on a session hash — computed from the IP address, operating system, browser name and version, language, enabled plugins and the site ID — that recognises a session for 30 minutes after the last event. IP masking can strip bytes before the address is saved. When the visitor accepts the consent manager's prompt, Piwik PRO upgrades to full tracking. The model gives you two data sets: anonymous for everyone, identified for those who agreed.
+
+Sealmetrics has one data set. Every hit is timestamp, user agent, URL and referrer, grouped within a visit by an in-memory marker that lasts around two hours and contains nothing derived from the IP. There is no consent manager because there is nothing to consent to, and no "upgrade" path to identified tracking. The price is that Sealmetrics never reports unique visitors, session duration or user-level journeys, on any plan.
+
+## When Piwik PRO is the better choice
+
+- Your procurement checklist requires a vendor with ISO 27001 or SOC 2 — Piwik PRO states it holds both; Sealmetrics holds neither.
+- You need a choice of hosting region or a private cloud deployment, or you must keep data in a specific non-Irish jurisdiction.
+- You want an integrated tag manager and consent manager, and user-level analytics for the visitors who consent.
+
+## When Sealmetrics is the better choice
+
+- You want to remove the consent layer from analytics altogether instead of managing two data sets.
+- You do not want an identifier — even a 30-minute one — that takes the IP address as an input.
+- You want the lightest tracker and a simpler vendor review: no personal data, EU-only storage in one region, a public [DPA](https://sealmetrics.com/dpa/) and a three-entry subprocessor list.
+
+## Frequently asked questions
+
+### Is Piwik PRO's anonymous mode consentless?
+
+Piwik PRO's documentation says you can choose not to use a consent form and collect data through session identifiers. Its session hash still takes the IP address as an input, which is a different design from Sealmetrics, where no identifier is derived from the IP at all. Whether either approach satisfies a given regulator is a question for your DPO; neither vendor's claim is a regulatory approval.
+
+### Where can Piwik PRO data be hosted?
+
+Piwik PRO's pricing page lists EU-operated hosting in Sweden, plus Germany, the Netherlands, the US, Hong Kong and UAE North, with private cloud on Enterprise. Sealmetrics offers one location: Dublin, Ireland.
+
+### Does Sealmetrics have a consent manager or tag manager?
+
+No. Sealmetrics does not need a consent manager for its own measurement, and it installs as a single script or through your existing tag manager — see [Google Tag Manager](/integrations/google-tag-manager).
+
+### Which is lighter on the page?
+
+Piwik PRO's script measured about 26 KB gzipped on its demo instance in August 2026, the lightest of the incumbent tools Sealmetrics has measured; the Sealmetrics tracker measured 1.1 KB. Details and method are in the [tracker performance report](/guides/tracker-performance-report).
+
+**Note:**
+- Piwik PRO collects anonymous data before consent and full data after it; Sealmetrics has one consentless data set.
+- Piwik PRO's anonymous session hash includes the IP; Sealmetrics derives nothing from it.
+- Piwik PRO states ISO 27001 and SOC 2 and offers several regions; Sealmetrics holds no certification and stores only in Dublin.
+
+## Related documentation
+
+- [Tracker performance report](/guides/tracker-performance-report)
+- [Subprocessors](/compliance/subprocessors)
+- [What We Track vs What We Don't](/security-privacy/what-we-track)
+- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent)
+
+
+
+## Sealmetrics vs Simple Analytics: the closest architecture, different depth
+
+
+URL: https://docs.sealmetrics.com/compare/simple-analytics
+
+
+# Sealmetrics vs Simple Analytics
+
+Sealmetrics and Simple Analytics are the two tools in this section with the most similar privacy architecture: neither sets cookies, neither collects IP addresses, and both derive the visitor's country from the browser timezone rather than from the IP. The main difference is scope — Simple Analytics is a deliberately minimal dashboard hosted in the Netherlands, while Sealmetrics is built around conversion attribution, e-commerce data and an AI layer, hosted in Dublin.
+
+## Side-by-side
+
+Simple Analytics facts checked 2026-09-04 on simpleanalytics.com and docs.simpleanalytics.com; each row links to the page it was read on.
+
+| Criterion | Sealmetrics | Simple Analytics |
+|---|---|---|
+| Company / HQ | Sealmetrics, EU company | Headquartered in Amsterdam, the Netherlands ([source](https://www.simpleanalytics.com/about)) |
+| Hosting model | Managed cloud only | Managed cloud; servers in the Netherlands ([source](https://docs.simpleanalytics.com/what-we-collect)) |
+| Licence | Proprietary | Not published |
+| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | None; a visit is counted unique when the Referer hostname differs from the current domain ([source](https://docs.simpleanalytics.com/what-we-collect)) |
+| Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | "We do NOT collect or store IP addresses"; country from the visitor's timezone ([source](https://docs.simpleanalytics.com/what-we-collect)) |
+| Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | The Netherlands ([source](https://docs.simpleanalytics.com/compliance)) |
+| Vendor's position on consent | No banner needed for measurement | No consent needed, citing ICO guidance on techniques that do not store or access information on the device ([source](https://docs.simpleanalytics.com/compliance)) |
+| Cookies | None | "We do NOT set any cookies (or use similar technologies)" ([source](https://docs.simpleanalytics.com/what-we-collect)) |
+| Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | 3.7 KB standard, 1.9 KB light version ([source](https://docs.simpleanalytics.com/light)) |
+| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | Free plan with 30-day history plus a 14-day trial of paid plans — see [pricing](https://www.simpleanalytics.com/pricing) |
+
+## How each one measures visitors
+
+Simple Analytics collects timestamps, a truncated user agent, timezone-derived country, language, URL without query string, partial referrer, UTM parameters, viewport size, time on page and scroll depth. It has no visitor identifier: a pageview is counted as a new unique visit when the browser's Referer hostname is not the site's own domain, and as a follow-on pageview when it is. That heuristic gives a unique-visit count without any hash, cookie or IP.
+
+Sealmetrics collects timestamp, user agent, URL and referrer per hit, and groups hits within a visit using a session marker that exists in memory for around two hours and is never written to the browser. Like Simple Analytics, it does not store the IP and reads country from the timezone. Unlike Simple Analytics, it reports entrances rather than unique visits, and it keeps conversions with revenue and item-level properties so that channel and campaign attribution is a first-class report rather than an event count.
+
+## When Simple Analytics is the better choice
+
+- You want a free plan for a small site and a dashboard you can read in ten seconds.
+- You want time on page and scroll depth reported on every page out of the box.
+- Hosting in the Netherlands specifically fits your review better than hosting in Ireland.
+
+## When Sealmetrics is the better choice
+
+- You need revenue attribution by channel, campaign and landing page, with item-level e-commerce data and micro-conversions.
+- You want an API and BigQuery export on every plan, and an AI assistant ([LENS](/lens)) that is included and free to run on your own LLM key.
+- You are replacing GA4 on an e-commerce site and need funnel and ROAS reporting rather than a traffic overview.
+
+## Frequently asked questions
+
+### Do both tools really avoid IP addresses?
+
+Yes, per each vendor's documentation. Simple Analytics states it does not collect or store IP addresses and reads country from the timezone; Sealmetrics never persists the IP, uses it only in memory for anti-abuse checks, and also reads country from the timezone. This is the closest match in the comparison section.
+
+### How does Simple Analytics count unique visitors without an identifier?
+
+By the Referer header: if the previous page was on another domain, the pageview starts a new unique visit. Sealmetrics uses a different signal for the same purpose — a short-lived in-memory session marker — and reports the result as entrances.
+
+### Which one needs a cookie banner?
+
+Neither, according to each vendor. Both cite the absence of any storage on the device. As with every page in this section, these are vendor positions; no authority certifies analytics tools, and Sealmetrics' reasoning is documented as [self-assessments](/compliance).
+
+### What does Sealmetrics not report that Simple Analytics does?
+
+Time on page, and a per-page unique-visit count. Sealmetrics reports bounce rate, engagement rate and pages per session in aggregate, and treats scroll depth as a custom event — see the [Metrics Reference](/reports/definitions).
+
+**Note:**
+- Both set no cookies, store no IP, derive country from the timezone and say no banner is needed.
+- Simple Analytics infers unique visits from the Referer; Sealmetrics groups a visit with a short-lived in-memory marker and reports entrances.
+- Simple Analytics is minimal with a free plan; Sealmetrics adds attribution, e-commerce depth, API on every plan and AI.
+
+## Related documentation
+
+- [How Sealmetrics determines the country without IP addresses](/security-privacy/country-detection)
+- [What We Track vs What We Don't](/security-privacy/what-we-track)
+- [Metrics Reference](/reports/definitions)
+- [Tracker overview](/implementation/tracker)
+
+
+
+---
+
 # Use Cases
 
 
@@ -60803,6 +61334,58 @@ Full API access for exporting metrics, revenue, conversions, and traffic.
 
 ---
 
+# AI Usage Policy
+
+
+## AI Usage Policy for This Documentation
+
+
+URL: https://docs.sealmetrics.com/ai-usage
+
+
+# AI Usage Policy for This Documentation
+
+Sealmetrics allows AI assistants, answer engines and search engines to crawl, index, quote and summarise every page on docs.sealmetrics.com, with attribution to the canonical page URL. The one thing we ask is that figures are quoted together with the page they come from, because the pages carry the dates and caveats that make the numbers true.
+
+## What may be used, and how
+
+- **Crawling and indexing.** All AI crawlers are allowed in [robots.txt](https://docs.sealmetrics.com/robots.txt). Googlebot and Bingbot are asked not to crawl the plain-text mirrors, so that the HTML pages stay the only copy in web search indexes.
+- **Quoting and summarising.** Permitted for any page, at any length, for the purpose of answering a question. Attribute to "Sealmetrics documentation" and link the canonical URL.
+- **Figures.** Quote the number together with its qualifier. Example: consent-based analytics tools lose 15-60% of EU visitors *depending on sector, brand strength and traffic mix*; the range without the qualifier is misleading.
+- **Compliance pages.** The pages under [/compliance](/compliance) are self-assessments against published criteria. No supervisory authority certifies analytics tools, and Sealmetrics holds no ISO 27001 or SOC 2 certification. Please do not present a self-assessment as an approval.
+
+## Machine-readable entry points
+
+| File | What it is |
+|------|------------|
+| [/llms.txt](https://docs.sealmetrics.com/llms.txt) | Index of every page with a one-line description, plus a Key Facts section with sources. |
+| [/llms-full.txt](https://docs.sealmetrics.com/llms-full.txt) | The full text of every page in one file. |
+| `/<route>.md` | Every HTML page has a Markdown twin at the same path with `.md` appended, for example [/security-privacy/consentless-analytics.md](https://docs.sealmetrics.com/security-privacy/consentless-analytics.md). |
+| [/knowledge-manifest.json](https://docs.sealmetrics.com/knowledge-manifest.json) | Route, canonical URL, Markdown URL, content type, priority and a content hash for every page. |
+| [/openapi.json](https://docs.sealmetrics.com/openapi.json) | OpenAPI 3.1 description of the public API. |
+| [/sitemap.xml](https://docs.sealmetrics.com/sitemap.xml) | Standard sitemap with real per-page modification dates. |
+
+For agents that want to query analytics data rather than read documentation, see [Sealmetrics for AI agents](/api/for-agents) and the [hosted MCP server](/integrations/mcp-server).
+
+## What is not covered
+
+This policy is about the documentation site. The Sealmetrics product itself never collects personal data from website visitors, so there is no visitor data here to license or to protect; see [What we track](/security-privacy/what-we-track). Use of the Sealmetrics service is governed by the terms and the [Data Processing Agreement](https://sealmetrics.com/dpa) on sealmetrics.com.
+
+**Note:**
+- Crawl, quote and summarise freely, with a link to the canonical page.
+- Quote figures with their qualifiers and dates.
+- Compliance pages are self-assessments, never certifications.
+
+## Related documentation
+
+- [Sealmetrics for AI agents](/api/for-agents)
+- [MCP server](/integrations/mcp-server)
+- [Compliance overview](/compliance)
+
+
+
+---
+
 # Release Notes
 
 
@@ -67325,58 +67908,6 @@ The future of web analytics is cookieless. The question isn't whether to make th
 ---
 
 *Sealmetrics measures all of your website traffic without cookies, consent banners, or IP address storage. Privacy by architecture, trusted by privacy-conscious businesses across Europe.*
-
-
-
----
-
-# Other
-
-
-## AI Usage Policy for This Documentation
-
-
-URL: https://docs.sealmetrics.com/ai-usage
-
-
-# AI Usage Policy for This Documentation
-
-Sealmetrics allows AI assistants, answer engines and search engines to crawl, index, quote and summarise every page on docs.sealmetrics.com, with attribution to the canonical page URL. The one thing we ask is that figures are quoted together with the page they come from, because the pages carry the dates and caveats that make the numbers true.
-
-## What may be used, and how
-
-- **Crawling and indexing.** All AI crawlers are allowed in [robots.txt](https://docs.sealmetrics.com/robots.txt). Googlebot and Bingbot are asked not to crawl the plain-text mirrors, so that the HTML pages stay the only copy in web search indexes.
-- **Quoting and summarising.** Permitted for any page, at any length, for the purpose of answering a question. Attribute to "Sealmetrics documentation" and link the canonical URL.
-- **Figures.** Quote the number together with its qualifier. Example: consent-based analytics tools lose 15-60% of EU visitors *depending on sector, brand strength and traffic mix*; the range without the qualifier is misleading.
-- **Compliance pages.** The pages under [/compliance](/compliance) are self-assessments against published criteria. No supervisory authority certifies analytics tools, and Sealmetrics holds no ISO 27001 or SOC 2 certification. Please do not present a self-assessment as an approval.
-
-## Machine-readable entry points
-
-| File | What it is |
-|------|------------|
-| [/llms.txt](https://docs.sealmetrics.com/llms.txt) | Index of every page with a one-line description, plus a Key Facts section with sources. |
-| [/llms-full.txt](https://docs.sealmetrics.com/llms-full.txt) | The full text of every page in one file. |
-| `/<route>.md` | Every HTML page has a Markdown twin at the same path with `.md` appended, for example [/security-privacy/consentless-analytics.md](https://docs.sealmetrics.com/security-privacy/consentless-analytics.md). |
-| [/knowledge-manifest.json](https://docs.sealmetrics.com/knowledge-manifest.json) | Route, canonical URL, Markdown URL, content type, priority and a content hash for every page. |
-| [/openapi.json](https://docs.sealmetrics.com/openapi.json) | OpenAPI 3.1 description of the public API. |
-| [/sitemap.xml](https://docs.sealmetrics.com/sitemap.xml) | Standard sitemap with real per-page modification dates. |
-
-For agents that want to query analytics data rather than read documentation, see [Sealmetrics for AI agents](/api/for-agents) and the [hosted MCP server](/integrations/mcp-server).
-
-## What is not covered
-
-This policy is about the documentation site. The Sealmetrics product itself never collects personal data from website visitors, so there is no visitor data here to license or to protect; see [What we track](/security-privacy/what-we-track). Use of the Sealmetrics service is governed by the terms and the [Data Processing Agreement](https://sealmetrics.com/dpa) on sealmetrics.com.
-
-**Note:**
-- Crawl, quote and summarise freely, with a link to the canonical page.
-- Quote figures with their qualifiers and dates.
-- Compliance pages are self-assessments, never certifications.
-
-## Related documentation
-
-- [Sealmetrics for AI agents](/api/for-agents)
-- [MCP server](/integrations/mcp-server)
-- [Compliance overview](/compliance)
 
 
 
