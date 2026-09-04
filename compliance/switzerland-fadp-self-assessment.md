@@ -1,10 +1,10 @@
 ---
 title: "Switzerland FADP Self-Assessment: Sealmetrics Compliance"
-description: "Self-assessment of Sealmetrics against the revised Swiss Federal Act on Data Protection (nFADP/revDSG) — no personal data, no transfers outside EU/CH-adequate territory."
+description: "Self-assessment of Sealmetrics against the revised Swiss FADP (nFADP) and Art. 45c TCA: no personal data stored, nothing on the device, EU-only processing in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compliance/switzerland-fadp-self-assessment"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "68c2d033110c5593bd1389bb171f2589783abd2141b168e1773c8e2694e45fe1"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "0810e07949655a26b4ab9bebd954db9503edd37c481051ff32a87329bf11e38f"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,14 +16,15 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/compliance/switzerland-fadp-self-assessment
 
-This document provides the self-assessment of Sealmetrics against the revised **Swiss Federal Act on Data Protection** (**nFADP / revDSG**, in force since 1 September 2023), and against **Article 45c(b) of the Swiss Telecommunications Act (TCA/FMG)**, the Swiss rule on storing data on third-party terminal equipment.
+*Reviewed: 12 August 2026. This is a self-assessment; no supervisory authority certifies analytics tools.*\
+Sealmetrics stores no personal data of visitors under the revised **Swiss Federal Act on Data Protection** (**nFADP / revDSG**, in force since 1 September 2023), stores nothing on the device under **Article 45c(b) of the Swiss Telecommunications Act (TCA/FMG)**, and processes data only in Dublin, Ireland — adequate territory under the Federal Council's country list. This self-assessment reviews each FADP duty and the Swiss terminal-equipment rule against that architecture.
 
 **Info:**
 This self-assessment follows the published Swiss legal framework and guidance from the Federal Data Protection and Information Commissioner (FDPIC), but **does not constitute certification or approval by the FDPIC**. This document demonstrates how Sealmetrics meets the applicable requirements when properly configured.
 
 ---
 
-## Executive Summary
+## Does the Swiss FADP require a consent banner for Sealmetrics? {#executive-summary}
 
 | Category | Status |
 |----------|--------|
@@ -232,6 +233,11 @@ Publishers **cannot** claim Sealmetrics is "certified" or "approved" by the FDPI
 
 - **Email:** privacy@sealmetrics.com
 - **DPO Contact:** dpo@sealmetrics.com
+
+**Note:**
+- Under the nFADP (in force 1 September 2023) stored visitor records are not personal data: no identifiers, no stored IP, country-level geo from the browser timezone, a ~2-hour server-side session marker.
+- Analytics data is retained 24 months; account data is deleted within 30 days of closure and backups purged within 90 days; encryption is TLS 1.3 in transit and AES-256 at rest.
+- Processing in Dublin, Ireland is a disclosure to adequate territory under the Federal Council's list, and Art. 45c(b) TCA is not triggered because nothing is stored on the device; this is not an FDPIC certification.
 
 ## Related documentation
 

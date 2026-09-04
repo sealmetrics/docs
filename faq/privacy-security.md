@@ -3,8 +3,8 @@ title: "Frequently Asked Questions"
 description: "Why Sealmetrics numbers differ from GA4 — inflated Direct traffic, entrances instead of persistent-ID sessions, last-click as the only consent-free attribution model, ITP resistance, and why server-side tracking still needs a consent banner."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-security"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "8974370a479f45c607c1cc9b1a760c8343d1a5765b90e4ec1defda48567ec269"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "086ad786cf4cddb86778d969ad7e0b332ee1c89ea5ca488742b15227e5257342"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -99,7 +99,7 @@ In addition, we offer a **first-party tracking system**, which further increases
 
 Even with server-side tracking:
 
-According to **CNIL, AEPD, and other European DPAs**, you **still must ask for consent** if you are tracking individuals, even anonymously.
+According to **[CNIL](https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies-solutions-pour-les-outils-de-mesure-daudience), [AEPD](https://www.aepd.es/guias/guia-cookies.pdf), and other European DPAs**, you **still must ask for consent** if you are tracking individuals, even anonymously (see also [EDPB Guidelines 2/2023](https://edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en) on the technical scope of ePrivacy Article 5(3)).
 
 Server-side simply moves where data is processed
 —it does **not** remove the need for consent.

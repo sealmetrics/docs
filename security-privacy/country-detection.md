@@ -3,8 +3,8 @@ title: "How Sealmetrics determines the country without using IP addresses"
 description: "How Sealmetrics detects visitor country from the browser timezone instead of IP addresses — GDPR-friendly geo data with zero personal data processing."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/country-detection"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "d62da936468f5f8b46fbc693e0e8378a4e07e0d19b32df23960d8917143c4726"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "f1d606bc1aa2012026403e77c4fbced0ad94e3bee90353d496a92818e2eda784"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,9 +16,9 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/country-detection
 
-## Timezone-Based Geo Estimation
+## How does Sealmetrics determine the country without IP addresses? {#timezone-based-geo-estimation}
 
-Sealmetrics determines the country of origin for each event ("hit") using the **timezone configured in the user's browser**. This method provides an approximate geographic estimation without processing IP addresses or collecting personal identifiers.
+Sealmetrics uses the **timezone configured in the user's browser** to determine the country of origin for each event ("hit"), instead of looking up the IP address. The timezone is mapped to a country through an internal IANA table, which yields an approximate, aggregate-level geographic estimate without processing IP addresses or collecting personal identifiers.
 
 ### 1. Retrieving the Timezone
 
@@ -33,12 +33,12 @@ Examples of possible values include:\
 - `America/Santiago`\
 - `Asia/Tokyo`
 
-This information is provided directly by the user's device and **does not contain identifiable data**, nor does it allow individual tracking.
+This information is provided directly by the user's device through the standard [`Intl.DateTimeFormat` API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions) and **does not contain identifiable data**, nor does it allow individual tracking.
 
-### 2. Mapping Timezone to Country
+### 2. How is a timezone mapped to a country?
 
-Each timezone is matched against an internal table connecting **IANA
-timezones** to the countries that use them.
+Each timezone is matched against an internal table connecting **[IANA
+timezones](https://www.iana.org/time-zones)** to the countries that use them.
 
 -   For unique timezones (e.g., `Asia/Tokyo`), the country is determined
     with high confidence.\
@@ -68,6 +68,11 @@ This approach fully adheres to privacy and data-minimization principles:
 Thanks to this method, Sealmetrics can offer meaningful geographic
 insights while preserving user privacy and operating without requiring
 consent for tracking.
+
+**Note:**
+- Country comes from the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`) mapped against an IANA timezone table — no IP lookup is involved.
+- Unique timezones (e.g. Asia/Tokyo) resolve with high confidence; shared timezones (e.g. Europe/Paris) resolve to the most likely country, so precision is country-level only.
+- No device identifiers are stored and the timezone does not identify the user, which is why this geo data needs no consent.
 
 ## Related documentation
 

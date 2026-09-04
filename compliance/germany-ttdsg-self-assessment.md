@@ -3,8 +3,8 @@ title: "Germany TTDSG/TDDDG Self-Assessment: Sealmetrics Compliance"
 description: "Self-assessment of Sealmetrics against §25 TDDDG (formerly TTDSG) — analytics in Germany without cookies, terminal storage access, or consent banners."
 canonical_url: "https://docs.sealmetrics.com/compliance/germany-ttdsg-self-assessment"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "ea433b849d9c3bc8145a483da40da5dd75218b426460bbfc794048eb2da306c5"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "446565119beed736d67e907083d21f62e6df4f9013e821972969a76f9ccf50e4"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,14 +16,15 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/compliance/germany-ttdsg-self-assessment
 
-This document provides the self-assessment of Sealmetrics against the German **Telecommunications Digital Services Data Protection Act** — the **TDDDG** (*Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz*), known until May 2024 as the **TTDSG**. The central provision for analytics is **§25 TDDDG**, Germany's transposition of Article 5(3) of the ePrivacy Directive.
+*Reviewed: 12 August 2026. This is a self-assessment; no supervisory authority certifies analytics tools.*\
+Sealmetrics does not trigger §25(1) of the German **Telecommunications Digital Services Data Protection Act** — the **TDDDG** (*Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz*), known until May 2024 as the **TTDSG** — because it stores nothing on the visitor's terminal equipment and reads no stored information from it, so no consent banner is required for analytics in Germany. §25 TDDDG is Germany's transposition of Article 5(3) of the ePrivacy Directive; this self-assessment covers it and the GDPR layer for visitor data as framed by the DSK.
 
 **Info:**
 This self-assessment follows the published legal framework and the guidance of the German Data Protection Conference (DSK), but **does not constitute certification** by the DSK, any German supervisory authority (Landesdatenschutzbehörde), or the BfDI. No such certification scheme for analytics tools currently exists in Germany. This document demonstrates how Sealmetrics meets the applicable requirements when properly configured.
 
 ---
 
-## Executive Summary
+## Is a consent banner required for Sealmetrics in Germany? {#executive-summary}
 
 | Category | Status |
 |----------|--------|
@@ -36,7 +37,7 @@ This self-assessment follows the published legal framework and the guidance of t
 
 ---
 
-## Background: Why Germany Is the Hard Case
+## Why is Germany the hard case for analytics?
 
 Germany is widely regarded as the strictest large EU market for analytics:
 
@@ -132,7 +133,7 @@ This is the structural difference from consent-managed tools: Sealmetrics does n
 
 ### Criterion 5: Transient processing of the IP address
 
-During request handling, the visitor's IP address is technically received (as with any web server) and used **in memory only** for rate limiting and abuse prevention, then discarded. To the extent this transient handling constitutes processing of personal data, it is supported by **Article 6(1)(f) GDPR** (legitimate interest in network and service security), satisfies data minimization (Article 5(1)(c)), and results in no stored personal data.
+During request handling, the visitor's IP address is technically received (as with any web server) and used **in memory only** for rate limiting and abuse prevention, then discarded. To the extent this transient handling constitutes processing of personal data, it is supported by **Article 6(1)(f) GDPR** (legitimate interest in network and service security), satisfies data minimization (Article 5(1)(c)), and results in no stored personal data. This is the only point at which Article 6 is engaged: the stored analytics dataset holds no personal data (Criterion 4), so under Recital 26 GDPR it falls outside the Regulation's material scope and no legal basis — legitimate interest or consent — is needed for visitor analytics.
 
 No other use of the IP occurs. A GeoLite2 lookup was designed for the **Agent Analytics** bot detector, but that feature is **not live and cannot be enabled on any account**, so it runs on no site today. See [What We Track](/security-privacy/what-we-track).
 
@@ -161,7 +162,7 @@ The DSK's guidance for telemedia providers frames the questions a German control
 | Is stored information accessed? | No (see nuance in Criterion 2) |
 | Is consent under §25(1) required? | No — neither act occurs |
 | Is personal data processed afterwards? | Only transiently (IP in memory); nothing personal is stored |
-| Legal basis for that processing? | Art. 6(1)(f) GDPR (security); stored analytics are anonymous aggregates |
+| Legal basis for that processing? | Art. 6(1)(f) GDPR for the transient security check only; stored analytics are anonymous aggregates outside the GDPR (Recital 26), so no Art. 6 basis arises for them |
 | Are users informed? | Yes — via the publisher's privacy policy (template below) |
 | Joint controllership / third-party sharing? | No third-party data sharing; processor relationship under the [DPA](https://sealmetrics.com/dpa) |
 
@@ -226,6 +227,11 @@ Publishers **cannot** claim Sealmetrics is "certified" or "approved" by the DSK,
 
 - **Email:** privacy@sealmetrics.com
 - **DPO Contact:** dpo@sealmetrics.com
+
+**Note:**
+- §25 TDDDG has no analytics exemption; Sealmetrics operates consent-free in Germany because neither act §25(1) regulates occurs — nothing is stored on the device and nothing stored is read.
+- Stored visitor data contains no personal data: no IP addresses (in-memory use only for anti-bot protection), no identifiers, a server-side ~2-hour session window, and 24-month retention.
+- All analytics data is processed in Dublin, Ireland with no third-country transfers; this is not a certification by the DSK, the BfDI or any Landesdatenschutzbehörde.
 
 ## Related documentation
 

@@ -1,10 +1,10 @@
 ---
-title: "Referrer Mappings"
+title: "Referrer Mappings API"
 description: "Map referrer domains to UTM values so untagged partner and vendor traffic is attributed correctly, with priority-ordered matching rules"
 canonical_url: "https://docs.sealmetrics.com/api/referrer-mappings"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "076211e351b7fcb01f7ae5a84d86bf72b2ac7a3a67aad6fd2ecb87581ff57e6a"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "5e912161e25b0f1432b60a48c6b9521c41a335b46712f9400575d5e92c1953db"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,7 +12,7 @@ source_file: "api/referrer-mappings.mdx"
 publisher: "Sealmetrics"
 ---
 
-# Referrer Mappings
+# Referrer Mappings API
 
 Canonical page: https://docs.sealmetrics.com/api/referrer-mappings
 

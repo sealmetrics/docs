@@ -3,8 +3,8 @@ title: "How Attribution Works Without a User-ID"
 description: "How Sealmetrics attributes traffic and conversions without User-IDs, cookies or cross-session tracking — last-click attribution read from the URL on every hit."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/attribution-without-userid"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "2a24e1948e12ed46b7c3d618c2fbbb2b9608cb908f63875a436274a4664888a5"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "bbc77104db597eadde6a7ae0d993e5320d39fe3688935e048f42685a31fdc849"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -71,6 +71,18 @@ No personal data. No unique identifiers.
 5. Conversions inherit the same Source-ID
 
 This groups interactions by **campaign**, not by user.
+
+The whole chain, with no identifier anywhere in it:
+
+```mermaid
+flowchart LR
+    A["Visitor lands from a marketing source"] --> B["UTM parameters or referring domain read"]
+    B --> C["Source-ID generated"]
+    C --> D["Hits carry the same Source-ID"]
+    D --> E["Conversion inherits the Source-ID"]
+    E --> F["Attributed to the campaign, not to a user"]
+    G["No personal data, no unique identifier"] -.-> C
+```
 
 ---
 

@@ -1,10 +1,10 @@
 ---
-title: "BigQuery Integration"
+title: "BigQuery Integration API"
 description: "Sync Sealmetrics analytics to Google BigQuery with hourly or daily schedules, backfill options, and BI tool integration"
 canonical_url: "https://docs.sealmetrics.com/api/bigquery"
 lang: "en"
-date_generated: "2026-09-02T09:19:35.257Z"
-source_hash: "97b2c0823d8ece19da1b8bc462ab7f31bc4bfdb2b5c621eef2ae462fd6541bec"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "48190ffe364decfec651161f2165677449599d44310a1c14387d594561c75593"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,7 +12,7 @@ source_file: "api/bigquery.mdx"
 publisher: "Sealmetrics"
 ---
 
-# BigQuery Integration
+# BigQuery Integration API
 
 Canonical page: https://docs.sealmetrics.com/api/bigquery
 

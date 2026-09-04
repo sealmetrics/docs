@@ -3,8 +3,8 @@ title: "Sealmetrics Docs: Consentless Analytics Platform"
 description: "Documentation for Sealmetrics — consentless analytics that captures 100% of traffic without cookies or consent banners. GDPR compliant by design."
 canonical_url: "https://docs.sealmetrics.com/intro"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "907695806bab7bbb939ebd1866c2fcc4377c1418f3b727906a707429df0ac839"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "d32cd3395f443c5bd66087efbb1594a0d572f8100fdf37f574ed5c9f228273c9"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "critical"
@@ -22,11 +22,11 @@ This documentation covers everything you need to run **Sealmetrics**, the consen
 
 ---
 
-## About Sealmetrics
+## What is Sealmetrics?
 
 Sealmetrics is a **consentless web analytics platform** that captures 100% of your traffic without cookies, fingerprinting, or consent banners. Traditional analytics tools like Google Analytics lose 15-60% of visitor data in EU markets when visitors reject cookie consent — how much depends on sector, brand strength and traffic mix. Sealmetrics eliminates this problem entirely.
 
-**How it works:** Sealmetrics uses a [Four-Variable System](/security-privacy/how-consentless-works) that generates anonymous, session-scoped identifiers without storing any personal data. No IP addresses are retained, no cookies are set, and no device fingerprints are created. Because the stored dataset holds no personal data, it falls outside the GDPR's material scope (Recital 26) and needs no Article 6 legal basis at all. Sealmetrics has self-assessed against the audience-measurement criteria published by [CNIL](/compliance/cnil-self-assessment) and [AEPD](/blog/real-time-tracking-consent); no supervisory authority certifies analytics tools.
+**How it works:** Sealmetrics uses a [Four-Variable System](/security-privacy/how-consentless-works) that generates anonymous, session-scoped identifiers without storing any personal data. No IP addresses are retained, no cookies are set, and no device fingerprints are created. Because the stored dataset holds no personal data, it falls outside the GDPR's material scope ([Recital 26](https://eur-lex.europa.eu/eli/reg/2016/679/oj)) and needs no Article 6 legal basis at all. Sealmetrics has self-assessed against the audience-measurement criteria published by [CNIL](/compliance/cnil-self-assessment) ([sheet n°16](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications)) and [AEPD](/blog/real-time-tracking-consent); no supervisory authority certifies analytics tools.
 
 **Key capabilities:**
 - **100% data capture** — every visit counted, no consent banner needed
@@ -41,3 +41,8 @@ Sealmetrics is used by ecommerce brands, SaaS companies, and hospitality busines
 ---
 
 *Ready to capture 100% of your traffic? [Start your free trial](https://my.sealmetrics.com/register) or [visit sealmetrics.com](https://sealmetrics.com) to learn more.*
+
+**Note:**
+- Sealmetrics captures 100% of traffic without cookies, fingerprinting or consent banners; consent-based tools lose 15-60% of visitor data depending on sector, brand and traffic mix.
+- The stored dataset holds no personal data, so it falls outside the GDPR's material scope (Recital 26); the compliance pages are self-assessments — no supervisory authority certifies analytics tools.
+- The tracker script is 1.3 KB and all analytics data is processed and stored in European infrastructure.

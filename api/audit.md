@@ -1,10 +1,10 @@
 ---
-title: "Audit Logs"
+title: "Audit Logs API"
 description: "Query the audit trail of mutating actions across your organization, filterable by action type, resource, author, and date range"
 canonical_url: "https://docs.sealmetrics.com/api/audit"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "ed70993d7aae58f65f1c951bc16e5876594ac0488872cb7546ab12890f807655"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "b1c29184fc9286748481ade2a092e4d4458501c0e9bee3a151d42189fa788be2"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,7 +12,7 @@ source_file: "api/audit.mdx"
 publisher: "Sealmetrics"
 ---
 
-# Audit Logs
+# Audit Logs API
 
 Canonical page: https://docs.sealmetrics.com/api/audit
 

@@ -1,10 +1,10 @@
 ---
-title: "Content Grouping"
+title: "Content Grouping Settings"
 description: "Group pages into logical categories using URL pattern rules for easier analysis in the Pages report."
 canonical_url: "https://docs.sealmetrics.com/platform/settings/tracking/content-grouping"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "fe38e9de0041900b1e37a27305cc59892680e60e51bae37c017c68507a802a47"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "935818be71cf8f6a3d8a572b5630d967107edb3a18ff9874964eb1a7ff3c8e0c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -12,7 +12,7 @@ source_file: "platform/settings/tracking/content-grouping.mdx"
 publisher: "Sealmetrics"
 ---
 
-# Content Grouping
+# Content Grouping Settings
 
 Canonical page: https://docs.sealmetrics.com/platform/settings/tracking/content-grouping
 

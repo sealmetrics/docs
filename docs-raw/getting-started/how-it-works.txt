@@ -32,6 +32,19 @@ What you do not get is anything that needs a persistent identifier: unique visit
 3. Each hit is processed on its own and aggregated. Event-level rows are purged after 1 day; daily aggregates and conversions are kept 24 months.
 4. Known bots, crawlers, scrapers and monitoring tools are filtered out so reports show real visitors — see [Bot Detection](/security-privacy/bot-detection).
 
+The same path, from the browser to your reports:
+
+```mermaid
+flowchart LR
+    A["Browser loads the tracker script"] --> B["Four variables per hit: timestamp, user agent, current URL, referral URL"]
+    B --> C["Hit sent to Sealmetrics in Dublin, Ireland"]
+    C --> D["Each hit processed on its own"]
+    D --> E["Bots and crawlers filtered out"]
+    E --> F["Aggregate reports"]
+    D -.-> G["Event-level rows purged after 1 day"]
+    A -.-> H["No cookies, nothing stored on the device"]
+```
+
 ## Getting started
 
 Add one script tag to your `<head>`, then instrument conversions with `sealmetrics.conv()`. It works with any stack — WordPress, React, Vue, plain HTML — natively or through Google Tag Manager. A REST API and CSV export are available for pulling the data into your own systems.
