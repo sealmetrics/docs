@@ -1,10 +1,10 @@
 ---
-title: "Organizations"
+title: "Organizations API"
 description: "Manage organizations, team members, roles, invitations, and site-level access in the Sealmetrics multi-tenancy model"
 canonical_url: "https://docs.sealmetrics.com/api/organizations"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "49c6b787cd6b71d45418af895fa472fc9d32a0106847ec1100fe72d914fed71e"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "d3e24640517cceb2a47780636756d4d7ad848fe84e8fecf6dca50fec17c57a57"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,7 +12,7 @@ source_file: "api/organizations.mdx"
 publisher: "Sealmetrics"
 ---
 
-# Organizations
+# Organizations API
 
 Canonical page: https://docs.sealmetrics.com/api/organizations
 

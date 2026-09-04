@@ -33,7 +33,7 @@ import {fileURLToPath} from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const LEDGER = path.join(__dirname, 'capability-ledger.json');
-const SCOPES = ['docs', 'blog'];
+const SCOPES = ['docs', 'blog', 'scripts/llms-templates'];
 
 const ledger = JSON.parse(fs.readFileSync(LEDGER, 'utf8'));
 
@@ -60,7 +60,7 @@ for (const s of SCOPES) walk(path.join(ROOT, s));
 
 // Words and glyphs that turn a mention into a denial or a qualification.
 const NEGATION =
-  /\b(?:no|not|never|none|without|cannot|can't|won't|don't|doesn't|isn't|aren't|lacks?|lacking|absent|unsupported|unavailable|excluded?|omits?|omitted|limited|only|partial|instead of|rather than|deliberately|by design)\b|n't\b|❌|⚠️|~~/i;
+  /\b(?:no|not|never|none|without|cannot|can't|won't|don't|doesn't|isn't|aren't|lacks?|lacking|absent|neither|nor|unsupported|unavailable|excluded?|omits?|omitted|limited|only|partial|instead of|rather than|deliberately|by design)\b|n't\b|❌|⚠️|~~/i;
 
 // Glyphs and words that make a table cell a positive claim.
 const AFFIRMATIVE_CELL = /✅|\byes\b|\bincluded\b|\bsupported\b|\bnative\b|\bavailable\b/i;

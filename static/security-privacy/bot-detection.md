@@ -3,8 +3,8 @@ title: "Bot Detection & Traffic Quality"
 description: "How Sealmetrics detects and filters bot traffic to ensure data accuracy. Multi-layer detection system protecting your analytics."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/bot-detection"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "71c376bdb3e3b5ca0a42b9e60560cb2bc03ffeb06bd38bcd44a284a5ec5f6f4e"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "1e2166efa67b83a28536c2a20436eefc46f68ea1bbbf698d4c41bd060d55de32"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,11 +16,11 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/bot-detection
 
-Sealmetrics employs multiple layers of protection to ensure your analytics data reflects real human visitors, not bots or spam traffic.
+Sealmetrics uses multiple layers of protection — from IP and User-Agent blocklists to HMAC token validation and domain authorization — so that your analytics data reflects real human visitors, not bots or spam traffic. Detected bot traffic is blocked immediately, never stored, and never appears in reports.
 
 ---
 
-## Multi-Layer Detection System
+## How does Sealmetrics detect bots? {#multi-layer-detection-system}
 
 ### Layer 1: IP Blocklist
 
@@ -72,7 +72,7 @@ Only authorized domains can send data:
 
 ---
 
-## How Bot Traffic is Handled
+## What happens when bot traffic is detected? {#how-bot-traffic-is-handled}
 
 When bot traffic is detected:
 
@@ -82,7 +82,7 @@ When bot traffic is detected:
 
 ---
 
-## What Gets Filtered
+## What gets filtered?
 
 | Traffic Type | Filtered | Notes |
 |--------------|----------|-------|
@@ -198,12 +198,17 @@ In your reports, look for:
 | Behavioral analysis | Yes | Limited |
 | Transparent filtering | Yes | Black box |
 
+**Note:**
+- Bot traffic is filtered in multiple layers — IP blocklists, User-Agent signatures, geographic validation, HMAC token validation and domain authorization — and blocked hits are never stored or counted.
+- Search engine crawlers, SEO tools, uptime monitors, security scanners, automated testing and data-center traffic are filtered; real browsers, in-app browsers and VPN users pass through.
+- Custom IP/CIDR and User-Agent blocklists are configurable per account; Agent Analytics (behavioral human-vs-agent classification) is designed but not live and cannot be enabled.
+
 ---
 
 ## Related Documentation
 
 - [Domain Authorization](/platform/account-setup/how-to-add-domains)
 - [First-Party Tracking](/implementation/tracker/first-party)
-- [Privacy Overview](/security-privacy/overview)
+- [Security & Privacy overview](/security-privacy)
 - [Bot Stats](/api/bot-stats) — query filtered bot traffic through the API
 - [Frequently Asked Questions](/faq/privacy-security) — common privacy and traffic-quality questions

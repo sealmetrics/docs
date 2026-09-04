@@ -1,10 +1,10 @@
 ---
 title: "Lead Generation"
-description: "Implementation guide for service businesses, agencies, and B2B sites focused on generating leads."
+description: "How to track lead generation with Sealmetrics on service, agency and B2B sites: form submissions, demo requests, content downloads and calendar bookings by source."
 canonical_url: "https://docs.sealmetrics.com/use-cases/lead-generation"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "6c3c69e09b3f0787e13a8918533ee5e416eb996c6c23a4797367b0ddcd132f91"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "39df7c5d9a66df6336e200591cc69c5498c752bab3f4cf6afa38ad3295682744"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,9 +16,9 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/use-cases/lead-generation
 
-Complete guide for tracking lead generation on service websites, agency sites, and B2B platforms. Track the journey from visitor to qualified lead.
+To track lead generation with Sealmetrics on a service, agency or B2B site, add the tracking script, then instrument three event types: **pageviews** (automatic, for service pages and case studies), **microconversions** via `sealmetrics.micro()` (form starts, scroll depth, CTA clicks, downloads) and **conversions** via `sealmetrics.conv()` (form submissions, demo requests, quote requests, bookings). This guide includes examples for Contact Form 7, Gravity Forms, HubSpot, Typeform, Calendly and Cal.com.
 
-## What You'll Track
+## What will you track?
 
 | Event Type | Example | Purpose |
 |------------|---------|---------|
@@ -514,7 +514,7 @@ sealmetrics.conv('lead', 0, {
 
 ---
 
-## Key Metrics to Track
+## Which lead generation metrics should you track? {#key-metrics-to-track}
 
 | Metric | Formula | Events |
 |--------|---------|--------|
@@ -550,6 +550,11 @@ After implementing:
 - Case studies that influence leads
 - Blog posts in conversion paths
 - Download-to-lead correlation
+
+**Note:**
+- Lead conversions (`lead`, `quote_request`, `demo_request`, `content_download`, `meeting_booked`, `phone_call`) are fired with `sealmetrics.conv()`; intent signals such as form_start, scroll milestones and CTA clicks are microconversions.
+- Attach qualification properties (company_size, budget_range, timeline, role) to the lead event so leads can be analyzed by source and quality.
+- Key ratios: Visitor → Lead, Form Start Rate, Form Completion (lead / form_start) and Content Download Rate.
 
 ## Related documentation
 

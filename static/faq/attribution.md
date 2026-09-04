@@ -1,10 +1,10 @@
 ---
 title: "Attribution Model"
-description: "Learn how last-click attribution works under privacy constraints and why Sealmetrics uses it."
+description: "Sealmetrics uses last-click attribution — the only model that needs no user identification across sessions; UTMs are captured on every hit, no consent needed."
 canonical_url: "https://docs.sealmetrics.com/faq/attribution"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "2a0f50582f08d414b7b7b4f89fbbe512792b5bd350270cf781d8b058ddb01bee"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "cb397abc4a1f818c6d39e9ed88c96924c7acbffb047131b856762a4643c61088"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,8 @@ publisher: "Sealmetrics"
 # Attribution Model
 
 Canonical page: https://docs.sealmetrics.com/faq/attribution
+
+Sealmetrics uses last-click attribution: conversions are credited to the final traffic source based on hit-level UTM data rather than user tracking, so campaign attribution needs no consent. Multi-touch attribution is not offered because it requires identifying users across sessions, which Sealmetrics avoids by design.
 
 ## What attribution model does Sealmetrics use?
 
@@ -42,3 +44,10 @@ UTMs are captured on every hit and stored without any personal data.
 
 No.
 Attribution is based on hit-level data, not user tracking.
+
+---
+
+**Note:**
+- Attribution model: last click — the only model that does not require consent under privacy regulations.
+- Multi-touch is not offered because it requires identifying users across sessions.
+- UTMs are captured on every hit and stored without personal data, so campaign tracking needs no consent.

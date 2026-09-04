@@ -70,6 +70,18 @@ No personal data. No unique identifiers.
 
 This groups interactions by **campaign**, not by user.
 
+The whole chain, with no identifier anywhere in it:
+
+```mermaid
+flowchart LR
+    A["Visitor lands from a marketing source"] --> B["UTM parameters or referring domain read"]
+    B --> C["Source-ID generated"]
+    C --> D["Hits carry the same Source-ID"]
+    D --> E["Conversion inherits the Source-ID"]
+    E --> F["Attributed to the campaign, not to a user"]
+    G["No personal data, no unique identifier"] -.-> C
+```
+
 ---
 
 ## Example — Attribution in Action

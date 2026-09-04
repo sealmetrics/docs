@@ -19,6 +19,12 @@ const config: Config = {
 
   future: { v4: true },
 
+  // ```mermaid fences. Note: theme-mermaid renders in the browser, so the SVG
+  // is not in the static HTML; the diagram source still reaches LLMs through
+  // the .md mirrors and llms-full.txt, which keep the fence verbatim.
+  markdown: { mermaid: true },
+  themes: ['@docusaurus/theme-mermaid'],
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -141,6 +147,7 @@ const config: Config = {
             description:
               'Consentless web analytics that captures 100% of traffic without cookies or consent banners, fully GDPR and ePrivacy compliant.',
             foundingDate: '2020',
+            founder: { '@id': 'https://sealmetrics.com/#rafael-jimenez' },
             sameAs: [
               'https://www.linkedin.com/company/sealmetrics',
               'https://x.com/sealmetrics',
@@ -152,6 +159,28 @@ const config: Config = {
               url: 'https://sealmetrics.com/contact',
               availableLanguage: ['English', 'Spanish'],
             },
+          },
+          // The founder as a first-class entity: blog bylines (blog/authors.yml)
+          // and the Organization's `founder` both resolve to this node, which
+          // is the E-E-A-T signal LLMs and Google look for.
+          {
+            '@type': 'Person',
+            '@id': 'https://sealmetrics.com/#rafael-jimenez',
+            name: 'Rafael Jimenez',
+            jobTitle: 'Founder & CEO',
+            description:
+              'Building consentless analytics for a privacy-first web. 10+ years in digital analytics, data engineering, and GDPR compliance for European markets.',
+            url: 'https://www.linkedin.com/in/rafajimenez',
+            image: 'https://docs.sealmetrics.com/img/rafa-sealmetrics.png',
+            worksFor: { '@id': 'https://sealmetrics.com/#organization' },
+            knowsAbout: [
+              'Web analytics',
+              'Consentless analytics',
+              'GDPR',
+              'ePrivacy Directive',
+              'Marketing attribution',
+            ],
+            sameAs: ['https://www.linkedin.com/in/rafajimenez'],
           },
           {
             '@type': 'WebSite',
@@ -211,6 +240,9 @@ const config: Config = {
           { from: '/getting-started/quick-journey', to: '/getting-started/quick-start' },
           { from: '/implementation/content-grouping', to: '/implementation/content-site-structure/content-grouping' },
           { from: '/security-privacy/key-benefits', to: '/security-privacy/consentless-benefits' },
+          // overview.mdx and index.mdx were both section indexes; merged into
+          // index (GEO-PLAN.md P1.5).
+          { from: '/security-privacy/overview', to: '/security-privacy' },
           { from: '/faq/legal-compliance', to: '/compliance/compliance-overview/legal-faq' },
           { from: '/compliance/compliance-overview/cnil-compliance', to: '/compliance/cnil-self-assessment' },
           { from: '/security-privacy/first-party-tracking', to: '/implementation/tracker/first-party' },

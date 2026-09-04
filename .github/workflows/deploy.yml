@@ -23,6 +23,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history, not a shallow clone. Docusaurus derives every page's
+          # "last updated" (and the TechArticle dateModified + sitemap lastmod)
+          # from `git log` on the file. On a depth-1 checkout there is only one
+          # commit, so every page reported the deploy time as its modification
+          # date — 290 pages "refreshed" on every push, which is no freshness
+          # signal at all. Verified live 2026-09-04 (GEO-PLAN.md P0.1).
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -30,7 +38,7 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Build website
         run: npm run build
 
@@ -39,3 +47,48 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
+
+      # IndexNow (Bing, and through it Copilot / ChatGPT search, plus Yandex,
+      # Naver, Seznam): tell them which pages changed in this push instead of
+      # waiting for a recrawl. GitHub Pages cannot do this server-side, so the
+      # workflow does it. The key file lives in static/ and is served at the
+      # site root. Best effort: a failure here must never fail the deploy.
+      - name: Notify IndexNow of changed pages
+        continue-on-error: true
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          KEY=$(ls static/*.txt | xargs -n1 basename | grep -E '^[0-9a-f]{32}\.txt$' | head -1 | sed 's/\.txt$//')
+          if [ -z "$KEY" ]; then echo "no IndexNow key file in static/"; exit 0; fi
+          if ! git cat-file -e "$BEFORE" 2>/dev/null; then echo "no base commit to diff against"; exit 0; fi
+          git diff --name-only "$BEFORE" "$AFTER" -- docs blog > /tmp/changed.txt || true
+          node - "$KEY" <<'EOF'
+          const fs = require('fs');
+          const key = process.argv[2];
+          const changed = fs.readFileSync('/tmp/changed.txt', 'utf8').split('\n').filter(Boolean);
+          if (!changed.length) { console.log('no doc/blog changes in this push'); process.exit(0); }
+          const manifest = JSON.parse(fs.readFileSync('static/knowledge-manifest.json', 'utf8'));
+          const bySource = new Map(manifest.routes.map((r) => [r.source_file, r.canonical]));
+          const urls = new Set();
+          for (const f of changed) {
+            const rel = f.replace(/^docs\//, '');
+            const hit = bySource.get(rel) || bySource.get(f);
+            if (hit) urls.add(hit);
+          }
+          if (!urls.size) { console.log('changed files map to no published route'); process.exit(0); }
+          const body = {
+            host: 'docs.sealmetrics.com',
+            key,
+            keyLocation: `https://docs.sealmetrics.com/${key}.txt`,
+            urlList: [...urls].slice(0, 10000),
+          };
+          fetch('https://api.indexnow.org/indexnow', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify(body),
+          }).then(async (r) => {
+            console.log(`IndexNow: ${r.status} for ${urls.size} URL(s)`);
+            if (r.status >= 400) { console.log(await r.text()); process.exit(1); }
+          }).catch((e) => { console.log(`IndexNow request failed: ${e.message}`); process.exit(1); });
+          EOF

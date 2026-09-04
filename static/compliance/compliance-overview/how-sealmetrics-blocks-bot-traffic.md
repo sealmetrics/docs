@@ -3,8 +3,8 @@ title: "How Sealmetrics Blocks Bot Traffic (And Stays Consentless)"
 description: "How Sealmetrics filters bot traffic with layered, privacy-safe defenses — and why its ephemeral, in-memory use of IPs keeps the platform GDPR and ePrivacy compliant."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "13edcb1d24995cdbc2fd0f9943cefbf7710365bb6bc094cef2b109260a88b5ef"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "a9424f7cf9ad4f7f7d27c52158d42652fbe00d0f5c22f3fd062af2881bab2602"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -32,6 +32,8 @@ Yes — transiently, and never stored in the analytics database. Here is the com
 - **The IP is never linked to any hit, session, or metric**, and never used to identify, profile, or track anyone.
 
 Transient use of an IP is still "processing" under GDPR — we don't pretend otherwise. It is processed under **legitimate interest (Art. 6(1)(f))**, which Recital 49 explicitly recognizes for network and information security purposes, including "preventing unauthorised access... and stopping denial-of-service attacks". Transient, security-focused IP handling with nothing persisted in the analytics database is the textbook case.
+
+This security check is the **only** place an Article 6 basis is engaged. The visitor analytics dataset itself holds no personal data — no IP, no identifier, four non-identifying variables — so under GDPR Recital 26 it sits outside the Regulation's material scope, and no legal basis (legitimate interest or consent) is needed for it. Sealmetrics does not rely on legitimate interest for visitor analytics; it relies on it for the in-memory bot check alone.
 
 What makes Sealmetrics consentless is not a claim that IPs never exist in our infrastructure — it's that they are **never stored with analytics data, never used for tracking, and never used for analytics**.
 

@@ -4,9 +4,11 @@ URL: https://docs.sealmetrics.com/faq/implementation
 
 # Implementation & Tracking FAQ
 
+Installing Sealmetrics takes one tracking pixel in the `<head>` of your site or a Google Tag Manager tag, after which measurement starts immediately; conversions and micro-conversions are event pixels you add where the action happens, and the Real-Time Report shows events within 10 seconds.
+
 ## How do I install Sealmetrics?
 
-Insert your tracking pixel in the `<head>` of your website or via Google Tag Manager.  
+Insert your tracking pixel in the `<head>` of your website or via [Google Tag Manager](https://support.google.com/tagmanager/answer/6107167).  
 Once added, Sealmetrics begins measuring immediately.
 
 ---
@@ -14,7 +16,7 @@ Once added, Sealmetrics begins measuring immediately.
 ## Does Sealmetrics work with Google Tag Manager?
 
 Yes.  
-Just ensure the Sealmetrics tag is not blocked by Consent Mode or cookie banners.
+Just ensure the Sealmetrics tag is not blocked by [Consent Mode](https://developers.google.com/tag-platform/security/guides/consent) or cookie banners.
 
 ---
 
@@ -35,3 +37,10 @@ Add event pixels anywhere in your site:
 
 Use the Real-Time Report.  
 Events appear within 10 seconds.
+
+---
+
+**Note:**
+- Install the tracking pixel in the `<head>` or via Google Tag Manager; measurement begins immediately, as long as the tag is not gated behind Consent Mode or a cookie banner.
+- Conversions and micro-conversions (add to cart, checkout, form submits, leads, purchases with revenue) are event pixels placed anywhere on the site.
+- Verify tracking in the Real-Time Report — events appear within 10 seconds.

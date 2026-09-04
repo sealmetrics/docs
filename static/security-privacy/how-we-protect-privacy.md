@@ -3,8 +3,8 @@ title: "How Sealmetrics Protects User Privacy"
 description: "The concrete protections behind Sealmetrics — no cookies, no persistent identifiers, no stored IP addresses, EU-only storage and short retention."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy"
 lang: "en"
-date_generated: "2026-08-12T08:33:12.834Z"
-source_hash: "634dc284ca9d31ccabf992e1a3002fa0e2f7931620ca8eea7520263bcf3d4345"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "79fc5909aef386371f61741bd3bb9326845f16d8fe5be114978a9984635339f7"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,7 +16,9 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy
 
-Sealmetrics protects visitors by **not collecting the data that would put them at risk in the first place**. The protection is architectural rather than procedural: there is no personal data to secure, disclose, leak or hand over, because none is collected.
+Sealmetrics does not collect the data that would put visitors at risk in the first place — **that is how it protects their privacy**. The protection is architectural rather than procedural: there is no personal data to secure, disclose, leak or hand over, because none is collected.
+
+## How does that protection work in practice?
 
 In practice that means four things:
 
@@ -25,9 +27,16 @@ In practice that means four things:
 - **Data is minimised, then aged out.** Event-level rows are purged after 1 day, hourly aggregates after 90 days, daily aggregates and conversions after 24 months. Retention is fixed for every plan and enforced by database TTLs.
 - **Storage stays in the EU.** All customer analytics data is stored and processed in Dublin, Ireland, encrypted in transit and at rest, under role-based access control.
 
+## What happens with data subject requests?
+
 Because visitor analytics data carries no identifier, a visitor access or deletion request cannot be matched to any record — there is nothing tied to an individual to produce or erase. Account data (your dashboard users: name, email, billing) is a different category and data subject rights apply to it in full; see [Data Subject Rights (DSAR)](/compliance/data-subject-rights). A Data Processing Agreement is included and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/).
 
 Sealmetrics holds no third-party security certification such as ISO 27001 or SOC 2, and no supervisory authority certifies analytics tools. What exists is our own [compliance self-assessments](/compliance) against published criteria.
+
+**Note:**
+- Nothing is written to the visitor's device and no identifier is stored: no cookies, no IP addresses in the analytics database, no user or device IDs.
+- Retention is fixed for every plan: event-level rows purged after 1 day, hourly aggregates after 90 days, daily aggregates and conversions after 24 months.
+- All customer analytics data is stored and processed in Dublin, Ireland; a DPA is ready to sign at sealmetrics.com/dpa. No ISO 27001 or SOC 2 certification is held.
 
 ## Related documentation
 

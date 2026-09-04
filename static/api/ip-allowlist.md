@@ -1,10 +1,10 @@
 ---
-title: "IP Allowlist"
+title: "IP Allowlist API"
 description: "Restrict API and dashboard access to allowed IPs or CIDR ranges, with bulk import/export and audit logging (Enterprise plans)"
 canonical_url: "https://docs.sealmetrics.com/api/ip-allowlist"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e36c2c757cc1e94b2d973c902dcb709b3314e08f76f7a24018e099cd1eb681a1"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "33167c17cfc7aefd13a5273419b8452d2078744d0dfa55ce4e36d3cd1dced7a0"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,7 +12,7 @@ source_file: "api/ip-allowlist.mdx"
 publisher: "Sealmetrics"
 ---
 
-# IP Allowlist
+# IP Allowlist API
 
 Canonical page: https://docs.sealmetrics.com/api/ip-allowlist
 

@@ -3,8 +3,8 @@ title: "Features"
 description: "Explore the complete feature set of Sealmetrics - from core analytics reports to API access, conversion tracking, and privacy-first capabilities."
 canonical_url: "https://docs.sealmetrics.com/getting-started/features"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "d432f9d7bf8e113fc5b13b53794095d00599ca2d21a0f4126a2974ec85f85c71"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "4ed53b00358574537bd12df817ade57146c162f1f8cfc18935052476e776597f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,9 +16,9 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/getting-started/features
 
-Sealmetrics delivers enterprise-grade analytics without the privacy trade-offs: core reports (Overview, Evolution, Pages, Sources, Geography, Devices, Conversions, Properties, Funnel), conversion and e-commerce tracking, custom event tracking, UTM attribution, AI agent traffic detection, a full REST API with CSV export, and 24 months of data retention. Every feature works cookielessly, requires no consent banner, and runs on EU-only infrastructure.
+Sealmetrics is a consentless analytics platform whose feature set covers core reports (Overview, Evolution, Pages, Sources, Geography, Devices, Conversions, Properties, Funnel), conversion and e-commerce tracking, custom event tracking, UTM attribution, a full REST API with CSV export, and 24 months of data retention. Every feature works cookielessly, requires no consent banner, and runs on EU-only infrastructure in Dublin, Ireland.
 
-## Core Analytics Reports
+## Which reports are included?
 
 ### Dashboard Overview
 Your command center for instant insights. See pageviews, sessions, conversions, and revenue at a glance. Compare current performance against the previous 30 days automatically. Filter by date range, traffic source, or campaign with one click.
@@ -181,7 +181,7 @@ Export any report to CSV or PDF format for offline analysis, custom reporting, o
 ### Data Retention
 24 months of historical data without requiring user consent. Analyze long-term trends and year-over-year performance.
 
-## Privacy-First Features
+## What makes Sealmetrics privacy-first? {#privacy-first-features}
 
 ### Cookieless by Design
 No cookies, no local storage, no fingerprinting. Zero impact on page speed from privacy scripts.
@@ -252,6 +252,11 @@ Clear visibility into your event consumption. No overage charges — if you cons
 Sealmetrics proves you don't need to compromise between analytics and privacy. Get complete data, powerful insights, and peace of mind—all in one platform.
 
 Ready to measure your traffic the right way? Start your free trial today.
+
+**Note:**
+- Nine core reports (Overview, Evolution, Pages, Sources, Geography, Devices, Conversions, Properties, Funnel) plus conversion, e-commerce and custom event tracking with last-click UTM attribution.
+- Full REST API with bearer token authentication, CSV/PDF export and 24 months of data retention; WordPress plugin, GTM and SPA support.
+- Cookieless by design with no consent banner; session duration and unique visitors are not measured; all data is processed in Dublin, Ireland. AI-agent classification is designed but not live.
 
 ## Related documentation
 

@@ -1,10 +1,10 @@
 ---
-title: "Passthrough Referrers"
+title: "Passthrough Referrers API"
 description: "Register booking engines, payment gateways, and other domains that preserve session attribution instead of creating a new referral"
 canonical_url: "https://docs.sealmetrics.com/api/passthrough-referrers"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "1ddfbc46496a740ba15c575bc894452fa7bce00bafdb44c4b65c81d69d2715a8"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "830714d1bc716f38fc24f9119e9161837064a3af85d354391e3e3b62acd29d5f"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,7 +12,7 @@ source_file: "api/passthrough-referrers.mdx"
 publisher: "Sealmetrics"
 ---
 
-# Passthrough Referrers
+# Passthrough Referrers API
 
 Canonical page: https://docs.sealmetrics.com/api/passthrough-referrers
 

@@ -27,14 +27,26 @@ import styles from './styles.module.css';
 // DocItem, así que "toda la documentación" es exactamente eso: el blog tiene
 // su propio BlogPosting (con Person) por el plugin de blog, y las páginas de
 // /tags las genera Docusaurus como listados navegables y nunca pasan por aquí.
-function shouldEmitTechArticle(permalink) {
-  return Boolean(permalink);
+//
+// El tipo sí depende de la sección: TechArticle para lo que un desarrollador u
+// operador sigue paso a paso, Article para el material explicativo y legal
+// (compliance, guides, use cases, FAQ, comparativas), donde "technical"
+// sería forzar el término. Lo que no encaje en la lista cae en TechArticle,
+// nunca en "sin schema".
+const ARTICLE_PREFIXES = ['/compliance/', '/guides/', '/use-cases/', '/faq/', '/compare/'];
+
+const ORGANIZATION_ID = 'https://sealmetrics.com/#organization';
+const SOFTWARE_ID = 'https://sealmetrics.com/#software';
+const WEBSITE_ID = 'https://docs.sealmetrics.com/#website';
+
+function articleTypeFor(permalink) {
+  return ARTICLE_PREFIXES.some((p) => permalink.startsWith(p)) ? 'Article' : 'TechArticle';
 }
 
-function TechArticleStructuredData() {
+function ArticleStructuredData() {
   const {metadata, frontMatter} = useDoc();
   const {siteConfig} = useDocusaurusContext();
-  if (!metadata?.permalink || !shouldEmitTechArticle(metadata.permalink)) {
+  if (!metadata?.permalink) {
     return null;
   }
   const url = `${siteConfig.url}${metadata.permalink}`;
@@ -58,7 +70,7 @@ function TechArticleStructuredData() {
   const datePublished = docDates[docKey];
   const data = {
     '@context': 'https://schema.org',
-    '@type': 'TechArticle',
+    '@type': articleTypeFor(metadata.permalink),
     '@id': url,
     mainEntityOfPage: url,
     url,
@@ -66,6 +78,11 @@ function TechArticleStructuredData() {
     name: metadata.title,
     description: metadata.description,
     inLanguage: 'en-US',
+    // Ancla cada página al WebSite y a la entidad de producto declarados en
+    // el @graph global (docusaurus.config.ts / docs/index.mdx), para que un
+    // consumidor pueda unir "esta página" con "este producto" sin adivinar.
+    isPartOf: {'@id': WEBSITE_ID},
+    about: {'@id': SOFTWARE_ID},
     image: {
       '@type': 'ImageObject',
       url: imageUrl,
@@ -78,13 +95,13 @@ function TechArticleStructuredData() {
     // más abajo; esto solo lo hace consistente.
     author: {
       '@type': 'Organization',
-      '@id': 'https://sealmetrics.com/#organization',
+      '@id': ORGANIZATION_ID,
       name: 'Sealmetrics',
       url: 'https://sealmetrics.com',
     },
     publisher: {
       '@type': 'Organization',
-      '@id': 'https://sealmetrics.com/#organization',
+      '@id': ORGANIZATION_ID,
       name: 'Sealmetrics',
       logo: {
         '@type': 'ImageObject',
@@ -128,7 +145,6 @@ function DocByline() {
   );
 }
 
-
 export default function DocItemLayout({children}) {
   const docTOC = useDocTOC();
   const {metadata} = useDoc();
@@ -136,7 +152,7 @@ export default function DocItemLayout({children}) {
     <div className="row">
       <div className={clsx('col', 'docMainCol', !docTOC.hidden && styles.docItemCol)}>
         <ContentVisibility metadata={metadata} />
-        <TechArticleStructuredData />
+        <ArticleStructuredData />
         <DocVersionBanner />
         <div className={styles.docItemContainer}>
           <article>

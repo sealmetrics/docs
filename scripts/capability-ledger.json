@@ -188,6 +188,14 @@
         {
           "file": "docs/compliance/analytics-cookies-exemption.md",
           "reason": "Lists 'Self-hosted Matomo, Sealmetrics' as alternatives; self-hosted qualifies Matomo."
+        },
+        {
+          "file": "docs/compare/index.mdx",
+          "reason": "Comparison page: self-hosting is Matomo's model, contrasted with Sealmetrics' managed cloud in the same sentence. Not a claim about us."
+        },
+        {
+          "file": "docs/compare/matomo.mdx",
+          "reason": "Comparison page: self-hosting is Matomo's model, contrasted with Sealmetrics' managed cloud in the same sentence. Not a claim about us."
         }
       ],
       "requiresSubject": true
@@ -225,6 +233,93 @@
           "reason": "PCI DSS Level 1 refers to Stripe, our payment processor, not to Sealmetrics."
         }
       ],
+      "requiresSubject": false
+    },
+    {
+      "id": "stale-data-loss-figures",
+      "label": "Superseded data-loss / completeness figures (60-87%, 13-40%)",
+      "why": "Rafa's canonical figure is 15-60% of visitors lost by consent-based tools, depending on sector, brand and traffic mix (docs audit Aug 2026). The 60-87% and 13-40% numbers survived in scripts/llms-templates and contradicted the other 100+ mentions — the llms.txt header is the first thing an LLM reads about the domain.",
+      "patterns": [
+        "60\\s*[-–]\\s*87\\s*%",
+        "13\\s*[-–]\\s*40\\s*%",
+        "up to 87\\s*%",
+        "87% of (EU )?visitors"
+      ],
+      "allow": [],
+      "requiresSubject": false
+    },
+    {
+      "id": "third-party-certification",
+      "label": "ISO 27001 / SOC 2 certification",
+      "why": "Sealmetrics holds no third-party security certification (CLAUDE.md). Denials are fine and expected; an affirmative line is a due-diligence lie.",
+      "patterns": [
+        "\\bISO(?:/IEC)?\\s*27001\\b",
+        "\\bSOC\\s*2\\b"
+      ],
+      "allow": [],
+      "requiresSubject": false
+    },
+    {
+      "id": "data-centre-not-dublin",
+      "label": "Analytics data hosted outside Dublin (Frankfurt / Germany)",
+      "why": "Customer analytics data lives in Dublin, Ireland only (CLAUDE.md). Seal AI Private prompts go to Scaleway in Paris — that is the single deliberate exception and is named Paris, never Frankfurt.",
+      "patterns": [
+        "\\bFrankfurt\\b",
+        "hosted in Germany",
+        "German data ?cent(?:er|re)"
+      ],
+      "allow": [
+        {
+          "file": "docs/lens/seal-ai/private-ai-architecture.mdx",
+          "reason": "Names AWS Frankfurt as where *Claude* is served by a US-parent provider — a jurisdiction example about other vendors, not a claim about our hosting."
+        }
+      ],
+      "requiresSubject": false
+    },
+    {
+      "id": "retired-llm-models",
+      "label": "gemma-4 / mistral-small described as the live Seal AI model",
+      "why": "Both were evaluated and replaced in July 2026; the live model is gpt-oss-120b on Scaleway (docs/lens/seal-ai/model-selection.mdx is the authority).",
+      "patterns": [
+        "gemma[- ]?4",
+        "mistral[- ]small"
+      ],
+      "allow": [
+        {
+          "file": "docs/lens/seal-ai/model-selection.mdx",
+          "reason": "The authority page: explains why both were evaluated and replaced."
+        },
+        {
+          "file": "docs/lens/seal-ai/internal-benchmark.mdx",
+          "reason": "Benchmark results that compare the candidates, including the two that lost."
+        }
+      ],
+      "requiresSubject": false
+    },
+    {
+      "id": "metered-lens-pricing",
+      "label": "Old metered LENS pricing (question quotas, €99 packs)",
+      "why": "LENS is free with BYOK; only Seal AI Private is paid (5M tokens/month, €358.80 per 5M-token pack). Per-plan question quotas and €99/500-question packs never existed (CLAUDE.md).",
+      "patterns": [
+        "\\b[12],?000 questions\\b",
+        "€\\s?99\\b",
+        "99 per 500",
+        "question packs?",
+        "questions? (?:per|a) month"
+      ],
+      "allow": [],
+      "requiresSubject": false
+    },
+    {
+      "id": "openai-subprocessor",
+      "label": "Prompts sent to OpenAI / OpenAI as subprocessor",
+      "why": "Seal AI Private runs gpt-oss-120b (open weights, Apache-2.0) on Scaleway in Paris. OpenAI is not a subprocessor and prompts never reach it; \"GPT\" is the lineage, not the vendor (CLAUDE.md).",
+      "patterns": [
+        "prompts? (?:is |are )?(?:sent|forwarded|shared|routed) (?:to|with) OpenAI",
+        "OpenAI (?:is|as) (?:a |our )?sub-?processor",
+        "data (?:is )?(?:sent|shared) (?:to|with) OpenAI"
+      ],
+      "allow": [],
       "requiresSubject": false
     }
   ]

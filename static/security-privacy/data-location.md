@@ -3,8 +3,8 @@ title: "Data Location & Retention"
 description: "Where Sealmetrics stores your data and how long it's retained. EU-based infrastructure with clear retention policies."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/data-location"
 lang: "en"
-date_generated: "2026-08-10T18:27:20.920Z"
-source_hash: "da60239b26d2bd25ba78a379bd6c3d72d40d993ad26a8a3a95f15d8118dfca14"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "242e32d0999ef44059cf43010359edd662699f41e24bab19c70a2e9fa279c27d"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -62,6 +62,21 @@ Retention is **fixed and identical for every plan**, enforced by database TTLs:
 | Hourly aggregates | 90 days | Hour-by-hour reports |
 | Daily aggregates | 24 months | Daily/monthly reports |
 | Conversion data | 24 months | Including properties |
+
+From a single hit to the reports you keep, every stage lives in Dublin and expires on its own TTL:
+
+```mermaid
+flowchart LR
+    subgraph EU["Dublin, Ireland (EU)"]
+        A["Hit received"] --> B["Event-level detail: purged after 1 day"]
+        B --> C["Hourly aggregates: 90 days"]
+        B --> D["Daily aggregates: 24 months"]
+        B --> E["Conversion data: 24 months"]
+        C --> F["Automatic purge when the retention period ends"]
+        D --> F
+        E --> F
+    end
+```
 
 ### Operational Data
 
@@ -205,7 +220,7 @@ Export your data anytime:
 
 ## Related Documentation
 
-- [Privacy Overview](/security-privacy/overview)
+- [Security & Privacy overview](/security-privacy)
 - [What We Track](/security-privacy/what-we-track)
 - [Subprocessors](/compliance/subprocessors)
 - [Data Subject Rights (DSAR)](/compliance/data-subject-rights)

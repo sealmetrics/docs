@@ -13,11 +13,11 @@ keywords:
 
 # Bot Detection & Traffic Quality
 
-Sealmetrics employs multiple layers of protection to ensure your analytics data reflects real human visitors, not bots or spam traffic.
+Sealmetrics uses multiple layers of protection — from IP and User-Agent blocklists to HMAC token validation and domain authorization — so that your analytics data reflects real human visitors, not bots or spam traffic. Detected bot traffic is blocked immediately, never stored, and never appears in reports.
 
 ---
 
-## Multi-Layer Detection System
+## How does Sealmetrics detect bots? {#multi-layer-detection-system}
 
 ### Layer 1: IP Blocklist
 
@@ -69,7 +69,7 @@ Only authorized domains can send data:
 
 ---
 
-## How Bot Traffic is Handled
+## What happens when bot traffic is detected? {#how-bot-traffic-is-handled}
 
 When bot traffic is detected:
 
@@ -79,7 +79,7 @@ When bot traffic is detected:
 
 ---
 
-## What Gets Filtered
+## What gets filtered?
 
 | Traffic Type | Filtered | Notes |
 |--------------|----------|-------|
@@ -196,12 +196,18 @@ In your reports, look for:
 | Behavioral analysis | Yes | Limited |
 | Transparent filtering | Yes | Black box |
 
+:::note In short
+- Bot traffic is filtered in multiple layers — IP blocklists, User-Agent signatures, geographic validation, HMAC token validation and domain authorization — and blocked hits are never stored or counted.
+- Search engine crawlers, SEO tools, uptime monitors, security scanners, automated testing and data-center traffic are filtered; real browsers, in-app browsers and VPN users pass through.
+- Custom IP/CIDR and User-Agent blocklists are configurable per account; Agent Analytics (behavioral human-vs-agent classification) is designed but not live and cannot be enabled.
+:::
+
 ---
 
 ## Related Documentation
 
 - [Domain Authorization](/platform/account-setup/how-to-add-domains)
 - [First-Party Tracking](/implementation/tracker/first-party)
-- [Privacy Overview](/security-privacy/overview)
+- [Security & Privacy overview](/security-privacy)
 - [Bot Stats](/api/bot-stats) — query filtered bot traffic through the API
 - [Frequently Asked Questions](/faq/privacy-security) — common privacy and traffic-quality questions

@@ -1,85 +1,69 @@
 ---
-title: Privacy & Consentless Analytics
+title: Security & Privacy
 sidebar_position: 0
-description: Learn about Sealmetrics’ privacy-first philosophy, consentless analytics technology, and key platform benefits.
-tags: [privacy, consentless analytics, gdpr, cookieless, compliance]
+description: "How Sealmetrics measures without personal data — four non-identifying variables, nothing on the device, EU-only storage in Dublin — with the index of every privacy and security page."
+tags: [security, privacy, gdpr, eprivacy, consentless analytics, cookieless, data-protection]
 keywords:
+  - sealmetrics security
   - what data does sealmetrics collect
   - analytics without a cookie banner
   - consentless analytics explained
   - gdpr compliant web analytics
+  - EU data hosting
   - how does sealmetrics protect privacy
 ---
 
-import Link from '@docusaurus/Link';
+# Security & Privacy
 
-# Privacy & Consentless Analytics
+Sealmetrics measures websites **without collecting personal data**: four non-identifying variables per hit, nothing written to the visitor's device, no identifier carried across sessions, and all customer analytics data stored in Dublin, Ireland. Because there is no personal data, the consent requirements of GDPR and the ePrivacy Directive are not triggered — the reasoning is set out in full in [What is Consentless Analytics?](/security-privacy/consentless-analytics).
 
-Explore how **Sealmetrics** redefines web analytics with complete privacy, consentless data capture, and GDPR-compliant measurement.
+Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2), and no supervisory authority certifies analytics tools. The pages under [compliance](/compliance) are our own self-assessments against published criteria. A Data Processing Agreement is included and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/); Annex 3 of that DPA is the authoritative subprocessor list.
 
-<div
-  style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '1.5rem',
-    marginTop: '2rem',
-  }}
->
+## Start here
 
-  <div style={{
-    border: '1px solid #e0e0e0',
-    borderRadius: '12px',
-    padding: '1.5rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-  }}>
-    <h3 style={{ color: '#00825C' }}>
-      <Link to="/security-privacy/consentless-analytics" style={{ textDecoration: 'none', color: '#00825C' }}>
-        What is Consentless Analytics?
-      </Link>
-    </h3>
-    <p>Understand how consentless analytics measures every visit without collecting personal data.</p>
-  </div>
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the concept, the legal basis under GDPR and ePrivacy, and what the model can and cannot measure
+- [What We Track vs What We Don't](/security-privacy/what-we-track) — the field-by-field list, with retention for each field
 
-  <div style={{
-    border: '1px solid #e0e0e0',
-    borderRadius: '12px',
-    padding: '1.5rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-  }}>
-    <h3 style={{ color: '#00825C' }}>
-      <Link to="/security-privacy/consentless-benefits" style={{ textDecoration: 'none', color: '#00825C' }}>
-        Sealmetrics Key Benefits Overview
-      </Link>
-    </h3>
-    <p>Explore Sealmetrics’ complete analytics visibility, privacy excellence, and business intelligence advantages.</p>
-  </div>
+## The consentless model
 
-  <div style={{
-    border: '1px solid #e0e0e0',
-    borderRadius: '12px',
-    padding: '1.5rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-  }}>
-    <h3 style={{ color: '#00825C' }}>
-      <Link to="/security-privacy/how-we-protect-privacy" style={{ textDecoration: 'none', color: '#00825C' }}>
-        How Sealmetrics Protects User Privacy
-      </Link>
-    </h3>
-    <p>Learn how Sealmetrics ensures genuine user privacy through technical innovation and regulatory compliance.</p>
-  </div>
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — the technical mechanics, step by step
+- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — the short answer on consent
+- [Benefits of Consentless Tracking](/security-privacy/consentless-benefits) — what complete data changes in practice
+- [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — last-click attribution without identifiers
 
-  <div style={{
-    border: '1px solid #e0e0e0',
-    borderRadius: '12px',
-    padding: '1.5rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-  }}>
-    <h3 style={{ color: '#00825C' }}>
-      <Link to="/guides/complete-guide-cookieless-analytics" style={{ textDecoration: 'none', color: '#00825C' }}>
-        Complete Guide to Cookieless Analytics 2025
-      </Link>
-    </h3>
-    <p>Deep dive into how cookieless analytics works, GDPR compliance, implementation steps, and why it's the future of web analytics.</p>
-  </div>
+## Privacy practice
 
-</div>
+- [How Sealmetrics Protects User Privacy](/security-privacy/how-we-protect-privacy) — the concrete protections
+- [Privacy by Design Principles](/security-privacy/privacy-by-design) — the seven principles mapped to architecture
+- [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) — timezone-based geolocation
+
+## Data, hosting and quality
+
+- [Data Location & Retention](/security-privacy/data-location) — EU hosting, retention schedule, encryption, deletion and export
+- [Bot Detection & Traffic Quality](/security-privacy/bot-detection) — how automated traffic is filtered out of reports
+- [Why Sealmetrics Is Not Blocked by AdBlockers](/security-privacy/adblocker-bypass) — first-party delivery and why filter lists do not match
+
+## Account security
+
+- [Two-Factor Authentication](/security-privacy/account-security/two-factor-auth)
+- [Backup Codes](/security-privacy/account-security/backup-codes)
+- [Session Management](/security-privacy/account-security/session-management)
+- [IP Allowlist](/security-privacy/account-security/ip-allowlist)
+
+## Auditing someone else's tags
+
+- [What Is This Domain in My Cookie Audit?](/security-privacy/third-party-analytics-domains) — lookup table of external analytics domains
+- [What Is demdex.net?](/security-privacy/demdex-net-cookies) — Adobe's Experience Cloud ID cookies
+- [What Is omtrdc.net?](/security-privacy/omtrdc-net-requests) — Adobe Analytics' collection domain
+
+:::note In short
+- Four variables per hit (timestamp, user agent, URL, referrer); no cookies, no IP stored, no persistent identifier.
+- All customer analytics data lives in Dublin, Ireland; retention is fixed at 1 day / 90 days / 24 months by aggregation level.
+- No certifications and no regulator approval exist; compliance pages are self-assessments, and the DPA's Annex 3 lists the subprocessors.
+:::
+
+## Related documentation
+
+- [Compliance self-assessments](/compliance) — GDPR, ePrivacy, CNIL, AEPD, PECR analysed one by one
+- [Data Subject Rights (DSAR)](/compliance/data-subject-rights) — how access and erasure requests work
+- [Subprocessors](/compliance/subprocessors) — who touches customer analytics data

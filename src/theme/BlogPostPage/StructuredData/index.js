@@ -19,14 +19,22 @@ export default function BlogPostStructuredData() {
   // Default image when the post does not declare its own
   const defaultImageUrl = `${siteUrl}/img/sealmetrics-social-card.jpg`;
 
-  // Absolutize author images
+  // Absolutize author images, and tie the founder's byline to the Person node
+  // declared in the site-wide Organization graph (docusaurus.config.ts) so
+  // every post's author resolves to the same entity.
+  const FOUNDER_ID = 'https://sealmetrics.com/#rafael-jimenez';
+  const isFounder = (a) => a && /rafael\s+jim[eé]nez/i.test(a.name || '');
+  const enrichAuthor = (a) => {
+    if (!a) return a;
+    let out = a.image ? {...a, image: absolutize(a.image, siteUrl)} : a;
+    if (isFounder(out)) out = {...out, '@id': FOUNDER_ID};
+    return out;
+  };
   let author = data.author;
   if (Array.isArray(author)) {
-    author = author.map((a) =>
-      a && a.image ? {...a, image: absolutize(a.image, siteUrl)} : a,
-    );
-  } else if (author && author.image) {
-    author = {...author, image: absolutize(author.image, siteUrl)};
+    author = author.map(enrichAuthor);
+  } else {
+    author = enrichAuthor(author);
   }
 
   // Ensure image is present and absolute

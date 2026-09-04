@@ -3,8 +3,8 @@ title: "Technical Privacy Model"
 description: "Learn exactly what data Sealmetrics collects, what it does not collect, and how privacy is enforced technically."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-technical"
 lang: "en"
-date_generated: "2026-08-10T18:27:20.920Z"
-source_hash: "42a7c0aff9f3ca9f6e1ee0f1376dc3d14d316bb7b2f1f789de9a64ab811da9a6"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "bfcb7af65959d74ea670a886b32d9e17877112c52570496f353c3e4ee4f45e6c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,8 @@ publisher: "Sealmetrics"
 # Technical Privacy Model
 
 Canonical page: https://docs.sealmetrics.com/faq/privacy-technical
+
+Sealmetrics records only 4 variables per hit — timestamp, URL, referral URL and user agent (raw string purged after 1 day) — with no IP address, no unique identifiers, no cookies or local storage and no fingerprinting; the visitor's country is estimated from the browser timezone rather than the IP address.
 
 ## What data does Sealmetrics collect?
 
@@ -50,7 +52,7 @@ This method is reliable for aggregated analytics and fully aligns with privacy a
 
 ## Why doesn’t Sealmetrics use IP addresses for geolocation?
 
-Because processing IP addresses involves handling personal data under the GDPR. Sealmetrics is built with a privacy-first approach: we do not track individuals or use data that could identify them. Using the timezone allows us to provide useful insights without relying on personal information.
+Because processing IP addresses involves handling personal data under the [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj). Sealmetrics is built with a privacy-first approach: we do not track individuals or use data that could identify them. Using the timezone allows us to provide useful insights without relying on personal information.
 
 ## Is the browser timezone considered personal data?
 
@@ -59,3 +61,10 @@ No. The timezone is a technical value exposed automatically by the browser and d
 ## How does timezone-based detection affect the accuracy of my reports?
 
 Reports show a country estimation based on the browser’s timezone. This is more than adequate for traffic analysis, marketing, attribution, and global trends. It does not provide city- or region-level accuracy, but it avoids processing personal data and keeps analytics within strict privacy compliance.
+
+---
+
+**Note:**
+- Only 4 variables per hit: timestamp, URL, referral URL and user agent (raw string purged after 1 day); no IP address, no unique identifiers, no cookies or local storage.
+- No fingerprinting and no reconstruction of user journeys — hits are isolated by design.
+- Country is estimated from the browser timezone, not the IP: accurate for unique timezones, most-likely country for shared ones, country level only.

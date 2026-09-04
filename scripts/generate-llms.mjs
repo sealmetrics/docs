@@ -551,9 +551,10 @@ function generateMarkdownMirrors(docs) {
 function generateLlmsTxt(sections) {
   const parts = [];
 
-  // Curated header + instructions
+  // Curated header + instructions + the fact sheet LLMs quote from
   parts.push(loadTemplate('header.md'));
   parts.push(loadTemplate('instructions.md'));
+  parts.push(loadTemplate('key-facts.md'));
 
   // Auto-generated documentation index
   parts.push('## Documentation\n');
@@ -592,6 +593,7 @@ function generateLlmsFullTxt(sections) {
   // Header
   parts.push(loadTemplate('header.md'));
   parts.push(loadTemplate('instructions.md'));
+  parts.push(loadTemplate('key-facts.md'));
 
   // Full content for every doc
   for (const section of sections) {

@@ -3,8 +3,8 @@ title: "Content & Media Sites"
 description: "Implementation guide for blogs, news sites, and content publishers - track engagement, subscriptions, and ad performance."
 canonical_url: "https://docs.sealmetrics.com/use-cases/content-media"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "3c6abbd55913d73760f69e7b8495d05568b3d07683a3c1d7872e90b05ebf8c56"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "dfce4acf59fac18e99b4a0d850bd40ca858fc110fe03da1ebcd32847fec0e402"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,9 +16,9 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/use-cases/content-media
 
-Complete guide for tracking content sites, blogs, news publishers, and media platforms. Measure reader engagement, subscription conversions, and content performance.
+To track a content site with Sealmetrics, add the tracking script with content grouping (blog, news publisher or media platform), then instrument three event types: **pageviews** (automatic, for articles and categories), **microconversions** via `sealmetrics.micro()` (scroll depth, time on article, shares, comments, video and podcast plays) and **conversions** via `sealmetrics.conv()` (newsletter signups and paid subscriptions). This guide covers each step with copy-paste examples, including a WordPress grouping snippet.
 
-## What You'll Track
+## What will you track?
 
 | Event Type | Example | Purpose |
 |------------|---------|---------|
@@ -267,6 +267,8 @@ document.querySelector('.copy-link').addEventListener('click', function() {
 
 ### Native Share API
 
+Uses the browser's [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share) (`navigator.share`):
+
 ```javascript
 document.querySelector('.native-share').addEventListener('click', async function() {
   if (navigator.share) {
@@ -399,6 +401,8 @@ if (podcast) {
 ```
 
 ### YouTube Embeds
+
+Uses the [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference):
 
 ```javascript
 // YouTube IFrame API
@@ -555,7 +559,7 @@ document.querySelector('#search-form').addEventListener('submit', function() {
 
 ---
 
-## Key Metrics for Content Sites
+## Which metrics matter for content sites? {#key-metrics-for-content-sites}
 
 | Metric | Formula | Events Needed |
 |--------|---------|---------------|
@@ -592,6 +596,11 @@ After implementing, analyze in your dashboard:
 - Revenue per article (if subscriptions)
 - Lifetime value by acquisition content
 - Author performance
+
+**Note:**
+- Reading engagement is measured with microconversions at 25/50/75/100% scroll, time-on-article thresholds (30, 60, 120, 300 s) and a combined `engaged_reader` event (50%+ scroll and 30+ seconds).
+- Conversions are `newsletter_signup` / `newsletter_confirmed` and `subscription` with the plan price; paywall views and plan selection are microconversions.
+- Key ratios: Engaged Readers, Read Completion (read_100 / article pageviews), Newsletter Rate, Share Rate, Video Completion and Subscription Rate (subscriptions / paywall_shown).
 
 ## Related documentation
 

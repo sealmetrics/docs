@@ -1,10 +1,10 @@
 ---
 title: "Legal FAQ — Sealmetrics Compliance Questions"
-description: "Frequently asked legal, compliance, privacy, and data protection questions about Sealmetrics."
+description: "Answers to the legal questions asked in vendor reviews of Sealmetrics: DPA, DPIA, subprocessors, Dublin hosting, IP handling, cookies, 24-month retention."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/legal-faq"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "6568a628cac11db74c117db5a2ed602d045aca3c1b885e01f0bda85821ac4cc6"
+date_generated: "2026-09-04T00:07:24.876Z"
+source_hash: "7a92ff9939ab222fcbd0b07533b4567c88b8d1cba2f7468a32c3a50a11390708"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,13 +16,13 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/compliance/compliance-overview/legal-faq
 
-This page answers the most common legal and compliance questions related to Sealmetrics, privacy regulations, audits, and data protection.
+Sealmetrics is a B2B data controller for account data and a data processor for analytics data; this page answers the legal and compliance questions that come up in audits and vendor reviews — DPA, DPIA, subprocessors, data hosting, IP handling, cookies and retention.
 
 ---
 
 ## **Compliance Validation**
 
-### **How can I validate Sealmetrics' compliance claims?**
+### How can I validate Sealmetrics' compliance claims?
 Sealmetrics publishes detailed, criterion-by-criterion **self-assessments** against the published frameworks of European regulators, so your DPO can verify every claim directly:
 
 👉 [CNIL (France)](/compliance/cnil-self-assessment) · [ICO PECR (UK)](/compliance/uk-pecr-self-assessment) · [TDDDG (Germany)](/compliance/germany-ttdsg-self-assessment) · [Garante (Italy)](/compliance/italy-garante-self-assessment) · [FADP (Switzerland)](/compliance/switzerland-fadp-self-assessment)
@@ -105,7 +105,7 @@ We compute:
 - The IP is **never written to the analytics database** — there is no IP column in our event storage — and it is never linked to any hit, session, or metric.
 - No GeoIP lookup is performed on the IP. One was designed for the optional **Agent Analytics** bot detector, but that feature is **not live and cannot be enabled on any account**, so it runs nowhere today.
 
-This transient security use is processed under legitimate interest (GDPR Art. 6(1)(f), Recital 49 — network and information security). What keeps Sealmetrics consentless is that the IP is never stored with analytics data, never used for identification or tracking, and never used to compute analytics.
+This transient security use is processed under legitimate interest ([GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj) Art. 6(1)(f), Recital 49 — network and information security). It is the only point at which an Article 6 basis is engaged: the visitor analytics dataset itself holds no personal data (no IP, no identifier, four non-identifying variables), so under Recital 26 it falls outside the GDPR and needs no legal basis — Sealmetrics does not rely on legitimate interest or consent for visitor analytics. What keeps Sealmetrics consentless is that the IP is never stored with analytics data, never used for identification or tracking, and never used to compute analytics.
 
 ---
 
@@ -125,7 +125,7 @@ See [How Sealmetrics Blocks Bot Traffic](/compliance/compliance-overview/how-sea
 
 ## **Cookies & Storage**
 
-### **Does Sealmetrics use cookies?**
+### Does Sealmetrics use cookies?
 No.
 Sealmetrics does **not** use:
 
@@ -139,9 +139,14 @@ Sealmetrics does **not** use:
 
 ## **Data Retention**
 
-### **How many months does Sealmetrics store my data?**
+### How many months does Sealmetrics store my data?
 We store data for a **maximum of 24 months**.
-This stays inside the 25-month ceiling that CNIL guidance sets for consent-exempt analytics — Sealmetrics deliberately applies the stricter 24-month limit.
+This stays inside the 25-month ceiling that [CNIL guidance](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications) sets for consent-exempt analytics — Sealmetrics deliberately applies the stricter 24-month limit.
+
+**Note:**
+- The DPA is at sealmetrics.com/dpa and the Privacy Notice at sealmetrics.com/privacy; a completed DPIA is available to customers on request.
+- Sealmetrics collects four non-personal variables per hit, uses no cookies or storage, and never writes the IP address to the analytics database.
+- Data is stored for a maximum of 24 months, inside the 25-month ceiling in CNIL guidance.
 
 ## Related documentation
 

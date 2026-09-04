@@ -31,6 +31,8 @@ on:
       - 'scripts/capability-ledger.json'
       - 'static/openapi.json'
       - 'redocly.yaml'
+      - 'scripts/check-geo.mjs'
+      - 'scripts/llms-templates/**'
   pull_request:
     paths:
       - 'docs/**'
@@ -43,6 +45,8 @@ on:
       - 'scripts/capability-ledger.json'
       - 'static/openapi.json'
       - 'redocly.yaml'
+      - 'scripts/check-geo.mjs'
+      - 'scripts/llms-templates/**'
   workflow_dispatch:
 
 jobs:
@@ -75,6 +79,18 @@ jobs:
           node-version: 20
       - name: Check feature claims against the capability ledger
         run: node scripts/check-product-claims.mjs
+
+  geo-hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # Unclosed code fences (silently truncate a page and its llms mirror),
+      # duplicate titles, and stale docs-raw / .md mirrors of deleted pages.
+      - name: Check GEO hygiene (fences, duplicate titles, stale mirrors)
+        run: node scripts/check-geo.mjs
 
   openapi-lint:
     runs-on: ubuntu-latest
