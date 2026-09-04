@@ -1,17 +1,20 @@
 ---
 title: "Sealmetrics vs Google Analytics 4: consent-based vs consentless measurement"
-sidebar_position: 2
-description: GA4 needs cookies and consent, so it loses 15–60% of EU visitors. Sealmetrics measures every hit without cookies, IP storage or a banner, hosted in Dublin.
-tags: [comparison, ga4, google-analytics, consentless analytics, gdpr]
-keywords:
-  - sealmetrics vs google analytics 4
-  - ga4 alternative without cookie banner
-  - google analytics consent data loss
-  - ga4 ip address geolocation eu
-  - cookieless google analytics alternative
+description: "GA4 needs cookies and consent, so it loses 15–60% of EU visitors. Sealmetrics measures every hit without cookies, IP storage or a banner, hosted in Dublin."
+canonical_url: "https://docs.sealmetrics.com/compare/google-analytics-4"
+lang: "en"
+date_generated: "2026-09-04T11:01:07.053Z"
+source_hash: "73f1a20cd1b22b0286145d6307773bd4f8d5c0c5bee37e76e33b409ef5ec2caf"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "compare/google-analytics-4.mdx"
+publisher: "Sealmetrics"
 ---
 
-# Sealmetrics vs Google Analytics 4
+# Sealmetrics vs Google Analytics 4: consent-based vs consentless measurement
+
+Canonical page: https://docs.sealmetrics.com/compare/google-analytics-4
 
 Sealmetrics and Google Analytics 4 are both web analytics tools that report traffic, sources, conversions and revenue. The main difference is the identifier: GA4 relies on a first-party cookie and therefore on visitor consent in the EU, while Sealmetrics sets no cookie, stores no IP address and needs no banner. In practice that means GA4 reports the visitors who accepted the banner, and Sealmetrics reports all of them.
 
@@ -68,11 +71,10 @@ When a visitor arrives from a campaign and declines the banner, GA4 cannot set i
 
 For anything that requires following an individual — unique visitors, session duration, journeys — yes, by design. For aggregate traffic, conversions, revenue and attribution, Sealmetrics covers every visitor while GA4 covers the consenting subset.
 
-:::note In short
+**Note:**
 - GA4's identifier is a 2-year cookie, so EU measurement depends on the banner; Sealmetrics uses no cookie and needs no banner.
 - GA4 discards EU IPs after geolocation; Sealmetrics never uses the IP for geolocation and stores data only in Dublin.
 - GA4 offers user-level analysis and Google Ads audience sync; Sealmetrics trades those for complete, consent-independent data.
-:::
 
 ## Related documentation
 

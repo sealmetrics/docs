@@ -1,17 +1,20 @@
 ---
 title: "Sealmetrics vs Fathom: EU Isolation vs EU-only storage"
-sidebar_position: 5
-description: Fathom hashes IP and user agent daily and stores anonymised data in the US after EU processing. Sealmetrics never hashes the IP and keeps all data in Dublin.
-tags: [comparison, fathom, cookieless analytics, eu hosting, gdpr]
-keywords:
-  - sealmetrics vs fathom
-  - fathom analytics eu isolation
-  - fathom alternative eu hosted
-  - fathom user signature hash
-  - cookieless analytics dublin
+description: "Fathom hashes IP and user agent daily and stores anonymised data in the US after EU processing. Sealmetrics never hashes the IP and keeps all data in Dublin."
+canonical_url: "https://docs.sealmetrics.com/compare/fathom"
+lang: "en"
+date_generated: "2026-09-04T11:01:07.053Z"
+source_hash: "72eb1b7de5df40f4f22e4759660be3ff4e216c7e91e6968a534f8ffdceefb203"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "compare/fathom.mdx"
+publisher: "Sealmetrics"
 ---
 
-# Sealmetrics vs Fathom
+# Sealmetrics vs Fathom: EU Isolation vs EU-only storage
+
+Canonical page: https://docs.sealmetrics.com/compare/fathom
 
 Sealmetrics and Fathom Analytics are both cookieless tools whose vendors say no consent banner is needed. The main difference is where the data goes and what the identifier is made of: Fathom builds a daily hash from the visitor's IP and user agent, processes EU IPs inside the EU and then stores the anonymised data on US servers; Sealmetrics builds no hash from the IP and stores everything in Dublin, Ireland.
 
@@ -68,11 +71,10 @@ Both vendors say no for their own product. Neither claim has been validated by a
 
 Unique visitors and time on site. Sealmetrics reports entrances, bounce rate, engagement rate and pages per session in aggregate instead. See the [Metrics Reference](/reports/definitions).
 
-:::note In short
+**Note:**
 - Both are cookieless with no banner required per their own docs.
 - Fathom hashes IP and user agent daily and stores anonymised data in the US; Sealmetrics hashes nothing from the IP and stores only in Dublin.
 - Fathom reports daily unique visitors; Sealmetrics reports entrances and adds e-commerce depth and AI.
-:::
 
 ## Related documentation
 

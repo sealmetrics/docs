@@ -1,17 +1,20 @@
 ---
 title: "Sealmetrics vs Simple Analytics: the closest architecture, different depth"
-sidebar_position: 7
-description: Both skip cookies, IPs and consent banners and derive country from the timezone. Simple Analytics keeps it minimal; Sealmetrics adds attribution, e-commerce and AI.
-tags: [comparison, simple-analytics, cookieless analytics, netherlands, gdpr]
-keywords:
-  - sealmetrics vs simple analytics
-  - simple analytics alternative
-  - analytics without ip address
-  - country from timezone analytics
-  - simple analytics referrer unique visits
+description: "Both skip cookies, IPs and consent banners and derive country from the timezone. Simple Analytics keeps it minimal; Sealmetrics adds attribution, e-commerce and AI."
+canonical_url: "https://docs.sealmetrics.com/compare/simple-analytics"
+lang: "en"
+date_generated: "2026-09-04T11:01:07.053Z"
+source_hash: "e6779efc2d7724c842b923fb2aae4d6b356ec99e6b8caea14e8893ff0c1445e7"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "compare/simple-analytics.mdx"
+publisher: "Sealmetrics"
 ---
 
-# Sealmetrics vs Simple Analytics
+# Sealmetrics vs Simple Analytics: the closest architecture, different depth
+
+Canonical page: https://docs.sealmetrics.com/compare/simple-analytics
 
 Sealmetrics and Simple Analytics are the two tools in this section with the most similar privacy architecture: neither sets cookies, neither collects IP addresses, and both derive the visitor's country from the browser timezone rather than from the IP. The main difference is scope — Simple Analytics is a deliberately minimal dashboard hosted in the Netherlands, while Sealmetrics is built around conversion attribution, e-commerce data and an AI layer, hosted in Dublin.
 
@@ -68,11 +71,10 @@ Neither, according to each vendor. Both cite the absence of any storage on the d
 
 Time on page, and a per-page unique-visit count. Sealmetrics reports bounce rate, engagement rate and pages per session in aggregate, and treats scroll depth as a custom event — see the [Metrics Reference](/reports/definitions).
 
-:::note In short
+**Note:**
 - Both set no cookies, store no IP, derive country from the timezone and say no banner is needed.
 - Simple Analytics infers unique visits from the Referer; Sealmetrics groups a visit with a short-lived in-memory marker and reports entrances.
 - Simple Analytics is minimal with a free plan; Sealmetrics adds attribution, e-commerce depth, API on every plan and AI.
-:::
 
 ## Related documentation
 

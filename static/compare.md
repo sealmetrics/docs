@@ -1,20 +1,20 @@
 ---
 title: "Sealmetrics compared with other analytics tools"
-sidebar_position: 1
-description: How Sealmetrics compares with GA4, Matomo, Plausible, Fathom, Piwik PRO and Simple Analytics on identifiers, IP handling, data residency, consent and script size.
-tags: [comparison, ga4, matomo, plausible, fathom, piwik-pro, simple-analytics]
-keywords:
-  - sealmetrics vs google analytics
-  - sealmetrics vs matomo
-  - sealmetrics vs plausible
-  - sealmetrics vs fathom
-  - sealmetrics vs piwik pro
-  - sealmetrics vs simple analytics
-  - cookieless analytics comparison
-  - privacy analytics comparison
+description: "How Sealmetrics compares with GA4, Matomo, Plausible, Fathom, Piwik PRO and Simple Analytics on identifiers, IP handling, data residency, consent and script size."
+canonical_url: "https://docs.sealmetrics.com/compare"
+lang: "en"
+date_generated: "2026-09-04T11:01:07.053Z"
+source_hash: "c61e3a792019d07985360e01f791d323c7e3194d9cd9d171b232aeb6fa833940"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "compare/index.mdx"
+publisher: "Sealmetrics"
 ---
 
 # Sealmetrics compared with other analytics tools
+
+Canonical page: https://docs.sealmetrics.com/compare
 
 This section compares Sealmetrics with the six analytics tools most often evaluated alongside it. Each page follows the same structure: a side-by-side table, an explanation of how each tool identifies visitors, an honest list of cases where the other tool is the better choice, and a short FAQ.
 
