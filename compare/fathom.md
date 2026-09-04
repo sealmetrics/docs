@@ -1,0 +1,84 @@
+---
+title: "Sealmetrics vs Fathom: EU Isolation vs EU-only storage"
+description: "Fathom hashes IP and user agent daily and stores anonymised data in the US after EU processing. Sealmetrics never hashes the IP and keeps all data in Dublin."
+canonical_url: "https://docs.sealmetrics.com/compare/fathom"
+lang: "en"
+date_generated: "2026-09-04T11:01:07.053Z"
+source_hash: "72eb1b7de5df40f4f22e4759660be3ff4e216c7e91e6968a534f8ffdceefb203"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "compare/fathom.mdx"
+publisher: "Sealmetrics"
+---
+
+# Sealmetrics vs Fathom: EU Isolation vs EU-only storage
+
+Canonical page: https://docs.sealmetrics.com/compare/fathom
+
+Sealmetrics and Fathom Analytics are both cookieless tools whose vendors say no consent banner is needed. The main difference is where the data goes and what the identifier is made of: Fathom builds a daily hash from the visitor's IP and user agent, processes EU IPs inside the EU and then stores the anonymised data on US servers; Sealmetrics builds no hash from the IP and stores everything in Dublin, Ireland.
+
+## Side-by-side
+
+Fathom facts checked 2026-09-04 on usefathom.com; each row links to the page it was read on.
+
+| Criterion | Sealmetrics | Fathom Analytics |
+|---|---|---|
+| Company / HQ | Sealmetrics, EU company | Victoria, British Columbia, Canada ([source](https://usefathom.com/privacy)) |
+| Hosting model | Managed cloud only | Managed cloud only; the original open-source project is no longer the product ([source](https://usefathom.com/about)) |
+| Licence | Proprietary | Proprietary hosted product ([source](https://usefathom.com/about)) |
+| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | User signature hash of a per-site daily salt, IP address, user agent and hostname, deleted at midnight ([source](https://usefathom.com/data)) |
+| Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Input to the hash; raw IPs kept only for security, up to 24 h ([source](https://usefathom.com/data)) |
+| Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | EU visitors' IPs stripped on EU infrastructure; anonymised data "stored on our main US servers" ([source](https://usefathom.com/features/eu-isolation)) |
+| Vendor's position on consent | No banner needed for measurement | "You don't need to clutter your site with a cookie banner for analytics" ([source](https://usefathom.com/features)) |
+| Cookies | None | "We don't use cookies or similar technology" ([source](https://usefathom.com/privacy)) |
+| Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; the vendor cites typical load times of about 30 ms ([source](https://usefathom.com/data)) |
+| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | 7-day free trial, no credit card; no free plan — see [pricing](https://usefathom.com/pricing) |
+
+## How each one measures visitors
+
+Fathom's data page describes a "user signature hash" built from a salt that is unique per site and recycled at midnight, plus the IP address, user agent and hostname. The hash lets Fathom count unique visitors for a day and is deleted when the salt rotates. EU Isolation adds a routing layer: EU visitors' requests are handled on European infrastructure where the IP is stripped, and the resulting anonymised record is then stored in the US. Fathom's position is that no personal data is associated with what reaches the US servers.
+
+Sealmetrics never builds a hash from the IP. It records timestamp, user agent, URL and referrer per hit, with a session marker that lives in memory for around two hours and is scoped to one site by design. The IP is used in memory for anti-abuse checks and dropped; country comes from the browser timezone. All processing and storage happens in Dublin — there is no second region for the aggregated data to move to. The trade-off is the same one every consentless design makes: no unique visitors, no session duration, no journeys.
+
+## When Fathom is the better choice
+
+- You want daily unique visitor counts without cookies and accept a daily-rotated hash of the IP as the mechanism.
+- Your primary audience is outside the EU and a US-stored dashboard is not a review question for you.
+- You want a simple, single-dashboard product with a fast trial and a low entry price.
+
+## When Sealmetrics is the better choice
+
+- Your data residency requirement is "EU only, one region", not "EU-processed then stored elsewhere".
+- You do not want any visitor hash derived from the IP, even one that expires at midnight.
+- You need conversion and revenue attribution with item-level properties, an API on every plan, and an AI assistant ([LENS](/lens)) that is free to run on your own LLM key.
+
+## Frequently asked questions
+
+### Where does Fathom store EU visitor data?
+
+Per Fathom's EU Isolation page, EU visitors' IP addresses are stripped on EU-located infrastructure and the anonymised data is then stored on Fathom's main US servers. Sealmetrics stores all customer analytics data in Dublin and transfers none of it outside the EU.
+
+### Does Fathom process IP addresses?
+
+Yes. The IP is one input to Fathom's daily user signature hash, and raw IPs are retained for security purposes for up to 24 hours. Sealmetrics never persists the IP and never uses it to derive an identifier or a location.
+
+### Do either of these tools need a cookie banner?
+
+Both vendors say no for their own product. Neither claim has been validated by a supervisory authority — no such scheme exists for analytics tools — and Sealmetrics documents its reasoning as [self-assessments](/compliance).
+
+### Which reports does Sealmetrics not have that Fathom does?
+
+Unique visitors and time on site. Sealmetrics reports entrances, bounce rate, engagement rate and pages per session in aggregate instead. See the [Metrics Reference](/reports/definitions).
+
+**Note:**
+- Both are cookieless with no banner required per their own docs.
+- Fathom hashes IP and user agent daily and stores anonymised data in the US; Sealmetrics hashes nothing from the IP and stores only in Dublin.
+- Fathom reports daily unique visitors; Sealmetrics reports entrances and adds e-commerce depth and AI.
+
+## Related documentation
+
+- [Data Location & Retention](/security-privacy/data-location)
+- [What We Track vs What We Don't](/security-privacy/what-we-track)
+- [How Sealmetrics determines the country without IP addresses](/security-privacy/country-detection)
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics)

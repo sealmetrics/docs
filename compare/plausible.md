@@ -1,0 +1,84 @@
+---
+title: "Sealmetrics vs Plausible: two cookieless tools, one hashes the IP"
+description: "Plausible identifies visitors with a daily hash of IP and user agent; Sealmetrics never derives an identifier from the IP. Both cookieless, both EU-hosted."
+canonical_url: "https://docs.sealmetrics.com/compare/plausible"
+lang: "en"
+date_generated: "2026-09-04T11:01:07.053Z"
+source_hash: "a501416e05ad0afa09e1b26b7a5d16e1432ae363516343da1b5ccbb26e54fa38"
+content_type: "documentation"
+owner: "docs"
+llm_priority: "useful"
+source_file: "compare/plausible.mdx"
+publisher: "Sealmetrics"
+---
+
+# Sealmetrics vs Plausible: two cookieless tools, one hashes the IP
+
+Canonical page: https://docs.sealmetrics.com/compare/plausible
+
+Sealmetrics and Plausible are both cookieless, EU-hosted analytics tools that state no consent banner is needed. The main difference is how they tell two pageviews apart: Plausible computes a daily unique-visitor hash from the IP address and user agent, while Sealmetrics never derives any identifier from the IP and does not report unique visitors at all.
+
+## Side-by-side
+
+Plausible facts checked 2026-09-04 on plausible.io; each row links to the page it was read on.
+
+| Criterion | Sealmetrics | Plausible |
+|---|---|---|
+| Company / HQ | Sealmetrics, EU company | Incorporated in Estonia, EU ([source](https://plausible.io/data-policy)) |
+| Hosting model | Managed cloud only | Managed cloud or self-hosted Community Edition ([source](https://plausible.io/docs/self-hosting)) |
+| Licence | Proprietary | AGPLv3 ([source](https://plausible.io/about)) |
+| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | `hash(daily_salt + website_domain + ip_address + user_agent)`, salt rotated every 24 h ([source](https://plausible.io/data-policy)) |
+| Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Input to the hash and to geolocation; raw IP not stored ([source](https://plausible.io/data-policy)) |
+| Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | Hetzner servers in Falkenstein, Germany ([source](https://plausible.io/privacy-focused-web-analytics)) |
+| Vendor's position on consent | No banner needed for measurement | "No need for cookie banners or GDPR consent" ([source](https://plausible.io/)) |
+| Cookies / local storage | None | "We do not use cookies, browser cache or local storage" ([source](https://plausible.io/data-policy)) |
+| Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | 2.5 KB, stated by the vendor ([source](https://plausible.io/lightweight-web-analytics)) |
+| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | 30-day free trial, no credit card; no free plan — see [pricing](https://plausible.io/) |
+
+## How each one measures visitors
+
+Plausible's data policy spells out its identifier: a hash of a daily salt, the site domain, the visitor's IP address and user agent. The salt is discarded every 24 hours, so the same person becomes a new visitor the next day and cannot be followed across sites. Raw IPs and user agents are never written to disk. This gives Plausible a daily unique-visitor count and visit duration while staying cookieless, at the price of feeding the IP into the identifier.
+
+Sealmetrics does not compute a visitor hash. Each hit is stored with timestamp, user agent, URL and referrer; a session marker held in memory for around two hours groups pageviews within a visit and is not derived from the IP. The IP is seen at the network layer, used in memory for anti-abuse checks and never persisted or used for geolocation — country comes from the browser timezone. The consequence is that Sealmetrics reports entrances rather than unique visitors, and has no visit-duration metric.
+
+## When Plausible is the better choice
+
+- You want daily unique visitors and visit duration without cookies, and are comfortable that the identifier is a rotated hash of the IP.
+- You want to self-host under an open-source licence or audit the source before trusting the privacy claims.
+- You run a small site and want a deliberately minimal dashboard at a low entry price.
+
+## When Sealmetrics is the better choice
+
+- Your legal review treats a hashed IP as derived from personal data and you would rather have no identifier to explain at all.
+- You need item-level e-commerce data, custom channel grouping, an API on every plan and an AI layer ([LENS](/lens), included in every paid plan and free to run on your own LLM key).
+- You want retention fixed at 24 months across the board, with no per-plan variation to document.
+
+## Frequently asked questions
+
+### Does Plausible store my visitors' IP addresses?
+
+No. Plausible's data policy says raw IPs and user agents are never stored; the IP is used as an input to the daily hash and to derive location, then dropped. Sealmetrics does not use the IP for either purpose.
+
+### Which tool needs a cookie banner?
+
+Neither, according to each vendor's own documentation. Both set no cookies and use no local storage. Both statements are vendor positions; no supervisory authority certifies analytics tools, and Sealmetrics' compliance pages are [self-assessments](/compliance).
+
+### Which script is lighter?
+
+Plausible publishes 2.5 KB gzipped for its script; the Sealmetrics tracker measured 1.1 KB gzipped in August 2026. Both are small enough that the difference rarely matters — the contrast with GA4 at roughly 145 KB is the one that does.
+
+### Can I run both together?
+
+Yes. Neither tool interferes with the other, and a parallel run is the simplest way to compare Plausible's daily uniques against Sealmetrics' entrances on your own traffic.
+
+**Note:**
+- Both are cookieless and EU-hosted with no banner required per their own docs.
+- Plausible's daily identifier includes the IP address; Sealmetrics derives nothing from it.
+- Plausible reports unique visitors and is open source; Sealmetrics reports entrances and adds e-commerce depth and AI.
+
+## Related documentation
+
+- [Sealmetrics vs Plausible — full blog comparison](/blog/sealmetrics-vs-plausible)
+- [What We Track vs What We Don't](/security-privacy/what-we-track)
+- [How Sealmetrics determines the country without IP addresses](/security-privacy/country-detection)
+- [Metrics Reference](/reports/definitions)
