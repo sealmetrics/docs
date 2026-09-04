@@ -3,8 +3,8 @@ title: "Stats Endpoints"
 description: "Analytics data endpoints for retrieving traffic, conversion, and engagement metrics."
 canonical_url: "https://docs.sealmetrics.com/api/stats"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "eff61c1089ab677ecfc5ab51735cd6c63a6933f90b978f939b998d9fd2597304"
+date_generated: "2026-09-01T18:53:38.400Z"
+source_hash: "05671dfd004223687a29d83b330b069d12fa902583c650fda54b3090fd566418"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -635,6 +635,25 @@ curl "https://my.sealmetrics.com/api/v1/stats/conversions/raw?site_id=acme&start
   "has_prev": false
 }
 ```
+
+**Warning:**
+`utm_source`, `utm_medium`, `utm_campaign`, `utm_term` and `utm_content` at the **root of the row** are the attribution Sealmetrics resolved for that conversion. Those are the values to analyse.
+
+If you also see UTM keys **inside `properties`**, they are not a second opinion from us — they are values *your own tracking code sent* with the conversion call, stored verbatim like any other custom property. Sealmetrics never writes into `properties`.
+
+The two can disagree, and the disagreement is usually meaningful rather than a bug:
+
+```json
+{
+  "utm_source": "Direct",
+  "utm_medium": "Direct",
+  "properties": { "utm_source": "", "utm_medium": "" }
+}
+```
+
+Here the page passed empty UTMs and Sealmetrics resolved the visit as Direct. Reading `properties.utm_source` would give you a blank where the answer is "Direct".
+
+**Rule:** for attribution, always read the root-level fields. Treat UTM keys inside `properties` as your own raw input, useful only for debugging your tagging. If you don't want them duplicated, stop sending them in the conversion call — the attribution is captured independently.
 
 **Tip:**
 - **`/stats/conversions/raw`** — one row per conversion with full dimensions. Use for analysis, attribution, or feeding a warehouse incrementally.

@@ -3,7 +3,7 @@ title: "Do Temporary Session Identifiers (Session IDs) Require Consent Under GDP
 description: "When a session ID triggers the ePrivacy consent requirement and when it does not, and why Sealmetrics' short-lived, context-derived marker falls on the no-consent side."
 canonical_url: "https://docs.sealmetrics.com/legal/gdpr-and-eprivacy/do-session-ids-require-consent"
 lang: "en"
-date_generated: "2026-09-03T23:35:47.317Z"
+date_generated: "2026-09-04T00:07:24.876Z"
 source_hash: "bc8fc0789c39dc156441c22bcb58b9626f22daa6270c19489d821f74111fcdba"
 content_type: "trust-and-legal"
 owner: "legal"

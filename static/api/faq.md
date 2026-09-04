@@ -3,8 +3,8 @@ title: "API FAQ"
 description: "Answers to common API integration questions — account_id vs site_id, event-level conversions, JWT scopes, and working /exports/stream examples."
 canonical_url: "https://docs.sealmetrics.com/api/faq"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "95ff6846bdcdf52b097754a8d446307d02d2dfba30b2734b7a4a566370475d54"
+date_generated: "2026-09-01T18:53:38.400Z"
+source_hash: "ce9ffc400c40925ef2dea5dab36c90a78d46f45bc91cd3340beba2b706f61187"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -47,6 +47,28 @@ If you only need to break down by **one** property at a time and want server-sid
 For per-item attribution on conversions (one row per product in a purchase, joinable by `timestamp_utc` or a shared property like `order_id`), use **`GET /api/v1/stats/conversion-items/raw`**.
 
 Both endpoints share the same constraints as `/stats/conversions/raw` (31-day max range, `page_size` up to 10,000, 2-year ClickHouse TTL).
+
+---
+
+## My conversion rows have UTMs twice — at the root and inside `properties`. Which one is real?
+
+**The root-level ones.** `utm_source`, `utm_medium`, `utm_campaign`, `utm_term` and `utm_content` at the root of the row are the attribution Sealmetrics resolved for that conversion. Analyse those.
+
+UTM keys **inside `properties`** are values your own tracking code sent along with the conversion call. Sealmetrics stores them verbatim, like any other custom property, and never writes into `properties` itself. There is no hierarchy between the two blocks and they do not represent different moments in the attribution — one is our answer, the other is your input.
+
+They can disagree, and that is usually informative:
+
+```json
+{
+  "utm_source": "Direct",
+  "utm_medium": "Direct",
+  "properties": { "utm_source": "", "utm_medium": "" }
+}
+```
+
+The page sent empty UTMs; Sealmetrics resolved the visit as Direct. Reading `properties.utm_source` would hand you a blank where the answer is "Direct".
+
+If the duplication is noise for your pipeline, stop passing UTMs in the conversion call — attribution is captured independently of what you send.
 
 ---
 

@@ -1305,12 +1305,25 @@ If you're upgrading from Sealmetrics v1, the Migration Wizard imports your histo
 | **Conversions** | Yes | Your Conversions report |
 | **Microconversions** | Yes | Your Microconversions report |
 | **Pageviews** (pre-aggregated) | Yes | Your Pages report (URL → name, totals → page views, entrances) |
-| Terms / OS / Device dimensions | Yes | Rolled into your Sources & Devices reports |
+| Terms | Yes | Rolled into your Sources report |
+| Device on **conversions** | Yes | Your Conversions report keeps it |
 
 All available data types are always migrated together — you don't need to (and can't) pick a subset. Properties on conversions and microconversions are preserved.
 
-**Info:**
-`engaged_entrances` is always **0** on migrated rows — Sealmetrics v1 didn't record this signal. Your v2 bounce-rate calculation will only be meaningful for traffic captured after you installed the v2 pixel.
+## What the migrated period won't have
+
+Five things are missing from the imported range, and none of them can be backfilled later. They are limits of what v1 recorded, not of the importer — so plan your year-on-year comparisons around them rather than filing them as bugs.
+
+| Missing | What you'll see | Why |
+|---------|-----------------|-----|
+| **Channel grouping** | Migrated traffic reports as **Unassigned** in the Channels report | v1 didn't store the channel classification, and Sealmetrics classifies at ingest time — there is nothing to reclassify after the fact |
+| **Hourly breakdown** | Migrated days resolve to daily totals only | v1 stored these rows pre-aggregated by day |
+| **Engagement / bounce rate** | `engaged_entrances` is always **0**, so migrated days read as 100% bounce | v1 didn't record this signal |
+| **Traffic by device, browser and OS** | No device, browser or OS split on migrated traffic. Your **conversions** are unaffected — those do carry device | v1 aggregated its traffic rows without keeping the split |
+| **Landing Pages report** | Empty for the migrated range | The per-page traffic is still there, just in the **Pages** report instead — nothing is lost, only reported elsewhere |
+
+**Warning:**
+A year-on-year or period-over-period comparison that spans the migration date will look like a collapse in engaged traffic and a spike in Unassigned channels. That's the seam, not a change in your traffic. When you need a like-for-like read, compare periods that sit entirely on one side of it.
 
 ## How the wizard works
 
@@ -1398,7 +1411,7 @@ Once the job reaches `completed`, imported data is available immediately in your
 
 - The **Conversions** and **Microconversions** reports show the merged history.
 - The **Pages** report includes v1 URLs with their page views and entrances.
-- Channel grouping is applied to imported rows using the **default v2 rules** (any custom channel rules you add later will only affect new traffic — same rule as everywhere else in Sealmetrics: **classification happens at ingest time**).
+- Channel grouping is **not** applied to imported rows — they report as **Unassigned**. Sealmetrics classifies traffic into channels at ingest time and v1 didn't store that classification, so there is nothing to carry over and nothing to recompute afterwards. Custom channel rules you create later affect new traffic only, never the migrated range. See [What the migrated period won't have](#what-the-migrated-period-wont-have).
 
 ## Troubleshooting
 
@@ -21489,28 +21502,6 @@ If you see **zero pageviews**, your manual pageview tag is not firing. Re-check 
 
 
 
-## BigCommerce
-
-
-URL: https://docs.sealmetrics.com/integrations/ecommerce/bigcommerce
-
-
-# BigCommerce
-
-The native BigCommerce integration is currently in private beta.
-
-In the meantime, you can track a BigCommerce storefront with the generic [JavaScript tracker](/implementation/tracker/installation) plus [manual e-commerce events](/implementation/ecommerce-conversion-tracking). Contact [support](https://sealmetrics.com/contact) to join the beta.
-
-## Related documentation
-
-- [Installation](/implementation/tracker/installation) — install the generic JavaScript tracker on your storefront in the meantime.
-- [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) — step-by-step setup for tracking product, cart, and purchase events manually.
-- [Shopify](/integrations/ecommerce/shopify) — a fully supported hosted-store integration.
-- [WooCommerce](/integrations/ecommerce/woocommerce) — a fully supported store integration.
-- [Integrations Overview](/integrations) — browse every platform Sealmetrics supports.
-
-
-
 ## MCP Server for AI Assistants
 
 
@@ -27905,6 +27896,25 @@ curl "https://my.sealmetrics.com/api/v1/stats/conversions/raw?site_id=acme&start
   "has_prev": false
 }
 ```
+
+**Warning:**
+`utm_source`, `utm_medium`, `utm_campaign`, `utm_term` and `utm_content` at the **root of the row** are the attribution Sealmetrics resolved for that conversion. Those are the values to analyse.
+
+If you also see UTM keys **inside `properties`**, they are not a second opinion from us — they are values *your own tracking code sent* with the conversion call, stored verbatim like any other custom property. Sealmetrics never writes into `properties`.
+
+The two can disagree, and the disagreement is usually meaningful rather than a bug:
+
+```json
+{
+  "utm_source": "Direct",
+  "utm_medium": "Direct",
+  "properties": { "utm_source": "", "utm_medium": "" }
+}
+```
+
+Here the page passed empty UTMs and Sealmetrics resolved the visit as Direct. Reading `properties.utm_source` would give you a blank where the answer is "Direct".
+
+**Rule:** for attribution, always read the root-level fields. Treat UTM keys inside `properties` as your own raw input, useful only for debugging your tagging. If you don't want them duplicated, stop sending them in the conversion call — the attribution is captured independently.
 
 **Tip:**
 - **`/stats/conversions/raw`** — one row per conversion with full dimensions. Use for analysis, attribution, or feeding a warehouse incrementally.
@@ -34417,6 +34427,17 @@ Conversion events aggregated by day and attribution dimensions.
 | `revenue` | NUMERIC | Total revenue |
 | `properties` | JSON | Conversion properties |
 
+**Note:**
+Everything your tracking code sends as a custom property on a conversion or microconversion — `transaction_id`, `event_type`, your own UTM copies, order metadata — lands inside the `properties` JSON field. It never becomes a top-level column, which is why a field list of the export shows only the standard dimensions above.
+
+Read individual keys with `JSON_VALUE`:
+
+```sql
+JSON_VALUE(properties, '$.transaction_id') AS transaction_id
+```
+
+Full query examples: [Custom Conversion Properties](/platform/settings/integrations/bigquery#custom-conversion-properties).
+
 #### `fact_microconversions`
 
 | Field | Type | Description |
@@ -37135,6 +37156,28 @@ Both endpoints share the same constraints as `/stats/conversions/raw` (31-day ma
 
 ---
 
+## My conversion rows have UTMs twice — at the root and inside `properties`. Which one is real?
+
+**The root-level ones.** `utm_source`, `utm_medium`, `utm_campaign`, `utm_term` and `utm_content` at the root of the row are the attribution Sealmetrics resolved for that conversion. Analyse those.
+
+UTM keys **inside `properties`** are values your own tracking code sent along with the conversion call. Sealmetrics stores them verbatim, like any other custom property, and never writes into `properties` itself. There is no hierarchy between the two blocks and they do not represent different moments in the attribution — one is our answer, the other is your input.
+
+They can disagree, and that is usually informative:
+
+```json
+{
+  "utm_source": "Direct",
+  "utm_medium": "Direct",
+  "properties": { "utm_source": "", "utm_medium": "" }
+}
+```
+
+The page sent empty UTMs; Sealmetrics resolved the visit as Direct. Reading `properties.utm_source` would hand you a blank where the answer is "Direct".
+
+If the duplication is noise for your pipeline, stop passing UTMs in the conversion call — attribution is captured independently of what you send.
+
+---
+
 ## What value do I pass for `account_id`? My `site_id` is being rejected.
 
 Both parameters refer to **the same value: the site slug** (the identifier shown in the dashboard URL, e.g. `acme` in `my.sealmetrics.com/acme/...`).
@@ -38813,7 +38856,7 @@ Adding consentless analytics to any website requires one line of code:
 
 No consent management platform needed. No cookie banner configuration. No Consent Mode setup. The tracker loads asynchronously (1.3 KB gzipped), detects SPA navigation automatically, and begins capturing data immediately.
 
-For platform-specific installation, see guides for [WordPress](/integrations/cms/wordpress), [WooCommerce](/integrations/ecommerce/woocommerce), [Shopify](/integrations/ecommerce/bigcommerce), [Next.js](/integrations/frameworks/nextjs), and [more integrations](/integrations).
+For platform-specific installation, see guides for [WordPress](/integrations/cms/wordpress), [WooCommerce](/integrations/ecommerce/woocommerce), [Shopify](/integrations/ecommerce/shopify), [Next.js](/integrations/frameworks/nextjs), and [more integrations](/integrations).
 
 ---
 
@@ -53459,6 +53502,11 @@ Invitations can only be sent with the **Admin** or **Member** role. To make some
 
 The invited person will receive an email with a link to join. If they do not have a Sealmetrics account yet, they can create one as part of the invitation process.
 
+**Note:**
+An invitation is sent first and takes effect when it is accepted and activated, so the two sides of the screen can disagree for a while: your **Members** list may already show the person with access to a site while their own account still doesn't list it.
+
+If that happens, it usually resolves on its own — have them confirm they accepted the invitation email, then re-check in a few minutes before treating it as a permissions problem. This is worth knowing when you create several sites at once and expect the whole team to see them immediately.
+
 For more details on managing your team, see [Users & Teams](./settings/account/users).
 
 ---
@@ -55037,7 +55085,19 @@ Preservation depends on the original session still being active when the visitor
 **Info:**
 Passthrough referrers are currently managed through the **Sealmetrics API**, not from a dashboard screen. Create, update and inspect them with the API calls shown below. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete request/response schema.
 
-Passthrough referrers are scoped to an account. Register one with your API key:
+### Built-in vs. account-specific
+
+There are two layers, and knowing which one covers you saves you from registering domains that are already handled:
+
+- **Built-in** — Sealmetrics maintains a list of common passthrough domains, chiefly the major payment gateways, that applies to **every account** with no configuration on your side. This is why most standard checkout flows attribute correctly out of the box.
+- **Account-specific** — everything else: your own PSP, a regional gateway, a booking engine, an SSO provider, a sibling domain in your group. You register these yourself, per account, with the API calls below.
+
+If a domain is showing up as a referral in your reports, it isn't covered by the built-in list — register it for your account.
+
+**Warning:**
+They are scoped to the account you register them against. Opening a new market, brand or property means registering the same domains again for that account — they are not inherited, and nothing warns you. If you run many accounts, make this a step in your site-provisioning checklist.
+
+Register a domain for your account with your API key:
 
 ```bash
 curl -X POST "https://my.sealmetrics.com/api/v1/passthrough-referrers?account_id=YOUR_ACCOUNT_ID" \
@@ -56068,6 +56128,10 @@ You can configure Sealmetrics to **ignore specific referrers**, ensuring that on
 
 **Info:**
 Payment/POS domains are excluded by registering them as **passthrough referrers** through the **Sealmetrics API** — there is no dashboard screen for this. See the [Passthrough Referrers API reference](/api/passthrough-referrers) for the complete schema.
+
+**Check whether you need to do anything first.** Sealmetrics ships with a built-in list of common payment gateways that applies to every account, so the most standard checkout flows are already covered. If your payment domain still appears as a referral in your reports, it isn't on that list and you need to register it yourself — see [Built-in vs. account-specific](/platform/tracking-and-attribution-settings/passthrough-referrers#built-in-vs-account-specific).
+
+Entries you register are scoped to **one account**. If you run several accounts — one per market, brand or property — register the domain for each of them; it is not inherited when you create a new account.
 
 Register the payment domain for your account with your API key:
 
@@ -58749,15 +58813,15 @@ If for any reason you cannot inject the stub (restrictive policies, no access to
 ```javascript
 if (typeof window.sealmetrics !== "undefined" && typeof window.sealmetrics.micro === "function") {
   sealmetrics.micro("Add_to_cart", {
-    module_title:     google_tag_manager["rm"]["208828905"](16),
-    click_text:       google_tag_manager["rm"]["208828905"](17),
-    page_title:       google_tag_manager["rm"]["208828905"](18),
-    page_subcategory: google_tag_manager["rm"]["208828905"](19),
-    cookies:          google_tag_manager["rm"]["208828905"](20),
-    type_appointment: google_tag_manager["rm"]["208828905"](21)
+    product_id:   {{Product ID}},
+    product_name: {{Product Name}},
+    category:     {{Product Category}},
+    page_title:   {{Page Title}}
   });
 }
 ```
+
+The `{{...}}` placeholders are GTM variable references — replace them with your own Data Layer variables.
 
 For conversions:
 
@@ -59392,7 +59456,7 @@ URL: https://docs.sealmetrics.com/troubleshooting/lower-numbers-than-other-tools
 
 # Numbers Lower Than Another Tool
 
-Two analytics tools measuring the same site **never report identical numbers** — they count different things, filter different traffic, and cut the day at different moments. Before treating a gap as a tracking bug, check whether it is explained by these three legitimate model differences. If, after accounting for them, the gap is still large and unexplained, then troubleshoot it as missing data.
+Two analytics tools measuring the same site **never report identical numbers** — they count different things, filter different traffic, and cut the day at different moments. Before treating a gap as a tracking bug, check whether it is explained by these legitimate model differences. If, after accounting for them, the gap is still large and unexplained, then troubleshoot it as missing data.
 
 ---
 
@@ -59427,6 +59491,27 @@ So the *direction* of the gap is diagnostic:
 | Sealmetrics drastically below, or the ratio suddenly changed | A real tracking problem — go to the checklist below |
 
 The full side-by-side comparison of both measurement models is in [GA4 vs Sealmetrics](/faq/ga4-vs-sealmetrics).
+
+---
+
+## 4. Conversions on pages that navigate away immediately
+
+This one is specific to **conversion counts**, and it is the usual answer when your own tag manager or server log says an event fired but it never reaches the Conversions report.
+
+A conversion call has to execute *before* the browser leaves the page. Sealmetrics dispatches hits with `navigator.sendBeacon`, which survives page unload by design — so once the call runs, the send is safe. The risk is the call never running: a tag bound to DOM-ready or window-load on a page that redirects a few hundred milliseconds after it opens.
+
+The flows where this concentrates are the ones built out of redirects — links from business listings, ad platforms that bounce through a redirector, and any chain that lands, counts, and forwards.
+
+**How to tell it apart from a missing pixel.** Take the conversions you believe are missing and split them in two:
+
+| What you find for that visit | What it means |
+|---|---|
+| No pageview recorded at all | The tracker never ran on that domain or page — a coverage problem, not a timing one. Check the pixel is present on every hostname in the flow ([Unauthorized domain](/troubleshooting/unauthorized-domain)) |
+| Pageview recorded, conversion missing | The visit was tracked but the conversion call didn't execute in time — a timing problem. Move the call earlier, off DOM-ready and onto the earliest event that carries the data you need |
+
+A domain showing **100% loss** is always the first case, and it is worth checking before anything else: it means the pixel simply isn't there.
+
+**If you are comparing against a Sealmetrics v1 period,** expect v1 to be lower here. v1's transport did not survive fast navigation the way `sendBeacon` does, so redirect-heavy flows lost a meaningful share of conversions on v1 that v2 now captures. A step up in conversions after migrating is that gap closing, not double-counting.
 
 ---
 

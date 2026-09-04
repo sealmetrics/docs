@@ -14,56 +14,39 @@ import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import ContentVisibility from '@theme/ContentVisibility';
 import DocFeedback from '@site/src/components/DocFeedback';
+import docDates from '@site/src/data/doc-dates.json';
 import styles from './styles.module.css';
 
-// Which schema.org type each section emits. TechArticle for anything a
-// developer or operator follows step by step; Article for the explanatory and
-// legal material (compliance self-assessments, guides, use cases, FAQ) where
-// "technical" would be a stretch. Sections not listed (root intro, changelog,
-// home) emit nothing here — the home page carries SoftwareApplication itself.
-const ARTICLE_TYPE_BY_PREFIX = [
-  ['/api/', 'TechArticle'],
-  ['/implementation/', 'TechArticle'],
-  ['/getting-started/', 'TechArticle'],
-  ['/reports/', 'TechArticle'],
-  ['/integrations/', 'TechArticle'],
-  ['/platform/', 'TechArticle'],
-  ['/security-privacy/', 'TechArticle'],
-  ['/lens/', 'TechArticle'],
-  ['/troubleshooting/', 'TechArticle'],
-  ['/billing/', 'TechArticle'],
-  ['/web-analytics-prompts/', 'TechArticle'],
-  ['/ga4-migration', 'TechArticle'],
-  ['/compliance/', 'Article'],
-  ['/guides/', 'Article'],
-  ['/use-cases/', 'Article'],
-  ['/faq/', 'Article'],
-  ['/compare/', 'Article'],
-];
+// Antes esto era una allow-list de ocho prefijos, y se quedó corta: dejaba
+// 93 páginas de documentación sin ningún schema de artículo — entre ellas las
+// 26 de /compliance, que son justo las que leen los DPO en las revisiones de
+// proveedor. Una allow-list hay que acordarse de ampliarla cada vez que nace
+// una sección, y nadie se acordó.
+//
+// Ahora se emite para toda la documentación. Este componente solo envuelve
+// DocItem, así que "toda la documentación" es exactamente eso: el blog tiene
+// su propio BlogPosting (con Person) por el plugin de blog, y las páginas de
+// /tags las genera Docusaurus como listados navegables y nunca pasan por aquí.
+//
+// El tipo sí depende de la sección: TechArticle para lo que un desarrollador u
+// operador sigue paso a paso, Article para el material explicativo y legal
+// (compliance, guides, use cases, FAQ, comparativas), donde "technical"
+// sería forzar el término. Lo que no encaje en la lista cae en TechArticle,
+// nunca en "sin schema".
+const ARTICLE_PREFIXES = ['/compliance/', '/guides/', '/use-cases/', '/faq/', '/compare/'];
 
 const ORGANIZATION_ID = 'https://sealmetrics.com/#organization';
 const SOFTWARE_ID = 'https://sealmetrics.com/#software';
 const WEBSITE_ID = 'https://docs.sealmetrics.com/#website';
 
 function articleTypeFor(permalink) {
-  const hit = ARTICLE_TYPE_BY_PREFIX.find(([p]) => permalink.startsWith(p));
-  return hit ? hit[1] : null;
-}
-
-// Frontmatter `date` (blog-style) or `last_update.date` are the only
-// publication dates we trust. Never derive datePublished from git: the first
-// commit of a file is a migration artefact for most of this site.
-function toIsoDate(value) {
-  if (!value) return undefined;
-  const d = value instanceof Date ? value : new Date(value);
-  return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
+  return ARTICLE_PREFIXES.some((p) => permalink.startsWith(p)) ? 'Article' : 'TechArticle';
 }
 
 function ArticleStructuredData() {
   const {metadata, frontMatter} = useDoc();
   const {siteConfig} = useDocusaurusContext();
-  const type = metadata?.permalink ? articleTypeFor(metadata.permalink) : null;
-  if (!type) {
+  if (!metadata?.permalink) {
     return null;
   }
   const url = `${siteConfig.url}${metadata.permalink}`;
@@ -71,12 +54,23 @@ function ArticleStructuredData() {
     frontMatter.image || '/img/sealmetrics-social-card.jpg'
   }`;
   const dateModified = metadata.lastUpdatedAt
-    ? toIsoDate(metadata.lastUpdatedAt)
+    ? new Date(metadata.lastUpdatedAt).toISOString()
     : undefined;
-  const datePublished = toIsoDate(frontMatter.date);
+  // Fecha de publicación = primer commit del fichero, precalculada en
+  // src/data/doc-dates.json (ver scripts/generate-doc-dates.mjs). Docusaurus
+  // solo expone lastUpdatedAt, y usar la de modificación como si fuera de
+  // publicación sería declarar algo falso.
+  //
+  // La clave es la ruta del fichero, no metadata.id: el frontmatter puede
+  // redefinir el id y entonces dejaríamos de encontrar la fecha. Si no hay
+  // entrada no se emite el campo — preferimos no decir nada a inventarlo.
+  const docKey = (metadata.source || '')
+    .replace(/^@site\/docs\//, '')
+    .replace(/\.mdx?$/, '');
+  const datePublished = docDates[docKey];
   const data = {
     '@context': 'https://schema.org',
-    '@type': type,
+    '@type': articleTypeFor(metadata.permalink),
     '@id': url,
     mainEntityOfPage: url,
     url,
@@ -84,6 +78,9 @@ function ArticleStructuredData() {
     name: metadata.title,
     description: metadata.description,
     inLanguage: 'en-US',
+    // Ancla cada página al WebSite y a la entidad de producto declarados en
+    // el @graph global (docusaurus.config.ts / docs/index.mdx), para que un
+    // consumidor pueda unir "esta página" con "este producto" sin adivinar.
     isPartOf: {'@id': WEBSITE_ID},
     about: {'@id': SOFTWARE_ID},
     image: {
@@ -91,7 +88,17 @@ function ArticleStructuredData() {
       url: imageUrl,
       contentUrl: imageUrl,
     },
-    author: {'@id': ORGANIZATION_ID},
+    // Inline, no una referencia `{@id}` pelada: la referencia es JSON-LD
+    // válido y Google la resuelve contra el nodo Organization del @graph,
+    // pero obliga a cualquier consumidor a cruzar dos <script> distintos
+    // para saber quién firma. `publisher` ya se declara así unas líneas
+    // más abajo; esto solo lo hace consistente.
+    author: {
+      '@type': 'Organization',
+      '@id': ORGANIZATION_ID,
+      name: 'Sealmetrics',
+      url: 'https://sealmetrics.com',
+    },
     publisher: {
       '@type': 'Organization',
       '@id': ORGANIZATION_ID,
@@ -125,6 +132,19 @@ function useDocTOC() {
   return {hidden, mobile, desktop};
 }
 
+// Firma visible. El schema ya declara la autoría, pero E-E-A-T es tanto lo
+// que leen los buscadores como lo que ve una persona evaluando si fiarse de
+// una página — y estas se leen en revisiones de proveedor. Va pegada al
+// bloque de "última actualización" que ya pinta DocItemFooter, de modo que
+// quién y cuándo queden juntos.
+function DocByline() {
+  return (
+    <div className={styles.docByline}>
+      Written and maintained by the <strong>Sealmetrics Team</strong>
+    </div>
+  );
+}
+
 export default function DocItemLayout({children}) {
   const docTOC = useDocTOC();
   const {metadata} = useDoc();
@@ -140,6 +160,7 @@ export default function DocItemLayout({children}) {
             <DocVersionBadge />
             {docTOC.mobile}
             <DocItemContent>{children}</DocItemContent>
+            <DocByline />
             <DocItemFooter />
             <DocFeedback />
           </article>
