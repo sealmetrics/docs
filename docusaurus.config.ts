@@ -119,14 +119,26 @@ const config: Config = {
           'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), accelerometer=(), gyroscope=()',
       },
     },
-    {
-      tagName: 'meta',
-      attributes: {
-        'http-equiv': 'Content-Security-Policy',
-        content:
-          "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pixel-pre.sealmetrics.com https://t.sealmetrics.com https://*.algolia.net https://*.algolianet.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self' https://sealmetrics.com;",
-      },
-    },
+    // Production only. `docusaurus start` serves an eval-based dev bundle
+    // (webpack's default devtool), and this policy has no 'unsafe-eval', so
+    // every dev run threw `EvalError: Evaluating a string as JavaScript
+    // violates the following CSP directive` — the stylesheet loaded, React
+    // never booted, and the page rendered as a bare background. Adding
+    // 'unsafe-eval' to the shipped policy would weaken the real site to fix a
+    // local-only problem, so the tag is omitted in development instead.
+    // `docusaurus build` sets NODE_ENV=production, so what ships is unchanged.
+    ...(process.env.NODE_ENV === 'production'
+      ? [
+          {
+            tagName: 'meta',
+            attributes: {
+              'http-equiv': 'Content-Security-Policy',
+              content:
+                "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://pixel-pre.sealmetrics.com https://t.sealmetrics.com https://*.algolia.net https://*.algolianet.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self' https://sealmetrics.com;",
+            },
+          },
+        ]
+      : []),
     {
       tagName: 'script',
       attributes: {
