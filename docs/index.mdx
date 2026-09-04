@@ -46,7 +46,14 @@ import ReportCards from '@site/src/components/ReportCards';
         "url": "https://sealmetrics.com/pricing"
       },
       "screenshot": "https://docs.sealmetrics.com/img/sealmetrics-social-card.jpg",
-      "provider": { "@id": "https://sealmetrics.com/#organization" }
+      "provider": { "@id": "https://sealmetrics.com/#organization" },
+      // Third-party listings of the PRODUCT go here, not on the Organization
+      // node: a directory that reviews the software is identifying the
+      // software. Only listings verified to be ours belong in sameAs — a URL
+      // here is a claim that the page is about this exact entity.
+      "sameAs": [
+        "https://www.capterra.com/p/237359/SEAL-Metrics/"
+      ]
     })}
   </script>
 </Head>
