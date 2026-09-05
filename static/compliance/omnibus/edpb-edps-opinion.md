@@ -3,8 +3,8 @@ title: "EDPB-EDPS Joint Opinion on the Digital Omnibus"
 description: "Official position of European data protection authorities on the Digital Omnibus proposal - concerns, support, and recommendations"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/edpb-edps-opinion"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "573592a98617f9ab73536ae11ee4c923be7dab528a3e7e0cbe72ff9466fa7124"
+date_generated: "2026-09-05T22:38:04.971Z"
+source_hash: "6910c13f9b78ecee8eb01a2290d282572b3e296fb7f043e323a3612ef4dd3b88"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -298,7 +298,7 @@ If the EDPB-EDPS recommendation for contextual advertising is adopted:
 ## Related Resources
 
 - [EU Digital Omnibus Overview](./index.md) - Complete guide to the proposal
-- [Cookie Consent Reform](./cookies-eprivacy.md) - Article 88a details
+- [Cookie Consent Reform](./cookie-consent-reform.md) - Article 88a details
 - [GDPR Amendments](./gdpr-changes.md) - Personal data definition, AI processing
 - [AI Act Amendments](./ai-act-amendments.md) - Article 88c legitimate interest
 - [Impact on Web Analytics](./impact-analytics.md) - What this means for analytics
