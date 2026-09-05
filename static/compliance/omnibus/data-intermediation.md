@@ -3,8 +3,8 @@ title: "Data Intermediation Services: From Mandatory to Voluntary"
 description: "Changes to data intermediation and data altruism rules under the Digital Omnibus"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/data-intermediation"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "fe18bcc755f5472a0c8f82ee770eb86562daa66dbb3083cd728546da45b3d5d7"
+date_generated: "2026-09-05T22:37:41.643Z"
+source_hash: "7c1adbf929d51247cac58fabd5c17af06c43af4a2540dfb42ccbfa1a71e96df2"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -556,7 +556,7 @@ Even under voluntary regime:
 
 - [Data Law Consolidation](./data-consolidation.md) - How DGA merges into Data Act
 - [SME and Small Mid-Cap Exemptions](./smes-small-midcaps.md) - Additional relief for SMC intermediaries
-- [Timeline and Implementation](./timeline-implementation.md) - When changes take effect
+- Timeline and Implementation - When changes take effect
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
 - [EDPB-EDPS Joint Opinion on the Digital Omnibus](./edpb-edps-opinion.md) - Regulators' position on intermediation oversight
 
