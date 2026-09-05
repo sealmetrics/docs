@@ -3,8 +3,8 @@ title: "GDPR Amendments in the Digital Omnibus"
 description: "Detailed analysis of GDPR changes: personal data definition, pseudonymization, AI training, breach notifications"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/gdpr-changes"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "3f1ebfde2b9800c3116443526bfdc5d1828b59777f09b5aa76ed0a2bf1b1599e"
+date_generated: "2026-09-05T22:39:49.430Z"
+source_hash: "ed83c937b08f61a5aa972bcdb6c327c13ba125523cb72dbd799dcf9332dc33aa"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -391,7 +391,7 @@ The **European Data Protection Board (EDPB)** will create:
 
 ## Related Resources
 
-- [Cookie Consent Reform](./cookies-eprivacy.md) - Details on Articles 88a and 88b
+- [Cookie Consent Reform](./index.md) - Details on Articles 88a and 88b
 - [Impact on Web Analytics](./impact-analytics.md) - How amendments affect analytics
 - [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory position on these amendments
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
