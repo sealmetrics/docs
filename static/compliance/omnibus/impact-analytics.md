@@ -3,8 +3,8 @@ title: "Impact on Web Analytics and Tracking"
 description: "How the Digital Omnibus affects web analytics, consent requirements, and consentless tracking solutions"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/impact-analytics"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "20afd7b5b63e840bf7f98ddf6f19710b5e6c305587dfc73357d9b75f2d1c8387"
+date_generated: "2026-09-05T22:40:07.764Z"
+source_hash: "5669ac9aacc3e0b4e6723ed730609aaaa93a4ac0cb8301038d8b81a5e92fa02d"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -570,7 +570,7 @@ If you need individual user tracking, cross-device tracking, or behavioral profi
 
 ## Related Resources
 
-- [Cookie Consent Reform](./cookies-eprivacy.md) - Full details on Article 88a
+- [Cookie Consent Reform](./cookies-eprivacy) - Full details on Article 88a
 - [GDPR Amendments](./gdpr-changes.md) - Other GDPR changes in the Omnibus
 - [EDPB-EDPS Joint Opinion](./edpb-edps-opinion.md) - Regulatory validation of analytics exemption
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
