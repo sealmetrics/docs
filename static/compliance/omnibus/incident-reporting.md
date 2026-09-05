@@ -3,8 +3,8 @@ title: "Single Entry Point for Incident Reporting"
 description: "New unified cybersecurity and data breach reporting system operated by ENISA"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/incident-reporting"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "613e3d86b74e0ba87d4ce71e077ed500793d0fecc45d04e466332ea101020946"
+date_generated: "2026-09-05T22:40:35.235Z"
+source_hash: "25ae6928019ca5b85ec5f0ec55153b805de53306f2d96dc5ce9011dd24e16d52"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -514,7 +514,7 @@ The Digital Omnibus establishes a **unified incident reporting system** operated
 
 ## Related Resources
 
-- [GDPR Amendments](./gdpr-changes.md) - Details on Article 33 threshold change
+- [GDPR Amendments](./index.md) - Details on Article 33 threshold change
 - [Timeline and Implementation](./timeline-implementation.md) - When single entry point launches
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
 - [EDPB-EDPS Joint Opinion on the Digital Omnibus](./edpb-edps-opinion.md) - Regulators' view on the raised breach-notification threshold
