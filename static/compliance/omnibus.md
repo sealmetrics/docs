@@ -3,8 +3,8 @@ title: "EU Digital Omnibus Regulation"
 description: "Complete guide to the EU Digital Omnibus Regulation (COM(2025) 837) simplifying GDPR, ePrivacy, and data legislation"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4e9c56c1b19f4b68ab01d9bd71b941d5015b39c2db140d7d2f96f65970c4525f"
+date_generated: "2026-09-06T16:36:03.970Z"
+source_hash: "626613b58d89714f9ce78e92173331a0e6e87212c5408b91325d9fb054be65d0"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -347,7 +347,7 @@ While the Commission projects significant banner reduction, legal analysts note 
 
 - **[Cookie Consent Reform](./cookies-eprivacy.md)** - Detailed analysis of Articles 88a and 88b, cookie banner elimination, and browser signals
 - **[GDPR Amendments](./gdpr-changes.md)** - Personal data definition, AI processing, breach notifications, research exemptions
-- **[Data Law Consolidation](./data-consolidation.md)** - How 5 separate data laws are merged into 2
+- **Data Law Consolidation** - How 5 separate data laws are merged into 2
 - **[Data Intermediation Services](./data-intermediation.md)** - Voluntary regime for trusted data sharing platforms
 
 ### Implementation & Compliance

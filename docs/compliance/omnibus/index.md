@@ -342,7 +342,7 @@ While the Commission projects significant banner reduction, legal analysts note 
 
 - **[Cookie Consent Reform](./cookies-eprivacy.md)** - Detailed analysis of Articles 88a and 88b, cookie banner elimination, and browser signals
 - **[GDPR Amendments](./gdpr-changes.md)** - Personal data definition, AI processing, breach notifications, research exemptions
-- **[Data Law Consolidation](./data-consolidation.md)** - How 5 separate data laws are merged into 2
+- **Data Law Consolidation** - How 5 separate data laws are merged into 2
 - **[Data Intermediation Services](./data-intermediation.md)** - Voluntary regime for trusted data sharing platforms
 
 ### Implementation & Compliance
