@@ -3,8 +3,8 @@ title: "EU Digital Omnibus Regulation"
 description: "Complete guide to the EU Digital Omnibus Regulation (COM(2025) 837) simplifying GDPR, ePrivacy, and data legislation"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4e9c56c1b19f4b68ab01d9bd71b941d5015b39c2db140d7d2f96f65970c4525f"
+date_generated: "2026-09-06T16:36:56.999Z"
+source_hash: "14ec292a4c4a25043a2559f694a71b141dd7decff5c79857971dfd0481a98a34"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -325,11 +325,7 @@ While the Commission projects significant banner reduction, legal analysts note 
 
 **New legal basis:**
 - Article 88c provides legitimate interest for AI development
-- Must implement safeguards
-- Respect right to object
-- Avoid special category data
-
-### Data Controllers and Processors (General)
+Data Controllers and Processors (General)
 
 **Simplified framework:**
 - Fewer regulations to navigate
@@ -354,7 +350,7 @@ While the Commission projects significant banner reduction, legal analysts note 
 
 - **[Timeline and Implementation](./timeline-implementation.md)** - Key dates, deadlines, and preparation phases
 - **[SME and Small Mid-Cap Exemptions](./smes-small-midcaps.md)** - Extended protections for companies with up to 749 employees
-- **[Single Entry Point for Incident Reporting](./incident-reporting.md)** - Unified cybersecurity and data breach reporting via ENISA
+- **Single Entry Point for Incident Reporting** - Unified cybersecurity and data breach reporting via ENISA
 
 ### Industry Impact
 
