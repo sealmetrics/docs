@@ -320,11 +320,7 @@ While the Commission projects significant banner reduction, legal analysts note 
 
 **New legal basis:**
 - Article 88c provides legitimate interest for AI development
-- Must implement safeguards
-- Respect right to object
-- Avoid special category data
-
-### Data Controllers and Processors (General)
+Data Controllers and Processors (General)
 
 **Simplified framework:**
 - Fewer regulations to navigate
@@ -349,7 +345,7 @@ While the Commission projects significant banner reduction, legal analysts note 
 
 - **[Timeline and Implementation](./timeline-implementation.md)** - Key dates, deadlines, and preparation phases
 - **[SME and Small Mid-Cap Exemptions](./smes-small-midcaps.md)** - Extended protections for companies with up to 749 employees
-- **[Single Entry Point for Incident Reporting](./incident-reporting.md)** - Unified cybersecurity and data breach reporting via ENISA
+- **Single Entry Point for Incident Reporting** - Unified cybersecurity and data breach reporting via ENISA
 
 ### Industry Impact
 
