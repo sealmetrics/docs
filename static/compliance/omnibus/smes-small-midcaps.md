@@ -3,8 +3,8 @@ title: "SME and Small Mid-Cap Exemptions"
 description: "How the Digital Omnibus extends small business protections to companies with up to 749 employees"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/smes-small-midcaps"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "7cf9ac5da07dab8cf0dafeb31dfed2712d9cb662f37a46c905ef2aa5e180d9e8"
+date_generated: "2026-09-06T16:37:36.627Z"
+source_hash: "655d11c47dcdd4c807f16edbdaf144438a3b7a535a49a77c34b605b23b55e763"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -459,7 +459,6 @@ The Digital Omnibus creates an intermediate category between SMEs and large ente
 - [EU Digital Omnibus Overview](./index.md) - Complete regulation guide
 - [Data Intermediation Services](./data-intermediation.md) - How SMCs benefit from voluntary regime
 - [Timeline and Implementation](./timeline-implementation.md) - When SMC exemptions take effect
-- [GDPR Amendments](./gdpr-changes.md) - GDPR changes that may affect SMCs
 - [AI Act Amendments in the Digital Omnibus](./ai-act-amendments.md) - SMC extensions delivered via the parallel AI Omnibus
 - [EDPB-EDPS Joint Opinion on the Digital Omnibus](./edpb-edps-opinion.md) - Regulators' position on the wider proposal
 
