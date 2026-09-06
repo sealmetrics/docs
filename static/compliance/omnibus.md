@@ -3,8 +3,8 @@ title: "EU Digital Omnibus Regulation"
 description: "Complete guide to the EU Digital Omnibus Regulation (COM(2025) 837) simplifying GDPR, ePrivacy, and data legislation"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4e9c56c1b19f4b68ab01d9bd71b941d5015b39c2db140d7d2f96f65970c4525f"
+date_generated: "2026-09-06T16:36:30.505Z"
+source_hash: "de35156aa70372ecb645fccc1d476733799cf6708d4d2bc9cb155f37ffca86d9"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -352,7 +352,7 @@ While the Commission projects significant banner reduction, legal analysts note 
 
 ### Implementation & Compliance
 
-- **[Timeline and Implementation](./timeline-implementation.md)** - Key dates, deadlines, and preparation phases
+- **Timeline and Implementation** - Key dates, deadlines, and preparation phases
 - **[SME and Small Mid-Cap Exemptions](./smes-small-midcaps.md)** - Extended protections for companies with up to 749 employees
 - **[Single Entry Point for Incident Reporting](./incident-reporting.md)** - Unified cybersecurity and data breach reporting via ENISA
 
