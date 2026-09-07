@@ -16,6 +16,16 @@ keywords:
 
 The Sealmetrics API supports two authentication methods. **API keys** (prefixed `sm_`, sent in the `X-API-Key` header) are read-only and intended for server-to-server integrations; **JWT bearer tokens** (obtained by logging in, sent in the `Authorization: Bearer` header) carry a user's role-based scopes and are used for authenticated sessions like the dashboard and mobile apps.
 
+:::note Session cookies are not measurement
+Sealmetrics measures **cookieless**: the tracking script writes nothing to your
+visitors' browsers — no cookies, no local storage, no identifiers.
+
+The cookies described on this page do something else. They keep *you* signed in
+to the Sealmetrics dashboard and API, the way any web application does. They are
+set on `my.sealmetrics.com`, never on your site, they are never sent to a
+visitor's browser, and they carry no analytics data.
+:::
+
 ## API Keys
 
 API keys are the recommended method for server-to-server integrations.
