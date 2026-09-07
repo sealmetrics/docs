@@ -3,8 +3,8 @@ title: "Conversions Don't Match Your ERP, CRM, or Database"
 description: "How to diagnose and fix substantial discrepancies between Sealmetrics conversions and your source of truth (ERP, CRM, internal database)."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "3efb463d87ed19ef9578b99fa4c1314ff75870daad313d06a0844e593e2494ea"
+date_generated: "2026-09-07T15:40:39.013Z"
+source_hash: "eebe11003256e1737bda6fc45d5dc0ecc1e686ad068703b5338275e9920a76b3"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -21,6 +21,9 @@ Your **ERP, CRM, or internal database is the source of truth** for what actually
 When both systems are correctly wired, **Sealmetrics should reconcile with your source of truth with only a minimal discrepancy** — typically a small percentage caused by edge cases (users disabling JavaScript, network failures at the exact moment of the request, manual orders entered directly into the back office, refunds, etc.).
 
 If the gap you are seeing is **substantial** — for example, your ERP shows 1,000 orders this month and Sealmetrics shows 600 — this is almost never a measurement bug on the platform side. In our experience, it comes down to one of two implementation problems on the website, with a long tail of secondary causes.
+
+**Tip:**
+This page assumes conversions are recorded by the **pixel** in the browser. On a **Shopify** store they are not: purchases are confirmed server-side by the `orders/create` webhook, so Causes 1 and 2 below cannot be the explanation. Go to [Shopify → Orders or revenue don't match Shopify](/integrations/ecommerce/shopify#orders-or-revenue-dont-match-shopify) instead.
 
 **Warning:**
 The **base pixel (`t.js`) must finish loading and register the pageview *before* `sealmetrics.conv(...)` is called** for any conversion or microconversion. The conversion call is not standalone — it attaches to the session created by the base pixel. If the order is wrong, or the base pixel is missing on the confirmation page, the conversion is sent without a session and the platform cannot count or attribute it correctly. This is the first thing to verify on any reconciliation issue.
