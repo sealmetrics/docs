@@ -3,8 +3,8 @@ title: "Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?"
 description: "Learn how Sealmetrics ensures full compliance with GDPR, ePrivacy, CCPA, PECR, and global privacy regulations through its privacy-first, isolated-hit architecture."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/is-sealmetrics-privacy-compliant"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "89185b08db4549f7f9aa743ad7f79503df8886e2c87285f6c25d67a0cb1e4fe6"
+date_generated: "2026-09-07T15:49:18.603Z"
+source_hash: "bd713efe0ce274181e1e88b6aadb9a1066f42ec7b57e88abef15d5973bda5d51"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -117,6 +117,8 @@ Sealmetrics is **GDPR, ePrivacy, CCPA, and PECR compliant by design**, thanks to
 - 0 cookies
 - 0 user identifiers
 - Isolated hits that are never joined to a person or to each other
+
+Those zeros describe **measurement**: what the tracking script does on your site. Signing in to the Sealmetrics dashboard uses a session cookie on `my.sealmetrics.com`, like any web application — it is not part of measurement and never reaches your visitors.
 
 This enables marketers and analysts to access reliable, actionable analytics **without compromising user privacy or requiring consent banners**.
 
