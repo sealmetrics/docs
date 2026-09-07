@@ -3,8 +3,8 @@ title: "Shopify"
 description: "Connect Sealmetrics to Shopify via the Pixel app and a theme app embed, with purchases confirmed server-side by webhook — cookieless funnel tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/shopify"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "3cd8c9ec54a560aa5b678423b1d877e492803b1992222be904e38d9155bea6e3"
+date_generated: "2026-09-07T15:40:39.013Z"
+source_hash: "164eb1f508f943c75812d4817938ddbe24b122bd36a52136264db2997f49f2ba"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -128,6 +128,23 @@ Plans and prices are presented through Shopify's Managed Pricing flow in Shopify
 1. Confirm the store shows **Connected** in **Settings → Integrations → Shopify** (this means the conversion webhook is registered).
 2. Place a test order and verify it appears as a conversion.
 3. If you recently reinstalled or changed scopes, reconnect from the dashboard so the `orders/create` webhook is re-registered.
+
+### Orders or revenue don't match Shopify
+
+This is the most common Shopify support question, and the usual advice does not apply here.
+
+**Important:**
+On Shopify, `purchase` conversions come from the **`orders/create` webhook**, server-side. They do not depend on the tracker firing on a thank-you page. So the two causes behind most reconciliation issues elsewhere — [the conversion pixel not firing, and the base pixel firing too late](/troubleshooting/erp-crm-database-discrepancy) — **cannot be the explanation on a Shopify store**. Auditing the checkout for pixel problems will not find anything.
+
+Work through these instead:
+
+1. **Confirm the webhook is live.** The store must show **Connected** in **Settings → Integrations → Shopify**. If you reinstalled the app or changed scopes, reconnect from the dashboard so `orders/create` is re-registered. Orders placed while the webhook was not registered are not backfilled.
+2. **Check what your Shopify number actually includes.** Shopify's own reports can cover orders from channels and states that may not be part of what you are comparing: point of sale, draft orders created in the admin, marketplace or social channels, and orders that were cancelled, refunded, or never paid. Compare like with like before concluding anything is missing.
+3. **Compare the same window in the same timezone.** Sealmetrics rolls the day in the account timezone (**Settings → Account**); Shopify rolls it in the store timezone. If they differ, totals shift around the day boundary.
+4. **Check the currency.** If your store sells in several currencies, confirm which one the figure you are comparing is expressed in.
+5. **Place a test order and follow it.** Put a real order through the same flow your customers use, note the exact time and amount, and check whether it appears in Sealmetrics. This separates "the integration is not receiving orders" from "the two numbers count different things" faster than anything else.
+
+If a test order does not show up, contact **support@sealmetrics.com** with its date, time, and amount, and we will trace the webhook delivery.
 
 ### Microconversions missing
 

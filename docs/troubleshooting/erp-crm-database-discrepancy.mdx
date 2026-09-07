@@ -21,6 +21,10 @@ When both systems are correctly wired, **Sealmetrics should reconcile with your 
 
 If the gap you are seeing is **substantial** — for example, your ERP shows 1,000 orders this month and Sealmetrics shows 600 — this is almost never a measurement bug on the platform side. In our experience, it comes down to one of two implementation problems on the website, with a long tail of secondary causes.
 
+:::tip On Shopify? Start somewhere else
+This page assumes conversions are recorded by the **pixel** in the browser. On a **Shopify** store they are not: purchases are confirmed server-side by the `orders/create` webhook, so Causes 1 and 2 below cannot be the explanation. Go to [Shopify → Orders or revenue don't match Shopify](/integrations/ecommerce/shopify#orders-or-revenue-dont-match-shopify) instead.
+:::
+
 :::warning The single most common root cause
 The **base pixel (`t.js`) must finish loading and register the pageview *before* `sealmetrics.conv(...)` is called** for any conversion or microconversion. The conversion call is not standalone — it attaches to the session created by the base pixel. If the order is wrong, or the base pixel is missing on the confirmation page, the conversion is sent without a session and the platform cannot count or attribute it correctly. This is the first thing to verify on any reconciliation issue.
 :::
