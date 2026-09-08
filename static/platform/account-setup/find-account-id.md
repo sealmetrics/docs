@@ -3,8 +3,8 @@ title: "How to Find Your Site ID"
 description: "Learn where to find your Sealmetrics Site ID (Account ID) to configure integrations and API access."
 canonical_url: "https://docs.sealmetrics.com/platform/account-setup/find-account-id"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "a99fcc63bfbe9ee3b2d250a36c734de3de17e45abd46c27fc0baa8cd61eca942"
+date_generated: "2026-09-08T07:01:17.084Z"
+source_hash: "6dc99a7ed3856a08cadeee6a6725f847e8fba2bc41273dc96878f381956e99dd"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/platform/account-setup/find-account-id
 
-Your **Site ID** is a unique identifier assigned to each site in Sealmetrics. You need it to install the tracking pixel, configure API access, and set up integrations.
+Your **Site ID** is a unique identifier assigned to each site in Sealmetrics. You need it to install the snippet, configure API access, and set up integrations.
 
 Some screens, plugins and integration fields label the same value **Account ID** — Site ID and Account ID are the same identifier.
 
