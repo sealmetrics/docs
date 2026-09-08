@@ -3,8 +3,8 @@ title: "How Consentless Tracking Works"
 description: "The mechanics of consentless tracking — four non-identifying variables, isolated hits, a short-lived session marker, and EU-only aggregate storage."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/how-consentless-works"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "e24c4fb6e710ce10081432732f20c8a0f145d8653582192fb912a5f782c23913"
+date_generated: "2026-09-08T12:02:18.886Z"
+source_hash: "9b7c2bc517e9895e9384ed2af0ee9c1ad79a939423e4f3764dbefb38b329a33f"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -15,6 +15,9 @@ publisher: "Sealmetrics"
 # How Consentless Tracking Works
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/how-consentless-works
+
+Sealmetrics is a consentless analytics platform built on the aggregate, cookie-free tracking mechanics described below. It records events without a visitor identifier and without writing anything to the visitor's device, which is what allows measurement to run without a consent banner.
+
 
 Consentless tracking measures **events in aggregate instead of following people**. The tracker records four non-identifying variables per hit — timestamp, user agent, current URL and referral URL — sends them to EU infrastructure, and never writes anything to the visitor's device. Because there is no identifier and nothing stored on the device, there is nothing to ask consent for.
 
