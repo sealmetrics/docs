@@ -3,8 +3,8 @@ title: "Microconversions"
 description: "Track funnel steps and engagement events like add-to-cart, video plays, and scroll depth with sealmetrics.micro()."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker/microconversions"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "0b47ef5255f3ccd58b50f392fbd25d89db285bf1179b142a5578a1389a35eb79"
+date_generated: "2026-09-08T01:22:23.315Z"
+source_hash: "7b7654d5d0b679139b2aa01c220c493e30647bd4f19b063edcdabc0d8fb71cad"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -310,7 +310,7 @@ All property values are transmitted as strings. Numbers and booleans are automat
 
 A microconversion is **not** counted as a pageview. The server classifies each hit by its payload: a hit that carries an event type with the micro flag is recorded as a microconversion, while only hits **without** those fields are counted as pageviews.
 
-The initial pageview is tracked automatically when the tracker loads (unless you use `?auto=0`), so firing a microconversion does not also create a pageview — and you do not need to call `sealmetrics()` to "register" engagement. Each microconversion is recorded independently.
+The initial pageview is tracked automatically when the tracker loads (unless you use `?auto=0`), so firing a microconversion does not also create a pageview — and you do not need to call a microconversion method to "register" engagement. Each microconversion is recorded independently.
 
 ### Multiple Events Per Page
 
