@@ -1,10 +1,10 @@
 ---
-title: "Seal AI Internal Benchmark (Bilingual, July 2026)"
+title: "Sealmetrics Internal Benchmark (Bilingual, July 2026)"
 description: "162 live queries against production: three models, two languages, ground truth from the analytics database, confidence intervals, failure anatomy and declared limitations."
 canonical_url: "https://docs.sealmetrics.com/lens/seal-ai/internal-benchmark"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "f5c10776871010ef2f8f08e072f7fff46b02476ce0ea45f2f94d8744fa727a21"
+date_generated: "2026-09-08T06:59:44.069Z"
+source_hash: "3e928f6dca53e45bc124c2154c294c391f4f74c3519fa7b7677c6f9d804a3896"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -12,11 +12,11 @@ source_file: "lens/seal-ai/internal-benchmark.mdx"
 publisher: "Sealmetrics"
 ---
 
-# Seal AI Internal Benchmark (Bilingual, July 2026)
+# Sealmetrics Internal Benchmark (Bilingual, July 2026)
 
 Canonical page: https://docs.sealmetrics.com/lens/seal-ai/internal-benchmark
 
-Three models answered the same 9 analytics questions in Spanish and in English, three times each — **162 live queries** — through the production endpoint of the Seal AI assistant and its full 63-tool inventory, against a real account's data. Every figure a model asserted was checked against ground truth computed live from the analytics database.
+Three models answered the same 9 analytics questions in Spanish and in English, three times each — **162 live queries** — through the production endpoint of the Sealmetrics assistant and its full 63-tool inventory, against a real account's data. Every figure a model asserted was checked against ground truth computed live from the analytics database.
 
 This run triples our previous sample and adds the language dimension — which turned out to be decisive: **one of the models only obeys prompt injection when attacked in English.**
 
