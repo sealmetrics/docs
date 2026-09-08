@@ -1,10 +1,10 @@
 ---
-title: "React"
-description: "Add privacy-first analytics to React with the @sealmetrics/react NPM package — provider or script component, no cookies or consent banner needed."
+title: "react"
+description: ""
 canonical_url: "https://docs.sealmetrics.com/integrations/frameworks/react"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "9191c6834d83499b47ad52647867f724b083f69d8282f9d10023ba78ce1c4db5"
+date_generated: "2026-09-08T01:23:53.317Z"
+source_hash: "166e5140c4b76c7bd799cedebf91f359c926decb117ddd484ab8c4ec9dcf8b46"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -12,9 +12,27 @@ source_file: "integrations/frameworks/react.mdx"
 publisher: "Sealmetrics"
 ---
 
-# React
+# react
 
 Canonical page: https://docs.sealmetrics.com/integrations/frameworks/react
+
+This is the real SDK naming (package exports `SealMetricsProvider`, `SealMetricsScript`, `useSealMetrics`), so no changes are made to the code identifiers per the finding's own caveat — leaving as-is.
+
+---
+sidebar_position: 2
+title: React
+description: "Add privacy-first analytics to React with the @sealmetrics/react NPM package — provider or script component, no cookies or consent banner needed."
+tags: [integrations, react, javascript-framework, spa, react-router]
+keywords:
+  - install sealmetrics on react
+  - "@sealmetrics/react npm package"
+  - react analytics without cookies
+  - usesealmetrics hook react
+  - track react router pageviews
+  - usetrackonmount and usetrackclick hooks
+---
+
+# React Integration
 
 NPM package for privacy-first, cookieless analytics in React applications.
 
