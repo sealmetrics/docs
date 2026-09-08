@@ -3,8 +3,8 @@ title: "Why Seal AI Runs on gpt-oss-120b"
 description: "The full LLM audit behind Seal AI: the European catalog, the global market, verified public benchmarks, our internal evaluations, and the honest trade-offs."
 canonical_url: "https://docs.sealmetrics.com/lens/seal-ai/model-selection"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "0c96894b18cf6649ba9d884c8bf9817f05f1edac9023d9bf1914c8635250ee47"
+date_generated: "2026-09-08T07:00:24.230Z"
+source_hash: "5d1f782266ac326005c965606fecb048b5f74af8f21d9f34a02509a289e81d9e"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -53,7 +53,7 @@ What we *don't* need: million-token contexts or encyclopedic world knowledge (th
 We audited the open-weight frontier (GLM-4.5/4.6, Kimi K2, DeepSeek V3.1/R1, Llama 4) and proprietary APIs (GPT-5, o4-mini, Claude Sonnet 4.5, Gemini 2.5). Four conclusions:
 
 1. **The best open tool-callers outside the EU have no sovereign managed offering.** GDPR-clean use would require self-hosting 355B–1T-parameter models on dedicated GPUs; their agentic edge over gpt-oss-120b (τ-bench ~66–70 vs 67.8) is within noise anyway.
-2. **DeepSeek's official API is disqualified outright**: data stored in China, usable for training unless opted out, and subject to an urgent processing block by Italy's data-protection authority (January 2025).
+2. **DeepSeek's official API does not meet EU sovereignty requirements**: data stored in China, usable for training unless opted out, and subject to an urgent processing block by Italy's data-protection authority (January 2025).
 3. **Proprietary options cost roughly 3–9× more (blended) and offer residency without sovereignty** — every US-parent option remains under CLOUD Act/FISA. Claude Sonnet 4.5's τ²-bench retail 86.2 (measured with extended thinking, per Anthropic's own footnote) is the best verified agentic figure in this audit — we say so plainly — and it does not change the jurisdictional analysis. GPT-5's reasoning latency (time-to-first-token above 100 seconds at high effort) is unusable for chat analytics.
 4. **Within the EU-sovereign serverless universe — the actually eligible set — gpt-oss-120b is the strongest model available**, served by all three sovereign clouds we verified (Scaleway, OVHcloud, IONOS), which also removes provider concentration.
 
