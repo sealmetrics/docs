@@ -3,8 +3,8 @@ title: "Detection Rules Catalog"
 description: "The LENS detection rule library — IDs, categories and what each rule looks for. Not active on accounts yet."
 canonical_url: "https://docs.sealmetrics.com/lens/anomaly-detection/rule-types"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "03200cc25c92b7db517195a959f39ea760b42b9a340beb7b19445063860a696a"
+date_generated: "2026-09-08T06:58:03.802Z"
+source_hash: "3f1ec33529cefb5bde107f297647b4cdfe37d3e86710a77ab1f952f108ef7446"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -132,10 +132,6 @@ Every rule shares a common structure:
 | **Confidence** | `high` / `medium` / `low`, derived from sample size and the data window |
 
 ---
-
-## Plan availability
-
-All categories — and every rule, once enabled — will be available on every v2 plan. There are no rule-level or category-level locks by tier; plans differ by data volume, not by which rules run.
 
 ## Next steps
 
