@@ -28,8 +28,14 @@ jobs:
     # `changelog/` se añadió el 2026-08-31: el comando `changelog add` del
     # docs-agent abre PRs con ese prefijo y editan docs/changelog.mdx, así
     # que sin esto nacen en rojo por los mirrors desincronizados.
+    #
+    # `seo/` se anadio el 2026-09-08, por lo mismo: el docs-agent abre los
+    # findings del seo-agent con ese prefijo y nacian todos en rojo. Dos PRs
+    # del bloque nominador llevaban un dia muertos por esto. Prefijo nuevo de
+    # agente = una linea mas aqui.
     if: >
       (startsWith(github.head_ref, 'quality/') ||
+       startsWith(github.head_ref, 'seo/') ||
        startsWith(github.head_ref, 'changelog/')) &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
