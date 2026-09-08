@@ -3,8 +3,8 @@ title: "Next.js"
 description: "Add cookieless analytics to Next.js with the @sealmetrics/nextjs package — a SealMetricsScript component for both App Router and Pages Router setups."
 canonical_url: "https://docs.sealmetrics.com/integrations/frameworks/nextjs"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "e088037c01a39247f970253cbdf82e95c9d2551fe0b873aca45c99210750b941"
+date_generated: "2026-09-08T01:23:30.795Z"
+source_hash: "8e846a95d52da355cd327b32a1f04d757a5d6d45bc37114e99d3d44b24337942"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -180,6 +180,13 @@ export default function ProductPage() {
 | `pixelUrl` | `string` | `https://t.sealmetrics.com` | Custom pixel URL |
 | `group` | `string` | - | Content group for the page |
 | `strategy` | `string` | `afterInteractive` | Script loading strategy |
+
+### SealMetricsProvider Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `accountId` | `string` | **required** | Your Sealmetrics Account ID |
+| `debug` | `boolean` | `false` | Enable debug logging |
 | `debug` | `boolean` | `false` | Enable debug logging |
 | `disabled` | `boolean` | `false` | Disable tracking |
 
