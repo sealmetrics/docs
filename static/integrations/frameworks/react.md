@@ -3,8 +3,8 @@ title: "React"
 description: "Add privacy-first analytics to React with the @sealmetrics/react NPM package — provider or script component, no cookies or consent banner needed."
 canonical_url: "https://docs.sealmetrics.com/integrations/frameworks/react"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "9191c6834d83499b47ad52647867f724b083f69d8282f9d10023ba78ce1c4db5"
+date_generated: "2026-09-08T01:24:06.448Z"
+source_hash: "e9c46df13dce5dd537dfe387a3e78788ad05670a413f969fb34bbcebd428d4a8"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -151,7 +151,7 @@ function CTAButton({ onClick }) {
 
 ### useTrackFormSubmit
 
-Track form submissions:
+Track form submissions. The second argument accepts an options object: use `asLead: true` when the form submission should be tracked as a lead, or `isNewsletter: true` when it should be tracked as a newsletter signup.
 
 ```tsx
 import { useTrackFormSubmit } from '@sealmetrics/react';

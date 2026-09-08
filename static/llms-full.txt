@@ -19446,7 +19446,7 @@ function CTAButton({ onClick }) {
 
 ### useTrackFormSubmit
 
-Track form submissions:
+Track form submissions. The second argument accepts an options object: use `asLead: true` when the form submission should be tracked as a lead, or `isNewsletter: true` when it should be tracked as a newsletter signup.
 
 ```tsx
 import { useTrackFormSubmit } from '@sealmetrics/react';
