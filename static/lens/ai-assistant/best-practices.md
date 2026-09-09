@@ -3,8 +3,8 @@ title: "Best Practices"
 description: "Write better LENS AI questions: be specific about time ranges, metrics, and segments, and use ready-made templates for traffic and conversion analysis."
 canonical_url: "https://docs.sealmetrics.com/lens/ai-assistant/best-practices"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c2cef3660461fd44a2c34aea255347da87f67043b79a06e3b6b4dd7baeaeb68e"
+date_generated: "2026-09-09T01:15:34.783Z"
+source_hash: "174d4ba13147db1706cf7752bf271ab5a6c96c06bb6eaaa4f4875e02c27b873b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/lens/ai-assistant/best-practices
 
-Get more accurate, actionable insights by following these best practices when asking questions.
+Follow these best practices to get more accurate results from LENS AI.
 
 ## Writing Better Questions
 
