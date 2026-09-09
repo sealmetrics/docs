@@ -50,6 +50,17 @@ The confidence level itself comes from these data thresholds (the more conservat
 | Traffic sample (events) | 100+ | 1,000+ |
 | Conversions | 20+ | 100+ |
 
+base threshold
+   → resolve (custom → setting → default)
+   → apply seasonality multiplier (if in a seasonal period)
+   → apply confidence multiplier (from sample size + days of data)
+   = effective threshold
+
+observed change vs. effective threshold
+   → if within an "expected for the season" range → suppressed
+   → else if beyond the effective threshold → anomaly
+```
+
 **Example:** a rule with a 20% base threshold, evaluated on a small sample (low confidence), effectively requires a ≈30% change (20% × 1.5) before it flags an anomaly. The same rule on a large, mature dataset uses the full 20%.
 
 Every insight carries its confidence level (`high`, `medium`, or `low`) so you can weigh it accordingly.
@@ -68,7 +79,7 @@ A seasonality pattern can be global or specific to an account, and defines the t
 
 For each rule evaluation:
 
-```
+```text
 base threshold
    → resolve (custom → setting → default)
    → apply seasonality multiplier (if in a seasonal period)
