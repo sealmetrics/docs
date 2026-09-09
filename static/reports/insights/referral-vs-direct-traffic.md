@@ -3,8 +3,8 @@ title: "Referral vs Direct Traffic"
 description: "Learn how Sealmetrics classifies referrer traffic vs direct traffic using privacy-first principles and advanced attribution logic."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/referral-vs-direct-traffic"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "292001e555ace0c9837fd957232cecb49ca7262efc1664cfd0ffb9afacd1d460"
+date_generated: "2026-09-09T14:04:27.485Z"
+source_hash: "62777924a00c54990ead76a94e399d860c733b227107bce9a881a218ee720dba"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -235,10 +235,7 @@ Referrer loss can artificially inflate direct numbers.
 
 **Typical Direct Ranges:**
 
-- E-commerce: 15–30%
-- B2B SaaS: 20–35%
-- Media/Content: 10–25%
-- Local business: 25–40%
+Direct traffic proportions vary widely depending on your industry and business model. Review your own historical data to establish a meaningful baseline.
 
 ### Low Referrer Traffic
 
