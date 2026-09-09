@@ -3,8 +3,8 @@ title: "How Consentless Tracking Works"
 description: "The mechanics of consentless tracking — four non-identifying variables, isolated hits, a short-lived session marker, and EU-only aggregate storage."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/how-consentless-works"
 lang: "en"
-date_generated: "2026-09-08T12:02:18.886Z"
-source_hash: "9b7c2bc517e9895e9384ed2af0ee9c1ad79a939423e4f3764dbefb38b329a33f"
+date_generated: "2026-09-09T14:04:57.318Z"
+source_hash: "b908da9b020fb37c5552cac656352d440d5f9d22fb8325571a2074c55afcd88e"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -38,7 +38,7 @@ All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 
 ## Why this needs no consent
 
-No personal data is collected, so the GDPR obligations that attach to personal data are not triggered ([Article 4(1) and Recital 26](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)); and nothing is stored on or read from the visitor's terminal equipment, so the ePrivacy Directive's [Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058) consent requirement does not attach either. Cookie-based tools face the opposite situation, which is why they typically lose **15–60% of visitor data** in EU markets when visitors decline, depending on sector, brand strength and traffic mix.
+No personal data is collected, so the GDPR obligations that attach to personal data are not triggered ([Article 4(1) and Recital 26](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)); and nothing is stored on or read from the visitor's terminal equipment, so the ePrivacy Directive's [Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058) consent requirement does not attach either. Cookie-based tools face the opposite situation, which is why they typically lose a significant share of visitor data in EU markets when visitors decline, depending on sector, brand strength and traffic mix.
 
 Sealmetrics holds no third-party security certification, and no supervisory authority certifies analytics tools — the [compliance pages](/compliance) are self-assessments against published criteria.
 
