@@ -3,8 +3,8 @@ title: "How to Track Google Ads Campaigns"
 description: "Learn how to correctly track Google Ads campaigns in Sealmetrics using UTM parameters and Google Ads value-track templates."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/how-to-track-google-ads-campaigns"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "253238d8f2238accb64a160bba1bc3a9e451826a4cdaac7b9f64234111addb38"
+date_generated: "2026-09-09T14:04:02.756Z"
+source_hash: "d1665480014d30d0b43fae9174268e56a7035a5d06d48a3bf12bf72172bf4c5f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -66,7 +66,7 @@ So `utm_term={ifsearch:{keyword}\{matchtype}}{ifcontent:{placement}}` produces a
 
 ## Google Ads Account-Level Setup
 
-You can add this code directly at the Account level following these [Google Ads instructions](https://support.google.com/google-ads/answer/6305348?hl=en).
+You can add this code directly at the Account level following these [Google Ads instructions](https://support.google.com/google-ads/answer/6305)).
 
 When configured at the account level, Google Ads will automatically append all value-track parameters to every campaign — including new ones — ensuring reliable attribution in Sealmetrics.
 
