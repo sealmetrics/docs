@@ -3,8 +3,8 @@ title: "Data Studio Integration"
 description: "Connect Sealmetrics to Google Data Studio for custom dashboards and visual reports."
 canonical_url: "https://docs.sealmetrics.com/platform/settings/integrations/looker-studio"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "616790c5d89ba042c1abf2091076bf340a19350d769835a0d69c2c3bb2402163"
+date_generated: "2026-09-10T01:08:28.398Z"
+source_hash: "a489e0e4de046e5f806b5421126b37ae61fbbc5d2ae44c1a48a1a0f11507af0d"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -32,7 +32,7 @@ This page keeps its `looker-studio` URL on purpose: the Sealmetrics Apps Script 
 
 The Sealmetrics connector for Data Studio fetches data in real-time from the Sealmetrics API using your API key. Each time you view a dashboard, Data Studio requests the latest data for your selected date range.
 
-```
+```text
 Data Studio → Sealmetrics Connector → Sealmetrics API → Your analytics data
 ```
 
