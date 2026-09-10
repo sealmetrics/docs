@@ -3,8 +3,8 @@ title: "How to Add Domains to Your Site"
 description: "How to add, manage, and remove the domains authorized to send tracking data to your Sealmetrics site — at site creation or later from the Domains tab."
 canonical_url: "https://docs.sealmetrics.com/platform/account-setup/how-to-add-domains"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "9e8e1b9026cfd252a99e4a8624c8ddfa7362320f256a48937ccad7f8a263bb01"
+date_generated: "2026-09-10T01:07:51.174Z"
+source_hash: "cd6d9e5af46f3548c63eba2ca16c820b506979d1cccc35fc74c9188392b822c0"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -18,7 +18,7 @@ Canonical page: https://docs.sealmetrics.com/platform/account-setup/how-to-add-d
 
 Domains define which websites are authorized to send tracking data to your Sealmetrics site. You need at least one domain configured for tracking to work.
 
-Sealmetrics counts a new **entrance** when the referrer is empty or comes from a different domain than your own (e.g., facebook.com → yoursite.com).
+Sealmetrics counts a new entrance when the referrer is empty or comes from a different domain than your own (e.g., facebook.com → yoursite.com).
 
 ---
 
