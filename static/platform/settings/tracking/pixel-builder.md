@@ -3,8 +3,8 @@ title: "Pixel Builder"
 description: "Generate and save reusable tracking snippets for conversions and microconversions from the Pixels page."
 canonical_url: "https://docs.sealmetrics.com/platform/settings/tracking/pixel-builder"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e5f52785d6a9eeada96af35048472e8184441f2ac65f3df794dc6187743df329"
+date_generated: "2026-09-10T01:08:51.928Z"
+source_hash: "8984a6bd80550d6d60b5f3fdb631c73ae68915ccd77fcb684a1e00666b14685d"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -84,6 +84,7 @@ When configuring Revenue, Currency, or property values, each value can be one of
 | **Literal** | A fixed value | `99.99`, `EUR` |
 | **JS Variable** | A JavaScript variable name | `orderTotal` |
 | **GTM Variable** | A Google Tag Manager variable | `{{Order Total}}` |
+| **Tealium Variable** | A Tealium variable | `%orderTotal%` |
 
 ## Generated Code Examples
 
