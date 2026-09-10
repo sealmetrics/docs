@@ -3,8 +3,8 @@ title: "Audit Logs"
 description: "Track account activity and configuration changes for security and accountability."
 canonical_url: "https://docs.sealmetrics.com/platform/settings/advanced/audit-log"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "22e886df0ab71aa2ec56fa9675e3f4b0080d091158c87621e0b784c1d27fc425"
+date_generated: "2026-09-10T01:08:08.343Z"
+source_hash: "0380a43cae2a53d3cb9a9562f468e4c77ae0947d1dd47912961c21a3d6032b93"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -53,7 +53,7 @@ Each entry is a single action with an actor, a resource it affected, and the tim
 
 | Action | Meaning |
 |--------|---------|
-| Account Created | A tracking account was created |
+| Account Created | An account was created |
 | Account Updated | Account settings were changed |
 | Account Deactivated | An account was deactivated |
 
