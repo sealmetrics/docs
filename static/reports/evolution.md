@@ -3,8 +3,8 @@ title: "Evolution Report"
 description: "Track how metrics change over time with daily, weekly, or monthly grouping and UTM filtering in Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/reports/evolution"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e2bdd4f0a39dc5954afad7e419007513bf29eb38d6dae6b12af4c74fcdd53253"
+date_generated: "2026-09-11T01:06:21.312Z"
+source_hash: "65cf919556ffd1328211867684aba1ff2244d4310f25600e01360d2ac5a3bb31"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -76,8 +76,8 @@ A single area chart shows the selected metric over time. Use the metric toggle i
 Chart behavior:
 
 - Hover for exact values per period
-- A brush appears for long series (more than 30 points) to drag and zoom
-- Zoom controls appear for series with more than 14 points
+- Zoom controls appear for series with more than 14 points, letting you zoom in on the chart
+- For longer series (more than 30 points), a brush also appears below the chart as an additional way to drag and zoom over a specific range
 
 ## Data Table
 
