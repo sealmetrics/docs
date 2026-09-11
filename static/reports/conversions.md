@@ -3,8 +3,8 @@ title: "Conversions Report"
 description: "How to read the Sealmetrics Conversions report: conversion and microconversion views, revenue and average value metrics, and common conversion types."
 canonical_url: "https://docs.sealmetrics.com/reports/conversions"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "953cdbb702911585c0b76ac8fabc06d71ba42631e8b56f582e401b9309c7daec"
+date_generated: "2026-09-11T01:06:04.597Z"
+source_hash: "a1c86d81b8bb61dca001af488bb99f9569d89db813c09307f838018d765bd30f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -40,7 +40,7 @@ Shows completed conversion events (primary goals).
 | **Conversion Type** | Name/identifier of the conversion |
 | **Conversions** | Total number of conversions (shown with a metric bar) |
 | **Revenue** | Total revenue attributed (shown with a metric bar) |
-| **Avg. Value** | Average revenue per conversion |
+| **Avg. Order Value** | Average revenue per conversion |
 
 #### Conversion Types
 
