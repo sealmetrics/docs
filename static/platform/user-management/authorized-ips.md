@@ -3,8 +3,8 @@ title: "Access Restricted to Authorized IPs"
 description: "Enhance security by restricting platform access to authorized IP addresses."
 canonical_url: "https://docs.sealmetrics.com/platform/user-management/authorized-ips"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "6cbc24269a04edc60d01bb6370daaac0760137fa8d78a8141fb43dfb9b4b6b90"
+date_generated: "2026-09-11T01:05:52.838Z"
+source_hash: "6656444271fc1b0691d3a856e8ab3a981c312c7f3c264c496ca58fc3ca495ca1"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -29,8 +29,8 @@ The IP allowlist is configured **per site**. When it is enabled, only users whos
 Benefits:
 
 - **Full access control**: Only trusted networks can access the site.
-- **Protection from unauthorized access**.
-- **Extra security layer** on top of username + password.
+- **Protection**: From unauthorized access.
+- **Extra security layer**: On top of username + password.
 
 The restriction is applied at login time for all users with access to the site, and can also be enforced for API tokens.
 
