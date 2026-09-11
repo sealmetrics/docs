@@ -22,7 +22,7 @@ This guide explains why this happens and how to fix it.
 
 ## Why the Source Becomes "Referral"
 
-Sealmetrics counts a new **entrance** when the referrer is empty or comes from a domain different from your own.
+Sealmetrics counts a new entrance when the referrer is empty or comes from a domain different from your own.
 
 - `www.yourproduct.com` → `app.yourproduct.com` is **cross-subdomain navigation** of the same root domain. It is treated as internal navigation — session and attribution are preserved. See [Referral vs Direct Traffic](/reports/insights/referral-vs-direct-traffic).
 - `accounts.yourcompany.com` → `app.yourproduct.com` is a **cross-domain jump**. The auth domain becomes the referrer, Sealmetrics detects a new entrance, and the original source (SEO, Paid, Email…) is overwritten by **Referral**.
