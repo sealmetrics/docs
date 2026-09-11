@@ -3,8 +3,8 @@ title: "What is gtm-msr.appspot.com and How to Prevent It from Triggering Tags i
 description: "Learn why gtm-msr.appspot.com appears in Google Tag Manager and how to prevent it from firing tags or polluting your analytics."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/gtm-msr-appspot-and-tag-blocking"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "bc26e69552a7376912715230b832eb197e32ba870b184a254e12bca71465fedc"
+date_generated: "2026-09-11T01:07:27.627Z"
+source_hash: "8b4b4efff1597d5dd0f513eaa5b2cb5366219cba577f0337918f53244a3a550f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -17,7 +17,7 @@ publisher: "Sealmetrics"
 Canonical page: https://docs.sealmetrics.com/reports/insights/gtm-msr-appspot-and-tag-blocking
 
 When working with Google Tag Manager (GTM), you may notice traffic coming from **gtm-msr.appspot.com**.
-This domain is **owned by Google** and appears in very specific scenarios.
+This domain is owned by Google and appears in very specific scenarios.
 
 ---
 
