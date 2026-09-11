@@ -3,8 +3,8 @@ title: "How Attribution Accuracy Works"
 description: "Understand the two levels of attribution accuracy in Sealmetrics — why total conversions are always exact, how channel-level attribution works, and what trade-offs make consentless measurement possible."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/attribution-accuracy"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "28751769e78ae7c4a6748492892ed8e15614c4579023dace3f0ec119181c3d3c"
+date_generated: "2026-09-11T01:06:50.925Z"
+source_hash: "bb6c8cc6a9014860d2154ab610370ba017dcbe01b4cfaa7cb6339fe9af5d6d24"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -50,7 +50,7 @@ Attributing a conversion to the right channel requires knowing which traffic sou
 
 When a visitor arrives from a campaign — through UTM parameters, a referrer domain, or a recognized click ID — that source is associated with their current session. If they convert within that session, the conversion inherits the same origin. This is last-touch attribution: the channel that brought the visitor to the site gets credit for the conversion that happens during that visit.
 
-**This works well the vast majority of the time.**
+This works well the vast majority of the time.
 
 However, because Sealmetrics does not use individual identifiers, there are rare scenarios where two visitors with very similar device profiles are active at the same time and one of them converts. In those cases, the attribution may reflect the most recently detected source for that profile group rather than the source that actually drove the converting visit.
 
