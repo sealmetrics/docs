@@ -3,8 +3,8 @@ title: "Funnel Report"
 description: "Visualize e-commerce conversion progression — from entrances through product views, cart, checkout and purchase — with drop-off at each step."
 canonical_url: "https://docs.sealmetrics.com/reports/funnel"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "495cd4ebd5b2691fdd6c50a6e83f13b2f24a13b78c79158941b18b03111b0438"
+date_generated: "2026-09-11T01:06:41.374Z"
+source_hash: "12a7d38ce22ef01994ad3c4b4b2d6f68f39f290945537191da602eb3d499e758"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -56,7 +56,7 @@ The **Conversion Funnel** chart shows one bar per step in order, from Entrances 
 | **Bars** | Height represents the number of visitors who reached that step |
 | **Step label** | Step name and count |
 | **Conversion rate** | Percentage of the *previous* step that reached this step |
-| **Drop-off** | Percentage of the previous step that did not reach this step |
+| **Drop-off rate** | Percentage of the previous step that did not reach this step |
 
 For each step after Entrances:
 
