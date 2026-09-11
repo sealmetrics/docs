@@ -3,8 +3,8 @@ title: "Bypass POS or Referrer"
 description: "Learn how to exclude payment gateways and external domains from being counted as referrers in Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/bypass-pos-or-referrer"
 lang: "en"
-date_generated: "2026-09-01T17:25:32.384Z"
-source_hash: "81d7bb645e0909cd4bb46ab88c8ffffa018d85d1a2eed462bf27cda90990104b"
+date_generated: "2026-09-11T01:05:33.666Z"
+source_hash: "89ad9c9280bdd173db5ca566600190044c36a66a3f385bbb19d3114217bef866"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -63,8 +63,8 @@ For the full concept and behavior details, see [Passthrough Referrers](/platform
 
 This avoids:
 - Incorrect attribution to *payment*
-- Lost ROAS visibility
-- Broken marketing funnels
+- Loss of the original traffic source data
+- Fragmentation of session data across visits
 
 You keep the **real traffic source** intact.
 
