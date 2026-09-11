@@ -28,7 +28,7 @@ A conversion fired during a session is attributed to that session's source — t
 
 Two properties follow from this:
 
-- **Last click, always.** A new tagged arrival mid-journey (new UTMs or click ID from an external entry) starts a new entrance, and any subsequent conversion belongs to it.
+- Last click, always. A new tagged arrival mid-journey (new UTMs or click ID from an external entry) starts a new entrance, and any subsequent conversion belongs to it.
 - **No lookback window.** Sessions are independent. A conversion today is never credited to a source from yesterday, because no identifier connects the two sessions. (GA4-style 30/90-day attribution windows require exactly the persistent identity Sealmetrics refuses to keep.)
 
 ## The session window
@@ -37,7 +37,7 @@ A session groups hits through a short-lived, context-derived marker with a **~2-
 
 ## Why last-click only
 
-Multi-touch models (linear, time-decay, data-driven) need the full journey of an identified user across sessions — a persistent identifier, consent banners, and all the data loss that comes with them. Based on our legal analysis, session-scoped last-click is the attribution model that works **without consent**, on 100% of your traffic. Attribution computed on all of your visitors beats a fancier model computed on the 40–60% who accept cookies.
+Multi-touch models (linear, time-decay, data-driven) need the full journey of an identified user across sessions — a persistent identifier, consent banners, and all the data loss that comes with them. Based on our legal analysis, session-scoped last-click is the attribution model that works without consent, on 100% of your traffic. Attribution computed on all of your visitors beats a fancier model computed on the 40–60% who accept cookies.
 
 ## Related documentation
 

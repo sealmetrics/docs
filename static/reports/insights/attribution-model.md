@@ -3,8 +3,8 @@ title: "How Sealmetrics Attributes Conversions: The Attribution Model"
 description: "Sealmetrics uses session-scoped last-click attribution: how a traffic source is chosen, how conversions inherit it, and why there is no cross-session lookback window."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/attribution-model"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "eb0591060d348bffc1ab867c6aeaafd4f6e68159b75ba11aedfc23c30fc1bc03"
+date_generated: "2026-09-11T01:07:15.156Z"
+source_hash: "a484718ef715ff9cf900de565c9e3764cefccb04e889241486e8160f251efd8e"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -40,7 +40,7 @@ A conversion fired during a session is attributed to that session's source — t
 
 Two properties follow from this:
 
-- **Last click, always.** A new tagged arrival mid-journey (new UTMs or click ID from an external entry) starts a new entrance, and any subsequent conversion belongs to it.
+- Last click, always. A new tagged arrival mid-journey (new UTMs or click ID from an external entry) starts a new entrance, and any subsequent conversion belongs to it.
 - **No lookback window.** Sessions are independent. A conversion today is never credited to a source from yesterday, because no identifier connects the two sessions. (GA4-style 30/90-day attribution windows require exactly the persistent identity Sealmetrics refuses to keep.)
 
 ## The session window
@@ -49,7 +49,7 @@ A session groups hits through a short-lived, context-derived marker with a **~2-
 
 ## Why last-click only
 
-Multi-touch models (linear, time-decay, data-driven) need the full journey of an identified user across sessions — a persistent identifier, consent banners, and all the data loss that comes with them. Based on our legal analysis, session-scoped last-click is the attribution model that works **without consent**, on 100% of your traffic. Attribution computed on all of your visitors beats a fancier model computed on the 40–60% who accept cookies.
+Multi-touch models (linear, time-decay, data-driven) need the full journey of an identified user across sessions — a persistent identifier, consent banners, and all the data loss that comes with them. Based on our legal analysis, session-scoped last-click is the attribution model that works without consent, on 100% of your traffic. Attribution computed on all of your visitors beats a fancier model computed on the 40–60% who accept cookies.
 
 ## Related documentation
 
