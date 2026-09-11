@@ -3,8 +3,8 @@ title: "Preserve Attribution Through External Login or SSO Flows"
 description: "Learn how to keep the original traffic source when your signup or login flow passes through an external authentication domain (SSO) and returns to your site."
 canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/external-auth-sso-attribution"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "c65977a6c0a1ce3c86aa887ecd2576951726da8472069ca40c24109a9c88c147"
+date_generated: "2026-09-11T01:05:35.159Z"
+source_hash: "1ace14de02f81db6b8203e6f7a6a8f72f37daccb2ce0db2a82fbc7b120aa1d23"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -34,7 +34,7 @@ This guide explains why this happens and how to fix it.
 
 ## Why the Source Becomes "Referral"
 
-Sealmetrics counts a new **entrance** when the referrer is empty or comes from a domain different from your own.
+Sealmetrics counts a new entrance when the referrer is empty or comes from a domain different from your own.
 
 - `www.yourproduct.com` → `app.yourproduct.com` is **cross-subdomain navigation** of the same root domain. It is treated as internal navigation — session and attribution are preserved. See [Referral vs Direct Traffic](/reports/insights/referral-vs-direct-traffic).
 - `accounts.yourcompany.com` → `app.yourproduct.com` is a **cross-domain jump**. The auth domain becomes the referrer, Sealmetrics detects a new entrance, and the original source (SEO, Paid, Email…) is overwritten by **Referral**.
