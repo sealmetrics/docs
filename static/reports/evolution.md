@@ -3,8 +3,8 @@ title: "Evolution Report"
 description: "Track how metrics change over time with daily, weekly, or monthly grouping and UTM filtering in Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/reports/evolution"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e2bdd4f0a39dc5954afad7e419007513bf29eb38d6dae6b12af4c74fcdd53253"
+date_generated: "2026-09-11T01:06:27.992Z"
+source_hash: "61c36d9a08503085c3062f21e936decab3406b419ec4add5ee41cb3c28d481e0"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -161,7 +161,7 @@ Click **Export** to download:
 
 ## Related documentation
 
-- [Date Range](/reports/date-range) — Choose the time period the Evolution chart covers
+- [Date Range](./date-range.mdx) — Choose the time period the Evolution chart covers
 - [Sources Report](/reports/sources) — Break the same metrics down by channel
 - [Filters](/reports/filters) — Combine global and UTM filters
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
