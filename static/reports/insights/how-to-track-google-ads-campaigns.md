@@ -3,8 +3,8 @@ title: "How to Track Google Ads Campaigns"
 description: "Learn how to correctly track Google Ads campaigns in Sealmetrics using UTM parameters and Google Ads value-track templates."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/how-to-track-google-ads-campaigns"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "253238d8f2238accb64a160bba1bc3a9e451826a4cdaac7b9f64234111addb38"
+date_generated: "2026-09-12T01:04:07.313Z"
+source_hash: "27b970393dfad7a23db8d2b1fd4897160fba94b94466c0e3660c809ebe5d7920"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -74,7 +74,7 @@ When configured at the account level, Google Ads will automatically append all v
 
 ## How to verify it works
 
-You do not have to wait for a real click. Sealmetrics processes hits in **seconds, not hours**, so you can confirm the setup end to end in a couple of minutes.
+You do not have to wait for a real click. Sealmetrics processes hits in seconds, not hours, so you can confirm the setup end to end in a couple of minutes.
 
 **1. Test the resolved URL first.** In Google Ads, use the **Test** button next to the tracking template. Google shows you the final URL a click would produce. Check that the UTM parameters are present and filled in — not left as literal `{keyword}` text.
 
