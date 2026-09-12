@@ -3,8 +3,8 @@ title: "Two-Factor Authentication"
 description: "Add an extra layer of security to your Sealmetrics account with 2FA/TOTP."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/account-security/two-factor-auth"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "378368e59df624834cf97ea14b3f8707ca30856e6dcf431d552e6a016d1b76f6"
+date_generated: "2026-09-12T01:06:18.677Z"
+source_hash: "8fcaf961a1b1db95732089ec6864fffc64aeae593929dcbbc1007906bc3bbac5"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -59,7 +59,7 @@ Sealmetrics uses TOTP, the industry standard for 2FA:
 
 Click **Enable 2FA**. You'll be asked to enter your current password to begin setup.
 
-```
+```text
 Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -74,7 +74,7 @@ phone in addition to your password.
 
 ### Step 3: Scan QR Code and Save Backup Codes
 
-```
+```text
 Set Up Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -95,7 +95,7 @@ XXXX-XXXX-XXXX-XXXX (your unique secret)
 
 On the same screen, Sealmetrics shows your **10 backup codes**. Save them somewhere safe before continuing — you'll use them to sign in if you lose your authenticator device. Each code can be used once.
 
-```
+```text
 Backup Codes
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -118,7 +118,7 @@ Backup Codes
 
 Enter the 6-digit code from your authenticator app to confirm setup.
 
-```
+```text
 Verify Setup
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -131,7 +131,7 @@ Enter the 6-digit code from your authenticator app
 
 ### Step 5: Confirm Enabled
 
-```
+```text
 Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -148,7 +148,7 @@ Backup codes remaining: 10 of 10
 
 After entering your email and password:
 
-```
+```text
 Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -171,7 +171,7 @@ If you can't access your authenticator:
 3. Sign in successfully
 4. Code is marked as used
 
-```
+```text
 Use Backup Code
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -213,7 +213,7 @@ To switch to a different authenticator:
 
 Disabling 2FA requires **both** your password and a current verification code (a 6-digit code from your authenticator app, or a backup code).
 
-```
+```text
 Disable Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
