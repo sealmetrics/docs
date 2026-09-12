@@ -3,8 +3,8 @@ title: "Backup Codes"
 description: "Recovery codes for accessing your account when you can't use your authenticator."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/account-security/backup-codes"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "48081207adc5f9a60a59c0054c42b621c94b5b74352165f3d1c8925ea9e3dad8"
+date_generated: "2026-09-12T01:05:17.663Z"
+source_hash: "72da9b9437d90e4de4d5b7923752674db15a25fb7005bd33d4d500b6bc9488ac"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -86,7 +86,7 @@ Once a backup code is used, it can't be used again. The remaining-codes count in
 Generate new codes when:
 - You've used several codes
 - You think codes may be compromised
-- You want fresh codes for peace of mind
+- You want to replace your current codes as a precaution
 
 ### How to Regenerate
 
