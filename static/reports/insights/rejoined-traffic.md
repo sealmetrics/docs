@@ -3,8 +3,8 @@ title: "What is Rejoined Traffic?"
 description: "Understanding how Sealmetrics classifies traffic returning after the session window expires without inflating Direct traffic."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/rejoined-traffic"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "ecf1994e0aca7bca6205983f8c2a7a34551096c781a7169c29623a67aa46c1db"
+date_generated: "2026-09-12T01:04:46.989Z"
+source_hash: "7506a6ea6cff6846dbd70995ebc6c0fd6931e01da171fb0b74b8d6a1734f2f6c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -18,7 +18,7 @@ Canonical page: https://docs.sealmetrics.com/reports/insights/rejoined-traffic
 
 These visits have resumed browsing on your website after the session window has expired (**2 hours of inactivity** by default).
 
-Instead of counting this traffic as a new session and assigning it to **Direct traffic**, as GA4 and other tools typically do—creating chaos in Direct Traffic—Sealmetrics labels it as **"rejoined traffic."**
+Instead of counting this traffic as a new session and assigning it to **Direct traffic**, as GA4 and other tools typically do—leading to misattribution in Direct Traffic—Sealmetrics labels it as **"rejoined traffic."**
 
 This reflects traffic originating from any source, which has been reactivated after a period of pause or inactivity.
 
