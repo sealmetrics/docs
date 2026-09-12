@@ -3,8 +3,8 @@ title: "How to Track Social Ads Campaigns"
 description: "Learn how to track Facebook and Meta Ads campaigns in Sealmetrics without cookies using UTM parameters and privacy-first attribution."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/how-to-track-social-ads-campaigns"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "33db382ba6c506f465177778b757913d2a47a79dba1f18082ee8c8cd2c31017d"
+date_generated: "2026-09-12T01:04:22.909Z"
+source_hash: "a4e2fcb611919d9fdd839ec2d988d45363f28bb3c9db6bb45c18245c9120b4fa"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -46,9 +46,9 @@ If UTMs *are* added:
 UTM parameters are tags added to your ad URLs that Sealmetrics can read instantly — no identifiers, no session tracking.
 
 #### How to implement UTMs
-1. Add UTM parameters to all destination URLs
-2. Follow consistent naming conventions
-3. Include all relevant UTM fields
+1. Add `utm_source`, `utm_medium`, and `utm_campaign` to every destination URL, adding `utm_term` or `utm_content` when you need extra detail on ad sets or creatives
+2. Keep the same naming convention across all campaigns (e.g., lowercase, no spaces) so reports stay consistent
+3. Match the UTM values to the structure shown below, so Sealmetrics can read them correctly
 
 Recommended structure:
 
