@@ -3,8 +3,8 @@ title: "Referral vs Direct Traffic"
 description: "Learn how Sealmetrics classifies referrer traffic vs direct traffic using privacy-first principles and advanced attribution logic."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/referral-vs-direct-traffic"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "292001e555ace0c9837fd957232cecb49ca7262efc1664cfd0ffb9afacd1d460"
+date_generated: "2026-09-12T01:04:33.540Z"
+source_hash: "5995c465f9a8738310a792e4064bce74975bfbd6f43a6e7b18cbef2f901efc26"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/reports/insights/referral-vs-direct-traffic
 
-Understanding the distinction between **Referrer** and **Direct** traffic in Sealmetrics is essential for accurate traffic source analysis and attribution.
+**Referrer** and **Direct** traffic in Sealmetrics are classified as follows:
 
 ---
 
