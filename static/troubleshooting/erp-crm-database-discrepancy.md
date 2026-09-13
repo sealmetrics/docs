@@ -3,8 +3,8 @@ title: "Conversions Don't Match Your ERP, CRM, or Database"
 description: "How to diagnose and fix substantial discrepancies between Sealmetrics conversions and your source of truth (ERP, CRM, internal database)."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy"
 lang: "en"
-date_generated: "2026-09-08T10:38:19.827Z"
-source_hash: "eebe11003256e1737bda6fc45d5dc0ecc1e686ad068703b5338275e9920a76b3"
+date_generated: "2026-09-13T01:07:05.711Z"
+source_hash: "9f4498ca7998b1cae894735971843bf196701e418dd04cc0ebe9d6aa50d19598"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy
 
-Your **ERP, CRM, or internal database is the source of truth** for what actually happened in your business: the orders that were placed, the leads that were captured, the contracts that were signed. Sealmetrics is the measurement layer on top of that reality.
+Your **ERP, CRM, or internal database** is the source of truth for what actually happened in your business: the orders that were placed, the leads that were captured, the contracts that were signed. Sealmetrics is the measurement layer on top of that reality.
 
 When both systems are correctly wired, **Sealmetrics should reconcile with your source of truth with only a minimal discrepancy** — typically a small percentage caused by edge cases (users disabling JavaScript, network failures at the exact moment of the request, manual orders entered directly into the back office, refunds, etc.).
 
