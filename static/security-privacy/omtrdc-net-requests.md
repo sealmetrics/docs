@@ -3,8 +3,8 @@ title: "What Is omtrdc.net? Adobe's Collection Domain, Explained"
 description: "omtrdc.net is where Adobe Analytics sends every hit. What the requests are, when they fire, why an image GET loses data, and how to check your own site."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/omtrdc-net-requests"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "ac784f194c5e5d9db8c78510684f9f5a3019fc93e9a2a3035658492da11d9370"
+date_generated: "2026-09-13T01:05:00.305Z"
+source_hash: "c1cb7de3a9af982ac81c313bdbd6cf19d1ae3d36a52f0e14dc1700a1f969fe56"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -33,11 +33,6 @@ won or lost.
 ## 1. The hostnames you will see
 
 | Hostname | Role |
-|---|---|
-| `sc.omtrdc.net` | Primary collection endpoint |
-| `d1.sc.omtrdc.net` | Regional collection endpoint |
-| `<namespace>.sc.omtrdc.net` | Tenant-specific collection host |
-
 The `<namespace>` portion is your Adobe report suite's tracking namespace, so the exact
 hostname differs per account. All of them serve the same function.
 
