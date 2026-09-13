@@ -59566,7 +59566,7 @@ A common partial failure: `script-src` allows the domain but `connect-src` does 
 
 Add the tracker host to both directives in your CSP:
 
-```
+```text
 Content-Security-Policy:
   script-src 'self' https://t.sealmetrics.com;
   connect-src 'self' https://t.sealmetrics.com;
@@ -59578,7 +59578,7 @@ Content-Security-Policy:
 
 With the [first-party tracker](/implementation/tracker/first-party), the script is served from a subdomain of **your own domain** (e.g. `metrics.yourstore.com`) instead of `t.sealmetrics.com`. Allow that subdomain instead:
 
-```
+```text
 Content-Security-Policy:
   script-src 'self' https://metrics.yourstore.com;
   connect-src 'self' https://metrics.yourstore.com;
