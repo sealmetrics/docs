@@ -3,8 +3,8 @@ title: "Next.js"
 description: "Add cookieless analytics to Next.js with the @sealmetrics/nextjs package — a SealMetricsScript component for both App Router and Pages Router setups."
 canonical_url: "https://docs.sealmetrics.com/integrations/frameworks/nextjs"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "e088037c01a39247f970253cbdf82e95c9d2551fe0b873aca45c99210750b941"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "be229315f9e1763f1433c561b1fea9293ed003c1d3d4d8676e6f2b342e46b3f8"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -281,7 +281,7 @@ import type {
 
 - No cookies used
 - No personal data collected
-- GDPR compliant by design
+- Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
 - No consent banner required
 
 ## Related documentation

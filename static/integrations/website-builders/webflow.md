@@ -3,8 +3,8 @@ title: "Webflow"
 description: "Add Sealmetrics cookieless analytics to Webflow by pasting a script in Project Settings > Custom Code, with automatic event and lead form tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/website-builders/webflow"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "60bd1c1964e28151a9e3d5648d0e1e21d7a01d724d52ecfbe36f0ec252d00ed6"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "43a89d0d1062c77e64a0667818a68dc08aa01724958b164772e378b0e014e176"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -155,7 +155,7 @@ sealmetrics.conv('signup', 0, {
 
 - No cookies used
 - No personal data collected
-- GDPR compliant by design
+- Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
 - No consent banner needed
 
 ## Related documentation

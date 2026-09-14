@@ -3,8 +3,8 @@ title: "AI Agentic Package (Claude & Codex)"
 description: "One-click AI package that creates a free Sealmetrics account, hands you the tracking pixel, and lets your AI assistant query your analytics — all from chat, no terminal and no dashboard login required to start."
 canonical_url: "https://docs.sealmetrics.com/integrations/agentic-package"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "8510df2cda8a2b8ba2a2017691a4c7f4b9e1eb0e9d539ec36f8302bfdc0f72c5"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "ddb8515f69f284bcbb797de1c9026c9b9daf075bc429d398b3ac16a23c58c77e"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -196,7 +196,7 @@ It creates your account and wires up your MCP client in one step.
 - The package runs **locally** (inside Claude Desktop / Codex) and talks to the Sealmetrics API over HTTPS. **No analytics data is stored on your machine.**
 - The API key it uses is **read-only** and scoped to your account.
 - `provision_site` is the **only** tool that writes anything — and it only creates an account after you explicitly accept the Terms of Service. Everything else is read-only.
-- Sealmetrics is **cookieless and GDPR-compliant by design** — see [Security & Privacy](/security-privacy).
+- Sealmetrics is **cookieless and designed for GDPR** (self-assessed, not certified) — see [Security & Privacy](/security-privacy).
 
 ---
 

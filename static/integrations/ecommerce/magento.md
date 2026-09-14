@@ -3,8 +3,8 @@ title: "Magento 2"
 description: "Install the Sealmetrics Magento 2.4+ (Adobe Commerce) module via app/code for cookieless analytics with product, cart, checkout, and purchase tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/magento"
 lang: "en"
-date_generated: "2026-08-27T15:00:33.527Z"
-source_hash: "bb030087e8110c57e2db0dd028a3adc3e749752335d2293544d21d9724d5ae3f"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "47cebabf207744a6a3e2fbc73b1199811f33768448519984b81dbbb998e9a37c"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -170,7 +170,7 @@ sealmetrics.conv('purchase', 149.98, {
 - No cookies used
 - No order IDs stored externally
 - No customer data collected
-- GDPR compliant by design
+- Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
 - No consent banner needed
 
 ## Troubleshooting
