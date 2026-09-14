@@ -3,8 +3,8 @@ title: "How Attribution Accuracy Works"
 description: "Understand the two levels of attribution accuracy in Sealmetrics — why total conversions are always exact, how channel-level attribution works, and what trade-offs make consentless measurement possible."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/attribution-accuracy"
 lang: "en"
-date_generated: "2026-09-14T13:48:10.438Z"
-source_hash: "bb6c8cc6a9014860d2154ab610370ba017dcbe01b4cfaa7cb6339fe9af5d6d24"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "0ead8256818491e5852707de25b003320b032caadde2d3ad47320d064d587c43"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -24,7 +24,7 @@ Sealmetrics operates with two distinct levels of accuracy, and understanding bot
 | **By channel / source** | Split across SEO, Paid, Email, Social, etc. | **High** — with a small, bounded bias |
 | **Per individual conversion** | Row-by-row traceability | **Not guaranteed** — direct consequence of consentless measurement |
 
-This is not a limitation to work around. It is the result of a deliberate design — one that makes it possible to measure 100% of your traffic without a cookie banner.
+This is not a limitation to work around. It is the result of a deliberate design — one that makes it possible to measure your traffic without a cookie banner.
 
 ---
 
@@ -81,7 +81,7 @@ IP addresses are classified as personal data under GDPR (Court of Justice of the
 
 Sealmetrics made the opposite choice: build a measurement system that truly does not depend on the IP address. This means the session identifier has lower entropy — it groups visitors rather than pinpointing individuals — and that is precisely what makes it consentless.
 
-**The bias is the price of genuine consentless operation.** It is small, bounded, and self-correcting at scale. And it comes with the benefit of measuring 100% of your traffic — including every visitor who would have rejected a consent banner.
+**The bias is the price of genuine consentless operation.** It is small, bounded, and self-correcting at scale. And it comes with the benefit of measuring the visitors who would have rejected a consent banner.
 
 ---
 

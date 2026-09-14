@@ -3,8 +3,8 @@ title: "UTM Governance: Naming Conventions That Keep Attribution Clean"
 description: "UTM governance for Sealmetrics: lowercase values, one separator, one canonical name per source, mediums matching default channels, no UTMs on internal links."
 canonical_url: "https://docs.sealmetrics.com/guides/utm-governance"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "89dd3e628e5e68bf32414aabfed2ccc95bab06e435d78dbf30d4f21db8906052"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "7dba53e77b577a3f503925df966dcc59a24c9d75a4aa4bf84628ac659e15dcd2"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -20,7 +20,7 @@ UTM governance is a small set of written naming rules, applied by everyone who c
 
 This is what UTM governance means: a small set of written rules, applied by everyone who creates a link, forever. This guide gives you the complete playbook — naming conventions, a source/medium taxonomy that matches Sealmetrics's default channel definitions, the errors that silently corrupt attribution, a spreadsheet template your team can adopt today, and a walkthrough of how Sealmetrics actually processes UTM parameters so you understand *why* the rules matter.
 
-It matters even more in Sealmetrics than in cookie-based tools. Sealmetrics reads UTM parameters **directly from the URL on every page load, without cookies** — attribution works for 100% of your visitors, including the ones who reject or ignore consent banners. That's the good news. The flip side: your UTMs are the primary attribution signal, so their quality *is* your attribution quality.
+It matters even more in Sealmetrics than in cookie-based tools. Sealmetrics reads UTM parameters **directly from the URL on every page load, without cookies** — attribution also works for the visitors who reject or ignore consent banners. That's the good news. The flip side: your UTMs are the primary attribution signal, so their quality *is* your attribution quality.
 
 ## The Five UTM Parameters, and What Each Is Actually For
 

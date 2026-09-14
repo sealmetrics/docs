@@ -16,7 +16,7 @@ tags:
 title: What is Consentless Analytics?
 ---
 
-Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need 100% visitor capture with no banner and last-click revenue attribution across the full dataset, not just consented sessions.
+Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need visitor measurement that does not depend on a banner and last-click revenue attribution across the full dataset, not just consented sessions.
 
 import Head from '@docusaurus/Head';
 
@@ -26,7 +26,7 @@ import Head from '@docusaurus/Head';
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
-        {"@type": "Question", "name": "Is consentless analytics less accurate than cookie-based analytics?", "acceptedAnswer": {"@type": "Answer", "text": "For aggregate metrics, consentless analytics is more accurate because it captures 100% of traffic. Cookie-based tools only measure visitors who accept consent, creating a biased sample."}},
+        {"@type": "Question", "name": "Is consentless analytics less accurate than cookie-based analytics?", "acceptedAnswer": {"@type": "Answer", "text": "For aggregate metrics, consentless analytics is more accurate because consent rejection does not remove visits from the data. Cookie-based tools only measure visitors who accept consent, creating a biased sample."}},
         {"@type": "Question", "name": "Can consentless analytics track returning visitors?", "acceptedAnswer": {"@type": "Answer", "text": "No. Identifying returning visitors requires a persistent identifier, which constitutes personal data. Consentless analytics treats every session as independent."}},
         {"@type": "Question", "name": "Does consentless analytics work with Google Ads?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Sealmetrics reads UTM parameters from Google Ads URLs and attributes conversions and revenue to campaigns, providing ROAS reporting at the campaign, source, and medium level."}},
         {"@type": "Question", "name": "Is consentless analytics the same as server-side analytics?", "acceptedAnswer": {"@type": "Answer", "text": "No. Consentless analytics uses a client-side JavaScript tracker that captures SPA navigation, conversions, and form submissions that server logs cannot see."}},
@@ -228,7 +228,7 @@ Consentless analytics is particularly valuable for:
 
 ### Is consentless analytics less accurate than cookie-based analytics?
 
-For aggregate metrics (total traffic, conversions, source attribution), consentless analytics is *more* accurate because it captures 100% of traffic. Cookie-based tools only measure the subset of visitors who accept consent, which creates a biased sample.
+For aggregate metrics (total traffic, conversions, source attribution), consentless analytics is *more* accurate because consent rejection does not remove visits from the data. Cookie-based tools only measure the subset of visitors who accept consent, which creates a biased sample.
 
 ### Can consentless analytics track returning visitors?
 

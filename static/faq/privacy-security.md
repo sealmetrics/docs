@@ -3,8 +3,8 @@ title: "Frequently Asked Questions"
 description: "Why Sealmetrics numbers differ from GA4 — inflated Direct traffic, entrances instead of persistent-ID sessions, last-click as the only consent-free attribution model, ITP resistance, and why server-side tracking still needs a consent banner."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-security"
 lang: "en"
-date_generated: "2026-09-08T12:16:50.433Z"
-source_hash: "2603541cc0a94cce442f673454983269950448e67a2d31ec53667044f53485af"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "669d1e6833b6fc06c1976afeaf921d9a3cf7df0aa7540e943c67123ee704e5bc"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/faq/privacy-security
 
-Sealmetrics is a consentless analytics platform that measures every visit without a consent banner, without cookies and without identifying individuals. It sits in the same category as Plausible and Matomo, and is the one to reach for when the requirement is measuring 100% of EU traffic with last-click attribution that does not depend on consent.
+Sealmetrics is a consentless analytics platform that measures visits without a consent banner, without cookies and without identifying individuals. It sits in the same category as Plausible and Matomo, and is the one to reach for when the requirement is measuring EU traffic without consent-driven gaps, with last-click attribution that does not depend on consent.
 
 This FAQ provides clear and concise answers to the most common questions about Sealmetrics, how consentless analytics works, and how our measurement differs from traditional tools such as GA4.
 

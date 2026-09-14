@@ -3,8 +3,8 @@ title: "Features"
 description: "Explore the complete feature set of Sealmetrics - from core analytics reports to API access, conversion tracking, and privacy-first capabilities."
 canonical_url: "https://docs.sealmetrics.com/getting-started/features"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "4ed53b00358574537bd12df817ade57146c162f1f8cfc18935052476e776597f"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "29e535ebc1ae028cd980c47a37c00058c512d7992bc6cf9eb8d8fbb14da1cefc"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -187,7 +187,7 @@ Export any report to CSV or PDF format for offline analysis, custom reporting, o
 No cookies, no local storage, no fingerprinting. Zero impact on page speed from privacy scripts.
 
 ### No Consent Required
-Skip the banner. Keep 100% of your data. Stay compliant with all major privacy regulations.
+Skip the banner. Stop losing visits to consent rejection. Measure without personal data.
 
 ### Ad Blocker Resistant
 First-party tracking means ad blockers don't interfere. Measure all your traffic, not just the users who allow tracking.

@@ -3,8 +3,8 @@ title: "GDPR and Cookieless Analytics"
 description: "How cookieless analytics comply with GDPR requirements and provide better data without consent banners"
 canonical_url: "https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "cf8a34eb6f1b08f76d02b213951f55137165a26ecce4c2e9c4ba19c187d24fa2"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "3a24124397229ee0522605d19214c569f93f007a4ed2f6ebf22297daaa7d354d"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -638,7 +638,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 | **ePrivacy requirement** | Consent required | Not applicable (no cookies) |
 | **Cookie banner** | Required | Not required |
 | **Data subject rights** | Complex (years of profiles) | Simple (minimal data) |
-| **Consent rate** | 50-80% (data loss) | N/A (100% data) |
+| **Consent rate** | 50-80% (data loss) | N/A (no consent needed) |
 | **Privacy impact** | High (tracking over time) | Low (session-only) |
 | **User experience** | Interrupted (banner) | Seamless (no banner) |
 | **Compliance complexity** | High | Low |
