@@ -3,8 +3,8 @@ title: "Troubleshooting"
 description: "Diagnose and fix common Sealmetrics issues: verify tracker installation in DevTools, confirm data collection with the Last hit timestamp, and resolve missing data."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "a9d3a6156c76125755e68e09510fb176de9973d1a102f09d68332684521a2d4c"
+date_generated: "2026-09-14T13:48:10.438Z"
+source_hash: "09d6a3e0dc5a45005a9d83af6c5ecbe7e633ef2cceb8804e2170679e167969c1"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -30,7 +30,7 @@ Solutions for common issues with Sealmetrics tracking and reporting.
 | [Unauthorized domain](/troubleshooting/unauthorized-domain) | The snippet is installed but hits from a domain are silently rejected |
 | [Data delay](/troubleshooting/data-delay) | Data seems to take longer than seconds to appear |
 | [Conversions not appearing](/troubleshooting/conversions-not-appearing) | Pageviews work but a conversion never reaches the Conversions report |
-| [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) | Sealmetrics reports fewer visits than GA4 or another tool |
+| [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) | Sealmetrics reports fewer visits than other analytics tools |
 | [Test traffic blocked as bot](/troubleshooting/test-traffic-blocked-as-bot) | Your own automated test visits (Selenium, Playwright, curl…) never show up |
 | [Reconciling with your ERP, CRM, or database](/troubleshooting/erp-crm-database-discrepancy) | Substantial conversion gaps against your source of truth |
 | [Fixing `ReferenceError: sealmetrics is not defined`](/troubleshooting/sealmetrics-is-not-defined) | Ad blockers break pages that call `sealmetrics.*` directly |
