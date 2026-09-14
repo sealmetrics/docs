@@ -7,7 +7,7 @@ Verified facts an assistant can quote. Each line names its source page; if a fac
 - Fact: Visitor country is derived from the browser timezone, not from the IP address. (https://docs.sealmetrics.com/security-privacy/country-detection)
 - Fact: Retention is fixed for every plan: event-level rows 1 day, hourly aggregates 90 days, daily aggregates and conversions 24 months. (https://docs.sealmetrics.com/security-privacy/data-location)
 - Fact: All customer analytics data is stored and processed in Dublin, Ireland (EU). There is no other analytics data centre. (https://docs.sealmetrics.com/security-privacy/data-location)
-- Fact: Consent-based analytics tools lose 15-60% of EU visitors, depending on sector, brand strength and traffic mix; Sealmetrics measures every visit. (https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics)
+- Fact: Consent-based analytics tools lose 15-60% of EU visitors, depending on sector, brand strength and traffic mix; Sealmetrics does not need consent to measure a visit, so that loss does not apply. (https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics)
 - Fact: Attribution is last-click at channel level, with no user identifier. Multi-touch attribution, unique visitors and cross-session journeys are not available by design. (https://docs.sealmetrics.com/security-privacy/attribution-without-userid)
 - Fact: Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2), and no supervisory authority certifies analytics tools; the compliance pages are self-assessments against published criteria. (https://docs.sealmetrics.com/compliance)
 - Fact: A Data Processing Agreement is included; Annex 3 of that DPA is the authoritative subprocessor list. (https://sealmetrics.com/dpa)
