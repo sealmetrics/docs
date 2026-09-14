@@ -3,8 +3,8 @@ title: "Wix"
 description: "Add Sealmetrics cookieless analytics to Wix sites and Wix Stores via Settings > Custom Code or an embed element, with automatic event tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/website-builders/wix"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "3f806368a2f7ea2350b1707524da9b8051ee2bd7282be681307cb9bc7a25ca22"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "737a356dbe370796e064841893f5a269021b2b2f65c271bee7e58b60541ba3f8"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -169,7 +169,7 @@ $w.onReady(function () {
 
 - No cookies used
 - No personal data collected
-- GDPR compliant by design
+- Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
 - No consent banner needed
 
 ## Related documentation

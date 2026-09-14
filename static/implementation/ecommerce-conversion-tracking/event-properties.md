@@ -3,8 +3,8 @@ title: "Understanding Event Properties in Sealmetrics"
 description: "Learn how to use event properties in Sealmetrics for advanced conversion tracking, custom data collection, and detailed analytics segmentation while maintaining GDPR compliance."
 canonical_url: "https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "efbea0b18e019dc1ad5a6385eebdd311860ff679ba9916b7fbad7811f70b3748"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "83c1294b6200150fea2e2e12d6f8ae8a6624a66313873cf6a8bd9102478674ff"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -413,7 +413,7 @@ BigQuery integration transforms Sealmetrics into a comprehensive analytics wareh
 | Feature | Sealmetrics Event Properties | Google Analytics (Cookie-based) |
 |---------|----------------------------|--------------------------------|
 | **Data Collection Method** | Event-attached properties | User-scoped cookies + events |
-| **Privacy Compliance** | GDPR-compliant by design | Requires consent banners |
+| **Privacy Compliance** | Designed for GDPR, no consent banner (self-assessed) | Requires consent banners |
 | **User Tracking** | Event-level only | Cross-session user profiles |
 | **Data Loss from Consent** | 0% (no consent required) | 40-65% (consent rejection) |
 | **Custom Dimensions** | Unlimited properties | Limited by plan (20-200) |

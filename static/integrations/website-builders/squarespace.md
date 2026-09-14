@@ -3,8 +3,8 @@ title: "Squarespace"
 description: "Privacy-first, cookieless analytics for Squarespace websites and Squarespace Commerce"
 canonical_url: "https://docs.sealmetrics.com/integrations/website-builders/squarespace"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "9063d9781e90d0f7f27dc860ee029a1d0a1476aa354b9a3f4eecd00b1b104e8b"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "18d495ac3d260d01c5f498d0b58b43c2633eda573ddbe83854f76842e6eb8285"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -145,7 +145,7 @@ Works with all Squarespace templates:
 
 - No cookies used
 - No personal data collected
-- GDPR compliant by design
+- Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
 - No consent banner needed
 
 ## Related documentation

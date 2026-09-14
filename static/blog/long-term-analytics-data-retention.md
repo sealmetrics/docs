@@ -3,8 +3,8 @@ title: "Long-Term Analytics: 24-Month Data Retention Without Consent"
 description: "24-month analytics data retention without consent. How cookieless tracking enables long-term analysis while staying GDPR compliant."
 canonical_url: "https://docs.sealmetrics.com/blog/long-term-analytics-data-retention"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "4e7e1eba21f29c02b46ad867c03f83f36e4b50a7acc584fe5b183658aa51cbb3"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "7e6612f9f98f5094574a6da2ceb7b1dbcbe8a0bb4a22e4a4832fc4049489f325"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -27,7 +27,7 @@ Understanding long-term user behavior is crucial for business growth, but tradit
 - **24-month retention without consent**: Sealmetrics stores aggregate analytics for two years, and because none of it is personal data, the GDPR's retention rules aren't what constrains it
 - **No consent expiration risk**: Unlike cookie-based analytics, your data won't be deleted when consent expires
 - **Complete historical analysis**: Track seasonal trends, year-over-year growth, and long-term user behavior
-- **GDPR compliant by design**: Cookieless tracking with zero IP storage meets data minimization requirements
+- **Designed for GDPR**: Cookieless tracking with zero IP storage meets data minimization requirements
 
 ## The Data Retention Problem in Traditional Analytics
 
