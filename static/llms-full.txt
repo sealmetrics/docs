@@ -2646,7 +2646,7 @@ The assistant supports two provider modes: **[Seal AI Private](/billing/seal-ai-
 
 ### Insight Delivery
 
-Receive proactive insights without lifting a finger:
+Receive proactive insights automatically, with no manual setup required:
 
 - **In-app insights** (planned) - Once detection ships, new insights will appear in the LENS dashboard as they are detected
 - **Email summaries** - Key metrics, trends, and recommendations delivered to your inbox
@@ -3435,7 +3435,7 @@ URL: https://docs.sealmetrics.com/lens/ai-assistant/best-practices
 
 # Best Practices for LENS AI
 
-Get more accurate, actionable insights by following these best practices when asking questions.
+Follow these best practices to get more accurate results from LENS AI.
 
 ## Writing Better Questions
 
@@ -6634,7 +6634,7 @@ URL: https://docs.sealmetrics.com/reports/insights/referral-vs-direct-traffic
 
 # Referral vs Direct Traffic
 
-Understanding the distinction between **Referrer** and **Direct** traffic in Sealmetrics is essential for accurate traffic source analysis and attribution.
+**Referrer** and **Direct** traffic in Sealmetrics are classified as follows:
 
 ---
 
@@ -7261,7 +7261,7 @@ Attributing a conversion to the right channel requires knowing which traffic sou
 
 When a visitor arrives from a campaign — through UTM parameters, a referrer domain, or a recognized click ID — that source is associated with their current session. If they convert within that session, the conversion inherits the same origin. This is last-touch attribution: the channel that brought the visitor to the site gets credit for the conversion that happens during that visit.
 
-**This works well the vast majority of the time.**
+This works well the vast majority of the time.
 
 However, because Sealmetrics does not use individual identifiers, there are rare scenarios where two visitors with very similar device profiles are active at the same time and one of them converts. In those cases, the attribution may reflect the most recently detected source for that profile group rather than the source that actually drove the converting visit.
 
@@ -7410,7 +7410,7 @@ URL: https://docs.sealmetrics.com/reports/insights/rejoined-traffic
 
 These visits have resumed browsing on your website after the session window has expired (**2 hours of inactivity** by default).
 
-Instead of counting this traffic as a new session and assigning it to **Direct traffic**, as GA4 and other tools typically do—creating chaos in Direct Traffic—Sealmetrics labels it as **"rejoined traffic."**
+Instead of counting this traffic as a new session and assigning it to **Direct traffic**, as GA4 and other tools typically do—leading to misattribution in Direct Traffic—Sealmetrics labels it as **"rejoined traffic."**
 
 This reflects traffic originating from any source, which has been reactivated after a period of pause or inactivity.
 
@@ -9368,7 +9368,7 @@ URL: https://docs.sealmetrics.com/reports/insights/gtm-msr-appspot-and-tag-block
 # What is gtm-msr.appspot.com and How to Prevent It from Triggering Tags in GTM
 
 When working with Google Tag Manager (GTM), you may notice traffic coming from **gtm-msr.appspot.com**.  
-This domain is **owned by Google** and appears in very specific scenarios.
+This domain is owned by Google and appears in very specific scenarios.
 
 ---
 
@@ -10446,7 +10446,7 @@ When configured at the account level, Google Ads will automatically append all v
 
 ## How to verify it works
 
-You do not have to wait for a real click. Sealmetrics processes hits in **seconds, not hours**, so you can confirm the setup end to end in a couple of minutes.
+You do not have to wait for a real click. Sealmetrics processes hits in seconds, not hours, so you can confirm the setup end to end in a couple of minutes.
 
 **1. Test the resolved URL first.** In Google Ads, use the **Test** button next to the tracking template. Google shows you the final URL a click would produce. Check that the UTM parameters are present and filled in — not left as literal `{keyword}` text.
 
@@ -10857,9 +10857,9 @@ If UTMs *are* added:
 UTM parameters are tags added to your ad URLs that Sealmetrics can read instantly — no identifiers, no session tracking.
 
 #### How to implement UTMs
-1. Add UTM parameters to all destination URLs  
-2. Follow consistent naming conventions  
-3. Include all relevant UTM fields  
+1. Add `utm_source`, `utm_medium`, and `utm_campaign` to every destination URL, adding `utm_term` or `utm_content` when you need extra detail on ad sets or creatives  
+2. Keep the same naming convention across all campaigns (e.g., lowercase, no spaces) so reports stay consistent  
+3. Match the UTM values to the structure shown below, so Sealmetrics can read them correctly  
 
 Recommended structure:
 
@@ -38478,7 +38478,7 @@ Sealmetrics uses TOTP, the industry standard for 2FA:
 
 Click **Enable 2FA**. You'll be asked to enter your current password to begin setup.
 
-```
+```text
 Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -38493,7 +38493,7 @@ phone in addition to your password.
 
 ### Step 3: Scan QR Code and Save Backup Codes
 
-```
+```text
 Set Up Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -38514,7 +38514,7 @@ XXXX-XXXX-XXXX-XXXX (your unique secret)
 
 On the same screen, Sealmetrics shows your **10 backup codes**. Save them somewhere safe before continuing — you'll use them to sign in if you lose your authenticator device. Each code can be used once.
 
-```
+```text
 Backup Codes
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -38537,7 +38537,7 @@ Backup Codes
 
 Enter the 6-digit code from your authenticator app to confirm setup.
 
-```
+```text
 Verify Setup
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -38550,7 +38550,7 @@ Enter the 6-digit code from your authenticator app
 
 ### Step 5: Confirm Enabled
 
-```
+```text
 Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -38567,7 +38567,7 @@ Backup codes remaining: 10 of 10
 
 After entering your email and password:
 
-```
+```text
 Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -38590,7 +38590,7 @@ If you can't access your authenticator:
 3. Sign in successfully
 4. Code is marked as used
 
-```
+```text
 Use Backup Code
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -38632,7 +38632,7 @@ To switch to a different authenticator:
 
 Disabling 2FA requires **both** your password and a current verification code (a 6-digit code from your authenticator app, or a backup code).
 
-```
+```text
 Disable Two-Factor Authentication
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -39019,7 +39019,7 @@ Once a backup code is used, it can't be used again. The remaining-codes count in
 Generate new codes when:
 - You've used several codes
 - You think codes may be compromised
-- You want fresh codes for peace of mind
+- You want to replace your current codes as a precaution
 
 ### How to Regenerate
 
@@ -40274,7 +40274,7 @@ All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 
 ## Why this needs no consent
 
-No personal data is collected, so the GDPR obligations that attach to personal data are not triggered ([Article 4(1) and Recital 26](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)); and nothing is stored on or read from the visitor's terminal equipment, so the ePrivacy Directive's [Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058) consent requirement does not attach either. Cookie-based tools face the opposite situation, which is why they typically lose **15–60% of visitor data** in EU markets when visitors decline, depending on sector, brand strength and traffic mix.
+No personal data is collected, so the GDPR obligations that attach to personal data are not triggered ([Article 4(1) and Recital 26](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)); and nothing is stored on or read from the visitor's terminal equipment, so the ePrivacy Directive's [Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058) consent requirement does not attach either. Cookie-based tools face the opposite situation, which is why they typically lose a significant share of visitor data in EU markets when visitors decline, depending on sector, brand strength and traffic mix.
 
 Sealmetrics holds no third-party security certification, and no supervisory authority certifies analytics tools — the [compliance pages](/compliance) are self-assessments against published criteria.
 
@@ -54219,7 +54219,7 @@ Visibility is scoped to your organization: you see entries generated by members 
 
 ## What's Logged
 
-Each entry is a single action with an actor, a resource it affected, and the time it happened. The actions that are recorded are:
+The actions that are recorded are:
 
 ### User
 
@@ -55274,7 +55274,7 @@ This page keeps its `looker-studio` URL on purpose: the Sealmetrics Apps Script 
 
 The Sealmetrics connector for Data Studio fetches data in real-time from the Sealmetrics API using your API key. Each time you view a dashboard, Data Studio requests the latest data for your selected date range.
 
-```
+```text
 Data Studio → Sealmetrics Connector → Sealmetrics API → Your analytics data
 ```
 
@@ -58979,7 +58979,7 @@ Solutions for common issues with Sealmetrics tracking and reporting.
 | [Unauthorized domain](/troubleshooting/unauthorized-domain) | The snippet is installed but hits from a domain are silently rejected |
 | [Data delay](/troubleshooting/data-delay) | Data seems to take longer than seconds to appear |
 | [Conversions not appearing](/troubleshooting/conversions-not-appearing) | Pageviews work but a conversion never reaches the Conversions report |
-| [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) | Sealmetrics reports fewer visits than GA4 or another tool |
+| [Numbers lower than another tool](/troubleshooting/lower-numbers-than-other-tools) | Sealmetrics reports fewer visits than other analytics tools |
 | [Test traffic blocked as bot](/troubleshooting/test-traffic-blocked-as-bot) | Your own automated test visits (Selenium, Playwright, curl…) never show up |
 | [Reconciling with your ERP, CRM, or database](/troubleshooting/erp-crm-database-discrepancy) | Substantial conversion gaps against your source of truth |
 | [Fixing `ReferenceError: sealmetrics is not defined`](/troubleshooting/sealmetrics-is-not-defined) | Ad blockers break pages that call `sealmetrics.*` directly |
@@ -59566,7 +59566,7 @@ A common partial failure: `script-src` allows the domain but `connect-src` does 
 
 Add the tracker host to both directives in your CSP:
 
-```
+```text
 Content-Security-Policy:
   script-src 'self' https://t.sealmetrics.com;
   connect-src 'self' https://t.sealmetrics.com;
@@ -59578,7 +59578,7 @@ Content-Security-Policy:
 
 With the [first-party tracker](/implementation/tracker/first-party), the script is served from a subdomain of **your own domain** (e.g. `metrics.yourstore.com`) instead of `t.sealmetrics.com`. Allow that subdomain instead:
 
-```
+```text
 Content-Security-Policy:
   script-src 'self' https://metrics.yourstore.com;
   connect-src 'self' https://metrics.yourstore.com;
@@ -60185,7 +60185,7 @@ URL: https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy
 
 # Conversions Don't Match Your ERP, CRM, or Database
 
-Your **ERP, CRM, or internal database is the source of truth** for what actually happened in your business: the orders that were placed, the leads that were captured, the contracts that were signed. Sealmetrics is the measurement layer on top of that reality.
+Your **ERP, CRM, or internal database** is the source of truth for what actually happened in your business: the orders that were placed, the leads that were captured, the contracts that were signed. Sealmetrics is the measurement layer on top of that reality.
 
 When both systems are correctly wired, **Sealmetrics should reconcile with your source of truth with only a minimal discrepancy** — typically a small percentage caused by edge cases (users disabling JavaScript, network failures at the exact moment of the request, manual orders entered directly into the back office, refunds, etc.).
 

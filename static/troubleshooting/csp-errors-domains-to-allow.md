@@ -3,8 +3,8 @@ title: "Tracker Blocked by Content Security Policy (CSP)"
 description: "How to detect Content-Security-Policy blocks in the browser console and which directives (script-src, connect-src) must allow the Sealmetrics tracker domain."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/csp-errors-domains-to-allow"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "7b0160963022ed79eae901e6f5f43db5fa2a9ee267c103719044a90a58a51612"
+date_generated: "2026-09-14T13:48:10.438Z"
+source_hash: "90d858df1165ea692c389e5f559bfc1c6ca11547b21909a16fb704e49d87a6c0"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -48,7 +48,7 @@ A common partial failure: `script-src` allows the domain but `connect-src` does 
 
 Add the tracker host to both directives in your CSP:
 
-```
+```text
 Content-Security-Policy:
   script-src 'self' https://t.sealmetrics.com;
   connect-src 'self' https://t.sealmetrics.com;
@@ -60,7 +60,7 @@ Content-Security-Policy:
 
 With the [first-party tracker](/implementation/tracker/first-party), the script is served from a subdomain of **your own domain** (e.g. `metrics.yourstore.com`) instead of `t.sealmetrics.com`. Allow that subdomain instead:
 
-```
+```text
 Content-Security-Policy:
   script-src 'self' https://metrics.yourstore.com;
   connect-src 'self' https://metrics.yourstore.com;
