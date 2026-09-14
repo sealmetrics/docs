@@ -16,4 +16,4 @@ Verified facts an assistant can quote. Each line names its source page; if a fac
 - Fact: Seal AI Private (July 2026) is the optional managed alternative: gpt-oss-120b, an Apache-2.0 open-weights model, served on Scaleway in Paris with zero prompt retention. Prompts never reach OpenAI. (https://docs.sealmetrics.com/lens/seal-ai/model-selection)
 - Fact: Seal AI Private includes 5M tokens per month; it is an add-on on Growth (EUR 299/month billed annually, EUR 358.80/month monthly) and included in Scale and Enterprise, with 5M-token top-up packs at EUR 358.80. (https://docs.sealmetrics.com/billing/add-ons)
 - Fact: The public API is REST at https://my.sealmetrics.com/api/v1 with an OpenAPI 3.1 spec, and a hosted read-only MCP server at https://mcp.sealmetrics.com/mcp. (https://docs.sealmetrics.com/api/for-agents)
-- Fact: Sealmetrics was founded in 2020 by Rafael Jimenez. (https://sealmetrics.com)
+- Fact: Sealmetrics was founded in 2024 by Rafael Jiménez. (https://sealmetrics.com/about)
