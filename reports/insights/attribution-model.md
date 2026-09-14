@@ -3,8 +3,8 @@ title: "How Sealmetrics Attributes Conversions: The Attribution Model"
 description: "Sealmetrics uses session-scoped last-click attribution: how a traffic source is chosen, how conversions inherit it, and why there is no cross-session lookback window."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/attribution-model"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "eb0591060d348bffc1ab867c6aeaafd4f6e68159b75ba11aedfc23c30fc1bc03"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "5aecbe6a46bf374dcf6021f9bca323c2bf1e2c0c1b98e5a1cf1ef897410d3575"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -49,7 +49,7 @@ A session groups hits through a short-lived, context-derived marker with a **~2-
 
 ## Why last-click only
 
-Multi-touch models (linear, time-decay, data-driven) need the full journey of an identified user across sessions — a persistent identifier, consent banners, and all the data loss that comes with them. Based on our legal analysis, session-scoped last-click is the attribution model that works **without consent**, on 100% of your traffic. Attribution computed on all of your visitors beats a fancier model computed on the 40–60% who accept cookies.
+Multi-touch models (linear, time-decay, data-driven) need the full journey of an identified user across sessions — a persistent identifier, consent banners, and all the data loss that comes with them. Based on our legal analysis, session-scoped last-click is the attribution model that works **without consent**, including on visitors who reject the banner. Attribution computed without consent gaps beats a fancier model computed on the 40–60% who accept cookies.
 
 ## Related documentation
 

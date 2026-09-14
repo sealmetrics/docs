@@ -3,8 +3,8 @@ title: "Cookie Banner Ghosting: Why Analytics Loses 15-60% of Your Data"
 description: "Many visitors never answer the cookie banner — they ignore it. Ghosting, not rejection, is the quiet reason cookie-based analytics loses 15-60% of data."
 canonical_url: "https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss"
 lang: "en"
-date_generated: "2026-09-01T09:24:39.001Z"
-source_hash: "74cbcb848cd50d0fc00d80576c0906fd96b680e507faffad4a38a5ae65eb7271"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "425262a3d7e2edca84f4fc174de9c4ca11dbcf18f2dcc342dc3b2f9c1c9a7385"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -1016,7 +1016,7 @@ The uneven multipliers are the finding, not the headline number. LinkedIn and mo
 **Week 3: Migration**
 - Day 15: Remove consent banner code
 - Day 16: Remove GA4 code
-- Day 17-21: Verify 100% tracking, team training
+- Day 17-21: Verify tracking coverage, team training
 
 **Week 4: Optimization**
 - Day 22-28: Analyze new data, correct attribution, optimize based on complete visitor insights
@@ -1153,7 +1153,7 @@ Sealmetrics measures every visit, eliminates banner ghosting, eliminates cookie 
 **Related Reading**:
 - [Complete Guide to Cookieless Analytics](/blog/cookieless-analytics-guide) — How to measure traffic without cookies or consent banners
 - [Cookieless vs Cookie-Based Analytics](/blog/cookieless-analytics-vs-cookie-based) — Technical comparison of both approaches
-- [What Is Consentless Analytics?](/security-privacy/consentless-analytics) — How Sealmetrics captures 100% of traffic without consent
+- [What Is Consentless Analytics?](/security-privacy/consentless-analytics) — How Sealmetrics measures traffic without consent
 - [GDPR Compliant Analytics Framework](/blog/gdpr-compliant-analytics-framework) — Complete compliance framework for web analytics
 
 **Official Resources**:

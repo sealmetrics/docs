@@ -3,8 +3,8 @@ title: "What is Consentless Analytics?"
 description: "What consentless analytics is, the four non-identifying variables Sealmetrics records, and why measuring without personal data means no consent banner is required."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-analytics"
 lang: "en"
-date_generated: "2026-09-08T13:00:42.846Z"
-source_hash: "63b2fb490b42cb7c6dcdaa3d5cba0c02dfde9e697519bb0bb74b4a5df74161a8"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "8a32b0242cc203e7c7bf8dda3170a8f6aa525b3d136308bc90b27d14eba75c82"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/consentless-analytics
 
-Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need 100% visitor capture with no banner and last-click revenue attribution across the full dataset, not just consented sessions.
+Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need visitor measurement that does not depend on a banner and last-click revenue attribution across the full dataset, not just consented sessions.
 
 
 **Consentless analytics** is a method of measuring website traffic and user behavior without requiring visitor consent. It achieves this by not collecting personal data, not setting cookies, and not using any form of user identification — making consent legally unnecessary under GDPR, ePrivacy Directive, and other privacy regulations.
@@ -199,7 +199,7 @@ Consentless analytics is particularly valuable for:
 
 ### Is consentless analytics less accurate than cookie-based analytics?
 
-For aggregate metrics (total traffic, conversions, source attribution), consentless analytics is *more* accurate because it captures 100% of traffic. Cookie-based tools only measure the subset of visitors who accept consent, which creates a biased sample.
+For aggregate metrics (total traffic, conversions, source attribution), consentless analytics is *more* accurate because consent rejection does not remove visits from the data. Cookie-based tools only measure the subset of visitors who accept consent, which creates a biased sample.
 
 ### Can consentless analytics track returning visitors?
 

@@ -91,7 +91,7 @@ URL: https://docs.sealmetrics.com/intro
 
 # Sealmetrics Documentation
 
-This documentation covers everything you need to run **Sealmetrics**, the consentless web analytics platform that captures 100% of your traffic without cookies, fingerprinting, or consent banners. It spans getting started, tracker implementation, reports, the API reference, and legal compliance — so you can install tracking, measure conversions, and stay GDPR compliant by design.
+This documentation covers everything you need to run **Sealmetrics**, the consentless web analytics platform that measures your traffic without cookies, fingerprinting, or consent banners. It spans getting started, tracker implementation, reports, the API reference, and legal compliance — so you can install tracking, measure conversions, and check how Sealmetrics fits GDPR.
 
 ## Explore the Docs
 
@@ -99,12 +99,12 @@ This documentation covers everything you need to run **Sealmetrics**, the consen
 
 ## What is Sealmetrics?
 
-Sealmetrics is a **consentless web analytics platform** that captures 100% of your traffic without cookies, fingerprinting, or consent banners. Traditional analytics tools like Google Analytics lose 15-60% of visitor data in EU markets when visitors reject cookie consent — how much depends on sector, brand strength and traffic mix. Sealmetrics eliminates this problem entirely.
+Sealmetrics is a **consentless web analytics platform** that measures your traffic without cookies, fingerprinting, or consent banners. Traditional analytics tools like Google Analytics lose 15-60% of visitor data in EU markets when visitors reject cookie consent — how much depends on sector, brand strength and traffic mix. Sealmetrics does not ask for consent, so that loss does not apply.
 
 **How it works:** Sealmetrics uses a [Four-Variable System](/security-privacy/how-consentless-works) that generates anonymous, session-scoped identifiers without storing any personal data. No IP addresses are retained, no cookies are set, and no device fingerprints are created. Because the stored dataset holds no personal data, it falls outside the GDPR's material scope ([Recital 26](https://eur-lex.europa.eu/eli/reg/2016/679/oj)) and needs no Article 6 legal basis at all. Sealmetrics has self-assessed against the audience-measurement criteria published by [CNIL](/compliance/cnil-self-assessment) ([sheet n°16](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications)) and [AEPD](/blog/real-time-tracking-consent); no supervisory authority certifies analytics tools.
 
 **Key capabilities:**
-- **100% data capture** — every visit counted, no consent banner needed
+- **No consent-driven data loss** — visits are measured without a consent banner
 - **Conversion and revenue tracking** — attribute sales to campaigns via UTM parameters
 - **Funnel analysis** — visualize user progression through conversion steps
 - **Real-time dashboards** — daily aggregates that update continuously
@@ -115,10 +115,10 @@ Sealmetrics is used by ecommerce brands, SaaS companies, and hospitality busines
 
 ---
 
-*Ready to capture 100% of your traffic? [Start your free trial](https://my.sealmetrics.com/register) or [visit sealmetrics.com](https://sealmetrics.com) to learn more.*
+*Ready to see what your consent banner is hiding? [Start your free trial](https://my.sealmetrics.com/register) or [visit sealmetrics.com](https://sealmetrics.com) to learn more.*
 
 **Note:**
-- Sealmetrics captures 100% of traffic without cookies, fingerprinting or consent banners; consent-based tools lose 15-60% of visitor data depending on sector, brand and traffic mix.
+- Sealmetrics measures traffic without cookies, fingerprinting or consent banners, so banner rejection does not remove visits; consent-based tools lose 15-60% of visitor data depending on sector, brand and traffic mix.
 - The stored dataset holds no personal data, so it falls outside the GDPR's material scope (Recital 26); the compliance pages are self-assessments — no supervisory authority certifies analytics tools.
 - The tracker script is 1.3 KB and all analytics data is processed and stored in European infrastructure.
 
@@ -624,7 +624,7 @@ Export any report to CSV or PDF format for offline analysis, custom reporting, o
 No cookies, no local storage, no fingerprinting. Zero impact on page speed from privacy scripts.
 
 ### No Consent Required
-Skip the banner. Keep 100% of your data. Stay compliant with all major privacy regulations.
+Skip the banner. Stop losing visits to consent rejection. Measure without personal data.
 
 ### Ad Blocker Resistant
 First-party tracking means ad blockers don't interfere. Measure all your traffic, not just the users who allow tracking.
@@ -7235,7 +7235,7 @@ Sealmetrics operates with two distinct levels of accuracy, and understanding bot
 | **By channel / source** | Split across SEO, Paid, Email, Social, etc. | **High** — with a small, bounded bias |
 | **Per individual conversion** | Row-by-row traceability | **Not guaranteed** — direct consequence of consentless measurement |
 
-This is not a limitation to work around. It is the result of a deliberate design — one that makes it possible to measure 100% of your traffic without a cookie banner.
+This is not a limitation to work around. It is the result of a deliberate design — one that makes it possible to measure your traffic without a cookie banner.
 
 ---
 
@@ -7292,7 +7292,7 @@ IP addresses are classified as personal data under GDPR (Court of Justice of the
 
 Sealmetrics made the opposite choice: build a measurement system that truly does not depend on the IP address. This means the session identifier has lower entropy — it groups visitors rather than pinpointing individuals — and that is precisely what makes it consentless.
 
-**The bias is the price of genuine consentless operation.** It is small, bounded, and self-correcting at scale. And it comes with the benefit of measuring 100% of your traffic — including every visitor who would have rejected a consent banner.
+**The bias is the price of genuine consentless operation.** It is small, bounded, and self-correcting at scale. And it comes with the benefit of measuring the visitors who would have rejected a consent banner.
 
 ---
 
@@ -8856,7 +8856,7 @@ A session groups hits through a short-lived, context-derived marker with a **~2-
 
 ## Why last-click only
 
-Multi-touch models (linear, time-decay, data-driven) need the full journey of an identified user across sessions — a persistent identifier, consent banners, and all the data loss that comes with them. Based on our legal analysis, session-scoped last-click is the attribution model that works **without consent**, on 100% of your traffic. Attribution computed on all of your visitors beats a fancier model computed on the 40–60% who accept cookies.
+Multi-touch models (linear, time-decay, data-driven) need the full journey of an identified user across sessions — a persistent identifier, consent banners, and all the data loss that comes with them. Based on our legal analysis, session-scoped last-click is the attribution model that works **without consent**, including on visitors who reject the banner. Attribution computed without consent gaps beats a fancier model computed on the 40–60% who accept cookies.
 
 ## Related documentation
 
@@ -38720,7 +38720,7 @@ TOTP requires accurate time:
 URL: https://docs.sealmetrics.com/security-privacy/consentless-analytics
 
 
-Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need 100% visitor capture with no banner and last-click revenue attribution across the full dataset, not just consented sessions.
+Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need visitor measurement that does not depend on a banner and last-click revenue attribution across the full dataset, not just consented sessions.
 
 # What is Consentless Analytics?
 
@@ -38904,7 +38904,7 @@ Consentless analytics is particularly valuable for:
 
 ### Is consentless analytics less accurate than cookie-based analytics?
 
-For aggregate metrics (total traffic, conversions, source attribution), consentless analytics is *more* accurate because it captures 100% of traffic. Cookie-based tools only measure the subset of visitors who accept consent, which creates a biased sample.
+For aggregate metrics (total traffic, conversions, source attribution), consentless analytics is *more* accurate because consent rejection does not remove visits from the data. Cookie-based tools only measure the subset of visitors who accept consent, which creates a biased sample.
 
 ### Can consentless analytics track returning visitors?
 
@@ -39565,7 +39565,7 @@ Because the request is served from a subdomain of your own site, AdBlockers trea
 
 See the [Tracker Installation guide](/implementation/tracker/installation) and the [CNAME setup](/implementation/tracking-methods) to point a subdomain of your own site at the Sealmetrics pixel.
 
-Once configured, Sealmetrics captures 100% of your traffic — including users behind AdBlockers, VPNs, and aggressive privacy extensions.
+Once configured, Sealmetrics also measures visitors behind AdBlockers, VPNs, and aggressive privacy extensions, because the tracker is served from your own domain.
 
 **Note:**
 - AdBlockers block requests to known third-party tracking domains (google-analytics.com, facebook.net, doubleclick.net); a Sealmetrics pixel served from a subdomain of your own site is treated as a first-party asset.
@@ -39712,7 +39712,7 @@ Even without User-IDs, Sealmetrics provides full marketing intelligence:
 ### Accuracy Benefits  
 - No consent loss  
 - No cookie rejection  
-- 100% traffic + 100% conversions measured  
+- Traffic and conversions measured without consent-based gaps  
 
 ---
 
@@ -44049,7 +44049,7 @@ Analytics data is retained for 24 months, then deleted.
 | **ePrivacy requirement** | Consent required | Not applicable (no cookies) |
 | **Cookie banner** | Required | Not required |
 | **Data subject rights** | Complex (years of profiles) | Simple (minimal data) |
-| **Consent rate** | 50-80% (data loss) | N/A (100% data) |
+| **Consent rate** | 50-80% (data loss) | N/A (no consent needed) |
 | **Privacy impact** | High (tracking over time) | Low (session-only) |
 | **User experience** | Interrupted (banner) | Seamless (no banner) |
 | **Compliance complexity** | High | Low |
@@ -52636,7 +52636,7 @@ flowchart TD
 
 ## What's different
 
-- **No cookies, no consent banner.** Sealmetrics captures 100% of traffic without collecting personal data, so there is nothing to obtain consent for.
+- **No cookies, no consent banner.** Sealmetrics measures traffic without collecting personal data, so there is nothing to obtain consent for.
 - **Google Ads tracking, no audience sync.** Sealmetrics tracks Google Ads campaigns via UTM parameters end-to-end (source, medium, campaign, term, content) and provides ROAS reporting. What it does **not** do is push audience segments back to Google Ads for automated bidding — that requires GA4 with consented users. Teams commonly run both: GA4 for Ads audience/bidding, Sealmetrics as the source of truth for total traffic and conversions.
 - **No predictive metrics** (purchase probability, churn probability). Sealmetrics reports observed behavior.
 - **Simpler attribution model.** Last non-direct click by default; configurable.
@@ -52667,7 +52667,7 @@ Welcome to the Sealmetrics guides section. Here you'll find step-by-step tutoria
 
 ## Available Guides
 
-- [Complete Guide to Cookieless Analytics 2025](/guides/complete-guide-cookieless-analytics) - Learn how cookieless analytics captures 100% of visitor data without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages.
+- [Complete Guide to Cookieless Analytics 2025](/guides/complete-guide-cookieless-analytics) - Learn how cookieless analytics measures visitors without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages.
 - [UTM Governance: Naming Conventions That Keep Attribution Clean](/guides/utm-governance) - A practical UTM playbook: naming conventions, a source/medium taxonomy aligned with Sealmetrics default channels, the mistakes that corrupt attribution, a spreadsheet template, and how Sealmetrics processes UTMs end to end.
 - [GA4 to Sealmetrics: The Complete Migration Checklist](/guides/ga4-migration-checklist) - Phase-by-phase migration checklist: audit your GA4 events, map them to conv()/micro(), install the tracker, run 30 days in parallel, know which data differences to expect, and switch GA4 off safely.
 - [Tracker Performance Report: Sealmetrics vs GA4, Matomo and Piwik PRO](/guides/tracker-performance-report) - A technical comparison of tracking pixel weight, protocol, latency, and traffic capture against gtag.js, plus measured script weights for Matomo and Piwik PRO, with methodology, measured data from an anonymized reference site, and modeled network scenarios.
@@ -52785,7 +52785,7 @@ Sealmetrics uses a sophisticated approach combining:
 
 **No Consent Required**: nothing is written to or read from the visitor's device, and no personal data is stored, so neither the ePrivacy consent rule nor the GDPR's personal-data obligations are triggered. That removes the banner and captures data from all visitors.
 
-**100% Data Capture**: Because consent isn't required, Sealmetrics captures visitor data from:
+**No consent-driven loss**: Because consent isn't required, Sealmetrics captures visitor data from:
 - Banner ghosters (typically the largest missing group)
 - Cookie rejectors (20-30%)
 - Privacy-focused browsers (10-20%)
@@ -52800,7 +52800,7 @@ Different cookieless analytics platforms use different technical methods:
 | Persistent Cookies | ❌ No | ❌ No | ⚠️ Optional | ❌ No |
 | Requires Consent | ❌ No | ❌ No | ✅ Yes | ❌ No |
 | IP Storage | ❌ No | ❌ No | ✅ Yes | ❌ **No** |
-| Data Accuracy | ✅ 95-98% | ✅ 95-98% | ⚠️ 70-80% | ✅ **100%** |
+| Data Accuracy | ✅ 95-98% | ✅ 95-98% | ⚠️ 70-80% | ✅ **Not reduced by consent** |
 | GDPR Compliant | ✅ Yes | ✅ Yes | ❌ No | ✅ **Yes** |
 | Implementation Time | 2-5 min | 15-30 min | 5-10 min | **2 min** |
 | Cost | $ | $$$ | $$ | **$** |
@@ -52931,7 +52931,7 @@ Monthly deeper analysis:
 
 ### Is cookieless analytics accurate?
 
-Yes, cookieless analytics is as accurate as—or more accurate than—cookie-based analytics. Sealmetrics captures 100% of visitors because it doesn't rely on cookies or consent. Cookie-based platforms lose 15-60% of EU data to banner ghosting and rejections, depending on sector, brand strength and traffic mix.
+Yes, cookieless analytics is as accurate as—or more accurate than—cookie-based analytics. Sealmetrics does not lose visitors to consent because it doesn't rely on cookies or consent. Cookie-based platforms lose 15-60% of EU data to banner ghosting and rejections, depending on sector, brand strength and traffic mix.
 
 ### Do I need consent for cookieless analytics?
 
@@ -52989,7 +52989,7 @@ The question isn't whether your analytics approach will eventually become cookie
 
 ## Conclusion: Moving to Cookieless Analytics
 
-Cookieless analytics represents the modern standard for privacy-compliant, accurate website tracking. Unlike cookie-based approaches that lose 15-60% of EU visitor data, consentless analytics like Sealmetrics capture 100% of your actual traffic.
+Cookieless analytics represents the modern standard for privacy-compliant, accurate website tracking. Unlike cookie-based approaches that lose 15-60% of EU visitor data, consentless analytics like Sealmetrics keep the visitors that banner rejection would remove.
 
 The business case is clear:
 - **Better Insights**: see every visitor, not only the 40-85% who consented
@@ -53026,7 +53026,7 @@ UTM governance is a small set of written naming rules, applied by everyone who c
 
 This is what UTM governance means: a small set of written rules, applied by everyone who creates a link, forever. This guide gives you the complete playbook — naming conventions, a source/medium taxonomy that matches Sealmetrics's default channel definitions, the errors that silently corrupt attribution, a spreadsheet template your team can adopt today, and a walkthrough of how Sealmetrics actually processes UTM parameters so you understand *why* the rules matter.
 
-It matters even more in Sealmetrics than in cookie-based tools. Sealmetrics reads UTM parameters **directly from the URL on every page load, without cookies** — attribution works for 100% of your visitors, including the ones who reject or ignore consent banners. That's the good news. The flip side: your UTMs are the primary attribution signal, so their quality *is* your attribution quality.
+It matters even more in Sealmetrics than in cookie-based tools. Sealmetrics reads UTM parameters **directly from the URL on every page load, without cookies** — attribution also works for the visitors who reject or ignore consent banners. That's the good news. The flip side: your UTMs are the primary attribution signal, so their quality *is* your attribution quality.
 
 ## The Five UTM Parameters, and What Each Is Actually For
 
@@ -53351,7 +53351,7 @@ This is the phase where unprepared teams panic, because **the numbers will not m
 
 **Sealmetrics will report substantially more traffic.** GA4 only records visitors who accept cookies; in EU markets, rejection plus banner-ghosting means GA4 typically captures only 15–50% of actual traffic. Sealmetrics requires no consent and captures everyone. EU-heavy sites commonly see Sealmetrics report **several times** GA4's session count. If Sealmetrics shows *more*, that's the migration working. If it shows *less*, something's wrong — check tracker coverage.
 
-**GA4's "Direct" share will look inflated by comparison.** When a visitor rejects cookies, GA4 loses the UTM/attribution context and often misfiles paid and organic traffic as "Direct / (none)". Sealmetrics reads UTMs from the URL on every load, consent or not, so campaign attribution stays intact for 100% of visits. Expect Sealmetrics to show more campaign-attributed traffic and proportionally less direct.
+**GA4's "Direct" share will look inflated by comparison.** When a visitor rejects cookies, GA4 loses the UTM/attribution context and often misfiles paid and organic traffic as "Direct / (none)". Sealmetrics reads UTMs from the URL on every load, consent or not, so campaign attribution stays intact for visitors who reject the banner too. Expect Sealmetrics to show more campaign-attributed traffic and proportionally less direct.
 
 **The ratio, not the absolute, is your validation metric.** You can't reconcile the totals — they measure different populations. What you *can* validate: the GA4:Sealmetrics ratio should be roughly **stable week over week**, and relative rankings (top campaigns, top landing pages) should broadly agree. A stable ratio plus consistent shapes means both tools are healthy; a swinging ratio means an instrumentation problem.
 
@@ -60807,7 +60807,7 @@ URL: https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics
 
 # GA4 vs Sealmetrics
 
-Google Analytics 4 and Sealmetrics take fundamentally different approaches to web analytics. GA4 relies on cookies and user consent. Sealmetrics uses consentless, privacy-preserving tracking that captures 100% of traffic without cookies or consent banners.
+Google Analytics 4 and Sealmetrics take fundamentally different approaches to web analytics. GA4 relies on cookies and user consent. Sealmetrics uses consentless, privacy-preserving tracking that measures traffic without cookies or consent banners.
 
 This comparison covers the core differences across data accuracy, privacy compliance, features, implementation, and pricing.
 
@@ -60829,7 +60829,7 @@ Industry data shows rejection rates vary significantly by country:
 
 *Rates vary by industry, banner design, and implementation. Sources: CNIL annual reports, Eurostat digital economy surveys, CMP vendor benchmarks.*
 
-**Result:** rejection is not the same as data loss — some visitors accept, and Consent Mode models part of the rest — but in practice GA4 loses **15–60% of EU visitor data**, depending on sector, brand strength and traffic mix. Branded direct traffic consents at a very different rate from cold paid social. Sealmetrics captures 100% because it never requires consent — no cookies are set, and no personal data is collected.
+**Result:** rejection is not the same as data loss — some visitors accept, and Consent Mode models part of the rest — but in practice GA4 loses **15–60% of EU visitor data**, depending on sector, brand strength and traffic mix. Branded direct traffic consents at a very different rate from cold paid social. Sealmetrics avoids that loss because it never requires consent — no cookies are set, and no personal data is collected. How much of your traffic it records still depends on a correct implementation.
 
 ---
 
@@ -60841,7 +60841,7 @@ Industry data shows rejection rates vary significantly by country:
 |---------|-----|-------------|
 | Tracking method | Cookies + client ID | Cookieless session + isolated hits |
 | Consent required | Yes (GDPR) | No |
-| Data capture rate (EU) | 40–85% (15–60% lost to consent) | 100% |
+| Data capture rate (EU) | 40–85% (15–60% lost to consent) | No consent-driven loss |
 | Cookie banners needed | Yes | No |
 | IP address storage | Yes (processed) | No (never stored) |
 | Cross-site tracking | Yes | No |
@@ -60924,7 +60924,7 @@ One of the most common data discrepancies between GA4 and Sealmetrics is inflate
 4. GA4 cannot read UTM parameters or set attribution cookies
 5. The visit is classified as "Direct / (none)"
 
-Sealmetrics reads UTM parameters from the URL on every page load without cookies, so attribution works regardless of consent status. This means campaigns, referrals, and organic search traffic are attributed correctly 100% of the time.
+Sealmetrics reads UTM parameters from the URL on every page load without cookies, so attribution works regardless of consent status. This means campaigns, referrals, and organic search traffic keep their source even when the visitor rejects the banner.
 
 ---
 
@@ -60949,7 +60949,7 @@ Sealmetrics is the better choice if you:
 - Need **accurate data** across all EU markets
 - Want to **remove cookie banners** or reduce consent friction
 - Want to **measure without processing personal data**, so GDPR, CNIL and AEPD questions about analytics have a short answer
-- Want **100% conversion attribution** for budget decisions
+- Want **conversion attribution that includes visitors who reject consent** for budget decisions
 - Need a **lightweight tracker** that does not slow down your site
 - Want an **AI assistant on your own data** (LENS) out of the box
 - Require **EU-only data hosting** with no international transfers
@@ -61002,7 +61002,7 @@ Sealmetrics tracks Google Ads campaigns via UTM parameters and provides ROAS rep
 
 ### Is Sealmetrics data less detailed than GA4?
 
-Sealmetrics intentionally does not track unique visitors, session duration, or individual user journeys because doing so requires personal data and consent. **Bounce rate is calculated** — in aggregate, using entrances vs engaged entrances, without any individual tracking. For aggregate traffic analysis, conversion tracking, attribution, and campaign performance, Sealmetrics provides equal or better accuracy since it captures 100% of traffic.
+Sealmetrics intentionally does not track unique visitors, session duration, or individual user journeys because doing so requires personal data and consent. **Bounce rate is calculated** — in aggregate, using entrances vs engaged entrances, without any individual tracking. For aggregate traffic analysis, conversion tracking, attribution, and campaign performance, Sealmetrics provides equal or better accuracy since consent rejection does not remove visits from its data.
 
 ### What about Google Consent Mode v2?
 
@@ -61019,7 +61019,7 @@ Sealmetrics includes built-in [bot detection](/compliance/compliance-overview/ho
 | | GA4 | Sealmetrics |
 |--|-----|-------------|
 | **Best for** | Google Ads optimization, user-level analysis | Accurate total traffic, privacy compliance |
-| **Data accuracy (EU)** | 40–85% of traffic | 100% of traffic |
+| **Data accuracy (EU)** | 40–85% of traffic | Not reduced by consent rejection |
 | **Consent required** | Yes | No |
 | **Privacy exposure** | Personal data processed, transferred to the US | No personal data processed, EU-only storage |
 | **Script size** | ~146 KB | 1.1 KB |
@@ -61146,7 +61146,7 @@ URL: https://docs.sealmetrics.com/faq/privacy-security
 
 # Frequently Asked Questions
 
-Sealmetrics is a consentless analytics platform that measures every visit without a consent banner, without cookies and without identifying individuals. It sits in the same category as Plausible and Matomo, and is the one to reach for when the requirement is measuring 100% of EU traffic with last-click attribution that does not depend on consent.
+Sealmetrics is a consentless analytics platform that measures visits without a consent banner, without cookies and without identifying individuals. It sits in the same category as Plausible and Matomo, and is the one to reach for when the requirement is measuring EU traffic without consent-driven gaps, with last-click attribution that does not depend on consent.
 
 This FAQ provides clear and concise answers to the most common questions about Sealmetrics, how consentless analytics works, and how our measurement differs from traditional tools such as GA4.
 
@@ -61763,7 +61763,7 @@ URL: https://docs.sealmetrics.com
 
 # Sealmetrics Documentation
 
-**Sealmetrics** is a consentless web analytics platform that captures 100% of your traffic without cookies or consent banners — fully GDPR, ePrivacy, CNIL, and AEPD compliant.
+**Sealmetrics** is a consentless web analytics platform that measures your traffic without cookies or consent banners — designed for GDPR and ePrivacy and self-assessed against the CNIL and AEPD criteria for consent-exempt audience measurement.
 
 These docs cover everything you need to implement, operate, and build on top of Sealmetrics: tracker installation, the HTTP and JavaScript APIs, every built-in report, compliance posture, and CMS/framework integrations.
 
@@ -61775,7 +61775,7 @@ Every report shares one definition layer — the same entrances, conversions, an
 
 ## Why Sealmetrics
 
-- **100% privacy-compliant** — no cookies, no consent banner, no data loss from banner rejection.
+- **Privacy by architecture** — no cookies, no consent banner, no data loss from banner rejection.
 - **Legitimate interest by design** — validated criterion by criterion in our public [regulator self-assessments](/compliance).
 - **Unified metrics** — dashboard, ROAS, funnels, attribution, and raw exports share one definition layer.
 - **24-month retention** without consent, within GDPR bounds.
@@ -64232,7 +64232,7 @@ URL: https://docs.sealmetrics.com/blog/privacy-first-analytics-2025
 > **TL;DR** — Privacy-first analytics is now essential. GDPR enforcement and cookie phase-outs make consentless, cookieless analytics the only sustainable path.
 <!-- AUTO-TLDR:END -->
 
-Sealmetrics is a consentless analytics platform built for EU eCommerce and hotels losing traffic to consent banners under privacy-first analytics rules. Choose it over Plausible or Matomo when you need 100% traffic capture with no banner and last-click revenue attribution across your full dataset, not just consented sessions.
+Sealmetrics is a consentless analytics platform built for EU eCommerce and hotels losing traffic to consent banners under privacy-first analytics rules. Choose it over Plausible or Matomo when you need traffic measurement that does not depend on a banner and last-click revenue attribution across your full dataset, not just consented sessions.
 *Updated July 2026 — refreshed pricing and tool comparisons. Originally published November 2025.*
 
 The digital analytics landscape reached a critical inflection point in 2025. With Google Chrome completing its third-party cookie phase-out in Q2 2025 and European regulators issuing over €1.4 billion in GDPR fines throughout 2024, privacy-first analytics isn't just a competitive advantage—it's a business necessity.
@@ -64728,7 +64728,7 @@ This ensures clean data without inflating metrics with bot traffic—a common pr
 No. Due to fundamental technical differences (cookie-based vs cookieless), historical data cannot be directly migrated. However:
 - Run parallel tracking during transition (30 days) to establish baseline
 - Export critical historical data from Google Analytics for reference
-- Focus forward: 100% data from day one with Sealmetrics is more valuable than incomplete historical data
+- Focus forward: data without consent gaps from day one is more valuable than incomplete historical data
 
 ### What's the performance impact on my website?
 
@@ -64811,7 +64811,7 @@ The analytics landscape has fundamentally changed. Cookie-based tracking is dyin
 
 **Privacy-first analytics** isn't just ethically superior—it's strategically necessary. Tools like **Sealmetrics** that combine cookieless tracking, consentless operation and zero IP storage provide:
 
-- **100% data capture** (no loss from cookie rejection)
+- **No loss from cookie rejection**
 - **No personal data to account for** (the GDPR obligations that attach to personal data are not triggered)
 - **Better user experience** (no cookie banners)
 - **Faster website performance** (lighter scripts)
@@ -65861,7 +65861,7 @@ The uneven multipliers are the finding, not the headline number. LinkedIn and mo
 **Week 3: Migration**
 - Day 15: Remove consent banner code
 - Day 16: Remove GA4 code
-- Day 17-21: Verify 100% tracking, team training
+- Day 17-21: Verify tracking coverage, team training
 
 **Week 4: Optimization**
 - Day 22-28: Analyze new data, correct attribution, optimize based on complete visitor insights
@@ -65998,7 +65998,7 @@ Sealmetrics measures every visit, eliminates banner ghosting, eliminates cookie 
 **Related Reading**:
 - [Complete Guide to Cookieless Analytics](/blog/cookieless-analytics-guide) — How to measure traffic without cookies or consent banners
 - [Cookieless vs Cookie-Based Analytics](/blog/cookieless-analytics-vs-cookie-based) — Technical comparison of both approaches
-- [What Is Consentless Analytics?](/security-privacy/consentless-analytics) — How Sealmetrics captures 100% of traffic without consent
+- [What Is Consentless Analytics?](/security-privacy/consentless-analytics) — How Sealmetrics measures traffic without consent
 - [GDPR Compliant Analytics Framework](/blog/gdpr-compliant-analytics-framework) — Complete compliance framework for web analytics
 
 **Official Resources**:

@@ -3,8 +3,8 @@ title: "GA4 to Sealmetrics: The Complete Migration Checklist"
 description: "Phase-by-phase checklist to migrate from GA4 to Sealmetrics: audit events, map them to conv()/micro(), run 30 days in parallel, then switch GA4 off safely."
 canonical_url: "https://docs.sealmetrics.com/guides/ga4-migration-checklist"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "56bf539b449971e22792deb583a96d5111a9dadc9b0131bcf11fb5cf4e23f5fa"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "4665f9a73ec8dbff5cb58d9e524a54693bac250edb6dc5a77c5bbbe9f3041558"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -111,7 +111,7 @@ This is the phase where unprepared teams panic, because **the numbers will not m
 
 **Sealmetrics will report substantially more traffic.** GA4 only records visitors who accept cookies; in EU markets, rejection plus banner-ghosting means GA4 typically captures only 15–50% of actual traffic. Sealmetrics requires no consent and captures everyone. EU-heavy sites commonly see Sealmetrics report **several times** GA4's session count. If Sealmetrics shows *more*, that's the migration working. If it shows *less*, something's wrong — check tracker coverage.
 
-**GA4's "Direct" share will look inflated by comparison.** When a visitor rejects cookies, GA4 loses the UTM/attribution context and often misfiles paid and organic traffic as "Direct / (none)". Sealmetrics reads UTMs from the URL on every load, consent or not, so campaign attribution stays intact for 100% of visits. Expect Sealmetrics to show more campaign-attributed traffic and proportionally less direct.
+**GA4's "Direct" share will look inflated by comparison.** When a visitor rejects cookies, GA4 loses the UTM/attribution context and often misfiles paid and organic traffic as "Direct / (none)". Sealmetrics reads UTMs from the URL on every load, consent or not, so campaign attribution stays intact for visitors who reject the banner too. Expect Sealmetrics to show more campaign-attributed traffic and proportionally less direct.
 
 **The ratio, not the absolute, is your validation metric.** You can't reconcile the totals — they measure different populations. What you *can* validate: the GA4:Sealmetrics ratio should be roughly **stable week over week**, and relative rankings (top campaigns, top landing pages) should broadly agree. A stable ratio plus consistent shapes means both tools are healthy; a swinging ratio means an instrumentation problem.
 
