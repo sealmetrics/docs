@@ -3,8 +3,8 @@ title: "Features"
 description: "Explore the complete feature set of Sealmetrics - from core analytics reports to API access, conversion tracking, and privacy-first capabilities."
 canonical_url: "https://docs.sealmetrics.com/getting-started/features"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "29e535ebc1ae028cd980c47a37c00058c512d7992bc6cf9eb8d8fbb14da1cefc"
+date_generated: "2026-09-14T16:47:50.076Z"
+source_hash: "d9a7948af819849acaa8e93e2f57636ada3c5a629fe20bb653537e0c1cc71360"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -247,7 +247,7 @@ Clear visibility into your event consumption. No overage charges — if you cons
 
 ---
 
-**Every feature. Zero tracking. Full compliance.**
+**Every feature. Zero tracking. No consent banner.**
 
 Sealmetrics proves you don't need to compromise between analytics and privacy. Get complete data, powerful insights, and peace of mind—all in one platform.
 

@@ -1,10 +1,10 @@
 ---
 title: "Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?"
-description: "Learn how Sealmetrics ensures full compliance with GDPR, ePrivacy, CCPA, PECR, and global privacy regulations through its privacy-first, isolated-hit architecture."
+description: "Self-assessment of how Sealmetrics' privacy-first, isolated-hit architecture is designed to meet GDPR, ePrivacy, CCPA and PECR requirements. Not a certification."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/is-sealmetrics-privacy-compliant"
 lang: "en"
-date_generated: "2026-09-07T15:49:18.603Z"
-source_hash: "bd713efe0ce274181e1e88b6aadb9a1066f42ec7b57e88abef15d5973bda5d51"
+date_generated: "2026-09-14T16:47:29.325Z"
+source_hash: "4e3946509a9cf8033f0079fc30a94f4ce149bcf999a5414d0c45c364c9ac5fd4"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -37,13 +37,13 @@ Sealmetrics is a **European company**, and:
 - All servers are located in **Dublin, Ireland**
 - All data is processed within the **EU**
 - No personal data is transferred outside the EU
-- Operations comply with GDPR’s strict data handling requirements
+- Operations are designed around GDPR’s data handling requirements
 
 All customer analytics data therefore stays within the EU.
 
 ---
 
-## 2. Compliant by Design: No Personal Data, No Tracking
+## 2. Privacy by Design: No Personal Data, No Tracking
 
 Sealmetrics does **not**:
 
@@ -53,7 +53,7 @@ Sealmetrics does **not**:
 - Use cookies, localStorage, fingerprinting, or identifiers
 - Insert any tracking code in the user’s terminal beyond the measurement script
 
-This architectural model ensures there is **no processing of personal data**, eliminating the need for cookie banners or consent.
+This architectural model is designed so that **no personal data is processed**, which is why, in our assessment, no cookie banner or consent is needed for measurement.
 
 ---
 
@@ -69,7 +69,7 @@ Instead, it measures **isolated page views (hits)** that are *never linked toget
 3. **Current URL**
 4. **Referral URL**
 
-These four elements allow meaningful analytics, but **do not enable any type of identification or re-identification**, keeping the stored dataset anonymous, which is what places it outside the GDPR's material scope (Recital 26).
+These four elements allow meaningful analytics, but are chosen so they **do not allow identification or re-identification**, keeping the stored dataset anonymous. That is the basis of our assessment that it falls outside the GDPR's material scope (Recital 26).
 
 ---
 
@@ -85,7 +85,7 @@ This makes Sealmetrics one of the only analytics platforms capable of providing 
 
 ---
 
-## 5. Compliance With Global Privacy Regulations
+## 5. How the Architecture Maps to Each Regulation
 
 ### GDPR
 ✔ No personal data collected
@@ -111,7 +111,7 @@ This makes Sealmetrics one of the only analytics platforms capable of providing 
 
 ## Is Sealmetrics compliant by design?
 
-Sealmetrics is **GDPR, ePrivacy, CCPA, and PECR compliant by design**, thanks to its strict privacy-first architecture:
+Sealmetrics is **designed for GDPR, ePrivacy, CCPA and PECR** from the architecture up. This is our self-assessment, not a certification, and it rests on four facts about measurement:
 
 - 0 personal data
 - 0 cookies
