@@ -3,8 +3,8 @@ title: "Nuxt 3"
 description: "Add cookieless analytics to Nuxt 3 with the @sealmetrics/nuxt module — one entry in nuxt.config.ts auto-loads the tracker on every page, no cookies."
 canonical_url: "https://docs.sealmetrics.com/integrations/frameworks/nuxt"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "03cfef3df89009c875b125c2ee7fef0386e7bf68f72cc962a905ad83b2f19bb5"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "ca0bf323f40f817ca35e28741feb4d7f5aa7e35b351072d34bc68c5411aee5aa"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -244,7 +244,7 @@ declare module 'vue-router' {
 
 - No cookies used
 - No personal data collected
-- GDPR compliant by design
+- Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
 - No consent banner required
 
 ## Related documentation

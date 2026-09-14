@@ -3,8 +3,8 @@ title: "Desktop Extension (.mcpb)"
 description: "Reference for the Sealmetrics Desktop Extension for Claude — the one-click .mcpb bundle. Install, configure, update, and uninstall, plus the full settings reference."
 canonical_url: "https://docs.sealmetrics.com/integrations/extensions"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "ed5375b6f087bd5712a085d1066302a2774d7bc4800a46af629391f768c0dfa0"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "bf4f4890457538fa8d5a7d47d5b5691d391aa36c80803b73fc87a1c623cee79e"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -118,7 +118,7 @@ Go to **Settings → Extensions → Sealmetrics Analytics** and click **Remove**
 - The extension runs **locally** and talks to the Sealmetrics API over HTTPS. **No analytics data is stored on your machine.**
 - The API key it uses is **read-only** and scoped to your account.
 - `provision_site` is the **only** tool that writes anything, and only after you explicitly accept the [Terms of Service](https://sealmetrics.com/terms). Everything else is read-only.
-- Sealmetrics is **cookieless and GDPR-compliant by design** — see [Security & Privacy](/security-privacy).
+- Sealmetrics is **cookieless and designed for GDPR** (self-assessed, not certified) — see [Security & Privacy](/security-privacy).
 
 ---
 

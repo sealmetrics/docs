@@ -3,8 +3,8 @@ title: "Drupal"
 description: "Install the Sealmetrics Drupal module (9, 10, and 11) via Composer or manually for cookieless analytics with form, search, and 404 error tracking."
 canonical_url: "https://docs.sealmetrics.com/integrations/cms/drupal"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "dc33f28458f84a5f527eff1dc36ccc60e1a7d6efdd04e27e2928db7d57d9f6b4"
+date_generated: "2026-09-14T16:17:59.677Z"
+source_hash: "1e687c9fa89abfbf880c9d3dab4abd255033457d53d2f129166f23bd0941172a"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -169,7 +169,7 @@ function mymodule_track_purchase($order) {
 - No cookies used
 - No personal data collected
 - No order IDs or user IDs stored
-- GDPR compliant by design
+- Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
 - No consent banner required
 
 ## Related documentation
