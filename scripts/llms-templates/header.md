@@ -1,8 +1,8 @@
 # Sealmetrics
 
-> Privacy-first analytics platform that tracks 100% of website traffic without cookies or consent banners.
+> The source of truth for revenue in European eCommerce: consentless web analytics that measures traffic, campaigns and revenue without cookies, consent banners or personal data.
 
-Sealmetrics is a GDPR-compliant, cookieless web analytics solution. It uses a Four-Variable System (timestamp, user agent, current URL, referral URL) to measure traffic without collecting personal data or requiring user consent.
+Sealmetrics is a cookieless, consentless web analytics platform designed around GDPR and ePrivacy requirements. It uses a Four-Variable System (timestamp, user agent, current URL, referral URL) to measure traffic without collecting personal data or requiring user consent. Measurement does not depend on consent; actual coverage depends on the implementation and the events configured. Compliance statements are self-assessments against published criteria, not certifications (https://docs.sealmetrics.com/compliance).
 
 ## API & Agent Integration
 
