@@ -3,8 +3,8 @@ title: "Why Sealmetrics Is Not Blocked by AdBlockers"
 description: "Learn why Sealmetrics bypasses AdBlockers through 1st-party tracking and a privacy-first architecture that avoids third-party domain blocking."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/adblocker-bypass"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "9d7ec0f1d67f1db1af0335860a8ddc458629b378eacae88a4c547ae814d6a1b4"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "4a913e86fbce8e2c39ef41814c07b8344f30152317e23fc03c35f233f6d4db89"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -62,7 +62,7 @@ Because the request is served from a subdomain of your own site, AdBlockers trea
 
 See the [Tracker Installation guide](/implementation/tracker/installation) and the [CNAME setup](/implementation/tracking-methods) to point a subdomain of your own site at the Sealmetrics pixel.
 
-Once configured, Sealmetrics captures 100% of your traffic — including users behind AdBlockers, VPNs, and aggressive privacy extensions.
+Once configured, Sealmetrics also measures visitors behind AdBlockers, VPNs, and aggressive privacy extensions, because the tracker is served from your own domain.
 
 **Note:**
 - AdBlockers block requests to known third-party tracking domains (google-analytics.com, facebook.net, doubleclick.net); a Sealmetrics pixel served from a subdomain of your own site is treated as a first-party asset.

@@ -1,10 +1,10 @@
 ---
 title: "Sealmetrics Docs — Consentless Web Analytics"
-description: "Official documentation for Sealmetrics, the consentless web analytics platform that captures 100% of traffic without cookies or consent banners, fully GDPR compliant."
+description: "Official documentation for Sealmetrics, the consentless web analytics platform that measures traffic without cookies, consent banners or personal data."
 canonical_url: "https://docs.sealmetrics.com"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "13815f31d019be48a7ddfa1aabb23de0be91a0343536b3cc6f6899e197187597"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "e940fcc65edbb9d99f7d327bf773c3a8e478811410f8636cbfe4e801d4cb58cb"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "critical"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com
 
-**Sealmetrics** is a consentless web analytics platform that captures 100% of your traffic without cookies or consent banners — fully GDPR, ePrivacy, CNIL, and AEPD compliant.
+**Sealmetrics** is a consentless web analytics platform that measures your traffic without cookies or consent banners — designed for GDPR and ePrivacy and self-assessed against the CNIL and AEPD criteria for consent-exempt audience measurement.
 
 These docs cover everything you need to implement, operate, and build on top of Sealmetrics: tracker installation, the HTTP and JavaScript APIs, every built-in report, compliance posture, and CMS/framework integrations.
 
@@ -28,7 +28,7 @@ Every report shares one definition layer — the same entrances, conversions, an
 
 ## Why Sealmetrics
 
-- **100% privacy-compliant** — no cookies, no consent banner, no data loss from banner rejection.
+- **Privacy by architecture** — no cookies, no consent banner, no data loss from banner rejection.
 - **Legitimate interest by design** — validated criterion by criterion in our public [regulator self-assessments](/compliance).
 - **Unified metrics** — dashboard, ROAS, funnels, attribution, and raw exports share one definition layer.
 - **24-month retention** without consent, within GDPR bounds.

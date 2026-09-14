@@ -3,8 +3,8 @@ title: "How Attribution Works Without a User-ID"
 description: "How Sealmetrics attributes traffic and conversions without User-IDs, cookies or cross-session tracking — last-click attribution read from the URL on every hit."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/attribution-without-userid"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "bbc77104db597eadde6a7ae0d993e5320d39fe3688935e048f42685a31fdc849"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "ce0d634f612fe583844e0c37196103fe0a9b2afe5745017e22d5f7dc58ed2f46"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -138,7 +138,7 @@ Even without User-IDs, Sealmetrics provides full marketing intelligence:
 ### Accuracy Benefits
 - No consent loss
 - No cookie rejection
-- 100% traffic + 100% conversions measured
+- Traffic and conversions measured without consent-based gaps
 
 ---
 

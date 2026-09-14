@@ -3,8 +3,8 @@ title: "Guides"
 description: "Step-by-step Sealmetrics guides — cookieless analytics implementation, GDPR compliance, and platform best practices."
 canonical_url: "https://docs.sealmetrics.com/guides"
 lang: "en"
-date_generated: "2026-08-27T12:22:30.844Z"
-source_hash: "8b164694dce10a5e3afe04e93313a417243a5570eb5668b15d714af311aa7ee6"
+date_generated: "2026-09-14T16:11:49.498Z"
+source_hash: "8513aff3c1be3925755de6cf173b5138213a61b71948430e9dfe37e4c8de5006"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -20,7 +20,7 @@ Welcome to the Sealmetrics guides section. Here you'll find step-by-step tutoria
 
 ## Available Guides
 
-- [Complete Guide to Cookieless Analytics 2025](/guides/complete-guide-cookieless-analytics) - Learn how cookieless analytics captures 100% of visitor data without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages.
+- [Complete Guide to Cookieless Analytics 2025](/guides/complete-guide-cookieless-analytics) - Learn how cookieless analytics measures visitors without consent banners. Complete technical guide covering GDPR compliance, implementation, and Sealmetrics advantages.
 - [UTM Governance: Naming Conventions That Keep Attribution Clean](/guides/utm-governance) - A practical UTM playbook: naming conventions, a source/medium taxonomy aligned with Sealmetrics default channels, the mistakes that corrupt attribution, a spreadsheet template, and how Sealmetrics processes UTMs end to end.
 - [GA4 to Sealmetrics: The Complete Migration Checklist](/guides/ga4-migration-checklist) - Phase-by-phase migration checklist: audit your GA4 events, map them to conv()/micro(), install the tracker, run 30 days in parallel, know which data differences to expect, and switch GA4 off safely.
 - [Tracker Performance Report: Sealmetrics vs GA4, Matomo and Piwik PRO](/guides/tracker-performance-report) - A technical comparison of tracking pixel weight, protocol, latency, and traffic capture against gtag.js, plus measured script weights for Matomo and Piwik PRO, with methodology, measured data from an anonymized reference site, and modeled network scenarios.
