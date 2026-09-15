@@ -3,8 +3,8 @@ title: "Release Notes"
 description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release local MCP server package rename (September 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-09-01T09:24:39.001Z"
-source_hash: "f6057c5cf46af2c8da108f9ec2e57f3d25f99d381045a49cf5ffa0adb0ff8b1b"
+date_generated: "2026-09-15T19:21:54.511Z"
+source_hash: "ad0e1e2edf5c8e4afa9337cd050625ad05405a0722012ae2472ee6e6c7350c2a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -260,7 +260,7 @@ You can have control without crossing the line.
 
 ---
 
-## Facebook Traffic Classification Fix (NEW – Nov 14, 19:00 UTC)
+## Facebook Traffic Classification Fix (NEW – Nov 17, 19:00 UTC)
 
 We've improved how Sealmetrics classifies Facebook traffic to ensure higher accuracy between **organic** and **paid** sources.
 
@@ -270,7 +270,7 @@ A minor issue caused some visits containing the **`fbclid`** parameter (but *wit
 This affected a small portion of traffic, but could distort organic vs. paid Facebook reporting.
 
 ### What Changed
-As of **Wednesday, November 17 at 19:00 UTC**:
+As of **November 17 at 19:00 UTC**:
 
 - Traffic containing **only `fbclid`** and **no UTM parameters**
   → is now classified as **Facebook Organic** (correct behavior)
