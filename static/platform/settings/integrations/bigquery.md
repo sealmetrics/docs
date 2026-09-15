@@ -3,8 +3,8 @@ title: "BigQuery Integration"
 description: "Export your Sealmetrics data to Google BigQuery for advanced analysis."
 canonical_url: "https://docs.sealmetrics.com/platform/settings/integrations/bigquery"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "195f72c8755231554cb54528cddcaf8a688addb464021a4b94adc61f8ccb1b5b"
+date_generated: "2026-09-15T09:38:39.651Z"
+source_hash: "1a402233d4d12bb94a63de5f18e50eec968173046c476a4d4af74900d77469e8"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -20,7 +20,7 @@ Export your Sealmetrics data to Google BigQuery for custom SQL analysis, machine
 
 ## Prerequisites
 
-- Any Sealmetrics plan (Growth, Scale, or Enterprise)
+- Any Sealmetrics plan: Growth, Scale, Enterprise, or the [free tier](/api/provision#free-tier) that [Agentic Package](/integrations/agentic-package) accounts start on
 - Google Cloud Platform (GCP) account
 - BigQuery API enabled in GCP
 - GCP service account with BigQuery permissions
@@ -322,7 +322,7 @@ The only exception is the **Hourly Traffic** table (`fact_traffic_hourly`), whic
 
 ### Sealmetrics
 
-BigQuery integration is included free with all plans (Growth, Scale, and Enterprise).
+BigQuery integration is included free with every plan, the [free tier](/api/provision#free-tier) included (Growth, Scale, Enterprise and free tier).
 
 ### Google Cloud
 
