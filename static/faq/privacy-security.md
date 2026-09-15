@@ -3,8 +3,8 @@ title: "Frequently Asked Questions"
 description: "Why Sealmetrics numbers differ from GA4 — inflated Direct traffic, entrances instead of persistent-ID sessions, last-click as the only consent-free attribution model, ITP resistance, and why server-side tracking still needs a consent banner."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-security"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "669d1e6833b6fc06c1976afeaf921d9a3cf7df0aa7540e943c67123ee704e5bc"
+date_generated: "2026-09-15T07:00:30.234Z"
+source_hash: "27fbe2056887b0fb99991694d9874d0c1e46eabecd346e481a3460c4f61c2f94"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -91,7 +91,7 @@ Once they validate that Sealmetrics shows the true business metrics, it becomes 
 
 ## How resistant is your solution to ITP and similar browser protections?
 
-Currently, Sealmetrics is not blocked by ITP or similar privacy protections.
+Sealmetrics sets no cookies or identifiers, so ITP's cookie limits and similar privacy protections have nothing of ours to expire.
 
 In addition, we offer a **first-party tracking system**, which further increases reliability and ensures long-term measurement resilience.
 
