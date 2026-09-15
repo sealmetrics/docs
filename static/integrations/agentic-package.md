@@ -3,8 +3,8 @@ title: "AI Agentic Package (Claude & Codex)"
 description: "One-click AI package that creates a free Sealmetrics account, hands you the tracking pixel, and lets your AI assistant query your analytics — all from chat, no terminal and no dashboard login required to start."
 canonical_url: "https://docs.sealmetrics.com/integrations/agentic-package"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "ddb8515f69f284bcbb797de1c9026c9b9daf075bc429d398b3ac16a23c58c77e"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "f0447cd4c43309e1e7addbb07ee5a662f7e9ad8fcd7ed456c9be8d02b2eb62a3"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -20,7 +20,7 @@ The **Sealmetrics Agentic Package** lets an AI assistant set up analytics for yo
 
 1. **Create a free Sealmetrics account** for your site.
 2. **Give you the tracking pixel** (and place it for you if it has access to your code).
-3. **Query your traffic and conversions** through ~47 read-only analytics tools.
+3. **Query your traffic and conversions** through more than 40 read-only analytics tools.
 
 It ships as a one-click **extension for Claude Desktop** (a `.mcpb` bundle) and runs via `npx` in **Codex and other MCP clients**.
 
@@ -187,7 +187,7 @@ It creates your account and wires up your MCP client in one step.
 | `detect_framework` | Best-effort detects your framework/CMS so the snippet is placed correctly. |
 | `get_instrumentation_guide` | The canonical event-instrumentation guide for your account. |
 | `verify_event_instrumented` | Confirms a conversion/microconversion event reached the backend (and validates it has no PII). |
-| **~47 read-only analytics tools** | Traffic, pages, conversions, audience, channels, funnels, bot detection and more — see the [MCP Server reference](/integrations/mcp-server#available-tools). |
+| **More than 40 read-only analytics tools** | Traffic, pages, conversions, audience, channels, funnels, bot detection and more — see the [MCP Server reference](/integrations/mcp-server#available-tools). |
 
 ---
 

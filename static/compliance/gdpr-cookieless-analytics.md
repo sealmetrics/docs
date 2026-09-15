@@ -3,8 +3,8 @@ title: "GDPR and Cookieless Analytics"
 description: "How cookieless analytics comply with GDPR requirements and provide better data without consent banners"
 canonical_url: "https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "3a24124397229ee0522605d19214c569f93f007a4ed2f6ebf22297daaa7d354d"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "a24c42c0b307d636cd3403dde2df438eaaf69dbbe790da16413286eababae1f9"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -380,7 +380,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 **Implementation options for tools where the right applies**:
 1. **IP exclusion**: Add user's IP to exclusion list (imperfect, dynamic IPs)
-2. **Browser signal**: Respect Do Not Track or Global Privacy Control
+2. **Browser signal**: Respect Do Not Track or Global Privacy Control (Sealmetrics does not read these signals itself; a site can skip loading the tracker when they are present)
 3. **Opt-out cookie**: Paradoxically, set cookie to exclude from cookieless analytics
 4. **Manual request**: User contacts, we exclude their IP or sessions
 
@@ -526,9 +526,8 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 **With no personal data processed, no opt-out is legally required** — there is no record of the visitor to exclude. Offering one remains a courtesy some publishers choose.
 
 **Technical opt-out** (courtesy, or required for identifier-based tools you also run):
-- Respect Do Not Track header
-- Respect Global Privacy Control
-- Provide dedicated opt-out page
+- Respect Do Not Track or Global Privacy Control. Sealmetrics does not read either signal, so honouring them means not loading the tracker when they are present — see [GPC and DNT signals](/compliance/gpc-dnt-signals)
+- Provide a dedicated opt-out page
 
 **Best practice**: If you offer it, make it easy; few users will actually opt out of non-invasive cookieless analytics.
 

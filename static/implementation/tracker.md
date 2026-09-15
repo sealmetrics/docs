@@ -3,8 +3,8 @@ title: "Tracker Overview"
 description: "Sealmetrics' 1.2 KB gzipped JavaScript tracker: one-line install, no cookies or localStorage, automatic SPA detection, and size comparisons vs GA4."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "71c250825cfa420a487c38480f2eaaddcef8f1e251b29a56ec4230f19ff2914b"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "b2379fa0fa6a0c37e4ee7ae75b3a1a96a7a1c1a79a48f2bf64673fbda5b5b71c"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -35,7 +35,7 @@ Ultra-lightweight JavaScript tracker for collecting analytics data.
 
 | Platform | Minified | Gzipped | vs Sealmetrics |
 |----------|----------|---------|----------------|
-| **Sealmetrics** | 2.2 KB | **1.2 KB** | — |
+| **Sealmetrics** | 2.2 KB | **1.1 KB** | — |
 | Plausible | 3.0 KB | 1.3 KB | ~same |
 | Fathom | 6.2 KB | 1.9 KB | 1.5x heavier |
 | Simple Analytics | 7.5 KB | 3.8 KB | 3.1x heavier |
@@ -44,7 +44,7 @@ Ultra-lightweight JavaScript tracker for collecting analytics data.
 
 | Platform | Minified | Gzipped | vs Sealmetrics |
 |----------|----------|---------|----------------|
-| **Sealmetrics** | 2.2 KB | **1.2 KB** | — |
+| **Sealmetrics** | 2.2 KB | **1.1 KB** | — |
 | Mixpanel | 91 KB | 29.8 KB | **23x** heavier |
 | PostHog | 176 KB | 56.4 KB | **43x** heavier |
 | Matomo | 224 KB | 65.2 KB | **50x** heavier |

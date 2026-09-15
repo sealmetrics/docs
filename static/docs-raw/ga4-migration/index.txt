@@ -35,7 +35,7 @@ Document the following from your current GA4 property:
 
 1. **Install the Sealmetrics tracker** alongside GA4 — see [Tracker installation](/implementation/tracker/installation). Both can run in parallel without conflict.
 2. **Map events.** Re-declare your GA4 custom events as Sealmetrics events. See [Conversion tracking](/implementation/ecommerce-conversion-tracking).
-3. **Configure attribution.** Set up custom [channel rules](/platform/settings/tracking/channel-grouping), [passthrough referrers](/platform/tracking-and-attribution-settings/passthrough-referrers) for external checkouts or SSO, and [referrer mappings](/platform/tracking-and-attribution-settings/referrer-mappings). There is no attribution window to configure: attribution is session-scoped, with no lookback across sessions.
+3. **Configure attribution.** Set up custom [channel rules](/platform/settings/tracking/channel-grouping) and [passthrough referrers](/platform/tracking-and-attribution-settings/passthrough-referrers) for external checkouts or SSO. (Referrer mappings are stored but [not yet applied at ingest](/platform/tracking-and-attribution-settings/referrer-mappings).) There is no attribution window to configure: attribution is session-scoped, with no lookback across sessions.
 4. **Validate in parallel** for 2–4 weeks. Expect Sealmetrics to report more traffic than GA4 in EU markets — consent-based tools lose 15–60% of visitors depending on sector, brand strength and traffic mix — so the two will never match 1:1.
 5. **Export GA4 history** you want to keep — raw events via BigQuery, reports via CSV. Sealmetrics retains data for 24 months without consent; GA4 maxes out at 14 months under consent-free operation.
 6. **Update dashboards.** Rebuild Data Studio / BI reports against [Sealmetrics exports](/api/exports) or the [Batch API](/api/batch).
@@ -47,7 +47,7 @@ The steps in order, from the pre-migration inventory to switching GA4 off:
 flowchart TD
     A["Document your GA4 setup: metrics, custom events, e-commerce, integrations"] --> B["Install the Sealmetrics tracker alongside GA4"]
     B --> C["Map GA4 custom events to Sealmetrics events and conversions"]
-    C --> D["Configure attribution: channel rules, passthrough referrers, referrer mappings"]
+    C --> D["Configure attribution: channel rules and passthrough referrers"]
     D --> E["Validate in parallel for 2–4 weeks"]
     E --> F["Export the GA4 history you want to keep"]
     F --> G["Rebuild dashboards on Sealmetrics exports"]

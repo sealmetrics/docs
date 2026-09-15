@@ -27,7 +27,7 @@ What you do not get is anything that needs a persistent identifier: unique visit
 
 ## How the data flows
 
-1. The tracker (1.3 KB gzipped, asynchronous) detects page views and the events you instrument.
+1. The tracker (1.1 KB gzipped, asynchronous) detects page views and the events you instrument.
 2. Hits are sent to Sealmetrics infrastructure in **Dublin, Ireland**. IPs are used in memory only for anti-abuse checks and are never persisted in the analytics database.
 3. Each hit is processed on its own and aggregated. Event-level rows are purged after 1 day; daily aggregates and conversions are kept 24 months.
 4. Known bots, crawlers, scrapers and monitoring tools are filtered out so reports show real visitors — see [Bot Detection](/security-privacy/bot-detection).

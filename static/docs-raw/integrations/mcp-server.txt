@@ -283,7 +283,10 @@ Claude should respond with a list of your sites. If it does, you're all set!
 
 ## Available tools
 
-Claude uses these tools automatically when you ask questions — you never need to call them directly. The server registers **47 tools**, grouped below by category.
+Claude uses these tools automatically when you ask questions — you never need to call them directly. The 52 read-only analytics tools are grouped below by category. Two connections expose different sets:
+
+- **Hosted endpoint** (`https://mcp.sealmetrics.com/mcp`): 44 read-only tools. It omits Segments, Alerts, Webhooks and Bot detection, and adds `search` and `fetch` for clients such as ChatGPT that expect them. Nothing it exposes writes.
+- **Local server** (`npx @sealmetrics/mcp-server`): all 52 tools below, plus channel-rule draft tools and the setup tools used to create a site and install the tracker.
 
 ### Sites
 

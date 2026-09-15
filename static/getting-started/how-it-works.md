@@ -3,8 +3,8 @@ title: "How It Works"
 description: "How Sealmetrics measures your traffic — one script tag, four non-identifying variables per hit, aggregate reports, and no consent banner."
 canonical_url: "https://docs.sealmetrics.com/getting-started/how-it-works"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "918e8cc5f20af1c51911eca4d2f27bb2910469f99c219e5dbbb0a005e205d7d0"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "e8d2e53500b4167b8f74ff9c5de60b0fc7a36e6b9895c19f76f6a5be45fc1513"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -39,7 +39,7 @@ What you do not get is anything that needs a persistent identifier: unique visit
 
 ## How the data flows
 
-1. The tracker (1.3 KB gzipped, asynchronous) detects page views and the events you instrument.
+1. The tracker (1.1 KB gzipped, asynchronous) detects page views and the events you instrument.
 2. Hits are sent to Sealmetrics infrastructure in **Dublin, Ireland**. IPs are used in memory only for anti-abuse checks and are never persisted in the analytics database.
 3. Each hit is processed on its own and aggregated. Event-level rows are purged after 1 day; daily aggregates and conversions are kept 24 months.
 4. Known bots, crawlers, scrapers and monitoring tools are filtered out so reports show real visitors — see [Bot Detection](/security-privacy/bot-detection).

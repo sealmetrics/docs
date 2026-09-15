@@ -3,8 +3,8 @@ title: "Revenue Leak Detection"
 description: "Find invisible revenue loss caused by bot traffic, broken pages, weak landing pages, and channel decay. Sealmetrics MCP prompts for ICPs in hospitality and ecommerce."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/revenue-leak"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "93060aae9f770793b2299ca6270e2519cd2842983668aecb4794579716619246"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "af4a858adbb1ffc1fa2164436dbc7541154b10632a405ba474ed7ebc86e6981a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -102,7 +102,7 @@ For site {site_id}, query Sealmetrics MCP for the last 30 days and return every 
 
 Columns: URL, entrances, bounce rate, average time on page, top traffic source, content group (if available).
 
-Sort by entrances desc. Mark with "🔴 KILL" any page with zero conversions across the last 90 days, "🟡 FIX" the rest.
+Sort by entrances desc. Mark with "KILL" any page with zero conversions across the last 90 days, "FIX" the rest.
 
 Then propose: a) which pages to deindex/redirect, b) which pages to rewrite, c) which pages to test with a different audience.
 ```

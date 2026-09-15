@@ -3,8 +3,8 @@ title: "Cookie Banner Ghosting: Why Analytics Loses 15-60% of Your Data"
 description: "Many visitors never answer the cookie banner — they ignore it. Ghosting, not rejection, is the quiet reason cookie-based analytics loses 15-60% of data."
 canonical_url: "https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "425262a3d7e2edca84f4fc174de9c4ca11dbcf18f2dcc342dc3b2f9c1c9a7385"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "d3e4c5a81733ca4521ed8c843b895a5d85bd71e0f6bedc8eaf15a748e1d08095"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -1097,7 +1097,7 @@ Sealmetrics uses session-based tracking. Each browser session gets a temporary i
 
 ### Can users opt out of Sealmetrics tracking?
 
-Yes. Although no consent is required, sites using Sealmetrics should still provide an opt-out mechanism in their privacy policy (email address or form for objection requests). Additionally, users blocking JavaScript or using browser privacy modes (incognito) are not tracked. Sealmetrics respects Do Not Track browser signals when enabled.
+Sealmetrics stores no personal data about a visitor, so there is no individual record to exclude. Visitors who block JavaScript or use an ad blocker that blocks the tracker are not counted; private browsing modes do not block it. Sealmetrics does not read Do Not Track or Global Privacy Control signals (see [GPC and DNT signals](/compliance/gpc-dnt-signals)), and it has no opt-out API. A site that wants to honour those signals, or an objection, can simply not load the tracker for that visitor, and should describe its approach in its privacy policy.
 
 ---
 

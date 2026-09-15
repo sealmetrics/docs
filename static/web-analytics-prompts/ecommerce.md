@@ -3,8 +3,8 @@ title: "Ecommerce — CMO & Ecommerce Manager"
 description: "Cart-to-purchase ratios, AOV by channel, returning customer revenue, top categories. Sealmetrics MCP prompts for online stores."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/ecommerce"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "0728ab21428bdf00fdedddbad9ab88c51e9061305bbf13920787f47bd5b90eb1"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "a8bf6cad2ef625e215e1cc7aca2ce499641a1244a095e758b443dba9218b5f15"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -76,9 +76,9 @@ Output: 1 ranking table + 10 hypothesis cards.
 ```text
 For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
-Use the micro-conversion `login` or `account_returning` (or whichever property identifies a returning customer in this site) to split sessions into new vs returning.
+Split purchases by the `customer_type` property (new / returning) that the site sends with each purchase event. Sealmetrics does not recognise returning visitors on its own, so this prompt only works if the store sends that property from its own customer records.
 
-Per segment: sessions, conversions, CR, revenue, AOV, % share of revenue.
+Per segment: conversions, revenue, AOV, % share of revenue.
 
 Compare also by traffic source: which channels bring more returning customers vs new ones.
 

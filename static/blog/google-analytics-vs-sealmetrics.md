@@ -3,8 +3,8 @@ title: "Sealmetrics vs Google Analytics: Complete Comparison 2026"
 description: "Sealmetrics vs Google Analytics 4 compared in 2026: consent-driven data loss, GDPR and Schrems II, features, AI, pricing and migration."
 canonical_url: "https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "8f8c1abd0df60e33e28c64817e7bb08429e5082b8e17d72387e5b62a9e6aae0d"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "4c59ffeb676e5130999ebb5108b9ebea94a3f3750c9f3807c32ecbc7d635d330"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -45,7 +45,7 @@ This comparison is updated for **July 2026** and covers data capture, GDPR and S
 | **IP address** | Processed | Never stored, never used for geo |
 | **Data location** | US (Google Cloud) | EU only (Dublin, Ireland) |
 | **Retention without consent** | 14 months | 24 months |
-| **Script size (gzipped)** | ~129.6 KB (gtag.js) | 1.3 KB |
+| **Script size (gzipped)** | ~129.6 KB (gtag.js) | 1.1 KB |
 | **Setup** | Property, streams, consent mode, TIA | One script tag |
 
 ---

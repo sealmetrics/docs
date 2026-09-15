@@ -3,8 +3,8 @@ title: "Sealmetrics Docs: Consentless Analytics Platform"
 description: "Documentation for Sealmetrics — consentless analytics that measures traffic without cookies, consent banners or personal data, designed for GDPR."
 canonical_url: "https://docs.sealmetrics.com/intro"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "0fd918ee7566ba8cdcc9fa7b8e8bfdc7438e4e02c705d1d72467a86364df780d"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "b1b358572be2c4fc5eafe15f3415723355fa7410c559573ca82d827028bf262a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "critical"
@@ -33,7 +33,7 @@ Sealmetrics is a **consentless web analytics platform** that measures your traff
 - **Conversion and revenue tracking** — attribute sales to campaigns via UTM parameters
 - **Funnel analysis** — visualize user progression through conversion steps
 - **Real-time dashboards** — daily aggregates that update continuously
-- **1.3 KB tracker script** — 99% lighter than Google Analytics
+- **1.1 KB tracker script** — 99% lighter than Google Analytics
 - **EU data residency** — all data processed and stored in European infrastructure
 
 Sealmetrics is used by ecommerce brands, SaaS companies, and hospitality businesses across Europe that need accurate traffic data without legal risk. See the [full comparison with GA4](/faq/ga4-vs-sealmetrics) or [Plausible](/blog/sealmetrics-vs-plausible).
@@ -45,4 +45,4 @@ Sealmetrics is used by ecommerce brands, SaaS companies, and hospitality busines
 **Note:**
 - Sealmetrics measures traffic without cookies, fingerprinting or consent banners, so banner rejection does not remove visits; consent-based tools lose 15-60% of visitor data depending on sector, brand and traffic mix.
 - The stored dataset holds no personal data, so it falls outside the GDPR's material scope (Recital 26); the compliance pages are self-assessments — no supervisory authority certifies analytics tools.
-- The tracker script is 1.3 KB and all analytics data is processed and stored in European infrastructure.
+- The tracker script is 1.1 KB and all analytics data is processed and stored in European infrastructure.

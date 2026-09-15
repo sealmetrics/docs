@@ -3,8 +3,8 @@ title: "MCP Server for AI Assistants"
 description: "Connect Claude, ChatGPT, Cursor, Codex, and other AI assistants to your Sealmetrics analytics using the Model Context Protocol (MCP) — either the hosted remote server (one URL, no install) or the local npx server."
 canonical_url: "https://docs.sealmetrics.com/integrations/mcp-server"
 lang: "en"
-date_generated: "2026-09-01T08:51:43.194Z"
-source_hash: "3e39331df684e5b1cde876fcbde2029eb8bff4a07af345ceb60d5dc93fe218d6"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "b057df395ec11f3423a7c91977c106ab4e8a55a03700a04ff05bc959f7d4cf45"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -295,7 +295,10 @@ Claude should respond with a list of your sites. If it does, you're all set!
 
 ## Available tools
 
-Claude uses these tools automatically when you ask questions — you never need to call them directly. The server registers **47 tools**, grouped below by category.
+Claude uses these tools automatically when you ask questions — you never need to call them directly. The 52 read-only analytics tools are grouped below by category. Two connections expose different sets:
+
+- **Hosted endpoint** (`https://mcp.sealmetrics.com/mcp`): 44 read-only tools. It omits Segments, Alerts, Webhooks and Bot detection, and adds `search` and `fetch` for clients such as ChatGPT that expect them. Nothing it exposes writes.
+- **Local server** (`npx @sealmetrics/mcp-server`): all 52 tools below, plus channel-rule draft tools and the setup tools used to create a site and install the tracker.
 
 ### Sites
 

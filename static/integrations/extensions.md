@@ -3,8 +3,8 @@ title: "Desktop Extension (.mcpb)"
 description: "Reference for the Sealmetrics Desktop Extension for Claude — the one-click .mcpb bundle. Install, configure, update, and uninstall, plus the full settings reference."
 canonical_url: "https://docs.sealmetrics.com/integrations/extensions"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "bf4f4890457538fa8d5a7d47d5b5691d391aa36c80803b73fc87a1c623cee79e"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "3fdcc913e9fd4905c8226f8742dc30b36df19a7356b4f7fdeb9e692c45a01188"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -80,7 +80,7 @@ On the extension's settings screen you'll find two fields:
 
 ## What the extension can do
 
-The extension registers the setup tools plus **~47 read-only analytics tools**. Claude calls them automatically — you never invoke them by hand.
+The extension registers the setup tools plus **52 read-only analytics tools**. Claude calls them automatically — you never invoke them by hand.
 
 | Tool | Purpose |
 |------|---------|
@@ -90,7 +90,7 @@ The extension registers the setup tools plus **~47 read-only analytics tools**. 
 | `detect_framework` | Best-effort detect your framework/CMS so the snippet is placed correctly. |
 | `get_instrumentation_guide` | The canonical event-instrumentation guide for your account. |
 | `verify_event_instrumented` | Confirm a conversion/microconversion event reached the backend (and validate it has no PII). |
-| **~47 read-only analytics tools** | Traffic, pages, conversions, audience, channels, funnels, bot detection, and more. |
+| **52 read-only analytics tools** | Traffic, pages, conversions, audience, channels, funnels, bot detection, and more. |
 
 See the complete tool catalog and parameters in the **[MCP Server reference](/integrations/mcp-server#available-tools)**.
 

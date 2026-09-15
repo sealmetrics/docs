@@ -3,8 +3,8 @@ title: "Product Properties — SKU, Size, Color, Room Type"
 description: "Use the property breakdown of conversion_items and micro-conversions to find SKU, variant, size, color, room type, and length-of-stay opportunities."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/product-properties"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "4a455ce75b1167cd0f8feb6410aa2f466897a50562a3c840ca7d2172c870dfc9"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "2122f2953b485bd620e002a4e2e0ef98322015412b7ebf3788c0c500df5a5df8"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -187,7 +187,7 @@ Output: candidate SKUs likely hidden by stock-zero rules in the storefront. Cros
 ```text
 For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
-Per category, % of purchases made by returning customers (sessions with login micro-conversion before purchase) vs new customers.
+Per category, % of purchases made by returning vs new customers, using the `customer_type` property the site sends with each purchase (Sealmetrics does not identify returning visitors itself).
 
 Rank categories by retention strength. Top categories deserve loyalty / email investment. Bottom categories need acquisition.
 
