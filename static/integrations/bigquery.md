@@ -3,8 +3,8 @@ title: "BigQuery"
 description: "Connect Sealmetrics to Google BigQuery to export your analytics data for advanced SQL analysis, custom reporting, and data warehousing."
 canonical_url: "https://docs.sealmetrics.com/integrations/bigquery"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e876fec6e51fef0cef15ccf70150200bdd7f5f766e09082c1ef181c498f8d2d0"
+date_generated: "2026-09-15T09:38:39.651Z"
+source_hash: "d1dd12dca80061b3819ae6c1d034975b8091c11aed92ddf648beaf36f9fea8f9"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -50,7 +50,7 @@ Your data stays in **your** Google Cloud project — Sealmetrics never stores co
 
 Before starting, make sure you have:
 
-1. Any **Sealmetrics plan** (Growth, Scale, or Enterprise)
+1. Any **Sealmetrics plan**: Growth, Scale, Enterprise, or the [free tier](/api/provision#free-tier) that [Agentic Package](/integrations/agentic-package) accounts start on
 2. A **Google Cloud Platform (GCP) account** with billing enabled
 3. The **BigQuery API** enabled in your GCP project
 4. A **GCP service account** (you'll create this in the next steps)
@@ -435,7 +435,7 @@ This is the recommended way to build your own uptime / freshness alerts on top o
 
 ### Sealmetrics Side
 
-BigQuery integration is **included at no extra cost** with all plans (Growth, Scale, and Enterprise).
+BigQuery integration is **included at no extra cost** with every plan, the [free tier](/api/provision#free-tier) included (Growth, Scale, Enterprise and free tier).
 
 ### Google Cloud Side
 
