@@ -8810,7 +8810,7 @@ Each table has its own **Export** button to download:
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
 - [Geography Report](/reports/geography) — Break traffic down by country
 - [Filters](/reports/filters) — Segment reports by device, browser, and OS
-- [Why Sealmetrics Is Not Blocked by AdBlockers](/security-privacy/adblocker-bypass) — Why device data stays complete
+- [How Sealmetrics Reduces AdBlocker Data Loss](/security-privacy/adblocker-bypass) — why device data loses far less to ad blockers
 - [Metrics Reference](/reports/definitions) — Definitions for entrances, bounce rate, and conversions
 
 
@@ -38399,7 +38399,7 @@ Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2)
 
 - [Data Location & Retention](/security-privacy/data-location) — EU hosting, retention schedule, encryption, deletion and export
 - [Bot Detection & Traffic Quality](/security-privacy/bot-detection) — how automated traffic is filtered out of reports
-- [Why Sealmetrics Is Not Blocked by AdBlockers](/security-privacy/adblocker-bypass) — first-party delivery and why filter lists do not match
+- [How Sealmetrics Reduces AdBlocker Data Loss](/security-privacy/adblocker-bypass) — first-party delivery and why filter lists do not match
 
 ## Account security
 
@@ -39512,16 +39512,16 @@ If you don't recognize this session:
 
 
 
-## Why Sealmetrics Is Not Blocked by AdBlockers
+## How Sealmetrics Reduces AdBlocker Data Loss
 
 
 URL: https://docs.sealmetrics.com/security-privacy/adblocker-bypass
 
 
-# Why Sealmetrics Is Not Blocked by AdBlockers  
-## How Sealmetrics Bypasses AdBlockers
+# How Sealmetrics Reduces AdBlocker Data Loss  
+## Why first-party delivery matters
 
-Most analytics platforms rely on **third-party tracking domains**, which are automatically flagged and blocked by AdBlockers. Sealmetrics avoids this completely by using a **1st-party tracking architecture** that is treated as part of your own website.
+Most analytics platforms rely on **third-party tracking domains**, which are automatically flagged and blocked by AdBlockers. With **1st-party tracking** on a subdomain of your own site, Sealmetrics is not on those lists, so far fewer visits are lost to ad blockers. No analytics tool is unblockable: a user or list maintainer can still add a custom rule.
 
 ---
 
@@ -39539,8 +39539,8 @@ This is one of the reasons traditional analytics lose data — alongside consent
 
 ---
 
-## Why Sealmetrics Is Not Blocked  
-### Sealmetrics Uses 1st-Party Tracking
+## Why Sealmetrics is rarely blocked  
+### Sealmetrics can use 1st-party tracking
 
 Instead of loading the pixel from a third-party domain, Sealmetrics works through **your own domain**, for example:
 
@@ -39548,15 +39548,15 @@ Instead of loading the pixel from a third-party domain, Sealmetrics works throug
 https://analytics.yourdomain.com/t.js
 ```
 
-Because the request is served from a subdomain of your own site, AdBlockers treat it as a first-party asset and do **not** block it. No uBlock, AdBlock Plus, Brave Shields, or Safari ITP heuristic flags this traffic as third-party tracking.
+Because the request is served from a subdomain of your own site, it does not match the third-party tracking domains that AdBlockers such as uBlock Origin, AdBlock Plus or Brave Shields block by default, and Safari ITP's third-party cookie limits do not apply to it. A custom filter rule written against your subdomain can still block it.
 
 ---
 
 ## Why does first-party tracking matter?
 
-- **No data loss** from ad-blocking users (typically 25–40% of tech-literate audiences).
+- **Much less data loss** from ad-blocking users (typically 25–40% of tech-literate audiences).
 - **Accurate attribution** — cookieless, server-side attribution works without cookies or third-party domains.
-- **GDPR-safe** — first-party collection of non-personal data requires no consent banner.
+- **Designed for GDPR** — first-party collection of non-personal data; our self-assessment is that it needs no consent banner (see [Compliance](/compliance)).
 - **Resilient** — [Safari ITP](https://webkit.org/blog/7675/intelligent-tracking-prevention/), [Firefox ETP](https://support.mozilla.org/en-US/kb/enhanced-tracking-protection-firefox-desktop) and Chrome's [Privacy Sandbox](https://privacysandbox.com/) target cross-site tracking, not first-party requests, so first-party delivery is not what those mechanisms are built to block.
 
 ---
@@ -39565,10 +39565,10 @@ Because the request is served from a subdomain of your own site, AdBlockers trea
 
 See the [Tracker Installation guide](/implementation/tracker/installation) and the [CNAME setup](/implementation/tracking-methods) to point a subdomain of your own site at the Sealmetrics pixel.
 
-Once configured, Sealmetrics also measures visitors behind AdBlockers, VPNs, and aggressive privacy extensions, because the tracker is served from your own domain.
+Once configured, Sealmetrics can also measure most visitors behind AdBlockers, VPNs and privacy extensions, because the tracker is served from your own domain rather than a known tracking domain.
 
 **Note:**
-- AdBlockers block requests to known third-party tracking domains (google-analytics.com, facebook.net, doubleclick.net); a Sealmetrics pixel served from a subdomain of your own site is treated as a first-party asset.
+- AdBlockers block requests to known third-party tracking domains (google-analytics.com, facebook.net, doubleclick.net); a Sealmetrics pixel served from a subdomain of your own site does not match those lists, which reduces (not eliminates) ad-blocker loss.
 - Ad-blocking users are typically 25–40% of tech-literate audiences, on top of the 15–60% that consent rejection costs traditional analytics.
 - Set up 1st-party tracking by pointing a CNAME subdomain at the Sealmetrics pixel — see the Tracker Installation guide.
 
@@ -40218,9 +40218,9 @@ The practical case for consentless tracking is that **the data arrives complete 
 
 Four benefits follow from having no cookies and no identifiers.
 
-**Complete data.** Every hit is measured regardless of whether a banner was accepted, what the browser's privacy settings are, or whether the visitor is in a private window. That removes the two most common distortions in EU reporting: missing traffic and the "dark traffic" that gets filed as Direct.
+**Complete data.** Hits are measured regardless of whether a banner was accepted, what the browser's privacy settings are, or whether the visitor is in a private window. That removes the two most common distortions in EU reporting: missing traffic and the "dark traffic" that gets filed as Direct.
 
-**Nothing for privacy tooling to block.** Ad blockers and browser protections such as [Safari's ITP](https://webkit.org/blog/7675/intelligent-tracking-prevention/) target identifiers, third-party cookies and known tracking domains. Sealmetrics sets no identifiers, stores nothing on the device and serves from its own domain, so measurement stays consistent across browsers and browser versions.
+**Much less for privacy tooling to block.** Ad blockers and browser protections such as [Safari's ITP](https://webkit.org/blog/7675/intelligent-tracking-prevention/) target identifiers, third-party cookies and known tracking domains. Sealmetrics sets no identifiers, stores nothing on the device and serves from its own domain, so measurement stays far more consistent across browsers and browser versions. A custom filter rule can still block it.
 
 **Cleaner attribution.** UTM values are read when the visitor arrives, not after they interact with a banner, so a mid-journey consent acceptance cannot overwrite the original source. Attribution is last-click at channel level — the model that works without linking touchpoints to a person. Multi-touch attribution is not available for exactly that reason.
 
@@ -40231,8 +40231,8 @@ Four benefits follow from having no cookies and no identifiers.
 The trade-off is real and worth stating plainly: consentless measurement gives up user-level metrics. There are no unique visitors, no session duration, no cross-session journeys and no cohorts, because each of those requires a persistent identifier. See [what the model can and cannot measure](/security-privacy/consentless-analytics#what-consentless-analytics-can-and-cannot-measure).
 
 **Note:**
-- Cookie-based analytics lose 15–60% of visitor data in EU markets depending on sector, brand strength and traffic mix; Sealmetrics fires on every visit.
-- No cookies and no identifiers mean nothing for ad blockers or Safari ITP to strip, no CMP or Consent Mode v2 to maintain, and UTMs read on arrival.
+- Cookie-based analytics lose 15–60% of visitor data in EU markets depending on sector, brand strength and traffic mix; Sealmetrics does not depend on consent to record a visit.
+- No cookies and no identifiers leave far less for ad blockers or Safari ITP to strip, no CMP or Consent Mode v2 to maintain, and UTMs read on arrival.
 - The trade-off: no unique visitors, session duration, cross-session journeys or cohorts — attribution is last-click at channel level.
 
 ## Related documentation
@@ -61221,7 +61221,7 @@ Once they validate that Sealmetrics shows the true business metrics, it becomes 
 
 ## How resistant is your solution to ITP and similar browser protections?
 
-Currently, Sealmetrics is not blocked by ITP or similar privacy protections.
+Sealmetrics sets no cookies or identifiers, so ITP's cookie limits and similar privacy protections have nothing of ours to expire.
 
 In addition, we offer a **first-party tracking system**, which further increases reliability and ensures long-term measurement resilience.
 
@@ -64664,10 +64664,10 @@ The absence of a cookie banner improves user experience and removes the 15-60% c
 
 **Cookieless analytics** is typically **more accurate** than cookie-based tracking because:
 - No consent-driven loss to recover from — that closes a 15-60% gap
-- No ad blocker interference (browser-based tracking not blocked)
+- Far less ad blocker interference, especially with first-party delivery
 - No cross-domain tracking issues (session-based is single-domain)
 
-Cookieless approaches like Sealmetrics count essentially all real traffic, against a 40-85% capture rate for cookie-based tools in EU markets.
+Cookieless approaches like Sealmetrics do not lose traffic to consent rejection, against a 40-85% capture rate for cookie-based tools in EU markets.
 
 ### Can privacy-first analytics track conversions?
 

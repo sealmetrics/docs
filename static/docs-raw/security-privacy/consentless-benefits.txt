@@ -10,9 +10,9 @@ The practical case for consentless tracking is that **the data arrives complete 
 
 Four benefits follow from having no cookies and no identifiers.
 
-**Complete data.** Every hit is measured regardless of whether a banner was accepted, what the browser's privacy settings are, or whether the visitor is in a private window. That removes the two most common distortions in EU reporting: missing traffic and the "dark traffic" that gets filed as Direct.
+**Complete data.** Hits are measured regardless of whether a banner was accepted, what the browser's privacy settings are, or whether the visitor is in a private window. That removes the two most common distortions in EU reporting: missing traffic and the "dark traffic" that gets filed as Direct.
 
-**Nothing for privacy tooling to block.** Ad blockers and browser protections such as [Safari's ITP](https://webkit.org/blog/7675/intelligent-tracking-prevention/) target identifiers, third-party cookies and known tracking domains. Sealmetrics sets no identifiers, stores nothing on the device and serves from its own domain, so measurement stays consistent across browsers and browser versions.
+**Much less for privacy tooling to block.** Ad blockers and browser protections such as [Safari's ITP](https://webkit.org/blog/7675/intelligent-tracking-prevention/) target identifiers, third-party cookies and known tracking domains. Sealmetrics sets no identifiers, stores nothing on the device and serves from its own domain, so measurement stays far more consistent across browsers and browser versions. A custom filter rule can still block it.
 
 **Cleaner attribution.** UTM values are read when the visitor arrives, not after they interact with a banner, so a mid-journey consent acceptance cannot overwrite the original source. Attribution is last-click at channel level — the model that works without linking touchpoints to a person. Multi-touch attribution is not available for exactly that reason.
 
@@ -23,8 +23,8 @@ Four benefits follow from having no cookies and no identifiers.
 The trade-off is real and worth stating plainly: consentless measurement gives up user-level metrics. There are no unique visitors, no session duration, no cross-session journeys and no cohorts, because each of those requires a persistent identifier. See [what the model can and cannot measure](/security-privacy/consentless-analytics#what-consentless-analytics-can-and-cannot-measure).
 
 **Note:**
-- Cookie-based analytics lose 15–60% of visitor data in EU markets depending on sector, brand strength and traffic mix; Sealmetrics fires on every visit.
-- No cookies and no identifiers mean nothing for ad blockers or Safari ITP to strip, no CMP or Consent Mode v2 to maintain, and UTMs read on arrival.
+- Cookie-based analytics lose 15–60% of visitor data in EU markets depending on sector, brand strength and traffic mix; Sealmetrics does not depend on consent to record a visit.
+- No cookies and no identifiers leave far less for ad blockers or Safari ITP to strip, no CMP or Consent Mode v2 to maintain, and UTMs read on arrival.
 - The trade-off: no unique visitors, session duration, cross-session journeys or cohorts — attribution is last-click at channel level.
 
 ## Related documentation

@@ -3,8 +3,8 @@ title: "Devices Report"
 description: "Analyze traffic by device type, browser, and operating system to understand how users access your site."
 canonical_url: "https://docs.sealmetrics.com/reports/devices"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "a366b8d511667eaa943d4127a7fbd94dab90d90c6f8da1ffe46bd66a36a3b140"
+date_generated: "2026-09-15T07:00:11.238Z"
+source_hash: "51496c671810aef664c3818a727f3f380d1e0e24fa2252395953bcf777ac066b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -270,5 +270,5 @@ Each table has its own **Export** button to download:
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
 - [Geography Report](/reports/geography) — Break traffic down by country
 - [Filters](/reports/filters) — Segment reports by device, browser, and OS
-- [Why Sealmetrics Is Not Blocked by AdBlockers](/security-privacy/adblocker-bypass) — Why device data stays complete
+- [How Sealmetrics Reduces AdBlocker Data Loss](/security-privacy/adblocker-bypass) — why device data loses far less to ad blockers
 - [Metrics Reference](/reports/definitions) — Definitions for entrances, bounce rate, and conversions
