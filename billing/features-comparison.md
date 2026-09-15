@@ -3,8 +3,8 @@ title: "Features Comparison"
 description: "Detailed side-by-side comparison of all features across Sealmetrics plans."
 canonical_url: "https://docs.sealmetrics.com/billing/features-comparison"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "4544058a7f3894bf41a8c5996ee5a3d815e5e8052fdfda3e43bd1abc3e823beb"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "8300357457faee9fd7825354b5b4159c96f108f2ecd0e330478781e4035c7759"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -188,7 +188,7 @@ LENS AI works two ways: **[Seal AI Private](/billing/seal-ai-private)** (managed
 
 | Feature | Growth | Scale | Enterprise |
 |---------|:------:|:-----:|:----------:|
-| GDPR compliant | Yes | Yes | Yes |
+| Designed for GDPR (self-assessed, not certified) | Yes | Yes | Yes |
 | Data encryption (transit) | Yes | Yes | Yes |
 | Data encryption (rest) | Yes | Yes | Yes |
 | Audit logging | - | Yes | Yes |

@@ -3,8 +3,8 @@ title: "Data Studio Integration"
 description: "Connect Sealmetrics to Google Data Studio for custom dashboards and visual reports."
 canonical_url: "https://docs.sealmetrics.com/platform/settings/integrations/looker-studio"
 lang: "en"
-date_generated: "2026-09-14T13:48:10.438Z"
-source_hash: "a489e0e4de046e5f806b5421126b37ae61fbbc5d2ae44c1a48a1a0f11507af0d"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "82961b8eb6739ed4aeb3285452cda3051cde8f6546bbef8fef779a49101a09c9"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -55,7 +55,7 @@ The Sealmetrics Data Studio connector is currently pending listing in the Data S
 
 1. Click the link below to open the Sealmetrics connector in Data Studio:
 
-   **[Open Sealmetrics Connector](https://datastudio.google.com/datasources/create?connectorId=AKfycbz0OeJk_X454_DijtnmO12DZeFBRL_u_-anvWX_f5oTvxUDlxdc6yIADlcRzOr2aOPAcg)**
+   **[Open Sealmetrics Connector](https://datastudio.google.com/datasources/create?connectorId=AKfycbyY77pGf0j2jWwMmjmkwTZmnVh3wBkYo_YXGy2Kmqm7PDSoykBGhK-Gi2nknAwB1z0LRQ)**
 
 2. You'll be asked to authorize the connector on first use — click **Authorize**
 

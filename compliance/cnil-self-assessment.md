@@ -3,8 +3,8 @@ title: "CNIL Self-Assessment: Sealmetrics Compliance"
 description: "Official CNIL self-assessment documentation for Sealmetrics analytics - demonstrating compliance with French consent exemption requirements."
 canonical_url: "https://docs.sealmetrics.com/compliance/cnil-self-assessment"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "84d81025c59f9d5d045df357089aa52f564735281df469c22952d7692fd7c32d"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "d3f84d776b27ff40fc6185154b2d0e46ab84601b46625f12c1698472e6ba4cd1"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -314,7 +314,7 @@ using your browser's privacy settings or an ad blocker.
 
 | Aspect | Compliance |
 |--------|------------|
-| Opt-out available | ✅ Yes - via browser settings or site implementation |
+| Opt-out available | ✅ Yes - by blocking the script in the browser, or by the site not loading the tracker for a visitor who objects. Sealmetrics has no built-in opt-out API and does not read DNT or GPC signals |
 | Easy to access | ✅ Standard browser controls |
 | No individual tracking | ✅ Nothing personal to opt out of |
 

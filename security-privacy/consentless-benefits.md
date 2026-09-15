@@ -3,8 +3,8 @@ title: "Benefits of Consentless Tracking"
 description: "What you gain by measuring without consent — no data lost to banner rejection, far less for ad blockers to strip, no CMP to maintain, and cleaner attribution."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-benefits"
 lang: "en"
-date_generated: "2026-09-15T07:06:57.032Z"
-source_hash: "b74ba06bcc50ba5e72946563dbc6fb9595779e07216ad35ecd439673abc2b807"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "6cf0f65e5fe7a32c6c64b4e6a48b7e5a4fa7577131bf49553fdc895115f755c4"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -28,7 +28,7 @@ Four benefits follow from having no cookies and no identifiers.
 
 **Cleaner attribution.** UTM values are read when the visitor arrives, not after they interact with a banner, so a mid-journey consent acceptance cannot overwrite the original source. Attribution is last-click at channel level — the model that works without linking touchpoints to a person. Multi-touch attribution is not available for exactly that reason.
 
-**No consent machinery to run.** No CMP, no [Consent Mode v2](https://developers.google.com/tag-platform/security/guides/consent) configuration, no cookie categorisation, no region-conditional GTM triggers, and no re-testing analytics every time the banner changes. The tracker is 1.3 KB gzipped, loads asynchronously and does not block rendering.
+**No consent machinery to run.** No CMP, no [Consent Mode v2](https://developers.google.com/tag-platform/security/guides/consent) configuration, no cookie categorisation, no region-conditional GTM triggers, and no re-testing analytics every time the banner changes. The tracker is 1.1 KB gzipped, loads asynchronously and does not block rendering.
 
 ## What is the trade-off?
 

@@ -3,8 +3,8 @@ title: "What is Consentless Analytics?"
 description: "What consentless analytics is, the four non-identifying variables Sealmetrics records, and why measuring without personal data means no consent banner is required."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-analytics"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "8a32b0242cc203e7c7bf8dda3170a8f6aa525b3d136308bc90b27d14eba75c82"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "3a79f311410b8ce6aec0ce09d05d9498a25200af90bac155b3ff254e6ffdbaa4"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -94,7 +94,7 @@ For a full legal analysis, see [GDPR and Cookieless Analytics](/compliance/gdpr-
 | **Cross-session tracking** | Yes | No |
 | **User-level profiles** | Yes | No |
 | **Data hosting** | Often US-based | EU-only (Dublin, Ireland) |
-| **Script size** | 50–365 KB | 1.3 KB (gzipped) |
+| **Script size** | 50–365 KB | 1.1 KB (gzipped) |
 
 The trade-off is clear: cookie-based tools offer user-level metrics (unique visitors, session duration, cohort analysis) but lose a large share of their data to consent rejection. Consentless analytics measures every visit but reports aggregate behaviour rather than individual journeys.
 
@@ -165,7 +165,7 @@ All processing and storage of customer analytics data happens in **Dublin, Irela
 - **Nothing for privacy tooling to strip.** Ad blockers and browser tracking protections such as ITP target identifiers and known tracking domains; Sealmetrics sets none and uses its own domain, so measurement stays consistent across Safari, Firefox and private browsing modes.
 - **No CMP dependency.** No cookie categorisation, no Consent Mode v2, no region-conditional GTM triggers, and no re-testing the analytics setup every time a banner changes.
 - **No consent-driven attribution gaps.** UTM values are read on arrival rather than after a banner interaction, so traffic is not misfiled as Direct when a visitor accepts cookies mid-journey.
-- **Light footprint.** The tracker is 1.3 KB gzipped, loads asynchronously and does not block rendering.
+- **Light footprint.** The tracker is 1.1 KB gzipped, loads asynchronously and does not block rendering.
 
 ---
 
@@ -177,7 +177,7 @@ Adding consentless analytics to any website requires one line of code:
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
-No consent management platform needed. No cookie banner configuration. No Consent Mode setup. The tracker loads asynchronously (1.3 KB gzipped), detects SPA navigation automatically, and begins capturing data immediately.
+No consent management platform needed. No cookie banner configuration. No Consent Mode setup. The tracker loads asynchronously (1.1 KB gzipped), detects SPA navigation automatically, and begins capturing data immediately.
 
 For platform-specific installation, see guides for [WordPress](/integrations/cms/wordpress), [WooCommerce](/integrations/ecommerce/woocommerce), [Shopify](/integrations/ecommerce/shopify), [Next.js](/integrations/frameworks/nextjs), and [more integrations](/integrations).
 

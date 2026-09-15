@@ -3,8 +3,8 @@ title: "GA4 to Sealmetrics: The Complete Migration Checklist"
 description: "Phase-by-phase checklist to migrate from GA4 to Sealmetrics: audit events, map them to conv()/micro(), run 30 days in parallel, then switch GA4 off safely."
 canonical_url: "https://docs.sealmetrics.com/guides/ga4-migration-checklist"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "4665f9a73ec8dbff5cb58d9e524a54693bac250edb6dc5a77c5bbbe9f3041558"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "6d57a97e2aca3ec1c01da89ae5ad51b5ec23e43abccdb0c80fe94f461651a4f1"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -84,7 +84,7 @@ If you use Claude or another MCP-capable assistant, the [AI setup flow](/getting
 
 ## Phase 2 — Install Sealmetrics Alongside GA4 (1–2 hours)
 
-Do **not** remove GA4 yet. The two coexist cleanly — Sealmetrics's tracker is 1.3 KB, sets zero cookies, and doesn't interfere with gtag.
+Do **not** remove GA4 yet. The two coexist cleanly — Sealmetrics's tracker is 1.1 KB, sets zero cookies, and doesn't interfere with gtag.
 
 - [ ] **Create your account and site** — [First Steps](/getting-started/quick-start) walks through it (or let [your AI assistant do it from a chat](/getting-started/install-with-ai)).
 - [ ] **Set the site timezone to match your GA4 reporting timezone** (Site settings → General) *before* collecting comparison data. Sealmetrics resolves every date preset in the site's timezone; a mismatch with GA4's reporting timezone shifts daily rollups by up to a day at the seams and will poison your Phase 3 comparison.

@@ -3,8 +3,8 @@ title: "Add-ons & Extras"
 description: "Additional features and capacity you can add to your Sealmetrics plan, including the Seal AI Private add-on and extra token packs."
 canonical_url: "https://docs.sealmetrics.com/billing/add-ons"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "1735a2d2ee5cd29c83a5624f434284fb823897bb66dcecdfd4a19ac78fb50c55"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "46ce8672caacf8f8fbd7c75e92e5ff00d0197f94878a2796f90e8172b7f00d35"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -40,7 +40,6 @@ For Enterprise plan customers with additional needs:
 
 | Add-on | Description | Pricing |
 |--------|-------------|---------|
-| Isolated processing | Dedicated data processing infrastructure | Custom |
 | Custom SLA | 99.99% uptime guarantee | Custom |
 | Dedicated AM | Named account manager | Included in Enterprise |
 

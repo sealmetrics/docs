@@ -3,8 +3,8 @@ title: "Preserve Attribution Through External Login or SSO Flows"
 description: "Learn how to keep the original traffic source when your signup or login flow passes through an external authentication domain (SSO) and returns to your site."
 canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/external-auth-sso-attribution"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "c65977a6c0a1ce3c86aa887ecd2576951726da8472069ca40c24109a9c88c147"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "02c423b99a7ce2427366974dc8385f985f8eb3a98c0d003078a2de439a1ca4b0"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -83,7 +83,7 @@ To attribute conversions correctly when acquisition happens on your public websi
 ## Timing Considerations
 
 - **2-hour session window** — the origin of the visit stays active for 2 hours, which covers virtually all signup flows, including email verification steps. See [Attribution Accuracy](/reports/insights/attribution-accuracy).
-- **6+ hour gaps** — if the user completes signup more than 6 hours later (e.g. opens the verification email the next day), the visit is classified as [Rejoined Traffic](/reports/insights/rejoined-traffic) instead of inflating Direct.
+- **Gaps longer than 2 hours** — if the user completes signup after the session has expired (e.g. opens the verification email the next day), a same-site arrival is classified as [Rejoined Traffic](/reports/insights/rejoined-traffic) instead of inflating Direct.
 
 ---
 

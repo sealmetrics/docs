@@ -108,7 +108,7 @@ Sealmetrics is a **consentless web analytics platform** that measures your traff
 - **Conversion and revenue tracking** — attribute sales to campaigns via UTM parameters
 - **Funnel analysis** — visualize user progression through conversion steps
 - **Real-time dashboards** — daily aggregates that update continuously
-- **1.3 KB tracker script** — 99% lighter than Google Analytics
+- **1.1 KB tracker script** — 99% lighter than Google Analytics
 - **EU data residency** — all data processed and stored in European infrastructure
 
 Sealmetrics is used by ecommerce brands, SaaS companies, and hospitality businesses across Europe that need accurate traffic data without legal risk. See the [full comparison with GA4](/faq/ga4-vs-sealmetrics) or [Plausible](/blog/sealmetrics-vs-plausible).
@@ -120,7 +120,7 @@ Sealmetrics is used by ecommerce brands, SaaS companies, and hospitality busines
 **Note:**
 - Sealmetrics measures traffic without cookies, fingerprinting or consent banners, so banner rejection does not remove visits; consent-based tools lose 15-60% of visitor data depending on sector, brand and traffic mix.
 - The stored dataset holds no personal data, so it falls outside the GDPR's material scope (Recital 26); the compliance pages are self-assessments — no supervisory authority certifies analytics tools.
-- The tracker script is 1.3 KB and all analytics data is processed and stored in European infrastructure.
+- The tracker script is 1.1 KB and all analytics data is processed and stored in European infrastructure.
 
 
 
@@ -179,7 +179,7 @@ What you do not get is anything that needs a persistent identifier: unique visit
 
 ## How the data flows
 
-1. The tracker (1.3 KB gzipped, asynchronous) detects page views and the events you instrument.
+1. The tracker (1.1 KB gzipped, asynchronous) detects page views and the events you instrument.
 2. Hits are sent to Sealmetrics infrastructure in **Dublin, Ireland**. IPs are used in memory only for anti-abuse checks and are never persisted in the analytics database.
 3. Each hit is processed on its own and aggregated. Event-level rows are purged after 1 day; daily aggregates and conversions are kept 24 months.
 4. Known bots, crawlers, scrapers and monitoring tools are filtered out so reports show real visitors — see [Bot Detection](/security-privacy/bot-detection).
@@ -1567,7 +1567,7 @@ You're done when all three of these are true:
 
 - [First Steps with Sealmetrics](/getting-started/quick-start) — the same setup done manually, step by step
 - [How to Measure Conversions](/getting-started/measure-conversions) — the `conv()`/`micro()` JavaScript API in depth
-- [MCP Server for AI Assistants](/integrations/mcp-server) — all ~47 analytics tools you can query once set up
+- [MCP Server for AI Assistants](/integrations/mcp-server) — the read-only analytics tools you can query once set up
 - [AI Agentic Package](/integrations/agentic-package) — install reference for the Claude Desktop extension and Codex
 - [Connected Apps](/platform/settings/account/connected-apps) — review and revoke AI connections to your account
 
@@ -4048,7 +4048,7 @@ Every prompt has a stable ID like `SEAL-001`. Use it to link from internal docs,
 
 ## Contribute
 
-Found a prompt that consistently delivers value? Open a pull request or email **rafa@sealmetrics.com**.
+Found a prompt that consistently delivers value? Open a pull request on the documentation repository.
 
 
 
@@ -4146,7 +4146,7 @@ For site {site_id}, query Sealmetrics MCP for the last 30 days and return every 
 
 Columns: URL, entrances, bounce rate, average time on page, top traffic source, content group (if available).
 
-Sort by entrances desc. Mark with "🔴 KILL" any page with zero conversions across the last 90 days, "🟡 FIX" the rest.
+Sort by entrances desc. Mark with "KILL" any page with zero conversions across the last 90 days, "FIX" the rest.
 
 Then propose: a) which pages to deindex/redirect, b) which pages to rewrite, c) which pages to test with a different audience.
 ```
@@ -4350,9 +4350,9 @@ Output: a "Today's anomalies" markdown report ready to paste in Slack. Maximum 8
 ```text
 Using Sealmetrics MCP for site {site_id}, return the top 50 most suspicious sessions in the last 7 days based on the bot suspicion score.
 
-For each session: session id, suspicion score, user-agent, country, traffic source, entry landing, number of pageviews, micro and macro conversions if any. (Sealmetrics never stores visitor IPs, so no IP column exists.)
+For each session: session id, suspicion score, detected flags, browser and device family, country, traffic source, entry landing, number of pageviews, micro and macro conversions if any. (Sealmetrics never stores visitor IPs or raw user-agent strings, so neither column exists.)
 
-Group by source. End with a "candidates to block" list: user-agent patterns and datacenter/ISP signals that recur.
+Group by source. End with a "candidates to block" list: the flags, browser/device families and sources that recur.
 ```
 
 ---
@@ -4528,7 +4528,7 @@ Using Sealmetrics MCP for site {site_id}, check whether direct traffic (utm_sour
 
 If yes:
 1. List the top 20 landing pages receiving the extra direct traffic.
-2. For each, pull the top referrers and top user-agents.
+2. For each, pull the top referrers and the top browser and device families.
 3. Detect dark social patterns (Slack, Discord, internal tools) or possible UTM stripping.
 
 Output: "Yes/No spike" verdict + investigation table + 3 hypotheses for what is generating it.
@@ -4830,8 +4830,8 @@ Compute % of bot/agent_suspected sessions. If above 15%, trigger an alert.
 Alert payload:
 - % bot last 24h vs trailing 7-day mean
 - Top 5 sources contributing
-- Top 5 user-agents
-- Top 5 IP prefixes if available
+- Top 5 browser and device families
+- Top 5 bot-detection flags
 - Suggested rules to add to the Sealmetrics blocklist or rate limiter
 
 If below threshold, return "All clear, X% bot share".
@@ -5153,9 +5153,9 @@ Output: 1 ranking table + 10 hypothesis cards.
 ```text
 For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
-Use the micro-conversion `login` or `account_returning` (or whichever property identifies a returning customer in this site) to split sessions into new vs returning.
+Split purchases by the `customer_type` property (new / returning) that the site sends with each purchase event. Sealmetrics does not recognise returning visitors on its own, so this prompt only works if the store sends that property from its own customer records.
 
-Per segment: sessions, conversions, CR, revenue, AOV, % share of revenue.
+Per segment: conversions, revenue, AOV, % share of revenue.
 
 Compare also by traffic source: which channels bring more returning customers vs new ones.
 
@@ -5365,7 +5365,7 @@ Output: candidate SKUs likely hidden by stock-zero rules in the storefront. Cros
 ```text
 For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
-Per category, % of purchases made by returning customers (sessions with login micro-conversion before purchase) vs new customers.
+Per category, % of purchases made by returning vs new customers, using the `customer_type` property the site sends with each purchase (Sealmetrics does not identify returning visitors itself).
 
 Rank categories by retention strength. Top categories deserve loyalty / email investment. Bottom categories need acquisition.
 
@@ -12512,7 +12512,7 @@ Ultra-lightweight JavaScript tracker for collecting analytics data.
 
 | Platform | Minified | Gzipped | vs Sealmetrics |
 |----------|----------|---------|----------------|
-| **Sealmetrics** | 2.2 KB | **1.2 KB** | — |
+| **Sealmetrics** | 2.2 KB | **1.1 KB** | — |
 | Plausible | 3.0 KB | 1.3 KB | ~same |
 | Fathom | 6.2 KB | 1.9 KB | 1.5x heavier |
 | Simple Analytics | 7.5 KB | 3.8 KB | 3.1x heavier |
@@ -12521,7 +12521,7 @@ Ultra-lightweight JavaScript tracker for collecting analytics data.
 
 | Platform | Minified | Gzipped | vs Sealmetrics |
 |----------|----------|---------|----------------|
-| **Sealmetrics** | 2.2 KB | **1.2 KB** | — |
+| **Sealmetrics** | 2.2 KB | **1.1 KB** | — |
 | Mixpanel | 91 KB | 29.8 KB | **23x** heavier |
 | PostHog | 176 KB | 56.4 KB | **43x** heavier |
 | Matomo | 224 KB | 65.2 KB | **50x** heavier |
@@ -17601,7 +17601,7 @@ The **Sealmetrics Agentic Package** lets an AI assistant set up analytics for yo
 
 1. **Create a free Sealmetrics account** for your site.
 2. **Give you the tracking pixel** (and place it for you if it has access to your code).
-3. **Query your traffic and conversions** through ~47 read-only analytics tools.
+3. **Query your traffic and conversions** through more than 40 read-only analytics tools.
 
 It ships as a one-click **extension for Claude Desktop** (a `.mcpb` bundle) and runs via `npx` in **Codex and other MCP clients**.
 
@@ -17768,7 +17768,7 @@ It creates your account and wires up your MCP client in one step.
 | `detect_framework` | Best-effort detects your framework/CMS so the snippet is placed correctly. |
 | `get_instrumentation_guide` | The canonical event-instrumentation guide for your account. |
 | `verify_event_instrumented` | Confirms a conversion/microconversion event reached the backend (and validates it has no PII). |
-| **~47 read-only analytics tools** | Traffic, pages, conversions, audience, channels, funnels, bot detection and more — see the [MCP Server reference](/integrations/mcp-server#available-tools). |
+| **More than 40 read-only analytics tools** | Traffic, pages, conversions, audience, channels, funnels, bot detection and more — see the [MCP Server reference](/integrations/mcp-server#available-tools). |
 
 ---
 
@@ -19245,7 +19245,7 @@ On the extension's settings screen you'll find two fields:
 
 ## What the extension can do
 
-The extension registers the setup tools plus **~47 read-only analytics tools**. Claude calls them automatically — you never invoke them by hand.
+The extension registers the setup tools plus **52 read-only analytics tools**. Claude calls them automatically — you never invoke them by hand.
 
 | Tool | Purpose |
 |------|---------|
@@ -19255,7 +19255,7 @@ The extension registers the setup tools plus **~47 read-only analytics tools**. 
 | `detect_framework` | Best-effort detect your framework/CMS so the snippet is placed correctly. |
 | `get_instrumentation_guide` | The canonical event-instrumentation guide for your account. |
 | `verify_event_instrumented` | Confirm a conversion/microconversion event reached the backend (and validate it has no PII). |
-| **~47 read-only analytics tools** | Traffic, pages, conversions, audience, channels, funnels, bot detection, and more. |
+| **52 read-only analytics tools** | Traffic, pages, conversions, audience, channels, funnels, bot detection, and more. |
 
 See the complete tool catalog and parameters in the **[MCP Server reference](/integrations/mcp-server#available-tools)**.
 
@@ -21789,7 +21789,10 @@ Claude should respond with a list of your sites. If it does, you're all set!
 
 ## Available tools
 
-Claude uses these tools automatically when you ask questions — you never need to call them directly. The server registers **47 tools**, grouped below by category.
+Claude uses these tools automatically when you ask questions — you never need to call them directly. The 52 read-only analytics tools are grouped below by category. Two connections expose different sets:
+
+- **Hosted endpoint** (`https://mcp.sealmetrics.com/mcp`): 44 read-only tools. It omits Segments, Alerts, Webhooks and Bot detection, and adds `search` and `fetch` for clients such as ChatGPT that expect them. Nothing it exposes writes.
+- **Local server** (`npx @sealmetrics/mcp-server`): all 52 tools below, plus channel-rule draft tools and the setup tools used to create a site and install the tracker.
 
 ### Sites
 
@@ -38799,7 +38802,7 @@ For a full legal analysis, see [GDPR and Cookieless Analytics](/compliance/gdpr-
 | **Cross-session tracking** | Yes | No |
 | **User-level profiles** | Yes | No |
 | **Data hosting** | Often US-based | EU-only (Dublin, Ireland) |
-| **Script size** | 50–365 KB | 1.3 KB (gzipped) |
+| **Script size** | 50–365 KB | 1.1 KB (gzipped) |
 
 The trade-off is clear: cookie-based tools offer user-level metrics (unique visitors, session duration, cohort analysis) but lose a large share of their data to consent rejection. Consentless analytics measures every visit but reports aggregate behaviour rather than individual journeys.
 
@@ -38870,7 +38873,7 @@ All processing and storage of customer analytics data happens in **Dublin, Irela
 - **Nothing for privacy tooling to strip.** Ad blockers and browser tracking protections such as ITP target identifiers and known tracking domains; Sealmetrics sets none and uses its own domain, so measurement stays consistent across Safari, Firefox and private browsing modes.
 - **No CMP dependency.** No cookie categorisation, no Consent Mode v2, no region-conditional GTM triggers, and no re-testing the analytics setup every time a banner changes.
 - **No consent-driven attribution gaps.** UTM values are read on arrival rather than after a banner interaction, so traffic is not misfiled as Direct when a visitor accepts cookies mid-journey.
-- **Light footprint.** The tracker is 1.3 KB gzipped, loads asynchronously and does not block rendering.
+- **Light footprint.** The tracker is 1.1 KB gzipped, loads asynchronously and does not block rendering.
 
 ---
 
@@ -38882,7 +38885,7 @@ Adding consentless analytics to any website requires one line of code:
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
-No consent management platform needed. No cookie banner configuration. No Consent Mode setup. The tracker loads asynchronously (1.3 KB gzipped), detects SPA navigation automatically, and begins capturing data immediately.
+No consent management platform needed. No cookie banner configuration. No Consent Mode setup. The tracker loads asynchronously (1.1 KB gzipped), detects SPA navigation automatically, and begins capturing data immediately.
 
 For platform-specific installation, see guides for [WordPress](/integrations/cms/wordpress), [WooCommerce](/integrations/ecommerce/woocommerce), [Shopify](/integrations/ecommerce/shopify), [Next.js](/integrations/frameworks/nextjs), and [more integrations](/integrations).
 
@@ -39554,7 +39557,7 @@ Because the request is served from a subdomain of your own site, it does not mat
 
 ## Why does first-party tracking matter?
 
-- **Much less data loss** from ad-blocking users (typically 25–40% of tech-literate audiences).
+- **Less data loss** from ad-blocking users, whose share varies widely by audience and is highest among technical readers.
 - **Accurate attribution** — cookieless, server-side attribution works without cookies or third-party domains.
 - **Designed for GDPR** — first-party collection of non-personal data; our self-assessment is that it needs no consent banner (see [Compliance](/compliance)).
 - **Resilient** — [Safari ITP](https://webkit.org/blog/7675/intelligent-tracking-prevention/), [Firefox ETP](https://support.mozilla.org/en-US/kb/enhanced-tracking-protection-firefox-desktop) and Chrome's [Privacy Sandbox](https://privacysandbox.com/) target cross-site tracking, not first-party requests, so first-party delivery is not what those mechanisms are built to block.
@@ -39563,14 +39566,14 @@ Because the request is served from a subdomain of your own site, it does not mat
 
 ## How do I configure 1st-party tracking? {#how-to-configure-1st-party-tracking}
 
-See the [Tracker Installation guide](/implementation/tracker/installation) and the [CNAME setup](/implementation/tracking-methods) to point a subdomain of your own site at the Sealmetrics pixel.
+See the [First-party tracker guide](/implementation/tracker/first-party): create the subdomain shown in the dashboard with a DNS A record, and the Sealmetrics team completes the server side.
 
-Once configured, Sealmetrics can also measure most visitors behind AdBlockers, VPNs and privacy extensions, because the tracker is served from your own domain rather than a known tracking domain.
+Once configured, Sealmetrics can also measure visitors whose blockers work from lists of known third-party tracking domains, because the tracker is served from your own domain. A filter rule written against your subdomain can still block it.
 
 **Note:**
 - AdBlockers block requests to known third-party tracking domains (google-analytics.com, facebook.net, doubleclick.net); a Sealmetrics pixel served from a subdomain of your own site does not match those lists, which reduces (not eliminates) ad-blocker loss.
-- Ad-blocking users are typically 25–40% of tech-literate audiences, on top of the 15–60% that consent rejection costs traditional analytics.
-- Set up 1st-party tracking by pointing a CNAME subdomain at the Sealmetrics pixel — see the Tracker Installation guide.
+- The share of ad-blocking users varies by audience; it comes on top of the 15–60% that consent rejection costs traditional analytics.
+- Set up 1st-party tracking with a DNS A record for the subdomain shown in the dashboard — see the First-party tracker guide.
 
 ## Related documentation
 
@@ -40224,7 +40227,7 @@ Four benefits follow from having no cookies and no identifiers.
 
 **Cleaner attribution.** UTM values are read when the visitor arrives, not after they interact with a banner, so a mid-journey consent acceptance cannot overwrite the original source. Attribution is last-click at channel level — the model that works without linking touchpoints to a person. Multi-touch attribution is not available for exactly that reason.
 
-**No consent machinery to run.** No CMP, no [Consent Mode v2](https://developers.google.com/tag-platform/security/guides/consent) configuration, no cookie categorisation, no region-conditional GTM triggers, and no re-testing analytics every time the banner changes. The tracker is 1.3 KB gzipped, loads asynchronously and does not block rendering.
+**No consent machinery to run.** No CMP, no [Consent Mode v2](https://developers.google.com/tag-platform/security/guides/consent) configuration, no cookie categorisation, no region-conditional GTM triggers, and no re-testing analytics every time the banner changes. The tracker is 1.1 KB gzipped, loads asynchronously and does not block rendering.
 
 ## What is the trade-off?
 
@@ -40259,10 +40262,10 @@ Consentless tracking measures **events in aggregate instead of following people*
 
 ## The mechanics, in four steps
 
-1. **Event detection.** A JavaScript tracker (1.3 KB gzipped) fires on page load and on events you instrument. It sets no cookies and uses no localStorage, sessionStorage or fingerprinting.
+1. **Event detection.** A JavaScript tracker (about 1.1 KB gzipped) fires on page load and on events you instrument. It sets no cookies and uses no localStorage, sessionStorage or fingerprinting.
 2. **Transmission.** The hit is sent as a lightweight beacon request. The visitor's IP appears at the network layer, as it does for any HTTP request, but is never persisted in the analytics database — it is used in memory only for anti-abuse checks and site-configured exclusions.
 3. **Isolated processing.** Each hit is processed on its own. Hits from the same person are never joined across sessions, so no journey or profile can be reconstructed.
-4. **Aggregation.** Reports are built from aggregate counts. Event-level rows — including the raw user agent string — are purged after 1 day; hourly aggregates are kept 90 days; daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs.
+4. **Aggregation.** Reports are built from aggregate counts. Event-level rows are purged after 1 day, and the raw user agent string is never stored — only the browser, OS and device categories derived from it; hourly aggregates are kept 90 days; daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs.
 
 All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 
@@ -40353,7 +40356,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 #### 2. User Agent
 - **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
-- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. Event-level rows are purged after 1 day; the derived category dimensions (browser family, OS family, device type) persist in aggregated reports for 24 months.
+- **What we keep:** only the derived categories (browser family, OS family, device type). The raw UA string is used in flight to derive them and to classify automated traffic, and is never written to analytics storage; the derived categories persist in aggregated reports for 24 months.
 - **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
 
 #### 3. Current URL
@@ -40380,12 +40383,12 @@ Retention is **fixed and identical for every plan**, enforced by database TTLs. 
 
 | What | Retention | Notes |
 |------|-----------|-------|
-| Event-level rows (including the raw user agent string) | **1 day** | The row that holds the individual hit, then purged |
+| Event-level rows | **1 day** | The row that holds the individual hit, then purged. It carries the derived device categories, not the raw user agent string |
 | Session context marker | ~2 hours | In-memory only (Redis), expires with the inactivity window |
 | Hourly aggregates | 90 days | Hour-by-hour reporting |
 | Daily aggregates and conversions | 24 months | Includes the *derived* device categories — browser family, OS family, device type |
 
-The distinction that matters for the user agent: **the raw UA string lives for 1 day** in the event row. What survives for 24 months is only the derived category (for example "Chrome / Windows / desktop") inside aggregate counts — never the original string, and never attached to anything that identifies a person.
+The distinction that matters for the user agent: **the raw UA string is never stored**. It is read while the hit is processed and discarded; what survives, for up to 24 months, is only the derived category (for example "Chrome / Windows / desktop") inside aggregate counts — never attached to anything that identifies a person.
 
 Full operational retention (logs, backups, account closure) is documented in [Data Location & Retention](/security-privacy/data-location).
 
@@ -42595,7 +42598,7 @@ using your browser's privacy settings or an ad blocker.
 
 | Aspect | Compliance |
 |--------|------------|
-| Opt-out available | ✅ Yes - via browser settings or site implementation |
+| Opt-out available | ✅ Yes - by blocking the script in the browser, or by the site not loading the tracker for a visitor who objects. Sealmetrics has no built-in opt-out API and does not read DNT or GPC signals |
 | Easy to access | ✅ Standard browser controls |
 | No individual tracking | ✅ Nothing personal to opt out of |
 
@@ -43791,7 +43794,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 **Implementation options for tools where the right applies**:
 1. **IP exclusion**: Add user's IP to exclusion list (imperfect, dynamic IPs)
-2. **Browser signal**: Respect Do Not Track or Global Privacy Control
+2. **Browser signal**: Respect Do Not Track or Global Privacy Control (Sealmetrics does not read these signals itself; a site can skip loading the tracker when they are present)
 3. **Opt-out cookie**: Paradoxically, set cookie to exclude from cookieless analytics
 4. **Manual request**: User contacts, we exclude their IP or sessions
 
@@ -43937,9 +43940,8 @@ Analytics data is retained for 24 months, then deleted.
 **With no personal data processed, no opt-out is legally required** — there is no record of the visitor to exclude. Offering one remains a courtesy some publishers choose.
 
 **Technical opt-out** (courtesy, or required for identifier-based tools you also run):
-- Respect Do Not Track header
-- Respect Global Privacy Control
-- Provide dedicated opt-out page
+- Respect Do Not Track or Global Privacy Control. Sealmetrics does not read either signal, so honouring them means not loading the tracker when they are present — see [GPC and DNT signals](/compliance/gpc-dnt-signals)
+- Provide a dedicated opt-out page
 
 **Best practice**: If you offer it, make it easy; few users will actually opt out of non-invasive cookieless analytics.
 
@@ -52615,7 +52617,7 @@ Document the following from your current GA4 property:
 
 1. **Install the Sealmetrics tracker** alongside GA4 — see [Tracker installation](/implementation/tracker/installation). Both can run in parallel without conflict.
 2. **Map events.** Re-declare your GA4 custom events as Sealmetrics events. See [Conversion tracking](/implementation/ecommerce-conversion-tracking).
-3. **Configure attribution.** Set up custom [channel rules](/platform/settings/tracking/channel-grouping), [passthrough referrers](/platform/tracking-and-attribution-settings/passthrough-referrers) for external checkouts or SSO, and [referrer mappings](/platform/tracking-and-attribution-settings/referrer-mappings). There is no attribution window to configure: attribution is session-scoped, with no lookback across sessions.
+3. **Configure attribution.** Set up custom [channel rules](/platform/settings/tracking/channel-grouping) and [passthrough referrers](/platform/tracking-and-attribution-settings/passthrough-referrers) for external checkouts or SSO. (Referrer mappings are stored but [not yet applied at ingest](/platform/tracking-and-attribution-settings/referrer-mappings).) There is no attribution window to configure: attribution is session-scoped, with no lookback across sessions.
 4. **Validate in parallel** for 2–4 weeks. Expect Sealmetrics to report more traffic than GA4 in EU markets — consent-based tools lose 15–60% of visitors depending on sector, brand strength and traffic mix — so the two will never match 1:1.
 5. **Export GA4 history** you want to keep — raw events via BigQuery, reports via CSV. Sealmetrics retains data for 24 months without consent; GA4 maxes out at 14 months under consent-free operation.
 6. **Update dashboards.** Rebuild Data Studio / BI reports against [Sealmetrics exports](/api/exports) or the [Batch API](/api/batch).
@@ -52627,7 +52629,7 @@ The steps in order, from the pre-migration inventory to switching GA4 off:
 flowchart TD
     A["Document your GA4 setup: metrics, custom events, e-commerce, integrations"] --> B["Install the Sealmetrics tracker alongside GA4"]
     B --> C["Map GA4 custom events to Sealmetrics events and conversions"]
-    C --> D["Configure attribution: channel rules, passthrough referrers, referrer mappings"]
+    C --> D["Configure attribution: channel rules and passthrough referrers"]
     D --> E["Validate in parallel for 2–4 weeks"]
     E --> F["Export the GA4 history you want to keep"]
     F --> G["Rebuild dashboards on Sealmetrics exports"]
@@ -53324,7 +53326,7 @@ If you use Claude or another MCP-capable assistant, the [AI setup flow](/getting
 
 ## Phase 2 — Install Sealmetrics Alongside GA4 (1–2 hours)
 
-Do **not** remove GA4 yet. The two coexist cleanly — Sealmetrics's tracker is 1.3 KB, sets zero cookies, and doesn't interfere with gtag.
+Do **not** remove GA4 yet. The two coexist cleanly — Sealmetrics's tracker is 1.1 KB, sets zero cookies, and doesn't interfere with gtag.
 
 - [ ] **Create your account and site** — [First Steps](/getting-started/quick-start) walks through it (or let [your AI assistant do it from a chat](/getting-started/install-with-ai)).
 - [ ] **Set the site timezone to match your GA4 reporting timezone** (Site settings → General) *before* collecting comparison data. Sealmetrics resolves every date preset in the site's timezone; a mismatch with GA4's reporting timezone shifts daily rollups by up to a day at the seams and will poison your Phase 3 comparison.
@@ -55297,7 +55299,7 @@ The Sealmetrics Data Studio connector is currently pending listing in the Data S
 
 1. Click the link below to open the Sealmetrics connector in Data Studio:
 
-   **[Open Sealmetrics Connector](https://datastudio.google.com/datasources/create?connectorId=AKfycbz0OeJk_X454_DijtnmO12DZeFBRL_u_-anvWX_f5oTvxUDlxdc6yIADlcRzOr2aOPAcg)**
+   **[Open Sealmetrics Connector](https://datastudio.google.com/datasources/create?connectorId=AKfycbyY77pGf0j2jWwMmjmkwTZmnVh3wBkYo_YXGy2Kmqm7PDSoykBGhK-Gi2nknAwB1z0LRQ)**
 
 2. You'll be asked to authorize the connector on first use — click **Authorize**
 
@@ -57151,7 +57153,7 @@ To attribute conversions correctly when acquisition happens on your public websi
 ## Timing Considerations
 
 - **2-hour session window** — the origin of the visit stays active for 2 hours, which covers virtually all signup flows, including email verification steps. See [Attribution Accuracy](/reports/insights/attribution-accuracy).
-- **6+ hour gaps** — if the user completes signup more than 6 hours later (e.g. opens the verification email the next day), the visit is classified as [Rejoined Traffic](/reports/insights/rejoined-traffic) instead of inflating Direct.
+- **Gaps longer than 2 hours** — if the user completes signup after the session has expired (e.g. opens the verification email the next day), a same-site arrival is classified as [Rejoined Traffic](/reports/insights/rejoined-traffic) instead of inflating Direct.
 
 ---
 
@@ -57730,7 +57732,7 @@ LENS AI works two ways: **[Seal AI Private](/billing/seal-ai-private)** (managed
 
 | Feature | Growth | Scale | Enterprise |
 |---------|:------:|:-----:|:----------:|
-| GDPR compliant | Yes | Yes | Yes |
+| Designed for GDPR (self-assessed, not certified) | Yes | Yes | Yes |
 | Data encryption (transit) | Yes | Yes | Yes |
 | Data encryption (rest) | Yes | Yes | Yes |
 | Audit logging | - | Yes | Yes |
@@ -58172,7 +58174,6 @@ For Enterprise plan customers with additional needs:
 
 | Add-on | Description | Pricing |
 |--------|-------------|---------|
-| Isolated processing | Dedicated data processing infrastructure | Custom |
 | Custom SLA | 99.99% uptime guarantee | Custom |
 | Dedicated AM | Named account manager | Included in Enterprise |
 
@@ -61940,7 +61941,7 @@ This comparison is updated for **July 2026** and covers data capture, GDPR and S
 | **IP address** | Processed | Never stored, never used for geo |
 | **Data location** | US (Google Cloud) | EU only (Dublin, Ireland) |
 | **Retention without consent** | 14 months | 24 months |
-| **Script size (gzipped)** | ~129.6 KB (gtag.js) | 1.3 KB |
+| **Script size (gzipped)** | ~129.6 KB (gtag.js) | 1.1 KB |
 | **Setup** | Property, streams, consent mode, TIA | One script tag |
 
 ---
@@ -62641,7 +62642,7 @@ LENS also runs detection rules on a cadence and emails you when traffic drops, c
 
 | Feature | Plausible | Sealmetrics |
 |---------|-----------|-------------|
-| **Script size** | ~1 KB | ~1.3 KB |
+| **Script size** | ~1 KB | ~1.1 KB |
 | **Self-hosted option** | ✅ Yes (open source) | ❌ No (cloud only) |
 | **Custom domain / first-party proxy** | ✅ Yes (managed proxy on Enterprise) | ✅ Yes |
 | **WordPress / Drupal / Joomla** | ✅ WordPress | ✅ All three |
@@ -62828,7 +62829,7 @@ Both support first-party delivery via a custom domain, which is the actual fix. 
 
 ### Which has better performance?
 
-Effectively identical. Plausible's script is around 1 KB, Sealmetrics' around 1.3 KB, both are deferred, both are asynchronous, and the difference is imperceptible to users. Neither will move your Core Web Vitals.
+Effectively identical. Plausible's script is around 1 KB, Sealmetrics' around 1.1 KB, both are deferred, both are asynchronous, and the difference is imperceptible to users. Neither will move your Core Web Vitals.
 
 ### Can I use both together?
 
@@ -65942,7 +65943,7 @@ Sealmetrics uses session-based tracking. Each browser session gets a temporary i
 
 ### Can users opt out of Sealmetrics tracking?
 
-Yes. Although no consent is required, sites using Sealmetrics should still provide an opt-out mechanism in their privacy policy (email address or form for objection requests). Additionally, users blocking JavaScript or using browser privacy modes (incognito) are not tracked. Sealmetrics respects Do Not Track browser signals when enabled.
+Sealmetrics stores no personal data about a visitor, so there is no individual record to exclude. Visitors who block JavaScript or use an ad blocker that blocks the tracker are not counted; private browsing modes do not block it. Sealmetrics does not read Do Not Track or Global Privacy Control signals (see [GPC and DNT signals](/compliance/gpc-dnt-signals)), and it has no opt-out API. A site that wants to honour those signals, or an objection, can simply not load the tracker for that visitor, and should describe its approach in its privacy policy.
 
 ---
 

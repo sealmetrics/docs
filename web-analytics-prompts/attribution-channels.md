@@ -3,8 +3,8 @@ title: "Attribution & Channels"
 description: "Real channel performance using last-click attribution, campaign cannibalization detection, direct traffic spike investigation, and channel decay alerts. Sealmetrics MCP prompts."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/attribution-channels"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "f235b8188f07f706ba58bdedddd755b07c15678a08d4bfa69367069adfb78465"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "081ce52d9040330448d8136c94478cb5882005499b1e6f96871b572bdafa155d"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -97,7 +97,7 @@ Using Sealmetrics MCP for site {site_id}, check whether direct traffic (utm_sour
 
 If yes:
 1. List the top 20 landing pages receiving the extra direct traffic.
-2. For each, pull the top referrers and top user-agents.
+2. For each, pull the top referrers and the top browser and device families.
 3. Detect dark social patterns (Slack, Discord, internal tools) or possible UTM stripping.
 
 Output: "Yes/No spike" verdict + investigation table + 3 hypotheses for what is generating it.

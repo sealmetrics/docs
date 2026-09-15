@@ -3,8 +3,8 @@ title: "Traffic & Quality Control"
 description: "Daily anomaly detection, bot share, suspicious sessions, referrer spam, UTM hygiene, and tracking health checks. Sealmetrics MCP prompts to keep your data clean."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/traffic-quality"
 lang: "en"
-date_generated: "2026-08-27T14:02:28.741Z"
-source_hash: "360d6b46f831a0460dd079f0bdbde47fc8f9ff6d4b800e697cbff6b37d94e341"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "a7422c55453b26a30aa4b6ae572b208791b0d4a0157950f6c88b5366c31afe7a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -47,9 +47,9 @@ Output: a "Today's anomalies" markdown report ready to paste in Slack. Maximum 8
 ```text
 Using Sealmetrics MCP for site {site_id}, return the top 50 most suspicious sessions in the last 7 days based on the bot suspicion score.
 
-For each session: session id, suspicion score, user-agent, country, traffic source, entry landing, number of pageviews, micro and macro conversions if any. (Sealmetrics never stores visitor IPs, so no IP column exists.)
+For each session: session id, suspicion score, detected flags, browser and device family, country, traffic source, entry landing, number of pageviews, micro and macro conversions if any. (Sealmetrics never stores visitor IPs or raw user-agent strings, so neither column exists.)
 
-Group by source. End with a "candidates to block" list: user-agent patterns and datacenter/ISP signals that recur.
+Group by source. End with a "candidates to block" list: the flags, browser/device families and sources that recur.
 ```
 
 ---
