@@ -3,8 +3,8 @@ title: "Alerts & Monitoring"
 description: "Build daily, weekly, and threshold-based alert rules. Pull-style MCP prompts for review plus configuration ideas for Sealmetrics native Alerts + webhooks."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts/alerts-monitoring"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "e81fa58c7c4ca8282bd3c1b99ff956dfa99b049cbfc9cb69aa297ce7f4e87c17"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "51f3fc2142bb2b64e1ba0294cf7efeb50b71ccca082184fb5eabb016fa4dffb7"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -74,8 +74,8 @@ Compute % of bot/agent_suspected sessions. If above 15%, trigger an alert.
 Alert payload:
 - % bot last 24h vs trailing 7-day mean
 - Top 5 sources contributing
-- Top 5 user-agents
-- Top 5 IP prefixes if available
+- Top 5 browser and device families
+- Top 5 bot-detection flags
 - Suggested rules to add to the Sealmetrics blocklist or rate limiter
 
 If below threshold, return "All clear, X% bot share".

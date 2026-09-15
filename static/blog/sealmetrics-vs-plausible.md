@@ -3,8 +3,8 @@ title: "Sealmetrics vs Plausible: Which is Better? [2026 Comparison]"
 description: "Sealmetrics vs Plausible compared in 2026. Both are cookieless, but only one avoids deriving any identifier from the visitor's IP. Features, AI, pricing and GDPR reviewed."
 canonical_url: "https://docs.sealmetrics.com/blog/sealmetrics-vs-plausible"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "536e1cf51dd966f31b0fe746ac1d581811532a1f68f69c934d9a790448f89c8f"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "917e77638c3688ef538a6868ba00e278ef06c5e579755d077eca7665b75fa6ab"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -268,7 +268,7 @@ LENS also runs detection rules on a cadence and emails you when traffic drops, c
 
 | Feature | Plausible | Sealmetrics |
 |---------|-----------|-------------|
-| **Script size** | ~1 KB | ~1.3 KB |
+| **Script size** | ~1 KB | ~1.1 KB |
 | **Self-hosted option** | ✅ Yes (open source) | ❌ No (cloud only) |
 | **Custom domain / first-party proxy** | ✅ Yes (managed proxy on Enterprise) | ✅ Yes |
 | **WordPress / Drupal / Joomla** | ✅ WordPress | ✅ All three |
@@ -455,7 +455,7 @@ Both support first-party delivery via a custom domain, which is the actual fix. 
 
 ### Which has better performance?
 
-Effectively identical. Plausible's script is around 1 KB, Sealmetrics' around 1.3 KB, both are deferred, both are asynchronous, and the difference is imperceptible to users. Neither will move your Core Web Vitals.
+Effectively identical. Plausible's script is around 1 KB, Sealmetrics' around 1.1 KB, both are deferred, both are asynchronous, and the difference is imperceptible to users. Neither will move your Core Web Vitals.
 
 ### Can I use both together?
 

@@ -3,8 +3,8 @@ title: "Web Analytics Prompts"
 description: "Curated, production-ready prompts for Sealmetrics MCP and cross-platform analytics with Google Ads, Meta Ads, and Search Console. Built for ICPs in hospitality and ecommerce."
 canonical_url: "https://docs.sealmetrics.com/web-analytics-prompts"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "dab8c30130eb1a88aca256504187ccc492ec3b2488ae01b0c25ff19964da876f"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "f072c46d48cda992ed9e1a1ea2f2343653c78e9fa2b2d1756da34454c91bdf64"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -75,4 +75,4 @@ Every prompt has a stable ID like `SEAL-001`. Use it to link from internal docs,
 
 ## Contribute
 
-Found a prompt that consistently delivers value? Open a pull request or email **rafa@sealmetrics.com**.
+Found a prompt that consistently delivers value? Open a pull request on the documentation repository.

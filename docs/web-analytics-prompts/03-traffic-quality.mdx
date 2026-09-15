@@ -44,9 +44,9 @@ Output: a "Today's anomalies" markdown report ready to paste in Slack. Maximum 8
 ```text
 Using Sealmetrics MCP for site {site_id}, return the top 50 most suspicious sessions in the last 7 days based on the bot suspicion score.
 
-For each session: session id, suspicion score, user-agent, country, traffic source, entry landing, number of pageviews, micro and macro conversions if any. (Sealmetrics never stores visitor IPs, so no IP column exists.)
+For each session: session id, suspicion score, detected flags, browser and device family, country, traffic source, entry landing, number of pageviews, micro and macro conversions if any. (Sealmetrics never stores visitor IPs or raw user-agent strings, so neither column exists.)
 
-Group by source. End with a "candidates to block" list: user-agent patterns and datacenter/ISP signals that recur.
+Group by source. End with a "candidates to block" list: the flags, browser/device families and sources that recur.
 ```
 
 ---

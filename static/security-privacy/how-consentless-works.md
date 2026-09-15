@@ -3,8 +3,8 @@ title: "How Consentless Tracking Works"
 description: "The mechanics of consentless tracking — four non-identifying variables, isolated hits, a short-lived session marker, and EU-only aggregate storage."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/how-consentless-works"
 lang: "en"
-date_generated: "2026-09-14T13:48:10.438Z"
-source_hash: "b908da9b020fb37c5552cac656352d440d5f9d22fb8325571a2074c55afcd88e"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "19ba41b999b6965f758495a4ea0a9428f37b11d85535261a3199680ace34e5a8"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -23,10 +23,10 @@ Consentless tracking measures **events in aggregate instead of following people*
 
 ## The mechanics, in four steps
 
-1. **Event detection.** A JavaScript tracker (1.3 KB gzipped) fires on page load and on events you instrument. It sets no cookies and uses no localStorage, sessionStorage or fingerprinting.
+1. **Event detection.** A JavaScript tracker (about 1.1 KB gzipped) fires on page load and on events you instrument. It sets no cookies and uses no localStorage, sessionStorage or fingerprinting.
 2. **Transmission.** The hit is sent as a lightweight beacon request. The visitor's IP appears at the network layer, as it does for any HTTP request, but is never persisted in the analytics database — it is used in memory only for anti-abuse checks and site-configured exclusions.
 3. **Isolated processing.** Each hit is processed on its own. Hits from the same person are never joined across sessions, so no journey or profile can be reconstructed.
-4. **Aggregation.** Reports are built from aggregate counts. Event-level rows — including the raw user agent string — are purged after 1 day; hourly aggregates are kept 90 days; daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs.
+4. **Aggregation.** Reports are built from aggregate counts. Event-level rows are purged after 1 day, and the raw user agent string is never stored — only the browser, OS and device categories derived from it; hourly aggregates are kept 90 days; daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs.
 
 All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 

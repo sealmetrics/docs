@@ -3,8 +3,8 @@ title: "What We Track vs What We Don’t"
 description: "Field-by-field list of what Sealmetrics records on every hit, how long each field is kept, and what it never collects."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/what-we-track"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "c6a3a13ac88b6b3d965d47e9805dac1fd741fd800b9b450280d0393547dcbda0"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "72cae15594319cb877dacdbe4056dcd9072f73c7137ec6bb40dca3e030eac2aa"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -31,7 +31,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 #### 2. User Agent
 - **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
-- **What we keep:** the raw UA string is stored in the event row alongside the derived category buckets. Event-level rows are purged after 1 day; the derived category dimensions (browser family, OS family, device type) persist in aggregated reports for 24 months.
+- **What we keep:** only the derived categories (browser family, OS family, device type). The raw UA string is used in flight to derive them and to classify automated traffic, and is never written to analytics storage; the derived categories persist in aggregated reports for 24 months.
 - **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
 
 #### 3. Current URL
@@ -58,12 +58,12 @@ Retention is **fixed and identical for every plan**, enforced by database TTLs. 
 
 | What | Retention | Notes |
 |------|-----------|-------|
-| Event-level rows (including the raw user agent string) | **1 day** | The row that holds the individual hit, then purged |
+| Event-level rows | **1 day** | The row that holds the individual hit, then purged. It carries the derived device categories, not the raw user agent string |
 | Session context marker | ~2 hours | In-memory only (Redis), expires with the inactivity window |
 | Hourly aggregates | 90 days | Hour-by-hour reporting |
 | Daily aggregates and conversions | 24 months | Includes the *derived* device categories — browser family, OS family, device type |
 
-The distinction that matters for the user agent: **the raw UA string lives for 1 day** in the event row. What survives for 24 months is only the derived category (for example "Chrome / Windows / desktop") inside aggregate counts — never the original string, and never attached to anything that identifies a person.
+The distinction that matters for the user agent: **the raw UA string is never stored**. It is read while the hit is processed and discarded; what survives, for up to 24 months, is only the derived category (for example "Chrome / Windows / desktop") inside aggregate counts — never attached to anything that identifies a person.
 
 Full operational retention (logs, backups, account closure) is documented in [Data Location & Retention](/security-privacy/data-location).
 

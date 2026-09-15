@@ -374,7 +374,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 **Implementation options for tools where the right applies**:
 1. **IP exclusion**: Add user's IP to exclusion list (imperfect, dynamic IPs)
-2. **Browser signal**: Respect Do Not Track or Global Privacy Control
+2. **Browser signal**: Respect Do Not Track or Global Privacy Control (Sealmetrics does not read these signals itself; a site can skip loading the tracker when they are present)
 3. **Opt-out cookie**: Paradoxically, set cookie to exclude from cookieless analytics
 4. **Manual request**: User contacts, we exclude their IP or sessions
 
@@ -520,9 +520,8 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 **With no personal data processed, no opt-out is legally required** — there is no record of the visitor to exclude. Offering one remains a courtesy some publishers choose.
 
 **Technical opt-out** (courtesy, or required for identifier-based tools you also run):
-- Respect Do Not Track header
-- Respect Global Privacy Control
-- Provide dedicated opt-out page
+- Respect Do Not Track or Global Privacy Control. Sealmetrics does not read either signal, so honouring them means not loading the tracker when they are present — see [GPC and DNT signals](/compliance/gpc-dnt-signals)
+- Provide a dedicated opt-out page
 
 **Best practice**: If you offer it, make it easy; few users will actually opt out of non-invasive cookieless analytics.
 

@@ -64,9 +64,9 @@ Output: 1 ranking table + 10 hypothesis cards.
 ```text
 For site {site_id}, query Sealmetrics MCP for the last 90 days.
 
-Use the micro-conversion `login` or `account_returning` (or whichever property identifies a returning customer in this site) to split sessions into new vs returning.
+Split purchases by the `customer_type` property (new / returning) that the site sends with each purchase event. Sealmetrics does not recognise returning visitors on its own, so this prompt only works if the store sends that property from its own customer records.
 
-Per segment: sessions, conversions, CR, revenue, AOV, % share of revenue.
+Per segment: conversions, revenue, AOV, % share of revenue.
 
 Compare also by traffic source: which channels bring more returning customers vs new ones.
 

@@ -3,8 +3,8 @@ title: "Set Up Sealmetrics with Your AI Assistant"
 description: "Let Claude, Codex, or any MCP-capable AI assistant install Sealmetrics for you — create the site, place the tracking snippet, verify the pixel, and instrument conversions, all from a chat."
 canonical_url: "https://docs.sealmetrics.com/getting-started/install-with-ai"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "90a7177162d3530b840b54d54b2fd5c4664e2bb9cfa07b804fb21a82b71e4e41"
+date_generated: "2026-09-15T18:01:06.894Z"
+source_hash: "b638b29ea17fe85e11383f2fbe24cf05024ebbd12d1804602d57f0e3d042db1b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -141,6 +141,6 @@ You're done when all three of these are true:
 
 - [First Steps with Sealmetrics](/getting-started/quick-start) — the same setup done manually, step by step
 - [How to Measure Conversions](/getting-started/measure-conversions) — the `conv()`/`micro()` JavaScript API in depth
-- [MCP Server for AI Assistants](/integrations/mcp-server) — all ~47 analytics tools you can query once set up
+- [MCP Server for AI Assistants](/integrations/mcp-server) — the read-only analytics tools you can query once set up
 - [AI Agentic Package](/integrations/agentic-package) — install reference for the Claude Desktop extension and Codex
 - [Connected Apps](/platform/settings/account/connected-apps) — review and revoke AI connections to your account

@@ -1083,7 +1083,7 @@ Sealmetrics uses session-based tracking. Each browser session gets a temporary i
 
 ### Can users opt out of Sealmetrics tracking?
 
-Yes. Although no consent is required, sites using Sealmetrics should still provide an opt-out mechanism in their privacy policy (email address or form for objection requests). Additionally, users blocking JavaScript or using browser privacy modes (incognito) are not tracked. Sealmetrics respects Do Not Track browser signals when enabled.
+Sealmetrics stores no personal data about a visitor, so there is no individual record to exclude. Visitors who block JavaScript or use an ad blocker that blocks the tracker are not counted; private browsing modes do not block it. Sealmetrics does not read Do Not Track or Global Privacy Control signals (see [GPC and DNT signals](/compliance/gpc-dnt-signals)), and it has no opt-out API. A site that wants to honour those signals, or an objection, can simply not load the tracker for that visitor, and should describe its approach in its privacy policy.
 
 ---
 
