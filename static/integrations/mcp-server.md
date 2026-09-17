@@ -3,8 +3,8 @@ title: "MCP Server for AI Assistants"
 description: "Connect Claude, ChatGPT, Cursor, Codex, and other AI assistants to your Sealmetrics analytics using the Model Context Protocol (MCP) — either the hosted remote server (one URL, no install) or the local npx server."
 canonical_url: "https://docs.sealmetrics.com/integrations/mcp-server"
 lang: "en"
-date_generated: "2026-09-15T18:01:06.894Z"
-source_hash: "b057df395ec11f3423a7c91977c106ab4e8a55a03700a04ff05bc959f7d4cf45"
+date_generated: "2026-09-17T13:33:23.512Z"
+source_hash: "14deb8e187c8c6f3d38206c03bd7affda2397b20736c7c813ab43e393ca849e1"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -26,9 +26,19 @@ There are **two ways to connect**, and you only need one:
 | Runs on | Sealmetrics servers | Your machine |
 | Auth | Handled by the endpoint — nothing to paste | `SEALMETRICS_API_KEY` in the config |
 | Node.js required | No | Yes (v18+) |
-| Best for | **Codex, Cursor, Claude, ChatGPT** and any client that supports remote MCP | Offline / air-gapped setups, or pinning a specific version |
+| Read analytics | 42 tools | 52 tools |
+| Write channel rules (drafts) | **No** | **Yes**, with the right API key |
+| Register a site / install the tracker from chat | **No** | **Yes** |
+| Best for | **Codex, Cursor, Claude, ChatGPT** and any client that supports remote MCP | Editing channel rules with an assistant, installing the tracker, offline setups, or pinning a version |
 
 **We recommend the remote MCP** for most people — it takes about two minutes per client and there's nothing to install or keep updated. [Jump to the remote setup ↓](#remote-mcp-server-recommended)
+
+**Info:**
+The remote server registers **no write tools at all**. That is a property of the
+connection, not of your API key: a key that can edit channel rules still writes
+nothing over the hosted endpoint, because the tools are not there to call. If you
+want an assistant to draft channel rules, use the local server — and even there,
+it can only ever create **drafts**. See [What each connection can do](#what-each-connection-can-do).
 
 **Tip:**
 Both options assume you already have a Sealmetrics account and API key. If you want your AI assistant to **create the account for you from the chat** (no key, no terminal), use the one-click [AI Agentic Package (Claude & Codex)](/integrations/agentic-package) instead.
@@ -185,7 +195,14 @@ You need **v18 or higher**. If you don't have it, download it from [nodejs.org](
 5. Copy the key — it starts with `sm_` (e.g. `sm_AbCdEf123...`)
 
 **Warning:**
-The full API key is only shown once. Copy it immediately and store it in a safe place.
+The full API key is only shown once. Copy it immediately and store it in a safe place. A key's permissions **cannot be edited afterwards** — to change them, revoke the key and create a new one.
+
+**Tip:**
+Leave **Read access** checked and also check **Channel Rules: Drafts**
+(`channel_rules:write`). That enables the four write tools on the local server,
+which can only ever create drafts. Do **not** check **Channel Rules: Publish**
+unless you want scripts to change live classification without review. Full
+walkthrough: [Channel Grouping → Using the MCP](/platform/settings/tracking/channel-grouping#using-the-mcp).
 
 ### Step 3: Find your Site ID
 
@@ -295,10 +312,29 @@ Claude should respond with a list of your sites. If it does, you're all set!
 
 ## Available tools
 
-Claude uses these tools automatically when you ask questions — you never need to call them directly. The 52 read-only analytics tools are grouped below by category. Two connections expose different sets:
+Claude uses these tools automatically when you ask questions — you never need to call them directly. The 52 read-only analytics tools are grouped below by category.
 
-- **Hosted endpoint** (`https://mcp.sealmetrics.com/mcp`): 44 read-only tools. It omits Segments, Alerts, Webhooks and Bot detection, and adds `search` and `fetch` for clients such as ChatGPT that expect them. Nothing it exposes writes.
-- **Local server** (`npx @sealmetrics/mcp-server`): all 52 tools below, plus channel-rule draft tools and the setup tools used to create a site and install the tracker.
+### What each connection can do
+
+The two connections do **not** expose the same tools. A tool missing from the
+hosted endpoint is missing because it was never registered there — no API key,
+scope or setting brings it back on that connection.
+
+| | **Hosted endpoint** (`https://mcp.sealmetrics.com/mcp`) | **Local server** (`npx -y @sealmetrics/mcp`) |
+|---|---|---|
+| Read-only analytics tools | **42** of the 52 below | **All 52** |
+| `search` / `fetch` (ChatGPT compatibility) | Yes | No |
+| Channel-rule **write** tools (draft-only) | No | Yes — 4 tools |
+| Setup tools (register a site, install and verify the tracker) | No | Yes — 8 tools |
+| Picking the site | From the connection; injected automatically when it covers a single site | `SEALMETRICS_SITE_ID`, or name the site per question |
+
+**The 10 read-only tools the hosted endpoint omits** are Segments
+(`list_segments`, `get_segment`), Alerts (`list_alerts`, `get_alert_history`,
+`get_alert_stats`), Bot detection (`get_bot_stats`, `get_suspicious_sessions`)
+and Webhooks (`list_webhooks`, `list_webhook_deliveries`, `get_webhook_stats`).
+Their endpoints require a dashboard session, which a hosted connection never
+has. Everything else — including the channel-rule **reads** `get_channels`,
+`list_channel_rules` and `test_channel_rules` — works on both.
 
 ### Sites
 
@@ -372,12 +408,12 @@ Claude uses these tools automatically when you ask questions — you never need 
 | `get_top_channels` | Top channels ranked by entrances (compact, non-paginated) |
 | `list_channel_rules` | List channel group rules that classify traffic into channels |
 | `test_channel_rules` | Test how a source/medium/campaign combination would be classified |
-| `create_channel_rule` | Create a new channel rule **as a draft** (never live) |
-| `update_channel_rule` | Update a channel rule — **drafts only** |
-| `delete_channel_rule` | Delete a channel rule — **drafts only** |
-| `import_channel_rules` | Bulk-import rules **as drafts**; defaults to `dry_run=true` |
+| `create_channel_rule` | **Local only.** Create a new channel rule **as a draft** (never live) |
+| `update_channel_rule` | **Local only.** Update a channel rule — **drafts only** |
+| `delete_channel_rule` | **Local only.** Delete a channel rule — **drafts only** |
+| `import_channel_rules` | **Local only.** Bulk-import rules **as drafts**; defaults to `dry_run=true` |
 
-The write tools follow a strict **draft-only invariant**: the MCP can never touch a live rule or activate anything. Publishing is always a human action from the dashboard. See [Channel Grouping](/platform/settings/tracking/channel-grouping#using-the-mcp) for the full workflow.
+The four write tools exist **only on the local server** and need an API key with the `channel_rules:write` scope. They follow a strict **draft-only invariant**: the MCP can never touch a live rule or activate anything, whatever scope the key carries. Publishing is always a human action from the dashboard. See [Channel Grouping](/platform/settings/tracking/channel-grouping#using-the-mcp) for the full workflow and the key setup.
 
 ### Custom properties (custom dimensions)
 

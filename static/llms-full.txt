@@ -21520,9 +21520,19 @@ There are **two ways to connect**, and you only need one:
 | Runs on | Sealmetrics servers | Your machine |
 | Auth | Handled by the endpoint — nothing to paste | `SEALMETRICS_API_KEY` in the config |
 | Node.js required | No | Yes (v18+) |
-| Best for | **Codex, Cursor, Claude, ChatGPT** and any client that supports remote MCP | Offline / air-gapped setups, or pinning a specific version |
+| Read analytics | 42 tools | 52 tools |
+| Write channel rules (drafts) | **No** | **Yes**, with the right API key |
+| Register a site / install the tracker from chat | **No** | **Yes** |
+| Best for | **Codex, Cursor, Claude, ChatGPT** and any client that supports remote MCP | Editing channel rules with an assistant, installing the tracker, offline setups, or pinning a version |
 
 **We recommend the remote MCP** for most people — it takes about two minutes per client and there's nothing to install or keep updated. [Jump to the remote setup ↓](#remote-mcp-server-recommended)
+
+**Info:**
+The remote server registers **no write tools at all**. That is a property of the
+connection, not of your API key: a key that can edit channel rules still writes
+nothing over the hosted endpoint, because the tools are not there to call. If you
+want an assistant to draft channel rules, use the local server — and even there,
+it can only ever create **drafts**. See [What each connection can do](#what-each-connection-can-do).
 
 **Tip:**
 Both options assume you already have a Sealmetrics account and API key. If you want your AI assistant to **create the account for you from the chat** (no key, no terminal), use the one-click [AI Agentic Package (Claude & Codex)](/integrations/agentic-package) instead.
@@ -21679,7 +21689,14 @@ You need **v18 or higher**. If you don't have it, download it from [nodejs.org](
 5. Copy the key — it starts with `sm_` (e.g. `sm_AbCdEf123...`)
 
 **Warning:**
-The full API key is only shown once. Copy it immediately and store it in a safe place.
+The full API key is only shown once. Copy it immediately and store it in a safe place. A key's permissions **cannot be edited afterwards** — to change them, revoke the key and create a new one.
+
+**Tip:**
+Leave **Read access** checked and also check **Channel Rules: Drafts**
+(`channel_rules:write`). That enables the four write tools on the local server,
+which can only ever create drafts. Do **not** check **Channel Rules: Publish**
+unless you want scripts to change live classification without review. Full
+walkthrough: [Channel Grouping → Using the MCP](/platform/settings/tracking/channel-grouping#using-the-mcp).
 
 ### Step 3: Find your Site ID
 
@@ -21789,10 +21806,29 @@ Claude should respond with a list of your sites. If it does, you're all set!
 
 ## Available tools
 
-Claude uses these tools automatically when you ask questions — you never need to call them directly. The 52 read-only analytics tools are grouped below by category. Two connections expose different sets:
+Claude uses these tools automatically when you ask questions — you never need to call them directly. The 52 read-only analytics tools are grouped below by category.
 
-- **Hosted endpoint** (`https://mcp.sealmetrics.com/mcp`): 44 read-only tools. It omits Segments, Alerts, Webhooks and Bot detection, and adds `search` and `fetch` for clients such as ChatGPT that expect them. Nothing it exposes writes.
-- **Local server** (`npx @sealmetrics/mcp-server`): all 52 tools below, plus channel-rule draft tools and the setup tools used to create a site and install the tracker.
+### What each connection can do
+
+The two connections do **not** expose the same tools. A tool missing from the
+hosted endpoint is missing because it was never registered there — no API key,
+scope or setting brings it back on that connection.
+
+| | **Hosted endpoint** (`https://mcp.sealmetrics.com/mcp`) | **Local server** (`npx -y @sealmetrics/mcp`) |
+|---|---|---|
+| Read-only analytics tools | **42** of the 52 below | **All 52** |
+| `search` / `fetch` (ChatGPT compatibility) | Yes | No |
+| Channel-rule **write** tools (draft-only) | No | Yes — 4 tools |
+| Setup tools (register a site, install and verify the tracker) | No | Yes — 8 tools |
+| Picking the site | From the connection; injected automatically when it covers a single site | `SEALMETRICS_SITE_ID`, or name the site per question |
+
+**The 10 read-only tools the hosted endpoint omits** are Segments
+(`list_segments`, `get_segment`), Alerts (`list_alerts`, `get_alert_history`,
+`get_alert_stats`), Bot detection (`get_bot_stats`, `get_suspicious_sessions`)
+and Webhooks (`list_webhooks`, `list_webhook_deliveries`, `get_webhook_stats`).
+Their endpoints require a dashboard session, which a hosted connection never
+has. Everything else — including the channel-rule **reads** `get_channels`,
+`list_channel_rules` and `test_channel_rules` — works on both.
 
 ### Sites
 
@@ -21866,12 +21902,12 @@ Claude uses these tools automatically when you ask questions — you never need 
 | `get_top_channels` | Top channels ranked by entrances (compact, non-paginated) |
 | `list_channel_rules` | List channel group rules that classify traffic into channels |
 | `test_channel_rules` | Test how a source/medium/campaign combination would be classified |
-| `create_channel_rule` | Create a new channel rule **as a draft** (never live) |
-| `update_channel_rule` | Update a channel rule — **drafts only** |
-| `delete_channel_rule` | Delete a channel rule — **drafts only** |
-| `import_channel_rules` | Bulk-import rules **as drafts**; defaults to `dry_run=true` |
+| `create_channel_rule` | **Local only.** Create a new channel rule **as a draft** (never live) |
+| `update_channel_rule` | **Local only.** Update a channel rule — **drafts only** |
+| `delete_channel_rule` | **Local only.** Delete a channel rule — **drafts only** |
+| `import_channel_rules` | **Local only.** Bulk-import rules **as drafts**; defaults to `dry_run=true` |
 
-The write tools follow a strict **draft-only invariant**: the MCP can never touch a live rule or activate anything. Publishing is always a human action from the dashboard. See [Channel Grouping](/platform/settings/tracking/channel-grouping#using-the-mcp) for the full workflow.
+The four write tools exist **only on the local server** and need an API key with the `channel_rules:write` scope. They follow a strict **draft-only invariant**: the MCP can never touch a live rule or activate anything, whatever scope the key carries. Publishing is always a human action from the dashboard. See [Channel Grouping](/platform/settings/tracking/channel-grouping#using-the-mcp) for the full workflow and the key setup.
 
 ### Custom properties (custom dimensions)
 
@@ -24341,10 +24377,15 @@ API tokens can be granted the following permissions:
 | Scope | Description |
 |-------|-------------|
 | `stats:read` | Read analytics data (traffic, conversions, pages) |
-| `sites:read` | Read site configuration (domains, settings) |
+| `sites:read` | Read site configuration (domains, settings, channel rules) |
 | `accounts:read` | Read account information |
+| `channel_rules:write` | Channel rules: create and edit **drafts** only. Nothing on live rules |
+| `channel_rules:publish` | Channel rules: create **live** rules and edit/delete live ones. Implies `channel_rules:write` |
 
-**Note:** API tokens have read-only access. Write operations require JWT authentication via the dashboard.
+**Note:** API tokens are read-only apart from channel rules, which are the single exception. Every other write operation requires JWT authentication via the dashboard. See [Channel Groups](/api/channel-groups) for what each channel-rule scope allows, and [Channel Grouping](/platform/settings/tracking/channel-grouping#the-api-key-the-write-tools-need) for how to create the key.
+
+**Warning:**
+A token's scopes cannot be edited later. To change them, revoke the token and create a new one. A `403` response naming `Required scope: ...` means the token lacks that scope.
 
 ### List Available Scopes
 
@@ -24371,11 +24412,21 @@ GET /api-tokens/scopes
       {
         "id": "accounts:read",
         "name": "Accounts Read",
-        "description": "Read account information"
+        "description": "Read account info"
+      },
+      {
+        "id": "channel_rules:write",
+        "name": "Channel Rules: Drafts",
+        "description": "Channel rules: create and edit drafts only"
+      },
+      {
+        "id": "channel_rules:publish",
+        "name": "Channel Rules: Publish",
+        "description": "Channel rules: create live rules and edit/delete live ones"
       }
     ]
   }
-}
+// ... see full example at https://docs.sealmetrics.com/api/api-tokens
 ```
 
 ---
@@ -34677,7 +34728,25 @@ Manage the rules that classify traffic into channels (GA4-style channel grouping
 
 **Base path:** `/channel-groups`
 
-Default scope: `read`. Mutations require `write` (editor or higher).
+## Scopes
+
+Reads need `read` (dashboard session) or `sites:read` (API key). Mutations need `write` (dashboard session, editor or higher) or one of the two channel-rule scopes on an API key:
+
+| Scope | Can do |
+|-------|--------|
+| `channel_rules:write` | Create **drafts**, edit and delete **drafts**. Nothing on live rules |
+| `channel_rules:publish` | All of the above plus creating live rules and activating, editing or deleting live ones. Implies `channel_rules:write` |
+
+**The draft-only restriction is enforced server-side**, so a client cannot work around it:
+
+- `POST` with `is_active: true` on a `channel_rules:write` key stores a **draft** anyway. The `201` response carries `draft_forced: true` and `draft_forced_reason`.
+- `PATCH` with `is_active: true` → `403 Required scope: channel_rules:publish (activating a rule)`. The rule is not touched.
+- `PATCH` or `DELETE` on a **live** rule → `403 Required scope: channel_rules:publish (rule is live)`.
+- `POST /channel-groups/import` runs as `scope=drafts` whatever the query says. The response reports the effective `scope` and `draft_forced_reason`, on a dry run too.
+
+Live rules apply to **new traffic** within ~5 minutes and never reclassify history; there is no review step. Test each combination with `POST /channel-groups/test` before publishing. Every mutation is recorded in **Settings → Audit Logs**.
+
+How to create a key with these scopes: [Channel Grouping → the API key the write tools need](/platform/settings/tracking/channel-grouping#the-api-key-the-write-tools-need).
 
 ---
 
@@ -34731,7 +34800,7 @@ Default rules have `account_id = null` and `is_default = true`. They cannot be m
 POST /channel-groups?account_id={account_id}
 ```
 
-**Required scope:** `write` (editor or higher)
+**Required scope:** `write` (session, editor or higher) or `channel_rules:write` / `channel_rules:publish` (API key — see [Scopes](#scopes))
 
 **Request Body:**
 
@@ -34764,7 +34833,7 @@ Returns the rule or `404` if not found.
 PATCH /channel-groups/{rule_id}?account_id={account_id}
 ```
 
-**Required scope:** `write`
+**Required scope:** `write` (session) or `channel_rules:write` / `channel_rules:publish` (API key — see [Scopes](#scopes))
 
 All fields from create are optional. Default (system) rules cannot be modified — attempting returns `403`.
 
@@ -34776,7 +34845,7 @@ All fields from create are optional. Default (system) rules cannot be modified �
 DELETE /channel-groups/{rule_id}?account_id={account_id}
 ```
 
-**Required scope:** `write`. Default rules cannot be deleted (`403`). Returns `204 No Content`.
+**Required scope:** `write` (session) or `channel_rules:write` / `channel_rules:publish` (API key — see [Scopes](#scopes)). Default rules cannot be deleted (`403`). Returns `204 No Content`.
 
 ### Draft-only guard (for MCP / automation)
 
@@ -34826,7 +34895,7 @@ Only the entries in `rules` are importable. `default_rules` are surfaced for ref
 POST /channel-groups/import?account_id={account_id}&dry_run={bool}&scope={all|drafts}
 ```
 
-**Required scope:** `write`.
+**Required scope:** `write` (session) or `channel_rules:write` / `channel_rules:publish` (API key — see [Scopes](#scopes)).
 
 Atomic replace-all import of custom rules. Body carries the same envelope as the export.
 
@@ -56468,13 +56537,15 @@ Excel-friendly quirks handled automatically:
 
 If you've connected Sealmetrics to Claude, ChatGPT, or another MCP-compatible assistant, five tools are available for channel rules:
 
-| Tool | What it does |
-|------|--------------|
-| `test_channel_rules` | Run the tester with any source/medium/campaign combination. Read-only. |
-| `create_channel_rule` | Create a new rule **as a draft**. |
-| `update_channel_rule` | Edit an existing rule — **drafts only**. |
-| `delete_channel_rule` | Delete a rule — **drafts only**. |
-| `import_channel_rules` | Bulk-import rules **as drafts**. Defaults to `dry_run=true` (validates without writing). |
+| Tool | What it does | Where it works |
+|------|--------------|----------------|
+| `test_channel_rules` | Run the tester with any source/medium/campaign combination. Read-only. | Local **and** hosted |
+| `create_channel_rule` | Create a new rule **as a draft**. | **Local only** |
+| `update_channel_rule` | Edit an existing rule — **drafts only**. | **Local only** |
+| `delete_channel_rule` | Delete a rule — **drafts only**. | **Local only** |
+| `import_channel_rules` | Bulk-import rules **as drafts**. Defaults to `dry_run=true` (validates without writing). | **Local only** |
+
+The four write tools exist only on the [local MCP server](/integrations/mcp-server#local-mcp-server-npx) (`npx -y @sealmetrics/mcp`). The hosted endpoint at `mcp.sealmetrics.com` never registers them, so a connection from claude.ai or ChatGPT can test and list rules but cannot create or edit any — whatever permissions its API key carries.
 
 ### The draft-only invariant
 
@@ -56486,7 +56557,32 @@ To keep your live classification safe from anything an assistant might do (mista
 
 The worst case with the MCP is "too many drafts to review". Your live channels are never changed by an assistant.
 
-To use the write tools, your MCP connection must have an API key with the **write** scope. Read tools (like `test_channel_rules`) work with any API key.
+### The API key the write tools need
+
+Read tools like `test_channel_rules` work with any API key that has **Read access**. The write tools need one extra permission, and it has to be chosen when the key is created — **a key's permissions cannot be edited afterwards**.
+
+1. Go to **Settings → API Keys** and click **Create API Key**.
+2. Give it a name you will recognise, e.g. `MCP local — channel rules`.
+3. Under **Permissions**, check:
+   - **Read access** — analytics, site configuration and account info.
+   - **Channel Rules: Drafts** (`channel_rules:write`) — create and edit drafts only.
+   - Leave **Channel Rules: Publish** (`channel_rules:publish`) **unchecked**. That one allows creating live rules and editing or deleting the ones already in production, with no review step — it exists for scripts that deliberately manage live classification, not for assistants.
+4. Optionally check **Restrict to specific sites**. Otherwise the key covers every site you can access.
+5. Pick an expiration and click **Create**. The key (`sm_...`) is shown **once**.
+
+Then put it in your local MCP configuration as `SEALMETRICS_API_KEY` — see the [local server setup](/integrations/mcp-server#local-mcp-server-npx).
+
+**Note:**
+It is not a client-side convention, so a confused or manipulated assistant cannot work around it:
+
+- Creating a rule with `is_active: true` stores a **draft** anyway, and the response says so.
+- Activating a rule returns **403**.
+- Editing or deleting a **live** rule returns **403**.
+- Imports always run in draft mode; live rules are never touched.
+
+A key with **Channel Rules: Publish** does lift these limits for your own scripts calling the API directly — but the **MCP tools still write drafts only**, even with that key. Publishing stays a human action in the dashboard.
+
+Every change, from a dashboard session or an API key, is recorded in **Settings → Audit Logs**.
 
 ## Complete worked examples
 
