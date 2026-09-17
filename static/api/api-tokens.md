@@ -3,8 +3,8 @@ title: "API Tokens"
 description: "Create and manage read-only personal API tokens with scoped permissions, optional account restrictions, and automatic expiration"
 canonical_url: "https://docs.sealmetrics.com/api/api-tokens"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c6cef0cc3f904df414797b9f16ee6c3fc77b342fe633b71177ff37f7daf975f6"
+date_generated: "2026-09-17T13:33:23.512Z"
+source_hash: "293c4d376d634363ec24e87423b8afc45e68c54e90ab54d205394312d2852562"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -37,10 +37,15 @@ API tokens can be granted the following permissions:
 | Scope | Description |
 |-------|-------------|
 | `stats:read` | Read analytics data (traffic, conversions, pages) |
-| `sites:read` | Read site configuration (domains, settings) |
+| `sites:read` | Read site configuration (domains, settings, channel rules) |
 | `accounts:read` | Read account information |
+| `channel_rules:write` | Channel rules: create and edit **drafts** only. Nothing on live rules |
+| `channel_rules:publish` | Channel rules: create **live** rules and edit/delete live ones. Implies `channel_rules:write` |
 
-**Note:** API tokens have read-only access. Write operations require JWT authentication via the dashboard.
+**Note:** API tokens are read-only apart from channel rules, which are the single exception. Every other write operation requires JWT authentication via the dashboard. See [Channel Groups](/api/channel-groups) for what each channel-rule scope allows, and [Channel Grouping](/platform/settings/tracking/channel-grouping#the-api-key-the-write-tools-need) for how to create the key.
+
+**Warning:**
+A token's scopes cannot be edited later. To change them, revoke the token and create a new one. A `403` response naming `Required scope: ...` means the token lacks that scope.
 
 ### List Available Scopes
 
@@ -67,7 +72,17 @@ GET /api-tokens/scopes
       {
         "id": "accounts:read",
         "name": "Accounts Read",
-        "description": "Read account information"
+        "description": "Read account info"
+      },
+      {
+        "id": "channel_rules:write",
+        "name": "Channel Rules: Drafts",
+        "description": "Channel rules: create and edit drafts only"
+      },
+      {
+        "id": "channel_rules:publish",
+        "name": "Channel Rules: Publish",
+        "description": "Channel rules: create live rules and edit/delete live ones"
       }
     ]
   }

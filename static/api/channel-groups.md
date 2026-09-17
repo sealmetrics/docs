@@ -3,8 +3,8 @@ title: "Channel Groups"
 description: "Manage GA4-style channel classification rules that match utm_source, medium, and campaign via regex with priority ordering"
 canonical_url: "https://docs.sealmetrics.com/api/channel-groups"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "9c684c8dd3b7dec4508f55afb9291e0e65b034ab16313495d70ab08c7c866d63"
+date_generated: "2026-09-17T13:33:23.512Z"
+source_hash: "10a3b24f89db44cd76f1a022b8e39b09921b60230e548af808ff21227b584aee"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -20,7 +20,25 @@ Manage the rules that classify traffic into channels (GA4-style channel grouping
 
 **Base path:** `/channel-groups`
 
-Default scope: `read`. Mutations require `write` (editor or higher).
+## Scopes
+
+Reads need `read` (dashboard session) or `sites:read` (API key). Mutations need `write` (dashboard session, editor or higher) or one of the two channel-rule scopes on an API key:
+
+| Scope | Can do |
+|-------|--------|
+| `channel_rules:write` | Create **drafts**, edit and delete **drafts**. Nothing on live rules |
+| `channel_rules:publish` | All of the above plus creating live rules and activating, editing or deleting live ones. Implies `channel_rules:write` |
+
+**The draft-only restriction is enforced server-side**, so a client cannot work around it:
+
+- `POST` with `is_active: true` on a `channel_rules:write` key stores a **draft** anyway. The `201` response carries `draft_forced: true` and `draft_forced_reason`.
+- `PATCH` with `is_active: true` → `403 Required scope: channel_rules:publish (activating a rule)`. The rule is not touched.
+- `PATCH` or `DELETE` on a **live** rule → `403 Required scope: channel_rules:publish (rule is live)`.
+- `POST /channel-groups/import` runs as `scope=drafts` whatever the query says. The response reports the effective `scope` and `draft_forced_reason`, on a dry run too.
+
+Live rules apply to **new traffic** within ~5 minutes and never reclassify history; there is no review step. Test each combination with `POST /channel-groups/test` before publishing. Every mutation is recorded in **Settings → Audit Logs**.
+
+How to create a key with these scopes: [Channel Grouping → the API key the write tools need](/platform/settings/tracking/channel-grouping#the-api-key-the-write-tools-need).
 
 ---
 
@@ -74,7 +92,7 @@ Default rules have `account_id = null` and `is_default = true`. They cannot be m
 POST /channel-groups?account_id={account_id}
 ```
 
-**Required scope:** `write` (editor or higher)
+**Required scope:** `write` (session, editor or higher) or `channel_rules:write` / `channel_rules:publish` (API key — see [Scopes](#scopes))
 
 **Request Body:**
 
@@ -107,7 +125,7 @@ Returns the rule or `404` if not found.
 PATCH /channel-groups/{rule_id}?account_id={account_id}
 ```
 
-**Required scope:** `write`
+**Required scope:** `write` (session) or `channel_rules:write` / `channel_rules:publish` (API key — see [Scopes](#scopes))
 
 All fields from create are optional. Default (system) rules cannot be modified — attempting returns `403`.
 
@@ -119,7 +137,7 @@ All fields from create are optional. Default (system) rules cannot be modified �
 DELETE /channel-groups/{rule_id}?account_id={account_id}
 ```
 
-**Required scope:** `write`. Default rules cannot be deleted (`403`). Returns `204 No Content`.
+**Required scope:** `write` (session) or `channel_rules:write` / `channel_rules:publish` (API key — see [Scopes](#scopes)). Default rules cannot be deleted (`403`). Returns `204 No Content`.
 
 ### Draft-only guard (for MCP / automation)
 
@@ -169,7 +187,7 @@ Only the entries in `rules` are importable. `default_rules` are surfaced for ref
 POST /channel-groups/import?account_id={account_id}&dry_run={bool}&scope={all|drafts}
 ```
 
-**Required scope:** `write`.
+**Required scope:** `write` (session) or `channel_rules:write` / `channel_rules:publish` (API key — see [Scopes](#scopes)).
 
 Atomic replace-all import of custom rules. Body carries the same envelope as the export.
 
