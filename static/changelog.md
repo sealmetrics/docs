@@ -3,8 +3,8 @@ title: "Release Notes"
 description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release local MCP server package rename (September 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-09-15T19:21:54.511Z"
-source_hash: "ad0e1e2edf5c8e4afa9337cd050625ad05405a0722012ae2472ee6e6c7350c2a"
+date_generated: "2026-09-17T01:10:48.860Z"
+source_hash: "3d438c2e00ccabada353361ccaae8ec2c49babc66ff18f8f10948ee6b20db981"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -285,20 +285,6 @@ As of **November 17 at 19:00 UTC**:
 
 ---
 
-## Performance Improvements (Nov 10, 22:00 UTC)
-
-### 2.5x Faster Data Processing
-
-We've significantly optimized our processing infrastructure by increasing core capacity. Your data now processes **2.5 times faster**, meaning real-time dashboard updates and instant report generation.
-
-**Benefits:**
-- Faster dashboard loading times
-- Real-time data updates
-- Instant report generation
-- Improved overall platform responsiveness
-
----
-
 ## Facebook Ads Attribution Update (Nov 13, 19:00 UTC)
 
 **Warning:**
@@ -316,6 +302,20 @@ As of this release, the `fbclid` parameter is no longer used to identify Faceboo
 **Recommendation:** Review and update your Facebook Ads campaigns with correct UTMs to maintain full visibility.
 
 **Tip:**
+
+---
+
+## Performance Improvements (Nov 10, 22:00 UTC)
+
+### 2.5x Faster Data Processing
+
+We've significantly optimized our processing infrastructure by increasing core capacity. Your data now processes **2.5 times faster**, meaning real-time dashboard updates and instant report generation.
+
+**Benefits:**
+- Faster dashboard loading times
+- Real-time data updates
+- Instant report generation
+- Improved overall platform responsiveness
 
 ---
 
