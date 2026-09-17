@@ -3,8 +3,8 @@ title: "Channel Grouping"
 description: "Define custom rules to group your traffic into channels (Paid Search, Organic Social, Affiliates…) with a drafts→test→publish flow, CSV import/export, and MCP tools."
 canonical_url: "https://docs.sealmetrics.com/platform/settings/tracking/channel-grouping"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "282c41d2a4fad6b787129236a3c7453266902d4fd3677bd69fc420da0fcd3bfa"
+date_generated: "2026-09-17T13:33:23.512Z"
+source_hash: "0362160915e87df74aa107906b39fcbf3bca47d559010e29157b89ce4b76d46a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -261,13 +261,15 @@ Excel-friendly quirks handled automatically:
 
 If you've connected Sealmetrics to Claude, ChatGPT, or another MCP-compatible assistant, five tools are available for channel rules:
 
-| Tool | What it does |
-|------|--------------|
-| `test_channel_rules` | Run the tester with any source/medium/campaign combination. Read-only. |
-| `create_channel_rule` | Create a new rule **as a draft**. |
-| `update_channel_rule` | Edit an existing rule — **drafts only**. |
-| `delete_channel_rule` | Delete a rule — **drafts only**. |
-| `import_channel_rules` | Bulk-import rules **as drafts**. Defaults to `dry_run=true` (validates without writing). |
+| Tool | What it does | Where it works |
+|------|--------------|----------------|
+| `test_channel_rules` | Run the tester with any source/medium/campaign combination. Read-only. | Local **and** hosted |
+| `create_channel_rule` | Create a new rule **as a draft**. | **Local only** |
+| `update_channel_rule` | Edit an existing rule — **drafts only**. | **Local only** |
+| `delete_channel_rule` | Delete a rule — **drafts only**. | **Local only** |
+| `import_channel_rules` | Bulk-import rules **as drafts**. Defaults to `dry_run=true` (validates without writing). | **Local only** |
+
+The four write tools exist only on the [local MCP server](/integrations/mcp-server#local-mcp-server-npx) (`npx -y @sealmetrics/mcp`). The hosted endpoint at `mcp.sealmetrics.com` never registers them, so a connection from claude.ai or ChatGPT can test and list rules but cannot create or edit any — whatever permissions its API key carries.
 
 ### The draft-only invariant
 
@@ -279,7 +281,32 @@ To keep your live classification safe from anything an assistant might do (mista
 
 The worst case with the MCP is "too many drafts to review". Your live channels are never changed by an assistant.
 
-To use the write tools, your MCP connection must have an API key with the **write** scope. Read tools (like `test_channel_rules`) work with any API key.
+### The API key the write tools need
+
+Read tools like `test_channel_rules` work with any API key that has **Read access**. The write tools need one extra permission, and it has to be chosen when the key is created — **a key's permissions cannot be edited afterwards**.
+
+1. Go to **Settings → API Keys** and click **Create API Key**.
+2. Give it a name you will recognise, e.g. `MCP local — channel rules`.
+3. Under **Permissions**, check:
+   - **Read access** — analytics, site configuration and account info.
+   - **Channel Rules: Drafts** (`channel_rules:write`) — create and edit drafts only.
+   - Leave **Channel Rules: Publish** (`channel_rules:publish`) **unchecked**. That one allows creating live rules and editing or deleting the ones already in production, with no review step — it exists for scripts that deliberately manage live classification, not for assistants.
+4. Optionally check **Restrict to specific sites**. Otherwise the key covers every site you can access.
+5. Pick an expiration and click **Create**. The key (`sm_...`) is shown **once**.
+
+Then put it in your local MCP configuration as `SEALMETRICS_API_KEY` — see the [local server setup](/integrations/mcp-server#local-mcp-server-npx).
+
+**Note:**
+It is not a client-side convention, so a confused or manipulated assistant cannot work around it:
+
+- Creating a rule with `is_active: true` stores a **draft** anyway, and the response says so.
+- Activating a rule returns **403**.
+- Editing or deleting a **live** rule returns **403**.
+- Imports always run in draft mode; live rules are never touched.
+
+A key with **Channel Rules: Publish** does lift these limits for your own scripts calling the API directly — but the **MCP tools still write drafts only**, even with that key. Publishing stays a human action in the dashboard.
+
+Every change, from a dashboard session or an API key, is recorded in **Settings → Audit Logs**.
 
 ## Complete worked examples
 
