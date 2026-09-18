@@ -3,8 +3,8 @@ title: "Privacy-First Analytics: Why It Matters"
 description: "Privacy-first analytics is now essential. GDPR enforcement and cookie phase-outs make consentless, cookieless analytics the only sustainable path."
 canonical_url: "https://docs.sealmetrics.com/blog/privacy-first-analytics-2025"
 lang: "en"
-date_generated: "2026-09-17T13:34:47.109Z"
-source_hash: "a590adc502b337ee7d5eccb10e69df5700bf8efa33abe5afdb5bcdf3159e2bee"
+date_generated: "2026-09-18T01:10:47.401Z"
+source_hash: "d26c3feb8f11c791efe7599a27dc9a2a4f9463b879b399d1099def6ad6e0e40c"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -534,8 +534,6 @@ Most websites see **faster page loads** after switching to privacy-first analyti
 - Server-side tracking (no SDK required)
 - Webview analytics (if app uses webviews)
 - Custom implementation using Sealmetrics API
-
-Sealmetrics is currently focused on web analytics.
 
 ### How does pricing compare to Google Analytics?
 
