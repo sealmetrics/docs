@@ -3,8 +3,8 @@ title: "WooCommerce"
 description: "Install the Sealmetrics WooCommerce plugin for cookieless tracking of the full e-commerce funnel — product views, cart, checkout, and purchase revenue."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/woocommerce"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "8c2a108f6705604c7ee6ac74e8bcb3e41b5dc362a48aae1e8de8c865f2530857"
+date_generated: "2026-09-19T01:11:44.284Z"
+source_hash: "1d7b1d9124c2823418c6a8330be9fc5bac1764cf37cc0157dd530335a43d5487"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -39,14 +39,14 @@ Download the Sealmetrics WooCommerce plugin from your Sealmetrics dashboard, und
 ### Step 3: Configure
 
 1. Go to **Settings > Sealmetrics**
-2. Enter your **Account ID** — this is your Site ID, shown in **Settings → Sites → [your site] → General** ([how to find it](/platform/account-setup/find-account-id))
+2. Enter your **Site ID**, shown in **Settings → Sites → [your site] → General** ([how to find it](/platform/account-setup/find-account-id))
 3. Save changes
 
 ## Configuration Options
 
 | Setting | Description |
 |---------|-------------|
-| **Account ID** | Your Sealmetrics Account ID (required) |
+| **Site ID** | Your Sealmetrics Site ID (required) |
 | **Pixel URL** | Custom pixel domain for first-party tracking (optional) |
 
 ## E-commerce Events
@@ -76,7 +76,6 @@ Automatic detection based on WooCommerce page type:
 | My Account | `account` |
 
 ## Features
-
 ### Brand Detection
 
 The plugin automatically detects product brands from popular plugins:
