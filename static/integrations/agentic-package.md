@@ -3,8 +3,8 @@ title: "AI Agentic Package (Claude & Codex)"
 description: "One-click AI package that creates a free Sealmetrics account, hands you the tracking pixel, and lets your AI assistant query your analytics — all from chat, no terminal and no dashboard login required to start."
 canonical_url: "https://docs.sealmetrics.com/integrations/agentic-package"
 lang: "en"
-date_generated: "2026-09-15T18:01:06.894Z"
-source_hash: "f0447cd4c43309e1e7addbb07ee5a662f7e9ad8fcd7ed456c9be8d02b2eb62a3"
+date_generated: "2026-09-19T01:10:54.994Z"
+source_hash: "f3a913f0808ce678d873ff5d6a9d3c80cfe9eff4274e2e7107fb2cea00595a76"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/integrations/agentic-package
 
-The **Sealmetrics Agentic Package** lets an AI assistant set up analytics for you end to end — **from a chat, with no terminal and no dashboard login required to start**. Once installed, your assistant can:
+The Sealmetrics Agentic Package lets an AI assistant set up analytics for you end to end — from a chat, with no terminal and no dashboard login required to start. Once installed, your assistant can:
 
 1. **Create a free Sealmetrics account** for your site.
 2. **Give you the tracking pixel** (and place it for you if it has access to your code).
