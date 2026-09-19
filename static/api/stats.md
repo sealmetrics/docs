@@ -3,8 +3,8 @@ title: "Stats Endpoints"
 description: "Analytics data endpoints for retrieving traffic, conversion, and engagement metrics."
 canonical_url: "https://docs.sealmetrics.com/api/stats"
 lang: "en"
-date_generated: "2026-09-01T18:53:38.400Z"
-source_hash: "05671dfd004223687a29d83b330b069d12fa902583c650fda54b3090fd566418"
+date_generated: "2026-09-19T16:46:13.690Z"
+source_hash: "89817d130b2e49332c881ed9436aaa02c9e3519d1c5bc8dc86a3084ec0d70aaf"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -710,7 +710,7 @@ curl "https://my.sealmetrics.com/api/v1/stats/microconversions/raw?site_id=acme&
       "browser": "Chrome",
       "os": "iOS",
       "properties": {
-        "hotel": "TRS Ibiza Hotel",
+        "hotel": "Example Hotel",
         "checkin_date": "2026-07-12",
         "number_of_nights": "5",
         "number_of_adults": "2",
