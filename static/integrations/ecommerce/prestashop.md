@@ -3,8 +3,8 @@ title: "PrestaShop"
 description: "Privacy-first, cookieless analytics for PrestaShop 1.7+ and 8.x stores"
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/prestashop"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "75a141276e41a022b49baf950e48c58b0cdf1cdd160d360b0773c34e87a4d4a2"
+date_generated: "2026-09-19T01:11:12.660Z"
+source_hash: "07f7d4daf466ed46e8837ca664175978cd7db1e354e7f332390e46cdfc3729cb"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -53,7 +53,7 @@ Privacy-first, cookieless analytics for PrestaShop 1.7+ and 8.x stores.
 | `view_item` | Micro | product_name, product_id, sku, price, currency, category, brand |
 | `add_to_cart` | Micro | product_name, product_id, price, quantity, currency |
 | `begin_checkout` | Micro | cart_total, currency, items_count |
-| `purchase` | Conversion | revenue, currency, payment_method, coupon, items array |
+| `purchase` | Conversion | currency, payment_method, coupon, items array |
 
 ## Content Groups
 
