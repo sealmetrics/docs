@@ -3,8 +3,8 @@ title: "WooCommerce"
 description: "Install the Sealmetrics WooCommerce plugin for cookieless tracking of the full e-commerce funnel — product views, cart, checkout, and purchase revenue."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/woocommerce"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "8c2a108f6705604c7ee6ac74e8bcb3e41b5dc362a48aae1e8de8c865f2530857"
+date_generated: "2026-09-19T01:11:28.510Z"
+source_hash: "6a6948d9656fb7ab174b252eeebbcf2c98cb9ff484bf5bdee8ec0c81c1aeeeac"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -22,7 +22,7 @@ Privacy-first, cookieless analytics for WordPress + WooCommerce stores with comp
 
 - WordPress 5.8+
 - WooCommerce 6.0+
-- PHP 7.4+
+- PHP 8.0+
 
 ## Installation
 
