@@ -40,7 +40,7 @@ New sites default to **Europe/Madrid** unless you change it.
 
 ## Diagnosis
 
-1. **Check both timezones.** Find the site's timezone in Sealmetrics (see below) and the property/report timezone of the other tool (GA4 property timezone, ad platform account timezone, your database's `GROUP BY` timezone).
+1. **Check both timezones.** Find the site's timezone in Sealmetrics (see below) and the property/report timezone of the other tool (the property timezone of your current tool, ad platform account timezone, your database's `GROUP BY` timezone).
 2. **Compare a wide window, not a single day.** Pick a closed multi-day range (e.g. the 1st to the 15th) in both tools. If the total converges but individual days don't, the mismatch is the day cutoff — not lost data.
 3. **Look at the edges.** With different timezones, each day boundary moves a fixed number of hours of traffic from one day to its neighbor. The size of the daily shift should be consistent with the hour offset between both timezones.
 

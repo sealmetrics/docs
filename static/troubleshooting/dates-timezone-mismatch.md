@@ -3,8 +3,8 @@ title: "Report Dates Don't Match Another Tool"
 description: "Why daily totals in Sealmetrics can differ from another analytics tool or your backend — each hit's date is assigned at the site's timezone midnight — and how to change the site timezone."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/dates-timezone-mismatch"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "053db8ada9fce01d969952fa1cc656516cdc990ef9252ea8f3ae61c94cab2b2d"
+date_generated: "2026-09-19T16:43:33.242Z"
+source_hash: "de458575627dca56e3d1d8df9126c231f27c8171156ddf84b5f27f5469b00816"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -41,7 +41,7 @@ New sites default to **Europe/Madrid** unless you change it.
 
 ## Diagnosis
 
-1. **Check both timezones.** Find the site's timezone in Sealmetrics (see below) and the property/report timezone of the other tool (GA4 property timezone, ad platform account timezone, your database's `GROUP BY` timezone).
+1. **Check both timezones.** Find the site's timezone in Sealmetrics (see below) and the property/report timezone of the other tool (the property timezone of your current tool, ad platform account timezone, your database's `GROUP BY` timezone).
 2. **Compare a wide window, not a single day.** Pick a closed multi-day range (e.g. the 1st to the 15th) in both tools. If the total converges but individual days don't, the mismatch is the day cutoff — not lost data.
 3. **Look at the edges.** With different timezones, each day boundary moves a fixed number of hours of traffic from one day to its neighbor. The size of the daily shift should be consistent with the hour offset between both timezones.
 
