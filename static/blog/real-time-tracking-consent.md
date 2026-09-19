@@ -3,8 +3,8 @@ title: "Real-Time Analytics: AEPD and CNIL Consent Rules"
 description: "Does real-time tracking need consent under GDPR? AEPD and CNIL rules on snapshots vs sub-daily windows, and how consentless analytics handles it."
 canonical_url: "https://docs.sealmetrics.com/blog/real-time-tracking-consent"
 lang: "en"
-date_generated: "2026-08-12T11:53:36.394Z"
-source_hash: "70f3959d960a7659190553db97c6af0784063dd6988f0037708110c5c16bd90e"
+date_generated: "2026-09-19T16:46:25.300Z"
+source_hash: "2516ac21909652dff645829d7bfca68ba6261d61b2270110243e9d342f63ce52"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -113,7 +113,7 @@ Not all analytics platforms approach real-time data the same way. Their architec
 
 Google Analytics 4 is a cookie-based tool that relies on consent for full functionality. Google's Consent Mode v2 attempts to model data from users who reject cookies, but this is estimation, not measurement. The real-time report in GA4 ("Users in last 30 minutes") is a classic window implementation -- it stores timestamped events and queries them for the last 30 minutes.
 
-This design requires consent by default. With Consent Mode v2, Google claims to handle consent-denied users through behavioral modeling, but this approach has been [questioned by multiple DPAs](https://noyb.eu/en/noyb-files-gdpr-complaint-against-googles-new-consent-fraud), and the modeled data is not actual measurement. In practice, GA4 loses 15-60% of real visitor data in EU markets to consent rejection, depending on sector, brand strength and traffic mix.
+This design requires consent by default. With Consent Mode v2, Google claims to handle consent-denied users through behavioral modeling, but this approach has been questioned by multiple DPAs, and the modeled data is not actual measurement. In practice, GA4 loses 15-60% of real visitor data in EU markets to consent rejection, depending on sector, brand strength and traffic mix.
 
 ### Matomo (Self-Hosted)
 
