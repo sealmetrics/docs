@@ -3,8 +3,8 @@ title: "Introducing Seal AI Private: AI-Powered Analytics That Never Leaves the 
 description: "Seal AI Private is Sealmetrics' EU-hosted, platform-managed AI for LENS: chat and insights processed in Paris, no prompt retention, no API key required."
 canonical_url: "https://docs.sealmetrics.com/blog/seal-ai-private-launch"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "6f8d4e074187e4be681b92948bfc8c5e050ea8c72fbe3b50f7cf37d24336a845"
+date_generated: "2026-09-19T16:45:16.126Z"
+source_hash: "64ef056528598b9b311b854d8ab05182afe1354dfda1a7ec3f14f086e6513e24"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -30,11 +30,11 @@ No API key. No account with an AI vendor. No data leaving Europe. It works out o
 - **Zero setup**: no API key or external AI account required
 - **Included in Scale and Enterprise** plans; available as a paid add-on on Growth
 - **5 million tokens per month**, with optional non-expiring token packs
-- **BYOK remains available and free** on every paid plan if you prefer your own OpenAI, Anthropic, Gemini, or DeepSeek key — the pricing here is for Seal AI Private only, not for LENS
+- **BYOK remains available and free** on every paid plan if you prefer your own external AI provider key — the pricing here is for Seal AI Private only, not for LENS
 
 ## Why we built this
 
-LENS — Sealmetrics' AI layer — lets you ask questions about your analytics in natural language and surfaces automated insights: anomalies, opportunities, trends, and alerts. Until now, powering it meant bringing your own LLM key (BYOK): creating an account with OpenAI, Anthropic, Google, or DeepSeek, managing that key, and accepting that your questions are processed on that provider's infrastructure under that provider's terms.
+LENS — Sealmetrics' AI layer — lets you ask questions about your analytics in natural language and surfaces automated insights: anomalies, opportunities, trends, and alerts. Until now, powering it meant bringing your own LLM key (BYOK): creating an account with an external AI provider, managing that key, and accepting that your questions are processed on that provider's infrastructure under that provider's terms.
 
 For many teams that's fine. For others — especially European companies that chose Sealmetrics precisely because it keeps data handling simple and compliant — it's a blocker. Their DPO asks where prompts are processed. Procurement asks who the sub-processor is. IT asks who rotates the key.
 
