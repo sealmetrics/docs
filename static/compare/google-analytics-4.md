@@ -3,8 +3,8 @@ title: "Sealmetrics vs Google Analytics 4: consent-based vs consentless measurem
 description: "GA4 needs cookies and consent, so it loses 15–60% of EU visitors. Sealmetrics measures every hit without cookies, IP storage or a banner, hosted in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/google-analytics-4"
 lang: "en"
-date_generated: "2026-09-04T11:01:07.053Z"
-source_hash: "73f1a20cd1b22b0286145d6307773bd4f8d5c0c5bee37e76e33b409ef5ec2caf"
+date_generated: "2026-09-21T06:58:19.765Z"
+source_hash: "2b31d894878b1c3195be40ff98e37e79c2041fde06ddbffcfcd8f71a48364d3d"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -26,7 +26,7 @@ Google facts checked 2026-09-04 on Google's own help pages; each row links to th
 |---|---|---|
 | Company / HQ | Sealmetrics, EU company | Google LLC, Mountain View, USA; Google Ireland Limited for EEA users ([source](https://policies.google.com/privacy)) |
 | Hosting model | Managed cloud only | Managed cloud only ([source](https://support.google.com/analytics/answer/6004245)) |
-| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP; no cookies or localStorage ([details](/security-privacy/what-we-track)) | First-party cookie `_ga` with a 2-year default expiry, used "to distinguish users" ([source](https://support.google.com/analytics/answer/11397207)) |
+| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP; no cookies or localStorage ([details](/security-privacy/what-we-track)) | First-party cookie `_ga` with a 2-year default expiry, used "to distinguish users" (source: Google Analytics Help) |
 | Visitor IP address | Never stored; country derived from browser timezone ([details](/security-privacy/country-detection)) | Not logged or stored for EU/UK/CH users; used for geolocation and then discarded ([source](https://support.google.com/analytics/answer/12017362)) |
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | EU device data collected on EU servers "before forwarding traffic to Analytics servers for processing"; final location not stated ([source](https://support.google.com/analytics/answer/12017362)) |
 | Vendor's position on consent | No banner needed for measurement | Consent required for cookies "where legally required" under Google's EU User Consent Policy ([source](https://www.google.com/about/company/user-consent-policy/)) |
