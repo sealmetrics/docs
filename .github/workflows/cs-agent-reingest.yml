@@ -50,10 +50,14 @@ jobs:
           EXIT=$?
           echo "ssh exit=$EXIT"
           if [ "$EXIT" -ne 0 ]; then
-            # El comando forzado del servidor escribe su error en stderr; se
-            # muestra entero (últimas 30 líneas) para no depender de adivinar
-            # palabras clave. El host y el usuario ya van enmascarados.
-            tail -n 30 /tmp/sshlog
+            # This repo is public, so its Actions logs are too: never print
+            # the server's output. Only say which kind of failure it was;
+            # the details live in the server's own logs.
+            if grep -qiE "connection refused|timed out|no route|permission denied \(publickey" /tmp/sshlog; then
+              echo "failure: could not connect to the ingest host"
+            else
+              echo "failure: the ingest command failed on the host (run it there to see the error)"
+            fi
             exit $EXIT
           fi
           echo "ingest triggered OK"
