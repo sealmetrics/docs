@@ -3,8 +3,8 @@ title: "Features"
 description: "Explore the complete feature set of Sealmetrics - from core analytics reports to API access, conversion tracking, and privacy-first capabilities."
 canonical_url: "https://docs.sealmetrics.com/getting-started/features"
 lang: "en"
-date_generated: "2026-09-14T16:47:50.076Z"
-source_hash: "d9a7948af819849acaa8e93e2f57636ada3c5a629fe20bb653537e0c1cc71360"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "6cce96f6bd0cf6d12b365a73c40b97eeecfb286af0b069a227fb04e8132a7846"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -147,10 +147,8 @@ Understand your audience's technical profile:
 - **Browser Type** - Chrome, Safari, Firefox, Edge, etc.
 - **Operating System** - Windows, macOS, iOS, Android, Linux
 - **Device Category** - Desktop, mobile, tablet
-- **Screen Sizes** - Resolution and viewport data
-- **Language Settings** - Preferred languages
 
-All detected from user agent strings without storing personal information.
+All derived from the user agent string, which is never stored — only the derived categories are kept. Screen size and browser languages are not reported.
 
 ### Geographic Insights
 Country-level visitor attribution derived from time zone data, not IP addresses. Know where your audience is located without privacy risks.
@@ -161,7 +159,7 @@ Country-level visitor attribution derived from time zone data, not IP addresses.
 
 Session duration and individual navigation paths are **not** measured: both require following one visitor across page loads, which needs a persistent identifier. See the [Metrics Reference](/reports/definitions) for what is and isn't tracked.
 
-Sessions are identified by a temporary, non-persistent marker derived from the browser context — nothing is stored in cookies or local storage. A session ends after roughly two hours of inactivity, and Sealmetrics never recognizes visitors across sessions: separate visits can never be linked together.
+Sessions are identified by a hash of standard device characteristics that the tracker computes in the browser and never writes to the device — nothing is stored in cookies or local storage. On the server it is re-keyed with a daily salt that is destroyed on rotation, so the stored identifier changes every day. A session ends after roughly two hours of inactivity, and Sealmetrics never recognizes visitors across sessions or days. See [What We Track](/security-privacy/what-we-track).
 
 ## Data Access & Export
 
@@ -184,7 +182,7 @@ Export any report to CSV or PDF format for offline analysis, custom reporting, o
 ## What makes Sealmetrics privacy-first? {#privacy-first-features}
 
 ### Cookieless by Design
-No cookies, no local storage, no fingerprinting. Zero impact on page speed from privacy scripts.
+No cookies, no local storage, no persistent or stored fingerprint. Zero impact on page speed from privacy scripts.
 
 ### No Consent Required
 Skip the banner. Stop losing visits to consent rejection. Measure without personal data.

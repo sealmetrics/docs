@@ -1,10 +1,10 @@
 ---
 title: "How It Works"
-description: "How Sealmetrics measures your traffic — one script tag, four non-identifying variables per hit, aggregate reports, and no consent banner."
+description: "How Sealmetrics measures your traffic — one script tag, a small set of non-identifying fields per hit, aggregate reports, and no consent banner."
 canonical_url: "https://docs.sealmetrics.com/getting-started/how-it-works"
 lang: "en"
-date_generated: "2026-09-21T08:04:46.276Z"
-source_hash: "12df24c0bb386a23f10b50baead3e5e84364294cdd28e47018bf1dd21ee7ade5"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "3c50abd7cb76f1d82f16fe101e21c5678bffadd18b762b95e3a3027c822a87cc"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -20,16 +20,18 @@ Sealmetrics measures your website traffic without cookies, consent banners or pe
 
 ## What gets recorded
 
-Four variables per hit:
+A small set of non-identifying fields per hit:
 
 1. **Timestamp** — when the visit happened
 2. **User Agent** — used for anonymous device classification (browser, OS, device type). The raw string is never written to storage; only the derived categories persist in aggregates
 3. **Current URL** — which page was viewed
 4. **Referral URL** — where the visitor came from
+5. **Browser timezone** — used to assign the visit's country
+6. **Session identifier** — tells a second pageview from a new entrance (see below)
 
-No IP addresses stored, no cookies, no localStorage, no persistent identifiers. Hits within one visit are grouped by a short-lived, in-memory session marker (roughly a two-hour inactivity window) that is never written to the device and cannot recognise a returning visitor.
+No IP addresses stored, no cookies, no localStorage, no persistent identifiers. Hits within one visit are grouped by a session identifier: the tracker computes, in the browser, a hash of standard device characteristics (a device fingerprint) that is never written to the device. On the server it is re-keyed with a salt that rotates and is destroyed every day, so the stored identifier changes daily and cannot recognise a returning visitor on another day. A session ends after roughly two hours of inactivity.
 
-Because no personal data is collected and nothing is stored on the visitor's device, there is no consent to ask for — which is also why cookie-based tools lose 15–60% of visitor data in EU markets — depending on sector, brand strength and traffic mix — while Sealmetrics does not. The full reasoning is in [What is Consentless Analytics?](/security-privacy/consentless-analytics), and the exact field list with retention is in [What We Track](/security-privacy/what-we-track).
+Because no personal data is stored and nothing is stored on the visitor's device, there is no consent to ask for — which is also why cookie-based tools lose 15–60% of visitor data in EU markets — depending on sector, brand strength and traffic mix — while Sealmetrics does not. The tracker does read standard browser properties to compute the session identifier; [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) covers how the audience-measurement exemption criteria apply to that read. The full reasoning is in [What is Consentless Analytics?](/security-privacy/consentless-analytics), and the exact field list with retention is in [What We Track](/security-privacy/what-we-track).
 
 ## What you get in reports
 
@@ -48,7 +50,7 @@ The same path, from the browser to your reports:
 
 ```mermaid
 flowchart LR
-    A["Browser loads the tracker script"] --> B["Four variables per hit: timestamp, user agent, current URL, referral URL"]
+    A["Browser loads the tracker script"] --> B["Non-identifying fields per hit: timestamp, user agent, URL, referrer, timezone, session identifier"]
     B --> C["Hit sent to Sealmetrics in Dublin, Ireland"]
     C --> D["Each hit processed on its own"]
     D --> E["Bots and crawlers filtered out"]

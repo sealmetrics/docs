@@ -3,8 +3,8 @@ title: "Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?"
 description: "Self-assessment of how Sealmetrics' privacy-first, isolated-hit architecture is designed to meet GDPR, ePrivacy, CCPA and PECR requirements. Not a certification."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/is-sealmetrics-privacy-compliant"
 lang: "en"
-date_generated: "2026-09-21T08:04:46.276Z"
-source_hash: "f39338da80e143983aaac7196d9c83169683fff29f3613547248572fc21b35b1"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "ae0231428a921e4b8bd576517c4462e9a74f0b2d927f15bc54e7349918356ed7"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -48,9 +48,9 @@ All customer analytics data therefore stays within the EU.
 Sealmetrics does **not**:
 
 - Track individual users
-- Correlate hits across time
+- Correlate hits across sessions or days
 - Build user profiles
-- Use cookies, localStorage, fingerprinting, or identifiers
+- Store anything on the device (no cookies, localStorage or sessionStorage), or keep any persistent identifier or stored fingerprint
 - Insert any tracking code in the user’s terminal beyond the measurement script
 
 This architectural model is designed so that **no personal data is processed**, which is why, in our assessment, no cookie banner or consent is needed for measurement.
@@ -59,17 +59,19 @@ This architectural model is designed so that **no personal data is processed**, 
 
 ## 3. Based on “Isolated Hits” — No User Tracking
 
-Sealmetrics does not track sessions or users.
-Instead, it measures **isolated page views (hits)** that are *never linked together*.
+Sealmetrics does not track users.
+It measures **page views (hits)** that are never linked to a person, and are grouped only within a single session — never across sessions or days.
 
-### For each hit, Sealmetrics collects only four variables:
+### For each hit, Sealmetrics collects only a small set of non-identifying fields:
 
 1. **Timestamp**
 2. **User Agent** *(used for anonymous device classification; the raw string is used in flight and never written to storage — only the derived browser/OS/device categories persist in aggregates — never linked to a person)*
 3. **Current URL**
 4. **Referral URL**
+5. **Browser timezone** *(used to assign the country)*
+6. **Session identifier** *(a hash of standard device characteristics computed in the browser and never stored on the device; re-keyed on the server with a daily salt that is destroyed on rotation, so it cannot be linked across days — see [What We Track](/security-privacy/what-we-track#6-session-identifier))*
 
-These four elements allow meaningful analytics, but are chosen so they **do not allow identification or re-identification**, keeping the stored dataset anonymous. That is the basis of our assessment that it falls outside the GDPR's material scope (Recital 26).
+These fields allow meaningful analytics, but are chosen so they **do not allow identification or re-identification**, keeping the stored dataset anonymous. That is the basis of our assessment that it falls outside the GDPR's material scope (Recital 26).
 
 ---
 
@@ -79,7 +81,7 @@ Sealmetrics follows a strict privacy interpretation:
 
 > **Tracking individual users without consent is not permissible — even anonymously — under the ePrivacy Directive.**
 
-Because Sealmetrics never tracks individuals and never correlates hits, measurement can operate without consent.
+Sealmetrics never tracks individuals and never correlates hits across sessions or days. Nothing is stored on the device; the tracker does read standard browser properties to compute the session identifier, so the consent exemption rests on the audience-measurement criteria described in [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption).
 
 This makes Sealmetrics one of the only analytics platforms capable of providing **cookieless and consentless analytics** that still offer valuable insights.
 
@@ -89,14 +91,14 @@ This makes Sealmetrics one of the only analytics platforms capable of providing 
 
 ### GDPR
 ✔ No personal data collected
-✔ No identifiers
+✔ No persistent identifiers
 ✔ No consent required
 ✔ EU-based processing
 
 ### ePrivacy Directive
 ✔ No individual user tracking
-✔ No session reconstruction
-✔ No device-level identifiers
+✔ No cross-session reconstruction
+✔ Nothing stored on the device; no stored device fingerprint
 
 ### CCPA
 ✔ No personal information collected
@@ -104,7 +106,7 @@ This makes Sealmetrics one of the only analytics platforms capable of providing 
 ✔ No cross-site tracking
 
 ### PECR
-✔ No cookies or terminal identifiers
+✔ No cookies or identifiers stored on the device
 ✔ No persistent technology used
 
 ---
@@ -116,14 +118,14 @@ Sealmetrics is **designed for GDPR, ePrivacy, CCPA and PECR** from the architect
 - 0 personal data
 - 0 cookies
 - 0 user identifiers
-- Isolated hits that are never joined to a person or to each other
+- Hits that are never joined to a person, or to each other across sessions or days
 
 Those zeros describe **measurement**: what the tracking script does on your site. Signing in to the Sealmetrics dashboard uses a session cookie on `my.sealmetrics.com`, like any web application — it is not part of measurement and never reaches your visitors.
 
 This enables marketers and analysts to access reliable, actionable analytics **without compromising user privacy or requiring consent banners**.
 
 **Note:**
-- Sealmetrics collects only four variables per hit — timestamp, user agent (raw string never written to storage), current URL and referral URL — and never links hits to each other or to a person.
+- Sealmetrics collects only a small set of non-identifying fields per hit — timestamp, user agent (raw string never written to storage), current URL, referral URL, browser timezone and a daily-re-keyed session identifier — and never links hits to a person or across sessions.
 - All servers are in Dublin, Ireland; no personal data is transferred outside the EU.
 - This is a self-assessment against GDPR, ePrivacy, CCPA and PECR — Sealmetrics holds no ISO 27001 or SOC 2 certification and no supervisory authority certifies analytics tools.
 
@@ -133,4 +135,4 @@ This enables marketers and analysts to access reliable, actionable analytics **w
 - [Legal FAQ — Sealmetrics Compliance Questions](/compliance/compliance-overview/legal-faq) — audits, DPIA, data processing, and retention questions.
 - [UK PECR Self-Assessment: Sealmetrics Compliance](/compliance/uk-pecr-self-assessment) — the UK analytics exemption under DUAA 2025.
 - [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — the GDPR reasoning behind the isolated-hit model.
-- [What We Track vs What We Don’t](/security-privacy/what-we-track) — the four variables Sealmetrics records and nothing more.
+- [What We Track vs What We Don’t](/security-privacy/what-we-track) — the fields Sealmetrics records and nothing more.

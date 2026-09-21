@@ -63,14 +63,14 @@ Rates vary considerably by industry, banner design and implementation. Sources: 
 
 ### How Sealmetrics tracks
 
-Sealmetrics uses no cookies, no `localStorage` and no `sessionStorage`. The session marker is computed in the browser from browser context, lives in memory for the duration of the visit, and:
+Sealmetrics uses no cookies, no `localStorage` and no `sessionStorage`. The session identifier is a hash of standard device characteristics (user agent, timezone, languages, screen resolution and similar) plus your site's account ID, computed in the browser and never written to the device. Before anything is stored, the server re-keys it with a secret and a daily salt that is destroyed on rotation. The result:
 
-- Resets when the session ends (roughly two hours of inactivity)
-- Never persists across sessions
-- Cannot link one visit to another, or to a person
-- Enables no cross-site tracking
+- The session ends after roughly two hours of inactivity
+- The stored identifier changes every day, and the raw hash is never stored
+- No returning-visitor recognition: visits cannot be linked across days — not even by Sealmetrics — or to a person
+- Enables no cross-site tracking (the account ID is part of the hash)
 
-Because nothing is stored on or read from the device, ePrivacy Article 5(3) is not triggered and no consent banner is required for analytics. See [how consentless works](/security-privacy/how-consentless-works).
+Nothing is stored on the device. The tracker does read standard browser properties to compute the session identifier, which engages ePrivacy Article 5(3); Sealmetrics relies on the audience-measurement exemption for that read (the first-party, no-cross-site-tracking criteria above) rather than on consent, so no consent banner is required for analytics. See [what we track](/security-privacy/what-we-track#6-session-identifier) and [how consentless works](/security-privacy/how-consentless-works).
 
 ---
 
@@ -415,7 +415,7 @@ Five layers: an IP blocklist checked in memory, User-Agent filtering, geographic
 
 ### Can I track subdomains?
 
-Yes, across `example.com`, `blog.example.com`, `app.example.com` and so on. Sessions continue across subdomains without the cookie-scoping complications GA4 has, because there is no cookie to scope — the session marker is computed identically on every page load.
+Yes, across `example.com`, `blog.example.com`, `app.example.com` and so on. Sessions continue across subdomains without the cookie-scoping complications GA4 has, because there is no cookie to scope — the session identifier is computed identically on every page load.
 
 ### Does Sealmetrics work with A/B testing tools?
 

@@ -329,7 +329,7 @@ Beyond the methods, the global object exposes a few read-only properties, useful
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `sealmetrics.sessionId` | string | The fingerprint-based session ID for the current visitor |
+| `sealmetrics.sessionId` | string | The session identifier for the current visitor: a hash of standard device characteristics computed in the browser, never written to the device, and re-keyed daily on the server before storage |
 | `sealmetrics.accountId` | string | The account/site ID embedded in the served script |
 | `sealmetrics.tz` | string | The visitor's IANA timezone (e.g., `'Europe/Madrid'`) |
 | `sealmetrics.autoMode` | string | `'1'` if the auto-pageview is enabled, `'0'` if loaded with `?auto=0` |

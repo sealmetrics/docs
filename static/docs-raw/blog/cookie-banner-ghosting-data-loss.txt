@@ -23,7 +23,7 @@ This phenomenon, called "banner ghosting" or "decision avoidance," represents ba
 
 This isn't a rounding error—it's a structural hole in your business intelligence. Companies running Google Analytics 4, Adobe Analytics, or any cookie-based platform are making strategic decisions on a fraction of their actual traffic, and never a random fraction: the visitors who go missing are systematically different from the ones who stay.
 
-**The solution**: Cookieless analytics platforms like Sealmetrics don't display consent banners because they don't require cookies. No banner means no ghosting, no rejection, no consent-driven data loss. Because no personal data is stored, the dataset falls outside the material scope of the GDPR (Recital 26), so no Article 6 legal basis is needed at all — and because nothing is written to or read from the device, the ePrivacy consent rule (Article 5(3)) is never triggered.
+**The solution**: Cookieless analytics platforms like Sealmetrics don't display consent banners because they don't require cookies. No banner means no ghosting, no rejection, no consent-driven data loss. Because no personal data is stored, the dataset falls outside the material scope of the GDPR (Recital 26), so no Article 6 legal basis is needed at all — and because nothing is written to the device and the browser properties read to compute the session identifier rely on the audience-measurement exemption, the ePrivacy consent rule (Article 5(3)) does not require a banner.
 
 This article examines the psychology of banner ghosting, sizes the combined impact of ghosting plus rejection, and explains how cookieless analytics eliminates both problems simultaneously.
 
@@ -370,7 +370,7 @@ This cycle cannot be broken within cookie-based architecture. The moment you dis
 Cookieless analytics platforms like Sealmetrics break the paradox by removing cookies from the equation:
 
 1. **No cookies used** for analytics tracking
-2. **No consent required**, because nothing is stored on or read from the device (ePrivacy Article 5(3) is never engaged) and no personal data is stored (Recital 26)
+2. **No consent required**, because nothing is stored on the device, the browser properties read for the session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3), and no personal data is stored (Recital 26)
 3. **No banner displayed** to users
 4. **No ghosting possible** (nothing to ghost)
 5. **Every visitor measured**, with no consent mechanism in the way
@@ -400,11 +400,11 @@ Sealmetrics uses session-based tracking that doesn't require cookies:
 **Session-ID Tracking (Primary Method)**:
 
 1. **Visitor arrives**: User lands on your website
-2. **Session identifier computed**: Sealmetrics JavaScript derives an ephemeral session identifier from general device characteristics — it is not unique to a person (different visitors can produce the same value) and cannot identify an individual
+2. **Session identifier computed**: Sealmetrics JavaScript computes, in the browser, a hash of standard device characteristics (user agent, timezone, languages, screen resolution and similar) plus your site's account ID. That hash is a device fingerprint, but it is not tied to anyone's identity (different visitors with identical devices produce the same value)
 3. **No browser storage**: The identifier is never stored on the device — no cookies, no LocalStorage, no SessionStorage
 4. **Session tracking**: All pageviews during this browser session use the same identifier
-5. **Automatic expiry**: The identifier expires with the session and is never used to correlate visits over time — each new entrance counts as new, independent data (privacy by design)
-6. **No consent required**: nothing is stored on or read from the user's device, so the ePrivacy consent rule (Article 5(3)) is never triggered — and because no personal data is retained, there is no Article 6 legal basis to choose in the first place
+5. **Automatic expiry and daily re-keying**: The live session expires after 2 hours of inactivity, and before anything is stored the server re-keys the identifier with a daily salt that is destroyed on rotation — so visits cannot be correlated across days, not even by Sealmetrics, and each new entrance counts as new, independent data (privacy by design)
+6. **No consent required**: nothing is stored on the user's device, and the browser properties read to compute the identifier rely on the audience-measurement exemption from the ePrivacy consent rule (Article 5(3)) — and because no personal data is retained, there is no Article 6 legal basis to choose in the first place
 
 **Isolated Hits Tracking (Fallback Method)**:
 
@@ -445,7 +445,7 @@ Sealmetrics doesn't request consent because it doesn't use cookies and doesn't s
 
 The argument runs on two separate tracks, and it is worth keeping them apart, because they answer different regulators.
 
-**Track one — ePrivacy Article 5(3).** This is the rule that actually mandates cookie banners. It requires consent to *store information on, or gain access to information stored in*, a user's terminal equipment. Sealmetrics writes nothing to the device: no cookies, no LocalStorage, no SessionStorage, and it reads nothing back. The obligation is never triggered, so there is nothing to consent to.
+**Track one — ePrivacy Article 5(3).** This is the rule that actually mandates cookie banners. It requires consent to *store information on, or gain access to information stored in*, a user's terminal equipment. Sealmetrics writes nothing to the device: no cookies, no LocalStorage, no SessionStorage. It does read standard browser properties to compute its session identifier, so Article 5(3) is engaged by that read; Sealmetrics relies on the audience-measurement exemption for it (see the regulatory guidance below) rather than on consent.
 
 **Track two — GDPR material scope, Recital 26.** The data protection principles do not apply to anonymous information — information which does not relate to an identified or identifiable natural person. Because Sealmetrics stores no personal data, the resulting dataset falls outside the material scope of the Regulation.
 
@@ -845,8 +845,8 @@ This revenue exists, but your analytics can't attribute it to marketing channels
 - ✅ No IP addresses stored (not even hashed)
 - ✅ No cross-site tracking
 - ✅ No third-party data sharing
-- ✅ Temporary session identifiers only, never written to the device
-- ✅ Nothing stored on or read from the device, so ePrivacy Article 5(3) is not engaged
+- ✅ Session identifiers re-keyed daily on the server, never written to the device
+- ✅ Nothing stored on the device; the browser properties read for the session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3)
 - ✅ No personal data stored, so the dataset sits outside GDPR material scope (Recital 26)
 - ✅ Data hosted in Dublin, Ireland
 
@@ -864,9 +864,9 @@ via the consent banner. For more information, see our cookie policy."
 New text (cookieless):
 "We use Sealmetrics, a cookieless analytics service, to understand website 
 usage and improve user experience. Sealmetrics does not use cookies, does not 
-store IP addresses, and does not collect personal data. Nothing is stored on or 
-read from your device, and session identifiers are temporary and are never 
-written to your browser. Because no personal data is retained, this measurement 
+store IP addresses, and does not collect personal data. Nothing is stored on 
+your device; standard browser properties are read only to compute a session 
+identifier that changes daily and cannot link your visits across days. Because no personal data is retained, this measurement 
 falls outside the scope of the GDPR. Questions: privacy@yourcompany.com."
 ```
 

@@ -72,8 +72,8 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 
 | Criterion | Sealmetrics Compliance |
 |-----------|----------------------|
-| Device/browser analysis | ✅ Yes |
-| Screen resolution data | ✅ Yes |
+| Device/browser analysis | ✅ Yes — browser family, OS family, device type |
+| Screen resolution data | ❌ Not reported — read only as an input to the session-identifier hash, never stored |
 | Used only for optimization | ✅ Yes - not for targeting |
 
 **Evidence:** Device reports provide aggregated, anonymized data for UX optimization only.
@@ -146,8 +146,9 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 
 **Technical Implementation:**
 ```
-Session marker: ephemeral (~2h), computed in the browser, never stored on the device
-Session marker scope: per publisher account — the account is an input to the identifier's derivation, so identifiers cannot match across different publishers' sites
+Session identifier: a hash of device characteristics computed in the browser, never stored on the device;
+  re-keyed on the server with a daily salt destroyed on rotation (live session ~2h, stored pseudonym purged after 1 day)
+Session identifier scope: per publisher account — the account is an input to the identifier's derivation, so identifiers cannot match across different publishers' sites
 Cookies: none (neither first- nor third-party)
 Cross-domain tracking: not performed — data is collected, stored, and reported per account
 ```
@@ -186,13 +187,13 @@ Cross-domain tracking: not performed — data is collected, stored, and reported
 | Aspect | Compliance |
 |--------|------------|
 | Cookie duration | ✅ **No persistent cookies used** |
-| Session-based identification | ✅ Session IDs expire with browser session |
+| Session-based identification | ✅ No cookie; the stored session identifier changes every day (daily salt, destroyed on rotation) and cannot link days |
 | No automatic renewal | ✅ N/A - no persistent storage |
 
 **Technical Implementation:**
 ```
-Storage method: Session-based (no cookies in default mode)
-Maximum theoretical lifetime: Browser session only
+Storage method: nothing stored on the device (no cookies, no localStorage, no sessionStorage)
+Maximum lifetime of the stored identifier: 1 day (daily pseudonym); live session expires after 2h of inactivity
 ```
 
 **Note:** Sealmetrics exceeds this requirement by not using persistent cookies at all in standard configuration.
@@ -370,9 +371,9 @@ Sealmetrics does **not use localStorage, cookies, or any persistent storage** by
 | Page URL | ✅ | Content analysis | Aggregated |
 | Referrer | ✅ | Traffic source | Aggregated |
 | User agent | ✅ | Device analysis | Aggregated |
-| Screen size | ✅ | UX optimization | Aggregated |
+| Screen resolution, languages | Read, not stored | Session-identifier hash input only | Not stored or reported |
 | Timezone | ✅ | Country detection | Country only |
-| Session ID | ✅ | Visit counting | Temporary, hashed |
+| Session ID | ✅ | Visit counting | Hashed in the browser, re-keyed daily on the server; purged after 1 day |
 | IP address | ❌ | Not collected | N/A |
 | Email/name | ❌ | Not collected | N/A |
 | Precise location | ❌ | Not collected | N/A |
@@ -383,7 +384,7 @@ Sealmetrics explicitly does **not** collect:
 - IP addresses
 - Email addresses or personal identifiers
 - Precise geolocation (GPS, city, postal code)
-- Device fingerprints
+- Stored device fingerprints (the in-browser session hash is re-keyed daily and never stored as sent)
 - Cross-site identifiers
 - Advertising IDs
 - Social media profiles

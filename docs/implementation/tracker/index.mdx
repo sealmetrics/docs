@@ -105,7 +105,7 @@ The tracker does not collect or store:
 - User credentials
 - localStorage or sessionStorage data
 
-Session identification is cookieless — no cookies, canvas fingerprinting, or personal data are used.
+Session identification is cookieless: the tracker computes, in the browser, a hash of standard device characteristics (no canvas fingerprinting) that is never written to the device and is re-keyed on the server with a daily salt, so nothing stored can link a device across days. See [What We Track](/security-privacy/what-we-track).
 
 ## Documentation
 

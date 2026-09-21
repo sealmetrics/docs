@@ -1,10 +1,10 @@
 ---
 title: "Do Temporary Session Identifiers (Session IDs) Require Consent Under GDPR?"
-description: "When a session ID triggers the ePrivacy consent requirement and when it does not, and why Sealmetrics' short-lived, context-derived marker falls on the no-consent side."
+description: "When a session ID triggers the ePrivacy consent requirement and when it does not, and how Sealmetrics builds its session identifier: an in-browser device-characteristics hash, never stored on the device, re-keyed daily on the server."
 canonical_url: "https://docs.sealmetrics.com/legal/gdpr-and-eprivacy/do-session-ids-require-consent"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "bc8fc0789c39dc156441c22bcb58b9626f22daa6270c19489d821f74111fcdba"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "b7781f1f9586ff92cf0ca931fa9691b75de6fef990c153cb60c0f51929a5794b"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -18,6 +18,9 @@ Canonical page: https://docs.sealmetrics.com/legal/gdpr-and-eprivacy/do-session-
 
 A common question around privacy-compliant analytics is whether **temporary Session IDs** fall under “tracking technologies” that require user consent.
 The short answer: **it depends on how the Session ID is implemented**.
+
+**Info:**
+Any statement on this page about how Sealmetrics meets a criterion is a **self-assessment**, not a certification. No supervisory authority certifies or validates analytics tools, and Sealmetrics holds no third-party security certification. This page is general regulatory analysis, not legal advice.
 
 ## When Session IDs *Do* Require Consent
 
@@ -51,14 +54,19 @@ If all these requirements are met, the Session ID is considered **non-identifyin
 
 ## How Sealmetrics Ensures Compliance
 
-Sealmetrics uses a temporary, context-derived session marker that meets the CNIL and AEPD audience-measurement criteria for operating without consent:
+**How the identifier is built.** The tracker computes, in the browser, a hash of standard device characteristics — user agent, timezone, languages, screen resolution, colour depth, dark-mode and reduced-motion preferences, CPU core count and device memory — combined with the site's account ID. That hash is a **device fingerprint**: it is stable for the same browser. It is never written to the device (no cookie, no localStorage, no sessionStorage). On the server, before anything is stored, it is re-keyed with a server secret and a daily salt; the salt rotates every day and is destroyed on rotation, so the stored identifier changes daily and two days of the same device cannot be re-linked — not even by Sealmetrics. The raw hash is never stored. The live session lasts 2 hours of inactivity in server memory; the daily pseudonym is kept in the per-hit log for 1 day. See [What We Track vs What We Don't](/security-privacy/what-we-track#6-session-identifier).
 
-✔ Temporary Session IDs
-✔ Meets the CNIL and AEPD audience-measurement criteria (self-assessed)
-✔ No persistence
-✔ No personal identification
+Against the conditions above:
 
-Session IDs are used only within the active session to group hits — never to track or identify users.
+- ✔ Used exclusively for audience measurement — no marketing or profiling
+- ✔ No cross-site tracking — the account ID is part of the hash, so the same browser yields different identifiers on different sites
+- ✔ Nothing stored on the device — no cookies, localStorage or sessionStorage
+- ✔ No persistent stored identifier — the stored value changes every day and cannot be linked across days
+- ✔ No personal identification — no IP, user ID or other identifier is stored alongside it
+
+**Fingerprinting condition — stated plainly.** The identifier is computed from device characteristics read in the browser, so Sealmetrics does not claim "no fingerprinting techniques" in absolute terms. What it does claim is that no fingerprint is stored or persists: the hash is never stored as sent, and the stored value is re-keyed daily with a salt that is then destroyed. Reading those browser properties is also an "access" to terminal equipment under Art. 5(3), so the consent exemption rests on the audience-measurement criteria described in [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption), not on nothing being read.
+
+Session IDs are used only within the active session to group hits — never to track or identify users across days.
 
 ## Summary
 
@@ -67,11 +75,11 @@ Session IDs are used only within the active session to group hits — never to t
 | Session ID stored in a cookie | **Yes** | Persistence = identification |
 | Temporary ID without cookies | **No** | Cannot identify the user |
 | Cross-site session tracking | **Yes** | Considered profiling |
-| Sealmetrics session tracking | **No** | Temporary, non-identifying |
+| Sealmetrics session tracking | **No** (self-assessed) | Nothing stored on the device; stored identifier re-keyed daily and not linkable across days |
 
 ---
 
-**The marker is never stored on the device and never joins hits across sessions, which is what keeps measurement outside the ePrivacy consent requirement — without compromising your analytics.**
+**The identifier is never stored on the device, the stored value is re-keyed every day, and it never joins hits across days — the basis of Sealmetrics' self-assessment against the audience-measurement exemption criteria.**
 
 ## Primary sources
 
