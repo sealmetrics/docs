@@ -6541,6 +6541,34 @@ Sealmetrics provides 9 specialized reports to analyze your website traffic, conv
 | [Properties](/reports/properties) | Event property analysis | Property breakdown by UTM attribution |
 | [Funnel](/reports/funnel) | Conversion funnel analysis | Step progression, drop-off rates |
 
+## E-commerce: which report answers which question
+
+Every report page ends with an **E-commerce use cases** section built from what that report actually shows. Start from the question you have:
+
+| Question | Report |
+|---|---|
+| [How much did the store sell, and is the average order growing?](/reports/conversions#how-much-did-the-store-actually-sell-and-is-the-average-order-growing) | Conversions |
+| [Is revenue growing, or only traffic?](/reports/evolution#is-my-revenue-growing-or-only-my-traffic) | Evolution |
+| [Is today's revenue on track?](/reports/overview#is-todays-revenue-on-track) | Overview |
+| [Which channels and campaigns bring buyers, not just visits?](/reports/sources#which-campaigns-bring-buyers-not-just-visits) | Sources |
+| [Is Google Shopping / Performance Max credited to the right campaign?](/reports/sources#is-my-google-shopping--performance-max-traffic-credited-to-the-right-campaign) | Sources |
+| [Is my payment gateway taking credit for sales?](/reports/sources#is-my-payment-gateway-taking-credit-for-sales) | Sources |
+| [Where do shoppers abandon the checkout?](/reports/funnel#where-do-shoppers-abandon-the-checkout) | Funnel |
+| [Which campaigns fill carts that never reach checkout?](/reports/sources#do-my-campaigns-fill-carts-that-never-reach-checkout) | Sources |
+| [Which landing pages bring in sales, and which get visits but no sales?](/reports/pages#which-landing-pages-actually-bring-in-sales) | Pages |
+| [Do product pages or category pages work better as entry points?](/reports/pages#do-product-pages-or-category-pages-work-better-as-entry-points) | Pages |
+| [Is my mobile checkout losing sales?](/reports/devices#is-my-mobile-checkout-losing-sales) | Devices |
+| [Is one browser breaking my checkout?](/reports/devices#is-one-browser-breaking-my-checkout) | Devices |
+| [Which countries buy, not just visit?](/reports/geography#which-countries-actually-buy-not-just-visit) | Geography |
+| [Which campaigns sell which products or categories?](/reports/properties#which-campaigns-sell-which-product-categories) | Properties |
+| [Which campaigns depend on discount codes?](/reports/properties#which-campaigns-depend-on-discount-codes) | Properties |
+| [What days and hours do customers buy?](/reports/evolution#what-days-and-hours-do-my-customers-buy) | Evolution |
+| [Did a promotion lift orders, or only traffic?](/reports/overview#did-the-promotion-lift-orders-or-only-traffic) | Overview |
+
+Most of these need the standard e-commerce events: a `purchase` conversion **with the order amount**, and `view_item`, `add_to_cart` and `begin_checkout` as microconversions (product breakdowns also need the `items` array). See the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide).
+
+Two limits apply to every answer: Sealmetrics counts **entrances, not unique visitors**, and attribution is **last click per session** — there is no cross-session customer journey to follow.
+
 ## Accessing Reports
 
 1. Log in to [Sealmetrics Dashboard](https://my.sealmetrics.com)
@@ -6580,7 +6608,7 @@ Compare current period with:
 - **Previous Year**: Same dates in the prior year
 - **Custom**: Manually select comparison range
 
-When enabled, charts show a secondary line and stat cards display delta percentages.
+When enabled, charts show a secondary line and tables show delta percentages where the report supports them. Not every report honours every mode: the Overview and Evolution cards always compare with the previous period, the Conversions cards show no deltas, and a **Custom** comparison range currently falls back to the previous period. Each report page says what its comparison covers.
 
 ### Global Filters
 
@@ -6591,20 +6619,20 @@ Open the **Segment** panel from the filter bar below the header. Available filte
 | Geography | Countries (multi-select) |
 | Devices | Device type, Browser, Operating System |
 
-Filters apply to all report pages. Active filters appear as removable chips.
+Filters apply across report pages and active filters appear as removable chips. One exception: in the [Properties report](/reports/properties) they change the entrance counts but not the property event counts — see that page.
 
 ### Segments
 
 Save filter combinations for quick access:
 
 1. Apply desired filters
-2. Click **Save as Segment**
+2. Click **Save Segment** (or **Save current as segment** from the Segments dropdown)
 3. Name the segment
 4. Access saved segments from the dropdown
 
 ### Export
 
-Most reports include an **Export** button to download data as CSV or PDF.
+Every report except Overview has an **Export** button to download the table as CSV or PDF. What the export contains (loaded rows vs all rows, which columns) varies by report and is described on each report's page.
 
 ## Report Details
 
@@ -6907,7 +6935,7 @@ URL: https://docs.sealmetrics.com/reports/overview
 
 # Overview
 
-The Overview report answers "how is my site doing right now?" at a glance: the main dashboard where stat cards summarize entrances, pageviews, bounce rate, events, conversions, conversion rate, and revenue for the selected period, alongside a live counter of active visitors, a trend chart, and top pages and sources. It loads by default when you open a site and is the starting point for daily monitoring.
+The Overview report answers "how is my site doing right now?" at a glance. It is the main dashboard: six stat cards summarize entrances, pageviews, pages per entrance, bounce rate, conversions and revenue for the selected period — each with its change versus the previous period — alongside a last-hit indicator, a trend chart, and the top landing pages and top sources. It loads by default when you open a site and is the starting point for daily monitoring.
 
 ![Overview report showing stat cards for entrances, pageviews, bounce rate, conversions and revenue, with the entrances trend chart](/img/screenshots/overview.png)
 
@@ -6916,36 +6944,47 @@ The Overview report answers "how is my site doing right now?" at a glance: the m
 1. Select a site from the site selector
 2. Click **Overview** in the sidebar (or it loads by default)
 
-**URL pattern:** `/sites/{site_id}`
+**URL pattern:** `/sites/{site_id}/overview` (opening `/sites/{site_id}` redirects here)
+
+The stat cards and the chart refresh automatically every 60 seconds while the page is open.
 
 ## Metrics Summary
 
-The top section displays key metrics in stat cards:
+The top section displays six stat cards:
 
 | Metric | Description |
 |--------|-------------|
-| **Entrances** | Number of sessions started (unique visits) |
+| **Entrances** | Number of sessions started in the period (see [Entrances](/reports/definitions#entrances)) |
 | **Pageviews** | Total page views across all sessions |
+| **Pages/Entrance** | Pageviews ÷ Entrances, shown with two decimals |
 | **Bounce Rate** | Percentage of single-page sessions |
-| **Events** | Total microconversions tracked |
-| **Conversions** | Total conversions completed |
-| **Conv. Rate** | Conversions / Entrances × 100 |
-| **Revenue** | Total revenue from conversions |
+| **Conversions** | Total conversion events (`sealmetrics.conv()` calls) of every type — purchases, leads, sign-ups… |
+| **Revenue** | Sum of the amounts sent with conversions, in the site's currency |
+
+Hover the info icon next to each label for its definition. Microconversions (events) and conversion rate are not shown as stat cards on this page; see the [Conversions](/reports/conversions) and [Sources](/reports/sources) reports.
 
 Each card shows:
 - Current value
-- Comparison with previous period (when comparison mode is enabled)
-- Delta percentage (green for improvement, red for decline)
+- Change versus the **previous period** (the same number of days immediately before the selected range), labelled "vs prev"
+- Green for improvement, red for decline, gray for no change. For **Bounce Rate** the colors are inverted: a decrease is green
+- **New** (with a sparkle icon) when the previous period was zero and the current one is not; no delta is shown when both periods are zero
+
+**Note:**
+On the Overview, the stat card deltas are always calculated against the previous period of equal length — even when the **Compare** control is set to *No comparison*, *Previous year* or *Custom comparison*. For a year-over-year view on this page, select last year's dates as the date range and read the values directly.
 
 ## Live Counter
 
-Real-time count of active visitors currently on your site. Updates automatically every few seconds.
+The indicator in the top-right corner of the page shows when the pixel last received a hit — **Last hit:** followed by the date and time in the site's timezone (for example `Last hit: Sep 21, 2026 · 10:42:07 (Europe/Madrid)`). It is not a count of active visitors.
 
-Located in the top-right area of the stats section.
+- A pulsing **green dot** means the last hit arrived within the last 5 minutes
+- A **gray dot** means no hit in the last 5 minutes
+- **No hits yet** means the site has never received data
+
+The indicator refreshes every 60 seconds. Use it as a quick check that tracking is still working.
 
 ## Main Chart
 
-Large area chart showing trends over the selected period.
+Large area chart showing the trend over the selected period.
 
 ### Metric Selector
 
@@ -6957,85 +6996,110 @@ Toggle between metrics using the buttons above the chart:
 | **Pageviews** | Page views over time |
 | **Conversions** | Conversions over time |
 
+Revenue, bounce rate and pages per entrance have no chart on this page — only their stat cards.
+
 ### Chart Features
 
-- **Hover**: Shows exact value for each data point
-- **Comparison line**: When comparison mode is enabled, a secondary line shows the previous period
-- **Brush**: For periods longer than 30 days, drag to zoom into a specific range
+- **Hover**: Shows the exact value for each data point
+- **Granularity**: Hourly points for ranges of 3 days or less, daily points for longer ranges
+- **Comparison line**: When the **Compare** control is set to anything other than *No comparison*, a second line labelled **Previous period** is drawn, with a legend. It always shows the immediately previous period, whichever compare option is selected
 - **Responsive**: Chart adjusts to screen size
 
-## Top Pages Table
+## Top Landing Pages Table
 
-Shows the most visited pages during the selected period.
+Shows the 10 landing pages (the first page of a session) that started the most sessions in the selected period.
 
 | Column | Description |
 |--------|-------------|
-| **Page** | URL path |
-| **Pageviews** | Total views for this page |
+| **Landing Page** | URL path where the session started |
+| **Entrances** | Sessions that started on this page |
+| **Conversions** | Conversions attributed to sessions that started on this page |
+| **Bounce Rate** | Percentage of those sessions that viewed only one page |
 
-Click a row to view detailed page analytics.
+A **Total** row sums Entrances and Conversions and shows the entrance-weighted Bounce Rate — for the 10 rows shown, not for the whole site. Click **View all** to open the [Pages](/reports/pages) report, whose **Landing Pages** tab adds microconversions, revenue and content groups.
 
 ## Top Sources Table
 
-Shows the traffic sources driving the most visits.
+Shows the 10 source / medium combinations that brought the most entrances.
 
 | Column | Description |
 |--------|-------------|
-| **Source / Medium** | Traffic source (e.g., "google / organic") |
-| **Entrances** | Sessions from this source |
+| **Source / Medium** | Traffic source and medium (e.g., "google / organic"). Sessions without a source appear as **(direct)** |
+| **Entrances** | Sessions from this source / medium |
+| **Conv.** | Conversions attributed to those sessions (last click per session) |
+| **Conv. Rate** | Conversions ÷ Entrances × 100 |
 
-Click a row to view detailed source analytics.
+A **Total** row sums Entrances and Conv. and recalculates Conv. Rate over the 10 rows shown. Click **View all** to open the [Sources](/reports/sources) report, which adds revenue, bounce rate and the Channels, Mediums, Campaigns, Terms, Content and Referrers tabs.
+
+The two tables have no sorting, search, export or per-row comparison on the Overview — use the full reports for that.
 
 ## Using Filters
 
-Apply the global segment to focus on specific subsets of traffic. The **Segment** panel offers two filter groups: **Geography** (countries) and **Devices** (device type, browser, operating system).
+The Overview has **no local (table) filters and no report-specific controls**: no filter builder, no UTM or content-group filters, no grouping and no view toggles. What narrows the data here is the date range and the global **Segment**.
+
+### What the Segment applies to
+
+The **Segment** panel offers two filter groups — **Geography** (Countries) and **Devices** (Device Type, Browser, Operating System) — and they apply to every block on the Overview except the chart's comparison line:
+
+| Block | Countries | Device Type | Browser | Operating System |
+|-------|:---------:|:-----------:|:-------:|:----------------:|
+| Stat cards (current and previous period) | Yes | Yes | Yes | Yes |
+| Main chart — current period line | Yes | Yes | Yes | Yes |
+| Main chart — Previous period line | No | No | No | No |
+| Top Landing Pages | Yes | Yes | Yes | Yes |
+| Top Sources | Yes | Yes | Yes | Yes |
+
+**Caution:**
+With a segment active, the chart's **Previous period** line is currently drawn from unsegmented traffic, so the two lines are not comparable. Use the stat card deltas, which are segmented in both periods.
+
+Filtering by source, medium, campaign or page is not available on the Overview; use the [Sources](/reports/sources) or [Pages](/reports/pages) report. See [Filters](/reports/filters) for how segments are saved and persisted.
 
 ### Example: Mobile Traffic Only
 
 1. Click **Segment** in the filter bar
 2. Open the **Devices** section
 3. Under **Device Type**, choose **Mobile**
-4. Click **Apply Segment** — all metrics update to show mobile-only data
+4. Click **Apply Segment** — all stat cards, the chart and both tables update to show mobile-only data
 
 ### Example: Specific Country
 
 1. Click **Segment**
 2. Open the **Geography** section
 3. Under **Countries**, search and select countries (e.g., Spain, Germany)
-4. Click **Apply Segment** — the dashboard shows only traffic from selected countries
+4. Click **Apply Segment** — the dashboard shows only traffic from the selected countries
 
 ## Using Comparison Mode
 
-Compare current performance with a previous period:
+The stat cards always show the change versus the previous period, so they need no setup. To also draw the previous period on the chart:
 
-1. Click the date range picker
-2. Select **Compare: Previous Period** (or Previous Year)
-3. All stat cards show delta percentages
-4. Chart displays both current and comparison lines
+1. Click the **Compare** button next to the date range
+2. Select any option other than **No comparison** (see [Date Range](/reports/date-range#comparison-mode))
+3. The chart displays the current period and a **Previous period** line
 
 ### Reading Delta Values
 
 | Delta | Meaning |
 |-------|---------|
-| +15% (green) | 15% increase vs comparison period |
-| -8% (red) | 8% decrease vs comparison period |
-| 0% (gray) | No change |
+| +15% (green) | 15% increase vs the previous period |
+| -8% (red) | 8% decrease vs the previous period |
+| -8% (green, Bounce Rate only) | Bounce rate fell 8% — an improvement |
+| New | The previous period was zero |
 
 ## Best Practices
 
 ### Daily Monitoring
 
-- Check Overview daily for anomalies
+- Check the Overview daily for anomalies
+- Glance at **Last hit** — a gray dot during hours when you normally have traffic can mean the pixel stopped firing
 - Watch for sudden drops in entrances (tracking issues)
-- Monitor bounce rate trends
-- Track conversion rate stability
+- Monitor bounce rate and conversions against the previous period
 
 ### Quick Health Check
 
-1. Compare today vs yesterday
-2. Look for significant deviations (>20%)
-3. Investigate sources if traffic changed
-4. Check pages if bounce rate increased
+1. Select **Today** or **Yesterday** — the stat cards compare it with the day before
+2. Look for large deviations in Entrances, Conversions or Revenue
+3. Check **Top Sources** if traffic changed
+4. Check **Top Landing Pages** if bounce rate increased
 
 ### Using with Other Reports
 
@@ -7043,10 +7107,52 @@ From Overview, dive deeper:
 
 | Observation | Next Step |
 |-------------|-----------|
-| Bounce rate increased | Go to **Pages** → Landing Pages tab |
+| Bounce rate increased | Go to **Pages** → **Landing Pages** tab |
 | Conversions dropped | Go to **Conversions** report |
 | Traffic source changed | Go to **Sources** report |
 | Geographic shift | Go to **Geography** report |
+
+## E-commerce use cases
+
+These cases assume your store sends each order as a conversion with its amount (`sealmetrics.conv('purchase', amount)`) — without the amount, Revenue stays at zero. See the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) or your platform's integration (for example [Shopify](/integrations/ecommerce/shopify) or [WooCommerce](/integrations/ecommerce/woocommerce)). The **Conversions** card counts every conversion type, so if you also track leads or sign-ups as conversions, they are included in the totals below.
+
+### Is today's revenue on track?
+
+1. Set the date range to **Today** (or **Yesterday** for a full day)
+2. Read the **Revenue** and **Conversions** cards and their "vs prev" deltas, which compare with the day before
+3. For average order value, divide Revenue by Conversions (see [AOV](/reports/definitions#average-order-value-aov))
+
+**How to read it:** Revenue and Conversions moving in the same direction as Entrances is normal traffic variation. Entrances steady but Conversions falling points to the store (checkout, payment, stock, pricing) rather than to marketing. If Conversions drops to zero while Entrances looks normal, check that the purchase conversion is still firing — see [Conversions not appearing](/troubleshooting/conversions-not-appearing).
+
+### Which sources bring buyers, not just visits?
+
+1. Look at the **Top Sources** table
+2. Compare **Entrances** with **Conv.** and **Conv. Rate** for each source / medium
+
+**How to read it:** A source high in Entrances but low in Conv. Rate brings browsers, not buyers — review the targeting or the landing page it sends traffic to before adding budget. A source with modest Entrances but a Conv. Rate above the Total row is a candidate to scale. Click **View all** to open the Sources report for Revenue per source and the **Campaigns** tab. Attribution is last click per session: each conversion is credited to the source of the session in which it happened. If a payment gateway appears among your top sources, see [Avoid "Payment" attribution](/platform/tracking-and-attribution-settings/avoid-conversions-attributed-to-payment).
+
+### Which landing pages get traffic but no sales?
+
+1. Look at the **Top Landing Pages** table
+2. Scan for rows with high **Entrances**, high **Bounce Rate** and few or no **Conversions**
+
+**How to read it:** A product or category page that starts many sessions, bounces most of them and produces no conversions is losing paid or organic traffic — check load speed, stock, price visibility and whether the page matches the ad or search result that sends visitors there. Open **View all** → **Landing Pages** tab to see revenue and microconversions such as `add_to_cart` per landing page ([microconversions](/implementation/tracker/microconversions) must be instrumented).
+
+### Is mobile converting as well as desktop?
+
+1. Click **Segment** → **Devices** → **Device Type** → **Mobile**, then **Apply Segment**, and note Entrances, Bounce Rate, Conversions and Revenue
+2. Change the Device Type to **Desktop**, apply, and note the same cards
+3. Work out Conversions ÷ Entrances for each device
+
+**How to read it:** If mobile brings a large share of Entrances but a much lower conversion rate than desktop, the mobile product page or checkout is the likely bottleneck. Use the [Funnel](/reports/funnel) report with `add_to_cart` and `begin_checkout` microconversions to locate the step where mobile shoppers drop.
+
+### Did the promotion lift orders, or only traffic?
+
+1. Set the date range to the promotion's dates and remove any segment
+2. Set **Compare** to any option other than *No comparison*
+3. In the chart, switch between **Entrances** and **Conversions** and compare each against the **Previous period** line; check the Revenue card delta
+
+**How to read it:** Entrances up with Conversions and Revenue flat means the promotion drove visits that did not buy — look at which sources and landing pages carried the extra traffic in the two tables. Conversions up while Revenue grows less than Conversions suggests smaller baskets (lower AOV), typical of discount-driven orders. Because the chart and cards compare with the immediately previous period, a pre-promotion lull or a holiday can distort the comparison; for a seasonal check, also select the same dates last year as the date range and compare the card values by hand.
 
 ## Related Reports
 
@@ -7054,6 +7160,7 @@ From Overview, dive deeper:
 - [ROAS Evolution](/reports/evolution) — Return on Ad Spend over time by source, medium, or campaign.
 - [Sales Funnel](/reports/funnel) — funnel stages from micro-conversions to completed sales.
 - [Definitions](/reports/definitions) — every metric, defined unambiguously.
+- [E-commerce Store](/use-cases/ecommerce) — how to instrument an online store end to end.
 - [Reports Overview](/reports) — all reports in one place.
 
 
@@ -7066,7 +7173,7 @@ URL: https://docs.sealmetrics.com/reports/evolution
 
 # Evolution
 
-The Evolution report shows how your metrics change over time, with flexible grouping and UTM filtering.
+The Evolution report shows how your metrics change over time: summary cards compared with the previous period, a trend chart, and a table with one row per hour, day, week or month.
 
 ## Accessing the Report
 
@@ -7075,9 +7182,11 @@ The Evolution report shows how your metrics change over time, with flexible grou
 
 **URL pattern:** `/sites/{site_id}/evolution`
 
+The report refreshes its data automatically every minute while the page is open.
+
 ## Time Grouping
 
-Control how data is aggregated using the grouping selector (By Hour, By Day, By Week, By Month):
+Control how data is aggregated using the grouping selector (By Hour, By Day, By Week, By Month). The default is **By Day**.
 
 | Grouping | Best For |
 |----------|----------|
@@ -7086,42 +7195,67 @@ Control how data is aggregated using the grouping selector (By Hour, By Day, By 
 | **By Week** | Medium periods (1-3 months), weekly trends |
 | **By Month** | Long periods (6+ months), seasonal analysis |
 
+How the buckets are built:
+
+- **By Hour** requests hourly data; the other three groupings request daily data and add it up.
+- **By Week** buckets start on **Monday** and are labelled with that Monday's date.
+- **By Month** buckets are labelled with the month.
+- The first and last week or month of your date range can be partial — they only contain the days inside the range, so compare them with care.
+
 ## UTM Filters
 
-Filter data by specific traffic sources:
+The **Filters** button in the report header opens a **UTM Filters** panel with three dropdowns.
+
+**Caution:**
+The Source, Medium and Campaign selectors can be set, and they show as chips, but the chart, summary cards and table on this page currently still show **all** traffic for the date range and Segment. Do not use them to isolate a campaign's trend. To see the totals for a single source, medium or campaign, use the [Sources report](/reports/sources) (Sources, Mediums and Campaigns tabs).
 
 ### Available Filters
 
 | Filter | Description | Example |
 |--------|-------------|---------|
-| **UTM Source** | Traffic source | google, facebook, newsletter |
-| **UTM Medium** | Traffic medium | cpc, organic, email |
-| **UTM Campaign** | Campaign name | black-friday-2025, brand-awareness |
+| **Source** | UTM source | google, facebook, newsletter |
+| **Medium** | UTM medium | cpc, organic, email |
+| **Campaign** | UTM campaign | black-friday-2025, brand-awareness |
+
+Each dropdown lists up to 100 values taken from your Sources, Mediums and Campaigns data.
 
 ### Applying UTM Filters
 
 1. Click the **Filters** button to open the filter panel
-2. Choose a value from the **Source**, **Medium**, and/or **Campaign** dropdowns (one value per dropdown)
-3. Data updates to show only matching traffic
-4. Active filters appear as removable chips below the toolbar; the Filters button shows a count badge
+2. Choose a value from the **Source**, **Medium**, and/or **Campaign** dropdowns (one value per dropdown, or "All …" to clear it)
+3. Active filters appear as removable chips below the toolbar; the Filters button shows a count badge
+4. **Clear all** in the panel removes every UTM selection
+
+UTM selections are not kept when you leave the report.
 
 ### Combining Filters
 
-Filters combine with AND logic:
-- Source = "google" AND Medium = "cpc" shows only Google Ads traffic
-- Add Campaign = "brand-2025" to narrow further
+The three selectors are designed to combine with AND logic (for example Source = "google" AND Medium = "cpc"). See the caution above: the selections are not currently applied to the data.
 
 ## Summary Stats
 
-A row of summary stat cards appears above the chart, showing the aggregate metrics for the selected period and filters.
+Six summary cards appear above the chart, showing aggregate metrics for the selected date range and Segment:
+
+| Card | Description |
+|------|-------------|
+| **Entrances** | Sessions started |
+| **Pageviews** | Total page views |
+| **Pages/Entrance** | Pageviews ÷ Entrances |
+| **Bounce Rate** | Share of entrances that bounced |
+| **Conversions** | Completed conversions |
+| **Revenue** | Sum of conversion amounts |
+
+Each card shows the percentage change **vs the previous period** — the period of the same length immediately before your date range. On this report the comparison is always the previous period, whatever comparison option is selected in the [date picker](/reports/date-range#comparison-mode). For Bounce Rate, a decrease is shown as an improvement.
 
 ## Chart
 
-A single area chart shows the selected metric over time. Use the metric toggle in the chart header to switch between:
+A single area chart shows the selected metric over time, titled with the metric and grouping (for example "Entrances by Day"). Use the metric toggle in the chart header to switch between:
 
-- **Entrances**
+- **Entrances** (default)
 - **Pageviews**
 - **Conversions**
+
+Revenue, Bounce Rate and Events are not available in the chart; read them in the table below.
 
 Chart behavior:
 
@@ -7138,20 +7272,22 @@ Detailed breakdown with all metrics per time period.
 | **Date / Time / Week / Month** | Time period. The first column's header changes with the grouping (Date/Time, Date, Week, or Month) |
 | **Entrances** | Sessions started |
 | **Pageviews** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
-| **Events** | Microconversions |
+| **Bounce Rate** | Single-page session percentage. Values above 70% are highlighted in red and below 40% in green |
+| **Events** | Microconversions (all types combined) |
 | **Conversions** | Completed conversions |
-| **Conv. Rate** | Conversion rate |
+| **Conv. Rate** | Conversions ÷ Entrances × 100 |
 | **Revenue** | Total revenue |
 
-In **By Hour** mode, rows are grouped by day and each day can be expanded to reveal its individual hours.
+In **By Hour** mode, rows are grouped by day and each day can be expanded (chevron next to the date) to reveal its individual hours.
 
 ### Table Features
 
-- **Sorting**: Click column headers to sort (disabled in By Hour mode)
-- **Pagination**: Navigate through pages for long periods
-- **Totals row**: Aggregated totals shown at the bottom
+- **Sorting**: Click column headers to sort (disabled in By Hour mode). Default order is newest period first
+- **Pagination**: 10 rows per page by default; switch to 50, 100 or 500
+- **Totals row**: Aggregated totals shown at the bottom. Entrances, Pageviews, Events, Conversions and Revenue are summed; Bounce Rate and Conv. Rate are recalculated from the totals, not averaged
 - **Export**: Download as CSV or PDF
+
+The table has no per-column filter builder; to narrow the data, use the global Segment (see [Filters Interaction](#filters-interaction)).
 
 ## Use Cases
 
@@ -7165,11 +7301,7 @@ In **By Hour** mode, rows are grouped by day and each day can be expanded to rev
 
 ### Comparing Campaigns
 
-1. Set date range to campaign period
-2. Filter by UTM Campaign
-3. Compare:
-   - Add Campaign A, note metrics
-   - Clear, add Campaign B, compare
+Because the UTM filters do not currently narrow this report (see [UTM Filters](#utm-filters)), compare campaigns in the **Campaigns** tab of the [Sources report](/reports/sources), which lists Entrances, Conversions, Conv. Rate and Revenue per campaign for the selected date range. Change the date range to compare how the same campaign did across periods.
 
 ### Identifying Seasonality
 
@@ -7178,44 +7310,102 @@ In **By Hour** mode, rows are grouped by day and each day can be expanded to rev
 3. Look for:
    - Peak months
    - Low seasons
-   - Year-over-year patterns
+   - Year-over-year patterns (with a range longer than 12 months)
 
 ### Tracking Campaign Launch
 
-1. Set date range starting from launch date
-2. Filter by campaign UTMs
-3. Select **By Day** grouping
-4. Monitor:
-   - Ramp-up pattern
+1. Set date range starting a couple of weeks before the launch date
+2. Select **By Day** grouping
+3. Monitor the whole site's Entrances, Conversions and Revenue:
+   - Ramp-up pattern after launch
    - Peak performance day
    - Decay curve
+4. For the campaign's own numbers, check its row in the Sources report's Campaigns tab for the same dates
+
+## E-commerce use cases
+
+These cases assume your store sends a purchase conversion with its order amount — without the amount, Revenue stays at zero. See the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) or [How to Measure Conversions](/getting-started/measure-conversions). Attribution in Sealmetrics is last click per session and there are no user-level journeys, so every figure below is an aggregate per period.
+
+### Is my revenue growing, or only my traffic?
+
+1. Pick the date range you want to judge (for example, last 30 days)
+2. Read the **Entrances**, **Conversions** and **Revenue** cards and their change vs the previous period
+3. Select **By Week** and read **Conv. Rate** and **Revenue** down the table
+
+How to read it:
+
+- Entrances up with Conversions and Revenue up by a similar amount: growth is real and conversion is holding.
+- Entrances up but Conv. Rate down: you are buying or attracting traffic that does not buy. Check which channels grew in the [Sources report](/reports/sources) before spending more on them.
+- Revenue up faster than Conversions: orders are getting larger. Export the table and divide Revenue by Conversions per week to follow average order value.
+
+### What days and hours do my customers buy?
+
+1. Set a range of at least a week or two, so one unusual day does not dominate
+2. Select **By Hour** and expand a few typical days; compare **Conversions** and **Revenue** per hour
+3. Switch to **By Day** to compare weekdays with weekends
+
+How to read it: the hours and days that carry most orders are where a promotion start, an email send or extra support cover has the most effect. The quietest hours are the safest window for maintenance and deploys. Keep in mind the hour export does not include the hour itself (see [Export](#export)); read hourly values on screen.
+
+### Does mobile convert as well as desktop?
+
+1. Open **Segment**, set **Device Type** = Mobile, and apply
+2. Select **By Week** and note **Conv. Rate** and **Revenue** for each week
+3. Change the Segment to Desktop and repeat
+
+How to read it: if mobile brings a large share of Entrances but a clearly lower Conv. Rate week after week, the gap is persistent rather than noise — review the mobile product page, cart and checkout. The same approach works per country (Segment → Countries) to see whether a new market is converting. For a single-period breakdown by device, the [Devices report](/reports/devices) is quicker.
+
+### Why did orders drop this week?
+
+1. Select **By Day** over the last two to four weeks
+2. Find the day Conversions (or Revenue) fell and compare **Entrances**, **Bounce Rate** and **Events** on that day with the days before
+
+How to read it:
+
+- Entrances fell too: fewer shoppers arrived — look at traffic sources in the [Sources report](/reports/sources).
+- Entrances steady but Bounce Rate jumped: landing pages or site speed may have a problem that day.
+- Entrances and Events steady but Conversions fell: shoppers are still interacting but not completing the purchase — look at the checkout steps in the [Funnel report](/reports/funnel).
+
+**Events** is the total of all microconversion types combined, so it only helps here if you track shopping actions such as `add_to_cart` and `begin_checkout` as [microconversions](/implementation/tracker/microconversions). To see each event type separately, use the [Conversions report](/reports/conversions).
+
+### When does my seasonal peak start, and how big is it?
+
+1. Set a range of the last 12 months or more
+2. Select **By Month** for the shape of the year, then **By Week** around the peak months
+3. Read **Revenue** and **Conversions** per period
+
+How to read it: the week where Revenue starts rising tells you when shoppers begin buying, which is when campaigns and stock need to be ready — usually a few weeks earlier than the peak itself. A peak that is higher than last year with a similar Conv. Rate means more demand; a similar peak reached with more Entrances means conversion got worse.
 
 ## Filters Interaction
 
-Evolution report respects both:
+The data in this report is scoped by:
 
-1. **Global filters** (from the filter bar)
-2. **UTM filters** (specific to this report)
+1. **Date range** (from the date picker)
+2. **Global filters** from the **Segment** panel: Countries, Device Type, Browser and Operating System. They apply to the summary cards, chart and table alike
 
 Example:
-- Global filter: Country = Spain
-- UTM filter: Source = google
-- Result: Google traffic from Spain only
+- Segment: Country = Spain, Device Type = Mobile
+- Result: every card, chart point and table row counts only mobile traffic from Spain
+
+The report's own **UTM Filters** can be set but do not currently change the data (see [UTM Filters](#utm-filters)). There is no local table filter builder on this report. See [Filters](/reports/filters) for how the Segment panel works.
 
 ## Export
 
-Click **Export** to download:
-- All data points in the current view
-- Respects active filters
+Click **Export** above the table to download:
+- Every row for the current grouping (all pages, not just the visible one), newest first
+- Columns: Date, Entrances, Pageviews, Bounce Rate, Events, Conversions, Conv. Rate, Revenue
+- Respects the date range and Segment
 - Choose **CSV** or **PDF** format
+
+The totals row is not included in the file. In **By Hour** mode the export contains the day rows plus the hours of any days you have expanded, but the hour is not written to the file — hour rows only show their date.
 
 ## Related documentation
 
 - [Date Range](/reports/date-range) — Choose the time period the Evolution chart covers
-- [Sources Report](/reports/sources) — Break the same metrics down by channel
-- [Filters](/reports/filters) — Combine global and UTM filters
+- [Sources Report](/reports/sources) — Break the same metrics down by channel, source, medium and campaign
+- [Filters](/reports/filters) — How the global Segment filters work
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
 - [Metrics Reference](/reports/definitions) — Definitions for entrances, pageviews, and conversions
+- [E-commerce Store use case](/use-cases/ecommerce) — What to measure in an online store
 
 
 
@@ -7633,7 +7823,7 @@ URL: https://docs.sealmetrics.com/reports/pages
 
 # Pages
 
-The Pages report analyzes page-level performance, showing which pages receive the most traffic and how they perform.
+The Pages report analyzes page-level performance, showing which pages receive the most traffic and, for the pages where sessions start, how much engagement, conversions and revenue they bring in.
 
 ## Accessing the Report
 
@@ -7648,13 +7838,15 @@ The report has two tabs with different perspectives:
 
 ### All Pages Tab
 
-Shows all pages that received traffic during the selected period.
+Shows all pages viewed during the selected period, with pageviews and entrances.
 
 | Column | Description |
 |--------|-------------|
-| **Page** | URL path and page title. When a content group is assigned, it appears as a badge next to the path |
+| **Page** | URL path. When the path matches one of your URL-pattern content group rules, the group appears as a badge next to the path |
 | **Pageviews** | Total views |
 | **Entrances** | Sessions that started on this page |
+
+The All Pages tab has no bounce rate, conversion or revenue columns. Those metrics are tied to the page where the session started, so they live on the **Landing Pages** tab.
 
 ### Landing Pages Tab
 
@@ -7662,20 +7854,38 @@ Shows pages where sessions started (entry points to your site).
 
 | Column | Description |
 |--------|-------------|
-| **Landing Page** | URL path. When a content group is assigned, it appears as a badge next to the path |
+| **Landing Page** | URL path. When the pageviews carry a content group (sent by the tracker), it appears as a badge next to the path |
 | **Entrances** | Sessions that started on this page |
 | **Bounce Rate** | Percentage of single-page sessions |
-| **Microconv.** | Microconversions attributed to this landing page |
-| **Conversions** | Conversions attributed to this landing page |
-| **Revenue** | Revenue attributed to this landing page |
+| **Microconv.** | Microconversions (all event types combined) from sessions that started on this page |
+| **Conversions** | Conversions (all conversion types combined) from sessions that started on this page |
+| **Revenue** | Sum of the conversion amounts from sessions that started on this page |
+
+Conversions and microconversions are credited to the landing page of the session in which they happened. There is no per-type breakdown on this tab: to see conversions by type, use the [Conversions report](/reports/conversions).
 
 #### Bounce Rate Colors
 
 | Color | Bounce Rate | Interpretation |
 |-------|-------------|----------------|
 | Green | < 40% | Good engagement |
-| Yellow | 40-70% | Average |
+| No color | 40–70% | Average |
 | Red | > 70% | May need attention |
+
+### Totals Row
+
+Both tables show a **Total** row at the top. It is calculated by the server over **all** rows that match the current period, global filters, search and table filters — not just the rows loaded into the table. On the Landing Pages tab, the total Bounce Rate is recalculated from the summed entrances (not an average of the row percentages).
+
+### Rows Loaded
+
+Each table loads the **top 100 rows** for the current sort order, search and filters, and paginates through them in the browser. Searching and filtering run on the server before that cut, so a filter or search always finds matching pages even if they are outside the unfiltered top 100.
+
+### Sorting
+
+Click a column header to sort. Numeric columns (Pageviews and Entrances on All Pages; Entrances, Bounce Rate, Microconv., Conversions and Revenue on Landing Pages) are re-sorted on the server, so you get the true top 100 for that metric. Sorting by the path column only reorders the rows already loaded. Clicking a header a third time restores the default order (Pageviews on All Pages, Entrances on Landing Pages, descending).
+
+### Period Comparison
+
+When [comparison mode](/reports/date-range#comparison-mode) is on, each metric cell shows the percentage change versus the comparison period (or **New** when the page had no data then). This applies to Pageviews and Entrances on All Pages, and to Entrances, Microconv., Conversions and Revenue on Landing Pages. Bounce Rate is shown without a change indicator.
 
 ## Content Groups
 
@@ -7692,6 +7902,17 @@ Instead of analyzing individual URLs, group related pages:
 | Checkout | /cart, /checkout/* |
 | Account | /account/*, /profile/* |
 
+### Where Groups Come From
+
+The Pages report uses two sources of content groups:
+
+| Source | How it is set | Where it is used |
+|--------|---------------|------------------|
+| **Tracker content group** | The `group` parameter of the tracking script or JavaScript API, sent with each pageview | Quick-filter buttons on All Pages, badge and **Content Group** filter field on Landing Pages |
+| **URL-pattern rules** | Rules you create under **Properties** (site configuration section of the sidebar, `/settings/properties`) | Badge on All Pages; quick-filter buttons on All Pages only when the site has no tracker content groups |
+
+URL-pattern rules are stored in your browser, like [saved segments](/reports/filters#filter-persistence): they are not shared with teammates or other devices, and they do not apply to the Landing Pages tab. For groups that everyone on the team sees in every report, set them in the tracker.
+
 ### Filtering by Content Group
 
 On the **All Pages** tab, content group quick-filter buttons appear above the table:
@@ -7699,54 +7920,66 @@ On the **All Pages** tab, content group quick-filter buttons appear above the ta
 1. Click a content group button above the table (or **All**)
 2. The table shows only pages in the selected group
 
+Each button shows the number of distinct URLs in that group. With tracker content groups, the filter runs on the server over the whole period; with URL-pattern rules, it runs over the rows already loaded, and the table then shows both the period **Total** and a **Filtered** subtotal.
+
+If no content groups exist, a notice with a **Configure** link to Properties appears instead of the buttons.
+
+On the **Landing Pages** tab, filter by group with the table filter builder (**Content Group** field).
+
 ### Configuring Content Groups
 
-Content groups are configured in Settings → Properties.
-
-See [Content Grouping](../implementation/content-site-structure/content-grouping) for setup instructions.
+See [Content Grouping](/implementation/content-site-structure/content-grouping) for setup instructions.
 
 ## Filtering
 
+### Search
+
+Each tab has a search box (**Search pages...** / **Search landing pages...**). It matches the page path, is case-insensitive, and runs on the server.
+
 ### Table Filter Builder
 
-Click the filter icon to open the filter builder. Each tab has its own fields:
+Click **Filters** above the table to open the filter builder. Each tab has its own filters, and both are **dimension-only**: you filter by which page a row is, not by metric values.
 
-**All Pages fields:**
-- Path
-- Title
-- Content Group
-- Pageviews
-- Entrances
+| Tab | Fields |
+|-----|--------|
+| **All Pages** | Path |
+| **Landing Pages** | Path, Content Group |
 
-**Landing Pages fields:**
-- Path
-- Content Group
-- Entrances
-- Bounce Rate
-- Microconversions
-- Conversions
-- Revenue
+**Operators** (text fields): equals, does not equal, contains, does not contain, starts with, ends with, is empty, is not empty.
 
-**Operators:**
-- Text: contains, starts with, equals
-- Numbers: greater than, less than, equals
+- **contains**, **does not contain**, **starts with** and **ends with** ignore case; **equals** and **does not equal** are exact matches.
+- All conditions are combined with **AND**. The builder lets you choose OR between conditions or groups, but the Pages report applies every condition with AND regardless.
+- A value containing a comma can't be sent to the server. The condition is not applied and a warning appears above the table.
+
+There are no metric filters (such as "Pageviews greater than 1000" or "Conversions equals 0"). To find pages above or below a threshold, **sort by the metric column** instead.
 
 **Example filters:**
 
 | Goal | Filter (tab) |
 |------|--------------|
 | Blog pages only | Path starts with "/blog" (All Pages) |
-| High traffic pages | Pageviews greater than 1000 (All Pages) |
-| Problem landing pages | Bounce Rate greater than 70 (Landing Pages) |
-| Converting landing pages | Conversions greater than 0 (Landing Pages) |
+| Everything except the blog | Path does not contain "/blog" (All Pages or Landing Pages) |
+| Product landing pages | Content Group equals "Products" (Landing Pages) |
+| Landing pages with no content group | Content Group is empty (Landing Pages) |
 
-### Combining with Global Filters
+### Global Filters (Segment)
 
-Page report respects global filters:
+Both tabs, their totals and their comparison values respect the global [Segment](/reports/filters#global-filters-segment) filters:
+
+| Global filter | Applies to Pages |
+|---------------|------------------|
+| Countries | Yes |
+| Device Type | Yes |
+| Browser | Yes |
+| Operating System | Yes |
+
+Global filters combine with the table filters using AND:
 
 1. Global filter: Country = Spain
 2. Table filter: Path contains "products"
-3. Result: Product pages viewed by Spanish visitors
+3. Result: Product pages viewed by visitors from Spain
+
+The Pages report has no traffic-source filter (channel, source, medium, campaign). To analyze traffic by where it came from, use the [Sources report](/reports/sources).
 
 ## Use Cases
 
@@ -7755,7 +7988,7 @@ Page report respects global filters:
 1. Go to **All Pages** tab
 2. Sort by **Pageviews** (default)
 3. Review top 10-20 pages
-4. These are your most valuable content pieces
+4. These are your most viewed content pieces
 
 ### Identifying Problem Landing Pages
 
@@ -7766,40 +7999,103 @@ Page report respects global filters:
 
 ### Analyzing Blog Performance
 
-1. Configure content group for "Blog"
-2. Filter by Blog content group
-3. Review:
-   - Which posts get most traffic?
-   - Which have best conversion rates?
+1. Set up a "Blog" content group in the tracker
+2. On **All Pages**, click the **Blog** button to see which posts get the most pageviews
+3. On **Landing Pages**, filter Content Group equals "Blog" and review:
+   - Which posts bring in the most entrances?
+   - Which posts start sessions that convert (Conversions, Microconv.)?
 
 ### Finding Conversion Opportunities
 
 1. Go to **Landing Pages** tab
-2. Filter: Entrances > 500 AND Conversions = 0
-3. These high-traffic entry pages aren't converting
-4. Consider adding CTAs or conversion elements
+2. Sort by **Entrances** (default)
+3. Scan the **Conversions** column for high-traffic entry pages with few or no conversions
+4. Consider adding CTAs or conversion elements to those pages
 
 ### Tracking New Page Performance
 
 1. Publish new page
-2. Wait 24-48 hours
-3. Search for the page path
-4. Monitor:
+2. Once it starts receiving traffic, search for the page path
+3. Monitor:
    - Initial traffic ramp
-   - Bounce rate vs site average (Landing Pages tab)
+   - Bounce rate vs the **Total** row (Landing Pages tab)
+
+## E-commerce use cases
+
+These cases assume your store tracks purchases as a conversion **with an amount** (for Revenue), and optionally `add_to_cart` / `begin_checkout` as microconversions. See the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide), or the guide for your platform under [E-commerce integrations](/integrations/ecommerce/shopify).
+
+### Which landing pages actually bring in sales?
+
+1. Go to the **Landing Pages** tab
+2. Sort by **Revenue** (descending)
+3. Compare each row's **Revenue** and **Conversions** with its **Entrances**
+
+**How to read it:** a page with modest entrances but high revenue is an efficient entry point — worth sending more paid or email traffic to. A page with many entrances and little revenue attracts visitors who don't buy; check its **Bounce Rate** and whether its traffic matches its content. For revenue per entrance, **Export** the tab as CSV and divide Revenue by Entrances.
+
+Requires: purchase conversions with an amount ([Conversions](/implementation/tracker/conversions)).
+
+### Which popular entry pages get visits but no sales?
+
+1. Go to the **Landing Pages** tab and keep the default sort by **Entrances**
+2. Optionally narrow to product pages: filter **Path starts with** your product URL prefix (e.g. "/products/"), or **Content Group equals** "Products"
+3. Look for rows with high **Entrances** and **Conversions** at or near zero
+
+**How to read it:**
+- **High Bounce Rate, no conversions** — visitors leave straight away. Check that the ads or links pointing to the page match what it shows (price, availability, product).
+- **Low Bounce Rate, microconversions but no conversions** — shoppers engage and add to cart but don't complete the purchase. Look at shipping costs, checkout steps and payment options, and check the drop-off in the [Funnel report](/reports/funnel).
+- **Low Bounce Rate, no microconversions** — visitors browse but don't show purchase intent. Review calls to action, product information and pricing.
+
+Requires: purchase conversions; `add_to_cart` / `begin_checkout` as [microconversions](/implementation/tracker/microconversions) to tell the second and third patterns apart. The **Microconv.** column counts all microconversion types together.
+
+### Do product pages or category pages work better as entry points?
+
+1. Send a content group from the tracker for each page type (e.g. "Products", "Categories", "Blog") — see [Content Grouping for E-commerce](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide#content-grouping-for-e-commerce)
+2. Go to the **Landing Pages** tab
+3. Filter **Content Group equals** "Products" and note the **Total** row: Entrances, Bounce Rate, Conversions, Revenue
+4. Change the filter to "Categories" and compare
+
+**How to read it:** the Total row covers every landing page in the group over the period, not just the loaded rows. Compare Conversions ÷ Entrances and Revenue ÷ Entrances between groups. If category pages convert better than product pages as entry points, point more campaigns at categories, or improve how product pages lead to related products.
+
+Requires: tracker content groups (URL-pattern rules don't apply to the Landing Pages tab) and purchase conversions with an amount.
+
+### Is mobile traffic to my product pages converting as well as desktop?
+
+1. Open **Segment** in the filter bar, set **Device Type** to Mobile, and apply
+2. Go to the **Landing Pages** tab and filter to your product pages (Path or Content Group)
+3. Note the **Total** row: Entrances, Bounce Rate, Conversions, Revenue
+4. Change the segment to Desktop and compare
+
+**How to read it:** a clearly higher bounce rate or lower conversions per entrance on mobile often means a mobile-specific problem — slow load, layout issues, or a checkout that's awkward on small screens. Drill into individual rows to find which product pages have the largest gap.
+
+Requires: purchase conversions. Remember to clear the segment afterwards; it applies to every report.
+
+### Did my sale or new collection page pay off compared with the previous period?
+
+1. Set the date range to the campaign period and turn on [comparison mode](/reports/date-range#comparison-mode) (previous period or previous year)
+2. Go to the **Landing Pages** tab and search for the page path (e.g. "/sale")
+3. Read the change indicators on **Entrances**, **Conversions** and **Revenue**
+
+**How to read it:** rising entrances with flat conversions means the promotion drove traffic but not buyers. Check the offer and the page itself. Rising conversions and revenue confirm the page worked as an entry point. Pages marked **New** had no entrances in the comparison period.
+
+Requires: purchase conversions with an amount. Conversions are credited to the landing page of the session in which they happen (last click per session), so a purchase made in a later session that started elsewhere is credited to that later session's landing page.
 
 ## Export
 
-Each tab has its own **Export** button to download:
-- All visible rows (respecting filters)
-- All columns, including the content group
-- Choose **CSV** or **PDF** format
+Each tab has its own **Export** button (**Export as CSV** or **Export as PDF**). The export contains the rows currently loaded in the table (up to 100, after search, filters and content group selection) with these columns:
+
+| Tab | Exported columns |
+|-----|------------------|
+| **All Pages** | Path, Pageviews, Entrances, Content Group (from URL-pattern rules; "Other" when none matches) |
+| **Landing Pages** | Path, Content Group, Entrances, Bounce Rate, Microconversions, Conversions, Revenue |
 
 ## Related documentation
 
 - [Content Grouping](/implementation/content-site-structure/content-grouping) — Set up the groups used to categorize pages
 - [How Sealmetrics Calculates Entrances](/reports/insights/how-sealmetrics-calculates-entrances) — What counts as an entrance on a landing page
+- [Filters](/reports/filters) — Global Segment filters and the table filter builder
 - [Sources Report](/reports/sources) — See which channels drive landing-page traffic
+- [Conversions Report](/reports/conversions) — Conversions and revenue by conversion type
+- [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) — Track purchases, add to cart and checkout
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
 - [Metrics Reference](/reports/definitions) — Definitions for pageviews, entrances, and bounce rate
 
@@ -7963,7 +8259,7 @@ URL: https://docs.sealmetrics.com/reports/sources
 
 # Sources
 
-The Sources report provides complete analysis of traffic sources using channel grouping, UTM parameters, and referrers.
+The Sources report provides complete analysis of traffic sources using channel grouping, UTM parameters, and referrers. Every row shows traffic (Entrances, Page Views, Bounce Rate) next to outcomes (Events, Conversions, Conversion Rate, Revenue), so you can compare sources by what they deliver, not only by volume.
 
 ![Traffic Sources report on the Channels tab, with traffic volume by channel and the channel distribution donut chart](/img/screenshots/sources-channels.png)
 
@@ -7976,7 +8272,29 @@ The Sources report provides complete analysis of traffic sources using channel g
 
 ## Tabs
 
-The report has 7 tabs for different levels of analysis. **Channels** is the first tab and is selected by default:
+The report has 7 tabs for different levels of analysis. **Channels** is the first tab and is selected by default.
+
+All seven tables share the same metric columns:
+
+| Column | Description |
+|--------|-------------|
+| **Entrances** | Sessions that started from this row's source |
+| **Page Views** | Total page views |
+| **Bounce Rate** | Single-page session percentage |
+| **Events** | Microconversions (all microconversion types added together) |
+| **Conv.** | Completed conversions (all conversion types added together) |
+| **Conv. Rate** | Conversions / Entrances × 100 |
+| **Revenue** | Sum of conversion amounts |
+
+Metric definitions are in the [Metrics Reference](/reports/definitions). Attribution is **last click per session**: each conversion is credited to the source of the session it happened in.
+
+Every table also has:
+
+- A **search box** — server-side and case-insensitive, so it searches all rows, not only the ones loaded on screen
+- A **Filters** button with a dimension-only filter builder (see [Filtering](#filtering))
+- An **Export** button (see [Export](#export))
+- A **Total** row, calculated over all rows that match your filters
+- **Comparison values** on Entrances, Page Views, Events, Conv. and Revenue when [comparison mode](/reports/date-range#comparison-mode) is on in the date picker (Bounce Rate and Conv. Rate show no comparison)
 
 ### 1. Channels Tab
 
@@ -7985,18 +8303,11 @@ The default tab. Shows traffic grouped into high-level **channels** (GA4-style c
 | Column | Description |
 |--------|-------------|
 | **Channel** | Channel name (e.g., "Paid Search"). Unmatched traffic shows as **Unassigned** |
-| **Entrances** | Sessions assigned to this channel |
-| **Page Views** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
-| **Events** | Microconversions |
-| **Conv.** | Completed conversions |
-| **Conv. Rate** | Conversion rate |
-| **Revenue** | Total revenue |
+| **Entrances** … **Revenue** | The shared metric columns above |
 
-**Charts included:**
-- **Stacked Bar Chart**: Traffic volume by channel
-- **Pie Chart**: Channel distribution (top 4 + "Other")
-- **Dual Axis Chart**: Conversion Rate (bars) vs Bounce Rate (line)
+**Charts included:** Traffic Volume by Channel, Channel Distribution, and Engagement by Channel (see [Charts](#charts)).
+
+Channels are not clickable — there is no drill-down from this tab.
 
 #### How channel grouping works
 
@@ -8008,6 +8319,8 @@ Each session is assigned to a channel by matching its `utm_source`, `utm_medium`
 
 Rules are checked in priority order and the first matching rule wins. Rules can be **global** (apply to every account) or **account-specific**; account rules are always evaluated before global rules, so a custom rule can override the defaults. Traffic that matches no rule is reported as **Unassigned**.
 
+The channel is assigned when the visit is received, so rule changes apply to new traffic only — historical visits keep the channel they were given at the time.
+
 You can view and customize these rules per account from the [Channel Grouping settings](/platform/settings/tracking/channel-grouping) (draft → test → publish flow, CSV import/export, and MCP tools). The API exposes them under `/channel-groups`. The built-in default rules cannot be deleted, but they can be overridden.
 
 #### Default channels
@@ -8016,23 +8329,23 @@ Sealmetrics ships with the following default channels, listed here from highest 
 
 | Channel | Matches (simplified) |
 |---------|----------------------|
-| **Paid Search** | Search engines (google, bing, yahoo, etc.) with a paid medium (cpc, ppc, paid, sem) |
-| **Paid Social** | Social networks (facebook, instagram, x, linkedin, tiktok, etc.) with a paid medium |
-| **Paid Video** | Video platforms (youtube, vimeo, twitch, dailymotion) with a paid/video medium |
-| **Display** | Display mediums (display, banner, cpm, interstitial, rich media) |
+| **Paid Search** | Search engines (google, bing, yahoo, etc.) with a paid medium (cpc, ppc, paid, paidsearch, sem) |
+| **Paid Social** | Social networks (facebook, instagram, x, linkedin, tiktok, pinterest, etc.) with a paid medium (cpc, ppc, paid, paid-social) |
+| **Paid Video** | Video platforms (youtube, vimeo, twitch, dailymotion) with a paid/video medium (cpc, ppc, paid, video, trueview) |
+| **Display** | Display mediums (display, banner, cpm, interstitial, expandable, rich media), any source |
 | **Paid Shopping** | google/bing with a shopping medium (shopping, pla, product listing) |
 | **Organic Search** | Search engines with `organic` medium |
-| **Organic Social** | Social networks with a social/organic-social medium |
-| **Organic Video** | Video platforms with a video/organic medium |
-| **Organic Shopping** | Shopping comparison sites (google shopping, idealo, kelkoo, etc.) |
-| **AI** | Traffic from AI assistants (ChatGPT, Gemini, Claude, Perplexity, Copilot, etc.) — medium `ai` |
+| **Organic Social** | Social networks with a social/organic-social medium, or no medium |
+| **Organic Video** | Video platforms with a video/organic medium, or no medium |
+| **Organic Shopping** | Shopping comparison sites (google shopping, idealo, kelkoo, pricerunner, shopzilla) |
+| **AI** | Traffic from AI assistants (ChatGPT, Gemini, Claude, Perplexity, Copilot, etc.): medium `ai`, or an AI assistant as source with no medium |
 | **Email** | Email mediums (email, newsletter, mailchimp, sendgrid, klaviyo) |
 | **Affiliates** | Affiliate mediums (affiliate, partner, aff, cpa) |
 | **SMS** | SMS mediums (sms, text, mms) |
 | **Push** | Push mediums (push, notification, web push, mobile push) |
 | **Audio** | Audio sources (spotify, apple podcasts, soundcloud, audible, etc.) |
 | **Referral** | medium matches `referral` or `referrer` |
-| **Direct** | `direct` source and medium |
+| **Direct** | source `(direct)` |
 | **Unassigned** | Catch-all for traffic that matches no other rule |
 
 ### 2. Sources Tab
@@ -8040,40 +8353,33 @@ Sealmetrics ships with the following default channels, listed here from highest 
 Shows traffic grouped by UTM Source and Medium combination.
 
 **Info:**
-Since July 21, 2026, visits arriving from an untagged external link are shown in this tab as their **referring domain** with medium `referrer` (e.g. `reddit.com / referrer`), GA4-style — including historical data. To analyze the full referring URLs, use the [Referrers tab](#7-referrers-tab).
+Since July 21, 2026, visits arriving from an untagged external link are shown in this tab as their **referring domain** with medium `referrer` (e.g. `reddit.com / referrer`), GA4-style — including historical data. To analyze the referring pages, use the [Referrers tab](#7-referrers-tab).
 
 | Column | Description |
 |--------|-------------|
-| **Source / Medium** | Combined source and medium (e.g., "google / cpc") |
-| **Entrances** | Sessions from this source |
-| **Page Views** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
-| **Events** | Microconversions |
-| **Conv.** | Completed conversions |
-| **Conv. Rate** | Conversion rate |
-| **Revenue** | Total revenue |
+| **Source / Medium** | Combined source and medium (e.g., "google / cpc"). Direct traffic shows as `(direct) / (none)` |
+| **Entrances** … **Revenue** | The shared metric columns above |
 
-**Drill-down:** source names in the table are clickable — click a source to see its **campaigns**, and a campaign to see its **terms**, with breadcrumbs to navigate back. Each table also has a **search box** (server-side, works across all pages of results).
+**Drill-down:** each Source / Medium is clickable — click it to open the **Campaigns** tab filtered to that source and medium, then click a campaign to open the **Terms** tab filtered to that campaign. A breadcrumb above the tabs shows the path; click any step to go back, or **All Sources** to clear the drill-down and return to the Channels tab.
 
-**Charts included:**
-- **Stacked Bar Chart**: Traffic volume by source
-- **Pie Chart**: Distribution of top 4 sources
-- **Dual Axis Chart**: Conversion Rate (bars) vs Bounce Rate (line)
+**Charts included:** Traffic Volume by Source, Source Distribution, and Engagement by Source. The charts label each bar with the source name only.
 
 ### 3. Mediums Tab
 
-Shows traffic grouped by UTM Medium only.
+Shows traffic grouped by UTM Medium only. Common values:
 
 | Medium | Description |
 |--------|-------------|
 | organic | Search engine organic traffic |
-| cpc | Cost-per-click paid traffic |
+| cpc | Cost-per-click paid traffic (when your ad links are tagged with it) |
 | social | Social media organic traffic |
-| email | Email marketing traffic |
-| referral | Links from other websites |
+| email | Email marketing traffic (when your email links are tagged with it) |
+| ai | Referrals from AI assistants |
+| referrer | Untagged links from other websites |
+| referral | Links tagged as referral, and some recognized sites (e.g. Google News) |
 | (none) | Direct traffic |
 
-Same columns and charts as the Sources tab (the first column is **Medium** instead of Source / Medium).
+Same columns and charts as the Sources tab (the first column is **Medium** instead of Source / Medium). Each medium is clickable and opens the **Campaigns** tab filtered to that medium.
 
 ### 4. Campaigns Tab
 
@@ -8081,16 +8387,12 @@ Shows traffic grouped by UTM Campaign.
 
 | Column | Description |
 |--------|-------------|
-| **Campaign** | Campaign name (the associated source / medium is shown underneath) |
-| **Entrances** | Sessions from this campaign |
-| **Page Views** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
-| **Events** | Microconversions |
-| **Conv.** | Completed conversions |
-| **Conv. Rate** | Conversion rate |
-| **Revenue** | Total revenue |
+| **Campaign** | Campaign name (the associated source / medium is shown underneath). Traffic without a campaign shows as `(not set)` |
+| **Entrances** … **Revenue** | The shared metric columns above |
 
-Includes the same three charts as the Sources tab. Useful for:
+Includes the same three charts as the Sources tab. Click a campaign name to open the **Terms** tab filtered to that campaign, source and medium.
+
+Useful for:
 - Comparing ad campaigns
 - Tracking email campaigns
 - Measuring promotional campaigns
@@ -8102,18 +8404,14 @@ Shows traffic grouped by UTM Term (typically search keywords).
 | Column | Description |
 |--------|-------------|
 | **Term** | Search term or keyword (the associated source / campaign is shown underneath) |
-| **Entrances** | Sessions from this term |
-| **Page Views** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
-| **Events** | Microconversions |
-| **Conv.** | Completed conversions |
-| **Conv. Rate** | Conversion rate |
-| **Revenue** | Total revenue |
+| **Entrances** … **Revenue** | The shared metric columns above |
 
 This tab shows a table only (no charts). Useful for:
 - Paid search keyword analysis
 - Understanding search intent
 - Identifying high-value keywords
+
+See [What Is a TERM in Sealmetrics?](/reports/insights/what-is-a-term) for what ends up in this field.
 
 ### 6. Content Tab
 
@@ -8122,13 +8420,7 @@ Shows traffic grouped by UTM Content (for A/B testing ads).
 | Column | Description |
 |--------|-------------|
 | **Content** | Ad variant identifier (the associated source / campaign is shown underneath) |
-| **Entrances** | Sessions from this variant |
-| **Page Views** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
-| **Events** | Microconversions |
-| **Conv.** | Completed conversions |
-| **Conv. Rate** | Conversion rate |
-| **Revenue** | Total revenue |
+| **Entrances** … **Revenue** | The shared metric columns above |
 
 This tab shows a table only (no charts). Useful for:
 - A/B testing ad creatives
@@ -8137,18 +8429,14 @@ This tab shows a table only (no charts). Useful for:
 
 ### 7. Referrers Tab
 
-Shows traffic from referring websites (not UTM-based), **one row per full referring URL** — this is where you see exactly which page linked to you. (The domain-level view lives in the [Sources tab](#2-sources-tab), where referral traffic is grouped as `domain / referrer`.)
+Shows untagged traffic from referring websites — the visits reported with medium `referrer` — **one row per referring page**. This is where you see exactly which page linked to you. (The domain-level view lives in the [Sources tab](#2-sources-tab), where referral traffic is grouped as `domain / referrer`.)
+
+Search engines, social networks, AI assistants and other sites Sealmetrics recognizes are classified into their own source and medium (for example `google / organic`), so they do not appear in this tab.
 
 | Column | Description |
 |--------|-------------|
-| **Referrer Domain** | The full referring URL (the column groups by URL; e.g. `reddit.com/r/analytics/comments/...`) |
-| **Entrances** | Sessions from this referrer |
-| **Page Views** | Page views from this referrer |
-| **Bounce Rate** | Bounce rate |
-| **Events** | Microconversions |
-| **Conv.** | Conversions |
-| **Conv. Rate** | Conversion rate |
-| **Revenue** | Revenue |
+| **Referrer Domain** | The referring page as host + path, without the query string (e.g. `reddit.com/r/analytics/comments/...`) |
+| **Entrances** … **Revenue** | The shared metric columns above |
 
 This tab shows a table only (no charts). Useful for:
 - Identifying backlink traffic
@@ -8157,48 +8445,90 @@ This tab shows a table only (no charts). Useful for:
 
 ## Charts
 
-The **Channels**, **Sources**, **Mediums**, and **Campaigns** tabs each include three charts (the Terms, Content, and Referrers tabs show a table only):
+The **Channels**, **Sources**, **Mediums**, and **Campaigns** tabs each include three charts (the Terms, Content, and Referrers tabs show a table only). Charts always show the rows with the most **Entrances**, regardless of how the table is sorted:
 
 ### Stacked Bar Chart
 
-Shows volume comparison:
-- Horizontal bars per source/medium
-- Stacked: Entrances (blue) + Conversions (green)
+Traffic volume ("Traffic Volume by …"):
+- Horizontal bars for the top 8 rows by entrances
+- Each bar shows Entrances and Conversions
 - Quick visual of volume vs conversion balance
 
 ### Pie Chart
 
-Shows distribution:
-- Top 4 sources/mediums
-- Remaining grouped as "Other"
+Distribution ("… Distribution"):
+- Share of entrances for the top 4 rows, with the rest of the top 8 grouped as "Others"
 - Percentage labels
 
 ### Dual Axis Chart
 
-Shows efficiency comparison:
-- Bars: Conversion Rate (left axis)
-- Line: Bounce Rate (right axis)
+Efficiency comparison ("Engagement by …"), for the top 6 rows by entrances:
+- Bars: Conversion Rate
+- Line: Bounce Rate
 - Identifies sources with good conversion but high bounce
+
+Charts respect global filters, the drill-down, and the table's filter builder, but **not** the table search box or the table sort.
 
 ## Filtering
 
-Each tab has its own filter builder. Filters in the Sources report are **dimension-only** — you filter by what the traffic *is* (channel, source, medium, campaign, domain), not by metric values:
+The Sources report is affected by three layers of filtering.
 
-| Field | Use Case |
-|-------|----------|
-| Channel is "Paid Search" | One channel only |
-| Source contains "google" | All Google traffic |
-| Medium equals "cpc" | Paid traffic only |
-| Campaign contains "spring" | One campaign family |
+### Global filters (Segment)
 
-To spot high- or low-performing rows by metric (conversions, bounce rate…), **sort by the metric column** instead — every numeric column is sortable.
+The global filters from the **Segment** panel apply to every tab of this report — tables, totals and charts:
+
+| Global filter | Applies to Sources |
+|---------------|--------------------|
+| Country | Yes |
+| Device Type | Yes |
+| Browser | Yes |
+| Operating System | Yes |
+
+The date range and comparison mode from the date picker also apply. See [Filters](/reports/filters) for how global filters and segments work.
+
+### Table filters (filter builder)
+
+Each tab has its own filter builder (the **Filters** button above the table). Filters in the Sources report are **dimension-only** — you filter by what the traffic *is* (channel, source, medium, campaign, term, content, referrer), not by metric values. The fields available depend on the tab:
+
+| Tab | Filter fields |
+|-----|---------------|
+| Channels | Channel |
+| Sources | Source, Medium |
+| Mediums | Medium |
+| Campaigns | Campaign, Source, Medium |
+| Terms | Term, Campaign, Source, Medium |
+| Content | Content, Campaign, Source, Medium |
+| Referrers | Domain (the referring page, as shown in the table) |
+
+Operators: **equals**, **does not equal**, **contains**, **does not contain**, **starts with**, **ends with**, **is empty**, **is not empty**.
+
+Things to know:
+
+- **All conditions are combined with AND.** The builder shows AND/OR selectors, but in this report every condition is applied as AND.
+- **Matching is case-sensitive** (`Google` does not match `google`). Only the search box ignores case.
+- **A value containing a comma is ignored** — that condition is not applied.
+- Filters are **per tab**: a filter on the Campaigns tab does not affect the Sources tab.
+- Filters are resolved on the server, so they apply to all rows, the Total row and the charts.
+
+| Example | Tab | Use Case |
+|---------|-----|----------|
+| Channel equals "Paid Search" | Channels | One channel only |
+| Source contains "google" | Sources | All Google traffic |
+| Medium equals "cpc" | Sources, Campaigns | Paid traffic only |
+| Campaign contains "spring" | Campaigns | One campaign family |
+
+To spot high- or low-performing rows by metric (conversions, bounce rate…), **sort by the metric column** instead — every column is sortable. Entrances, Page Views, Events, Conv. and Revenue are sorted on the server across all rows. Bounce Rate, Conv. Rate and the name columns are sorted only within the rows already loaded (the top 100 by the current server-side sort), so sort by Entrances or Revenue first when you need a complete picture.
 
 ### Combining Filters
 
-Example: isolate paid Google traffic for one campaign
+Example: isolate paid Google traffic for one campaign, on the **Campaigns** tab:
 1. Source contains "google"
 2. AND Medium equals "cpc"
 3. AND Campaign contains "spring-sale"
+
+### Drill-down
+
+Clicking a row in the Sources, Mediums or Campaigns tab adds an exact-match filter for that row and opens the next tab (see [Sources Tab](#2-sources-tab)). Drill-down filters apply to the Sources, Campaigns and Terms tables, on top of any filter-builder conditions.
 
 ## UTM Parameter Reference
 
@@ -8224,7 +8554,7 @@ https://example.com/landing?utm_source=google&utm_medium=cpc&utm_campaign=spring
 2. Filter: Medium equals "cpc"
 3. Compare:
    - Google vs Facebook vs LinkedIn
-   - Cost per conversion (external data + Revenue)
+   - Cost per conversion (external ad spend data + Conv.)
    - Conversion rates
 
 ### Comparing Campaigns
@@ -8239,7 +8569,7 @@ https://example.com/landing?utm_source=google&utm_medium=cpc&utm_campaign=spring
 ### Finding High-Value Referrers
 
 1. Go to **Referrers** tab
-2. Sort by Conversions (descending)
+2. Sort by Conv. (descending)
 3. Look for:
    - Unexpected high-performing referrers
    - Partnership opportunities
@@ -8248,27 +8578,80 @@ https://example.com/landing?utm_source=google&utm_medium=cpc&utm_campaign=spring
 ### Analyzing Email Performance
 
 1. Go to **Mediums** tab
-2. Filter: Medium equals "email"
-3. Review:
-   - Open → Click → Conversion funnel
-   - Compare campaigns in Campaigns tab
+2. Filter: Medium equals "email" (or the medium your email links are tagged with)
+3. Click the medium to see its campaigns, and compare Entrances, Conv. and Revenue per send
+
+Sealmetrics sees the visit that follows a click; email opens and clicks stay in your email platform.
 
 ### Keyword Analysis
 
 1. Go to **Terms** tab
-2. Sort by Conversions
+2. Sort by Conv.
 3. Identify:
    - Converting keywords
    - High-traffic low-conversion keywords (optimize landing pages)
    - Long-tail opportunities
 
+## E-commerce use cases
+
+These cases assume your store sends a **purchase conversion with the order amount** (`sealmetrics.conv('purchase', amount)`), so that Conv. and Revenue reflect sales. See [Conversions](/implementation/tracker/conversions) and the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide), or the [e-commerce integrations](/integrations/ecommerce/shopify) for your platform.
+
+Two things to keep in mind when reading the numbers:
+
+- **Conv. and Events add up all types.** If you also send other conversions (a newsletter sign-up, a lead form), they are counted in Conv. and Conv. Rate next to purchases. Revenue only includes conversion amounts.
+- **Attribution is last click per session.** A sale is credited to the source of the session in which it happened; earlier visits from other sources are not credited.
+
+### Which channels bring buyers, not just visits?
+
+1. Open the **Channels** tab and sort by **Revenue** (descending).
+2. For each channel, compare its **Entrances** with its **Conv.** and **Revenue**. Revenue ÷ Entrances gives you [revenue per entrance](/reports/definitions#revenue-per-entrance), which you calculate yourself from the two columns.
+3. Check the **Engagement by Channel** chart for channels with a high bounce rate and a low conversion rate.
+
+How to read it: a channel with a large share of entrances but little revenue is bringing visitors who don't buy — review targeting or the pages that traffic lands on. A channel with few entrances but high revenue per entrance is a candidate for more budget. Turn on comparison in the date picker to see whether a channel's revenue moved against the previous period.
+
+### Which campaigns bring buyers, not just visits?
+
+1. Open the **Campaigns** tab.
+2. Filter: Medium equals "cpc" (or the mediums your paid campaigns use).
+3. Sort by **Revenue**, then by **Conv.**
+4. Click a campaign to open the **Terms** tab for that campaign and see which keywords brought the sales (only if your ad URLs pass `utm_term` — see [How to Track Google Ads Campaigns](/reports/insights/how-to-track-google-ads-campaigns)).
+
+How to read it: campaigns with many entrances and no Conv. are spending on visits that don't buy. Put Revenue next to the spend from your ad platform to get [ROAS](/reports/definitions#return-on-ad-spend-roas) — the Sources report has no ad-cost data. Export the table as CSV to do this in a spreadsheet.
+
+### Do my campaigns fill carts that never reach checkout?
+
+This case needs **microconversions** for the steps before the purchase — `add_to_cart` and `begin_checkout`. See [Microconversions](/implementation/tracker/microconversions).
+
+1. Open the **Campaigns** (or **Sources**) tab.
+2. Compare **Events** with **Conv.** for each row.
+3. To narrow it to one device, apply a global filter (for example Device Type = Mobile) from the Segment panel.
+
+How to read it: a campaign with plenty of Events but few Conv. brings shoppers who engage but don't finish — check what that audience meets at checkout (shipping costs, payment options, mobile checkout). The **Events** column adds up every microconversion type, so it can't tell `add_to_cart` from `begin_checkout`. For a per-step breakdown by source, medium and campaign, use the [Funnel by UTM table](/reports/funnel#funnel-by-utm-table) in the Funnel report.
+
+### Is my Google Shopping / Performance Max traffic credited to the right campaign?
+
+1. Open the **Channels** tab and check the **Paid Shopping** row. It only collects google/bing traffic with a shopping medium.
+2. Open the **Sources** tab and search for `google`. Look for rows with your product feed's own medium (for example `google / product_sync`) that show conversions.
+3. Open the **Campaigns** tab and look for the feed's campaign value collecting sales that belong to your paid campaigns.
+
+How to read it: if paid Shopping clicks show up under the feed's tagging, your own parameters are being overridden by the feed's. Fix it with [UTM Mapping overrides](/platform/settings/tracking/utm-mapping#use-case-4--google-shopping--performance-max-product-feed). Mappings apply to new traffic only; earlier visits keep their original values.
+
+### Is my payment gateway taking credit for sales?
+
+1. Open the **Mediums** tab and look for the `payment` medium. When Sealmetrics can't link a visitor coming back from a known gateway (for example PayPal, Stripe or Redsys) to their original session, the visit is recorded with that gateway as source and `payment` as medium (e.g. `paypal / payment` in the Sources tab). No default channel matches it, so it counts as **Unassigned** in the Channels tab.
+2. Open the **Referrers** tab and look for payment-provider or bank checkout pages with conversions. Gateways Sealmetrics doesn't recognize show up here and as `domain / referrer` in the Sources tab.
+
+How to read it: conversions on these rows are sales whose real source (an ad, an email) was lost at the payment step. Register the gateway domain as a passthrough referrer — see [How to Avoid Conversions Being Attributed to "Payment"](/platform/tracking-and-attribution-settings/avoid-conversions-attributed-to-payment). The change applies to new sessions.
+
 ## Export
 
-Each tab has its own export:
-- Exports current tab data only
-- Respects active filters
-- Includes all visible columns
-- CSV or PDF format
+Each tab has its own **Export** button:
+- **CSV** or **PDF** format
+- Exports the current tab only
+- Respects the search box, the filter builder, the drill-down and the current sort
+- Exports the rows loaded in the table (up to 100), not only the page you are viewing
+- Source and Medium are exported as separate columns; the Campaigns export also includes Source and Medium, and the Terms and Content exports include Campaign, Source and Medium
+- Comparison values are not included
 
 ## Related documentation
 
@@ -8276,6 +8659,9 @@ Each tab has its own export:
 - [How Sealmetrics Calculates SEO Traffic](/reports/insights/how-sealmetrics-calculates-seo-traffic) — How organic search is detected
 - [How to Track Google Ads Campaigns](/reports/insights/how-to-track-google-ads-campaigns) — UTM templates for paid campaigns
 - [What Is a TERM in Sealmetrics?](/reports/insights/what-is-a-term) — What the Terms tab measures
+- [Channel Grouping](/platform/settings/tracking/channel-grouping) — Customize how traffic is grouped into channels
+- [Funnel Report](/reports/funnel) — Microconversion and conversion steps by source, medium and campaign
+- [Filters](/reports/filters) — Global filters, segments and the filter builder
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
 
 
@@ -8288,7 +8674,7 @@ URL: https://docs.sealmetrics.com/reports/geography
 
 # Geography
 
-The Geography report shows where your visitors come from, with country-level metrics and visual map representation.
+The Geography report shows where your visitors come from, with country-level metrics and a world map.
 
 ## Accessing the Report
 
@@ -8297,80 +8683,122 @@ The Geography report shows where your visitors come from, with country-level met
 
 **URL pattern:** `/sites/{site_id}/geo`
 
+## How the country is determined
+
+The country of each session comes from the **timezone configured in the visitor's browser**, mapped to a country through an IANA timezone table — not from the IP address. Timezones used by a single country resolve with high confidence; shared timezones resolve to the most likely country, so precision is country-level only. Sessions whose timezone cannot be mapped are grouped under **Unknown**.
+
+See [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) for the full method.
+
 ## World Map
 
-Interactive choropleth map showing traffic distribution by country.
+The **Visitors by Country** map shades each country according to its **Entrances** for the selected period.
 
 ### Map Features
 
 | Feature | Description |
 |---------|-------------|
-| **Color intensity** | Darker colors indicate more traffic |
-| **Hover tooltip** | Shows country name and key metrics |
-| **Click** | Filters table to selected country |
+| **Color intensity** | Darker shading means more entrances; countries with no entrances are shown in grey |
+| **Hover tooltip** | Shows the country flag and name, plus Entrances, Pageviews, Bounce rate, Conversions and Revenue |
 | **Zoom** | Scroll to zoom, drag to pan |
+| **Legend** | Scale from 0 to the highest number of entrances among the countries shown |
+
+The map always shades by Entrances; there is no metric selector. It reflects the active Segment and the table's **Filters**, but not the table search box.
 
 ### Color Scale
 
-The map uses a gradient from light to dark based on the selected metric:
+The map uses a gradient from light to dark based on entrances:
 
 | Intensity | Meaning |
 |-----------|---------|
+| Grey | No entrances in the period |
 | Light | Low traffic volume |
-| Medium | Moderate traffic |
 | Dark | High traffic volume |
 
 ## Country Table
 
-Detailed breakdown of metrics by country.
+The **Top Countries** table breaks down metrics by country.
 
 | Column | Description |
 |--------|-------------|
 | **Country** | Country name with flag icon |
 | **Entrances** | Sessions from this country |
 | **Pageviews** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
+| **Bounce Rate** | Percentage of entrances with only one pageview. Shown in red above 70% and in green below 40% |
 | **Conversions** | Completed conversions |
-| **Revenue** | Total revenue |
+| **Revenue** | Total conversion value |
 
-The table is sortable, paginated, and shows a totals row at the bottom.
+The table is sorted by Entrances (descending) by default. Click any column header to sort by it. It is paginated (10, 50, 100 or 500 rows per page) and loads the top 100 countries by entrances for the period.
+
+### Totals row
+
+A **Total** row at the bottom shows the period totals for Entrances, Pageviews, Conversions and Revenue, plus the overall Bounce Rate (computed from total entrances and engaged entrances, not averaged across countries).
+
+When table filters are active, two rows are shown: **Total** (all countries) and **Filtered** (only the rows that match). The Filtered row also shows each additive metric as a share of the total — for example "38.2% of total" under Revenue.
+
+### Period comparison
+
+When you enable a comparison in the [date range picker](/reports/date-range#comparison-mode), Entrances, Pageviews, Conversions and Revenue show the change against the comparison period under each value. Bounce Rate has no comparison indicator.
 
 ## Filtering
 
+### Global Filter Integration
+
+The **Segment** panel in the filter bar applies to this report. All four Segment filters are applied when the data is loaded, so every country row, the map and the Total row reflect them:
+
+| Segment filter | Applies to Geography |
+|----------------|----------------------|
+| **Countries** | Yes — only the selected countries are shown |
+| **Device Type** | Yes — metrics per country count only that device type |
+| **Browser** | Yes |
+| **Operating System** | Yes |
+
+To apply one:
+
+1. Click **Segment** in the filter bar
+2. Choose values under **Geography** (Countries) or **Devices** (Device Type, Browser, Operating System)
+3. Click **Apply Segment**
+
+The Segment panel has no traffic-source (UTM) filter, and this report has no UTM or campaign filter of its own. To see campaigns by country, use the [Funnel report](/reports/funnel#country-filter), which combines a country selector with a per-UTM table.
+
+See [Filters](/reports/filters) for how segments are saved and persisted.
+
 ### Table Filter Builder
 
-Click the filter icon to open the filter builder:
+Click **Filters** above the table to open the filter builder. Click **Add filter group**, then pick a field, an operator and a value. Filters apply as you type and affect both the table and the map.
 
-**Available fields:**
-- Country Code
-- Country Name
-- Entrances
-- Pageviews
-- Bounce Rate
-- Conversions
-- Revenue
+**Available fields and operators:**
+
+| Field | Type | Operators |
+|-------|------|-----------|
+| Country Code | Text | equals, does not equal, contains, does not contain, starts with, ends with, is empty, is not empty |
+| Country Name | Text | Same as Country Code |
+| Entrances | Number | equals, does not equal, greater than, less than, greater or equal, less or equal |
+| Pageviews | Number | Same as Entrances |
+| Bounce Rate | Percentage (0–100) | Same as Entrances |
+| Conversions | Number | Same as Entrances |
+| Revenue | Currency | Same as Entrances |
+
+Text comparisons are case-insensitive. Use **Add condition** to add more conditions to a group, and switch between **AND** and **OR** to combine conditions within a group and across groups. **Clear all** removes every condition.
+
+The filter builder works on the countries already loaded (the top 100 by entrances).
 
 **Example filters:**
 
 | Goal | Filter |
 |------|--------|
 | Countries with significant traffic | Entrances greater than 100 |
-| High-converting countries | Conversions greater than 5 |
+| Countries that convert | Conversions greater than 0 |
 | Countries with revenue | Revenue greater than 0 |
 | Problem countries | Bounce Rate greater than 70 |
+| A group of markets | Country Code equals ES **OR** Country Code equals PT |
+
+### Table search
+
+The **Search countries...** box above the table matches the country code or name. It narrows the table only; the map and the export ignore it.
 
 ### Map Interaction
 
-Click a country on the map to filter the table to that country only.
-
-### Global Filter Integration
-
-Use the global Countries filter to focus on specific regions:
-
-1. Click **Add Filter** in the global filter bar
-2. Select **Countries**
-3. Choose one or more countries
-4. All reports update to show only selected countries
+Clicking a country on the map does not filter the table. To focus on one or more countries, use a **Country Code** condition in the table filter builder or the **Countries** filter in the Segment panel.
 
 ## Metrics by Country
 
@@ -8382,6 +8810,8 @@ Use the global Countries filter to focus on specific regions:
 | Bounce Rate | Content relevance by region |
 | Conversions | Market fit by country |
 | Revenue | Highest-value markets |
+
+Conversion rate and revenue per entrance are not columns in this report. Calculate them from the table (Conversions ÷ Entrances, Revenue ÷ Entrances) — see the [Metrics Reference](/reports/definitions#revenue-per-entrance).
 
 ### Identifying Patterns
 
@@ -8395,15 +8825,15 @@ Look for:
 
 ### Identifying Top Markets
 
-1. Sort table by **Entrances** (descending)
-2. Note top 5-10 countries
+1. Keep the default sort by **Entrances** (descending)
+2. Note the top 5-10 countries
 3. Compare with business priorities
 4. Check Conversions and Revenue for each
 
 ### Finding Expansion Opportunities
 
 1. Sort by **Conversions** (descending)
-2. Filter: Entrances greater than 50 (statistically significant)
+2. Filter: Entrances greater than 50, to leave out countries with too little traffic to read
 3. Look for countries with:
    - High conversions relative to entrances
    - Low current volume
@@ -8416,31 +8846,74 @@ Look for:
 3. High bounce + high traffic suggests:
    - Language barriers
    - Cultural mismatch
-   - Payment method issues
-   - Shipping concerns
+   - Landing pages that don't match what visitors from that country expected
 
 ### Evaluating International Campaigns
 
-1. Set date range to campaign period
-2. Apply UTM filters (global filter bar)
-3. Review geographic distribution
-4. Compare conversion rates across countries
+The Geography report cannot be filtered by UTM source, medium or campaign. To evaluate a campaign by country:
+
+1. Set the date range to the campaign period
+2. Open the [Funnel report](/reports/funnel) and pick the country in the **country selector**
+3. Read the **Funnel by UTM** table for that country's campaigns
+4. Back in Geography, enable a comparison against the previous period to see how the country's totals moved
 
 ### Revenue Analysis by Region
 
 1. Sort by **Revenue** (descending)
 2. Identify top revenue countries
-3. Calculate revenue per entrance
+3. Calculate revenue per entrance (Revenue ÷ Entrances)
 4. Prioritize high-value markets
+
+## E-commerce use cases
+
+These cases assume your store sends a `purchase` [conversion](/reports/definitions#conversions) **with the order amount**, so that Conversions and Revenue per country are populated. See [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking) or your platform's integration (for example [Shopify](/integrations/ecommerce/shopify) or [WooCommerce](/integrations/ecommerce/woocommerce)).
+
+### Which countries actually buy, not just visit?
+
+1. Sort the table by **Revenue** (descending)
+2. Add the filter **Entrances greater than** a threshold that fits your traffic, so countries with a handful of sessions don't distort the picture
+3. For each country, calculate Conversions ÷ Entrances and Revenue ÷ Entrances
+
+**How to read it:** a country that ranks high on Entrances but low on Revenue is sending browsers, not buyers — check whether you actually ship there, price in a currency it accepts, and offer its usual payment methods before spending more to acquire traffic there. A country with modest traffic but high revenue per entrance is a candidate for more acquisition budget.
+
+### Where do shoppers arrive but never buy?
+
+1. Open **Filters** and add a group with **Entrances greater than** your threshold **AND** **Conversions equals 0**
+2. Look at the **Bounce Rate** of the countries left
+
+**How to read it:** a high bounce rate means visitors leave on the first page — look at language, landing page relevance and the traffic you are buying for that country. A normal bounce rate with no purchases means people browse but stop later — shipping costs, delivery options, payment methods or pricing are the usual suspects. To see *at which step* they stop, open the [Funnel report](/reports/funnel#country-filter) and select the country: this needs `add_to_cart` and `begin_checkout` microconversions (see [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking)), because the Geography report shows purchases but not microconversions.
+
+### Is mobile underperforming in one market?
+
+1. Click **Segment**, set **Device Type** to Mobile and click **Apply Segment**
+2. Note Entrances, Conversions and Revenue for your key countries
+3. Change the Segment to Desktop and note the same figures
+4. Compare Conversions ÷ Entrances per country between the two
+
+**How to read it:** if mobile converts well below desktop in one country but not in others, the problem is probably local — a payment method or checkout step that doesn't work well on phones for that market — rather than your mobile site as a whole. Remember to clear the Segment afterwards, because it applies to every report.
+
+### Did a launch or promotion in a new market move sales?
+
+1. Set the date range to the period since the launch or promotion
+2. Click **Compare** and choose **Previous period** (or **Previous year** for seasonal businesses)
+3. Filter the table to the country with **Country Code equals** its code (for example `DE`)
+4. Read the change indicators on Entrances, Conversions and Revenue
+
+**How to read it:** entrances up but conversions flat means the promotion brought traffic that didn't buy. Conversions and revenue up in line with entrances means the market responded. Each purchase is counted under the country resolved for the visit in which it happened — there is no cross-session or multi-touch attribution.
+
+### How dependent is my revenue on one country?
+
+1. Open **Filters** and add **Country Code equals** your main market's code
+2. Read the **Filtered** row: under Revenue it shows that country's share, for example "72.0% of total"
+3. Repeat with an **OR** group for your top two or three markets
+
+**How to read it:** a very high share for a single country means a change in that market (shipping, taxes, a competitor, a payment provider) hits the whole business. Use it to decide whether diversifying into the countries identified in the cases above is worth the effort.
 
 ## Regional Considerations
 
 ### Europe (GDPR)
 
-Countries in the EU may show different patterns due to:
-- Cookie consent requirements
-- Privacy-conscious users
-- Different consent rates
+Sealmetrics does not depend on cookie consent, so traffic from EU countries is not reduced by visitors rejecting a consent banner. If you compare these figures with a consent-based analytics tool, expect EU countries to show more sessions and conversions in Sealmetrics — consent-based tools typically lose 15–60% of data depending on sector, brand and traffic mix. See [Why Sealmetrics can measure without consent](/security-privacy/why-no-consent).
 
 ### Time Zones
 
@@ -8449,25 +8922,25 @@ Consider when analyzing by country:
 - Weekend patterns vary by culture
 - Holidays differ by country
 
+Because the country itself is derived from the browser timezone, visitors whose device is set to another country's timezone are counted in that country.
+
 ### Currency
 
-Revenue shown in your configured base currency. Consider:
-- Exchange rate fluctuations
+Revenue is the sum of the amounts your conversions send, displayed with the currency set in [Site Settings](/platform/settings/account/general#currency). Sealmetrics does not apply exchange rates: if your store charges in several currencies, send amounts in a single currency so that revenue per country is comparable. Also consider:
 - Local purchasing power
 - Price sensitivity by market
 
 ## Export
 
-Click **Export** to download:
-- All countries with data
-- All metric columns
-- Respects active filters
-- Choose **CSV** or **PDF** format
+Click **Export** above the table and choose **Export as CSV** or **Export as PDF**. The file includes:
+- The countries that match the active Segment and table filters (the search box is not applied)
+- Columns: Country Code, Country Name, Entrances, Pageviews, Bounce Rate, Conversions, Revenue
 
 ## Related documentation
 
 - [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) — The privacy-first geolocation method
-- [Filters](/reports/filters) — Segment reports by country and region
+- [Filters](/reports/filters) — Segment reports by country and device
+- [Funnel Report](/reports/funnel) — The e-commerce funnel for a single country
 - [Devices Report](/reports/devices) — Cross-reference geography with device usage
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
 - [Metrics Reference](/reports/definitions) — Definitions for the country-level metrics
@@ -8559,7 +9032,7 @@ URL: https://docs.sealmetrics.com/reports/devices
 
 # Devices
 
-The Devices report analyzes traffic by device type, browser, and operating system to understand how users access your site.
+The Devices report breaks your traffic, conversions and revenue down by device type, browser and operating system, so you can see how visitors reach your site and whether any device or browser converts noticeably worse than the rest.
 
 ## Accessing the Report
 
@@ -8570,7 +9043,14 @@ The Devices report analyzes traffic by device type, browser, and operating syste
 
 ## Report Sections
 
-The report stacks three tables on a single page, one per device dimension: **Device Types**, **Browsers**, and **Operating Systems**. Each table has its own filter, export button, totals row, and (for Browsers and Operating Systems) a search box.
+Below the charts, the report stacks three tables on a single page, one per device dimension: **Device Types**, **Browsers**, and **Operating Systems**. Each table has its own **Filters** builder and **Export** button; the Browsers and Operating Systems tables also have a search box.
+
+All three tables share the same eight columns and behave the same way:
+
+- **Sorting:** click any column header. The default sort is **Entrances**, descending.
+- **Pagination:** 10 rows per page by default (10, 50, 100 or 500 selectable).
+- **Totals row:** a **Total** row sums Entrances, Pageviews, Events, Conv. and Revenue; Bounce Rate and Conv. Rate in the totals row are recalculated from the summed counts, not averaged. When a table filter or a Segment is active, the table shows two rows — **Total** (the unfiltered reference) and **Filtered** (the rows that match, with each additive column's share of the total).
+- **Row limit:** the Browsers and Operating Systems tables list up to the 15 values with the most entrances in the period.
 
 ### Device Types
 
@@ -8578,99 +9058,131 @@ Shows traffic grouped by device category.
 
 | Device Type | Description |
 |-------------|-------------|
-| **Desktop** | Computers and laptops |
-| **Mobile** | Smartphones |
-| **Tablet** | Tablets and iPads |
+| **Desktop** | Computers and laptops — and any user agent not recognised as mobile or tablet |
+| **Mobile** | Smartphones, plus most Android tablets (see [User Agent Detection](#user-agent-detection)) |
+| **Tablet** | User agents that identify as an iPad or a tablet |
 
 #### Columns
 
 | Column | Description |
 |--------|-------------|
 | **Device** | Device type name |
-| **Entrances** | Sessions from this device type |
+| **Entrances** | Sessions that started on this device type |
 | **Pageviews** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
-| **Events** | Microconversions |
-| **Conv.** | Completed conversions |
-| **Revenue** | Total revenue |
-| **Conv. Rate** | Conversion rate |
+| **Bounce Rate** | Percentage of entrances with a single pageview. Shown in red above 70% and in green below 40% |
+| **Events** | Microconversions — all types combined |
+| **Conv.** | Conversions — all conversion types combined |
+| **Revenue** | Sum of conversion amounts, in the site's currency |
+| **Conv. Rate** | Conversions ÷ Entrances × 100 |
+
+See the [Metrics Reference](/reports/definitions) for the exact definition of each metric.
 
 ### Browsers
 
-Shows traffic grouped by web browser.
+Shows traffic grouped by browser family. Versions are not recorded — "Chrome" covers every Chrome version.
 
-| Common Browsers | Description |
-|-----------------|-------------|
-| Chrome | Google Chrome |
-| Safari | Apple Safari |
-| Firefox | Mozilla Firefox |
-| Edge | Microsoft Edge |
-| Samsung Internet | Samsung mobile browser |
-| Opera | Opera browser |
+| Browser value | What it covers |
+|---------------|----------------|
+| Chrome | Chrome and most Chromium-based browsers (see below) |
+| Safari | Safari, and every browser on iPhone and iPad |
+| Firefox | Firefox on desktop and Android |
+| Edge | Microsoft Edge (Chromium) on desktop and Android |
+| Opera | Older Opera builds only — current Opera is counted as Chrome |
+| Internet Explorer | Internet Explorer |
+| Unknown | User agents that match none of the above |
 
 #### Columns
 
-| Column | Description |
-|--------|-------------|
-| **Browser** | Browser name |
-| **Entrances** | Sessions from this browser |
-| **Pageviews** | Total page views |
-| **Bounce Rate** | Bounce rate |
-| **Events** | Microconversions |
-| **Conv.** | Conversions |
-| **Revenue** | Revenue |
-| **Conv. Rate** | Conversion rate |
+Same columns as the Device Types table, with **Browser** as the first column.
 
 ### Operating Systems
 
-Shows traffic grouped by operating system.
+Shows traffic grouped by operating system family. Versions are not recorded.
 
-| Common OS | Description |
-|-----------|-------------|
+| OS value | Description |
+|----------|-------------|
 | Windows | Microsoft Windows |
-| macOS | Apple macOS |
-| iOS | Apple iPhone/iPad |
+| macOS | Apple macOS — also iPads browsing in Safari's default desktop mode |
+| iOS | iPhone, and iPads that identify as an iPad |
 | Android | Google Android |
 | Linux | Linux distributions |
-| Chrome OS | Google Chromebook |
+| Unknown | User agents that match none of the above, including Chromebooks |
 
 #### Columns
 
-Same metrics as the Browsers table, with the **Operating System** name instead of browser.
+Same columns as the Device Types table, with **Operating System** as the first column.
+
+### Comparing with a previous period
+
+When **Compare** is enabled in the [date range](/reports/date-range) control, **Entrances**, **Pageviews**, **Events**, **Conv.** and **Revenue** show the change against the comparison period under each value. **Bounce Rate** and **Conv. Rate** show the current value only — compare them by switching periods.
+
+This report supports **Previous period** and **Previous year**. If you choose **Custom comparison**, the deltas are currently calculated against the previous period, not the custom range you picked.
 
 ## Charts
 
-At the top of the report there are three charts:
+At the top of the report there are three charts. They reflect the active Segment and each table's filter, but not the table search boxes.
 
 ### Device Types Pie Chart
 
-- Shows distribution of entrances by device type
-- Desktop vs Mobile vs Tablet
+- Share of entrances by device type (Desktop, Mobile, Tablet)
 - Quick visual of audience composition
 
 ### Top Browsers Bar Chart
 
-- Horizontal bars for the top browsers by entrances
+- Horizontal bars for the top 8 browsers by entrances
 
 ### Operating Systems Bar Chart
 
-- Bars for operating systems by entrances
+- Bars for the top 8 operating systems by entrances
 
 ## Filtering
 
+Two kinds of filter act on this report: the global **Segment** (applies to every report) and each table's own **Filters** builder (applies to that table only). Date range and comparison come from the header controls. There are no UTM, channel, content group or page filters on this report. To go the other way — campaigns or landing pages for one device — set a device Segment and open the [Sources](/reports/sources) or [Pages](/reports/pages) report.
+
+### Global Device Filters
+
+All four Segment filters apply to this report, and they are applied on the server, so they filter every table and chart at once:
+
+| Segment filter | Options | Effect on this report |
+|----------------|---------|-----------------------|
+| **Countries** | Country list | All three tables show only traffic from the selected countries |
+| **Device Type** | Desktop, Mobile, Tablet | All three tables show only that device's traffic — e.g. the Browsers table becomes "browsers used on mobile" |
+| **Browser** | Chrome, Safari, Firefox, Edge, Opera | All three tables show only that browser's traffic |
+| **Operating System** | Windows, macOS, iOS, Android, Linux | All three tables show only that OS's traffic |
+
+To apply a Segment:
+
+1. Click **Segment** in the filter bar
+2. Pick values under **Geography** and/or **Devices**
+3. Click **Apply Segment**
+
+Values are matched exactly. Selecting several values in one filter matches any of them; different filters combine with AND. **Unknown** and **Internet Explorer** are not offered in the Segment panel — use the table filters below to isolate them in this report. See [Filters](/reports/filters) for segments, chips and persistence.
+
 ### Table Filter Builder
 
-Each table has its own filter builder:
+Each table has its own **Filters** button. Conditions take effect as you edit them — there is no Apply button — and **Clear** removes them all.
 
-**Available fields:**
-- Device / Browser / Operating System (name)
-- Entrances
-- Pageviews
-- Bounce Rate
-- Events
-- Conversions
-- Revenue
-- Conv. Rate
+**Available fields (per table):**
+
+| Field | Type |
+|-------|------|
+| Device / Browser / Operating System (the table's own dimension) | Text |
+| Entrances | Number |
+| Pageviews | Number |
+| Bounce Rate | Percentage |
+| Events | Number |
+| Conversions | Number |
+| Revenue | Number |
+| Conv. Rate | Percentage |
+
+**Operators:**
+
+| Field type | Operators |
+|------------|-----------|
+| Text | equals, does not equal, contains, does not contain, starts with, ends with, is empty, is not empty (case-insensitive) |
+| Number / Percentage | equals, does not equal, greater than, less than, greater or equal, less or equal |
+
+Percentages are entered as plain numbers (60 means 60%). Conditions are organised in **filter groups** (**Add filter group**, then **Add condition**); conditions inside a group and the groups themselves can each be combined with **AND** or **OR**.
 
 **Example filters:**
 
@@ -8680,15 +9192,11 @@ Each table has its own filter builder:
 | Converting devices | Conversions greater than 0 |
 | Problem areas | Bounce Rate greater than 60 |
 | Revenue-generating | Revenue greater than 100 |
+| Unclassified traffic | Browser equals Unknown |
 
-### Global Device Filters
+### Table Search
 
-Use global filters to focus analysis:
-
-1. Click **Add Filter** in the global filter bar
-2. Select **Device Type**, **Browser**, or **Operating System**
-3. Choose specific values
-4. All reports filter to selected devices
+The Browsers and Operating Systems tables have a search box that matches the browser or OS name (case-insensitive substring). Search only narrows the rows on screen: it does not change the charts or the exported file.
 
 ## Device Performance Analysis
 
@@ -8710,15 +9218,13 @@ Issues to investigate when a browser shows poor metrics:
 | High bounce rate | CSS/JS compatibility issues |
 | Zero conversions | Checkout not working |
 | Low pageviews | Navigation problems |
-| Missing data | Tracking blocked |
 
 ### OS-Specific Patterns
 
 | Pattern | Action |
 |---------|--------|
-| iOS lower conversion | Check Apple Pay, Safari issues |
+| iOS lower conversion | Test checkout and payment options in Safari on iPhone |
 | Android high bounce | Test on popular Android devices |
-| Windows 11 issues | Check new browser features |
 
 ## Use Cases
 
@@ -8728,7 +9234,7 @@ Issues to investigate when a browser shows poor metrics:
 2. Compare Mobile vs Desktop:
    - Bounce Rate difference
    - Conv. Rate difference
-   - Revenue per session
+   - Revenue per entrance (Revenue ÷ Entrances)
 3. If Mobile underperforms significantly:
    - Audit mobile experience
    - Check Core Web Vitals for mobile
@@ -8737,81 +9243,120 @@ Issues to investigate when a browser shows poor metrics:
 ### Browser Compatibility Testing
 
 1. Go to the **Browsers** table
-2. Sort by **Bounce Rate** (descending)
-3. Filter: Entrances > 100 (significant sample)
-4. High bounce on specific browser indicates:
+2. Filter: Entrances greater than 100 (significant sample)
+3. Sort by **Bounce Rate** (descending)
+4. High bounce on a specific browser may indicate:
    - JavaScript errors
    - CSS rendering issues
    - Feature incompatibility
 
 ### OS Market Share Tracking
 
-1. Go to the **Operating Systems** table
-2. Note distribution percentages
+1. Go to the **Operating Systems** table and the **Operating Systems** chart
+2. Note each OS's share of total Entrances (the **Filtered** row shows the share when you filter to one OS)
 3. Compare with development testing:
-   - Are you testing on top 3 OS?
+   - Are you testing on the top 3 OS?
    - Any untested OS with significant traffic?
 
 ### Revenue by Device
 
 1. Go to the **Device Types** table
 2. Sort by **Revenue** (descending)
-3. Calculate revenue per entrance for each
+3. Calculate [revenue per entrance](/reports/definitions#revenue-per-entrance) for each
 4. Prioritize optimization for highest-value devices
 
-### Safari/iOS Tracking Verification
+### Safari/iOS Performance Check
 
-Due to ITP (Intelligent Tracking Prevention):
+Sealmetrics does not use cookies, so Safari's Intelligent Tracking Prevention cookie limits do not reduce what it counts — a Safari gap is usually a real experience difference, not a measurement artefact.
 
 1. Go to the **Browsers** table
-2. Compare Safari metrics with Chrome
-3. If Safari shows unusual patterns:
-   - Very low conversion rate
-   - Shorter sessions
-   - Consider Safari-specific analysis
+2. Compare Safari's Bounce Rate and Conv. Rate with Chrome's
+3. Remember that Safari includes every browser on iPhone and iPad, so this is effectively "iOS vs the rest"
+4. If Safari is clearly behind, test your key pages and checkout on an iPhone
+
+## E-commerce use cases
+
+These cases assume your store sends a `purchase` conversion with the order amount; the funnel steps also need the `add_to_cart` and `begin_checkout` microconversions. See [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking) for the event names and platform guides.
+
+Keep in mind that **Conv.** and **Revenue** in this report include every conversion type you track, and **Events** includes every microconversion type. If you track other conversions besides `purchase` (a newsletter signup, for example), use the [Conversions report](/reports/conversions) with a device Segment for purchase-only figures.
+
+### Is my mobile checkout losing sales?
+
+1. Open the **Device Types** table.
+2. Compare Mobile and Desktop on **Conv. Rate**, and compare each device's share of **Entrances** (pie chart) with its share of **Revenue**.
+3. If Mobile brings a large share of entrances but a clearly lower Conv. Rate and a smaller share of revenue, find the step where mobile shoppers drop out: set **Segment → Device Type → Mobile**, open the [Funnel report](/reports/funnel) and note the drop-off between Add to Cart, Begin Checkout and Purchase. Repeat with **Desktop** and compare.
+4. A drop concentrated at one step on mobile only (for example Begin Checkout → Purchase) points to that step's mobile experience — payment form, address entry, payment options — rather than to your traffic.
+
+### Which devices bring the money, not just the visits?
+
+1. In the **Device Types** table, sort by **Revenue**.
+2. Work out [revenue per entrance](/reports/definitions#revenue-per-entrance) (Revenue ÷ Entrances) and [average order value](/reports/definitions#average-order-value-aov) (Revenue ÷ Conv.) for each device — export the table as CSV if you prefer to do this in a spreadsheet.
+3. A device with many entrances but low revenue per entrance is where optimisation pays most; a device with a high average order value but few conversions may deserve device-specific offers or ad bids.
+
+### Is one browser breaking my checkout?
+
+1. Open the **Browsers** table and add a filter: **Entrances greater than** a threshold that is meaningful for your traffic.
+2. Look for rows with healthy **Events** but **Conv.** at or near 0, or a Conv. Rate far below the other browsers with similar traffic. Shoppers are adding to cart and starting checkout on that browser, but purchases are not arriving.
+3. If the browser is offered in the Segment panel (Chrome, Safari, Firefox, Edge, Opera), set **Segment → Browser** to it and open the [Funnel report](/reports/funnel) to see which step collapses.
+4. Reproduce the purchase on that browser. If the order goes through but no purchase shows up in Sealmetrics, the problem is in the conversion tracking rather than the checkout — see [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking).
+
+### Did my mobile redesign actually lift sales?
+
+1. Select a date range that starts after the release and enable **Compare → Previous period** (or **Previous year** for seasonal stores).
+2. In the **Device Types** table, read the change under **Conv.** and **Revenue** for the Mobile row, and check that **Entrances** did not simply grow.
+3. Conv. Rate has no delta indicator: note it for both periods by switching the date range. For a week-by-week view by device, set a Device Type Segment and use the [Evolution report](/reports/evolution).
+4. Mobile conversions and revenue up while Desktop stays flat supports the redesign; both moving together points to seasonality or a campaign instead.
+
+### Do iPhone and Android shoppers behave differently?
+
+1. Open the **Operating Systems** table and compare **iOS** and **Android** on Conv. Rate, Revenue and revenue per entrance.
+2. A large gap on similar traffic is worth a device test of your payment options and checkout on the weaker platform.
+3. To see which traffic sources feed each platform, set **Segment → Operating System** to iOS or Android and open the [Sources report](/reports/sources).
 
 ## Technical Considerations
 
 ### User Agent Detection
 
-Device, browser, and OS are detected from the User-Agent header. Consider:
+Device type, browser and OS are derived from the User-Agent header of each pageview by simple keyword rules. The raw User-Agent string is kept only in the event-level log, which is purged after 1 day; only the derived categories (device type, browser family, OS family) are kept, inside daily aggregates, for up to 24 months. See [What We Track](/security-privacy/what-we-track).
 
-- User-Agent can be spoofed
-- Some privacy tools mask User-Agent
-- New browsers may be miscategorized temporarily
+Known consequences of the detection rules:
+
+- **Tablets:** only user agents containing "iPad" or "Tablet" count as Tablet. iPads browsing in Safari's default desktop mode send a Mac user agent and are counted as **Desktop / macOS**; most Android tablets are counted as **Mobile**.
+- **Chromium-based browsers** that include "Chrome" in their user agent — current Opera, Samsung Internet, Brave and others — are counted as **Chrome**.
+- **iPhone and iPad browsers** (including Chrome, Firefox and Edge for iOS) are counted as **Safari**.
+- **Chromebooks** report as `CrOS` and currently fall under **Unknown** OS.
+- Anything unrecognised defaults to **Desktop** / **Unknown** browser / **Unknown** OS.
+
+As with any user-agent-based analytics, the header can be spoofed or reduced by privacy tools. Known bots are filtered out before they reach reports — see [Bot Detection](/security-privacy/bot-detection).
+
+Server-side conversions (for example orders sent by the Shopify integration) carry the platform's server user agent, not the shopper's. When the order can be matched to the visitor's session, Sealmetrics assigns it the device, browser and OS recorded for that session, so the purchase lands on the shopper's device row.
 
 ### Browser Privacy Features
 
-Modern browsers increasingly block tracking:
-
-| Browser | Privacy Feature |
-|---------|-----------------|
-| Safari | Intelligent Tracking Prevention (ITP) |
-| Firefox | Enhanced Tracking Protection (ETP) |
-| Brave | Aggressive tracker blocking |
-| Chrome | Privacy Sandbox (upcoming) |
-
-Sealmetrics is designed to work with these features, but some metrics may be affected.
+Sealmetrics sets no cookies and can be served from your own subdomain, so browser protections aimed at cross-site tracking — Safari's Intelligent Tracking Prevention, Firefox's Enhanced Tracking Protection — do not remove it by design. A visitor running an ad blocker with a custom rule against your tracking subdomain can still block it. See [How Sealmetrics Reduces AdBlocker Data Loss](/security-privacy/adblocker-bypass).
 
 ### Mobile App Traffic
 
-If you have a mobile app:
-- App traffic may appear as specific browser/OS
-- Consider filtering or segmenting app vs web
-- WebView traffic categorized by underlying browser
+Sealmetrics measures pages that load the tracker, so native app screens are not counted. Pages opened inside an app (a WebView or an in-app browser, such as the one social apps use for links) are counted, classified from that WebView's user agent:
+
+- On Android they usually appear as **Chrome** / **Android** / **Mobile**
+- On iOS they usually appear under **Unknown** browser, because iOS WebView user agents do not include "Safari"
+
+There is no separate app-vs-web dimension in this report.
 
 ## Export
 
-Each table has its own **Export** button to download:
-- That table's data only
-- All visible columns
-- Respects active filters
-- Choose **CSV** or **PDF** format
+Each table has its own **Export** button:
+
+- **Export as CSV** or **Export as PDF**
+- Exports that table only, with all eight columns (Conv. is labelled **Conversions** in the file)
+- Includes every row that matches the active Segment and table filters — not only the current page — but ignores the table search box
 
 ## Related documentation
 
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
 - [Geography Report](/reports/geography) — Break traffic down by country
+- [Funnel Report](/reports/funnel) — Combine with a device Segment to find where shoppers drop out
 - [Filters](/reports/filters) — Segment reports by device, browser, and OS
 - [How Sealmetrics Reduces AdBlocker Data Loss](/security-privacy/adblocker-bypass) — why device data loses far less to ad blockers
 - [Metrics Reference](/reports/definitions) — Definitions for entrances, bounce rate, and conversions
@@ -8893,7 +9438,9 @@ The Conversions report tells you which goals visitors complete and what they're 
 
 ## View Toggle
 
-A toggle in the top-right switches between two views: **Conversions** and **Microconversions**.
+A toggle in the top-right switches between two views: **Conversions** and **Microconversions**. Switching view clears any table filters you had set (see [Filtering](#filtering)).
+
+Both views group events by their **type** — the name you pass as the first argument of `sealmetrics.conv()` or `sealmetrics.micro()`. Up to 50 types are loaded per view for the selected period, ordered by count.
 
 ### Conversions View
 
@@ -8903,12 +9450,14 @@ Shows completed conversion events (primary goals).
 |--------|-------------|
 | **Conversion Type** | Name/identifier of the conversion |
 | **Conversions** | Total number of conversions (shown with a metric bar) |
-| **Revenue** | Total revenue attributed (shown with a metric bar) |
-| **Avg. Value** | Average revenue per conversion |
+| **Revenue** | Sum of the amounts sent with those conversions (shown with a metric bar) |
+| **Avg. Value** | Average amount per conversion |
+
+Conversions sent without an amount count as 0, so they lower **Avg. Value** for their type.
 
 #### Conversion Types
 
-Common conversion types include:
+Conversion types are whatever names you send — Sealmetrics does not create them automatically. Common examples:
 
 | Type | Typical Use |
 |------|-------------|
@@ -8928,20 +9477,31 @@ Shows microconversion events (secondary goals/engagement metrics).
 | **Event Type** | Name/identifier of the microconversion |
 | **Count** | Total number of events (shown with a metric bar) |
 
+Microconversions carry no revenue.
+
 #### Common Microconversions
+
+As with conversions, these are names you choose when you fire the event:
 
 | Type | Typical Use |
 |------|-------------|
 | add_to_cart | Item added to shopping cart |
+| begin_checkout | Checkout started |
 | newsletter_signup | Email list subscription |
 | video_play | Video engagement |
 | scroll_depth | Page scroll milestone |
 | click_cta | CTA button click |
 | form_start | Form interaction started |
 
+### Table Behavior
+
+- Every column is sortable; the default sort is **Conversions** / **Count**, descending
+- A **Total** row at the bottom sums Conversions and Revenue; its Avg. Value is Total Revenue ÷ Total Conversions. When a table filter is active, an extra **Filtered** row gives the same subtotals for the matching rows only, with how many rows match
+- Long lists are paginated
+
 ## Summary Cards
 
-The cards shown depend on the active view.
+The cards shown depend on the active view. They are calculated from the rows in the table, so they follow any active [table filter](#table-filter-builder) as well as the global filters.
 
 **Conversions view:**
 
@@ -8949,7 +9509,7 @@ The cards shown depend on the active view.
 |------|-------------|
 | **Total Conversions** | Sum of all conversion events |
 | **Total Revenue** | Sum of all revenue |
-| **Avg. Order Value** | Average revenue per conversion |
+| **Avg. Order Value** | Total Revenue ÷ Total Conversions |
 | **Conversion Types** | Number of distinct conversion types |
 
 **Microconversions view:**
@@ -8959,6 +9519,11 @@ The cards shown depend on the active view.
 | **Total Events** | Sum of all microconversion events |
 | **Event Types** | Number of distinct event types |
 
+The cards on this report do not show change percentages, even with [comparison mode](/reports/date-range) enabled. To compare periods, change the date range and read the cards again, or use the [Evolution report](/reports/evolution), whose cards are compared with the previous period.
+
+**Tip:**
+With several conversion types (e.g. `purchase` and `newsletter_signup`), **Avg. Order Value** averages across all of them. Add the table filter *Conversion Type equals purchase* to get store-only revenue and AOV.
+
 ## Chart
 
 A single bar chart is shown below the summary cards:
@@ -8966,38 +9531,75 @@ A single bar chart is shown below the summary cards:
 - **Conversions view:** "Conversions by Type" — one bar per conversion type, by count
 - **Microconversions view:** "Microconversions by Type" — one bar per event type, by count
 
+The chart also follows the active table filter.
+
 ## Filtering
+
+Two kinds of filter narrow this report: the global **Segment** filters, which change the data loaded from the server, and the table **Filters** builder, which narrows the rows already loaded. See [Filters](/reports/filters) for how both work across the dashboard.
 
 ### Table Filter Builder
 
-Each view has its own filter builder:
+Click **Filters** above the table to open the filter builder. Each view has its own fields:
 
 **Conversions view fields:**
-- Conversion Type
-- Conversions (count)
-- Revenue
-- Avg. Value
+
+| Field | Type |
+|-------|------|
+| Conversion Type | Text |
+| Conversions (count) | Number |
+| Revenue | Currency |
+| Avg. Value | Currency |
 
 **Microconversions view fields:**
-- Event Type
-- Count
+
+| Field | Type |
+|-------|------|
+| Event Type | Text |
+| Count | Number |
+
+**Operators:**
+
+| Field type | Operators |
+|------------|-----------|
+| Text | equals, does not equal, contains, does not contain, starts with, ends with, is empty, is not empty |
+| Number / Currency | equals, does not equal, greater than, less than, greater or equal, less or equal |
+
+How the builder behaves:
+
+- Conditions apply as you edit them — there is no separate Apply step
+- Use **Add condition** to add conditions to a group and **Add filter group** for more groups; choose **AND** or **OR** between conditions and between groups
+- Text comparisons ignore case (`Purchase` matches `purchase`)
+- **Clear** removes all conditions
+- Filters reset when you switch between the Conversions and Microconversions views, and when you leave the report
 
 **Example filters:**
 
 | Goal | Filter |
 |------|--------|
-| High-value conversions | Revenue greater than 1000 |
+| Store purchases only | Conversion Type equals "purchase" |
+| High-value conversion types | Revenue greater than 1000 |
 | Frequent events | Count greater than 100 |
 | Low-value types | Avg. Value less than 10 |
-| Specific conversion | Conversion Type equals "purchase" |
+| All checkout-related events | Event Type contains "checkout" |
 
 ### Global Filter Integration
 
-Conversions report respects global filters:
+All four global filters from the **Segment** panel apply to both views:
+
+| Global filter | Applies to this report |
+|---------------|------------------------|
+| Country | Yes |
+| Device Type | Yes |
+| Browser | Yes |
+| Operating System | Yes |
+
+For example:
 
 1. Global filter: Country = Spain
-2. See only conversions from Spanish visitors
-3. Compare conversion rates by country
+2. The report shows only conversions and revenue from Spanish sessions
+3. Change the country (or device) and re-read the cards to compare markets
+
+This report has no traffic-source controls: you cannot filter it by UTM source, medium, campaign or channel, and it shows no conversion rate (it has no entrances to divide by). For conversions, conversion rate and revenue by source or campaign, use the [Sources report](/reports/sources) or the **Funnel by UTM** table in the [Funnel report](/reports/funnel).
 
 ## Tracking Conversions
 
@@ -9019,6 +9621,8 @@ sealmetrics.conv('purchase', 149.99, {
 });
 ```
 
+The amount must be a JavaScript number; the tracker ignores it if you pass a string such as `'99.99'`.
+
 ### Microconversions
 
 Track engagement events:
@@ -9034,28 +9638,28 @@ sealmetrics.micro('video_play', {
 });
 ```
 
-See [Tracker Documentation](/implementation/tracker/conversions) for complete implementation guide.
+See [Tracker Documentation](/implementation/tracker/conversions) for complete implementation guide, and [Microconversions](/implementation/tracker/microconversions) for event examples.
 
 ## Per-Product Analysis
 
-For detailed product-level analytics from your e-commerce conversions, use the **Properties** report:
+The Conversions report groups by conversion type only — it has no per-product breakdown. For product-level data from your e-commerce conversions, use the **Properties** report:
 
 1. Go to **Properties** in the sidebar
 2. Set the Data Source toggle to **Conv. Items**
 3. Browse product fields (`product_name`, `category`, `brand`, `sku`, etc.)
 4. Select a field to see its values broken down by traffic source, medium, and campaign
 
-This report shows individual product data from the `items` array sent with your purchase conversions. See [Conversions Tracking](/implementation/tracker/conversions) for implementation details.
+This report shows individual product data from the `items` array sent with your purchase conversions. It counts units (an item with `quantity: 2` counts as 2); it does not show revenue per product. See [Conversions Tracking](/implementation/tracker/conversions) for implementation details.
 
 ## Revenue Analysis
 
 ### Revenue Metrics
 
-| Metric | Calculation | Use |
-|--------|-------------|-----|
-| Total Revenue | Sum of all conversion amounts | Overall performance |
-| Avg. Order Value | Total Revenue / Conversions | Transaction size |
-| Revenue per Entrance | Total Revenue / Entrances | Traffic value |
+| Metric | Calculation | Where |
+|--------|-------------|-------|
+| Total Revenue | Sum of all conversion amounts | Summary card on this report |
+| Avg. Order Value | Total Revenue / Conversions | Summary card on this report |
+| Revenue per Entrance | Total Revenue / Entrances | Not shown in the dashboard — calculate it from the Revenue and Entrances columns of the Sources or Geography report (see [definition](/reports/definitions#revenue-per-entrance)) |
 
 ### Revenue by Source
 
@@ -9073,16 +9677,16 @@ Combine with Geography report:
 1. Go to Geography report
 2. Sort by Revenue column
 3. Identify top markets
-4. Calculate revenue per visitor by country
+4. Divide Revenue by Entrances to get revenue per entrance by country
 
 ## Use Cases
 
 ### Monitoring Conversion Performance
 
-1. Check **Total Conversions** card daily
-2. Compare with previous period
-3. Investigate significant changes (>10%)
-4. Check by conversion type for specifics
+1. Check the **Total Conversions** and **Total Revenue** cards
+2. Compare with the previous period by switching the date range, or open the [Evolution report](/reports/evolution) for period-over-period deltas
+3. Investigate significant changes
+4. Check the table by conversion type to see which type moved
 
 ### Identifying Top Conversion Types
 
@@ -9094,15 +9698,15 @@ Combine with Geography report:
 
 1. Switch to the **Microconversions** view
 2. Sort by **Count** (descending)
-3. Track progression: view → add_to_cart → checkout → purchase
-4. Calculate drop-off rates between steps
+3. Read the counts of each step you track (e.g. `view_item` → `add_to_cart` → `begin_checkout`), then the `purchase` count in the **Conversions** view
+4. For step-to-step conversion and drop-off rates calculated for you, use the [Funnel report](/reports/funnel)
 
 ### Finding Conversion Opportunities
 
-1. Filter by high-traffic sources (Sources report)
-2. Return to Conversions report
-3. Compare conversion rates
-4. Low rate + high traffic = opportunity
+1. Open the [Sources report](/reports/sources) and sort by **Entrances**
+2. Compare the **Conv. Rate** and **Revenue** columns across sources
+3. Low rate + high traffic = opportunity
+4. Return to this report to check which conversion types make up the total
 
 ### Comparing Conversion Types
 
@@ -9113,22 +9717,79 @@ Combine with Geography report:
    - Which have highest value?
    - Which need improvement?
 
+## E-commerce use cases
+
+These cases assume your store sends a `purchase` conversion with the order amount. Some also need microconversions (`view_item`, `add_to_cart`, `begin_checkout`) or an `items` array — see the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) for the event names and platform snippets.
+
+### How much did the store actually sell, and is the average order growing?
+
+1. Switch to the **Conversions** view
+2. Add the table filter **Conversion Type equals `purchase`** so other goals (signups, leads) don't mix in
+3. Read **Total Conversions** (orders), **Total Revenue** and **Avg. Order Value**
+4. Change the date range to the previous period (or the same period last year) and read the cards again
+
+**How to read it:** revenue rising with a flat order count means bigger baskets — bundles, upsells or price changes are working. More orders with a falling Avg. Order Value usually means discounts or cheaper products are driving volume. If revenue here doesn't match your shop backend, check that the amount is sent as a number and that orders are not fired twice (see [Deduplication](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide#deduplication)).
+
+### Which campaigns bring buyers, not just visits?
+
+The Conversions report has no source breakdown, so answer this in two other reports:
+
+1. Open the [Sources report](/reports/sources) → **Campaigns** tab and sort by **Revenue**
+2. Compare **Entrances** with **Conv. Rate** and **Revenue** for each campaign
+3. The Sources report counts all conversion types together. For `purchase` only, open the [Funnel report](/reports/funnel) and read the `purchase` count and revenue columns of the **Funnel by UTM** table
+
+**How to read it:** a campaign with many entrances but low conversion rate and revenue buys attention, not customers — review its targeting or landing page before adding budget. A small campaign with strong revenue is a candidate to scale. Conversions are credited to the source of the session in which the purchase happens (last click per session), so a campaign that mostly starts research and closes in a later visit will look weaker here than in a multi-touch tool.
+
+### Where do shoppers drop out between cart and payment?
+
+Requires the `add_to_cart` and `begin_checkout` microconversions and the `purchase` conversion.
+
+1. Switch to the **Microconversions** view and note the **Count** for `add_to_cart` and `begin_checkout`
+2. Switch to the **Conversions** view and note the `purchase` count
+3. Open the [Funnel report](/reports/funnel) to see the same steps with conversion and drop-off rates calculated for you
+
+**How to read it:** compare the size of each drop. A big fall from `add_to_cart` to `begin_checkout` points at the cart page (shipping costs revealed late, forced account creation). A big fall from `begin_checkout` to `purchase` points at the checkout itself (payment options, form errors, delivery options). Re-check after each change to the cart or checkout. These are event counts, not people: one session can add several products to the cart.
+
+### Do mobile shoppers buy as much as desktop shoppers?
+
+1. In the **Segment** panel, set **Device Type** to Mobile and apply
+2. In the **Conversions** view, filter **Conversion Type equals `purchase`** and note orders, revenue and **Avg. Order Value**
+3. Change the segment to Desktop and read the same cards again
+4. Repeat with **Country** to compare markets
+
+**How to read it:** a much lower Avg. Order Value or order count on mobile, when the [Devices report](/reports/devices) shows mobile bringing a large share of entrances, suggests the mobile product or checkout pages hold buyers back. The same comparison by country shows which markets deserve their own shipping, currency or payment options.
+
+### Which products sell, and from which campaigns?
+
+Requires an `items` array in your `purchase` conversion (see [items format](/implementation/tracker/conversions)).
+
+1. Open **Properties** in the sidebar and set the Data Source toggle to **Conv. Items**
+2. Select `product_name` (or `category`, `brand`)
+3. Read units sold per product, broken down by source, medium and campaign
+
+**How to read it:** products that sell only through one campaign depend on it — keep that campaign running or promote the product elsewhere. Products that sell across many sources are good candidates for ads and featured placement. This view counts units, not revenue per product.
+
 ## Attribution
 
 ### Last-Touch Attribution
 
-Sealmetrics uses last-touch attribution by default:
+Sealmetrics uses last-click attribution per session — the only model available:
 
-- Conversion attributed to the session where it occurred
-- Source/medium of that session gets credit
-- Simple and transparent model
+- Each conversion is credited to the traffic source of the session in which it fires
+- That session's source, medium and campaign get the credit
+- There is no lookback window across sessions and no alternative model to switch to
+
+See [How Sealmetrics Attributes Conversions](/reports/insights/attribution-model) for how a session's source is chosen.
 
 ### Multi-Session Users
 
-For users who convert after multiple sessions:
+Sealmetrics does not identify visitors across sessions (no cookies, no user ID), so it cannot link a visit on Monday to a purchase on Friday:
 
-- Each session tracked independently
-- Conversion credited to the converting session
+- Each session is tracked independently
+- A conversion is credited only to the session where it happens
+- Earlier sessions that led to the purchase receive no credit, and there is no per-user journey to inspect
+
+See [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) for the reasoning.
 
 ## Best Practices
 
@@ -9145,7 +9806,7 @@ Use consistent, descriptive conversion type names:
 
 ### Revenue Values
 
-- Always pass numeric values (not strings)
+- Always pass numeric values (not strings) — string amounts are dropped
 - Use consistent currency
 - Include only the transaction amount
 - Don't include tax/shipping unless relevant
@@ -9161,11 +9822,11 @@ Before going live:
 
 ## Export
 
-Click **Export** to download:
+Click **Export** above the table to download:
 - The current view's data (Conversions or Microconversions)
-- All visible columns
-- Respects active filters
-- Choose **CSV** or **PDF** format
+- The view's columns (Conversion Type, Conversions, Revenue, Avg. Value — or Event Type, Count)
+- Only rows matching the active table filter, within the active global filters and date range
+- Choose **Export as CSV** or **Export as PDF**
 
 
 
@@ -9273,12 +9934,12 @@ The Funnel report shows where you lose potential customers along the e-commerce 
 ![Funnel report showing the five-step conversion funnel from Entrances to Purchase, with drop-off percentages at each step](/img/screenshots/funnel.png)
 
 **Note:**
-This is a **built-in, fixed** e-commerce funnel; custom funnels with your own step sequence are not currently supported. If you need to analyze a non-e-commerce sequence (e.g., a lead-form flow), track each step as a microconversion and inspect them in the [Conversions report](/reports/conversions) instead.
+This is a **built-in, fixed** e-commerce funnel; the dashboard does not let you define your own step sequence. If you need a different sequence (e.g., a lead-form flow), you can track each step as a microconversion and inspect them in the [Conversions report](/reports/conversions), or request an arbitrary ordered list of steps (page paths, microconversions, conversions) from the [Stats API funnel endpoint](/api/stats#funnel-report).
 
 ## Accessing the Report
 
 1. Select a site from the site selector
-2. Click **Funnel** in the sidebar
+2. Click **Funnel** in the sidebar (or press **G** then **F**)
 
 **URL pattern:** `/sites/{siteId}/funnel`
 
@@ -9288,36 +9949,49 @@ The funnel is a **fixed e-commerce sequence**. Sealmetrics assembles it from the
 
 | Step | Built from |
 |------|------------|
-| **Entrances** | All entrances in the period (the funnel entry point) |
-| **View Product** | `view_item` microconversion (legacy `view_product` also accepted) |
-| **Add to Cart** | `add_to_cart` microconversion |
-| **Begin Checkout** | `begin_checkout` microconversion (legacy `start_checkout` also accepted) |
-| **Purchase** | `purchase` conversion |
+| **Entrances** | All [entrances](/reports/definitions#entrances) (sessions started) in the period — the funnel entry point |
+| **View Product** | Number of `view_item` microconversions (legacy `view_product` also accepted; both are summed) |
+| **Add to Cart** | Number of `add_to_cart` microconversions |
+| **Begin Checkout** | Number of `begin_checkout` microconversions (legacy `start_checkout` also accepted; both are summed) |
+| **Purchase** | Number of `purchase` conversions |
 
-A step only appears if the corresponding event exists in your data for the selected period. If you don't track `add_to_cart`, for example, that step is omitted and the funnel goes straight from the previous step to the next one present.
+A step only appears if the corresponding event exists in your data for the selected period. If you don't track `add_to_cart`, for example, that step is omitted and the funnel goes straight from the previous step to the next one present. Event names must match exactly: a conversion named `order` or `sale` does not produce the Purchase step, and other e-commerce events you may send (such as `view_cart` or `add_payment_info`) appear only as columns in the [Funnel by UTM table](#funnel-by-utm-table), not as funnel steps.
+
+**Info:**
+Each step is an **independent total for the period**, not the number of people who went through the previous steps in order. Sealmetrics does not track individual users, so it cannot follow one visitor from product page to purchase. In practice this means:
+
+- Steps count **events**, not visitors. A session that views five products adds 5 to View Product, so View Product can exceed Entrances and show a rate above 100%.
+- A purchase is counted even if that session never fired `begin_checkout` (for example, if checkout tracking is missing on one payment path).
+- Read the funnel as the **ratio between step volumes** in a period, and compare those ratios across periods, countries, devices and campaigns.
 
 **Tip:**
-The funnel relies on the standard e-commerce event names above. Send them from your store or tag setup to populate every step. See [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking) for the event names and how to fire them.
+The funnel relies on the standard e-commerce event names above. Send them from your store or tag setup to populate every step, and send the order amount with `purchase` so the table can show revenue. See the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) for the event calls and platform-specific examples.
 
 ## Funnel Visualization
 
-The **Conversion Funnel** chart shows one bar per step in order, from Entrances to Purchase.
+The **Conversion Funnel** chart shows one horizontal bar per step, in order, from Entrances to Purchase.
 
 | Element | Description |
 |---------|-------------|
-| **Bars** | Height represents the number of visitors who reached that step |
-| **Step label** | Step name and count |
-| **Conversion rate** | Percentage of the *previous* step that reached this step |
-| **Drop-off** | Percentage of the previous step that did not reach this step |
+| **Step number and name** | Position in the funnel and step label |
+| **Count** | Total for that step in the period (entrances for step 1, event count for the others) |
+| **Rate** | Conversion rate from the *previous* step (Entrances always shows 100%) |
+| **Bar length** | Step count relative to Entrances |
+| **Bar fill** | The darker fill inside each bar shows the conversion rate from the previous step (capped at a full bar) |
+| **Drop-off line** | Under each intermediate step, a red *"X% drop-off"* line shows the share of the **previous** step's count that did not reach this step |
 
 For each step after Entrances:
 
 - **Conversion rate** = step count ÷ previous step count × 100
 - **Drop-off rate** = (previous step count − step count) ÷ previous step count × 100
 
+The last step (usually Purchase) shows its conversion rate but no drop-off line; its drop-off is 100% minus that rate. When a step's count is higher than the previous one (see above), no drop-off line is shown for it.
+
 ## Country filter
 
-Use the **country selector** in the top-right of the report to recalculate the funnel for a single country (the top 20 countries by traffic are listed). Select **All Countries** to return to the global view. This is the funnel's built-in filter; [global filters](/reports/filters) (geography and devices) also apply.
+Use the **country selector** in the top-right of the report to recalculate the funnel for a single country. It lists the top 20 countries for the selected period (and for any Segment filters you have applied); select **All Countries** to return to the global view.
+
+The selected country applies to both the chart and the Funnel by UTM table, and it is added to (not a replacement for) any countries chosen in the global **Segment** panel: if the Segment is limited to Spain and you pick France in the selector, the funnel is empty.
 
 ## Funnel by UTM table
 
@@ -9325,28 +9999,60 @@ Below the chart, the **Funnel by UTM** table breaks the same period down by traf
 
 | Column | Description |
 |--------|-------------|
-| **UTM Source / Medium / Campaign** | The traffic source for the row |
-| **Entrances** | Entrances attributed to that source |
-| **Page Views** | Page views from that source |
-| *Microconversion columns* | One column per microconversion type present (e.g. `view_item`, `add_to_cart`, `begin_checkout`) |
-| *Conversion columns* | One column per conversion type present (e.g. `purchase`), showing count and revenue |
+| **UTM Source / Medium / Campaign** | The traffic source for the row: `source / medium` on the first line, the campaign underneath (hidden when it is `(not set)`) |
+| **Entrances** | Entrances attributed to that source, with a proportional bar |
+| **Page Views** | Page views from that source, with a proportional bar |
+| *Microconversion columns* | One column per microconversion type present in the period (e.g. `view_item`, `add_to_cart`, `begin_checkout`, plus any other microconversion you track) |
+| *Conversion columns* | One column per conversion type present (e.g. `purchase`), showing the count and, when the conversions carry an amount, the revenue underneath |
 
-The table is sortable and paginated, and includes a **totals row** for Entrances and Page Views.
+How the table behaves:
+
+- Rows are grouped by UTM source, medium, campaign and term, and the table holds the **top 100 rows by entrances** for the selected period and filters.
+- Attribution is **last click per session**: each entrance, event and conversion is credited to the UTM values of the session in which it happened.
+- Rows are paginated (10, 50, 100 or 500 per page) and the numeric columns are sortable.
+- The **Total** row covers the whole filtered period — including sources outside the top 100 — for Entrances, Page Views and every event column.
+
+**Caution:**
+Microconversion and conversion counts are matched to rows by source, medium and campaign. When one campaign has several UTM terms, each term appears as its own row and **each of those rows repeats the campaign's full event and conversion counts** (the term is not shown in the row label). Use the Total row, or filter by Term, rather than adding those rows up yourself.
 
 ## Filtering
 
-- **Country selector** — recalculates the whole funnel for one country (see above).
-- **Global filters** — geography and device filters from the [filter bar](/reports/filters) apply to the funnel.
-- **Table filters** — use the **filter builder** on the Funnel by UTM table to narrow rows by Source, Medium, Campaign, Term, Entrances or Page Views.
-- **Date range** — the funnel respects the selected [date range](/reports/date-range); events must occur within the period.
+Four kinds of filters scope this report. They all combine with AND.
+
+| Filter | Where | Applies to |
+|--------|-------|-----------|
+| **Date range** | Header [date picker](/reports/date-range) | Chart and table. Events must occur within the period. The Funnel report has no period-comparison view. |
+| **Segment (global filters)** | [Filter bar](/reports/filters#global-filters-segment) | Chart and table. All four global filters apply server-side: **Countries**, **Device Type**, **Browser** and **Operating System**. |
+| **Country selector** | Top-right of the report | Chart and table (see [Country filter](#country-filter)). |
+| **Table filters** | **Filters** button on the Funnel by UTM table | Chart and table (see below). |
+
+### Table filters (Funnel by UTM)
+
+The filter builder on the Funnel by UTM table offers **dimension fields only**:
+
+| Field | Operators |
+|-------|-----------|
+| **Source** | equals, does not equal, contains, does not contain, starts with, ends with, is empty, is not empty |
+| **Medium** | same as Source |
+| **Campaign** | same as Source |
+| **Term** | same as Source |
+
+There are no metric fields (you cannot filter on Entrances, Page Views or event counts); sort the columns instead. Things to know:
+
+- Table filters are resolved on the server, so they are applied **before** the top-100 cut — a low-traffic campaign is found even if it is outside the unfiltered top 100.
+- They also recalculate the **Conversion Funnel chart** and the Total row, so you can see the funnel for a single source, medium or campaign (e.g. Medium equals `cpc`).
+- Matching is **case-sensitive** (`Google` does not match `google`).
+- All conditions are combined with **AND**. The builder shows AND/OR selectors, but OR has no effect on this report.
+- A value containing a comma cannot be used and that condition is ignored.
 
 ## Export
 
-Click **Export** to download the Funnel by UTM data:
+Click **Export** on the Funnel by UTM table to download its rows:
 
-- Columns: Source, Medium, Campaign, Term, Entrances, Page Views, plus a column per microconversion type and per conversion type (count and revenue)
-- Respects the active country and table filters
-- Available as CSV and PDF
+- Available as **CSV** and **PDF**
+- Columns: Source, Medium, Campaign, Term, Entrances, Page Views, one column per microconversion type, and two columns per conversion type — `<type> (Count)` and `<type> (Revenue)`
+- Contains the rows currently loaded (up to the top 100), after the country selector, Segment and table filters; the Total row is not exported
+- Revenue is exported with two decimals and a `$` prefix regardless of your site currency — read the values in the currency configured for your site
 
 ## Analyzing the funnel
 
@@ -9359,6 +10065,59 @@ Click **Export** to download the Funnel by UTM data:
 | View Product → Add to Cart | Pricing, product page clarity, stock |
 | Add to Cart → Begin Checkout | Shipping costs, unexpected fees, account-required friction |
 | Begin Checkout → Purchase | Payment options, trust signals, checkout length |
+
+## E-commerce use cases
+
+All of these cases need the standard e-commerce events: `view_item`, `add_to_cart` and `begin_checkout` as microconversions, and `purchase` as a conversion **with the order amount**. See the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide). Because steps are aggregate counts, compare **rates between steps** rather than reading any single number as "the same shoppers".
+
+### Where do shoppers abandon the checkout?
+
+1. Set the date range to a recent, representative period (e.g. the last 30 days).
+2. In the **Conversion Funnel** chart, read the rate shown next to **Purchase** — that is purchases as a percentage of Begin Checkout events. Its drop-off is 100% minus that rate.
+3. Compare it with the rates of **Add to Cart** and **Begin Checkout**.
+
+**How to read it:** the step with the lowest rate is your biggest leak. A low Begin Checkout → Purchase rate points at the checkout itself (payment methods, forced account creation, surprise costs, form errors); a low Add to Cart → Begin Checkout rate points at the cart (shipping cost reveal, promo-code field sending people away). A sudden fall in the Purchase rate with no site change is also worth checking against your tracking — for example, a payment method whose confirmation page does not fire `purchase`.
+
+### Which campaigns bring shoppers who actually buy?
+
+1. In the **Funnel by UTM** table, sort by the `purchase` column.
+2. For the top rows, compare `purchase` (and the revenue shown under it) with **Entrances**, `add_to_cart` and `begin_checkout`.
+3. To isolate paid traffic, open **Filters** and add *Medium equals `cpc`* (use the exact medium value your campaigns send). The chart above recalculates for that traffic only.
+
+**How to read it:** a campaign with many entrances but few `add_to_cart` events is sending the wrong audience or landing on the wrong page; one with healthy `add_to_cart` but few purchases loses people at checkout, which is usually a site problem rather than a targeting problem. Shift budget towards the campaigns whose purchases and revenue hold up relative to their entrances. For campaign-level revenue and conversion rate across channels, continue in the [Sources report](/reports/sources).
+
+### Is the checkout leak specific to one country?
+
+1. Note the Begin Checkout → Purchase rate with **All Countries** selected.
+2. Pick each of your main markets in the **country selector** and note the same rate.
+
+**How to read it:** if one market converts clearly worse from checkout to purchase than the others, look at what differs there — local payment methods, shipping cost and delivery times, currency, language of the checkout, or tax shown late. If every country shows the same drop, the problem is in the checkout itself, not the market.
+
+### Does mobile checkout convert worse than desktop?
+
+1. Open **Segment** in the filter bar, select **Device Type → Mobile** and click **Apply Segment**. Note the rate of each step.
+2. Change the segment to **Desktop** and note the same rates.
+3. Optionally narrow further with **Operating System** or **Browser** (e.g. iOS + Safari) to spot a broken checkout on one platform.
+
+**How to read it:** a lower mobile rate at Add to Cart → Begin Checkout or Begin Checkout → Purchase suggests friction that only shows on small screens — long forms, missing wallet payments, pop-ups covering the pay button. A step that collapses on one browser or OS only is often a technical bug rather than a UX issue. Remember that global filters persist across reports, so clear the segment when you are done.
+
+### Did my checkout change improve completion?
+
+The Funnel report has no side-by-side comparison, so compare two periods manually:
+
+1. Set the date range to a period **before** the change (e.g. the 14 days before release) and note the Begin Checkout → Purchase rate — and the Add to Cart → Begin Checkout rate if you changed the cart.
+2. Set it to a period of the same length **after** the change and note the same rates.
+3. Keep the same country selector and Segment for both readings, and use the **Export** (CSV) of each period if you want the per-campaign detail side by side.
+
+**How to read it:** compare rates, not raw counts, since traffic volume changes between periods. Use periods long enough to contain a meaningful number of purchases and avoid ones distorted by promotions or holidays; if your traffic mix changed (a new campaign launched), check the rate within the main mediums with the table filters before crediting the checkout change.
+
+## Related documentation
+
+- [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) — The event calls that populate each funnel step
+- [Conversions Report](/reports/conversions) — Every conversion and microconversion type, including ones that are not funnel steps
+- [Sources Report](/reports/sources) — Channel, source, medium and campaign performance
+- [Filters](/reports/filters) — Segment and table filters
+- [Metrics Definitions](/reports/definitions) — Entrances, conversions, revenue and conversion rate
 
 
 
@@ -9595,15 +10354,17 @@ URL: https://docs.sealmetrics.com/reports/properties
 
 # Properties Report
 
-The Properties report lets you analyze custom properties attached to conversions and microconversions, broken down by traffic source (UTM parameters).
+The Properties report lets you analyze the custom properties attached to conversions, microconversions and purchased items (`items`), broken down by traffic source (UTM source / medium / campaign).
 
 ## What This Report Shows
 
 When you track conversions with custom properties (like `product_category`, `plan_type`, or `payment_method`), this report helps you understand:
 
-- Which property values perform best across different traffic sources
-- How conversions distribute across property values by campaign
-- Which traffic sources drive specific property outcomes
+- How events distribute across the values of a property for each source / medium / campaign
+- Which traffic sources over- or under-index on specific property values
+- Which products or categories each traffic source sells (with the **Conv. Items** data source)
+
+The report counts **events** (or, for Conv. Items, units). It does not show revenue — for revenue by source use the [Sources](./sources) or [Conversions](./conversions) reports.
 
 ## Accessing the Report
 
@@ -9616,10 +10377,22 @@ When you track conversions with custom properties (like `product_category`, `pla
 
 | Control | Description |
 |---------|-------------|
-| **View Mode** | Toggle between Totals (absolute numbers) and Rates (percentages) |
-| **Data Source** | Toggle between Conversions, Microconversions, and Conv. Items |
-| **Property Key** | Select which property to analyze (e.g., `currency`, `plan_type`). Each option shows its event count |
-| **Export** | Download the current view as CSV or PDF |
+| **View Mode** | Toggle between **Totals** (absolute numbers) and **Rates** (percentages). See [View Modes](#view-modes) |
+| **Data Source** | Toggle between **Conversions**, **Microconversions**, and **Conv. Items**. See [Data Sources](#data-sources) |
+| **Property Key** | Select which property to analyze (e.g., `currency`, `plan_type`). Each option shows its event count. The first key is selected automatically |
+| **Export** | Download the current breakdown as CSV or PDF |
+
+### Data Sources
+
+| Data Source | What is counted | Notes |
+|-------------|-----------------|-------|
+| **Conversions** | One per conversion carrying the selected key | Includes every conversion type (e.g. `purchase`, `lead`) that carries the key. The `items` key is hidden here — analyze it with Conv. Items |
+| **Microconversions** | One per microconversion carrying the selected key | Includes every microconversion type (e.g. `view_item`, `add_to_cart`) that carries the key |
+| **Conv. Items** | Units of each product in the `items` array of your conversions | Each field inside an item (`category`, `product_name`, `brand`…) becomes a selectable key. An item with `quantity: 2` counts as 2; an item without `quantity` counts as 1. `quantity` itself is not offered as a key |
+
+The report has no conversion-type or microconversion-type selector. If the same key is sent on several event types, their counts are added together — use distinct keys, or send the key only on the event you want to analyze.
+
+Events where the selected key is missing or empty are left out of the breakdown.
 
 ### Property Analysis Table
 
@@ -9627,23 +10400,25 @@ The main table shows:
 
 | Column | Description |
 |--------|-------------|
-| **Source / Medium / Campaign** | UTM attribution for this row. In Rates mode, the entrance count is also shown |
-| **Total** / **Share %** | In Totals mode, the sum of all events for this UTM combination. In Rates mode, this column header changes to **Share %** |
-| **[Property Values]** | Dynamic columns for each unique value of the selected property |
+| **Source / Medium / Campaign** | UTM attribution for this row. An empty source is shown as `(direct)`, an empty medium or campaign as `(none)`. In Rates mode, an entrance count is also shown |
+| **Total** / **Share %** | In Totals mode, the sum of all events for this UTM combination. In Rates mode the header changes to **Share %** (see [View Modes](#view-modes)) |
+| **[Property Values]** | One dynamic column for each distinct value of the selected property |
+
+Rows are sorted by total, largest first. Click any column header to sort by the value it displays. The table is paginated (10, 50, 100 or 500 rows per page).
 
 A summary above the table shows the selected property key, its number of distinct values, and the total events.
 
 ### Heatmap Visualization
 
-Cells are color-coded to highlight performance:
+Property-value cells are color-coded. The legend above the table labels them **\> avg**, **≈ avg** and **\< avg**:
 
 | Color | Meaning |
 |-------|---------|
-| **Green** | Above average share for this property value |
-| **Yellow** | Average share |
-| **Red** | Below average share for this property value |
+| **Green** | This value takes more than an even share of the row's total |
+| **Yellow** | Within ±15% of an even share |
+| **Red** | This value takes less than an even share of the row's total |
 
-This helps you quickly identify which traffic sources over- or under-perform for specific property values.
+The comparison is made **within each row**: a row's total is divided evenly across all the property's values, and each cell is compared with that even share. Green therefore means "this source leans towards this value", not "this source outperforms other sources". A value that is large for every source (for example your best-selling category) will be green on most rows — compare rows against each other before drawing conclusions.
 
 ### View Modes
 
@@ -9652,39 +10427,41 @@ This helps you quickly identify which traffic sources over- or under-perform for
 - Useful for understanding volume distribution
 
 **Rates Mode**
-- Shows conversion rates (events / entrances)
-- Displays entrance count for context
-- Useful for comparing efficiency across sources
+- Shows percentages instead of counts. For each row, the dashboard looks up the entrances recorded for that source / medium / campaign and shows that count under the source name
+- When an entrance count is found, each cell shows events ÷ entrances, and **Share %** shows the row total ÷ entrances
+- When no entrance count is found (the row shows **0 entrances**), each cell shows its share of the row's total and **Share %** shows 100%
+- Check the entrance count under the source before reading a Rates cell as a conversion rate
 
 ## Available Properties Table
 
-Below the main analysis, you'll find a summary of all available property keys:
+Below the main analysis, you'll find a summary of the property keys available for the selected data source and date range:
 
 | Column | Description |
 |--------|-------------|
-| **Property Key** | The property name (click to analyze) |
-| **Conversions** | Count from conversion events |
+| **Property Key** | The property name (click to analyze it in the table above) |
+| **Conversions** | Count from conversion events (in Conv. Items mode, the item unit count appears here) |
 | **Microconversions** | Count from microconversion events |
 | **Total** | Combined count |
 
+Because the table follows the **Data Source** toggle, one of the two count columns is normally 0.
+
+## Filters
+
+The Properties report has fewer filters than the traffic reports:
+
+| Filter | Applies to this report? |
+|--------|-------------------------|
+| **Date range** | Yes — every table on the page |
+| **Comparison period** | No — the report shows no comparison values |
+| **Segment** (country, device type, browser, OS) | **No** for event counts. The filter bar stays visible, but property counts always include all countries, devices, browsers and operating systems. Active Segment filters only change the entrance counts used in Rates mode |
+| **Local filter builder / search** | Not available on this report |
+| **UTM, channel or conversion-type filters** | Not available. Rows are already split by source / medium / campaign; sort a column or export to CSV to narrow down |
+
+The only report-specific controls are the **View Mode**, **Data Source** and **Property Key** selectors described above. See [Filters](./filters) for how global filters work in other reports.
+
 ## Example Use Cases
 
-### E-commerce: Product Category Analysis
-
-Track which traffic sources drive purchases in each category:
-
-```javascript
-sealmetrics.conv('purchase', 99.99, {
-  product_category: 'electronics',
-  brand: 'Apple',
-  payment_method: 'credit_card'
-});
-```
-
-Then analyze the `product_category` property to see:
-- Google Ads drives 60% of electronics purchases
-- Facebook drives 45% of fashion purchases
-- Organic search has the highest conversion rate for accessories
+For online stores, see [E-commerce use cases](#e-commerce-use-cases) below.
 
 ### SaaS: Plan Type Analysis
 
@@ -9709,6 +10486,63 @@ sealmetrics.conv('lead', 0, {
   lead_source: 'pricing_page'
 });
 ```
+
+## E-commerce use cases
+
+These cases assume your purchase conversion carries transaction-level properties and an `items` array, as described in the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide):
+
+```javascript
+sealmetrics.conv('purchase', 267.97, {
+  currency: 'EUR',
+  payment_method: 'credit_card',
+  coupon: 'SAVE10',
+  items: [
+    { product_name: 'Blue Running Shoes', product_id: 'SKU-123', price: 89.99, quantity: 2, category: 'footwear', brand: 'Acme' },
+    { product_name: 'Sports Socks', product_id: 'SKU-456', price: 89.99, quantity: 1, category: 'accessories', brand: 'Acme' }
+  ]
+});
+```
+
+Attribution in every case is the source / medium / campaign of the session in which the event happened (last click per session).
+
+### Which campaigns sell which product categories?
+
+1. Set **Data Source** to **Conv. Items** and **Property Key** to `category`.
+2. Keep **View Mode** on **Totals**.
+3. Read each campaign's row across the category columns.
+
+**How to read it:** the counts are units sold per category for that campaign. Green cells show the categories a campaign leans towards. If a campaign built for one category mostly sells another, its targeting or landing page is attracting a different buyer than intended — adjust the creative or landing page, or move budget to the campaign that already sells that category. Remember the heatmap compares within the row: a category that dominates your whole catalogue will be green almost everywhere.
+
+**Needs:** `items` with a `category` field on the purchase conversion.
+
+### Which traffic source sells a specific product?
+
+1. Set **Data Source** to **Conv. Items** and **Property Key** to `product_name` (or `product_id`, or `brand`).
+2. Click the column header of the product you care about to sort rows by units of that product.
+3. Export to CSV if you need to share or pivot the result.
+
+**How to read it:** the top rows are the sources, mediums and campaigns that sold the most units of that product. If a product you promote heavily barely appears in the rows of the campaign that promotes it, that campaign is not selling it. Product-level keys produce one column per product, so a large catalogue gives a wide table — use `category` or `brand` for an overview and `product_name` for a short list of key products.
+
+**Needs:** `items` with the chosen field on the purchase conversion.
+
+### Which campaigns depend on discount codes?
+
+1. Set **Data Source** to **Conversions** and **Property Key** to `coupon`.
+2. Keep **View Mode** on **Totals**.
+3. Compare each row's **Total** with that source's total conversions in the [Sources report](./sources) for the same date range.
+
+**How to read it:** this table only counts orders that carried a coupon — orders without one are left out. A campaign whose coupon orders are close to its total orders is selling on discount; one with few coupon orders is bringing full-price buyers. The coupon columns also show which codes leak into channels they were not issued for (for example an affiliate code appearing under paid search). Review codes that show up in unexpected rows.
+
+**Needs:** a `coupon` property on the purchase conversion, sent only when a code is used. Because the Conversions data source includes every conversion type, send `coupon` only on `purchase`.
+
+### Which categories get added to the cart but not bought?
+
+1. Set **Data Source** to **Microconversions** and **Property Key** to `category`. Note the category mix for a source.
+2. Switch **Data Source** to **Conv. Items** (key `category`) and compare the same source's mix of purchased units.
+
+**How to read it:** a category that takes a large share of a source's add-to-carts but a small share of its purchased units is losing buyers between cart and order — check price, shipping costs or stock for that category, and look at the cart-to-checkout step in the [Funnel report](./funnel). Compare shares rather than raw numbers: one add-to-cart event can hold several units, and purchased units are counted by `quantity`.
+
+**Needs:** an `add_to_cart` microconversion with a `category` property. The Microconversions data source adds together every microconversion type that carries `category`, so if you also send `category` on `view_item` or `begin_checkout`, those are counted too. Either send `category` only on `add_to_cart`, or use a distinct key such as `cart_category`. See [Microconversions](/implementation/tracker/microconversions) and the funnel events in the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide).
 
 ## Best Practices
 
@@ -9738,9 +10572,11 @@ Use consistent, lowercase values:
 { plan_type: 'PREMIUM' }
 ```
 
+Values are stored as text. Numbers and booleans are converted to strings, so `premium`, `Premium` and `PREMIUM` appear as three separate columns.
+
 ### 3. Limit Property Cardinality
 
-Properties work best with a manageable number of unique values (under 50). Avoid using unique IDs as property values.
+Every distinct value becomes a column in the analysis table. There is no hard limit on the number of values, but keys with many unique values (order IDs, prices, timestamps) produce tables too wide to read. Avoid using unique IDs as property values.
 
 ### 4. Track Meaningful Properties
 
@@ -9761,16 +10597,20 @@ Focus on properties that inform business decisions:
 The Properties report requires:
 
 1. **Conversions or microconversions with properties** - Events must include custom properties
-2. **Traffic with UTM parameters** - At least some traffic should have UTM attribution
+2. **Purchases with an `items` array** - Only for the **Conv. Items** data source
+
+UTM parameters are not required: events without a recorded source are grouped under `(direct)`.
 
 If no properties are found, the report will display: "No properties found. Properties are set when tracking conversions and microconversions."
 
 ## Related Documentation
 
 - [Event Properties Guide](/implementation/ecommerce-conversion-tracking/event-properties) - How to implement properties
+- [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) - Purchase, `items` and funnel events
 - [Conversions](/implementation/tracker/conversions) - Tracking conversions
 - [Microconversions](/implementation/tracker/microconversions) - Tracking microconversions
 - [Sources Report](./sources) - Traffic source analysis
+- [Funnel Report](./funnel) - Step-by-step drop-off
 
 
 
@@ -10211,6 +11051,9 @@ To turn comparison off, choose **No comparison** or click the X on the Compare b
 | **Previous year** | Same dates in the prior year | Jan 15-21, 2025 compares to Jan 15-21, 2024 |
 | **Custom comparison** | Manually selected comparison range | Any dates you choose |
 
+**Caution:**
+You can pick a custom comparison range in the date picker, but the reports do not use it yet: the dashboard sends it to the API as **Previous period**, so the deltas you see are against the same-length period immediately before your range. Use **Previous period** or **Previous year** until this is fixed. Some reports also ignore the comparison mode entirely (the Overview and Evolution cards always compare with the previous period) — each report page says what its comparison covers.
+
 ### Comparison Display
 
 When comparison is enabled:
@@ -10504,7 +11347,7 @@ URL: https://docs.sealmetrics.com/reports/definitions
 
 # Metrics Reference
 
-Detailed formulas, benchmarks, and interpretation guidelines for every metric in Sealmetrics reports.
+Detailed formulas and interpretation guidelines for every metric in Sealmetrics reports.
 
 For a complete glossary of all terms (including privacy, platform, and technical concepts), see the [Glossary](/faq/glossary).
 
@@ -10660,14 +11503,7 @@ Use **entrances** as the audience-size signal instead — it measures unique ses
 | Range | 0% to 100% (capped) |
 | Higher is better | Indicates effective conversion funnel |
 
-**Benchmarks by industry:**
-
-| Industry | Typical Conv. Rate |
-|----------|-------------------|
-| E-commerce | 1-3% |
-| SaaS | 3-7% |
-| Lead generation | 2-5% |
-| Media/Content | 1-2% (subscription) |
+There is no universal "good" conversion rate: it depends on your sector, price point and traffic mix. Compare your own rate across periods, channels and devices rather than against a generic benchmark.
 
 ### Events (Microconversions)
 
@@ -10719,23 +11555,25 @@ Reports can be broken down by dimensions such as UTM Source, UTM Medium, UTM Cam
 
 ## Funnel Metrics
 
+Funnel steps are **aggregate event counts for the period**, not individual users followed through a path — Sealmetrics does not track users across pages or sessions. Read these rates as ratios between step totals, not as "the same shoppers moving forward". See the [Funnel report](/reports/funnel).
+
 ### Funnel Completion Rate
 
-**Definition:** The percentage of users who completed all steps in a funnel.
+**Definition:** The last step's total relative to the first step's total.
 
-| Formula | (Users completing last step / Users entering first step) × 100 |
+| Formula | (Count at last step / Count at first step) × 100 |
 
 ### Step Completion Rate
 
-**Definition:** The percentage of users who completed a step relative to the previous step.
+**Definition:** A step's total relative to the previous step's total.
 
-| Formula | (Users at current step / Users at previous step) × 100 |
+| Formula | (Count at current step / Count at previous step) × 100 |
 
 ### Drop-off Rate
 
-**Definition:** The percentage of users who left at a specific step.
+**Definition:** The share of the previous step's total that does not appear at the current step.
 
-| Formula | (Users who left at step / Users who entered step) × 100 |
+| Formula | 100 − Step Completion Rate |
 
 ## Comparison Metrics
 
@@ -12051,7 +12889,7 @@ Track the complete customer journey:
 
 | Step | Event Type | Function |
 |------|------------|----------|
-| Product View | Microconversion | `sealmetrics.micro('view_product', {...})` |
+| Product View | Microconversion | `sealmetrics.micro('view_item', {...})` |
 | Add to Cart | Microconversion | `sealmetrics.micro('add_to_cart', {...})` |
 | View Cart | Microconversion | `sealmetrics.micro('view_cart', {...})` |
 | Begin Checkout | Microconversion | `sealmetrics.micro('begin_checkout', {...})` |
@@ -12064,11 +12902,11 @@ Track the complete customer journey:
 
 ### Product View
 
-Track when users view product details:
+Track when users view product details. Use `view_item`: it is the name the [Funnel report](/reports/funnel) reads for its View Product step (the legacy `view_product`, still emitted by older integrations, is also accepted and summed).
 
 ```javascript
 // On product page load
-sealmetrics.micro('view_product', {
+sealmetrics.micro('view_item', {
   product_id: 'SKU-123',
   product_name: 'Blue Running Shoes',
   category: 'footwear',
@@ -12413,9 +13251,9 @@ In this mode you can:
 
 - **Browse product fields**: See all fields you've tracked across items (`product_name`, `category`, `brand`, `sku`, etc.) and how frequently each appears
 - **Analyze by source**: Select a field (e.g., `product_name`) to see which products are sold by each traffic source, medium, and campaign
-- **View totals or rates**: Toggle between raw counts and conversion rates
-- **Filter**: Narrow results by conversion type, UTMs, channel, country, or device
 - **Export**: Download CSV for any view
+
+The report filters by date range only — there is no filter by conversion type, UTM, channel, country or device on it. See the [Properties report](/reports/properties) for what each mode and toggle actually shows.
 
 Items with a `quantity` field are automatically counted by units — a product with `quantity: 2` counts as 2 in the report.
 
@@ -40337,7 +41175,7 @@ Consentless tracking measures **events in aggregate instead of following people*
 1. **Event detection.** A JavaScript tracker (about 1.1 KB gzipped) fires on page load and on events you instrument. It sets no cookies and uses no localStorage, sessionStorage or fingerprinting.
 2. **Transmission.** The hit is sent as a lightweight beacon request. The visitor's IP appears at the network layer, as it does for any HTTP request, but is never persisted in the analytics database — it is used in memory only for anti-abuse checks and site-configured exclusions.
 3. **Isolated processing.** Each hit is processed on its own. Hits from the same person are never joined across sessions, so no journey or profile can be reconstructed.
-4. **Aggregation.** Reports are built from aggregate counts. Event-level rows are purged after 1 day, and the raw user agent string is never stored — only the browser, OS and device categories derived from it; hourly aggregates are kept 90 days; daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs.
+4. **Aggregation.** Reports are built from aggregate counts. Event-level rows — including the raw user agent string they carry — are purged after 1 day; beyond that, only the browser, OS and device categories derived from the user agent survive, inside aggregates; hourly aggregates are kept 90 days; daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs.
 
 All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 
@@ -40428,7 +41266,7 @@ Sealmetrics processes each page view (“hit”) independently using **only four
 
 #### 2. User Agent
 - **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
-- **What we keep:** only the derived categories (browser family, OS family, device type). The raw UA string is used in flight to derive them and to classify automated traffic, and is never written to analytics storage; the derived categories persist in aggregated reports for 24 months.
+- **What we keep:** only the derived categories (browser family, OS family, device type). The raw UA string is used to derive them and to classify automated traffic; it is kept only in the event-level row, which is purged after 1 day. The derived categories persist in aggregated reports for 24 months.
 - **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
 
 #### 3. Current URL
@@ -40455,12 +41293,12 @@ Retention is **fixed and identical for every plan**, enforced by database TTLs. 
 
 | What | Retention | Notes |
 |------|-----------|-------|
-| Event-level rows | **1 day** | The row that holds the individual hit, then purged. It carries the derived device categories, not the raw user agent string |
+| Event-level rows | **1 day** | The row that holds the individual hit, including the raw user agent string, then purged |
 | Session context marker | ~2 hours | In-memory only (Redis), expires with the inactivity window |
 | Hourly aggregates | 90 days | Hour-by-hour reporting |
 | Daily aggregates and conversions | 24 months | Includes the *derived* device categories — browser family, OS family, device type |
 
-The distinction that matters for the user agent: **the raw UA string is never stored**. It is read while the hit is processed and discarded; what survives, for up to 24 months, is only the derived category (for example "Chrome / Windows / desktop") inside aggregate counts — never attached to anything that identifies a person.
+The distinction that matters for the user agent: **the raw UA string never outlives the 1-day event-level row**. It is kept in that row while the hit is processed and checked for automated traffic, and purged with it; what survives, for up to 24 months, is only the derived category (for example "Chrome / Windows / desktop") inside aggregate counts — never attached to anything that identifies a person.
 
 Full operational retention (logs, backups, account closure) is documented in [Data Location & Retention](/security-privacy/data-location).
 

@@ -1,19 +1,22 @@
 ---
 sidebar_position: 3
 title: Pages Report
-description: "Analyze page-level performance: traffic, bounce rates, and entry pages across your site."
-tags: [reports, pages, landing-pages, bounce-rate, content-groups]
+description: "Analyze page-level performance: pageviews, entrances, bounce rate, and the conversions and revenue each landing page brings in, including e-commerce use cases."
+tags: [reports, pages, landing-pages, bounce-rate, content-groups, ecommerce]
 keywords:
   - which pages get the most traffic
   - landing page report
   - which landing pages have the highest bounce rate
   - group my blog pages together
   - pages with traffic but no conversions
+  - which landing pages generate the most revenue
+  - product pages with traffic but no sales
+  - best landing pages for my online store
 ---
 
 # Pages
 
-The Pages report analyzes page-level performance, showing which pages receive the most traffic and how they perform.
+The Pages report analyzes page-level performance, showing which pages receive the most traffic and, for the pages where sessions start, how much engagement, conversions and revenue they bring in.
 
 ## Accessing the Report
 
@@ -28,13 +31,15 @@ The report has two tabs with different perspectives:
 
 ### All Pages Tab
 
-Shows all pages that received traffic during the selected period.
+Shows all pages viewed during the selected period, with pageviews and entrances.
 
 | Column | Description |
 |--------|-------------|
-| **Page** | URL path and page title. When a content group is assigned, it appears as a badge next to the path |
+| **Page** | URL path. When the path matches one of your URL-pattern content group rules, the group appears as a badge next to the path |
 | **Pageviews** | Total views |
 | **Entrances** | Sessions that started on this page |
+
+The All Pages tab has no bounce rate, conversion or revenue columns. Those metrics are tied to the page where the session started, so they live on the **Landing Pages** tab.
 
 ### Landing Pages Tab
 
@@ -42,20 +47,38 @@ Shows pages where sessions started (entry points to your site).
 
 | Column | Description |
 |--------|-------------|
-| **Landing Page** | URL path. When a content group is assigned, it appears as a badge next to the path |
+| **Landing Page** | URL path. When the pageviews carry a content group (sent by the tracker), it appears as a badge next to the path |
 | **Entrances** | Sessions that started on this page |
 | **Bounce Rate** | Percentage of single-page sessions |
-| **Microconv.** | Microconversions attributed to this landing page |
-| **Conversions** | Conversions attributed to this landing page |
-| **Revenue** | Revenue attributed to this landing page |
+| **Microconv.** | Microconversions (all event types combined) from sessions that started on this page |
+| **Conversions** | Conversions (all conversion types combined) from sessions that started on this page |
+| **Revenue** | Sum of the conversion amounts from sessions that started on this page |
+
+Conversions and microconversions are credited to the landing page of the session in which they happened. There is no per-type breakdown on this tab: to see conversions by type, use the [Conversions report](/reports/conversions).
 
 #### Bounce Rate Colors
 
 | Color | Bounce Rate | Interpretation |
 |-------|-------------|----------------|
 | Green | < 40% | Good engagement |
-| Yellow | 40-70% | Average |
+| No color | 40–70% | Average |
 | Red | > 70% | May need attention |
+
+### Totals Row
+
+Both tables show a **Total** row at the top. It is calculated by the server over **all** rows that match the current period, global filters, search and table filters — not just the rows loaded into the table. On the Landing Pages tab, the total Bounce Rate is recalculated from the summed entrances (not an average of the row percentages).
+
+### Rows Loaded
+
+Each table loads the **top 100 rows** for the current sort order, search and filters, and paginates through them in the browser. Searching and filtering run on the server before that cut, so a filter or search always finds matching pages even if they are outside the unfiltered top 100.
+
+### Sorting
+
+Click a column header to sort. Numeric columns (Pageviews and Entrances on All Pages; Entrances, Bounce Rate, Microconv., Conversions and Revenue on Landing Pages) are re-sorted on the server, so you get the true top 100 for that metric. Sorting by the path column only reorders the rows already loaded. Clicking a header a third time restores the default order (Pageviews on All Pages, Entrances on Landing Pages, descending).
+
+### Period Comparison
+
+When [comparison mode](/reports/date-range#comparison-mode) is on, each metric cell shows the percentage change versus the comparison period (or **New** when the page had no data then). This applies to Pageviews and Entrances on All Pages, and to Entrances, Microconv., Conversions and Revenue on Landing Pages. Bounce Rate is shown without a change indicator.
 
 ## Content Groups
 
@@ -72,6 +95,17 @@ Instead of analyzing individual URLs, group related pages:
 | Checkout | /cart, /checkout/* |
 | Account | /account/*, /profile/* |
 
+### Where Groups Come From
+
+The Pages report uses two sources of content groups:
+
+| Source | How it is set | Where it is used |
+|--------|---------------|------------------|
+| **Tracker content group** | The `group` parameter of the tracking script or JavaScript API, sent with each pageview | Quick-filter buttons on All Pages, badge and **Content Group** filter field on Landing Pages |
+| **URL-pattern rules** | Rules you create under **Properties** (site configuration section of the sidebar, `/settings/properties`) | Badge on All Pages; quick-filter buttons on All Pages only when the site has no tracker content groups |
+
+URL-pattern rules are stored in your browser, like [saved segments](/reports/filters#filter-persistence): they are not shared with teammates or other devices, and they do not apply to the Landing Pages tab. For groups that everyone on the team sees in every report, set them in the tracker.
+
 ### Filtering by Content Group
 
 On the **All Pages** tab, content group quick-filter buttons appear above the table:
@@ -79,54 +113,66 @@ On the **All Pages** tab, content group quick-filter buttons appear above the ta
 1. Click a content group button above the table (or **All**)
 2. The table shows only pages in the selected group
 
+Each button shows the number of distinct URLs in that group. With tracker content groups, the filter runs on the server over the whole period; with URL-pattern rules, it runs over the rows already loaded, and the table then shows both the period **Total** and a **Filtered** subtotal.
+
+If no content groups exist, a notice with a **Configure** link to Properties appears instead of the buttons.
+
+On the **Landing Pages** tab, filter by group with the table filter builder (**Content Group** field).
+
 ### Configuring Content Groups
 
-Content groups are configured in Settings → Properties.
-
-See [Content Grouping](../implementation/content-site-structure/content-grouping) for setup instructions.
+See [Content Grouping](/implementation/content-site-structure/content-grouping) for setup instructions.
 
 ## Filtering
 
+### Search
+
+Each tab has a search box (**Search pages...** / **Search landing pages...**). It matches the page path, is case-insensitive, and runs on the server.
+
 ### Table Filter Builder
 
-Click the filter icon to open the filter builder. Each tab has its own fields:
+Click **Filters** above the table to open the filter builder. Each tab has its own filters, and both are **dimension-only**: you filter by which page a row is, not by metric values.
 
-**All Pages fields:**
-- Path
-- Title
-- Content Group
-- Pageviews
-- Entrances
+| Tab | Fields |
+|-----|--------|
+| **All Pages** | Path |
+| **Landing Pages** | Path, Content Group |
 
-**Landing Pages fields:**
-- Path
-- Content Group
-- Entrances
-- Bounce Rate
-- Microconversions
-- Conversions
-- Revenue
+**Operators** (text fields): equals, does not equal, contains, does not contain, starts with, ends with, is empty, is not empty.
 
-**Operators:**
-- Text: contains, starts with, equals
-- Numbers: greater than, less than, equals
+- **contains**, **does not contain**, **starts with** and **ends with** ignore case; **equals** and **does not equal** are exact matches.
+- All conditions are combined with **AND**. The builder lets you choose OR between conditions or groups, but the Pages report applies every condition with AND regardless.
+- A value containing a comma can't be sent to the server. The condition is not applied and a warning appears above the table.
+
+There are no metric filters (such as "Pageviews greater than 1000" or "Conversions equals 0"). To find pages above or below a threshold, **sort by the metric column** instead.
 
 **Example filters:**
 
 | Goal | Filter (tab) |
 |------|--------------|
 | Blog pages only | Path starts with "/blog" (All Pages) |
-| High traffic pages | Pageviews greater than 1000 (All Pages) |
-| Problem landing pages | Bounce Rate greater than 70 (Landing Pages) |
-| Converting landing pages | Conversions greater than 0 (Landing Pages) |
+| Everything except the blog | Path does not contain "/blog" (All Pages or Landing Pages) |
+| Product landing pages | Content Group equals "Products" (Landing Pages) |
+| Landing pages with no content group | Content Group is empty (Landing Pages) |
 
-### Combining with Global Filters
+### Global Filters (Segment)
 
-Page report respects global filters:
+Both tabs, their totals and their comparison values respect the global [Segment](/reports/filters#global-filters-segment) filters:
+
+| Global filter | Applies to Pages |
+|---------------|------------------|
+| Countries | Yes |
+| Device Type | Yes |
+| Browser | Yes |
+| Operating System | Yes |
+
+Global filters combine with the table filters using AND:
 
 1. Global filter: Country = Spain
 2. Table filter: Path contains "products"
-3. Result: Product pages viewed by Spanish visitors
+3. Result: Product pages viewed by visitors from Spain
+
+The Pages report has no traffic-source filter (channel, source, medium, campaign). To analyze traffic by where it came from, use the [Sources report](/reports/sources).
 
 ## Use Cases
 
@@ -135,7 +181,7 @@ Page report respects global filters:
 1. Go to **All Pages** tab
 2. Sort by **Pageviews** (default)
 3. Review top 10-20 pages
-4. These are your most valuable content pieces
+4. These are your most viewed content pieces
 
 ### Identifying Problem Landing Pages
 
@@ -146,39 +192,102 @@ Page report respects global filters:
 
 ### Analyzing Blog Performance
 
-1. Configure content group for "Blog"
-2. Filter by Blog content group
-3. Review:
-   - Which posts get most traffic?
-   - Which have best conversion rates?
+1. Set up a "Blog" content group in the tracker
+2. On **All Pages**, click the **Blog** button to see which posts get the most pageviews
+3. On **Landing Pages**, filter Content Group equals "Blog" and review:
+   - Which posts bring in the most entrances?
+   - Which posts start sessions that convert (Conversions, Microconv.)?
 
 ### Finding Conversion Opportunities
 
 1. Go to **Landing Pages** tab
-2. Filter: Entrances > 500 AND Conversions = 0
-3. These high-traffic entry pages aren't converting
-4. Consider adding CTAs or conversion elements
+2. Sort by **Entrances** (default)
+3. Scan the **Conversions** column for high-traffic entry pages with few or no conversions
+4. Consider adding CTAs or conversion elements to those pages
 
 ### Tracking New Page Performance
 
 1. Publish new page
-2. Wait 24-48 hours
-3. Search for the page path
-4. Monitor:
+2. Once it starts receiving traffic, search for the page path
+3. Monitor:
    - Initial traffic ramp
-   - Bounce rate vs site average (Landing Pages tab)
+   - Bounce rate vs the **Total** row (Landing Pages tab)
+
+## E-commerce use cases
+
+These cases assume your store tracks purchases as a conversion **with an amount** (for Revenue), and optionally `add_to_cart` / `begin_checkout` as microconversions. See the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide), or the guide for your platform under [E-commerce integrations](/integrations/ecommerce/shopify).
+
+### Which landing pages actually bring in sales?
+
+1. Go to the **Landing Pages** tab
+2. Sort by **Revenue** (descending)
+3. Compare each row's **Revenue** and **Conversions** with its **Entrances**
+
+**How to read it:** a page with modest entrances but high revenue is an efficient entry point — worth sending more paid or email traffic to. A page with many entrances and little revenue attracts visitors who don't buy; check its **Bounce Rate** and whether its traffic matches its content. For revenue per entrance, **Export** the tab as CSV and divide Revenue by Entrances.
+
+Requires: purchase conversions with an amount ([Conversions](/implementation/tracker/conversions)).
+
+### Which popular entry pages get visits but no sales?
+
+1. Go to the **Landing Pages** tab and keep the default sort by **Entrances**
+2. Optionally narrow to product pages: filter **Path starts with** your product URL prefix (e.g. "/products/"), or **Content Group equals** "Products"
+3. Look for rows with high **Entrances** and **Conversions** at or near zero
+
+**How to read it:**
+- **High Bounce Rate, no conversions** — visitors leave straight away. Check that the ads or links pointing to the page match what it shows (price, availability, product).
+- **Low Bounce Rate, microconversions but no conversions** — shoppers engage and add to cart but don't complete the purchase. Look at shipping costs, checkout steps and payment options, and check the drop-off in the [Funnel report](/reports/funnel).
+- **Low Bounce Rate, no microconversions** — visitors browse but don't show purchase intent. Review calls to action, product information and pricing.
+
+Requires: purchase conversions; `add_to_cart` / `begin_checkout` as [microconversions](/implementation/tracker/microconversions) to tell the second and third patterns apart. The **Microconv.** column counts all microconversion types together.
+
+### Do product pages or category pages work better as entry points?
+
+1. Send a content group from the tracker for each page type (e.g. "Products", "Categories", "Blog") — see [Content Grouping for E-commerce](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide#content-grouping-for-e-commerce)
+2. Go to the **Landing Pages** tab
+3. Filter **Content Group equals** "Products" and note the **Total** row: Entrances, Bounce Rate, Conversions, Revenue
+4. Change the filter to "Categories" and compare
+
+**How to read it:** the Total row covers every landing page in the group over the period, not just the loaded rows. Compare Conversions ÷ Entrances and Revenue ÷ Entrances between groups. If category pages convert better than product pages as entry points, point more campaigns at categories, or improve how product pages lead to related products.
+
+Requires: tracker content groups (URL-pattern rules don't apply to the Landing Pages tab) and purchase conversions with an amount.
+
+### Is mobile traffic to my product pages converting as well as desktop?
+
+1. Open **Segment** in the filter bar, set **Device Type** to Mobile, and apply
+2. Go to the **Landing Pages** tab and filter to your product pages (Path or Content Group)
+3. Note the **Total** row: Entrances, Bounce Rate, Conversions, Revenue
+4. Change the segment to Desktop and compare
+
+**How to read it:** a clearly higher bounce rate or lower conversions per entrance on mobile often means a mobile-specific problem — slow load, layout issues, or a checkout that's awkward on small screens. Drill into individual rows to find which product pages have the largest gap.
+
+Requires: purchase conversions. Remember to clear the segment afterwards; it applies to every report.
+
+### Did my sale or new collection page pay off compared with the previous period?
+
+1. Set the date range to the campaign period and turn on [comparison mode](/reports/date-range#comparison-mode) (previous period or previous year)
+2. Go to the **Landing Pages** tab and search for the page path (e.g. "/sale")
+3. Read the change indicators on **Entrances**, **Conversions** and **Revenue**
+
+**How to read it:** rising entrances with flat conversions means the promotion drove traffic but not buyers. Check the offer and the page itself. Rising conversions and revenue confirm the page worked as an entry point. Pages marked **New** had no entrances in the comparison period.
+
+Requires: purchase conversions with an amount. Conversions are credited to the landing page of the session in which they happen (last click per session), so a purchase made in a later session that started elsewhere is credited to that later session's landing page.
 
 ## Export
 
-Each tab has its own **Export** button to download:
-- All visible rows (respecting filters)
-- All columns, including the content group
-- Choose **CSV** or **PDF** format
+Each tab has its own **Export** button (**Export as CSV** or **Export as PDF**). The export contains the rows currently loaded in the table (up to 100, after search, filters and content group selection) with these columns:
+
+| Tab | Exported columns |
+|-----|------------------|
+| **All Pages** | Path, Pageviews, Entrances, Content Group (from URL-pattern rules; "Other" when none matches) |
+| **Landing Pages** | Path, Content Group, Entrances, Bounce Rate, Microconversions, Conversions, Revenue |
 
 ## Related documentation
 
 - [Content Grouping](/implementation/content-site-structure/content-grouping) — Set up the groups used to categorize pages
 - [How Sealmetrics Calculates Entrances](/reports/insights/how-sealmetrics-calculates-entrances) — What counts as an entrance on a landing page
+- [Filters](/reports/filters) — Global Segment filters and the table filter builder
 - [Sources Report](/reports/sources) — See which channels drive landing-page traffic
+- [Conversions Report](/reports/conversions) — Conversions and revenue by conversion type
+- [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) — Track purchases, add to cart and checkout
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
 - [Metrics Reference](/reports/definitions) — Definitions for pageviews, entrances, and bounce rate

@@ -1,10 +1,10 @@
 ---
 title: "Metrics Reference"
-description: "Detailed reference of all Sealmetrics report metrics — formulas, benchmarks, and interpretation for entrances, pageviews, conversions, revenue, and advanced KPIs."
+description: "Detailed reference of all Sealmetrics report metrics — formulas and interpretation for entrances, pageviews, conversions, revenue, and advanced KPIs."
 canonical_url: "https://docs.sealmetrics.com/reports/definitions"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "89786fd4504093e645effb30a74a6a7da150e2b005636b9e095fa94d49127cfa"
+date_generated: "2026-09-21T07:18:17.820Z"
+source_hash: "70aa4f017ce8bc817b3f106d44c0b947c574d6d486d21636438bcefbb0479731"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/reports/definitions
 
-Detailed formulas, benchmarks, and interpretation guidelines for every metric in Sealmetrics reports.
+Detailed formulas and interpretation guidelines for every metric in Sealmetrics reports.
 
 For a complete glossary of all terms (including privacy, platform, and technical concepts), see the [Glossary](/faq/glossary).
 
@@ -172,14 +172,7 @@ Use **entrances** as the audience-size signal instead — it measures unique ses
 | Range | 0% to 100% (capped) |
 | Higher is better | Indicates effective conversion funnel |
 
-**Benchmarks by industry:**
-
-| Industry | Typical Conv. Rate |
-|----------|-------------------|
-| E-commerce | 1-3% |
-| SaaS | 3-7% |
-| Lead generation | 2-5% |
-| Media/Content | 1-2% (subscription) |
+There is no universal "good" conversion rate: it depends on your sector, price point and traffic mix. Compare your own rate across periods, channels and devices rather than against a generic benchmark.
 
 ### Events (Microconversions)
 
@@ -231,23 +224,25 @@ Reports can be broken down by dimensions such as UTM Source, UTM Medium, UTM Cam
 
 ## Funnel Metrics
 
+Funnel steps are **aggregate event counts for the period**, not individual users followed through a path — Sealmetrics does not track users across pages or sessions. Read these rates as ratios between step totals, not as "the same shoppers moving forward". See the [Funnel report](/reports/funnel).
+
 ### Funnel Completion Rate
 
-**Definition:** The percentage of users who completed all steps in a funnel.
+**Definition:** The last step's total relative to the first step's total.
 
-| Formula | (Users completing last step / Users entering first step) × 100 |
+| Formula | (Count at last step / Count at first step) × 100 |
 
 ### Step Completion Rate
 
-**Definition:** The percentage of users who completed a step relative to the previous step.
+**Definition:** A step's total relative to the previous step's total.
 
-| Formula | (Users at current step / Users at previous step) × 100 |
+| Formula | (Count at current step / Count at previous step) × 100 |
 
 ### Drop-off Rate
 
-**Definition:** The percentage of users who left at a specific step.
+**Definition:** The share of the previous step's total that does not appear at the current step.
 
-| Formula | (Users who left at step / Users who entered step) × 100 |
+| Formula | 100 − Step Completion Rate |
 
 ## Comparison Metrics
 

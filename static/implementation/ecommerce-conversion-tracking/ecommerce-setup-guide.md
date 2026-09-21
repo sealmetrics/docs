@@ -3,8 +3,8 @@ title: "E-commerce Setup Guide"
 description: "Complete guide to tracking e-commerce conversions, revenue, and customer journey with Sealmetrics. Includes examples for WooCommerce, Shopify, and custom platforms."
 canonical_url: "https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "0ee0c70cadb477736f0d5caab343f323db0fe6109ecd6cc997522fedf70bbc61"
+date_generated: "2026-09-21T07:18:17.820Z"
+source_hash: "39451968dd2bfcdc59468c2d2759450a57fbd187e7ed74244522c669aad05003"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -58,7 +58,7 @@ Track the complete customer journey:
 
 | Step | Event Type | Function |
 |------|------------|----------|
-| Product View | Microconversion | `sealmetrics.micro('view_product', {...})` |
+| Product View | Microconversion | `sealmetrics.micro('view_item', {...})` |
 | Add to Cart | Microconversion | `sealmetrics.micro('add_to_cart', {...})` |
 | View Cart | Microconversion | `sealmetrics.micro('view_cart', {...})` |
 | Begin Checkout | Microconversion | `sealmetrics.micro('begin_checkout', {...})` |
@@ -71,11 +71,11 @@ Track the complete customer journey:
 
 ### Product View
 
-Track when users view product details:
+Track when users view product details. Use `view_item`: it is the name the [Funnel report](/reports/funnel) reads for its View Product step (the legacy `view_product`, still emitted by older integrations, is also accepted and summed).
 
 ```javascript
 // On product page load
-sealmetrics.micro('view_product', {
+sealmetrics.micro('view_item', {
   product_id: 'SKU-123',
   product_name: 'Blue Running Shoes',
   category: 'footwear',
@@ -421,9 +421,9 @@ In this mode you can:
 
 - **Browse product fields**: See all fields you've tracked across items (`product_name`, `category`, `brand`, `sku`, etc.) and how frequently each appears
 - **Analyze by source**: Select a field (e.g., `product_name`) to see which products are sold by each traffic source, medium, and campaign
-- **View totals or rates**: Toggle between raw counts and conversion rates
-- **Filter**: Narrow results by conversion type, UTMs, channel, country, or device
 - **Export**: Download CSV for any view
+
+The report filters by date range only — there is no filter by conversion type, UTM, channel, country or device on it. See the [Properties report](/reports/properties) for what each mode and toggle actually shows.
 
 Items with a `quantity` field are automatically counted by units — a product with `quantity: 2` counts as 2 in the report.
 
