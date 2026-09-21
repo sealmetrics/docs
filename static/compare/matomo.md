@@ -3,8 +3,8 @@ title: "Sealmetrics vs Matomo: self-hosted open source vs managed consentless cl
 description: "Matomo is GPL-licensed and self-hostable, but its cookieless mode hashes the visitor's IP. Sealmetrics never uses the IP and stores everything in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/matomo"
 lang: "en"
-date_generated: "2026-09-04T11:01:07.053Z"
-source_hash: "9385f3d0aa50b6ecba1965336c2bc5a0539e517823651bc3328232f9fd11068c"
+date_generated: "2026-09-21T07:05:04.397Z"
+source_hash: "3f9089b2636cfe41e52321dc08ee561379229ffa5a0ee59bf572d488cebdadc3"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -32,7 +32,7 @@ Matomo facts checked 2026-09-04 on matomo.org; each row links to the page it was
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | Cloud: Frankfurt, Germany; On-Premise: your choice ([source](https://matomo.org/pricing/)) |
 | Vendor's position on consent | No banner needed for measurement | "No need for cookie consent screens" once anonymisation techniques are configured ([source](https://matomo.org/gdpr-analytics/)); consent-free operation depends on a checklist of settings ([source](https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-without-consent-or-cookie-banner/)) |
 | Accuracy without cookies | Designed for it — no unique-visitor metric to degrade | Unique and returning visitors "will be inaccurate" when cookies are disabled ([source](https://matomo.org/faq/general/faq_156/)) |
-| Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; Sealmetrics measured ~46 KB on the vendor demo instance, 27 Aug 2026 — varies with installed plugins ([method](/guides/tracker-performance-report)) |
+| Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; Matomo measured ~46 KB on the vendor demo instance, 27 Aug 2026 — varies with installed plugins ([method](/guides/tracker-performance-report)) |
 | Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | On-Premise free; Cloud has a free trial, paid plans from about €29/month — see [pricing](https://matomo.org/pricing/) |
 
 ## How each one measures visitors
