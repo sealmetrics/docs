@@ -9,6 +9,10 @@ keywords:
   - map campaign id to utm campaign
   - my custom parameters are not in the reports
   - custom parameter attribution without retagging links
+  - override utm already in the url
+  - google shopping feed utm wrong campaign
+  - performance max product feed utm_source product_sync
+  - final url suffix cannot remove utm parameters
 ---
 
 # UTM Mapping
@@ -34,8 +38,8 @@ If your links already carry proper `utm_source` / `utm_medium` / `utm_campaign`,
 
 You'll see:
 
-- A small form to add a mapping (custom parameter name + target UTM).
-- A list of the mappings currently active for this site.
+- A small form to add a mapping (custom parameter name + target UTM), with an optional **Override the UTM if the URL already has one** checkbox.
+- A list of the mappings currently active for this site, each with an **Override** switch.
 - A blue-highlighted note: *"Mappings take effect within ~5 minutes and apply to future traffic only."*
 
 ## How it works
@@ -48,11 +52,23 @@ The mapping runs **at ingest time**. It doesn't rewrite the URL your visitor saw
 
 Five rules define exactly what happens, and they're worth internalizing:
 
-1. **Explicit UTMs always win.** If the URL already carries a non-empty value for the target UTM, the mapping is skipped. A mapping never overwrites a value your team put in explicitly. Example: with `campaign_id → utm_campaign`, a URL like `?campaign_id=X&utm_campaign=Y` classifies with `utm_campaign=Y`. The explicit `Y` wins.
+1. **Explicit UTMs win by default.** If the URL already carries a non-empty value for the target UTM, the mapping is skipped: a mapping never overwrites a value your team put in explicitly. Example: with `campaign_id → utm_campaign`, a URL like `?campaign_id=X&utm_campaign=Y` classifies with `utm_campaign=Y`. The explicit `Y` wins.
+
+   **Unless you enable "Override the UTM if the URL already has one" on that mapping.** With that option on, the mapped value is applied even when the URL already carries the target UTM — in the example above, the visit would classify with `utm_campaign=X`. Use it when the UTM in the URL is not yours to control: most often a Google Shopping or Performance Max product feed, whose links already arrive with `utm_source`, `utm_medium` and `utm_campaign` set by the platform, and where the Google Ads final URL suffix can only append parameters, never remove them (see [use case 4](#use-case-4--google-shopping--performance-max-product-feed)). The option is set per mapping and is **off by default** — mappings you created before it existed keep behaving exactly as they did.
 2. **Copy, not move.** The custom parameter isn't removed from the URL — it's copied into the target UTM. Both values coexist internally. This matters for custom properties or downstream logic that might still look at the original param.
 3. **Empty or missing = no-op.** If the custom parameter is absent from the URL or its value is empty (`?campaign_id=`), the mapping does nothing. Empty values never "clear" a UTM.
 4. **Self-mappings are ignored.** A mapping like `utm_source → utm_source` is silently skipped — it has no meaningful effect.
 5. **First-created wins on ties.** If you configure two custom parameters mapping to the same UTM (e.g. `campaign_id → utm_campaign` and `campaign_code → utm_campaign`), and a visit carries both, the mapping created earlier wins. The evaluation order is deterministic across every visit — you'll never see one visit resolve one way and another visit resolve differently.
+
+   The exception is the override option: a mapping with **Override the UTM if the URL already has one** enabled writes unconditionally, so it also replaces what an earlier mapping wrote on the same UTM. If several overriding mappings target the same UTM, the most recently created one wins.
+
+Put together, for any one target UTM the final value is decided like this:
+
+| The URL carries… | Mapping without override | Mapping with override |
+|---|---|---|
+| No value for the target UTM | Mapped value is applied | Mapped value is applied |
+| A non-empty value for the target UTM | URL value is kept, mapping skipped | Mapped value replaces the URL value |
+| The custom parameter empty or absent | Nothing happens | Nothing happens — override never clears a UTM |
 
 ### How fast do changes take effect?
 
@@ -71,11 +87,16 @@ In the **UTM Mappings** tab:
    - **Campaign** (`utm_campaign`)
    - **Term** (`utm_term`)
    - **Content** (`utm_content`)
-3. Click **Add**. The mapping is active within ~5 min.
+3. Optionally tick **Override the UTM if the URL already has one**. Leave it unticked unless the URL's own UTMs are outside your control (see [rule 1](#the-rules)). You can also toggle it later, per mapping, from the list.
+4. Click **Add**. The mapping is active within ~5 min.
 
 You can only map to **one of those five standard UTMs**. Sealmetrics doesn't let you invent new attribution fields via UTM Mapping — for grouping the values into custom channels, use [Channel Grouping](/platform/settings/tracking/channel-grouping) instead.
 
 Each custom parameter name can only map to **one** target UTM per site (attempting to add a second mapping for the same custom name is prevented by the API).
+
+## Turning the override on or off later
+
+Each row in the mappings list has an **Override** switch. Flipping it changes only that mapping, and — like every other change here — takes effect for new traffic within ~5 minutes and is not retroactive: visits already classified keep the UTMs they got at ingest.
 
 ## Removing a mapping
 
@@ -133,7 +154,33 @@ You migrated from an older platform that tagged links as `?campaign_id=…` and 
 |------------------|---------|
 | `campaign_id` | Campaign (`utm_campaign`) |
 
-New links can start using `utm_campaign` directly — since **explicit UTMs win**, both formats coexist safely during the transition.
+New links can start using `utm_campaign` directly — since **explicit UTMs win by default** (leave the override off on this mapping), both formats coexist safely during the transition.
+
+### Use case 4 — Google Shopping / Performance Max product feed
+
+Your product feed reaches Google with its own tagging — for example `utm_source=google`, `utm_medium=product_sync`, `utm_campaign=sag_organic` — and you add your own parameters through the Google Ads **final URL suffix**, which can only append parameters, never remove the ones already in the link. Every paid click therefore carries both sets, and by default the feed's values win, so paid Shopping clicks get attributed to the feed's campaign instead of the real one — and there is nothing you can change on the Google Ads side to prevent it.
+
+Put your own values in custom parameters in the final URL suffix (for example `sm_source=google&sm_medium=shopping&sm_campaign={campaignid}`) and add these mappings, each with the override enabled:
+
+| Custom parameter | Maps to | Override |
+|------------------|---------|----------|
+| `sm_source` | Source (`utm_source`) | ✅ |
+| `sm_medium` | Medium (`utm_medium`) | ✅ |
+| `sm_campaign` | Campaign (`utm_campaign`) | ✅ |
+
+With the override enabled on these three mappings, a click arriving as
+
+```
+?utm_source=google&utm_medium=product_sync&utm_campaign=sag_organic&sm_source=google&sm_medium=shopping&sm_campaign=23776388097
+```
+
+is classified as `source=google`, `medium=shopping`, `campaign=23776388097` — the real campaign. Without the override, the same click would have been classified as `medium=product_sync`, `campaign=sag_organic`.
+
+:::caution This changes which channel the traffic falls into
+Once the medium is `shopping` instead of the feed's value, these visits are picked up by the **Paid Shopping** default channel rule (source `google` or `bing` with a shopping medium). If you had a custom channel rule catching the feed's tagging (for example matching `medium=^product_sync$`), review it — it will stop matching the paid clicks. Check a sample URL in the **Test a visit** tester under [Channel Grouping](/platform/settings/tracking/channel-grouping) before and after.
+:::
+
+Organic product listings from the same feed carry no final URL suffix, so no `sm_*` parameters arrive and the mappings do nothing: those visits keep the feed's own UTMs (rule 3, *empty or missing = no-op*).
 
 ## Limitations
 
@@ -142,6 +189,7 @@ New links can start using `utm_campaign` directly — since **explicit UTMs win*
 - **Case-sensitive on the custom parameter name.** `Campaign_ID` and `campaign_id` are different parameters. Match your team's actual tagging.
 - **Not editable via MCP.** UTM Mapping is configured only from the dashboard UI — there are no MCP tools for it.
 - **Not retroactive.** Only future traffic uses the mapping.
+- **The override option never applies to click ID parameters.** `gclid`, `fbclid`, `msclkid` and the rest cannot be mapped to a UTM at all, with or without the override.
 
 ## Related
 

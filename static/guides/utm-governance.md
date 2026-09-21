@@ -3,8 +3,8 @@ title: "UTM Governance: Naming Conventions That Keep Attribution Clean"
 description: "UTM governance for Sealmetrics: lowercase values, one separator, one canonical name per source, mediums matching default channels, no UTMs on internal links."
 canonical_url: "https://docs.sealmetrics.com/guides/utm-governance"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "7dba53e77b577a3f503925df966dcc59a24c9d75a4aa4bf84628ac659e15dcd2"
+date_generated: "2026-09-21T07:02:51.313Z"
+source_hash: "e69e3f0ea7fb741bc4160577212cfc7b5bab07314d04ae7932a2a31096ec6087"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -196,7 +196,7 @@ The tracker reads the query string on each page load. There is no consent gate a
 
 ### Stage 2: UTM Mappings translate custom parameters
 
-If your ESP, CRM, or ad platform emits its own parameter names — `campaign_id`, `email_source`, `ad_medium` — [UTM Mapping](/platform/settings/tracking/utm-mapping) lets you declare, per site, "treat `campaign_id` as `utm_campaign`". The mapping is applied at ingest, before classification, with well-defined semantics: **explicit UTMs always win** over mapped values, mappings copy (never move) the value, and empty parameters are a no-op. Mappings take effect in ~5 minutes and apply to future traffic only.
+If your ESP, CRM, or ad platform emits its own parameter names — `campaign_id`, `email_source`, `ad_medium` — [UTM Mapping](/platform/settings/tracking/utm-mapping) lets you declare, per site, "treat `campaign_id` as `utm_campaign`". The mapping is applied at ingest, before classification, with well-defined semantics: **explicit UTMs win** over mapped values by default (unless you enable the per-mapping *Override the UTM if the URL already has one* option, meant for feeds whose UTMs you don't control), mappings copy (never move) the value, and empty parameters are a no-op. Mappings take effect in ~5 minutes and apply to future traffic only.
 
 Governance implication: UTM Mapping is your integration escape hatch, not an excuse to skip conventions. The *values* still need to follow your taxonomy — mapping renames the parameter, it never rewrites `Facebook` into `facebook`. There's deliberately no value transformation at ingest.
 
