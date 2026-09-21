@@ -3,8 +3,8 @@ title: "What is Consentless Analytics?"
 description: "What consentless analytics is, the four non-identifying variables Sealmetrics records, and why measuring without personal data means no consent banner is required."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-analytics"
 lang: "en"
-date_generated: "2026-09-15T18:01:06.894Z"
-source_hash: "3a79f311410b8ce6aec0ce09d05d9498a25200af90bac155b3ff254e6ffdbaa4"
+date_generated: "2026-09-21T08:04:46.276Z"
+source_hash: "857e817743d231fbcfd29ed66005c4174112aaf69c9b91b78877a703a8c4cdad"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -32,7 +32,7 @@ Consentless analytics solves this by measuring aggregate behavior rather than tr
 Sealmetrics uses a consentless tracking approach built on four non-identifying variables per event:
 
 1. **Timestamp** — when the event occurred
-2. **User Agent** — browser and device type (used for anonymous device classification; the event-level raw string is purged after 1 day)
+2. **User Agent** — browser and device type (used for anonymous device classification; the raw string is used in flight and never written to storage)
 3. **Current URL** — the page being viewed
 4. **Referral URL** — where the visitor came from
 

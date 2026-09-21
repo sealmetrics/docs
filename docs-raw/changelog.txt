@@ -6,6 +6,30 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
+## UTM Mapping — override the UTM a URL already carries (September 21, 2026)
+
+Each UTM mapping now has an option, **Override the UTM if the URL already has one**. It is **off by default**, so every existing mapping keeps working exactly as before.
+
+### Why
+
+Until now, a UTM already present in the URL always won over a mapped value. That is the right default when your team tags links, but not when the tagging comes from a platform you can't change. The typical case is a Google Shopping or Performance Max product feed: the product links reach Google with `utm_source`, `utm_medium` and `utm_campaign` already set by the platform, and the Google Ads final URL suffix can only **append** parameters, never remove them. Paid Shopping clicks were attributed to the feed's campaign instead of the real one, with no way for the advertiser to fix it.
+
+### What changed
+
+- **New per-mapping option.** Tick **Override the UTM if the URL already has one** when you create a mapping, or flip the **Override** switch on its row in the list. With it on, the mapped value is written even when the URL already carries that UTM.
+- **Default behaviour unchanged.** Without the option, explicit UTMs still win and the mapping is skipped.
+- **Ties between mappings.** An overriding mapping also replaces what an earlier mapping wrote on the same UTM; if several overriding mappings target the same UTM, the most recently created one wins.
+- **Click IDs are out of scope.** `gclid`, `fbclid`, `msclkid` and the rest still cannot be mapped to a UTM, with or without the option.
+
+### Before you turn it on
+
+- **The channel can change.** In the Google Shopping case, once the medium becomes your own value (for example `shopping`), those visits move into the **Paid Shopping** default channel. If you had a custom channel rule matching the feed's tagging, review it.
+- **Not retroactive.** As with any UTM Mapping change, it applies to new traffic within about 5 minutes; past visits keep the UTMs they had.
+
+Full rules, a decision table and the Google Shopping / Performance Max walkthrough: [UTM Mapping](/platform/settings/tracking/utm-mapping#use-case-4--google-shopping--performance-max-product-feed).
+
+---
+
 ## Local MCP server — action required if you set it up before June 27 (September 1, 2026)
 
 If you connected Sealmetrics to Claude using the **local (npx) MCP server** and configured it before June 27, 2026, your connection has most likely been failing ever since. This affects the local server only: the [remote MCP server](/integrations/mcp-server#remote-mcp-server-recommended) and the Claude Desktop extension are unaffected.

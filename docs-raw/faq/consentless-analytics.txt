@@ -31,7 +31,7 @@ For each hit, Sealmetrics records:
 - Timestamp  
 - URL  
 - Referral URL  
-- User Agent — the raw string is purged after 1 day; only anonymous device categories persist in aggregates
+- User Agent — the raw string is never written to storage; only anonymous device categories persist in aggregates
 
 No IP address  
 No persistent identifiers  
@@ -50,7 +50,7 @@ Sealmetrics avoids this by **not linking hits**, so no cross-session tracking ta
 
 **Note:**
 - Sealmetrics needs no consent because nothing is stored on the device (ePrivacy) and no personal data is collected (GDPR).
-- Each hit records only timestamp, URL, referral URL and user agent (raw string purged after 1 day) — no IP address, no persistent identifiers, no fingerprinting.
+- Each hit records only timestamp, URL, referral URL and user agent (raw string never written to storage) — no IP address, no persistent identifiers, no fingerprinting.
 - Hits are never linked, so there is no cross-session tracking; the compliance pages are self-assessments, not supervisory-authority validations.
 
 ## Related documentation

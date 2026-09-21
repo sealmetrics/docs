@@ -3,8 +3,8 @@ title: "Devices Report"
 description: "Analyze entrances, conversions and revenue by device type, browser and operating system — and find out whether mobile shoppers or a specific browser are costing your store sales."
 canonical_url: "https://docs.sealmetrics.com/reports/devices"
 lang: "en"
-date_generated: "2026-09-21T07:18:17.820Z"
-source_hash: "8b29812a06320421a522e12612b64e3c88f098755d9e56e7da71045beefddfb4"
+date_generated: "2026-09-21T08:04:46.276Z"
+source_hash: "58ceee895349a1a3a6d495548a115bb62a2fb84daa381d6a630da50cddbe2f7b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -301,7 +301,7 @@ Keep in mind that **Conv.** and **Revenue** in this report include every convers
 
 ### User Agent Detection
 
-Device type, browser and OS are derived from the User-Agent header of each pageview by simple keyword rules. The raw User-Agent string is kept only in the event-level log, which is purged after 1 day; only the derived categories (device type, browser family, OS family) are kept, inside daily aggregates, for up to 24 months. See [What We Track](/security-privacy/what-we-track).
+Device type, browser and OS are derived from the User-Agent header of each pageview by simple keyword rules. The raw User-Agent string is used in flight and never written to storage; only the derived categories (device type, browser family, OS family) are kept, inside daily aggregates, for up to 24 months. See [What We Track](/security-privacy/what-we-track).
 
 Known consequences of the detection rules:
 

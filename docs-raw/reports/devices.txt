@@ -289,7 +289,7 @@ Keep in mind that **Conv.** and **Revenue** in this report include every convers
 
 ### User Agent Detection
 
-Device type, browser and OS are derived from the User-Agent header of each pageview by simple keyword rules. The raw User-Agent string is kept only in the event-level log, which is purged after 1 day; only the derived categories (device type, browser family, OS family) are kept, inside daily aggregates, for up to 24 months. See [What We Track](/security-privacy/what-we-track).
+Device type, browser and OS are derived from the User-Agent header of each pageview by simple keyword rules. The raw User-Agent string is used in flight and never written to storage; only the derived categories (device type, browser family, OS family) are kept, inside daily aggregates, for up to 24 months. See [What We Track](/security-privacy/what-we-track).
 
 Known consequences of the detection rules:
 

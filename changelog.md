@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release local MCP server package rename (September 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release UTM Mapping override option for Google Shopping and Performance Max feeds (September 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-09-15T19:21:54.511Z"
-source_hash: "ad0e1e2edf5c8e4afa9337cd050625ad05405a0722012ae2472ee6e6c7350c2a"
+date_generated: "2026-09-21T08:04:46.276Z"
+source_hash: "58dd5144855c47adee40cdf7d7785cc2b5b92b2ade8954c5f7c77a9c6712138c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,30 @@ publisher: "Sealmetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## UTM Mapping — override the UTM a URL already carries (September 21, 2026)
+
+Each UTM mapping now has an option, **Override the UTM if the URL already has one**. It is **off by default**, so every existing mapping keeps working exactly as before.
+
+### Why
+
+Until now, a UTM already present in the URL always won over a mapped value. That is the right default when your team tags links, but not when the tagging comes from a platform you can't change. The typical case is a Google Shopping or Performance Max product feed: the product links reach Google with `utm_source`, `utm_medium` and `utm_campaign` already set by the platform, and the Google Ads final URL suffix can only **append** parameters, never remove them. Paid Shopping clicks were attributed to the feed's campaign instead of the real one, with no way for the advertiser to fix it.
+
+### What changed
+
+- **New per-mapping option.** Tick **Override the UTM if the URL already has one** when you create a mapping, or flip the **Override** switch on its row in the list. With it on, the mapped value is written even when the URL already carries that UTM.
+- **Default behaviour unchanged.** Without the option, explicit UTMs still win and the mapping is skipped.
+- **Ties between mappings.** An overriding mapping also replaces what an earlier mapping wrote on the same UTM; if several overriding mappings target the same UTM, the most recently created one wins.
+- **Click IDs are out of scope.** `gclid`, `fbclid`, `msclkid` and the rest still cannot be mapped to a UTM, with or without the option.
+
+### Before you turn it on
+
+- **The channel can change.** In the Google Shopping case, once the medium becomes your own value (for example `shopping`), those visits move into the **Paid Shopping** default channel. If you had a custom channel rule matching the feed's tagging, review it.
+- **Not retroactive.** As with any UTM Mapping change, it applies to new traffic within about 5 minutes; past visits keep the UTMs they had.
+
+Full rules, a decision table and the Google Shopping / Performance Max walkthrough: [UTM Mapping](/platform/settings/tracking/utm-mapping#use-case-4--google-shopping--performance-max-product-feed).
 
 ---
 
