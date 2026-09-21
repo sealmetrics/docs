@@ -9,6 +9,9 @@ keywords:
   - how to export a report to csv
   - compare this month with last month
   - save a segment of my traffic
+  - which report shows ecommerce revenue by campaign
+  - where do shoppers abandon the checkout
+  - ecommerce analytics questions sealmetrics
 ---
 
 # Reports
@@ -28,6 +31,34 @@ Sealmetrics provides 9 specialized reports to analyze your website traffic, conv
 | [Conversions](/reports/conversions) | Conversion and event tracking | Conversions, microconversions, revenue |
 | [Properties](/reports/properties) | Event property analysis | Property breakdown by UTM attribution |
 | [Funnel](/reports/funnel) | Conversion funnel analysis | Step progression, drop-off rates |
+
+## E-commerce: which report answers which question
+
+Every report page ends with an **E-commerce use cases** section built from what that report actually shows. Start from the question you have:
+
+| Question | Report |
+|---|---|
+| [How much did the store sell, and is the average order growing?](/reports/conversions#how-much-did-the-store-actually-sell-and-is-the-average-order-growing) | Conversions |
+| [Is revenue growing, or only traffic?](/reports/evolution#is-my-revenue-growing-or-only-my-traffic) | Evolution |
+| [Is today's revenue on track?](/reports/overview#is-todays-revenue-on-track) | Overview |
+| [Which channels and campaigns bring buyers, not just visits?](/reports/sources#which-campaigns-bring-buyers-not-just-visits) | Sources |
+| [Is Google Shopping / Performance Max credited to the right campaign?](/reports/sources#is-my-google-shopping--performance-max-traffic-credited-to-the-right-campaign) | Sources |
+| [Is my payment gateway taking credit for sales?](/reports/sources#is-my-payment-gateway-taking-credit-for-sales) | Sources |
+| [Where do shoppers abandon the checkout?](/reports/funnel#where-do-shoppers-abandon-the-checkout) | Funnel |
+| [Which campaigns fill carts that never reach checkout?](/reports/sources#do-my-campaigns-fill-carts-that-never-reach-checkout) | Sources |
+| [Which landing pages bring in sales, and which get visits but no sales?](/reports/pages#which-landing-pages-actually-bring-in-sales) | Pages |
+| [Do product pages or category pages work better as entry points?](/reports/pages#do-product-pages-or-category-pages-work-better-as-entry-points) | Pages |
+| [Is my mobile checkout losing sales?](/reports/devices#is-my-mobile-checkout-losing-sales) | Devices |
+| [Is one browser breaking my checkout?](/reports/devices#is-one-browser-breaking-my-checkout) | Devices |
+| [Which countries buy, not just visit?](/reports/geography#which-countries-actually-buy-not-just-visit) | Geography |
+| [Which campaigns sell which products or categories?](/reports/properties#which-campaigns-sell-which-product-categories) | Properties |
+| [Which campaigns depend on discount codes?](/reports/properties#which-campaigns-depend-on-discount-codes) | Properties |
+| [What days and hours do customers buy?](/reports/evolution#what-days-and-hours-do-my-customers-buy) | Evolution |
+| [Did a promotion lift orders, or only traffic?](/reports/overview#did-the-promotion-lift-orders-or-only-traffic) | Overview |
+
+Most of these need the standard e-commerce events: a `purchase` conversion **with the order amount**, and `view_item`, `add_to_cart` and `begin_checkout` as microconversions (product breakdowns also need the `items` array). See the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide).
+
+Two limits apply to every answer: Sealmetrics counts **entrances, not unique visitors**, and attribution is **last click per session** — there is no cross-session customer journey to follow.
 
 ## Accessing Reports
 
@@ -68,7 +99,7 @@ Compare current period with:
 - **Previous Year**: Same dates in the prior year
 - **Custom**: Manually select comparison range
 
-When enabled, charts show a secondary line and stat cards display delta percentages.
+When enabled, charts show a secondary line and tables show delta percentages where the report supports them. Not every report honours every mode: the Overview and Evolution cards always compare with the previous period, the Conversions cards show no deltas, and a **Custom** comparison range currently falls back to the previous period. Each report page says what its comparison covers.
 
 ### Global Filters
 
@@ -79,20 +110,20 @@ Open the **Segment** panel from the filter bar below the header. Available filte
 | Geography | Countries (multi-select) |
 | Devices | Device type, Browser, Operating System |
 
-Filters apply to all report pages. Active filters appear as removable chips.
+Filters apply across report pages and active filters appear as removable chips. One exception: in the [Properties report](/reports/properties) they change the entrance counts but not the property event counts — see that page.
 
 ### Segments
 
 Save filter combinations for quick access:
 
 1. Apply desired filters
-2. Click **Save as Segment**
+2. Click **Save Segment** (or **Save current as segment** from the Segments dropdown)
 3. Name the segment
 4. Access saved segments from the dropdown
 
 ### Export
 
-Most reports include an **Export** button to download data as CSV or PDF.
+Every report except Overview has an **Export** button to download the table as CSV or PDF. What the export contains (loaded rows vs all rows, which columns) varies by report and is described on each report's page.
 
 ## Report Details
 

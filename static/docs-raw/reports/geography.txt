@@ -4,7 +4,7 @@ URL: https://docs.sealmetrics.com/reports/geography
 
 # Geography
 
-The Geography report shows where your visitors come from, with country-level metrics and visual map representation.
+The Geography report shows where your visitors come from, with country-level metrics and a world map.
 
 ## Accessing the Report
 
@@ -13,80 +13,122 @@ The Geography report shows where your visitors come from, with country-level met
 
 **URL pattern:** `/sites/{site_id}/geo`
 
+## How the country is determined
+
+The country of each session comes from the **timezone configured in the visitor's browser**, mapped to a country through an IANA timezone table — not from the IP address. Timezones used by a single country resolve with high confidence; shared timezones resolve to the most likely country, so precision is country-level only. Sessions whose timezone cannot be mapped are grouped under **Unknown**.
+
+See [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) for the full method.
+
 ## World Map
 
-Interactive choropleth map showing traffic distribution by country.
+The **Visitors by Country** map shades each country according to its **Entrances** for the selected period.
 
 ### Map Features
 
 | Feature | Description |
 |---------|-------------|
-| **Color intensity** | Darker colors indicate more traffic |
-| **Hover tooltip** | Shows country name and key metrics |
-| **Click** | Filters table to selected country |
+| **Color intensity** | Darker shading means more entrances; countries with no entrances are shown in grey |
+| **Hover tooltip** | Shows the country flag and name, plus Entrances, Pageviews, Bounce rate, Conversions and Revenue |
 | **Zoom** | Scroll to zoom, drag to pan |
+| **Legend** | Scale from 0 to the highest number of entrances among the countries shown |
+
+The map always shades by Entrances; there is no metric selector. It reflects the active Segment and the table's **Filters**, but not the table search box.
 
 ### Color Scale
 
-The map uses a gradient from light to dark based on the selected metric:
+The map uses a gradient from light to dark based on entrances:
 
 | Intensity | Meaning |
 |-----------|---------|
+| Grey | No entrances in the period |
 | Light | Low traffic volume |
-| Medium | Moderate traffic |
 | Dark | High traffic volume |
 
 ## Country Table
 
-Detailed breakdown of metrics by country.
+The **Top Countries** table breaks down metrics by country.
 
 | Column | Description |
 |--------|-------------|
 | **Country** | Country name with flag icon |
 | **Entrances** | Sessions from this country |
 | **Pageviews** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
+| **Bounce Rate** | Percentage of entrances with only one pageview. Shown in red above 70% and in green below 40% |
 | **Conversions** | Completed conversions |
-| **Revenue** | Total revenue |
+| **Revenue** | Total conversion value |
 
-The table is sortable, paginated, and shows a totals row at the bottom.
+The table is sorted by Entrances (descending) by default. Click any column header to sort by it. It is paginated (10, 50, 100 or 500 rows per page) and loads the top 100 countries by entrances for the period.
+
+### Totals row
+
+A **Total** row at the bottom shows the period totals for Entrances, Pageviews, Conversions and Revenue, plus the overall Bounce Rate (computed from total entrances and engaged entrances, not averaged across countries).
+
+When table filters are active, two rows are shown: **Total** (all countries) and **Filtered** (only the rows that match). The Filtered row also shows each additive metric as a share of the total — for example "38.2% of total" under Revenue.
+
+### Period comparison
+
+When you enable a comparison in the [date range picker](/reports/date-range#comparison-mode), Entrances, Pageviews, Conversions and Revenue show the change against the comparison period under each value. Bounce Rate has no comparison indicator.
 
 ## Filtering
 
+### Global Filter Integration
+
+The **Segment** panel in the filter bar applies to this report. All four Segment filters are applied when the data is loaded, so every country row, the map and the Total row reflect them:
+
+| Segment filter | Applies to Geography |
+|----------------|----------------------|
+| **Countries** | Yes — only the selected countries are shown |
+| **Device Type** | Yes — metrics per country count only that device type |
+| **Browser** | Yes |
+| **Operating System** | Yes |
+
+To apply one:
+
+1. Click **Segment** in the filter bar
+2. Choose values under **Geography** (Countries) or **Devices** (Device Type, Browser, Operating System)
+3. Click **Apply Segment**
+
+The Segment panel has no traffic-source (UTM) filter, and this report has no UTM or campaign filter of its own. To see campaigns by country, use the [Funnel report](/reports/funnel#country-filter), which combines a country selector with a per-UTM table.
+
+See [Filters](/reports/filters) for how segments are saved and persisted.
+
 ### Table Filter Builder
 
-Click the filter icon to open the filter builder:
+Click **Filters** above the table to open the filter builder. Click **Add filter group**, then pick a field, an operator and a value. Filters apply as you type and affect both the table and the map.
 
-**Available fields:**
-- Country Code
-- Country Name
-- Entrances
-- Pageviews
-- Bounce Rate
-- Conversions
-- Revenue
+**Available fields and operators:**
+
+| Field | Type | Operators |
+|-------|------|-----------|
+| Country Code | Text | equals, does not equal, contains, does not contain, starts with, ends with, is empty, is not empty |
+| Country Name | Text | Same as Country Code |
+| Entrances | Number | equals, does not equal, greater than, less than, greater or equal, less or equal |
+| Pageviews | Number | Same as Entrances |
+| Bounce Rate | Percentage (0–100) | Same as Entrances |
+| Conversions | Number | Same as Entrances |
+| Revenue | Currency | Same as Entrances |
+
+Text comparisons are case-insensitive. Use **Add condition** to add more conditions to a group, and switch between **AND** and **OR** to combine conditions within a group and across groups. **Clear all** removes every condition.
+
+The filter builder works on the countries already loaded (the top 100 by entrances).
 
 **Example filters:**
 
 | Goal | Filter |
 |------|--------|
 | Countries with significant traffic | Entrances greater than 100 |
-| High-converting countries | Conversions greater than 5 |
+| Countries that convert | Conversions greater than 0 |
 | Countries with revenue | Revenue greater than 0 |
 | Problem countries | Bounce Rate greater than 70 |
+| A group of markets | Country Code equals ES **OR** Country Code equals PT |
+
+### Table search
+
+The **Search countries...** box above the table matches the country code or name. It narrows the table only; the map and the export ignore it.
 
 ### Map Interaction
 
-Click a country on the map to filter the table to that country only.
-
-### Global Filter Integration
-
-Use the global Countries filter to focus on specific regions:
-
-1. Click **Add Filter** in the global filter bar
-2. Select **Countries**
-3. Choose one or more countries
-4. All reports update to show only selected countries
+Clicking a country on the map does not filter the table. To focus on one or more countries, use a **Country Code** condition in the table filter builder or the **Countries** filter in the Segment panel.
 
 ## Metrics by Country
 
@@ -98,6 +140,8 @@ Use the global Countries filter to focus on specific regions:
 | Bounce Rate | Content relevance by region |
 | Conversions | Market fit by country |
 | Revenue | Highest-value markets |
+
+Conversion rate and revenue per entrance are not columns in this report. Calculate them from the table (Conversions ÷ Entrances, Revenue ÷ Entrances) — see the [Metrics Reference](/reports/definitions#revenue-per-entrance).
 
 ### Identifying Patterns
 
@@ -111,15 +155,15 @@ Look for:
 
 ### Identifying Top Markets
 
-1. Sort table by **Entrances** (descending)
-2. Note top 5-10 countries
+1. Keep the default sort by **Entrances** (descending)
+2. Note the top 5-10 countries
 3. Compare with business priorities
 4. Check Conversions and Revenue for each
 
 ### Finding Expansion Opportunities
 
 1. Sort by **Conversions** (descending)
-2. Filter: Entrances greater than 50 (statistically significant)
+2. Filter: Entrances greater than 50, to leave out countries with too little traffic to read
 3. Look for countries with:
    - High conversions relative to entrances
    - Low current volume
@@ -132,31 +176,74 @@ Look for:
 3. High bounce + high traffic suggests:
    - Language barriers
    - Cultural mismatch
-   - Payment method issues
-   - Shipping concerns
+   - Landing pages that don't match what visitors from that country expected
 
 ### Evaluating International Campaigns
 
-1. Set date range to campaign period
-2. Apply UTM filters (global filter bar)
-3. Review geographic distribution
-4. Compare conversion rates across countries
+The Geography report cannot be filtered by UTM source, medium or campaign. To evaluate a campaign by country:
+
+1. Set the date range to the campaign period
+2. Open the [Funnel report](/reports/funnel) and pick the country in the **country selector**
+3. Read the **Funnel by UTM** table for that country's campaigns
+4. Back in Geography, enable a comparison against the previous period to see how the country's totals moved
 
 ### Revenue Analysis by Region
 
 1. Sort by **Revenue** (descending)
 2. Identify top revenue countries
-3. Calculate revenue per entrance
+3. Calculate revenue per entrance (Revenue ÷ Entrances)
 4. Prioritize high-value markets
+
+## E-commerce use cases
+
+These cases assume your store sends a `purchase` [conversion](/reports/definitions#conversions) **with the order amount**, so that Conversions and Revenue per country are populated. See [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking) or your platform's integration (for example [Shopify](/integrations/ecommerce/shopify) or [WooCommerce](/integrations/ecommerce/woocommerce)).
+
+### Which countries actually buy, not just visit?
+
+1. Sort the table by **Revenue** (descending)
+2. Add the filter **Entrances greater than** a threshold that fits your traffic, so countries with a handful of sessions don't distort the picture
+3. For each country, calculate Conversions ÷ Entrances and Revenue ÷ Entrances
+
+**How to read it:** a country that ranks high on Entrances but low on Revenue is sending browsers, not buyers — check whether you actually ship there, price in a currency it accepts, and offer its usual payment methods before spending more to acquire traffic there. A country with modest traffic but high revenue per entrance is a candidate for more acquisition budget.
+
+### Where do shoppers arrive but never buy?
+
+1. Open **Filters** and add a group with **Entrances greater than** your threshold **AND** **Conversions equals 0**
+2. Look at the **Bounce Rate** of the countries left
+
+**How to read it:** a high bounce rate means visitors leave on the first page — look at language, landing page relevance and the traffic you are buying for that country. A normal bounce rate with no purchases means people browse but stop later — shipping costs, delivery options, payment methods or pricing are the usual suspects. To see *at which step* they stop, open the [Funnel report](/reports/funnel#country-filter) and select the country: this needs `add_to_cart` and `begin_checkout` microconversions (see [E-commerce conversion tracking](/implementation/ecommerce-conversion-tracking)), because the Geography report shows purchases but not microconversions.
+
+### Is mobile underperforming in one market?
+
+1. Click **Segment**, set **Device Type** to Mobile and click **Apply Segment**
+2. Note Entrances, Conversions and Revenue for your key countries
+3. Change the Segment to Desktop and note the same figures
+4. Compare Conversions ÷ Entrances per country between the two
+
+**How to read it:** if mobile converts well below desktop in one country but not in others, the problem is probably local — a payment method or checkout step that doesn't work well on phones for that market — rather than your mobile site as a whole. Remember to clear the Segment afterwards, because it applies to every report.
+
+### Did a launch or promotion in a new market move sales?
+
+1. Set the date range to the period since the launch or promotion
+2. Click **Compare** and choose **Previous period** (or **Previous year** for seasonal businesses)
+3. Filter the table to the country with **Country Code equals** its code (for example `DE`)
+4. Read the change indicators on Entrances, Conversions and Revenue
+
+**How to read it:** entrances up but conversions flat means the promotion brought traffic that didn't buy. Conversions and revenue up in line with entrances means the market responded. Each purchase is counted under the country resolved for the visit in which it happened — there is no cross-session or multi-touch attribution.
+
+### How dependent is my revenue on one country?
+
+1. Open **Filters** and add **Country Code equals** your main market's code
+2. Read the **Filtered** row: under Revenue it shows that country's share, for example "72.0% of total"
+3. Repeat with an **OR** group for your top two or three markets
+
+**How to read it:** a very high share for a single country means a change in that market (shipping, taxes, a competitor, a payment provider) hits the whole business. Use it to decide whether diversifying into the countries identified in the cases above is worth the effort.
 
 ## Regional Considerations
 
 ### Europe (GDPR)
 
-Countries in the EU may show different patterns due to:
-- Cookie consent requirements
-- Privacy-conscious users
-- Different consent rates
+Sealmetrics does not depend on cookie consent, so traffic from EU countries is not reduced by visitors rejecting a consent banner. If you compare these figures with a consent-based analytics tool, expect EU countries to show more sessions and conversions in Sealmetrics — consent-based tools typically lose 15–60% of data depending on sector, brand and traffic mix. See [Why Sealmetrics can measure without consent](/security-privacy/why-no-consent).
 
 ### Time Zones
 
@@ -165,25 +252,25 @@ Consider when analyzing by country:
 - Weekend patterns vary by culture
 - Holidays differ by country
 
+Because the country itself is derived from the browser timezone, visitors whose device is set to another country's timezone are counted in that country.
+
 ### Currency
 
-Revenue shown in your configured base currency. Consider:
-- Exchange rate fluctuations
+Revenue is the sum of the amounts your conversions send, displayed with the currency set in [Site Settings](/platform/settings/account/general#currency). Sealmetrics does not apply exchange rates: if your store charges in several currencies, send amounts in a single currency so that revenue per country is comparable. Also consider:
 - Local purchasing power
 - Price sensitivity by market
 
 ## Export
 
-Click **Export** to download:
-- All countries with data
-- All metric columns
-- Respects active filters
-- Choose **CSV** or **PDF** format
+Click **Export** above the table and choose **Export as CSV** or **Export as PDF**. The file includes:
+- The countries that match the active Segment and table filters (the search box is not applied)
+- Columns: Country Code, Country Name, Entrances, Pageviews, Bounce Rate, Conversions, Revenue
 
 ## Related documentation
 
 - [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) — The privacy-first geolocation method
-- [Filters](/reports/filters) — Segment reports by country and region
+- [Filters](/reports/filters) — Segment reports by country and device
+- [Funnel Report](/reports/funnel) — The e-commerce funnel for a single country
 - [Devices Report](/reports/devices) — Cross-reference geography with device usage
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
 - [Metrics Reference](/reports/definitions) — Definitions for the country-level metrics

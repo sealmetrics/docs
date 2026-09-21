@@ -3,8 +3,8 @@ title: "Date Range"
 description: "Control the time period for all reports with preset ranges, custom dates, and comparison periods."
 canonical_url: "https://docs.sealmetrics.com/reports/date-range"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "876ae901cd8e363969382a9f42eed3631979aff1a3496513c7ed1fca3bd2e206"
+date_generated: "2026-09-21T07:18:17.820Z"
+source_hash: "04812d6dd892b9933557f67dd8f74fd11f9d6dedbaeed302773d5dd3d33a9ad8"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -99,6 +99,9 @@ To turn comparison off, choose **No comparison** or click the X on the Compare b
 | **Previous period** | Same duration immediately before the selected range | Jan 15-21 compares to Jan 8-14 |
 | **Previous year** | Same dates in the prior year | Jan 15-21, 2025 compares to Jan 15-21, 2024 |
 | **Custom comparison** | Manually selected comparison range | Any dates you choose |
+
+**Caution:**
+You can pick a custom comparison range in the date picker, but the reports do not use it yet: the dashboard sends it to the API as **Previous period**, so the deltas you see are against the same-length period immediately before your range. Use **Previous period** or **Previous year** until this is fixed. Some reports also ignore the comparison mode entirely (the Overview and Evolution cards always compare with the previous period) — each report page says what its comparison covers.
 
 ### Comparison Display
 
