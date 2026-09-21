@@ -182,7 +182,7 @@ The tracker reads the query string on each page load. There is no consent gate a
 
 ### Stage 2: UTM Mappings translate custom parameters
 
-If your ESP, CRM, or ad platform emits its own parameter names — `campaign_id`, `email_source`, `ad_medium` — [UTM Mapping](/platform/settings/tracking/utm-mapping) lets you declare, per site, "treat `campaign_id` as `utm_campaign`". The mapping is applied at ingest, before classification, with well-defined semantics: **explicit UTMs always win** over mapped values, mappings copy (never move) the value, and empty parameters are a no-op. Mappings take effect in ~5 minutes and apply to future traffic only.
+If your ESP, CRM, or ad platform emits its own parameter names — `campaign_id`, `email_source`, `ad_medium` — [UTM Mapping](/platform/settings/tracking/utm-mapping) lets you declare, per site, "treat `campaign_id` as `utm_campaign`". The mapping is applied at ingest, before classification, with well-defined semantics: **explicit UTMs win** over mapped values by default (unless you enable the per-mapping *Override the UTM if the URL already has one* option, meant for feeds whose UTMs you don't control), mappings copy (never move) the value, and empty parameters are a no-op. Mappings take effect in ~5 minutes and apply to future traffic only.
 
 Governance implication: UTM Mapping is your integration escape hatch, not an excuse to skip conventions. The *values* still need to follow your taxonomy — mapping renames the parameter, it never rewrites `Facebook` into `facebook`. There's deliberately no value transformation at ingest.
 
