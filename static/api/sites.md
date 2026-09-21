@@ -3,8 +3,8 @@ title: "Sites"
 description: "Create and manage analytics sites, configure authorized domains and UTM mappings, and generate and verify pixel installation"
 canonical_url: "https://docs.sealmetrics.com/api/sites"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "f4c01c2a54053b25fe3f05473fb141014ccdfee2a372bae9982fa45bee010a77"
+date_generated: "2026-09-21T08:22:59.074Z"
+source_hash: "3dd6c5eec8553aa788de6064ce3e86d286e2e5f76a6f3669482d6bd21158f3a9"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -297,6 +297,7 @@ GET /sites/{site_id}/utm-mappings
         "custom_param": "campaign_id",
         "maps_to": "utm_campaign",
         "is_active": true,
+        "overrides_explicit": false,
         "created_at": "2024-06-01T12:00:00Z"
       },
       {
@@ -304,6 +305,7 @@ GET /sites/{site_id}/utm-mappings
         "custom_param": "ad_source",
         "maps_to": "utm_source",
         "is_active": true,
+        "overrides_explicit": true,
         "created_at": "2024-06-01T12:00:00Z"
       }
     ],
@@ -333,6 +335,9 @@ POST /sites/{site_id}/utm-mappings
 |-------|------|-------------|
 | `custom_param` | string | Your custom URL parameter name |
 | `maps_to` | enum | Standard UTM field: `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` |
+| `overrides_explicit` | boolean | Optional, default `false`. When `true`, the mapped value is written even if the URL already carries the target UTM — the API name of the dashboard's **Override the UTM if the URL already has one** option. See [UTM Mapping rules](/platform/settings/tracking/utm-mapping#the-rules). |
+
+A `POST` for a `custom_param` that already exists updates that mapping, and sets `overrides_explicit` to the value sent — `false` if you omit it. To change only the override on an existing mapping, use `PATCH`.
 
 **Example Use Case:**
 
@@ -346,6 +351,8 @@ If your ad platform uses `?src=google` instead of `?utm_source=google`, create a
 ```
 
 Now `?src=google` will be treated as `?utm_source=google`.
+
+If the URL can also carry a `utm_source` you don't control — a Google Shopping or Performance Max product feed, for example — send `"overrides_explicit": true` so the value of `src` replaces it. Without it, an explicit UTM already in the URL wins and the mapping is skipped.
 
 ---
 
@@ -363,6 +370,16 @@ PATCH /sites/{site_id}/utm-mappings/{mapping_id}
   "is_active": false
 }
 ```
+
+Every field is optional; only the ones you send change. To turn the override on or off for one mapping:
+
+```json
+{
+  "overrides_explicit": true
+}
+```
+
+Changes apply to new traffic within about 5 minutes and are not retroactive.
 
 ---
 
