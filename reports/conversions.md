@@ -1,10 +1,10 @@
 ---
 title: "Conversions Report"
-description: "How to read the Sealmetrics Conversions report: conversion and microconversion views, revenue and average value metrics, and common conversion types."
+description: "How to read the Sealmetrics Conversions report: conversion and microconversion views, revenue and average order value, filters, and e-commerce use cases for online stores."
 canonical_url: "https://docs.sealmetrics.com/reports/conversions"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "953cdbb702911585c0b76ac8fabc06d71ba42631e8b56f582e401b9309c7daec"
+date_generated: "2026-09-21T07:18:17.820Z"
+source_hash: "b3c3a08108ef488a39fa509ec0267050bedd36e03b380fa077ba90e31db1750c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -29,7 +29,9 @@ The Conversions report tells you which goals visitors complete and what they're 
 
 ## View Toggle
 
-A toggle in the top-right switches between two views: **Conversions** and **Microconversions**.
+A toggle in the top-right switches between two views: **Conversions** and **Microconversions**. Switching view clears any table filters you had set (see [Filtering](#filtering)).
+
+Both views group events by their **type** — the name you pass as the first argument of `sealmetrics.conv()` or `sealmetrics.micro()`. Up to 50 types are loaded per view for the selected period, ordered by count.
 
 ### Conversions View
 
@@ -39,12 +41,14 @@ Shows completed conversion events (primary goals).
 |--------|-------------|
 | **Conversion Type** | Name/identifier of the conversion |
 | **Conversions** | Total number of conversions (shown with a metric bar) |
-| **Revenue** | Total revenue attributed (shown with a metric bar) |
-| **Avg. Value** | Average revenue per conversion |
+| **Revenue** | Sum of the amounts sent with those conversions (shown with a metric bar) |
+| **Avg. Value** | Average amount per conversion |
+
+Conversions sent without an amount count as 0, so they lower **Avg. Value** for their type.
 
 #### Conversion Types
 
-Common conversion types include:
+Conversion types are whatever names you send — Sealmetrics does not create them automatically. Common examples:
 
 | Type | Typical Use |
 |------|-------------|
@@ -64,20 +68,31 @@ Shows microconversion events (secondary goals/engagement metrics).
 | **Event Type** | Name/identifier of the microconversion |
 | **Count** | Total number of events (shown with a metric bar) |
 
+Microconversions carry no revenue.
+
 #### Common Microconversions
+
+As with conversions, these are names you choose when you fire the event:
 
 | Type | Typical Use |
 |------|-------------|
 | add_to_cart | Item added to shopping cart |
+| begin_checkout | Checkout started |
 | newsletter_signup | Email list subscription |
 | video_play | Video engagement |
 | scroll_depth | Page scroll milestone |
 | click_cta | CTA button click |
 | form_start | Form interaction started |
 
+### Table Behavior
+
+- Every column is sortable; the default sort is **Conversions** / **Count**, descending
+- A **Total** row at the bottom sums Conversions and Revenue; its Avg. Value is Total Revenue ÷ Total Conversions. When a table filter is active, an extra **Filtered** row gives the same subtotals for the matching rows only, with how many rows match
+- Long lists are paginated
+
 ## Summary Cards
 
-The cards shown depend on the active view.
+The cards shown depend on the active view. They are calculated from the rows in the table, so they follow any active [table filter](#table-filter-builder) as well as the global filters.
 
 **Conversions view:**
 
@@ -85,7 +100,7 @@ The cards shown depend on the active view.
 |------|-------------|
 | **Total Conversions** | Sum of all conversion events |
 | **Total Revenue** | Sum of all revenue |
-| **Avg. Order Value** | Average revenue per conversion |
+| **Avg. Order Value** | Total Revenue ÷ Total Conversions |
 | **Conversion Types** | Number of distinct conversion types |
 
 **Microconversions view:**
@@ -95,6 +110,11 @@ The cards shown depend on the active view.
 | **Total Events** | Sum of all microconversion events |
 | **Event Types** | Number of distinct event types |
 
+The cards on this report do not show change percentages, even with [comparison mode](/reports/date-range) enabled. To compare periods, change the date range and read the cards again, or use the [Evolution report](/reports/evolution), whose cards are compared with the previous period.
+
+**Tip:**
+With several conversion types (e.g. `purchase` and `newsletter_signup`), **Avg. Order Value** averages across all of them. Add the table filter *Conversion Type equals purchase* to get store-only revenue and AOV.
+
 ## Chart
 
 A single bar chart is shown below the summary cards:
@@ -102,38 +122,75 @@ A single bar chart is shown below the summary cards:
 - **Conversions view:** "Conversions by Type" — one bar per conversion type, by count
 - **Microconversions view:** "Microconversions by Type" — one bar per event type, by count
 
+The chart also follows the active table filter.
+
 ## Filtering
+
+Two kinds of filter narrow this report: the global **Segment** filters, which change the data loaded from the server, and the table **Filters** builder, which narrows the rows already loaded. See [Filters](/reports/filters) for how both work across the dashboard.
 
 ### Table Filter Builder
 
-Each view has its own filter builder:
+Click **Filters** above the table to open the filter builder. Each view has its own fields:
 
 **Conversions view fields:**
-- Conversion Type
-- Conversions (count)
-- Revenue
-- Avg. Value
+
+| Field | Type |
+|-------|------|
+| Conversion Type | Text |
+| Conversions (count) | Number |
+| Revenue | Currency |
+| Avg. Value | Currency |
 
 **Microconversions view fields:**
-- Event Type
-- Count
+
+| Field | Type |
+|-------|------|
+| Event Type | Text |
+| Count | Number |
+
+**Operators:**
+
+| Field type | Operators |
+|------------|-----------|
+| Text | equals, does not equal, contains, does not contain, starts with, ends with, is empty, is not empty |
+| Number / Currency | equals, does not equal, greater than, less than, greater or equal, less or equal |
+
+How the builder behaves:
+
+- Conditions apply as you edit them — there is no separate Apply step
+- Use **Add condition** to add conditions to a group and **Add filter group** for more groups; choose **AND** or **OR** between conditions and between groups
+- Text comparisons ignore case (`Purchase` matches `purchase`)
+- **Clear** removes all conditions
+- Filters reset when you switch between the Conversions and Microconversions views, and when you leave the report
 
 **Example filters:**
 
 | Goal | Filter |
 |------|--------|
-| High-value conversions | Revenue greater than 1000 |
+| Store purchases only | Conversion Type equals "purchase" |
+| High-value conversion types | Revenue greater than 1000 |
 | Frequent events | Count greater than 100 |
 | Low-value types | Avg. Value less than 10 |
-| Specific conversion | Conversion Type equals "purchase" |
+| All checkout-related events | Event Type contains "checkout" |
 
 ### Global Filter Integration
 
-Conversions report respects global filters:
+All four global filters from the **Segment** panel apply to both views:
+
+| Global filter | Applies to this report |
+|---------------|------------------------|
+| Country | Yes |
+| Device Type | Yes |
+| Browser | Yes |
+| Operating System | Yes |
+
+For example:
 
 1. Global filter: Country = Spain
-2. See only conversions from Spanish visitors
-3. Compare conversion rates by country
+2. The report shows only conversions and revenue from Spanish sessions
+3. Change the country (or device) and re-read the cards to compare markets
+
+This report has no traffic-source controls: you cannot filter it by UTM source, medium, campaign or channel, and it shows no conversion rate (it has no entrances to divide by). For conversions, conversion rate and revenue by source or campaign, use the [Sources report](/reports/sources) or the **Funnel by UTM** table in the [Funnel report](/reports/funnel).
 
 ## Tracking Conversions
 
@@ -155,6 +212,8 @@ sealmetrics.conv('purchase', 149.99, {
 });
 ```
 
+The amount must be a JavaScript number; the tracker ignores it if you pass a string such as `'99.99'`.
+
 ### Microconversions
 
 Track engagement events:
@@ -170,28 +229,28 @@ sealmetrics.micro('video_play', {
 });
 ```
 
-See [Tracker Documentation](/implementation/tracker/conversions) for complete implementation guide.
+See [Tracker Documentation](/implementation/tracker/conversions) for complete implementation guide, and [Microconversions](/implementation/tracker/microconversions) for event examples.
 
 ## Per-Product Analysis
 
-For detailed product-level analytics from your e-commerce conversions, use the **Properties** report:
+The Conversions report groups by conversion type only — it has no per-product breakdown. For product-level data from your e-commerce conversions, use the **Properties** report:
 
 1. Go to **Properties** in the sidebar
 2. Set the Data Source toggle to **Conv. Items**
 3. Browse product fields (`product_name`, `category`, `brand`, `sku`, etc.)
 4. Select a field to see its values broken down by traffic source, medium, and campaign
 
-This report shows individual product data from the `items` array sent with your purchase conversions. See [Conversions Tracking](/implementation/tracker/conversions) for implementation details.
+This report shows individual product data from the `items` array sent with your purchase conversions. It counts units (an item with `quantity: 2` counts as 2); it does not show revenue per product. See [Conversions Tracking](/implementation/tracker/conversions) for implementation details.
 
 ## Revenue Analysis
 
 ### Revenue Metrics
 
-| Metric | Calculation | Use |
-|--------|-------------|-----|
-| Total Revenue | Sum of all conversion amounts | Overall performance |
-| Avg. Order Value | Total Revenue / Conversions | Transaction size |
-| Revenue per Entrance | Total Revenue / Entrances | Traffic value |
+| Metric | Calculation | Where |
+|--------|-------------|-------|
+| Total Revenue | Sum of all conversion amounts | Summary card on this report |
+| Avg. Order Value | Total Revenue / Conversions | Summary card on this report |
+| Revenue per Entrance | Total Revenue / Entrances | Not shown in the dashboard — calculate it from the Revenue and Entrances columns of the Sources or Geography report (see [definition](/reports/definitions#revenue-per-entrance)) |
 
 ### Revenue by Source
 
@@ -209,16 +268,16 @@ Combine with Geography report:
 1. Go to Geography report
 2. Sort by Revenue column
 3. Identify top markets
-4. Calculate revenue per visitor by country
+4. Divide Revenue by Entrances to get revenue per entrance by country
 
 ## Use Cases
 
 ### Monitoring Conversion Performance
 
-1. Check **Total Conversions** card daily
-2. Compare with previous period
-3. Investigate significant changes (>10%)
-4. Check by conversion type for specifics
+1. Check the **Total Conversions** and **Total Revenue** cards
+2. Compare with the previous period by switching the date range, or open the [Evolution report](/reports/evolution) for period-over-period deltas
+3. Investigate significant changes
+4. Check the table by conversion type to see which type moved
 
 ### Identifying Top Conversion Types
 
@@ -230,15 +289,15 @@ Combine with Geography report:
 
 1. Switch to the **Microconversions** view
 2. Sort by **Count** (descending)
-3. Track progression: view → add_to_cart → checkout → purchase
-4. Calculate drop-off rates between steps
+3. Read the counts of each step you track (e.g. `view_item` → `add_to_cart` → `begin_checkout`), then the `purchase` count in the **Conversions** view
+4. For step-to-step conversion and drop-off rates calculated for you, use the [Funnel report](/reports/funnel)
 
 ### Finding Conversion Opportunities
 
-1. Filter by high-traffic sources (Sources report)
-2. Return to Conversions report
-3. Compare conversion rates
-4. Low rate + high traffic = opportunity
+1. Open the [Sources report](/reports/sources) and sort by **Entrances**
+2. Compare the **Conv. Rate** and **Revenue** columns across sources
+3. Low rate + high traffic = opportunity
+4. Return to this report to check which conversion types make up the total
 
 ### Comparing Conversion Types
 
@@ -249,22 +308,79 @@ Combine with Geography report:
    - Which have highest value?
    - Which need improvement?
 
+## E-commerce use cases
+
+These cases assume your store sends a `purchase` conversion with the order amount. Some also need microconversions (`view_item`, `add_to_cart`, `begin_checkout`) or an `items` array — see the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) for the event names and platform snippets.
+
+### How much did the store actually sell, and is the average order growing?
+
+1. Switch to the **Conversions** view
+2. Add the table filter **Conversion Type equals `purchase`** so other goals (signups, leads) don't mix in
+3. Read **Total Conversions** (orders), **Total Revenue** and **Avg. Order Value**
+4. Change the date range to the previous period (or the same period last year) and read the cards again
+
+**How to read it:** revenue rising with a flat order count means bigger baskets — bundles, upsells or price changes are working. More orders with a falling Avg. Order Value usually means discounts or cheaper products are driving volume. If revenue here doesn't match your shop backend, check that the amount is sent as a number and that orders are not fired twice (see [Deduplication](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide#deduplication)).
+
+### Which campaigns bring buyers, not just visits?
+
+The Conversions report has no source breakdown, so answer this in two other reports:
+
+1. Open the [Sources report](/reports/sources) → **Campaigns** tab and sort by **Revenue**
+2. Compare **Entrances** with **Conv. Rate** and **Revenue** for each campaign
+3. The Sources report counts all conversion types together. For `purchase` only, open the [Funnel report](/reports/funnel) and read the `purchase` count and revenue columns of the **Funnel by UTM** table
+
+**How to read it:** a campaign with many entrances but low conversion rate and revenue buys attention, not customers — review its targeting or landing page before adding budget. A small campaign with strong revenue is a candidate to scale. Conversions are credited to the source of the session in which the purchase happens (last click per session), so a campaign that mostly starts research and closes in a later visit will look weaker here than in a multi-touch tool.
+
+### Where do shoppers drop out between cart and payment?
+
+Requires the `add_to_cart` and `begin_checkout` microconversions and the `purchase` conversion.
+
+1. Switch to the **Microconversions** view and note the **Count** for `add_to_cart` and `begin_checkout`
+2. Switch to the **Conversions** view and note the `purchase` count
+3. Open the [Funnel report](/reports/funnel) to see the same steps with conversion and drop-off rates calculated for you
+
+**How to read it:** compare the size of each drop. A big fall from `add_to_cart` to `begin_checkout` points at the cart page (shipping costs revealed late, forced account creation). A big fall from `begin_checkout` to `purchase` points at the checkout itself (payment options, form errors, delivery options). Re-check after each change to the cart or checkout. These are event counts, not people: one session can add several products to the cart.
+
+### Do mobile shoppers buy as much as desktop shoppers?
+
+1. In the **Segment** panel, set **Device Type** to Mobile and apply
+2. In the **Conversions** view, filter **Conversion Type equals `purchase`** and note orders, revenue and **Avg. Order Value**
+3. Change the segment to Desktop and read the same cards again
+4. Repeat with **Country** to compare markets
+
+**How to read it:** a much lower Avg. Order Value or order count on mobile, when the [Devices report](/reports/devices) shows mobile bringing a large share of entrances, suggests the mobile product or checkout pages hold buyers back. The same comparison by country shows which markets deserve their own shipping, currency or payment options.
+
+### Which products sell, and from which campaigns?
+
+Requires an `items` array in your `purchase` conversion (see [items format](/implementation/tracker/conversions)).
+
+1. Open **Properties** in the sidebar and set the Data Source toggle to **Conv. Items**
+2. Select `product_name` (or `category`, `brand`)
+3. Read units sold per product, broken down by source, medium and campaign
+
+**How to read it:** products that sell only through one campaign depend on it — keep that campaign running or promote the product elsewhere. Products that sell across many sources are good candidates for ads and featured placement. This view counts units, not revenue per product.
+
 ## Attribution
 
 ### Last-Touch Attribution
 
-Sealmetrics uses last-touch attribution by default:
+Sealmetrics uses last-click attribution per session — the only model available:
 
-- Conversion attributed to the session where it occurred
-- Source/medium of that session gets credit
-- Simple and transparent model
+- Each conversion is credited to the traffic source of the session in which it fires
+- That session's source, medium and campaign get the credit
+- There is no lookback window across sessions and no alternative model to switch to
+
+See [How Sealmetrics Attributes Conversions](/reports/insights/attribution-model) for how a session's source is chosen.
 
 ### Multi-Session Users
 
-For users who convert after multiple sessions:
+Sealmetrics does not identify visitors across sessions (no cookies, no user ID), so it cannot link a visit on Monday to a purchase on Friday:
 
-- Each session tracked independently
-- Conversion credited to the converting session
+- Each session is tracked independently
+- A conversion is credited only to the session where it happens
+- Earlier sessions that led to the purchase receive no credit, and there is no per-user journey to inspect
+
+See [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) for the reasoning.
 
 ## Best Practices
 
@@ -281,7 +397,7 @@ Use consistent, descriptive conversion type names:
 
 ### Revenue Values
 
-- Always pass numeric values (not strings)
+- Always pass numeric values (not strings) — string amounts are dropped
 - Use consistent currency
 - Include only the transaction amount
 - Don't include tax/shipping unless relevant
@@ -297,8 +413,8 @@ Before going live:
 
 ## Export
 
-Click **Export** to download:
+Click **Export** above the table to download:
 - The current view's data (Conversions or Microconversions)
-- All visible columns
-- Respects active filters
-- Choose **CSV** or **PDF** format
+- The view's columns (Conversion Type, Conversions, Revenue, Avg. Value — or Event Type, Count)
+- Only rows matching the active table filter, within the active global filters and date range
+- Choose **Export as CSV** or **Export as PDF**

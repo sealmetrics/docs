@@ -13,7 +13,7 @@ Consentless tracking measures **events in aggregate instead of following people*
 1. **Event detection.** A JavaScript tracker (about 1.1 KB gzipped) fires on page load and on events you instrument. It sets no cookies and uses no localStorage, sessionStorage or fingerprinting.
 2. **Transmission.** The hit is sent as a lightweight beacon request. The visitor's IP appears at the network layer, as it does for any HTTP request, but is never persisted in the analytics database — it is used in memory only for anti-abuse checks and site-configured exclusions.
 3. **Isolated processing.** Each hit is processed on its own. Hits from the same person are never joined across sessions, so no journey or profile can be reconstructed.
-4. **Aggregation.** Reports are built from aggregate counts. Event-level rows are purged after 1 day, and the raw user agent string is never stored — only the browser, OS and device categories derived from it; hourly aggregates are kept 90 days; daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs.
+4. **Aggregation.** Reports are built from aggregate counts. Event-level rows — including the raw user agent string they carry — are purged after 1 day; beyond that, only the browser, OS and device categories derived from the user agent survive, inside aggregates; hourly aggregates are kept 90 days; daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs.
 
 All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 

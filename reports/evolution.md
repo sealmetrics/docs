@@ -1,10 +1,10 @@
 ---
 title: "Evolution Report"
-description: "Track how metrics change over time with daily, weekly, or monthly grouping and UTM filtering in Sealmetrics."
+description: "Track how entrances, conversions and revenue change over time in Sealmetrics, grouped by hour, day, week or month, with store-owner use cases for spotting sales trends."
 canonical_url: "https://docs.sealmetrics.com/reports/evolution"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "e2bdd4f0a39dc5954afad7e419007513bf29eb38d6dae6b12af4c74fcdd53253"
+date_generated: "2026-09-21T07:18:17.820Z"
+source_hash: "cdac9686384f01292789779bdc0bdd9704d7e2de563383c8f482ca49604adf4a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/reports/evolution
 
-The Evolution report shows how your metrics change over time, with flexible grouping and UTM filtering.
+The Evolution report shows how your metrics change over time: summary cards compared with the previous period, a trend chart, and a table with one row per hour, day, week or month.
 
 ## Accessing the Report
 
@@ -25,9 +25,11 @@ The Evolution report shows how your metrics change over time, with flexible grou
 
 **URL pattern:** `/sites/{site_id}/evolution`
 
+The report refreshes its data automatically every minute while the page is open.
+
 ## Time Grouping
 
-Control how data is aggregated using the grouping selector (By Hour, By Day, By Week, By Month):
+Control how data is aggregated using the grouping selector (By Hour, By Day, By Week, By Month). The default is **By Day**.
 
 | Grouping | Best For |
 |----------|----------|
@@ -36,42 +38,67 @@ Control how data is aggregated using the grouping selector (By Hour, By Day, By 
 | **By Week** | Medium periods (1-3 months), weekly trends |
 | **By Month** | Long periods (6+ months), seasonal analysis |
 
+How the buckets are built:
+
+- **By Hour** requests hourly data; the other three groupings request daily data and add it up.
+- **By Week** buckets start on **Monday** and are labelled with that Monday's date.
+- **By Month** buckets are labelled with the month.
+- The first and last week or month of your date range can be partial — they only contain the days inside the range, so compare them with care.
+
 ## UTM Filters
 
-Filter data by specific traffic sources:
+The **Filters** button in the report header opens a **UTM Filters** panel with three dropdowns.
+
+**Caution:**
+The Source, Medium and Campaign selectors can be set, and they show as chips, but the chart, summary cards and table on this page currently still show **all** traffic for the date range and Segment. Do not use them to isolate a campaign's trend. To see the totals for a single source, medium or campaign, use the [Sources report](/reports/sources) (Sources, Mediums and Campaigns tabs).
 
 ### Available Filters
 
 | Filter | Description | Example |
 |--------|-------------|---------|
-| **UTM Source** | Traffic source | google, facebook, newsletter |
-| **UTM Medium** | Traffic medium | cpc, organic, email |
-| **UTM Campaign** | Campaign name | black-friday-2025, brand-awareness |
+| **Source** | UTM source | google, facebook, newsletter |
+| **Medium** | UTM medium | cpc, organic, email |
+| **Campaign** | UTM campaign | black-friday-2025, brand-awareness |
+
+Each dropdown lists up to 100 values taken from your Sources, Mediums and Campaigns data.
 
 ### Applying UTM Filters
 
 1. Click the **Filters** button to open the filter panel
-2. Choose a value from the **Source**, **Medium**, and/or **Campaign** dropdowns (one value per dropdown)
-3. Data updates to show only matching traffic
-4. Active filters appear as removable chips below the toolbar; the Filters button shows a count badge
+2. Choose a value from the **Source**, **Medium**, and/or **Campaign** dropdowns (one value per dropdown, or "All …" to clear it)
+3. Active filters appear as removable chips below the toolbar; the Filters button shows a count badge
+4. **Clear all** in the panel removes every UTM selection
+
+UTM selections are not kept when you leave the report.
 
 ### Combining Filters
 
-Filters combine with AND logic:
-- Source = "google" AND Medium = "cpc" shows only Google Ads traffic
-- Add Campaign = "brand-2025" to narrow further
+The three selectors are designed to combine with AND logic (for example Source = "google" AND Medium = "cpc"). See the caution above: the selections are not currently applied to the data.
 
 ## Summary Stats
 
-A row of summary stat cards appears above the chart, showing the aggregate metrics for the selected period and filters.
+Six summary cards appear above the chart, showing aggregate metrics for the selected date range and Segment:
+
+| Card | Description |
+|------|-------------|
+| **Entrances** | Sessions started |
+| **Pageviews** | Total page views |
+| **Pages/Entrance** | Pageviews ÷ Entrances |
+| **Bounce Rate** | Share of entrances that bounced |
+| **Conversions** | Completed conversions |
+| **Revenue** | Sum of conversion amounts |
+
+Each card shows the percentage change **vs the previous period** — the period of the same length immediately before your date range. On this report the comparison is always the previous period, whatever comparison option is selected in the [date picker](/reports/date-range#comparison-mode). For Bounce Rate, a decrease is shown as an improvement.
 
 ## Chart
 
-A single area chart shows the selected metric over time. Use the metric toggle in the chart header to switch between:
+A single area chart shows the selected metric over time, titled with the metric and grouping (for example "Entrances by Day"). Use the metric toggle in the chart header to switch between:
 
-- **Entrances**
+- **Entrances** (default)
 - **Pageviews**
 - **Conversions**
+
+Revenue, Bounce Rate and Events are not available in the chart; read them in the table below.
 
 Chart behavior:
 
@@ -88,20 +115,22 @@ Detailed breakdown with all metrics per time period.
 | **Date / Time / Week / Month** | Time period. The first column's header changes with the grouping (Date/Time, Date, Week, or Month) |
 | **Entrances** | Sessions started |
 | **Pageviews** | Total page views |
-| **Bounce Rate** | Single-page session percentage |
-| **Events** | Microconversions |
+| **Bounce Rate** | Single-page session percentage. Values above 70% are highlighted in red and below 40% in green |
+| **Events** | Microconversions (all types combined) |
 | **Conversions** | Completed conversions |
-| **Conv. Rate** | Conversion rate |
+| **Conv. Rate** | Conversions ÷ Entrances × 100 |
 | **Revenue** | Total revenue |
 
-In **By Hour** mode, rows are grouped by day and each day can be expanded to reveal its individual hours.
+In **By Hour** mode, rows are grouped by day and each day can be expanded (chevron next to the date) to reveal its individual hours.
 
 ### Table Features
 
-- **Sorting**: Click column headers to sort (disabled in By Hour mode)
-- **Pagination**: Navigate through pages for long periods
-- **Totals row**: Aggregated totals shown at the bottom
+- **Sorting**: Click column headers to sort (disabled in By Hour mode). Default order is newest period first
+- **Pagination**: 10 rows per page by default; switch to 50, 100 or 500
+- **Totals row**: Aggregated totals shown at the bottom. Entrances, Pageviews, Events, Conversions and Revenue are summed; Bounce Rate and Conv. Rate are recalculated from the totals, not averaged
 - **Export**: Download as CSV or PDF
+
+The table has no per-column filter builder; to narrow the data, use the global Segment (see [Filters Interaction](#filters-interaction)).
 
 ## Use Cases
 
@@ -115,11 +144,7 @@ In **By Hour** mode, rows are grouped by day and each day can be expanded to rev
 
 ### Comparing Campaigns
 
-1. Set date range to campaign period
-2. Filter by UTM Campaign
-3. Compare:
-   - Add Campaign A, note metrics
-   - Clear, add Campaign B, compare
+Because the UTM filters do not currently narrow this report (see [UTM Filters](#utm-filters)), compare campaigns in the **Campaigns** tab of the [Sources report](/reports/sources), which lists Entrances, Conversions, Conv. Rate and Revenue per campaign for the selected date range. Change the date range to compare how the same campaign did across periods.
 
 ### Identifying Seasonality
 
@@ -128,41 +153,99 @@ In **By Hour** mode, rows are grouped by day and each day can be expanded to rev
 3. Look for:
    - Peak months
    - Low seasons
-   - Year-over-year patterns
+   - Year-over-year patterns (with a range longer than 12 months)
 
 ### Tracking Campaign Launch
 
-1. Set date range starting from launch date
-2. Filter by campaign UTMs
-3. Select **By Day** grouping
-4. Monitor:
-   - Ramp-up pattern
+1. Set date range starting a couple of weeks before the launch date
+2. Select **By Day** grouping
+3. Monitor the whole site's Entrances, Conversions and Revenue:
+   - Ramp-up pattern after launch
    - Peak performance day
    - Decay curve
+4. For the campaign's own numbers, check its row in the Sources report's Campaigns tab for the same dates
+
+## E-commerce use cases
+
+These cases assume your store sends a purchase conversion with its order amount — without the amount, Revenue stays at zero. See the [E-commerce Setup Guide](/implementation/ecommerce-conversion-tracking/ecommerce-setup-guide) or [How to Measure Conversions](/getting-started/measure-conversions). Attribution in Sealmetrics is last click per session and there are no user-level journeys, so every figure below is an aggregate per period.
+
+### Is my revenue growing, or only my traffic?
+
+1. Pick the date range you want to judge (for example, last 30 days)
+2. Read the **Entrances**, **Conversions** and **Revenue** cards and their change vs the previous period
+3. Select **By Week** and read **Conv. Rate** and **Revenue** down the table
+
+How to read it:
+
+- Entrances up with Conversions and Revenue up by a similar amount: growth is real and conversion is holding.
+- Entrances up but Conv. Rate down: you are buying or attracting traffic that does not buy. Check which channels grew in the [Sources report](/reports/sources) before spending more on them.
+- Revenue up faster than Conversions: orders are getting larger. Export the table and divide Revenue by Conversions per week to follow average order value.
+
+### What days and hours do my customers buy?
+
+1. Set a range of at least a week or two, so one unusual day does not dominate
+2. Select **By Hour** and expand a few typical days; compare **Conversions** and **Revenue** per hour
+3. Switch to **By Day** to compare weekdays with weekends
+
+How to read it: the hours and days that carry most orders are where a promotion start, an email send or extra support cover has the most effect. The quietest hours are the safest window for maintenance and deploys. Keep in mind the hour export does not include the hour itself (see [Export](#export)); read hourly values on screen.
+
+### Does mobile convert as well as desktop?
+
+1. Open **Segment**, set **Device Type** = Mobile, and apply
+2. Select **By Week** and note **Conv. Rate** and **Revenue** for each week
+3. Change the Segment to Desktop and repeat
+
+How to read it: if mobile brings a large share of Entrances but a clearly lower Conv. Rate week after week, the gap is persistent rather than noise — review the mobile product page, cart and checkout. The same approach works per country (Segment → Countries) to see whether a new market is converting. For a single-period breakdown by device, the [Devices report](/reports/devices) is quicker.
+
+### Why did orders drop this week?
+
+1. Select **By Day** over the last two to four weeks
+2. Find the day Conversions (or Revenue) fell and compare **Entrances**, **Bounce Rate** and **Events** on that day with the days before
+
+How to read it:
+
+- Entrances fell too: fewer shoppers arrived — look at traffic sources in the [Sources report](/reports/sources).
+- Entrances steady but Bounce Rate jumped: landing pages or site speed may have a problem that day.
+- Entrances and Events steady but Conversions fell: shoppers are still interacting but not completing the purchase — look at the checkout steps in the [Funnel report](/reports/funnel).
+
+**Events** is the total of all microconversion types combined, so it only helps here if you track shopping actions such as `add_to_cart` and `begin_checkout` as [microconversions](/implementation/tracker/microconversions). To see each event type separately, use the [Conversions report](/reports/conversions).
+
+### When does my seasonal peak start, and how big is it?
+
+1. Set a range of the last 12 months or more
+2. Select **By Month** for the shape of the year, then **By Week** around the peak months
+3. Read **Revenue** and **Conversions** per period
+
+How to read it: the week where Revenue starts rising tells you when shoppers begin buying, which is when campaigns and stock need to be ready — usually a few weeks earlier than the peak itself. A peak that is higher than last year with a similar Conv. Rate means more demand; a similar peak reached with more Entrances means conversion got worse.
 
 ## Filters Interaction
 
-Evolution report respects both:
+The data in this report is scoped by:
 
-1. **Global filters** (from the filter bar)
-2. **UTM filters** (specific to this report)
+1. **Date range** (from the date picker)
+2. **Global filters** from the **Segment** panel: Countries, Device Type, Browser and Operating System. They apply to the summary cards, chart and table alike
 
 Example:
-- Global filter: Country = Spain
-- UTM filter: Source = google
-- Result: Google traffic from Spain only
+- Segment: Country = Spain, Device Type = Mobile
+- Result: every card, chart point and table row counts only mobile traffic from Spain
+
+The report's own **UTM Filters** can be set but do not currently change the data (see [UTM Filters](#utm-filters)). There is no local table filter builder on this report. See [Filters](/reports/filters) for how the Segment panel works.
 
 ## Export
 
-Click **Export** to download:
-- All data points in the current view
-- Respects active filters
+Click **Export** above the table to download:
+- Every row for the current grouping (all pages, not just the visible one), newest first
+- Columns: Date, Entrances, Pageviews, Bounce Rate, Events, Conversions, Conv. Rate, Revenue
+- Respects the date range and Segment
 - Choose **CSV** or **PDF** format
+
+The totals row is not included in the file. In **By Hour** mode the export contains the day rows plus the hours of any days you have expanded, but the hour is not written to the file — hour rows only show their date.
 
 ## Related documentation
 
 - [Date Range](/reports/date-range) — Choose the time period the Evolution chart covers
-- [Sources Report](/reports/sources) — Break the same metrics down by channel
-- [Filters](/reports/filters) — Combine global and UTM filters
+- [Sources Report](/reports/sources) — Break the same metrics down by channel, source, medium and campaign
+- [Filters](/reports/filters) — How the global Segment filters work
 - [Overview Report](/reports/overview) — The high-level dashboard for all reports
 - [Metrics Reference](/reports/definitions) — Definitions for entrances, pageviews, and conversions
+- [E-commerce Store use case](/use-cases/ecommerce) — What to measure in an online store

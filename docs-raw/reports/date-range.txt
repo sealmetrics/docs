@@ -88,6 +88,9 @@ To turn comparison off, choose **No comparison** or click the X on the Compare b
 | **Previous year** | Same dates in the prior year | Jan 15-21, 2025 compares to Jan 15-21, 2024 |
 | **Custom comparison** | Manually selected comparison range | Any dates you choose |
 
+**Caution:**
+You can pick a custom comparison range in the date picker, but the reports do not use it yet: the dashboard sends it to the API as **Previous period**, so the deltas you see are against the same-length period immediately before your range. Use **Previous period** or **Previous year** until this is fixed. Some reports also ignore the comparison mode entirely (the Overview and Evolution cards always compare with the previous period) — each report page says what its comparison covers.
+
 ### Comparison Display
 
 When comparison is enabled:
