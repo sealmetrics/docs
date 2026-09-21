@@ -3,8 +3,8 @@ title: "How It Works"
 description: "How Sealmetrics measures your traffic — one script tag, four non-identifying variables per hit, aggregate reports, and no consent banner."
 canonical_url: "https://docs.sealmetrics.com/getting-started/how-it-works"
 lang: "en"
-date_generated: "2026-09-15T18:01:06.894Z"
-source_hash: "e8d2e53500b4167b8f74ff9c5de60b0fc7a36e6b9895c19f76f6a5be45fc1513"
+date_generated: "2026-09-21T08:04:46.276Z"
+source_hash: "12df24c0bb386a23f10b50baead3e5e84364294cdd28e47018bf1dd21ee7ade5"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -23,7 +23,7 @@ Sealmetrics measures your website traffic without cookies, consent banners or pe
 Four variables per hit:
 
 1. **Timestamp** — when the visit happened
-2. **User Agent** — used for anonymous device classification (browser, OS, device type). The raw string is purged after 1 day; only the derived categories persist in aggregates
+2. **User Agent** — used for anonymous device classification (browser, OS, device type). The raw string is never written to storage; only the derived categories persist in aggregates
 3. **Current URL** — which page was viewed
 4. **Referral URL** — where the visitor came from
 

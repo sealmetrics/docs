@@ -3,8 +3,8 @@ title: "Technical Privacy Model"
 description: "Learn exactly what data Sealmetrics collects, what it does not collect, and how privacy is enforced technically."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-technical"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "bfcb7af65959d74ea670a886b32d9e17877112c52570496f353c3e4ee4f45e6c"
+date_generated: "2026-09-21T08:04:46.276Z"
+source_hash: "b48d0db868c21a4c77d8539f7d4926ffa9f1c0158d95e0d30a01095ba995c445"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/faq/privacy-technical
 
-Sealmetrics records only 4 variables per hit — timestamp, URL, referral URL and user agent (raw string purged after 1 day) — with no IP address, no unique identifiers, no cookies or local storage and no fingerprinting; the visitor's country is estimated from the browser timezone rather than the IP address.
+Sealmetrics records only 4 variables per hit — timestamp, URL, referral URL and user agent (raw string never written to storage) — with no IP address, no unique identifiers, no cookies or local storage and no fingerprinting; the visitor's country is estimated from the browser timezone rather than the IP address.
 
 ## What data does Sealmetrics collect?
 
@@ -25,7 +25,7 @@ Only four variables:
 - Timestamp
 - URL
 - Referral URL
-- User Agent (used for anonymous device classification; event-level raw string purged after 1 day)
+- User Agent (used for anonymous device classification; raw string never written to storage)
 
 No IP address.
 No unique identifiers.
@@ -65,6 +65,6 @@ Reports show a country estimation based on the browser’s timezone. This is mor
 ---
 
 **Note:**
-- Only 4 variables per hit: timestamp, URL, referral URL and user agent (raw string purged after 1 day); no IP address, no unique identifiers, no cookies or local storage.
+- Only 4 variables per hit: timestamp, URL, referral URL and user agent (raw string never written to storage); no IP address, no unique identifiers, no cookies or local storage.
 - No fingerprinting and no reconstruction of user journeys — hits are isolated by design.
 - Country is estimated from the browser timezone, not the IP: accurate for unique timezones, most-likely country for shared ones, country level only.

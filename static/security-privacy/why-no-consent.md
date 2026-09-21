@@ -3,8 +3,8 @@ title: "Why Sealmetrics Can Measure Without Consent"
 description: "Sealmetrics needs no consent banner because it collects no personal data and stores nothing on the visitor's device — the short version of the legal basis."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/why-no-consent"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "57c9f2abc2384867ae0fd224dc329835ce2072f27bed06c18b09d85cbe7ac4fd"
+date_generated: "2026-09-21T08:04:46.276Z"
+source_hash: "75781e85c374f77042120160329cdb2dbc6db7b91e098b9038d8b08e7c1383b3"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -21,7 +21,7 @@ Sealmetrics needs no consent banner because it collects **no personal data** and
 - **GDPR** ([Article 4(1), Recital 26](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)) governs the processing of personal data. Sealmetrics stores no IP address, no user ID, no persistent identifier and no profile, so the obligations that apply to personal data — including the consent question — are not triggered.
 - **The ePrivacy Directive** ([Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058)) requires consent to store or read information on a user's terminal equipment. Sealmetrics sets no cookies and uses no localStorage or sessionStorage, so there is nothing on the device to ask about.
 
-What Sealmetrics records instead is four non-identifying variables per hit: **timestamp**, **user agent** (used for anonymous device classification — the raw string is purged after 1 day, and only the derived browser/OS/device categories persist in aggregates for 24 months), **current URL** and **referral URL**. Hits are measured on their own; they are never joined to a person or linked across sessions.
+What Sealmetrics records instead is four non-identifying variables per hit: **timestamp**, **user agent** (used for anonymous device classification — the raw string is used in flight and never written to storage, and only the derived browser/OS/device categories persist in aggregates for 24 months), **current URL** and **referral URL**. Hits are measured on their own; they are never joined to a person or linked across sessions.
 
 This distinction matters more than it looks. Under ePrivacy, tracking individuals requires consent *even when the tracking is anonymous* — which is why moving tags server-side does not remove the consent requirement. Sealmetrics does not track individuals at all, which is a different thing from tracking them anonymously.
 
