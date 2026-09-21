@@ -3,8 +3,8 @@ title: "How to Avoid Conversions Being Attributed to “Payment”"
 description: "Learn why conversions sometimes appear with “payment” as the source and how to prevent incorrect attribution."
 canonical_url: "https://docs.sealmetrics.com/platform/tracking-and-attribution-settings/avoid-conversions-attributed-to-payment"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "ca98a6827006168e7f6a05cc511efcaec62d469235173ae7b5a880b255d3bcc6"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "88f47ab2c12999e51838c787b1d2fb88e988ad6217c65f59ab8f7eb1cbfdd79b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -34,12 +34,8 @@ For accurate marketing attribution, this must be corrected.
 
 ## Why Sealmetrics Attributes “Payment” as a Source
 
-Because Sealmetrics is **privacy-first** and does not use cookies or fingerprinting.
-We only detect:
-- Browser
-- OS
-- Screen size
-- Timestamp
+Because Sealmetrics is **privacy-first**: it sets no cookies and keeps no persistent identifier, so it cannot look up where a visitor originally came from.
+Each hit carries only a small set of non-identifying fields — timestamp, user agent, current URL, referral URL, browser timezone and a session identifier that is re-keyed daily ([details](/security-privacy/what-we-track)).
 
 So when the user returns from a third-party payment domain:
 - Sealmetrics creates a new session

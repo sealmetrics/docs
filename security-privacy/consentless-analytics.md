@@ -1,10 +1,10 @@
 ---
 title: "What is Consentless Analytics?"
-description: "What consentless analytics is, the four non-identifying variables Sealmetrics records, and why measuring without personal data means no consent banner is required."
+description: "What consentless analytics is, the small set of non-identifying fields Sealmetrics records, and why measuring without personal data means no consent banner is required."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-analytics"
 lang: "en"
-date_generated: "2026-09-21T08:04:46.276Z"
-source_hash: "857e817743d231fbcfd29ed66005c4174112aaf69c9b91b78877a703a8c4cdad"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "c140ca336f66d0e443c4ce6992310f877a3d15f6f44cf0e9ea2b6a03d1330bed"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -27,16 +27,18 @@ Consentless analytics solves this by measuring aggregate behavior rather than tr
 
 ---
 
-## How It Works: The Four-Variable System
+## How It Works: A Minimal Set of Non-Identifying Fields {#how-it-works-the-four-variable-system}
 
-Sealmetrics uses a consentless tracking approach built on four non-identifying variables per event:
+Sealmetrics uses a consentless tracking approach built on a small set of non-identifying fields per event:
 
 1. **Timestamp** — when the event occurred
 2. **User Agent** — browser and device type (used for anonymous device classification; the raw string is used in flight and never written to storage)
-3. **Current URL** — the page being viewed
+3. **Current URL** — the page being viewed, including any UTM parameters
 4. **Referral URL** — where the visitor came from
+5. **Browser timezone** — used to assign the visit's country, with no IP lookup
+6. **Session identifier** — a hash of standard device characteristics computed in the browser, re-keyed on the server with a daily salt that is destroyed on rotation, so it cannot link a device across days
 
-That is all. No cookies, no IP addresses stored, no fingerprinting, no localStorage, no sessionStorage, no cross-session linking.
+That is all. No cookies, no localStorage, no sessionStorage, no IP addresses stored, no stored or persistent fingerprint, no cross-session linking. The full field-by-field list, with retention, is in [What We Track](/security-privacy/what-we-track).
 
 This minimal dataset makes it technically impossible to identify any individual visitor, which is why consent is not required. For a deeper technical explanation, see [How Consentless Tracking Works](/security-privacy/how-consentless-works).
 
@@ -44,14 +46,14 @@ This minimal dataset makes it technically impossible to identify any individual 
 
 ## Legal Basis: Why Consent Is Not Required
 
-Consentless analytics does not require consent because it falls outside the scope of both GDPR and the ePrivacy Directive:
+Consentless analytics does not require consent because the stored data falls outside the scope of GDPR, and the tracker is designed to meet the audience-measurement exemption criteria under the ePrivacy Directive:
 
 ### GDPR (Regulation 2016/679)
 
 GDPR applies to the processing of **personal data** — information that relates to an identified or identifiable natural person ([Article 4(1)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)). Consentless analytics does not process personal data:
 
 - No IP addresses are stored
-- No user identifiers are generated
+- No persistent user identifier is stored — the session identifier is re-keyed daily and cannot link a device across days
 - No behavioral profiles are built
 - No cross-session tracking occurs
 
@@ -59,7 +61,7 @@ When no personal data is processed, GDPR consent requirements (Article 6) do not
 
 ### ePrivacy Directive (2002/58/EC)
 
-[Article 5(3) of the ePrivacy Directive](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058) requires consent for storing or accessing information on a user's terminal equipment (cookies, localStorage, etc.). Consentless analytics does not store or access any information on user devices, so Article 5(3) does not apply.
+[Article 5(3) of the ePrivacy Directive](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058) requires consent for storing or accessing information on a user's terminal equipment (cookies, localStorage, etc.), unless an exemption applies. Sealmetrics stores nothing on the device. The tracker does read standard browser properties to compute the session identifier, and reading them engages Article 5(3); the consent exemption therefore rests on the audience-measurement criteria described below and in [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption).
 
 ### Regulatory Guidance
 
@@ -115,7 +117,7 @@ For most business decisions — which campaigns drive revenue, which pages conve
 - Campaign performance and ROAS
 - Content performance (pages, groups)
 - Real-time traffic (aggregated snapshots)
-- Within-session engagement — bounce rate, engaged entrances, engagement rate and pages per session, all computed from the short-lived session marker described in [What We Track](/security-privacy/what-we-track)
+- Within-session engagement — bounce rate, engaged entrances, engagement rate and pages per session, all computed within a single session from the session identifier described in [What We Track](/security-privacy/what-we-track)
 
 ### What it cannot measure
 
@@ -137,13 +139,13 @@ Sealmetrics uses two complementary tracking methods:
 
 ### Session-Based Tracking
 
-A temporary session identifier is generated when a visitor arrives. This ID exists only for the duration of the browser session and is never persisted. It enables grouping page views within a single visit without identifying the visitor.
+The tracker computes a session identifier in the browser: a hash of standard device characteristics (such as user agent, timezone, languages and screen resolution) combined with your site's account ID. On the server it is re-keyed with a daily salt that is destroyed on rotation, so the stored identifier changes every day. It enables grouping page views within a single visit without identifying the visitor.
 
 Key properties:
-- Expires when the browser tab/window closes
+- The live session expires after 2 hours of inactivity; the daily pseudonym in the per-hit log is purged after 1 day
 - Cannot be linked to a person
-- Cannot be used across sessions
-- Not stored on disk (no cookies, no localStorage)
+- Cannot be used across days or to recognise a returning visitor — not even by Sealmetrics
+- Never written to the device (no cookies, no localStorage, no sessionStorage), and the raw hash is never stored
 
 ### Isolated Hit Tracking
 
@@ -153,7 +155,7 @@ Both methods can run simultaneously or independently, depending on the account c
 
 ### How data flows
 
-1. **Event detection** — the JavaScript tracker detects a page view or event. Nothing is written to or read from the device: no cookies, no localStorage, no sessionStorage, no fingerprinting.
+1. **Event detection** — the JavaScript tracker detects a page view or event. Nothing is written to the device: no cookies, no localStorage, no sessionStorage. The tracker reads standard browser properties to compute the session identifier, which is re-keyed daily on the server and never stored as sent.
 2. **Transmission** — the hit is sent as a lightweight beacon request to Sealmetrics' EU infrastructure. IP addresses appear at the network layer as they do for any HTTP request, but are never persisted in the analytics database; they are used in memory only for anti-abuse checks and site-configured exclusions.
 3. **Processing** — each hit is processed on its own. Hits are not joined to a person, and are not linked across sessions.
 4. **Aggregation and reporting** — dashboards report statistical patterns. Event-level detail is short-lived: it is purged after 1 day, hourly aggregates are kept 90 days, and daily aggregates and conversions 24 months. Retention is fixed for every plan and enforced by database TTLs — see [Data Location & Retention](/security-privacy/data-location).
@@ -221,7 +223,7 @@ Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP
 
 ## Learn More
 
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — Technical deep dive into the Four-Variable System
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — Technical deep dive into how each hit is measured
 - [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — Full legal analysis with GDPR article references
 - [CNIL Self-Assessment](/compliance/cnil-self-assessment) — Compliance against CNIL's 14 criteria
 - [GA4 vs Sealmetrics](/faq/ga4-vs-sealmetrics) — Feature-by-feature comparison

@@ -1,10 +1,10 @@
 ---
 title: "Security & Privacy"
-description: "How Sealmetrics measures without personal data — four non-identifying variables, nothing on the device, EU-only storage in Dublin — with the index of every privacy and security page."
+description: "How Sealmetrics measures without personal data — a small set of non-identifying fields, nothing stored on the device, EU-only storage in Dublin — with the index of every privacy and security page."
 canonical_url: "https://docs.sealmetrics.com/security-privacy"
 lang: "en"
-date_generated: "2026-09-15T07:00:11.238Z"
-source_hash: "3d6c7873ee67d0c79ab2523aac4ddebd3ef5e922ddc499e76538b1b3dfafc809"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "2ba3c5f841925c91f271072852ea8f42a81242048420b34cb5f7af7de36b6919"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy
 
-Sealmetrics measures websites **without collecting personal data**: four non-identifying variables per hit, nothing written to the visitor's device, no identifier carried across sessions, and all customer analytics data stored in Dublin, Ireland. Because there is no personal data, the consent requirements of GDPR and the ePrivacy Directive are not triggered — the reasoning is set out in full in [What is Consentless Analytics?](/security-privacy/consentless-analytics).
+Sealmetrics measures websites **without collecting personal data**: a small set of non-identifying fields per hit, nothing written to the visitor's device, no identifier carried across days or sessions, and all customer analytics data stored in Dublin, Ireland. Because there is no personal data, the GDPR obligations that attach to personal data are not triggered; for ePrivacy, nothing is stored on the device, and the tracker's reading of standard browser properties to compute its daily re-keyed session identifier relies on the audience-measurement exemption criteria — the reasoning is set out in full in [What is Consentless Analytics?](/security-privacy/consentless-analytics).
 
 Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2), and no supervisory authority certifies analytics tools. The pages under [compliance](/compliance) are our own self-assessments against published criteria. A Data Processing Agreement is included and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/); Annex 3 of that DPA is the authoritative subprocessor list.
 
@@ -58,7 +58,7 @@ Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2)
 - [What Is omtrdc.net?](/security-privacy/omtrdc-net-requests) — Adobe Analytics' collection domain
 
 **Note:**
-- Four variables per hit (timestamp, user agent, URL, referrer); no cookies, no IP stored, no persistent identifier.
+- A small set of fields per hit (timestamp, user agent, URL, referrer, browser timezone, a session identifier re-keyed daily); no cookies, no IP stored, no persistent identifier.
 - All customer analytics data lives in Dublin, Ireland; retention is fixed at 1 day / 90 days / 24 months by aggregation level.
 - No certifications and no regulator approval exist; compliance pages are self-assessments, and the DPA's Annex 3 lists the subprocessors.
 

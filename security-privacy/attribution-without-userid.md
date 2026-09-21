@@ -3,8 +3,8 @@ title: "How Attribution Works Without a User-ID"
 description: "How Sealmetrics attributes traffic and conversions without User-IDs, cookies or cross-session tracking — last-click attribution read from the URL on every hit."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/attribution-without-userid"
 lang: "en"
-date_generated: "2026-09-21T08:04:46.276Z"
-source_hash: "aa6e86ca21a747c2c8aff8dd2be238e9ada01d764cb9dbca0566c4412e628931"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "e1a5bc612be76e9f250f0fa10b92a2dab41f29bfd4fd40c561c67acc48a1056d"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/attribution-without-userid
 
-Sealmetrics delivers accurate campaign and conversion attribution without using User-IDs, cookies, fingerprinting, or session reconstruction. This article explains the mechanism behind our privacy-preserving attribution system.
+Sealmetrics delivers accurate campaign and conversion attribution without using User-IDs, cookies, stored or persistent fingerprints, or cross-session reconstruction. This article explains the mechanism behind our privacy-preserving attribution system.
 
 ---
 
@@ -31,7 +31,7 @@ Conventional analytics platforms depend on identifiers to track user journeys:
 
 These technologies **link visits, clicks, and conversions to individuals**, which legally requires consent under GDPR and ePrivacy.
 
-Sealmetrics does **not** use any of these identifiers.
+Sealmetrics does **not** use any of these to link visits. Its only identifier is a within-session one that is re-keyed every day and cannot link a device across days (see [What We Track](/security-privacy/what-we-track#6-session-identifier)).
 
 ---
 
@@ -44,7 +44,7 @@ Sealmetrics does **not**:
 ❌ Store IP addresses
 ❌ Use cookies or persistent identifiers
 
-The user agent is used for anonymous device classification (browser/OS category): the raw string is used in flight and never written to storage, and only the derived categories persist in the 24-month aggregates. Neither can be joined with anything that identifies the person — because no such identifier exists. Short-lived session context exists inside a single browsing session (~2-hour inactivity), never across sessions or devices.
+The user agent is used for anonymous device classification (browser/OS category): the raw string is used in flight and never written to storage, and only the derived categories persist in the 24-month aggregates. Neither can be joined with anything that identifies the person — because no such identifier exists. A session identifier groups the hits of a single browsing session (~2-hour inactivity): it is computed in the browser from standard device characteristics, never written to the device, and re-keyed on the server with a daily salt that is destroyed on rotation — so it never links hits across days, sessions or devices.
 
 ---
 
@@ -106,7 +106,7 @@ No user identification required.
 
 ## Why This Needs No Consent
 
-Because no identifier is created and nothing is stored on the device, the obligations these frameworks attach to personal data and to terminal storage are not triggered:
+Because no persistent identifier is stored and nothing is stored on the device, the obligations these frameworks attach to personal data and to terminal storage are not triggered. The tracker does read standard browser properties to compute the within-session identifier; see [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) for how the audience-measurement exemption criteria apply to that:
 
 - ✔ No personal data
 - ✔ No user identification

@@ -3,8 +3,8 @@ title: "Tracker Overview"
 description: "Sealmetrics' 1.2 KB gzipped JavaScript tracker: one-line install, no cookies or localStorage, automatic SPA detection, and size comparisons vs GA4."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker"
 lang: "en"
-date_generated: "2026-09-15T18:01:06.894Z"
-source_hash: "b2379fa0fa6a0c37e4ee7ae75b3a1a96a7a1c1a79a48f2bf64673fbda5b5b71c"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "bf0e27871b942f454a5348855dfe63b2398cade17b5c63f33c549a462ca37dbb"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -105,7 +105,7 @@ The tracker does not collect or store:
 - User credentials
 - localStorage or sessionStorage data
 
-Session identification is cookieless — no cookies, canvas fingerprinting, or personal data are used.
+Session identification is cookieless: the tracker computes, in the browser, a hash of standard device characteristics (no canvas fingerprinting) that is never written to the device and is re-keyed on the server with a daily salt, so nothing stored can link a device across days. See [What We Track](/security-privacy/what-we-track).
 
 ## Documentation
 

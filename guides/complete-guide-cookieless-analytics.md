@@ -3,8 +3,8 @@ title: "Complete Guide to Cookieless Analytics 2026"
 description: "Cookieless analytics measures visitors without consent banners: how it works, why cookie-based tools lose 15-60% of EU data, and how to set it up."
 canonical_url: "https://docs.sealmetrics.com/guides/complete-guide-cookieless-analytics"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "aba159d8cb0c5138caf71c9ba66283ea7c4a8e85bebf30d245cf83e00d6f452b"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "23949c902c734b9ca6591c4944771abbc91696c642a04b7de72cec6b77e522ae"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -117,7 +117,7 @@ Sealmetrics uses a sophisticated approach combining:
 
 **Zero IP Storage**: Unlike Plausible (which hashes IPs) or Matomo (which stores hashed IPs), Sealmetrics doesn't store IP addresses at all. This provides additional privacy benefits and simplifies GDPR compliance.
 
-**No Consent Required**: nothing is written to or read from the visitor's device, and no personal data is stored, so neither the ePrivacy consent rule nor the GDPR's personal-data obligations are triggered. That removes the banner and captures data from all visitors.
+**No Consent Required**: nothing is written to the visitor's device, and no personal data is stored, so the GDPR's personal-data obligations are not triggered. The tracker does read standard browser properties to compute a session identifier (re-keyed daily on the server and never stored as sent), which engages the ePrivacy Directive's Article 5(3); see [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) for how the audience-measurement exemption criteria apply. That removes the banner and captures data from all visitors.
 
 **No consent-driven loss**: Because consent isn't required, Sealmetrics captures visitor data from:
 - Banner ghosters (typically the largest missing group)
@@ -343,7 +343,7 @@ Your competitors are already making this shift. The websites that understand the
 ## Related documentation
 
 - [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the consentless concept behind cookieless measurement
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — technical deep dive into the Four-Variable System
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — technical deep dive into how hits are recorded without identifying anyone
 - [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — full legal analysis with GDPR article references
 - [GA4 vs Sealmetrics — Complete Comparison](/faq/ga4-vs-sealmetrics) — feature-by-feature comparison with Google Analytics
 - [First Steps with Sealmetrics](/getting-started/quick-start) — implement cookieless analytics in a few minutes

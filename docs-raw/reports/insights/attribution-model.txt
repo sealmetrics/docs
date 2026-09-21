@@ -33,7 +33,7 @@ Two properties follow from this:
 
 ## The session window
 
-A session groups hits through a short-lived, context-derived marker with a **~2-hour inactivity window**. It is not stored in the browser and cannot recognize a returning visitor — see [What We Track](/security-privacy/what-we-track) for the privacy details. When the window lapses, the next hit starts a fresh entrance with fresh attribution.
+A session groups hits through a session identifier with a **~2-hour inactivity window**. The tracker computes it in the browser as a hash of standard device characteristics; it is never written to the browser and is re-keyed on the server with a daily salt, so it cannot recognize a returning visitor on another day — see [What We Track](/security-privacy/what-we-track) for the privacy details. When the window lapses, the next hit starts a fresh entrance with fresh attribution.
 
 ## Why last-click only
 

@@ -3,8 +3,8 @@ title: "Cookieless Analytics: Complete Guide 2026"
 description: "Cookieless analytics measures every visit without consent banners, closing the 15-60% gap cookie tools lose. Guide to implementation, GDPR, and comparisons."
 canonical_url: "https://docs.sealmetrics.com/blog/cookieless-analytics-guide"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "f57dfc0eb2e678c4d318aaa9701318ac6043511984ee6c2b0a92f7d3373c2975"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "df7811a6c6f6d72b91e977662c5ea31cdb344429bc1705a86291dc2cb142176d"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -101,12 +101,12 @@ Sealmetrics uses a dual-system approach that provides complete data without requ
 For users with JavaScript enabled (95%+ of visitors):
 
 1. **Visitor arrives** at your website
-2. **Temporary session ID generated** in browser memory (not stored as cookie)
-3. **Events tracked** with this session ID throughout the visit
-4. **Session expires** when browser closes or after ~2 hours of inactivity
-5. **New session ID** generated on next visit (user is not tracked across visits)
+2. **Session identifier computed** in the browser from a hash of standard device characteristics (user agent, timezone, languages, screen resolution and similar) plus the site's account ID — never stored on the device (no cookie, no localStorage, no sessionStorage)
+3. **Events tracked** with this session identifier throughout the visit
+4. **Session expires** after ~2 hours of inactivity
+5. **Re-keyed daily on the server** with a salt that is destroyed on rotation, so the stored identifier changes every day and visits cannot be linked across days (no returning visitor is recognised)
 
-**Key point**: The session ID exists only in browser memory during the active session. It never persists as a cookie, so it doesn't require consent under ePrivacy Article 5(3).
+**Key point**: The session identifier is never written to the device. Computing it does read standard browser properties, which engages ePrivacy Article 5(3); Sealmetrics relies on the audience-measurement exemption for that read (see the CNIL guidance below) rather than on consent. Details: [what we track](/security-privacy/what-we-track#6-session-identifier).
 
 #### System 2: Isolated Hits Tracking
 
@@ -129,7 +129,7 @@ According to CNIL's 2020 guidance on analytics, tracking is considered cookieles
 
 Sealmetrics meets all four criteria:
 
-- **Session IDs exist only during active sessions**
+- **Stored session identifiers change daily** and cannot be linked across days
 - **Users cannot be tracked across visits**
 - **No IP addresses stored** (unlike Plausible/Matomo which hash IPs)
 - **Aggregates retained 24 months**, documented and inside the CNIL ceiling
@@ -151,7 +151,7 @@ Most vendors answer the consent question by naming a legal basis — usually Art
 So the honest answer isn't "we have a good legal basis." It's:
 
 1. **Nothing stored identifies a person**: no IPs, no persistent identifiers, no cross-session correlation
-2. **Nothing is written to or read from the device**: so ePrivacy Article 5(3), the rule that actually mandates banners, is never triggered
+2. **Nothing is written to the device**: the standard browser properties read to compute the session identifier engage ePrivacy Article 5(3), the rule that actually mandates banners, and rely on its audience-measurement exemption (see below) rather than on consent
 3. **Therefore no Article 6 basis is required**, and no consent record needs to exist
 
 The one place Article 6(1)(f) does correctly apply is much narrower: the transient, in-memory handling of an IP for security and anti-abuse checks, which Recital 49 addresses. That IP is never written to storage and never reaches the analytics dataset.
@@ -178,13 +178,13 @@ The ePrivacy Directive Article 5(3) requires consent for cookies. However, it in
 
 > "The storing of information, or the gaining of access to information already stored, in the terminal equipment of a subscriber or user is allowed on condition that the subscriber or user concerned is provided with clear and comprehensive information, and is provided with the right to refuse such storage or access."
 
-**Cookieless analytics doesn't trigger this requirement** because:
+**How this applies to Sealmetrics**:
 
-1. Session IDs stored only in memory (not persistent storage)
-2. IDs expire when browser closes
-3. No information "stored" in the traditional sense
+1. Nothing is stored on the device — no cookies, no localStorage, no sessionStorage
+2. The tracker does read standard browser properties to compute its session identifier, so Article 5(3) is engaged by that read
+3. Consent is avoided through the audience-measurement exemption described above (CNIL's criteria), not by falling outside Article 5(3)
 
-This is why Sealmetrics requires no consent banner while cookie-based tools do.
+This is why Sealmetrics requires no consent banner while cookie-based tools, which don't meet those criteria, do.
 
 ---
 
@@ -211,7 +211,7 @@ Many analytics tools claim to be "cookieless" or "privacy-first," but still:
 
 - **Hash and store IP addresses** (Plausible, Matomo, Simple Analytics)
 - **Use localStorage instead of cookies** (technically still requires consent)
-- **Implement fingerprinting** (clearly violates GDPR)
+- **Use persistent fingerprints** to recognise returning visitors (requires consent)
 
 **Sealmetrics is the only major platform** that provides true consentless analytics by:
 
@@ -251,7 +251,7 @@ Many analytics tools claim to be "cookieless" or "privacy-first," but still:
 
 **Automatic compliance**:
 - No Article 6 legal basis required: no personal data stored (Recital 26)
-- ePrivacy Article 5(3) not triggered: nothing written to or read from the device
+- ePrivacy Article 5(3): nothing written to the device; the browser properties read for the session identifier rely on the audience-measurement exemption
 - Meets CNIL cookieless exemption criteria
 - Data minimization principle satisfied
 - No cross-border data transfer issues (if EU-hosted)
@@ -404,7 +404,7 @@ Replace cookie consent section with:
 **Reality**: Many "cookieless" tools still:
 - Store hashed IP addresses (not GDPR anonymous)
 - Use localStorage (may still require consent)
-- Implement fingerprinting (illegal under GDPR)
+- Use persistent fingerprints to recognise visitors across visits (requires consent)
 - Require consent "to be safe"
 
 **Only Sealmetrics provides** true consentless analytics with zero IP storage and no persistent identifiers of any kind.

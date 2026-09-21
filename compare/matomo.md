@@ -3,8 +3,8 @@ title: "Sealmetrics vs Matomo: self-hosted open source vs managed consentless cl
 description: "Matomo is GPL-licensed and self-hostable, but its cookieless mode hashes the visitor's IP. Sealmetrics never uses the IP and stores everything in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/matomo"
 lang: "en"
-date_generated: "2026-09-04T11:01:07.053Z"
-source_hash: "9385f3d0aa50b6ecba1965336c2bc5a0539e517823651bc3328232f9fd11068c"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "97b8065cd076cc14fe4980efe318787aa401a0aec3188412bc97b12c4aa3651b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -27,7 +27,7 @@ Matomo facts checked 2026-09-04 on matomo.org; each row links to the page it was
 | Company / HQ | Sealmetrics, EU company | InnoCraft Limited, Wellington, New Zealand ([source](https://matomo.org/privacy-policy/)) |
 | Hosting model | Managed cloud only | Matomo Cloud or self-hosted On-Premise ([source](https://matomo.org/pricing/)) |
 | Licence | Proprietary | GNU GPL v3 or later ([source](https://matomo.org/free-software/)) |
-| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | Cookie by default; without cookies a `config_id` hashed from OS, browser, plugins, IP address and language, valid for one session and at most 24 h ([source](https://matomo.org/faq/general/how-is-the-visitor-config_id-processed/)) |
+| Identifier between pageviews | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | Cookie by default; without cookies a `config_id` hashed from OS, browser, plugins, IP address and language, valid for one session and at most 24 h ([source](https://matomo.org/faq/general/how-is-the-visitor-config_id-processed/)) |
 | Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Processed; "considered personal data, unless you have enabled the IP anonymisation to at least 2 bytes" ([source](https://matomo.org/faq/general/faq_18254/)) |
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | Cloud: Frankfurt, Germany; On-Premise: your choice ([source](https://matomo.org/pricing/)) |
 | Vendor's position on consent | No banner needed for measurement | "No need for cookie consent screens" once anonymisation techniques are configured ([source](https://matomo.org/gdpr-analytics/)); consent-free operation depends on a checklist of settings ([source](https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-without-consent-or-cookie-banner/)) |
@@ -39,7 +39,7 @@ Matomo facts checked 2026-09-04 on matomo.org; each row links to the page it was
 
 Matomo's default is a first-party visitor cookie, which gives it GA-style unique and returning visitor counts. Switch cookies off and Matomo falls back to `config_id`: a hash of operating system, browser, plugins, IP address and language, seeded with a value that is discarded daily so the identifier cannot outlive 24 hours. Matomo's own FAQ is candid that unique-visitor reports become inaccurate in that mode, and its consent-free checklist asks you to truncate IPs, disable User ID, anonymise referrers and limit tracking to a single site.
 
-Sealmetrics has no cookie mode to switch off. Every hit carries timestamp, user agent, URL and referrer, grouped within a visit by a session marker that exists only in memory for around two hours and includes nothing derived from the IP. The trade-off is that unique visitors are not reported at all — Sealmetrics uses entrances as the audience-size signal — but nothing degrades when a visitor blocks cookies, because nothing depended on them.
+Sealmetrics has no cookie mode to switch off. Every hit carries a small set of non-identifying fields — timestamp, user agent, URL, referrer and browser timezone — grouped within a visit by a session identifier: a hash of standard device characteristics computed in the browser, with nothing derived from the IP and nothing written to the device. On the server it is re-keyed with a daily salt that is destroyed on rotation, so nothing stored can link a device across days, and a live session ends after around two hours of inactivity. The trade-off is that unique visitors are not reported at all — Sealmetrics uses entrances as the audience-size signal — but nothing degrades when a visitor blocks cookies, because nothing depended on them.
 
 ## When Matomo is the better choice
 
@@ -57,7 +57,7 @@ Sealmetrics has no cookie mode to switch off. Every hit carries timestamp, user 
 
 ### Is Matomo's cookieless mode the same as Sealmetrics' consentless design?
 
-No. Matomo's cookieless mode still computes a visitor fingerprint (`config_id`) that includes the IP address, rotated daily. Sealmetrics computes no visitor fingerprint at all; its session marker is short-lived, in-memory and not derived from the IP.
+No, though both rest on a daily-rotated hash of device characteristics. Matomo's cookieless mode computes a visitor fingerprint (`config_id`) that includes the IP address, rotated daily. Sealmetrics' tracker computes a device-characteristics hash in the browser that includes nothing derived from the IP; it is never written to the device, never stored as sent, and re-keyed on the server with a daily salt that is destroyed on rotation, so two days of the same device cannot be re-linked — not even by Sealmetrics.
 
 ### Where is Matomo Cloud data stored?
 

@@ -3,8 +3,8 @@ title: "Privacy by Design Principles"
 description: "How Sealmetrics maps to the seven Privacy by Design principles — with the concrete architectural choice behind each one."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/privacy-by-design"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "74eda9300b372d0e74ea2193a5ca860ed0ca2a0aec5b0014af9a60cfc16e8e86"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "881bebbbf9c0694735232084d33bcbcd6997e39991e1d479dddc3313ae867b1b"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -27,7 +27,7 @@ Privacy by Design is the framework [GDPR Article 25](https://eur-lex.europa.eu/e
 | **3. Full functionality** | Traffic, attribution, conversions, revenue and aggregate engagement are all reported without personal data. What is genuinely lost — unique visitors, session duration, cross-session journeys — is [documented rather than worked around](/security-privacy/consentless-analytics#what-consentless-analytics-can-and-cannot-measure). |
 | **4. End-to-end security** | EU-only storage in Dublin, Ireland; encryption in transit and at rest; role-based access control; short retention enforced by database TTLs. See [Data Location & Retention](/security-privacy/data-location). |
 | **5. Visibility and transparency** | The complete field list and its retention is published in [What We Track](/security-privacy/what-we-track). The tracker is client-side and inspectable. |
-| **6. Respect for user privacy** | No cookies, no device storage, no fingerprinting, no cross-session or cross-site linking. Session markers incorporate the publisher account, so the same browser yields different markers on different sites. |
+| **6. Respect for user privacy** | No cookies, no device storage, no stored or persistent fingerprint, no cross-day, cross-session or cross-site linking. The session identifier is a device-characteristics hash re-keyed on the server with a daily salt that is destroyed on rotation, and it incorporates the publisher account, so the same browser yields different identifiers on different sites. |
 | **7. Accommodate all legitimate interests** | Site owners get the measurement they need for business decisions; visitors are not identified to provide it. |
 
 ## Is privacy by design a certification?
@@ -36,7 +36,7 @@ Two claims worth keeping straight, because vendor reviews turn on them: privacy 
 
 **Note:**
 - Sealmetrics satisfies GDPR Article 25 (data protection by design and by default) by collecting no personal data, so each of the seven principles maps to an architectural choice.
-- Anonymous measurement is the default and only mode: no cookies, no device storage, no fingerprinting, EU-only storage in Dublin with short retention enforced by TTLs.
+- Anonymous measurement is the default and only mode: no cookies, no device storage, no stored or persistent fingerprint, EU-only storage in Dublin with short retention enforced by TTLs.
 - Privacy by design is an architectural property, not a certification — Sealmetrics holds no ISO 27001 or SOC 2 and no supervisory authority certifies analytics tools.
 
 ## Related documentation

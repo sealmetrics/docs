@@ -3,8 +3,8 @@ title: "Legal FAQ — Sealmetrics Compliance Questions"
 description: "Answers to the legal questions asked in vendor reviews of Sealmetrics: DPA, DPIA, subprocessors, Dublin hosting, IP handling, cookies, 24-month retention."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/legal-faq"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "7a92ff9939ab222fcbd0b07533b4567c88b8d1cba2f7468a32c3a50a11390708"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "61e80b132d22ef8583800223993cb344c4bda81d6559c002e3db969ea236e651"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -76,14 +76,16 @@ Sealmetrics is a **bootstrapped European company** with no external investors on
 ## **Data Collection & Calculation**
 
 ### **What data does Sealmetrics collect?**
-We only collect four essential, non-personal variables per hit:
+We only collect a small set of non-identifying fields per hit:
 
 - Current URL (including UTM parameters)
 - Referral URL
 - Timestamp
-- User Agent (used for anonymous device classification; event detail purged after 1 day, aggregated categories kept 24 months; never linked to a person)
+- User Agent (used in flight for anonymous device classification; the raw string is never written to storage, and only the derived categories are kept, in aggregates, for 24 months; never linked to a person)
+- Browser timezone (used to assign the country)
+- A **session identifier** used to tell a second pageview apart from a new entrance (see below)
 
-Plus a short-lived **session context marker** used to tell a second pageview apart from a new entrance. See [What We Track vs What We Don't](/security-privacy/what-we-track) for the full breakdown.
+See [What We Track vs What We Don't](/security-privacy/what-we-track) for the full breakdown.
 
 All data is anonymous and isolated.
 
@@ -93,7 +95,7 @@ All data is anonymous and isolated.
 We compute:
 
 - **Source ID** (`_adin`): Used for attribution
-- **Session context marker**: a short-lived identifier scoped to a single browsing session (~2-hour inactivity window). It is not stored in the browser, does not persist across sessions, and cannot recognize a returning visitor.
+- **Session identifier**: the tracker computes, in the browser, a hash of standard device characteristics (user agent, timezone, languages, screen resolution, colour depth, dark-mode and reduced-motion preferences, CPU core count, device memory) plus the site's account ID — a device fingerprint. It is never written to the device. On the server it is re-keyed with a server secret and a daily salt that is destroyed on rotation, so the stored identifier changes every day and cannot be linked across days — not even by Sealmetrics. The raw hash is never stored. The live session expires after 2 hours of inactivity; the daily pseudonym is purged after 1 day. It cannot recognize a returning visitor.
 
 ---
 
@@ -105,7 +107,7 @@ We compute:
 - The IP is **never written to the analytics database** — there is no IP column in our event storage — and it is never linked to any hit, session, or metric.
 - No GeoIP lookup is performed on the IP. One was designed for the optional **Agent Analytics** bot detector, but that feature is **not live and cannot be enabled on any account**, so it runs nowhere today.
 
-This transient security use is processed under legitimate interest ([GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj) Art. 6(1)(f), Recital 49 — network and information security). It is the only point at which an Article 6 basis is engaged: the visitor analytics dataset itself holds no personal data (no IP, no identifier, four non-identifying variables), so under Recital 26 it falls outside the GDPR and needs no legal basis — Sealmetrics does not rely on legitimate interest or consent for visitor analytics. What keeps Sealmetrics consentless is that the IP is never stored with analytics data, never used for identification or tracking, and never used to compute analytics.
+This transient security use is processed under legitimate interest ([GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj) Art. 6(1)(f), Recital 49 — network and information security). It is the only point at which an Article 6 basis is engaged: the visitor analytics dataset itself holds no personal data (no IP, no persistent identifier, a small set of non-identifying fields), so under Recital 26 it falls outside the GDPR and needs no legal basis — Sealmetrics does not rely on legitimate interest or consent for visitor analytics. What keeps Sealmetrics consentless is that the IP is never stored with analytics data, never used for identification or tracking, and never used to compute analytics.
 
 ---
 
@@ -132,8 +134,10 @@ Sealmetrics does **not** use:
 - cookies
 - session storage
 - local storage
-- fingerprinting
+- any stored or persistent fingerprint
 - cross-site IDs
+
+Nothing is stored on the visitor's device. The tracker does read standard browser properties to compute the daily-re-keyed [session identifier](#what-data-does-sealmetrics-calculate) described above.
 
 ---
 
@@ -145,7 +149,7 @@ This stays inside the 25-month ceiling that [CNIL guidance](https://www.cnil.fr/
 
 **Note:**
 - The DPA is at sealmetrics.com/dpa and the Privacy Notice at sealmetrics.com/privacy; a completed DPIA is available to customers on request.
-- Sealmetrics collects four non-personal variables per hit, uses no cookies or storage, and never writes the IP address to the analytics database.
+- Sealmetrics collects a small set of non-identifying fields per hit, stores nothing on the device (no cookies or browser storage), and never writes the IP address to the analytics database.
 - Data is stored for a maximum of 24 months, inside the 25-month ceiling in CNIL guidance.
 
 ## Related documentation

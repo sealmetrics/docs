@@ -6,9 +6,9 @@ URL: https://docs.sealmetrics.com/faq/consentless-analytics
 
 ## How can Sealmetrics measure without consent?
 
-Because there is nothing to consent to. Sealmetrics is a cookieless tracking system: no cookies, no fingerprinting, no cross-session tracking, no personal data. We measure isolated hits (page views), not user journeys.
+Because it collects no personal data and stores nothing on the device. Sealmetrics is a cookieless tracking system: no cookies, no stored or persistent fingerprint, no cross-session tracking, no personal data. We measure hits (page views), not user journeys.
 
-[ePrivacy](https://eur-lex.europa.eu/eli/dir/2002/58/oj) requires consent for storing or reading information on a device. Sealmetrics stores nothing on the device, so the consent requirement does not attach. GDPR obligations for personal data do not attach either, because no personal data is collected.
+[ePrivacy](https://eur-lex.europa.eu/eli/dir/2002/58/oj) requires consent for storing or reading information on a device, unless an exemption applies. Sealmetrics stores nothing on the device. The tracker does read standard browser properties to compute a session identifier; for that, Sealmetrics relies on the audience-measurement exemption criteria — see [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption). GDPR obligations for personal data do not attach, because no personal data is collected.
 
 We follow the measurement guidelines published by the AEPD and [CNIL](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications). Note that no supervisory authority certifies or approves analytics tools — our [compliance pages](/compliance) are self-assessments against the published criteria, not third-party validations.
 
@@ -19,7 +19,7 @@ We follow the measurement guidelines published by the AEPD and [CNIL](https://ww
 No.  
 We do not track users individually, even anonymously.
 
-Every interaction is treated as a standalone hit.  
+Hits are grouped only within a single session, by an identifier that is re-keyed every day; nothing links them across days or sessions.  
 There is no reconstruction of journeys, no profiling, no identification.
 
 ---
@@ -32,26 +32,28 @@ For each hit, Sealmetrics records:
 - URL  
 - Referral URL  
 - User Agent — the raw string is never written to storage; only anonymous device categories persist in aggregates
+- Browser timezone — used to assign the country
+- Session identifier — re-keyed every day; it cannot link a device across days
 
 No IP address  
 No persistent identifiers  
-No device fingerprinting  
+No stored or persistent device fingerprint  
 
-With no personal data collected and nothing written to the visitor's device, there is no consent to obtain under ePrivacy and no personal-data processing under GDPR. See the [compliance self-assessments](/compliance) for the framework-by-framework analysis.
+With no personal data collected, there is no personal-data processing under GDPR. Nothing is written to the visitor's device; the tracker's reading of standard browser properties for the session identifier relies on the ePrivacy audience-measurement exemption criteria. See the [compliance self-assessments](/compliance) for the framework-by-framework analysis.
 
 ---
 
 ## Why does consentless analytics require aggregated measurement?
 
 Because ePrivacy requires consent for any technology that tracks users across sessions.  
-Sealmetrics avoids this by **not linking hits**, so no cross-session tracking takes place.
+Sealmetrics avoids this by **not linking hits across sessions or days**, so no cross-session tracking takes place.
 
 ---
 
 **Note:**
-- Sealmetrics needs no consent because nothing is stored on the device (ePrivacy) and no personal data is collected (GDPR).
-- Each hit records only timestamp, URL, referral URL and user agent (raw string never written to storage) — no IP address, no persistent identifiers, no fingerprinting.
-- Hits are never linked, so there is no cross-session tracking; the compliance pages are self-assessments, not supervisory-authority validations.
+- Sealmetrics needs no consent because no personal data is collected (GDPR) and nothing is stored on the device, with the reading of browser properties for the session identifier covered by the audience-measurement exemption criteria (ePrivacy).
+- Each hit records only timestamp, URL, referral URL, user agent (raw string never written to storage), browser timezone and a daily re-keyed session identifier — no IP address, no persistent identifiers, no stored fingerprint.
+- Hits are never linked across sessions or days, so there is no cross-session tracking; the compliance pages are self-assessments, not supervisory-authority validations.
 
 ## Related documentation
 

@@ -3,8 +3,8 @@ title: "Frequently Asked Questions"
 description: "Why Sealmetrics numbers differ from GA4 — inflated Direct traffic, entrances instead of persistent-ID sessions, last-click as the only consent-free attribution model, ITP resistance, and why server-side tracking still needs a consent banner."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-security"
 lang: "en"
-date_generated: "2026-09-15T07:00:30.234Z"
-source_hash: "27fbe2056887b0fb99991694d9874d0c1e46eabecd346e481a3460c4f61c2f94"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "e9dc61ca4401de1a709950aea7fbfa3bc77ffc8b848b85d2042b539184c73d2c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -38,7 +38,7 @@ Because Sealmetrics does not identify people across sessions.
 
 GA4 uses a **persistent client ID** to group everything one person does — across visits, days, and devices — into unified sessions and user counts. Sealmetrics deliberately has no such identifier:
 
-- **Within a single browsing session** (a short-lived, context-derived marker with a ~2-hour inactivity window), Sealmetrics can tell a follow-up pageview apart from a new entrance — this is what powers aggregate metrics like Bounce Rate.
+- **Within a single browsing session** (a session identifier with a ~2-hour inactivity window, computed in the browser from standard device characteristics and re-keyed on the server every day), Sealmetrics can tell a follow-up pageview apart from a new entrance — this is what powers aggregate metrics like Bounce Rate.
 - **Across sessions there is no join**: if the same person comes back tomorrow, that is a brand-new entrance. No history is carried forward, so no consent is needed.
 
 This is why Sealmetrics measures **entrances**, not GA4-style "visits" tied to a persistent identity — and why the two numbers can differ for the same traffic.
@@ -91,7 +91,7 @@ Once they validate that Sealmetrics shows the true business metrics, it becomes 
 
 ## How resistant is your solution to ITP and similar browser protections?
 
-Sealmetrics sets no cookies or identifiers, so ITP's cookie limits and similar privacy protections have nothing of ours to expire.
+Sealmetrics sets no cookies and stores no identifiers on the device, so ITP's cookie limits and similar privacy protections have nothing of ours to expire.
 
 In addition, we offer a **first-party tracking system**, which further increases reliability and ensures long-term measurement resilience.
 

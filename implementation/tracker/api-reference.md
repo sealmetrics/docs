@@ -3,8 +3,8 @@ title: "Tracker API Reference"
 description: "Complete API reference for the Sealmetrics JavaScript tracker. Includes all methods, parameters, and payload specifications."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker/api-reference"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "1a16d6ec97a72c61876ace5b8bcd9def7580fef1c17c542b72e9f10b261f5640"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "e1998bb865ba5b3645681f223e4caa7559d6b633ac42892f421c49c3a32044e3"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -341,7 +341,7 @@ Beyond the methods, the global object exposes a few read-only properties, useful
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `sealmetrics.sessionId` | string | The fingerprint-based session ID for the current visitor |
+| `sealmetrics.sessionId` | string | The session identifier for the current visitor: a hash of standard device characteristics computed in the browser, never written to the device, and re-keyed daily on the server before storage |
 | `sealmetrics.accountId` | string | The account/site ID embedded in the served script |
 | `sealmetrics.tz` | string | The visitor's IANA timezone (e.g., `'Europe/Madrid'`) |
 | `sealmetrics.autoMode` | string | `'1'` if the auto-pageview is enabled, `'0'` if loaded with `?auto=0` |
