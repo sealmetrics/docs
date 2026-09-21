@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release UTM Mapping override option for Google Shopping and Performance Max feeds (September 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a correction to how the privacy documentation describes the session identifier (September 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-09-21T08:04:46.276Z"
-source_hash: "58dd5144855c47adee40cdf7d7785cc2b5b92b2ade8954c5f7c77a9c6712138c"
+date_generated: "2026-09-21T09:06:19.797Z"
+source_hash: "70094b9f9f04ac8bf6b885c8f3d0ea8f3e474bce443dc5fd2514a69333d8a21a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,31 @@ publisher: "Sealmetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## Privacy documentation corrected — how the session identifier works (September 21, 2026)
+
+This is a correction to our documentation, not a product change. Sealmetrics works exactly as it did yesterday, and **no action is required**. We are publishing it here because customers use these pages in security reviews and vendor due diligence.
+
+### What the documentation said
+
+Several privacy and compliance pages described the session identifier as a short-lived, in-memory "context marker". They also said Sealmetrics records "only four variables" per hit and uses no fingerprinting. That description was incomplete, and in places it was wrong.
+
+### What actually happens
+
+- **In the browser**, the tracker computes a hash of standard device characteristics — user agent, timezone, languages, screen resolution, colour depth, dark-mode and reduced-motion preferences, CPU core count and device memory — together with your site's ID. That hash is a device fingerprint. Nothing is written to the visitor's device: no cookie, no localStorage, no sessionStorage.
+- **On the server**, before anything is stored, the hash is re-keyed with a server-side secret and a salt that rotates every day. The previous day's salt is destroyed at rotation, so the stored identifier changes daily and two days of the same device cannot be re-linked, not even by Sealmetrics. The hash as sent by the browser is never stored.
+- **Retention.** The live session lasts 2 hours of inactivity, in memory. The daily identifier is kept in the per-hit log, which is purged after 1 day. Aggregates never contain it.
+- **Fields per hit.** Besides the timestamp, user agent, page URL and referrer, each hit carries the browser timezone (the source of the country) and the session identifier. Screen size and languages are only used to compute the hash: they are not stored and not reported.
+
+### What we changed
+
+- [What We Track](/security-privacy/what-we-track) now describes the session identifier, the fields and their retention accurately, and it is the reference for everything above.
+- The FAQ, the getting-started pages and the compliance self-assessments now use the same wording. Where a page's ePrivacy reasoning relied on "nothing is read from the device", it now relies on the audience-measurement consent exemption. The self-assessments remain our own assessments; no supervisory authority certifies analytics tools.
+- One blog post, whose description of how data is aggregated did not match the product, has been unpublished while we review it.
+
+We should have described this accurately from the start, and we're sorry to anyone who relied on the earlier wording in a review. If you completed a vendor assessment using the old pages, the updated [What We Track](/security-privacy/what-we-track) page is the one to reference.
 
 ---
 
