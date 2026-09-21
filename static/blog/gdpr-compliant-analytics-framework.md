@@ -3,8 +3,8 @@ title: "GDPR Compliant Analytics: Complete Framework 2026"
 description: "GDPR framework for web analytics: which legal basis you actually need, the technical requirements, and how to stop losing 15-60% of your data to consent."
 canonical_url: "https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "ed062ca87c795a771dcb63822235924d01db4adda453906c8f1251830d9202eb"
+date_generated: "2026-09-21T08:39:39.819Z"
+source_hash: "36ab84e42d8fa73b40d48a1dc1b3886fcce0169e19b72fb994607105bdfab6d7"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -686,7 +686,6 @@ Start your 14-day free trial: [Sealmetrics.com](https://sealmetrics.com)
 - [Cookieless vs Cookie-Based Analytics](/blog/cookieless-analytics-vs-cookie-based)
 - [How Consentless Tracking Works](/security-privacy/how-consentless-works) — Technical architecture behind GDPR-compliant tracking
 - [What Is Consentless Analytics?](/security-privacy/consentless-analytics) — Legal basis and implementation details
-- [Real-Time Analytics and Consent](/blog/real-time-tracking-consent) — AEPD and CNIL rules on real-time data
 - [CNIL 2020 Analytics Guidance (Official)](https://www.cnil.fr/en/cookies-and-other-trackers/rules/cookies/how-comply-cookies-and-trackers)
 - [GDPR Official Text](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
 - [ePrivacy Directive Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32002L0058)
