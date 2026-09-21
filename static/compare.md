@@ -3,8 +3,8 @@ title: "Sealmetrics compared with other analytics tools"
 description: "How Sealmetrics compares with GA4, Matomo, Plausible, Fathom, Piwik PRO and Simple Analytics on identifiers, IP handling, data residency, consent and script size."
 canonical_url: "https://docs.sealmetrics.com/compare"
 lang: "en"
-date_generated: "2026-09-04T11:01:07.053Z"
-source_hash: "c61e3a792019d07985360e01f791d323c7e3194d9cd9d171b232aeb6fa833940"
+date_generated: "2026-09-21T07:04:49.090Z"
+source_hash: "9707103fdc691177b40e5a55797dc90314cc68072c59efe60a9e1a437ab5d83f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -43,7 +43,7 @@ Vendor facts checked 2026-09-04.
 | [Plausible](/compare/plausible) | Daily hash of salt + domain + IP + user agent ([source](https://plausible.io/data-policy)) | Yes — hash input and geolocation; not stored ([source](https://plausible.io/data-policy)) | Hetzner, Falkenstein, Germany ([source](https://plausible.io/privacy-focused-web-analytics)) | "No need for cookie banners or GDPR consent" ([source](https://plausible.io/)) | Yes — AGPLv3 Community Edition ([source](https://plausible.io/docs/self-hosting)) | 2.5 KB ([source](https://plausible.io/lightweight-web-analytics)) |
 | [Fathom](/compare/fathom) | Daily per-site hash of salt + IP + user agent + hostname ([source](https://usefathom.com/data)) | Yes — hash input; stripped inside the EU for EU visitors ([source](https://usefathom.com/features/eu-isolation)) | EU IPs processed in the EU; anonymised data stored on US servers ([source](https://usefathom.com/features/eu-isolation)) | "You don't need to clutter your site with a cookie banner" ([source](https://usefathom.com/features)) | No — hosted product only ([source](https://usefathom.com/about)) | Not published |
 | [Piwik PRO](/compare/piwik-pro) | Cookie ID by default; anonymous mode uses a session hash of IP, OS, browser, language, plugins and site ID ([source](https://help.piwik.pro/support/questions/what-are-sessions-and-how-are-they-counted/)) | Yes — session-hash input; masking optional ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) | Sweden (EU-operated), DE, NL, US, HK, UAE ([source](https://piwik.pro/pricing/)) | Anonymous data can be collected without a consent form ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) | Proprietary; private cloud available ([source](https://piwik.pro/pricing/)) | ~26 KB (Sealmetrics measurement, Aug 2026) |
-| [Simple Analytics](/compare/simple-analytics) | None — unique visits inferred from the Referer hostname ([source](https://docs.simpleanalytics.com/what-we-collect)) | Not collected; country from timezone ([source](https://docs.simpleanalytics.com/what-we-collect)) | The Netherlands ([source](https://docs.simpleanalytics.com/what-we-collect)) | No consent needed, citing ICO guidance ([source](https://docs.simpleanalytics.com/compliance)) | Not published | 3.7 KB standard, 1.9 KB light ([source](https://docs.simpleanalytics.com/light)) |
+| Simple Analytics | None — unique visits inferred from the Referer hostname ([source](https://docs.simpleanalytics.com/what-we-collect)) | Not collected; country from timezone ([source](https://docs.simpleanalytics.com/what-we-collect)) | The Netherlands ([source](https://docs.simpleanalytics.com/what-we-collect)) | No consent needed, citing ICO guidance ([source](https://docs.simpleanalytics.com/compliance)) | Not published | 3.7 KB standard, 1.9 KB light ([source](https://docs.simpleanalytics.com/light)) |
 
 Sealmetrics measurements for GA4, Matomo and Piwik PRO were taken on 27 August 2026 with the method described in the [tracker performance report](/guides/tracker-performance-report); Matomo's figure depends on which plugins an instance has installed.
 
@@ -61,7 +61,7 @@ Sealmetrics measurements for GA4, Matomo and Piwik PRO were taken on 27 August 2
 - [Sealmetrics vs Plausible](/compare/plausible) — two cookieless tools, one hashes the IP
 - [Sealmetrics vs Fathom](/compare/fathom) — EU Isolation versus EU-only storage
 - [Sealmetrics vs Piwik PRO](/compare/piwik-pro) — enterprise suite with consent manager versus consentless by design
-- [Sealmetrics vs Simple Analytics](/compare/simple-analytics) — the closest architecture, different depth
+- Sealmetrics vs Simple Analytics — the closest architecture, different depth
 
 ## Related documentation
 
