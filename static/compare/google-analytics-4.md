@@ -3,8 +3,8 @@ title: "Sealmetrics vs Google Analytics 4: consent-based vs consentless measurem
 description: "GA4 needs cookies and consent, so it loses 15–60% of EU visitors. Sealmetrics measures every hit without cookies, IP storage or a banner, hosted in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/google-analytics-4"
 lang: "en"
-date_generated: "2026-09-04T11:01:07.053Z"
-source_hash: "73f1a20cd1b22b0286145d6307773bd4f8d5c0c5bee37e76e33b409ef5ec2caf"
+date_generated: "2026-09-21T06:58:53.351Z"
+source_hash: "29a26ca09f3a390223649d74b50efc0da4a93670c3e1da0656a60792011f5b83"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -27,8 +27,8 @@ Google facts checked 2026-09-04 on Google's own help pages; each row links to th
 | Company / HQ | Sealmetrics, EU company | Google LLC, Mountain View, USA; Google Ireland Limited for EEA users ([source](https://policies.google.com/privacy)) |
 | Hosting model | Managed cloud only | Managed cloud only ([source](https://support.google.com/analytics/answer/6004245)) |
 | Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP; no cookies or localStorage ([details](/security-privacy/what-we-track)) | First-party cookie `_ga` with a 2-year default expiry, used "to distinguish users" ([source](https://support.google.com/analytics/answer/11397207)) |
-| Visitor IP address | Never stored; country derived from browser timezone ([details](/security-privacy/country-detection)) | Not logged or stored for EU/UK/CH users; used for geolocation and then discarded ([source](https://support.google.com/analytics/answer/12017362)) |
-| Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | EU device data collected on EU servers "before forwarding traffic to Analytics servers for processing"; final location not stated ([source](https://support.google.com/analytics/answer/12017362)) |
+| Visitor IP address | Never stored; country derived from browser timezone ([details](/security-privacy/country-detection)) | Not logged or stored for EU/UK/CH users; used for geolocation and then discarded (source) |
+| Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | EU device data collected on EU servers "before forwarding traffic to Analytics servers for processing"; final location not stated (source) |
 | Vendor's position on consent | No banner needed for measurement | Consent required for cookies "where legally required" under Google's EU User Consent Policy ([source](https://www.google.com/about/company/user-consent-policy/)) |
 | Behaviour when consent is denied | Not applicable — every hit measured | Tags send cookieless pings; gaps filled by conversion and behavioural modelling ([source](https://support.google.com/analytics/answer/9976101)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; Sealmetrics measured ~145 KB on 27 Aug 2026 ([method](/guides/tracker-performance-report)) |
