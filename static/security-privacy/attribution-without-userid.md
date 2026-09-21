@@ -3,8 +3,8 @@ title: "How Attribution Works Without a User-ID"
 description: "How Sealmetrics attributes traffic and conversions without User-IDs, cookies or cross-session tracking — last-click attribution read from the URL on every hit."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/attribution-without-userid"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "ce0d634f612fe583844e0c37196103fe0a9b2afe5745017e22d5f7dc58ed2f46"
+date_generated: "2026-09-21T08:04:46.276Z"
+source_hash: "aa6e86ca21a747c2c8aff8dd2be238e9ada01d764cb9dbca0566c4412e628931"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -44,7 +44,7 @@ Sealmetrics does **not**:
 ❌ Store IP addresses
 ❌ Use cookies or persistent identifiers
 
-The user agent is used for anonymous device classification (browser/OS category): the raw string is purged with the event row after 1 day, and only the derived categories persist in the 24-month aggregates. Neither can be joined with anything that identifies the person — because no such identifier exists. Short-lived session context exists inside a single browsing session (~2-hour inactivity), never across sessions or devices.
+The user agent is used for anonymous device classification (browser/OS category): the raw string is used in flight and never written to storage, and only the derived categories persist in the 24-month aggregates. Neither can be joined with anything that identifies the person — because no such identifier exists. Short-lived session context exists inside a single browsing session (~2-hour inactivity), never across sessions or devices.
 
 ---
 

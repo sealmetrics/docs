@@ -3,8 +3,8 @@ title: "Consentless Analytics"
 description: "Why Sealmetrics needs no consent banner — no cookies, no fingerprinting, no personal data, and what exactly is recorded on each hit."
 canonical_url: "https://docs.sealmetrics.com/faq/consentless-analytics"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "c7aef790132603de8320a5ba6cf84c6d2f4f578cb722284a7bce1ac26b152c46"
+date_generated: "2026-09-21T08:04:46.276Z"
+source_hash: "f050aee9b405391868c1bcf4874fa569f0c8a8c10c9e1f195865b36ef44e035d"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -43,7 +43,7 @@ For each hit, Sealmetrics records:
 - Timestamp
 - URL
 - Referral URL
-- User Agent — the raw string is purged after 1 day; only anonymous device categories persist in aggregates
+- User Agent — the raw string is never written to storage; only anonymous device categories persist in aggregates
 
 No IP address
 No persistent identifiers
@@ -62,7 +62,7 @@ Sealmetrics avoids this by **not linking hits**, so no cross-session tracking ta
 
 **Note:**
 - Sealmetrics needs no consent because nothing is stored on the device (ePrivacy) and no personal data is collected (GDPR).
-- Each hit records only timestamp, URL, referral URL and user agent (raw string purged after 1 day) — no IP address, no persistent identifiers, no fingerprinting.
+- Each hit records only timestamp, URL, referral URL and user agent (raw string never written to storage) — no IP address, no persistent identifiers, no fingerprinting.
 - Hits are never linked, so there is no cross-session tracking; the compliance pages are self-assessments, not supervisory-authority validations.
 
 ## Related documentation

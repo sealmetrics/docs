@@ -3,8 +3,8 @@ title: "Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?"
 description: "Self-assessment of how Sealmetrics' privacy-first, isolated-hit architecture is designed to meet GDPR, ePrivacy, CCPA and PECR requirements. Not a certification."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview/is-sealmetrics-privacy-compliant"
 lang: "en"
-date_generated: "2026-09-14T16:47:29.325Z"
-source_hash: "4e3946509a9cf8033f0079fc30a94f4ce149bcf999a5414d0c45c364c9ac5fd4"
+date_generated: "2026-09-21T08:04:46.276Z"
+source_hash: "f39338da80e143983aaac7196d9c83169683fff29f3613547248572fc21b35b1"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -65,7 +65,7 @@ Instead, it measures **isolated page views (hits)** that are *never linked toget
 ### For each hit, Sealmetrics collects only four variables:
 
 1. **Timestamp**
-2. **User Agent** *(used for anonymous device classification; the raw string is purged after 1 day and only the derived browser/OS/device categories persist in aggregates — never linked to a person)*
+2. **User Agent** *(used for anonymous device classification; the raw string is used in flight and never written to storage — only the derived browser/OS/device categories persist in aggregates — never linked to a person)*
 3. **Current URL**
 4. **Referral URL**
 
@@ -123,7 +123,7 @@ Those zeros describe **measurement**: what the tracking script does on your site
 This enables marketers and analysts to access reliable, actionable analytics **without compromising user privacy or requiring consent banners**.
 
 **Note:**
-- Sealmetrics collects only four variables per hit — timestamp, user agent (raw string purged after 1 day), current URL and referral URL — and never links hits to each other or to a person.
+- Sealmetrics collects only four variables per hit — timestamp, user agent (raw string never written to storage), current URL and referral URL — and never links hits to each other or to a person.
 - All servers are in Dublin, Ireland; no personal data is transferred outside the EU.
 - This is a self-assessment against GDPR, ePrivacy, CCPA and PECR — Sealmetrics holds no ISO 27001 or SOC 2 certification and no supervisory authority certifies analytics tools.
 

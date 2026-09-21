@@ -67,7 +67,7 @@ Instead, it measures **isolated page views (hits)** that are *never linked toget
 ### For each hit, Sealmetrics collects only four variables:
 
 1. **Timestamp**  
-2. **User Agent** *(used for anonymous device classification; the raw string is purged after 1 day and only the derived browser/OS/device categories persist in aggregates — never linked to a person)*  
+2. **User Agent** *(used for anonymous device classification; the raw string is used in flight and never written to storage — only the derived browser/OS/device categories persist in aggregates — never linked to a person)*  
 3. **Current URL**  
 4. **Referral URL**  
 
@@ -125,7 +125,7 @@ Those zeros describe **measurement**: what the tracking script does on your site
 This enables marketers and analysts to access reliable, actionable analytics **without compromising user privacy or requiring consent banners**.
 
 :::note In short
-- Sealmetrics collects only four variables per hit — timestamp, user agent (raw string purged after 1 day), current URL and referral URL — and never links hits to each other or to a person.
+- Sealmetrics collects only four variables per hit — timestamp, user agent (raw string never written to storage), current URL and referral URL — and never links hits to each other or to a person.
 - All servers are in Dublin, Ireland; no personal data is transferred outside the EU.
 - This is a self-assessment against GDPR, ePrivacy, CCPA and PECR — Sealmetrics holds no ISO 27001 or SOC 2 certification and no supervisory authority certifies analytics tools.
 :::
