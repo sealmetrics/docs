@@ -3,8 +3,8 @@ title: "Why Sealmetrics Can Measure Without Consent"
 description: "Sealmetrics needs no consent banner because it collects no personal data and stores nothing on the visitor's device — the short version of the legal basis."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/why-no-consent"
 lang: "en"
-date_generated: "2026-09-21T08:04:46.276Z"
-source_hash: "75781e85c374f77042120160329cdb2dbc6db7b91e098b9038d8b08e7c1383b3"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "56515eadd50749c33da0892fd016eb6e24a6c45855882c95046b91b8c164f727"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,12 +16,12 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/why-no-consent
 
-Sealmetrics needs no consent banner because it collects **no personal data** and stores **nothing on the visitor's device**. Two separate rules are in play, and neither one attaches:
+Sealmetrics needs no consent banner because it collects **no personal data** and stores **nothing on the visitor's device**. Two separate rules are in play:
 
 - **GDPR** ([Article 4(1), Recital 26](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)) governs the processing of personal data. Sealmetrics stores no IP address, no user ID, no persistent identifier and no profile, so the obligations that apply to personal data — including the consent question — are not triggered.
-- **The ePrivacy Directive** ([Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058)) requires consent to store or read information on a user's terminal equipment. Sealmetrics sets no cookies and uses no localStorage or sessionStorage, so there is nothing on the device to ask about.
+- **The ePrivacy Directive** ([Article 5(3)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32002L0058)) requires consent to store or read information on a user's terminal equipment, unless an exemption applies. Sealmetrics sets no cookies and uses no localStorage or sessionStorage, so nothing is stored on the device. The tracker does read standard browser properties to compute a session identifier, which engages Article 5(3); the consent exemption rests on the audience-measurement criteria described below — see [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption).
 
-What Sealmetrics records instead is four non-identifying variables per hit: **timestamp**, **user agent** (used for anonymous device classification — the raw string is used in flight and never written to storage, and only the derived browser/OS/device categories persist in aggregates for 24 months), **current URL** and **referral URL**. Hits are measured on their own; they are never joined to a person or linked across sessions.
+What Sealmetrics records instead is a small set of non-identifying fields per hit: **timestamp**, **user agent** (used for anonymous device classification — the raw string is used in flight and never written to storage, and only the derived browser/OS/device categories persist in aggregates for 24 months), **current URL**, **referral URL**, **browser timezone** (for the country) and a **session identifier** that is re-keyed every day with a salt destroyed on rotation, so it cannot link a device across days. Hits are never joined to a person or linked across sessions — see [What We Track](/security-privacy/what-we-track) for the full list.
 
 This distinction matters more than it looks. Under ePrivacy, tracking individuals requires consent *even when the tracking is anonymous* — which is why moving tags server-side does not remove the consent requirement. Sealmetrics does not track individuals at all, which is a different thing from tracking them anonymously.
 

@@ -3,8 +3,8 @@ title: "How Session-Based Tracking Works: Cookieless Architecture Explained"
 description: "How session-based tracking replaces cookies. Technical deep dive into Sealmetrics' architecture: hashing, token rotation, and data flow."
 canonical_url: "https://docs.sealmetrics.com/blog/cookieless-tracking-technical-deep-dive"
 lang: "en"
-date_generated: "2026-08-12T11:53:00.332Z"
-source_hash: "7f368e1befdc477ff84985818670292e17fde3afc913dea63e4825c03c086ef1"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "1ae07e24cc4a578a55ddd9f27855bf6b205cf658fcb9cd59a79f32710ce6bc41"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -101,7 +101,7 @@ fetch('https://analytics-backend.com/collect', {
 Cookieless analytics inverts the approach:
 
 **Cookie-Based** → One persistent ID across all sessions
-**Cookieless** → Fresh session ID each visit (no persistence)
+**Cookieless** → No persistent ID: the stored session identifier changes every day
 
 This single change has profound implications:
 ```
@@ -112,10 +112,10 @@ User A visits again 3 months later → Same ID "abc123"
 = Can track across time and devices
 
 COOKIELESS:
-User A visits (Nov 14, 2pm) → Generate session "sess_1234"
+User A visits (Nov 14, 2pm) → Browser computes device hash, server stores daily pseudonym "sess_1234"
 Session expires after visit ends (~2h inactivity)
-User A visits again (Nov 20, 3pm) → Generate NEW session "sess_5678"
-= Cannot track across time, only within single visit
+User A visits again (Nov 20, 3pm) → New daily salt → different stored pseudonym "sess_5678"
+= Cannot link across days, only within single visit
 BUT = every visitor captured (no banner needed)
 ```
 
@@ -127,7 +127,7 @@ Cookieless analytics doesn't require consent because:
 1. No persistent identifiers = no personal data stored
 2. No IP addresses stored = cannot identify individuals
 3. Sessions reset = no cross-session profiling
-4. Nothing written to or read from the device = ePrivacy Article 5(3) never triggered
+4. Nothing written to the device (standard browser properties are read only to compute the session identifier — see [consent exemption requirements](/compliance/analytics-cookies-exemption) for how ePrivacy Article 5(3) applies)
 
 **Translation**: Sealmetrics measures every visitor without a consent banner — and without needing an Article 6 legal basis, because Recital 26 puts anonymous information outside the Regulation entirely.
 
@@ -137,24 +137,26 @@ Cookieless analytics doesn't require consent because:
 
 ### What is a Session Identifier?
 
-A **session** is a temporary, ephemeral identifier computed fresh each visit:
+A **session identifier** is computed in the browser on each page load and re-keyed daily on the server, so nothing stored links a device across days:
 ```javascript
 // Sealmetrics cookieless approach
 // NO persistent cookies, NO IP storage
 
-// 1. Compute ephemeral session ID (fresh each visit)
-// Derived from general device characteristics — not unique
-// to a person: different visitors can produce the same value,
-// so it cannot identify an individual
+// 1. Compute the session identifier in the browser:
+// a hash of standard device characteristics (user agent,
+// timezone, languages, screen resolution, colour depth, ...)
+// plus the site's account ID. This hash is a device
+// fingerprint; the server re-keys it with a daily salt that
+// is destroyed on rotation, and never stores it as sent.
 const sessionId = deriveSessionId(); // "sess_a7k9m2x1"
 
-// 2. Kept ONLY in memory — never stored on the device
+// 2. Never stored on the device
 // No cookies, no localStorage, no sessionStorage
 
 // 3. Collect pageviews with session ID
 function trackPageview() {
   const payload = {
-    sessionId: sessionId,        // Fresh each visit ✓
+    sessionId: sessionId,        // Re-keyed daily server-side ✓
     url: window.location.href,   // Page URL
     timestamp: Date.now(),       // When viewed
     referrer: document.referrer, // Where from
@@ -194,7 +196,7 @@ Sealmetrics uses a proprietary **dual-system** to maximize data capture:
 // Session ID computed: "sess_k9m2x1a7"
 // All pageviews linked to this session
 // Expires: end of visit (~2h of inactivity)
-// Data: Visit patterns, pages viewed, time on site
+// Data: Visit patterns, pages viewed, in-session engagement
 ```
 
 **System 2: Isolated Hits** (Fallback)
@@ -298,9 +300,9 @@ This is the load-bearing provision, not Article 6. Naming a legal basis — legi
 | Requirement | Implementation | How Sealmetrics Does It |
 |------------|-----------------|------------------------|
 | Lawful Basis | Needed only if personal data is processed | None required: no personal data stored |
-| No Personal Data | Session-only, no ID | Fresh session ID per visit |
+| No Personal Data | Session-only, no ID | Session identifier re-keyed daily, never stored as sent |
 | No IP Storage | Cannot identify individuals | Zero IP collection |
-| Data Minimization | Collect only necessary | No email, no device fingerprint |
+| Data Minimization | Collect only necessary | No email, no stored device fingerprint |
 | Storage Limitation | Don't keep longer than needed | 24-month retention max |
 | Transparency | Privacy Policy required | Disclose to users |
 | Balancing Test | Conduct DPIA | Sealmetrics provides DPA |
@@ -361,7 +363,7 @@ const allowedPurposes = [
 │              SEALMETRICS TRACKING CODE                  │
 │  (JavaScript snippet injected in website)               │
 │                                                         │
-│  1. Generate session ID (fresh each visit)             │
+│  1. Compute session hash (never stored on device)      │
 │  2. Collect pageview data                              │
 │  3. NO IP capture                                      │
 │  4. NO cookie creation                                 │
@@ -494,8 +496,8 @@ Day 365: Safari user visits
 **COOKIELESS (Sealmetrics)**
 ```
 Day 1: User visits
-├─ Session computed: "sess_xyz" (fresh, ephemeral)
-├─ Never stored on the device; expires with the visit
+├─ Session computed: "sess_xyz" (in-browser hash, re-keyed daily on the server)
+├─ Never stored on the device; session ends after ~2h of inactivity
 └─ No consent needed (no personal data)
 
 Day 1: Same user browses 3 pages
@@ -504,7 +506,7 @@ Day 1: Same user browses 3 pages
 └─ Visit understood
 
 Day 2: Same user visits again
-├─ NEW session: "sess_abc" (completely fresh)
+├─ NEW stored identifier: "sess_abc" (new daily salt)
 ├─ No link to previous session
 └─ Treated as new visitor
 
@@ -580,7 +582,7 @@ Sealmetrics captures what competitors miss:
 
 ### How does Sealmetrics work without cookies?
 
-Sealmetrics computes a **session ID** fresh with each visit. This ID lives only during the visit (~2 hours of inactivity), then expires automatically, and is never stored on the device. Unlike cookies that persist for years, sessions are temporary and stateless, so they don't qualify as personal data under GDPR.
+Sealmetrics computes a **session identifier** in the browser from a hash of standard device characteristics. It is never stored on the device; before anything is stored, the server re-keys it with a daily salt that is destroyed on rotation, so the stored identifier changes every day and two days of the same device cannot be re-linked — not even by Sealmetrics. A session ends after ~2 hours of inactivity. Unlike cookies that persist for years, nothing persists on the device or links visits across days. See [what we track](/security-privacy/what-we-track#6-session-identifier).
 
 ### Why doesn't Sealmetrics store IP addresses?
 
@@ -588,7 +590,7 @@ IP addresses are **personal data** under GDPR. Storing them (even hashed) requir
 
 ### Can I track returning visitors with Sealmetrics?
 
-**Not across visits.** Each visit generates a new session ID. So you can't say "John returned on Tuesday" (you don't know it's John). Each entrance is counted as new, independent data — there is no returning-visitor metric, because no identifier links one visit to another.
+**Not across visits.** The stored identifier changes every day and is never used to link one visit to another. So you can't say "John returned on Tuesday" (you don't know it's John). Each entrance is counted as new, independent data — there is no returning-visitor metric, because no identifier links one visit to another.
 
 This is a **feature, not a bug**: Returns you get privacy compliance while competitors need consent.
 
@@ -683,7 +685,7 @@ Sealmetrics handles cross-domain tracking **without cookies**:
 
 **Architecture ensures GDPR compliance:**
 ```
-Session ID (fresh, temporary) → Personal data? NO
+Session ID (re-keyed daily) → Personal data? NO
 ├─ Can't identify individual
 ├─ Expires automatically
 └─ No legal basis needed

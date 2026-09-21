@@ -32,12 +32,8 @@ For accurate marketing attribution, this must be corrected.
 
 ## Why Sealmetrics Attributes “Payment” as a Source
 
-Because Sealmetrics is **privacy-first** and does not use cookies or fingerprinting.  
-We only detect:
-- Browser  
-- OS  
-- Screen size  
-- Timestamp  
+Because Sealmetrics is **privacy-first**: it sets no cookies and keeps no persistent identifier, so it cannot look up where a visitor originally came from.  
+Each hit carries only a small set of non-identifying fields — timestamp, user agent, current URL, referral URL, browser timezone and a session identifier that is re-keyed daily ([details](/security-privacy/what-we-track)).
 
 So when the user returns from a third-party payment domain:
 - Sealmetrics creates a new session  

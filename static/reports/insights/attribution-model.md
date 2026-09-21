@@ -3,8 +3,8 @@ title: "How Sealmetrics Attributes Conversions: The Attribution Model"
 description: "Sealmetrics uses session-scoped last-click attribution: how a traffic source is chosen, how conversions inherit it, and why there is no cross-session lookback window."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/attribution-model"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "5aecbe6a46bf374dcf6021f9bca323c2bf1e2c0c1b98e5a1cf1ef897410d3575"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "b83f4b0985b3e9bb113171751d7ee0b182d51e04783944fc58345e27b5b97069"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -45,7 +45,7 @@ Two properties follow from this:
 
 ## The session window
 
-A session groups hits through a short-lived, context-derived marker with a **~2-hour inactivity window**. It is not stored in the browser and cannot recognize a returning visitor — see [What We Track](/security-privacy/what-we-track) for the privacy details. When the window lapses, the next hit starts a fresh entrance with fresh attribution.
+A session groups hits through a session identifier with a **~2-hour inactivity window**. The tracker computes it in the browser as a hash of standard device characteristics; it is never written to the browser and is re-keyed on the server with a daily salt, so it cannot recognize a returning visitor on another day — see [What We Track](/security-privacy/what-we-track) for the privacy details. When the window lapses, the next hit starts a fresh entrance with fresh attribution.
 
 ## Why last-click only
 

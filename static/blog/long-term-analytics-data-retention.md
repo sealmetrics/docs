@@ -3,8 +3,8 @@ title: "Long-Term Analytics: 24-Month Data Retention Without Consent"
 description: "24-month analytics data retention without consent. How cookieless tracking enables long-term analysis while staying GDPR compliant."
 canonical_url: "https://docs.sealmetrics.com/blog/long-term-analytics-data-retention"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "7e6612f9f98f5094574a6da2ceb7b1dbcbe8a0bb4a22e4a4832fc4049489f325"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "63101c984128139874b383371b7fd9fa9840892ff0b19aa630562aaeb4f8e469"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -66,8 +66,8 @@ Sealmetrics stores **no personal data at all**, which changes the retention equa
 
 Sealmetrics is in that position because:
 
-1. **No personal data stored**: no IP addresses, fingerprints, or cross-site identifiers
-2. **Session-based tracking**: each visit generates a temporary, non-identifying session identifier that is never written to the device
+1. **No personal data stored**: no IP addresses, no stored fingerprints, no cross-site identifiers
+2. **Session-based tracking**: the session identifier is computed in the browser, never written to the device, and re-keyed daily on the server so it cannot be linked across days
 3. **Data minimization**: only aggregate behavioural data, no individual profiles
 4. **Transparent processing**: a clear privacy policy explains what is measured
 
@@ -78,7 +78,7 @@ Note what we're *not* claiming. It would be easy to say "we rely on legitimate i
 Unlike competitors that hash or pseudonymize IP addresses, Sealmetrics uses a dual tracking approach:
 
 **Session-Based Tracking**:
-- Each visit = new, temporary Session-ID
+- Session identifier = an in-browser hash of standard device characteristics, re-keyed daily on the server with a salt that is then destroyed
 - Session-ID expires after ~2 hours of inactivity
 - No cross-session tracking by default
 - Zero personal data in the identifier
@@ -86,7 +86,7 @@ Unlike competitors that hash or pseudonymize IP addresses, Sealmetrics uses a du
 **Isolated Hit Recording**:
 - Each pageview = independent data point
 - No IP address storage (not even hashed)
-- No device fingerprinting
+- No stored device fingerprint (the session hash is re-keyed daily and never stored as sent)
 - Aggregate patterns only
 
 This architecture means the data we retain for 24 months contains **zero personal identifiers**, making it fundamentally different from cookie-based systems that must delete data when consent expires.
@@ -135,7 +135,7 @@ That's it. No consent banner configuration needed.
 
 ### Step 2: Understand the Retention Schedule
 
-Sealmetrics retention is fixed and identical for every plan, enforced by database TTLs: daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and event-level detail 14 days. There is nothing to configure — and since Sealmetrics doesn't collect personal data, there's no compliance reason to shorten it. If you ever need data removed earlier (for example when closing an account), contact support.
+Sealmetrics retention is fixed and identical for every plan, enforced by database TTLs: daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and the per-hit log 1 day. There is nothing to configure — and since Sealmetrics doesn't collect personal data, there's no compliance reason to shorten it. If you ever need data removed earlier (for example when closing an account), contact support.
 
 ### Step 3: Access Historical Data
 
@@ -249,10 +249,10 @@ Sealmetrics complies because:
 Not a balancing test — a scope analysis. Three questions:
 
 **Is any of it personal data?**
-No. Session identifiers are temporary, non-linkable, and never written to the device. No IP is stored, hashed or otherwise.
+No. Session identifiers change daily, cannot be linked across days, and are never written to the device. No IP is stored, hashed or otherwise.
 
 **Is anything stored on or read from the user's device?**
-No. That is what keeps ePrivacy Article 5(3), the rule behind cookie banners, from applying.
+Nothing is stored on it. The tracker does read standard browser properties to compute the session identifier, which engages ePrivacy Article 5(3), the rule behind cookie banners; that read relies on the audience-measurement exemption (CNIL's criteria), not on consent.
 
 **So which Article 6 basis applies?**
 None, and that is the point. Under Recital 26 the dataset is outside the GDPR's material scope, so no legal basis is required. Reaching for legitimate interest here would weaken the position, not strengthen it.
@@ -316,7 +316,7 @@ Data older than 24 months is automatically and permanently deleted from Sealmetr
 
 ### Do I need consent banners with 24-month retention?
 
-No. Nothing is stored on or read from the visitor's device, so ePrivacy Article 5(3) — the rule that mandates cookie banners — is never triggered, and no personal data is stored, so no GDPR legal basis is required either. You don't need cookie banners, consent management platforms, or consent tracking. Your privacy policy should mention Sealmetrics usage, but no active user consent is required.
+No. Nothing is stored on the visitor's device, and the standard browser properties read to compute the session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3) — the rule that mandates cookie banners — rather than on consent. No personal data is stored, so no GDPR legal basis is required either. You don't need cookie banners, consent management platforms, or consent tracking. Your privacy policy should mention Sealmetrics usage, but no active user consent is required.
 
 ### Can I reduce retention to less than 24 months?
 

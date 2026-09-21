@@ -3,8 +3,8 @@ title: "How Seal AI Works: Private AI on European Infrastructure"
 description: "The architecture behind Seal AI: EU-only inference on Scaleway Paris, zero retention, no training on your data, and why no data is ever transferred to the United States."
 canonical_url: "https://docs.sealmetrics.com/lens/seal-ai/private-ai-architecture"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "8c5b8a66f3147c77c50814c4f787089d8045080f4c034776fe2672a4fd0f0398"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "51517f1b45e1cb492365e60d7bf26c6bf41f5333863b8dbfcc50e1b9044ec34c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -54,13 +54,13 @@ Key architectural facts:
 
 ## What is sent to the model — and what never is
 
-Sealmetrics is consentless analytics: the platform never collects IPs, cookies, fingerprints or any visitor identifier in the first place. That shapes what a Seal AI prompt can possibly contain:
+Sealmetrics is consentless analytics: the platform never stores IPs, sets no cookies, never stores the device-characteristics hash as sent, and keeps no persistent visitor identifier in the first place. That shapes what a Seal AI prompt can possibly contain:
 
-| Sent to the inference endpoint | Never sent (never exists in the platform) |
+| Sent to the inference endpoint | Never sent (never stored in the platform) |
 |---|---|
 | Aggregated metrics: entrances, conversions, revenue, bounce rate | IP addresses |
-| Groupings: channel, campaign, page, device, country | Cookies or device fingerprints |
-| Your questions in the AI assistant | Visitor identifiers of any kind |
+| Groupings: channel, campaign, page, device, country | Cookies or raw device fingerprints |
+| Your questions in the AI assistant | Persistent visitor identifiers |
 | | Emails or names of your visitors |
 
 The privacy layer therefore starts *before* the AI: the prompt is born clean. This is a structural property of the product, not a policy promise.

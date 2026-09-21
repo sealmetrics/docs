@@ -3,8 +3,8 @@ title: "Sealmetrics vs Google Analytics: Complete Comparison 2026"
 description: "Sealmetrics vs Google Analytics 4 compared in 2026: consent-driven data loss, GDPR and Schrems II, features, AI, pricing and migration."
 canonical_url: "https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics"
 lang: "en"
-date_generated: "2026-09-15T18:01:06.894Z"
-source_hash: "4c59ffeb676e5130999ebb5108b9ebea94a3f3750c9f3807c32ecbc7d635d330"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "0893dea9bbaa4ecbdbff0c83451170df50aba8f49031db37346ff6e3dfed7259"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -77,14 +77,14 @@ Rates vary considerably by industry, banner design and implementation. Sources: 
 
 ### How Sealmetrics tracks
 
-Sealmetrics uses no cookies, no `localStorage` and no `sessionStorage`. The session marker is computed in the browser from browser context, lives in memory for the duration of the visit, and:
+Sealmetrics uses no cookies, no `localStorage` and no `sessionStorage`. The session identifier is a hash of standard device characteristics (user agent, timezone, languages, screen resolution and similar) plus your site's account ID, computed in the browser and never written to the device. Before anything is stored, the server re-keys it with a secret and a daily salt that is destroyed on rotation. The result:
 
-- Resets when the session ends (roughly two hours of inactivity)
-- Never persists across sessions
-- Cannot link one visit to another, or to a person
-- Enables no cross-site tracking
+- The session ends after roughly two hours of inactivity
+- The stored identifier changes every day, and the raw hash is never stored
+- No returning-visitor recognition: visits cannot be linked across days — not even by Sealmetrics — or to a person
+- Enables no cross-site tracking (the account ID is part of the hash)
 
-Because nothing is stored on or read from the device, ePrivacy Article 5(3) is not triggered and no consent banner is required for analytics. See [how consentless works](/security-privacy/how-consentless-works).
+Nothing is stored on the device. The tracker does read standard browser properties to compute the session identifier, which engages ePrivacy Article 5(3); Sealmetrics relies on the audience-measurement exemption for that read (the first-party, no-cross-site-tracking criteria above) rather than on consent, so no consent banner is required for analytics. See [what we track](/security-privacy/what-we-track#6-session-identifier) and [how consentless works](/security-privacy/how-consentless-works).
 
 ---
 
@@ -429,7 +429,7 @@ Five layers: an IP blocklist checked in memory, User-Agent filtering, geographic
 
 ### Can I track subdomains?
 
-Yes, across `example.com`, `blog.example.com`, `app.example.com` and so on. Sessions continue across subdomains without the cookie-scoping complications GA4 has, because there is no cookie to scope — the session marker is computed identically on every page load.
+Yes, across `example.com`, `blog.example.com`, `app.example.com` and so on. Sessions continue across subdomains without the cookie-scoping complications GA4 has, because there is no cookie to scope — the session identifier is computed identically on every page load.
 
 ### Does Sealmetrics work with A/B testing tools?
 

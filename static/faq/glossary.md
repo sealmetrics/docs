@@ -3,8 +3,8 @@ title: "Glossary"
 description: "Complete glossary of analytics, privacy, and platform terms used in Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/faq/glossary"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "993d1a3f3ed48d0b10431775b512f53c85af0dbc7bb9087a829bf411dceb7358"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "1f1bfae0495a00c7e658823ab32f468c7add050ccd5687aa4d0101f3a53fb44b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -92,7 +92,7 @@ The percentage of sessions that resulted in at least one conversion. Calculated 
 
 ### Cookieless Tracking
 
-Analytics without cookies, fingerprinting, or persistent identifiers. Sealmetrics tracks isolated hits while remaining compliant with GDPR and ePrivacy. See [Consentless Analytics FAQ](/faq/consentless-analytics).
+Analytics without cookies, stored fingerprints, or persistent identifiers. Sealmetrics measures hits, grouped only within a session by an identifier re-keyed every day, and nothing it stores can link a device across days. See [Consentless Analytics FAQ](/faq/consentless-analytics).
 
 ### Cookies
 
@@ -156,7 +156,7 @@ Capturing specific user actions such as clicks, form submissions, scroll depth, 
 
 ### Fingerprinting
 
-Identifying a user through a combination of device attributes (screen size, fonts, plugins, etc.). Sealmetrics does not perform fingerprinting.
+Identifying a user through a combination of device attributes (screen size, fonts, plugins, etc.). Sealmetrics computes a hash of standard device characteristics in the browser to group hits within a session, but it never stores a persistent fingerprint: the hash is never written to the device, is re-keyed on the server with a daily salt that is destroyed on rotation, and is never stored as sent, so no device can be linked across days. See [What We Track](/security-privacy/what-we-track#6-session-identifier).
 
 ### First-Party Tracker
 
@@ -248,7 +248,7 @@ The average number of pages viewed per session. Calculated as Total Pageviews di
 
 ### PECR
 
-UK Privacy and Electronic Communications Regulations -- restricts the use of cookies and similar technologies. Sealmetrics is compliant because it stores nothing on user devices.
+UK Privacy and Electronic Communications Regulations -- restricts the use of cookies and similar technologies. Sealmetrics stores nothing on user devices; its reading of standard browser properties to compute the session identifier is assessed against the PECR exemption criteria in the [UK PECR self-assessment](/compliance/uk-pecr-self-assessment).
 
 ### Personal Data
 
@@ -288,7 +288,7 @@ A group of interactions within a period of activity. In Sealmetrics, a new sessi
 
 ### Session-ID Tracking
 
-A temporary identifier used for the duration of a single pageview group. It is not persistent or linkable across visits, making it consent-free and compliant.
+A temporary identifier used to group the pageviews of a single session. In Sealmetrics it is a hash of standard device characteristics computed in the browser, never written to the device, and re-keyed on the server every day with a salt destroyed on rotation, so it is not persistent and cannot be linked across days. See [What We Track](/security-privacy/what-we-track#6-session-identifier).
 
 ### Site
 

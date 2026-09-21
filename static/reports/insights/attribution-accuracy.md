@@ -3,8 +3,8 @@ title: "How Attribution Accuracy Works"
 description: "Understand the two levels of attribution accuracy in Sealmetrics — why total conversions are always exact, how channel-level attribution works, and what trade-offs make consentless measurement possible."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/attribution-accuracy"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "0ead8256818491e5852707de25b003320b032caadde2d3ad47320d064d587c43"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "fd3c994af760e2973c9e26c454d674f39891937a3a04ce2db1e82e473d9197f8"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -172,7 +172,7 @@ Use this for: budget allocation, campaign optimization, channel performance comp
 ### Individual conversion traceability
 **Not guaranteed.** Sealmetrics does not provide a verified link between a specific conversion row and the specific visitor who generated it. This is a direct consequence of not using individual identifiers.
 
-Any system that offers individual conversion traceability without consent is either using personal data (IP, fingerprint, or login) — which requires consent — or making probabilistic inferences. Sealmetrics does neither.
+Any system that offers individual conversion traceability without consent is either using personal data (IP, a persistent fingerprint, or login) — which requires consent — or making probabilistic inferences. Sealmetrics does neither.
 
 Use aggregate channel data for decisions. Do not use individual conversion rows as ground truth for per-person analysis.
 

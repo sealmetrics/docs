@@ -53,13 +53,13 @@ Key architectural facts:
 
 ## What is sent to the model — and what never is
 
-Sealmetrics is consentless analytics: the platform never collects IPs, cookies, fingerprints or any visitor identifier in the first place. That shapes what a Seal AI prompt can possibly contain:
+Sealmetrics is consentless analytics: the platform never stores IPs, sets no cookies, never stores the device-characteristics hash as sent, and keeps no persistent visitor identifier in the first place. That shapes what a Seal AI prompt can possibly contain:
 
-| Sent to the inference endpoint | Never sent (never exists in the platform) |
+| Sent to the inference endpoint | Never sent (never stored in the platform) |
 |---|---|
 | Aggregated metrics: entrances, conversions, revenue, bounce rate | IP addresses |
-| Groupings: channel, campaign, page, device, country | Cookies or device fingerprints |
-| Your questions in the AI assistant | Visitor identifiers of any kind |
+| Groupings: channel, campaign, page, device, country | Cookies or raw device fingerprints |
+| Your questions in the AI assistant | Persistent visitor identifiers |
 | | Emails or names of your visitors |
 
 The privacy layer therefore starts *before* the AI: the prompt is born clean. This is a structural property of the product, not a policy promise.

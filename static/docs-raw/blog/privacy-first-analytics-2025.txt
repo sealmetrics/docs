@@ -47,7 +47,7 @@ Not all "privacy-focused" analytics tools are created equal. There's a spectrum:
 
 **True Consentless (Sealmetrics)**
 - No cookies whatsoever
-- No consent requirement: nothing is stored on or read from the device, so ePrivacy Article 5(3) isn't engaged
+- No consent requirement: nothing is stored on the device, and the standard browser properties the tracker reads to compute its session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3) ([criteria](/compliance/analytics-cookies-exemption))
 - Zero IP storage—not even hashed
 - No consent-driven data loss
 
@@ -174,14 +174,14 @@ The key: these identifiers are **single-session only** and cannot be used to tra
 
 **Consentless analytics** doesn't pick a better Article 6 legal basis than consent. It removes the need for one. Two rules are in play, and conflating them is the most common mistake in this whole debate:
 
-1. **ePrivacy, Article 5(3)** — the rule that actually mandates cookie banners. It requires consent to store information on, or read information from, a user's device. If nothing is written to the browser and nothing is read back, the obligation is never triggered.
+1. **ePrivacy, Article 5(3)** — the rule that actually mandates cookie banners. It requires consent to store information on, or read information from, a user's device, unless an exemption applies. A tool that writes nothing to the browser but reads standard browser properties — as Sealmetrics does to compute its session identifier — therefore depends on the audience-measurement exemption whose criteria CNIL and the AEPD have published.
 2. **GDPR, Recital 26** — the data protection principles do not apply to anonymous information. If no personal data is stored, the resulting dataset sits outside the Regulation's material scope, and no Article 6 basis is needed at all.
 
 This is legally coherent when:
 
 1. **No personal data is stored** (no IP addresses, not even hashed; no user IDs)
 2. **The purpose is analytics only** (not advertising, profiling, or cross-site tracking)
-3. **Nothing is stored on or read from the device** (no cookies, no LocalStorage, no fingerprint persisted)
+3. **Nothing is stored on the device** (no cookies, no LocalStorage, no SessionStorage), and whatever is read from it — standard browser properties hashed into a session identifier that the server re-keys daily — stays within the audience-measurement exemption criteria
 4. **The claim is documented** and can withstand a DPO's questions
 
 According to CNIL's 2020 guidance on analytics, cookieless approaches that don't store IP addresses and limit data retention to statistical purposes can operate without consent.
@@ -258,7 +258,7 @@ async function processAnalyticsHit(hit) {
 
 **Session Identification Without IPs**:
 
-Instead of using IP addresses for session identification (like Plausible/Matomo), Sealmetrics uses proprietary privacy-preserving technology to identify sessions without cookies or personal data. This approach avoids ever processing or storing IP data.
+Instead of using IP addresses for session identification (like Plausible/Matomo), the Sealmetrics tracker computes, in the browser, a hash of standard device characteristics (user agent, timezone, languages, screen resolution and similar) plus the site's account ID. That hash is a device fingerprint, but it is never written to the device, and before anything is stored the server re-keys it with a secret and a daily salt that is destroyed on rotation — so the stored identifier changes every day and two days of the same device cannot be re-linked, not even by Sealmetrics. The IP address plays no part in it. See [what we track](/security-privacy/what-we-track#6-session-identifier).
 
 ### Legal Compliance Framework
 
@@ -268,7 +268,7 @@ Sealmetrics needs no Article 6 legal basis because:
 
 1. **Purpose Limitation**: Data is used exclusively for analytics, never for advertising, profiling, or cross-site tracking
 2. **Data Minimization**: No personal data is stored (no IPs, no user IDs, no PII)
-3. **No device storage**: Nothing is written to or read from the browser, so ePrivacy Article 5(3) is never engaged
+3. **No device storage**: Nothing is written to the browser; the standard browser properties read to compute the session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3) (see the CNIL criteria below) rather than on consent
 4. **Anonymous by construction**: with no identifiable natural person in the dataset, the Regulation's principles do not attach to it
 
 **CNIL Compliance** (France):
@@ -290,7 +290,7 @@ Germany's TTDSG (Telecommunications-Telemedia Data Protection Act) is among the 
 
 ### Data Retention Optimized for Privacy
 
-Sealmetrics retains aggregated analytics data for **24 months** — deliberately below the 25-month ceiling CNIL sets for consent-exempt analytics. After 24 months, data is automatically deleted; event-level detail is purged after just 14 days.
+Sealmetrics retains aggregated analytics data for **24 months** — deliberately below the 25-month ceiling CNIL sets for consent-exempt analytics. After 24 months, data is automatically deleted; hourly aggregates are kept 90 days, and the per-hit log is purged after just 1 day.
 
 This is longer than most competitors offer while staying inside the CNIL ceiling:
 - Google Analytics 4: 2-14 months
@@ -380,7 +380,7 @@ Many tools market themselves as "cookieless" while still storing IP addresses, c
 
 **Check for**:
 - IP storage practices (hashed or raw = still personal data)
-- Session identification method (fingerprinting = risky)
+- Session identification method (a persistent or stored fingerprint = risky)
 - Legal position (consent, legitimate interest, or genuinely no personal data at all)
 
 ### Mistake 2: Using Multiple Analytics Tools
@@ -398,7 +398,7 @@ The reflex, when someone asks "what's your legal basis?", is to answer "legitima
 
 Document the real thing instead:
 - What is actually stored, field by field, and why none of it identifies a person
-- That nothing is written to or read from the user's device (so ePrivacy Article 5(3) is not engaged)
+- That nothing is written to the user's device, what (if anything) is read from it, and which ePrivacy Article 5(3) exemption covers that read
 - Why the dataset therefore falls outside the GDPR's material scope (Recital 26)
 
 That documentation is what a DPO will ask for, and it is a stronger answer than a balancing test.
@@ -418,7 +418,7 @@ Many businesses migrate to privacy-first analytics but don't leverage the better
 
 Yes — but note *how*. A properly cookieless, consentless tool doesn't rely on Article 6(1)(f) legitimate interest; it stores no personal data, which puts the dataset outside the GDPR's material scope altogether (Recital 26). The key requirements are:
 - No personal data stored (no IP storage, not even hashed)
-- Nothing written to or read from the user's device, so ePrivacy Article 5(3) is never triggered
+- Nothing written to the user's device, and anything read from it (such as browser properties for a session identifier) kept within the audience-measurement exemption from ePrivacy Article 5(3)
 - Limited data retention
 - Purpose limitation (analytics only, not advertising)
 - User rights respected (privacy policy, right to object)
@@ -427,7 +427,7 @@ Yes — but note *how*. A properly cookieless, consentless tool doesn't rely on 
 
 ### Do I need a cookie consent banner with consentless analytics?
 
-No. The rule that mandates cookie banners is ePrivacy Article 5(3), which applies to storing or reading information on a user's device — and Sealmetrics does neither. You should still:
+No. The rule that mandates cookie banners is ePrivacy Article 5(3), which applies to storing or reading information on a user's device. Sealmetrics stores nothing there; it does read standard browser properties to compute a session identifier, and relies on the audience-measurement exemption for that ([criteria](/compliance/analytics-cookies-exemption)). You should still:
 - Disclose analytics usage in your privacy policy
 - Provide an opt-out mechanism
 - Document why no personal data is stored, so the position survives a DPO review
@@ -576,9 +576,9 @@ Because **Sealmetrics** stores no personal data, most GDPR rights don't apply—
 
 ### What about the ePrivacy Directive?
 
-The ePrivacy Directive (often called "Cookie Law") requires consent for storing information on user devices. **Cookieless analytics** like Sealmetrics doesn't store anything on user devices, so ePrivacy consent isn't required.
+The ePrivacy Directive (often called "Cookie Law") requires consent for storing information on, or accessing information in, user devices. **Cookieless analytics** like Sealmetrics doesn't store anything on user devices, but it does read standard browser properties to compute its session identifier, so the question is whether that access is exempt.
 
-This is explicitly confirmed by CNIL guidance: server-side analytics that don't access/store data on user devices are exempt from ePrivacy requirements.
+CNIL's guidance exempts audience measurement from consent when it meets published criteria (own-purpose statistics only, no cross-site tracking, limited retention). Sealmetrics is designed to meet them — see our [CNIL self-assessment](/compliance/cnil-self-assessment). CNIL does not certify or approve individual tools.
 
 ## Conclusion: Privacy-First is the Only Path Forward
 
@@ -603,7 +603,7 @@ The future of web analytics is privacy-first. The tools are ready. The legal fra
 ### Further Reading
 - [Complete Guide to Cookieless Analytics](/blog/cookieless-analytics-guide)
 - [What Is Consentless Analytics?](/security-privacy/consentless-analytics) — How tracking without consent works under GDPR
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — Technical deep dive into the Four-Variable System
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — Technical deep dive into how sessions are identified without cookies
 - [Benefits of Consentless Tracking](/security-privacy/consentless-benefits) — Why privacy-first analytics produces better data
 - [Sealmetrics vs Google Analytics](/blog/google-analytics-vs-sealmetrics) — Complete feature and compliance comparison
 - [Cookie Banner Ghosting](/blog/cookie-banner-ghosting-data-loss) — Why analytics loses 15-60% of your data

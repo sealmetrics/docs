@@ -208,7 +208,7 @@ Sealmetrics is designed for privacy-first analytics:
 
 - **No cookies** — No consent banner needed
 - **No localStorage** — No persistent storage
-- **No user identification** — Sessions are based on anonymous browser fingerprinting
+- **No user identification** — Sessions use a hash of device characteristics that is re-keyed daily on the server, so nothing stored can link a device across days
 - **GDPR compliant** — No personal data collected or stored
 
 This means you cannot track individual users across sessions. Instead, you analyze behavior by **segments** (properties) rather than individual users.

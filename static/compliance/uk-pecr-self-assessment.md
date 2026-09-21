@@ -3,8 +3,8 @@ title: "UK PECR Self-Assessment: Sealmetrics Compliance"
 description: "Self-assessment of Sealmetrics against the UK PECR analytics exemption under DUAA 2025: aggregate statistics only, user information, opt-out, no advertising."
 canonical_url: "https://docs.sealmetrics.com/compliance/uk-pecr-self-assessment"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "13dcb3efdfb7934bc2800244190fe55e6617b86fb628315dc066871b27f689a2"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "73790e12544a67158ec7279e2b6bc48c33735367eabeba3e57cd55aa655f20a3"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -102,10 +102,10 @@ You can block analytics using your browser's privacy settings or an ad blocker.
 
 **Important Context:**
 
-Sealmetrics does **not use localStorage, cookies, or any persistent storage** by default. This means:
+Sealmetrics does **not use localStorage, cookies, or any persistent storage** by default. It does read standard browser properties to compute a session identifier in the browser (re-keyed daily on the server, never stored as sent) — that reading is the "access" the analytics exemption covers. This means:
 - There is no individual user tracking to opt out of
 - Data is collected as aggregate statistics only
-- Each pageview is independent with no user identification
+- Pageviews are grouped only within a session, with no user identification and no linking across days
 
 **Opt-Out Methods:**
 
@@ -173,7 +173,7 @@ The ICO guidance clarifies what activities are permitted under the analytics exe
 | User profiling | ❌ Not possible | ✅ Compliant |
 | Cross-device tracking | ❌ Not possible | ✅ Compliant |
 | Advertising purposes | ❌ Not available | ✅ Compliant |
-| Device fingerprinting | ❌ Not used | ✅ Compliant |
+| Persistent or stored device fingerprinting | ❌ Not used — the in-browser session hash is re-keyed daily and never stored as sent | ✅ Compliant |
 | Cross-site tracking | ❌ Not possible | ✅ Compliant |
 
 ---
@@ -187,9 +187,9 @@ The ICO guidance clarifies what activities are permitted under the analytics exe
 | Page URL | ✅ | Content analysis | ✅ Permitted |
 | Referrer | ✅ | Traffic source | ✅ Permitted |
 | User agent | ✅ | Device analysis | ✅ Permitted |
-| Screen size | ✅ | UX optimization | ✅ Permitted |
+| Screen resolution, languages and other device characteristics | Read, not stored | Inputs to the session-identifier hash only; never stored or reported | ✅ Permitted |
 | Timezone | ✅ | Country detection | ✅ Permitted |
-| Session ID | ✅ | Visit counting | ✅ Permitted (temporary) |
+| Session ID | ✅ | Visit counting — a hash of device characteristics computed in the browser, re-keyed daily on the server; cannot link days | ✅ Permitted (temporary) |
 | IP address | ❌ | Not collected | ✅ N/A |
 | Email/name | ❌ | Not collected | ✅ N/A |
 | Precise location | ❌ | Not collected | ✅ N/A |
@@ -201,7 +201,7 @@ The ICO guidance clarifies what activities are permitted under the analytics exe
 | First-party cookies | ❌ Not used by default | ✅ N/A |
 | Third-party cookies | ❌ Never used | ✅ Compliant |
 | localStorage | ❌ Not used | ✅ Compliant |
-| Device fingerprinting | ❌ Never used | ✅ Compliant |
+| Stored device fingerprint | ❌ None — the in-browser session hash is never written to the device and never stored as sent | ✅ Compliant |
 
 ---
 
@@ -376,7 +376,7 @@ For compliance questions or DPO inquiries:
 
 **Note:**
 - Section 99 of the Data Use and Access Act 2025 (Royal Assent 7 November 2025, in force 5 February 2026) amends PECR Regulation 6 with an analytics exemption subject to four conditions — all met on Sealmetrics' own assessment.
-- Sealmetrics uses no cookies, localStorage or fingerprinting, produces aggregate statistics only, has no advertising features, and stores data in Dublin, Ireland (EU, covered by UK adequacy) for a maximum of 24 months.
+- Sealmetrics uses no cookies or localStorage and keeps no persistent or stored fingerprint (its session identifier is re-keyed daily), produces aggregate statistics only, has no advertising features, and stores data in Dublin, Ireland (EU, covered by UK adequacy) for a maximum of 24 months.
 - Publishers must still inform users in their privacy policy and offer a simple, free opt-out; this is not an ICO certification.
 
 ## Related documentation

@@ -3,8 +3,8 @@ title: "How Sealmetrics Calculates Entrances"
 description: "Learn what an Entrance is in Sealmetrics, how it differs from GA4 Visits, and how it compares to Pageviews in a privacy-first analytics system."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-entrances"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "ffa3920c40b734cf54749a198af754a96dfca81d84e938146de132009e21ff1a"
+date_generated: "2026-09-21T08:45:24.602Z"
+source_hash: "be4399c797f96e4c4cb43bc8f009fad0ebe48fcfed87793988db698f30d105e4"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -36,7 +36,7 @@ If instead they lands, closes the tab and reopens the same landing page 30 secon
 
 **1 Entrance** — the second hit is a pageview inside the same session.
 
-Sealmetrics tracks sessions **without** tracking the individual. Session boundaries are derived from referrer + inactivity, not from a cookie or fingerprint, which is what keeps the entire model consentless.
+Sealmetrics tracks sessions **without** tracking the individual. Session boundaries are derived from referrer + inactivity. Hits are grouped by a session identifier that the tracker computes in the browser from standard device characteristics; it is never written to the device (no cookie) and is re-keyed on the server with a daily salt that is destroyed on rotation, so nothing stored can link a device across days. See [What We Track](/security-privacy/what-we-track).
 
 ---
 
@@ -45,7 +45,7 @@ Sealmetrics tracks sessions **without** tracking the individual. Session boundar
 | Metric | How It Works | Requires Consent? | Why |
 |--------|--------------|-------------------|-----|
 | **Visits (GA4)** | Groups interactions into a session using a persistent client ID | Yes | GA4 identifies the returning visitor across sessions to unify their history |
-| **Entrances (Sealmetrics)** | Starts a session on the first arrival; groups follow-up hits within the session's ~2-hour inactivity window | No | Sessions are derived from context, not from a per-user identifier |
+| **Entrances (Sealmetrics)** | Starts a session on the first arrival; groups follow-up hits within the session's ~2-hour inactivity window | No | Sessions are grouped by a device-characteristics hash re-keyed daily on the server, not by a persistent per-user identifier |
 
 ### Key Difference
 
