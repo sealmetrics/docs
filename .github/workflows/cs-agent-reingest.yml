@@ -50,7 +50,10 @@ jobs:
           EXIT=$?
           echo "ssh exit=$EXIT"
           if [ "$EXIT" -ne 0 ]; then
-            grep -iE "permission denied|connection refused|timed out|no route|bad configuration|invalid|failed|warning" /tmp/sshlog | head -5
+            # El comando forzado del servidor escribe su error en stderr; se
+            # muestra entero (últimas 30 líneas) para no depender de adivinar
+            # palabras clave. El host y el usuario ya van enmascarados.
+            tail -n 30 /tmp/sshlog
             exit $EXIT
           fi
           echo "ingest triggered OK"
