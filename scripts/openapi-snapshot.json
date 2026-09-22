@@ -950,6 +950,11 @@
   "/api/v1/sites/{site_id}/pixel": {
    "GET": []
   },
+  "/api/v1/sites/{site_id}/pixel/rejections": {
+   "GET": [
+    "minutes"
+   ]
+  },
   "/api/v1/sites/{site_id}/pixel/status": {
    "GET": []
   },
@@ -1174,6 +1179,7 @@
     "country",
     "device_type",
     "end_date",
+    "landing_page",
     "os",
     "page",
     "page_size",
@@ -1216,6 +1222,7 @@
     "country",
     "device_type",
     "end_date",
+    "landing_page",
     "os",
     "page",
     "page_size",
@@ -1311,6 +1318,7 @@
     "page_size",
     "path_filter",
     "period",
+    "search",
     "segment",
     "site_id",
     "sort_by",
@@ -1411,6 +1419,7 @@
     "country",
     "device_type",
     "end_date",
+    "landing_page",
     "os",
     "page",
     "page_size",
@@ -1458,6 +1467,7 @@
    "GET": [
     "account_id",
     "compare",
+    "country",
     "end_date",
     "filters",
     "granularity",
@@ -1478,12 +1488,14 @@
     "end_date",
     "filters",
     "include",
+    "include_totals",
     "include_utm",
     "os",
     "page",
     "page_size",
     "path_filter",
     "period",
+    "search",
     "segment",
     "site_id",
     "sort_by",
@@ -1633,6 +1645,7 @@
     "country",
     "end_date",
     "filters",
+    "landing_page",
     "limit",
     "period",
     "site_id",

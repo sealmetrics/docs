@@ -3,8 +3,8 @@ title: "Stats Advanced"
 description: "Advanced analytics endpoints for the UTM hierarchy — mediums, sources, campaigns, terms — plus landing pages, channels, and microconversions"
 canonical_url: "https://docs.sealmetrics.com/api/stats-advanced"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "c73716ed9e32b59a98d2308cf1bb69e261bffafb76c78af175f7a1b03ab771a9"
+date_generated: "2026-09-22T07:11:17.704Z"
+source_hash: "34d5652a6fab079f4e5558f427e07006917b5f8cadddd5de766633ca5b58d80c"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -144,7 +144,10 @@ Get top sources by entrances.
 |-----------|------|---------|-------------|
 | `limit` | integer | `10` | Number of results (1-100) |
 | `utm_medium` | string | - | Filter by medium |
-| `country` | string | - | Filter by country |
+| `country` | string | - | Filter by country (ISO 2-letter or `Unknown`) |
+| `landing_page` | string | - | Only sessions that entered on this path (exact, case-insensitive; trailing slash counts) |
+
+With `landing_page`, the endpoint returns the sources of the sessions that entered on that page, so the totals add up to that page's entrances. It reads the landing-page report, which has no pageview data, so **rows have no `page_views` key**; `utm_source`, `utm_medium`, `entrances`, `engaged_entrances`, `bounces`, `bounce_rate`, `microconversions`, `conversions`, `conversion_rate` and `revenue` are all present. Advanced `filters=` are not applied in this mode. Without `landing_page`, the response is unchanged.
 
 ---
 

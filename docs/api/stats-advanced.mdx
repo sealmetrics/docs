@@ -142,7 +142,10 @@ Get top sources by entrances.
 |-----------|------|---------|-------------|
 | `limit` | integer | `10` | Number of results (1-100) |
 | `utm_medium` | string | - | Filter by medium |
-| `country` | string | - | Filter by country |
+| `country` | string | - | Filter by country (ISO 2-letter or `Unknown`) |
+| `landing_page` | string | - | Only sessions that entered on this path (exact, case-insensitive; trailing slash counts) |
+
+With `landing_page`, the endpoint returns the sources of the sessions that entered on that page, so the totals add up to that page's entrances. It reads the landing-page report, which has no pageview data, so **rows have no `page_views` key**; `utm_source`, `utm_medium`, `entrances`, `engaged_entrances`, `bounces`, `bounce_rate`, `microconversions`, `conversions`, `conversion_rate` and `revenue` are all present. Advanced `filters=` are not applied in this mode. Without `landing_page`, the response is unchanged.
 
 ---
 

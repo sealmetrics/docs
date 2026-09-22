@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 title: Release Notes
-description: Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a correction to how the privacy documentation describes the session identifier (September 2026).
+description: Sealmetrics product updates, new reports, API changes, and platform improvements — latest release strict country and landing-page filters in the API and MCP server (September 2026).
 date: 2026-09-21
 tags: [changelog, releases, updates]
 keywords:
@@ -11,9 +11,36 @@ keywords:
   - sealmetrics product updates
   - recent api changes
   - utm mapping override google shopping
+  - mcp country filter iso code
 ---
 
 # Release Notes
+
+---
+
+## Country and landing-page filters — errors instead of unfiltered numbers (September 21, 2026)
+
+A filter that could not be applied used to be dropped without warning, and the numbers came back **unfiltered**. That happened in three ways. A country name such as `Spain` passed as `country` was ignored by some API endpoints and caused a `500` on others. The MCP server also discarded any argument a tool did not declare, so an AI assistant could pass `country` to `get_overview` and present site-wide totals as if they were filtered. Filters that cannot be applied are now rejected with an explicit error.
+
+### What changed
+
+- **`country` takes a code, never a name.** Every endpoint and MCP tool that filters by country accepts an ISO-3166-1 alpha-2 code (`ES`, `US`, case-insensitive) or `Unknown`. Anything else returns a `422` from the API that names the parameter. The MCP server rejects it before calling the API and points to `get_countries`, which lists the codes that have traffic.
+- **`Unknown` is filterable.** The country comes from the browser's timezone. When that timezone maps to no country, the visit is stored as `Unknown`, and `country=Unknown` now isolates that traffic.
+- **MCP tools reject arguments they do not support.** Instead of dropping them silently, a tool answers `Unknown argument "<name>" for <tool>. Accepted: …` and does not query the API.
+- **New `country` filter** on the MCP tools `get_overview`, `get_microconversions`, `get_campaigns`, `get_devices`, `get_traffic_mediums` and `get_traffic_sources`, and on `GET /stats/overview` in the API.
+- **New `landing_page` filter** on `get_top_sources` / `GET /stats/sources/top` and on the three raw tools and endpoints (conversions, microconversions, conversion items). On `get_top_sources` it returns the sources of the sessions that entered on that page, so the totals add up to that page's entrances, not the whole site's.
+
+### If you automate on the responses
+
+- `get_top_sources` / `/stats/sources/top` **with** `landing_page` reads the landing-page report, which has no pageview data. Those rows have **no `page_views` field**; every other metric is present. Without `landing_page`, the response is unchanged.
+- A request that used to "work" with a country name now fails with a `422`. Treat that as a signal that its earlier results were not filtered.
+
+### Action required
+
+- **Hosted connector** (`https://mcp.sealmetrics.com/mcp`): already updated, nothing to do.
+- **Local server** (`@sealmetrics/mcp`): update to **1.10.1** or later. If your config uses `@sealmetrics/mcp@latest`, restart your client.
+
+Details: [MCP Server — filters](/integrations/mcp-server#filters-country-and-landing_page) and [API — filtering by country](/api#filtering-by-country).
 
 ---
 
