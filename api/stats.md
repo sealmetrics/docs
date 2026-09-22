@@ -3,8 +3,8 @@ title: "Stats Endpoints"
 description: "Analytics data endpoints for retrieving traffic, conversion, and engagement metrics."
 canonical_url: "https://docs.sealmetrics.com/api/stats"
 lang: "en"
-date_generated: "2026-09-01T18:53:38.400Z"
-source_hash: "05671dfd004223687a29d83b330b069d12fa902583c650fda54b3090fd566418"
+date_generated: "2026-09-22T07:11:17.704Z"
+source_hash: "59ddf472da521df39c35e3c04104e6072a0fc52b3c592d2661735e8498da2366"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -30,7 +30,7 @@ All stats endpoints accept these parameters:
 | `period` | string | No | Period shortcut (overrides dates) |
 | `segment` | string | No | Segment ID or name to apply |
 | `compare` | string | No | `previous` or `yoy` for comparison |
-| `country` | string | No | Filter by country code |
+| `country` | string | No | Filter by country: ISO-3166-1 alpha-2 code or `Unknown`; anything else → `422` ([details](/api#filtering-by-country)) |
 | `utm_source` | string | No | Filter by UTM source |
 | `utm_medium` | string | No | Filter by UTM medium |
 | `utm_campaign` | string | No | Filter by UTM campaign |
@@ -41,7 +41,7 @@ All stats endpoints accept these parameters:
 
 ### GET /stats/overview
 
-Dashboard summary with all key metrics.
+Dashboard summary with all key metrics. Accepts `country` (repeat it for several countries, e.g. `?country=ES&country=PT`) as well as the advanced `filters` syntax.
 
 ```bash
 curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d" \
@@ -680,7 +680,9 @@ Use this when you need to filter or count microconversions by **combinations of 
 
 **Multi-value filters** (repeat the query param to OR values, e.g. `?country=ES&country=FR`):
 
-`conversion_type`, `country`, `device_type`, `browser`, `os`, `channel_group`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`.
+`conversion_type`, `country`, `device_type`, `browser`, `os`, `channel_group`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `landing_page`.
+
+`landing_page` matches the entry path exactly and case-insensitively, and the trailing slash counts (`/shoes` and `/shoes/` are different pages). The same filters apply to `/stats/conversions/raw`.
 
 ```bash
 curl "https://my.sealmetrics.com/api/v1/stats/microconversions/raw?site_id=acme&start_date=2026-04-01&end_date=2026-04-30&conversion_type=availability_search&page_size=1000" \

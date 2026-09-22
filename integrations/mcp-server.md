@@ -3,8 +3,8 @@ title: "MCP Server for AI Assistants"
 description: "Connect Claude, ChatGPT, Cursor, Codex, and other AI assistants to your Sealmetrics analytics using the Model Context Protocol (MCP) — either the hosted remote server (one URL, no install) or the local npx server."
 canonical_url: "https://docs.sealmetrics.com/integrations/mcp-server"
 lang: "en"
-date_generated: "2026-09-17T13:33:23.512Z"
-source_hash: "14deb8e187c8c6f3d38206c03bd7affda2397b20736c7c813ab43e393ca849e1"
+date_generated: "2026-09-22T07:11:17.704Z"
+source_hash: "9594fd15342472ea4a67e78a58c166e2155f41da992d847324f5a656fbe8ab53"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -476,6 +476,32 @@ The four write tools exist **only on the local server** and need an API key with
 | `page` | number | 1 | Page number for paginated results |
 | `sort_by` | varies per tool | varies | Sort field |
 | `sort_order` | `asc`, `desc` | `desc` | Sort direction |
+| `country` | ISO-3166-1 alpha-2 code (`ES`, `US`) or `Unknown` | none | Country filter. **Not the country name** — see below |
+| `landing_page` | path (`/shoes/`) | none | Entry-page filter. Only `get_top_sources` and the three raw tools accept it |
+
+### Filters: `country` and `landing_page` {#filters-country-and-landing_page}
+
+**Tools reject arguments they don't support.** If a tool gets an argument it does not declare, it returns an error listing the arguments it does accept, and it never queries the API:
+
+```
+Unknown argument "landing_page" for get_top_channels. Accepted: site_id, period, ...
+```
+
+Before version 1.10.0, those arguments were dropped without warning. An assistant could pass `country` to a tool that had no such filter, get site-wide numbers back and present them as filtered.
+
+**`country` takes a code, never a name.** Use an ISO-3166-1 alpha-2 code (`ES`, `US`, `DE`; case does not matter) or the literal `Unknown`. A country name is rejected:
+
+```
+Invalid country "Spain": country must be an ISO-3166-1 alpha-2 code (e.g. ES for Spain) or 'Unknown'; call get_countries to see the codes with traffic.
+```
+
+The server deliberately does not translate names into codes: the assistant corrects itself from the error. The check is on format, so a two-letter code with no traffic returns empty results, not an error. `get_countries` lists the codes that have traffic for a site and period. `Unknown` is traffic whose browser timezone maps to no country (the country is always derived from the timezone, never from the IP — see [country detection](/security-privacy/country-detection)). `country: "Unknown"` isolates that traffic, and picking the real codes excludes it.
+
+**Tools that accept `country`:** most reports, including `get_overview`, `get_microconversions`, `get_campaigns`, `get_devices`, `get_traffic_mediums` and `get_traffic_sources`. Those six gained it in 1.10.0. Each tool's schema lists exactly what it accepts.
+
+**`landing_page`** is accepted by `get_top_sources` and by `get_conversions_raw`, `get_microconversions_raw` and `get_conversion_items_raw` (on the raw tools, one path or a list). The match is exact and case-insensitive, and the trailing slash counts (`/shoes` and `/shoes/` are different pages). Copy the path from `get_top_landing_pages`.
+
+With `landing_page`, `get_top_sources` answers "which sources brought the sessions that entered on this page", so its totals add up to that page's entrances. It reads the landing-page report, which has no pageview data, so **those rows have no `page_views` field**. Every other metric is present. Without `landing_page`, the tool responds as before and the rows include `page_views`.
 
 ### All period values
 
@@ -536,6 +562,10 @@ Either set `SEALMETRICS_SITE_ID` in your config, or ask Claude to "list my sites
 ### "Access denied to site X"
 
 Your API key doesn't have permission for that site. Check your token permissions in [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys).
+
+### A country filter is rejected, or changes nothing
+
+`country` takes an ISO code (`ES`), not a name (`Spain`). Ask the assistant to call `get_countries` first and filter using the codes it returns. If the error is `Unknown argument "country"`, that tool has no country filter, so ask the question with a tool that does. On a local server older than 1.10.0, both mistakes returned unfiltered numbers without any error, so update to the latest version. See [Filters](#filters-country-and-landing_page).
 
 ### "npx: command not found"
 

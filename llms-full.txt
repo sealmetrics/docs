@@ -22811,6 +22811,32 @@ The four write tools exist **only on the local server** and need an API key with
 | `page` | number | 1 | Page number for paginated results |
 | `sort_by` | varies per tool | varies | Sort field |
 | `sort_order` | `asc`, `desc` | `desc` | Sort direction |
+| `country` | ISO-3166-1 alpha-2 code (`ES`, `US`) or `Unknown` | none | Country filter. **Not the country name** — see below |
+| `landing_page` | path (`/shoes/`) | none | Entry-page filter. Only `get_top_sources` and the three raw tools accept it |
+
+### Filters: `country` and `landing_page` {#filters-country-and-landing_page}
+
+**Tools reject arguments they don't support.** If a tool gets an argument it does not declare, it returns an error listing the arguments it does accept, and it never queries the API:
+
+```
+Unknown argument "landing_page" for get_top_channels. Accepted: site_id, period, ...
+```
+
+Before version 1.10.0, those arguments were dropped without warning. An assistant could pass `country` to a tool that had no such filter, get site-wide numbers back and present them as filtered.
+
+**`country` takes a code, never a name.** Use an ISO-3166-1 alpha-2 code (`ES`, `US`, `DE`; case does not matter) or the literal `Unknown`. A country name is rejected:
+
+```
+Invalid country "Spain": country must be an ISO-3166-1 alpha-2 code (e.g. ES for Spain) or 'Unknown'; call get_countries to see the codes with traffic.
+```
+
+The server deliberately does not translate names into codes: the assistant corrects itself from the error. The check is on format, so a two-letter code with no traffic returns empty results, not an error. `get_countries` lists the codes that have traffic for a site and period. `Unknown` is traffic whose browser timezone maps to no country (the country is always derived from the timezone, never from the IP — see [country detection](/security-privacy/country-detection)). `country: "Unknown"` isolates that traffic, and picking the real codes excludes it.
+
+**Tools that accept `country`:** most reports, including `get_overview`, `get_microconversions`, `get_campaigns`, `get_devices`, `get_traffic_mediums` and `get_traffic_sources`. Those six gained it in 1.10.0. Each tool's schema lists exactly what it accepts.
+
+**`landing_page`** is accepted by `get_top_sources` and by `get_conversions_raw`, `get_microconversions_raw` and `get_conversion_items_raw` (on the raw tools, one path or a list). The match is exact and case-insensitive, and the trailing slash counts (`/shoes` and `/shoes/` are different pages). Copy the path from `get_top_landing_pages`.
+
+With `landing_page`, `get_top_sources` answers "which sources brought the sessions that entered on this page", so its totals add up to that page's entrances. It reads the landing-page report, which has no pageview data, so **those rows have no `page_views` field**. Every other metric is present. Without `landing_page`, the tool responds as before and the rows include `page_views`.
 
 ### All period values
 
@@ -22871,6 +22897,10 @@ Either set `SEALMETRICS_SITE_ID` in your config, or ask Claude to "list my sites
 ### "Access denied to site X"
 
 Your API key doesn't have permission for that site. Check your token permissions in [Settings > API Keys](https://my.sealmetrics.com/settings/api-keys).
+
+### A country filter is rejected, or changes nothing
+
+`country` takes an ISO code (`ES`), not a name (`Spain`). Ask the assistant to call `get_countries` first and filter using the codes it returns. If the error is `Unknown argument "country"`, that tool has no country filter, so ask the question with a tool that does. On a local server older than 1.10.0, both mistakes returned unfiltered numbers without any error, so update to the latest version. See [Filters](#filters-country-and-landing_page).
 
 ### "npx: command not found"
 
@@ -23843,7 +23873,7 @@ These parameters are available on most analytics endpoints:
 | `start_date` | date | Start date (YYYY-MM-DD) | `2025-01-01` |
 | `end_date` | date | End date (YYYY-MM-DD) | `2025-01-31` |
 | `segment` | string | Apply saved segment filters | `paid-traffic` |
-| `country` | string | Filter by country (ISO 2) | `ES`, `US` |
+| `country` | string | Filter by country: ISO-3166-1 alpha-2 code or `Unknown` — see [below](#filtering-by-country) | `ES`, `US`, `Unknown` |
 | `utm_source` | string | Filter by UTM source | `google` |
 | `utm_medium` | string | Filter by UTM medium | `cpc` |
 | `utm_campaign` | string | Filter by UTM campaign | `brand-2025` |
@@ -23852,6 +23882,30 @@ These parameters are available on most analytics endpoints:
 | `page_size` | int | Results per page (default: 50) | `100` |
 | `sort_by` | string | Sort field | `entrances`, `revenue` |
 | `sort_order` | string | Sort direction | `asc`, `desc` |
+
+### Filtering by country {#filtering-by-country}
+
+`country` takes an **ISO-3166-1 alpha-2 code** (`ES`, `US`, `DE`, case-insensitive) or the literal `Unknown`, and never a country name. Any other value returns **`422 validation_error`** naming the parameter, for example `country=Spain`:
+
+```json
+{
+  "error": {
+    "code": "validation_error",
+    "message": "Request validation failed",
+    "detail": [
+      {"field": "query.country", "message": "String should match pattern '^(?i:[a-z]{2}|unknown)$'", "type": "string_pattern_mismatch"}
+    ]
+  }
+}
+```
+
+The check is on format: two letters, or `Unknown`. A well-formed code with no traffic, such as `XX` or a country that never visited, returns empty results, not an error.
+
+Earlier, an invalid value was ignored by some endpoints (they returned unfiltered totals) and caused a `500` on others. On endpoints that accept the parameter repeated (`?country=ES&country=FR`), each value is validated, and a malformed one is no longer dropped silently.
+
+`Unknown` is the value stored when the visitor's browser timezone maps to no country. The country always comes from the timezone, never from the IP address; see [country detection](/security-privacy/country-detection). `country=Unknown` isolates that traffic. To see which codes have traffic, call [`GET /stats/geo/countries`](/api/stats#get-statsgeocountries).
+
+`device_type` follows the same rule: `desktop`, `mobile` or `tablet` (case-insensitive), and any other value returns `422`.
 
 ### Period Shortcuts
 
@@ -28270,7 +28324,7 @@ All stats endpoints accept these parameters:
 | `period` | string | No | Period shortcut (overrides dates) |
 | `segment` | string | No | Segment ID or name to apply |
 | `compare` | string | No | `previous` or `yoy` for comparison |
-| `country` | string | No | Filter by country code |
+| `country` | string | No | Filter by country: ISO-3166-1 alpha-2 code or `Unknown`; anything else → `422` ([details](/api#filtering-by-country)) |
 | `utm_source` | string | No | Filter by UTM source |
 | `utm_medium` | string | No | Filter by UTM medium |
 | `utm_campaign` | string | No | Filter by UTM campaign |
@@ -28281,7 +28335,7 @@ All stats endpoints accept these parameters:
 
 ### GET /stats/overview
 
-Dashboard summary with all key metrics.
+Dashboard summary with all key metrics. Accepts `country` (repeat it for several countries, e.g. `?country=ES&country=PT`) as well as the advanced `filters` syntax.
 
 ```bash
 curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d" \
@@ -28879,7 +28933,9 @@ Use this when you need to filter or count microconversions by **combinations of 
 
 **Multi-value filters** (repeat the query param to OR values, e.g. `?country=ES&country=FR`):
 
-`conversion_type`, `country`, `device_type`, `browser`, `os`, `channel_group`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`.
+`conversion_type`, `country`, `device_type`, `browser`, `os`, `channel_group`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `landing_page`.
+
+`landing_page` matches the entry path exactly and case-insensitively, and the trailing slash counts (`/shoes` and `/shoes/` are different pages). The same filters apply to `/stats/conversions/raw`.
 
 ```bash
 curl "https://my.sealmetrics.com/api/v1/stats/microconversions/raw?site_id=acme&start_date=2026-04-01&end_date=2026-04-30&conversion_type=availability_search&page_size=1000" \
@@ -29390,7 +29446,10 @@ Get top sources by entrances.
 |-----------|------|---------|-------------|
 | `limit` | integer | `10` | Number of results (1-100) |
 | `utm_medium` | string | - | Filter by medium |
-| `country` | string | - | Filter by country |
+| `country` | string | - | Filter by country (ISO 2-letter or `Unknown`) |
+| `landing_page` | string | - | Only sessions that entered on this path (exact, case-insensitive; trailing slash counts) |
+
+With `landing_page`, the endpoint returns the sources of the sessions that entered on that page, so the totals add up to that page's entrances. It reads the landing-page report, which has no pageview data, so **rows have no `page_views` key**; `utm_source`, `utm_medium`, `entrances`, `engaged_entrances`, `bounces`, `bounce_rate`, `microconversions`, `conversions`, `conversion_rate` and `revenue` are all present. Advanced `filters=` are not applied in this mode. Without `landing_page`, the response is unchanged.
 
 ---
 
@@ -62460,6 +62519,32 @@ URL: https://docs.sealmetrics.com/changelog
 
 
 # Release Notes
+
+---
+
+## Country and landing-page filters — errors instead of unfiltered numbers (September 21, 2026)
+
+A filter that could not be applied used to be dropped without warning, and the numbers came back **unfiltered**. That happened in three ways. A country name such as `Spain` passed as `country` was ignored by some API endpoints and caused a `500` on others. The MCP server also discarded any argument a tool did not declare, so an AI assistant could pass `country` to `get_overview` and present site-wide totals as if they were filtered. Filters that cannot be applied are now rejected with an explicit error.
+
+### What changed
+
+- **`country` takes a code, never a name.** Every endpoint and MCP tool that filters by country accepts an ISO-3166-1 alpha-2 code (`ES`, `US`, case-insensitive) or `Unknown`. Anything else returns a `422` from the API that names the parameter. The MCP server rejects it before calling the API and points to `get_countries`, which lists the codes that have traffic.
+- **`Unknown` is filterable.** The country comes from the browser's timezone. When that timezone maps to no country, the visit is stored as `Unknown`, and `country=Unknown` now isolates that traffic.
+- **MCP tools reject arguments they do not support.** Instead of dropping them silently, a tool answers `Unknown argument "<name>" for <tool>. Accepted: …` and does not query the API.
+- **New `country` filter** on the MCP tools `get_overview`, `get_microconversions`, `get_campaigns`, `get_devices`, `get_traffic_mediums` and `get_traffic_sources`, and on `GET /stats/overview` in the API.
+- **New `landing_page` filter** on `get_top_sources` / `GET /stats/sources/top` and on the three raw tools and endpoints (conversions, microconversions, conversion items). On `get_top_sources` it returns the sources of the sessions that entered on that page, so the totals add up to that page's entrances, not the whole site's.
+
+### If you automate on the responses
+
+- `get_top_sources` / `/stats/sources/top` **with** `landing_page` reads the landing-page report, which has no pageview data. Those rows have **no `page_views` field**; every other metric is present. Without `landing_page`, the response is unchanged.
+- A request that used to "work" with a country name now fails with a `422`. Treat that as a signal that its earlier results were not filtered.
+
+### Action required
+
+- **Hosted connector** (`https://mcp.sealmetrics.com/mcp`): already updated, nothing to do.
+- **Local server** (`@sealmetrics/mcp`): update to **1.10.1** or later. If your config uses `@sealmetrics/mcp@latest`, restart your client.
+
+Details: [MCP Server — filters](/integrations/mcp-server#filters-country-and-landing_page) and [API — filtering by country](/api#filtering-by-country).
 
 ---
 
