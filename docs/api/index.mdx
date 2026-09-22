@@ -269,7 +269,7 @@ These parameters are available on most analytics endpoints:
 | `start_date` | date | Start date (YYYY-MM-DD) | `2025-01-01` |
 | `end_date` | date | End date (YYYY-MM-DD) | `2025-01-31` |
 | `segment` | string | Apply saved segment filters | `paid-traffic` |
-| `country` | string | Filter by country (ISO 2) | `ES`, `US` |
+| `country` | string | Filter by country: ISO-3166-1 alpha-2 code or `Unknown` — see [below](#filtering-by-country) | `ES`, `US`, `Unknown` |
 | `utm_source` | string | Filter by UTM source | `google` |
 | `utm_medium` | string | Filter by UTM medium | `cpc` |
 | `utm_campaign` | string | Filter by UTM campaign | `brand-2025` |
@@ -278,6 +278,30 @@ These parameters are available on most analytics endpoints:
 | `page_size` | int | Results per page (default: 50) | `100` |
 | `sort_by` | string | Sort field | `entrances`, `revenue` |
 | `sort_order` | string | Sort direction | `asc`, `desc` |
+
+### Filtering by country {#filtering-by-country}
+
+`country` takes an **ISO-3166-1 alpha-2 code** (`ES`, `US`, `DE`, case-insensitive) or the literal `Unknown`, and never a country name. Any other value returns **`422 validation_error`** naming the parameter, for example `country=Spain`:
+
+```json
+{
+  "error": {
+    "code": "validation_error",
+    "message": "Request validation failed",
+    "detail": [
+      {"field": "query.country", "message": "String should match pattern '^(?i:[a-z]{2}|unknown)$'", "type": "string_pattern_mismatch"}
+    ]
+  }
+}
+```
+
+The check is on format: two letters, or `Unknown`. A well-formed code with no traffic, such as `XX` or a country that never visited, returns empty results, not an error.
+
+Earlier, an invalid value was ignored by some endpoints (they returned unfiltered totals) and caused a `500` on others. On endpoints that accept the parameter repeated (`?country=ES&country=FR`), each value is validated, and a malformed one is no longer dropped silently.
+
+`Unknown` is the value stored when the visitor's browser timezone maps to no country. The country always comes from the timezone, never from the IP address; see [country detection](/security-privacy/country-detection). `country=Unknown` isolates that traffic. To see which codes have traffic, call [`GET /stats/geo/countries`](/api/stats#get-statsgeocountries).
+
+`device_type` follows the same rule: `desktop`, `mobile` or `tablet` (case-insensitive), and any other value returns `422`.
 
 ### Period Shortcuts
 

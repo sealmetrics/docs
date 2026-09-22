@@ -18,7 +18,7 @@ All stats endpoints accept these parameters:
 | `period` | string | No | Period shortcut (overrides dates) |
 | `segment` | string | No | Segment ID or name to apply |
 | `compare` | string | No | `previous` or `yoy` for comparison |
-| `country` | string | No | Filter by country code |
+| `country` | string | No | Filter by country: ISO-3166-1 alpha-2 code or `Unknown`; anything else → `422` ([details](/api#filtering-by-country)) |
 | `utm_source` | string | No | Filter by UTM source |
 | `utm_medium` | string | No | Filter by UTM medium |
 | `utm_campaign` | string | No | Filter by UTM campaign |
@@ -29,7 +29,7 @@ All stats endpoints accept these parameters:
 
 ### GET /stats/overview
 
-Dashboard summary with all key metrics.
+Dashboard summary with all key metrics. Accepts `country` (repeat it for several countries, e.g. `?country=ES&country=PT`) as well as the advanced `filters` syntax.
 
 ```bash
 curl "https://my.sealmetrics.com/api/v1/stats/overview?site_id=acme&period=7d" \
@@ -668,7 +668,9 @@ Use this when you need to filter or count microconversions by **combinations of 
 
 **Multi-value filters** (repeat the query param to OR values, e.g. `?country=ES&country=FR`):
 
-`conversion_type`, `country`, `device_type`, `browser`, `os`, `channel_group`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`.
+`conversion_type`, `country`, `device_type`, `browser`, `os`, `channel_group`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `landing_page`.
+
+`landing_page` matches the entry path exactly and case-insensitively, and the trailing slash counts (`/shoes` and `/shoes/` are different pages). The same filters apply to `/stats/conversions/raw`.
 
 ```bash
 curl "https://my.sealmetrics.com/api/v1/stats/microconversions/raw?site_id=acme&start_date=2026-04-01&end_date=2026-04-30&conversion_type=availability_search&page_size=1000" \
