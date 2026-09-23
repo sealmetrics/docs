@@ -16,7 +16,7 @@ This checklist goes deep on process. For the concept-by-concept overview see the
 Before touching any code, inventory your GA4 property. The goal is a written list of everything the migration must preserve — and, just as valuable, everything it doesn't need to.
 
 - [ ] **List the core metrics your team reports on.** Sessions, users, pageviews, conversions, revenue — note which reports and dashboards consume each.
-- [ ] **Export the event inventory.** In GA4, list every event (including [recommended events](https://support.google.com/analytics/answer/9267735)) and which ones are marked as key events (conversions). For each: what triggers it, what parameters it carries, who looks at it.
+- [ ] **Export the event inventory.** In GA4, list every event (including recommended events) and which ones are marked as key events (conversions). For each: what triggers it, what parameters it carries, who looks at it.
 - [ ] **Flag the zombie events.** Most GA4 properties accumulate events nobody has looked at in a year. Mark them — you will *not* migrate them, and that's a feature.
 - [ ] **Document your e-commerce implementation.** Which e-commerce events fire (`purchase`, `add_to_cart`, `begin_checkout`, `view_item`), whether they're implemented via gtag or Google Tag Manager, and where the purchase value comes from.
 - [ ] **List audiences and custom definitions** (custom dimensions/metrics) that reports depend on.

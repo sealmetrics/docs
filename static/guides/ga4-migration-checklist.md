@@ -3,8 +3,8 @@ title: "GA4 to Sealmetrics: The Complete Migration Checklist"
 description: "Phase-by-phase checklist to migrate from GA4 to Sealmetrics: audit events, map them to conv()/micro(), run 30 days in parallel, then switch GA4 off safely."
 canonical_url: "https://docs.sealmetrics.com/guides/ga4-migration-checklist"
 lang: "en"
-date_generated: "2026-09-15T18:01:06.894Z"
-source_hash: "6d57a97e2aca3ec1c01da89ae5ad51b5ec23e43abccdb0c80fe94f461651a4f1"
+date_generated: "2026-09-23T06:39:15.974Z"
+source_hash: "e0ad778e113fba25f2173425fc7824840988d1aa614f466fd2cca7c8072da62a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -30,7 +30,7 @@ This checklist goes deep on process. For the concept-by-concept overview see the
 Before touching any code, inventory your GA4 property. The goal is a written list of everything the migration must preserve — and, just as valuable, everything it doesn't need to.
 
 - [ ] **List the core metrics your team reports on.** Sessions, users, pageviews, conversions, revenue — note which reports and dashboards consume each.
-- [ ] **Export the event inventory.** In GA4, list every event (including [recommended events](https://support.google.com/analytics/answer/9267735)) and which ones are marked as key events (conversions). For each: what triggers it, what parameters it carries, who looks at it.
+- [ ] **Export the event inventory.** In GA4, list every event (including recommended events) and which ones are marked as key events (conversions). For each: what triggers it, what parameters it carries, who looks at it.
 - [ ] **Flag the zombie events.** Most GA4 properties accumulate events nobody has looked at in a year. Mark them — you will *not* migrate them, and that's a feature.
 - [ ] **Document your e-commerce implementation.** Which e-commerce events fire (`purchase`, `add_to_cart`, `begin_checkout`, `view_item`), whether they're implemented via gtag or Google Tag Manager, and where the purchase value comes from.
 - [ ] **List audiences and custom definitions** (custom dimensions/metrics) that reports depend on.
