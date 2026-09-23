@@ -62553,11 +62553,13 @@ Classification is more accurate. Past data is not reclassified, so expect a step
 - Fewer Android tablet visits are flagged as suspicious traffic.
 - Known limits: Brave is reported as Chrome, an iPad in desktop mode as desktop/macOS, and Android TVs as desktop.
 
-### If you use the API or MCP
+### If you use the API
 
 - `contains`, `not_contains` and regex filters on `/stats/sources` (and related endpoints), `/stats/funnel` and `/stats/channels` are now **case-insensitive**, so they may return more rows. `eq` and `in` stay exact.
 - New `compare=custom` with `compare_start_date`. The end date follows from the length of the current range; `compare_end_date` is rejected with a `422`.
 - `/stats/properties/breakdown` returns `entrances` for each row.
+
+The MCP server's tools are unchanged: their filters match exact values, and comparisons remain `previous` and `yoy`.
 
 ---
 
