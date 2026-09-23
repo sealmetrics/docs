@@ -3,8 +3,8 @@ title: "Release Notes"
 description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release report fixes for filters, comparisons, exports and browser and device detection (September 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-09-23T07:03:52.208Z"
-source_hash: "b97021c32a7cf14976fad5b93cf9baaa99e3aac5218694ec0c73ef5f7b775d16"
+date_generated: "2026-09-23T07:09:34.559Z"
+source_hash: "420f061c582ac6bd935230d045ed5e39b084d87a51c4de9f5f8491870d36ee8a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -49,11 +49,13 @@ Classification is more accurate. Past data is not reclassified, so expect a step
 - Fewer Android tablet visits are flagged as suspicious traffic.
 - Known limits: Brave is reported as Chrome, an iPad in desktop mode as desktop/macOS, and Android TVs as desktop.
 
-### If you use the API or MCP
+### If you use the API
 
 - `contains`, `not_contains` and regex filters on `/stats/sources` (and related endpoints), `/stats/funnel` and `/stats/channels` are now **case-insensitive**, so they may return more rows. `eq` and `in` stay exact.
 - New `compare=custom` with `compare_start_date`. The end date follows from the length of the current range; `compare_end_date` is rejected with a `422`.
 - `/stats/properties/breakdown` returns `entrances` for each row.
+
+The MCP server's tools are unchanged: their filters match exact values, and comparisons remain `previous` and `yoy`.
 
 ---
 
