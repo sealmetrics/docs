@@ -266,7 +266,7 @@ First-party, aggregated analytics (Sealmetrics' model) is **not targeted** by ED
 ### Contextual Advertising: Potential New Exemption
 
 If the EDPB-EDPS recommendation for contextual advertising is adopted:
-- Ads based on page content (not user tracking) would be exempt
+Ads based on page content (not user tracking) would be exempt
 - This benefits privacy-respecting advertising models
 - Could expand the "no consent needed" category
 
@@ -299,7 +299,7 @@ If the EDPB-EDPS recommendation for contextual advertising is adopted:
 
 - [EU Digital Omnibus Overview](./index.md) - Complete guide to the proposal
 - [Cookie Consent Reform](./cookies-eprivacy.md) - Article 88a details
-- [GDPR Amendments](./gdpr-changes.md) - Personal data definition, AI processing
+- [GDPR Amendments](./index.md) - Personal data definition, AI processing
 - [AI Act Amendments](./ai-act-amendments.md) - Article 88c legitimate interest
 - [Impact on Web Analytics](./impact-analytics.md) - What this means for analytics
 - [Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?](/compliance/compliance-overview/is-sealmetrics-privacy-compliant) - How the audience-measurement model stands today
