@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release strict country and landing-page filters in the API and MCP server (September 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release report fixes for filters, comparisons, exports and browser and device detection (September 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-09-22T07:11:17.704Z"
-source_hash: "82914f4d85834ce096558a7c90bd4185c993c6c8f86e48f7c319e3a3c83597d4"
+date_generated: "2026-09-23T07:03:52.208Z"
+source_hash: "b97021c32a7cf14976fad5b93cf9baaa99e3aac5218694ec0c73ef5f7b775d16"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,45 @@ publisher: "Sealmetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## Report fixes — filters, comparisons, exports and device detection (September 22, 2026)
+
+An audit of every report found places where the dashboard showed numbers that did not match what you had selected. This release fixes them. Your stored data was never affected: the problems were in how filters and comparisons were applied when reading it.
+
+### Filters and comparisons
+
+- **Evolution and Overview now apply Source, Medium and Campaign filters.** Before, they were ignored and the chart showed site-wide totals.
+- **Comparison selector.** **No comparison** no longer compares, **Previous year** compares with the same period last year, and **Custom comparison** works: pick a start date and the comparison covers a period of the same length. The choice survives page reloads.
+- **Overview comparison line** uses the same filters as the current period.
+- **Conversions cards** show the change against the comparison period.
+- **Funnel by UTM** counts conversions for each `utm_term`. Before, each term showed its campaign's total.
+- **Properties → Rates** is calculated on entrances.
+- The AND/OR selector is gone from Pages, Sources and Funnel, where only AND was applied. A notice appears when a filter value contains a comma and cannot be applied.
+
+### Reports and exports
+
+- **Evolution**: weeks (ISO, starting Monday) and months no longer shift by one day for users west of UTC. The hourly export has one row per hour with an `Hour` column.
+- **Pages** grouped by URL also adds up the comparison period.
+- **Funnel** drop-off labels sit under the right step.
+- **Geography** sorts by country name, not by country code.
+- **Exports** show revenue in your site's currency instead of `$`.
+
+### Browser and device detection (from September 22 onwards)
+
+Classification is more accurate. Past data is not reclassified, so expect a step change in browser and device reports from this date:
+
+- Samsung Internet and Opera are no longer counted as Chrome. Chrome, Firefox and Edge on iPhone are no longer counted as Safari. Facebook and Instagram in-app browsers appear under their own names.
+- Android tablets are counted as tablets, including in "desktop site" mode, and Chromebooks appear as ChromeOS.
+- Fewer Android tablet visits are flagged as suspicious traffic.
+- Known limits: Brave is reported as Chrome, an iPad in desktop mode as desktop/macOS, and Android TVs as desktop.
+
+### If you use the API or MCP
+
+- `contains`, `not_contains` and regex filters on `/stats/sources` (and related endpoints), `/stats/funnel` and `/stats/channels` are now **case-insensitive**, so they may return more rows. `eq` and `in` stay exact.
+- New `compare=custom` with `compare_start_date`. The end date follows from the length of the current range; `compare_end_date` is rejected with a `422`.
+- `/stats/properties/breakdown` returns `entrances` for each row.
 
 ---
 
