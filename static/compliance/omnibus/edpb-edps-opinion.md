@@ -3,8 +3,8 @@ title: "EDPB-EDPS Joint Opinion on the Digital Omnibus"
 description: "Official position of European data protection authorities on the Digital Omnibus proposal - concerns, support, and recommendations"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/edpb-edps-opinion"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "573592a98617f9ab73536ae11ee4c923be7dab528a3e7e0cbe72ff9466fa7124"
+date_generated: "2026-09-23T06:40:14.379Z"
+source_hash: "5c8b22f664ca9757e21ec04b0fb3a47c3a6bd0ef115457bb4184eb204181c09a"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -301,7 +301,7 @@ If the EDPB-EDPS recommendation for contextual advertising is adopted:
 - [Cookie Consent Reform](./cookies-eprivacy.md) - Article 88a details
 - [GDPR Amendments](./gdpr-changes.md) - Personal data definition, AI processing
 - [AI Act Amendments](./ai-act-amendments.md) - Article 88c legitimate interest
-- [Impact on Web Analytics](./impact-analytics.md) - What this means for analytics
+- Impact on Web Analytics - What this means for analytics
 - [Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?](/compliance/compliance-overview/is-sealmetrics-privacy-compliant) - How the audience-measurement model stands today
 - [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) - Why first-party analytics is not the regulators' concern
 
