@@ -3,8 +3,8 @@ title: "Features"
 description: "Explore the complete feature set of Sealmetrics - from core analytics reports to API access, conversion tracking, and privacy-first capabilities."
 canonical_url: "https://docs.sealmetrics.com/getting-started/features"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "6cce96f6bd0cf6d12b365a73c40b97eeecfb286af0b069a227fb04e8132a7846"
+date_generated: "2026-09-23T06:39:11.188Z"
+source_hash: "680b2781bec70b84daf4e7b7e8b1d68d103d9fe13fbd3cdb241304d8fc621b95"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -222,10 +222,7 @@ Global content delivery for fast script loading regardless of visitor location.
 Infrastructure scales automatically with your traffic. Handle traffic spikes without configuration changes.
 
 ### Bot Filtering
-Sophisticated bot detection removes scrapers, search engine crawlers, and monitoring tools. Only see real human visitors.
-
-### AI & Agent Traffic Analytics *(not available yet)*
-Classifying sessions as human or AI-agent traffic is designed but **not live**, and cannot be enabled on any account today. What does run is the bot filtering above. See [Bot & Agent Detection](/security-privacy/bot-detection) for the current state.
+Sophisticated bot detection removes scrapers, search engine crawlers, and monitoring tools. Only see real human visitors. See [Bot & Agent Detection](/security-privacy/bot-detection) for the current state.
 
 (Not to be confused with the [Agentic Package](/integrations/agentic-package), which *is* available — it lets an AI assistant create your account and query your analytics from a chat.)
 
