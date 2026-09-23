@@ -3,8 +3,8 @@ title: "GDPR and Cookieless Analytics"
 description: "How cookieless analytics comply with GDPR requirements and provide better data without consent banners"
 canonical_url: "https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "d9d1bcccfd72dec7d5fc8e7fd883c11bbbb2f2e08996e9beff8c96be390718ac"
+date_generated: "2026-09-23T06:40:42.727Z"
+source_hash: "4c87e3447beda9803b0db55ab7e9b0001bfb9bff10df67a8b9e6554544179c30"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -663,7 +663,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 
 - [Analytics Cookies Exemption Requirements](./analytics-cookies-exemption.md) - AEPD and EU DPA guidance on analytics without consent
 - [EU Digital Omnibus - Cookie Consent Reform](./omnibus/cookies-eprivacy.md) - Future framework for analytics under Article 88a
-- [EU Digital Omnibus - Impact on Analytics](./omnibus/impact-analytics.md) - How regulations affect analytics industry
+- [EU Digital Omnibus - Impact on Analytics](./omnibus/cookies-eprivacy.md) - How regulations affect analytics industry
 - [Is Sealmetrics GDPR, ePrivacy, CCPA, and PECR Compliant?](/compliance/compliance-overview/is-sealmetrics-privacy-compliant) - How the isolated-hit model applies these principles
 - [Do Temporary Session Identifiers (Session IDs) Require Consent Under GDPR?](/legal/gdpr-and-eprivacy/do-session-ids-require-consent) - When session identifiers stay consent-exempt
 - [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) - The technical basis for consentless measurement
