@@ -3,8 +3,8 @@ title: "Switzerland FADP Self-Assessment: Sealmetrics Compliance"
 description: "Self-assessment of Sealmetrics against the revised Swiss FADP (nFADP) and Art. 45c TCA: no personal data stored, nothing on the device, EU-only processing in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compliance/switzerland-fadp-self-assessment"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "13373aa1726f8073ae7ff92260ab0113f02c60bc4e86b5628e05a6331a7dd9c5"
+date_generated: "2026-09-23T06:39:59.627Z"
+source_hash: "42080ab32189ce0174ab6c8dfa3ddc39b91f23379e43ea0eac9317cad27c6e8f"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -107,7 +107,7 @@ The nFADP made privacy by design and by default a statutory duty — one of the 
 | Aspect | Compliance |
 |--------|------------|
 | Data protection built into the architecture | ✅ No cookies, no persistent identifiers, no stored IP — irrespective of configuration |
-| Most protective default settings | ✅ The consentless, identifier-free mode is the default — and currently the only mode. The one optional feature designed on top of it (Agent Analytics bot detection) is **not live and cannot be enabled** |
+| Most protective default settings | ✅ The consentless, identifier-free mode is the default — and currently the only mode |
 | Cannot be degraded by misconfiguration alone | ✅ Individual-level tracking is architecturally unavailable, not merely disabled |
 
 **Assessment:** ✅ Compliant. Sealmetrics is a working example of Art. 7: the privacy properties are structural, not settings.
