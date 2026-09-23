@@ -62522,6 +62522,45 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
+## Report fixes — filters, comparisons, exports and device detection (September 22, 2026)
+
+An audit of every report found places where the dashboard showed numbers that did not match what you had selected. This release fixes them. Your stored data was never affected: the problems were in how filters and comparisons were applied when reading it.
+
+### Filters and comparisons
+
+- **Evolution and Overview now apply Source, Medium and Campaign filters.** Before, they were ignored and the chart showed site-wide totals.
+- **Comparison selector.** **No comparison** no longer compares, **Previous year** compares with the same period last year, and **Custom comparison** works: pick a start date and the comparison covers a period of the same length. The choice survives page reloads.
+- **Overview comparison line** uses the same filters as the current period.
+- **Conversions cards** show the change against the comparison period.
+- **Funnel by UTM** counts conversions for each `utm_term`. Before, each term showed its campaign's total.
+- **Properties → Rates** is calculated on entrances.
+- The AND/OR selector is gone from Pages, Sources and Funnel, where only AND was applied. A notice appears when a filter value contains a comma and cannot be applied.
+
+### Reports and exports
+
+- **Evolution**: weeks (ISO, starting Monday) and months no longer shift by one day for users west of UTC. The hourly export has one row per hour with an `Hour` column.
+- **Pages** grouped by URL also adds up the comparison period.
+- **Funnel** drop-off labels sit under the right step.
+- **Geography** sorts by country name, not by country code.
+- **Exports** show revenue in your site's currency instead of `$`.
+
+### Browser and device detection (from September 22 onwards)
+
+Classification is more accurate. Past data is not reclassified, so expect a step change in browser and device reports from this date:
+
+- Samsung Internet and Opera are no longer counted as Chrome. Chrome, Firefox and Edge on iPhone are no longer counted as Safari. Facebook and Instagram in-app browsers appear under their own names.
+- Android tablets are counted as tablets, including in "desktop site" mode, and Chromebooks appear as ChromeOS.
+- Fewer Android tablet visits are flagged as suspicious traffic.
+- Known limits: Brave is reported as Chrome, an iPad in desktop mode as desktop/macOS, and Android TVs as desktop.
+
+### If you use the API or MCP
+
+- `contains`, `not_contains` and regex filters on `/stats/sources` (and related endpoints), `/stats/funnel` and `/stats/channels` are now **case-insensitive**, so they may return more rows. `eq` and `in` stay exact.
+- New `compare=custom` with `compare_start_date`. The end date follows from the length of the current range; `compare_end_date` is rejected with a `422`.
+- `/stats/properties/breakdown` returns `entrances` for each row.
+
+---
+
 ## Country and landing-page filters — errors instead of unfiltered numbers (September 21, 2026)
 
 A filter that could not be applied used to be dropped without warning, and the numbers came back **unfiltered**. That happened in three ways. A country name such as `Spain` passed as `country` was ignored by some API endpoints and caused a `500` on others. The MCP server also discarded any argument a tool did not declare, so an AI assistant could pass `country` to `get_overview` and present site-wide totals as if they were filtered. Filters that cannot be applied are now rejected with an explicit error.
