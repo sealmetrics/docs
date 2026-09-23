@@ -3,8 +3,8 @@ title: "Implementation & Tracking"
 description: "How to install the Sealmetrics pixel in the head or via Google Tag Manager, add event pixels for conversions and micro-conversions, and verify tracking in Real-Time."
 canonical_url: "https://docs.sealmetrics.com/faq/implementation"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "f7dca24cdb203cf008c6a4d1d27b52e566d9cc616170a15cfc9d9751d435ee44"
+date_generated: "2026-09-23T06:38:54.626Z"
+source_hash: "4f887d553ffd273cc42d079d22be85dccd0202178482517c8faa4c603711f811"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -20,7 +20,7 @@ Installing Sealmetrics takes one tracking pixel in the `<head>` of your site or 
 
 ## How do I install Sealmetrics?
 
-Insert your tracking pixel in the `<head>` of your website or via [Google Tag Manager](https://support.google.com/tagmanager/answer/6107167).
+Insert your tracking pixel in the `<head>` of your website or via Google Tag Manager.
 Once added, Sealmetrics begins measuring immediately.
 
 ---
