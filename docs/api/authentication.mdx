@@ -117,7 +117,7 @@ curl -X POST "https://my.sealmetrics.com/api/v1/auth/register" \
 - **Rate limited:** 3 registrations per hour per IP.
 - **Enumeration-safe:** if the email already exists, the response is identical to a successful signup (`user_id: 0`, generic message), and a one-time security notification is sent to the existing user.
 - **Auth cookies:** when billing is enabled, the response sets `access_token` and `refresh_token` cookies and includes the access token in the body (scopes: `read`, `write`, `billing:checkout`). When billing is disabled, no session is created and the token fields stay empty.
-- **Email verification:** verifies via the [`POST /email/verify`](./email-verification#verify-email-and-auto-login) endpoint, which then performs the auto-login.
+- **Email verification:** verifies via the [`POST /email/verify`](./email-verification) endpoint, which then performs the auto-login.
 
 ---
 
