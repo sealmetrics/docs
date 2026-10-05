@@ -3,8 +3,8 @@ title: "Sealmetrics vs Google Analytics 4: consent-based vs consentless measurem
 description: "GA4 needs cookies and consent, so it loses 15–60% of EU visitors. Sealmetrics measures every hit without cookies, IP storage or a banner, hosted in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/google-analytics-4"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "46769ceab02cfc2d21d343adf29fabb4eff66ad82ac94223efc0e70791ed97df"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "d25cf78e7da03c2f8618438f1dceb6fa3161dd84da4c5900cbeaef8a08409ee2"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -32,7 +32,7 @@ Google facts checked 2026-09-04 on Google's own help pages; each row links to th
 | Vendor's position on consent | No banner needed for measurement | Consent required for cookies "where legally required" under Google's EU User Consent Policy ([source](https://www.google.com/about/company/user-consent-policy/)) |
 | Behaviour when consent is denied | Not applicable — every hit measured | Tags send cookieless pings; gaps filled by conversion and behavioural modelling ([source](https://support.google.com/analytics/answer/9976101)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; Sealmetrics measured ~145 KB on 27 Aug 2026 ([method](/guides/tracker-performance-report)) |
-| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | Standard properties free; Analytics 360 paid with SLA ([source](https://support.google.com/analytics/answer/1070983)) |
+| Free tier | Free tier of 1M events total (lifetime, not monthly), no credit card; 14-day free trial of paid plans ([billing](/billing)) | Standard properties free; Analytics 360 paid with SLA ([source](https://support.google.com/analytics/answer/1070983)) |
 | Data retention | 24 months, fixed for every plan | 2 or 14 months for event data; up to 50 months on 360 ([source](https://support.google.com/analytics/answer/7667196)) |
 
 ## How each one measures visitors

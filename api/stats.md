@@ -3,8 +3,8 @@ title: "Stats Endpoints"
 description: "Analytics data endpoints for retrieving traffic, conversion, and engagement metrics."
 canonical_url: "https://docs.sealmetrics.com/api/stats"
 lang: "en"
-date_generated: "2026-09-22T07:11:17.704Z"
-source_hash: "59ddf472da521df39c35e3c04104e6072a0fc52b3c592d2661735e8498da2366"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "5f08b70837d432be676b5a41453946eb593604b8595444f77c90cc7367e7e875"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -770,7 +770,13 @@ Applies to all three raw endpoints (`/conversions/raw`, `/microconversions/raw`,
 
 ### GET /stats/funnel
 
-Funnel analysis by UTM parameters.
+Funnel analysis by UTM parameters. Of the [common parameters](#common-parameters) it takes `site_id`, `start_date`, `end_date`, `period` and `country` — not `segment`, `compare` or the `utm_*` shortcuts; narrow UTM values with `filters` instead.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `filters` | string | No | Advanced filters `field:op:value,...` (e.g. `utm_source:eq:google`). Applied to rows and totals alike, so the top-`limit` cut happens inside the filtered set |
+| `limit` | int | No | UTM rows per page, 1–10,000 (default: `100`; out of range → `422`). The dashboard table uses the default; its CSV export asks for `10,000` |
+| `page` | int | No | 1-based page of `limit` rows (default: `1`; `< 1` → `422`; `page × limit` over 1,000,000 → `400`). Keep requesting the next page while `truncated` is `true` |
 
 ```bash
 curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=acme&period=30d" \
@@ -817,9 +823,44 @@ curl "https://my.sealmetrics.com/api/v1/stats/funnel?site_id=acme&period=30d" \
       }
     },
     "microconversion_types": ["view_product", "add_to_cart", "checkout_start"],
-    "conversion_types": ["purchase", "lead"]
+    "conversion_types": ["purchase", "lead"],
+    "page": 1,
+    "limit": 100,
+    "truncated": false
   }
 }
+```
+
+`rows` returns the top `limit` UTM combinations by entrances for the requested `page` (ties broken by the UTM key, so pages are deterministic). `truncated: true` means more combinations exist after this page. There is no `total` field — counting the full set would cost an extra full scan on every call.
+
+#### Paging large funnels
+
+To pull every UTM combination for a period (more than `limit` rows), request `page=1, 2, …` with the same filters and `limit` until `truncated` is `false`. Request pages **one at a time** — each page re-aggregates the whole period, so parallel paging adds load without speeding anything up. Today's data keeps arriving while you page, so a combination can shift across a page boundary; page a closed period (up to yesterday) for an exact export.
+
+Requests with `limit` above 100, or any `page` after the first, count as **export-sized**: they are capped to one running at a time per site and three at a time across all sites. Exceeding either cap returns **`429`** with a `Retry-After: 10` header — back off and retry (the dashboard's own CSV export counts as one of these requests). A request that still runs too long on our side returns **`422`**; retry with a shorter period, a smaller `limit`, or added filters. The default dashboard table request (`limit=100`, page 1) is never export-sized.
+
+```python
+import time
+
+import requests
+
+rows, page = [], 1
+while True:
+    r = requests.get(
+        "https://my.sealmetrics.com/api/v1/stats/funnel",
+        headers={"X-API-Key": "sm_your_key"},
+        params={"site_id": "acme", "start_date": "2026-01-01", "end_date": "2026-09-26",
+                "limit": 10000, "page": page},
+    )
+    if r.status_code == 429:
+        time.sleep(int(r.headers["Retry-After"]))
+        continue
+    r.raise_for_status()
+    body = r.json()["data"]
+    rows += body["rows"]
+    if not body["truncated"]:
+        break
+    page += 1
 ```
 
 ### POST /stats/funnel

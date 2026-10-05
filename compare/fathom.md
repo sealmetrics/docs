@@ -3,8 +3,8 @@ title: "Sealmetrics vs Fathom: EU Isolation vs EU-only storage"
 description: "Fathom hashes IP and user agent daily and stores anonymised data in the US after EU processing. Sealmetrics never hashes the IP and keeps all data in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/fathom"
 lang: "en"
-date_generated: "2026-09-04T11:01:07.053Z"
-source_hash: "72eb1b7de5df40f4f22e4759660be3ff4e216c7e91e6968a534f8ffdceefb203"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "b5f8c617e2f9659a769aefda3cfec6600306e21de7967122a7d48af9098f7e84"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -33,7 +33,7 @@ Fathom facts checked 2026-09-04 on usefathom.com; each row links to the page it 
 | Vendor's position on consent | No banner needed for measurement | "You don't need to clutter your site with a cookie banner for analytics" ([source](https://usefathom.com/features)) |
 | Cookies | None | "We don't use cookies or similar technology" ([source](https://usefathom.com/privacy)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; the vendor cites typical load times of about 30 ms ([source](https://usefathom.com/data)) |
-| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | 7-day free trial, no credit card; no free plan — see [pricing](https://usefathom.com/pricing) |
+| Free tier | Free tier of 1M events total (lifetime, not monthly), no credit card; 14-day free trial of paid plans ([billing](/billing)) | 7-day free trial, no credit card; no free plan — see [pricing](https://usefathom.com/pricing) |
 
 ## How each one measures visitors
 

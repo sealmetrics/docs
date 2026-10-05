@@ -3,8 +3,8 @@ title: "Billing API"
 description: "Manage plans, subscriptions, invoices, usage, coupons, and the Seal AI Private add-on through the cookie-authenticated billing proxy"
 canonical_url: "https://docs.sealmetrics.com/api/billing"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "942f2c118ff7c1b179737e010bc8a9062f19fdd76fa81d973f0efa291967d86f"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "2020e676c172a91ed503d9b791480ce44537a90fad816efe7ff5fb132951206b"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -438,7 +438,7 @@ Validate a discount code before checkout. Accepts `billing:checkout` **or** `bil
 
 ### POST /billing/checkout
 
-Create a Stripe Checkout session for a plan subscription. Accepts `billing:checkout` **or** `billing:manage` scope — the registration flow uses `billing:checkout` so a brand-new user can subscribe before verifying email.
+Create a Stripe Checkout session for a plan subscription. Accepts `billing:checkout` **or** `billing:manage` scope — a signed-in user who does not belong to an organization yet holds `billing:checkout`, so they can subscribe without being an organization owner.
 
 **Body:**
 
