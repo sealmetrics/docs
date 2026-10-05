@@ -3,8 +3,8 @@ title: "Billing FAQ"
 description: "Frequently asked questions about Sealmetrics pricing, billing, and payments."
 canonical_url: "https://docs.sealmetrics.com/billing/faq"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "1132c83d5191f04b71878972176347ff18a7cb5af5ff2f5dc7c2356c9c3228cc"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "6a224df4e8820d7d3a6a5ce35e13fe3f7a661cb041ced1aacb75bf94a052208f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -24,6 +24,7 @@ Common questions about plans, pricing, and billing.
 
 | Your Situation | Recommended Plan |
 |----------------|------------------|
+| Trying Sealmetrics on a small site, up to 1M events total | Free tier |
 | Growing team, up to 5M events | Growth |
 | Multi-brand retailer, up to 15M events | Scale |
 | Unlimited events, custom requirements | Enterprise |
@@ -34,7 +35,7 @@ Yes! All plans include a **14-day free trial** with full features. You choose a 
 
 ### Is there a free plan?
 
-There is no self-service free plan, but a limited **free tier** exists: if your trial ends without an active subscription, your account drops to it (you keep read access to your existing data), and sites provisioned through the [Agentic Package](/integrations/agentic-package) start on it with up to 1M events/month. We also offer special pricing for nonprofits and early-stage startups.
+Yes. Signing up self-service — create an account, verify your email, then create an organization — starts you on a **free tier** with no credit card required: **1,000,000 events total**, cumulative for the life of the organization and not reset monthly. Sites provisioned through the [Agentic Package](/integrations/agentic-package) start on the same free tier. If a 14-day trial on a paid plan ends without an active subscription, the account also drops to this free tier (you keep read access to your existing data). We also offer special pricing for nonprofits and early-stage startups.
 
 ### Do you offer discounts?
 

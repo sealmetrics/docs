@@ -3,8 +3,8 @@ title: "Authentication"
 description: "How to authenticate with the Sealmetrics API using read-only API keys (X-API-Key header) or JWT bearer tokens from login"
 canonical_url: "https://docs.sealmetrics.com/api/authentication"
 lang: "en"
-date_generated: "2026-09-07T15:49:18.603Z"
-source_hash: "d4baacfd75fa821ed9609291ce7f6e8544be8bd2703092675839372d389d9eda"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "155b8826f7e16f6c5c5379a1a8e0c5840c11719202053470c0ef7352426d9531"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -69,7 +69,7 @@ Keys are 64 characters long and contain only alphanumeric characters after the p
 
 ### POST /auth/register
 
-Public endpoint for self-service signup. Creates a new user account, sends a verification email, and (when billing is enabled) creates a temporary session so the user can proceed to plan selection / Stripe checkout without having verified their email first.
+Public endpoint for self-service signup. Creates a new user account and sends a verification email. No session is created until the email is verified — verifying it logs the user in. The user then creates an organization, which starts on the [free tier](/billing/faq#is-there-a-free-plan) (1,000,000 events total, not reset monthly); no plan selection or Stripe checkout is required to sign up.
 
 ```bash
 curl -X POST "https://my.sealmetrics.com/api/v1/auth/register" \
@@ -100,13 +100,14 @@ curl -X POST "https://my.sealmetrics.com/api/v1/auth/register" \
     "user_id": 42,
     "email": "alice@acme.com",
     "name": "Alice",
-    "access_token": "eyJhbGciOi...",
+    "access_token": "",
     "token_type": "bearer",
-    "expires_in": 3600,
+    "expires_in": 0,
     "requires_email_verification": true,
-    "requires_subscription": true,
+    "requires_subscription": false,
+    "session_created": false,
     "email_sent": true,
-    "message": "Registration successful. Choose your plan to continue."
+    "message": "Check your email to continue registration"
   }
 }
 ```
@@ -116,8 +117,9 @@ curl -X POST "https://my.sealmetrics.com/api/v1/auth/register" \
 **Notable behavior:**
 
 - **Rate limited:** 3 registrations per hour per IP.
-- **Enumeration-safe:** if the email already exists, the response is identical to a successful signup (`user_id: 0`, generic message), and a one-time security notification is sent to the existing user.
-- **Auth cookies:** when billing is enabled, the response sets `access_token` and `refresh_token` cookies and includes the access token in the body (scopes: `read`, `write`, `billing:checkout`). When billing is disabled, no session is created and the token fields stay empty.
+- **Enumeration-safe:** if the email already exists, the response is identical to a successful signup (`user_id: 0`, generic message). A verified account receives a one-time security notification; an unverified one has its verification email re-sent to the address. The existing account's credentials are never changed.
+- **No session at signup:** `access_token` stays empty and no cookies are set. The one exception is a signup that started from a pending MCP OAuth consent: then `session_created` is `true` and the response sets `access_token` and `refresh_token` cookies (scopes: `read`, `write`) so the consent can resume.
+- **Creating an organization** requires a verified email and is refused if the user already belongs to an organization.
 - **Email verification:** verifies via the [`POST /email/verify`](./email-verification#verify-email-and-auto-login) endpoint, which then performs the auto-login.
 
 ---

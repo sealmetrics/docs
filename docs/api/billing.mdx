@@ -436,7 +436,7 @@ Validate a discount code before checkout. Accepts `billing:checkout` **or** `bil
 
 ### POST /billing/checkout
 
-Create a Stripe Checkout session for a plan subscription. Accepts `billing:checkout` **or** `billing:manage` scope — the registration flow uses `billing:checkout` so a brand-new user can subscribe before verifying email.
+Create a Stripe Checkout session for a plan subscription. Accepts `billing:checkout` **or** `billing:manage` scope — a signed-in user who does not belong to an organization yet holds `billing:checkout`, so they can subscribe without being an organization owner.
 
 **Body:**
 
