@@ -3,8 +3,8 @@ title: "Sealmetrics vs Piwik PRO: enterprise suite with consent manager vs conse
 description: "Piwik PRO pairs analytics with a consent manager and an anonymous mode hashed from the IP. Sealmetrics needs no consent layer, no IP and stores only in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/piwik-pro"
 lang: "en"
-date_generated: "2026-09-04T11:01:07.053Z"
-source_hash: "066153f6fa27cb208ab6853f92ef70fb6d761d8ffde22131eb3a18975594d984"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "d91087043caa6297af3cb274711db2a0bfd7b96087ea311fdc396d13d122c560"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -33,7 +33,7 @@ Piwik PRO facts checked 2026-09-04 on piwik.pro and help.piwik.pro; each row lin
 | Vendor's position on consent | No banner needed for measurement | Anonymous data can be collected without a consent form; full tracking after consent ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
 | Security certifications | None held | Vendor states ISO 27001 and SOC 2 ([source](https://piwik.pro/privacy-compliance/)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; Sealmetrics measured ~26 KB on the vendor demo instance, 27 Aug 2026 ([method](/guides/tracker-performance-report)) |
-| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | 30-day free trial; no free plan — see [pricing](https://piwik.pro/pricing/) |
+| Free tier | Free tier of 1M events total (lifetime, not monthly), no credit card; 14-day free trial of paid plans ([billing](/billing)) | 30-day free trial; no free plan — see [pricing](https://piwik.pro/pricing/) |
 
 ## How each one measures visitors
 

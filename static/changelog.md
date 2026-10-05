@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release report fixes for filters, comparisons, exports and browser and device detection (September 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a free tier on self-service signup and paging for the Funnel API (September 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-09-23T07:09:34.559Z"
-source_hash: "420f061c582ac6bd935230d045ed5e39b084d87a51c4de9f5f8491870d36ee8a"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "e2e4bce9da49b6dd9e4899e2c36042f2b67b9296da83b35f0b7ae98ae51f0de8"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,20 @@ publisher: "Sealmetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## Free tier on signup and paging for the Funnel API (September 28, 2026)
+
+### Sign up without a credit card
+
+Self-service signup no longer goes through Stripe checkout. Create an account, verify your email, then create an organization: it starts on the **free tier**, with **1,000,000 events total** — cumulative for the life of the organization, not reset monthly. Accounts provisioned through the [Agentic Package](/integrations/agentic-package) share the same quota. The 14-day trial of a paid plan is unchanged. See [Is there a free plan?](/billing/faq#is-there-a-free-plan).
+
+### If you use the API
+
+- `POST /auth/register` no longer opens a session: `access_token` is empty, `requires_subscription` is `false`, and the session starts when the email is verified. The only exception is a signup resuming an MCP OAuth consent, flagged by the new `session_created` field. See [Registration](/api/authentication#registration).
+- `GET /stats/funnel` takes a new `page` parameter and returns `page`, `limit` and `truncated`, so you can page through every UTM combination of a period. `limit` goes up to 10,000.
+- Large funnel requests (`limit` above 100, or any page after the first) run one at a time per site and three at a time overall. Over either cap the API answers `429` with `Retry-After: 10`; a request that runs too long answers `422`. See [Paging large funnels](/api/stats#paging-large-funnels).
 
 ---
 

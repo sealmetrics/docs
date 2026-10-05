@@ -3,8 +3,8 @@ title: "Sealmetrics vs Matomo: self-hosted open source vs managed consentless cl
 description: "Matomo is GPL-licensed and self-hostable, but its cookieless mode hashes the visitor's IP. Sealmetrics never uses the IP and stores everything in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/matomo"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "97b8065cd076cc14fe4980efe318787aa401a0aec3188412bc97b12c4aa3651b"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "511afe7cf5111662312b1bbf3e98fa6d11aa96486dbaea79642353a220be5f6a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -33,7 +33,7 @@ Matomo facts checked 2026-09-04 on matomo.org; each row links to the page it was
 | Vendor's position on consent | No banner needed for measurement | "No need for cookie consent screens" once anonymisation techniques are configured ([source](https://matomo.org/gdpr-analytics/)); consent-free operation depends on a checklist of settings ([source](https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-without-consent-or-cookie-banner/)) |
 | Accuracy without cookies | Designed for it — no unique-visitor metric to degrade | Unique and returning visitors "will be inaccurate" when cookies are disabled ([source](https://matomo.org/faq/general/faq_156/)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; Sealmetrics measured ~46 KB on the vendor demo instance, 27 Aug 2026 — varies with installed plugins ([method](/guides/tracker-performance-report)) |
-| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | On-Premise free; Cloud has a free trial, paid plans from about €29/month — see [pricing](https://matomo.org/pricing/) |
+| Free tier | Free tier of 1M events total (lifetime, not monthly), no credit card; 14-day free trial of paid plans ([billing](/billing)) | On-Premise free; Cloud has a free trial, paid plans from about €29/month — see [pricing](https://matomo.org/pricing/) |
 
 ## How each one measures visitors
 

@@ -3,8 +3,8 @@ title: "Sealmetrics vs Plausible: two cookieless tools, one hashes the IP"
 description: "Plausible identifies visitors with a daily hash of IP and user agent; Sealmetrics never derives an identifier from the IP. Both cookieless, both EU-hosted."
 canonical_url: "https://docs.sealmetrics.com/compare/plausible"
 lang: "en"
-date_generated: "2026-09-04T11:01:07.053Z"
-source_hash: "a501416e05ad0afa09e1b26b7a5d16e1432ae363516343da1b5ccbb26e54fa38"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "e079149ada6dad3abbe2d115f0f06f446057e49bf1df26d23fcd22b275d98623"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -33,7 +33,7 @@ Plausible facts checked 2026-09-04 on plausible.io; each row links to the page i
 | Vendor's position on consent | No banner needed for measurement | "No need for cookie banners or GDPR consent" ([source](https://plausible.io/)) |
 | Cookies / local storage | None | "We do not use cookies, browser cache or local storage" ([source](https://plausible.io/data-policy)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | 2.5 KB, stated by the vendor ([source](https://plausible.io/lightweight-web-analytics)) |
-| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | 30-day free trial, no credit card; no free plan — see [pricing](https://plausible.io/) |
+| Free tier | Free tier of 1M events total (lifetime, not monthly), no credit card; 14-day free trial of paid plans ([billing](/billing)) | 30-day free trial, no credit card; no free plan — see [pricing](https://plausible.io/) |
 
 ## How each one measures visitors
 

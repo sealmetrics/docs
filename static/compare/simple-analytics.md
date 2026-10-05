@@ -3,8 +3,8 @@ title: "Sealmetrics vs Simple Analytics: the closest architecture, different dep
 description: "Both skip cookies, IPs and consent banners and derive country from the timezone. Simple Analytics keeps it minimal; Sealmetrics adds attribution, e-commerce and AI."
 canonical_url: "https://docs.sealmetrics.com/compare/simple-analytics"
 lang: "en"
-date_generated: "2026-09-04T11:01:07.053Z"
-source_hash: "e6779efc2d7724c842b923fb2aae4d6b356ec99e6b8caea14e8893ff0c1445e7"
+date_generated: "2026-10-05T10:32:44.968Z"
+source_hash: "dcdfe4519327e748f9a728f646702c21136b8b35f25ebfe60b064f605731e030"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -33,7 +33,7 @@ Simple Analytics facts checked 2026-09-04 on simpleanalytics.com and docs.simple
 | Vendor's position on consent | No banner needed for measurement | No consent needed, citing ICO guidance on techniques that do not store or access information on the device ([source](https://docs.simpleanalytics.com/compliance)) |
 | Cookies | None | "We do NOT set any cookies (or use similar technologies)" ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | 3.7 KB standard, 1.9 KB light version ([source](https://docs.simpleanalytics.com/light)) |
-| Free tier | 14-day free trial; no self-service free plan ([billing](/billing)) | Free plan with 30-day history plus a 14-day trial of paid plans — see [pricing](https://www.simpleanalytics.com/pricing) |
+| Free tier | Free tier of 1M events total (lifetime, not monthly), no credit card; 14-day free trial of paid plans ([billing](/billing)) | Free plan with 30-day history plus a 14-day trial of paid plans — see [pricing](https://www.simpleanalytics.com/pricing) |
 
 ## How each one measures visitors
 
