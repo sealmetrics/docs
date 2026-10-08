@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 title: Release Notes
-description: Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a fix that lines up the Overview comparison line by date (October 2026).
+description: Sealmetrics product updates, new reports, API changes, and platform improvements — latest release Shopify Web Pixel tracking for custom-app stores and a fix for the Overview comparison line (October 2026).
 date: 2026-10-08
 tags: [changelog, releases, updates]
 keywords:
@@ -17,9 +17,26 @@ keywords:
   - sealmetrics free tier
   - funnel api pagination
   - overview comparison line
+  - shopify web pixel
 ---
 
 # Release Notes
+
+---
+
+## Shopify custom apps now track through Shopify's Web Pixel (October 8, 2026)
+
+This applies to Shopify stores connected through a **custom app** (billed through Sealmetrics). Stores on the public Sealmetrics app, which tracks through the theme app embed, are not affected.
+
+### Why
+
+Since October 1, 2026 Shopify no longer lets apps create ScriptTags, the mechanism custom-app connections used to load the tracker, so new connections were failing.
+
+### What changed
+
+- New custom-app connections install a **Shopify Web Pixel** instead of a ScriptTag. It is activated when the app is installed: no theme edit and no app embed to turn on.
+- The Web Pixel tracks the same funnel as before — page views, product views, add to cart and checkout start — and, like the Sealmetrics tracker, it uses no cookies.
+- Purchases are still confirmed server-side by the Shopify order webhook, with the same order data (revenue, currency, items). When an order arrives, it is linked to the visit that started the checkout, so channel and campaign attribution work as before.
 
 ---
 

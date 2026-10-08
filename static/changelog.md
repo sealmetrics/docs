@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a fix that lines up the Overview comparison line by date (October 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release Shopify Web Pixel tracking for custom-app stores and a fix for the Overview comparison line (October 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-10-08T07:49:32.540Z"
-source_hash: "360e1a8425eefb71e123ad227914d708fd8b017d5b419763dc17cd30f1632d34"
+date_generated: "2026-10-08T07:55:18.470Z"
+source_hash: "b701bec6dd43d3d45d83b35163ad7b490ee23e77691dc6b185209a5f42338bbd"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,22 @@ publisher: "Sealmetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## Shopify custom apps now track through Shopify's Web Pixel (October 8, 2026)
+
+This applies to Shopify stores connected through a **custom app** (billed through Sealmetrics). Stores on the public Sealmetrics app, which tracks through the theme app embed, are not affected.
+
+### Why
+
+Since October 1, 2026 Shopify no longer lets apps create ScriptTags, the mechanism custom-app connections used to load the tracker, so new connections were failing.
+
+### What changed
+
+- New custom-app connections install a **Shopify Web Pixel** instead of a ScriptTag. It is activated when the app is installed: no theme edit and no app embed to turn on.
+- The Web Pixel tracks the same funnel as before — page views, product views, add to cart and checkout start — and, like the Sealmetrics tracker, it uses no cookies.
+- Purchases are still confirmed server-side by the Shopify order webhook, with the same order data (revenue, currency, items). When an order arrives, it is linked to the visit that started the checkout, so channel and campaign attribution work as before.
 
 ---
 

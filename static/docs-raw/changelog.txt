@@ -6,6 +6,22 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
+## Shopify custom apps now track through Shopify's Web Pixel (October 8, 2026)
+
+This applies to Shopify stores connected through a **custom app** (billed through Sealmetrics). Stores on the public Sealmetrics app, which tracks through the theme app embed, are not affected.
+
+### Why
+
+Since October 1, 2026 Shopify no longer lets apps create ScriptTags, the mechanism custom-app connections used to load the tracker, so new connections were failing.
+
+### What changed
+
+- New custom-app connections install a **Shopify Web Pixel** instead of a ScriptTag. It is activated when the app is installed: no theme edit and no app embed to turn on.
+- The Web Pixel tracks the same funnel as before — page views, product views, add to cart and checkout start — and, like the Sealmetrics tracker, it uses no cookies.
+- Purchases are still confirmed server-side by the Shopify order webhook, with the same order data (revenue, currency, items). When an order arrives, it is linked to the visit that started the checkout, so channel and campaign attribution work as before.
+
+---
+
 ## Overview comparison line lined up by date (October 8, 2026)
 
 With a comparison active, the dashed line on the Overview chart (the comparison period) could be shifted to the right. The chart paired both series by position, but the current period only includes the days — or, in the Today and Yesterday views, the hours — that have traffic, while the comparison covers the whole range. Every day or hour without data in the current period pushed the comparison one slot later.
