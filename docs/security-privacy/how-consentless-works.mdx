@@ -34,7 +34,7 @@ All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 
 ## Two measurement modes
 
-**Isolated hits** — every page view is an independent event with no identifier and no link to any other event. This is the most privacy-preserving mode: pure aggregate counting.
+**Isolated hits** — a page view that arrives without a session identifier is counted as an independent event, with no link to any other event: pure aggregate counting.
 
 **Session-marked hits** — a session identifier groups the hits of one visit (a two-hour inactivity window). The tracker computes it in the browser as a hash of standard device characteristics (a device fingerprint) combined with the publisher's account ID; it is never written to the device. On the server it is re-keyed with a daily salt that is destroyed on rotation, so the stored identifier changes every day, the raw hash is never stored, and a returning visitor cannot be recognised on another day. Because the account ID is part of the hash, the same browser produces different identifiers on different sites and no cross-site correlation is possible. This is what makes within-session metrics such as bounce rate and pages per session possible without a persistent identifier.
 

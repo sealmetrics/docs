@@ -237,9 +237,11 @@
     },
     {
       "id": "stale-data-loss-figures",
-      "label": "Superseded data-loss / completeness figures (60-87%, 13-40%)",
-      "why": "Rafa's canonical figure is 15-60% of visitors lost by consent-based tools, depending on sector, brand and traffic mix (docs audit Aug 2026). The 60-87% and 13-40% numbers survived in scripts/llms-templates and contradicted the other 100+ mentions — the llms.txt header is the first thing an LLM reads about the domain.",
+      "label": "Universal data-loss / completeness figures (15-60%, 40-85%, 60-87%, 13-40%)",
+      "why": "Rafa, 2026-10-08: Sealmetrics publishes no universal figure for how much traffic consent-based tools lose — the gap is specific to each site. Use the named Incapto case with its caveats (one store, not a benchmark) or 'measure it side by side'. The 15-60% range, its 40-85% capture mirror and the older 60-87% / 13-40% figures are all retired.",
       "patterns": [
+        "15\\s*[-–]\\s*60\\s*%",
+        "40\\s*[-–]\\s*85\\s*%",
         "60\\s*[-–]\\s*87\\s*%",
         "13\\s*[-–]\\s*40\\s*%",
         "up to 87\\s*%",

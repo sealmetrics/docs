@@ -225,7 +225,7 @@ Maximum lifetime of the stored identifier: 1 day (daily pseudonym); live session
 |--------|------------|
 | IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 1 day) |
 | Geolocation (default) | ✅ Country derived from browser timezone, not IP |
-| In-memory use | ✅ IP is used in-memory only for rate limiting and blocklist matching, then discarded. It is never associated with a hit that reaches ClickHouse. (A GeoIP lookup was designed for the Agent Analytics bot detector, but that feature is **not live and cannot be enabled**, so no such lookup runs today.) |
+| In-memory use | ✅ IP is used in-memory only to check it against blocklists (a public list of automated-traffic IPs and your own exclusions), then discarded. It is never associated with a hit that reaches ClickHouse. (A GeoIP lookup was designed for the Agent Analytics bot detector, but that feature is **not live and cannot be enabled**, so no such lookup runs today.) |
 
 **Technical Implementation:**
 ```javascript

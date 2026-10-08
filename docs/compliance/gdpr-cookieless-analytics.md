@@ -40,8 +40,7 @@ When a cookie contains a unique identifier that can be linked to an individualâ€
 **Implementation**: Cookie banner requesting consent for analytics
 
 **Problems**:
-- 20-30% of users reject cookies
-- Data loss from non-consenting users
+- Data loss from visitors who reject or ignore the banner
 - Skewed analytics (privacy-conscious users underrepresented)
 - Consent fatigue
 - Complex consent management
@@ -377,8 +376,7 @@ When a cookie contains a unique identifier that can be linked to an individualâ€
 **Implementation options for tools where the right applies**:
 1. **IP exclusion**: Add user's IP to exclusion list (imperfect, dynamic IPs)
 2. **Browser signal**: Respect Do Not Track or Global Privacy Control (Sealmetrics does not read these signals itself; a site can skip loading the tracker when they are present)
-3. **Opt-out cookie**: Paradoxically, set cookie to exclude from cookieless analytics
-4. **Manual request**: User contacts, we exclude their IP or sessions
+3. **Manual request**: User contacts, we exclude their IP or sessions
 
 **Best practice**: Make objection easy and effective where it applies.
 
@@ -527,7 +525,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 
 **Technical opt-out**:
 - Respect Do Not Track or Global Privacy Control. Sealmetrics does not read either signal, so honouring them means not loading the tracker when they are present â€” see [GPC and DNT signals](/compliance/gpc-dnt-signals)
-- Provide a dedicated opt-out page
+- Provide a page where visitors can object; your site then stops loading the tracker for them (implemented by the site â€” Sealmetrics has no opt-out API)
 
 **Best practice**: Make it easy; few users will actually opt out of non-invasive cookieless analytics.
 
