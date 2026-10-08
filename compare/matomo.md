@@ -3,7 +3,7 @@ title: "Sealmetrics vs Matomo: self-hosted open source vs managed consentless cl
 description: "Matomo is GPL-licensed and self-hostable, but its cookieless mode hashes the visitor's IP. Sealmetrics doesn't store the IP or build its identifier from it, and keeps analytics data in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/matomo"
 lang: "en"
-date_generated: "2026-10-08T15:37:02.762Z"
+date_generated: "2026-10-08T15:43:40.524Z"
 source_hash: "b193046347d03abd6b3fd62296fd931409f3fbea12fed71a4a7a675693ab49ee"
 content_type: "documentation"
 owner: "docs"
