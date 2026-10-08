@@ -157,7 +157,7 @@ const config: Config = {
               url: 'https://docs.sealmetrics.com/img/logo.png',
             },
             description:
-              'Consentless web analytics that captures 100% of traffic without cookies or consent banners, fully GDPR and ePrivacy compliant.',
+              'Consentless web analytics without cookies, and no consent banner for its own measurement (self-assessed; in Germany an open question). Designed to comply with the GDPR: nothing stored on the device, EU-only data, aggregated reports.',
             foundingDate: '2020',
             founder: { '@id': 'https://sealmetrics.com/#rafael-jimenez' },
             sameAs: [
@@ -355,7 +355,7 @@ const config: Config = {
       },
       {
         name: 'description',
-        content: 'Complete documentation for Sealmetrics - the consentless analytics platform that captures 100% of your traffic data while staying GDPR compliant. No cookie banners needed.',
+        content: 'Complete documentation for Sealmetrics - consentless analytics designed to comply with the GDPR: nothing stored on the device, EU-only data, aggregated reports. Self-assessed, not certified.',
       },
       {
         property: 'og:type',

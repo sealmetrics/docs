@@ -54,6 +54,8 @@ Against the conditions above:
 
 **Fingerprinting condition — stated plainly.** The identifier is computed from device characteristics read in the browser, so Sealmetrics does not claim "no fingerprinting techniques" in absolute terms. What it does claim is that no fingerprint is stored or persists: the hash is never stored as sent, and the stored value is re-keyed daily with a salt that is then destroyed. Reading those browser properties is also an "access" to terminal equipment under Art. 5(3), so the consent exemption rests on the audience-measurement criteria described in [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption), not on nothing being read.
 
+**Under the GDPR, stated plainly.** While the day's salt exists, Sealmetrics could in principle recompute the identifier, so it is pseudonymised data, not anonymous data. It is processed under legitimate interest (Art. 6(1)(f)), kept in the per-hit log for 1 day, and becomes unrecoverable once the salt rotates — not even Sealmetrics can reconstruct it. Reports are always aggregated.
+
 Session IDs are used only within the active session to group hits — never to track or identify users across days.
 
 ## Summary

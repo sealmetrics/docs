@@ -18,7 +18,8 @@ The Sealmetrics API supports two authentication methods. **API keys** (prefixed 
 
 :::note Session cookies are not measurement
 Sealmetrics measures **cookieless**: the tracking script writes nothing to your
-visitors' browsers — no cookies, no local storage, no identifiers.
+visitors' browsers — no cookies, no local storage, no persistent identifier. The
+session identifier it sends is ephemeral and rotates daily.
 
 The cookies described on this page do something else. They keep *you* signed in
 to the Sealmetrics dashboard and API, the way any web application does. They are

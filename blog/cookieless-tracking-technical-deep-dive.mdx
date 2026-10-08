@@ -27,12 +27,12 @@ date: 2025-12-01
 - Why it captures the data cookie-based tools miss
 - The session-based architecture behind Sealmetrics
 - Implementation differences vs traditional analytics
-- The legal position: why no Article 6 basis is required at all
+- The legal position: minimal, pseudonymised data under legitimate interest (Art. 6(1)(f))
 
 **Key Takeaways**:
 - Cookieless tracking uses session identifiers instead of persistent cookies
-- Zero IP storage means no personal data processing (no consent needed)
-- 24-month retention on aggregates that contain no personal data
+- Nothing stored on the device and no data that identifies anyone (no consent banner needed for Sealmetrics' own analytics, self-assessed; in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment))
+- 24-month retention on aggregated, non-identifying reports
 - Sealmetrics captures what GA4 misses: [ghosted users](/blog/cookie-banner-ghosting-data-loss), cookie rejecters, Safari/Firefox visitors
 
 For a complete overview of cookieless analytics, see our [Cookieless Analytics: Complete Guide 2026](/blog/cookieless-analytics-guide).
@@ -116,20 +116,20 @@ User A visits (Nov 14, 2pm) → Browser computes device hash, server stores dail
 Session expires after visit ends (~2h inactivity)
 User A visits again (Nov 20, 3pm) → New daily salt → different stored pseudonym "sess_5678"
 = Cannot link across days, only within single visit
-BUT = every visitor captured (no banner needed)
+BUT = no consent-driven loss (no banner needed, self-assessed)
 ```
 
 ### Why This Changes Everything
 
-**Outside the GDPR's material scope — see the [GDPR framework guide](/blog/gdpr-compliant-analytics-framework)**:
+**No consent banner — see the [GDPR framework guide](/blog/gdpr-compliant-analytics-framework)**:
 
 Cookieless analytics doesn't require consent because:
-1. No persistent identifiers = no personal data stored
+1. No persistent identifiers = the session identifier rotates daily and, once rotated, cannot be reconstructed
 2. No IP addresses stored = cannot identify individuals
 3. Sessions reset = no cross-session profiling
 4. Nothing written to the device (standard browser properties are read only to compute the session identifier — see [consent exemption requirements](/compliance/analytics-cookies-exemption) for how ePrivacy Article 5(3) applies)
 
-**Translation**: Sealmetrics measures every visitor without a consent banner — and without needing an Article 6 legal basis, because Recital 26 puts anonymous information outside the Regulation entirely.
+**Translation**: On our own assessment, Sealmetrics measures all the traffic you lose today to the cookie banner, without one, for its own analytics (Germany: open question). The short-lived pseudonymised data it does handle relies on legitimate interest, GDPR Article 6(1)(f), and reports are always aggregated.
 
 ---
 
@@ -160,8 +160,9 @@ function trackPageview() {
     url: window.location.href,   // Page URL
     timestamp: Date.now(),       // When viewed
     referrer: document.referrer, // Where from
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Country, not IP
     // NO IP address stored ✓
-    // NO personal data ✓
+    // NO data that identifies anyone ✓
   };
 
   fetch('https://sealmetrics.io/api/events', {
@@ -201,15 +202,15 @@ Sealmetrics uses a proprietary **dual-system** to maximize data capture:
 
 **System 2: Isolated Hits** (Fallback)
 ```javascript
-// If JavaScript doesn't load, or blocked
-// Server-side tracking captures raw pageviews
-// No session linking (single visits only)
-// Data: all traffic (even no-JS visitors)
+// If a session identifier can't be computed
+// The JavaScript tracker still sends the pageview as an isolated hit
+// No session linking (single pageviews only)
+// Data: counted, but not stitched into a journey
 ```
 
 **Result**:
-- Cookieless tool X: loses JS-blocked and slow-loading visitors
-- Sealmetrics: the dual system catches those too
+- Pageviews without a session identifier are still counted, as isolated hits
+- Visits where the JavaScript never runs (JS disabled, some ad blockers) are not measured — there is no server-side capture for them
 
 ---
 
@@ -248,6 +249,7 @@ const trackPageview = async () => {
     sessionId: 'sess_a7k9m2x1',
     url: window.location.href,
     timestamp: Date.now(),
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     // IP intentionally absent ✓
   };
 
@@ -262,20 +264,20 @@ const trackPageview = async () => {
 
 ### Technical Implementation Benefits
 
-**No IP = No Personal Data** = **No Consent Required**
+**No IP, nothing on the device** = **No Consent Banner**
 ```
 GDPR Compliance Chain:
 Personal Data = requires an Article 6 legal basis
                 (consent, or legitimate interest + safeguards)
 
-Cookieless tracking (no IP) = not personal data
-                            = outside material scope (Recital 26)
-                            = no Article 6 basis needed at all
+Cookieless tracking (no IP) = pseudonymised session ID, rotated daily
+                            = unrecoverable after rotation, reports aggregated
+                            = legitimate interest, Art. 6(1)(f)
 Hashed IP = disputed, regulators disagree = gray area risk
 ```
 
 **Practical difference for you**:
-- Sealmetrics: Deploy without consent banner ✓
+- Sealmetrics: Deploy without consent banner for its own analytics (self-assessed; Germany: open question) ✓
 - Google Analytics: MUST have consent + DPA ✓
 - Other tools: Work without consent, but hash IPs (regulatory risk)
 
@@ -293,14 +295,14 @@ For a complete understanding of GDPR compliance for analytics, read our [GDPR Co
 
 > "The principles of data protection should therefore not apply to anonymous information, namely information which does not relate to an identified or identifiable natural person."
 
-This is the load-bearing provision, not Article 6. Naming a legal basis — legitimate interest included — concedes that personal data is being processed. When none is stored, the question never arises.
+Pseudonymised data is still personal data, though, and a daily-rotating session identifier is a pseudonym while its key and salt exist. Sealmetrics keeps that window to one day: after the rotation not even Sealmetrics can reconstruct the identifier, and reports are always aggregated.
 
-**Sealmetrics Technical Design Puts the Dataset Outside Scope**:
+**Sealmetrics Technical Design Keeps the Data Minimal**:
 
 | Requirement | Implementation | How Sealmetrics Does It |
 |------------|-----------------|------------------------|
-| Lawful Basis | Needed only if personal data is processed | None required: no personal data stored |
-| No Personal Data | Session-only, no ID | Session identifier re-keyed daily, never stored as sent |
+| Lawful Basis | Needed if personal data is processed | Legitimate interest, Art. 6(1)(f), for short-lived pseudonymised data |
+| Minimal Identifier | Session-only, no ID | Session identifier re-keyed daily, never stored as sent, unrecoverable after rotation |
 | No IP Storage | Cannot identify individuals | Zero IP collection |
 | Data Minimization | Collect only necessary | No email, no stored device fingerprint |
 | Storage Limitation | Don't keep longer than needed | 24-month retention max |
@@ -401,7 +403,7 @@ const allowedPurposes = [
 │  • Pageview metrics (views, bounce rate, time)         │
 │  • Event tracking (signups, purchases, etc)            │
 │  • Custom segments (referrer, device, etc)             │
-│  • GDPR-compliant data exports                         │
+│  • Data exports (designed for the GDPR)                │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -428,32 +430,32 @@ const allowedPurposes = [
 RESULT: 11/100 = 11% data capture
 ```
 
-**Sealmetrics (Cookieless)**: Captures everyone
+**Sealmetrics (Cookieless)**: Captures the traffic the banner loses
 ```
 100 EU visitors arrive
 ├─ 87 reject/ghost banner (not applicable, no banner!)
 ├─ 13 accept (not applicable)
 │
-└─ ALL 100 tracked automatically:
-   ├─ System 1: Session tracking captures 98
-   │  └─ (All except JS-blocked visitors)
-   │
-   └─ System 2: Server-side fallback captures 2
-      └─ (JS-blocked, no-script scenarios)
+└─ Every visitor whose browser runs the tracker is measured:
+   ├─ System 1: Session tracking (most visits)
+   └─ System 2: Isolated hits (no session identifier computed)
 
-RESULT: 100/100 visitors measured
+Not measured: visits where the JavaScript never runs
+(JS disabled, some ad blockers)
+
+RESULT: no consent-driven loss
 ```
 
 ### Accuracy Comparison Table
 
 | Metric | Google Analytics | Other Cookieless Tools | Sealmetrics |
 |--------|-----------------|----------------------|------------|
-| **Data Capture Rate (EU)** | 40-85% | Higher, but non-zero loss where consent applies | **Complete** |
+| **Data Capture Rate (EU)** | 40-85% | Higher, but non-zero loss where consent applies | **No consent-driven loss** |
 | **Banner Required** | Yes | No | **No** |
 | **IP Stored** | Yes | Hashed | **No** |
 | **Consent Required** | Yes | No | **No** |
 | **Session Expiry** | 2 years | 30 mins - Session-based | **Session-based** |
-| **GDPR position** | Requires DPA + consent | Built-in | **Outside material scope** |
+| **GDPR position** | Requires DPA + consent | Built-in | **Legitimate interest, unrecoverable daily identifier** |
 | **Consent-driven data loss** | 15-60% | Lower, non-zero | **None** |
 
 **Why Sealmetrics is Superior**:
@@ -498,7 +500,7 @@ Day 365: Safari user visits
 Day 1: User visits
 ├─ Session computed: "sess_xyz" (in-browser hash, re-keyed daily on the server)
 ├─ Never stored on the device; session ends after ~2h of inactivity
-└─ No consent needed (no personal data)
+└─ No consent banner (nothing stored on the device; self-assessed)
 
 Day 1: Same user browses 3 pages
 ├─ All 3 pages linked to "sess_xyz"
@@ -513,7 +515,7 @@ Day 2: Same user visits again
 Day 30: Same user visits again
 ├─ NEW session: "sess_def"
 ├─ Can't recognize returning user
-└─ But every visit still measured
+└─ But the visit is still measured
 
 Day 365: Safari user visits
 ├─ Session created: "sess_ghi" (normally)
@@ -562,7 +564,7 @@ For detailed platform comparisons, see:
 **Sealmetrics**
 - ✓ True cookieless (sessions only)
 - ✓ Zero IP storage (true GDPR)
-- ✓ Complete data capture (dual system)
+- ✓ No consent-driven data loss (dual system)
 - ✓ No consent needed
 - ✓ Works with Safari, Firefox, Chrome
 - ✓ Simple 1-minute setup
@@ -572,7 +574,7 @@ For detailed platform comparisons, see:
 Sealmetrics captures what competitors miss:
 - **1.2x to 2.5x the data Google Analytics reports**, depending on where your site sits in the 15-60% loss band
 - **All browsers equally** (no Safari data loss)
-- **Zero IP stored**, which is what takes the legal question off the table rather than answering it
+- **Zero IP stored**, which sidesteps the hashed-IP debate rather than answering it
 - **No banner fatigue** (no consent popup)
 - **Better insights** (based on your whole audience, not the consenting part of it)
 
@@ -596,7 +598,7 @@ This is a **feature, not a bug**: Returns you get privacy compliance while compe
 
 ### How does Sealmetrics handle bot traffic?
 
-Sealmetrics filters bots at the API level, before data reaches your dashboard:
+Sealmetrics filters bots at the API level, before data reaches your dashboard. We don't store IPs. To filter bots we check the IP in flight against a public list of automated-traffic IPs, and don't keep it. The user agent is checked too:
 ```javascript
 // API-side bot detection
 const botSignatures = [
@@ -616,20 +618,15 @@ Unlike Google Analytics (which sometimes misses bot traffic), Sealmetrics filter
 
 ### What if JavaScript is disabled on visitor's browser?
 
-Sealmetrics has a **fallback system**:
-1. Primary: JavaScript snippet loads → Session tracking
-2. Fallback: If JS disabled → Server-side tracking captures pageview
-3. Result: Even no-JS visitors are counted
-
-This is why Sealmetrics keeps counting where competitors drop those visits.
+Then that visit isn't measured. Sealmetrics counts visits through its JavaScript tracker (plus Shopify order webhooks for orders); there is no server-side capture of pageviews, so a browser with JavaScript disabled — or an ad blocker that stops the tracker — hides that visit. Unlike consent loss, this doesn't depend on a banner.
 
 ### How does Sealmetrics handle GDPR data subject requests?
 
-Since Sealmetrics stores **no personal data** (no IPs, no persistent IDs), GDPR data subject requests are simple:
+Sealmetrics stores no IPs and no persistent IDs, and the session identifier cannot be reconstructed after the daily rotation. In practice, a data subject request cannot be matched to a person (GDPR Article 11):
 
-- **Right of Access**: User requests their data → You respond: "We have no personal data stored about you" ✓
-- **Right to Deletion**: User requests deletion → Automatic (no personal data to delete) ✓
-- **Right to Portability**: User requests data export → Sessions are anonymous, no export needed ✓
+- **Right of Access**: there is no stored record that can be linked to the requester
+- **Right to Deletion**: the per-hit log is purged after one day; reports are aggregated
+- **Right to Portability**: no individual record can be matched to the requester to export
 
 **Competitors' situation** (hashing IPs): Gray area. Regulators argue hashed IPs + user agent + time = can be re-identified, so DPA required.
 
@@ -660,11 +657,11 @@ Unlike Google Analytics (which restricts API), Sealmetrics data is yours.
 
 | Metric | GA4 | Sealmetrics |
 |--------|-----|------------|
-| Captured data | 40-85% in EU | All visits |
+| Captured data | 40-85% in EU | No consent-driven loss |
 | Accuracy of captured data | 97% | 97% |
-| **Overall coverage** | **40-85%** | **Complete** |
+| **Overall coverage** | **40-85%** | **No consent gap** |
 
-Sealmetrics might show 100,000 sessions/month where GA4 shows 45,000 for the same period. Sealmetrics is more accurate because it measures every visit — and because the 55,000 GA4 missed were not a random sample.
+Sealmetrics might show 100,000 sessions/month where GA4 shows 45,000 for the same period. Sealmetrics is more accurate because it also measures the traffic GA4 loses to the cookie banner — and because the 55,000 GA4 missed were not a random sample.
 
 ### What about cross-domain tracking?
 
@@ -685,22 +682,22 @@ Sealmetrics handles cross-domain tracking **without cookies**:
 
 **Architecture ensures GDPR compliance:**
 ```
-Session ID (re-keyed daily) → Personal data? NO
+Session ID (re-keyed daily) → Pseudonymised, for one day
 ├─ Can't identify individual
-├─ Expires automatically
-└─ No legal basis needed
+├─ Unrecoverable after the daily rotation
+└─ Legitimate interest, Art. 6(1)(f)
 
-No IP storage → Personal data? NO
+No IP storage → IP never stored
 ├─ Can't geolocation
 ├─ Can't identify
 └─ No DPA required
 
-No email/device ID → Personal data? NO
+No email/device ID → Nothing that identifies anyone
 ├─ No behavioral profile
 ├─ No individual tracking
 └─ No consent needed
 
-Result: no personal data, so no Article 6 basis needed (Recital 26)
+Result: minimal pseudonymised data, unrecoverable daily; reports aggregated
 ```
 
 **Competitors (GA + hashing)**:
@@ -725,9 +722,9 @@ Learn more about [how cookieless analytics works](/blog/cookieless-analytics-gui
 - You're making decisions on a self-selected sample
 
 **The Solution** (Sealmetrics):
-- Cookieless tracking measures **every visit**
-- No consent banner needed (no user frustration)
-- Zero IP storage, so no personal data and no gray area
+- Cookieless tracking measures **all the traffic you lose today to the cookie banner**
+- No consent banner needed for its own analytics (self-assessed; no user frustration)
+- Zero IP storage, so no hashed-IP gray area
 - Better insights based on your whole audience
 
 **What You Get With Sealmetrics**:
@@ -750,7 +747,7 @@ That's how cookieless analytics works—and why Sealmetrics leads the market in 
 
 ## Additional Resources
 
-- [GDPR and ePrivacy Explained](/legal/gdpr-and-eprivacy) - Why no legal basis is required
+- [GDPR and ePrivacy Explained](/legal/gdpr-and-eprivacy) - Why we assess no consent banner is required
 - [Sealmetrics vs Google Analytics: Complete Comparison](/blog/google-analytics-vs-sealmetrics) - Feature breakdown
 - [GDPR Compliant Analytics Framework](/blog/gdpr-compliant-analytics-framework) - Full compliance guide
 - [Cookie Banner Ghosting & Data Loss](/blog/cookie-banner-ghosting-data-loss) - Why cookieless matters

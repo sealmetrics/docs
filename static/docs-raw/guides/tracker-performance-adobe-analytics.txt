@@ -118,7 +118,7 @@ Three conclusions from that month of data:
 ## Recommendations for Adobe Analytics sites evaluating Sealmetrics
 
 - **Install the Sealmetrics snippet directly in the `<head>`, not through your tag manager.** The reference site loads it through the tag chain and still beats Adobe's hit by over a second — but a `<head>` install secures the hit at ~0.1–0.3 s and removes the container dependency entirely.
-- **Do not gate Sealmetrics behind your CMP.** It measures without consent by design; gating it recreates Adobe's biggest loss for no benefit.
+- **Do not gate Sealmetrics behind your CMP.** It is designed to measure without consent (our self-assessment); gating it recreates Adobe's biggest loss for no benefit.
 - **Run both in parallel for a validation period.** Keep Adobe untouched, add Sealmetrics, and compare 30 days of data segmented by device and traffic source. Expect the gap to concentrate in mobile and short visits.
 - **Map metric definitions before comparing.** Adobe *visits* use a 30-minute inactivity timeout; Sealmetrics *entrances* are click-based with a 2-hour re-entry window. Compare page views with page views first — it is the cleanest apples-to-apples metric.
 

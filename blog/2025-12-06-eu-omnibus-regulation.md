@@ -93,11 +93,11 @@ You CANNOT do without consent:
 - No cross-site tracking
 - No data sharing
 
-**Result**: These tools will be explicitly compliant with Article 88a(3)(c) and can operate without consent banners.
+**Result**: As proposed, these tools would fall within Article 88a(3)(c) and could run their own analytics without consent banners.
 
 **Website operators** using first-party analytics will benefit from:
 - No cookie banner costs (€400-€5,000/year savings)
-- Complete traffic data (no loss from consent denial)
+- No traffic lost to consent denial
 - Better user experience
 - Simplified compliance
 
@@ -150,12 +150,12 @@ Sealmetrics is designed precisely for the Article 88a(3)(c) exemption:
 
 **✅ For your own use**: Sealmetrics acts as your processor; data is used solely for your audience insights.
 
-**Result**: Sealmetrics users can confidently operate **without cookie banners** under the new framework.
+**Result**: On our own assessment, Sealmetrics users could run its analytics **without a cookie banner** under the proposed framework (Germany remains an open question today — see [Germany](/compliance/germany-ttdsg-self-assessment)).
 
 **Advantages post-Omnibus:**
 - Legal certainty with explicit GDPR basis
-- Complete data (no consent-denial data loss)
-- Cost savings (no CMP, no banner)
+- No consent-denial data loss
+- Cost savings (no CMP, no banner for its own analytics)
 - Better UX (no interruptions)
 - Future-proof for browser signals (exempt analytics unaffected)
 

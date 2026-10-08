@@ -24,10 +24,10 @@ Plausible facts checked 2026-09-04 on plausible.io; each row links to the page i
 | Company / HQ | Sealmetrics, EU company | Incorporated in Estonia, EU ([source](https://plausible.io/data-policy)) |
 | Hosting model | Managed cloud only | Managed cloud or self-hosted Community Edition ([source](https://plausible.io/docs/self-hosting)) |
 | Licence | Proprietary | AGPLv3 ([source](https://plausible.io/about)) |
-| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | `hash(daily_salt + website_domain + ip_address + user_agent)`, salt rotated every 24 h ([source](https://plausible.io/data-policy)) |
+| Identifier between pageviews | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | `hash(daily_salt + website_domain + ip_address + user_agent)`, salt rotated every 24 h ([source](https://plausible.io/data-policy)) |
 | Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Input to the hash and to geolocation; raw IP not stored ([source](https://plausible.io/data-policy)) |
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | Hetzner servers in Falkenstein, Germany ([source](https://plausible.io/privacy-focused-web-analytics)) |
-| Vendor's position on consent | No banner needed for measurement | "No need for cookie banners or GDPR consent" ([source](https://plausible.io/)) |
+| Vendor's position on consent | No banner needed for its own measurement (self-assessed; Germany: open question) | "No need for cookie banners or GDPR consent" ([source](https://plausible.io/)) |
 | Cookies / local storage | None | "We do not use cookies, browser cache or local storage" ([source](https://plausible.io/data-policy)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | 2.5 KB, stated by the vendor ([source](https://plausible.io/lightweight-web-analytics)) |
 | Free tier | Free tier of 1M events total (lifetime, not monthly), no credit card; 14-day free trial of paid plans ([billing](/billing)) | 30-day free trial, no credit card; no free plan — see [pricing](https://plausible.io/) |
@@ -36,7 +36,7 @@ Plausible facts checked 2026-09-04 on plausible.io; each row links to the page i
 
 Plausible's data policy spells out its identifier: a hash of a daily salt, the site domain, the visitor's IP address and user agent. The salt is discarded every 24 hours, so the same person becomes a new visitor the next day and cannot be followed across sites. Raw IPs and user agents are never written to disk. This gives Plausible a daily unique-visitor count and visit duration while staying cookieless, at the price of feeding the IP into the identifier.
 
-Sealmetrics does not compute a visitor hash. Each hit is stored with timestamp, user agent, URL and referrer; a session marker held in memory for around two hours groups pageviews within a visit and is not derived from the IP. The IP is seen at the network layer, used in memory for anti-abuse checks and never persisted or used for geolocation — country comes from the browser timezone. The consequence is that Sealmetrics reports entrances rather than unique visitors, and has no visit-duration metric.
+Sealmetrics also computes a hash, but not from the IP: the tracker hashes standard device characteristics in the browser, never writes it to the device, and the server re-keys it with a daily salt that is destroyed on rotation, so it cannot link a device across days. Each hit is stored with URL, referrer, timestamp, browser timezone and that daily session identifier; the user agent is read in flight for bot and device detection and only the derived browser, OS and device category is kept. The IP is seen at the network layer, checked in flight against a public list of automated-traffic IPs to filter bots, and never stored or used for geolocation — country comes from the browser timezone. The consequence is that Sealmetrics reports entrances rather than unique visitors, and has no visit-duration metric.
 
 ## When Plausible is the better choice
 
@@ -46,7 +46,7 @@ Sealmetrics does not compute a visitor hash. Each hit is stored with timestamp, 
 
 ## When Sealmetrics is the better choice
 
-- Your legal review treats a hashed IP as derived from personal data and you would rather have no identifier to explain at all.
+- Your legal review treats a hashed IP as derived from personal data and you would rather have no IP-derived identifier to explain at all.
 - You need item-level e-commerce data, custom channel grouping, an API on every plan and an AI layer ([LENS](/lens), included in every paid plan and free to run on your own LLM key).
 - You want retention fixed at 24 months across the board, with no per-plan variation to document.
 

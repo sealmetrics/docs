@@ -2,15 +2,15 @@
 
 URL: https://docs.sealmetrics.com/security-privacy/consentless-analytics
 
-Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need visitor measurement that does not depend on a banner and last-click revenue attribution across the full dataset, not just consented sessions.
+Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need visitor measurement that does not depend on a banner and last-click revenue attribution that includes visitors who rejected the banner, not just consented sessions.
 
 # What is Consentless Analytics?
 
-**Consentless analytics** is a method of measuring website traffic and user behavior without requiring visitor consent. It achieves this by not collecting personal data, not setting cookies, and not using any form of user identification — making consent legally unnecessary under GDPR, ePrivacy Directive, and other privacy regulations.
+**Consentless analytics** is a method of measuring website traffic and user behavior without requiring visitor consent. It achieves this by storing nothing on the device, keeping no data that identifies anyone, not setting cookies, and not identifying users — which is how it fits the audience-measurement exemption under the ePrivacy Directive, while the short-lived pseudonymised data is processed under legitimate interest (GDPR Art. 6(1)(f)).
 
 Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When a visitor rejects consent, the tool records nothing — which is why cookie-based analytics typically lose **15–60% of visitor data in EU markets** — how much depends on sector, brand strength and traffic mix. The result: businesses make decisions based on a fraction of their actual traffic.
 
-Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Every visitor is measured. Every page view is counted. Every conversion is attributed to its source. No consent is needed because no personal data is involved.
+Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Visitors are measured whether or not they would have accepted a banner, and conversions are attributed to their source. No consent is needed, on our own assessment: no data that identifies anyone is stored, nothing is stored on the device, and the ephemeral session identifier rotates daily, cannot be reconstructed afterwards and falls under the audience-measurement exemption.
 
 ---
 
@@ -19,7 +19,7 @@ Consentless analytics solves this by measuring aggregate behavior rather than tr
 Sealmetrics uses a consentless tracking approach built on a small set of non-identifying fields per event:
 
 1. **Timestamp** — when the event occurred
-2. **User Agent** — browser and device type (used for anonymous device classification; the raw string is used in flight and never written to storage)
+2. **User Agent** — browser and device type (used for device classification; the raw string is used in flight and never written to storage)
 3. **Current URL** — the page being viewed, including any UTM parameters
 4. **Referral URL** — where the visitor came from
 5. **Browser timezone** — used to assign the visit's country, with no IP lookup
@@ -27,24 +27,24 @@ Sealmetrics uses a consentless tracking approach built on a small set of non-ide
 
 That is all. No cookies, no localStorage, no sessionStorage, no IP addresses stored, no stored or persistent fingerprint, no cross-session linking. The full field-by-field list, with retention, is in [What We Track](/security-privacy/what-we-track).
 
-This minimal dataset makes it technically impossible to identify any individual visitor, which is why consent is not required. For a deeper technical explanation, see [How Consentless Tracking Works](/security-privacy/how-consentless-works).
+Reports built from this minimal dataset identify no one, and the session identifier cannot be reconstructed after its daily rotation — not even by Sealmetrics. That is the basis of our self-assessment that consent is not required. For a deeper technical explanation, see [How Consentless Tracking Works](/security-privacy/how-consentless-works).
 
 ---
 
 ## Legal Basis: Why Consent Is Not Required
 
-Consentless analytics does not require consent because the stored data falls outside the scope of GDPR, and the tracker is designed to meet the audience-measurement exemption criteria under the ePrivacy Directive:
+In our self-assessment, consentless analytics does not require consent because nothing that identifies anyone is stored, the short-lived pseudonymised data has a legal basis other than consent under the GDPR, and the tracker is designed to meet the audience-measurement exemption criteria under the ePrivacy Directive:
 
 ### GDPR (Regulation 2016/679)
 
-GDPR applies to the processing of **personal data** — information that relates to an identified or identifiable natural person ([Article 4(1)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)). Consentless analytics does not process personal data:
+GDPR applies to the processing of **personal data** — information that relates to an identified or identifiable natural person ([Article 4(1)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)). Sealmetrics keeps that processing to a minimum:
 
 - No IP addresses are stored
 - No persistent user identifier is stored — the session identifier is re-keyed daily and cannot link a device across days
 - No behavioral profiles are built
 - No cross-session tracking occurs
 
-When no personal data is processed, GDPR consent requirements (Article 6) do not apply. Additionally, [Recital 26](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679) states that anonymized data falls outside the regulation's scope.
+During the day the session identifier is a pseudonym, and pseudonymised data is still personal data ([Recital 26](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)). Sealmetrics processes it under legitimate interest (Art. 6(1)(f)) rather than consent; the per-hit log is purged after one day, the identifier becomes unrecoverable when the daily salt rotates, and reports are always aggregated.
 
 ### ePrivacy Directive (2002/58/EC)
 
@@ -64,7 +64,7 @@ For a full legal analysis, see [GDPR and Cookieless Analytics](/compliance/gdpr-
 
 ### What this means for you as the data controller
 
-- **No consent banner is required** for Sealmetrics measurement, and no Consent Management Platform, Consent Mode configuration or conditional tag firing is needed.
+- **No consent banner is required** for Sealmetrics measurement, in our self-assessment (Germany is an open question — see [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent)), and no Consent Management Platform, Consent Mode configuration or conditional tag firing is needed.
 - **A DPA is included** — public and ready to sign at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/). Your DPO will ask for one, so we provide it out of the box rather than arguing it is unnecessary. Annex 3 of that DPA is the authoritative subprocessor list.
 - **One paragraph in your privacy policy.** The AEPD audience-measurement guidance asks you to inform visitors about audience measurement; we provide ready-made wording.
 - **Vendor review material** is collected in the [compliance section](/compliance), including the self-assessments above.
@@ -77,17 +77,17 @@ For a full legal analysis, see [GDPR and Cookieless Analytics](/compliance/gdpr-
 |--|---------------------------|---------------------------|
 | **Tracking method** | Cookies + client ID | Aggregate event measurement |
 | **Consent required** | Yes | No |
-| **Data capture (EU)** | Partial — 15–60% of visitor data lost to consent rejection | Every hit measured |
+| **Data capture (EU)** | Partial — 15–60% of visitor data lost to consent rejection | Not reduced by consent rejection |
 | **Cookie banners** | Required | Not needed |
-| **Personal data** | Yes (client ID, IP) | No |
+| **Personal data** | Yes (client ID, IP) | Only a pseudonymised session identifier that rotates daily and becomes unrecoverable |
 | **Cross-session tracking** | Yes | No |
 | **User-level profiles** | Yes | No |
-| **Data hosting** | Often US-based | EU-only (Dublin, Ireland) |
+| **Data hosting** | Often US-based | Analytics data hosted and processed only in the EU (Dublin) |
 | **Script size** | 50–365 KB | 1.1 KB (gzipped) |
 
-The trade-off is clear: cookie-based tools offer user-level metrics (unique visitors, session duration, cohort analysis) but lose a large share of their data to consent rejection. Consentless analytics measures every visit but reports aggregate behaviour rather than individual journeys.
+The trade-off is clear: cookie-based tools offer user-level metrics (unique visitors, session duration, cohort analysis) but lose a large share of their data to consent rejection. Consentless analytics measures the traffic those tools lose to the banner, but reports aggregate behaviour rather than individual journeys.
 
-For most business decisions — which campaigns drive revenue, which pages convert, where traffic comes from — aggregate data covering all visitors is more useful than user-level data covering only those who accepted a banner.
+For most business decisions — which campaigns drive revenue, which pages convert, where traffic comes from — aggregate data that includes visitors who rejected the banner is more useful than user-level data covering only those who accepted a banner.
 
 ---
 
@@ -98,7 +98,7 @@ For most business decisions — which campaigns drive revenue, which pages conve
 - Page views and entrances (aggregate)
 - Traffic sources (UTM parameters, referrers)
 - Conversions and revenue
-- Funnel progression (anonymous steps)
+- Funnel progression (aggregated steps)
 - Geographic distribution (country-level)
 - Device and browser breakdown
 - Campaign performance and ROAS
@@ -136,7 +136,7 @@ Key properties:
 
 ### Isolated Hit Tracking
 
-Each page view is recorded as an independent, anonymous event. No attempt is made to link hits to a user or to other hits. This provides the most privacy-preserving form of measurement: pure aggregate counting.
+Each page view is recorded as an independent event with no identifier. No attempt is made to link hits to a user or to other hits. This provides the most privacy-preserving form of measurement: pure aggregate counting.
 
 Both methods can run simultaneously or independently, depending on the account configuration. See [tracker documentation](/implementation/tracker) for technical details.
 
@@ -149,9 +149,9 @@ Both methods can run simultaneously or independently, depending on the account c
 
 All processing and storage of customer analytics data happens in **Dublin, Ireland**.
 
-### Practical effects of having no identifiers
+### Practical effects of having no persistent identifiers
 
-- **Nothing for privacy tooling to strip.** Ad blockers and browser tracking protections such as ITP target identifiers and known tracking domains; Sealmetrics sets none and uses its own domain, so measurement stays consistent across Safari, Firefox and private browsing modes.
+- **Nothing for privacy tooling to strip.** Ad blockers and browser tracking protections such as ITP target identifiers and known tracking domains; Sealmetrics stores nothing on the device and uses its own domain, so measurement stays consistent across Safari, Firefox and private browsing modes.
 - **No CMP dependency.** No cookie categorisation, no Consent Mode v2, no region-conditional GTM triggers, and no re-testing the analytics setup every time a banner changes.
 - **No consent-driven attribution gaps.** UTM values are read on arrival rather than after a banner interaction, so traffic is not misfiled as Direct when a visitor accepts cookies mid-journey.
 - **Light footprint.** The tracker is 1.1 KB gzipped, loads asynchronously and does not block rendering.
@@ -166,7 +166,7 @@ Adding consentless analytics to any website requires one line of code:
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
-No consent management platform needed. No cookie banner configuration. No Consent Mode setup. The tracker loads asynchronously (1.1 KB gzipped), detects SPA navigation automatically, and begins capturing data immediately.
+No consent management platform, cookie banner configuration or Consent Mode setup for Sealmetrics itself (our self-assessment; Germany: open question). The tracker loads asynchronously (1.1 KB gzipped), detects SPA navigation automatically, and begins capturing data immediately.
 
 For platform-specific installation, see guides for [WordPress](/integrations/cms/wordpress), [WooCommerce](/integrations/ecommerce/woocommerce), [Shopify](/integrations/ecommerce/shopify), [Next.js](/integrations/frameworks/nextjs), and [more integrations](/integrations).
 
@@ -204,7 +204,7 @@ No. Server-side analytics (like log analysis) processes server access logs. Cons
 
 ### How is this different from Plausible or Fathom?
 
-Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP addresses for visitor identification. Some legal experts argue that hashed IPs still constitute personal data under GDPR. Sealmetrics never processes visitor IP addresses for analytics **or geolocation** — visitor country is derived from the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from IP. IPs are only handled in-memory at the edge for anti-bot checks and site-configured exclusions, and are never persisted. See the [country detection page](/security-privacy/country-detection) and the [Sealmetrics vs Plausible comparison](/blog/sealmetrics-vs-plausible) for details.
+Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP addresses for visitor identification. Some legal experts argue that hashed IPs still constitute personal data under GDPR. Sealmetrics does not store IPs or use them for analytics **or geolocation** — visitor country is derived from the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from IP. To filter bots we check the IP in flight against a public list of automated-traffic IPs, and don't keep it; site-configured exclusions are checked the same way, in memory. See the [country detection page](/security-privacy/country-detection) and the [Sealmetrics vs Plausible comparison](/blog/sealmetrics-vs-plausible) for details.
 
 ---
 
@@ -215,10 +215,10 @@ Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP
 - [CNIL Self-Assessment](/compliance/cnil-self-assessment) — Compliance against CNIL's 14 criteria
 - [GA4 vs Sealmetrics](/faq/ga4-vs-sealmetrics) — Feature-by-feature comparison
 - [Getting Started](/getting-started/quick-start) — Set up consentless analytics in under 5 minutes
-- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — The consent-free legal basis in plain language
+- [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — The consent question in plain language
 - [Benefits of Consentless Tracking](/security-privacy/consentless-benefits) — Why the consentless model outperforms cookie-based tools
 - [Frequently Asked Questions](/faq/privacy-security) — Common privacy and security questions
 
 ---
 
-*Ready to see your real traffic numbers? [Start a free trial](https://my.sealmetrics.com/register) — setup takes under 5 minutes, no cookie banner required.*
+*Ready to see your real traffic numbers? [Start a free trial](https://my.sealmetrics.com/register) — setup takes under 5 minutes, and on our self-assessment no cookie banner is required for its own analytics.*

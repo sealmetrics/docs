@@ -13,7 +13,7 @@ A small set of non-identifying fields:
 - Timestamp  
 - URL  
 - Referral URL  
-- User Agent (used for anonymous device classification; raw string never written to storage)
+- User Agent (used for device classification; raw string never written to storage)
 - Browser timezone (used to assign the country)
 - Session identifier (re-keyed every day; see [What We Track](/security-privacy/what-we-track))
 
@@ -49,7 +49,7 @@ No. The timezone is a technical value exposed automatically by the browser and d
 
 ## How does timezone-based detection affect the accuracy of my reports?
 
-Reports show a country estimation based on the browser’s timezone. This is more than adequate for traffic analysis, marketing, attribution, and global trends. It does not provide city- or region-level accuracy, but it avoids processing personal data and keeps analytics within strict privacy compliance.
+Reports show a country estimation based on the browser’s timezone. This is more than adequate for traffic analysis, marketing, attribution, and global trends. It does not provide city- or region-level accuracy, but it avoids processing IP addresses and keeps analytics within strict privacy compliance.
 
 ---
 
