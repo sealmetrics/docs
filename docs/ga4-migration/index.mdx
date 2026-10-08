@@ -65,7 +65,7 @@ flowchart TD
 
 ## What's different
 
-- **No cookies, no consent banner.** Sealmetrics stores nothing on the device and no data that identifies anyone; its session identifier rotates daily and cannot be reconstructed afterwards. On that basis Sealmetrics self-assesses that it fits the ePrivacy audience-measurement exemption.
+- **No cookies, no consent banner for its own analytics.** Sealmetrics stores nothing on the device and no data that identifies anyone; its session identifier rotates daily and cannot be reconstructed afterwards. On that basis Sealmetrics self-assesses that it fits the ePrivacy audience-measurement exemption. In Germany this is an open question — see [Germany](/compliance/germany-ttdsg-self-assessment).
 - **Google Ads tracking, no audience sync.** Sealmetrics tracks Google Ads campaigns via UTM parameters end-to-end (source, medium, campaign, term, content) and provides ROAS reporting. What it does **not** do is push audience segments back to Google Ads for automated bidding — that requires GA4 with consented users. Teams commonly run both: GA4 for Ads audience/bidding, Sealmetrics as the source of truth for total traffic and conversions.
 - **No predictive metrics** (purchase probability, churn probability). Sealmetrics reports observed behavior.
 - **Simpler attribution model.** Session-scoped last click: each conversion is credited to the source of the session in which it fires, with no lookback window across sessions and no alternative model to switch to. See [How Sealmetrics attributes conversions](/reports/insights/attribution-model).

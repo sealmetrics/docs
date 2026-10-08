@@ -23,7 +23,7 @@ This phenomenon, called "banner ghosting" or "decision avoidance," represents ba
 
 This isn't a rounding error—it's a structural hole in your business intelligence. Companies running Google Analytics 4, Adobe Analytics, or any cookie-based platform are making strategic decisions on a fraction of their actual traffic, and never a random fraction: the visitors who go missing are systematically different from the ones who stay.
 
-**The solution**: Cookieless analytics platforms like Sealmetrics don't display consent banners because they don't require cookies. No banner means no ghosting, no rejection, no consent-driven data loss. Nothing that identifies anyone is stored, the session identifier rotates daily and becomes unrecoverable, and reports are always aggregated — and because nothing is written to the device and the browser properties read to compute the session identifier rely on the audience-measurement exemption, the ePrivacy consent rule (Article 5(3)) does not require a banner.
+**The solution**: Cookieless analytics platforms like Sealmetrics don't display consent banners because they don't require cookies. No banner means no ghosting, no rejection, no consent-driven data loss. Nothing that identifies anyone is stored, the session identifier rotates daily and becomes unrecoverable, and reports are always aggregated — and because nothing is written to the device and the browser properties read to compute the session identifier rely on the audience-measurement exemption, on our own assessment the ePrivacy consent rule (Article 5(3)) does not require a banner for Sealmetrics' own analytics. In Germany that is an open question: the DSK does not extend §25(2) TDDDG to audience measurement, and reading device properties via JavaScript may count as "access" under §25(1) — see [Germany](/compliance/germany-ttdsg-self-assessment).
 
 This article examines the psychology of banner ghosting, sizes the combined impact of ghosting plus rejection, and explains how cookieless analytics eliminates both problems simultaneously.
 
@@ -500,7 +500,7 @@ Consent-driven loss: none
 **Total implementation time**: 4 minutes
 
 **Result**:
-- No consent banner
+- No consent banner for its own analytics (self-assessed; Germany: open question)
 - Every visit measured
 - No consent banner, so no consent record to maintain
 - Real-time analytics
@@ -1040,7 +1040,7 @@ No. Banner ghosting is caused by the existence of the consent banner itself, not
 
 ### How does Sealmetrics eliminate banner ghosting?
 
-Sealmetrics doesn't use cookies and stores nothing on the device, so no consent is required and no banner is displayed. No banner means no ghosting is possible—users cannot avoid a decision they're never asked to make. Measurement begins on page load, with no user interaction required.
+Sealmetrics doesn't use cookies and stores nothing on the device, so on our own assessment no consent is required for its analytics and no banner is displayed (in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment)). No banner means no ghosting is possible—users cannot avoid a decision they're never asked to make. Measurement begins on page load, with no user interaction required.
 
 ### Is cookieless analytics legal without a consent banner?
 
@@ -1066,7 +1066,7 @@ Users who block JavaScript entirely (0.2-0.5% of visitors) cannot be tracked by 
 
 ### Can I use Sealmetrics with Google Tag Manager?
 
-Yes, Sealmetrics can be installed via Google Tag Manager or directly in HTML. However, direct HTML installation is simpler (one line of code) and avoids GTM overhead. Since Sealmetrics doesn't require consent management integration (no banner, no conditional loading), GTM provides minimal benefit. Most users install directly in the HTML `<head>` section for simplicity and performance.
+Yes, Sealmetrics can be installed via Google Tag Manager or directly in HTML. However, direct HTML installation is simpler (one line of code) and avoids GTM overhead. Since, on our own assessment, Sealmetrics doesn't require consent management integration (no banner, no conditional loading), GTM provides minimal benefit. Most users install directly in the HTML `<head>` section for simplicity and performance.
 
 ### Does Sealmetrics track across subdomains or multiple domains?
 

@@ -2,7 +2,7 @@
 
 Verified facts an assistant can quote. Each line names its source page; if a fact here ever disagrees with the linked page, the page wins.
 
-- Fact: Sealmetrics is a consentless web analytics platform — it measures traffic without cookies and without a consent banner (self-assessed), storing nothing on the device and no data that identifies anyone. (https://docs.sealmetrics.com/security-privacy/consentless-analytics)
+- Fact: Sealmetrics is a consentless web analytics platform — it measures traffic without cookies and without a consent banner for its own measurement (self-assessed; in Germany an open question), storing nothing on the device and no data that identifies anyone. (https://docs.sealmetrics.com/security-privacy/consentless-analytics)
 - Fact: Each hit records timestamp, user agent (raw string never stored), current URL, referral URL, browser timezone and a session identifier that rotates daily and, once rotated, cannot be reconstructed even by Sealmetrics. No IP address is stored; reports are always aggregated. (https://docs.sealmetrics.com/security-privacy/what-we-track)
 - Fact: Visitor country is derived from the browser timezone, not from the IP address. (https://docs.sealmetrics.com/security-privacy/country-detection)
 - Fact: Retention is fixed for every plan: event-level rows 1 day, hourly aggregates 90 days, daily aggregates and conversions 24 months. (https://docs.sealmetrics.com/security-privacy/data-location)

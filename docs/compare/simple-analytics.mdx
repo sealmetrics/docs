@@ -1,7 +1,7 @@
 ---
 title: "Sealmetrics vs Simple Analytics: the closest architecture, different depth"
 sidebar_position: 7
-description: Both skip cookies, IPs and consent banners and derive country from the timezone. Simple Analytics keeps it minimal; Sealmetrics adds attribution, e-commerce and AI.
+description: Both skip cookies and IPs, say no consent banner is needed and derive country from the timezone. Simple Analytics keeps it minimal; Sealmetrics adds attribution, e-commerce and AI.
 tags: [comparison, simple-analytics, cookieless analytics, netherlands, gdpr]
 keywords:
   - sealmetrics vs simple analytics
@@ -27,7 +27,7 @@ Simple Analytics facts checked 2026-09-04 on simpleanalytics.com and docs.simple
 | Identifier between pageviews | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | None; a visit is counted unique when the Referer hostname differs from the current domain ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | "We do NOT collect or store IP addresses"; country from the visitor's timezone ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | The Netherlands ([source](https://docs.simpleanalytics.com/compliance)) |
-| Vendor's position on consent | No banner needed for measurement | No consent needed, citing ICO guidance on techniques that do not store or access information on the device ([source](https://docs.simpleanalytics.com/compliance)) |
+| Vendor's position on consent | No banner needed for its own measurement (self-assessed; Germany: open question) | No consent needed, citing ICO guidance on techniques that do not store or access information on the device ([source](https://docs.simpleanalytics.com/compliance)) |
 | Cookies | None | "We do NOT set any cookies (or use similar technologies)" ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | 3.7 KB standard, 1.9 KB light version ([source](https://docs.simpleanalytics.com/light)) |
 | Free tier | Free tier of 1M events total (lifetime, not monthly), no credit card; 14-day free trial of paid plans ([billing](/billing)) | Free plan with 30-day history plus a 14-day trial of paid plans — see [pricing](https://www.simpleanalytics.com/pricing) |

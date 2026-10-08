@@ -145,7 +145,7 @@ The European data protection authorities **support** the audience measurement ex
 - Provider doesn't use your data for their purposes
 
 **Example:**
-- ✅ **Sealmetrics**: First-party, consentless, data not shared = EXEMPT
+- ✅ **Sealmetrics**: First-party, consentless, data not shared = EXEMPT (our self-assessment)
 - ✅ **Self-hosted Matomo**: First-party, your data only = EXEMPT
 - ⚠️ **Google Analytics 4** (configured for no data sharing): Likely exempt if properly configured
 - ❌ **Google Analytics with ads features**: Needs consent (data used for advertising)
@@ -305,9 +305,9 @@ These technologies align perfectly with the "aggregated measurement" exemption.
 
 ## Sealmetrics Positioning
 
-### Already Compliant with Article 88a(3)(c)
+### Designed for Article 88a(3)(c)
 
-Sealmetrics is designed precisely for the exemption criteria:
+Sealmetrics is designed precisely for the exemption criteria (our self-assessment, on a text still under negotiation):
 
 **✅ Aggregated measurement:**
 - No individual user tracking across sessions
@@ -324,18 +324,18 @@ Sealmetrics is designed precisely for the exemption criteria:
 - Not sold or monetized by Sealmetrics
 - Used solely for client's audience insights
 
-### No Consent Banners Needed
+### No Consent Banner for Its Own Analytics
 
-**Current advantage, future certainty:**
-- Sealmetrics already operates without consent requirements
-- Article 88a(3)(c) provides explicit legal basis
-- Clients can confidently deploy without cookie banners
+**Current position, future basis:**
+- On our self-assessment, Sealmetrics already runs without a consent banner for the site's own analytics (in Germany an open question: the DSK does not extend §25(2) TDDDG to audience measurement — see [Germany](/compliance/germany-ttdsg-self-assessment))
+- Article 88a(3)(c), once in force, would provide an explicit legal basis
+- Self-assessed, not certified
 
 ### Competitive Advantages Post-Omnibus
 
-**1. Legal certainty:**
-- Clear alignment with Article 88a(3)(c)
-- No ambiguity about consent requirements
+**1. Greater legal clarity:**
+- Designed to align with Article 88a(3)(c)
+- Less ambiguity about consent requirements once it is in force
 - Simplified compliance for clients
 
 **2. Complete data:**
@@ -504,7 +504,7 @@ If you need individual user tracking, cross-device tracking, or behavioral profi
 - Is data used only for your audience measurement?
 - Are advertising or remarketing features enabled?
 
-**Recommendation**: Consult with privacy counsel on your specific GA4 configuration, or use a clearly exempt platform like Sealmetrics.
+**Recommendation**: Consult with privacy counsel on your specific GA4 configuration, or use a platform designed for the exemption, like Sealmetrics (self-assessed).
 
 ### Does "aggregated" mean I cannot see any individual page views?
 

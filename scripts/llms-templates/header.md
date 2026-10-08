@@ -1,6 +1,6 @@
 # Sealmetrics
 
-> The source of truth for revenue in European eCommerce: consentless web analytics that measures traffic, campaigns and revenue without cookies or consent banners, storing nothing on the device and no data that identifies anyone.
+> The source of truth for revenue in European eCommerce: consentless web analytics that measures traffic, campaigns and revenue without cookies and without a consent banner for its own measurement (self-assessed; in Germany an open question), storing nothing on the device and no data that identifies anyone.
 
 Sealmetrics is a cookieless, consentless web analytics platform designed around GDPR and ePrivacy requirements. Each hit carries a small set of fields (timestamp, user agent, current URL, referral URL, browser timezone and a session identifier). The session identifier is ephemeral: it rotates daily and, once rotated, not even Sealmetrics can reconstruct it. Reports are always aggregated. Measurement does not depend on consent; actual coverage depends on the implementation and the events configured. Compliance statements are self-assessments against published criteria, not certifications (https://docs.sealmetrics.com/compliance).
 

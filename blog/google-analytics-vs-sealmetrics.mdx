@@ -21,13 +21,13 @@ hide_table_of_contents: false
 
 Google Analytics has dominated web analytics for two decades, but in EU markets it now measures a shrinking and biased fraction of the traffic that actually reaches your site. Every visitor who rejects a cookie banner — or simply ignores it — leaves no trace in GA4.
 
-Sealmetrics takes a different approach: [cookieless analytics that requires no consent banner](/intro), storing nothing on the device and no data that identifies anyone. The session identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it; reports are always aggregated ([compliance](/compliance)).
+Sealmetrics takes a different approach: [cookieless analytics that requires no consent banner for its own analytics](/intro) on our own assessment (in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment)), storing nothing on the device and no data that identifies anyone. The session identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it; reports are always aggregated ([compliance](/compliance)).
 
 This comparison is updated for **July 2026** and covers data capture, GDPR and Schrems II, the full feature set including AI, pricing, and what a migration actually involves — including an honest account of what you give up.
 
 **Key takeaways**:
 - **GA4 typically captures 40–85% of EU traffic** — losing 15-60% depending on sector, brand strength and traffic sources; Sealmetrics captures all of it because no consent gate stands in front of measurement
-- **GA4 requires a consent banner** in the EU; Sealmetrics operates consentless, storing nothing on the device and no data that identifies anyone
+- **GA4 requires a consent banner** in the EU; Sealmetrics operates consentless on our own assessment, storing nothing on the device and no data that identifies anyone
 - **GA4 processes IP addresses**; Sealmetrics never stores one and doesn't even use it for geolocation
 - **Sealmetrics ships an AI layer** — natural-language chat, anomaly detection, and an MCP server your AI assistant can query directly
 - **GA4 keeps Google Ads integration, predictive metrics and user-level analysis** — real advantages Sealmetrics does not match
@@ -85,7 +85,7 @@ Sealmetrics uses no cookies, no `localStorage` and no `sessionStorage`. The sess
 - No returning-visitor recognition: visits cannot be linked across days — not even by Sealmetrics — or to a person
 - Enables no cross-site tracking (the account ID is part of the hash)
 
-Nothing is stored on the device. The tracker does read standard browser properties to compute the session identifier, which engages ePrivacy Article 5(3); Sealmetrics relies on the audience-measurement exemption for that read (the first-party, no-cross-site-tracking criteria above) rather than on consent, so no consent banner is required for analytics. See [what we track](/security-privacy/what-we-track#6-session-identifier) and [how consentless works](/security-privacy/how-consentless-works).
+Nothing is stored on the device. The tracker does read standard browser properties to compute the session identifier, which engages ePrivacy Article 5(3); Sealmetrics relies on the audience-measurement exemption for that read (the first-party, no-cross-site-tracking criteria above) rather than on consent, so, on our own assessment, no consent banner is required for its analytics. See [what we track](/security-privacy/what-we-track#6-session-identifier) and [how consentless works](/security-privacy/how-consentless-works).
 
 ---
 
@@ -175,7 +175,7 @@ Published self-assessments against each regulator: [CNIL](/compliance/cnil-self-
 | Feature | Google Analytics 4 | Sealmetrics |
 |---------|-------------------|-------------|
 | Requires cookies | Yes | No |
-| Requires consent banner | Yes (EU) | No |
+| Requires consent banner | Yes (EU) | No (self-assessed; Germany: open question) |
 | Stores IP addresses | Yes (processed) | **Never** |
 | IP used for geolocation | Yes | **No — browser timezone** |
 | GDPR legal basis | Consent 6(1)(a) | **Legitimate interest 6(1)(f) — minimal pseudonymised data, unrecoverable after daily rotation** |

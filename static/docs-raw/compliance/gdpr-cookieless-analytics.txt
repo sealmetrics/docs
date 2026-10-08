@@ -430,7 +430,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - Cookieless by design
 - Aggregated measurement
 - First-party data only
-- Meets these criteria out of the box, with no configuration needed
+- Designed to meet these criteria out of the box, with no configuration needed (our self-assessment)
 
 **Server-side analytics**:
 - Parse server logs
@@ -446,7 +446,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 ### Step 2: Configure for Privacy
 
-**If using Sealmetrics**: the default configuration already meets the criteria above
+**If using Sealmetrics**: the default configuration is designed to meet the criteria above (our self-assessment)
 
 **If using other tools**:
 - ✅ Disable cookies
@@ -545,7 +545,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 
 ### Do I need a cookie banner for cookieless analytics?
 
-**Not necessarily.** If nothing is stored on or read from the device, the ePrivacy consent requirement does not apply. If the script reads browser properties (as Sealmetrics does to compute its session identifier), Article 5(3) is engaged and the exemption depends on the audience-measurement criteria — see [Analytics Cookies Exemption](./analytics-cookies-exemption.md).
+**Not necessarily.** If nothing is stored on or read from the device, the ePrivacy consent requirement does not apply. If the script reads browser properties (as Sealmetrics does to compute its session identifier), Article 5(3) is engaged and the exemption depends on the audience-measurement criteria — see [Analytics Cookies Exemption](./analytics-cookies-exemption.md). For Sealmetrics' own analytics our self-assessment is that no banner is needed; in Germany that is an open question, because the DSK does not extend §25(2) TDDDG to audience measurement — see [Germany](/compliance/germany-ttdsg-self-assessment).
 
 **On the GDPR side**, a cookieless tool that stores no IP and no persistent identifier still processes minimal pseudonymised data (Sealmetrics: a session identifier that rotates daily and is unrecoverable after rotation). It relies on legitimate interest (Article 6(1)(f)), not consent.
 
@@ -630,7 +630,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 |--------|------------------------|----------------------|
 | **GDPR legal basis** | Consent (usually) or contested legitimate interest | Legitimate interest (Article 6(1)(f)) for minimal, pseudonymised data |
 | **ePrivacy requirement** | Consent required | Not applicable (no cookies) |
-| **Cookie banner** | Required | Not required |
+| **Cookie banner** | Required | Not required where the exemption criteria are met |
 | **Data subject rights** | Complex (years of profiles) | Simple (minimal data) |
 | **Consent rate** | 50-80% (data loss) | N/A (no consent needed) |
 | **Privacy impact** | High (tracking over time) | Low (session-only) |
@@ -666,7 +666,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 3. **ePrivacy consent not required** when nothing is stored on or read from the device; where browser properties are read, the audience-measurement exemption criteria decide
 4. **Data minimization by design**: Cookieless naturally satisfies GDPR principles
 5. **Simpler data subject rights**: Minimal data = minimal rights management
-6. **No cookie banner needed**: Better UX, complete data, lower costs
+6. **No cookie banner needed where the exemption criteria are met** (in Germany an open question): Better UX, complete data, lower costs
 7. **Future-proof**: Aligns with Digital Omnibus Article 88a(3)(c)
 8. **Document the legitimate interest assessment**: Short for a minimal cookieless tool; keep separate ones for identifier-based tools you also run
 9. **Privacy policy disclosure**: Required even for cookieless analytics

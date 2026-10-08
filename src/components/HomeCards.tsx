@@ -21,7 +21,7 @@ const cards: PersonaCard[] = [
     audience: 'Marketers & site owners',
     title: 'Install the pixel',
     description:
-      'Add the tracker to your site and verify your first event in under 5 minutes — no cookies, no consent banner.',
+      'Add the tracker to your site and verify your first event in under 5 minutes — no cookies, and no consent banner for Sealmetrics itself (self-assessed; Germany is an open question).',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M13 2L3 14h7v8l10-12h-7l0-8z" />

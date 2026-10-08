@@ -157,7 +157,7 @@ const config: Config = {
               url: 'https://docs.sealmetrics.com/img/logo.png',
             },
             description:
-              'Consentless web analytics without cookies or consent banners. Designed to comply with the GDPR: nothing stored on the device, EU-only data, aggregated reports.',
+              'Consentless web analytics without cookies, and no consent banner for its own measurement (self-assessed; in Germany an open question). Designed to comply with the GDPR: nothing stored on the device, EU-only data, aggregated reports.',
             foundingDate: '2020',
             founder: { '@id': 'https://sealmetrics.com/#rafael-jimenez' },
             sameAs: [

@@ -1,6 +1,6 @@
 ---
 description: What consentless analytics is, the small set of non-identifying fields Sealmetrics
-  records, and why storing nothing on the device and nothing that identifies anyone means no consent banner is required.
+  records, and why storing nothing on the device and nothing that identifies anyone means, on our self-assessment, no consent banner is required (Germany: open question).
 keywords:
 - consentless analytics
 - analytics without consent
@@ -52,7 +52,7 @@ Sealmetrics measures aggregate behaviour instead of individuals, recording a sma
 
 Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When a visitor rejects consent, the tool records nothing — which is why cookie-based analytics typically lose **15–60% of visitor data in EU markets** — how much depends on sector, brand strength and traffic mix. The result: businesses make decisions based on a fraction of their actual traffic.
 
-Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Every visitor is measured. Every page view is counted. Every conversion is attributed to its source. No consent is needed, on our own assessment: no data that identifies anyone is stored, nothing is stored on the device, and the ephemeral session identifier rotates daily, cannot be reconstructed afterwards and falls under the audience-measurement exemption.
+Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Visitors are measured whether or not they would have accepted a banner, and conversions are attributed to their source. No consent is needed, on our own assessment: no data that identifies anyone is stored, nothing is stored on the device, and the ephemeral session identifier rotates daily, cannot be reconstructed afterwards and falls under the audience-measurement exemption.
 
 ---
 
@@ -208,7 +208,7 @@ Adding consentless analytics to any website requires one line of code:
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
-No consent management platform needed. No cookie banner configuration. No Consent Mode setup. The tracker loads asynchronously (1.1 KB gzipped), detects SPA navigation automatically, and begins capturing data immediately.
+No consent management platform, cookie banner configuration or Consent Mode setup for Sealmetrics itself (our self-assessment; Germany: open question). The tracker loads asynchronously (1.1 KB gzipped), detects SPA navigation automatically, and begins capturing data immediately.
 
 For platform-specific installation, see guides for [WordPress](/integrations/cms/wordpress), [WooCommerce](/integrations/ecommerce/woocommerce), [Shopify](/integrations/ecommerce/shopify), [Next.js](/integrations/frameworks/nextjs), and [more integrations](/integrations).
 
@@ -263,4 +263,4 @@ Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP
 
 ---
 
-*Ready to see your real traffic numbers? [Start a free trial](https://my.sealmetrics.com/register) — setup takes under 5 minutes, no cookie banner required.*
+*Ready to see your real traffic numbers? [Start a free trial](https://my.sealmetrics.com/register) — setup takes under 5 minutes, and on our self-assessment no cookie banner is required for its own analytics.*

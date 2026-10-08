@@ -145,12 +145,12 @@ Understanding how different analytics tools handle GDPR compliance helps you cho
 | **Legal Basis** | Consent required | Legitimate interest | Legitimate interest | **Legitimate interest — minimal pseudonymised data, unrecoverable after daily rotation** |
 | **Cookie Usage** | Yes (multiple) | No | Optional | No |
 | **IP Storage** | Yes (full) | Yes (hashed) | Yes (hashed) | **No - zero IPs** |
-| **Consent Banner Needed** | Yes | No* | No* | **No** |
+| **Consent Banner Needed** | Yes | No* | No* | **No (self-assessed; Germany: open question)** |
 | **Data Location** | US + EU | EU only | Self-hosted or EU | EU only |
 | **Consent-driven data loss** | 15-60% | None where consent isn't required | None where consent isn't required | **None** |
 | **US Data Transfers** | Yes | No | No | No |
-| **Schrems II Compliant** | Questionable | Yes | Yes | Yes |
-| **CNIL 2020 Compliant** | No | With config | With config | **Yes (default)** |
+| **Schrems II Compliant** | Questionable | Yes | Yes | Yes (self-assessed) |
+| **CNIL 2020 Compliant** | No | With config | With config | **Yes (default, self-assessed)** |
 | **TDDDG (Germany)** | No | Yes | Yes | **Open question (our reading: no consent needed)** |
 | **Setup Complexity** | High | Low | Medium | **Very Low (2 min)** |
 | **DPA Included** | Yes | Yes | Yes | Yes |
@@ -189,7 +189,7 @@ The ePrivacy Directive Article 5(3)—often called the Cookie Law—requires con
 
 **Technical Cookies Exemption**: The ePrivacy Directive exempts "strictly necessary" cookies for functionality users explicitly request. Analytics cookies don't qualify for this exemption according to regulatory consensus. The upcoming ePrivacy Regulation will likely remove any remaining ambiguity.
 
-Sealmetrics avoids this problem through cookieless tracking: nothing is stored on the device, and its ephemeral session identifier, which rotates daily, is assessed against the audience-measurement exemption rather than consent — so no consent banner and no data loss from rejections.
+Sealmetrics avoids this problem through cookieless tracking: nothing is stored on the device, and its ephemeral session identifier, which rotates daily, is assessed against the audience-measurement exemption rather than consent — so, on our own assessment, no consent banner for its own analytics and no data loss from rejections (in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment)).
 
 ### Problem 3: US Data Transfers
 
@@ -536,11 +536,11 @@ Second, Google Analytics stores IP addresses. Even with the IP anonymization fea
 
 Third, Google Analytics transfers data to US Google servers, creating Schrems II compliance challenges. While Google offers a consent mode and EU hosting options, the fundamental architecture involves data sharing with a US parent company.
 
-You can make Google Analytics more GDPR compliant through extensive configuration, but you'll still need consent banners and accept massive data loss. Sealmetrics provides compliance without these compromises.
+You can make Google Analytics more GDPR compliant through extensive configuration, but you'll still need consent banners and accept massive data loss. Sealmetrics is designed to comply with the GDPR without these compromises (our self-assessment, not a certification).
 
 ### Can I use analytics without a cookie banner?
 
-Yes, with properly implemented cookieless analytics like Sealmetrics. Cookie banners are required by the ePrivacy Directive when websites store information on user devices (cookies) or read information from them, unless an exemption applies. If your analytics uses no cookies and whatever it reads is covered by an exemption, no banner is needed.
+On our own assessment, yes, with properly implemented cookieless analytics like Sealmetrics (in Germany an open question — see below). Cookie banners are required by the ePrivacy Directive when websites store information on user devices (cookies) or read information from them, unless an exemption applies. If your analytics uses no cookies and whatever it reads is covered by an exemption, no banner is needed.
 
 The GDPR is a separate question from ePrivacy, and both have to be satisfied. Sealmetrics addresses both: nothing is stored on the device, and the standard browser properties it reads to compute its session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3); and nothing stored identifies anyone: the session identifier rotates daily and becomes unrecoverable, and the short-lived pseudonymised data relies on legitimate interest, Article 6(1)(f).
 
@@ -690,7 +690,7 @@ Start your 14-day free trial: [Sealmetrics.com](https://sealmetrics.com)
 
 - [Complete Guide to Cookieless Analytics](/blog/cookieless-analytics-guide)
 - [Cookieless vs Cookie-Based Analytics](/blog/cookieless-analytics-vs-cookie-based)
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — Technical architecture behind GDPR-compliant tracking
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — Technical architecture behind tracking designed for the GDPR
 - [What Is Consentless Analytics?](/security-privacy/consentless-analytics) — Legal basis and implementation details
 - [CNIL 2020 Analytics Guidance (Official)](https://www.cnil.fr/en/cookies-and-other-trackers/rules/cookies/how-comply-cookies-and-trackers)
 - [GDPR Official Text](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
