@@ -13,7 +13,7 @@ keywords:
 
 # Sealmetrics vs Piwik PRO
 
-Sealmetrics and Piwik PRO are both European analytics platforms aimed at organisations with a data protection review to pass. The main difference is philosophy: Piwik PRO is a suite — analytics, tag manager and consent manager — that collects anonymous data before consent and full data after it, using a session hash that includes the IP; Sealmetrics removes the consent step entirely by never storing personal data or deriving anything from the IP.
+Sealmetrics and Piwik PRO are both European analytics platforms aimed at organisations with a data protection review to pass. The main difference is philosophy: Piwik PRO is a suite — analytics, tag manager and consent manager — that collects anonymous data before consent and full data after it, using a session hash that includes the IP; Sealmetrics removes the consent step entirely by storing nothing on the device, using a session identifier that rotates daily and cannot be reconstructed, and deriving nothing from the IP.
 
 ## Side-by-side
 
@@ -48,7 +48,7 @@ Sealmetrics has one data set. Every hit is timestamp, user agent, URL, referrer 
 
 - You want to remove the consent layer from analytics altogether instead of managing two data sets.
 - You do not want an identifier — even a 30-minute one — that takes the IP address as an input.
-- You want the lightest tracker and a simpler vendor review: no personal data, EU-only storage in one region, a public [DPA](https://sealmetrics.com/dpa/) and a three-entry subprocessor list.
+- You want the lightest tracker and a simpler vendor review: no data that identifies anyone stored, EU-only storage in one region, a public [DPA](https://sealmetrics.com/dpa/) and a three-entry subprocessor list.
 
 ## Frequently asked questions
 

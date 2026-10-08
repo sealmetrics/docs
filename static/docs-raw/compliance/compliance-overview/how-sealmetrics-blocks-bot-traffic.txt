@@ -21,7 +21,7 @@ Yes — transiently, and never stored in the analytics database. Here is the com
 
 Transient use of an IP is still "processing" under GDPR — we don't pretend otherwise. It is processed under **legitimate interest (Art. 6(1)(f))**, which Recital 49 explicitly recognizes for network and information security purposes, including "preventing unauthorised access... and stopping denial-of-service attacks". Transient, security-focused IP handling with nothing persisted in the analytics database is the textbook case.
 
-This security check is the **only** place an Article 6 basis is engaged. The visitor analytics dataset itself holds no personal data — no IP, no persistent identifier, a small set of non-identifying fields — so under GDPR Recital 26 it sits outside the Regulation's material scope, and no legal basis (legitimate interest or consent) is needed for it. Sealmetrics does not rely on legitimate interest for visitor analytics; it relies on it for the in-memory bot check alone.
+The visitor analytics data rests on the same basis. It holds no IP, no persistent identifier and nothing that identifies anyone; its only per-visitor value is a session identifier that is pseudonymised data while the daily salt exists, processed under legitimate interest (Art. 6(1)(f)) and unrecoverable once the salt rotates. Reports are always aggregated.
 
 What makes Sealmetrics consentless is not a claim that IPs never exist in our infrastructure — it's that they are **never stored with analytics data, never used for tracking, and never used for analytics**.
 
@@ -51,7 +51,7 @@ These lists are curated block rules (like a firewall's), not records of your vis
 
 ## Layer 3 — Request-header consistency checks
 
-Automated clients frequently send request headers that are inconsistent with the browser they claim to be. Sealmetrics scores header consistency on each request as an additional bot signal — no personal data involved.
+Automated clients frequently send request headers that are inconsistent with the browser they claim to be. Sealmetrics scores header consistency on each request as an additional bot signal — nothing is stored from the headers.
 
 ---
 
@@ -71,7 +71,7 @@ Those signals would describe the *software environment*, not the person, and wou
 
 ## Why this approach is privacy-compliant
 
-- **User agents** are used in flight as anonymous device-category signals — the raw string is never written to storage; only the derived browser/OS/device categories persist, in aggregates, for up to 24 months — never linked to any personal or persistent identifier (the only identifier is a session pseudonym that rotates daily), and never used to reconstruct anyone's history.
+- **User agents** are used in flight as device-category signals — the raw string is never written to storage; only the derived browser/OS/device categories persist, in aggregates, for up to 24 months — never linked to any personal or persistent identifier (the only identifier is a session pseudonym that rotates daily), and never used to reconstruct anyone's history.
 - **IPs** are processed transiently on the server for security only, under legitimate interest (Recital 49), and never stored with analytics data.
 - **No persistent or cross-site identifiers** are created or used at any layer — the session identifier is ephemeral, scoped to one site and rotates daily.
 - **No profiling of individuals** — classification targets bot vs. human traffic, at session level, based on software signals.
@@ -82,14 +82,14 @@ This is why bot filtering requires **no consent banner** and creates **no person
 
 ## Summary
 
-| Layer | Signal | IP stored? | Personal data stored? |
+| Layer | Signal | IP stored? | Identifying data stored? |
 |---|---|---|---|
 | Bot UA signatures | User-agent string | No | No |
 | IP/datacenter blocklists | IP, in memory only | No | No |
 | Header consistency | Request headers | No | No |
 | Agent Analytics *(not available)* | Derived geo/ISP + environment + behavior | No | No |
 
-The result: clean analytics, honest architecture, and zero consent requirements.
+The result: clean analytics and an honest architecture, with no consent needed for bot filtering.
 
 ## Related documentation
 

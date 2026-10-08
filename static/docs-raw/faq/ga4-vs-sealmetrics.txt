@@ -26,7 +26,7 @@ Industry data shows rejection rates vary significantly by country:
 
 *Rates vary by industry, banner design, and implementation. Sources: CNIL annual reports, Eurostat digital economy surveys, CMP vendor benchmarks.*
 
-**Result:** rejection is not the same as data loss — some visitors accept, and Consent Mode models part of the rest — but in practice GA4 loses **15–60% of EU visitor data**, depending on sector, brand strength and traffic mix. Branded direct traffic consents at a very different rate from cold paid social. Sealmetrics avoids that loss because it never requires consent — no cookies are set, and no personal data is collected. How much of your traffic it records still depends on a correct implementation.
+**Result:** rejection is not the same as data loss — some visitors accept, and Consent Mode models part of the rest — but in practice GA4 loses **15–60% of EU visitor data**, depending on sector, brand strength and traffic mix. Branded direct traffic consents at a very different rate from cold paid social. Sealmetrics avoids that loss because it does not ask for consent — no cookies are set, nothing is stored on the device, and the session identifier rotates daily and cannot be reconstructed afterwards. How much of your traffic it records still depends on a correct implementation.
 
 ---
 
@@ -145,7 +145,7 @@ Sealmetrics is the better choice if you:
 
 - Need **accurate data** across all EU markets
 - Want to **remove cookie banners** or reduce consent friction
-- Want to **measure without processing personal data**, so GDPR, CNIL and AEPD questions about analytics have a short answer
+- Want to **measure with minimal, pseudonymised data** — nothing stored on the device, no IP, an identifier that rotates daily — so GDPR, CNIL and AEPD questions about analytics have a short answer
 - Want **conversion attribution that includes visitors who reject consent** for budget decisions
 - Need a **lightweight tracker** that does not slow down your site
 - Want an **AI assistant on your own data** (LENS) out of the box
@@ -218,7 +218,7 @@ Sealmetrics includes built-in [bot detection](/compliance/compliance-overview/ho
 | **Best for** | Google Ads optimization, user-level analysis | Accurate total traffic, privacy compliance |
 | **Data accuracy (EU)** | 40–85% of traffic | Not reduced by consent rejection |
 | **Consent required** | Yes | No |
-| **Privacy exposure** | Personal data processed, transferred to the US | No personal data processed, EU-only storage |
+| **Privacy exposure** | Personal data processed, transferred to the US | Minimal pseudonymised data (no IP, daily-rotating identifier), EU-only storage |
 | **Script size** | ~146 KB | 1.1 KB |
 | **Pricing** | Free (with hidden costs) | From €499/mo (annual billing) |
 

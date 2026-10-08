@@ -7,20 +7,20 @@ keywords:
   - how sealmetrics works
   - privacy-first analytics
   - cookieless tracking
-  - anonymous analytics
+  - privacy-first analytics
   - analytics without consent banner
 ---
 
 # How Sealmetrics Works
 
-Sealmetrics measures your website traffic without cookies, consent banners or personal data, on a simple principle: **measure everything, identify no one**. You add one script tag; every visit is recorded as a set of non-identifying signals; your reports show aggregate patterns.
+Sealmetrics measures your website traffic without cookies, consent banners or anything stored on the visitor's device, on a simple principle: **measure everything, identify no one**. You add one script tag; every visit is recorded as a set of non-identifying signals; your reports show aggregate patterns.
 
 ## What gets recorded
 
 A small set of non-identifying fields per hit:
 
 1. **Timestamp** — when the visit happened
-2. **User Agent** — used for anonymous device classification (browser, OS, device type). The raw string is never written to storage; only the derived categories persist in aggregates
+2. **User Agent** — used for device classification (browser, OS, device type). The raw string is never written to storage; only the derived categories persist in aggregates
 3. **Current URL** — which page was viewed
 4. **Referral URL** — where the visitor came from
 5. **Browser timezone** — used to assign the visit's country
@@ -28,7 +28,7 @@ A small set of non-identifying fields per hit:
 
 No IP addresses stored, no cookies, no localStorage, no persistent identifiers. Hits within one visit are grouped by a session identifier: the tracker computes, in the browser, a hash of standard device characteristics (a device fingerprint) that is never written to the device. On the server it is re-keyed with a salt that rotates and is destroyed every day, so the stored identifier changes daily and cannot recognise a returning visitor on another day. A session ends after roughly two hours of inactivity.
 
-Because no personal data is stored and nothing is stored on the visitor's device, there is no consent to ask for — which is also why cookie-based tools lose 15–60% of visitor data in EU markets — depending on sector, brand strength and traffic mix — while Sealmetrics does not. The tracker does read standard browser properties to compute the session identifier; [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) covers how the audience-measurement exemption criteria apply to that read. The full reasoning is in [What is Consentless Analytics?](/security-privacy/consentless-analytics), and the exact field list with retention is in [What We Track](/security-privacy/what-we-track).
+Because nothing is stored on the visitor's device, no data that identifies anyone is stored, and the session identifier rotates daily and cannot be reconstructed afterwards, Sealmetrics self-assesses that it fits the ePrivacy audience-measurement exemption and asks for no consent — which is also why cookie-based tools lose 15–60% of visitor data in EU markets — depending on sector, brand strength and traffic mix — while Sealmetrics does not. The tracker does read standard browser properties to compute the session identifier; [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) covers how the audience-measurement exemption criteria apply to that read. The full reasoning is in [What is Consentless Analytics?](/security-privacy/consentless-analytics), and the exact field list with retention is in [What We Track](/security-privacy/what-we-track).
 
 ## What you get in reports
 
@@ -64,6 +64,6 @@ Add one script tag to your `<head>`, then instrument conversions with `sealmetri
 
 - [First Steps with Sealmetrics](/getting-started/quick-start) — go from signup to live data
 - [Installation](/implementation/tracker/installation) — add the script tag
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and its legal basis
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and why no banner is needed
 - [What We Track vs What We Don't](/security-privacy/what-we-track) — every field, with retention
 - [Overview Report](/reports/overview) — the aggregate insights this architecture produces

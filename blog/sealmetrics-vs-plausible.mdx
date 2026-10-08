@@ -32,7 +32,7 @@ This comparison is updated for **July 2026** and covers architecture, privacy, f
 ## Key Comparison Points
 
 - **IP handling**: Plausible hashes IP + User-Agent into a daily identifier (salt deleted every 24h); Sealmetrics derives no identifier from IP whatsoever
-- **Consent**: Both operate consentless; Sealmetrics' legal basis doesn't depend on arguing that a pseudonymous ID isn't personal data
+- **Consent**: Both operate consentless; Sealmetrics' daily identifier is not derived from an IP, and once rotated not even Sealmetrics can reconstruct it
 - **AI**: Sealmetrics ships LENS AI, an MCP server, and EU-hosted LLM inference; Plausible ships none of this
 - **Scale limits**: Plausible caps sites and team members by plan (1/3/10); Sealmetrics is unlimited on every plan
 - **Pricing**: Plausible starts at $9/month; Sealmetrics starts at €499/month with annual billing
@@ -76,7 +76,7 @@ This comparison is updated for **July 2026** and covers architecture, privacy, f
 
 ### What is Sealmetrics?
 
-**Sealmetrics** launched in 2023 to solve the "consent paradox" in web analytics — the fact that cookie- and consent-based analytics lose 15-60% of their data in EU markets to banner rejection and ghosting. Sealmetrics pioneered *consentless analytics*, storing no personal data at all so that no GDPR legal basis is required, and in February 2026 shipped **V2**, a full rebuild of the platform.
+**Sealmetrics** launched in 2023 to solve the "consent paradox" in web analytics — the fact that cookie- and consent-based analytics lose 15-60% of their data in EU markets to banner rejection and ghosting. Sealmetrics pioneered *consentless analytics*, storing nothing on the device and no data that identifies anyone, and in February 2026 shipped **V2**, a full rebuild of the platform.
 
 **Key characteristics**:
 - Proprietary (closed-source), cloud-hosted only
@@ -155,10 +155,10 @@ This is the sharpest technical distinction, and it deserves to be stated precise
 **Sealmetrics' position**: no consent banner required, on the basis that:
 
 1. **No IP-derived identifier**: nothing in the pipeline is derived from an IP address
-2. **No Article 6 basis needed**: no personal data is stored, so under Recital 26 the dataset falls outside the GDPR's material scope — we deliberately don't claim legitimate interest, since invoking it would concede that personal data is being processed
+2. **Ephemeral identifier**: the session identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it; that short-lived pseudonymised data relies on legitimate interest, GDPR Article 6(1)(f)
 3. **Purpose limitation**: analytics only, never advertising, never data sales
-4. **Data minimisation**: aggregated, non-personal data only
-5. **Regulator alignment**: published self-assessments against [CNIL](/compliance/cnil-self-assessment) (France), [TTDSG](/compliance/germany-ttdsg-self-assessment) (Germany), [Garante](/compliance/italy-garante-self-assessment) (Italy), [UK PECR](/compliance/uk-pecr-self-assessment) and [Swiss FADP](/compliance/switzerland-fadp-self-assessment)
+4. **Data minimisation**: per-hit log purged after one day; reports are always aggregated
+5. **Regulator alignment**: published self-assessments against [CNIL](/compliance/cnil-self-assessment) (France), [TDDDG](/compliance/germany-ttdsg-self-assessment) (Germany), [Garante](/compliance/italy-garante-self-assessment) (Italy), [UK PECR](/compliance/uk-pecr-self-assessment) and [Swiss FADP](/compliance/switzerland-fadp-self-assessment)
 
 Sealmetrics also publishes a full analysis of the [EU Digital Omnibus](/compliance/omnibus) and its impact on analytics, plus a [subprocessor list](/compliance/subprocessors) and [data subject rights](/compliance/data-subject-rights) documentation.
 
@@ -179,9 +179,9 @@ The retention row deserves attention, because longer retention sounds like a fea
 
 Sealmetrics' 24 months is not a limitation we'd like to lift — it's the regulatory ceiling, and staying at it is part of what makes the consentless basis hold.
 
-### Germany (TTDSG §25)
+### Germany (TDDDG §25)
 
-§25 TTDSG requires consent for storing or accessing information on a user's device. Neither tool stores anything on the device, so both clear the bar. German DPOs have historically been the strictest on IP-derived identifiers, which is where the two designs diverge — see the [TTDSG self-assessment](/compliance/germany-ttdsg-self-assessment) for the full argument.
+§25 TDDDG (renamed from TTDSG in May 2024) requires consent for storing or accessing information on a user's device. Neither tool stores anything on the device. Sealmetrics' reading is that no consent is needed, but it is an open question: the DSK does not extend the §25(2) exemption to audience measurement, and reading device properties via JavaScript may count as "access" under §25(1) (EDPB Guidelines 2/2023 read access broadly), so check with your DPO or counsel. German DPOs have historically been the strictest on IP-derived identifiers, which is where the two designs diverge — see the [TDDDG self-assessment](/compliance/germany-ttdsg-self-assessment) for the full argument.
 
 ## Feature Comparison
 

@@ -9,4 +9,4 @@
 | Data Location | EU only (Dublin) | Global |
 | GDPR | Designed for it (self-assessed, not certified) | Requires consent and configuration |
 | Ad Blocker Resistant | Yes | No |
-| Personal Data | Never collected | Collected |
+| Identifying data stored | None (session identifier rotates daily, unrecoverable after rotation) | Yes (client ID cookie, user ID) |

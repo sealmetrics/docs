@@ -312,7 +312,7 @@ Sealmetrics is designed precisely for the exemption criteria:
 **✅ Aggregated measurement:**
 - No individual user tracking across sessions
 - Privacy-first architecture
-- Anonymized data collection
+- Minimal, pseudonymised data: nothing stored on the device, no IP, a session identifier that rotates daily and cannot be reconstructed afterwards
 
 **✅ First-party data only:**
 - Data belongs to the website owner (controller)

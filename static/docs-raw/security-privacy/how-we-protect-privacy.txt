@@ -4,14 +4,14 @@ URL: https://docs.sealmetrics.com/security-privacy/how-we-protect-privacy
 
 # How Sealmetrics Protects User Privacy
 
-Sealmetrics does not collect the data that would put visitors at risk in the first place — **that is how it protects their privacy**. The protection is architectural rather than procedural: there is no personal data to secure, disclose, leak or hand over, because none is collected.
+Sealmetrics does not collect the data that would put visitors at risk in the first place — **that is how it protects their privacy**. The protection is architectural rather than procedural: nothing is stored on the device, no data that identifies anyone is kept, and the session identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it. Reports are always aggregated.
 
 ## How does that protection work in practice?
 
 In practice that means four things:
 
 - **Nothing is written to the visitor's device.** No cookies, no localStorage, no sessionStorage. The session identifier used to group hits within one visit is a hash of standard device characteristics computed in the browser; it is never written to the device, is re-keyed on the server with a daily salt that is destroyed on rotation, and cannot recognise a returning visitor on another day.
-- **No persistent identifier is stored.** No IP addresses in the analytics database (they are used in memory only for anti-abuse checks and site-configured exclusions), no user IDs, no persistent device IDs, no stored fingerprint, no cross-day, cross-session or cross-device linking. The user agent is used for anonymous device classification only — the raw string is never written to storage; only the derived browser/OS/device categories persist inside aggregates.
+- **No persistent identifier is stored.** No IP addresses in the analytics database (they are used in memory only for anti-abuse checks and site-configured exclusions), no user IDs, no persistent device IDs, no stored fingerprint, no cross-day, cross-session or cross-device linking. The user agent is used for device classification only — the raw string is never written to storage; only the derived browser/OS/device categories persist inside aggregates.
 - **Data is minimised, then aged out.** Event-level rows are purged after 1 day, hourly aggregates after 90 days, daily aggregates and conversions after 24 months. Retention is fixed for every plan and enforced by database TTLs.
 - **Storage stays in the EU.** All customer analytics data is stored and processed in Dublin, Ireland, encrypted in transit and at rest, under role-based access control.
 
@@ -29,7 +29,7 @@ Sealmetrics holds no third-party security certification such as ISO 27001 or SOC
 ## Related documentation
 
 - [What We Track vs What We Don't](/security-privacy/what-we-track) — the field-by-field detail, with retention
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and its legal basis
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and why no banner is needed
 - [Data Location & Retention](/security-privacy/data-location) — EU hosting, encryption, retention schedule, account closure
 - [Privacy by Design Principles](/security-privacy/privacy-by-design) — how these choices map to the privacy-by-design framework
 - [Account Security](/security-privacy/account-security/two-factor-auth) — protecting the dashboard account itself

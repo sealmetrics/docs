@@ -81,7 +81,7 @@ document.cookie = `analytics_id=value; expires=${expires.toUTCString()}; path=/`
 
 **What this means**:
 - Raw analytics data must be deleted or anonymized after 24 months
-- Aggregated reports can be retained indefinitely (no personal data)
+- Aggregated reports can be retained indefinitely (non-identifying)
 - Applies to data collected via cookies, not just cookies themselves
 
 **Example timeline**:
@@ -370,11 +370,11 @@ We use [analytics tool name] to understand how visitors use our website. This he
 
 **Purpose**: Website performance analysis and improvement
 
-**Legal basis**: Our analytics do not process personal data — no IP address is stored, nothing is stored on your device, and the only identifier is an ephemeral session identifier that rotates daily and cannot be linked across days or across sites, so no visitor can be singled out. Under GDPR Recital 26 this information is anonymous and falls outside the Regulation, so no Article 6 legal basis (consent or legitimate interest) is required for it. *[If your tool does store personal data, e.g. a hashed IP, replace this with: "Legitimate interest (GDPR Article 6(1)(f))", and keep a legitimate interest assessment on file. Sealmetrics stores none, so the first wording applies.]*
+**Legal basis**: Legitimate interest (GDPR Article 6(1)(f)) in understanding how our website is used. We store nothing on your device and no data that identifies you: no IP address is stored, and the only identifier is a pseudonymised session identifier that rotates daily and, once rotated, cannot be reconstructed — not even by our provider — so it cannot be linked across days or across sites. Reports are always aggregated. *[Keep a short legitimate interest assessment on file. If your tool stores other personal data, e.g. a hashed IP, list it here too.]*
 
-**Data retention**: 24 months maximum
+**Data retention**: Per-hit data 1 day; aggregated reports [period] *[Sealmetrics: per-hit log purged after 1 day. For other tools, state their retention, 24 months maximum.]*
 
-**Your rights**: Because our analytics hold no personal data about you, there is nothing in them to access, correct, delete or object to. You keep every GDPR right over any personal data we process elsewhere. Contact [email] with any question. *[Tools that store personal data must instead offer a right to object.]*
+**Your rights**: You can access, rectify, erase, restrict and object to the processing of your personal data. Because the session identifier rotates daily and cannot be reconstructed, in practice we cannot match a request to our analytics records (GDPR Article 11); to object going forward, contact [email] and we will stop measuring your visits *[or: use the opt-out described here]*. You keep every GDPR right over any other personal data we process.
 
 **Analytics provider**: [If third-party] [Provider name] acts as our data processor and does not use data for their own purposes.
 ```

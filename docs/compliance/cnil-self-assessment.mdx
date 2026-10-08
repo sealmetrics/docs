@@ -5,7 +5,7 @@ sidebar_position: 2
 description: "Official CNIL self-assessment documentation for Sealmetrics analytics - demonstrating compliance with French consent exemption requirements."
 tags: [compliance, cnil, france, self-assessment, gdpr, consent-exemption]
 last_update:
-  date: 2026-08-12
+  date: 2026-10-08
 keywords:
   - is sealmetrics cnil compliant
   - cnil exemption criteria analytics
@@ -76,7 +76,7 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 | Screen resolution data | ❌ Not reported — read only as an input to the session-identifier hash, never stored |
 | Used only for optimization | ✅ Yes - not for targeting |
 
-**Evidence:** Device reports provide aggregated, anonymized data for UX optimization only.
+**Evidence:** Device reports provide aggregated, non-identifying data for UX optimization only.
 
 ---
 
@@ -305,8 +305,11 @@ Account B ──► Isolated dataset B ──► Reports B only
 ```
 This website uses Sealmetrics for audience measurement. This tool
 is configured to comply with CNIL guidelines for consent exemption.
-It collects anonymous statistical data only, does not use cookies,
-and does not track you across websites. You can block analytics
+It stores nothing on your device and no data that identifies you,
+and does not track you across websites. Its session identifier is
+ephemeral: it rotates daily and, once rotated, not even Sealmetrics
+can reconstruct it. Reports are always aggregated. Legal basis:
+legitimate interest (GDPR Art. 6(1)(f)). You can block analytics
 using your browser's privacy settings or an ad blocker.
 ```
 
@@ -319,7 +322,7 @@ using your browser's privacy settings or an ad blocker.
 |--------|------------|
 | Opt-out available | ✅ Yes - by blocking the script in the browser, or by the site not loading the tracker for a visitor who objects. Sealmetrics has no built-in opt-out API and does not read DNT or GPC signals |
 | Easy to access | ✅ Standard browser controls |
-| No individual tracking | ✅ Nothing personal to opt out of |
+| No individual tracking | ✅ No tracking across days or sites to opt out of |
 
 **Important Context:**
 
