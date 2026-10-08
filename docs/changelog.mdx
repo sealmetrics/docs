@@ -1,8 +1,8 @@
 ---
 sidebar_position: 2
 title: Release Notes
-description: Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a free tier on self-service signup and paging for the Funnel API (September 2026).
-date: 2026-09-28
+description: Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a fix that lines up the Overview comparison line by date (October 2026).
+date: 2026-10-08
 tags: [changelog, releases, updates]
 keywords:
   - sealmetrics release notes
@@ -16,9 +16,22 @@ keywords:
   - samsung internet browser detection
   - sealmetrics free tier
   - funnel api pagination
+  - overview comparison line
 ---
 
 # Release Notes
+
+---
+
+## Overview comparison line lined up by date (October 8, 2026)
+
+With a comparison active, the dashed line on the Overview chart (the comparison period) could be shifted to the right. The chart paired both series by position, but the current period only includes the days — or, in the Today and Yesterday views, the hours — that have traffic, while the comparison covers the whole range. Every day or hour without data in the current period pushed the comparison one slot later.
+
+The effect was largest on sites whose data starts partway through the selected range, for example **This year vs Previous year** on a site tracked since March: the comparison line was drawn weeks out of place. Hourly views were affected by any hour without visits.
+
+The comparison line is now matched to the current period by date (and hour), so each point sits over the day it belongs to. Your data and the comparison totals were never affected — only where the line was drawn. No action required.
+
+One known limit: the chart still starts on the first day with data in the current period, so the part of the comparison period before that date is not drawn.
 
 ---
 

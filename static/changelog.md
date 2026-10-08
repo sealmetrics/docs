@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a free tier on self-service signup and paging for the Funnel API (September 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release a fix that lines up the Overview comparison line by date (October 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-10-05T10:32:44.968Z"
-source_hash: "e2e4bce9da49b6dd9e4899e2c36042f2b67b9296da83b35f0b7ae98ae51f0de8"
+date_generated: "2026-10-08T07:49:32.540Z"
+source_hash: "360e1a8425eefb71e123ad227914d708fd8b017d5b419763dc17cd30f1632d34"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,18 @@ publisher: "Sealmetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## Overview comparison line lined up by date (October 8, 2026)
+
+With a comparison active, the dashed line on the Overview chart (the comparison period) could be shifted to the right. The chart paired both series by position, but the current period only includes the days — or, in the Today and Yesterday views, the hours — that have traffic, while the comparison covers the whole range. Every day or hour without data in the current period pushed the comparison one slot later.
+
+The effect was largest on sites whose data starts partway through the selected range, for example **This year vs Previous year** on a site tracked since March: the comparison line was drawn weeks out of place. Hourly views were affected by any hour without visits.
+
+The comparison line is now matched to the current period by date (and hour), so each point sits over the day it belongs to. Your data and the comparison totals were never affected — only where the line was drawn. No action required.
+
+One known limit: the chart still starts on the first day with data in the current period, so the part of the comparison period before that date is not drawn.
 
 ---
 
