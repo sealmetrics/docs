@@ -8,7 +8,7 @@ keywords: [EU Omnibus, Digital Omnibus, GDPR simplification, ePrivacy reform, da
 
 # EU Digital Omnibus Regulation
 
-The **EU Digital Omnibus Regulation** (COM(2025) 837) represents the most significant simplification of European data law since the GDPR came into force in 2018. Published on November 19, 2025, this comprehensive reform consolidates five separate data regulations into two, eliminates cookie banners for 60% of websites, and promises to save businesses €1 billion annually.
+The **EU Digital Omnibus Regulation** (COM(2025) 837) represents the most significant simplification of European data law since the GDPR came into force in 2018. Published on November 19, 2025, this comprehensive reform consolidates five separate data regulations into two, and would change when cookie consent is needed. It is a proposal still under negotiation.
 
 ## What is the Digital Omnibus?
 
@@ -169,16 +169,15 @@ The Data Act absorbs provisions from:
 **The biggest change**: Article 5(3) ePrivacy Directive repealed for personal data; cookies brought under GDPR framework.
 
 **New regime (Articles 88a, 88b GDPR):**
-- Audience measurement for own use: **NO CONSENT NEEDED**
+- Audience measurement for own use: **no consent needed (if adopted as proposed)**
 - Third-party tracking: **CONSENT REQUIRED**
 - Single-click refuse button mandatory
 - No re-asking for 6 months after refusal
 - Browser signals for machine-readable consent (24-48 month timeline)
 
 **Impact:**
-- First-party analytics for own use: **NO CONSENT NEEDED**
+- First-party analytics for own use: **no consent needed (if adopted as proposed)**
 - Third-party tracking: **CONSENT STILL REQUIRED**
-- €820M/year projected business savings
 - €500M/year projected user productivity gains
 
 :::note Realistic Expectations
@@ -239,7 +238,6 @@ While the Commission projects significant banner reduction, legal analysts note 
 
 | Category | Annual Savings |
 |----------|---------------|
-| Cookie banner elimination | €820 million |
 | Data intermediation simplification | €6 million |
 | SMC fee exemptions | €5-19 million |
 | Custom cloud contracts (one-off) | €1.015 billion |
@@ -250,16 +248,13 @@ While the Commission projects significant banner reduction, legal analysts note 
 
 | Category | Annual Savings |
 |----------|---------------|
-| Cookie banner elimination | €320 million |
 | Data governance consolidation | Significant (TBD) |
 | Simplified compliance | Significant (TBD) |
 | **Total public authority savings by 2029** | **€1 billion** |
 
 ### User Benefits
 
-**Time savings**: 334 million hours/year currently wasted on cookie banners will be reclaimed.
-
-**Productivity value**: €500 million/year in user time savings (200 million users × reduced banner interactions).
+**Time savings**: less time spent by users on cookie banners.
 
 **Better experience**: Fewer interruptions, clearer choices, more respectful web browsing.
 

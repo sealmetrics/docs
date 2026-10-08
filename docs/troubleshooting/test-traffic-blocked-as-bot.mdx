@@ -32,7 +32,7 @@ Every incoming hit is checked against a global blocklist of known non-human User
 
 This is why a Playwright or Selenium run with the default User-Agent, a `curl` smoke test, or a custom UA like `MyCompany-TestBot` never shows up. The generic `bot` substring match is deliberately aggressive — it also catches home-made User-Agents you might not think of as "bots".
 
-### 2. The behavioral rate limit
+### 2. The burst detector
 
 Independently of the User-Agent, a session that fires a burst of pageviews — more than a handful within a couple of seconds — is treated as a bot and blocked for a period. Scripted click-through tests that load pages as fast as possible trip this even with a legitimate browser User-Agent.
 

@@ -116,7 +116,7 @@ Not all analytics platforms approach real-time data the same way. Their architec
 
 Google Analytics 4 is a cookie-based tool that relies on consent for full functionality. Google's Consent Mode v2 attempts to model data from users who reject cookies, but this is estimation, not measurement. The real-time report in GA4 ("Users in last 30 minutes") is a classic window implementation -- it stores timestamped events and queries them for the last 30 minutes.
 
-This design requires consent by default. With Consent Mode v2, Google claims to handle consent-denied users through behavioral modeling, but this approach has been [questioned by multiple DPAs](https://noyb.eu/en/noyb-files-gdpr-complaint-against-googles-new-consent-fraud), and the modeled data is not actual measurement. In practice, GA4 loses 15-60% of real visitor data in EU markets to consent rejection, depending on sector, brand strength and traffic mix.
+This design requires consent by default. With Consent Mode v2, Google claims to handle consent-denied users through behavioral modeling, but this approach has been [questioned by multiple DPAs](https://noyb.eu/en/noyb-files-gdpr-complaint-against-googles-new-consent-fraud), and the modeled data is not actual measurement. In practice, GA4 loses the visitors who reject consent, by an amount that depends on sector, brand strength and traffic mix.
 
 ### Matomo (Self-Hosted)
 
@@ -137,7 +137,7 @@ Sealmetrics was designed from the ground up to comply with both AEPD and CNIL re
 - **Real-time dashboard shows daily aggregates only.** You see "today so far" numbers that update in real time, but the underlying data is always aggregated at a daily level. There are no 30-minute windows, no hourly breakdowns, no sub-daily buckets.
 - **No visitor logs.** There is no screen in the product that shows individual user sessions, navigation paths, or per-visitor timelines. The data model does not support it -- this is a deliberate architectural constraint, not a hidden feature.
 - **No cookies and no stored fingerprint.** Sealmetrics uses a [consentless tracking architecture](/security-privacy/how-consentless-works) that does not set cookies and does not store IP addresses. Its session identifier is a hash of device characteristics computed in the browser, never written to the device, and re-keyed daily on the server with a salt that is then destroyed — so nothing stored can link the same device across days.
-- **No consent-driven data loss.** Because no consent is required, there is no loss from banner rejection or ghosting — the 15-60% gap that cookie-based tools live with. We measure all the traffic you lose today to the cookie banner, which tools like GA4 cannot do in EU markets.
+- **No consent-driven data loss.** Because no consent is required, there is no loss from banner rejection or ghosting — the consent gap that cookie-based tools live with. We measure all the traffic you lose today to the cookie banner, which tools like GA4 cannot do in EU markets.
 
 The result is that marketers get real-time visibility into their traffic without the exposure that comes with storing sub-daily data. You know how your site is performing today. You can see trends across days, weeks, and months. You just cannot generate a report titled "Traffic from 2pm to 3pm" -- and that constraint is what keeps the system compliant.
 
@@ -156,7 +156,7 @@ The following table summarizes how each tool handles the key factors that determ
 | **IP storage** | Yes (hashed) | Configurable | No | No |
 | **AEPD daily aggregation** | No | No | Partial | Yes |
 | **Meets CNIL exemption criteria** | No | Configurable | Likely | Yes (self-assessed) |
-| **Data capture rate (EU)** | 40-85% | 40-85% | Higher, non-zero loss where consent applies | Complete |
+| **Data capture rate (EU)** | Only visitors who consent | Only visitors who consent | Higher, non-zero loss where consent applies | Complete |
 | **Consent banner needed** | Yes | Depends | No | No |
 
 ## Technical Implementation: Why Architecture Matters
@@ -222,7 +222,7 @@ Real-time analytics is not inherently illegal under GDPR. The legality depends e
 
 **Snapshots and daily aggregates** -- showing current counters and today's running totals -- are compatible with the AEPD and CNIL consent exemptions for audience measurement. They produce aggregate statistics that cannot be used to identify or profile individuals.
 
-**Sub-daily windows and visitor logs** -- showing time-bucketed reports, hourly breakdowns, or individual session data -- fall outside the consent exemption. Under AEPD rules, these require a cookie banner and user consent, which means accepting 15-60% data loss in EU markets.
+**Sub-daily windows and visitor logs** -- showing time-bucketed reports, hourly breakdowns, or individual session data -- fall outside the consent exemption. Under AEPD rules, these require a cookie banner and user consent, which means accepting consent-driven data loss in EU markets.
 
 Sealmetrics is built on this distinction. The platform delivers real-time visibility into your traffic without consent-driven data loss, while meeting, on our own assessment, both the AEPD and CNIL criteria for consent-exempt audience measurement. No cookies, no consent banner for its own analytics (in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment)), no consent-driven data loss.
 

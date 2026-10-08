@@ -4,7 +4,7 @@
 |---------|-------------|-------------------|
 | Consent Required | No, on Sealmetrics' self-assessment (Germany: open question) | Yes |
 | Cookie Banners | Not needed for its own analytics (self-assessed; Germany: open question) | Required in EU |
-| Data Completeness (EU) | Not consent-dependent (coverage depends on implementation) | 40-85% (consent-dependent; 15-60% of visitors lost) |
+| Data Completeness (EU) | Not consent-dependent (coverage depends on implementation) | Consent-dependent: visitors who reject or ignore the banner are lost; varies by site |
 | IP Storage | Never | Configurable |
 | Analytics data location | EU only (Dublin) | Global |
 | GDPR | Designed for it (self-assessed, not certified) | Requires consent and configuration |

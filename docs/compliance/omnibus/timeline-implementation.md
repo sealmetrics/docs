@@ -131,7 +131,7 @@ All timelines below are calculated **from entry into force** (estimated Q3 2027)
 - Third-party tracking still requires consent
 
 :::note Realistic Expectations
-While the Commission projects 60% of cookies will no longer need consent, legal analysts note that:
+While the proposal would remove the consent requirement for some uses, legal analysts note that:
 - Information obligations may still require some form of notification
 - Hybrid banner solutions are expected for sites with mixed tracking tools
 - Full cookie banner elimination applies mainly to sites using **only** first-party, aggregated analytics
