@@ -27,7 +27,7 @@ Sealmetrics stores **no personal data and no persistent identifiers** for websit
 
 - No IP addresses stored (used ephemerally in memory for anti-bot protection, never persisted)
 - No cookies or terminal storage
-- No user IDs, device IDs, or stored fingerprints
+- No user IDs, persistent device IDs, or stored fingerprints
 - No cross-session identifiers — the session identifier is a hash computed in the browser that is never stored as sent: the server re-keys it with a daily salt destroyed on rotation, and the resulting daily pseudonym is purged after 1 day, so it cannot recognize a returning visitor
 - Country derived from the browser timezone, not from the IP
 - User agent used in flight only; just the derived browser/OS/device categories are kept, in aggregates, never joined to any identity

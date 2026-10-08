@@ -162,7 +162,7 @@ Why hashing doesn't solve the problem:
 
 **Schrems II Implications**: The Schrems II decision invalidated Privacy Shield, making US data transfers problematic. Many companies responded by hosting analytics in the EU, but if those tools store IP addresses (even hashed), they still process personal data requiring careful legal basis justification.
 
-Sealmetrics solves this by never storing IP addresses. Our session tracking uses temporary identifiers that reset after each visit, making reverse-identification technically impossible.
+Sealmetrics solves this by never storing IP addresses. Our session identifier is ephemeral: nothing is stored on the device, and the server re-keys it with a salt that rotates daily and is then destroyed, so it cannot be linked across days or across sites.
 
 ### Problem 2: Cookie Requirements
 
@@ -172,7 +172,7 @@ The ePrivacy Directive Article 5(3)—often called the Cookie Law—requires con
 
 **Technical Cookies Exemption**: The ePrivacy Directive exempts "strictly necessary" cookies for functionality users explicitly request. Analytics cookies don't qualify for this exemption according to regulatory consensus. The upcoming ePrivacy Regulation will likely remove any remaining ambiguity.
 
-Sealmetrics avoids this problem entirely through cookieless tracking. No cookies means no ePrivacy Directive concerns, no consent banners, and no data loss from rejections.
+Sealmetrics avoids this problem through cookieless tracking: nothing is stored on the device, and its ephemeral session identifier, which rotates daily, is assessed against the audience-measurement exemption rather than consent — so no consent banner and no data loss from rejections.
 
 ### Problem 3: US Data Transfers
 
@@ -303,7 +303,8 @@ Does your analytics store any personal data
 │
 ├─ No, and it writes nothing to the device
 │  └─ No Article 6 basis needed (Recital 26)
-│     No consent needed (ePrivacy 5(3) not engaged)
+│     No consent needed if the audience-measurement
+│     exemption to ePrivacy 5(3) is met
 │     └─ Choose Sealmetrics or a similar truly cookieless tool
 │
 └─ Yes → you are inside the GDPR, so pick a basis:
@@ -488,11 +489,11 @@ Unlike cookie-based analytics tools that retrofit GDPR compliance onto existing 
 
 **No Compromise Required**: Traditional analytics forces a choice between a clean legal position and complete data. Cookie consent buys the former at the cost of 15-60% of the latter. Sealmetrics measures every visit and keeps the legal position clean, through:
 
-1. **Cookieless Architecture**: No cookies means no ePrivacy Directive concerns, no consent requirements, no data loss from rejections.
+1. **Cookieless Architecture**: Nothing is stored on the device, and the session identifier is assessed against the audience-measurement exemption rather than consent, so there is no data loss from rejections.
 
 2. **Zero IP Storage**: Not hashing, not truncating—zero storage. IP addresses never touch our database, eliminating the largest GDPR compliance question.
 
-3. **Session-Based Tracking**: Temporary identifiers that reset after each visit provide analytics value without enabling cross-session tracking or user identification.
+3. **Session-Based Tracking**: An ephemeral session identifier that rotates daily provides analytics value without enabling cross-day or cross-site tracking or user identification.
 
 4. **EU-Exclusive Operation**: Servers, company, and data all in the EU. No US parent, no Schrems II concerns, no adequacy decision dependencies.
 
@@ -655,8 +656,8 @@ The path to a clean legal position without giving up 15-60% of your data:
 
 Sealmetrics satisfies all of these by default:
 
-- **No consent required**: nothing stored on the device (ePrivacy 5(3) not engaged), no personal data stored (outside GDPR material scope, Recital 26)
-- **No cookies**: no ePrivacy exposure and no consent-driven data loss
+- **No consent required**: nothing stored on the device and a session identifier that rotates daily (audience-measurement exemption to ePrivacy 5(3), self-assessed), no personal data stored (outside GDPR material scope, Recital 26)
+- **No cookies**: no cookie lifespan to manage and no consent-driven data loss
 - **Zero IP storage**: not even hashed—the primary personal data question doesn't arise
 - **No consent gap**: every visit measured, rather than the 40-85% a banner lets through
 - **EU-exclusive**: analytics data hosted in Dublin, Ireland. No Schrems II complications

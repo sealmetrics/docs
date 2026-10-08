@@ -17,7 +17,7 @@ This complete guide explains how cookieless analytics works, why it's GDPR compl
 ### Key Takeaways
 
 - **Cookieless analytics measures every visit** without cookie consent banners, closing a 15-60% gap
-- **No legal basis is required at all** when no personal data is stored: the dataset falls outside the GDPR's material scope (Recital 26), and ePrivacy Article 5(3) is never triggered because nothing is written to the device
+- **No legal basis is required at all** when no personal data is stored: the dataset falls outside the GDPR's material scope (Recital 26), and nothing is written to the device; the session identifier, which rotates daily, is assessed against the audience-measurement exemption of ePrivacy Article 5(3)
 - **Session-based tracking** replaces cookies with temporary identifiers that reset after each visit
 - **Sealmetrics provides true cookieless analytics** without storing IP addresses (unlike competitors)
 
@@ -377,7 +377,7 @@ Replace cookie consent section with:
 
 ### Misconception 3: "Cookieless analytics requires consent in some countries"
 
-**Reality**: if properly implemented (like Sealmetrics), cookieless analytics requires no consent in any EU country — because ePrivacy Article 5(3) is never triggered and, with no personal data stored, the GDPR's material scope is never engaged.
+**Reality**: if properly implemented (like Sealmetrics), cookieless analytics is designed to need no consent in EU countries — nothing is stored on the device, the ephemeral session identifier rotates daily and falls under the audience-measurement exemption of ePrivacy Article 5(3) (our self-assessment), and, with no personal data stored, the GDPR's material scope is never engaged.
 
 **Country-specific notes**:
 - **Germany (TTDSG)**: Cookieless compliant, no consent needed

@@ -52,7 +52,7 @@ Sealmetrics measures aggregate behaviour instead of individuals, recording a sma
 
 Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When a visitor rejects consent, the tool records nothing — which is why cookie-based analytics typically lose **15–60% of visitor data in EU markets** — how much depends on sector, brand strength and traffic mix. The result: businesses make decisions based on a fraction of their actual traffic.
 
-Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Every visitor is measured. Every page view is counted. Every conversion is attributed to its source. No consent is needed because no personal data is involved.
+Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Every visitor is measured. Every page view is counted. Every conversion is attributed to its source. No consent is needed, on our own assessment: no personal data is involved, nothing is stored on the device, and the ephemeral session identifier rotates daily and falls under the audience-measurement exemption.
 
 ---
 
@@ -191,9 +191,9 @@ Both methods can run simultaneously or independently, depending on the account c
 
 All processing and storage of customer analytics data happens in **Dublin, Ireland**.
 
-### Practical effects of having no identifiers
+### Practical effects of having no persistent identifiers
 
-- **Nothing for privacy tooling to strip.** Ad blockers and browser tracking protections such as ITP target identifiers and known tracking domains; Sealmetrics sets none and uses its own domain, so measurement stays consistent across Safari, Firefox and private browsing modes.
+- **Nothing for privacy tooling to strip.** Ad blockers and browser tracking protections such as ITP target identifiers and known tracking domains; Sealmetrics stores nothing on the device and uses its own domain, so measurement stays consistent across Safari, Firefox and private browsing modes.
 - **No CMP dependency.** No cookie categorisation, no Consent Mode v2, no region-conditional GTM triggers, and no re-testing the analytics setup every time a banner changes.
 - **No consent-driven attribution gaps.** UTM values are read on arrival rather than after a banner interaction, so traffic is not misfiled as Direct when a visitor accepts cookies mid-journey.
 - **Light footprint.** The tracker is 1.1 KB gzipped, loads asynchronously and does not block rendering.

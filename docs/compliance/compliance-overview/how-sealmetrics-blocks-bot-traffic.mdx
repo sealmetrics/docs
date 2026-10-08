@@ -11,7 +11,7 @@ keywords:
   - datacenter blocklist analytics bot detection
 category: "Legal"
 subcategory: "Compliance Overview"
-updated: "2026-07-23"
+updated: "2026-10-08"
 ---
 
 # How Sealmetrics Blocks Bot Traffic (And Stays Consentless)
@@ -84,9 +84,9 @@ Those signals would describe the *software environment*, not the person, and wou
 
 ## Why this approach is privacy-compliant
 
-- **User agents** are used in flight as anonymous device-category signals — the raw string is never written to storage; only the derived browser/OS/device categories persist, in aggregates, for up to 24 months — never linked to any personal identifier (we don't have one), and never used to reconstruct anyone's history.
+- **User agents** are used in flight as anonymous device-category signals — the raw string is never written to storage; only the derived browser/OS/device categories persist, in aggregates, for up to 24 months — never linked to any personal or persistent identifier (the only identifier is a session pseudonym that rotates daily), and never used to reconstruct anyone's history.
 - **IPs** are processed transiently on the server for security only, under legitimate interest (Recital 49), and never stored with analytics data.
-- **No tracking identifiers** are created or used at any layer.
+- **No persistent or cross-site identifiers** are created or used at any layer — the session identifier is ephemeral, scoped to one site and rotates daily.
 - **No profiling of individuals** — classification targets bot vs. human traffic, at session level, based on software signals.
 
 This is why bot filtering requires **no consent banner** and creates **no personal-data exposure**.

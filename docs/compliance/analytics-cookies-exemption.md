@@ -4,7 +4,7 @@ title: "Analytics Cookies: Consent Exemption Requirements"
 description: "When analytics cookies are exempt from consent under AEPD and CNIL criteria: user notification, 13-month cookies, 24-month retention, own purposes only."
 tags: [compliance, cookies, consent-exemption, aepd, cnil, analytics]
 last_update:
-  date: 2026-08-27
+  date: 2026-10-08
 keywords: [analytics cookies, consent exemption, AEPD, Spanish DPA, cookie consent, GDPR analytics, first-party analytics]
 ---
 
@@ -269,6 +269,7 @@ The French DPA (CNIL) developed similar framework:
 
 **Why compliant**:
 - Cookieless by design (no cookie lifespan issue)
+- Nothing stored on the device; the session identifier is computed in the browser from device characteristics and re-keyed on the server with a daily salt that is then destroyed, so it cannot be linked across days or across sites. Reading those browser properties is itself "access" under Article 5(3), which is why the exemption criteria below matter
 - First-party data only
 - No cross-site tracking
 - No individual user profiling
@@ -376,7 +377,7 @@ We use [analytics tool name] to understand how visitors use our website. This he
 
 **Purpose**: Website performance analysis and improvement
 
-**Legal basis**: Our analytics do not process personal data — no IP address is stored, no cookie or identifier is set, and no visitor can be singled out. Under GDPR Recital 26 this information is anonymous and falls outside the Regulation, so no Article 6 legal basis (consent or legitimate interest) is required for it. *[If your tool does store personal data, e.g. a hashed IP, replace this with: "Legitimate interest (GDPR Article 6(1)(f))", and keep a legitimate interest assessment on file. Sealmetrics stores none, so the first wording applies.]*
+**Legal basis**: Our analytics do not process personal data — no IP address is stored, nothing is stored on your device, and the only identifier is an ephemeral session identifier that rotates daily and cannot be linked across days or across sites, so no visitor can be singled out. Under GDPR Recital 26 this information is anonymous and falls outside the Regulation, so no Article 6 legal basis (consent or legitimate interest) is required for it. *[If your tool does store personal data, e.g. a hashed IP, replace this with: "Legitimate interest (GDPR Article 6(1)(f))", and keep a legitimate interest assessment on file. Sealmetrics stores none, so the first wording applies.]*
 
 **Data retention**: 24 months maximum
 

@@ -10310,7 +10310,7 @@ A hit is an Entrance when:
 Entrances give you:
 
 - A **privacy-safe measurement** of how often people access your website  
-- A method that requires **no cookies, no identifiers, no consent**
+- A method that requires **no cookies, no persistent identifiers, no consent**
 - A consistent way to track traffic across all browsers and privacy restrictions
 
 Even if the same person enters multiple times from SEO, each access is counted independently.  
@@ -10331,7 +10331,7 @@ While Entrances are not equivalent to “sessions” or “unique visitors,” t
 This method ensures:
 
 - No user tracking
-- No identifiers
+- No persistent identifiers (only an ephemeral session identifier that rotates daily)
 - No consent required
 - Accurate, transparent traffic measurement
 
@@ -10341,7 +10341,7 @@ Sealmetrics delivers analytics designed for the privacy-first era — without co
 
 - [Metrics Reference](/reports/definitions) — Formulas for entrances, pageviews, and conversions
 - [GA4 vs Sealmetrics — Complete Comparison](/faq/ga4-vs-sealmetrics) — How entrances differ from GA4 sessions
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — Why measurement needs no identifiers
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — Why measurement needs no persistent identifiers
 - [Overview Report](/reports/overview) — See entrances and pageviews at a glance
 
 
@@ -11695,7 +11695,7 @@ If UTMs *are* added:
 ## How to Track Facebook Ads Campaigns Without Cookies
 
 ### Use UTM Parameters
-UTM parameters are tags added to your ad URLs that Sealmetrics can read instantly — no identifiers, no session tracking.
+UTM parameters are tags added to your ad URLs that Sealmetrics can read instantly — no persistent identifiers, no cross-session tracking.
 
 #### How to implement UTMs
 1. Add `utm_source`, `utm_medium`, and `utm_campaign` to every destination URL, adding `utm_term` or `utm_content` when you need extra detail on ad sets or creatives  
@@ -24575,7 +24575,8 @@ The Sealmetrics API supports two authentication methods. **API keys** (prefixed 
 
 **Note:**
 Sealmetrics measures **cookieless**: the tracking script writes nothing to your
-visitors' browsers — no cookies, no local storage, no identifiers.
+visitors' browsers — no cookies, no local storage, no persistent identifier. The
+session identifier it sends is ephemeral and rotates daily.
 
 The cookies described on this page do something else. They keep *you* signed in
 to the Sealmetrics dashboard and API, the way any web application does. They are
@@ -39799,7 +39800,7 @@ Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel
 
 Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When a visitor rejects consent, the tool records nothing — which is why cookie-based analytics typically lose **15–60% of visitor data in EU markets** — how much depends on sector, brand strength and traffic mix. The result: businesses make decisions based on a fraction of their actual traffic.
 
-Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Every visitor is measured. Every page view is counted. Every conversion is attributed to its source. No consent is needed because no personal data is involved.
+Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Every visitor is measured. Every page view is counted. Every conversion is attributed to its source. No consent is needed, on our own assessment: no personal data is involved, nothing is stored on the device, and the ephemeral session identifier rotates daily and falls under the audience-measurement exemption.
 
 ---
 
@@ -39938,9 +39939,9 @@ Both methods can run simultaneously or independently, depending on the account c
 
 All processing and storage of customer analytics data happens in **Dublin, Ireland**.
 
-### Practical effects of having no identifiers
+### Practical effects of having no persistent identifiers
 
-- **Nothing for privacy tooling to strip.** Ad blockers and browser tracking protections such as ITP target identifiers and known tracking domains; Sealmetrics sets none and uses its own domain, so measurement stays consistent across Safari, Firefox and private browsing modes.
+- **Nothing for privacy tooling to strip.** Ad blockers and browser tracking protections such as ITP target identifiers and known tracking domains; Sealmetrics stores nothing on the device and uses its own domain, so measurement stays consistent across Safari, Firefox and private browsing modes.
 - **No CMP dependency.** No cookie categorisation, no Consent Mode v2, no region-conditional GTM triggers, and no re-testing the analytics setup every time a banner changes.
 - **No consent-driven attribution gaps.** UTM values are read on arrival rather than after a banner interaction, so traffic is not misfiled as Direct when a visitor accepts cookies mid-journey.
 - **Light footprint.** The tracker is 1.1 KB gzipped, loads asynchronously and does not block rendering.
@@ -40259,7 +40260,7 @@ This approach fully adheres to privacy and data-minimization principles:
     feature is not live and cannot be enabled, so no such lookup runs
     on any account. See
     [What We Track](/security-privacy/what-we-track).)\
--   No unique device identifiers are stored.\
+-   No persistent device identifiers are stored.\
 -   Timezone information does not identify the user.\
 -   Country calculation relies solely on non-personal technical data
     provided by the browser.
@@ -40271,7 +40272,7 @@ consent for tracking.
 **Note:**
 - Country comes from the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`) mapped against an IANA timezone table — no IP lookup is involved.
 - Unique timezones (e.g. Asia/Tokyo) resolve with high confidence; shared timezones (e.g. Europe/Paris) resolve to the most likely country, so precision is country-level only.
-- No device identifiers are stored and the timezone does not identify the user, which is why this geo data needs no consent.
+- No persistent device identifiers are stored and the timezone does not identify the user, which is why this geo data needs no consent.
 
 ## Related documentation
 
@@ -40406,7 +40407,7 @@ Sealmetrics does not collect the data that would put visitors at risk in the fir
 In practice that means four things:
 
 - **Nothing is written to the visitor's device.** No cookies, no localStorage, no sessionStorage. The session identifier used to group hits within one visit is a hash of standard device characteristics computed in the browser; it is never written to the device, is re-keyed on the server with a daily salt that is destroyed on rotation, and cannot recognise a returning visitor on another day.
-- **No persistent identifier is stored.** No IP addresses in the analytics database (they are used in memory only for anti-abuse checks and site-configured exclusions), no user IDs, no device IDs, no stored fingerprint, no cross-day, cross-session or cross-device linking. The user agent is used for anonymous device classification only — the raw string is never written to storage; only the derived browser/OS/device categories persist inside aggregates.
+- **No persistent identifier is stored.** No IP addresses in the analytics database (they are used in memory only for anti-abuse checks and site-configured exclusions), no user IDs, no persistent device IDs, no stored fingerprint, no cross-day, cross-session or cross-device linking. The user agent is used for anonymous device classification only — the raw string is never written to storage; only the derived browser/OS/device categories persist inside aggregates.
 - **Data is minimised, then aged out.** Event-level rows are purged after 1 day, hourly aggregates after 90 days, daily aggregates and conversions after 24 months. Retention is fixed for every plan and enforced by database TTLs.
 - **Storage stays in the EU.** All customer analytics data is stored and processed in Dublin, Ireland, encrypted in transit and at rest, under role-based access control.
 
@@ -40417,7 +40418,7 @@ Because visitor analytics data carries no identifier tied to a person (the sessi
 Sealmetrics holds no third-party security certification such as ISO 27001 or SOC 2, and no supervisory authority certifies analytics tools. What exists is our own [compliance self-assessments](/compliance) against published criteria.
 
 **Note:**
-- Nothing is written to the visitor's device and no persistent identifier is stored: no cookies, no IP addresses in the analytics database, no user or device IDs.
+- Nothing is written to the visitor's device and no persistent identifier is stored: no cookies, no IP addresses in the analytics database, no user IDs or persistent device IDs.
 - Retention is fixed for every plan: event-level rows purged after 1 day, hourly aggregates after 90 days, daily aggregates and conversions after 24 months.
 - All customer analytics data is stored and processed in Dublin, Ireland; a DPA is ready to sign at sealmetrics.com/dpa. No ISO 27001 or SOC 2 certification is held.
 
@@ -40719,7 +40720,7 @@ No personal data. No unique identifiers.
 
 This groups interactions by **campaign**, not by user.
 
-The whole chain, with no identifier anywhere in it:
+The whole chain, with no personal or persistent identifier anywhere in it:
 
 ```mermaid
 flowchart LR
@@ -41289,11 +41290,11 @@ The practical case for consentless tracking is that **the data arrives complete 
 
 ## What do you gain by measuring without consent?
 
-Four benefits follow from having no cookies and no identifiers.
+Four benefits follow from having no cookies and no persistent identifiers.
 
 **Complete data.** Hits are measured regardless of whether a banner was accepted, what the browser's privacy settings are, or whether the visitor is in a private window. That removes the two most common distortions in EU reporting: missing traffic and the "dark traffic" that gets filed as Direct.
 
-**Much less for privacy tooling to block.** Ad blockers and browser protections such as [Safari's ITP](https://webkit.org/blog/7675/intelligent-tracking-prevention/) target identifiers, third-party cookies and known tracking domains. Sealmetrics sets no identifiers, stores nothing on the device and serves from its own domain, so measurement stays far more consistent across browsers and browser versions. A custom filter rule can still block it.
+**Much less for privacy tooling to block.** Ad blockers and browser protections such as [Safari's ITP](https://webkit.org/blog/7675/intelligent-tracking-prevention/) target identifiers, third-party cookies and known tracking domains. Sealmetrics stores nothing on the device, keeps no persistent identifier and serves from its own domain, so measurement stays far more consistent across browsers and browser versions. A custom filter rule can still block it.
 
 **Cleaner attribution.** UTM values are read when the visitor arrives, not after they interact with a banner, so a mid-journey consent acceptance cannot overwrite the original source. Attribution is last-click at channel level — the model that works without linking touchpoints to a person. Multi-touch attribution is not available for exactly that reason.
 
@@ -41305,7 +41306,7 @@ The trade-off is real and worth stating plainly: consentless measurement gives u
 
 **Note:**
 - Cookie-based analytics lose 15–60% of visitor data in EU markets depending on sector, brand strength and traffic mix; Sealmetrics does not depend on consent to record a visit.
-- No cookies and no identifiers leave far less for ad blockers or Safari ITP to strip, no CMP or Consent Mode v2 to maintain, and UTMs read on arrival.
+- No cookies and no persistent identifiers leave far less for ad blockers or Safari ITP to strip, no CMP or Consent Mode v2 to maintain, and UTMs read on arrival.
 - The trade-off: no unique visitors, session duration, cross-session journeys or cohorts — attribution is last-click at channel level.
 
 ## Related documentation
@@ -41376,7 +41377,7 @@ Privacy by Design is the framework [GDPR Article 25](https://eur-lex.europa.eu/e
 
 | Principle | How it shows up in Sealmetrics |
 |-----------|-------------------------------|
-| **1. Proactive, not reactive** | Privacy constraints are structural. The system cannot start identifying visitors later without a redesign, because there is no identifier to switch on. |
+| **1. Proactive, not reactive** | Privacy constraints are structural. The system cannot start identifying visitors later without a redesign, because there is no persistent identifier to switch on. |
 | **2. Privacy as the default** | Anonymous measurement from the first page load. Visitors do not opt in to anything, and there is no less-private mode to fall back to. |
 | **3. Full functionality** | Traffic, attribution, conversions, revenue and aggregate engagement are all reported without personal data. What is genuinely lost — unique visitors, session duration, cross-session journeys — is [documented rather than worked around](/security-privacy/consentless-analytics#what-consentless-analytics-can-and-cannot-measure). |
 | **4. End-to-end security** | EU-only storage in Dublin, Ireland; encryption in transit and at rest; role-based access control; short retention enforced by database TTLs. See [Data Location & Retention](/security-privacy/data-location). |
@@ -41567,8 +41568,8 @@ If it ships, it would store aggregate, per-hit **environmental** and **behaviora
 ❌ Religious  
 ❌ Demographic profiling  
 
-### No Device-Level Identifiers
-❌ Device IDs  
+### No Persistent Device Identifiers
+❌ Persistent device IDs  
 ❌ MAC addresses  
 ❌ Stored device fingerprints (the in-browser hash is re-keyed daily on the server — see [Session identifier](#6-session-identifier))  
 ❌ Advertising IDs  
@@ -41753,7 +41754,7 @@ Domains with enough going on to need their own page:
 
 ## 6. Related documentation
 
-- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without storing anything on the device, so Article 5(3) is never engaged
+- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without storing anything on the device, with an ephemeral session identifier that rotates daily
 - [What We Track](/security-privacy/what-we-track) — the full list of what Sealmetrics collects
 - [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints
 - [Data Location](/security-privacy/data-location) — where Sealmetrics processes and stores data
@@ -41869,7 +41870,7 @@ whether your consent gate actually works.
 
 - [Third-party domain lookup](/security-privacy/third-party-analytics-domains) — the full table of external domains analytics tools contact, and which tool owns each
 - [omtrdc.net requests](/security-privacy/omtrdc-net-requests) — the Adobe collection endpoint, and why an image GET loses visits
-- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without setting anything on the device, so Article 5(3) is never engaged
+- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without setting anything on the device, with an ephemeral session identifier that rotates daily
 - [Why No Consent Is Needed](/security-privacy/why-no-consent) — the legal basis in full
 - [What We Track](/security-privacy/what-we-track) — the complete list of what Sealmetrics collects, for comparison
 - [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints, and what that costs
@@ -42056,7 +42057,7 @@ URL: https://docs.sealmetrics.com/compliance/compliance-overview
 
 # Compliance Overview
 
-Sealmetrics does not need a consent banner because it processes no personal data: no cookies, no identifiers, no stored IP addresses, so there is nothing to consent to under [ePrivacy](https://eur-lex.europa.eu/eli/dir/2002/58/oj) and no personal-data obligations under the [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj). This section explains how that architecture meets GDPR, ePrivacy and CNIL requirements while enabling consentless analytics.
+Sealmetrics is designed to need no consent banner: nothing is stored on the device (no cookies, no localStorage), no IP addresses are stored, and the only identifier is an ephemeral session identifier that rotates daily and cannot be linked across days or across sites. Under [ePrivacy](https://eur-lex.europa.eu/eli/dir/2002/58/oj) our self-assessment rests on the audience-measurement exemption (own-site statistics only, no cross-site tracking, no reuse of the data); under the [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj) on the stored dataset not identifying anyone. This section explains how that architecture meets GDPR, ePrivacy and CNIL requirements while enabling consentless analytics.
 
 Our privacy-first approach is built on legal foundations, not technical workarounds. Learn how we ensure data accuracy through bot filtering, why our tracking method is legally compliant across EU jurisdictions, and get answers to common legal questions about implementing analytics without consent banners.
 
@@ -42476,6 +42477,7 @@ The French DPA (CNIL) developed similar framework:
 
 **Why compliant**:
 - Cookieless by design (no cookie lifespan issue)
+- Nothing stored on the device; the session identifier is computed in the browser from device characteristics and re-keyed on the server with a daily salt that is then destroyed, so it cannot be linked across days or across sites. Reading those browser properties is itself "access" under Article 5(3), which is why the exemption criteria below matter
 - First-party data only
 - No cross-site tracking
 - No individual user profiling
@@ -42583,7 +42585,7 @@ We use [analytics tool name] to understand how visitors use our website. This he
 
 **Purpose**: Website performance analysis and improvement
 
-**Legal basis**: Our analytics do not process personal data — no IP address is stored, no cookie or identifier is set, and no visitor can be singled out. Under GDPR Recital 26 this information is anonymous and falls outside the Regulation, so no Article 6 legal basis (consent or legitimate interest) is required for it. *[If your tool does store personal data, e.g. a hashed IP, replace this with: "Legitimate interest (GDPR Article 6(1)(f))", and keep a legitimate interest assessment on file. Sealmetrics stores none, so the first wording applies.]*
+**Legal basis**: Our analytics do not process personal data — no IP address is stored, nothing is stored on your device, and the only identifier is an ephemeral session identifier that rotates daily and cannot be linked across days or across sites, so no visitor can be singled out. Under GDPR Recital 26 this information is anonymous and falls outside the Regulation, so no Article 6 legal basis (consent or legitimate interest) is required for it. *[If your tool does store personal data, e.g. a hashed IP, replace this with: "Legitimate interest (GDPR Article 6(1)(f))", and keep a legitimate interest assessment on file. Sealmetrics stores none, so the first wording applies.]*
 
 **Data retention**: 24 months maximum
 
@@ -42797,7 +42799,7 @@ We only collect a small set of non-identifying fields per hit:
 
 See [What We Track vs What We Don't](/security-privacy/what-we-track) for the full breakdown.
 
-All data is anonymous and isolated.
+No stored field identifies a visitor, and each account's data is isolated.
 
 ---
 
@@ -42847,7 +42849,7 @@ Sealmetrics does **not** use:
 - any stored or persistent fingerprint  
 - cross-site IDs  
 
-Nothing is stored on the visitor's device. The tracker does read standard browser properties to compute the daily-re-keyed [session identifier](#what-data-does-sealmetrics-calculate) described above.
+Nothing is stored on the visitor's device. The tracker does read standard browser properties to compute the daily-re-keyed [session identifier](#what-data-does-sealmetrics-calculate) described above. That read is an "access" under ePrivacy Article 5(3), so our self-assessment that no consent is needed rests on the audience-measurement exemption criteria (own-site statistics only, no cross-site tracking, no reuse of the data) — see [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption).
 
 ---
 
@@ -43944,9 +43946,9 @@ Those signals would describe the *software environment*, not the person, and wou
 
 ## Why this approach is privacy-compliant
 
-- **User agents** are used in flight as anonymous device-category signals — the raw string is never written to storage; only the derived browser/OS/device categories persist, in aggregates, for up to 24 months — never linked to any personal identifier (we don't have one), and never used to reconstruct anyone's history.
+- **User agents** are used in flight as anonymous device-category signals — the raw string is never written to storage; only the derived browser/OS/device categories persist, in aggregates, for up to 24 months — never linked to any personal or persistent identifier (the only identifier is a session pseudonym that rotates daily), and never used to reconstruct anyone's history.
 - **IPs** are processed transiently on the server for security only, under legitimate interest (Recital 49), and never stored with analytics data.
-- **No tracking identifiers** are created or used at any layer.
+- **No persistent or cross-site identifiers** are created or used at any layer — the session identifier is ephemeral, scoped to one site and rotates daily.
 - **No profiling of individuals** — classification targets bot vs. human traffic, at session level, based on software signals.
 
 This is why bot filtering requires **no consent banner** and creates **no personal-data exposure**.
@@ -44470,6 +44472,7 @@ This makes Sealmetrics one of the only analytics platforms capable of providing 
 ✔ No individual user tracking  
 ✔ No cross-session reconstruction  
 ✔ Nothing stored on the device; no stored device fingerprint  
+✔ Session identifier computed in the browser from device characteristics and re-keyed on the server with a daily-rotating salt that is destroyed — not linkable across days or across sites (exemption self-assessed against the audience-measurement criteria)  
 
 ### CCPA  
 ✔ No personal information collected  
@@ -44635,7 +44638,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 ### Where GDPR Article 6 Fits
 
-**Article 6 lists the lawful bases for processing personal data. It is only reached if personal data is processed.** For a dataset with no IP and no identifier (case 1 above, Sealmetrics), it is not reached at all. The table below shows how each basis fares for cookieless tools that *do* still process some personal data (case 2):
+**Article 6 lists the lawful bases for processing personal data. It is only reached if personal data is processed.** For a dataset with no IP and no persistent identifier (case 1 above, Sealmetrics), it is not reached at all. The table below shows how each basis fares for cookieless tools that *do* still process some personal data (case 2):
 
 | Legal Basis | Applicability | Requirements |
 |-------------|---------------|--------------|
@@ -44682,7 +44685,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **For a minimal analytics tool that still processes personal data**:
 - ✅ Cannot understand traffic without measurement
 - ✅ Cookieless approach is far less intrusive than cookie-based tracking
-- ⚠️ A less invasive alternative does exist: a tool that stores no IP and no identifier at all (case 1 above), which moves the processing outside the GDPR entirely
+- ⚠️ A less invasive alternative does exist: a tool that stores no IP and no persistent identifier (case 1 above), which moves the processing outside the GDPR entirely
 
 **[Article 5(1)(c)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)**: Data minimization—collect only what is necessary
 
@@ -44725,14 +44728,14 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 ### Legal Position: Cookieless vs. Cookie-Based
 
-| Factor | Cookieless Analytics (no IP, no identifier) | Cookie-Based Tracking |
+| Factor | Cookieless Analytics (no IP, no persistent identifier) | Cookie-Based Tracking |
 |--------|----------------------|----------------------|
 | **Personal data processed** | None (Recital 26) ✅ | Yes (unique identifiers) ❌ |
 | **Article 6 basis needed** | No — Article 6 is not reached ✅ | Yes — consent, or a contested legitimate interest claim ❓ |
 | **Legitimate interest assessment** | Not required ✅ | Required if relying on 6(1)(f) ⚠️ |
 | **Privacy impact** | Low (no tracking) ✅ | High (persistent tracking) ❌ |
 | **User expectations** | Reasonable ✅ | Negative (tracking) ❌ |
-| **Safeguards** | Built-in (no IDs) ✅ | Requires controls ⚠️ |
+| **Safeguards** | Built-in (no persistent IDs) ✅ | Requires controls ⚠️ |
 
 **Result**: A no-personal-data cookieless dataset needs no Article 6 basis at all. Cookie-based tracking needs one, and legitimate interest is questionable for it — consent is the safer route.
 
@@ -44773,7 +44776,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - ✅ No persistent user IDs (eliminates unnecessary tracking)
 - ✅ Aggregated metrics (only what's needed for statistics)
 - ✅ No individual profiles (unnecessary for traffic measurement)
-- ✅ No personal data in the stored dataset (no IP stored, no identifier, no cross-session linking)
+- ✅ No personal data in the stored dataset (no IP stored, no persistent identifier, no cross-session linking)
 
 **Gold standard**: Cookieless is **data minimization by design**.
 
@@ -45045,7 +45048,7 @@ Analytics data is retained for 24 months, then deleted.
 - Name and contact details of controller
 - Purposes of processing (website analytics)
 - Categories of data subjects (website visitors)
-- Categories of data (state expressly that no personal data is stored: no IP, no identifier; for hashed-IP tools, list the IP as personal data)
+- Categories of data (state expressly that no personal data is stored: no IP, no persistent identifier — only a session identifier re-keyed daily; for hashed-IP tools, list the IP as personal data)
 - Categories of recipients (analytics provider, if any)
 - Retention periods (24 months)
 - Security measures
@@ -45058,7 +45061,7 @@ Analytics data is retained for 24 months, then deleted.
 
 **Not necessarily.** If nothing is stored on or read from the device, the ePrivacy consent requirement does not apply. If the script reads browser properties (as Sealmetrics does to compute its session identifier), Article 5(3) is engaged and the exemption depends on the audience-measurement criteria — see [Analytics Cookies Exemption](./analytics-cookies-exemption.md).
 
-**GDPR is not engaged either** when nothing stored identifies a visitor: no IP (hashed or otherwise), no identifier, no cross-session linking. Under Recital 26 that dataset is anonymous and needs no legal basis — neither consent nor legitimate interest.
+**GDPR is not engaged either** when nothing stored identifies a visitor: no IP (hashed or otherwise), no persistent identifier, no cross-session linking. Under Recital 26 that dataset is anonymous and needs no legal basis — neither consent nor legitimate interest.
 
 ### Can I use cookieless Google Analytics?
 
@@ -46469,7 +46472,7 @@ The provision is technology-neutral: it covers cookies, localStorage, sessionSto
 | Fingerprinting | The tracker computes, in the browser, a hash of runtime device characteristics — a device fingerprint (see below). No cookies or storage are read to do so |
 | Reading files, contacts, or device identifiers | ✅ Not performed |
 
-**The nuance, stated honestly:** the tracker does evaluate runtime browser parameters via standard JavaScript APIs — the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`, used for country detection and as a hash input) and, as inputs to the session-identifier hash only, languages, screen resolution, colour depth, dark-mode and reduced-motion preferences, CPU core count and device memory. Whether reading such runtime environment parameters constitutes "access to information stored in the terminal equipment" under §25(1) is a debated question in German commentary.
+**The nuance, stated honestly:** the tracker does evaluate runtime browser parameters via standard JavaScript APIs — the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`, used for country detection and as a hash input) and, as inputs to the session-identifier hash only, languages, screen resolution, colour depth, dark-mode and reduced-motion preferences, CPU core count and device memory. Whether reading such runtime environment parameters constitutes "access to information stored in the terminal equipment" under §25(1) is a debated question in German commentary. The EDPB's [Guidelines 2/2023](https://edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en) on the technical scope of Art. 5(3) read "access" broadly, and on that reading a script retrieving these properties can count as access; a DPO who follows them may conclude that §25(1) is engaged.
 
 The DSK's *Orientierungshilfe für Anbieter von Telemedien* takes the position that information the browser transmits anyway as part of the communication (e.g., the User-Agent header in every HTTP request) is not "access" within the meaning of the provision, whereas *active* retrieval of stored information is. Sealmetrics' position, criterion by criterion:
 
@@ -46477,7 +46480,7 @@ The DSK's *Orientierungshilfe für Anbieter von Telemedien* takes the position t
 |-----------|--------------|--------------|
 | User agent | Transmitted by the browser in every HTTP request | Not "access" — part of the communication itself |
 | Referrer, URL | Transmitted by the browser / part of the page context | Not "access" |
-| Timezone | Standard JS runtime API; a configuration value, not stored user information | Reasonably outside §25; even under the strictest reading, it is a single non-identifying value used only for coarse (country-level) statistics, and no identifier is created or persisted |
+| Timezone | Standard JS runtime API; a configuration value, not stored user information | Reasonably outside §25; even under the strictest reading, it is a single non-identifying value used for coarse (country-level) statistics and as one input to the session-identifier hash; on its own it creates no identifier |
 | Languages, screen resolution, colour depth, dark-mode and reduced-motion preferences, CPU core count, device memory | Standard JS runtime APIs; combined in the browser with the user agent, timezone and the site's account ID into a hash that serves as the session identifier | Same interpretive question as timezone; none of these values is stored or reported, but their combination is a device fingerprint |
 
 Stated plainly: **the hash computed in the browser is a device fingerprint**, so Sealmetrics does not claim that no identifier is built on the device. What limits it is that it is never written to the device and never stored as sent: before storage the server re-keys it with a server secret and a daily salt that is destroyed on rotation, so the stored identifier changes every day and nothing stored can recognize a device across days — not even for Sealmetrics. See [What We Track](/security-privacy/what-we-track#6-session-identifier).
@@ -47319,7 +47322,7 @@ The guidelines allow analytics cookies to be treated like technical cookies (con
 | Aspect | Compliance |
 |--------|------------|
 | Account isolation | ✅ Each customer's dataset is fully isolated |
-| Shared identifiers across sites | ✅ None — no identifiers exist at all |
+| Shared identifiers across sites | ✅ None — the site's account ID is part of the session hash, so the same browser yields a different identifier on each site |
 | Cross-account analysis | ✅ Not performed |
 
 ---
@@ -47350,17 +47353,18 @@ In June 2022 the Garante ruled (Caffeina Media decision, and subsequent cases) t
 | Aspect | Compliance |
 |--------|------------|
 | Privacy policy template provided | ✅ Yes (below) |
-| Cookie banner required for Sealmetrics | ✅ No — no cookies or trackers requiring consent are used |
+| Cookie banner required for Sealmetrics | ✅ No (self-assessed) — no cookies are used; the session identifier is assessed against the Garante's analytics conditions in Part 2 |
 | Cookie policy entry | ✅ Sealmetrics can be truthfully listed as "no cookies used" |
 
 **Recommended Privacy Policy Text (Italian):**
 ```
 Questo sito utilizza Sealmetrics per la misurazione del traffico.
-Sealmetrics non utilizza cookie né altri strumenti di tracciamento,
-non memorizza informazioni sul dispositivo dell'utente e non raccoglie
-dati personali: gli indirizzi IP non vengono conservati e non esistono
-identificatori individuali. I dati, in forma aggregata e anonima, sono
-trattati esclusivamente nell'Unione Europea (Dublino, Irlanda).
+Sealmetrics non utilizza cookie e non memorizza nulla sul dispositivo
+dell'utente; gli indirizzi IP non vengono conservati. Per raggruppare
+le pagine di una stessa visita utilizza un identificatore di sessione
+effimero, che cambia ogni giorno e non può essere collegato tra giorni
+diversi né tra siti diversi. I dati, in forma aggregata, sono trattati
+esclusivamente nell'Unione Europea (Dublino, Irlanda).
 ```
 
 ---
@@ -48561,7 +48565,7 @@ This makes Switzerland structurally more permissive than the EU. Sealmetrics non
 |-------------------|---------------|
 | Timestamp | ✅ No — cannot single out a person |
 | Page URL / referrer | ✅ No (publishers must not put PII in URLs — see checklist) |
-| User agent (category signal) | ✅ No — never joined to any identity; no identifier exists to join on |
+| User agent (category signal) | ✅ No — never joined to any identity; the only identifier is the daily session pseudonym below, which identifies no one |
 | Country (from browser timezone) | ✅ No — country-level only |
 | Session identifier (daily pseudonym, purged after 1 day) | ✅ No — computed in the browser as a hash of device characteristics, never written to the device, re-keyed on the server with a daily salt destroyed on rotation; cannot recognize a returning visitor across days |
 | IP address | ✅ **Not stored** — ephemeral in-memory use for anti-bot protection only |
@@ -49283,7 +49287,7 @@ Sealmetrics stores **no personal data and no persistent identifiers** for websit
 
 - No IP addresses stored (used ephemerally in memory for anti-bot protection, never persisted)
 - No cookies or terminal storage
-- No user IDs, device IDs, or stored fingerprints
+- No user IDs, persistent device IDs, or stored fingerprints
 - No cross-session identifiers — the session identifier is a hash computed in the browser that is never stored as sent: the server re-keys it with a daily salt destroyed on rotation, and the resulting daily pseudonym is purged after 1 day, so it cannot recognize a returning visitor
 - Country derived from the browser timezone, not from the IP
 - User agent used in flight only; just the derived browser/OS/device categories are kept, in aggregates, never joined to any identity
@@ -50883,7 +50887,7 @@ Every competitor fact on these pages was read on the vendor's own documentation 
 
 Most privacy comparisons collapse into "cookieless or not". That is the wrong axis: every tool below except GA4 can run without cookies. The differences that matter for a DPO or a procurement review are these:
 
-1. **What identifier links two pageviews together?** A cookie, a hash that includes the IP address, a short-lived in-memory marker, or nothing at all.
+1. **What identifier links two pageviews together?** A cookie, a hash that includes the IP address, a hash of device characteristics re-keyed daily, or nothing at all.
 2. **Is the visitor's IP address an input to that identifier, or to geolocation?** A hashed IP is still derived from personal data; a discarded IP is not.
 3. **Where is the data stored?** One region, a choice of regions, or the vendor's global infrastructure.
 4. **Does the vendor say a consent banner is needed?** Reported here as the vendor's own position, not our judgement.
@@ -50896,7 +50900,7 @@ Vendor facts checked 2026-09-04.
 
 | Tool | Identifier between pageviews | Visitor IP used | Data residency | Vendor's position on consent banner | Open source / self-host | Script (gzipped) |
 |---|---|---|---|---|---|---|
-| **Sealmetrics** | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | Never stored; country from browser timezone | Dublin, Ireland only | Not needed | No — cloud only | 1.1 KB ([measured](/guides/tracker-performance-report)) |
+| **Sealmetrics** | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | Never stored; country from browser timezone | Dublin, Ireland only | Not needed | No — cloud only | 1.1 KB ([measured](/guides/tracker-performance-report)) |
 | [Google Analytics 4](/compare/google-analytics-4) | First-party cookie `_ga`, 2-year default ([source](https://support.google.com/analytics/answer/11397207)) | Used for geolocation, then discarded for EU/UK/CH traffic ([source](https://support.google.com/analytics/answer/12017362)) | Collected on EU servers, then forwarded to Analytics servers; final location not stated ([source](https://support.google.com/analytics/answer/12017362)) | Consent required for cookies where legally required ([EU User Consent Policy](https://www.google.com/about/company/user-consent-policy/)) | No | ~145 KB (Sealmetrics measurement, Aug 2026) |
 | [Matomo](/compare/matomo) | Cookie by default; cookieless mode uses `config_id`, a daily-rotated hash of OS, browser, plugins, IP and language ([source](https://matomo.org/faq/general/how-is-the-visitor-config_id-processed/)) | Yes — input to `config_id`; masking optional ([source](https://matomo.org/faq/general/faq_18254/)) | Cloud: Frankfurt, Germany; On-Premise: anywhere ([source](https://matomo.org/pricing/)) | "No need for cookie consent screens" when anonymisation is configured ([source](https://matomo.org/gdpr-analytics/)) | Yes — GPLv3 ([source](https://matomo.org/free-software/)) | ~46 KB (Sealmetrics measurement, Aug 2026) |
 | [Plausible](/compare/plausible) | Daily hash of salt + domain + IP + user agent ([source](https://plausible.io/data-policy)) | Yes — hash input and geolocation; not stored ([source](https://plausible.io/data-policy)) | Hetzner, Falkenstein, Germany ([source](https://plausible.io/privacy-focused-web-analytics)) | "No need for cookie banners or GDPR consent" ([source](https://plausible.io/)) | Yes — AGPLv3 Community Edition ([source](https://plausible.io/docs/self-hosting)) | 2.5 KB ([source](https://plausible.io/lightweight-web-analytics)) |
@@ -51104,7 +51108,7 @@ Plausible facts checked 2026-09-04 on plausible.io; each row links to the page i
 | Company / HQ | Sealmetrics, EU company | Incorporated in Estonia, EU ([source](https://plausible.io/data-policy)) |
 | Hosting model | Managed cloud only | Managed cloud or self-hosted Community Edition ([source](https://plausible.io/docs/self-hosting)) |
 | Licence | Proprietary | AGPLv3 ([source](https://plausible.io/about)) |
-| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | `hash(daily_salt + website_domain + ip_address + user_agent)`, salt rotated every 24 h ([source](https://plausible.io/data-policy)) |
+| Identifier between pageviews | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | `hash(daily_salt + website_domain + ip_address + user_agent)`, salt rotated every 24 h ([source](https://plausible.io/data-policy)) |
 | Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Input to the hash and to geolocation; raw IP not stored ([source](https://plausible.io/data-policy)) |
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | Hetzner servers in Falkenstein, Germany ([source](https://plausible.io/privacy-focused-web-analytics)) |
 | Vendor's position on consent | No banner needed for measurement | "No need for cookie banners or GDPR consent" ([source](https://plausible.io/)) |
@@ -51116,7 +51120,7 @@ Plausible facts checked 2026-09-04 on plausible.io; each row links to the page i
 
 Plausible's data policy spells out its identifier: a hash of a daily salt, the site domain, the visitor's IP address and user agent. The salt is discarded every 24 hours, so the same person becomes a new visitor the next day and cannot be followed across sites. Raw IPs and user agents are never written to disk. This gives Plausible a daily unique-visitor count and visit duration while staying cookieless, at the price of feeding the IP into the identifier.
 
-Sealmetrics does not compute a visitor hash. Each hit is stored with timestamp, user agent, URL and referrer; a session marker held in memory for around two hours groups pageviews within a visit and is not derived from the IP. The IP is seen at the network layer, used in memory for anti-abuse checks and never persisted or used for geolocation — country comes from the browser timezone. The consequence is that Sealmetrics reports entrances rather than unique visitors, and has no visit-duration metric.
+Sealmetrics also computes a hash, but not from the IP: the tracker hashes standard device characteristics in the browser, never writes it to the device, and the server re-keys it with a daily salt that is destroyed on rotation, so it cannot link a device across days. Each hit is stored with timestamp, user agent, URL, referrer, browser timezone and that daily session identifier. The IP is seen at the network layer, used in memory for anti-abuse checks and never persisted or used for geolocation — country comes from the browser timezone. The consequence is that Sealmetrics reports entrances rather than unique visitors, and has no visit-duration metric.
 
 ## When Plausible is the better choice
 
@@ -51126,7 +51130,7 @@ Sealmetrics does not compute a visitor hash. Each hit is stored with timestamp, 
 
 ## When Sealmetrics is the better choice
 
-- Your legal review treats a hashed IP as derived from personal data and you would rather have no identifier to explain at all.
+- Your legal review treats a hashed IP as derived from personal data and you would rather have no IP-derived identifier to explain at all.
 - You need item-level e-commerce data, custom channel grouping, an API on every plan and an AI layer ([LENS](/lens), included in every paid plan and free to run on your own LLM key).
 - You want retention fixed at 24 months across the board, with no per-plan variation to document.
 
@@ -51181,7 +51185,7 @@ Fathom facts checked 2026-09-04 on usefathom.com; each row links to the page it 
 | Company / HQ | Sealmetrics, EU company | Victoria, British Columbia, Canada ([source](https://usefathom.com/privacy)) |
 | Hosting model | Managed cloud only | Managed cloud only; the original open-source project is no longer the product ([source](https://usefathom.com/about)) |
 | Licence | Proprietary | Proprietary hosted product ([source](https://usefathom.com/about)) |
-| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | User signature hash of a per-site daily salt, IP address, user agent and hostname, deleted at midnight ([source](https://usefathom.com/data)) |
+| Identifier between pageviews | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | User signature hash of a per-site daily salt, IP address, user agent and hostname, deleted at midnight ([source](https://usefathom.com/data)) |
 | Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Input to the hash; raw IPs kept only for security, up to 24 h ([source](https://usefathom.com/data)) |
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | EU visitors' IPs stripped on EU infrastructure; anonymised data "stored on our main US servers" ([source](https://usefathom.com/features/eu-isolation)) |
 | Vendor's position on consent | No banner needed for measurement | "You don't need to clutter your site with a cookie banner for analytics" ([source](https://usefathom.com/features)) |
@@ -51193,7 +51197,7 @@ Fathom facts checked 2026-09-04 on usefathom.com; each row links to the page it 
 
 Fathom's data page describes a "user signature hash" built from a salt that is unique per site and recycled at midnight, plus the IP address, user agent and hostname. The hash lets Fathom count unique visitors for a day and is deleted when the salt rotates. EU Isolation adds a routing layer: EU visitors' requests are handled on European infrastructure where the IP is stripped, and the resulting anonymised record is then stored in the US. Fathom's position is that no personal data is associated with what reaches the US servers.
 
-Sealmetrics never builds a hash from the IP. It records timestamp, user agent, URL and referrer per hit, with a session marker that lives in memory for around two hours and is scoped to one site by design. The IP is used in memory for anti-abuse checks and dropped; country comes from the browser timezone. All processing and storage happens in Dublin — there is no second region for the aggregated data to move to. The trade-off is the same one every consentless design makes: no unique visitors, no session duration, no journeys.
+Sealmetrics never builds a hash from the IP. It records timestamp, user agent, URL, referrer and browser timezone per hit, with a session identifier: a hash of standard device characteristics computed in the browser, scoped to one site by design, never written to the device and re-keyed on the server with a daily salt that is destroyed on rotation, so it cannot link a device across days. The IP is used in memory for anti-abuse checks and dropped; country comes from the browser timezone. All processing and storage happens in Dublin — there is no second region for the aggregated data to move to. The trade-off is the same one every consentless design makes: no unique visitors, no session duration, no journeys.
 
 ## When Fathom is the better choice
 
@@ -51258,7 +51262,7 @@ Piwik PRO facts checked 2026-09-04 on piwik.pro and help.piwik.pro; each row lin
 | Company / HQ | Sealmetrics, EU company | Piwik PRO SA, Wrocław, Poland ([source](https://piwik.pro/contact/)) |
 | Hosting model | Managed cloud only | Public cloud, private cloud on Azure regions or Elastx ([source](https://piwik.pro/privacy-compliance/)) |
 | Licence | Proprietary | Proprietary ([source](https://piwik.pro/pricing/)) |
-| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | Cookie ID by default; anonymous mode uses a session hash of IP address, OS, browser name and version, language, plugins and site ID ([source](https://help.piwik.pro/support/questions/what-are-sessions-and-how-are-they-counted/)), used for 30 minutes since the last event ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
+| Identifier between pageviews | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | Cookie ID by default; anonymous mode uses a session hash of IP address, OS, browser name and version, language, plugins and site ID ([source](https://help.piwik.pro/support/questions/what-are-sessions-and-how-are-they-counted/)), used for 30 minutes since the last event ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
 | Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Processed; masking "removes the selected number of bytes from the address before saving it" ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | EU-operated hosting in Sweden, plus Germany, the Netherlands, the US, Hong Kong and UAE North ([source](https://piwik.pro/pricing/)) |
 | Vendor's position on consent | No banner needed for measurement | Anonymous data can be collected without a consent form; full tracking after consent ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
@@ -51270,7 +51274,7 @@ Piwik PRO facts checked 2026-09-04 on piwik.pro and help.piwik.pro; each row lin
 
 Piwik PRO's default is a visitor cookie, which unlocks the full suite: visitor profiles, multi-session attribution and audience segments. For visitors who have not consented, it offers a privacy-friendly mode built on a session hash — computed from the IP address, operating system, browser name and version, language, enabled plugins and the site ID — that recognises a session for 30 minutes after the last event. IP masking can strip bytes before the address is saved. When the visitor accepts the consent manager's prompt, Piwik PRO upgrades to full tracking. The model gives you two data sets: anonymous for everyone, identified for those who agreed.
 
-Sealmetrics has one data set. Every hit is timestamp, user agent, URL and referrer, grouped within a visit by an in-memory marker that lasts around two hours and contains nothing derived from the IP. There is no consent manager because there is nothing to consent to, and no "upgrade" path to identified tracking. The price is that Sealmetrics never reports unique visitors, session duration or user-level journeys, on any plan.
+Sealmetrics has one data set. Every hit is timestamp, user agent, URL, referrer and browser timezone, grouped within a visit by a session identifier: a hash of device characteristics computed in the browser, never written to the device, containing nothing derived from the IP and re-keyed on the server with a daily salt that is destroyed on rotation. There is no consent manager because, on our own assessment, the audience-measurement exemption applies, and no "upgrade" path to identified tracking. The price is that Sealmetrics never reports unique visitors, session duration or user-level journeys, on any plan.
 
 ## When Piwik PRO is the better choice
 
@@ -51335,7 +51339,7 @@ Simple Analytics facts checked 2026-09-04 on simpleanalytics.com and docs.simple
 | Company / HQ | Sealmetrics, EU company | Headquartered in Amsterdam, the Netherlands ([source](https://www.simpleanalytics.com/about)) |
 | Hosting model | Managed cloud only | Managed cloud; servers in the Netherlands ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Licence | Proprietary | Not published |
-| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | None; a visit is counted unique when the Referer hostname differs from the current domain ([source](https://docs.simpleanalytics.com/what-we-collect)) |
+| Identifier between pageviews | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | None; a visit is counted unique when the Referer hostname differs from the current domain ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | "We do NOT collect or store IP addresses"; country from the visitor's timezone ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | The Netherlands ([source](https://docs.simpleanalytics.com/compliance)) |
 | Vendor's position on consent | No banner needed for measurement | No consent needed, citing ICO guidance on techniques that do not store or access information on the device ([source](https://docs.simpleanalytics.com/compliance)) |
@@ -51347,7 +51351,7 @@ Simple Analytics facts checked 2026-09-04 on simpleanalytics.com and docs.simple
 
 Simple Analytics collects timestamps, a truncated user agent, timezone-derived country, language, URL without query string, partial referrer, UTM parameters, viewport size, time on page and scroll depth. It has no visitor identifier: a pageview is counted as a new unique visit when the browser's Referer hostname is not the site's own domain, and as a follow-on pageview when it is. That heuristic gives a unique-visit count without any hash, cookie or IP.
 
-Sealmetrics collects timestamp, user agent, URL and referrer per hit, and groups hits within a visit using a session marker that exists in memory for around two hours and is never written to the browser. Like Simple Analytics, it does not store the IP and reads country from the timezone. Unlike Simple Analytics, it reports entrances rather than unique visits, and it keeps conversions with revenue and item-level properties so that channel and campaign attribution is a first-class report rather than an event count.
+Sealmetrics collects timestamp, user agent, URL, referrer and browser timezone per hit, and groups hits within a visit using a session identifier: a hash of device characteristics computed in the browser, never written to the device and re-keyed on the server with a daily salt that is destroyed on rotation. Like Simple Analytics, it does not store the IP and reads country from the timezone. Unlike Simple Analytics, it reports entrances rather than unique visits, and it keeps conversions with revenue and item-level properties so that channel and campaign attribution is a first-class report rather than an event count.
 
 ## When Simple Analytics is the better choice
 
@@ -51369,7 +51373,7 @@ Yes, per each vendor's documentation. Simple Analytics states it does not collec
 
 ### How does Simple Analytics count unique visitors without an identifier?
 
-By the Referer header: if the previous page was on another domain, the pageview starts a new unique visit. Sealmetrics uses a different signal for the same purpose — a short-lived in-memory session marker — and reports the result as entrances.
+By the Referer header: if the previous page was on another domain, the pageview starts a new unique visit. Sealmetrics uses a different signal for the same purpose — a session identifier hashed from device characteristics and re-keyed daily — and reports the result as entrances.
 
 ### Which one needs a cookie banner?
 
@@ -51381,7 +51385,7 @@ Time on page, and a per-page unique-visit count. Sealmetrics reports bounce rate
 
 **Note:**
 - Both set no cookies, store no IP, derive country from the timezone and say no banner is needed.
-- Simple Analytics infers unique visits from the Referer; Sealmetrics groups a visit with a short-lived in-memory marker and reports entrances.
+- Simple Analytics infers unique visits from the Referer; Sealmetrics groups a visit with a device-characteristics hash re-keyed daily and reports entrances.
 - Simple Analytics is minimal with a free plan; Sealmetrics adds attribution, e-commerce depth, API on every plan and AI.
 
 ## Related documentation
@@ -53895,7 +53899,7 @@ Sealmetrics uses a sophisticated approach combining:
 
 Different cookieless analytics platforms use different technical methods:
 
-| Aspect | Session-Based | Server-Side | Fingerprinting | Sealmetrics |
+| Aspect | Session-Based | Server-Side | Persistent fingerprinting | Sealmetrics |
 |--------|---------------|-------------|----------------|------------|
 | Persistent Cookies | ❌ No | ❌ No | ⚠️ Optional | ❌ No |
 | Requires Consent | ❌ No | ❌ No | ✅ Yes | ❌ No |
@@ -54047,7 +54051,7 @@ Sealmetrics retains aggregated analytics data for 24 months — a fixed period, 
 
 ### Is cookieless analytics GDPR compliant?
 
-Yes, when implemented correctly. Sealmetrics is designed so that no personal data is stored — no IP addresses, no identifiers — which is what keeps the analytics outside the GDPR's personal-data obligations. You should still update your privacy policy to mention analytics.
+Yes, when implemented correctly. Sealmetrics is designed so that no personal data is stored — no IP addresses, no persistent identifiers; the session identifier is ephemeral and rotates daily — which is what keeps the analytics outside the GDPR's personal-data obligations. You should still update your privacy policy to mention analytics.
 
 ### What happens with cross-domain tracking?
 
@@ -63818,10 +63822,10 @@ Plausible is explicit and transparent about this in its [data policy](https://pl
 
 **Sealmetrics' approach**:
 
-Sealmetrics identifies sessions with a temporary, non-persistent marker derived from the browser context. **The visitor's IP is never used to derive it.** IPs are handled in-memory at the edge for two purposes only — checking against the bot-IP database and applying customer-configured IP exclusions — and are never persisted or attached to any hit. Even geolocation avoids the IP: visitor country is derived from the [browser timezone](/security-privacy/country-detection).
+Sealmetrics identifies sessions with a hash of standard device characteristics computed in the browser, never written to the device and re-keyed on the server with a daily salt that is then destroyed, so it rotates every day. **The visitor's IP is never used to derive it.** IPs are handled in-memory at the edge for two purposes only — checking against the bot-IP database and applying customer-configured IP exclusions — and are never persisted or attached to any hit. Even geolocation avoids the IP: visitor country is derived from the [browser timezone](/security-privacy/country-detection).
 
 **Pros**:
-- No identifier derived from personal data means there is no argument to have
+- No identifier derived from the IP means there is no IP-hashing argument to have
 - Sessions can never be linked to each other or to a person
 - Works identically under every national interpretation
 
@@ -63848,7 +63852,7 @@ This is the sharpest technical distinction, and it deserves to be stated precise
 2. Check the IP against the bot-IP database and account IP exclusions, in memory
 3. Discard the IP — it is never written anywhere, never hashed into an identifier,
    and never used for geolocation
-4. Session marker comes from browser context; country comes from timezone
+4. Session identifier is a device-characteristics hash, re-keyed daily; country comes from timezone
 ```
 
 **What this means in practice**: Plausible's design is genuinely privacy-preserving and defensible. Sealmetrics' design removes the need to defend it. If your DPO's position is "no identifier may be derived from an IP address, full stop", Plausible cannot satisfy that requirement and Sealmetrics can. If your DPO accepts the daily-salted-hash reasoning — as many do — this difference will not decide your purchase, and you should choose on features and price instead.
@@ -67302,7 +67306,7 @@ While industry discussions focus on rejection rates (users clicking "Reject All"
 
 **Cookie-based analytics cannot solve banner ghosting** because the banner is required to obtain legally valid consent under GDPR, and the banner's existence triggers the psychological avoidance mechanisms that cause ghosting. No amount of UX optimization, consent mode, or banner redesign can eliminate decision avoidance behavior.
 
-**Cookieless analytics eliminates both ghosting and rejection** by eliminating the consent banner entirely. Sealmetrics doesn't use cookies and stores no personal data, so the ePrivacy consent rule is never triggered and no GDPR legal basis is required. No banner means no ghosting is possible, no rejection is possible, and every visit is measured from the moment it lands on your site.
+**Cookieless analytics eliminates both ghosting and rejection** by eliminating the consent banner entirely. Sealmetrics stores nothing on the device and no personal data; its ephemeral session identifier rotates daily, and on our own assessment it meets the audience-measurement exemption from the ePrivacy consent rule, with no GDPR legal basis required. No banner means no ghosting is possible, no rejection is possible, and every visit is measured from the moment it lands on your site.
 
 **Business impact of a 15-60% data gap**:
 - Marketing attribution skewed by uneven loss between channels → €25,000-40,000 annual misallocation
@@ -67512,7 +67516,7 @@ Why hashing doesn't solve the problem:
 
 **Schrems II Implications**: The Schrems II decision invalidated Privacy Shield, making US data transfers problematic. Many companies responded by hosting analytics in the EU, but if those tools store IP addresses (even hashed), they still process personal data requiring careful legal basis justification.
 
-Sealmetrics solves this by never storing IP addresses. Our session tracking uses temporary identifiers that reset after each visit, making reverse-identification technically impossible.
+Sealmetrics solves this by never storing IP addresses. Our session identifier is ephemeral: nothing is stored on the device, and the server re-keys it with a salt that rotates daily and is then destroyed, so it cannot be linked across days or across sites.
 
 ### Problem 2: Cookie Requirements
 
@@ -67522,7 +67526,7 @@ The ePrivacy Directive Article 5(3)—often called the Cookie Law—requires con
 
 **Technical Cookies Exemption**: The ePrivacy Directive exempts "strictly necessary" cookies for functionality users explicitly request. Analytics cookies don't qualify for this exemption according to regulatory consensus. The upcoming ePrivacy Regulation will likely remove any remaining ambiguity.
 
-Sealmetrics avoids this problem entirely through cookieless tracking. No cookies means no ePrivacy Directive concerns, no consent banners, and no data loss from rejections.
+Sealmetrics avoids this problem through cookieless tracking: nothing is stored on the device, and its ephemeral session identifier, which rotates daily, is assessed against the audience-measurement exemption rather than consent — so no consent banner and no data loss from rejections.
 
 ### Problem 3: US Data Transfers
 
@@ -67653,7 +67657,8 @@ Does your analytics store any personal data
 │
 ├─ No, and it writes nothing to the device
 │  └─ No Article 6 basis needed (Recital 26)
-│     No consent needed (ePrivacy 5(3) not engaged)
+│     No consent needed if the audience-measurement
+│     exemption to ePrivacy 5(3) is met
 │     └─ Choose Sealmetrics or a similar truly cookieless tool
 │
 └─ Yes → you are inside the GDPR, so pick a basis:
@@ -67838,11 +67843,11 @@ Unlike cookie-based analytics tools that retrofit GDPR compliance onto existing 
 
 **No Compromise Required**: Traditional analytics forces a choice between a clean legal position and complete data. Cookie consent buys the former at the cost of 15-60% of the latter. Sealmetrics measures every visit and keeps the legal position clean, through:
 
-1. **Cookieless Architecture**: No cookies means no ePrivacy Directive concerns, no consent requirements, no data loss from rejections.
+1. **Cookieless Architecture**: Nothing is stored on the device, and the session identifier is assessed against the audience-measurement exemption rather than consent, so there is no data loss from rejections.
 
 2. **Zero IP Storage**: Not hashing, not truncating—zero storage. IP addresses never touch our database, eliminating the largest GDPR compliance question.
 
-3. **Session-Based Tracking**: Temporary identifiers that reset after each visit provide analytics value without enabling cross-session tracking or user identification.
+3. **Session-Based Tracking**: An ephemeral session identifier that rotates daily provides analytics value without enabling cross-day or cross-site tracking or user identification.
 
 4. **EU-Exclusive Operation**: Servers, company, and data all in the EU. No US parent, no Schrems II concerns, no adequacy decision dependencies.
 
@@ -68005,8 +68010,8 @@ The path to a clean legal position without giving up 15-60% of your data:
 
 Sealmetrics satisfies all of these by default:
 
-- **No consent required**: nothing stored on the device (ePrivacy 5(3) not engaged), no personal data stored (outside GDPR material scope, Recital 26)
-- **No cookies**: no ePrivacy exposure and no consent-driven data loss
+- **No consent required**: nothing stored on the device and a session identifier that rotates daily (audience-measurement exemption to ePrivacy 5(3), self-assessed), no personal data stored (outside GDPR material scope, Recital 26)
+- **No cookies**: no cookie lifespan to manage and no consent-driven data loss
 - **Zero IP storage**: not even hashed—the primary personal data question doesn't arise
 - **No consent gap**: every visit measured, rather than the 40-85% a banner lets through
 - **EU-exclusive**: analytics data hosted in Dublin, Ireland. No Schrems II complications
@@ -68430,7 +68435,7 @@ Data is fully anonymized: no IP addresses, no persistent identifiers, no persona
 ### How do I explain cookieless analytics to my DPO?
 
 Tell your Data Protection Officer:
-1. **No cookies used**: ePrivacy Directive doesn't apply
+1. **Nothing stored on the device**: no cookies; the ephemeral session identifier rotates daily and is covered by the audience-measurement exemption (self-assessed)
 2. **No IP storage**: Data is anonymous by design
 3. **No legal basis needed**: no personal data stored, so the GDPR's material scope is never engaged (Recital 26)
 4. **CNIL exemption criteria**: Architecture designed to meet CNIL's published criteria (self-assessed — CNIL does not certify tools)
@@ -68537,7 +68542,7 @@ This complete guide explains how cookieless analytics works, why it's GDPR compl
 ### Key Takeaways
 
 - **Cookieless analytics measures every visit** without cookie consent banners, closing a 15-60% gap
-- **No legal basis is required at all** when no personal data is stored: the dataset falls outside the GDPR's material scope (Recital 26), and ePrivacy Article 5(3) is never triggered because nothing is written to the device
+- **No legal basis is required at all** when no personal data is stored: the dataset falls outside the GDPR's material scope (Recital 26), and nothing is written to the device; the session identifier, which rotates daily, is assessed against the audience-measurement exemption of ePrivacy Article 5(3)
 - **Session-based tracking** replaces cookies with temporary identifiers that reset after each visit
 - **Sealmetrics provides true cookieless analytics** without storing IP addresses (unlike competitors)
 
@@ -68897,7 +68902,7 @@ Replace cookie consent section with:
 
 ### Misconception 3: "Cookieless analytics requires consent in some countries"
 
-**Reality**: if properly implemented (like Sealmetrics), cookieless analytics requires no consent in any EU country — because ePrivacy Article 5(3) is never triggered and, with no personal data stored, the GDPR's material scope is never engaged.
+**Reality**: if properly implemented (like Sealmetrics), cookieless analytics is designed to need no consent in EU countries — nothing is stored on the device, the ephemeral session identifier rotates daily and falls under the audience-measurement exemption of ePrivacy Article 5(3) (our self-assessment), and, with no personal data stored, the GDPR's material scope is never engaged.
 
 **Country-specific notes**:
 - **Germany (TTDSG)**: Cookieless compliant, no consent needed

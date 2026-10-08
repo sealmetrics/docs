@@ -48,7 +48,7 @@ This makes Switzerland structurally more permissive than the EU. Sealmetrics non
 |-------------------|---------------|
 | Timestamp | ✅ No — cannot single out a person |
 | Page URL / referrer | ✅ No (publishers must not put PII in URLs — see checklist) |
-| User agent (category signal) | ✅ No — never joined to any identity; no identifier exists to join on |
+| User agent (category signal) | ✅ No — never joined to any identity; the only identifier is the daily session pseudonym below, which identifies no one |
 | Country (from browser timezone) | ✅ No — country-level only |
 | Session identifier (daily pseudonym, purged after 1 day) | ✅ No — computed in the browser as a hash of device characteristics, never written to the device, re-keyed on the server with a daily salt destroyed on rotation; cannot recognize a returning visitor across days |
 | IP address | ✅ **Not stored** — ephemeral in-memory use for anti-bot protection only |

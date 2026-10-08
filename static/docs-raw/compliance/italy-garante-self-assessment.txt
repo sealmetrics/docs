@@ -115,7 +115,7 @@ The guidelines allow analytics cookies to be treated like technical cookies (con
 | Aspect | Compliance |
 |--------|------------|
 | Account isolation | ✅ Each customer's dataset is fully isolated |
-| Shared identifiers across sites | ✅ None — no identifiers exist at all |
+| Shared identifiers across sites | ✅ None — the site's account ID is part of the session hash, so the same browser yields a different identifier on each site |
 | Cross-account analysis | ✅ Not performed |
 
 ---
@@ -146,17 +146,18 @@ In June 2022 the Garante ruled (Caffeina Media decision, and subsequent cases) t
 | Aspect | Compliance |
 |--------|------------|
 | Privacy policy template provided | ✅ Yes (below) |
-| Cookie banner required for Sealmetrics | ✅ No — no cookies or trackers requiring consent are used |
+| Cookie banner required for Sealmetrics | ✅ No (self-assessed) — no cookies are used; the session identifier is assessed against the Garante's analytics conditions in Part 2 |
 | Cookie policy entry | ✅ Sealmetrics can be truthfully listed as "no cookies used" |
 
 **Recommended Privacy Policy Text (Italian):**
 ```
 Questo sito utilizza Sealmetrics per la misurazione del traffico.
-Sealmetrics non utilizza cookie né altri strumenti di tracciamento,
-non memorizza informazioni sul dispositivo dell'utente e non raccoglie
-dati personali: gli indirizzi IP non vengono conservati e non esistono
-identificatori individuali. I dati, in forma aggregata e anonima, sono
-trattati esclusivamente nell'Unione Europea (Dublino, Irlanda).
+Sealmetrics non utilizza cookie e non memorizza nulla sul dispositivo
+dell'utente; gli indirizzi IP non vengono conservati. Per raggruppare
+le pagine di una stessa visita utilizza un identificatore di sessione
+effimero, che cambia ogni giorno e non può essere collegato tra giorni
+diversi né tra siti diversi. I dati, in forma aggregata, sono trattati
+esclusivamente nell'Unione Europea (Dublino, Irlanda).
 ```
 
 ---

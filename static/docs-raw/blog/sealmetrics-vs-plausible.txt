@@ -94,10 +94,10 @@ Plausible is explicit and transparent about this in its [data policy](https://pl
 
 **Sealmetrics' approach**:
 
-Sealmetrics identifies sessions with a temporary, non-persistent marker derived from the browser context. **The visitor's IP is never used to derive it.** IPs are handled in-memory at the edge for two purposes only — checking against the bot-IP database and applying customer-configured IP exclusions — and are never persisted or attached to any hit. Even geolocation avoids the IP: visitor country is derived from the [browser timezone](/security-privacy/country-detection).
+Sealmetrics identifies sessions with a hash of standard device characteristics computed in the browser, never written to the device and re-keyed on the server with a daily salt that is then destroyed, so it rotates every day. **The visitor's IP is never used to derive it.** IPs are handled in-memory at the edge for two purposes only — checking against the bot-IP database and applying customer-configured IP exclusions — and are never persisted or attached to any hit. Even geolocation avoids the IP: visitor country is derived from the [browser timezone](/security-privacy/country-detection).
 
 **Pros**:
-- No identifier derived from personal data means there is no argument to have
+- No identifier derived from the IP means there is no IP-hashing argument to have
 - Sessions can never be linked to each other or to a person
 - Works identically under every national interpretation
 
@@ -124,7 +124,7 @@ This is the sharpest technical distinction, and it deserves to be stated precise
 2. Check the IP against the bot-IP database and account IP exclusions, in memory
 3. Discard the IP — it is never written anywhere, never hashed into an identifier,
    and never used for geolocation
-4. Session marker comes from browser context; country comes from timezone
+4. Session identifier is a device-characteristics hash, re-keyed daily; country comes from timezone
 ```
 
 **What this means in practice**: Plausible's design is genuinely privacy-preserving and defensible. Sealmetrics' design removes the need to defend it. If your DPO's position is "no identifier may be derived from an IP address, full stop", Plausible cannot satisfy that requirement and Sealmetrics can. If your DPO accepts the daily-salted-hash reasoning — as many do — this difference will not decide your purchase, and you should choose on features and price instead.

@@ -115,7 +115,7 @@ Sealmetrics uses a sophisticated approach combining:
 
 Different cookieless analytics platforms use different technical methods:
 
-| Aspect | Session-Based | Server-Side | Fingerprinting | Sealmetrics |
+| Aspect | Session-Based | Server-Side | Persistent fingerprinting | Sealmetrics |
 |--------|---------------|-------------|----------------|------------|
 | Persistent Cookies | ❌ No | ❌ No | ⚠️ Optional | ❌ No |
 | Requires Consent | ❌ No | ❌ No | ✅ Yes | ❌ No |
@@ -267,7 +267,7 @@ Sealmetrics retains aggregated analytics data for 24 months — a fixed period, 
 
 ### Is cookieless analytics GDPR compliant?
 
-Yes, when implemented correctly. Sealmetrics is designed so that no personal data is stored — no IP addresses, no identifiers — which is what keeps the analytics outside the GDPR's personal-data obligations. You should still update your privacy policy to mention analytics.
+Yes, when implemented correctly. Sealmetrics is designed so that no personal data is stored — no IP addresses, no persistent identifiers; the session identifier is ephemeral and rotates daily — which is what keeps the analytics outside the GDPR's personal-data obligations. You should still update your privacy policy to mention analytics.
 
 ### What happens with cross-domain tracking?
 

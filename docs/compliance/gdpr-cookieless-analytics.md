@@ -127,7 +127,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 ### Where GDPR Article 6 Fits
 
-**Article 6 lists the lawful bases for processing personal data. It is only reached if personal data is processed.** For a dataset with no IP and no identifier (case 1 above, Sealmetrics), it is not reached at all. The table below shows how each basis fares for cookieless tools that *do* still process some personal data (case 2):
+**Article 6 lists the lawful bases for processing personal data. It is only reached if personal data is processed.** For a dataset with no IP and no persistent identifier (case 1 above, Sealmetrics), it is not reached at all. The table below shows how each basis fares for cookieless tools that *do* still process some personal data (case 2):
 
 | Legal Basis | Applicability | Requirements |
 |-------------|---------------|--------------|
@@ -174,7 +174,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **For a minimal analytics tool that still processes personal data**:
 - ✅ Cannot understand traffic without measurement
 - ✅ Cookieless approach is far less intrusive than cookie-based tracking
-- ⚠️ A less invasive alternative does exist: a tool that stores no IP and no identifier at all (case 1 above), which moves the processing outside the GDPR entirely
+- ⚠️ A less invasive alternative does exist: a tool that stores no IP and no persistent identifier (case 1 above), which moves the processing outside the GDPR entirely
 
 **[Article 5(1)(c)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)**: Data minimization—collect only what is necessary
 
@@ -217,14 +217,14 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 ### Legal Position: Cookieless vs. Cookie-Based
 
-| Factor | Cookieless Analytics (no IP, no identifier) | Cookie-Based Tracking |
+| Factor | Cookieless Analytics (no IP, no persistent identifier) | Cookie-Based Tracking |
 |--------|----------------------|----------------------|
 | **Personal data processed** | None (Recital 26) ✅ | Yes (unique identifiers) ❌ |
 | **Article 6 basis needed** | No — Article 6 is not reached ✅ | Yes — consent, or a contested legitimate interest claim ❓ |
 | **Legitimate interest assessment** | Not required ✅ | Required if relying on 6(1)(f) ⚠️ |
 | **Privacy impact** | Low (no tracking) ✅ | High (persistent tracking) ❌ |
 | **User expectations** | Reasonable ✅ | Negative (tracking) ❌ |
-| **Safeguards** | Built-in (no IDs) ✅ | Requires controls ⚠️ |
+| **Safeguards** | Built-in (no persistent IDs) ✅ | Requires controls ⚠️ |
 
 **Result**: A no-personal-data cookieless dataset needs no Article 6 basis at all. Cookie-based tracking needs one, and legitimate interest is questionable for it — consent is the safer route.
 
@@ -265,7 +265,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - ✅ No persistent user IDs (eliminates unnecessary tracking)
 - ✅ Aggregated metrics (only what's needed for statistics)
 - ✅ No individual profiles (unnecessary for traffic measurement)
-- ✅ No personal data in the stored dataset (no IP stored, no identifier, no cross-session linking)
+- ✅ No personal data in the stored dataset (no IP stored, no persistent identifier, no cross-session linking)
 
 **Gold standard**: Cookieless is **data minimization by design**.
 
@@ -537,7 +537,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 - Name and contact details of controller
 - Purposes of processing (website analytics)
 - Categories of data subjects (website visitors)
-- Categories of data (state expressly that no personal data is stored: no IP, no identifier; for hashed-IP tools, list the IP as personal data)
+- Categories of data (state expressly that no personal data is stored: no IP, no persistent identifier — only a session identifier re-keyed daily; for hashed-IP tools, list the IP as personal data)
 - Categories of recipients (analytics provider, if any)
 - Retention periods (24 months)
 - Security measures
@@ -550,7 +550,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 
 **Not necessarily.** If nothing is stored on or read from the device, the ePrivacy consent requirement does not apply. If the script reads browser properties (as Sealmetrics does to compute its session identifier), Article 5(3) is engaged and the exemption depends on the audience-measurement criteria — see [Analytics Cookies Exemption](./analytics-cookies-exemption.md).
 
-**GDPR is not engaged either** when nothing stored identifies a visitor: no IP (hashed or otherwise), no identifier, no cross-session linking. Under Recital 26 that dataset is anonymous and needs no legal basis — neither consent nor legitimate interest.
+**GDPR is not engaged either** when nothing stored identifies a visitor: no IP (hashed or otherwise), no persistent identifier, no cross-session linking. Under Recital 26 that dataset is anonymous and needs no legal basis — neither consent nor legitimate interest.
 
 ### Can I use cookieless Google Analytics?
 
