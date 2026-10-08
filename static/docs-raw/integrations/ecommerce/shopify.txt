@@ -4,23 +4,34 @@ URL: https://docs.sealmetrics.com/integrations/ecommerce/shopify
 
 # Shopify Integration
 
-Privacy-first, cookieless analytics for Shopify stores. Sealmetrics tracks the e-commerce funnel through a Shopify app and a **Theme App Extension** (an "app embed"), with purchases confirmed server-side via a Shopify webhook.
+Privacy-first, cookieless analytics for Shopify stores. Sealmetrics tracks the e-commerce funnel in the browser and confirms purchases server-side through a Shopify webhook.
 
 ## How it works
 
-The integration has two parts:
+How the browser side is tracked depends on how your store installed Sealmetrics:
 
-- **The Sealmetrics Pixel app** — a Shopify app you install on your store. It handles the connection (OAuth), registers the conversion webhook, and manages billing.
-- **The "Sealmetrics Analytics" app embed** — a Theme App Extension you enable in your theme. It injects the Sealmetrics loader, which loads the tracker (`t.js`), writes cart attributes, and fires the e-commerce microconversions.
+| | Public app | Custom app |
+|---|---|---|
+| **Installed** | From the Sealmetrics dashboard (Shopify App Store app) | With an install link we send you (one app made for your store) |
+| **Browser tracking** | The **"Sealmetrics Analytics" app embed**, a Theme App Extension you enable in your theme | A **Shopify Web Pixel**, activated automatically when the app is installed |
+| **Setup after install** | Enable the app embed and paste your Account ID | None |
+| **Billing** | Shopify Managed Pricing | Sealmetrics (Stripe) |
+
+Both share the rest:
+
+- **The app** handles the connection (OAuth) and registers the `orders/create` conversion webhook.
+- **Purchases** are recorded from that webhook, server-side, with revenue, currency and line items.
 
 No shopper-facing UI is rendered. Sealmetrics is invisible by design (privacy-first).
 
 ## Requirements
 
-- A Shopify store on a plan that allows app embeds.
 - A Sealmetrics account (your **Account ID** — the same value as your Site ID — identifies the site you want to track).
+- **Public app:** a Shopify store on a plan that allows app embeds.
 
-## Connect from the dashboard
+## Connect your store
+
+### Public app: from the dashboard
 
 Connection is managed from **Settings → Integrations → Shopify** in the Sealmetrics dashboard.
 
@@ -29,7 +40,11 @@ Connection is managed from **Settings → Integrations → Shopify** in the Seal
 3. Enter your Shopify **domain** (the `mystore` part of `mystore.myshopify.com`) and click **Connect Shopify**.
 4. You are redirected to Shopify to install and authorize the app.
 
-Once installed, the store appears as **Connected**, showing the store domain and the connection date, and the **conversion webhook** is registered automatically.
+Once installed, the store appears as **Connected**, showing the store domain and the connection date, and the **conversion webhook** is registered automatically. Then [activate the app embed](#activate-the-tracker-public-app).
+
+### Custom app: from the install link
+
+We send you a Shopify install link for your store (links expire after 7 days; ask for a new one if yours has). Open it, approve the app in Shopify, and you are done: the conversion webhook and the Web Pixel are set up during the install. The store then appears as **Connected** in **Settings → Integrations → Shopify**.
 
 ### Disconnecting
 
@@ -38,9 +53,9 @@ How you disconnect depends on how the store was installed:
 - **Public-app stores (billed through Shopify):** to disconnect and stop billing, uninstall Sealmetrics from your **Shopify Admin → Settings → Apps**. The dashboard does not expose a Disconnect button for these stores, to keep the Shopify subscription and your Sealmetrics account in sync.
 - **Custom-app stores (billed through Sealmetrics):** a **Disconnect** button is available in the dashboard. Disconnecting disables Shopify conversion tracking; you can reconnect later.
 
-## Activate the tracker (app embed)
+## Activate the tracker (public app)
 
-Connecting the app does not start front-end tracking on its own. You must enable the app embed and provide your Account ID.
+Connecting the public app does not start front-end tracking on its own. You must enable the app embed and provide your Account ID.
 
 1. In the Sealmetrics dashboard (the connected Shopify card), copy your **Account ID**. Use the **Copy** button next to it.
 2. In Shopify, open the theme editor and go to **Theme → App embeds**.
@@ -55,33 +70,52 @@ The embed loads the Sealmetrics loader by account:
 
 The loader then injects the tracker (`t.js`), writes Sealmetrics session attributes to the Shopify cart, and sets up the microconversion listeners described below.
 
+## The Web Pixel (custom app)
+
+On custom-app stores the browser side runs as a **Shopify Web Pixel**, Shopify's own sandbox for analytics code. It is created during the install with your Account ID already set, so there is no theme edit, no app embed and no field to fill in.
+
+You can see it in **Shopify Admin → Settings → Customer events**, listed under app pixels.
+
+The Web Pixel listens to Shopify's standard customer events instead of reading the theme, so it keeps working on customized themes and inside Shopify's checkout. It does not send page views for checkout, thank-you or order-status pages.
+
+**Note:**
+Custom-app stores connected before October 2026 load the same loader as the app embed, through a Shopify ScriptTag. Their events are the ones described for the app embed below.
+
 ## E-commerce events
 
-Sealmetrics tracks the following events automatically once the app embed is active and the conversion webhook is registered.
+Sealmetrics tracks the following events automatically once the browser tracking is active and the conversion webhook is registered.
 
-| Event | Type | Source | Properties |
-|-------|------|--------|------------|
-| `pageview` | Auto | Tracker (`t.js`) | Standard pageview |
-| `view_product` | Microconversion | App embed loader (on `/products/{handle}` pages) | product_name, sku, price, currency, product_id |
-| `add_to_cart` | Microconversion | App embed loader (intercepts `/cart/add`) | product_id, product_name, sku, price, quantity, currency |
-| `begin_checkout` | Microconversion | App embed loader (checkout submit/click and `/checkout` requests) | cart_url |
-| `purchase` | Conversion | Shopify `orders/create` webhook (server-side) | revenue, currency, items array |
+| Event | Type | App embed (public app) | Web Pixel (custom app) | Properties |
+|-------|------|------------------------|------------------------|------------|
+| `pageview` | Auto | Tracker (`t.js`) | Shopify `page_viewed` (not on checkout pages) | Standard pageview |
+| `view_product` | Microconversion | Loader, on `/products/{handle}` pages | Shopify `product_viewed` | product_id, product_name, sku, price, currency |
+| `add_to_cart` | Microconversion | Loader, intercepts `/cart/add` | Shopify `product_added_to_cart` | product_id, product_name, sku, price, quantity, currency |
+| `initiate_checkout` | Microconversion | Loader, checkout submit/click and `/checkout` requests | Shopify `checkout_started` | cart_url (app embed only) |
+| `purchase` | Conversion | Shopify `orders/create` webhook (server-side) | Same | revenue, currency, items array |
 
 ### `view_product`
 
-Fired on product pages (`/products/{handle}`). The loader reads product data from JSON-LD (`@type: "Product"`) and falls back to `ShopifyAnalytics.meta` for the product ID. It also re-fires on SPA navigation between products.
+- **App embed:** fired on product pages (`/products/{handle}`). The loader reads product data from JSON-LD (`@type: "Product"`) and falls back to `ShopifyAnalytics.meta` for the product ID. It also re-fires on SPA navigation between products.
+- **Web Pixel:** fired on Shopify's `product_viewed` event, with the data of the variant being viewed.
 
 ### `add_to_cart`
 
-The loader intercepts `fetch` and `XHR` calls to `/cart/add` and emits one `add_to_cart` per line item, with the price normalized from cents to a decimal value.
+- **App embed:** the loader intercepts `fetch` and `XHR` calls to `/cart/add` and emits one `add_to_cart` per line item, with the price normalized from cents to a decimal value.
+- **Web Pixel:** fired on Shopify's `product_added_to_cart` event, with the added line's variant and quantity.
 
-### `begin_checkout`
+### `initiate_checkout`
 
-Fired (once per checkout attempt) when the shopper submits the cart form, clicks a checkout link/button, a Shopify dynamic checkout (Buy Now) button, or when a `/checkout` request is detected. A dedup flag prevents duplicate events; it resets on SPA navigation.
+- **App embed:** fired (once per checkout attempt) when the shopper submits the cart form, clicks a checkout link/button, a Shopify dynamic checkout (Buy Now) button, or when a `/checkout` request is detected. A dedup flag prevents duplicate events; it resets on SPA navigation.
+- **Web Pixel:** fired on Shopify's `checkout_started` event. It carries no `cart_url`, because inside checkout the URL contains the checkout token.
 
 ### `purchase`
 
 Purchases are confirmed **server-side**, not from the browser. When an order is placed, Shopify sends an `orders/create` webhook to Sealmetrics, which records the conversion with its revenue, currency, and line items. To make this reliable, the app requests the `read_orders` scope and registers the `orders/create` webhook on install.
+
+To attribute the order to the visit (channel, campaign, landing page), Sealmetrics needs to know which visit it came from:
+
+- **App embed:** the loader writes Sealmetrics session attributes to the cart, and the order carries them.
+- **Web Pixel:** a Web Pixel cannot write cart attributes. Instead, the `initiate_checkout` event links the checkout to the visit, and the order is matched to that link when it arrives. The link only counts for the account of the store that sends the order, and expires after 24 hours.
 
 **Note:**
 
@@ -96,9 +130,9 @@ Plans and prices are presented through Shopify's Managed Pricing flow in Shopify
 
 ## Privacy and compliance
 
-- No cookies are used; tracking is cookieless by design.
+- No cookies are used; tracking is cookieless by design. The Web Pixel does not use browser storage either.
 - Order IDs are not stored externally.
-- The app subscribes to Shopify's mandatory GDPR/compliance webhooks:
+- The public app subscribes to Shopify's mandatory GDPR/compliance webhooks:
   - `customers/data_request`
   - `customers/redact`
   - `shop/redact`
@@ -107,15 +141,23 @@ Plans and prices are presented through Shopify's Managed Pricing flow in Shopify
 
 ### Tracker not loading
 
+**Public app:**
+
 1. Confirm the **Sealmetrics Analytics** app embed is enabled in **Theme → App embeds**.
 2. Confirm your **Account ID** is pasted into the embed field and saved (the embed does nothing if it is blank).
 3. Check the browser console for the `shopify-loader.js` request and any JavaScript errors.
+
+**Custom app:**
+
+1. Open **Shopify Admin → Settings → Customer events** and confirm the Sealmetrics pixel is listed under app pixels and connected.
+2. Web Pixels run in a sandbox, so they do not appear in the page's console. Use Shopify's **Pixel Helper** to see the events it sends.
+3. If the pixel is missing, contact **support@sealmetrics.com**.
 
 ### Purchases not tracking
 
 1. Confirm the store shows **Connected** in **Settings → Integrations → Shopify** (this means the conversion webhook is registered).
 2. Place a test order and verify it appears as a conversion.
-3. If you recently reinstalled or changed scopes, reconnect from the dashboard so the `orders/create` webhook is re-registered.
+3. **Public app:** if you recently reinstalled or changed scopes, reconnect from the dashboard so the `orders/create` webhook is re-registered. **Custom app:** contact **support@sealmetrics.com**.
 
 ### Orders or revenue don't match Shopify
 
@@ -136,13 +178,13 @@ If a test order does not show up, contact **support@sealmetrics.com** with its d
 
 ### Microconversions missing
 
-1. `view_product` only fires on `/products/{handle}` pages — confirm you are testing a product page.
-2. `add_to_cart` relies on standard `/cart/add` requests; heavily customized themes that bypass the standard cart endpoints may not be detected.
-3. Verify no JavaScript errors in the browser console interrupt the loader.
+1. `view_product` only fires on product pages — confirm you are testing a product page.
+2. **App embed:** `add_to_cart` relies on standard `/cart/add` requests; heavily customized themes that bypass the standard cart endpoints may not be detected. The Web Pixel does not have this limit, because it listens to Shopify's own events.
+3. **App embed:** verify no JavaScript errors in the browser console interrupt the loader.
 
 ## Related documentation
 
-- [Installation](/implementation/tracker/installation) — how the Sealmetrics tracker (`t.js`) that this app embed loads works under the hood.
+- [Installation](/implementation/tracker/installation) — how the Sealmetrics tracker (`t.js`) that the app embed loads works under the hood.
 - [E-commerce Conversion Tracking](/implementation/ecommerce-conversion-tracking) — the funnel-event model behind the microconversions and purchase webhook.
 - [WooCommerce](/integrations/ecommerce/woocommerce) — the equivalent integration for WordPress + WooCommerce stores.
 - [BigCommerce](/integrations/ecommerce/bigcommerce) — another hosted-store platform integration.
