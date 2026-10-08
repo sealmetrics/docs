@@ -3,8 +3,8 @@ title: "What Is omtrdc.net? Adobe's Collection Domain, Explained"
 description: "omtrdc.net is where Adobe Analytics sends every hit. What the requests are, when they fire, why an image GET loses data, and how to check your own site."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/omtrdc-net-requests"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "809e512d403a272942e321e820b82ee5c9f95201a5556a4034ae47db3463e62a"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "e56645c07d3b6262fbe518d2a0c4f50ef08aa511988e2450606f36eb24d62a33"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -121,7 +121,6 @@ Three independent causes, all of which reduce what Adobe records:
    Origin, Brave and Firefox Enhanced Tracking Protection. The request never leaves.
 2. **The transport.** An image GET cancelled on unload, as described in section 2.
 3. **Consent.** Where the hit is gated behind a banner, rejection means no request at all.
-   In European eCommerce, banner rejection runs 40–60%.
 
 These compound. A visitor can be lost to any one of them, and the three populations do not
 overlap neatly.

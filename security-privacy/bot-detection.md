@@ -1,10 +1,10 @@
 ---
 title: "Bot Detection & Traffic Quality"
-description: "How Sealmetrics detects and filters bot traffic to ensure data accuracy. Multi-layer detection system protecting your analytics."
+description: "How Sealmetrics filters bot traffic — IP and User-Agent blocklists, a burst detector, HMAC token validation and domain authorization."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/bot-detection"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "1e2166efa67b83a28536c2a20436eefc46f68ea1bbbf698d4c41bd060d55de32"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "aa84a4f8554f1bccb3d009a7c942d10b2161e853d810fe3dffba42de3512e9f0"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -22,15 +22,14 @@ Sealmetrics uses multiple layers of protection — from IP and User-Agent blockl
 
 ## How does Sealmetrics detect bots? {#multi-layer-detection-system}
 
-### Layer 1: IP Blocklist
+### 1. IP blocklist
 
-Known malicious IPs are blocked at the edge:
+The IP of each request is checked in flight against blocklists, and is not stored either way:
 
-- **Global blocklist** — Common bot IPs, data centers, VPN exit nodes
-- **Per-account blocklist** — Custom IPs you want to exclude
-- **Real-time updates** — Blocklist refreshed automatically
+- **Global list** — a public list of IPs known to send automated traffic
+- **Per-account blocklist** — IPs or CIDR ranges you choose to exclude
 
-### Layer 2: User-Agent Filtering
+### 2. User-Agent filtering
 
 Bot signatures in the User-Agent string are detected:
 
@@ -38,31 +37,18 @@ Bot signatures in the User-Agent string are detected:
 - Automated tool signatures (curl, wget, python-requests)
 - Headless browser patterns (HeadlessChrome, PhantomJS)
 
-### Layer 3: Geographic Validation
+### 3. Burst detection
 
-Traffic from unknown or suspicious locations:
+A session that sends too many pageviews within a few seconds is blocked for a period. This check applies to traffic whose country cannot be determined.
 
-- Missing geo data indicates potential bots
-- Data center IP ranges flagged
-- Unusual geographic patterns monitored
-
-### Layer 4: Behavioral Analysis
-
-Click patterns and timing analysis:
-
-- Inhuman click speeds detected
-- Rapid repeated actions blocked
-- Session behavior scoring
-
-### Layer 5: HMAC Token Validation
+### 4. HMAC token validation
 
 Each request includes a cryptographic token:
 
-- Prevents replay attacks
-- Validates request authenticity
+- Validates that the request comes from the tracker served for your account
 - Time-bound token expiration
 
-### Layer 6: Domain Authorization
+### 5. Domain authorization
 
 Only authorized domains can send data:
 
@@ -91,8 +77,7 @@ When bot traffic is detected:
 | Uptime monitors | Yes | Pingdom, UptimeRobot |
 | Security scanners | Yes | Vulnerability scanners |
 | Automated testing | Yes | Selenium, Puppeteer |
-| Data center traffic | Yes | AWS, GCP, Azure IPs |
-| Known bot networks | Yes | Spam networks |
+| Known automated-traffic IPs | Yes | Public list of automated-traffic IPs |
 | Your own test traffic | Configurable | Optional filtering |
 
 ---
@@ -192,15 +177,14 @@ In your reports, look for:
 
 | Feature | Sealmetrics | Google Analytics |
 |---------|-------------|------------------|
-| Bot filtering | Multi-layer | Single checkbox |
+| Bot filtering | Blocklists, burst detection, token and domain checks | Single checkbox |
 | Custom blocklists | Yes | Limited |
 | Real-time blocking | Yes | Delayed |
-| Behavioral analysis | Yes | Limited |
 | Transparent filtering | Yes | Black box |
 
 **Note:**
-- Bot traffic is filtered in multiple layers — IP blocklists, User-Agent signatures, geographic validation, HMAC token validation and domain authorization — and blocked hits are never stored or counted.
-- Search engine crawlers, SEO tools, uptime monitors, security scanners, automated testing and data-center traffic are filtered; real browsers, in-app browsers and VPN users pass through.
+- Bot traffic is filtered by IP blocklists (the IP is checked in flight and not stored), User-Agent signatures, a burst detector, HMAC token validation and domain authorization; blocked hits are never counted.
+- Search engine crawlers, SEO tools, uptime monitors, security scanners, automated testing and IPs on the public automated-traffic list are filtered; real browsers, in-app browsers and VPN users pass through.
 - Custom IP/CIDR and User-Agent blocklists are configurable per account; Agent Analytics (behavioral human-vs-agent classification) is designed but not live and cannot be enabled.
 
 ---

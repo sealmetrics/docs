@@ -3,8 +3,8 @@ title: "How Consentless Tracking Works"
 description: "The mechanics of consentless tracking — a small set of non-identifying fields, isolated hits, a daily re-keyed session identifier, and EU-only aggregate storage."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/how-consentless-works"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "29fc1a7089cc6fc93dcfdceedc7e5b0d1ea9e859d7f041ef312080fab7a898db"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "d177521f376a1f9752b2b0fbc92ce181cca7351101412fa6968777223a98934a"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -32,7 +32,7 @@ All customer analytics data is stored and processed in **Dublin, Ireland (EU)**.
 
 ## Two measurement modes
 
-**Isolated hits** — every page view is an independent event with no identifier and no link to any other event. This is the most privacy-preserving mode: pure aggregate counting.
+**Isolated hits** — a page view that arrives without a session identifier is counted as an independent event, with no link to any other event: pure aggregate counting.
 
 **Session-marked hits** — a session identifier groups the hits of one visit (a two-hour inactivity window). The tracker computes it in the browser as a hash of standard device characteristics (a device fingerprint) combined with the publisher's account ID; it is never written to the device. On the server it is re-keyed with a daily salt that is destroyed on rotation, so the stored identifier changes every day, the raw hash is never stored, and a returning visitor cannot be recognised on another day. Because the account ID is part of the hash, the same browser produces different identifiers on different sites and no cross-site correlation is possible. This is what makes within-session metrics such as bounce rate and pages per session possible without a persistent identifier.
 

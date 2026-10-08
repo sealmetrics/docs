@@ -3,8 +3,8 @@ title: "Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics"
 description: "The three-way comparison: tracking pixel weight, delivery chain, time to first hit, transport, consent, and measured traffic differences between Sealmetrics, GA4's gtag.js, and the Adobe Launch + AppMeasurement stack."
 canonical_url: "https://docs.sealmetrics.com/guides/tracker-performance-three-way"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "37ff94dc23347b7c1e11298e1ab7a5a3c11f63f51ef1307cadd46f54c8c9b772"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "1bf64cc65798d8735e1c57651b65c58e2b9b67a35def9b840dc4673dd0458bcb"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -86,14 +86,14 @@ GA4's transport is fine — its problem is reaching the dispatch point late and 
 
 ## Blockers and consent
 
-- **Consent**: Sealmetrics is designed to measure without consent (no cookies, no persistent identifiers; our self-assessment). GA4 legally requires consent in the EU; rejection/ignore rates typically run 20–35% of visitors. Adobe requires it in most EU installs.
+- **Consent**: Sealmetrics is designed to measure without consent (no cookies, no persistent identifiers; our self-assessment). GA4 legally requires consent in the EU, so visitors who reject or ignore the banner are lost. Adobe requires it in most EU installs.
 - **Filter lists**: EasyPrivacy targets Google's analytics domains extensively, carries 28+ rules against Adobe's `omtrdc.net` plus several against `demdex.net`, and uBlock Origin on Firefox uncloaks CNAME first-party collection domains. In fairness: `sealmetrics.com` is also listed as a third-party rule — the Sealmetrics advantage lies in consent, weight, and timing, not in ad-blocker immunity.
 
 ## Measured traffic differences
 
 | Comparison | Difference | Basis |
 |---|---|---|
-| Sealmetrics vs GA4 (EU markets) | **+25–45% for Sealmetrics** | Estimate: consent rejection (~20–35%) + blocked domains (~10–15%) + late-fire abandonment (~2–5%); ranges overlap |
+| Sealmetrics vs GA4 (EU markets) | **Specific to each site** | Consent rejection + blocked domains + late-fire abandonment; measure it side by side (in the [Incapto case](https://sealmetrics.com/case-studies/incapto/), one store and not a benchmark, GA4 did not record 29% of real visits) |
 | Sealmetrics vs Adobe Analytics | **+25% for Sealmetrics** | 30 days of dual-tag pageview data on the reference site (June 2026), ratio stable across the whole month — with Adobe firing *without* a consent gate; expect more where Adobe sits behind a CMP |
 
 The Adobe figure is the strongest evidence in this guide: same site, same visits, pageviews against pageviews, a full month — and a constant ~25% gap, which is the signature of a structural cause (a fixed fraction of the audience the heavy tracker cannot see), not of bots or incidents.

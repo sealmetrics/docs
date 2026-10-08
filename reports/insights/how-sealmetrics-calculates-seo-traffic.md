@@ -3,8 +3,8 @@ title: "How Sealmetrics Calculates SEO Traffic"
 description: "Learn how Sealmetrics differentiates SEO traffic from paid traffic using a privacy-first methodology."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-seo-traffic"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "b4bf6b178da0a2fad2ba17af761884a058161fd838bac14a0b456960df6decc9"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "6516713c54a379553d2c1925b93f608ef2e0f572ffd5eb65ffedeea0b14dbd2b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -56,7 +56,7 @@ Result: SEO Traffic
 A common question:
 **“Could Google Ads traffic ever be classified as SEO traffic?”**
 
-### Sealmetrics keeps this risk extremely low — under 1%
+### Sealmetrics keeps this risk very low
 
 For misclassification to happen, TWO things must occur simultaneously:
 

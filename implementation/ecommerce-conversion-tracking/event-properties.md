@@ -3,8 +3,8 @@ title: "Understanding Event Properties in Sealmetrics"
 description: "Learn how to use event properties in Sealmetrics for advanced conversion tracking, custom data collection, and detailed analytics segmentation while maintaining GDPR compliance."
 canonical_url: "https://docs.sealmetrics.com/implementation/ecommerce-conversion-tracking/event-properties"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "e056d8c86989a7d2f722619d7b5f197cdef9aba588bb045c31ab8a07cb13beec"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "a6e3a9d97170487c6e19534474c6e0b7c429defcb949581d9994cfdb720df8d0"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -415,7 +415,7 @@ BigQuery integration transforms Sealmetrics into a comprehensive analytics wareh
 | **Data Collection Method** | Event-attached properties | User-scoped cookies + events |
 | **Privacy Compliance** | Designed for GDPR, no consent banner (self-assessed) | Requires consent banners |
 | **User Tracking** | Event-level only | Cross-session user profiles |
-| **Data Loss from Consent** | 0% (no consent required — self-assessed; Germany: open question) | 40-65% (consent rejection) |
+| **Data Loss from Consent** | Not reduced by consent (self-assessed; Germany: open question) | Visitors who reject consent are lost; varies by site |
 | **Custom Dimensions** | Unlimited properties | Limited by plan (20-200) |
 | **Implementation Complexity** | Simple key-value pairs | Complex data layer configuration |
 | **Data Availability** | Dashboard + API + BigQuery | Dashboard + API |

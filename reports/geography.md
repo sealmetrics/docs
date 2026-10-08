@@ -3,8 +3,8 @@ title: "Geography Report"
 description: "See where your visitors come from and which countries buy: country-level entrances, bounce rate, conversions and revenue, with a world map, filters and e-commerce use cases."
 canonical_url: "https://docs.sealmetrics.com/reports/geography"
 lang: "en"
-date_generated: "2026-09-21T07:18:17.820Z"
-source_hash: "f43ad6622385f43ae82437c0aea5e17eaa49a6329bd3014d87d65309aa30d2c8"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "e0120bcefdefb3ab76f811e27e3e7e634ee86e7596e2efe9486ef286253b3499"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -255,7 +255,7 @@ These cases assume your store sends a `purchase` [conversion](/reports/definitio
 
 ### Europe (GDPR)
 
-Sealmetrics does not depend on cookie consent, so traffic from EU countries is not reduced by visitors rejecting a consent banner. If you compare these figures with a consent-based analytics tool, expect EU countries to show more sessions and conversions in Sealmetrics — consent-based tools typically lose 15–60% of data depending on sector, brand and traffic mix. See [Why Sealmetrics can measure without consent](/security-privacy/why-no-consent).
+Sealmetrics does not depend on cookie consent, so traffic from EU countries is not reduced by visitors rejecting a consent banner. If you compare these figures with a consent-based analytics tool, expect EU countries to show more sessions and conversions in Sealmetrics — consent-based tools typically lose the visitors who reject or ignore the cookie banner depending on sector, brand and traffic mix. See [Why Sealmetrics can measure without consent](/security-privacy/why-no-consent).
 
 ### Time Zones
 

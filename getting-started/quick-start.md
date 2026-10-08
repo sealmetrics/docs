@@ -1,10 +1,10 @@
 ---
 title: "First Steps with Sealmetrics"
-description: "Get started with Sealmetrics in under 5 minutes — from account setup and tracking installation to your first privacy-first analytics insights."
+description: "Get started with Sealmetrics in about 4 minutes — from account setup and tracking installation to your first privacy-first analytics insights."
 canonical_url: "https://docs.sealmetrics.com/getting-started/quick-start"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "33ed28dda6de17dbab859ce3e5289764347e8d7e79170341746db62ab9c168e2"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "c54c1889f5b5f5fdefad4ad6f4b58214d1d0cab389e2f984819f9e2d88df6987"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -236,6 +236,6 @@ A chart lets you toggle between Entrances, Pageviews, and Conversions over time.
 - **Regular Updates:** Always up to date and secure
 
 **Note:**
-- Setup takes under 5 minutes: sign up, create an organization and site, add one script tag (`https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID`) to the `<head>`, then check the **Last hit** timestamp on the Overview report.
+- Setup takes about 4 minutes: sign up, create an organization and site, add one script tag (`https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID`) to the `<head>`, then check the **Last hit** timestamp on the Overview report.
 - Conversions are instrumented in code, not the dashboard: `sealmetrics.conv('purchase', 99.99)` for goals and `sealmetrics.micro('add_to_cart')` for funnel steps.
 - No cookies and no consent banner for its own analytics (self-assessed); Entrances are reported instead of unique visitors because identifying individuals is not done.

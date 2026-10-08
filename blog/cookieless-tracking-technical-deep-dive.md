@@ -3,8 +3,8 @@ title: "How Session-Based Tracking Works: Cookieless Architecture Explained"
 description: "How session-based tracking replaces cookies. Technical deep dive into Sealmetrics' architecture: hashing, token rotation, and data flow."
 canonical_url: "https://docs.sealmetrics.com/blog/cookieless-tracking-technical-deep-dive"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "b2e6acbb491313289590bfcc372573f7aaf9529d51ca5b9457b6c880c109957a"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "ed71891319d5a1b22bf0caa53749adcc4a30d8c36b50b4bcb10ecfe16b216057"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -22,7 +22,7 @@ Canonical page: https://docs.sealmetrics.com/blog/cookieless-tracking-technical-
 
 ## Introduction
 
-**The Problem**: Google Analytics loses 15-60% of EU visitor data to [cookie rejections and banner ghosting](/blog/cookie-banner-ghosting-data-loss) — where you land depends on your sector, brand strength and traffic sources. Cookieless analytics solves this by tracking without cookies, consent banners, or IP addresses.
+**The Problem**: Google Analytics loses the visitors who drop out at the banner through [cookie rejections and banner ghosting](/blog/cookie-banner-ghosting-data-loss) — where you land depends on your sector, brand strength and traffic sources. Cookieless analytics solves this by tracking without cookies, consent banners, or IP addresses.
 
 **What You'll Learn**:
 - How cookieless tracking actually works technically
@@ -84,11 +84,11 @@ fetch('https://analytics-backend.com/collect', {
 
 ### Why This Fails in EU
 
-**Cookie Rejection**: 87% of German users reject cookies (CNIL 2024 study)
+**Cookie Rejection**: many EU visitors reject the consent banner
 **Banner Ghosting**: a large share of visitors ignore consent banners entirely, making no choice — usually a bigger group than the rejecters
 **Browser Changes**: Safari ITP + Firefox ETP blocks third-party cookies by default
 
-**Result**: [Google Analytics loses 15-60% of EU traffic](/blog/google-analytics-vs-sealmetrics). Note that this is smaller than the raw rejection rate — Consent Mode models part of the gap back in as estimates — and it is still more than enough to make the data unreliable for decision-making, because the loss is not spread evenly across your channels.
+**Result**: [Google Analytics loses the visitors who reject or ignore the cookie banner](/blog/google-analytics-vs-sealmetrics). Note that this is smaller than the raw rejection rate — Consent Mode models part of the gap back in as estimates — and it is still more than enough to make the data unreliable for decision-making, because the loss is not spread evenly across your channels.
 
 **The Core Issue**: Cookies require **explicit consent** under GDPR Article 7. When users reject or ignore, tracking stops completely.
 
@@ -413,50 +413,21 @@ const allowedPurposes = [
 
 ### How Cookieless Captures More Data
 
-**Google Analytics (Cookie-Based)**: Loses data at every step
-```
-100 EU visitors arrive
-├─ 87 reject cookie banner
-│  ├─ 13 make explicit choice (accept/reject)
-│  └─ 40-60 ignore banner entirely (ghost)
-│
-├─ GA captures: Only the ~13 who accepted
-│  └─ Data loss: 87 visitors (87% loss)
-│
-└─ Remaining 13 visitors tracked:
-   ├─ 2 on Safari (ITP blocks anyway)
-   └─ Only 11 truly tracked reliably
+**Google Analytics (cookie-based)**: only the visitors who accept the banner are measured. Those who reject it or simply ignore it are lost, and browser protections such as Safari's ITP shorten what is kept for the rest. How large the gap is depends on the site — measure it side by side; in the [Incapto case](https://sealmetrics.com/case-studies/incapto/) (one Shopify store, not a benchmark), GA4 did not record 29% of real visits.
 
-RESULT: 11/100 = 11% data capture
-```
-
-**Sealmetrics (Cookieless)**: Captures the traffic the banner loses
-```
-100 EU visitors arrive
-├─ 87 reject/ghost banner (not applicable, no banner!)
-├─ 13 accept (not applicable)
-│
-└─ Every visitor whose browser runs the tracker is measured:
-   ├─ System 1: Session tracking (most visits)
-   └─ System 2: Isolated hits (no session identifier computed)
-
-Not measured: visits where the JavaScript never runs
-(JS disabled, some ad blockers)
-
-RESULT: no consent-driven loss
-```
+**Sealmetrics (cookieless)**: there is no banner to reject or ignore. Every visitor whose browser runs the tracker is measured — most visits with a session identifier, and the few without one as isolated hits (each counted as a new entrance). Visits where the JavaScript never runs (JavaScript disabled, or an ad blocker that stops it) are not measured.
 
 ### Accuracy Comparison Table
 
 | Metric | Google Analytics | Other Cookieless Tools | Sealmetrics |
 |--------|-----------------|----------------------|------------|
-| **Data Capture Rate (EU)** | 40-85% | Higher, but non-zero loss where consent applies | **No consent-driven loss** |
+| **Data Capture Rate (EU)** | Only visitors who consent | Higher, but non-zero loss where consent applies | **No consent-driven loss** |
 | **Banner Required** | Yes | No | **No** |
 | **IP Stored** | Yes | Hashed | **No** |
 | **Consent Required** | Yes | No | **No** |
 | **Session Expiry** | 2 years | 30 mins - Session-based | **Session-based** |
 | **GDPR position** | Requires DPA + consent | Built-in | **Legitimate interest, unrecoverable daily identifier** |
-| **Consent-driven data loss** | 15-60% | Lower, non-zero | **None** |
+| **Consent-driven data loss** | Varies by site | Lower, non-zero | **None** |
 
 **Why Sealmetrics is Superior**:
 - No data loss from cookie rejection
@@ -527,14 +498,14 @@ Day 365: Safari user visits
 
 | Question | Cookie-Based Answer | Cookieless Answer |
 |----------|-------------------|-------------------|
-| How many visits? | 40-85% of the real count | **All of them** |
+| How many visits? | Only visitors who consent | **All of them** |
 | How many sessions? | Unknown (many lost) | **All tracked** |
 | Pages per session? | Biased (low estimate) | **Accurate** |
 | Bounce rate? | Inflated (missing data) | **Accurate** |
 | Which pages convert? | Underestimated | **Accurate** |
 | Traffic source effectiveness? | Unreliable | **Accurate** |
 | Are users returning? | Only those accepting cookies | **Not measured — each entrance counts as new** |
-| Where do visitors from Germany go? | 40-85% of German traffic | **All German traffic** |
+| Where do visitors from Germany go? | Only German visitors who consent | **All German traffic** |
 
 ---
 
@@ -547,7 +518,7 @@ For detailed platform comparisons, see:
 - [Sealmetrics vs Plausible](/blog/sealmetrics-vs-plausible)
 
 **Cookie-Based Analytics (e.g., Google Analytics)**
-- ❌ Loses 87% EU traffic
+- ❌ Loses the EU visitors who reject or ignore the banner
 - ❌ Requires consent banner
 - ❌ Stores IPs (even latest versions)
 - ❌ Safari ITP blocks tracking
@@ -572,7 +543,7 @@ For detailed platform comparisons, see:
 ### The Bottom Line
 
 Sealmetrics captures what competitors miss:
-- **1.2x to 2.5x the data Google Analytics reports**, depending on where your site sits in the 15-60% loss band
+- **The traffic a cookie-based tool misses** — the amount is specific to your site
 - **All browsers equally** (no Safari data loss)
 - **Zero IP stored**, which sidesteps the hashed-IP debate rather than answering it
 - **No banner fatigue** (no consent popup)
@@ -657,9 +628,9 @@ Unlike Google Analytics (which restricts API), Sealmetrics data is yours.
 
 | Metric | GA4 | Sealmetrics |
 |--------|-----|------------|
-| Captured data | 40-85% in EU | No consent-driven loss |
+| Captured data | Only visitors who consent | No consent-driven loss |
 | Accuracy of captured data | 97% | 97% |
-| **Overall coverage** | **40-85%** | **No consent gap** |
+| **Overall coverage** | **Only visitors who consent** | **No consent gap** |
 
 Sealmetrics might show 100,000 sessions/month where GA4 shows 45,000 for the same period. Sealmetrics is more accurate because it also measures the traffic GA4 loses to the cookie banner — and because the 55,000 GA4 missed were not a random sample.
 
@@ -716,8 +687,8 @@ Sealmetrics removes this regulatory risk entirely.
 Learn more about [how cookieless analytics works](/blog/cookieless-analytics-guide) in our complete implementation guide.
 
 **The Problem** (Today):
-- Google Analytics loses 15-60% of your EU visitor data, and not at random
-- Cookie banners damage user experience (conversion rates drop 10-15%)
+- Google Analytics loses the visitors who reject or ignore the cookie banner, and not at random
+- Cookie banners interrupt every first visit
 - GDPR fines for non-compliance (up to 4% of global revenue)
 - You're making decisions on a self-selected sample
 
@@ -728,7 +699,7 @@ Learn more about [how cookieless analytics works](/blog/cookieless-analytics-gui
 - Better insights based on your whole audience
 
 **What You Get With Sealmetrics**:
-- Real pageview counts, not the 40-85% a banner lets through
+- Real pageview counts, not the visitors who accept the banner
 - Accurate bounce rates and session metrics, measured in aggregate
 - A legal position that rests on architecture, not on a balancing test
 - Same insights, without a consent record to defend
@@ -739,7 +710,7 @@ Learn more about [how cookieless analytics works](/blog/cookieless-analytics-gui
 3. Wait 1-2 minutes
 4. See all of your traffic in the dashboard
 
-No more 15-60% data loss. No more consent banners. No more regulatory uncertainty.
+No more consent-driven data loss. No more consent banners. No more regulatory uncertainty.
 
 That's how cookieless analytics works—and why Sealmetrics leads the market in technical implementation.
 

@@ -3,8 +3,8 @@ title: "Google Tag Manager Template"
 description: "Install Sealmetrics tracking on your website using the official Google Tag Manager template. Track pageviews, conversions, and microconversions without writing code."
 canonical_url: "https://docs.sealmetrics.com/integrations/google-tag-manager"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "d007d18fa3e395a0807b41a3bd056e2d57b603f6ae81cd76db3bb7a43a867ebe"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "04f0859ba7445124a9cb0ddf49a75a20a7df9eb30a0f32bfff4732f357665f24"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -74,7 +74,7 @@ GTM container loads
 └─ gtm.load
 ```
 
-For traffic from paid ads, social, or push notifications — where sub-second bounce rates can hit 5–15% — moving the tag from Page View to Initialization recovers that lost segment.
+For traffic from paid ads, social, or push notifications — where some visitors leave within a second — moving the tag from Page View to Initialization recovers that lost segment.
 
 ### About SPAs
 

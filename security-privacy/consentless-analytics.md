@@ -3,8 +3,8 @@ title: "What is Consentless Analytics?"
 description: "What consentless analytics is, the small set of non-identifying fields Sealmetrics records, and why storing nothing on the device and nothing that identifies anyone means, on our self-assessment, no consent banner is required (in Germany an open question)."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-analytics"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "a8bcad5e3a4d7d0f3d96dc357dbb1c92446535a8b68b552d48e7b1657848ffba"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "9d7a20318ed5350f7ccceda502e97e781b1f4d86da558833fe3183bdd1d335b1"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -21,7 +21,7 @@ Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel
 
 **Consentless analytics** is a method of measuring website traffic and user behavior without requiring visitor consent. It achieves this by storing nothing on the device, keeping no data that identifies anyone, not setting cookies, and not identifying users — which is how it fits the audience-measurement exemption under the ePrivacy Directive, while the short-lived pseudonymised data is processed under legitimate interest (GDPR Art. 6(1)(f)).
 
-Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When a visitor rejects consent, the tool records nothing — which is why cookie-based analytics typically lose **15–60% of visitor data in EU markets** — how much depends on sector, brand strength and traffic mix. The result: businesses make decisions based on a fraction of their actual traffic.
+Traditional analytics tools like Google Analytics 4, Adobe Analytics, and Mixpanel rely on cookies and client-side identifiers to track individual users. Under GDPR, these tools require explicit consent before activation. When a visitor rejects consent, the tool records nothing — which is why cookie-based analytics lose the visitors who reject consent. The result: businesses make decisions based on a fraction of their actual traffic.
 
 Consentless analytics solves this by measuring aggregate behavior rather than tracking individuals. Visitors are measured whether or not they would have accepted a banner, and conversions are attributed to their source. No consent is needed, on our own assessment: no data that identifies anyone is stored, nothing is stored on the device, and the ephemeral session identifier rotates daily, cannot be reconstructed afterwards and falls under the audience-measurement exemption.
 
@@ -90,7 +90,7 @@ For a full legal analysis, see [GDPR and Cookieless Analytics](/compliance/gdpr-
 |--|---------------------------|---------------------------|
 | **Tracking method** | Cookies + client ID | Aggregate event measurement |
 | **Consent required** | Yes | No |
-| **Data capture (EU)** | Partial — 15–60% of visitor data lost to consent rejection | Not reduced by consent rejection |
+| **Data capture (EU)** | Partial — visitors who reject consent are lost | Not reduced by consent rejection |
 | **Cookie banners** | Required | Not needed |
 | **Personal data** | Yes (client ID, IP) | Only a pseudonymised session identifier that rotates daily and becomes unrecoverable |
 | **Cross-session tracking** | Yes | No |
@@ -227,11 +227,11 @@ Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP
 - [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) — Full legal analysis with GDPR article references
 - [CNIL Self-Assessment](/compliance/cnil-self-assessment) — Compliance against CNIL's 14 criteria
 - [GA4 vs Sealmetrics](/faq/ga4-vs-sealmetrics) — Feature-by-feature comparison
-- [Getting Started](/getting-started/quick-start) — Set up consentless analytics in under 5 minutes
+- [Getting Started](/getting-started/quick-start) — Set up consentless analytics in about 4 minutes
 - [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — The consent question in plain language
 - [Benefits of Consentless Tracking](/security-privacy/consentless-benefits) — Why the consentless model outperforms cookie-based tools
 - [Frequently Asked Questions](/faq/privacy-security) — Common privacy and security questions
 
 ---
 
-*Ready to see your real traffic numbers? [Start a free trial](https://my.sealmetrics.com/register) — setup takes under 5 minutes, and on our self-assessment no cookie banner is required for its own analytics.*
+*Ready to see your real traffic numbers? [Start a free trial](https://my.sealmetrics.com/register) — setup takes about 4 minutes, and on our self-assessment no cookie banner is required for its own analytics.*

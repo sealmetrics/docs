@@ -1,10 +1,10 @@
 ---
 title: "EU Digital Omnibus: The End of Cookie Banner Fatigue?"
-description: "The EU Digital Omnibus proposes to eliminate cookie banners for 60% of websites. Here's what it means for web analytics."
+description: "The proposed EU Digital Omnibus would change when cookie consent is needed. Here's what it could mean for web analytics."
 canonical_url: "https://docs.sealmetrics.com/blog/eu-digital-omnibus-regulation-cookie-consent-changes"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "71e60af4c5b66ed3940cedecfce849142291840c5a8336fe0ddc47f75369f534"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "3d3f1e1a87ec68b5eccff3c1f3703001352bd2b75c27788cfdd3a45334c9cbe2"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -17,11 +17,11 @@ publisher: "Sealmetrics"
 Canonical page: https://docs.sealmetrics.com/blog/eu-digital-omnibus-regulation-cookie-consent-changes
 
 <!-- AUTO-TLDR:START -->
-> **TL;DR** — The EU Digital Omnibus proposes to eliminate cookie banners for 60% of websites. Here's what it means for web analytics.
+> **TL;DR** — The proposed EU Digital Omnibus would change when cookie consent is needed. Here's what it could mean for web analytics.
 <!-- AUTO-TLDR:END -->
 
 
-Cookie banners cost EU businesses **€1.64 billion annually**. EU users waste **334 million hours per year** clicking through them. And yet, 54% of users randomly accept without reading, while 26% randomly reject—undermining the very goal of informed consent.
+Cookie banners cost EU businesses money and users time, and many people click through them without reading — undermining the very goal of informed consent.
 
 On November 19, 2025, the European Commission published a proposal that could change everything: the **EU Digital Omnibus Regulation** (COM(2025) 837).
 
@@ -29,7 +29,7 @@ On November 19, 2025, the European Commission published a proposal that could ch
 
 The Digital Omnibus is the EU's most ambitious simplification of data regulation since the GDPR came into force in 2018. It consolidates five separate data laws into two and introduces fundamental changes to how cookie consent works.
 
-**The headline**: Cookie banners will disappear for an estimated **60% of websites**.
+**The headline**: if adopted as proposed, many websites would no longer need a banner for audience measurement done for their own use. It is still a proposal under negotiation.
 
 But there's more to the story.
 
@@ -38,10 +38,9 @@ But there's more to the story.
 ### Current Reality: A Broken System
 
 Since the ePrivacy Directive of 2009, nearly every website in the EU has been forced to ask for cookie consent. The result:
-- 41% of websites display cookie banners
 - Average user encounters multiple banners daily
 - Users suffer from "consent fatigue" and make uninformed decisions
-- Businesses spend €1.64 billion annually on compliance
+- Businesses carry the cost of banners, consent platforms and legal review
 
 The system protects no one. Users are annoyed. Businesses are burdened. Privacy is undermined.
 
@@ -59,7 +58,7 @@ Here's the breakthrough. **Article 88a(3)(c)** creates a consent exemption for:
 
 > "Creating aggregated information about the usage of an online service to measure the audience of such a service, where it is carried out by the controller of that online service solely for its own use"
 
-**Translation**: First-party analytics for your own use = **NO CONSENT NEEDED**.
+**Translation**: First-party analytics for your own use = **no consent needed (if adopted as proposed)**.
 
 **Requirements:**
 - ✅ Data must be aggregated (not individual user tracking)
@@ -108,7 +107,7 @@ You CANNOT do without consent:
 - Need to restructure or adapt business models
 
 **Consent Management Platforms (CMPs)** face a contracting market:
-- 60% of websites may no longer need banners
+- Many websites may no longer need banners, if the proposal is adopted as written
 - Smaller addressable market
 - Pressure on pricing
 

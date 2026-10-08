@@ -3,7 +3,7 @@ title: "Introducing Seal AI Private: AI-Powered Analytics That Never Leaves the 
 description: "Seal AI Private is Sealmetrics' EU-hosted, platform-managed AI for LENS: chat and insights processed in Paris, no prompt retention, no API key required."
 canonical_url: "https://docs.sealmetrics.com/blog/seal-ai-private-launch"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
+date_generated: "2026-10-08T17:05:41.082Z"
 source_hash: "88bf41dee5be04dc797ad70350eda81fbf7b3abb59b08411bd8c65afa62b8205"
 content_type: "blog"
 owner: "content"

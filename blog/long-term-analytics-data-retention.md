@@ -3,8 +3,8 @@ title: "Long-Term Analytics: 24-Month Data Retention Without Consent"
 description: "24-month analytics data retention without consent. How cookieless tracking enables long-term analysis with a design built to comply with the GDPR."
 canonical_url: "https://docs.sealmetrics.com/blog/long-term-analytics-data-retention"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "4df71fbdbc8e37f980ecad6cd945ccca19ae1ea63e7a7ae70b538cc1cbfd1299"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "61f2308e045efc1f95b097666b0110b48fe4fecd1ce562b4c0b026e7eadd5680"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -116,7 +116,7 @@ Here's how long-term analytics capabilities compare across major platforms:
 | **Cross-Session Tracking** | Yes (cookies) | Optional | Optional | Session-only |
 | **Personal Data Risk** | High | Medium | Medium | **Minimal (identifier unrecoverable after one day)** |
 | **Year-Over-Year Analysis** | If consent maintained | Yes | Yes | Yes |
-| **Setup Complexity** | High (consent mgmt) | Low | Medium | **2 minutes** |
+| **Setup Complexity** | High (consent mgmt) | Low | Medium | **About 4 minutes** |
 
 **Key Insight**: Sealmetrics is the only platform that combines zero IP storage with 24-month retention, providing long-term analytics on aggregated, non-identifying reports.
 

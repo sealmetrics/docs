@@ -3,8 +3,8 @@ title: "Germany TDDDG (formerly TTDSG) Self-Assessment: Sealmetrics Compliance"
 description: "Self-assessment of Sealmetrics against §25 TDDDG (formerly TTDSG): nothing stored on the device, no cookies, and why whether a consent banner is needed in Germany remains an open question."
 canonical_url: "https://docs.sealmetrics.com/compliance/germany-ttdsg-self-assessment"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "c7a7a7384376d87fca27da3885c099a00215e2ad0cccbe6cef3d84ce8703a76f"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "dce0058b4f2f60cad2aaf0e1e7e23c8dc98145699b15c13a843a6ea769dc4e2e"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -42,8 +42,7 @@ This self-assessment follows the published legal framework and the guidance of t
 Germany is widely regarded as the strictest large EU market for analytics:
 
 1. **§25 TDDDG has no analytics exemption.** Unlike France (CNIL's audience-measurement exemption) or the UK (the DUAA 2025 analytics exemption), German law exempts only what is **strictly necessary** to provide the service the user requested (§25(2) Nr. 2). The DSK has consistently stated that audience measurement is *not* strictly necessary.
-2. **Cookie rejection rates in Germany are among the highest in Europe** (estimated 70–87%).
-3. **German supervisory authorities actively enforce** against cookie banners and tracking implementations.
+2. **German supervisory authorities actively enforce** against cookie banners and tracking implementations.
 
 This means a tool can only operate consent-free in Germany by **not triggering §25(1) at all** — not by claiming an exemption. That is Sealmetrics' reading of its own design; because the tracker reads device properties via JavaScript, it is a reading a German DPO may not share (see Criterion 2).
 
@@ -133,7 +132,7 @@ This is the structural difference Sealmetrics claims from consent-managed tools:
 
 ### Criterion 5: Transient processing of the IP address
 
-During request handling, the visitor's IP address is technically received (as with any web server) and used **in memory only** for rate limiting and abuse prevention, then discarded. To the extent this transient handling constitutes processing of personal data, it is supported by **Article 6(1)(f) GDPR** (legitimate interest in network and service security), satisfies data minimization (Article 5(1)(c)), and the IP is never stored. The pseudonymised session identifier also rests on Article 6(1)(f) (Criterion 4); consent is not used as the legal basis.
+During request handling, the visitor's IP address is technically received (as with any web server) and used **in memory only** to check it against blocklists of automated-traffic IPs (abuse prevention), then discarded. To the extent this transient handling constitutes processing of personal data, it is supported by **Article 6(1)(f) GDPR** (legitimate interest in network and service security), satisfies data minimization (Article 5(1)(c)), and the IP is never stored. The pseudonymised session identifier also rests on Article 6(1)(f) (Criterion 4); consent is not used as the legal basis.
 
 No other use of the IP occurs. A GeoLite2 lookup was designed for the **Agent Analytics** bot detector, but that feature is **not live and cannot be enabled on any account**, so it runs on no site today. See [What We Track](/security-privacy/what-we-track).
 

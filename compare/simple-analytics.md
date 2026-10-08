@@ -3,7 +3,7 @@ title: "Sealmetrics vs Simple Analytics: the closest architecture, different dep
 description: "Both skip cookies and IPs, say no consent banner is needed and derive country from the timezone. Simple Analytics keeps it minimal; Sealmetrics adds attribution, e-commerce and AI."
 canonical_url: "https://docs.sealmetrics.com/compare/simple-analytics"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
+date_generated: "2026-10-08T17:05:41.082Z"
 source_hash: "474b146a09b29fcd1ba282e050d41f813a905ee67a6b2bb4892a5e516642f70d"
 content_type: "documentation"
 owner: "docs"

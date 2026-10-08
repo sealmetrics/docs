@@ -3,8 +3,8 @@ title: "How Sealmetrics Reduces AdBlocker Data Loss"
 description: "How 1st-party tracking on your own subdomain keeps Sealmetrics off the third-party block lists AdBlockers use, and why it reduces rather than eliminates ad-blocker loss."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/adblocker-bypass"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "71b62cd6732dbedd8f7bb88f51f491ec3f07b3c75f0022eb56d9c993da2e2cda"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "551abe5c6ba6f76ae82535e9dd2fda818aaed1ff8784a3f610141d51cbf6ca66"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -32,7 +32,7 @@ AdBlockers typically block requests to well-known tracking domains such as:
 
 When a pixel or script loads from a recognized third-party tracker, the AdBlocker intercepts and blocks it automatically.
 
-This is one of the reasons traditional analytics lose data — alongside consent rejection, which costs them 15–60% depending on sector, brand strength and traffic mix.
+This is one of the reasons traditional analytics lose data — alongside consent rejection.
 
 ---
 
@@ -66,7 +66,7 @@ Once configured, Sealmetrics can also measure visitors whose blockers work from 
 
 **Note:**
 - AdBlockers block requests to known third-party tracking domains (google-analytics.com, facebook.net, doubleclick.net); a Sealmetrics pixel served from a subdomain of your own site does not match those lists, which reduces (not eliminates) ad-blocker loss.
-- The share of ad-blocking users varies by audience; it comes on top of the 15–60% that consent rejection costs traditional analytics.
+- The share of ad-blocking users varies by audience; it comes on top of what consent rejection costs traditional analytics.
 - Set up 1st-party tracking with a DNS A record for the subdomain shown in the dashboard — see the First-party tracker guide.
 
 ## Related documentation

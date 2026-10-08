@@ -3,8 +3,8 @@ title: "Implementation & Tracking"
 description: "How to install the Sealmetrics pixel in the head or via Google Tag Manager, add event pixels for conversions and micro-conversions, and verify tracking in Real-Time."
 canonical_url: "https://docs.sealmetrics.com/faq/implementation"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "f7dca24cdb203cf008c6a4d1d27b52e566d9cc616170a15cfc9d9751d435ee44"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "e3f2a184908619c0bc1d80a0a833961f1747e7dbe44b124bafa779bcef860a7b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -48,11 +48,11 @@ Add event pixels anywhere in your site:
 ## How do I verify tracking?
 
 Use the Real-Time Report.
-Events appear within 10 seconds.
+Events normally appear within a couple of minutes.
 
 ---
 
 **Note:**
 - Install the tracking pixel in the `<head>` or via Google Tag Manager; measurement begins immediately, as long as the tag is not gated behind Consent Mode or a cookie banner.
 - Conversions and micro-conversions (add to cart, checkout, form submits, leads, purchases with revenue) are event pixels placed anywhere on the site.
-- Verify tracking in the Real-Time Report — events appear within 10 seconds.
+- Verify tracking in the Real-Time Report — events normally appear within a couple of minutes.

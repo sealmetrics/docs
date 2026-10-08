@@ -1,10 +1,10 @@
 ---
 title: "Sealmetrics vs Google Analytics 4: consent-based vs consentless measurement"
-description: "GA4 needs cookies and consent, so it loses 15–60% of EU visitors. Sealmetrics measures without cookies or IP storage, hosted in Dublin; no banner, by our self-assessment."
+description: "GA4 needs cookies and consent, so it loses the visitors who reject or ignore the cookie banner. Sealmetrics measures without cookies or IP storage, hosted in Dublin; no banner, by our self-assessment."
 canonical_url: "https://docs.sealmetrics.com/compare/google-analytics-4"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "e39d5e1655f4fb587d80b568d639c38d1fa7dd877a73cac9454f2ba10bd98a57"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "f1c55644a1fb2a62a18476b6692d8802b9f312239e422f99d5fd0f276e73a33c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -49,7 +49,7 @@ The Sealmetrics tracker sends only what's needed to measure the visit — curren
 
 ## When Sealmetrics is the better choice
 
-- Your EU traffic is material and you are losing 15–60% of it to the banner — the exact share depends on sector, brand strength and traffic mix.
+- Your EU traffic is material and you are losing part of it to the banner — how much depends on sector, brand strength and traffic mix, so measure it side by side.
 - Your DPO wants a short answer to "what personal data does the analytics tool process?" — the answer here is a pseudonymised session identifier that rotates daily and becomes unrecoverable, a per-hit log purged after one day, and aggregated reports, with a [DPA](https://sealmetrics.com/dpa/) ready to sign.
 - Page weight matters: the tracker fits in a single TCP packet and fires before a visitor can abandon the page.
 

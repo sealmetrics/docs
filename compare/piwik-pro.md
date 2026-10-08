@@ -3,7 +3,7 @@ title: "Sealmetrics vs Piwik PRO: enterprise suite with consent manager vs conse
 description: "Piwik PRO pairs analytics with a consent manager and an anonymous mode hashed from the IP. Sealmetrics needs no consent layer (self-assessed), stores no IP and keeps analytics data only in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/piwik-pro"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
+date_generated: "2026-10-08T17:05:41.082Z"
 source_hash: "2acd51ef1cbf1e0b501a22925fc50bfb3d5a0712976c18c8ca9d9a159a8edbda"
 content_type: "documentation"
 owner: "docs"

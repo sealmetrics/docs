@@ -3,8 +3,8 @@ title: "CNIL Self-Assessment: Sealmetrics Compliance"
 description: "CNIL self-assessment for Sealmetrics analytics - how it maps to the French consent exemption requirements. Self-assessed, not certified."
 canonical_url: "https://docs.sealmetrics.com/compliance/cnil-self-assessment"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "f3c692499d764d25f168fe43d1b1266837d2059075258b261a917df5865748d9"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "6ff5e712a18a4720f85aee609dd97c9be1d0d987c0ee8d347911da3816f4815e"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -223,7 +223,7 @@ Maximum lifetime of the stored identifier: 1 day (daily pseudonym); live session
 |--------|------------|
 | IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 1 day) |
 | Geolocation (default) | ✅ Country derived from browser timezone, not IP |
-| In-memory use | ✅ IP is used in-memory only for rate limiting and blocklist matching, then discarded. It is never associated with a hit that reaches ClickHouse. (A GeoIP lookup was designed for the Agent Analytics bot detector, but that feature is **not live and cannot be enabled**, so no such lookup runs today.) |
+| In-memory use | ✅ IP is used in-memory only to check it against blocklists (a public list of automated-traffic IPs and your own exclusions), then discarded. It is never associated with a hit that reaches ClickHouse. (A GeoIP lookup was designed for the Agent Analytics bot detector, but that feature is **not live and cannot be enabled**, so no such lookup runs today.) |
 
 **Technical Implementation:**
 ```javascript

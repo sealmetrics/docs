@@ -3,8 +3,8 @@ title: "Benefits of Consentless Tracking"
 description: "What you gain by measuring without consent — no data lost to banner rejection, far less for ad blockers to strip, no CMP to maintain, and cleaner attribution."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-benefits"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "2ab853e78855f9d4b2957f4df99c41198990bb8bc05c285b9b19eca962b9777a"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "7c7f5d19926cb3856d6177e68ec8335c007f9b6edfbfedec91daaa83628d79f3"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/consentless-benefits
 
-The practical case for consentless tracking is that **we measure all the traffic you lose today to the cookie banner**. Cookie-based analytics typically lose 15–60% of visitor data in EU markets — the range depends on sector, brand strength and traffic mix — because a tool that only fires after consent records nothing from visitors who decline. Sealmetrics does not depend on consent to record a visit, so there is no consent-shaped hole in the numbers.
+The practical case for consentless tracking is that **we measure all the traffic you lose today to the cookie banner**. Cookie-based analytics typically lose the visitors who reject or ignore the cookie banner — the range depends on sector, brand strength and traffic mix — because a tool that only fires after consent records nothing from visitors who decline. Sealmetrics does not depend on consent to record a visit, so there is no consent-shaped hole in the numbers.
 
 ## What do you gain by measuring without consent?
 
@@ -35,7 +35,7 @@ Four benefits follow from having no cookies and no persistent identifiers.
 The trade-off is real and worth stating plainly: consentless measurement gives up user-level metrics. There are no unique visitors, no session duration, no cross-session journeys and no cohorts, because each of those requires a persistent identifier. See [what the model can and cannot measure](/security-privacy/consentless-analytics#what-consentless-analytics-can-and-cannot-measure).
 
 **Note:**
-- Cookie-based analytics lose 15–60% of visitor data in EU markets depending on sector, brand strength and traffic mix; Sealmetrics does not depend on consent to record a visit.
+- Cookie-based analytics lose the visitors who reject or ignore the cookie banner depending on sector, brand strength and traffic mix; Sealmetrics does not depend on consent to record a visit.
 - No cookies and no persistent identifiers leave far less for ad blockers or Safari ITP to strip, no CMP or Consent Mode v2 to maintain, and UTMs read on arrival.
 - The trade-off: no unique visitors, session duration, cross-session journeys or cohorts — attribution is last-click at channel level.
 

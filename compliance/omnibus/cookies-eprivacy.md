@@ -1,10 +1,10 @@
 ---
 title: "Cookie Consent Reform: The End of Banner Fatigue"
-description: "How the EU Digital Omnibus eliminates cookie banners for 60% of websites through unified GDPR processing rules"
+description: "How the proposed EU Digital Omnibus would change cookie consent rules by moving them under the GDPR"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy"
 lang: "en"
-date_generated: "2026-10-08T15:43:40.524Z"
-source_hash: "dc4bf5bf18b63c8eb67950e85309d84f7aad38e4cad0ed785f24a3f155fa9a43"
+date_generated: "2026-10-08T17:05:41.082Z"
+source_hash: "954095237156d98f52cf783dc8369947d7cbcba50726601f520cc030e4e998b6"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -19,7 +19,7 @@ Canonical page: https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy
 **Info:**
 The EU Digital Omnibus is a **legislative proposal still under negotiation**; article numbers and text may change before it is in force. Any statement about how Sealmetrics would fall under it is our own reading and a **self-assessment**, not a certification — no supervisory authority certifies analytics tools.
 
-The EU Digital Omnibus proposes the most significant reform to cookie consent rules since the ePrivacy Directive of 2009. By moving cookie consent under the GDPR framework, the regulation promises to eliminate cookie banners for an estimated 60% of websites while maintaining strong privacy protections.
+The EU Digital Omnibus proposes the most significant reform to cookie consent rules since the ePrivacy Directive of 2009. By moving cookie consent under the GDPR framework, the proposal would remove the consent requirement for some low-risk uses, such as audience measurement for the site's own use.
 
 ## The Current Problem
 
@@ -28,19 +28,13 @@ The EU Digital Omnibus proposes the most significant reform to cookie consent ru
 The current Article 5(3) of the ePrivacy Directive, dating from 2009, has created a system that frustrates users and burdens businesses without delivering meaningful privacy protection:
 
 **Economic costs:**
-- **€1.64 billion annually** spent on cookie banners by businesses
-  - 10 million websites × 41% with banners × €400/year average cost
-- **€820 million/year** in business compliance costs
-- **€320 million/year** in public sector costs
+- Banner implementation, consent management platforms and legal review for businesses and public bodies
 
 **User burden:**
-- **334 million hours per year** spent by EU users clicking through cookie banners
-- Average user encounters multiple banners daily
-- **€500 million/year** in lost productivity
+- Users encounter multiple banners daily and spend time clicking through them
 
 **Undermined protection:**
-- **54% of users randomly accept** cookie banners without reading
-- **26% randomly reject** without understanding implications
+- Many users accept or reject cookie banners without reading them
 - "Consent fatigue" means users make uninformed decisions
 - The very goal of informed consent is defeated
 
@@ -102,9 +96,9 @@ Providing a service the user specifically asked for, such as:
 - For the controller's **own use only** (cannot be shared or sold)
 
 **What this means:**
-- First-party analytics: **NO CONSENT NEEDED**
-- Basic traffic measurement: **NO CONSENT NEEDED**
-- Understanding your own audience: **NO CONSENT NEEDED**
+- First-party analytics: **no consent needed (if adopted as proposed)**
+- Basic traffic measurement: **no consent needed (if adopted as proposed)**
+- Understanding your own audience: **no consent needed (if adopted as proposed)**
 
 **What still needs consent:**
 - Third-party tracking networks
@@ -190,36 +184,7 @@ Think of this as a European alternative/complement to initiatives like Global Pr
 
 ## Cost Savings and Benefits
 
-### Business Savings
-
-**€820 million annually** from cookie banner elimination:
-- No banner implementation costs
-- No consent management platform (CMP) fees
-- No legal review of cookie policies
-- No A/B testing of consent designs
-- No engineering time maintaining banner code
-
-**60% of cookies no longer need consent**, meaning:
-- 50% of private websites won't need banners
-- 80% of public sector websites won't need banners
-
-### User Benefits
-
-**€500 million annually** in productivity gains:
-- 200 million users × fewer hours on banners
-- Faster website loading
-- Reduced interruptions
-- Better user experience
-
-**334 million hours/year** currently wasted on cookie banners will be reclaimed.
-
-### Public Sector Savings
-
-**€320 million annually**:
-- Government websites can drop most banners
-- Universities and research institutions benefit
-- Public services become more accessible
-- Compliance burden reduced
+The Commission presents the reform as a simplification that would reduce compliance costs for businesses and public bodies and cut the time users spend on banners. For its own estimates, see the proposal and its accompanying documents (COM(2025) 837); the figures may change during negotiation.
 
 ## Practical Implications
 
