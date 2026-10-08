@@ -3,8 +3,8 @@ title: "What is Rejoined Traffic?"
 description: "Understanding how Sealmetrics classifies traffic returning after the session window expires without inflating Direct traffic."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/rejoined-traffic"
 lang: "en"
-date_generated: "2026-09-14T13:48:10.438Z"
-source_hash: "7506a6ea6cff6846dbd70995ebc6c0fd6931e01da171fb0b74b8d6a1734f2f6c"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "b72ed5e6ca0fdefd3d4043773b7df6adf1595180a39de6e6632141322c6f5bb2"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -184,7 +184,7 @@ Sealmetrics automatically:
 Rejoined Traffic works:
 
 - Without cookies
-- Without personal data
+- Without storing anything that identifies anyone
 - With your current Sealmetrics implementation
 
 ---

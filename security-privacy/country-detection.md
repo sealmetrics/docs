@@ -1,10 +1,10 @@
 ---
 title: "How Sealmetrics determines the country without using IP addresses"
-description: "How Sealmetrics detects visitor country from the browser timezone instead of IP addresses — GDPR-friendly geo data with zero personal data processing."
+description: "How Sealmetrics detects visitor country from the browser timezone instead of IP addresses — GDPR-friendly geo data with no IP address stored or looked up."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/country-detection"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "f1d606bc1aa2012026403e77c4fbced0ad94e3bee90353d496a92818e2eda784"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "48b39272e28007c04c87f04f2f3e4865aa6b6d4682316ae0fc9ee6136f939117"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -60,10 +60,10 @@ This approach fully adheres to privacy and data-minimization principles:
     feature is not live and cannot be enabled, so no such lookup runs
     on any account. See
     [What We Track](/security-privacy/what-we-track).)\
--   No unique device identifiers are stored.\
+-   No persistent device identifiers are stored.\
 -   Timezone information does not identify the user.\
--   Country calculation relies solely on non-personal technical data
-    provided by the browser.
+-   Country calculation relies solely on the timezone
+    provided by the browser, never on the IP address.
 
 Thanks to this method, Sealmetrics can offer meaningful geographic
 insights while preserving user privacy and operating without requiring
@@ -72,7 +72,7 @@ consent for tracking.
 **Note:**
 - Country comes from the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`) mapped against an IANA timezone table — no IP lookup is involved.
 - Unique timezones (e.g. Asia/Tokyo) resolve with high confidence; shared timezones (e.g. Europe/Paris) resolve to the most likely country, so precision is country-level only.
-- No device identifiers are stored and the timezone does not identify the user, which is why this geo data needs no consent.
+- No persistent device identifiers are stored and the timezone does not identify the user, which is why this geo data needs no consent.
 
 ## Related documentation
 

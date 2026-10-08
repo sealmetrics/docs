@@ -3,8 +3,8 @@ title: "Tracker Performance: Sealmetrics vs GA4 vs Adobe Analytics"
 description: "The three-way comparison: tracking pixel weight, delivery chain, time to first hit, transport, consent, and measured traffic differences between Sealmetrics, GA4's gtag.js, and the Adobe Launch + AppMeasurement stack."
 canonical_url: "https://docs.sealmetrics.com/guides/tracker-performance-three-way"
 lang: "en"
-date_generated: "2026-08-27T14:00:32.362Z"
-source_hash: "d3367745a38c94c7093ac2e6638c14ecd945592b6576dd31b0d3a97f09e2d908"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "37ff94dc23347b7c1e11298e1ab7a5a3c11f63f51ef1307cadd46f54c8c9b772"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -86,7 +86,7 @@ GA4's transport is fine — its problem is reaching the dispatch point late and 
 
 ## Blockers and consent
 
-- **Consent**: Sealmetrics measures without consent by design (no cookies, no personal identifiers). GA4 legally requires consent in the EU; rejection/ignore rates typically run 20–35% of visitors. Adobe requires it in most EU installs.
+- **Consent**: Sealmetrics is designed to measure without consent (no cookies, no persistent identifiers; our self-assessment). GA4 legally requires consent in the EU; rejection/ignore rates typically run 20–35% of visitors. Adobe requires it in most EU installs.
 - **Filter lists**: EasyPrivacy targets Google's analytics domains extensively, carries 28+ rules against Adobe's `omtrdc.net` plus several against `demdex.net`, and uBlock Origin on Firefox uncloaks CNAME first-party collection domains. In fairness: `sealmetrics.com` is also listed as a third-party rule — the Sealmetrics advantage lies in consent, weight, and timing, not in ad-blocker immunity.
 
 ## Measured traffic differences

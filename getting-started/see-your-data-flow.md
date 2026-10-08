@@ -1,10 +1,10 @@
 ---
 title: "See Your Data Flow in Real-Time with Sealmetrics"
-description: "Learn how Sealmetrics delivers instant, real-time analytics without cookies or consent banners."
+description: "Learn how Sealmetrics delivers instant, real-time analytics without cookies and, by our self-assessment, without a consent banner."
 canonical_url: "https://docs.sealmetrics.com/getting-started/see-your-data-flow"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "ddf687d0f86b07801796d242ff978e0d20439835b36dce06f8cdc83bc2eee6bc"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "1b69dd4e76309fde04d4dc296b2f566cc8e8ca62dba3d3f83df12cb59383bfd7"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -44,7 +44,7 @@ Within seconds, the **Last hit** timestamp at the top right of the Overview upda
 
 While most analytics tools make you wait **minutes or even hours** for data processing, Sealmetrics provides **instant insights** — because in today’s fast-paced digital world, delayed data is often useless data.
 
-**No cookies. No consent banners. No delays.**
+**No cookies. No consent banner for its own analytics (self-assessed). No delays.**
 
 Just **pure, fast, consentless analytics** that works the moment you need it.
 

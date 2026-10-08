@@ -3,8 +3,8 @@ title: "What Is a TERM in Sealmetrics?"
 description: "Learn how Sealmetrics defines TERM across SEO, Referrer, Google Ads, and UTM-based traffic sources."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/what-is-a-term"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "e09f9de0de283b14f311927bb5e60e86644235bfdc9ac9a191211f1eddd5af81"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "24532dc017aa80ad3fe94f7af5330bd0161414d54cbd660d11c1ebb7f404e688"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -17,7 +17,7 @@ publisher: "Sealmetrics"
 Canonical page: https://docs.sealmetrics.com/reports/insights/what-is-a-term
 
 In Sealmetrics, **TERM** is the smallest and most granular unit used to describe the origin of a website hit.
-It allows the platform to classify and attribute traffic accurately—while remaining fully privacy compliant.
+It allows the platform to classify and attribute traffic accurately—while remaining privacy-first.
 
 Understanding TERM helps you better analyze user intent, keyword performance, and the exact source of each visit.
 

@@ -1,10 +1,10 @@
 ---
 title: "Joomla"
-description: "Install the Sealmetrics Joomla plugin (4.x and 5.x) for cookieless analytics with form, newsletter, search, and 404 tracking — no consent banner needed."
+description: "Install the Sealmetrics Joomla plugin (4.x and 5.x) for cookieless analytics with form, newsletter, search, and 404 tracking — no consent banner for its own analytics (self-assessed)."
 canonical_url: "https://docs.sealmetrics.com/integrations/cms/joomla"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "3482c024c30b6df28ac212b6a69150bc1a9bab2049ae7f9adac30523a0846bdd"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "17a37d67a96f739f32b30dd9dcfa1c3e7608f07698733aab90993262188b23b7"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -165,10 +165,10 @@ $currency = 'EUR';
 ## Privacy
 
 - No cookies used
-- No personal data collected
+- No data that identifies anyone stored; reports are aggregated
 - No order IDs or user IDs stored
 - Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
-- No consent banner required
+- No consent banner for Sealmetrics' own analytics (self-assessed; Germany: open question — see [Germany](/compliance/germany-ttdsg-self-assessment))
 
 ## Related documentation
 

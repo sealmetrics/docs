@@ -3,8 +3,8 @@ title: "How Attribution Works Without a User-ID"
 description: "How Sealmetrics attributes traffic and conversions without User-IDs, cookies or cross-session tracking — last-click attribution read from the URL on every hit."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/attribution-without-userid"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "e1a5bc612be76e9f250f0fa10b92a2dab41f29bfd4fd40c561c67acc48a1056d"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "3fb2e8230e4d974d2eccdc5f54e79a3678a8192469f05c38cb3d77f19fc2e0b6"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -44,7 +44,7 @@ Sealmetrics does **not**:
 ❌ Store IP addresses
 ❌ Use cookies or persistent identifiers
 
-The user agent is used for anonymous device classification (browser/OS category): the raw string is used in flight and never written to storage, and only the derived categories persist in the 24-month aggregates. Neither can be joined with anything that identifies the person — because no such identifier exists. A session identifier groups the hits of a single browsing session (~2-hour inactivity): it is computed in the browser from standard device characteristics, never written to the device, and re-keyed on the server with a daily salt that is destroyed on rotation — so it never links hits across days, sessions or devices.
+The user agent is used for device classification (browser/OS category): the raw string is used in flight and never written to storage, and only the derived categories persist in the 24-month aggregates. Neither can be joined with anything that identifies the person — because no such identifier exists. A session identifier groups the hits of a single browsing session (~2-hour inactivity): it is computed in the browser from standard device characteristics, never written to the device, and re-keyed on the server with a daily salt that is destroyed on rotation — so it never links hits across days, sessions or devices.
 
 ---
 
@@ -60,7 +60,7 @@ Instead of identifying users, Sealmetrics groups traffic and conversions using a
 - `utm_term`
 - OR the referring domain
 
-No personal data. No unique identifiers.
+No data that identifies anyone. No persistent identifiers.
 
 ### How It Works
 
@@ -72,7 +72,7 @@ No personal data. No unique identifiers.
 
 This groups interactions by **campaign**, not by user.
 
-The whole chain, with no identifier anywhere in it:
+The whole chain, with no personal or persistent identifier anywhere in it:
 
 ```mermaid
 flowchart LR
@@ -81,7 +81,7 @@ flowchart LR
     C --> D["Hits carry the same Source-ID"]
     D --> E["Conversion inherits the Source-ID"]
     E --> F["Attributed to the campaign, not to a user"]
-    G["No personal data, no unique identifier"] -.-> C
+    G["Nothing that identifies anyone, no persistent identifier"] -.-> C
 ```
 
 ---
@@ -106,9 +106,9 @@ No user identification required.
 
 ## Why This Needs No Consent
 
-Because no persistent identifier is stored and nothing is stored on the device, the obligations these frameworks attach to personal data and to terminal storage are not triggered. The tracker does read standard browser properties to compute the within-session identifier; see [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) for how the audience-measurement exemption criteria apply to that:
+Because no persistent identifier is stored, nothing is stored on the device, and the session identifier rotates daily and cannot be reconstructed afterwards, Sealmetrics self-assesses that no consent is needed. The tracker does read standard browser properties to compute the within-session identifier; see [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) for how the audience-measurement exemption criteria apply to that:
 
-- ✔ No personal data
+- ✔ No data that identifies anyone stored
 - ✔ No user identification
 - ✔ No behavioral profiling
 - ✔ No cross-session linkage
@@ -148,11 +148,11 @@ Sealmetrics proves that accurate attribution **does not** require user tracking.
 
 We achieve attribution by grouping hits by **campaign characteristics**, not by individuals.
 
-- 🟢 No personal data processed
-- 🟢 Every hit measured — no loss from consent rejection
-- 🟢 No User-IDs, no cookies, no consent banner
+- 🟢 No data that identifies anyone stored
+- 🟢 No loss from consent rejection
+- 🟢 No User-IDs, no cookies, no consent banner (self-assessed; Germany: open question)
 
-Because no personal data is involved, no consent is required — see [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent). Sealmetrics holds no third-party security certification, and the [compliance pages](/compliance) are self-assessments.
+Because nothing is stored on the device and the session identifier rotates daily and cannot be reconstructed, Sealmetrics self-assesses that no consent is required — see [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent). Sealmetrics holds no third-party security certification, and the [compliance pages](/compliance) are self-assessments.
 
 ## Related documentation
 

@@ -3,8 +3,8 @@ title: "Impact on Web Analytics and Tracking"
 description: "How the Digital Omnibus affects web analytics, consent requirements, and consentless tracking solutions"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/impact-analytics"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "20afd7b5b63e840bf7f98ddf6f19710b5e6c305587dfc73357d9b75f2d1c8387"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "bcdbeda4bb163d8a822994d0965baddd51e5aafe1f83f4722d3ccd8b9e4886e2"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -150,7 +150,7 @@ The European data protection authorities **support** the audience measurement ex
 - Provider doesn't use your data for their purposes
 
 **Example:**
-- ✅ **Sealmetrics**: First-party, consentless, data not shared = EXEMPT
+- ✅ **Sealmetrics**: First-party, consentless, data not shared = EXEMPT (our self-assessment)
 - ✅ **Self-hosted Matomo**: First-party, your data only = EXEMPT
 - ⚠️ **Google Analytics 4** (configured for no data sharing): Likely exempt if properly configured
 - ❌ **Google Analytics with ads features**: Needs consent (data used for advertising)
@@ -310,14 +310,14 @@ These technologies align perfectly with the "aggregated measurement" exemption.
 
 ## Sealmetrics Positioning
 
-### Already Compliant with Article 88a(3)(c)
+### Designed for Article 88a(3)(c)
 
-Sealmetrics is designed precisely for the exemption criteria:
+Sealmetrics is designed precisely for the exemption criteria (our self-assessment, on a text still under negotiation):
 
 **✅ Aggregated measurement:**
 - No individual user tracking across sessions
 - Privacy-first architecture
-- Anonymized data collection
+- Minimal, pseudonymised data: nothing stored on the device, no IP, a session identifier that rotates daily and cannot be reconstructed afterwards
 
 **✅ First-party data only:**
 - Data belongs to the website owner (controller)
@@ -329,22 +329,22 @@ Sealmetrics is designed precisely for the exemption criteria:
 - Not sold or monetized by Sealmetrics
 - Used solely for client's audience insights
 
-### No Consent Banners Needed
+### No Consent Banner for Its Own Analytics
 
-**Current advantage, future certainty:**
-- Sealmetrics already operates without consent requirements
-- Article 88a(3)(c) provides explicit legal basis
-- Clients can confidently deploy without cookie banners
+**Current position, future basis:**
+- On our self-assessment, Sealmetrics already runs without a consent banner for the site's own analytics (in Germany an open question: the DSK does not extend §25(2) TDDDG to audience measurement — see [Germany](/compliance/germany-ttdsg-self-assessment))
+- Article 88a(3)(c), once in force, would provide an explicit legal basis
+- Self-assessed, not certified
 
 ### Competitive Advantages Post-Omnibus
 
-**1. Legal certainty:**
-- Clear alignment with Article 88a(3)(c)
-- No ambiguity about consent requirements
+**1. Greater legal clarity:**
+- Designed to align with Article 88a(3)(c)
+- Less ambiguity about consent requirements once it is in force
 - Simplified compliance for clients
 
 **2. Complete data:**
-- No data loss from consent rejection
+- Not dependent on consent: we measure all the traffic you lose today to the cookie banner
 - Accurate audience measurement
 - Better business intelligence
 
@@ -462,9 +462,9 @@ If you need individual user tracking, cross-device tracking, or behavioral profi
 
 | Analytics Type | Consent Needed? | Article 88a Basis | Browser Signals Impact | Data Quality |
 |---------------|----------------|-------------------|----------------------|--------------|
-| **First-party, aggregated** | ❌ No | 88a(3)(c) exemption | None (exempt) | 100% |
+| **First-party, aggregated** | ❌ No | 88a(3)(c) exemption | None (exempt) | No consent loss |
 | **First-party, individual tracking** | ⚠️ Depends | 88a(1) or Art 6 | High (if consent basis) | Varies |
-| **Third-party analytics (no sharing)** | ❌ No | 88a(3)(c) if structured properly | None (exempt) | 100% |
+| **Third-party analytics (no sharing)** | ❌ No | 88a(3)(c) if structured properly | None (exempt) | No consent loss |
 | **Third-party with data sharing** | ✅ Yes | 88a(1) consent | High | 10-70% |
 | **Ad networks, retargeting** | ✅ Yes | 88a(1) consent | Very high | 10-30% |
 | **Cross-site tracking** | ✅ Yes | 88a(1) consent | Very high | 10-30% |
@@ -509,7 +509,7 @@ If you need individual user tracking, cross-device tracking, or behavioral profi
 - Is data used only for your audience measurement?
 - Are advertising or remarketing features enabled?
 
-**Recommendation**: Consult with privacy counsel on your specific GA4 configuration, or use a clearly exempt platform like Sealmetrics.
+**Recommendation**: Consult with privacy counsel on your specific GA4 configuration, or use a platform designed for the exemption, like Sealmetrics (self-assessed).
 
 ### Does "aggregated" mean I cannot see any individual page views?
 

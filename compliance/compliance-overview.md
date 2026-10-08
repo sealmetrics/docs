@@ -1,10 +1,10 @@
 ---
 title: "Compliance Overview"
-description: "How Sealmetrics meets GDPR, ePrivacy, and CNIL requirements: bot filtering, legal analysis, and a legal FAQ for consentless, cookieless analytics."
+description: "How Sealmetrics is designed to meet GDPR, ePrivacy, and CNIL requirements (self-assessed, not certified): bot filtering, legal analysis, and a legal FAQ for consentless, cookieless analytics."
 canonical_url: "https://docs.sealmetrics.com/compliance/compliance-overview"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "99ca1e23e6387b26342fbd74324485c1a68b5317f5b05ee42d695f4a58513a5c"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "64b69221d40221c019794caad122d2d5ad8ebb02ef7d37dfdf6772bf37694a17"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,9 +16,9 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/compliance/compliance-overview
 
-Sealmetrics does not need a consent banner because it processes no personal data: no cookies, no identifiers, no stored IP addresses, so there is nothing to consent to under [ePrivacy](https://eur-lex.europa.eu/eli/dir/2002/58/oj) and no personal-data obligations under the [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj). This section explains how that architecture meets GDPR, ePrivacy and CNIL requirements while enabling consentless analytics.
+Sealmetrics is designed to need no consent banner for its own analytics (our self-assessment; in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment)): nothing is stored on the device (no cookies, no localStorage), no IP addresses are stored, and the only identifier is an ephemeral session identifier that rotates daily and cannot be linked across days or across sites. Under [ePrivacy](https://eur-lex.europa.eu/eli/dir/2002/58/oj) our self-assessment rests on the audience-measurement exemption (own-site statistics only, no cross-site tracking, no reuse of the data); under the [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj) on the stored dataset not identifying anyone. This section explains how that architecture is designed to meet GDPR, ePrivacy and CNIL requirements while enabling consentless analytics. Self-assessed, not certified.
 
-Our privacy-first approach is built on legal foundations, not technical workarounds. Learn how we ensure data accuracy through bot filtering, why our tracking method is legally compliant across EU jurisdictions, and get answers to common legal questions about implementing analytics without consent banners.
+Our privacy-first approach is built on legal foundations, not technical workarounds. Learn how we ensure data accuracy through bot filtering, how we assess our tracking method against the rules of each EU jurisdiction, and get answers to common legal questions about implementing analytics without consent banners.
 
 ## What does this section cover?
 
@@ -27,6 +27,6 @@ Our privacy-first approach is built on legal foundations, not technical workarou
 - [Legal FAQ](/compliance/compliance-overview/legal-faq) - Common questions about implementing consentless analytics legally
 
 **Note:**
-- Sealmetrics meets GDPR, ePrivacy and CNIL requirements by not processing personal data — a legal foundation, not a technical workaround.
-- Bot filtering keeps the consentless dataset accurate; the legal analysis covers compliance across EU jurisdictions.
+- We store nothing on the device and no data that identifies anyone. The session identifier is ephemeral: it rotates daily and, once rotated, not even we can reconstruct it. Reports are always aggregated. That is how Sealmetrics is designed to meet GDPR, ePrivacy and CNIL requirements, on its own self-assessment.
+- Bot filtering keeps the consentless dataset accurate; the legal analysis sets out our self-assessment across EU jurisdictions.
 - The Legal FAQ answers the questions raised when implementing analytics without consent banners (DPA, DPIA, retention, hosting).

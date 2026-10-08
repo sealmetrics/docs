@@ -3,8 +3,8 @@ title: "Tracker Performance Report: Sealmetrics vs Adobe Analytics"
 description: "A technical comparison of tracking pixel weight, delivery chain, and time-to-first-hit: the Sealmetrics tracker vs the Adobe Analytics stack (Launch + AppMeasurement) — with field measurements from a real site running both, methodology included."
 canonical_url: "https://docs.sealmetrics.com/guides/tracker-performance-adobe-analytics"
 lang: "en"
-date_generated: "2026-08-27T14:00:32.362Z"
-source_hash: "a6704c422c91a12a0ac9a01a328abda11b6ea5adbb109a00888c3ac3bc178f3d"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "95fd24b8cc616d0c478d6efc752edb026a5a25c92c2080c95fa197dda50d1293"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -132,7 +132,7 @@ Three conclusions from that month of data:
 ## Recommendations for Adobe Analytics sites evaluating Sealmetrics
 
 - **Install the Sealmetrics snippet directly in the `<head>`, not through your tag manager.** The reference site loads it through the tag chain and still beats Adobe's hit by over a second — but a `<head>` install secures the hit at ~0.1–0.3 s and removes the container dependency entirely.
-- **Do not gate Sealmetrics behind your CMP.** It measures without consent by design; gating it recreates Adobe's biggest loss for no benefit.
+- **Do not gate Sealmetrics behind your CMP.** It is designed to measure without consent (our self-assessment); gating it recreates Adobe's biggest loss for no benefit.
 - **Run both in parallel for a validation period.** Keep Adobe untouched, add Sealmetrics, and compare 30 days of data segmented by device and traffic source. Expect the gap to concentrate in mobile and short visits.
 - **Map metric definitions before comparing.** Adobe *visits* use a 30-minute inactivity timeout; Sealmetrics *entrances* are click-based with a 2-hour re-entry window. Compare page views with page views first — it is the cleanest apples-to-apples metric.
 

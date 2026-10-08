@@ -3,8 +3,8 @@ title: "What Is demdex.net? The Adobe Cookies in Your Audit"
 description: "demdex.net belongs to Adobe's Experience Cloud ID Service. What the demdex, dextp and dst cookies do, where the requests go, and how to classify them for consent."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/demdex-net-cookies"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "20b176fba2207d8fd501b3f3ced7764e625466172c7615343bdf1dca0cc4a1d1"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "68f0daf66d6cea46a78e485d3f94fa39442fb4e1716c84e7d47c65e5d800e4a1"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -117,8 +117,8 @@ whether your consent gate actually works.
 
 - [Third-party domain lookup](/security-privacy/third-party-analytics-domains) — the full table of external domains analytics tools contact, and which tool owns each
 - [omtrdc.net requests](/security-privacy/omtrdc-net-requests) — the Adobe collection endpoint, and why an image GET loses visits
-- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without setting anything on the device, so Article 5(3) is never engaged
-- [Why No Consent Is Needed](/security-privacy/why-no-consent) — the legal basis in full
+- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without setting anything on the device, with an ephemeral session identifier that rotates daily
+- [Why No Consent Is Needed](/security-privacy/why-no-consent) — the reasoning in full
 - [What We Track](/security-privacy/what-we-track) — the complete list of what Sealmetrics collects, for comparison
 - [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints, and what that costs
 - [Bot Detection](/security-privacy/bot-detection) — separating real visitors from automated traffic

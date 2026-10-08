@@ -3,8 +3,8 @@ title: "Cookie Consent Reform: The End of Banner Fatigue"
 description: "How the EU Digital Omnibus eliminates cookie banners for 60% of websites through unified GDPR processing rules"
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/cookies-eprivacy"
 lang: "en"
-date_generated: "2026-08-12T08:53:56.085Z"
-source_hash: "145a48b18b9c8fc30500416ba6d30716a2e3a137fb8d70f26270491df1eabe96"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "dc4bf5bf18b63c8eb67950e85309d84f7aad38e4cad0ed785f24a3f155fa9a43"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -340,4 +340,4 @@ Until browsers widely support automated signals (~2029-2031), manual consent mec
 6. **Hybrid banner solutions** likely for sites mixing first-party and third-party tools
 7. **Unified GDPR framework** replaces fragmented ePrivacy/GDPR cookie rules
 
-The cookie consent reform represents a pragmatic evolution: preserving privacy protections while reducing consent fatigue. For websites using **only first-party, aggregated analytics** (like Sealmetrics), the path to banner-free operation is clear. For websites mixing multiple tracking tools, the picture is more nuanced — expect simplified banners rather than no banners.
+The cookie consent reform represents a pragmatic evolution: preserving privacy protections while reducing consent fatigue. For websites using **only first-party, aggregated analytics** (like Sealmetrics), the path to banner-free operation should be clear once Article 88a(3)(c) is in force. For websites mixing multiple tracking tools, the picture is more nuanced — expect simplified banners rather than no banners.

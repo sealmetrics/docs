@@ -3,8 +3,8 @@ title: "AI Usage Policy for This Documentation"
 description: "How AI assistants and search engines may crawl, quote and summarise docs.sealmetrics.com, which machine-readable files exist, and how to attribute figures."
 canonical_url: "https://docs.sealmetrics.com/ai-usage"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "4fb998ed66664212b2757e67d92b0b9d85094189bd43bd41d232470a15c260e5"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "851c8796f43c7e48d8b4e654788225793d6cf21ac483b115f494f6e1577fbcff"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -40,7 +40,7 @@ For agents that want to query analytics data rather than read documentation, see
 
 ## What is not covered
 
-This policy is about the documentation site. The Sealmetrics product itself never collects personal data from website visitors, so there is no visitor data here to license or to protect; see [What we track](/security-privacy/what-we-track). Use of the Sealmetrics service is governed by the terms and the [Data Processing Agreement](https://sealmetrics.com/dpa) on sealmetrics.com.
+This policy is about the documentation site. The Sealmetrics product itself stores nothing on visitors' devices and no data that identifies anyone, and none of its visitor data is part of this site; see [What we track](/security-privacy/what-we-track). Use of the Sealmetrics service is governed by the terms and the [Data Processing Agreement](https://sealmetrics.com/dpa) on sealmetrics.com.
 
 **Note:**
 - Crawl, quote and summarise freely, with a link to the canonical page.

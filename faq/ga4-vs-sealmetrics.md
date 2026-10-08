@@ -3,8 +3,8 @@ title: "GA4 vs Sealmetrics — Complete Comparison"
 description: "Detailed comparison of Google Analytics 4 and Sealmetrics covering data accuracy, privacy compliance, features, and pricing."
 canonical_url: "https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics"
 lang: "en"
-date_generated: "2026-09-14T16:11:49.498Z"
-source_hash: "ec77a6433c85c70b0e1216e852c8218770afd6e8cd6e37455c7fc2454b9e90f9"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "c041d347b0910609f4745f2b0a76202cf5405264dd9ab3f0a5727f0d7e667802"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -38,7 +38,7 @@ Industry data shows rejection rates vary significantly by country:
 
 *Rates vary by industry, banner design, and implementation. Sources: CNIL annual reports, Eurostat digital economy surveys, CMP vendor benchmarks.*
 
-**Result:** rejection is not the same as data loss — some visitors accept, and Consent Mode models part of the rest — but in practice GA4 loses **15–60% of EU visitor data**, depending on sector, brand strength and traffic mix. Branded direct traffic consents at a very different rate from cold paid social. Sealmetrics avoids that loss because it never requires consent — no cookies are set, and no personal data is collected. How much of your traffic it records still depends on a correct implementation.
+**Result:** rejection is not the same as data loss — some visitors accept, and Consent Mode models part of the rest — but in practice GA4 loses **15–60% of EU visitor data**, depending on sector, brand strength and traffic mix. Branded direct traffic consents at a very different rate from cold paid social. Sealmetrics avoids that loss because it does not ask for consent — no cookies are set, nothing is stored on the device, and the session identifier rotates daily and cannot be reconstructed afterwards. How much of your traffic it records still depends on a correct implementation.
 
 ---
 
@@ -80,16 +80,16 @@ Industry data shows rejection rates vary significantly by country:
 
 | Feature | GA4 | Sealmetrics |
 |---------|-----|-------------|
-| GDPR compliant without consent | No | Yes |
-| ePrivacy Directive compliant | Requires consent | Yes |
+| Designed to comply with the GDPR without consent | No | Yes (self-assessed, not certified) |
+| ePrivacy Directive without consent | Requires consent | Yes for its own analytics (self-assessed; Germany: open question) |
 | Meets CNIL criteria for *analytics sans consentement* | No | Yes ([self-assessment](/compliance/cnil-self-assessment)) |
 | Meets AEPD audience-measurement criteria | No | Yes (self-assessed) |
-| UK PECR compliant | Requires consent | Yes |
-| Data hosting | US (Google Cloud) | EU only (Dublin, Ireland) |
+| UK PECR analytics exemption | Requires consent | Yes ([self-assessed](/compliance/uk-pecr-self-assessment)) |
+| Data hosting | US (Google Cloud) | Analytics data hosted and processed only in the EU (Dublin) |
 | Sub-processors | Multiple (Google) | Short list — visitor analytics data processed only in the EU ([see list](/compliance/subprocessors)) |
 | Data sharing with third parties | Yes (Google Ads, etc.) | No |
 | International transfers of analytics data | Yes (US) | No |
-| Schrems II compliant | Requires SCCs/DPF | Yes (EU-only analytics processing) |
+| Transfer safeguards for analytics data (Schrems II) | Requires SCCs/DPF | Not needed — analytics data is not transferred outside the EU |
 
 ### Technical Specifications
 
@@ -100,7 +100,7 @@ Industry data shows rejection rates vary significantly by country:
 | localStorage usage | Yes | No |
 | Page load impact | High (render-blocking) | Minimal (defer, async) |
 | SPA support | Yes (manual config) | Yes (automatic detection) |
-| Server-side tracking | Yes (GA4 MP) | Yes (API) |
+| Server-side event collection | Yes (GA4 Measurement Protocol) | Shopify order webhooks only; otherwise the JS tracker |
 
 ---
 
@@ -113,7 +113,9 @@ Consider an e-commerce site with 100,000 monthly visitors in an EU market, losin
 | Visitors tracked | ~40,000 | 100,000 | **2.5x more** |
 | Conversions tracked | ~400 | 1,000 (1% of 100K actual) | **2.5x more** |
 | Revenue attributed | €40,000 | €100,000 | **€60,000 missing in GA4** |
-| Traffic sources accurate | Partial (consent bias) | Complete | GA4 over-reports "Direct" |
+| Traffic sources accurate | Partial (consent bias) | No consent bias | GA4 over-reports "Direct" |
+
+*The Sealmetrics column shows the traffic lost to consent being measured. It assumes a correct implementation; ad blockers can still hide some visits.*
 
 A strong consumer brand whose visitors mostly arrive direct would sit nearer the 15% end, and the gap would be correspondingly smaller.
 
@@ -157,11 +159,11 @@ Sealmetrics is the better choice if you:
 
 - Need **accurate data** across all EU markets
 - Want to **remove cookie banners** or reduce consent friction
-- Want to **measure without processing personal data**, so GDPR, CNIL and AEPD questions about analytics have a short answer
+- Want to **measure with minimal, pseudonymised data** — nothing stored on the device, no IP, an identifier that rotates daily — so GDPR, CNIL and AEPD questions about analytics have a short answer
 - Want **conversion attribution that includes visitors who reject consent** for budget decisions
 - Need a **lightweight tracker** that does not slow down your site
 - Want an **AI assistant on your own data** (LENS) out of the box
-- Require **EU-only data hosting** with no international transfers
+- Require **analytics data hosted and processed only in the EU** (Dublin)
 
 ---
 
@@ -215,7 +217,7 @@ Sealmetrics intentionally does not track unique visitors, session duration, or i
 
 ### What about Google Consent Mode v2?
 
-Google Consent Mode v2 uses statistical modeling to estimate conversions from users who reject consent. These are modeled estimates, not actual measurements. Sealmetrics captures real data from every visitor without modeling or estimation.
+Google Consent Mode v2 uses statistical modeling to estimate conversions from users who reject consent. These are modeled estimates, not actual measurements. Sealmetrics measures visits directly, without consent modeling or estimation.
 
 ### How does Sealmetrics handle bot traffic?
 
@@ -230,7 +232,7 @@ Sealmetrics includes built-in [bot detection](/compliance/compliance-overview/ho
 | **Best for** | Google Ads optimization, user-level analysis | Accurate total traffic, privacy compliance |
 | **Data accuracy (EU)** | 40–85% of traffic | Not reduced by consent rejection |
 | **Consent required** | Yes | No |
-| **Privacy exposure** | Personal data processed, transferred to the US | No personal data processed, EU-only storage |
+| **Privacy exposure** | Personal data processed, transferred to the US | Minimal pseudonymised data (no IP, daily-rotating identifier), EU-only storage |
 | **Script size** | ~146 KB | 1.1 KB |
 | **Pricing** | Free (with hidden costs) | From €499/mo (annual billing) |
 

@@ -3,8 +3,8 @@ title: "Tracker API Reference"
 description: "Complete API reference for the Sealmetrics JavaScript tracker. Includes all methods, parameters, and payload specifications."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker/api-reference"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "e1998bb865ba5b3645681f223e4caa7559d6b633ac42892f421c49c3a32044e3"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "efa14ea9f73be20eb42ba8cb5f42e0bb857b9581fae094598531c5de641bf7de"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -304,7 +304,7 @@ Includes all pageview fields plus:
 
 ## Session Identification
 
-Session IDs are automatically generated using privacy-preserving browser characteristics. No cookies or personal data are used.
+Session IDs are automatically generated using privacy-preserving browser characteristics. Nothing is stored on the device, and the identifier rotates daily and cannot be reconstructed afterwards.
 
 ---
 

@@ -3,8 +3,8 @@ title: "Understanding Referrer Loss and Direct Traffic in Sealmetrics"
 description: "Learn why referrers are lost on modern websites and why Direct traffic may appear unusually high in Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/understanding-referrer-loss-and-direct-traffic"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "e260fae8111da86ebbaf198c5720a07403f1d36ccc2dbb31cf591d30622a1082"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "558d7cfa339107fd62bdedd9cf3ccaf536f4c6044eb25dc18f3f76d89b897ab5"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -340,7 +340,7 @@ It allows you to:
 - Measure brand awareness
 - Understand platform contributions
 - Optimize marketing investments
-- Stay fully privacy compliant
+- Stay privacy-first
 
 By combining UTMs, domain analysis, and referrer intelligence, Sealmetrics provides accurate attribution without tracking individuals.
 

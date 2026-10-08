@@ -3,8 +3,8 @@ title: "How Seal AI Works: Private AI on European Infrastructure"
 description: "The architecture behind Seal AI: EU-only inference on Scaleway Paris, zero retention, no training on your data, and why no data is ever transferred to the United States."
 canonical_url: "https://docs.sealmetrics.com/lens/seal-ai/private-ai-architecture"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "51517f1b45e1cb492365e60d7bf26c6bf41f5333863b8dbfcc50e1b9044ec34c"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "6e6f53a13eb7fe5255bc972cd468405a122c75b775a3cf38df57397855c990f0"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -81,7 +81,7 @@ Seal AI's chain has no US link:
 
 1. **Processor**: Scaleway SAS — a French company with a French parent (Iliad group), no US ownership. Scaleway states explicitly that its AI services are not subject to extraterritorial laws such as the American CLOUD Act.
 2. **Processing location**: Paris, France, exclusively.
-3. **Consequence under GDPR**: because personal data never leaves the EU and the processor has no US parent, **Chapter V of the GDPR (Art. 44 — international transfers) is simply not triggered**. No Standard Contractual Clauses, no Transfer Impact Assessment, and no dependence on the EU-US Data Privacy Framework — which matters, because the DPF is under active legal challenge before the CJEU. If the DPF fell tomorrow, as Privacy Shield fell in 2020, nothing about Seal AI would need to change.
+3. **Consequence under GDPR**: because Seal AI prompt data never leaves the EU and the processor has no US parent, **Chapter V of the GDPR (Art. 44 — international transfers) is simply not triggered**. No Standard Contractual Clauses, no Transfer Impact Assessment, and no dependence on the EU-US Data Privacy Framework — which matters, because the DPF is under active legal challenge before the CJEU. If the DPF fell tomorrow, as Privacy Shield fell in 2020, nothing about Seal AI would need to change.
 4. **Subprocessor transparency**: Scaleway appears in our [subprocessor list](/compliance/subprocessors) as a plain GDPR Art. 28 processor — identity, location (Paris, FR), purpose (LLM inference), retention (zero by default).
 
 By contrast, using a US-parent AI API — even in an EU region — requires SCCs plus a Transfer Impact Assessment and inherits the DPF's litigation risk. We designed that dependency out of the product.

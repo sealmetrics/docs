@@ -87,7 +87,7 @@ _sm.conv('purchase', 99.99);
 
 The tracker does not collect or store:
 - Cookies
-- IP addresses (used only for blocklist check, never stored in analytics)
+- IP addresses (checked in flight against a public list of automated-traffic IPs and your IP exclusions, then discarded — never stored)
 - Personal identifiable information
 - Form inputs
 - User credentials

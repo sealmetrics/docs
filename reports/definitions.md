@@ -3,8 +3,8 @@ title: "Metrics Reference"
 description: "Detailed reference of all Sealmetrics report metrics — formulas and interpretation for entrances, pageviews, conversions, revenue, and advanced KPIs."
 canonical_url: "https://docs.sealmetrics.com/reports/definitions"
 lang: "en"
-date_generated: "2026-09-21T07:18:17.820Z"
-source_hash: "70aa4f017ce8bc817b3f106d44c0b947c574d6d486d21636438bcefbb0479731"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "6593b645351154c1108ffc781670e2d59360134ba7f35b1e562633e609b7975f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -64,7 +64,7 @@ For a complete glossary of all terms (including privacy, platform, and technical
 
 ### Unique Visitors — not tracked
 
-Sealmetrics **does not calculate unique visitors**. Identifying a "unique visitor" requires a persistent per-user identifier (cookie, fingerprint, or hash), and any such identifier constitutes personal data under GDPR. Sealmetrics's consentless legal basis depends on **not** carrying an identifier across sessions.
+Sealmetrics **does not calculate unique visitors**. Identifying a "unique visitor" requires a persistent per-user identifier (cookie, fingerprint, or hash), and any such identifier constitutes personal data under GDPR. Sealmetrics's consentless model depends on **not** carrying an identifier across days: its session identifier rotates daily and cannot be reconstructed afterwards.
 
 Use **entrances** as the audience-size signal instead — it measures unique sessions, which is what most product decisions actually need.
 

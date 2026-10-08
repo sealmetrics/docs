@@ -3,8 +3,8 @@ title: "Global Privacy Control (GPC) and Do Not Track (DNT)"
 description: "Why Sealmetrics does not respond to GPC or DNT browser signals — you cannot opt out of a measurement that never tracked you in the first place."
 canonical_url: "https://docs.sealmetrics.com/compliance/gpc-dnt-signals"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "9c9fab67e3b83b02719d0748df39ab99cb2fb08a17ec7458ba40fc518688fa06"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "5bf06b7dc509240a0113218b022a5303666253effdb3701626082c215136bf69"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -58,9 +58,9 @@ architecture is designed to make impossible.
 ## Protection by default beats opt-out on request
 
 Opt-out models protect only the minority of visitors who know the signal
-exists and have it enabled. Sealmetrics' model protects **100% of visitors,
-by default, with no action required on their part**. That is a strictly
-stronger guarantee than honoring an opt-out — it is the opt-out made
+exists and have it enabled. Sealmetrics' model applies the same protections to **every visitor,
+by default, with no action required on their part**. That is a stronger
+protection than honoring an opt-out — it is the opt-out made
 structural.
 
 ## What this does *not* change for you

@@ -3,8 +3,8 @@ title: "Conversions Don't Match Your ERP, CRM, or Database"
 description: "How to diagnose and fix substantial discrepancies between Sealmetrics conversions and your source of truth (ERP, CRM, internal database)."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/erp-crm-database-discrepancy"
 lang: "en"
-date_generated: "2026-09-14T13:48:10.438Z"
-source_hash: "9f4498ca7998b1cae894735971843bf196701e418dd04cc0ebe9d6aa50d19598"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "d4312bb2cf9af6176e8b05ee8b056d6408487872b259d82ca7f023a24dac156d"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -65,7 +65,7 @@ If you do **not** see that request, the conversion pixel is not being called.
 ### How to fix it
 
 - Make sure the conversion pixel lives on **every confirmation page**, including those served by external payment processors or third-party checkouts.
-- For payment methods that skip the browser confirmation (PayPal IPN, bank transfer, manual orders), use a **server-side fallback** or fire the conversion when the user is redirected back to your site.
+- For payment methods that skip the browser confirmation (PayPal IPN, bank transfer, manual orders), fire the conversion when the user is redirected back to your site — outside the Shopify integration there is no server-to-server conversion endpoint, so the conversion has to reach Sealmetrics from the browser.
 - Remove conditionals that exclude segments of real conversions.
 - Validate your checkout flow end-to-end for **each payment method and country** you support.
 

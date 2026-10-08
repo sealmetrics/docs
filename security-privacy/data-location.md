@@ -3,8 +3,8 @@ title: "Data Location & Retention"
 description: "Where Sealmetrics stores your data and how long it's retained. EU-based infrastructure with clear retention policies."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/data-location"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "242e32d0999ef44059cf43010359edd662699f41e24bab19c70a2e9fa279c27d"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "d27277ef5fe4aa5952cbd2dd359400da2d574374c2ec0a3314006c69eee6733f"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -39,11 +39,10 @@ All customer analytics data — every hit, report, and backup — is stored and 
 - **Low latency** — Fast response times for European users
 - **Legal clarity** — Single regulatory framework
 
-### No Data Transfer Outside EU
+### No Transfer of Analytics Data Outside the EU
 
-Your analytics data:
+Analytics data is hosted and processed only in the EU (Dublin). Your analytics data:
 
-- Never leaves EU borders
 - Is stored and processed exclusively on EU infrastructure
 - Is not transferred to any third country
 - Remains under EU data protection law
@@ -186,7 +185,7 @@ When you close your account:
 | GDPR | Compliant |
 | ePrivacy | Compliant |
 
-Sealmetrics does not hold third-party security certifications (such as SOC 2 or ISO 27001). Compliance with GDPR and ePrivacy is based on the architecture described above — no personal data collected, EU-only processing — and is documented in the [compliance self-assessments](/compliance).
+Sealmetrics does not hold third-party security certifications (such as SOC 2 or ISO 27001). Compliance with GDPR and ePrivacy is based on the architecture described above — nothing stored on the device, no data that identifies anyone, a session identifier that rotates daily and cannot be reconstructed, EU-only processing — and is documented in the [compliance self-assessments](/compliance).
 
 ---
 
@@ -194,7 +193,7 @@ Sealmetrics does not hold third-party security certifications (such as SOC 2 or 
 
 Sealmetrics keeps its subprocessor list deliberately short. The authoritative, always-current list is **Annex 3 of the [Data Processing Agreement](https://sealmetrics.com/dpa)**.
 
-All subprocessors sign data processing agreements and are GDPR compliant. **Visitor analytics data is processed and stored exclusively in the EU.**
+As of this review it names Noraina Limited (Ireland — infrastructure and database hosting), Scaleway SAS (Paris — managed LLM inference for Seal AI Private) and Resend (US, under SCCs — service emails). All subprocessors sign data processing agreements that bind them to GDPR obligations. **Visitor analytics data is processed and stored exclusively in the EU.**
 
 Full details: [Subprocessors](/compliance/subprocessors)
 

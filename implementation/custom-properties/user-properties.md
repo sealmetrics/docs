@@ -3,8 +3,8 @@ title: "User Segmentation"
 description: "Segment users by including business attributes in your conversion and microconversion properties."
 canonical_url: "https://docs.sealmetrics.com/implementation/custom-properties/user-properties"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "8ffc7ea4b9a93d1f0499d29809b5c607cca92e3dedd05e8ff65100e031ad9193"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "83b4991672c446ab9559a6e44cef6e2fa385bafd207e94543267d9561244d621"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -218,10 +218,10 @@ sealmetrics.conv('purchase', 99.99, {
 
 Sealmetrics is designed for privacy-first analytics:
 
-- **No cookies** — No consent banner needed
+- **No cookies** — No consent banner for its own analytics (self-assessed; Germany: open question)
 - **No localStorage** — No persistent storage
 - **No user identification** — Sessions use a hash of device characteristics that is re-keyed daily on the server, so nothing stored can link a device across days
-- **GDPR compliant** — No personal data collected or stored
+- **Designed for GDPR** — No data that identifies anyone stored; reports are aggregated
 
 This means you cannot track individual users across sessions. Instead, you analyze behavior by **segments** (properties) rather than individual users.
 

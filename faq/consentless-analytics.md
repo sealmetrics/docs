@@ -1,10 +1,10 @@
 ---
 title: "Consentless Analytics"
-description: "Why Sealmetrics needs no consent banner — no cookies, no stored fingerprint, no personal data, and what exactly is recorded on each hit."
+description: "Why, on our self-assessment, Sealmetrics needs no consent banner for its own analytics (Germany is an open question) — no cookies, nothing stored on the device, a session identifier that rotates daily, and what exactly is recorded on each hit."
 canonical_url: "https://docs.sealmetrics.com/faq/consentless-analytics"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "2b3792b10b924238151572c2bf905af38376a8a49f4534a105a9fc996942262c"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "a038e6222d0450179ddeededc498d1562e6cb58cb20c375469a600a374b4f4f9"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -18,9 +18,9 @@ Canonical page: https://docs.sealmetrics.com/faq/consentless-analytics
 
 ## How can Sealmetrics measure without consent?
 
-Because it collects no personal data and stores nothing on the device. Sealmetrics is a cookieless tracking system: no cookies, no stored or persistent fingerprint, no cross-session tracking, no personal data. We measure hits (page views), not user journeys.
+We store nothing on the device and no data that identifies anyone. The session identifier is ephemeral: it rotates daily and, once rotated, not even we can reconstruct it. Reports are always aggregated. Sealmetrics is a cookieless tracking system: no cookies, no stored or persistent fingerprint, no cross-session tracking. We measure hits (page views), not user journeys.
 
-[ePrivacy](https://eur-lex.europa.eu/eli/dir/2002/58/oj) requires consent for storing or reading information on a device, unless an exemption applies. Sealmetrics stores nothing on the device. The tracker does read standard browser properties to compute a session identifier; for that, Sealmetrics relies on the audience-measurement exemption criteria — see [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption). GDPR obligations for personal data do not attach, because no personal data is collected.
+[ePrivacy](https://eur-lex.europa.eu/eli/dir/2002/58/oj) requires consent for storing or reading information on a device, unless an exemption applies. Sealmetrics stores nothing on the device. The tracker does read standard browser properties to compute a session identifier; for that, Sealmetrics relies on the audience-measurement exemption criteria — see [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption). Under GDPR, the session identifier is pseudonymised data while the day's salt exists; it is processed under legitimate interest (Article 6(1)(f)) and becomes unrecoverable at the daily rotation. On that basis our self-assessment is that no consent banner is needed for Sealmetrics' own analytics; in Germany that is an open question, because the DSK does not extend §25(2) TDDDG to audience measurement and reading device properties may count as "access" under §25(1) — see [Germany](/compliance/germany-ttdsg-self-assessment).
 
 We follow the measurement guidelines published by the AEPD and [CNIL](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications). Note that no supervisory authority certifies or approves analytics tools — our [compliance pages](/compliance) are self-assessments against the published criteria, not third-party validations.
 
@@ -43,7 +43,7 @@ For each hit, Sealmetrics records:
 - Timestamp
 - URL
 - Referral URL
-- User Agent — the raw string is never written to storage; only anonymous device categories persist in aggregates
+- User Agent — the raw string is never written to storage; only device categories persist, in aggregated reports
 - Browser timezone — used to assign the country
 - Session identifier — re-keyed every day; it cannot link a device across days
 
@@ -51,7 +51,7 @@ No IP address
 No persistent identifiers
 No stored or persistent device fingerprint
 
-With no personal data collected, there is no personal-data processing under GDPR. Nothing is written to the visitor's device; the tracker's reading of standard browser properties for the session identifier relies on the ePrivacy audience-measurement exemption criteria. See the [compliance self-assessments](/compliance) for the framework-by-framework analysis.
+Under GDPR this is minimal, pseudonymised data, processed under legitimate interest (Article 6(1)(f)) and unrecoverable after the daily rotation; the per-hit log is purged after 1 day. Nothing is written to the visitor's device; the tracker's reading of standard browser properties for the session identifier relies on the ePrivacy audience-measurement exemption criteria. See the [compliance self-assessments](/compliance) for the framework-by-framework analysis.
 
 ---
 
@@ -63,7 +63,7 @@ Sealmetrics avoids this by **not linking hits across sessions or days**, so no c
 ---
 
 **Note:**
-- Sealmetrics needs no consent because no personal data is collected (GDPR) and nothing is stored on the device, with the reading of browser properties for the session identifier covered by the audience-measurement exemption criteria (ePrivacy).
+- Sealmetrics needs no consent because nothing is stored on the device and its reading of browser properties for the session identifier meets the audience-measurement exemption criteria (ePrivacy), on our own assessment; under GDPR the daily-rotating, pseudonymised identifier is processed under legitimate interest.
 - Each hit records only timestamp, URL, referral URL, user agent (raw string never written to storage), browser timezone and a daily re-keyed session identifier — no IP address, no persistent identifiers, no stored fingerprint.
 - Hits are never linked across sessions or days, so there is no cross-session tracking; the compliance pages are self-assessments, not supervisory-authority validations.
 

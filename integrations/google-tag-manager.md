@@ -3,8 +3,8 @@ title: "Google Tag Manager Template"
 description: "Install Sealmetrics tracking on your website using the official Google Tag Manager template. Track pageviews, conversions, and microconversions without writing code."
 canonical_url: "https://docs.sealmetrics.com/integrations/google-tag-manager"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "cd8e68a7f2632510447ecee2c7274f6e689fed933299f5e0801367456d1f3742"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "d007d18fa3e395a0807b41a3bd056e2d57b603f6ae81cd76db3bb7a43a867ebe"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -23,7 +23,7 @@ The **Sealmetrics GTM Template** allows you to install and configure Sealmetrics
 - **No-code installation** — Configure everything through GTM's visual interface
 - **Three event types** — Pageviews, microconversions, and conversions
 - **Custom properties** — Attach additional data to any event
-- **Cookieless tracking** — GDPR-compliant analytics without consent banners
+- **Cookieless tracking** — analytics designed for the GDPR, with no consent banner for its own measurement (self-assessed; Germany: open question — see [Germany](/compliance/germany-ttdsg-self-assessment))
 - **Automatic SPA support** — The tracker detects History API navigation automatically
 
 **Info:**

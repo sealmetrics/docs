@@ -3,8 +3,8 @@ title: "Tracker Performance Report: Sealmetrics vs GA4, Matomo and Piwik PRO"
 description: "Sealmetrics t.js measures 1.1 KB on the wire — 12× lighter than the legacy v1 tracker and ~132× lighter than GA4 gtag.js; Matomo and Piwik PRO sit between."
 canonical_url: "https://docs.sealmetrics.com/guides/tracker-performance-report"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "064f0591f84c9eac38ca16ef7c41430396d94a17128d69b84e9721e25683a24b"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "252a8ffcbb51fbde0b072f0a54ac63cf86ddb43833bb7b5085adb70ca1040739"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -249,7 +249,7 @@ This effect is **more granular measurement, not newly captured traffic**: it add
 
 ## Deployment recommendations
 
-- **Do not gate Sealmetrics tags behind consent in GTM.** A frequent misconfiguration: if Sealmetrics tags sit behind the CMP's consent state, you give up their main advantage — Sealmetrics can measure without consent by design (no cookies, no personal identifiers). Fire them on *Consent Initialization* or with no consent condition.
+- **Do not gate Sealmetrics tags behind consent in GTM.** A frequent misconfiguration: if Sealmetrics tags sit behind the CMP's consent state, you give up their main advantage — Sealmetrics is designed to measure without consent (no cookies, no persistent identifiers; our self-assessment). Fire them on *Consent Initialization* or with no consent condition.
 - **Install the snippet directly in the `<head>`, outside GTM.** Loaded through GTM, the tracker inherits the container's latency (typically 100–250 KB): if GTM is slow, blocked, or the visitor leaves before it loads, the tracker cannot measure either. With the snippet directly in the `<head>` you capture the full advantage shown above.
 - **Compare v1 and the current tracker with homogeneous metrics.** When evaluating a dual-tag, compare pageviews with pageviews and entrances with entrances — and account for the different session windows (Rejoined at 6 h in v1 vs 2 h in the current tracker, see above): mixing metrics or ignoring the window inflates or hides differences.
 - **Keep the dual-tag for a validation period.** Running both trackers in parallel lets you quantify the capture difference with your own data, segmented by device and geography, before retiring v1.

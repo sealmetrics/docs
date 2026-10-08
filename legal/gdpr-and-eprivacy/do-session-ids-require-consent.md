@@ -3,8 +3,8 @@ title: "Do Temporary Session Identifiers (Session IDs) Require Consent Under GDP
 description: "When a session ID triggers the ePrivacy consent requirement and when it does not, and how Sealmetrics builds its session identifier: an in-browser device-characteristics hash, never stored on the device, re-keyed daily on the server."
 canonical_url: "https://docs.sealmetrics.com/legal/gdpr-and-eprivacy/do-session-ids-require-consent"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "b7781f1f9586ff92cf0ca931fa9691b75de6fef990c153cb60c0f51929a5794b"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "a22b257fb0b4951757b27cc84bd83607ca28531df157c9cbf16c6c862581be93"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -65,6 +65,8 @@ Against the conditions above:
 - ✔ No personal identification — no IP, user ID or other identifier is stored alongside it
 
 **Fingerprinting condition — stated plainly.** The identifier is computed from device characteristics read in the browser, so Sealmetrics does not claim "no fingerprinting techniques" in absolute terms. What it does claim is that no fingerprint is stored or persists: the hash is never stored as sent, and the stored value is re-keyed daily with a salt that is then destroyed. Reading those browser properties is also an "access" to terminal equipment under Art. 5(3), so the consent exemption rests on the audience-measurement criteria described in [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption), not on nothing being read.
+
+**Under the GDPR, stated plainly.** While the day's salt exists, Sealmetrics could in principle recompute the identifier, so it is pseudonymised data, not anonymous data. It is processed under legitimate interest (Art. 6(1)(f)), kept in the per-hit log for 1 day, and becomes unrecoverable once the salt rotates — not even Sealmetrics can reconstruct it. Reports are always aggregated.
 
 Session IDs are used only within the active session to group hits — never to track or identify users across days.
 

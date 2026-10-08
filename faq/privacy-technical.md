@@ -3,8 +3,8 @@ title: "Technical Privacy Model"
 description: "Learn exactly what data Sealmetrics collects, what it does not collect, and how privacy is enforced technically."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-technical"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "d87d0b12fba64d5ac5cba09f821ef8adfaca94fe8ad0c084c2ad36dabc3d79e4"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "c665b4e519437d0b7d1bf241e2ea6dcfea2d5d445834c71a1767b1f342c84582"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -25,7 +25,7 @@ A small set of non-identifying fields:
 - Timestamp
 - URL
 - Referral URL
-- User Agent (used for anonymous device classification; raw string never written to storage)
+- User Agent (used for device classification; raw string never written to storage)
 - Browser timezone (used to assign the country)
 - Session identifier (re-keyed every day; see [What We Track](/security-privacy/what-we-track))
 
@@ -61,7 +61,7 @@ No. The timezone is a technical value exposed automatically by the browser and d
 
 ## How does timezone-based detection affect the accuracy of my reports?
 
-Reports show a country estimation based on the browser’s timezone. This is more than adequate for traffic analysis, marketing, attribution, and global trends. It does not provide city- or region-level accuracy, but it avoids processing personal data and keeps analytics within strict privacy compliance.
+Reports show a country estimation based on the browser’s timezone. This is more than adequate for traffic analysis, marketing, attribution, and global trends. It does not provide city- or region-level accuracy, but it avoids processing IP addresses and keeps analytics within strict privacy compliance.
 
 ---
 

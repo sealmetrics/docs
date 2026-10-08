@@ -3,8 +3,8 @@ title: "UK PECR Self-Assessment: Sealmetrics Compliance"
 description: "Self-assessment of Sealmetrics against the UK PECR analytics exemption under DUAA 2025: aggregate statistics only, user information, opt-out, no advertising."
 canonical_url: "https://docs.sealmetrics.com/compliance/uk-pecr-self-assessment"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "73790e12544a67158ec7279e2b6bc48c33735367eabeba3e57cd55aa655f20a3"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "2e11d2510b5c18a32c9223b92b2ffab2385d94747392758c89d3c577bd5ef1ad"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -83,8 +83,11 @@ The UK analytics exemption requires **all four conditions** to be met:
 **Recommended Privacy Policy Text:**
 ```
 This website uses Sealmetrics for audience measurement. This is a privacy-first
-analytics tool that collects aggregate statistics only. It does not use cookies,
-does not track you across websites, and does not collect personal information.
+analytics tool that reports aggregate statistics only. It stores nothing on your
+device and no data that identifies you, and does not track you across websites.
+Its session identifier is ephemeral: it rotates daily and, once rotated, not even
+Sealmetrics can reconstruct it. Legal basis: legitimate interest (UK GDPR
+Art. 6(1)(f)).
 You can block analytics using your browser's privacy settings or an ad blocker.
 ```
 
@@ -283,7 +286,7 @@ The ICO has indicated focus on:
 
 Sealmetrics declares that:
 
-1. Our solution **meets the UK PECR analytics exemption criteria** as amended by DUAA 2025
+1. On our self-assessment, our solution **meets the UK PECR analytics exemption criteria** as amended by DUAA 2025
 2. When properly configured, Sealmetrics **can be implemented without requiring user consent** under Regulation 6 of PECR
 3. We provide **documentation and configuration guidance** to ensure compliant implementation
 4. We **do not use client data** for advertising or any prohibited purpose
@@ -291,7 +294,7 @@ Sealmetrics declares that:
 ### What does this mean for UK publishers?
 
 Publishers using Sealmetrics in the UK can:
-- ✅ Measure website traffic without consent banners (for analytics)
+- ✅ Measure website traffic without consent banners (for their own analytics, on this self-assessment)
 - ✅ Track conversions for their own business analysis
 - ✅ Analyze content performance
 - ✅ Monitor technical performance

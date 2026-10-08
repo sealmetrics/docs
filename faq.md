@@ -3,8 +3,8 @@ title: "Frequently Asked Questions (FAQ)"
 description: "Answers to the most common questions about Sealmetrics, consentless analytics, attribution, implementation, privacy, product features, and legal compliance."
 canonical_url: "https://docs.sealmetrics.com/faq"
 lang: "en"
-date_generated: "2026-08-12T08:33:12.834Z"
-source_hash: "0288c8c1c39f747d92e6e6675d60d40bd37df761091eba3c8af6e8f44e8694b4"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "1c0fab05126cdd8c33b55cf7fad846381a134eeed54f5623c6a5d062fe880ed6"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -25,7 +25,7 @@ Use the links below to explore detailed answers for each topic.
 ## FAQ Categories
 
 ### Consentless Analytics
-Why no consent banner is needed: no cookies, no personal data, and what exactly is recorded on each hit.
+Why, on our self-assessment, no consent banner is needed for Sealmetrics' own analytics (Germany: open question): no cookies, nothing stored on the device, and what exactly is recorded on each hit.
 
 [Read more →](/faq/consentless-analytics)
 

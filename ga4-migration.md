@@ -3,8 +3,8 @@ title: "GA4 Migration Guide"
 description: "How to migrate from Google Analytics 4 to Sealmetrics — what to export from GA4, how metrics map, and how to run both in parallel during the transition."
 canonical_url: "https://docs.sealmetrics.com/ga4-migration"
 lang: "en"
-date_generated: "2026-09-15T18:01:06.894Z"
-source_hash: "0306c6f623f62863015ed88ff1d15325de96cd96cb8128a9ebbfdced4d6a3639"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "66791c46a160ed7d964a5898f69fb855c9a3da3f60f224024e794b5dcb754c98"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -68,7 +68,7 @@ flowchart TD
 
 ## What's different
 
-- **No cookies, no consent banner.** Sealmetrics measures traffic without collecting personal data, so there is nothing to obtain consent for.
+- **No cookies, no consent banner for its own analytics.** Sealmetrics stores nothing on the device and no data that identifies anyone; its session identifier rotates daily and cannot be reconstructed afterwards. On that basis Sealmetrics self-assesses that it fits the ePrivacy audience-measurement exemption. In Germany this is an open question — see [Germany](/compliance/germany-ttdsg-self-assessment).
 - **Google Ads tracking, no audience sync.** Sealmetrics tracks Google Ads campaigns via UTM parameters end-to-end (source, medium, campaign, term, content) and provides ROAS reporting. What it does **not** do is push audience segments back to Google Ads for automated bidding — that requires GA4 with consented users. Teams commonly run both: GA4 for Ads audience/bidding, Sealmetrics as the source of truth for total traffic and conversions.
 - **No predictive metrics** (purchase probability, churn probability). Sealmetrics reports observed behavior.
 - **Simpler attribution model.** Session-scoped last click: each conversion is credited to the source of the session in which it fires, with no lookback window across sessions and no alternative model to switch to. See [How Sealmetrics attributes conversions](/reports/insights/attribution-model).

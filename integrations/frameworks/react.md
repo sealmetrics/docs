@@ -1,10 +1,10 @@
 ---
 title: "React"
-description: "Add privacy-first analytics to React with the @sealmetrics/react NPM package — provider or script component, no cookies or consent banner needed."
+description: "Add privacy-first analytics to React with the @sealmetrics/react NPM package — provider or script component, no cookies, and no consent banner for its own analytics (self-assessed)."
 canonical_url: "https://docs.sealmetrics.com/integrations/frameworks/react"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "23bae80231803171beeed32a315ad02172f2a26eaa09847d2e75aff7ca2ab9ba"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "fccb903b39288159bb7ab3ebb8899224b59bd6c78774decf24287be3542e568d"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -321,9 +321,9 @@ import type {
 ## Privacy
 
 - No cookies used
-- No personal data collected
+- No data that identifies anyone stored; reports are aggregated
 - Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
-- No consent banner required
+- No consent banner for Sealmetrics' own analytics (self-assessed; Germany: open question — see [Germany](/compliance/germany-ttdsg-self-assessment))
 
 ## Related documentation
 

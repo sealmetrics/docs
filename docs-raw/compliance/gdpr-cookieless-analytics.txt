@@ -7,7 +7,7 @@ URL: https://docs.sealmetrics.com/compliance/gdpr-cookieless-analytics
 **Info:**
 Any statement here about how Sealmetrics meets a criterion is a **self-assessment**, not a certification. No supervisory authority certifies or validates analytics tools, and Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2). This page is general regulatory analysis, not legal advice.
 
-Cookieless analytics represent a fundamental shift in how websites measure traffic while complying with GDPR. By eliminating persistent user identifiers, cookieless solutions can provide comprehensive analytics without consent banners, data loss, or privacy violations.
+Cookieless analytics represent a fundamental shift in how websites measure traffic while complying with GDPR. By eliminating persistent user identifiers, cookieless solutions can provide comprehensive analytics without consent banners, consent-driven data loss, or privacy violations.
 
 ## The GDPR Challenge for Traditional Analytics
 
@@ -80,7 +80,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **Technical approaches**:
 1. **Session-based measurement**: Track page views within session, without cross-session linking
 2. **Server-side logging**: Analyze server logs without client-side identifiers
-3. **Cookieless session identification**: Without personal data or persistent identifiers
+3. **Cookieless session identification**: Without persistent identifiers (at most a short-lived identifier that rotates and cannot link visits over time)
 4. **Aggregated metrics only**: Count events without identifying individuals
 
 **Key principle**: Measure the **audience** (how many, from where, what they do) without **tracking individuals** (who specifically, what they do over time).
@@ -99,11 +99,13 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 **Advantage**: No legal basis required; GDPR inapplicable to anonymous data.
 
-**This is Sealmetrics' position.** The stored dataset holds a small set of non-identifying fields ([listed here](/security-privacy/what-we-track)), no IP address (not even hashed) and no persistent identifier — the only per-visitor value is a daily session pseudonym, re-keyed with a salt that is destroyed every day and purged from the per-hit log after 1 day — so in Sealmetrics' assessment it falls outside the material scope of the GDPR under Recital 26. The Article 6 question — consent or legitimate interest — never arises for visitor analytics. Sealmetrics does not rely on legitimate interest for it; it does not need to.
+**Caveat**: any per-visitor identifier — even a short-lived one — that someone holding the key could still link to a device is pseudonymous, not anonymous, and keeps the data inside the GDPR. Truly anonymous measurement is rarer than it sounds.
 
-#### 2. Minimal Personal Data (Other Cookieless Tools)
+#### 2. Minimal, Pseudonymised Personal Data (Sealmetrics and Other Cookieless Tools)
 
-**Some cookieless tools still process personal data** — typically a hashed IP address, which remains personal data. For those tools an Article 6 basis is required, and the one they generally rely on is legitimate interest:
+**Most cookieless tools still process some personal data** — a hashed IP address, or a session identifier derived from device characteristics. Both remain personal data while anyone holds the means to link them back. An Article 6 basis is required, and the one these tools rely on is legitimate interest.
+
+**This is Sealmetrics' position.** Nothing is stored on the device and no IP address is stored (not even hashed). The tracker computes a session identifier in the browser, which the server re-keys with a salt that rotates daily; the old salt is destroyed. During the day Sealmetrics holds key and salt, so the identifier is a **pseudonym** — personal data under GDPR (Recital 26). After the daily rotation it cannot be reconstructed, not even by Sealmetrics. The per-hit log is purged after 1 day and reports are aggregated. Sealmetrics processes these pseudonymised operational data under **legitimate interest, Article 6(1)(f)**.
 
 **Legitimate interest (Article 6(1)(f)) is a stronger case** for such tools than for cookie-based tracking:
 
@@ -117,11 +119,11 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - Transparency: Easy to explain and understand
 - No high risk to data subjects
 
-**Outcome**: Legitimate interest is likely valid for a cookieless tool that retains a hashed IP, where it may not be for cookie-based tracking. It is still a weaker position than case 1, because it concedes that personal data is processed.
+**Outcome**: Legitimate interest is likely valid for a minimal cookieless tool — a hashed IP, or a daily-rotating session pseudonym like Sealmetrics' — where it may not be for cookie-based tracking. The less data, the shorter its life and the less linkable it is, the stronger the balancing test.
 
 ### Where GDPR Article 6 Fits
 
-**Article 6 lists the lawful bases for processing personal data. It is only reached if personal data is processed.** For a dataset with no IP and no identifier (case 1 above, Sealmetrics), it is not reached at all. The table below shows how each basis fares for cookieless tools that *do* still process some personal data (case 2):
+**Article 6 lists the lawful bases for processing personal data. It is only reached if personal data is processed.** A truly anonymous dataset (case 1) never reaches it. The table below shows how each basis fares for cookieless tools that still process some personal data (case 2, which includes Sealmetrics):
 
 | Legal Basis | Applicability | Requirements |
 |-------------|---------------|--------------|
@@ -130,25 +132,25 @@ When a cookie contains a unique identifier that can be linked to an individual�
 | **Legal obligation (6(1)(c))** | Not applicable | No law requires website analytics |
 | **Vital interests (6(1)(d))** | Not applicable | Analytics don't protect life |
 | **Public task (6(1)(e))** | Public sector only | Government websites measuring performance |
-| **Legitimate interest (6(1)(f))** | Usual basis for tools that keep a hashed IP or other identifier | Website operator's interest in understanding traffic, documented in a legitimate interest assessment |
+| **Legitimate interest (6(1)(f))** | Usual basis for tools that keep a hashed IP or a short-lived session identifier | Website operator's interest in understanding traffic, documented in a legitimate interest assessment |
 
-**For Sealmetrics**: none of the above is required. No personal data is processed, so Recital 26 places the visitor analytics dataset outside the Regulation.
+**For Sealmetrics**: legitimate interest (Article 6(1)(f)) for the pseudonymised operational data — the per-hit log and the live session, kept for 1 day. Aggregated reports are non-identifying.
 
-**For tools that retain a hashed IP**: legitimate interest (Article 6(1)(f)) is the basis most rely on, and it has to be documented in the assessment below.
+**For tools that retain a hashed IP**: legitimate interest (Article 6(1)(f)) is likewise the basis most rely on. Either way it has to be documented in the assessment below.
 
 ## Legitimate Interest Assessment: When It Is Required
 
-**Not required for Sealmetrics visitor analytics.** A legitimate interest assessment (the three-part test) is the accountability record for processing that relies on Article 6(1)(f). Where no personal data is processed there is no Article 6 processing to assess, so no assessment is needed. The document to keep instead is a short record of *why* the dataset contains no personal data: no IP stored, no cookie, no persistent identifier (only a daily-re-keyed session pseudonym, purged after 1 day), no cross-session linking, a small set of non-identifying fields.
+**Required whenever processing relies on Article 6(1)(f)** — including Sealmetrics visitor analytics. A legitimate interest assessment (the three-part test) is the accountability record for that processing. For Sealmetrics it is short: no IP stored, nothing stored on the device, no persistent identifier (only a daily-re-keyed session pseudonym, unrecoverable after rotation, purged from the per-hit log after 1 day), no cross-session linking, aggregated reports.
 
-**Still required for identifier-based tools you also run.** Publishers who operate a cookie-based or hashed-IP tool alongside Sealmetrics (a tag manager, an ad pixel, a second analytics platform) still need the assessment for *that* processing. The test is kept here for that purpose.
+**Also required for identifier-based tools you run alongside.** Publishers who operate a cookie-based or hashed-IP tool next to Sealmetrics (a tag manager, an ad pixel, a second analytics platform) need a separate assessment — or consent — for *that* processing.
 
-### Three-Part Test (for identifier-based tools)
+### Three-Part Test
 
 #### Part 1: Legitimate Interest
 
 **Question**: Does the controller have a legitimate interest?
 
-**For a minimal analytics tool that still processes personal data** (e.g., a hashed IP):
+**For a minimal analytics tool that still processes personal data** (e.g., a hashed IP or a daily-rotating session pseudonym):
 - ✅ Understanding website performance
 - ✅ Improving user experience
 - ✅ Optimizing content
@@ -168,7 +170,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **For a minimal analytics tool that still processes personal data**:
 - ✅ Cannot understand traffic without measurement
 - ✅ Cookieless approach is far less intrusive than cookie-based tracking
-- ⚠️ A less invasive alternative does exist: a tool that stores no IP and no identifier at all (case 1 above), which moves the processing outside the GDPR entirely
+- ⚠️ Check for less invasive alternatives: a tool that stores no IP and whose session identifier rotates daily and becomes unrecoverable is less intrusive than one that keeps a hashed IP
 
 **[Article 5(1)(c)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)**: Data minimization—collect only what is necessary
 
@@ -189,7 +191,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **Nature of data**:
 - Basic traffic metrics (not sensitive)
 - No special categories (Article 9)
-- Minimal personal data (e.g., a hashed IP)
+- Minimal personal data (e.g., a hashed IP, or a session pseudonym that rotates daily)
 
 **Reasonable expectations**:
 - Users expect websites measure traffic
@@ -211,22 +213,22 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 ### Legal Position: Cookieless vs. Cookie-Based
 
-| Factor | Cookieless Analytics (no IP, no identifier) | Cookie-Based Tracking |
+| Factor | Cookieless Analytics (no IP, no persistent identifier) | Cookie-Based Tracking |
 |--------|----------------------|----------------------|
-| **Personal data processed** | None (Recital 26) ✅ | Yes (unique identifiers) ❌ |
-| **Article 6 basis needed** | No — Article 6 is not reached ✅ | Yes — consent, or a contested legitimate interest claim ❓ |
-| **Legitimate interest assessment** | Not required ✅ | Required if relying on 6(1)(f) ⚠️ |
+| **Personal data processed** | Minimal and pseudonymised (a session identifier that rotates daily) ✅ | Yes (persistent unique identifiers) ❌ |
+| **Article 6 basis needed** | Yes — legitimate interest, with a strong balancing test ✅ | Yes — consent, or a contested legitimate interest claim ❓ |
+| **Legitimate interest assessment** | Required, and short ✅ | Required if relying on 6(1)(f) ⚠️ |
 | **Privacy impact** | Low (no tracking) ✅ | High (persistent tracking) ❌ |
 | **User expectations** | Reasonable ✅ | Negative (tracking) ❌ |
-| **Safeguards** | Built-in (no IDs) ✅ | Requires controls ⚠️ |
+| **Safeguards** | Built-in (no persistent IDs) ✅ | Requires controls ⚠️ |
 
-**Result**: A no-personal-data cookieless dataset needs no Article 6 basis at all. Cookie-based tracking needs one, and legitimate interest is questionable for it — consent is the safer route.
+**Result**: A minimal, pseudonymised cookieless dataset sits comfortably on legitimate interest. Cookie-based tracking needs a basis too, but legitimate interest is questionable for it — consent is the safer route.
 
 ## GDPR Principles and Cookieless Analytics
 
 ### Principle 1: Lawfulness, Fairness, Transparency (Article 5(1)(a))
 
-**Lawfulness**: No personal data is processed, so no Article 6 legal basis is required (Recital 26) ✅
+**Lawfulness**: Legitimate interest (Article 6(1)(f)) for the pseudonymised operational data, documented in a short assessment ✅
 
 **Fairness**:
 - Users not deceived
@@ -259,7 +261,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - ✅ No persistent user IDs (eliminates unnecessary tracking)
 - ✅ Aggregated metrics (only what's needed for statistics)
 - ✅ No individual profiles (unnecessary for traffic measurement)
-- ✅ No personal data in the stored dataset (no IP stored, no identifier, no cross-session linking)
+- ✅ Minimal, pseudonymised data (no IP stored, no persistent identifier, no cross-session linking; the session identifier rotates daily)
 
 **Gold standard**: Cookieless is **data minimization by design**.
 
@@ -282,7 +284,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - ✅ Session-only tracking (no long-term storage of identifiers)
 - ✅ Aggregated data quickly (raw logs not retained long)
 - ✅ Typical retention: 24 months maximum (align with AEPD requirements)
-- ✅ Aggregated reports can be kept indefinitely (no personal data)
+- ✅ Aggregated reports can be kept indefinitely (non-identifying)
 
 **Best practice**: Delete raw server logs after aggregation; retain only statistics.
 
@@ -303,7 +305,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **Requirement**: Controller must demonstrate compliance
 
 **Cookieless analytics**:
-- ✅ Document why no personal data is processed (the Recital 26 record); a legitimate interest assessment is only needed for identifier-based tools you also run
+- ✅ Document the legitimate interest assessment for the analytics, and separately for any identifier-based tools you also run
 - ✅ Maintain records of processing activities (Article 30)
 - ✅ Privacy policy reflects cookieless approach
 - ✅ Data protection by design (Article 25)
@@ -317,7 +319,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **User request**: "What personal data do you have about me?"
 
 **Cookieless analytics response**:
-- **If truly anonymous**: "Our analytics do not process your personal data; we cannot identify you in our statistics."
+- **If the identifier rotates and becomes unrecoverable** (Sealmetrics): "Our analytics store nothing on your device and no data that identifies you. The session identifier rotates daily and cannot be reconstructed afterwards, so we cannot match your request to any record (GDPR Article 11)."
 - **If minimal data (IP in logs)**: "We have server logs with your IP address from [date/time], used for traffic measurement. This data will be deleted after [retention period]."
 
 **Advantage**: Simple response; no extensive user profiles to provide.
@@ -335,7 +337,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **User request**: "Delete my data"
 
 **Cookieless analytics**:
-- **If anonymous**: Not possible (cannot identify user in aggregate data)
+- **If the identifier is unrecoverable**: In practice the request cannot be matched to a person (Article 11); the per-hit log is purged after 1 day anyway
 - **If IP in logs**: Can delete specific IP entries, or explain scheduled deletion period
 
 **Practical**: Much easier than cookie-based systems tracking users across months/years.
@@ -353,17 +355,17 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **User request**: "Give me my data in portable format"
 
 **Cookieless analytics**:
-- Not applicable (Article 20 requires processing based on consent or contract; a no-personal-data dataset relies on neither)
-- Even if applied: No meaningful individual data to port (aggregate statistics not "personal data")
+- Not applicable (Article 20 requires processing based on consent or contract; legitimate interest is neither)
+- Even if applied: No meaningful individual data to port (aggregate statistics are non-identifying)
 
 ### Right to Object (Article 21)
 
 **User request**: "Stop processing my data for analytics"
 
-**Article 21 applies to processing based on Article 6(1)(e) or (f).** Where no personal data is processed, there is no Article 6 processing to object to and no visitor to single out — the right is not engaged.
+**Article 21 applies to processing based on Article 6(1)(e) or (f)** — so it applies to cookieless tools relying on legitimate interest, Sealmetrics included.
 
 **Cookieless analytics response**:
-- **If truly anonymous** (Sealmetrics): "Our analytics hold no personal data about you, so there is nothing to object to; no record of you exists to be excluded."
+- **If the identifier rotates daily and becomes unrecoverable** (Sealmetrics): the right applies, but in practice a request cannot be matched to a person (Article 11). Offer the forward-looking route: not loading the tracker for that visitor (see the options below).
 - **If minimal data (hashed IP)**: The right applies. Provide a mechanism (e.g., email address in privacy policy) and honor objections.
 
 **Implementation options for tools where the right applies**:
@@ -395,7 +397,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 **If nothing is stored but the script reads browser properties** (for example, to compute a session hash — as Sealmetrics does):
 - Reading those properties is "access" under Article 5(3), so the provision is engaged
 - The consent exemption then depends on the audience-measurement / strictly-necessary criteria (see [Analytics Cookies Exemption](./analytics-cookies-exemption.md))
-- ✅ GDPR is not engaged either when the stored dataset holds no personal data (Recital 26); for tools that keep a hashed IP, GDPR applies and legitimate interest is the usual basis
+- ✅ On the GDPR side, the session identifier is pseudonymised personal data while it can be re-keyed, and legitimate interest is the usual basis — for Sealmetrics as for tools that keep a hashed IP
 
 **If minimal cookies (e.g., session cookie)**:
 - "Strictly necessary" exception may apply (if truly needed for service)
@@ -428,7 +430,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - Cookieless by design
 - Aggregated measurement
 - First-party data only
-- Meets these criteria out of the box, with no configuration needed
+- Designed to meet these criteria out of the box, with no configuration needed (our self-assessment)
 
 **Server-side analytics**:
 - Parse server logs
@@ -444,7 +446,7 @@ When a cookie contains a unique identifier that can be linked to an individual�
 
 ### Step 2: Configure for Privacy
 
-**If using Sealmetrics**: the default configuration already meets the criteria above
+**If using Sealmetrics**: the default configuration is designed to meet the criteria above (our self-assessment)
 
 **If using other tools**:
 - ✅ Disable cookies
@@ -455,23 +457,23 @@ When a cookie contains a unique identifier that can be linked to an individual�
 - ✅ Disable any advertising features
 - ✅ Ensure first-party data only
 
-### Step 3: Document Why No Personal Data Is Processed
+### Step 3: Document the Legitimate Interest Assessment
 
-**No legitimate interest assessment is required** for a tool that processes no personal data: the three-part test exists to justify Article 6(1)(f) processing, and there is none. What accountability (Article 5(2)) calls for instead is a short record showing why the dataset sits outside the GDPR:
+Accountability (Article 5(2)) calls for a short legitimate interest assessment, because the analytics process pseudonymised data under Article 6(1)(f):
 
 1. **What is collected**:
-   - A small set of non-identifying fields (page, referrer, device category, country from browser timezone, and a session identifier re-keyed daily — see [What We Track](/security-privacy/what-we-track))
-   - Aggregated traffic statistics only
+   - A small set of fields (page, referrer, device category, country from browser timezone, and a session identifier re-keyed daily — see [What We Track](/security-privacy/what-we-track))
+   - Reports are aggregated
 
-2. **Why it is not personal data** (Recital 26):
+2. **Why the impact is minimal**:
    - No IP address stored, not even hashed
    - No cookie, local storage or other stored identifier on the device
-   - No cross-session linking; no visitor can be singled out
-   - Nothing written to the device (browser properties are read only to compute the daily-re-keyed session identifier)
+   - No cross-session linking; the session identifier rotates daily and cannot be reconstructed after rotation, not even by Sealmetrics
+   - Per-hit log purged after 1 day; reports are aggregated
 
-3. **Conclusion**: No personal data is processed, so no Article 6 basis (consent or legitimate interest) is needed.
+3. **Conclusion**: Pseudonymised operational data, processed under legitimate interest (Article 6(1)(f)); the three-part test above is passed.
 
-**If you also run identifier-based tools** (a cookie-based analytics platform, ad pixels, a tag manager that sets identifiers): those *do* process personal data and still need a legitimate interest assessment or consent for that processing. Document them separately.
+**If you also run identifier-based tools** (a cookie-based analytics platform, ad pixels, a tag manager that sets identifiers): those process persistent identifiers and need their own legitimate interest assessment or consent for that processing. Document them separately.
 
 **Retain this record**: For accountability (Article 5(2))
 
@@ -499,15 +501,15 @@ We use cookieless analytics to understand how visitors use our website. This hel
 - We do not use your data for advertising
 
 ### Legal Basis
-Our website analytics do not process personal data. No IP address is stored, no cookie or identifier is set, and no visitor can be singled out. Under GDPR Recital 26 this information is anonymous and falls outside the Regulation, so no legal basis under Article 6 (consent or legitimate interest) is required for it.
+Our website analytics store nothing on your device and no data that identifies you. No IP address is stored and no cookie is set. A session identifier is used in pseudonymised form: it rotates daily and, once rotated, cannot be reconstructed, not even by our provider. We process this pseudonymised data on the basis of our legitimate interest in understanding how our website is used (GDPR Article 6(1)(f)). Per-hit data is kept for 1 day; reports are aggregated.
 
 ### Your Rights
-Because our analytics hold no personal data about you, there is nothing in them to access, correct, delete or object to. You keep every right under the GDPR over any personal data we process elsewhere (for example an account or a support request).
+You have the rights of access, rectification, erasure, restriction and objection under the GDPR. Because the session identifier rotates daily and cannot be reconstructed, in practice we cannot match a request to the analytics records (GDPR Article 11). You keep every right over any other personal data we process (for example an account or a support request).
 
 For any question, contact: [privacy@example.com]
 
 ### Data Retention
-Analytics data is retained for 24 months, then deleted.
+Per-hit analytics data is deleted after 1 day. Aggregated reports, which do not identify anyone, are kept for [period].
 
 ### Analytics Provider
 We use [Sealmetrics/other provider], which acts as our data processor and does not use data for their own purposes.
@@ -515,13 +517,13 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 
 ### Step 5: Opt-Out Mechanism (Where One Is Needed)
 
-**With no personal data processed, no opt-out is legally required** — there is no record of the visitor to exclude. Offering one remains a courtesy some publishers choose.
+**The right to object (Article 21) applies to processing under legitimate interest**, so give visitors a way to exercise it. Because the identifier is unrecoverable after the daily rotation, the practical route is forward-looking: not loading the tracker for that visitor.
 
-**Technical opt-out** (courtesy, or required for identifier-based tools you also run):
+**Technical opt-out**:
 - Respect Do Not Track or Global Privacy Control. Sealmetrics does not read either signal, so honouring them means not loading the tracker when they are present — see [GPC and DNT signals](/compliance/gpc-dnt-signals)
 - Provide a dedicated opt-out page
 
-**Best practice**: If you offer it, make it easy; few users will actually opt out of non-invasive cookieless analytics.
+**Best practice**: Make it easy; few users will actually opt out of non-invasive cookieless analytics.
 
 ### Step 6: Maintain Records
 
@@ -531,9 +533,10 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 - Name and contact details of controller
 - Purposes of processing (website analytics)
 - Categories of data subjects (website visitors)
-- Categories of data (state expressly that no personal data is stored: no IP, no identifier; for hashed-IP tools, list the IP as personal data)
+- Categories of data (pseudonymised session identifier re-keyed daily and unrecoverable after rotation; no IP stored, no persistent identifier; for hashed-IP tools, list the hashed IP)
+- Legal basis (legitimate interest, Article 6(1)(f))
 - Categories of recipients (analytics provider, if any)
-- Retention periods (24 months)
+- Retention periods (Sealmetrics: per-hit log 1 day, aggregated reports per your plan)
 - Security measures
 
 **Maintain this record**: Available for supervisory authority if requested.
@@ -542,9 +545,9 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 
 ### Do I need a cookie banner for cookieless analytics?
 
-**Not necessarily.** If nothing is stored on or read from the device, the ePrivacy consent requirement does not apply. If the script reads browser properties (as Sealmetrics does to compute its session identifier), Article 5(3) is engaged and the exemption depends on the audience-measurement criteria — see [Analytics Cookies Exemption](./analytics-cookies-exemption.md).
+**Not necessarily.** If nothing is stored on or read from the device, the ePrivacy consent requirement does not apply. If the script reads browser properties (as Sealmetrics does to compute its session identifier), Article 5(3) is engaged and the exemption depends on the audience-measurement criteria — see [Analytics Cookies Exemption](./analytics-cookies-exemption.md). For Sealmetrics' own analytics our self-assessment is that no banner is needed; in Germany that is an open question, because the DSK does not extend §25(2) TDDDG to audience measurement — see [Germany](/compliance/germany-ttdsg-self-assessment).
 
-**GDPR is not engaged either** when nothing stored identifies a visitor: no IP (hashed or otherwise), no identifier, no cross-session linking. Under Recital 26 that dataset is anonymous and needs no legal basis — neither consent nor legitimate interest.
+**On the GDPR side**, a cookieless tool that stores no IP and no persistent identifier still processes minimal pseudonymised data (Sealmetrics: a session identifier that rotates daily and is unrecoverable after rotation). It relies on legitimate interest (Article 6(1)(f)), not consent.
 
 ### Can I use cookieless Google Analytics?
 
@@ -562,7 +565,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 
 **Tools that store a hashed IP** therefore still process personal data and need an Article 6 basis — usually legitimate interest, subject to the assessment above, with limited purpose, limited retention and pseudonymization.
 
-**Sealmetrics**: never stores the IP, hashed or otherwise, so the analytics dataset holds no personal data. The only touch is a transient in-memory check for bot and abuse filtering, which Recital 49 covers as security processing and which never reaches the analytics data (see [How Sealmetrics Blocks Bot Traffic](/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic)).
+**Sealmetrics**: never stores the IP, hashed or otherwise. The only touch is a transient in-memory check for bot and abuse filtering, which Recital 49 covers as security processing and which never reaches the analytics data (see [How Sealmetrics Blocks Bot Traffic](/compliance/compliance-overview/how-sealmetrics-blocks-bot-traffic)).
 
 ### What about device fingerprinting?
 
@@ -580,7 +583,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 
 **Best practice**:
 - **Raw data (IP addresses, logs)**: 24 months maximum (aligns with AEPD)
-- **Aggregated statistics**: Indefinitely (no personal data)
+- **Aggregated statistics**: Indefinitely (non-identifying)
 
 **Recommended approach**:
 1. Collect raw data
@@ -625,16 +628,16 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 
 | Aspect | Cookie-Based Analytics | Cookieless Analytics |
 |--------|------------------------|----------------------|
-| **GDPR legal basis** | Consent (usually) or contested legitimate interest | None required when no personal data is stored (Recital 26); legitimate interest only for tools that keep a hashed IP |
+| **GDPR legal basis** | Consent (usually) or contested legitimate interest | Legitimate interest (Article 6(1)(f)) for minimal, pseudonymised data |
 | **ePrivacy requirement** | Consent required | Not applicable (no cookies) |
-| **Cookie banner** | Required | Not required |
+| **Cookie banner** | Required | Not required where the exemption criteria are met |
 | **Data subject rights** | Complex (years of profiles) | Simple (minimal data) |
 | **Consent rate** | 50-80% (data loss) | N/A (no consent needed) |
 | **Privacy impact** | High (tracking over time) | Low (session-only) |
 | **User experience** | Interrupted (banner) | Seamless (no banner) |
 | **Compliance complexity** | High | Low |
 | **Cost** | High (CMP, legal review) | Low (no CMP needed) |
-| **Data quality** | Skewed (consent bias) | Complete (all visitors) |
+| **Data quality** | Skewed (consent bias) | Not reduced by consent rejection |
 
 **Clear winner**: Cookieless analytics for privacy, compliance, UX, and data quality.
 
@@ -659,14 +662,14 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 ## Key Takeaways
 
 1. **Cookieless analytics can comply with GDPR** without consent banners
-2. **No Article 6 basis is needed** when no personal data is processed (Recital 26) — Sealmetrics relies on neither legitimate interest nor consent for visitor analytics
+2. **Legitimate interest (Article 6(1)(f)) fits minimal, pseudonymised data** — Sealmetrics relies on it for its daily-rotating session identifier, which is unrecoverable after rotation; no consent under GDPR
 3. **ePrivacy consent not required** when nothing is stored on or read from the device; where browser properties are read, the audience-measurement exemption criteria decide
 4. **Data minimization by design**: Cookieless naturally satisfies GDPR principles
 5. **Simpler data subject rights**: Minimal data = minimal rights management
-6. **No cookie banner needed**: Better UX, complete data, lower costs
+6. **No cookie banner needed where the exemption criteria are met** (in Germany an open question): Better UX, complete data, lower costs
 7. **Future-proof**: Aligns with Digital Omnibus Article 88a(3)(c)
-8. **Document the Recital 26 analysis**: Record why no personal data is processed; a legitimate interest assessment is only needed for identifier-based tools you also run
+8. **Document the legitimate interest assessment**: Short for a minimal cookieless tool; keep separate ones for identifier-based tools you also run
 9. **Privacy policy disclosure**: Required even for cookieless analytics
-10. **Right to object**: Arises only where personal data is processed; not engaged for a no-personal-data dataset
+10. **Right to object**: Applies under legitimate interest; with an unrecoverable identifier, honour it going forward by not loading the tracker
 
 Cookieless analytics represent the evolution of privacy-respecting measurement. By eliminating persistent tracking while maintaining statistical accuracy, they satisfy both GDPR requirements and user expectations for privacy. As the Digital Omnibus makes clear, aggregated audience measurement for own use is not invasive surveillance—it's legitimate business intelligence. Cookieless analytics embody this principle in practice.

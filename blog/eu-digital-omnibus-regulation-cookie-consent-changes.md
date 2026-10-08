@@ -3,8 +3,8 @@ title: "EU Digital Omnibus: The End of Cookie Banner Fatigue?"
 description: "The EU Digital Omnibus proposes to eliminate cookie banners for 60% of websites. Here's what it means for web analytics."
 canonical_url: "https://docs.sealmetrics.com/blog/eu-digital-omnibus-regulation-cookie-consent-changes"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "123a36ebf8053930e148a367d67f5c37dc63ac7c5f0a31940d0e6d833c335faa"
+date_generated: "2026-10-08T15:37:02.762Z"
+source_hash: "71e60af4c5b66ed3940cedecfce849142291840c5a8336fe0ddc47f75369f534"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -92,11 +92,11 @@ You CANNOT do without consent:
 - No cross-site tracking
 - No data sharing
 
-**Result**: These tools will be explicitly compliant with Article 88a(3)(c) and can operate without consent banners.
+**Result**: As proposed, these tools would fall within Article 88a(3)(c) and could run their own analytics without consent banners.
 
 **Website operators** using first-party analytics will benefit from:
 - No cookie banner costs (€400-€5,000/year savings)
-- Complete traffic data (no loss from consent denial)
+- No traffic lost to consent denial
 - Better user experience
 - Simplified compliance
 
@@ -149,12 +149,12 @@ Sealmetrics is designed precisely for the Article 88a(3)(c) exemption:
 
 **✅ For your own use**: Sealmetrics acts as your processor; data is used solely for your audience insights.
 
-**Result**: Sealmetrics users can confidently operate **without cookie banners** under the new framework.
+**Result**: On our own assessment, Sealmetrics users could run its analytics **without a cookie banner** under the proposed framework (Germany remains an open question today — see [Germany](/compliance/germany-ttdsg-self-assessment)).
 
 **Advantages post-Omnibus:**
 - Legal certainty with explicit GDPR basis
-- Complete data (no consent-denial data loss)
-- Cost savings (no CMP, no banner)
+- No consent-denial data loss
+- Cost savings (no CMP, no banner for its own analytics)
 - Better UX (no interruptions)
 - Future-proof for browser signals (exempt analytics unaffected)
 
