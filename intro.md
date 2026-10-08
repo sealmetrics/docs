@@ -3,8 +3,8 @@ title: "Sealmetrics Docs: Consentless Analytics Platform"
 description: "Documentation for Sealmetrics — consentless analytics that measures traffic without cookies and, by its own assessment, without consent banners, storing nothing that identifies anyone, designed for GDPR."
 canonical_url: "https://docs.sealmetrics.com/intro"
 lang: "en"
-date_generated: "2026-10-08T17:05:41.082Z"
-source_hash: "b9f5c66dae204d2dc3b93918d3b808e7783f4167593e09c73b4ea1b8128e18e7"
+date_generated: "2026-10-08T17:47:47.862Z"
+source_hash: "bf7c92b9a14567dd02a03aa5614ae77238db5ec1a8c1bbf57b5df7b704c8e1ef"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "critical"
@@ -40,7 +40,7 @@ Sealmetrics is used by ecommerce brands, SaaS companies, and hospitality busines
 
 ---
 
-*Ready to see what your consent banner is hiding? [Start your free trial](https://my.sealmetrics.com/register) or [visit sealmetrics.com](https://sealmetrics.com) to learn more.*
+*Ready to see what your consent banner is hiding? [Open your free account](https://my.sealmetrics.com/register) — your first 1M events are free — or [visit sealmetrics.com](https://sealmetrics.com) to learn more.*
 
 **Note:**
 - Sealmetrics measures traffic without cookies, persistent identifiers or (by our self-assessment; Germany: open question) consent banners, so banner rejection does not remove visits; consent-based tools miss the visitors who reject the banner, by an amount specific to each site — measure it side by side.

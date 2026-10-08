@@ -3,8 +3,8 @@ title: "Complete Guide to Cookieless Analytics 2026"
 description: "Cookieless analytics measures visitors without consent banners: how it works, why cookie-based tools lose the visitors who reject or ignore the cookie banner, and how to set it up."
 canonical_url: "https://docs.sealmetrics.com/guides/complete-guide-cookieless-analytics"
 lang: "en"
-date_generated: "2026-10-08T17:05:41.082Z"
-source_hash: "f7355cde73dcd7d7967d5e0bf39d64707679466f63e3f0cd79a44ac33a184454"
+date_generated: "2026-10-08T17:47:47.862Z"
+source_hash: "e285766a2e09480c02e0493b756d1a689a3abe4070c5ff289198b4665e44856b"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -185,7 +185,7 @@ Implementing cookieless analytics depends on your platform, but the general proc
 ### Sealmetrics Implementation (Simplest Option)
 
 **Step 1: Create Account**
-Visit Sealmetrics.com and sign up. Your card will not be charged during the 14-day free trial.
+[Open your free account](https://my.sealmetrics.com/register). Your first 1M events are free, with no card; paid plans only start when you choose one.
 
 **Step 2: Add Tracking Code**
 Sealmetrics provides a single JavaScript snippet. Add this to your website's `<head>` section.

@@ -3,8 +3,8 @@ title: "GA4 vs Sealmetrics — Complete Comparison"
 description: "Detailed comparison of Google Analytics 4 and Sealmetrics covering data accuracy, privacy compliance, features, and pricing."
 canonical_url: "https://docs.sealmetrics.com/faq/ga4-vs-sealmetrics"
 lang: "en"
-date_generated: "2026-10-08T17:05:41.082Z"
-source_hash: "4f9194aadb29b3e40b47ef1446b9be37c55861c87829bede141f48cc5b53cb8d"
+date_generated: "2026-10-08T17:47:47.862Z"
+source_hash: "821a61be7733a1903c0d336156420888dbc1bd043989a0df3bc8bd4bd84eff5a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -234,4 +234,4 @@ The question is not whether GA4 or Sealmetrics has more features. The question i
 
 ---
 
-*Need help deciding? Contact us at support@sealmetrics.com or [start a free trial](https://my.sealmetrics.com/register).*
+*Need help deciding? Contact us at support@sealmetrics.com or [open your free account](https://my.sealmetrics.com/register) — your first 1M events are free.*

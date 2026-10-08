@@ -3,8 +3,8 @@ title: "GDPR Compliant Analytics: Complete Framework 2026"
 description: "GDPR framework for web analytics: which legal basis you actually need, the technical requirements, and how to stop losing the visitors who reject or ignore the cookie banner."
 canonical_url: "https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework"
 lang: "en"
-date_generated: "2026-10-08T17:05:41.082Z"
-source_hash: "004d77d18bc225ed34860a9ddf6776efaf5f1838d68f86a77d9c8b86e445dec3"
+date_generated: "2026-10-08T17:47:47.862Z"
+source_hash: "dc3ab838ff0d13c33717ed634e7d9d410ba682c04e4b9f1c05c224aa90079bd5"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -680,7 +680,7 @@ Sealmetrics satisfies all of these by default:
 
 Stop compromising between compliance and complete analytics data.
 
-Start your 14-day free trial: [Sealmetrics.com](https://sealmetrics.com)
+[Open your free account](https://my.sealmetrics.com/register): your first 1M events are free, with no card.
 
 ---
 

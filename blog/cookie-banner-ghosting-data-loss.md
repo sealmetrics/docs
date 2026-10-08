@@ -3,8 +3,8 @@ title: "Cookie Banner Ghosting: Why Analytics Loses Part of Your Data"
 description: "Many visitors never answer the cookie banner — they ignore it. Ghosting, not rejection, is the quiet reason cookie-based analytics loses the visitors who reject or ignore the cookie banner."
 canonical_url: "https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss"
 lang: "en"
-date_generated: "2026-10-08T17:05:41.082Z"
-source_hash: "69e51a42f2ed33c996a90694ed1cbd70172cc580c55dcaf9e6ec142b58df6bc4"
+date_generated: "2026-10-08T17:47:47.862Z"
+source_hash: "6903855288a9976b302514a74529474d11944227b71298736421dad98e6cdb02"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -1116,7 +1116,7 @@ The asymmetry is the argument: migrating to Sealmetrics takes 15 minutes of impl
 
 Sealmetrics measures all the traffic you lose today to the cookie banner, eliminates banner ghosting, eliminates cookie rejection, and does it without storing anything on the device or any data that identifies anyone — which is what removes the consent question rather than merely answering it.
 
-**Stop guessing at the missing traffic.** [Try Sealmetrics free for 14 days](https://my.sealmetrics.com/register) and see your complete visitor base for the first time.
+**Stop guessing at the missing traffic.** [Open your free account](https://my.sealmetrics.com/register) — your first 1M events are free, with no card — and measure the gap on your own site.
 
 ---
 

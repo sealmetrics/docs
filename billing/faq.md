@@ -3,8 +3,8 @@ title: "Billing FAQ"
 description: "Frequently asked questions about Sealmetrics pricing, billing, and payments."
 canonical_url: "https://docs.sealmetrics.com/billing/faq"
 lang: "en"
-date_generated: "2026-10-05T10:32:44.968Z"
-source_hash: "6a224df4e8820d7d3a6a5ce35e13fe3f7a661cb041ced1aacb75bf94a052208f"
+date_generated: "2026-10-08T17:47:47.862Z"
+source_hash: "43f73ff2259bc43fb04ec3ee387d604d5f5d3182c1b1620488e7fe9b13dfe721"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -31,7 +31,7 @@ Common questions about plans, pricing, and billing.
 
 ### Can I try before I buy?
 
-Yes! All plans include a **14-day free trial** with full features. You choose a plan and enter a payment method in the secure Stripe checkout to start the trial — but **you are not charged until the trial ends**, and you can cancel anytime during the 14 days at no cost.
+Yes. Every account starts with its **first 1M events free** — in total over the life of the account, not per month — with no card required. Paid plans (Growth and Scale) can also be tried for **14 days**: you enter a payment method in the secure Stripe checkout, but **you are not charged until the trial ends**, and you can cancel anytime during the 14 days at no cost.
 
 ### Is there a free plan?
 

@@ -3,8 +3,8 @@ title: "What is Consentless Analytics?"
 description: "What consentless analytics is, the small set of non-identifying fields Sealmetrics records, and why storing nothing on the device and nothing that identifies anyone means, on our self-assessment, no consent banner is required (in Germany an open question)."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/consentless-analytics"
 lang: "en"
-date_generated: "2026-10-08T17:05:41.082Z"
-source_hash: "9d7a20318ed5350f7ccceda502e97e781b1f4d86da558833fe3183bdd1d335b1"
+date_generated: "2026-10-08T17:47:47.862Z"
+source_hash: "030efcffed99061f4edfaba0804f051e2231afb1cffcc72cddd9a9b7ada1820f"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -234,4 +234,4 @@ Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP
 
 ---
 
-*Ready to see your real traffic numbers? [Start a free trial](https://my.sealmetrics.com/register) — setup takes about 4 minutes, and on our self-assessment no cookie banner is required for its own analytics.*
+*Ready to see your real traffic numbers? [Open your free account](https://my.sealmetrics.com/register) — your first 1M events are free, setup takes about 4 minutes, and on our self-assessment no cookie banner is required for its own analytics.*

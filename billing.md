@@ -3,8 +3,8 @@ title: "Plans & Pricing"
 description: "Overview of Sealmetrics plans, pricing, and what's included in each tier."
 canonical_url: "https://docs.sealmetrics.com/billing"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "fe7150549cdc7dad65a0b9b7922813e8f051ac7ae2e9dbeac94c084cb8cb3c09"
+date_generated: "2026-10-08T17:47:47.862Z"
+source_hash: "a1495ca56d101a95631021ae7c317e945bae9d3175f94f27519776802bbe71b5"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -116,7 +116,7 @@ Yes, you can upgrade or downgrade at any time. Changes take effect immediately:
 
 ### Is there a free trial?
 
-Yes, all plans include a 14-day free trial with full features. You enter a payment method when you start, but you're not charged until the trial ends — cancel before then and you pay nothing.
+Every account starts with its first 1M events free, in total and with no card. Paid plans can also be tried for 14 days: you enter a payment method when you start, but you're not charged until the trial ends — cancel before then and you pay nothing.
 
 ### What happens if I exceed my event limit?
 

@@ -3,7 +3,7 @@ title: "Sealmetrics vs Google Analytics 4: consent-based vs consentless measurem
 description: "GA4 needs cookies and consent, so it loses the visitors who reject or ignore the cookie banner. Sealmetrics measures without cookies or IP storage, hosted in Dublin; no banner, by our self-assessment."
 canonical_url: "https://docs.sealmetrics.com/compare/google-analytics-4"
 lang: "en"
-date_generated: "2026-10-08T17:05:41.082Z"
+date_generated: "2026-10-08T17:47:47.862Z"
 source_hash: "f1c55644a1fb2a62a18476b6692d8802b9f312239e422f99d5fd0f276e73a33c"
 content_type: "documentation"
 owner: "docs"

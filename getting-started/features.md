@@ -3,8 +3,8 @@ title: "Features"
 description: "Explore the complete feature set of Sealmetrics - from core analytics reports to API access, conversion tracking, and privacy-first capabilities."
 canonical_url: "https://docs.sealmetrics.com/getting-started/features"
 lang: "en"
-date_generated: "2026-10-08T17:05:41.082Z"
-source_hash: "60f814a6ddffa49578b979f2ea7bba09dc12c958313fc16e75ced74bfc5ffec5"
+date_generated: "2026-10-08T17:47:47.862Z"
+source_hash: "285ad20fcbc982c288a9e2a4429d11741eec378ee5ec17713c94bacbf760b219"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -249,7 +249,7 @@ Clear visibility into your event consumption. No overage charges — if you cons
 
 Sealmetrics proves you don't need to compromise between analytics and privacy. Get consent-independent data, powerful insights, and peace of mind—all in one platform.
 
-Ready to measure your traffic the right way? Start your free trial today.
+Ready to measure your traffic the right way? [Open your free account](https://my.sealmetrics.com/register) — your first 1M events are free, with no card.
 
 **Note:**
 - Nine core reports (Overview, Evolution, Pages, Sources, Geography, Devices, Conversions, Properties, Funnel) plus conversion, e-commerce and custom event tracking with last-click UTM attribution.

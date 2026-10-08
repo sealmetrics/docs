@@ -3,8 +3,8 @@ title: "Long-Term Analytics: 24-Month Data Retention Without Consent"
 description: "24-month analytics data retention without consent. How cookieless tracking enables long-term analysis with a design built to comply with the GDPR."
 canonical_url: "https://docs.sealmetrics.com/blog/long-term-analytics-data-retention"
 lang: "en"
-date_generated: "2026-10-08T17:05:41.082Z"
-source_hash: "61f2308e045efc1f95b097666b0110b48fe4fecd1ce562b4c0b026e7eadd5680"
+date_generated: "2026-10-08T17:47:47.862Z"
+source_hash: "f9a291b78d33cf28236e0f787e4866d1b095a320b88e0f1b2e69c3ed6817c24b"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -369,7 +369,7 @@ Unlike Google Analytics (which deletes data when consent expires), Plausible (wh
 
 **Ready to gain 24 months of insight without a consent banner for your analytics?**
 
-Start your free trial at [sealmetrics.com](https://sealmetrics.com) and experience analytics that doesn't expire with user consent.
+[Open your free account](https://my.sealmetrics.com/register) — your first 1M events are free, with no card — and experience analytics that doesn't depend on user consent.
 
 ## Additional Resources
 
