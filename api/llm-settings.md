@@ -3,8 +3,8 @@ title: "LLM Settings (BYOK)"
 description: "Manage per-user Bring-Your-Own-Key LLM configs for LENS AI — store, test, and set default keys for OpenAI, Anthropic, Gemini, or DeepSeek"
 canonical_url: "https://docs.sealmetrics.com/api/llm-settings"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "1c8bd6301eb9f544056b9e3304ecab16ecb3ef6f5ca83691b6e3b10897de1ac0"
+date_generated: "2026-10-08T07:32:59.156Z"
+source_hash: "58564c77185cd6b8dbc5078f6e0d1b2215e9629955e2b80ee2c5d070b45ad269"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -60,9 +60,9 @@ No auth scope required beyond a valid session. Returns the BYOK-capable provider
       "requires_api_key": true,
       "requires_plan_upgrade": false,
       "default_models": {
-        "simple": "claude-3-5-haiku-20241022",
-        "complex": "claude-sonnet-4-20250514",
-        "critical": "claude-opus-4-20250514"
+        "simple": "claude-haiku-5-5",
+        "complex": "claude-sonnet-5-5",
+        "critical": "claude-opus-5-5"
       },
       "documentation_url": "https://docs.anthropic.com/"
     }
@@ -94,7 +94,7 @@ GET /users/me/llm-settings
       "api_key_configured": true,
       "api_key_last_4": "abcd",
       "model_simple": null,
-      "model_complex": "claude-sonnet-4-20250514",
+      "model_complex": "claude-sonnet-5-5",
       "model_critical": null,
       "deepseek_base_url": null,
       "is_enabled": true,
@@ -106,7 +106,7 @@ GET /users/me/llm-settings
 }
 ```
 
-`model_simple` / `model_complex` / `model_critical` are per-tier overrides — `null` means the provider's default model for that tier is used. The stored API key is never returned.
+`model_simple` / `model_complex` / `model_critical` are per-tier overrides — `null` means the provider's default model for that tier is used. An override that names a model Anthropic has retired (for example `claude-sonnet-4-20250514`) is replaced with its current equivalent when read, so it doesn't fail with `not_found_error`. The stored API key is never returned.
 
 ---
 
@@ -202,7 +202,7 @@ Validate a provider configuration without saving it. Pass `api_key` to test a fr
   "provider": "anthropic",
   "message": "Connection OK",
   "latency_ms": 420,
-  "model_available": "claude-sonnet-4-5"
+  "model_available": "claude-sonnet-5-5"
 }
 ```
 

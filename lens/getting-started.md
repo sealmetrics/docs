@@ -3,8 +3,8 @@ title: "Getting Started with LENS"
 description: "Set up LENS AI and start receiving intelligent insights about your analytics data."
 canonical_url: "https://docs.sealmetrics.com/lens/getting-started"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "53f6d19d77e72b1054c5d5416d8672d45ad3d5689cedcac71bf131d109c18df3"
+date_generated: "2026-10-08T07:32:59.156Z"
+source_hash: "49f15ac73ec6e00bb2ecdcd2611923fef79511d31d19a60845752b47dc6b6e01"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -55,7 +55,7 @@ flowchart LR
 | Provider | Simple tasks | Complex / critical tasks |
 |----------|--------------|--------------------------|
 | **Seal AI Private** (platform) | Managed for you | Managed for you |
-| Anthropic (BYOK) | `claude-3-5-haiku` | `claude-sonnet-4` / `claude-opus-4` |
+| Anthropic (BYOK) | `claude-haiku-5-5` | `claude-sonnet-5-5` / `claude-opus-5-5` |
 | OpenAI (BYOK) | `gpt-4o-mini` | `gpt-4o` |
 | DeepSeek (BYOK) | `deepseek-chat` | `deepseek-chat` |
 | Google Gemini (BYOK) | `gemini-2.5-flash` | `gemini-2.5-pro` |

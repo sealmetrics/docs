@@ -2640,7 +2640,7 @@ Ask LENS questions about your data in natural language:
 - *"Which campaigns are performing best this month?"*
 - *"Compare traffic from Google vs Facebook"*
 
-The assistant supports two provider modes: **[Seal AI Private](/billing/seal-ai-private)** (the managed EU platform LLM, no key required — usage counts against your org's monthly 5M-token quota plus any purchased packs) and **bring-your-own-key (BYOK)** with Anthropic (`claude-3-5-haiku` / `claude-sonnet-4` / `claude-opus-4`), OpenAI (`gpt-4o-mini` / `gpt-4o`), DeepSeek (`deepseek-chat`), or Google Gemini (`gemini-2.5-flash` / `gemini-2.5-pro`). BYOK has no quota — you pay your provider directly. LENS picks the appropriate model automatically based on task complexity.
+The assistant supports two provider modes: **[Seal AI Private](/billing/seal-ai-private)** (the managed EU platform LLM, no key required — usage counts against your org's monthly 5M-token quota plus any purchased packs) and **bring-your-own-key (BYOK)** with Anthropic (`claude-haiku-5-5` / `claude-sonnet-5-5` / `claude-opus-5-5`), OpenAI (`gpt-4o-mini` / `gpt-4o`), DeepSeek (`deepseek-chat`), or Google Gemini (`gemini-2.5-flash` / `gemini-2.5-pro`). BYOK has no quota — you pay your provider directly. LENS picks the appropriate model automatically based on task complexity.
 
 [Learn more about the AI assistant →](/lens/ai-assistant)
 
@@ -3046,7 +3046,7 @@ flowchart LR
 | Provider | Simple tasks | Complex / critical tasks |
 |----------|--------------|--------------------------|
 | **Seal AI Private** (platform) | Managed for you | Managed for you |
-| Anthropic (BYOK) | `claude-3-5-haiku` | `claude-sonnet-4` / `claude-opus-4` |
+| Anthropic (BYOK) | `claude-haiku-5-5` | `claude-sonnet-5-5` / `claude-opus-5-5` |
 | OpenAI (BYOK) | `gpt-4o-mini` | `gpt-4o` |
 | DeepSeek (BYOK) | `deepseek-chat` | `deepseek-chat` |
 | Google Gemini (BYOK) | `gemini-2.5-flash` | `gemini-2.5-pro` |
@@ -28154,9 +28154,9 @@ No auth scope required beyond a valid session. Returns the BYOK-capable provider
       "requires_api_key": true,
       "requires_plan_upgrade": false,
       "default_models": {
-        "simple": "claude-3-5-haiku-20241022",
-        "complex": "claude-sonnet-4-20250514",
-        "critical": "claude-opus-4-20250514"
+        "simple": "claude-haiku-5-5",
+        "complex": "claude-sonnet-5-5",
+        "critical": "claude-opus-5-5"
       },
       "documentation_url": "https://docs.anthropic.com/"
     }
@@ -28188,7 +28188,7 @@ GET /users/me/llm-settings
       "api_key_configured": true,
       "api_key_last_4": "abcd",
       "model_simple": null,
-      "model_complex": "claude-sonnet-4-20250514",
+      "model_complex": "claude-sonnet-5-5",
       "model_critical": null,
       "deepseek_base_url": null,
       "is_enabled": true,
@@ -28200,7 +28200,7 @@ GET /users/me/llm-settings
 }
 ```
 
-`model_simple` / `model_complex` / `model_critical` are per-tier overrides — `null` means the provider's default model for that tier is used. The stored API key is never returned.
+`model_simple` / `model_complex` / `model_critical` are per-tier overrides — `null` means the provider's default model for that tier is used. An override that names a model Anthropic has retired (for example `claude-sonnet-4-20250514`) is replaced with its current equivalent when read, so it doesn't fail with `not_found_error`. The stored API key is never returned.
 
 ---
 
@@ -28296,7 +28296,7 @@ Validate a provider configuration without saving it. Pass `api_key` to test a fr
   "provider": "anthropic",
   "message": "Connection OK",
   "latency_ms": 420,
-  "model_available": "claude-sonnet-4-5"
+  "model_available": "claude-sonnet-5-5"
 }
 ```
 
@@ -57936,9 +57936,9 @@ You can override the default model used at three complexity levels. Leave a fiel
 
 | Level | Anthropic default | OpenAI default | Gemini default | DeepSeek Cloud default |
 |-------|-------------------|----------------|----------------|------------------------|
-| **Simple** | `claude-3-5-haiku-20241022` | `gpt-4o-mini` | `gemini-2.5-flash` | `deepseek-chat` |
-| **Complex** | `claude-sonnet-4-20250514` | `gpt-4o` | `gemini-2.5-flash` | `deepseek-chat` |
-| **Critical** | `claude-opus-4-20250514` | `gpt-4o` | `gemini-2.5-pro` | `deepseek-chat` |
+| **Simple** | `claude-haiku-5-5` | `gpt-4o-mini` | `gemini-2.5-flash` | `deepseek-chat` |
+| **Complex** | `claude-sonnet-5-5` | `gpt-4o` | `gemini-2.5-flash` | `deepseek-chat` |
+| **Critical** | `claude-opus-5-5` | `gpt-4o` | `gemini-2.5-pro` | `deepseek-chat` |
 
 Use **Reset to defaults** to clear all overrides.
 
@@ -57990,6 +57990,16 @@ When you use a cloud provider, aggregated analytics data (not raw events, no per
 2. Check the provider's status page for outages
 3. Ensure your network allows outbound API calls
 4. Try a different provider
+
+### Lens chat fails with Anthropic, or Anthropic emails you about a retired model
+
+**Symptom:** with an Anthropic key and the model fields left blank, Lens chat requests fail with `not_found_error`. Anthropic may also email you that your organization is still calling a retired model such as `claude-sonnet-4-20250514`, naming the API key you added to Sealmetrics.
+
+**Cause:** this is not a problem with your Anthropic account or your key. Before October 2026, a blank model field fell back to `claude-sonnet-4-20250514`, which Anthropic retired on June 15, 2026. Anthropic retires older models periodically, so the same thing can happen again with a future model.
+
+**What Sealmetrics does:** the defaults are now `claude-haiku-5-5`, `claude-sonnet-5-5` and `claude-opus-5-5`, and a retired Anthropic model ID saved as an override is replaced with its current equivalent when it is read. You don't need to change anything.
+
+**If you want to fix it yourself straight away**, open **My Account → LLM Providers**, click **Edit** on the Anthropic card, enter `claude-sonnet-5-5` in the **Complex** model field and click **Save Settings**. Leaving the field blank afterwards is also fine: you get the default.
 
 ### "API key is required" when saving
 

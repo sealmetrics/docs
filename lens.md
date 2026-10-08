@@ -3,8 +3,8 @@ title: "LENS AI Overview"
 description: "The natural-language assistant for your analytics data — ask questions, build reports. Automated detection rules are on the roadmap."
 canonical_url: "https://docs.sealmetrics.com/lens"
 lang: "en"
-date_generated: "2026-09-14T13:48:10.438Z"
-source_hash: "5e039a9f02c0569b3a84ac5a7cbc22948ef1564965fd2de4b5f48d15eeefa8d1"
+date_generated: "2026-10-08T07:32:59.156Z"
+source_hash: "3754bcdd1e160b4817c1459ca24b81a7719c456640dcd94ee50bcab4f6a67336"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -63,7 +63,7 @@ Ask LENS questions about your data in natural language:
 - *"Which campaigns are performing best this month?"*
 - *"Compare traffic from Google vs Facebook"*
 
-The assistant supports two provider modes: **[Seal AI Private](/billing/seal-ai-private)** (the managed EU platform LLM, no key required — usage counts against your org's monthly 5M-token quota plus any purchased packs) and **bring-your-own-key (BYOK)** with Anthropic (`claude-3-5-haiku` / `claude-sonnet-4` / `claude-opus-4`), OpenAI (`gpt-4o-mini` / `gpt-4o`), DeepSeek (`deepseek-chat`), or Google Gemini (`gemini-2.5-flash` / `gemini-2.5-pro`). BYOK has no quota — you pay your provider directly. LENS picks the appropriate model automatically based on task complexity.
+The assistant supports two provider modes: **[Seal AI Private](/billing/seal-ai-private)** (the managed EU platform LLM, no key required — usage counts against your org's monthly 5M-token quota plus any purchased packs) and **bring-your-own-key (BYOK)** with Anthropic (`claude-haiku-5-5` / `claude-sonnet-5-5` / `claude-opus-5-5`), OpenAI (`gpt-4o-mini` / `gpt-4o`), DeepSeek (`deepseek-chat`), or Google Gemini (`gemini-2.5-flash` / `gemini-2.5-pro`). BYOK has no quota — you pay your provider directly. LENS picks the appropriate model automatically based on task complexity.
 
 [Learn more about the AI assistant →](/lens/ai-assistant)
 

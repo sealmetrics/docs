@@ -3,8 +3,8 @@ title: "LLM Providers"
 description: "Choose the AI provider for the Lens chat assistant — the managed Seal AI Private (no key needed) or your own API key (BYOK)."
 canonical_url: "https://docs.sealmetrics.com/platform/settings/llm"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "9efa97d90068168d9e19459f98049a3fec4b4fba109477cc6cf63a5f9cd0d9f2"
+date_generated: "2026-10-08T07:32:59.156Z"
+source_hash: "249a7b014d829e674eeb68be4c4aea758a330f8880d8d6c62cc7027f29064f27"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -73,9 +73,9 @@ You can override the default model used at three complexity levels. Leave a fiel
 
 | Level | Anthropic default | OpenAI default | Gemini default | DeepSeek Cloud default |
 |-------|-------------------|----------------|----------------|------------------------|
-| **Simple** | `claude-3-5-haiku-20241022` | `gpt-4o-mini` | `gemini-2.5-flash` | `deepseek-chat` |
-| **Complex** | `claude-sonnet-4-20250514` | `gpt-4o` | `gemini-2.5-flash` | `deepseek-chat` |
-| **Critical** | `claude-opus-4-20250514` | `gpt-4o` | `gemini-2.5-pro` | `deepseek-chat` |
+| **Simple** | `claude-haiku-5-5` | `gpt-4o-mini` | `gemini-2.5-flash` | `deepseek-chat` |
+| **Complex** | `claude-sonnet-5-5` | `gpt-4o` | `gemini-2.5-flash` | `deepseek-chat` |
+| **Critical** | `claude-opus-5-5` | `gpt-4o` | `gemini-2.5-pro` | `deepseek-chat` |
 
 Use **Reset to defaults** to clear all overrides.
 
@@ -127,6 +127,16 @@ When you use a cloud provider, aggregated analytics data (not raw events, no per
 2. Check the provider's status page for outages
 3. Ensure your network allows outbound API calls
 4. Try a different provider
+
+### Lens chat fails with Anthropic, or Anthropic emails you about a retired model
+
+**Symptom:** with an Anthropic key and the model fields left blank, Lens chat requests fail with `not_found_error`. Anthropic may also email you that your organization is still calling a retired model such as `claude-sonnet-4-20250514`, naming the API key you added to Sealmetrics.
+
+**Cause:** this is not a problem with your Anthropic account or your key. Before October 2026, a blank model field fell back to `claude-sonnet-4-20250514`, which Anthropic retired on June 15, 2026. Anthropic retires older models periodically, so the same thing can happen again with a future model.
+
+**What Sealmetrics does:** the defaults are now `claude-haiku-5-5`, `claude-sonnet-5-5` and `claude-opus-5-5`, and a retired Anthropic model ID saved as an override is replaced with its current equivalent when it is read. You don't need to change anything.
+
+**If you want to fix it yourself straight away**, open **My Account → LLM Providers**, click **Edit** on the Anthropic card, enter `claude-sonnet-5-5` in the **Complex** model field and click **Save Settings**. Leaving the field blank afterwards is also fine: you get the default.
 
 ### "API key is required" when saving
 
