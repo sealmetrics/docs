@@ -13,7 +13,7 @@ keywords:
 
 # Sealmetrics vs Simple Analytics
 
-Sealmetrics and Simple Analytics are the two tools in this section with the most similar privacy architecture: neither sets cookies, neither collects IP addresses, and both derive the visitor's country from the browser timezone rather than from the IP. The main difference is scope — Simple Analytics is a deliberately minimal dashboard hosted in the Netherlands, while Sealmetrics is built around conversion attribution, e-commerce data and an AI layer, hosted in Dublin.
+Sealmetrics and Simple Analytics are the two tools in this section with the most similar privacy architecture: neither sets cookies, neither stores IP addresses, and both derive the visitor's country from the browser timezone rather than from the IP. The main difference is scope — Simple Analytics is a deliberately minimal dashboard hosted in the Netherlands, while Sealmetrics is built around conversion attribution, e-commerce data and an AI layer, hosted in Dublin.
 
 ## Side-by-side
 
@@ -36,7 +36,7 @@ Simple Analytics facts checked 2026-09-04 on simpleanalytics.com and docs.simple
 
 Simple Analytics collects timestamps, a truncated user agent, timezone-derived country, language, URL without query string, partial referrer, UTM parameters, viewport size, time on page and scroll depth. It has no visitor identifier: a pageview is counted as a new unique visit when the browser's Referer hostname is not the site's own domain, and as a follow-on pageview when it is. That heuristic gives a unique-visit count without any hash, cookie or IP.
 
-Sealmetrics collects timestamp, user agent, URL, referrer and browser timezone per hit, and groups hits within a visit using a session identifier: a hash of device characteristics computed in the browser, never written to the device and re-keyed on the server with a daily salt that is destroyed on rotation. Like Simple Analytics, it does not store the IP and reads country from the timezone. Unlike Simple Analytics, it reports entrances rather than unique visits, and it keeps conversions with revenue and item-level properties so that channel and campaign attribution is a first-class report rather than an event count.
+Sealmetrics collects URL, referrer, timestamp and browser timezone per hit (the user agent is read in flight for bot and device detection and not stored raw), and groups hits within a visit using a session identifier: a hash of device characteristics computed in the browser, never written to the device and re-keyed on the server with a daily salt that is destroyed on rotation. Like Simple Analytics, it does not store the IP and reads country from the timezone. Unlike Simple Analytics, it reports entrances rather than unique visits, and it keeps conversions with revenue and item-level properties so that channel and campaign attribution is a first-class report rather than an event count.
 
 ## When Simple Analytics is the better choice
 
@@ -54,7 +54,7 @@ Sealmetrics collects timestamp, user agent, URL, referrer and browser timezone p
 
 ### Do both tools really avoid IP addresses?
 
-Yes, per each vendor's documentation. Simple Analytics states it does not collect or store IP addresses and reads country from the timezone; Sealmetrics never persists the IP, uses it only in memory for anti-abuse checks, and also reads country from the timezone. This is the closest match in the comparison section.
+Yes, per each vendor's documentation. Simple Analytics states it does not collect or store IP addresses and reads country from the timezone; Sealmetrics doesn't store IPs — to filter bots it checks the IP in flight against a public list of automated-traffic IPs and doesn't keep it — and also reads country from the timezone. This is the closest match in the comparison section.
 
 ### How does Simple Analytics count unique visitors without an identifier?
 

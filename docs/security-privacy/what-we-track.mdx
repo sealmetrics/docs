@@ -20,7 +20,7 @@ Sealmetrics records a small set of **non-identifying variables** per page view (
 ## What We DO Track  
 ### What each hit carries
 
-Each page view ("hit") carries the following data points. The first four are the content of the hit; the timezone and the session identifier are what let Sealmetrics assign a country and tell a new entrance from a second pageview:
+Each page view ("hit") carries the following data points. The tracker sends the URL, the referrer, the timestamp, the timezone and an ephemeral session identifier (computed in the browser from device properties it reads); the user agent arrives with the request itself, and is used in flight only. The server also sees the IP: it is checked in flight against a public list of automated-traffic IPs to filter bots, and is not stored. The timezone and the session identifier are what let Sealmetrics assign a country and tell a new entrance from a second pageview:
 
 #### 1. Timestamp  
 - **Purpose:** time-based analysis and trend insights  
@@ -143,7 +143,7 @@ If it ships, it would store aggregate, per-hit **environmental** and **behaviora
 ## What We DO NOT Track
 
 ### No Identifying Data Stored
-❌ IP addresses (used in memory only, never persisted)
+❌ IP addresses (checked in flight against a public list of automated-traffic IPs to filter bots, never stored)
 ❌ User IDs
 ❌ Emails
 ❌ Phone numbers

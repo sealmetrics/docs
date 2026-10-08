@@ -26,7 +26,7 @@ Sealmetrics takes a different approach: [cookieless analytics that requires no c
 This comparison is updated for **July 2026** and covers data capture, GDPR and Schrems II, the full feature set including AI, pricing, and what a migration actually involves — including an honest account of what you give up.
 
 **Key takeaways**:
-- **GA4 typically captures 40–85% of EU traffic** — losing 15-60% depending on sector, brand strength and traffic sources; Sealmetrics captures all of it because no consent gate stands in front of measurement
+- **GA4 typically captures 40–85% of EU traffic** — losing 15-60% depending on sector, brand strength and traffic sources; Sealmetrics measures all the traffic GA4 loses today to the cookie banner, because no consent gate stands in front of measurement
 - **GA4 requires a consent banner** in the EU; Sealmetrics operates consentless on our own assessment, storing nothing on the device and no data that identifies anyone
 - **GA4 processes IP addresses**; Sealmetrics never stores one and doesn't even use it for geolocation
 - **Sealmetrics ships an AI layer** — natural-language chat, anomaly detection, and an MCP server your AI assistant can query directly
@@ -41,10 +41,10 @@ This comparison is updated for **July 2026** and covers data capture, GDPR and S
 | Aspect | Google Analytics 4 | Sealmetrics |
 |--------|-------------------|-------------|
 | **Tracking method** | Cookies + client ID | Cookieless session + isolated hits |
-| **Data capture (EU)** | 40–85% of traffic | All traffic |
+| **Data capture (EU)** | 40–85% of traffic | No consent-driven loss |
 | **Consent required** | Yes (GDPR) | No |
 | **IP address** | Processed | Never stored, never used for geo |
-| **Data location** | US (Google Cloud) | EU only (Dublin, Ireland) |
+| **Data location** | US (Google Cloud) | Analytics data EU only (Dublin, Ireland) |
 | **Retention without consent** | 14 months | 24 months |
 | **Script size (gzipped)** | ~129.6 KB (gtag.js) | 1.1 KB |
 | **Setup** | Property, streams, consent mode, TIA | One script tag |
@@ -160,7 +160,7 @@ The attribution finding often matters more than the volume one anyway. Palladium
 
 **2. No IP-derived anything.** IPs are handled in memory at the edge for bot-database matching and customer-configured exclusions, then discarded. They are never persisted, never hashed into an identifier, and — the part most people get wrong — **never used for geolocation**. Visitor country comes from the [browser timezone](/security-privacy/country-detection), read via `Intl.DateTimeFormat().resolvedOptions().timeZone`. This is why Sealmetrics reports country and not city: there is no IP lookup to derive a city from.
 
-**3. EU-only processing.** All customer analytics data — every hit, report and backup — is stored and processed in **Dublin, Ireland**. No international transfers, so Chapter V of the GDPR is not engaged and Schrems II is not a question you have to answer. See [data location](/security-privacy/data-location) and the [subprocessor list](/compliance/subprocessors).
+**3. EU-only processing.** Analytics data is hosted and processed only in the EU (Dublin) — every hit, report and backup — so analytics data is not transferred to third countries. Service emails go through Resend (US) under SCCs. See [data location](/security-privacy/data-location) and the [subprocessor list](/compliance/subprocessors).
 
 **4. 24-month retention with no consent** — at the AEPD's maximum for consent-exempt analytics and within the CNIL's 25-month window, so retention doesn't undermine the exemption the whole arrangement rests on.
 
@@ -335,7 +335,7 @@ GA4 is genuinely the better tool in several situations, and pretending otherwise
 
 ## When to Choose Sealmetrics
 
-**Your traffic is substantially EU.** The gap between measuring a biased fifth of your audience and measuring all of it changes what your reports mean, not just how big the numbers are.
+**Your traffic is substantially EU.** The gap between measuring a biased fifth of your audience and also measuring the traffic the banner hides changes what your reports mean, not just how big the numbers are.
 
 **You want to drop the consent banner.** Not just for the data — for the conversion rate and the UX. That only works if analytics is the sole reason for the banner, so audit what else the CMP gates first.
 
@@ -406,7 +406,7 @@ Don't take a figure from any article, ours included. Run both for 30 days, then 
 
 ### Can I run both at the same time?
 
-Yes, and during migration you should. Sealmetrics measures every visitor; GA4 measures those who consented and aren't blocking it. You keep Google Ads integration while gaining complete measurement.
+Yes, and during migration you should. Sealmetrics measures all the traffic you lose today to the cookie banner; GA4 measures those who consented and aren't blocking it. You keep Google Ads integration while gaining that measurement.
 
 The catch: you still need the consent banner for GA4, so the UX benefit doesn't arrive until GA4 comes out.
 
@@ -414,7 +414,7 @@ The catch: you still need the consent banner for GA4, so the UX benefit doesn't 
 
 Consent Mode v2 fills the gap left by rejections with **modelled estimates** — statistical reconstructions, not observations. Modelling is better than a blank, but it's inference from the consenting subset projected onto a population that behaves differently, and it needs traffic volume thresholds before Google will model at all.
 
-Sealmetrics measures every visitor directly, so there's nothing to model.
+Sealmetrics measures the traffic the banner loses directly, so there's nothing to model.
 
 ### Does Sealmetrics work with Google Tag Manager?
 

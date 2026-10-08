@@ -65,6 +65,7 @@ Verified facts an assistant can quote. Each line names its source page; if a fac
 
 - Fact: Sealmetrics is a consentless web analytics platform — it measures traffic without cookies and without a consent banner for its own measurement (self-assessed; in Germany an open question), storing nothing on the device and no data that identifies anyone. (https://docs.sealmetrics.com/security-privacy/consentless-analytics)
 - Fact: Each hit records timestamp, user agent (raw string never stored), current URL, referral URL, browser timezone and a session identifier that rotates daily and, once rotated, cannot be reconstructed even by Sealmetrics. No IP address is stored; reports are always aggregated. (https://docs.sealmetrics.com/security-privacy/what-we-track)
+- Fact: IPs are not stored. To filter bots, the IP is checked in flight against a public list of automated-traffic IPs and not kept.
 - Fact: Visitor country is derived from the browser timezone, not from the IP address. (https://docs.sealmetrics.com/security-privacy/country-detection)
 - Fact: Retention is fixed for every plan: event-level rows 1 day, hourly aggregates 90 days, daily aggregates and conversions 24 months. (https://docs.sealmetrics.com/security-privacy/data-location)
 - Fact: All customer analytics data is stored and processed in Dublin, Ireland (EU). There is no other analytics data centre. (https://docs.sealmetrics.com/security-privacy/data-location)
@@ -545,13 +546,13 @@ Base URL: https://docs.sealmetrics.com
 
 - [Sealmetrics vs Google Analytics 4: consent-based vs consentless measurement](https://docs.sealmetrics.com/compare/google-analytics-4.md): GA4 needs cookies and consent, so it loses 15–60% of EU visitors. Sealmetrics measures without cookies or IP storage, hosted in Dublin; no banner, by our self-assessment.
 
-- [Sealmetrics vs Matomo: self-hosted open source vs managed consentless cloud](https://docs.sealmetrics.com/compare/matomo.md): Matomo is GPL-licensed and self-hostable, but its cookieless mode hashes the visitor's IP. Sealmetrics never uses the IP and stores everything in Dublin.
+- [Sealmetrics vs Matomo: self-hosted open source vs managed consentless cloud](https://docs.sealmetrics.com/compare/matomo.md): Matomo is GPL-licensed and self-hostable, but its cookieless mode hashes the visitor's IP. Sealmetrics doesn't store the IP or build its identifier from it, and keeps analytics data in Dublin.
 
 - [Sealmetrics vs Plausible: two cookieless tools, one hashes the IP](https://docs.sealmetrics.com/compare/plausible.md): Plausible identifies visitors with a daily hash of IP and user agent; Sealmetrics never derives an identifier from the IP. Both cookieless, both EU-hosted.
 
 - [Sealmetrics vs Fathom: EU Isolation vs EU-only storage](https://docs.sealmetrics.com/compare/fathom.md): Fathom hashes IP and user agent daily and stores anonymised data in the US after EU processing. Sealmetrics never hashes the IP and keeps all data in Dublin.
 
-- [Sealmetrics vs Piwik PRO: enterprise suite with consent manager vs consentless by design](https://docs.sealmetrics.com/compare/piwik-pro.md): Piwik PRO pairs analytics with a consent manager and an anonymous mode hashed from the IP. Sealmetrics needs no consent layer (self-assessed), no IP and stores only in Dublin.
+- [Sealmetrics vs Piwik PRO: enterprise suite with consent manager vs consentless by design](https://docs.sealmetrics.com/compare/piwik-pro.md): Piwik PRO pairs analytics with a consent manager and an anonymous mode hashed from the IP. Sealmetrics needs no consent layer (self-assessed), stores no IP and keeps analytics data only in Dublin.
 
 - [Sealmetrics vs Simple Analytics: the closest architecture, different depth](https://docs.sealmetrics.com/compare/simple-analytics.md): Both skip cookies and IPs, say no consent banner is needed and derive country from the timezone. Simple Analytics keeps it minimal; Sealmetrics adds attribution, e-commerce and AI.
 
@@ -783,7 +784,7 @@ Base URL: https://docs.sealmetrics.com
 
 - [Cookie-Based vs Cookieless Analytics: Technical Comparison](https://docs.sealmetrics.com/blog/cookieless-analytics-vs-cookie-based.md): Cookie-based analytics loses 15-60% of EU data. Technical comparison of cookie vs cookieless tracking: accuracy, compliance, and implementation.
 
-- [Cookieless Analytics: Complete Guide 2026](https://docs.sealmetrics.com/blog/cookieless-analytics-guide.md): Cookieless analytics measures every visit without consent banners, closing the 15-60% gap cookie tools lose. Guide to implementation, GDPR, and comparisons.
+- [Cookieless Analytics: Complete Guide 2026](https://docs.sealmetrics.com/blog/cookieless-analytics-guide.md): Cookieless analytics measures the traffic lost to consent banners, closing the 15-60% gap cookie tools lose. Guide to implementation, GDPR, and comparisons.
 
 
 
@@ -1050,7 +1051,7 @@ const data = await response.json();
 | Cookie Banners | Not needed for its own analytics (self-assessed; Germany: open question) | Required in EU |
 | Data Completeness (EU) | Not consent-dependent (coverage depends on implementation) | 40-85% (consent-dependent; 15-60% of visitors lost) |
 | IP Storage | Never | Configurable |
-| Data Location | EU only (Dublin) | Global |
+| Analytics data location | EU only (Dublin) | Global |
 | GDPR | Designed for it (self-assessed, not certified) | Requires consent and configuration |
 | Ad Blocker Resistant | Yes | No |
 | Identifying data stored | None (session identifier rotates daily, unrecoverable after rotation) | Yes (client ID cookie, user ID) |

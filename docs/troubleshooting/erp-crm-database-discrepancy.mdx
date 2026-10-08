@@ -66,7 +66,7 @@ If you do **not** see that request, the conversion pixel is not being called.
 ### How to fix it
 
 - Make sure the conversion pixel lives on **every confirmation page**, including those served by external payment processors or third-party checkouts.
-- For payment methods that skip the browser confirmation (PayPal IPN, bank transfer, manual orders), use a **server-side fallback** or fire the conversion when the user is redirected back to your site.
+- For payment methods that skip the browser confirmation (PayPal IPN, bank transfer, manual orders), fire the conversion when the user is redirected back to your site — outside the Shopify integration there is no server-to-server conversion endpoint, so the conversion has to reach Sealmetrics from the browser.
 - Remove conditionals that exclude segments of real conversions.
 - Validate your checkout flow end-to-end for **each payment method and country** you support.
 

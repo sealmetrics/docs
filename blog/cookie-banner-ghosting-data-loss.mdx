@@ -387,7 +387,7 @@ Cookieless analytics platforms like Sealmetrics break the paradox by removing co
 2. **No consent required**, because nothing is stored on the device, the browser properties read for the session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3), and the session identifier rotates daily and becomes unrecoverable (our self-assessment)
 3. **No banner displayed** to users
 4. **No ghosting possible** (nothing to ghost)
-5. **Every visitor measured**, with no consent mechanism in the way
+5. **No consent mechanism in the way**: we measure all the traffic you lose today to the cookie banner
 
 Banner ghosting is eliminated because the banner itself is eliminated. Users cannot avoid a decision they're never asked to make.
 
@@ -441,9 +441,9 @@ When a user visits a site using Sealmetrics:
 2. Content is accessible instantly (no friction)
 3. Sealmetrics measurement occurs in the background (no user awareness required)
 4. No decision required from user (no cognitive load)
-5. Every visit measured (no consent-driven data loss)
+5. No consent-driven data loss: we measure all the traffic you lose today to the cookie banner
 
-From the user's perspective, the site "just works." From the business perspective, analytics "just works." No banner. No ghosting. No rejection. No data loss.
+From the user's perspective, the site "just works." From the business perspective, analytics "just works." No banner. No ghosting. No rejection. No consent-driven data loss.
 
 ### Why This Approach Eliminates Rejection
 
@@ -515,7 +515,7 @@ Consent-driven loss: none
 
 **Result**:
 - No consent banner for its own analytics (self-assessed; Germany: open question)
-- Every visit measured
+- The traffic you lose today to the cookie banner, measured
 - No consent banner, so no consent record to maintain
 - Real-time analytics
 - No consent-driven data loss
@@ -1072,7 +1072,7 @@ Implementation takes 10-15 minutes: install Sealmetrics tracking code (2 minutes
 
 ### Will I lose conversion tracking without cookies?
 
-No. Sealmetrics tracks conversions, goals, and custom events without requiring cookies. Conversion tracking covers every visit, not just the visitors who accepted a banner. Marketing attribution (source, medium, campaign) is captured via referrer and UTM parameters without consent requirements. ROI calculation becomes more accurate because you see all conversions, not just those from cookie accepters.
+No. Sealmetrics tracks conversions, goals, and custom events without requiring cookies. Conversion tracking is not limited to the visitors who accepted a banner. Marketing attribution (source, medium, campaign) is captured via referrer and UTM parameters without consent requirements. ROI calculation becomes more accurate because you also see conversions from visitors who never accepted cookies, not just those from cookie accepters.
 
 ### What about users who block JavaScript?
 
@@ -1130,7 +1130,7 @@ The asymmetry is the argument: migrating to Sealmetrics takes 15 minutes of impl
 
 **For businesses operating in the EU**, this isn't really a tooling preference. Losing between 15% and 60% of your visitors is survivable; losing them *non-randomly* is what quietly bends your conclusions. You cannot optimize what you cannot measure. You cannot attribute revenue you cannot see. And you cannot correct a bias you don't know the size of.
 
-Sealmetrics measures every visit, eliminates banner ghosting, eliminates cookie rejection, and does it without storing anything on the device or any data that identifies anyone — which is what removes the consent question rather than merely answering it.
+Sealmetrics measures all the traffic you lose today to the cookie banner, eliminates banner ghosting, eliminates cookie rejection, and does it without storing anything on the device or any data that identifies anyone — which is what removes the consent question rather than merely answering it.
 
 **Stop guessing at the missing 15-60%.** [Try Sealmetrics free for 14 days](https://my.sealmetrics.com/register) and see your complete visitor base for the first time.
 

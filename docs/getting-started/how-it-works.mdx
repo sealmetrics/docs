@@ -13,7 +13,7 @@ keywords:
 
 # How Sealmetrics Works
 
-Sealmetrics measures your website traffic without cookies or anything stored on the visitor's device — and, by our self-assessment, without a consent banner for its own analytics — on a simple principle: **measure everything, identify no one**. You add one script tag; every visit is recorded as a set of non-identifying signals; your reports show aggregate patterns.
+Sealmetrics measures your website traffic without cookies or anything stored on the visitor's device — and, by our self-assessment, without a consent banner for its own analytics — on a simple principle: **measure the visit, identify no one**. You add one script tag; each visit the tracker sees is recorded as a set of non-identifying signals; your reports show aggregate patterns.
 
 ## What gets recorded
 
@@ -39,7 +39,7 @@ What you do not get is anything that needs a persistent identifier: unique visit
 ## How the data flows
 
 1. The tracker (1.1 KB gzipped, asynchronous) detects page views and the events you instrument.
-2. Hits are sent to Sealmetrics infrastructure in **Dublin, Ireland**. IPs are used in memory only for anti-abuse checks and are never persisted in the analytics database.
+2. Hits are sent to Sealmetrics infrastructure in **Dublin, Ireland**. We don't store IPs. To filter bots we check the IP in flight against a public list of automated-traffic IPs, and don't keep it.
 3. Each hit is processed on its own and aggregated. Event-level rows are purged after 1 day; daily aggregates and conversions are kept 24 months.
 4. Known bots, crawlers, scrapers and monitoring tools are filtered out so reports show real visitors — see [Bot Detection](/security-privacy/bot-detection).
 

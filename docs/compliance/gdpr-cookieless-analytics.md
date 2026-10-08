@@ -13,7 +13,7 @@ Any statement here about how Sealmetrics meets a criterion is a **self-assessmen
 :::
 
 
-Cookieless analytics represent a fundamental shift in how websites measure traffic while complying with GDPR. By eliminating persistent user identifiers, cookieless solutions can provide comprehensive analytics without consent banners, data loss, or privacy violations.
+Cookieless analytics represent a fundamental shift in how websites measure traffic while complying with GDPR. By eliminating persistent user identifiers, cookieless solutions can provide comprehensive analytics without consent banners, consent-driven data loss, or privacy violations.
 
 ## The GDPR Challenge for Traditional Analytics
 
@@ -643,7 +643,7 @@ We use [Sealmetrics/other provider], which acts as our data processor and does n
 | **User experience** | Interrupted (banner) | Seamless (no banner) |
 | **Compliance complexity** | High | Low |
 | **Cost** | High (CMP, legal review) | Low (no CMP needed) |
-| **Data quality** | Skewed (consent bias) | Complete (all visitors) |
+| **Data quality** | Skewed (consent bias) | Not reduced by consent rejection |
 
 **Clear winner**: Cookieless analytics for privacy, compliance, UX, and data quality.
 

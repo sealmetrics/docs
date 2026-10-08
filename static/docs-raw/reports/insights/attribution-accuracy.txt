@@ -65,9 +65,9 @@ The residual bias that remains after compensation depends on the spread between 
 
 The attribution bias at channel level exists for one reason: Sealmetrics does not use IP addresses — not in full, not truncated, not hashed — at any point in session identification.
 
-IP addresses are classified as personal data under GDPR (Court of Justice of the EU, *Breyer* ruling, C-582/14). Processing them — even in anonymized form — constitutes personal data processing and triggers consent requirements under ePrivacy. Any analytics tool that uses IP addresses in its session identification, regardless of how they are processed afterward, is operating in a gray area of privacy law.
+IP addresses are classified as personal data under GDPR (Court of Justice of the EU, *Breyer* ruling, C-582/14). Processing them — even in anonymized form — constitutes personal data processing. Any analytics tool that uses IP addresses in its session identification, regardless of how they are processed afterward, is operating in a gray area of privacy law.
 
-Sealmetrics made the opposite choice: build a measurement system that truly does not depend on the IP address. This means the session identifier has lower entropy — it groups visitors rather than pinpointing individuals — and that is precisely what makes it consentless.
+Sealmetrics made the opposite choice: build a measurement system that truly does not depend on the IP address. We don't store IPs. To filter bots we check the IP in flight against a public list of automated-traffic IPs, and don't keep it. This means the session identifier has lower entropy — it groups visitors rather than pinpointing individuals — and that is precisely what makes it consentless.
 
 **The bias is the price of genuine consentless operation.** It is small, bounded, and self-correcting at scale. And it comes with the benefit of measuring the visitors who would have rejected a consent banner.
 

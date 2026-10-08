@@ -148,8 +148,8 @@ Understanding how different analytics tools handle GDPR compliance helps you cho
 | **Consent Banner Needed** | Yes | No* | No* | **No (self-assessed; Germany: open question)** |
 | **Data Location** | US + EU | EU only | Self-hosted or EU | EU only |
 | **Consent-driven data loss** | 15-60% | None where consent isn't required | None where consent isn't required | **None** |
-| **US Data Transfers** | Yes | No | No | No |
-| **Schrems II Compliant** | Questionable | Yes | Yes | Yes (self-assessed) |
+| **US Data Transfers** | Yes | No | No | No for analytics data (service emails: Resend, US, under SCCs) |
+| **Schrems II Compliant** | Questionable | Yes | Yes | Analytics data stays in the EU (self-assessed) |
 | **CNIL 2020 Compliant** | No | With config | With config | **Yes (default, self-assessed)** |
 | **TDDDG (Germany)** | No | Yes | Yes | **Open question (our reading: no consent needed)** |
 | **Setup Complexity** | High | Low | Medium | **Very Low (2 min)** |
@@ -247,13 +247,13 @@ Data retention limits are crucial for GDPR compliance under the data minimizatio
 
 ### EU Infrastructure
 
-Sealmetrics operates exclusively on European infrastructure, eliminating Schrems II concerns.
+Sealmetrics runs its analytics on European infrastructure: analytics data is hosted and processed only in the EU (Dublin).
 
-**Data Location**: All Sealmetrics servers are located in an EU data center in Dublin, Ireland. Customer data never leaves the European Union. Our company is EU-based with no US parent organization or data sharing agreements with US entities.
+**Data Location**: Analytics data is hosted and processed only in the EU (Dublin). Service emails go through Resend (US) under SCCs. Our company is EU-based with no US parent organization.
 
-**Processor Compliance**: Our subprocessor list is deliberately short — infrastructure and database hosting in Ireland, managed LLM inference in Paris for the optional Seal AI Private add-on, and a transactional email provider. The authoritative, always-current list is Annex 3 of our [DPA](https://sealmetrics.com/dpa), which also sets out the notification procedure if processors change. If you use LENS with your own LLM key instead, that provider is your contract, not our subprocessor.
+**Processor Compliance**: Our subprocessor list is deliberately short — infrastructure and database hosting in Ireland, managed LLM inference in Paris for the optional Seal AI Private add-on, and a transactional email provider (Resend, US, under SCCs). The authoritative, always-current list is Annex 3 of our [DPA](https://sealmetrics.com/dpa), which also sets out the notification procedure if processors change. If you use LENS with your own LLM key instead, that provider is your contract, not our subprocessor.
 
-**No Surveillance Exposure**: Because we operate entirely within the EU legal framework, customer data isn't subject to US surveillance laws (FISA 702, EO 12333) that caused Schrems II complications for US-based analytics providers.
+**No Surveillance Exposure**: Analytics data is held by an EU company on EU infrastructure, not by a US provider subject to US surveillance laws (FISA 702, EO 12333) that caused Schrems II complications for US-based analytics providers.
 
 ---
 
@@ -506,7 +506,7 @@ Sealmetrics implements data minimization as a core design principle. We collect 
 
 Unlike cookie-based analytics tools that retrofit GDPR compliance onto existing architectures, Sealmetrics was designed from inception for compliance.
 
-**No Compromise Required**: Traditional analytics forces a choice between a clean legal position and complete data. Cookie consent buys the former at the cost of 15-60% of the latter. Sealmetrics measures every visit and keeps the legal position clean, through:
+**No Compromise Required**: Traditional analytics forces a choice between a clean legal position and complete data. Cookie consent buys the former at the cost of 15-60% of the latter. Sealmetrics measures all the traffic you lose today to the cookie banner and keeps the legal position clean, through:
 
 1. **Cookieless Architecture**: Nothing is stored on the device, and the session identifier is assessed against the audience-measurement exemption rather than consent, so there is no data loss from rejections.
 
@@ -514,7 +514,7 @@ Unlike cookie-based analytics tools that retrofit GDPR compliance onto existing 
 
 3. **Session-Based Tracking**: An ephemeral session identifier that rotates daily provides analytics value without enabling cross-day or cross-site tracking or user identification.
 
-4. **EU-Exclusive Operation**: Servers, company, and data all in the EU. No US parent, no Schrems II concerns, no adequacy decision dependencies.
+4. **EU-Exclusive Operation**: An EU company, and analytics data hosted and processed only in the EU (Dublin). No US parent, and no adequacy decision dependency for analytics data.
 
 5. **Purpose Limitation**: Sealmetrics processes data only for audience measurement. No advertising integrations, no data selling, no repurposing for other commercial activities.
 
@@ -544,7 +544,7 @@ On our own assessment, yes, with properly implemented cookieless analytics like 
 
 The GDPR is a separate question from ePrivacy, and both have to be satisfied. Sealmetrics addresses both: nothing is stored on the device, and the standard browser properties it reads to compute its session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3); and nothing stored identifies anyone: the session identifier rotates daily and becomes unrecoverable, and the short-lived pseudonymised data relies on legitimate interest, Article 6(1)(f).
 
-This measures every visit without a consent banner.
+This measures all the traffic you lose today to the cookie banner, without one.
 
 ### What's the difference between legitimate interest and consent?
 
@@ -676,8 +676,8 @@ Sealmetrics satisfies all of these by default:
 - **No consent required**: nothing stored on the device and a session identifier that rotates daily (audience-measurement exemption to ePrivacy 5(3), self-assessed), no data that identifies anyone
 - **No cookies**: no cookie lifespan to manage and no consent-driven data loss
 - **Zero IP storage**: not even hashed—the hashed-IP question doesn't arise
-- **No consent gap**: every visit measured, rather than the 40-85% a banner lets through
-- **EU-exclusive**: analytics data hosted in Dublin, Ireland. No Schrems II complications
+- **No consent gap**: the traffic the banner loses is measured too, not just the 40-85% it lets through
+- **EU-exclusive**: analytics data is hosted and processed only in the EU (Dublin)
 - **24-month retention**: documented as necessary for trend analysis, with automatic purging
 
 Stop compromising between compliance and complete analytics data.

@@ -116,7 +116,7 @@ User A visits (Nov 14, 2pm) → Browser computes device hash, server stores dail
 Session expires after visit ends (~2h inactivity)
 User A visits again (Nov 20, 3pm) → New daily salt → different stored pseudonym "sess_5678"
 = Cannot link across days, only within single visit
-BUT = every visitor captured (no banner needed, self-assessed)
+BUT = no consent-driven loss (no banner needed, self-assessed)
 ```
 
 ### Why This Changes Everything
@@ -129,7 +129,7 @@ Cookieless analytics doesn't require consent because:
 3. Sessions reset = no cross-session profiling
 4. Nothing written to the device (standard browser properties are read only to compute the session identifier — see [consent exemption requirements](/compliance/analytics-cookies-exemption) for how ePrivacy Article 5(3) applies)
 
-**Translation**: On our own assessment, Sealmetrics measures every visitor without a consent banner for its own analytics (Germany: open question). The short-lived pseudonymised data it does handle relies on legitimate interest, GDPR Article 6(1)(f), and reports are always aggregated.
+**Translation**: On our own assessment, Sealmetrics measures all the traffic you lose today to the cookie banner, without one, for its own analytics (Germany: open question). The short-lived pseudonymised data it does handle relies on legitimate interest, GDPR Article 6(1)(f), and reports are always aggregated.
 
 ---
 
@@ -160,6 +160,7 @@ function trackPageview() {
     url: window.location.href,   // Page URL
     timestamp: Date.now(),       // When viewed
     referrer: document.referrer, // Where from
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Country, not IP
     // NO IP address stored ✓
     // NO data that identifies anyone ✓
   };
@@ -201,15 +202,15 @@ Sealmetrics uses a proprietary **dual-system** to maximize data capture:
 
 **System 2: Isolated Hits** (Fallback)
 ```javascript
-// If JavaScript doesn't load, or blocked
-// Server-side tracking captures raw pageviews
-// No session linking (single visits only)
-// Data: all traffic (even no-JS visitors)
+// If a session identifier can't be computed
+// The JavaScript tracker still sends the pageview as an isolated hit
+// No session linking (single pageviews only)
+// Data: counted, but not stitched into a journey
 ```
 
 **Result**:
-- Cookieless tool X: loses JS-blocked and slow-loading visitors
-- Sealmetrics: the dual system catches those too
+- Pageviews without a session identifier are still counted, as isolated hits
+- Visits where the JavaScript never runs (JS disabled, some ad blockers) are not measured — there is no server-side capture for them
 
 ---
 
@@ -248,6 +249,7 @@ const trackPageview = async () => {
     sessionId: 'sess_a7k9m2x1',
     url: window.location.href,
     timestamp: Date.now(),
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     // IP intentionally absent ✓
   };
 
@@ -428,27 +430,27 @@ const allowedPurposes = [
 RESULT: 11/100 = 11% data capture
 ```
 
-**Sealmetrics (Cookieless)**: Captures everyone
+**Sealmetrics (Cookieless)**: Captures the traffic the banner loses
 ```
 100 EU visitors arrive
 ├─ 87 reject/ghost banner (not applicable, no banner!)
 ├─ 13 accept (not applicable)
 │
-└─ ALL 100 tracked automatically:
-   ├─ System 1: Session tracking captures 98
-   │  └─ (All except JS-blocked visitors)
-   │
-   └─ System 2: Server-side fallback captures 2
-      └─ (JS-blocked, no-script scenarios)
+└─ Every visitor whose browser runs the tracker is measured:
+   ├─ System 1: Session tracking (most visits)
+   └─ System 2: Isolated hits (no session identifier computed)
 
-RESULT: 100/100 visitors measured
+Not measured: visits where the JavaScript never runs
+(JS disabled, some ad blockers)
+
+RESULT: no consent-driven loss
 ```
 
 ### Accuracy Comparison Table
 
 | Metric | Google Analytics | Other Cookieless Tools | Sealmetrics |
 |--------|-----------------|----------------------|------------|
-| **Data Capture Rate (EU)** | 40-85% | Higher, but non-zero loss where consent applies | **Complete** |
+| **Data Capture Rate (EU)** | 40-85% | Higher, but non-zero loss where consent applies | **No consent-driven loss** |
 | **Banner Required** | Yes | No | **No** |
 | **IP Stored** | Yes | Hashed | **No** |
 | **Consent Required** | Yes | No | **No** |
@@ -513,7 +515,7 @@ Day 2: Same user visits again
 Day 30: Same user visits again
 ├─ NEW session: "sess_def"
 ├─ Can't recognize returning user
-└─ But every visit still measured
+└─ But the visit is still measured
 
 Day 365: Safari user visits
 ├─ Session created: "sess_ghi" (normally)
@@ -562,7 +564,7 @@ For detailed platform comparisons, see:
 **Sealmetrics**
 - ✓ True cookieless (sessions only)
 - ✓ Zero IP storage (true GDPR)
-- ✓ Complete data capture (dual system)
+- ✓ No consent-driven data loss (dual system)
 - ✓ No consent needed
 - ✓ Works with Safari, Firefox, Chrome
 - ✓ Simple 1-minute setup
@@ -596,7 +598,7 @@ This is a **feature, not a bug**: Returns you get privacy compliance while compe
 
 ### How does Sealmetrics handle bot traffic?
 
-Sealmetrics filters bots at the API level, before data reaches your dashboard:
+Sealmetrics filters bots at the API level, before data reaches your dashboard. We don't store IPs. To filter bots we check the IP in flight against a public list of automated-traffic IPs, and don't keep it. The user agent is checked too:
 ```javascript
 // API-side bot detection
 const botSignatures = [
@@ -616,12 +618,7 @@ Unlike Google Analytics (which sometimes misses bot traffic), Sealmetrics filter
 
 ### What if JavaScript is disabled on visitor's browser?
 
-Sealmetrics has a **fallback system**:
-1. Primary: JavaScript snippet loads → Session tracking
-2. Fallback: If JS disabled → Server-side tracking captures pageview
-3. Result: Even no-JS visitors are counted
-
-This is why Sealmetrics keeps counting where competitors drop those visits.
+Then that visit isn't measured. Sealmetrics counts visits through its JavaScript tracker (plus Shopify order webhooks for orders); there is no server-side capture of pageviews, so a browser with JavaScript disabled — or an ad blocker that stops the tracker — hides that visit. Unlike consent loss, this doesn't depend on a banner.
 
 ### How does Sealmetrics handle GDPR data subject requests?
 
@@ -660,11 +657,11 @@ Unlike Google Analytics (which restricts API), Sealmetrics data is yours.
 
 | Metric | GA4 | Sealmetrics |
 |--------|-----|------------|
-| Captured data | 40-85% in EU | All visits |
+| Captured data | 40-85% in EU | No consent-driven loss |
 | Accuracy of captured data | 97% | 97% |
-| **Overall coverage** | **40-85%** | **Complete** |
+| **Overall coverage** | **40-85%** | **No consent gap** |
 
-Sealmetrics might show 100,000 sessions/month where GA4 shows 45,000 for the same period. Sealmetrics is more accurate because it measures every visit — and because the 55,000 GA4 missed were not a random sample.
+Sealmetrics might show 100,000 sessions/month where GA4 shows 45,000 for the same period. Sealmetrics is more accurate because it also measures the traffic GA4 loses to the cookie banner — and because the 55,000 GA4 missed were not a random sample.
 
 ### What about cross-domain tracking?
 
@@ -725,7 +722,7 @@ Learn more about [how cookieless analytics works](/blog/cookieless-analytics-gui
 - You're making decisions on a self-selected sample
 
 **The Solution** (Sealmetrics):
-- Cookieless tracking measures **every visit**
+- Cookieless tracking measures **all the traffic you lose today to the cookie banner**
 - No consent banner needed for its own analytics (self-assessed; no user frustration)
 - Zero IP storage, so no hashed-IP gray area
 - Better insights based on your whole audience

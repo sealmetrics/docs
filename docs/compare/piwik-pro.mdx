@@ -1,7 +1,7 @@
 ---
 title: "Sealmetrics vs Piwik PRO: enterprise suite with consent manager vs consentless by design"
 sidebar_position: 6
-description: Piwik PRO pairs analytics with a consent manager and an anonymous mode hashed from the IP. Sealmetrics needs no consent layer (self-assessed), no IP and stores only in Dublin.
+description: Piwik PRO pairs analytics with a consent manager and an anonymous mode hashed from the IP. Sealmetrics needs no consent layer (self-assessed), stores no IP and keeps analytics data only in Dublin.
 tags: [comparison, piwik-pro, enterprise analytics, consent manager, gdpr]
 keywords:
   - sealmetrics vs piwik pro
@@ -36,7 +36,7 @@ Piwik PRO facts checked 2026-09-04 on piwik.pro and help.piwik.pro; each row lin
 
 Piwik PRO's default is a visitor cookie, which unlocks the full suite: visitor profiles, multi-session attribution and audience segments. For visitors who have not consented, it offers a privacy-friendly mode built on a session hash — computed from the IP address, operating system, browser name and version, language, enabled plugins and the site ID — that recognises a session for 30 minutes after the last event. IP masking can strip bytes before the address is saved. When the visitor accepts the consent manager's prompt, Piwik PRO upgrades to full tracking. The model gives you two data sets: anonymous for everyone, identified for those who agreed.
 
-Sealmetrics has one data set. Every hit is timestamp, user agent, URL, referrer and browser timezone, grouped within a visit by a session identifier: a hash of device characteristics computed in the browser, never written to the device, containing nothing derived from the IP and re-keyed on the server with a daily salt that is destroyed on rotation. There is no consent manager because, on our own assessment, the audience-measurement exemption applies, and no "upgrade" path to identified tracking. The price is that Sealmetrics never reports unique visitors, session duration or user-level journeys, on any plan.
+Sealmetrics has one data set. Every hit is URL, referrer, timestamp and browser timezone (the user agent is read in flight for bot and device detection and only derived categories are stored), grouped within a visit by a session identifier: a hash of device characteristics computed in the browser, never written to the device, containing nothing derived from the IP and re-keyed on the server with a daily salt that is destroyed on rotation. There is no consent manager because, on our own assessment, the audience-measurement exemption applies, and no "upgrade" path to identified tracking. The price is that Sealmetrics never reports unique visitors, session duration or user-level journeys, on any plan.
 
 ## When Piwik PRO is the better choice
 

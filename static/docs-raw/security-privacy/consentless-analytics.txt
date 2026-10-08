@@ -2,7 +2,7 @@
 
 URL: https://docs.sealmetrics.com/security-privacy/consentless-analytics
 
-Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need visitor measurement that does not depend on a banner and last-click revenue attribution across the full dataset, not just consented sessions.
+Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need visitor measurement that does not depend on a banner and last-click revenue attribution that includes visitors who rejected the banner, not just consented sessions.
 
 # What is Consentless Analytics?
 
@@ -77,17 +77,17 @@ For a full legal analysis, see [GDPR and Cookieless Analytics](/compliance/gdpr-
 |--|---------------------------|---------------------------|
 | **Tracking method** | Cookies + client ID | Aggregate event measurement |
 | **Consent required** | Yes | No |
-| **Data capture (EU)** | Partial — 15–60% of visitor data lost to consent rejection | Every hit measured |
+| **Data capture (EU)** | Partial — 15–60% of visitor data lost to consent rejection | Not reduced by consent rejection |
 | **Cookie banners** | Required | Not needed |
 | **Personal data** | Yes (client ID, IP) | Only a pseudonymised session identifier that rotates daily and becomes unrecoverable |
 | **Cross-session tracking** | Yes | No |
 | **User-level profiles** | Yes | No |
-| **Data hosting** | Often US-based | EU-only (Dublin, Ireland) |
+| **Data hosting** | Often US-based | Analytics data hosted and processed only in the EU (Dublin) |
 | **Script size** | 50–365 KB | 1.1 KB (gzipped) |
 
-The trade-off is clear: cookie-based tools offer user-level metrics (unique visitors, session duration, cohort analysis) but lose a large share of their data to consent rejection. Consentless analytics measures every visit but reports aggregate behaviour rather than individual journeys.
+The trade-off is clear: cookie-based tools offer user-level metrics (unique visitors, session duration, cohort analysis) but lose a large share of their data to consent rejection. Consentless analytics measures the traffic those tools lose to the banner, but reports aggregate behaviour rather than individual journeys.
 
-For most business decisions — which campaigns drive revenue, which pages convert, where traffic comes from — aggregate data covering all visitors is more useful than user-level data covering only those who accepted a banner.
+For most business decisions — which campaigns drive revenue, which pages convert, where traffic comes from — aggregate data that includes visitors who rejected the banner is more useful than user-level data covering only those who accepted a banner.
 
 ---
 
@@ -204,7 +204,7 @@ No. Server-side analytics (like log analysis) processes server access logs. Cons
 
 ### How is this different from Plausible or Fathom?
 
-Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP addresses for visitor identification. Some legal experts argue that hashed IPs still constitute personal data under GDPR. Sealmetrics never processes visitor IP addresses for analytics **or geolocation** — visitor country is derived from the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from IP. IPs are only handled in-memory at the edge for anti-bot checks and site-configured exclusions, and are never persisted. See the [country detection page](/security-privacy/country-detection) and the [Sealmetrics vs Plausible comparison](/blog/sealmetrics-vs-plausible) for details.
+Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP addresses for visitor identification. Some legal experts argue that hashed IPs still constitute personal data under GDPR. Sealmetrics does not store IPs or use them for analytics **or geolocation** — visitor country is derived from the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from IP. To filter bots we check the IP in flight against a public list of automated-traffic IPs, and don't keep it; site-configured exclusions are checked the same way, in memory. See the [country detection page](/security-privacy/country-detection) and the [Sealmetrics vs Plausible comparison](/blog/sealmetrics-vs-plausible) for details.
 
 ---
 

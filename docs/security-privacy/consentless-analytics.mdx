@@ -16,7 +16,7 @@ tags:
 title: What is Consentless Analytics?
 ---
 
-Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need visitor measurement that does not depend on a banner and last-click revenue attribution across the full dataset, not just consented sessions.
+Sealmetrics is a consentless analytics platform built for EU eCommerce and hotel websites losing traffic data to consent banners. Choose it over cookie-based tools when you need visitor measurement that does not depend on a banner and last-click revenue attribution that includes visitors who rejected the banner, not just consented sessions.
 
 import Head from '@docusaurus/Head';
 
@@ -30,7 +30,7 @@ import Head from '@docusaurus/Head';
         {"@type": "Question", "name": "Can consentless analytics track returning visitors?", "acceptedAnswer": {"@type": "Answer", "text": "No. Identifying returning visitors requires a persistent identifier, which constitutes personal data. Consentless analytics treats every session as independent."}},
         {"@type": "Question", "name": "Does consentless analytics work with Google Ads?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Sealmetrics reads UTM parameters from Google Ads URLs and attributes conversions and revenue to campaigns, providing ROAS reporting at the campaign, source, and medium level."}},
         {"@type": "Question", "name": "Is consentless analytics the same as server-side analytics?", "acceptedAnswer": {"@type": "Answer", "text": "No. Consentless analytics uses a client-side JavaScript tracker that captures SPA navigation, conversions, and form submissions that server logs cannot see."}},
-        {"@type": "Question", "name": "How is Sealmetrics different from Plausible or Fathom?", "acceptedAnswer": {"@type": "Answer", "text": "Plausible and Fathom use hashed IP addresses for visitor identification. Sealmetrics never processes visitor IP addresses for analytics or geolocation — visitor country is derived from the browser timezone (Intl.DateTimeFormat), not from IP."}}
+        {"@type": "Question", "name": "How is Sealmetrics different from Plausible or Fathom?", "acceptedAnswer": {"@type": "Answer", "text": "Plausible and Fathom use hashed IP addresses for visitor identification. Sealmetrics does not store IPs or use them for analytics or geolocation — visitor country is derived from the browser timezone (Intl.DateTimeFormat), not from IP. To filter bots it checks the IP in flight against a public list of automated-traffic IPs, and does not keep it."}}
       ]
     })}
   </script>
@@ -44,7 +44,7 @@ Consentless analytics is a method of measuring website traffic without requestin
 
 Cookie-based tools such as Google Analytics 4 depend on consent before they activate. When a visitor declines, nothing is recorded — which is why they typically lose 15–60% of visitor data in EU markets, depending on sector, brand strength and traffic mix. Decisions then rest on a fraction of real traffic.
 
-Sealmetrics measures aggregate behaviour instead of individuals, recording a small set of non-identifying fields: timestamp, user agent, current URL, referral URL, browser timezone and a session identifier that is re-keyed every day. Every visit, page view and conversion is counted and attributed to its source. The deliberate trade-off: returning visitors cannot be identified, because doing so would require a persistent identifier.
+Sealmetrics measures aggregate behaviour instead of individuals, recording a small set of non-identifying fields: timestamp, user agent, current URL, referral URL, browser timezone and a session identifier that is re-keyed every day. We measure all the traffic you lose today to the cookie banner, and page views and conversions are attributed to their source. The deliberate trade-off: returning visitors cannot be identified, because doing so would require a persistent identifier.
 
 </QuickAnswer>
 
@@ -119,17 +119,17 @@ For a full legal analysis, see [GDPR and Cookieless Analytics](/compliance/gdpr-
 |--|---------------------------|---------------------------|
 | **Tracking method** | Cookies + client ID | Aggregate event measurement |
 | **Consent required** | Yes | No |
-| **Data capture (EU)** | Partial — 15–60% of visitor data lost to consent rejection | Every hit measured |
+| **Data capture (EU)** | Partial — 15–60% of visitor data lost to consent rejection | Not reduced by consent rejection |
 | **Cookie banners** | Required | Not needed |
 | **Personal data** | Yes (client ID, IP) | Only a pseudonymised session identifier that rotates daily and becomes unrecoverable |
 | **Cross-session tracking** | Yes | No |
 | **User-level profiles** | Yes | No |
-| **Data hosting** | Often US-based | EU-only (Dublin, Ireland) |
+| **Data hosting** | Often US-based | Analytics data hosted and processed only in the EU (Dublin) |
 | **Script size** | 50–365 KB | 1.1 KB (gzipped) |
 
-The trade-off is clear: cookie-based tools offer user-level metrics (unique visitors, session duration, cohort analysis) but lose a large share of their data to consent rejection. Consentless analytics measures every visit but reports aggregate behaviour rather than individual journeys.
+The trade-off is clear: cookie-based tools offer user-level metrics (unique visitors, session duration, cohort analysis) but lose a large share of their data to consent rejection. Consentless analytics measures the traffic those tools lose to the banner, but reports aggregate behaviour rather than individual journeys.
 
-For most business decisions — which campaigns drive revenue, which pages convert, where traffic comes from — aggregate data covering all visitors is more useful than user-level data covering only those who accepted a banner.
+For most business decisions — which campaigns drive revenue, which pages convert, where traffic comes from — aggregate data that includes visitors who rejected the banner is more useful than user-level data covering only those who accepted a banner.
 
 ---
 
@@ -246,7 +246,7 @@ No. Server-side analytics (like log analysis) processes server access logs. Cons
 
 ### How is this different from Plausible or Fathom?
 
-Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP addresses for visitor identification. Some legal experts argue that hashed IPs still constitute personal data under GDPR. Sealmetrics never processes visitor IP addresses for analytics **or geolocation** — visitor country is derived from the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from IP. IPs are only handled in-memory at the edge for anti-bot checks and site-configured exclusions, and are never persisted. See the [country detection page](/security-privacy/country-detection) and the [Sealmetrics vs Plausible comparison](/blog/sealmetrics-vs-plausible) for details.
+Plausible and Fathom are privacy-focused analytics tools, but they use hashed IP addresses for visitor identification. Some legal experts argue that hashed IPs still constitute personal data under GDPR. Sealmetrics does not store IPs or use them for analytics **or geolocation** — visitor country is derived from the browser timezone (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not from IP. To filter bots we check the IP in flight against a public list of automated-traffic IPs, and don't keep it; site-configured exclusions are checked the same way, in memory. See the [country detection page](/security-privacy/country-detection) and the [Sealmetrics vs Plausible comparison](/blog/sealmetrics-vs-plausible) for details.
 
 ---
 
