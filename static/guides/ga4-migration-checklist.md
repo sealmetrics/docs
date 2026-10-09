@@ -3,8 +3,8 @@ title: "GA4 to Sealmetrics: The Complete Migration Checklist"
 description: "Phase-by-phase checklist to migrate from GA4 to Sealmetrics: audit events, map them to conv()/micro(), run 30 days in parallel, then switch GA4 off safely."
 canonical_url: "https://docs.sealmetrics.com/guides/ga4-migration-checklist"
 lang: "en"
-date_generated: "2026-09-15T18:01:06.894Z"
-source_hash: "6d57a97e2aca3ec1c01da89ae5ad51b5ec23e43abccdb0c80fe94f461651a4f1"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "444d364c94316decd750e46317a474338c63eafceea5bde8f5b5e5af71b6780c"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -164,7 +164,7 @@ Only after Phase 3 sign-off and Phase 4 exports:
 
 - [ ] **Remove the GA4 tag** (gtag snippet or the GTM tag) from your site — unless you decided in Phase 0 to keep GA4 alive for Google Ads audience sync, in which case scope it to that and stop using it for reporting.
 - [ ] **Archive, don't delete, the GA4 property** — it costs nothing to keep and preserves whatever history remains accessible.
-- [ ] **Revisit your consent banner.** With GA4 gone, analytics no longer requires consent — Sealmetrics operates consentless because it stores no personal data. If other cookie-setting tools remain (ad pixels, etc.) you still need consent for *those*; if analytics was the only reason for the banner, you can now remove it. See the [compliance overview](/compliance).
+- [ ] **Revisit your consent banner.** With GA4 gone, analytics no longer requires consent — Sealmetrics operates consentless because it stores nothing on the device and its session identifier rotates daily and cannot be reconstructed (its self-assessment against the ePrivacy audience-measurement exemption; in Germany this is an open question, so check with your DPO). If other cookie-setting tools remain (ad pixels, etc.) you still need consent for *those*; if analytics was the only reason for the banner, you can now remove it. See the [compliance overview](/compliance).
 - [ ] **Announce the cutover date** internally: from this date, Sealmetrics is the source of truth and GA4 numbers are historical reference only. Comparing across the boundary without the equivalence table above is banned in polite company.
 
 ## What are the common migration pitfalls?

@@ -1,10 +1,10 @@
 ---
 title: "How It Works"
-description: "How Sealmetrics measures your traffic — one script tag, a small set of non-identifying fields per hit, aggregate reports, and no consent banner."
+description: "How Sealmetrics measures your traffic — one script tag, a small set of non-identifying fields per hit, aggregate reports, and no consent banner for its own analytics (self-assessed)."
 canonical_url: "https://docs.sealmetrics.com/getting-started/how-it-works"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "3c50abd7cb76f1d82f16fe101e21c5678bffadd18b762b95e3a3027c822a87cc"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "4277a36849bc87a9936b676a3f700bfed3b75ba8322247f085d316d23ce8d751"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,14 +16,14 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/getting-started/how-it-works
 
-Sealmetrics measures your website traffic without cookies, consent banners or personal data, on a simple principle: **measure everything, identify no one**. You add one script tag; every visit is recorded as a set of non-identifying signals; your reports show aggregate patterns.
+Sealmetrics measures your website traffic without cookies or anything stored on the visitor's device — and, by our self-assessment, without a consent banner for its own analytics — on a simple principle: **measure the visit, identify no one**. You add one script tag; each visit the tracker sees is recorded as a set of non-identifying signals; your reports show aggregate patterns.
 
 ## What gets recorded
 
 A small set of non-identifying fields per hit:
 
 1. **Timestamp** — when the visit happened
-2. **User Agent** — used for anonymous device classification (browser, OS, device type). The raw string is never written to storage; only the derived categories persist in aggregates
+2. **User Agent** — used for device classification (browser, OS, device type). The raw string is never written to storage; only the derived categories persist in aggregates
 3. **Current URL** — which page was viewed
 4. **Referral URL** — where the visitor came from
 5. **Browser timezone** — used to assign the visit's country
@@ -31,7 +31,7 @@ A small set of non-identifying fields per hit:
 
 No IP addresses stored, no cookies, no localStorage, no persistent identifiers. Hits within one visit are grouped by a session identifier: the tracker computes, in the browser, a hash of standard device characteristics (a device fingerprint) that is never written to the device. On the server it is re-keyed with a salt that rotates and is destroyed every day, so the stored identifier changes daily and cannot recognise a returning visitor on another day. A session ends after roughly two hours of inactivity.
 
-Because no personal data is stored and nothing is stored on the visitor's device, there is no consent to ask for — which is also why cookie-based tools lose 15–60% of visitor data in EU markets — depending on sector, brand strength and traffic mix — while Sealmetrics does not. The tracker does read standard browser properties to compute the session identifier; [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) covers how the audience-measurement exemption criteria apply to that read. The full reasoning is in [What is Consentless Analytics?](/security-privacy/consentless-analytics), and the exact field list with retention is in [What We Track](/security-privacy/what-we-track).
+Because nothing is stored on the visitor's device, no data that identifies anyone is stored, and the session identifier rotates daily and cannot be reconstructed afterwards, Sealmetrics self-assesses that it fits the ePrivacy audience-measurement exemption and asks for no consent for its own analytics (in Germany an open question: the DSK does not extend §25(2) TDDDG to audience measurement, and reading device properties via JavaScript may count as "access" under §25(1) — see [Germany](/compliance/germany-ttdsg-self-assessment)) — which is also why cookie-based tools lose the visitors who reject or ignore the cookie banner — depending on sector, brand strength and traffic mix — while Sealmetrics does not. The tracker does read standard browser properties to compute the session identifier; [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) covers how the audience-measurement exemption criteria apply to that read. The full reasoning is in [What is Consentless Analytics?](/security-privacy/consentless-analytics), and the exact field list with retention is in [What We Track](/security-privacy/what-we-track).
 
 ## What you get in reports
 
@@ -42,7 +42,7 @@ What you do not get is anything that needs a persistent identifier: unique visit
 ## How the data flows
 
 1. The tracker (1.1 KB gzipped, asynchronous) detects page views and the events you instrument.
-2. Hits are sent to Sealmetrics infrastructure in **Dublin, Ireland**. IPs are used in memory only for anti-abuse checks and are never persisted in the analytics database.
+2. Hits are sent to Sealmetrics infrastructure in **Dublin, Ireland**. We don't store IPs. To filter bots we check the IP in flight against a public list of automated-traffic IPs, and don't keep it.
 3. Each hit is processed on its own and aggregated. Event-level rows are purged after 1 day; daily aggregates and conversions are kept 24 months.
 4. Known bots, crawlers, scrapers and monitoring tools are filtered out so reports show real visitors — see [Bot Detection](/security-privacy/bot-detection).
 
@@ -67,6 +67,6 @@ Add one script tag to your `<head>`, then instrument conversions with `sealmetri
 
 - [First Steps with Sealmetrics](/getting-started/quick-start) — go from signup to live data
 - [Installation](/implementation/tracker/installation) — add the script tag
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and its legal basis
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the model and why, in our assessment, no banner is needed
 - [What We Track vs What We Don't](/security-privacy/what-we-track) — every field, with retention
 - [Overview Report](/reports/overview) — the aggregate insights this architecture produces

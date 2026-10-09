@@ -3,8 +3,8 @@ title: "Sealmetrics compared with other analytics tools"
 description: "How Sealmetrics compares with GA4, Matomo, Plausible, Fathom, Piwik PRO and Simple Analytics on identifiers, IP handling, data residency, consent and script size."
 canonical_url: "https://docs.sealmetrics.com/compare"
 lang: "en"
-date_generated: "2026-09-04T11:01:07.053Z"
-source_hash: "c61e3a792019d07985360e01f791d323c7e3194d9cd9d171b232aeb6fa833940"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "37668e3d172dc5c01bb782310867180e2670b2df4202534f7fdc1a5dedd006b1"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -24,7 +24,7 @@ Every competitor fact on these pages was read on the vendor's own documentation 
 
 Most privacy comparisons collapse into "cookieless or not". That is the wrong axis: every tool below except GA4 can run without cookies. The differences that matter for a DPO or a procurement review are these:
 
-1. **What identifier links two pageviews together?** A cookie, a hash that includes the IP address, a short-lived in-memory marker, or nothing at all.
+1. **What identifier links two pageviews together?** A cookie, a hash that includes the IP address, a hash of device characteristics re-keyed daily, or nothing at all.
 2. **Is the visitor's IP address an input to that identifier, or to geolocation?** A hashed IP is still derived from personal data; a discarded IP is not.
 3. **Where is the data stored?** One region, a choice of regions, or the vendor's global infrastructure.
 4. **Does the vendor say a consent banner is needed?** Reported here as the vendor's own position, not our judgement.
@@ -37,7 +37,7 @@ Vendor facts checked 2026-09-04.
 
 | Tool | Identifier between pageviews | Visitor IP used | Data residency | Vendor's position on consent banner | Open source / self-host | Script (gzipped) |
 |---|---|---|---|---|---|---|
-| **Sealmetrics** | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | Never stored; country from browser timezone | Dublin, Ireland only | Not needed | No — cloud only | 1.1 KB ([measured](/guides/tracker-performance-report)) |
+| **Sealmetrics** | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | Never stored; country from browser timezone | Dublin, Ireland only | Not needed for its own analytics (self-assessed; Germany: open question — see [Germany](/compliance/germany-ttdsg-self-assessment)) | No — cloud only | 1.1 KB ([measured](/guides/tracker-performance-report)) |
 | [Google Analytics 4](/compare/google-analytics-4) | First-party cookie `_ga`, 2-year default ([source](https://support.google.com/analytics/answer/11397207)) | Used for geolocation, then discarded for EU/UK/CH traffic ([source](https://support.google.com/analytics/answer/12017362)) | Collected on EU servers, then forwarded to Analytics servers; final location not stated ([source](https://support.google.com/analytics/answer/12017362)) | Consent required for cookies where legally required ([EU User Consent Policy](https://www.google.com/about/company/user-consent-policy/)) | No | ~145 KB (Sealmetrics measurement, Aug 2026) |
 | [Matomo](/compare/matomo) | Cookie by default; cookieless mode uses `config_id`, a daily-rotated hash of OS, browser, plugins, IP and language ([source](https://matomo.org/faq/general/how-is-the-visitor-config_id-processed/)) | Yes — input to `config_id`; masking optional ([source](https://matomo.org/faq/general/faq_18254/)) | Cloud: Frankfurt, Germany; On-Premise: anywhere ([source](https://matomo.org/pricing/)) | "No need for cookie consent screens" when anonymisation is configured ([source](https://matomo.org/gdpr-analytics/)) | Yes — GPLv3 ([source](https://matomo.org/free-software/)) | ~46 KB (Sealmetrics measurement, Aug 2026) |
 | [Plausible](/compare/plausible) | Daily hash of salt + domain + IP + user agent ([source](https://plausible.io/data-policy)) | Yes — hash input and geolocation; not stored ([source](https://plausible.io/data-policy)) | Hetzner, Falkenstein, Germany ([source](https://plausible.io/privacy-focused-web-analytics)) | "No need for cookie banners or GDPR consent" ([source](https://plausible.io/)) | Yes — AGPLv3 Community Edition ([source](https://plausible.io/docs/self-hosting)) | 2.5 KB ([source](https://plausible.io/lightweight-web-analytics)) |

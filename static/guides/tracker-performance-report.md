@@ -3,8 +3,8 @@ title: "Tracker Performance Report: Sealmetrics vs GA4, Matomo and Piwik PRO"
 description: "Sealmetrics t.js measures 1.1 KB on the wire — 12× lighter than the legacy v1 tracker and ~132× lighter than GA4 gtag.js; Matomo and Piwik PRO sit between."
 canonical_url: "https://docs.sealmetrics.com/guides/tracker-performance-report"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "064f0591f84c9eac38ca16ef7c41430396d94a17128d69b84e9721e25683a24b"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "b263e25d54bcd2f41c30f8cf6b785db155d19ae7301a53fd52a3b96f4926a34f"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -23,7 +23,7 @@ The current Sealmetrics tracker weighs **1.1 KB on the wire** — 12× less than
 | Sealmetrics compared with | Wire weight advantage | Measured traffic difference |
 |---|---|---|
 | Legacy Sealmetrics v1 | 12× lighter | +25–30% (dual-tag average) |
-| GA4 (`gtag.js`) | ~132× lighter | +25–45% (EU markets, estimate) |
+| GA4 (`gtag.js`) | ~132× lighter | Specific to each site (EU markets) |
 | Matomo (`matomo.js`) | ~42× lighter | not measured |
 | Piwik PRO (`ppms.js`) | ~24× lighter | not measured |
 
@@ -237,7 +237,7 @@ GA4 also uses beacon-style transport — its problem is not the transport but th
 | Comparison | Traffic difference | Where it comes from |
 |---|---|---|
 | Current vs legacy v1 | **+25–30% on average** | Observed on dual-tagged accounts (both trackers in parallel on the same site). Gain concentrated in mobile traffic, slow connections, and visitors far from Dublin: earlier fire, race-free chain, `sendBeacon`, HTTP/2, and compression. |
-| Current vs GA4 (EU markets) | **+25–45% (estimate)** | Three GA4 losses the Sealmetrics tracker does not have: consent banner rejection/ignoring (~20–35% of visitors), blocking of Google domains by browsers and filter lists (~10–15%, partially overlapping), and abandonment before gtag fires (~2–5% on mobile). |
+| Current vs GA4 (EU markets) | **Specific to each site** | Three GA4 losses the Sealmetrics tracker does not have: consent banner rejection/ignoring, blocking of Google domains by browsers and filter lists (partially overlapping), and abandonment before gtag fires. How large they are depends on the site — measure it side by side; in the [Incapto case](https://sealmetrics.com/case-studies/incapto/) (one store, not a benchmark), GA4 did not record 29% of real visits. |
 
 ### Session window change ("Rejoined Traffic"): 6 h → 2 h
 
@@ -249,7 +249,7 @@ This effect is **more granular measurement, not newly captured traffic**: it add
 
 ## Deployment recommendations
 
-- **Do not gate Sealmetrics tags behind consent in GTM.** A frequent misconfiguration: if Sealmetrics tags sit behind the CMP's consent state, you give up their main advantage — Sealmetrics can measure without consent by design (no cookies, no personal identifiers). Fire them on *Consent Initialization* or with no consent condition.
+- **Do not gate Sealmetrics tags behind consent in GTM.** A frequent misconfiguration: if Sealmetrics tags sit behind the CMP's consent state, you give up their main advantage — Sealmetrics is designed to measure without consent (no cookies, no persistent identifiers; our self-assessment). Fire them on *Consent Initialization* or with no consent condition.
 - **Install the snippet directly in the `<head>`, outside GTM.** Loaded through GTM, the tracker inherits the container's latency (typically 100–250 KB): if GTM is slow, blocked, or the visitor leaves before it loads, the tracker cannot measure either. With the snippet directly in the `<head>` you capture the full advantage shown above.
 - **Compare v1 and the current tracker with homogeneous metrics.** When evaluating a dual-tag, compare pageviews with pageviews and entrances with entrances — and account for the different session windows (Rejoined at 6 h in v1 vs 2 h in the current tracker, see above): mixing metrics or ignoring the window inflates or hides differences.
 - **Keep the dual-tag for a validation period.** Running both trackers in parallel lets you quantify the capture difference with your own data, segmented by device and geography, before retiring v1.
@@ -267,5 +267,5 @@ This effect is **more granular measurement, not newly captured traffic**: it add
 
 **Note:**
 - Measured 9 and 27 August 2026: Sealmetrics `t.js` is 1.1 KB on the wire (2.0 KB parsed) — 12× lighter than the legacy v1 tracker, ~24× lighter than Piwik PRO, ~42× lighter than Matomo and ~132× lighter than GA4's gtag.js.
-- Dual-tagged sites measure 25–30% more traffic with the current tracker than with v1; the +25–45% vs GA4 in EU markets is an estimate, and no timing or capture claim is made for Matomo or Piwik PRO.
+- Dual-tagged sites measure 25–30% more traffic with the current tracker than with v1; the gap vs GA4 in EU markets is specific to each site, and no timing or capture claim is made for Matomo or Piwik PRO.
 - The current tracker fires from a single 1-packet script via `sendBeacon`, so the hit survives page close; install it directly in the `<head>` and never gate it behind consent in GTM.

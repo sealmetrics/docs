@@ -3,8 +3,8 @@ title: "What Is This Domain in My Cookie Audit?"
 description: "A lookup table of the external domains analytics tools contact — Adobe, GA4, Mixpanel, PostHog, Piwik PRO and others. Which tool owns each one, and where it resolves."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/third-party-analytics-domains"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "3757c9dd9c57d98ea371324849c781f78de0311b227489866c396d3eb0a69a5b"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "851520ae56610d137b9a19ff37790d9fecaccabaa1f9a56f321b1b50905c85da"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -124,7 +124,7 @@ Domains with enough going on to need their own page:
 
 ## 6. Related documentation
 
-- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without storing anything on the device, so Article 5(3) is never engaged
+- [Consentless Analytics](/security-privacy/consentless-analytics) — measuring without storing anything on the device, with an ephemeral session identifier that rotates daily
 - [What We Track](/security-privacy/what-we-track) — the full list of what Sealmetrics collects
 - [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints
 - [Data Location](/security-privacy/data-location) — where Sealmetrics processes and stores data

@@ -3,8 +3,8 @@ title: "Authentication"
 description: "How to authenticate with the Sealmetrics API using read-only API keys (X-API-Key header) or JWT bearer tokens from login"
 canonical_url: "https://docs.sealmetrics.com/api/authentication"
 lang: "en"
-date_generated: "2026-10-05T10:32:44.968Z"
-source_hash: "155b8826f7e16f6c5c5379a1a8e0c5840c11719202053470c0ef7352426d9531"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "9e4a98b5340919900dad71bcfcc4380289dac1727a27f9f266af2d0e8fe61a0d"
 content_type: "api-reference"
 owner: "engineering"
 llm_priority: "critical"
@@ -20,7 +20,8 @@ The Sealmetrics API supports two authentication methods. **API keys** (prefixed 
 
 **Note:**
 Sealmetrics measures **cookieless**: the tracking script writes nothing to your
-visitors' browsers — no cookies, no local storage, no identifiers.
+visitors' browsers — no cookies, no local storage, no persistent identifier. The
+session identifier it sends is ephemeral and rotates daily.
 
 The cookies described on this page do something else. They keep *you* signed in
 to the Sealmetrics dashboard and API, the way any web application does. They are

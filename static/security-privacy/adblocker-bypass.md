@@ -3,8 +3,8 @@ title: "How Sealmetrics Reduces AdBlocker Data Loss"
 description: "How 1st-party tracking on your own subdomain keeps Sealmetrics off the third-party block lists AdBlockers use, and why it reduces rather than eliminates ad-blocker loss."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/adblocker-bypass"
 lang: "en"
-date_generated: "2026-09-15T18:01:06.894Z"
-source_hash: "95ee0f4d0955ca6c83f7138376d1688ea37d769fed7eb075a4d3b27d208b8aba"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "551abe5c6ba6f76ae82535e9dd2fda818aaed1ff8784a3f610141d51cbf6ca66"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -32,7 +32,7 @@ AdBlockers typically block requests to well-known tracking domains such as:
 
 When a pixel or script loads from a recognized third-party tracker, the AdBlocker intercepts and blocks it automatically.
 
-This is one of the reasons traditional analytics lose data — alongside consent rejection, which costs them 15–60% depending on sector, brand strength and traffic mix.
+This is one of the reasons traditional analytics lose data — alongside consent rejection.
 
 ---
 
@@ -53,7 +53,7 @@ Because the request is served from a subdomain of your own site, it does not mat
 
 - **Less data loss** from ad-blocking users, whose share varies widely by audience and is highest among technical readers.
 - **Accurate attribution** — cookieless, server-side attribution works without cookies or third-party domains.
-- **Designed for GDPR** — first-party collection of non-personal data; our self-assessment is that it needs no consent banner (see [Compliance](/compliance)).
+- **Designed for GDPR** — first-party collection of minimal, pseudonymised data that becomes unrecoverable daily; our self-assessment is that it needs no consent banner (see [Compliance](/compliance)).
 - **Resilient** — [Safari ITP](https://webkit.org/blog/7675/intelligent-tracking-prevention/), [Firefox ETP](https://support.mozilla.org/en-US/kb/enhanced-tracking-protection-firefox-desktop) and Chrome's [Privacy Sandbox](https://privacysandbox.com/) target cross-site tracking, not first-party requests, so first-party delivery is not what those mechanisms are built to block.
 
 ---
@@ -66,7 +66,7 @@ Once configured, Sealmetrics can also measure visitors whose blockers work from 
 
 **Note:**
 - AdBlockers block requests to known third-party tracking domains (google-analytics.com, facebook.net, doubleclick.net); a Sealmetrics pixel served from a subdomain of your own site does not match those lists, which reduces (not eliminates) ad-blocker loss.
-- The share of ad-blocking users varies by audience; it comes on top of the 15–60% that consent rejection costs traditional analytics.
+- The share of ad-blocking users varies by audience; it comes on top of what consent rejection costs traditional analytics.
 - Set up 1st-party tracking with a DNS A record for the subdomain shown in the dashboard — see the First-party tracker guide.
 
 ## Related documentation

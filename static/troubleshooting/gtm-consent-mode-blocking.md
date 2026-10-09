@@ -3,8 +3,8 @@ title: "Sealmetrics Tag Not Firing in GTM (Consent Mode)"
 description: "Why gating the Sealmetrics tag behind a consent management platform silently drops most of your data, how to diagnose it in GTM Preview, and how to configure the tag correctly."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/gtm-consent-mode-blocking"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "c2565ac6a462f34b265a9ff0426db2732a7d1ab7ab3ec6185eab5ed9c1185c6f"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "9bffc96e313ba3fabde733895b201b4f91cd59794a9c4b1d40fb03064f62505a"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -18,7 +18,7 @@ Canonical page: https://docs.sealmetrics.com/troubleshooting/gtm-consent-mode-bl
 
 The single most common cause of "Sealmetrics is missing data" is a Google Tag Manager container where the Sealmetrics tag is **gated behind consent** — either by GTM Consent Mode settings on the tag or by a consent management platform (Cookiebot, OneTrust, Usercentrics, Didomi, etc.) that blocks Custom HTML tags until the visitor clicks "Accept".
 
-Sealmetrics is **cookieless and consentless by design**: it sets no cookies and uses no persistent identifiers, so it does not require consent to run. Gating it behind a consent banner does not add any compliance benefit — it only removes from your reports every visitor who ignores or declines the banner, which is routinely 30–70% of traffic.
+Sealmetrics is **cookieless and consentless by design**: it sets no cookies and uses no persistent identifiers, so, in our self-assessment, it does not require consent for its own analytics (in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment)). Gating it behind a consent banner does not add any compliance benefit — it only removes from your reports every visitor who ignores or declines the banner, which is routinely 30–70% of traffic.
 
 ---
 

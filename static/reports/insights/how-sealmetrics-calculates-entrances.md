@@ -3,8 +3,8 @@ title: "How Sealmetrics Calculates Entrances"
 description: "Learn what an Entrance is in Sealmetrics, how it differs from GA4 Visits, and how it compares to Pageviews in a privacy-first analytics system."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/how-sealmetrics-calculates-entrances"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "be4399c797f96e4c4cb43bc8f009fad0ebe48fcfed87793988db698f30d105e4"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "0baba4330d6e6497940775f9dea659029e7c44d8b110735c70111420a7b0d5ba"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -95,7 +95,7 @@ A hit is an Entrance when:
 Entrances give you:
 
 - A **privacy-safe measurement** of how often people access your website
-- A method that requires **no cookies, no identifiers, no consent**
+- A method that requires **no cookies, no persistent identifiers, no consent** (self-assessed)
 - A consistent way to track traffic across all browsers and privacy restrictions
 
 Even if the same person enters multiple times from SEO, each access is counted independently.
@@ -116,8 +116,8 @@ While Entrances are not equivalent to “sessions” or “unique visitors,” t
 This method ensures:
 
 - No user tracking
-- No identifiers
-- No consent required
+- No persistent identifiers (only an ephemeral session identifier that rotates daily)
+- No consent required (self-assessed; Germany: open question)
 - Accurate, transparent traffic measurement
 
 Sealmetrics delivers analytics designed for the privacy-first era — without compromising data integrity.
@@ -126,5 +126,5 @@ Sealmetrics delivers analytics designed for the privacy-first era — without co
 
 - [Metrics Reference](/reports/definitions) — Formulas for entrances, pageviews, and conversions
 - [GA4 vs Sealmetrics — Complete Comparison](/faq/ga4-vs-sealmetrics) — How entrances differ from GA4 sessions
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — Why measurement needs no identifiers
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — Why measurement needs no persistent identifiers
 - [Overview Report](/reports/overview) — See entrances and pageviews at a glance

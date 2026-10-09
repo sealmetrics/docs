@@ -3,8 +3,8 @@ title: "PrestaShop"
 description: "Privacy-first, cookieless analytics for PrestaShop 1.7+ and 8.x stores"
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/prestashop"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "75a141276e41a022b49baf950e48c58b0cdf1cdd160d360b0773c34e87a4d4a2"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "d90efd41336c2fb01ab1193d675ae48b3ffbc397383de5c343845b9dd5f1e113"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -161,7 +161,7 @@ Works with all PrestaShop languages:
 - No order IDs stored externally
 - No customer data collected
 - Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
-- No consent banner needed
+- No consent banner for Sealmetrics' own analytics (self-assessed; Germany: open question — see [Germany](/compliance/germany-ttdsg-self-assessment))
 
 ## Troubleshooting
 

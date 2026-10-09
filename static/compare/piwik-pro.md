@@ -1,10 +1,10 @@
 ---
 title: "Sealmetrics vs Piwik PRO: enterprise suite with consent manager vs consentless by design"
-description: "Piwik PRO pairs analytics with a consent manager and an anonymous mode hashed from the IP. Sealmetrics needs no consent layer, no IP and stores only in Dublin."
+description: "Piwik PRO pairs analytics with a consent manager and an anonymous mode hashed from the IP. Sealmetrics needs no consent layer (self-assessed), stores no IP and keeps analytics data only in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compare/piwik-pro"
 lang: "en"
-date_generated: "2026-10-05T10:32:44.968Z"
-source_hash: "d91087043caa6297af3cb274711db2a0bfd7b96087ea311fdc396d13d122c560"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "2acd51ef1cbf1e0b501a22925fc50bfb3d5a0712976c18c8ca9d9a159a8edbda"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/compare/piwik-pro
 
-Sealmetrics and Piwik PRO are both European analytics platforms aimed at organisations with a data protection review to pass. The main difference is philosophy: Piwik PRO is a suite — analytics, tag manager and consent manager — that collects anonymous data before consent and full data after it, using a session hash that includes the IP; Sealmetrics removes the consent step entirely by never storing personal data or deriving anything from the IP.
+Sealmetrics and Piwik PRO are both European analytics platforms aimed at organisations with a data protection review to pass. The main difference is philosophy: Piwik PRO is a suite — analytics, tag manager and consent manager — that collects anonymous data before consent and full data after it, using a session hash that includes the IP; Sealmetrics removes the consent step entirely by storing nothing on the device, using a session identifier that rotates daily and cannot be reconstructed, and deriving nothing from the IP.
 
 ## Side-by-side
 
@@ -27,10 +27,10 @@ Piwik PRO facts checked 2026-09-04 on piwik.pro and help.piwik.pro; each row lin
 | Company / HQ | Sealmetrics, EU company | Piwik PRO SA, Wrocław, Poland ([source](https://piwik.pro/contact/)) |
 | Hosting model | Managed cloud only | Public cloud, private cloud on Azure regions or Elastx ([source](https://piwik.pro/privacy-compliance/)) |
 | Licence | Proprietary | Proprietary ([source](https://piwik.pro/pricing/)) |
-| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | Cookie ID by default; anonymous mode uses a session hash of IP address, OS, browser name and version, language, plugins and site ID ([source](https://help.piwik.pro/support/questions/what-are-sessions-and-how-are-they-counted/)), used for 30 minutes since the last event ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
+| Identifier between pageviews | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | Cookie ID by default; anonymous mode uses a session hash of IP address, OS, browser name and version, language, plugins and site ID ([source](https://help.piwik.pro/support/questions/what-are-sessions-and-how-are-they-counted/)), used for 30 minutes since the last event ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
 | Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | Processed; masking "removes the selected number of bytes from the address before saving it" ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | EU-operated hosting in Sweden, plus Germany, the Netherlands, the US, Hong Kong and UAE North ([source](https://piwik.pro/pricing/)) |
-| Vendor's position on consent | No banner needed for measurement | Anonymous data can be collected without a consent form; full tracking after consent ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
+| Vendor's position on consent | No banner needed for its own measurement (self-assessed; Germany: open question) | Anonymous data can be collected without a consent form; full tracking after consent ([source](https://help.piwik.pro/support/privacy/collect-data-in-a-privacy-friendly-way/)) |
 | Security certifications | None held | Vendor states ISO 27001 and SOC 2 ([source](https://piwik.pro/privacy-compliance/)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | Not published; Sealmetrics measured ~26 KB on the vendor demo instance, 27 Aug 2026 ([method](/guides/tracker-performance-report)) |
 | Free tier | Free tier of 1M events total (lifetime, not monthly), no credit card; 14-day free trial of paid plans ([billing](/billing)) | 30-day free trial; no free plan — see [pricing](https://piwik.pro/pricing/) |
@@ -39,7 +39,7 @@ Piwik PRO facts checked 2026-09-04 on piwik.pro and help.piwik.pro; each row lin
 
 Piwik PRO's default is a visitor cookie, which unlocks the full suite: visitor profiles, multi-session attribution and audience segments. For visitors who have not consented, it offers a privacy-friendly mode built on a session hash — computed from the IP address, operating system, browser name and version, language, enabled plugins and the site ID — that recognises a session for 30 minutes after the last event. IP masking can strip bytes before the address is saved. When the visitor accepts the consent manager's prompt, Piwik PRO upgrades to full tracking. The model gives you two data sets: anonymous for everyone, identified for those who agreed.
 
-Sealmetrics has one data set. Every hit is timestamp, user agent, URL and referrer, grouped within a visit by an in-memory marker that lasts around two hours and contains nothing derived from the IP. There is no consent manager because there is nothing to consent to, and no "upgrade" path to identified tracking. The price is that Sealmetrics never reports unique visitors, session duration or user-level journeys, on any plan.
+Sealmetrics has one data set. Every hit is URL, referrer, timestamp and browser timezone (the user agent is read in flight for bot and device detection and only derived categories are stored), grouped within a visit by a session identifier: a hash of device characteristics computed in the browser, never written to the device, containing nothing derived from the IP and re-keyed on the server with a daily salt that is destroyed on rotation. There is no consent manager because, on our own assessment, the audience-measurement exemption applies, and no "upgrade" path to identified tracking. The price is that Sealmetrics never reports unique visitors, session duration or user-level journeys, on any plan.
 
 ## When Piwik PRO is the better choice
 
@@ -51,7 +51,7 @@ Sealmetrics has one data set. Every hit is timestamp, user agent, URL and referr
 
 - You want to remove the consent layer from analytics altogether instead of managing two data sets.
 - You do not want an identifier — even a 30-minute one — that takes the IP address as an input.
-- You want the lightest tracker and a simpler vendor review: no personal data, EU-only storage in one region, a public [DPA](https://sealmetrics.com/dpa/) and a three-entry subprocessor list.
+- You want the lightest tracker and a simpler vendor review: no data that identifies anyone stored, EU-only storage in one region, a public [DPA](https://sealmetrics.com/dpa/) and a three-entry subprocessor list.
 
 ## Frequently asked questions
 

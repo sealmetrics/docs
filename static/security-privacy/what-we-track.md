@@ -3,8 +3,8 @@ title: "What We Track vs What We Don’t"
 description: "Field-by-field list of what Sealmetrics records on every hit, how long each field is kept, and what it never collects."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/what-we-track"
 lang: "en"
-date_generated: "2026-09-21T08:25:40.708Z"
-source_hash: "cf6b20ea31c575bdca8eacb5ddddd1b66773756648a492a7dbf7b587bc59e294"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "3eb89cbfa594a2f9f5fd20a6858bbadb347bbc9e4c3e5b5616d43b053197f029"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,31 +16,31 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/security-privacy/what-we-track
 
-Sealmetrics records a small set of **non-identifying variables** per page view ("hit") — timestamp, user agent (for anonymous device classification), current URL, referral URL, browser timezone (for the country), and a session identifier that is re-keyed every day — and never sets cookies. **No IP address, user ID, name or email is stored, and nothing stored can link the same device across days.** Because this minimal, aggregation-only dataset contains no personal data, the GDPR obligations that attach to personal data are not triggered, and there is nothing stored on the visitor's device for the ePrivacy Directive to require consent for. This page is the authority on what is collected and for how long; for the concept and the legal reasoning, see [What is Consentless Analytics?](/security-privacy/consentless-analytics).
+Sealmetrics records a small set of **non-identifying variables** per page view ("hit") — timestamp, user agent (for device classification), current URL, referral URL, browser timezone (for the country), and a session identifier that is re-keyed every day — and never sets cookies. **No IP address, user ID, name or email is stored, and nothing stored can link the same device across days.** During the day the session identifier is pseudonymised data, processed under legitimate interest (GDPR Art. 6(1)(f)); once the daily salt rotates, not even Sealmetrics can reconstruct it, and reports are always aggregated. Nothing is stored on the visitor's device. This page is the authority on what is collected and for how long; for the concept and the legal reasoning, see [What is Consentless Analytics?](/security-privacy/consentless-analytics).
 
 ---
 
 ## What We DO Track
 ### What each hit carries
 
-Each page view ("hit") carries the following data points. The first four are the content of the hit; the timezone and the session identifier are what let Sealmetrics assign a country and tell a new entrance from a second pageview:
+Each page view ("hit") carries the following data points. The tracker sends the URL, the referrer, the timestamp, the timezone and an ephemeral session identifier (computed in the browser from device properties it reads); the user agent arrives with the request itself, and is used in flight only. The server also sees the IP: it is checked in flight against a public list of automated-traffic IPs to filter bots, and is not stored. The timezone and the session identifier are what let Sealmetrics assign a country and tell a new entrance from a second pageview:
 
 #### 1. Timestamp
 - **Purpose:** time-based analysis and trend insights
 - **Privacy:** cannot identify an individual
 
 #### 2. User Agent
-- **Purpose:** anonymous device classification (browser family, OS family, mobile/desktop/tablet)
+- **Purpose:** device classification (browser family, OS family, mobile/desktop/tablet)
 - **What we keep:** only the derived categories (browser family, OS family, device type). The raw UA string is used in flight to derive them and to classify automated traffic, and is never written to analytics storage; the derived categories persist in aggregated reports for 24 months.
 - **What we never do:** the UA is never linked to an individual, never joined with any personal identifier (we don't have one), and never used to reconstruct a user's history across sessions. It's a **category signal**, not an identifier.
 
 #### 3. Current URL
 - Page path
 - Page popularity
-- Anonymous content performance
+- Aggregated content performance
 
 #### 4. Referral URL
-- Anonymous attribution
+- Aggregated attribution
 - Campaign performance
 - Traffic source identification
 
@@ -52,7 +52,7 @@ Each page view ("hit") carries the following data points. The first four are the
 - **What happens on the server:** before anything is stored, the pixel service replaces it with `HMAC-SHA256(server key, hash + salt of the day)`. The salt rotates every day at 04:00 in your site's timezone and the previous salt is destroyed on rotation, so the stored identifier changes every day and **two days of the same device cannot be re-linked — not even by Sealmetrics**. The raw hash is never stored.
 - **How long it lives:** the live session in the pixel service's memory expires after **2 hours** of inactivity (GA4-style); that window is what tells a second pageview from a new entrance, which bounce rate and engagement need. The daily pseudonym is also written to the per-hit log, which is purged after **1 day**. It cannot be used to recognise a returning visitor on another day.
 - **Site-isolated by design:** the account ID is part of the hash, so the same browser yields different identifiers on different publishers' sites — no cross-site correlation is possible at the identifier level.
-- **Why it's compliant:** the stored identifier changes every day and cannot be linked across days — it does not enable individual tracking under [GDPR Article 4(1)](https://eur-lex.europa.eu/eli/reg/2016/679/oj), which is why analytics without user identifiers can operate without consent under the [CNIL's audience-measurement criteria](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications). Note that no Article 6 legal basis is needed for the stored dataset: with no personal data in it, the GDPR does not apply to it (Recital 26).
+- **Why it needs no consent (our self-assessment):** the stored identifier changes every day and cannot be linked across days, so it does not enable tracking an individual over time, which is why analytics of this kind can operate without consent under the [CNIL's audience-measurement criteria](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications). Under the GDPR, the daily pseudonym is personal data while it can still be re-keyed ([Recital 26](https://eur-lex.europa.eu/eli/reg/2016/679/oj)); Sealmetrics processes it under legitimate interest (Art. 6(1)(f)) and it becomes unrecoverable when the salt rotates. Reports are aggregated.
 
 ---
 
@@ -78,10 +78,10 @@ Full operational retention (logs, backups, account closure) is documented in [Da
 ### 1. Page Analytics
 - Pageviews (aggregated)
 - Top pages
-- Anonymous navigation patterns
+- Aggregated navigation patterns
 
 ### 2. Traffic Analytics
-- Entrances (anonymous hits)
+- Entrances (aggregated)
 - Traffic volume trends
 - Marketing channel performance
 - Within-session engagement — bounce rate, engaged entrances, engagement rate, pages per session. These are computed inside a single session from the session identifier; they never require recognising a returning visitor. Session *duration* and unique visitors are not measured. See the [Metrics Reference](/reports/definitions).
@@ -97,7 +97,7 @@ ALL aggregated — no user-level behavior.
 
 ### 4. Entry Points
 - Entry pages (landing pages)
-- Internal search (anonymous; via events)
+- Internal search (aggregated; via events)
 
 Exit pages and individual navigation paths are **not** tracked — reconstructing either requires sequencing one visitor's pageviews, which needs a persistent identifier.
 
@@ -115,7 +115,7 @@ Exit pages and individual navigation paths are **not** tracked — reconstructin
 - Micro-conversions
 - Channel-level revenue attribution
 
-### 7. Anonymous Device Data
+### 7. Device Categories
 - Browser category
 - OS category
 - Desktop / mobile / tablet
@@ -144,8 +144,8 @@ If it ships, it would store aggregate, per-hit **environmental** and **behaviora
 
 ## What We DO NOT Track
 
-### No Personal Data Stored
-❌ IP addresses (used in memory only, never persisted)
+### No Identifying Data Stored
+❌ IP addresses (checked in flight against a public list of automated-traffic IPs to filter bots, never stored)
 ❌ User IDs
 ❌ Emails
 ❌ Phone numbers
@@ -172,8 +172,8 @@ If it ships, it would store aggregate, per-hit **environmental** and **behaviora
 ❌ Religious
 ❌ Demographic profiling
 
-### No Device-Level Identifiers
-❌ Device IDs
+### No Persistent Device Identifiers
+❌ Persistent device IDs
 ❌ MAC addresses
 ❌ Stored device fingerprints (the in-browser hash is re-keyed daily on the server — see [Session identifier](#6-session-identifier))
 ❌ Advertising IDs
@@ -197,9 +197,9 @@ The tracker does compute a device-characteristics hash in the browser (see [Sess
 
 ## Why does this dataset need no consent?
 
-- **GDPR** — European company, customer analytics data stored only in Dublin, Ireland. No personal data is collected, so the obligations that attach to personal data are not triggered. Hits are processed in isolation and no identifier is carried across sessions.
+- **GDPR** — European company, customer analytics data stored only in Dublin, Ireland. No data that identifies anyone is stored: the session identifier is pseudonymised data during the day, processed under legitimate interest (Art. 6(1)(f)), with the per-hit log purged after one day; it becomes unrecoverable when the daily salt rotates. No identifier is carried across days or sessions, and reports are aggregated.
 - **ePrivacy Directive** — nothing is stored on the visitor's device (no cookies, no localStorage, no sessionStorage). The tracker does read standard browser properties to compute the session identifier described above; see [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) for how the exemption criteria apply.
-- **CCPA / PECR** — no personal information is collected and no user-level data is sold or shared.
+- **CCPA / PECR** — nothing that identifies anyone is stored, and no user-level data is sold or shared.
 
 Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2), and no supervisory authority certifies analytics tools. The pages under [compliance](/compliance) are our own self-assessments against published criteria. A signed DPA is available at [sealmetrics.com/dpa](https://sealmetrics.com/dpa/).
 
@@ -221,7 +221,7 @@ Sealmetrics always chooses the **more restrictive option**.
 
 ## Summary
 
-Web analytics that answers business questions does not require personal data. From the fields above, Sealmetrics reports:
+Web analytics that answers business questions does not require identifying anyone. From the fields above, Sealmetrics reports:
 
 - every hit, with no loss from consent rejection
 - channel and campaign attribution
@@ -232,10 +232,10 @@ What it does not report is anything tied to an individual — that is the delibe
 
 ## Related documentation
 
-- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the concept and the legal basis in full
+- [What is Consentless Analytics?](/security-privacy/consentless-analytics) — the concept and the reasoning in full
 - [Data Location & Retention](/security-privacy/data-location) — where the data lives and the complete retention schedule
 - [How Attribution Works Without a User-ID](/security-privacy/attribution-without-userid) — how these variables still produce attribution
-- [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) — timezone-based geo without personal data
+- [How Sealmetrics determines the country without using IP addresses](/security-privacy/country-detection) — timezone-based geo without the IP address
 - [Why Sealmetrics Can Measure Without Consent](/security-privacy/why-no-consent) — why this minimal dataset needs no consent
 - [Frequently Asked Questions](/faq/privacy-security) — common questions about what is and isn't collected
 - [Analytics Cookies: Consent Exemption Requirements](/compliance/analytics-cookies-exemption) — the criteria that make consent-free analytics lawful

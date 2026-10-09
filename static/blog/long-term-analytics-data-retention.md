@@ -1,10 +1,10 @@
 ---
 title: "Long-Term Analytics: 24-Month Data Retention Without Consent"
-description: "24-month analytics data retention without consent. How cookieless tracking enables long-term analysis while staying GDPR compliant."
+description: "24-month analytics data retention without consent. How cookieless tracking enables long-term analysis with a design built to comply with the GDPR."
 canonical_url: "https://docs.sealmetrics.com/blog/long-term-analytics-data-retention"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "63101c984128139874b383371b7fd9fa9840892ff0b19aa630562aaeb4f8e469"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "f9a291b78d33cf28236e0f787e4866d1b095a320b88e0f1b2e69c3ed6817c24b"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -17,14 +17,14 @@ publisher: "Sealmetrics"
 Canonical page: https://docs.sealmetrics.com/blog/long-term-analytics-data-retention
 
 <!-- AUTO-TLDR:START -->
-> **TL;DR** — 24-month analytics data retention without consent. How cookieless tracking enables long-term analysis while staying GDPR compliant.
+> **TL;DR** — 24-month analytics data retention without consent. How cookieless tracking enables long-term analysis with a design built to comply with the GDPR.
 <!-- AUTO-TLDR:END -->
 
 Understanding long-term user behavior is crucial for business growth, but traditional analytics platforms face a critical limitation: **GDPR requires deleting data after consent expires, typically forcing 6-13 month retention limits**. Sealmetrics solves this with cookieless tracking that enables **24-month data retention without requiring user consent**.
 
 ## Key Takeaways
 
-- **24-month retention without consent**: Sealmetrics stores aggregate analytics for two years, and because none of it is personal data, the GDPR's retention rules aren't what constrains it
+- **24-month retention without consent**: Sealmetrics stores aggregated, non-identifying analytics for two years; the per-hit log is purged after one day
 - **No consent expiration risk**: Unlike cookie-based analytics, your data won't be deleted when consent expires
 - **Complete historical analysis**: Track seasonal trends, year-over-year growth, and long-term user behavior
 - **Designed for GDPR**: Cookieless tracking with zero IP storage meets data minimization requirements
@@ -58,22 +58,22 @@ In B2B SaaS, where sales cycles often exceed 6 months, this data retention limit
 
 ## How Sealmetrics Enables 24-Month Data Retention
 
-Sealmetrics stores **no personal data at all**, which changes the retention equation more fundamentally than picking a different legal basis would.
+Sealmetrics stores **nothing on the device and no data that identifies anyone**, and what it keeps long-term is aggregated.
 
-### The Legal Position: Outside the GDPR's Material Scope
+### The Legal Position: Short-Lived Pseudonymised Data, Aggregated Reports
 
-**GDPR Recital 26** states that the principles of data protection do not apply to anonymous information — information which does not relate to an identified or identifiable natural person. Retention limits are one of those principles. If the stored data isn't personal data, the storage limitation principle has nothing to attach to.
+The only identifier Sealmetrics handles is a session identifier that is pseudonymised data while its key and daily salt exist (GDPR Recital 26). The salt rotates daily and the old one is destroyed, after which not even Sealmetrics can reconstruct the identifier, and the per-hit log is purged after one day. What is kept for 24 months is aggregated reports, which are non-identifying.
 
 Sealmetrics is in that position because:
 
-1. **No personal data stored**: no IP addresses, no stored fingerprints, no cross-site identifiers
+1. **No identifying data stored**: no IP addresses, no stored fingerprints, no cross-site identifiers
 2. **Session-based tracking**: the session identifier is computed in the browser, never written to the device, and re-keyed daily on the server so it cannot be linked across days
 3. **Data minimization**: only aggregate behavioural data, no individual profiles
 4. **Transparent processing**: a clear privacy policy explains what is measured
 
-Note what we're *not* claiming. It would be easy to say "we rely on legitimate interest under Article 6(1)(f)" — plenty of vendors do — but naming any Article 6 basis concedes that personal data is being processed, and would put the retention question straight back on the table. CNIL's 2020 guidance confirms that cookieless analytics which doesn't create persistent user profiles can operate without consent.
+For the short-lived pseudonymised operational data (per-hit log, live session, one day), Sealmetrics relies on legitimate interest, GDPR Article 6(1)(f). CNIL's 2020 guidance confirms that cookieless analytics which doesn't create persistent user profiles can operate without consent.
 
-### Technical Implementation: Zero Personal Data
+### Technical Implementation: Minimal Data
 
 Unlike competitors that hash or pseudonymize IP addresses, Sealmetrics uses a dual tracking approach:
 
@@ -81,7 +81,7 @@ Unlike competitors that hash or pseudonymize IP addresses, Sealmetrics uses a du
 - Session identifier = an in-browser hash of standard device characteristics, re-keyed daily on the server with a salt that is then destroyed
 - Session-ID expires after ~2 hours of inactivity
 - No cross-session tracking by default
-- Zero personal data in the identifier
+- Unrecoverable after the daily rotation, not even by Sealmetrics
 
 **Isolated Hit Recording**:
 - Each pageview = independent data point
@@ -107,18 +107,18 @@ Here's how long-term analytics capabilities compare across major platforms:
 
 | Feature | Google Analytics | Plausible | Matomo | Sealmetrics |
 |---------|------------------|-----------|--------|-------------|
-| **Legal Basis** | Consent (Article 6(1)(a)) | Legitimate Interest | Legitimate Interest | **None required — no personal data** |
+| **Legal Basis** | Consent (Article 6(1)(a)) | Legitimate Interest | Legitimate Interest | **Legitimate interest — minimal pseudonymised data, aggregated reports** |
 | **Requires Consent Banner** | Yes | No | Depends | No |
 | **Maximum Retention (With Consent)** | 14-26 months | Unlimited | Unlimited | **24 months** |
 | **Maximum Retention (Without Consent)** |  0 months | 26 months | 26 months | **24 months** |
 | **Data Deletion on Consent Withdrawal** |  Required | Not required | Not required | Not required |
 | **Stores IP Addresses** | Yes | Hashed | Hashed | **Zero IPs** |
 | **Cross-Session Tracking** | Yes (cookies) | Optional | Optional | Session-only |
-| **Personal Data Risk** | High | Medium | Medium | **Zero** |
+| **Personal Data Risk** | High | Medium | Medium | **Minimal (identifier unrecoverable after one day)** |
 | **Year-Over-Year Analysis** | If consent maintained | Yes | Yes | Yes |
-| **Setup Complexity** | High (consent mgmt) | Low | Medium | **2 minutes** |
+| **Setup Complexity** | High (consent mgmt) | Low | Medium | **About 4 minutes** |
 
-**Key Insight**: Sealmetrics is the only platform that combines zero IP storage with 24-month retention, providing long-term analytics without any personal data collection.
+**Key Insight**: Sealmetrics is the only platform that combines zero IP storage with 24-month retention, providing long-term analytics on aggregated, non-identifying reports.
 
 ## Implementation Guide: Enabling Long-Term Analytics
 
@@ -131,11 +131,11 @@ Add the Sealmetrics script to your site:
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_ACCOUNT_ID" defer></script>
 ```
 
-That's it. No consent banner configuration needed.
+That's it. No consent banner configuration needed for Sealmetrics (our self-assessment).
 
 ### Step 2: Understand the Retention Schedule
 
-Sealmetrics retention is fixed and identical for every plan, enforced by database TTLs: daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and the per-hit log 1 day. There is nothing to configure — and since Sealmetrics doesn't collect personal data, there's no compliance reason to shorten it. If you ever need data removed earlier (for example when closing an account), contact support.
+Sealmetrics retention is fixed and identical for every plan, enforced by database TTLs: daily aggregates and conversions are kept 24 months, hourly aggregates 90 days, and the per-hit log 1 day. There is nothing to configure — and since what is kept for 24 months is aggregated and non-identifying, there's no compliance reason to shorten it. If you ever need data removed earlier (for example when closing an account), contact support.
 
 ### Step 3: Access Historical Data
 
@@ -168,10 +168,11 @@ how visitors use our website. Sealmetrics:
 - Does not use cookies or require consent banners
 - Does not store IP addresses or personal identifiers
 - Retains aggregated analytics data for 24 months
-- Stores nothing on your device and retains no personal data,
-  so this measurement falls outside the scope of the GDPR
+- Stores nothing on your device and no data that identifies anyone;
+  the session identifier rotates daily and cannot be reconstructed
 
-No personal data is collected. For more: https://sealmetrics.com/privacy
+This minimal pseudonymised data is processed on the basis of our
+legitimate interest (GDPR Art. 6(1)(f)). For more: https://sealmetrics.com/privacy
 ```
 
 ## Use Cases: When Long-Term Analytics Matter
@@ -228,7 +229,7 @@ GDPR Article 5(1)(c) requires data minimization:
 
 Sealmetrics achieves this by:
 
-1. **Not collecting personal data**: No IPs, no cookies, no persistent identifiers
+1. **Minimal collection**: No IPs, no cookies, no persistent identifiers
 2. **Aggregate data only**: Session-based metrics, not individual profiles
 3. **Automatic purge**: 24-month deletion ensures data isn't kept indefinitely
 
@@ -246,18 +247,18 @@ Sealmetrics complies because:
 
 ### The Assessment a DPO Will Actually Ask For
 
-Not a balancing test — a scope analysis. Three questions:
+Three questions:
 
 **Is any of it personal data?**
-No. Session identifiers change daily, cannot be linked across days, and are never written to the device. No IP is stored, hashed or otherwise.
+Only briefly. The session identifier is pseudonymised data while its daily salt exists; it changes daily, cannot be linked across days, is never written to the device, and once rotated not even Sealmetrics can reconstruct it. The per-hit log is purged after one day. No IP is stored, hashed or otherwise. The 24-month reports are aggregated and non-identifying.
 
 **Is anything stored on or read from the user's device?**
 Nothing is stored on it. The tracker does read standard browser properties to compute the session identifier, which engages ePrivacy Article 5(3), the rule behind cookie banners; that read relies on the audience-measurement exemption (CNIL's criteria), not on consent.
 
 **So which Article 6 basis applies?**
-None, and that is the point. Under Recital 26 the dataset is outside the GDPR's material scope, so no legal basis is required. Reaching for legitimate interest here would weaken the position, not strengthen it.
+Legitimate interest, Article 6(1)(f), for the short-lived pseudonymised operational data. The balance is easy because the data is minimal and unrecoverable after one day.
 
-CNIL's 2020 guidance confirms that cookieless analytics can operate without consent when no personal data is collected.
+CNIL's 2020 guidance confirms that cookieless audience measurement meeting its criteria can operate without consent.
 
 ## Best Practices for Long-Term Analytics
 
@@ -304,11 +305,11 @@ When data reaches 24 months:
 
 ### Is 24-month retention GDPR compliant?
 
-Yes. Sealmetrics stores no personal data (no IPs, no cookies), so the dataset falls outside the GDPR's material scope under Recital 26 and the storage limitation principle isn't what governs it. We apply 24 months anyway, with automatic deletion — it's proportionate for business analytics and it keeps the retention question uncontroversial in a vendor review.
+On our own assessment, yes. What Sealmetrics keeps for 24 months is aggregated, non-identifying reports; the per-hit log is purged after one day, and no IPs or cookies are stored. The 24 months come with automatic deletion — it's proportionate for business analytics and it keeps the retention question uncontroversial in a vendor review.
 
 ### Why not unlimited retention like some competitors?
 
-While technically possible (since we don't collect personal data), 24 months provides the optimal balance between analytical value and demonstrating GDPR compliance through reasonable storage limits. It covers two full years plus seasonal buffer, which satisfies 99% of business analytics needs.
+While technically possible (the long-term data is aggregated), 24 months provides the optimal balance between analytical value and demonstrating GDPR compliance through reasonable storage limits. It covers two full years plus seasonal buffer, which satisfies 99% of business analytics needs.
 
 ### What happens to data after 24 months?
 
@@ -316,15 +317,15 @@ Data older than 24 months is automatically and permanently deleted from Sealmetr
 
 ### Do I need consent banners with 24-month retention?
 
-No. Nothing is stored on the visitor's device, and the standard browser properties read to compute the session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3) — the rule that mandates cookie banners — rather than on consent. No personal data is stored, so no GDPR legal basis is required either. You don't need cookie banners, consent management platforms, or consent tracking. Your privacy policy should mention Sealmetrics usage, but no active user consent is required.
+No, on our own assessment — though in Germany it is an open question (see [Germany](/compliance/germany-ttdsg-self-assessment)). Nothing is stored on the visitor's device, and the standard browser properties read to compute the session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3) — the rule that mandates cookie banners — rather than on consent. Nothing stored identifies anyone, and the short-lived pseudonymised data relies on legitimate interest, not consent. You don't need cookie banners, consent management platforms, or consent tracking for Sealmetrics. Your privacy policy should mention Sealmetrics usage, but no active user consent is required.
 
 ### Can I reduce retention to less than 24 months?
 
-Retention is fixed and identical for every plan — it is enforced by database TTLs and is not configurable. Since Sealmetrics doesn't collect personal data, there's typically no compliance reason to shorten it. If your organization needs data removed earlier, contact support to request deletion.
+Retention is fixed and identical for every plan — it is enforced by database TTLs and is not configurable. Since what is kept for 24 months is aggregated and non-identifying, there's typically no compliance reason to shorten it. If your organization needs data removed earlier, contact support to request deletion.
 
 ### How does this compare to Google Analytics data retention?
 
-Google Analytics requires consent (cookie-based) and typically allows 14-26 month retention. However, when users withdraw consent or consent expires, Google Analytics must delete all associated data. Sealmetrics' 24-month retention is guaranteed regardless of user actions because no consent is required.
+Google Analytics requires consent (cookie-based) and typically allows 14-26 month retention. However, when users withdraw consent or consent expires, Google Analytics must delete all associated data. Sealmetrics' 24-month retention doesn't depend on user actions because, on our own assessment, no consent is required.
 
 ### Can I track individual users across 24 months?
 
@@ -362,13 +363,13 @@ Businesses using Sealmetrics can:
 - **Optimize seasonally** using multi-year comparison data
 - **Track customer lifecycles** beyond consent expiration limits
 
-All while maintaining **zero personal data collection** — which is what keeps the dataset outside the GDPR's material scope in the first place.
+All while storing **nothing on the device and no data that identifies anyone**.
 
 Unlike Google Analytics (which deletes data when consent expires), Plausible (which stores hashed IPs), or Matomo (which requires complex configuration), Sealmetrics provides the simplest path to long-term, privacy-first analytics.
 
-**Ready to gain 24 months of insight without consent banners?**
+**Ready to gain 24 months of insight without a consent banner for your analytics?**
 
-Start your free trial at [sealmetrics.com](https://sealmetrics.com) and experience analytics that doesn't expire with user consent.
+[Open your free account](https://my.sealmetrics.com/register) — your first 1M events are free, with no card — and experience analytics that doesn't depend on user consent.
 
 ## Additional Resources
 

@@ -3,8 +3,8 @@ title: "Installation"
 description: "Install the Sealmetrics tracker with one script tag: basic setup, content grouping via the group parameter, custom endpoints, and parameter reference."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker/installation"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "b57d9bd8911cd67f2e60f9777f37c1974a4a4c5ca58be7b052d566817b7ba7f4"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "613acdc755585e1b7376578a8afb63dc846a76c10d54fd914ecda676605d1367"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -185,4 +185,4 @@ The server returns 204 for all requests (valid or rejected) to prevent informati
 
 ---
 
-*Need help with installation? Contact us at support@sealmetrics.com or [start your free trial](https://my.sealmetrics.com/register).*
+*Need help with installation? Contact us at support@sealmetrics.com or [open your free account](https://my.sealmetrics.com/register) — your first 1M events are free.*

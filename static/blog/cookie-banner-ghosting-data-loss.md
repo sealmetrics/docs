@@ -1,10 +1,10 @@
 ---
-title: "Cookie Banner Ghosting: Why Analytics Loses 15-60% of Your Data"
-description: "Many visitors never answer the cookie banner — they ignore it. Ghosting, not rejection, is the quiet reason cookie-based analytics loses 15-60% of data."
+title: "Cookie Banner Ghosting: Why Analytics Loses Part of Your Data"
+description: "Many visitors never answer the cookie banner — they ignore it. Ghosting, not rejection, is the quiet reason cookie-based analytics loses the visitors who reject or ignore the cookie banner."
 canonical_url: "https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "41ca4dddd48f4e03ca92dcfc1d17ffc2487fb9761cc59d6fbff35a09533b4396"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "6903855288a9976b302514a74529474d11944227b71298736421dad98e6cdb02"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -12,12 +12,12 @@ source_file: "cookie-banner-ghosting-data-loss.mdx"
 publisher: "Sealmetrics"
 ---
 
-# Cookie Banner Ghosting: Why Analytics Loses 15-60% of Your Data
+# Cookie Banner Ghosting: Why Analytics Loses Part of Your Data
 
 Canonical page: https://docs.sealmetrics.com/blog/cookie-banner-ghosting-data-loss
 
 <!-- AUTO-TLDR:START -->
-> **TL;DR** — Many visitors never answer the cookie banner — they ignore it. Ghosting, not rejection, is the quiet reason cookie-based analytics loses 15-60% of data.
+> **TL;DR** — Many visitors never answer the cookie banner — they ignore it. Ghosting, not rejection, is the quiet reason cookie-based analytics loses the visitors who reject or ignore the cookie banner.
 <!-- AUTO-TLDR:END -->
 
 ## Introduction
@@ -33,18 +33,18 @@ This phenomenon, called "banner ghosting" or "decision avoidance," represents ba
 - **A second group rejects outright** — explicit refusal, no tracking
 - **Only the accepters are measured** — and how big that group is depends entirely on who your visitors are
 
-**Where it lands: cookie-based analytics loses 15-60% of your visitor data.** The spread is not noise — it is driven by your sector, the strength of your brand and where your traffic comes from. A recognised consumer brand whose visitors mostly arrive direct sits near the 15% end. A site buying cold traffic in a privacy-sensitive market sits near the 60% end. Either way, your real capture rate is somewhere between 40% and 85%, not 100%.
+**Where it lands: cookie-based analytics loses the visitors who reject or ignore the cookie banner.** The spread is not noise — it is driven by your sector, the strength of your brand and where your traffic comes from. A recognised consumer brand whose visitors mostly arrive direct loses less; a site buying cold traffic in a privacy-sensitive market loses more. The only reliable number is the one you measure on your own site.
 
 This isn't a rounding error—it's a structural hole in your business intelligence. Companies running Google Analytics 4, Adobe Analytics, or any cookie-based platform are making strategic decisions on a fraction of their actual traffic, and never a random fraction: the visitors who go missing are systematically different from the ones who stay.
 
-**The solution**: Cookieless analytics platforms like Sealmetrics don't display consent banners because they don't require cookies. No banner means no ghosting, no rejection, no consent-driven data loss. Because no personal data is stored, the dataset falls outside the material scope of the GDPR (Recital 26), so no Article 6 legal basis is needed at all — and because nothing is written to the device and the browser properties read to compute the session identifier rely on the audience-measurement exemption, the ePrivacy consent rule (Article 5(3)) does not require a banner.
+**The solution**: Cookieless analytics platforms like Sealmetrics don't display consent banners because they don't require cookies. No banner means no ghosting, no rejection, no consent-driven data loss. Nothing that identifies anyone is stored, the session identifier rotates daily and becomes unrecoverable, and reports are always aggregated — and because nothing is written to the device and the browser properties read to compute the session identifier rely on the audience-measurement exemption, on our own assessment the ePrivacy consent rule (Article 5(3)) does not require a banner for Sealmetrics' own analytics. In Germany that is an open question: the DSK does not extend §25(2) TDDDG to audience measurement, and reading device properties via JavaScript may count as "access" under §25(1) — see [Germany](/compliance/germany-ttdsg-self-assessment).
 
 This article examines the psychology of banner ghosting, sizes the combined impact of ghosting plus rejection, and explains how cookieless analytics eliminates both problems simultaneously.
 
 ### Key Takeaways
 
 - **A large share of visitors ignore cookie banners entirely** without making any decision (banner ghosting)
-- **Combined with outright rejection, cookie-based analytics loses 15-60% of visitor data** — where you land depends on sector, brand strength and traffic sources
+- **Combined with outright rejection, cookie-based analytics loses the visitors who reject or ignore the cookie banner** — where you land depends on sector, brand strength and traffic sources
 - **Banner ghosting is psychological avoidance behavior**, not technical blocking
 - **Cookie-based analytics cannot solve this problem**—the banner itself causes the behavior
 - **Cookieless analytics like Sealmetrics eliminates the banner**, removing consent-driven data loss entirely
@@ -104,15 +104,13 @@ Banner ghosting is not a technical phenomenon—it's psychological. Users ghost 
 
 **How long do users remain in ghosting state?**
 
-Research on consent banner behavior shows:
+Ghosting takes a few recognisable forms:
 
-**Single-session ghosters (75-80%)**: Most users who ghost a banner do so for the entire session. They browse multiple pages, potentially convert, and leave—all while ignoring the banner. If they return days later, they encounter the banner again and often ghost again.
+**Single-session ghosters**: Many users who ghost a banner do so for the entire session. They browse multiple pages, potentially convert, and leave—all while ignoring the banner. If they return days later, they encounter the banner again and often ghost again.
 
-**Multi-session ghosters (15-20%)**: Some users ghost across multiple sessions over days or weeks. They've trained themselves to ignore your banner specifically. Cookie-based analytics never captures these users unless they eventually accept or reject.
+**Multi-session ghosters**: Some users ghost across multiple sessions over days or weeks. They've trained themselves to ignore your banner specifically. Cookie-based analytics never captures these users unless they eventually accept or reject.
 
-**Permanent ghosters (5-10%)**: A small segment never interacts with cookie banners on any site. They've developed complete banner blindness. Cookie-based analytics will never track these users.
-
-**Median ghosting duration**: 3-5 minutes (single session) to indefinitely (never decides)
+**Permanent ghosters**: A small segment never interacts with cookie banners on any site. They've developed complete banner blindness. Cookie-based analytics will never track these users.
 
 For cookie-based analytics, ghosting is functionally equivalent to rejection. Whether a user clicks "Reject All" or ignores the banner, the outcome is identical: **zero data captured**.
 
@@ -139,7 +137,7 @@ From the analytics platform's perspective, this user never existed. They're not 
 **Technical blocking**:
 - User actively installs software (uBlock Origin, Privacy Badger)
 - Blocks analytics scripts from loading
-- Affects 10-15% of users
+- Affects a minority of users, varying by audience
 - Demonstrates active privacy preference
 
 **Banner ghosting**:
@@ -166,7 +164,7 @@ Understanding banner ghosting fundamentally changes how we calculate analytics d
 2. **Your brand strength.** People accept cookies from brands they already know and trust. An unfamiliar domain gets ghosted.
 3. **Your traffic sources.** Direct and branded-search visitors arrive with intent and accept at higher rates. Cold bought traffic does not.
 
-**Where that lands: 15-60% of your data, gone.** Equivalently, a capture rate somewhere between 40% and 85%. The range is wide because the underlying businesses are genuinely different, not because the measurement is fuzzy.
+**Where that lands: part of your data, gone — how much depends on your site.** Businesses differ genuinely, which is why no single percentage holds for everyone.
 
 ### Why the Loss Is Smaller Than the Non-Acceptance Rate
 
@@ -176,7 +174,7 @@ Here is the step most write-ups skip, including earlier versions of this one. **
 
 **Repeat visits.** A visitor who ghosts on Monday may accept on Thursday. Ghosting is a per-visit behaviour, not a permanent state, so a slice of the ghosted population folds back into your measured data over time.
 
-Net of both effects, the honest figure for a cookie-based setup is the 15-60% band — not the far larger number you get by naively summing ghosters and rejecters. **The problem is real without the inflation**, and inflated numbers are the fastest way to lose an argument with a sceptical CFO.
+Net of both effects, the honest figure for a cookie-based setup is the consent gap — not the far larger number you get by naively summing ghosters and rejecters. **The problem is real without the inflation**, and inflated numbers are the fastest way to lose an argument with a sceptical CFO.
 
 ### Site-by-Site: Why the Loss Lands Between 15% and 60%
 
@@ -211,16 +209,16 @@ Here you are making decisions on a minority of your traffic, and the minority is
 
 ### Why Ghosting Makes Rejection Statistics Misleading
 
-Industry discussions often cite "87% rejection rate in Germany" or "75% rejection rate in France." These statistics are **rejection rate among users who interact with the banner**, not rejection rate among all visitors — and neither one is your data loss rate.
+Industry discussions often cite high rejection rates for particular countries. Those figures are usually a **rejection rate among users who interact with the banner**, not among all visitors — and neither one is your data loss rate.
 
-**Misleading stat**: "87% of users reject cookies in Germany"
-**What it actually says**: 87% of the users who bothered to engage with the banner rejected. It is silent on the larger group who engaged with nothing at all.
+**Misleading reading**: "X% of users reject cookies in country Y"
+**What it usually says**: X% of the users who bothered to engage with the banner rejected. It is silent on the group who engaged with nothing at all.
 
 Two different denominators, routinely conflated:
 ```
 Rejections / (Acceptances + Rejections)   =   rejection rate among deciders
 Non-accepters / All visitors              =   your consent gap
-Measured shortfall vs reality             =   your actual data loss (15-60%)
+Measured shortfall vs reality             =   your actual data loss
 ```
 
 Focusing on rejection rates understates the behaviour. Summing ghosting and rejection overstates the damage. **Ghosting is often larger than rejection** and receives no attention because ghosting users generate no event at all — there is no "reject" click to count.
@@ -310,7 +308,7 @@ Google's "consent mode" attempts to provide degraded analytics for non-consentin
 - Modelled data is estimated, not observed — you can't segment it or drill into it
 - Modelling quality degrades badly at low traffic volumes
 - Legal uncertainty (some DPAs consider consent mode insufficient)
-- It narrows the gap rather than closing it: a real shortfall remains, and it is the part of the 15-60% band you cannot see into
+- It narrows the gap rather than closing it: a real shortfall remains, and it is the part of the consent gap you cannot see into
 
 **2. Progressive Consent / Delayed Banners**
 
@@ -337,7 +335,7 @@ Endless tweaking of banner design to increase acceptance:
 - Dark patterns are illegal under GDPR and face fines
 - Users still ghost even optimized banners (decision avoidance, not design issue)
 - Regulators require "Reject" to be as prominent as "Accept"
-- Optimisation nudges acceptance up by a few points; it does not move you out of the 15-60% loss band
+- Optimisation nudges acceptance up by a few points; it does not move you out of the consent gap
 
 **4. Incentivized Consent**
 
@@ -384,10 +382,10 @@ This cycle cannot be broken within cookie-based architecture. The moment you dis
 Cookieless analytics platforms like Sealmetrics break the paradox by removing cookies from the equation:
 
 1. **No cookies used** for analytics tracking
-2. **No consent required**, because nothing is stored on the device, the browser properties read for the session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3), and no personal data is stored (Recital 26)
+2. **No consent required**, because nothing is stored on the device, the browser properties read for the session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3), and the session identifier rotates daily and becomes unrecoverable (our self-assessment)
 3. **No banner displayed** to users
 4. **No ghosting possible** (nothing to ghost)
-5. **Every visitor measured**, with no consent mechanism in the way
+5. **No consent mechanism in the way**: we measure all the traffic you lose today to the cookie banner
 
 Banner ghosting is eliminated because the banner itself is eliminated. Users cannot avoid a decision they're never asked to make.
 
@@ -399,13 +397,13 @@ Banner ghosting is eliminated because the banner itself is eliminated. Users can
 - No reactance (no freedom restriction)
 - No banner blindness (no banner to ignore)
 
-Sealmetrics removes the psychological triggers that cause ghosting in the first place. Users access your site without friction. Your analytics sees the whole audience. And the compliance position rests on architecture rather than on a consent record: no personal data stored, nothing written to the device.
+Sealmetrics removes the psychological triggers that cause ghosting in the first place. Users access your site without friction. Your analytics sees the whole audience. And the compliance position rests on architecture rather than on a consent record: no data that identifies anyone, nothing written to the device.
 
 ---
 
 ## How Sealmetrics Eliminates Both Ghosting and Rejection
 
-Sealmetrics solves the combined problem of banner ghosting and cookie rejection — together, the 15-60% hole in your dataset — by eliminating the root cause: the consent banner itself.
+Sealmetrics solves the combined problem of banner ghosting and cookie rejection — together, the consent gap — by eliminating the root cause: the consent banner itself.
 
 ### Technical Approach: Cookieless Tracking
 
@@ -418,19 +416,11 @@ Sealmetrics uses session-based tracking that doesn't require cookies:
 3. **No browser storage**: The identifier is never stored on the device — no cookies, no LocalStorage, no SessionStorage
 4. **Session tracking**: All pageviews during this browser session use the same identifier
 5. **Automatic expiry and daily re-keying**: The live session expires after 2 hours of inactivity, and before anything is stored the server re-keys the identifier with a daily salt that is destroyed on rotation — so visits cannot be correlated across days, not even by Sealmetrics, and each new entrance counts as new, independent data (privacy by design)
-6. **No consent required**: nothing is stored on the user's device, and the browser properties read to compute the identifier rely on the audience-measurement exemption from the ePrivacy consent rule (Article 5(3)) — and because no personal data is retained, there is no Article 6 legal basis to choose in the first place
+6. **No consent required**: nothing is stored on the user's device, and the browser properties read to compute the identifier rely on the audience-measurement exemption from the ePrivacy consent rule (Article 5(3)); the short-lived pseudonymised operational data relies on legitimate interest, GDPR Article 6(1)(f)
 
-**Isolated Hits Tracking (Fallback Method)**:
+**Isolated hits (fallback)**:
 
-For the small share of visits where a session identifier cannot be computed:
-
-1. **Server-side inference**: Sealmetrics tracks each pageview as isolated hit
-2. **Pattern recognition**: Server logic infers session continuity based on:
-   - Pageview timing (views within 30 minutes likely same session)
-   - Referrer patterns (internal referrers suggest continued session)
-   - Navigation flow (homepage → product → checkout suggests single journey)
-3. **Conservative attribution**: When uncertain, treats hits as separate sessions
-4. **Maximum privacy**: Zero browser storage, pure server-side analysis
+For the small share of visits where no session identifier arrives, each pageview is counted on its own as a new entrance. No session continuity is inferred, and nothing is stored in the browser.
 
 ### Why This Approach Eliminates Ghosting
 
@@ -441,9 +431,9 @@ When a user visits a site using Sealmetrics:
 2. Content is accessible instantly (no friction)
 3. Sealmetrics measurement occurs in the background (no user awareness required)
 4. No decision required from user (no cognitive load)
-5. Every visit measured (no consent-driven data loss)
+5. No consent-driven data loss: we measure all the traffic you lose today to the cookie banner
 
-From the user's perspective, the site "just works." From the business perspective, analytics "just works." No banner. No ghosting. No rejection. No data loss.
+From the user's perspective, the site "just works." From the business perspective, analytics "just works." No banner. No ghosting. No rejection. No consent-driven data loss.
 
 ### Why This Approach Eliminates Rejection
 
@@ -451,7 +441,7 @@ From the user's perspective, the site "just works." From the business perspectiv
 
 Cookie-based analytics requires obtaining consent before tracking. This creates the rejection problem: a meaningful share of the users who engage with the banner choose "Reject All."
 
-Sealmetrics doesn't request consent because it doesn't use cookies and doesn't store personal data — no IP addresses, not even hashed ones.
+Sealmetrics doesn't request consent because it doesn't use cookies, stores nothing on the device and stores no data that identifies anyone — no IP addresses, not even hashed ones.
 
 **Rejection is impossible** when no consent mechanism exists. There is no banner to reject, so that source of loss disappears along with ghosting.
 
@@ -461,11 +451,9 @@ The argument runs on two separate tracks, and it is worth keeping them apart, be
 
 **Track one — ePrivacy Article 5(3).** This is the rule that actually mandates cookie banners. It requires consent to *store information on, or gain access to information stored in*, a user's terminal equipment. Sealmetrics writes nothing to the device: no cookies, no LocalStorage, no SessionStorage. It does read standard browser properties to compute its session identifier, so Article 5(3) is engaged by that read; Sealmetrics relies on the audience-measurement exemption for it (see the regulatory guidance below) rather than on consent.
 
-**Track two — GDPR material scope, Recital 26.** The data protection principles do not apply to anonymous information — information which does not relate to an identified or identifiable natural person. Because Sealmetrics stores no personal data, the resulting dataset falls outside the material scope of the Regulation.
+**Track two — GDPR.** While its key and daily salt exist, the session identifier is a pseudonym, and pseudonymised data is personal data (Recital 26). Sealmetrics keeps that window short: the salt rotates daily and the old one is destroyed, after which not even Sealmetrics can reconstruct the identifier; the per-hit log is purged after one day, and reports are always aggregated. That minimal, pseudonymised operational data relies on legitimate interest, GDPR Article 6(1)(f).
 
-**This is why we do not claim legitimate interest.** It is tempting to reach for Article 6(1)(f), and plenty of vendors do. But invoking any Article 6 basis presupposes that you *are* processing personal data and merely have a good reason for it. That concedes the entire point. If no personal data is stored, no legal basis is needed — asserting one would weaken the position, not strengthen it.
-
-The one place Article 6(1)(f) does legitimately appear is narrower: the transient, in-memory handling of an IP address for security and anti-abuse purposes, which Recital 49 addresses directly. That address is never written to storage and never reaches the analytics dataset.
+The IP address is handled only transiently, in memory, for bot blocking (security and anti-abuse, which Recital 49 addresses directly). It is never written to storage and never reaches the analytics dataset.
 
 **Regulatory guidance**: CNIL (French data protection authority) has confirmed that audience measurement meeting specific criteria can operate without consent. Note that CNIL does not certify or approve individual tools, and neither does any other supervisory authority — no such scheme exists for analytics software. See our [CNIL self-assessment](/compliance/cnil-self-assessment) for how we assess ourselves against those criteria.
 
@@ -478,9 +466,9 @@ The one place Article 6(1)(f) does legitimately appear is narrower: the transien
 Total visitors:      100,000
 Ghosting + rejection: the missing slice
 Consent Mode:         models part of it back, as estimates
-Data capture rate:    40-85%, depending on sector,
+Data capture rate:    only visitors who consent, varying by sector,
                       brand strength and traffic sources
-Data loss:            15-60%
+Data loss:            specific to each site
 ```
 
 **Cookieless analytics (Sealmetrics)**:
@@ -494,13 +482,13 @@ Data capture rate:   full, minus the JavaScript blockers
 Consent-driven loss: none
 ```
 
-**Impact**: depending on where your site sits in that band, Sealmetrics surfaces roughly 1.2x to 2.5x the data a cookie-based tool reports — and, more importantly, eliminates the sample bias, which is the part that makes decisions go wrong rather than merely go small.
+**Impact**: Sealmetrics surfaces the traffic a cookie-based tool misses — the amount is specific to your site — and, more importantly, eliminates the sample bias, which is the part that makes decisions go wrong rather than merely go small.
 
 ### Real-World Implementation
 
 **Migration from Google Analytics 4 to Sealmetrics**:
 
-**Step 1**: Install Sealmetrics tracking code (2 minutes)
+**Step 1**: Install Sealmetrics tracking code (about 4 minutes)
 ```html
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
@@ -516,9 +504,9 @@ Consent-driven loss: none
 **Total implementation time**: 4 minutes
 
 **Result**:
-- No consent banner
-- Every visit measured
-- No personal data stored, so no consent record to maintain
+- No consent banner for its own analytics (self-assessed; Germany: open question)
+- The traffic you lose today to the cookie banner, measured
+- No consent banner, so no consent record to maintain
 - Real-time analytics
 - No consent-driven data loss
 
@@ -537,7 +525,7 @@ Consent-driven loss: none
 
 ---
 
-## Business Impact of a 15-60% Data Gap
+## Business Impact of the Consent Gap
 
 Operating with cookie-based analytics in the current environment means making strategic decisions on a partial, self-selected sample of your visitors. The consequences cascade through every business function — and they get worse, not better, as the gap gets more uneven between channels.
 
@@ -861,7 +849,7 @@ This revenue exists, but your analytics can't attribute it to marketing channels
 - ✅ No third-party data sharing
 - ✅ Session identifiers re-keyed daily on the server, never written to the device
 - ✅ Nothing stored on the device; the browser properties read for the session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3)
-- ✅ No personal data stored, so the dataset sits outside GDPR material scope (Recital 26)
+- ✅ No data that identifies anyone; the session identifier rotates daily and becomes unrecoverable, and reports are always aggregated
 - ✅ Data hosted in Dublin, Ireland
 
 **B. Consult with DPO (if applicable)**:
@@ -878,10 +866,11 @@ via the consent banner. For more information, see our cookie policy."
 New text (cookieless):
 "We use Sealmetrics, a cookieless analytics service, to understand website
 usage and improve user experience. Sealmetrics does not use cookies, does not
-store IP addresses, and does not collect personal data. Nothing is stored on
+store IP addresses, and stores no data that identifies anyone. Nothing is stored on
 your device; standard browser properties are read only to compute a session
-identifier that changes daily and cannot link your visits across days. Because no personal data is retained, this measurement
-falls outside the scope of the GDPR. Questions: privacy@yourcompany.com."
+identifier that changes daily and cannot link your visits across days. Once
+rotated, not even Sealmetrics can reconstruct it, and reports are always
+aggregated. Questions: privacy@yourcompany.com."
 ```
 
 ### Step 3: Remove Consent Banner
@@ -943,13 +932,7 @@ function loadAnalyticsWithConsent() {
 
 ### Step 5: Verify Full Data Capture
 
-**A. Server log comparison**:
-```
-Week after migration:
-Server logs (Apache/Nginx): 59,140 unique visitors
-Sealmetrics: 58,320 visitors
-Capture rate: 98.6% (difference likely bots/scrapers)
-```
+**A. Reconcile against a source of truth**: compare Sealmetrics orders and revenue with your shop or payment processor over the same days. Expect a small gap — visits where the JavaScript never runs (some ad blockers, JavaScript disabled) are not measured. In the [Incapto case](https://sealmetrics.com/case-studies/incapto/) (one store, not a benchmark), Sealmetrics recorded 95.7% of real online orders.
 
 **B. Cross-device testing**:
 - Test on Chrome (desktop + mobile)
@@ -966,7 +949,7 @@ Capture rate: 98.6% (difference likely bots/scrapers)
 - Compare to payment processor data
 
 **Success metrics**:
-- ✅ 98-99% of legitimate traffic tracked (excluding bots)
+- ✅ Orders and revenue reconcile closely with your shop or payment processor
 - ✅ No consent banner visible
 - ✅ Full conversion tracking operational
 - ✅ Team adopted Sealmetrics interface
@@ -1006,7 +989,7 @@ The uneven multipliers are the finding, not the headline number. LinkedIn and mo
 **Week 1: Parallel Testing**
 - Day 1: Install Sealmetrics alongside GA4
 - Day 2-7: Compare data, identify discrepancies
-- End of week: Quantify data loss (typically somewhere in the 15-60% band)
+- End of week: Quantify data loss on your own site
 
 **Week 2: Preparation**
 - Day 8-9: DPO review and approval
@@ -1023,7 +1006,7 @@ The uneven multipliers are the finding, not the headline number. LinkedIn and mo
 
 **Total time**: 4 weeks from start to full optimization
 
-**Actual implementation time**: 10-15 minutes (installation + removal)
+**Actual implementation time**: installation takes about 4 minutes; removing the old banner and GA4 code depends on your site
 
 **Rest of time**: Validation, training, analysis
 
@@ -1033,7 +1016,7 @@ The uneven multipliers are the finding, not the headline number. LinkedIn and mo
 
 ### How many users ghost cookie banners?
 
-Enough that ghosting, not rejection, is usually the larger group. A substantial share of visitors ignore consent banners entirely, making no decision at all — neither accepting nor rejecting. Rates run highest in Germany and the Nordics, lower in Southern and Eastern Europe, and materially lower in the US. Be careful what you infer from the figure, though: ghosting rates describe your banner, not your dataset. The data loss that reaches your reports is 15-60%, which is smaller than the raw non-acceptance rate.
+Enough that ghosting, not rejection, is usually the larger group. A substantial share of visitors ignore consent banners entirely, making no decision at all — neither accepting nor rejecting. Rates run highest in Germany and the Nordics, lower in Southern and Eastern Europe, and materially lower in the US. Be careful what you infer from the figure, though: ghosting rates describe your banner, not your dataset. The data loss that reaches your reports is smaller than the raw non-acceptance rate, and specific to each site.
 
 ### Why do users ghost banners instead of rejecting?
 
@@ -1045,7 +1028,7 @@ No. Cookie rejection occurs when users actively click "Reject All" or customize 
 
 ### What's the total data loss from ghosting plus rejection?
 
-15-60% of your data, with a capture rate of 40-85%. The spread depends on your sector, the strength of your brand and where your traffic comes from: a recognised consumer brand whose visitors arrive direct sits near 15%, while a site buying cold traffic in a privacy-sensitive market sits near 60%.
+It depends on your sector, the strength of your brand and where your traffic comes from: a recognised consumer brand whose visitors arrive direct loses less, while a site buying cold traffic in a privacy-sensitive market loses more. Measure it side by side on your own site; in the [Incapto case](https://sealmetrics.com/case-studies/incapto/) (one store, not a benchmark), GA4 did not record 29% of real visits.
 
 Don't reach that number by adding ghosting and rejection together — that overstates it. Two things sit between non-acceptance and actual data loss. Consent Mode v2 models part of the unconsented traffic back into your reports (as estimates, not observations). And ghosting is a per-visit behaviour, so some visitors who ignored the banner on one visit accept on a later one.
 
@@ -1055,13 +1038,13 @@ No. Banner ghosting is caused by the existence of the consent banner itself, not
 
 ### How does Sealmetrics eliminate banner ghosting?
 
-Sealmetrics doesn't use cookies and stores nothing on the device, so no consent is required and no banner is displayed. No banner means no ghosting is possible—users cannot avoid a decision they're never asked to make. Measurement begins on page load, with no user interaction required.
+Sealmetrics doesn't use cookies and stores nothing on the device, so on our own assessment no consent is required for its analytics and no banner is displayed (in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment)). No banner means no ghosting is possible—users cannot avoid a decision they're never asked to make. Measurement begins on page load, with no user interaction required.
 
 ### Is cookieless analytics legal without a consent banner?
 
-Yes, when it is genuinely cookieless and genuinely stores no personal data. Two separate rules are in play. The ePrivacy Directive's Article 5(3) is the one that mandates cookie banners, and it applies to storing or reading information on the user's device — Sealmetrics does neither. The GDPR governs personal data, and its own Recital 26 puts anonymous information outside its material scope — so with no personal data stored, no Article 6 legal basis is required.
+On Sealmetrics' own assessment, yes, when it is genuinely cookieless and stores no data that identifies anyone. Two separate rules are in play. The ePrivacy Directive's Article 5(3) is the one that mandates cookie banners, and it applies to storing or reading information on the user's device — Sealmetrics stores nothing, and the browser properties it reads for the session identifier rely on the audience-measurement exemption. The GDPR governs personal data: the daily-rotating session identifier is pseudonymised data while its salt exists, so Sealmetrics relies on legitimate interest (Article 6(1)(f)) for that short-lived operational data, and reports are always aggregated.
 
-Note what we are *not* saying: we do not claim legitimate interest. Invoking Article 6(1)(f) would concede that personal data is being processed. CNIL has confirmed that audience measurement meeting specific criteria can operate without consent, but no supervisory authority certifies or approves individual analytics tools — no such scheme exists. Sealmetrics has passed vendor privacy reviews by DPOs at multiple EU enterprises, which is a customer assessment, not a regulatory endorsement.
+CNIL has confirmed that audience measurement meeting specific criteria can operate without consent, but no supervisory authority certifies or approves individual analytics tools — no such scheme exists. Sealmetrics has passed vendor privacy reviews by DPOs at multiple EU enterprises, which is a customer assessment, not a regulatory endorsement.
 
 ### What happens to my historical Google Analytics data?
 
@@ -1069,19 +1052,19 @@ Historical data remains in Google Analytics 4 for as long as Google retains it (
 
 ### How long does it take to migrate from GA4 to Sealmetrics?
 
-Implementation takes 10-15 minutes: install Sealmetrics tracking code (2 minutes), remove consent banner scripts (5 minutes), remove GA4 code (3 minutes), update privacy policy (5 minutes). Total migration timeline including validation and team training is typically 2-4 weeks, but the technical implementation is less than 15 minutes of developer time.
+Installing the Sealmetrics tracking code takes about 4 minutes; removing consent banner and GA4 scripts depends on how your site is built, update privacy policy (5 minutes). Total migration timeline including validation and team training is typically 2-4 weeks, but the technical implementation is less than 15 minutes of developer time.
 
 ### Will I lose conversion tracking without cookies?
 
-No. Sealmetrics tracks conversions, goals, and custom events without requiring cookies. Conversion tracking covers every visit, not just the visitors who accepted a banner. Marketing attribution (source, medium, campaign) is captured via referrer and UTM parameters without consent requirements. ROI calculation becomes more accurate because you see all conversions, not just those from cookie accepters.
+No. Sealmetrics tracks conversions, goals, and custom events without requiring cookies. Conversion tracking is not limited to the visitors who accepted a banner. Marketing attribution (source, medium, campaign) is captured via referrer and UTM parameters without consent requirements. ROI calculation becomes more accurate because you also see conversions from visitors who never accepted cookies, not just those from cookie accepters.
 
 ### What about users who block JavaScript?
 
-Users who block JavaScript entirely (0.2-0.5% of visitors) cannot be tracked by any JavaScript-based analytics, including Google Analytics and Sealmetrics. This is an unavoidable technical limitation shared by both. The difference is what sits on top of it: Sealmetrics loses only the JS blockers, while cookie-based analytics loses the JS blockers *plus* the banner ghosters and the rejecters — a 15-60% gap on top of the same floor.
+Users who block JavaScript entirely (a small share of visitors) cannot be tracked by any JavaScript-based analytics, including Google Analytics and Sealmetrics. This is an unavoidable technical limitation shared by both. The difference is what sits on top of it: Sealmetrics loses only the JS blockers, while cookie-based analytics loses the JS blockers *plus* the banner ghosters and the rejecters — the consent gap on top of the same floor.
 
 ### Can I use Sealmetrics with Google Tag Manager?
 
-Yes, Sealmetrics can be installed via Google Tag Manager or directly in HTML. However, direct HTML installation is simpler (one line of code) and avoids GTM overhead. Since Sealmetrics doesn't require consent management integration (no banner, no conditional loading), GTM provides minimal benefit. Most users install directly in the HTML `<head>` section for simplicity and performance.
+Yes, Sealmetrics can be installed via Google Tag Manager or directly in HTML. However, direct HTML installation is simpler (one line of code) and avoids GTM overhead. Since, on our own assessment, Sealmetrics doesn't require consent management integration (no banner, no conditional loading), GTM provides minimal benefit. Most users install directly in the HTML `<head>` section for simplicity and performance.
 
 ### Does Sealmetrics track across subdomains or multiple domains?
 
@@ -1097,7 +1080,7 @@ Sealmetrics uses session-based tracking. Each browser session gets a temporary i
 
 ### Can users opt out of Sealmetrics tracking?
 
-Sealmetrics stores no personal data about a visitor, so there is no individual record to exclude. Visitors who block JavaScript or use an ad blocker that blocks the tracker are not counted; private browsing modes do not block it. Sealmetrics does not read Do Not Track or Global Privacy Control signals (see [GPC and DNT signals](/compliance/gpc-dnt-signals)), and it has no opt-out API. A site that wants to honour those signals, or an objection, can simply not load the tracker for that visitor, and should describe its approach in its privacy policy.
+Sealmetrics stores no data that identifies a visitor, and the session identifier becomes unrecoverable after the daily rotation, so there is no individual record to exclude. Visitors who block JavaScript or use an ad blocker that blocks the tracker are not counted; private browsing modes do not block it. Sealmetrics does not read Do Not Track or Global Privacy Control signals (see [GPC and DNT signals](/compliance/gpc-dnt-signals)), and it has no opt-out API. A site that wants to honour those signals, or an objection, can simply not load the tracker for that visitor, and should describe its approach in its privacy policy.
 
 ---
 
@@ -1107,7 +1090,7 @@ Sealmetrics stores no personal data about a visitor, so there is no individual r
 
 While industry discussions focus on rejection rates (users clicking "Reject All"), the larger and quieter group is the visitors who simply ignore cookie consent banners entirely. These users neither accept nor reject—they ghost the banner and continue using your site. During this ghosting state, cookie-based analytics cannot track them.
 
-**Combined with explicit rejection, that puts total data loss at 15-60%**, depending on your sector, the strength of your brand and where your traffic comes from — a capture rate of 40-85%. The missing visitors aren't privacy extremists running ad blockers. They're ordinary people engaging in predictable psychological decision avoidance, which is exactly why they're missing in a systematic, non-random pattern rather than an even one.
+**Combined with explicit rejection, that is a real data loss**, whose size depends on your sector, the strength of your brand and where your traffic comes from. The missing visitors aren't privacy extremists running ad blockers. They're ordinary people engaging in predictable psychological decision avoidance, which is exactly why they're missing in a systematic, non-random pattern rather than an even one.
 
 **The root cause is the consent banner itself**, not banner design or implementation. Banner ghosting is driven by hardwired cognitive biases:
 - Decision fatigue (exhausted from multiple daily banners)
@@ -1119,9 +1102,9 @@ While industry discussions focus on rejection rates (users clicking "Reject All"
 
 **Cookie-based analytics cannot solve banner ghosting** because the banner is required to obtain legally valid consent under GDPR, and the banner's existence triggers the psychological avoidance mechanisms that cause ghosting. No amount of UX optimization, consent mode, or banner redesign can eliminate decision avoidance behavior.
 
-**Cookieless analytics eliminates both ghosting and rejection** by eliminating the consent banner entirely. Sealmetrics doesn't use cookies and stores no personal data, so the ePrivacy consent rule is never triggered and no GDPR legal basis is required. No banner means no ghosting is possible, no rejection is possible, and every visit is measured from the moment it lands on your site.
+**Cookieless analytics eliminates both ghosting and rejection** by eliminating the consent banner entirely. Sealmetrics stores nothing on the device and no data that identifies anyone; its ephemeral session identifier rotates daily and, once rotated, not even we can reconstruct it. On our own assessment it meets the audience-measurement exemption from the ePrivacy consent rule. No banner means no ghosting is possible, no rejection is possible, and every visit is measured from the moment it lands on your site.
 
-**Business impact of a 15-60% data gap**:
+**Business impact of the consent gap**:
 - Marketing attribution skewed by uneven loss between channels → €25,000-40,000 annual misallocation
 - A/B tests run on an unrepresentative sample, wrong variants deployed → six-figure revenue loss
 - Product roadmap ranking features by how consent-friendly their users are → months of wasted development
@@ -1131,9 +1114,9 @@ The asymmetry is the argument: migrating to Sealmetrics takes 15 minutes of impl
 
 **For businesses operating in the EU**, this isn't really a tooling preference. Losing between 15% and 60% of your visitors is survivable; losing them *non-randomly* is what quietly bends your conclusions. You cannot optimize what you cannot measure. You cannot attribute revenue you cannot see. And you cannot correct a bias you don't know the size of.
 
-Sealmetrics measures every visit, eliminates banner ghosting, eliminates cookie rejection, and does it without storing personal data — which is what removes the consent question rather than merely answering it.
+Sealmetrics measures all the traffic you lose today to the cookie banner, eliminates banner ghosting, eliminates cookie rejection, and does it without storing anything on the device or any data that identifies anyone — which is what removes the consent question rather than merely answering it.
 
-**Stop guessing at the missing 15-60%.** [Try Sealmetrics free for 14 days](https://my.sealmetrics.com/register) and see your complete visitor base for the first time.
+**Stop guessing at the missing traffic.** [Open your free account](https://my.sealmetrics.com/register) — your first 1M events are free, with no card — and measure the gap on your own site.
 
 ---
 

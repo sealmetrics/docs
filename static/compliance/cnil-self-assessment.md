@@ -1,10 +1,10 @@
 ---
 title: "CNIL Self-Assessment: Sealmetrics Compliance"
-description: "Official CNIL self-assessment documentation for Sealmetrics analytics - demonstrating compliance with French consent exemption requirements."
+description: "CNIL self-assessment for Sealmetrics analytics - how it maps to the French consent exemption requirements. Self-assessed, not certified."
 canonical_url: "https://docs.sealmetrics.com/compliance/cnil-self-assessment"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "3943b5ef4ce765fd0dfdae115e5cae4e616327631d8c7731e9e52e81b28b5e39"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "6ff5e712a18a4720f85aee609dd97c9be1d0d987c0ee8d347911da3816f4815e"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -74,7 +74,7 @@ CNIL allows consent exemption **only** when analytics are used for these 5 speci
 | Screen resolution data | ❌ Not reported — read only as an input to the session-identifier hash, never stored |
 | Used only for optimization | ✅ Yes - not for targeting |
 
-**Evidence:** Device reports provide aggregated, anonymized data for UX optimization only.
+**Evidence:** Device reports provide aggregated, non-identifying data for UX optimization only.
 
 ---
 
@@ -223,7 +223,7 @@ Maximum lifetime of the stored identifier: 1 day (daily pseudonym); live session
 |--------|------------|
 | IP storage | ✅ **IP is never persisted in the analytics database** (operational request logs are retained a maximum of 1 day) |
 | Geolocation (default) | ✅ Country derived from browser timezone, not IP |
-| In-memory use | ✅ IP is used in-memory only for rate limiting and blocklist matching, then discarded. It is never associated with a hit that reaches ClickHouse. (A GeoIP lookup was designed for the Agent Analytics bot detector, but that feature is **not live and cannot be enabled**, so no such lookup runs today.) |
+| In-memory use | ✅ IP is used in-memory only to check it against blocklists (a public list of automated-traffic IPs and your own exclusions), then discarded. It is never associated with a hit that reaches ClickHouse. (A GeoIP lookup was designed for the Agent Analytics bot detector, but that feature is **not live and cannot be enabled**, so no such lookup runs today.) |
 
 **Technical Implementation:**
 ```javascript
@@ -303,8 +303,11 @@ Account B ──► Isolated dataset B ──► Reports B only
 ```
 This website uses Sealmetrics for audience measurement. This tool
 is configured to comply with CNIL guidelines for consent exemption.
-It collects anonymous statistical data only, does not use cookies,
-and does not track you across websites. You can block analytics
+It stores nothing on your device and no data that identifies you,
+and does not track you across websites. Its session identifier is
+ephemeral: it rotates daily and, once rotated, not even Sealmetrics
+can reconstruct it. Reports are always aggregated. Legal basis:
+legitimate interest (GDPR Art. 6(1)(f)). You can block analytics
 using your browser's privacy settings or an ad blocker.
 ```
 
@@ -317,7 +320,7 @@ using your browser's privacy settings or an ad blocker.
 |--------|------------|
 | Opt-out available | ✅ Yes - by blocking the script in the browser, or by the site not loading the tracker for a visitor who objects. Sealmetrics has no built-in opt-out API and does not read DNT or GPC signals |
 | Easy to access | ✅ Standard browser controls |
-| No individual tracking | ✅ Nothing personal to opt out of |
+| No individual tracking | ✅ No tracking across days or sites to opt out of |
 
 **Important Context:**
 
@@ -395,10 +398,10 @@ Sealmetrics explicitly does **not** collect:
 
 | Aspect | Detail |
 |--------|--------|
-| **Processing location** | Dublin, Ireland (EU) |
-| **Data storage** | EU only |
+| **Analytics data processing location** | Dublin, Ireland (EU) |
+| **Analytics data storage** | EU only |
 | **Subprocessors** | Visitor analytics data processed only in the EU (full list: Annex 3 of the [DPA](https://sealmetrics.com/dpa/)) |
-| **International transfers** | None required |
+| **International transfers of analytics data** | None required (service emails go through Resend, US, under SCCs) |
 
 ### Security Measures
 
@@ -449,7 +452,7 @@ Sealmetrics declares that:
 ### What does this mean for publishers in France?
 
 Publishers using Sealmetrics in France can:
-- ✅ Measure website traffic without consent banners
+- ✅ Measure website traffic without a consent banner for their own audience measurement (on this self-assessment)
 - ✅ Track conversions for their own business analysis
 - ✅ Analyze content performance
 - ✅ Monitor technical performance
@@ -488,7 +491,7 @@ For compliance questions or DPO inquiries:
 **Note:**
 - All 5 permitted objectives and all 14 technical criteria of the CNIL's July 2025 auto-evaluation framework are met on Sealmetrics' own assessment (last assessed February 2026).
 - No cookies are used, the IP address is never persisted with analytics data, geolocation is country-level from the browser timezone, and retention is 24 months (below the 25-month ceiling).
-- Publishers may measure without a consent banner under Article 82 of French data protection law, but cannot claim Sealmetrics is "CNIL certified" or "CNIL validated".
+- On this self-assessment, publishers may measure their own audience without a consent banner under Article 82 of French data protection law, but cannot claim Sealmetrics is "CNIL certified" or "CNIL validated".
 
 ## Related documentation
 

@@ -3,8 +3,8 @@ title: "Glossary"
 description: "Complete glossary of analytics, privacy, and platform terms used in Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/faq/glossary"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "1f1bfae0495a00c7e658823ab32f468c7add050ccd5687aa4d0101f3a53fb44b"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "3cdb35c2bf1d4e7507f743ffd8a1383f29eb63b276969374470882cd2b96edf5"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -60,7 +60,7 @@ The web browser used to access your site (e.g., Chrome, Safari, Firefox, Edge). 
 
 ### CCPA
 
-California Consumer Privacy Act -- regulates collection of personal data in California. Sealmetrics is compliant because it collects no personal data.
+California Consumer Privacy Act -- regulates collection of personal data in California. Sealmetrics stores nothing on the device and no data that identifies anyone, and its session identifier rotates daily and cannot be reconstructed afterwards; see the compliance self-assessments.
 
 ### Channel
 
@@ -176,7 +176,7 @@ The percentage of users who completed all steps in a funnel, from first step to 
 
 ### GDPR
 
-General Data Protection Regulation -- the EU regulation governing the processing of personal data. Sealmetrics is compliant because it does not collect personal data and does not require consent banners.
+General Data Protection Regulation -- the EU regulation governing the processing of personal data. Sealmetrics processes only minimal, pseudonymised data — a session identifier that rotates daily and is unrecoverable after rotation — under legitimate interest (Article 6(1)(f)); reports are aggregated. This is Sealmetrics' self-assessment.
 
 ---
 
@@ -252,7 +252,7 @@ UK Privacy and Electronic Communications Regulations -- restricts the use of coo
 
 ### Personal Data
 
-Any information that can identify an individual, directly or indirectly. Sealmetrics collects none.
+Any information that can identify an individual, directly or indirectly; pseudonymised data still counts. Sealmetrics stores no IP and nothing on the device; its only per-visitor value is a session pseudonym that rotates daily and cannot be reconstructed afterwards.
 
 ### Privacy by Design
 

@@ -3,8 +3,8 @@ title: "Site Settings"
 description: "Configure the basic settings of a site — name, timezone, and currency."
 canonical_url: "https://docs.sealmetrics.com/platform/settings/account/general"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "db6cefa2226d1aef0c4b76ac0afcc071e4790311e2536ab4fb8699e052841e6b"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "b3240a257d396207a049969cefab098819c3d12b9ab5b143291d715dc8d8aaeb"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -94,6 +94,6 @@ The Site Settings page also includes additional tabs beyond General:
 - **Channels** — custom channel grouping rules for this site
 - **Pixel Code** — installation code and conversion tracking snippets
 - **IP Exclusions** — exclude traffic from specific IP addresses (e.g. your office)
-- **IP Allowlist** — restrict tracking to specific IP addresses (Enterprise plan)
+- **IP Allowlist** — restrict dashboard and API access to specific IP addresses ([details](/security-privacy/account-security/ip-allowlist))
 
 Team members and their access are managed at the organization level, under **Organization → Members** — see [Users & Teams](./users). API keys are managed under **My Account → API Keys**.

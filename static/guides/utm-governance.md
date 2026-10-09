@@ -3,8 +3,8 @@ title: "UTM Governance: Naming Conventions That Keep Attribution Clean"
 description: "UTM governance for Sealmetrics: lowercase values, one separator, one canonical name per source, mediums matching default channels, no UTMs on internal links."
 canonical_url: "https://docs.sealmetrics.com/guides/utm-governance"
 lang: "en"
-date_generated: "2026-09-21T07:02:51.313Z"
-source_hash: "e69e3f0ea7fb741bc4160577212cfc7b5bab07314d04ae7932a2a31096ec6087"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "8eb5d75f0c7745ec8c4a1cc54aa8788d0060559c7d9a9d8b097b20a330e287ff"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -57,7 +57,7 @@ Governance implication: you only need to tag links **you control** (ads, emails,
 
 ## Naming Conventions: The Non-Negotiables
 
-These four rules prevent 90% of UTM chaos. Put them at the top of your governance doc.
+These four rules prevent most UTM chaos. Put them at the top of your governance doc.
 
 ### 1. Always lowercase
 

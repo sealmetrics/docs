@@ -1,10 +1,10 @@
 ---
 title: "Cookie-Based vs Cookieless Analytics: Technical Comparison"
-description: "Cookie-based analytics loses 15-60% of EU data. Technical comparison of cookie vs cookieless tracking: accuracy, compliance, and implementation."
+description: "Cookie-based analytics loses the visitors who reject or ignore the cookie banner. Technical comparison of cookie vs cookieless tracking: accuracy, compliance, and implementation."
 canonical_url: "https://docs.sealmetrics.com/blog/cookieless-analytics-vs-cookie-based"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "0ae475b8eac6a55840472b8577939e490b8cdd9dbfec89c3dbe3905e73f20433"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "4dce76ef3c63864fc5091cad795b12a573d46af56ca64398861c5e27564f9982"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -17,16 +17,16 @@ publisher: "Sealmetrics"
 Canonical page: https://docs.sealmetrics.com/blog/cookieless-analytics-vs-cookie-based
 
 <!-- AUTO-TLDR:START -->
-> **TL;DR** — Cookie-based analytics loses 15-60% of EU data. Technical comparison of cookie vs cookieless tracking: accuracy, compliance, and implementation.
+> **TL;DR** — Cookie-based analytics loses the visitors who reject or ignore the cookie banner. Technical comparison of cookie vs cookieless tracking: accuracy, compliance, and implementation.
 <!-- AUTO-TLDR:END -->
 
-Cookie rejection rates run as high as 87% in parts of the EU, and the resulting shortfall in your reports is 15-60% — enough to make traditional cookie-based analytics unreliable for the decisions people make with it. This technical comparison explores how cookieless analytics fundamentally differs from cookie-based approaches and why businesses are migrating to consent-free tracking solutions.
+Many EU visitors reject or ignore cookie banners, and the resulting shortfall in your reports is large enough to make traditional cookie-based analytics unreliable for the decisions people make with it. This technical comparison explores how cookieless analytics fundamentally differs from cookie-based approaches and why businesses are migrating to consent-free tracking solutions.
 
 **Key Takeaways:**
-- Cookie-based analytics loses 15-60% of EU visitor data to banner ghosting and rejection, depending on sector, brand strength and traffic sources
-- Cookieless analytics measures every visit without requiring consent banners
+- Cookie-based analytics loses the visitors who reject or ignore the cookie banner, depending on sector, brand strength and traffic sources
+- Cookieless analytics measures the traffic lost to the consent banner, without requiring one
 - Sealmetrics uses session-based tracking without cookies or IP storage
-- The legal footing differs fundamentally: consent, versus storing no personal data at all and needing no legal basis
+- The legal footing differs fundamentally: consent, versus storing nothing on the device and no data that identifies anyone, with a session identifier that becomes unrecoverable daily
 
 ## What Are Cookie-Based Analytics?
 
@@ -45,22 +45,22 @@ The cookie-based model worked well for 20+ years, but regulatory changes and bro
 
 ## What Are Cookieless Analytics?
 
-Cookieless analytics eliminates cookies entirely, using alternative technical approaches to track visitor behavior while maintaining GDPR compliance. Sealmetrics pioneered consentless analytics by developing a dual tracking system that measures every visit without requiring cookie consent banners.
+Cookieless analytics eliminates cookies entirely, using alternative technical approaches to track visitor behavior while maintaining GDPR compliance. Sealmetrics pioneered consentless analytics by developing a dual tracking system that measures the traffic cookie tools lose to the consent banner, without requiring one.
 
 The technical implementation of cookieless analytics:
 - **Session identifiers**: Computed in the browser, never stored on the device, and re-keyed daily on the server (not persistent cookies)
 - **Server-side tracking**: Data processed on backend, not client-side cookies
-- **No IP storage**: Complete anonymization without storing IP addresses
+- **No IP storage**: IP addresses are never stored, not even hashed
 - **Isolated hits**: Individual pageviews tracked without cross-session linking
-- **No legal basis needed**: with no personal data stored, the dataset sits outside the GDPR's material scope (Recital 26)
+- **Ephemeral identifier**: the session identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it; reports are always aggregated
 
 Sealmetrics uses a sophisticated dual approach:
 1. **Session-ID tracking**: Links pageviews within a single session for journey analysis
 2. **Isolated Hits**: Captures individual metrics without session linking
 
-This cookieless approach means no consent banners are required — the ePrivacy rule that mandates them (Article 5(3)) applies to storing or reading information on the device, and nothing is stored or read. According to CNIL's 2020 guidance, tools that don't use cookies and don't store identifying information can operate without consent.
+On our own assessment, this cookieless approach means no consent banner is required for Sealmetrics' own analytics — the ePrivacy rule that mandates them (Article 5(3)) applies to storing or reading information on the device; nothing is stored, and the browser properties read for the session identifier rely on the audience-measurement exemption. In Germany this is an open question — see [Germany](/compliance/germany-ttdsg-self-assessment). According to CNIL's 2020 guidance, tools that don't use cookies and don't store identifying information can operate without consent.
 
-Unlike cookie-based tools, which lose 15-60% of EU traffic, cookieless analytics captures every visitor. Businesses using Sealmetrics report complete data against the 40-85% capture rate Google Analytics manages in EU markets.
+Unlike cookie-based tools, which lose the visitors who reject or ignore the cookie banner, cookieless analytics measures the traffic the banner loses. In the [Incapto case](https://sealmetrics.com/case-studies/incapto/) (one Shopify store, same site and same days, not a benchmark), GA4 did not record 29% of real visits.
 
 ## Technical Comparison: Cookie-Based vs Cookieless
 
@@ -68,33 +68,28 @@ Unlike cookie-based tools, which lose 15-60% of EU traffic, cookieless analytics
 |-----------------|--------------------------------|--------------------------|
 | **Tracking Method** | Persistent cookies in browser | Session identifiers + isolated hits |
 | **Requires Cookies** | Yes (first-party + third-party) | No cookies used |
-| **Requires Consent** | Yes (ePrivacy 5(3) + GDPR 6(1)(a)) | No (nothing stored on device; no personal data) |
-| **Consent-driven data loss** | 15-60% in EU | None - captures all visitors |
+| **Requires Consent** | Yes (ePrivacy 5(3) + GDPR 6(1)(a)) | No (nothing stored on device; audience-measurement exemption, self-assessed) |
+| **Consent-driven data loss** | Varies by site | None - no consent gate |
 | **IP Address Storage** | Stored or hashed |  Never stored |
 | **Cross-Session Tracking** | Links visits over months |  Limited to session duration |
 | **Browser Compatibility** | Blocked by Safari ITP, Firefox ETP |  Works in all browsers |
 | **Implementation Complexity** | Medium (consent management needed) | Simple (2-minute setup) |
-| **GDPR position** | Requires consent banners | Outside material scope (Recital 26) |
+| **GDPR position** | Requires consent banners | Legitimate interest for minimal pseudonymised data, unrecoverable after daily rotation |
 | **Data Retention** | 14 months (GA4 default) | 24 months without consent |
 | **Geolocation Accuracy** | High (IP-based) | Medium (browser timezone) |
 | **User Identification** | Persistent across devices | Single device, single session |
-| **Script Size** | ~130KB (GA4 gzipped) | 1.3KB (Sealmetrics gzipped) |
-| **Page Load Impact** | ~80-120ms | ~20-30ms |
+| **Script Size** | Much larger (GA4 plus consent tooling) | 1.1 KB gzipped ([measured](/guides/tracker-performance-report)) |
 | **CNIL Exemption Criteria** | Requires configuration | Designed to meet criteria (self-assessed) |
 
 ### Data Collection Accuracy
 
 Cookie-based analytics accuracy has declined dramatically since GDPR enforcement:
-- **2018 (pre-GDPR)**: 95%+ visitor capture rate
-- **2020**: capture still high (early consent banner adoption)
-- **2022**: capture falling as banner fatigue sets in
-- **2024**: **40-85% capture**, i.e. 15-60% lost to ghosting and rejection
+- **Before consent banners**: cookie-based tools saw almost every visitor whose browser ran the script
+- **With consent banners**: **partial capture** — visitors who ghost or reject the banner are lost
 
-According to a 2024 study by CNIL, 87% of French website visitors reject cookie consent banners. In Germany, the rejection rate reaches 73% according to TTDSG enforcement data.
+Be careful with published rejection rates. A rejection rate is measured among the visitors who engaged with the banner, and Consent Mode v2 models part of the unconsented traffic back in as estimates. Net of that, cookie-based tools still miss part of your visitors — how many depends on your sector, the strength of your brand and where your traffic comes from.
 
-Translate those carefully. A rejection rate is measured among the visitors who engaged with the banner, and Consent Mode v2 models part of the unconsented traffic back in as estimates. Net of that, cookie-based tools are missing 15-60% of visitors in major EU markets — and where you land inside that band depends on your sector, the strength of your brand and where your traffic comes from.
-
-Cookieless analytics has no such gap, because no consent is required. Sealmetrics measures every visit regardless of privacy preferences, browser settings, or ad blockers.
+Cookieless analytics has no such gap, because no consent is required. Sealmetrics measures all the traffic you lose today to the cookie banner, whatever the visitor's consent choice — though an ad blocker can still hide some visits.
 
 ## Implementation Comparison
 
@@ -138,9 +133,9 @@ Implementing Sealmetrics requires:
 <script src="https://t.sealmetrics.com/t.js?id=YOUR_SITE_ID" defer></script>
 ```
 
-**Total implementation time**: 2 minutes
+**Total implementation time**: about 4 minutes
 **Ongoing maintenance**: None
-**Legal review**: Simplified (no cookies, no personal data stored)
+**Legal review**: Simplified (no cookies, no data that identifies anyone)
 
 The difference is stark. Cookie-based analytics requires consent management platforms (OneTrust, Cookiebot, etc.) that cost €300-3000/month. Cookieless analytics like Sealmetrics requires one script tag.
 
@@ -162,23 +157,21 @@ This means:
 
 CNIL's 2024 guidance confirms that Google Analytics requires consent even with IP anonymization. The Schrems II decision further complicated cookie-based analytics by questioning US data transfers.
 
-### Cookieless Analytics: No Legal Basis Required
+### Cookieless Analytics: Minimal Data, No Consent Banner
 
-The instinct here is to reach for Article 6(1)(f), legitimate interest. Resist it. Naming any Article 6 basis is an admission that you *are* processing personal data and merely have a good reason for it — which concedes the argument rather than winning it.
-
-**GDPR Recital 26** states that the principles of data protection do not apply to anonymous information — information which does not relate to an identified or identifiable natural person. Properly implemented cookieless analytics clears that bar:
+**GDPR Recital 26** states that the principles of data protection do not apply to anonymous information, but pseudonymised data is still personal data. A daily-rotating session identifier is a pseudonym while its key and salt exist, so the goal is to keep it minimal and short-lived. Properly implemented cookieless analytics does that:
 - Nothing stored on the device, and the browser properties read for the session identifier kept within the audience-measurement exemption = the ePrivacy Article 5(3) consent rule does not require a banner
 - No IP addresses stored, hashed or otherwise = nothing that singles out a person
 - No cross-session identifiers = no profile can be assembled
-- Aggregate output only = anonymous statistical data
+- Aggregate output only = non-identifying reports
 
-So the dataset falls outside the GDPR's *material scope*, and no Article 6 basis is needed at all. (Article 6(1)(f) does correctly cover one narrow thing: the transient in-memory handling of an IP for anti-abuse checks, per Recital 49. That IP never reaches storage.)
+Sealmetrics relies on legitimate interest, Article 6(1)(f), for the short-lived pseudonymised operational data: the identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it, and the per-hit log is purged after one day. The IP is handled only transiently, in memory, for bot blocking (Recital 49) and never reaches storage.
 
 CNIL's 2020 guidance states that analytics tools without cookies and without storing identifying information can operate without consent. Sealmetrics' architecture is designed to meet those published criteria. Note that CNIL does not certify, approve, or validate individual analytics tools, and no supervisory authority operates such a scheme — see our [CNIL self-assessment](/compliance/cnil-self-assessment) for a criterion-by-criterion analysis.
 
 This legal distinction is crucial: cookie-based analytics **requires consent**, cookieless analytics **does not**.
 
-## Data Loss Analysis: The 15-60% Problem
+## Data Loss Analysis: The Consent Gap
 
 Cookie rejection creates massive blind spots in business intelligence:
 
@@ -233,42 +226,17 @@ Modern browsers increasingly block cookie-based tracking:
 - **Market share**: 6% desktop, 3% mobile
 
 ### Chrome Privacy Sandbox
-- **Third-party cookies**: Deprecation ongoing (2024-2025)
+- **Third-party cookies**: blocked by Safari and Firefox; Google dropped its plan to remove them from Chrome
 - **Topics API**: Limited interest-based advertising
 - **Impact**: Major change coming for cookie-based tools
-- **Market share**: 63% desktop, 65% mobile
 
-Cookieless analytics is unaffected by all browser privacy features. Sealmetrics works identically across Safari, Firefox, Chrome, Brave, and all other browsers because it doesn't use cookies.
+Because it doesn't use cookies, Sealmetrics works the same way across Safari, Firefox, Chrome, Brave and other browsers. An ad blocker that stops the script still hides the visit.
 
 ## Performance Comparison
 
 ### Page Load Impact
 
-**Cookie-based analytics** (Google Analytics 4):
-- Script size: ~130KB (gzipped)
-- Additional requests: 3-5 (consent management, GTM, etc.)
-- First Contentful Paint delay: 80-120ms
-- Consent banner: Additional 150-200ms
-- Total impact: 230-320ms
-
-**Cookieless analytics** (Sealmetrics):
-- Script size: 1.3KB (gzipped)
-- Additional requests: 1 (tracking endpoint)
-- First Contentful Paint delay: 20-30ms
-- No consent banner: 0ms
-- Total impact: 20-30ms
-
-For a site receiving 100,000 monthly visitors, cookie-based analytics adds:
-- 230ms × 100,000 = 23,000 seconds (6.4 hours) of cumulative delay
-- Consent banners shown: 100,000 times
-- User friction: Every visitor interrupted
-
-Cookieless analytics adds:
-- 25ms × 100,000 = 2,500 seconds (42 minutes) of cumulative delay
-- Consent banners shown: 0 times
-- User friction: None
-
-Google's Core Web Vitals heavily weight page speed. Cookie-based analytics hurts SEO performance.
+Script weight and load timing are measured, not estimated, in the [tracker performance report](/guides/tracker-performance-report): the Sealmetrics tracker is 1.1 KB gzipped and loads with `defer`, while a cookie-based setup also loads a consent management platform and its banner.
 
 ## Migration Considerations
 
@@ -288,7 +256,7 @@ Cookieless analytics is recommended if:
 - You have significant EU traffic (&gt;20%)
 - Your cookie acceptance rate is less than 50%
 - You face GDPR compliance pressure
-- You want complete data capture
+- You want to measure the traffic you lose today to the cookie banner
 - You want to remove consent banners entirely
 - You need faster page load times
 - You want simplified legal compliance
@@ -314,9 +282,9 @@ Switching from Google Analytics to Sealmetrics:
 4. Train team on new dashboard
 
 **Completion** (Day 31+):
-- 100\% data capture achieved
-- No consent banners
-- GDPR compliant
+- Data capture no longer dependent on consent
+- No consent banner for its own analytics (self-assessed; Germany: open question)
+- Designed to comply with the GDPR
 - Faster page loads
 
 Total migration time: 30 days (with dual tracking period)
@@ -332,7 +300,7 @@ Google Analytics (free) plus required infrastructure:
   - Custom solution: €3,000-10,000 development
 - **Legal Review**: €2,000-5,000 one-time
 - **Ongoing Compliance**: €500-1,000/month (policy updates)
-- **Data Loss Cost**: 15-60% of your traffic untracked, distorting every channel comparison you make
+- **Data Loss Cost**: the visitors who reject the banner go untracked, distorting every channel comparison you make
 
 **Annual cost**: €6,000-40,000+ plus opportunity cost
 
@@ -343,29 +311,29 @@ Sealmetrics pricing (volume-based):
 - **Scale**: €1,079/month (15M events) — €899/month with annual billing
 - **Enterprise**: Custom pricing (unlimited events)
 - **Consent Management**: €0 (not needed)
-- **Legal Review**: Minimal (no cookies, no personal data stored)
+- **Legal Review**: Minimal (no cookies, no data that identifies anyone)
 - **Ongoing Compliance**: €0 (built-in)
-- **Data Loss Cost**: €0 (100\% capture)
+- **Consent-driven Data Loss Cost**: €0 (no banner)
 
-**Annual cost**: €2,388-9,588 (with annual billing discount) and zero data loss
+**Annual cost**: €2,388-9,588 (with annual billing discount) and no consent-driven data loss
 
-The ROI is obvious. Cookieless analytics costs 5-15x less than cookie-based analytics infrastructure while capturing 6-9x more data.
+Compare the costs on your own numbers: subscription, consent tooling, and the traffic the banner hides.
 
 ## Frequently Asked Questions
 
 ### Is cookieless analytics as accurate as cookie-based analytics?
 
-Cookieless analytics is significantly more accurate than cookie-based analytics in 2026. While cookie-based tools lose 15-60% of EU visitors to banner ghosting and rejection, cookieless analytics measures every visit. Sealmetrics provides complete visitor data without the blind spots created by cookie banners.
+Cookieless analytics is significantly more accurate than cookie-based analytics in 2026. While cookie-based tools lose the visitors who reject or ignore the cookie banner, cookieless analytics also measures the traffic the banner loses. Sealmetrics provides visitor data without the blind spots created by cookie banners.
 
-The trade-off is cross-session tracking. Cookie-based analytics can track the same user across multiple visits over months. Cookieless analytics measures within sessions but doesn't link returning visitors. For most businesses, complete single-session data beats a partial and self-selected 40-85% of multi-session data.
+The trade-off is cross-session tracking. Cookie-based analytics can track the same user across multiple visits over months. Cookieless analytics measures within sessions but doesn't link returning visitors. For most businesses, complete single-session data beats multi-session data on a partial, self-selected sample.
 
 ### Does cookieless analytics work with ad blockers?
 
-Yes, Sealmetrics works with most ad blockers because it doesn't use tracking cookies or known advertising domains. Unlike Google Analytics (blocked by 30%+ of users with ad blockers), cookieless analytics uses first-party domains and server-side tracking that ad blockers don't detect as advertising infrastructure.
+Partly. Sealmetrics doesn't use tracking cookies or known advertising domains, so it is blocked less often than Google Analytics. An ad blocker can still hide some visits, though.
 
 ### Can I use cookieless analytics for GDPR compliance?
 
-Yes — and note the mechanism, because it isn't the one most vendors claim. Sealmetrics doesn't rely on Article 6(1)(f) legitimate interest; it stores no personal data, so the dataset falls outside the GDPR's material scope (Recital 26) and no legal basis is required. Separately, nothing is written to the device; the tracker does read standard browser properties to compute its session identifier, and for that read it relies on the ePrivacy audience-measurement exemption rather than consent. CNIL's 2020 guidance confirms that cookieless measurement meeting its exemption criteria can operate without consent; Sealmetrics is designed to meet those criteria (CNIL does not certify or approve individual tools).
+Yes. Sealmetrics stores no data that identifies anyone: the session identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it, and reports are always aggregated. For that short-lived pseudonymised data it relies on legitimate interest, Article 6(1)(f). Separately, nothing is written to the device; the tracker does read standard browser properties to compute its session identifier, and for that read it relies on the ePrivacy audience-measurement exemption rather than consent. CNIL's 2020 guidance confirms that cookieless measurement meeting its exemption criteria can operate without consent; Sealmetrics is designed to meet those criteria (CNIL does not certify or approve individual tools).
 
 Unlike cookie-based analytics that requires consent under ePrivacy Directive Article 5(3), Sealmetrics stores no information in user browsers, and the browser properties it reads are covered by the audience-measurement exemption criteria rather than by consent.
 
@@ -375,13 +343,13 @@ These terms are often used interchangeably, but there's a subtle distinction:
 - **Cookieless analytics**: Uses alternative tracking methods instead of cookies
 - **Cookie-free analytics**: May use local storage or other browser APIs instead of cookies
 
-Sealmetrics is both cookieless and cookie-free: its session identifier is computed in the browser but never written to any browser storage mechanism, and is re-keyed daily on the server. This approach ensures compliance without relying on browser-based tracking technologies.
+Sealmetrics is both cookieless and cookie-free: its session identifier is computed in the browser but never written to any browser storage mechanism, and is re-keyed daily on the server. This approach is designed for compliance without relying on browser-based tracking technologies.
 
 ### Does cookieless analytics support conversion tracking?
 
-Yes, Sealmetrics tracks conversions, goals, events, and custom metrics without cookies. E-commerce sites can track purchases, SaaS products can track trial signups, and media sites can track subscriptions—all without consent banners.
+Yes, Sealmetrics tracks conversions, goals, events, and custom metrics without cookies. E-commerce sites can track purchases, SaaS products can track trial signups, and media sites can track subscriptions—all without a consent banner for its own analytics (our self-assessment).
 
-The implementation is simpler than cookie-based conversion tracking because there's no consent management logic required. Set up goals in the Sealmetrics dashboard, trigger events via JavaScript, and capture every conversion rather than the 40-85% a banner lets through.
+The implementation is simpler than cookie-based conversion tracking because there's no consent management logic required. Set up goals in the Sealmetrics dashboard, trigger events via JavaScript, and capture every conversion rather than the visitors who accept the banner.
 
 ### How does cookieless analytics handle returning visitors?
 
@@ -393,26 +361,26 @@ This limitation is intentional for privacy compliance. However, Sealmetrics prov
 
 Yes, migration is straightforward. Add the Sealmetrics script tag to your website, run dual tracking for 7-30 days to compare data, then remove Google Analytics. Most businesses complete migration in under 30 days.
 
-The immediate benefit: you'll see meaningfully more visitor data in Sealmetrics than Google Analytics shows — typically 1.2x to 2.5x, depending on where your site sits in the 15-60% loss band. Export your historical GA data before migration to preserve long-term trends.
+The immediate benefit: you'll see meaningfully more visitor data in Sealmetrics than Google Analytics shows — how much more is specific to your site. Export your historical GA data before migration to preserve long-term trends.
 
 ### Does cookieless analytics work for mobile apps?
 
 Sealmetrics currently focuses on web analytics. Mobile apps have different tracking regulations (IDFA, GAID) that don't involve cookie consent. Cookie-based vs cookieless is primarily a web browser distinction.
 
-For websites accessed via mobile browsers, cookieless analytics works identically to desktop—100\% capture rate without consent banners, regardless of device.
+For websites accessed via mobile browsers, cookieless analytics works identically to desktop—capture that doesn't depend on consent, regardless of device.
 
 ### What happens to my data with cookieless analytics?
 
 Sealmetrics stores all analytics data on EU-based servers (Dublin, Ireland) with 24-month retention. Unlike Google Analytics (US-based with Schrems II concerns), cookieless analytics keeps your data within EU jurisdiction.
 
-Data is fully anonymized: no IP addresses, no persistent identifiers, no personal data. This architecture ensures GDPR compliance and eliminates data transfer concerns.
+No IP addresses, no persistent identifiers, no data that identifies anyone, and reports are always aggregated. This architecture is designed to comply with the GDPR, and analytics data is hosted and processed only in the EU (Dublin).
 
 ### How do I explain cookieless analytics to my DPO?
 
 Tell your Data Protection Officer:
-1. **No cookies used**: ePrivacy Directive doesn't apply
-2. **No IP storage**: Data is anonymous by design
-3. **No legal basis needed**: no personal data stored, so the GDPR's material scope is never engaged (Recital 26)
+1. **Nothing stored on the device**: no cookies; the ephemeral session identifier rotates daily and is covered by the audience-measurement exemption (self-assessed)
+2. **No IP storage**: IP addresses are never stored, not even hashed
+3. **Legal basis**: legitimate interest, Article 6(1)(f), for minimal pseudonymised data that becomes unrecoverable after the daily rotation; reports are aggregated
 4. **CNIL exemption criteria**: Architecture designed to meet CNIL's published criteria (self-assessed — CNIL does not certify tools)
 5. **No consent required**: Removes consent management complexity
 
@@ -437,7 +405,7 @@ Google Analytics is free, but the total cost of cookie-based analytics includes:
 - Consent management platform: €300-3,000/month
 - Legal compliance review: €2,000-5,000
 - Ongoing policy maintenance: €500-1,000/month
-- **Data loss opportunity cost**: substantial (15-60% of visitors untracked, and not at random)
+- **Data loss opportunity cost**: substantial (the visitors who reject the banner go untracked, and not at random)
 
 Sealmetrics plans start at €599/month (€499/month with annual billing) depending on event volume, with no additional infrastructure required. Total cost of ownership is significantly lower than cookie-based analytics systems when you factor in consent management, legal review, and data loss costs.
 
@@ -458,31 +426,30 @@ Key differences:
 - May require consent depending on DPO interpretation
 - 12-month retention typical
 
-Sealmetrics is the only analytics platform that stores zero identifying information, which is what enables genuinely consentless tracking — no legal basis required, rather than a legal basis defended.
+Sealmetrics is the only analytics platform that stores zero identifying information, which is what enables genuinely consentless tracking.
 
 ### What's the future of analytics: cookie-based or cookieless?
 
-Cookieless analytics is the future. Chrome's third-party cookie deprecation (2024-2025), Safari's ITP, Firefox's ETP, and increasing GDPR enforcement make cookie-based analytics increasingly unviable.
+Cookieless analytics is the future. Safari's ITP, Firefox's ETP, consent banners and GDPR enforcement make cookie-based analytics increasingly incomplete.
 
-By 2026, expect:
-- 90%+ cookie rejection rates in EU
-- Complete third-party cookie elimination
-- Stricter first-party cookie regulations
-- Mainstream adoption of cookieless analytics
+What to watch:
+- How the EU Digital Omnibus proposal on cookie consent evolves
+- Browser tracking protections (Google dropped its plan to remove third-party cookies from Chrome)
+- Wider adoption of cookieless analytics
 
-Businesses that migrate to cookieless analytics now gain a competitive advantage: complete data capture, while competitors make decisions on the 40-85% their banner happens to let through.
+Businesses that migrate to cookieless analytics now gain a competitive advantage: they measure the traffic lost to the cookie banner, while competitors make decisions on the visitors their banner happens to let through.
 
 ## Conclusion: The Case for Cookieless Analytics
 
 The technical comparison is clear: cookieless analytics provides superior data quality, better legal compliance, faster performance, and lower total cost than cookie-based alternatives.
 
-Cookie-based analytics worked for 20 years, but GDPR, browser privacy features, and user behavior have fundamentally broken the model. Losing 15-60% of your visitor data — unevenly, and skewed toward your most privacy-aware customers — isn't sustainable for businesses that need accurate analytics to make informed decisions.
+Cookie-based analytics worked for 20 years, but GDPR, browser privacy features, and user behavior have fundamentally broken the model. Losing the visitors who reject the banner — unevenly, and skewed toward your most privacy-aware customers — isn't sustainable for businesses that need accurate analytics to make informed decisions.
 
-Sealmetrics pioneered consentless analytics by eliminating both cookies and IP storage, which is what lets it measure every visitor without a consent banner and without needing an Article 6 legal basis at all. This technical approach represents the future of privacy-first analytics.
+Sealmetrics pioneered consentless analytics by eliminating both cookies and IP storage, which, on our own assessment, is what lets it measure all the traffic you lose today to the cookie banner, without one. This technical approach represents the future of privacy-first analytics.
 
-For businesses operating in EU markets, the migration from cookie-based to cookieless analytics isn't optional—it's essential for competitive survival. Start dual tracking today, compare data accuracy, and see all of your visitors instead of the 40-85% your banner selects for you.
+For businesses operating in EU markets, the migration from cookie-based to cookieless analytics isn't optional—it's essential for competitive survival. Start dual tracking today, compare data accuracy, and see all of your visitors instead of the ones your banner selects for you.
 
-**Ready to switch to cookieless analytics?** [Try Sealmetrics free for 14 days](https://my.sealmetrics.com/register) and see 6-9x more visitor data immediately.
+**Ready to switch to cookieless analytics?** [Open your free account](https://my.sealmetrics.com/register) — your first 1M events are free, with no card — and measure the gap on your own site.
 
 ## Additional Resources
 
@@ -491,5 +458,5 @@ For businesses operating in EU markets, the migration from cookie-based to cooki
 - [Sealmetrics vs Google Analytics](/blog/google-analytics-vs-sealmetrics) — Full comparison with data accuracy benchmarks
 - [Sealmetrics vs Plausible](/blog/sealmetrics-vs-plausible) — Privacy-first tools compared
 - [What Is Consentless Analytics?](/security-privacy/consentless-analytics) — How it works under GDPR
-- [Tracker Installation Guide](/implementation/tracker/installation) — Get started in under 5 minutes
+- [Tracker Installation Guide](/implementation/tracker/installation) — Get started in about 4 minutes
 - [CNIL Guidelines on Analytics (Official)](https://www.cnil.fr/en/cookies-and-other-trackers/rules/cookies/how-comply-cookies-and-trackers)

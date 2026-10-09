@@ -3,8 +3,8 @@ title: "Tracker Overview"
 description: "Sealmetrics' 1.2 KB gzipped JavaScript tracker: one-line install, no cookies or localStorage, automatic SPA detection, and size comparisons vs GA4."
 canonical_url: "https://docs.sealmetrics.com/implementation/tracker"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "bf0e27871b942f454a5348855dfe63b2398cade17b5c63f33c549a462ca37dbb"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "c32e1a06bfa07eac26764e282071a3e606c16d164eb6ffd2d70c7cb8a40d9876"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -99,7 +99,7 @@ _sm.conv('purchase', 99.99);
 
 The tracker does not collect or store:
 - Cookies
-- IP addresses (used only for blocklist check, never stored in analytics)
+- IP addresses (checked in flight against a public list of automated-traffic IPs and your IP exclusions, then discarded — never stored)
 - Personal identifiable information
 - Form inputs
 - User credentials

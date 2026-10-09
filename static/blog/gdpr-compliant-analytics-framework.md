@@ -1,10 +1,10 @@
 ---
 title: "GDPR Compliant Analytics: Complete Framework 2026"
-description: "GDPR framework for web analytics: which legal basis you actually need, the technical requirements, and how to stop losing 15-60% of your data to consent."
+description: "GDPR framework for web analytics: which legal basis you actually need, the technical requirements, and how to stop losing the visitors who reject or ignore the cookie banner."
 canonical_url: "https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "a0cfd0e33fb5c075d77fc4722fe701516bcc2d08a7625aa3270501761d7e58c4"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "dc3ab838ff0d13c33717ed634e7d9d410ba682c04e4b9f1c05c224aa90079bd5"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -17,7 +17,7 @@ publisher: "Sealmetrics"
 Canonical page: https://docs.sealmetrics.com/blog/gdpr-compliant-analytics-framework
 
 <!-- AUTO-TLDR:START -->
-> **TL;DR** — GDPR framework for web analytics: which legal basis you actually need, the technical requirements, and how to stop losing 15-60% of your data to consent.
+> **TL;DR** — GDPR framework for web analytics: which legal basis you actually need, the technical requirements, and how to stop losing the visitors who reject or ignore the cookie banner.
 <!-- AUTO-TLDR:END -->
 
 The European Union issued over €20 million in fines for analytics violations in 2023, yet most companies still don't understand what makes their analytics GDPR compliant. Many businesses either accept massive data loss from cookie consent requirements or operate in a gray area of regulatory uncertainty.
@@ -25,10 +25,10 @@ The European Union issued over €20 million in fines for analytics violations i
 This comprehensive framework explains exactly what GDPR compliance requires for web analytics, which legal bases work, and how to implement compliant tracking without losing visitor data.
 
 **Key Takeaways**:
-- Consent-based analytics loses 15-60% of your data; the strongest position isn't a better Article 6 basis, it's not needing one
+- Consent-based analytics loses the visitors who reject or ignore the cookie banner; the strongest position is minimising the data so far that no banner is needed
 - Most analytics tools fail GDPR because they store IP addresses or require cookies
-- Sealmetrics stores no personal data, which puts the dataset outside the GDPR's material scope (Recital 26) rather than inside it with a justification attached
-- Country-specific regulations (TTDSG, CNIL) have additional requirements beyond baseline GDPR
+- Sealmetrics stores nothing on the device and no data that identifies anyone; its session identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it, and reports are always aggregated
+- Country-specific regulations (TDDDG, CNIL) have additional requirements beyond baseline GDPR
 
 ## What Makes Analytics GDPR Compliant?
 
@@ -36,7 +36,7 @@ GDPR compliance for web analytics rests on three fundamental pillars established
 
 ### The Three Pillars of Compliance
 
-**Legal Basis (Article 6)**: Every processing activity involving personal data requires a lawful basis. For analytics that touches personal data, that means consent or legitimate interest. There is also a third position, which most vendors skip past: if no personal data is stored, Article 6 does not apply at all. Which of the three you're in determines whether you need a cookie banner and how much data you keep.
+**Legal Basis (Article 6)**: Every processing activity involving personal data requires a lawful basis. For analytics that touches personal data, that means consent or legitimate interest. How little data you handle, and for how long, determines how strong that position is.
 
 **Data Minimization (Article 5)**: You can only collect data that's adequate, relevant, and limited to what's necessary. This principle prohibits collecting unnecessary identifiers, storing full IP addresses without justification, or retaining data longer than needed.
 
@@ -48,15 +48,15 @@ Most analytics tools fail on at least one of these pillars. Google Analytics fai
 
 ## Legal Bases for Analytics Under GDPR
 
-GDPR Article 6 defines six legal bases for processing personal data. For web analytics, two get used — consent and legitimate interest. But the question that comes first, and usually gets skipped, is whether you are processing personal data at all. If you aren't, Article 6 never enters the picture.
+GDPR Article 6 defines six legal bases for processing personal data. For web analytics, two get used — consent and legitimate interest. But the question that comes first, and usually gets skipped, is how much personal data you are processing, and for how long.
 
 ### Consent (Article 6(1)(a)) - The Problem
 
 Consent means users must actively opt in before any tracking occurs. This approach sounds simple but creates severe practical problems.
 
-**The Data Loss Problem**: Studies across the EU show consistent patterns. In Germany, 87% of users reject cookie banners according to 2024 CNIL data. In France, rejection rates hover around 73%. Spain and Italy show similar patterns at 68-72%.
+**The Data Loss Problem**: many EU visitors reject the consent banner, and many more ignore it without choosing.
 
-Be careful how you translate those into a data loss figure — a rejection rate is measured among the people who engaged with the banner, and it is not your loss rate. Consent Mode v2 models part of the unconsented traffic back in as estimates, and visitors who ignore a banner on one visit sometimes accept on the next. What actually reaches your reports is a shortfall of **15-60%**, depending on your sector, the strength of your brand and where your traffic comes from. A recognised consumer brand serving mostly direct traffic sits near 15%; a site buying cold traffic in a privacy-sensitive vertical sits near 60%.
+Be careful how you translate those into a data loss figure — a rejection rate is measured among the people who engaged with the banner, and it is not your loss rate. Consent Mode v2 models part of the unconsented traffic back in as estimates, and visitors who ignore a banner on one visit sometimes accept on the next. What actually reaches your reports is a shortfall whose size depends on your sector, the strength of your brand and where your traffic comes from — a recognised consumer brand serving mostly direct traffic loses less than a site buying cold traffic in a privacy-sensitive vertical. Measure it on your own site.
 
 **Implementation Complexity**: Consent requires explicit, informed, freely given agreement. Your cookie banner must clearly explain what data you collect, why you collect it, and allow granular control. Users must be able to withdraw consent as easily as they gave it. For analytics that span multiple sessions, you need to manage consent state across visits, handle consent withdrawal, and delete historical data on request.
 
@@ -74,13 +74,13 @@ Legitimate interest allows processing when your business needs are not overridde
 
 *Result*: for tools that do process some personal data, the balancing test can come out in your favour, and no consent is required.
 
-**But notice what invoking it costs you.** Naming any Article 6 basis is an admission that you *are* processing personal data — you are simply arguing that you're entitled to. Once you've said that, every downstream obligation follows: data subject rights over that data, the right to object under Article 21, records of processing, the balancing test you now have to defend. You have won the consent argument by conceding the bigger one.
+**What it comes with.** Relying on any Article 6 basis means you are processing personal data, so the downstream obligations follow: data subject rights, the right to object under Article 21, records of processing, the balancing test you have to defend. The less data you hold, and the shorter you hold it, the lighter those become.
 
-### No Legal Basis Required - The Stronger Position
+### Minimal, Short-Lived Data - The Stronger Position
 
-There is a prior question, and it is the one worth asking: **is there personal data here at all?**
+There is a prior question, and it is the one worth asking: **how little data can you handle, and for how short a time?**
 
-**GDPR Recital 26** is explicit that the principles of data protection do not apply to anonymous information — information which does not relate to an identified or identifiable natural person. If your analytics stores nothing that identifies a person, the dataset falls outside the *material scope* of the Regulation. Article 6 is never reached, because Article 6 governs the processing of personal data and there isn't any.
+**GDPR Recital 26** is explicit that anonymous information is outside the GDPR, but that pseudonymised data — data that could still be attributed to a person with additional information — is personal data. A daily-rotating session identifier is a pseudonym while its key and salt exist. Sealmetrics keeps that window to one day: the salt rotates daily and the old one is destroyed, after which not even Sealmetrics can reconstruct the identifier, and reports are always aggregated. That minimal operational data relies on legitimate interest, Article 6(1)(f).
 
 **ePrivacy Article 5(3)** is the separate rule that actually mandates cookie banners. It requires consent to store information on, or gain access to information stored in, a user's terminal equipment. This one is not about personal data at all — it applies to *anything* written to or read from the device. A tool that writes nothing still engages it if it reads information from the device — Sealmetrics, for example, reads standard browser properties to compute its session identifier — and then needs an exemption, such as the audience-measurement exemption described below.
 
@@ -88,14 +88,14 @@ Both have to hold. Clear one and fail the other and you still need a banner.
 
 **When this position applies**: to cookieless analytics like Sealmetrics that:
 - Collect only necessary data (pageviews, sessions, referrers)
-- Store no personally identifiable information — no IP addresses, not even hashed
+- Store no data that identifies anyone — no IP addresses, not even hashed
 - Write nothing to the device: no cookies, no LocalStorage, no persisted fingerprint — and read from it only what an audience-measurement exemption covers
 - Don't use data for other purposes (advertising, profiling)
 - Retain aggregates for reasonable periods (24 months for trend analysis)
 
 **CNIL 2020 Guidance**: the French data protection authority published guidance stating that audience measurement can operate without consent when it "strictly respects users' privacy," specifying no cross-site tracking, limited retention, no IP storage, and transparency in privacy policies. Worth stating plainly: CNIL does not certify or approve individual analytics tools, and neither does any other supervisory authority. No such scheme exists. What exists is guidance you can assess yourself against — see our [CNIL self-assessment](/compliance/cnil-self-assessment).
 
-Unlike consent-based approaches, this removes the 15-60% consent gap entirely — and it does so without asking a regulator to accept a balancing test.
+Unlike consent-based approaches, this removes the consent gap entirely.
 
 ---
 
@@ -107,7 +107,7 @@ Implementing GDPR compliant analytics requires addressing technical, legal, and 
 
 **No Unnecessary Data Collection**: Collect only what's needed for analytics. Sealmetrics tracks pageviews, sessions, referrers, device types, and basic engagement metrics. We don't collect names, emails, precise locations, or other unnecessary identifiers.
 
-**IP Address Handling**: This is where most analytics tools fail GDPR. Google Analytics stores full IP addresses. Plausible and Matomo hash IP addresses, which GDPR still considers personal data because hashed values can be reversed or matched. Sealmetrics never stores IP addresses—not even hashed versions. Our session-based tracking generates anonymous identifiers that can't be traced back to individuals.
+**IP Address Handling**: This is where most analytics tools fail GDPR. Google Analytics stores full IP addresses. Plausible and Matomo hash IP addresses, which GDPR still considers personal data because hashed values can be reversed or matched. Sealmetrics never stores IP addresses—not even hashed versions. Our session identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it.
 
 **Data Retention Limits**: Determine legitimate retention periods and enforce them. Sealmetrics defaults to 24 months of retention, documented as necessary for year-over-year trend analysis and seasonal pattern identification. Data older than 24 months is automatically purged.
 
@@ -115,9 +115,9 @@ Implementing GDPR compliant analytics requires addressing technical, legal, and 
 
 ### Legal Requirements
 
-**Privacy Policy**: Your privacy policy must explain what analytics you use, what data gets collected, how long it is retained, and on what footing you operate. If you rely on legitimate interest, document your balancing test. If you store no personal data at all, say so plainly and explain why no consent is required.
+**Privacy Policy**: Your privacy policy must explain what analytics you use, what data gets collected, how long it is retained, and on what footing you operate. If you rely on legitimate interest, document your balancing test. With Sealmetrics, say that it handles minimal pseudonymised data under legitimate interest, keeps the per-hit log for one day, reports in aggregate, and explain why no consent is required.
 
-**Legal Position Documentation**: Maintain internal documentation for whichever footing you're on. If you rely on legitimate interest, document: (1) what business purpose the analytics serves, (2) why this data is necessary, (3) how you minimize privacy impact, and (4) what safeguards you implement. If you're claiming the data is out of scope, document what is stored field by field and why none of it identifies a person.
+**Legal Position Documentation**: Maintain internal documentation for whichever footing you're on. If you rely on legitimate interest, document: (1) what business purpose the analytics serves, (2) why this data is necessary, (3) how you minimize privacy impact, and (4) what safeguards you implement. Either way, document what is stored field by field and how long each part is kept.
 
 **Data Processing Agreement (DPA)**: GDPR Article 28 requires a DPA between you and your analytics provider. Sealmetrics provides a standard DPA covering all processor obligations including security, confidentiality, sub-processor management, and data deletion.
 
@@ -139,22 +139,22 @@ Understanding how different analytics tools handle GDPR compliance helps you cho
 
 | Feature | Google Analytics | Plausible | Matomo | Sealmetrics |
 |---------|------------------|-----------|--------|-------------|
-| **Legal Basis** | Consent required | Legitimate interest | Legitimate interest | **None needed — no personal data (Recital 26)** |
+| **Legal Basis** | Consent required | Legitimate interest | Legitimate interest | **Legitimate interest — minimal pseudonymised data, unrecoverable after daily rotation** |
 | **Cookie Usage** | Yes (multiple) | No | Optional | No |
 | **IP Storage** | Yes (full) | Yes (hashed) | Yes (hashed) | **No - zero IPs** |
-| **Consent Banner Needed** | Yes | No* | No* | **No** |
+| **Consent Banner Needed** | Yes | No* | No* | **No (self-assessed; Germany: open question)** |
 | **Data Location** | US + EU | EU only | Self-hosted or EU | EU only |
-| **Consent-driven data loss** | 15-60% | None where consent isn't required | None where consent isn't required | **None** |
-| **US Data Transfers** | Yes | No | No | No |
-| **Schrems II Compliant** | Questionable | Yes | Yes | Yes |
-| **CNIL 2020 Compliant** | No | With config | With config | **Yes (default)** |
-| **TTDSG Compliant (Germany)** | No | Yes | Yes | **Yes** |
+| **Consent-driven data loss** | Varies by site | None where consent isn't required | None where consent isn't required | **None** |
+| **US Data Transfers** | Yes | No | No | No for analytics data (service emails: Resend, US, under SCCs) |
+| **Schrems II Compliant** | Questionable | Yes | Yes | Analytics data stays in the EU (self-assessed) |
+| **CNIL 2020 Compliant** | No | With config | With config | **Yes (default, self-assessed)** |
+| **TDDDG (Germany)** | No | Yes | Yes | **Open question (our reading: no consent needed)** |
 | **Setup Complexity** | High | Low | Medium | **Very Low (2 min)** |
 | **DPA Included** | Yes | Yes | Yes | Yes |
 
 *May need consent depending on configuration and cookie usage
 
-The table reveals a critical insight: tools that hash IP addresses (Plausible, Matomo) still process personal data under GDPR. Hashing is pseudonymization, not anonymization. Sealmetrics achieves true compliance by never storing IP addresses at all.
+The table reveals a critical insight: tools that hash IP addresses (Plausible, Matomo) still process personal data under GDPR. Hashing is pseudonymization, not anonymization. Sealmetrics never stores IP addresses at all.
 
 ---
 
@@ -176,17 +176,17 @@ Why hashing doesn't solve the problem:
 
 **Schrems II Implications**: The Schrems II decision invalidated Privacy Shield, making US data transfers problematic. Many companies responded by hosting analytics in the EU, but if those tools store IP addresses (even hashed), they still process personal data requiring careful legal basis justification.
 
-Sealmetrics solves this by never storing IP addresses. Our session tracking uses temporary identifiers that reset after each visit, making reverse-identification technically impossible.
+Sealmetrics solves this by never storing IP addresses. Our session identifier is ephemeral: nothing is stored on the device, and the server re-keys it with a salt that rotates daily and is then destroyed, so it cannot be linked across days or across sites.
 
 ### Problem 2: Cookie Requirements
 
 The ePrivacy Directive Article 5(3)—often called the Cookie Law—requires consent before storing information on user devices. This operates alongside GDPR, creating a dual compliance requirement.
 
-**The Cookie Consent Trap**: Analytics tools using cookies face an impossible choice. They can require consent and lose 15-60% of their data, or operate without consent and violate the ePrivacy Directive. Many companies choose the latter, hoping enforcement remains limited.
+**The Cookie Consent Trap**: Analytics tools using cookies face an impossible choice. They can require consent and lose the visitors who reject or ignore the cookie banner, or operate without consent and violate the ePrivacy Directive. Many companies choose the latter, hoping enforcement remains limited.
 
 **Technical Cookies Exemption**: The ePrivacy Directive exempts "strictly necessary" cookies for functionality users explicitly request. Analytics cookies don't qualify for this exemption according to regulatory consensus. The upcoming ePrivacy Regulation will likely remove any remaining ambiguity.
 
-Sealmetrics avoids this problem entirely through cookieless tracking. No cookies means no ePrivacy Directive concerns, no consent banners, and no data loss from rejections.
+Sealmetrics avoids this problem through cookieless tracking: nothing is stored on the device, and its ephemeral session identifier, which rotates daily, is assessed against the audience-measurement exemption rather than consent — so, on our own assessment, no consent banner for its own analytics and no data loss from rejections (in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment)).
 
 ### Problem 3: US Data Transfers
 
@@ -206,7 +206,7 @@ Sealmetrics was built from the ground up around the GDPR, not retrofitted like m
 
 ### No Consent Required
 
-Sealmetrics needs no cookie consent banner, and the reasoning has two parts. Nothing is stored on the user's device; the tracker does read standard browser properties to compute a session identifier, which engages ePrivacy Article 5(3) — the rule that mandates banners — and relies on its audience-measurement exemption (see the CNIL criteria below) rather than on consent. And no personal data is stored, so the dataset falls outside the GDPR's material scope under Recital 26 and needs no Article 6 legal basis at all. That removes the 15-60% consent gap at its source.
+Sealmetrics needs no cookie consent banner, and the reasoning has two parts. Nothing is stored on the user's device; the tracker does read standard browser properties to compute a session identifier, which engages ePrivacy Article 5(3) — the rule that mandates banners — and relies on its audience-measurement exemption (see the CNIL criteria below) rather than on consent. And nothing stored identifies anyone: the session identifier rotates daily and becomes unrecoverable, and reports are aggregated; that short-lived pseudonymised data relies on legitimate interest, Article 6(1)(f). That removes the consent gap at its source.
 
 **The Technical Foundation**: Our tracker computes, in the browser, a hash of standard device characteristics and never writes it to the device. Before anything is stored, the server re-keys it with a secret and a daily salt that is destroyed on rotation, so the stored identifier changes every day and two days of the same device cannot be linked. A session ends after 2 hours of inactivity. This prevents returning-visitor recognition while still providing valuable analytics on how users navigate your site within individual visits.
 
@@ -226,7 +226,7 @@ This is Sealmetrics' most significant differentiator. We don't store IP addresse
 - Matomo: Offers IP anonymization but defaults to storing IP addresses
 - Sealmetrics: Zero IP storage, not even hashed
 
-This technical choice means Sealmetrics stores less personal data than any competitor — none — which is what keeps the dataset outside the Regulation's scope instead of merely defensible inside it.
+This technical choice means Sealmetrics stores no IP address in any form, which keeps the data it does hold minimal and short-lived.
 
 ### 24-Month Retention Without Consent
 
@@ -244,13 +244,13 @@ Data retention limits are crucial for GDPR compliance under the data minimizatio
 
 ### EU Infrastructure
 
-Sealmetrics operates exclusively on European infrastructure, eliminating Schrems II concerns.
+Sealmetrics runs its analytics on European infrastructure: analytics data is hosted and processed only in the EU (Dublin).
 
-**Data Location**: All Sealmetrics servers are located in an EU data center in Dublin, Ireland. Customer data never leaves the European Union. Our company is EU-based with no US parent organization or data sharing agreements with US entities.
+**Data Location**: Analytics data is hosted and processed only in the EU (Dublin). Service emails go through Resend (US) under SCCs. Our company is EU-based with no US parent organization.
 
-**Processor Compliance**: Our subprocessor list is deliberately short — infrastructure and database hosting in Ireland, managed LLM inference in Paris for the optional Seal AI Private add-on, and a transactional email provider. The authoritative, always-current list is Annex 3 of our [DPA](https://sealmetrics.com/dpa), which also sets out the notification procedure if processors change. If you use LENS with your own LLM key instead, that provider is your contract, not our subprocessor.
+**Processor Compliance**: Our subprocessor list is deliberately short — infrastructure and database hosting in Ireland, managed LLM inference in Paris for the optional Seal AI Private add-on, and a transactional email provider (Resend, US, under SCCs). The authoritative, always-current list is Annex 3 of our [DPA](https://sealmetrics.com/dpa), which also sets out the notification procedure if processors change. If you use LENS with your own LLM key instead, that provider is your contract, not our subprocessor.
 
-**No Surveillance Exposure**: Because we operate entirely within the EU legal framework, customer data isn't subject to US surveillance laws (FISA 702, EO 12333) that caused Schrems II complications for US-based analytics providers.
+**No Surveillance Exposure**: Analytics data is held by an EU company on EU infrastructure, not by a US provider subject to US surveillance laws (FISA 702, EO 12333) that caused Schrems II complications for US-based analytics providers.
 
 ---
 
@@ -258,9 +258,9 @@ Sealmetrics operates exclusively on European infrastructure, eliminating Schrems
 
 While GDPR provides baseline requirements across the EU, individual countries have additional regulations affecting analytics.
 
-### Germany (TTDSG)
+### Germany (TDDDG)
 
-Germany's Telecommunications Telemedia Data Protection Act (TTDSG) is stricter than baseline GDPR regarding cookies and tracking.
+Germany's Telecommunications Digital Services Data Protection Act (TDDDG, renamed from TTDSG in May 2024) is stricter than baseline GDPR regarding cookies and tracking.
 
 **Key Requirements**:
 - Consent required for storing information on devices (including cookies)
@@ -268,7 +268,7 @@ Germany's Telecommunications Telemedia Data Protection Act (TTDSG) is stricter t
 - Specific rules around telecommunications data
 - Fines up to €300,000 for violations
 
-**Sealmetrics Compliance**: TTDSG changes nothing for Sealmetrics users because we don't use cookies or device storage. Our cookieless approach satisfies TTDSG requirements without configuration changes.
+**Sealmetrics position**: an open question. Sealmetrics stores nothing on the device, and our reading is that no consent is needed. But the DSK does not extend the §25(2) exemption to audience measurement, and the tracker reads device properties via JavaScript, which may count as "access" under §25(1) (EDPB Guidelines 2/2023 read access broadly). Check with your DPO or counsel.
 
 ### France (CNIL)
 
@@ -285,7 +285,7 @@ The French data protection authority (Commission Nationale de l'Informatique et 
 1. First-party audience measurement (tracking on your own site)
 2. Delegated audience measurement (using analytics providers like Sealmetrics)
 
-**Sealmetrics Qualification**: Sealmetrics explicitly qualifies for CNIL's delegated audience measurement exemption. We meet all specified requirements: purpose limitation, no cross-site tracking, documented retention limits, EU-only operation, and clear privacy disclosures.
+**Sealmetrics and the CNIL criteria**: on our [self-assessment](/compliance/cnil-self-assessment), Sealmetrics meets the CNIL criteria for the audience-measurement exemption (no supervisory authority certifies analytics tools): purpose limitation, no cross-site tracking, documented retention limits, EU-only operation, and clear privacy disclosures.
 
 ### Spain (AEPD)
 
@@ -297,7 +297,7 @@ Spain's data protection authority (Agencia Española de Protección de Datos) fo
 - User transparency requirements
 - Cross-border data transfer restrictions
 
-**Implementation**: Spanish companies using Sealmetrics should document in their privacy policies why no personal data is stored — no IPs, no cookies, minimal collection — rather than asserting a legal basis they don't need.
+**Implementation**: Spanish companies using Sealmetrics should document in their privacy policies what is processed — no IPs, no cookies, minimal pseudonymised data under legitimate interest that becomes unrecoverable daily, aggregated reports.
 
 ---
 
@@ -312,31 +312,32 @@ The first decision determines everything else — and it starts one question ear
 ```
 Decision Tree:
 
-Does your analytics store any personal data
+Does your analytics store identifying data
 (IP addresses, hashed or not, user IDs, persistent identifiers)?
 │
 ├─ No, and it writes nothing to the device
-│  └─ No Article 6 basis needed (Recital 26)
-│     No consent needed (ePrivacy 5(3) not engaged)
+│  └─ Legitimate interest for minimal, short-lived data
+│     No consent needed if the audience-measurement
+│     exemption to ePrivacy 5(3) is met
 │     └─ Choose Sealmetrics or a similar truly cookieless tool
 │
-└─ Yes → you are inside the GDPR, so pick a basis:
+└─ Yes → pick a basis for that data:
    │
    ├─ Consent → implement a cookie banner
-   │  └─ Accept 15-60% data loss, unevenly distributed
+   │  └─ Accept consent-driven data loss, unevenly distributed
    │
    └─ Legitimate interest → run and document a balancing test
       └─ Accept the obligations that come with processing personal data
 ```
 
-**Out-of-scope checklist** — every answer must be yes:
+**Minimal-data checklist** — every answer must be yes:
 - Are you certain no IP address is stored, in any form, including hashed?
 - Is nothing written to the user's device (no cookies, no LocalStorage, no persisted fingerprint), and is anything read from it covered by an ePrivacy exemption?
 - Are all identifiers session-scoped and never correlated across visits?
-- Is the retained data aggregate, with no field that could single out a person?
+- Is the retained data aggregate, with no field that could single out a person, and is any per-hit data purged quickly?
 - Can you show all of the above to a DPO in writing?
 
-If any answer is no, you are processing personal data and you need a legal basis. Don't assert the out-of-scope position on a tool that doesn't earn it.
+If any answer is no, you are processing more personal data than you need, and the no-banner position gets harder to defend. Don't assert it for a tool that doesn't earn it.
 
 ### Step 2: Technical Setup
 
@@ -360,26 +361,29 @@ Update three key documents to reflect your analytics approach.
 Add or update your analytics section:
 
 ```
-We use Sealmetrics for web analytics. Sealmetrics collects anonymous
+We use Sealmetrics for web analytics. Sealmetrics collects minimal
 usage data (pages viewed, referral sources, aggregate engagement)
 without cookies and without storing IP addresses. Nothing is stored
 on your device; standard browser properties are read only to compute
 a session identifier that changes daily and cannot link your visits
-across days. Because no personal data is retained, this measurement
-falls outside the scope of the GDPR, and it relies on the
+across days; once rotated, it cannot be reconstructed. This
+pseudonymised data is processed on the basis of our legitimate
+interest (GDPR Art. 6(1)(f)), the per-hit log is kept for one day,
+reports are aggregated, and measurement relies on the
 audience-measurement exemption rather than consent. Data is retained for 24 months for trend analysis and
-stored exclusively on EU servers in Dublin, Ireland. You can opt
-out via [opt-out link].
+stored exclusively on EU servers in Dublin, Ireland. You can
+object at [link to your objection page]; we will then stop loading
+the analytics script for you.
 ```
 
-**Out-of-Scope Documentation** (Internal):
+**Processing Documentation** (Internal):
 
 Maintain internal records documenting:
-- What is stored, field by field, and why no field identifies a person
+- What is stored, field by field, and how long (per-hit log one day, aggregated reports 24 months)
 - That nothing is written to the device, what is read from it (standard browser properties for the session identifier), and the ePrivacy Article 5(3) exemption relied on for that read
-- Why the dataset is anonymous rather than pseudonymous, with reference to Recital 26
+- That the session identifier is pseudonymised data under legitimate interest, Article 6(1)(f), and becomes unrecoverable after the daily rotation
 - Safeguards: cookieless, IP-less, EU-only, limited retention
-- Alternative considered: consent-based analytics rejected due to 15-60% data loss
+- Alternative considered: consent-based analytics rejected due to consent-driven data loss
 
 **Data Processing Agreement**:
 
@@ -400,12 +404,12 @@ After implementation, verify everything works correctly.
 - Confirm: No analytics cookies set
 - Check: Privacy policy updated
 - Test: Analytics dashboard receiving data
-- Verify: Opt-out mechanism functions
+- Verify: if you offer an objection page, the tracker no longer loads after objecting
 
 **Legal Verification**:
 - Privacy policy describes the analytics accurately, including why no consent is required
 - DPA executed with Sealmetrics
-- Internal out-of-scope documentation complete (what is stored, and why none of it is personal data)
+- Internal processing documentation complete (what is stored, for how long, and on what basis)
 - Data retention schedule understood (fixed 24 months for aggregates and conversions)
 - Team trained on data handling procedures
 
@@ -423,11 +427,11 @@ Avoiding these frequent errors saves legal headaches and potential fines.
 
 ### Mistake 1: Relying on Consent for Analytics
 
-**The Problem**: Consent sounds legally safe but creates massive business problems. Rejection rates in the EU run as high as 87%, and the resulting shortfall in your reports is 15-60% — spread unevenly across your channels, which is what quietly reorders your rankings rather than just shrinking your totals.
+**The Problem**: Consent sounds legally safe but creates massive business problems. Many EU visitors reject or ignore the banner, and the resulting shortfall in your reports is spread unevenly across your channels, which is what quietly reorders your rankings rather than just shrinking your totals.
 
 **Why It Happens**: Companies fear legitimate interest is too uncertain or worry about regulatory challenges. They choose consent thinking it's the "safer" option.
 
-**The Fix**: use a properly implemented cookieless tool that stores no personal data, so no Article 6 basis is required in the first place. Document what is stored and why none of it identifies a person, minimize collection, and implement technical safeguards.
+**The Fix**: use a properly implemented cookieless tool that stores nothing on the device and no data that identifies anyone, and rely on legitimate interest for the minimal data it handles. Document what is stored and for how long, minimize collection, and implement technical safeguards.
 
 ### Mistake 2: Using Google Analytics Without Configuration
 
@@ -435,7 +439,7 @@ Avoiding these frequent errors saves legal headaches and potential fines.
 
 **Why It Happens**: Companies install Google Analytics with default settings, assuming a major tech company must be GDPR compliant by default. This assumption is incorrect.
 
-**The Fix**: either configure Google Analytics extensively (IP anonymization, cookie consent integration, disable advertising, EU-only hosting) and accept 15-60% data loss from consent requirements, or switch to Sealmetrics and avoid the gap altogether.
+**The Fix**: either configure Google Analytics extensively (IP anonymization, cookie consent integration, disable advertising, EU-only hosting) and accept consent-driven data loss, or switch to Sealmetrics and avoid the gap altogether.
 
 ### Mistake 3: Thinking Hashed IPs Solve GDPR
 
@@ -443,7 +447,7 @@ Avoiding these frequent errors saves legal headaches and potential fines.
 
 **Why It Happens**: Marketing materials from analytics vendors incorrectly conflate hashing with anonymization. Companies believe "we hash IPs" means "we don't process personal data."
 
-**The Fix**: Use analytics that doesn't store IP addresses at all. Sealmetrics never stores IPs—not hashed, not truncated, not at all. This eliminates the personal data processing question entirely.
+**The Fix**: Use analytics that doesn't store IP addresses at all. Sealmetrics never stores IPs—not hashed, not truncated, not at all. This removes the hashed-IP question entirely.
 
 ### Mistake 4: No DPA with Analytics Provider
 
@@ -480,7 +484,7 @@ CNIL's guidance establishes specific requirements:
 - No IP address storage beyond immediate processing needs
 - Transparent privacy policy disclosures
 
-This guidance forms the foundation for consent-exempt audience measurement across the EU, as other data protection authorities have referenced CNIL's framework in their own. Note the wording CNIL uses: *anonymous statistical data*. That is a statement about the nature of the output, not about having a good reason to process personal data.
+This guidance forms the foundation for consent-exempt audience measurement across the EU, as other data protection authorities have referenced CNIL's framework in their own. Note the wording CNIL uses: *anonymous statistical data*. That is a statement about the nature of the output: reports have to be aggregated and non-identifying.
 
 ### GDPR Article 5(1)(c) - Data Minimization
 
@@ -500,21 +504,21 @@ Sealmetrics implements data minimization as a core design principle. We collect 
 
 Unlike cookie-based analytics tools that retrofit GDPR compliance onto existing architectures, Sealmetrics was designed from inception for compliance.
 
-**No Compromise Required**: Traditional analytics forces a choice between a clean legal position and complete data. Cookie consent buys the former at the cost of 15-60% of the latter. Sealmetrics measures every visit and keeps the legal position clean, through:
+**No Compromise Required**: Traditional analytics forces a choice between a clean legal position and complete data. Cookie consent buys the former at the cost of part of the latter. Sealmetrics measures all the traffic you lose today to the cookie banner and keeps the legal position clean, through:
 
-1. **Cookieless Architecture**: No cookies means no ePrivacy Directive concerns, no consent requirements, no data loss from rejections.
+1. **Cookieless Architecture**: Nothing is stored on the device, and the session identifier is assessed against the audience-measurement exemption rather than consent, so there is no data loss from rejections.
 
 2. **Zero IP Storage**: Not hashing, not truncating—zero storage. IP addresses never touch our database, eliminating the largest GDPR compliance question.
 
-3. **Session-Based Tracking**: Temporary identifiers that reset after each visit provide analytics value without enabling cross-session tracking or user identification.
+3. **Session-Based Tracking**: An ephemeral session identifier that rotates daily provides analytics value without enabling cross-day or cross-site tracking or user identification.
 
-4. **EU-Exclusive Operation**: Servers, company, and data all in the EU. No US parent, no Schrems II concerns, no adequacy decision dependencies.
+4. **EU-Exclusive Operation**: An EU company, and analytics data hosted and processed only in the EU (Dublin). No US parent, and no adequacy decision dependency for analytics data.
 
 5. **Purpose Limitation**: Sealmetrics processes data only for audience measurement. No advertising integrations, no data selling, no repurposing for other commercial activities.
 
 6. **Documented Retention**: 24-month retention justified and documented as necessary for trend analysis, with automatic purging of older data.
 
-This technical foundation is what puts the dataset outside the GDPR's material scope rather than inside it needing a justification — consistent with CNIL's guidance, and accepted by DPOs across the EU. To be clear about what that is and isn't: DPO acceptance is a customer assessment, not a regulatory endorsement. No supervisory authority certifies analytics tools, and Sealmetrics holds no ISO 27001 or SOC 2 certification.
+This technical foundation keeps the data minimal and short-lived — consistent with CNIL's guidance, and accepted by DPOs across the EU. To be clear about what that is and isn't: DPO acceptance is a customer assessment, not a regulatory endorsement. No supervisory authority certifies analytics tools, and Sealmetrics holds no ISO 27001 or SOC 2 certification.
 
 ---
 
@@ -524,31 +528,29 @@ This technical foundation is what puts the dataset outside the GDPR's material s
 
 Google Analytics is not GDPR compliant in its default configuration. Multiple European data protection authorities (Austria, France, Italy) have ruled that standard Google Analytics implementations violate GDPR due to three main issues:
 
-First, Google Analytics uses cookies, triggering ePrivacy Directive consent requirements. This means you need cookie banners and will lose 15-60% of your data to ghosting and rejection.
+First, Google Analytics uses cookies, triggering ePrivacy Directive consent requirements. This means you need cookie banners and will lose the visitors who reject or ignore the cookie banner.
 
 Second, Google Analytics stores IP addresses. Even with the IP anonymization feature enabled, full IPs are processed before anonymization occurs, constituting personal data processing.
 
 Third, Google Analytics transfers data to US Google servers, creating Schrems II compliance challenges. While Google offers a consent mode and EU hosting options, the fundamental architecture involves data sharing with a US parent company.
 
-You can make Google Analytics more GDPR compliant through extensive configuration, but you'll still need consent banners and accept massive data loss. Sealmetrics provides compliance without these compromises.
+You can make Google Analytics more GDPR compliant through extensive configuration, but you'll still need consent banners and accept massive data loss. Sealmetrics is designed to comply with the GDPR without these compromises (our self-assessment, not a certification).
 
 ### Can I use analytics without a cookie banner?
 
-Yes, with properly implemented cookieless analytics like Sealmetrics. Cookie banners are required by the ePrivacy Directive when websites store information on user devices (cookies) or read information from them, unless an exemption applies. If your analytics uses no cookies and whatever it reads is covered by an exemption, no banner is needed.
+On our own assessment, yes, with properly implemented cookieless analytics like Sealmetrics (in Germany an open question — see below). Cookie banners are required by the ePrivacy Directive when websites store information on user devices (cookies) or read information from them, unless an exemption applies. If your analytics uses no cookies and whatever it reads is covered by an exemption, no banner is needed.
 
-The GDPR is a separate question from ePrivacy, and both have to be satisfied. Sealmetrics addresses both: nothing is stored on the device, and the standard browser properties it reads to compute its session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3); and no personal data is stored (so the dataset sits outside the GDPR's material scope under Recital 26, with no Article 6 basis required).
+The GDPR is a separate question from ePrivacy, and both have to be satisfied. Sealmetrics addresses both: nothing is stored on the device, and the standard browser properties it reads to compute its session identifier rely on the audience-measurement exemption from ePrivacy Article 5(3); and nothing stored identifies anyone: the session identifier rotates daily and becomes unrecoverable, and the short-lived pseudonymised data relies on legitimate interest, Article 6(1)(f).
 
-This measures every visit without a consent banner — and without asking anyone to accept a balancing test.
+This measures all the traffic you lose today to the cookie banner, without one.
 
-### What's the difference between legitimate interest, consent, and no legal basis at all?
+### What's the difference between legitimate interest and consent?
 
-Consent (Article 6(1)(a)) requires users to actively opt in before processing begins. For analytics that means cookie banners, explicit checkboxes, and a 15-60% hole in your data.
+Consent (Article 6(1)(a)) requires users to actively opt in before processing begins. For analytics that means cookie banners, explicit checkboxes, and the consent gap in your data.
 
 Legitimate interest (Article 6(1)(f)) allows processing when your business needs are not overridden by privacy rights. It's the right answer for a tool that stores hashed IPs or other identifiers, provided the purpose is audience measurement rather than advertising, collection is minimized, safeguards are in place, and users can object.
 
-**The third option is the one people miss.** Both of the above assume you're processing personal data. If your analytics stores none — no IP in any form, no persistent identifier, nothing written to the device — then under Recital 26 the dataset is outside the GDPR's material scope and no Article 6 basis is required at all.
-
-That is a stronger position, not a weaker one, and it's why Sealmetrics does not claim legitimate interest. Claiming 6(1)(f) would concede that personal data is being processed. CNIL confirmed in 2020 that cookieless audience measurement can operate without consent when it produces anonymous statistical data — which is the same distinction.
+**What makes legitimate interest strong is how little data you hold.** Sealmetrics stores no IP in any form, no persistent identifier, and nothing on the device; its session identifier is pseudonymised data that rotates daily and, once rotated, not even Sealmetrics can reconstruct. It relies on legitimate interest, Article 6(1)(f), for that short-lived operational data, and reports are always aggregated. CNIL confirmed in 2020 that cookieless audience measurement can operate without consent when it produces anonymous statistical data — the reports, in Sealmetrics' case.
 
 ### Does hashing IP addresses make them anonymous under GDPR?
 
@@ -562,7 +564,7 @@ Hashed IPs remain personal data because:
 - Hashes can be matched across systems
 - Technical possibility of re-identification exists
 
-Sealmetrics solves this by never storing IP addresses—not hashed, not truncated, zero storage. This eliminates the personal data question entirely.
+Sealmetrics solves this by never storing IP addresses—not hashed, not truncated, zero storage. This removes the hashed-IP question entirely.
 
 ### How long can I store analytics data under GDPR?
 
@@ -604,19 +606,19 @@ If your DPO or legal counsel determines a DPIA is needed, the assessment should 
 
 Sealmetrics' technical approach (no IPs, no cookies, minimal data, EU-only) creates low privacy impact, typically not requiring DPIA. Many customers document this determination as part of their compliance records.
 
-### Can I use Sealmetrics for TTDSG compliance in Germany?
+### Can I use Sealmetrics without consent in Germany (TDDDG)?
 
-Yes, Sealmetrics complies with Germany's TTDSG (Telecommunications Telemedia Data Protection Act) without requiring configuration changes.
+It is an open question. Sealmetrics' reading is that no consent is needed, but check with your DPO or counsel: the DSK does not extend the §25(2) TDDDG exemption to audience measurement, and the tracker reads device properties via JavaScript, which may count as "access" under §25(1) (EDPB Guidelines 2/2023 read access broadly).
 
-TTDSG is stricter than baseline GDPR, particularly regarding device storage and tracking. The law requires consent for storing information on devices (including cookies) with limited exemptions for technically necessary functionality.
+The TDDDG (renamed from TTDSG in May 2024) is stricter than baseline GDPR, particularly regarding device storage and tracking. The law requires consent for storing information on devices (including cookies) with limited exemptions for technically necessary functionality.
 
-Sealmetrics complies because:
+What supports Sealmetrics' reading:
 - No cookies or device storage
 - No stored or persistent fingerprint: the device-characteristics hash computed in the browser is re-keyed daily on the server and never stored as sent
-- Data minimization by design (satisfies TTDSG privacy principles)
+- Data minimization by design
 - EU-exclusive operation (no German-US data transfer concerns)
 
-§25 TTDSG (now TDDDG) governs storing and reading information on devices. Sealmetrics stores nothing there; it does read standard browser properties to compute its session identifier. How §25 applies to that read is assessed in our [Germany self-assessment](/compliance/germany-ttdsg-self-assessment).
+§25 TDDDG (formerly TTDSG) governs storing and reading information on devices. Sealmetrics stores nothing there; it does read standard browser properties to compute its session identifier. How §25 applies to that read is assessed in our [Germany self-assessment](/compliance/germany-ttdsg-self-assessment).
 
 ### What if my Data Protection Officer (DPO) rejects cookieless analytics?
 
@@ -626,9 +628,9 @@ DPOs sometimes push back on cookieless analytics out of unfamiliarity with the f
 
 **Technical Documentation**: explain the implementation — no cookies, zero IP storage, session-scoped identifiers never written to the device, EU-only servers in Dublin. This is what carries the argument, so lead with it.
 
-**The Scope Argument, Not a Balancing Test**: don't present a legitimate interest analysis. Present why there is no personal data in the dataset, field by field, and therefore why Recital 26 puts it outside the Regulation's material scope. A DPO who has seen a dozen weak balancing tests will find this a refreshing change.
+**The Data, Field by Field**: present what is stored, for how long, and why the legitimate interest balance is easy: no IP, nothing on the device, a pseudonymised session identifier that becomes unrecoverable after the daily rotation, a per-hit log purged after one day, and aggregated reports. A DPO who has seen a dozen weak balancing tests will find this a refreshing change.
 
-**Comparison with Alternatives**: show that consent-based analytics loses 15-60% of its data, unevenly across channels. Resist inflating it — a DPO who catches an exaggerated number will discount everything else you said.
+**Comparison with Alternatives**: show that consent-based analytics loses the visitors who reject or ignore the cookie banner, unevenly across channels. Resist inflating it — a DPO who catches an exaggerated number will discount everything else you said.
 
 Most DPOs approve once they understand the legal framework and technical implementation. If concerns remain, consider requesting a second opinion from external GDPR counsel or consulting other DPOs in your industry who have approved similar approaches.
 
@@ -642,13 +644,13 @@ GDPR doesn't prescribe documentation formats, but the records worth keeping are 
 - What is stored: pages viewed, referrer, aggregate engagement, country derived from browser timezone
 - What is not stored: IP addresses in any form including hashed, user IDs, cross-session identifiers
 - Device storage: none — no cookies, no LocalStorage, nothing written; standard browser properties are read only to compute a session identifier that the server re-keys daily
-- Conclusion: the dataset does not relate to an identified or identifiable natural person, so under Recital 26 it falls outside the material scope of the GDPR, and no Article 6 legal basis is required
+- Conclusion: the session identifier is pseudonymised data, processed under legitimate interest (Article 6(1)(f)), per-hit log purged after one day and unrecoverable after the daily rotation; reports are aggregated and non-identifying
 
 **Safeguards**: cookieless, zero IP storage, EU servers in Dublin, 24-month retention on aggregates with automatic purging.
 
-**Alternative Considered**: "We considered consent-based analytics but rejected it because 15-60% data loss from banner ghosting and rejection would prevent achieving our business intelligence purposes."
+**Alternative Considered**: "We considered consent-based analytics but rejected it because consent-driven data loss from banner ghosting and rejection would prevent achieving our business intelligence purposes."
 
-**Opt-Out Mechanism**: "Users can opt out via [provide opt-out method]."
+**Objection**: "Users can object via [describe how your site stops loading the tracker for them]."
 
 Sealmetrics provides documentation templates to help customers formalize this for internal records and DPO review.
 
@@ -658,27 +660,27 @@ Sealmetrics provides documentation templates to help customers formalize this fo
 
 GDPR compliance for web analytics doesn't require choosing between legal safety and data completeness. The consent-or-data-loss dilemma is a false choice created by outdated cookie-based analytics architectures.
 
-The path to a clean legal position without giving up 15-60% of your data:
+The path to a clean legal position without giving up the visitors who reject the banner:
 
-1. **Ask the prior question**: is any personal data stored at all? If not, no Article 6 basis is needed
+1. **Ask the prior question**: how little data can you handle, and for how short a time?
 2. **Implement truly cookieless analytics** that writes nothing to the device and reads from it only what an exemption covers
 3. **Ensure zero IP storage**—not hashed or truncated, but zero storage
-4. **Document your approach**: what is stored, and why none of it identifies a person
+4. **Document your approach**: what is stored, for how long, and on what basis
 5. **Update your privacy policy** with clear, specific disclosures
 6. **Execute a DPA** with your analytics provider
 
 Sealmetrics satisfies all of these by default:
 
-- **No consent required**: nothing stored on the device (ePrivacy 5(3) not engaged), no personal data stored (outside GDPR material scope, Recital 26)
-- **No cookies**: no ePrivacy exposure and no consent-driven data loss
-- **Zero IP storage**: not even hashed—the primary personal data question doesn't arise
-- **No consent gap**: every visit measured, rather than the 40-85% a banner lets through
-- **EU-exclusive**: analytics data hosted in Dublin, Ireland. No Schrems II complications
+- **No consent required**: nothing stored on the device and a session identifier that rotates daily (audience-measurement exemption to ePrivacy 5(3), self-assessed), no data that identifies anyone
+- **No cookies**: no cookie lifespan to manage and no consent-driven data loss
+- **Zero IP storage**: not even hashed—the hashed-IP question doesn't arise
+- **No consent gap**: the traffic the banner loses is measured too, not just the visitors who accept the banner
+- **EU-exclusive**: analytics data is hosted and processed only in the EU (Dublin)
 - **24-month retention**: documented as necessary for trend analysis, with automatic purging
 
 Stop compromising between compliance and complete analytics data.
 
-Start your 14-day free trial: [Sealmetrics.com](https://sealmetrics.com)
+[Open your free account](https://my.sealmetrics.com/register): your first 1M events are free, with no card.
 
 ---
 
@@ -686,7 +688,7 @@ Start your 14-day free trial: [Sealmetrics.com](https://sealmetrics.com)
 
 - [Complete Guide to Cookieless Analytics](/blog/cookieless-analytics-guide)
 - [Cookieless vs Cookie-Based Analytics](/blog/cookieless-analytics-vs-cookie-based)
-- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — Technical architecture behind GDPR-compliant tracking
+- [How Consentless Tracking Works](/security-privacy/how-consentless-works) — Technical architecture behind tracking designed for the GDPR
 - [What Is Consentless Analytics?](/security-privacy/consentless-analytics) — Legal basis and implementation details
 - [CNIL 2020 Analytics Guidance (Official)](https://www.cnil.fr/en/cookies-and-other-trackers/rules/cookies/how-comply-cookies-and-trackers)
 - [GDPR Official Text](https://eur-lex.europa.eu/eli/reg/2016/679/oj)

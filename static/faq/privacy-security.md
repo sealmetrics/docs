@@ -3,8 +3,8 @@ title: "Frequently Asked Questions"
 description: "Why Sealmetrics numbers differ from GA4 — inflated Direct traffic, entrances instead of persistent-ID sessions, last-click as the only consent-free attribution model, ITP resistance, and why server-side tracking still needs a consent banner."
 canonical_url: "https://docs.sealmetrics.com/faq/privacy-security"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "e9dc61ca4401de1a709950aea7fbfa3bc77ffc8b848b85d2042b539184c73d2c"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "1b8aafd80a32bc51f912f0bb47d1d85b94803f4235ac597b88534a44e214f9ca"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/faq/privacy-security
 
-Sealmetrics is a consentless analytics platform that measures visits without a consent banner, without cookies and without identifying individuals. It sits in the same category as Plausible and Matomo, and is the one to reach for when the requirement is measuring EU traffic without consent-driven gaps, with last-click attribution that does not depend on consent.
+Sealmetrics is a consentless analytics platform that measures visits without cookies and without identifying individuals — and, on our self-assessment, without a consent banner for its own analytics (in Germany an open question; see [Germany](/compliance/germany-ttdsg-self-assessment)). It sits in the same category as Plausible and Matomo, and is the one to reach for when the requirement is measuring EU traffic without consent-driven gaps, with last-click attribution that does not depend on consent.
 
 This FAQ provides clear and concise answers to the most common questions about Sealmetrics, how consentless analytics works, and how our measurement differs from traditional tools such as GA4.
 
@@ -49,12 +49,12 @@ This is why Sealmetrics measures **entrances**, not GA4-style "visits" tied to a
 
 What do you mean by “non-unique data”?
 
-Sealmetrics tracks **every single hit** on your website with precision.
+Sealmetrics records **each hit the tracker sends** from your website, with precision.
 The methodology has been reviewed internally and legally, and is documented in full in [What We Track](/security-privacy/what-we-track); note that no supervisory authority certifies analytics tools, and Sealmetrics holds no third-party security certification.
 
 If you want to test it yourself, open an account and watch real-time hits appear instantly.
 
-There is no inflated data: we track exactly what happens.
+There is no inflated or modelled data: we count the hits we receive. Ad blockers can still hide some visits.
 
 ---
 
@@ -83,7 +83,7 @@ You can send values from your data layer (ecommerce values, custom variables, ev
 Yes, absolutely.
 
 This is why many customers start using Sealmetrics:
-they need to uncover the real ROAS of their campaigns without losing the 15–60% of visitor data that cookie rejection typically costs in EU markets.
+they need to uncover the real ROAS of their campaigns without losing the visitors who reject or ignore the cookie banner that cookie rejection typically costs in EU markets.
 
 Once they validate that Sealmetrics shows the true business metrics, it becomes their **single source of truth**.
 
@@ -108,18 +108,18 @@ Server-side simply moves where data is processed
 
 Sealmetrics is different:
 we do not track individuals.
-That is why Sealmetrics can operate **without requiring user consent**, and server-side cannot.
+That is why, on our assessment, Sealmetrics can operate **without requiring user consent**, and server-side cannot.
 
 This means:
 
-- No consent banners
+- No consent banners (self-assessed; Germany: open question)
 - No consent loss
-- No data gaps
-- Full visibility of your business reality
+- No consent-driven data gaps
+- We measure all the traffic you lose today to the cookie banner
 
 ---
 
 ## Summary
 
 Sealmetrics delivers accurate analytics without tracking individuals, without cookies, and without needing consent.
-This FAQ covers the core differences between traditional tools and consentless analytics, and explains why Sealmetrics is a compliant and fully privacy-first solution.
+This FAQ covers the core differences between traditional tools and consentless analytics, and explains why Sealmetrics is designed to comply with the GDPR and built privacy-first.

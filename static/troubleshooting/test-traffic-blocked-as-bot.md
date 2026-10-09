@@ -3,8 +3,8 @@ title: "Test Visits Not Appearing (Filtered as Bot Traffic)"
 description: "Why visits generated with curl, Selenium, Playwright, headless Chrome, or load-testing tools never appear in Sealmetrics, how to diagnose it, and how to test without tripping the filters."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/test-traffic-blocked-as-bot"
 lang: "en"
-date_generated: "2026-08-11T17:34:37.681Z"
-source_hash: "af3be8eb854e0adafaa9b6cb8f3aecdcd04bfd6d76e437ae80fa592f178d70eb"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "797a70c32b2a8be8d9bcdd90bf96100d62fb21d0e9a51641bc645ef097799096"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -33,7 +33,7 @@ Every incoming hit is checked against a global blocklist of known non-human User
 
 This is why a Playwright or Selenium run with the default User-Agent, a `curl` smoke test, or a custom UA like `MyCompany-TestBot` never shows up. The generic `bot` substring match is deliberately aggressive — it also catches home-made User-Agents you might not think of as "bots".
 
-### 2. The behavioral rate limit
+### 2. The burst detector
 
 Independently of the User-Agent, a session that fires a burst of pageviews — more than a handful within a couple of seconds — is treated as a bot and blocked for a period. Scripted click-through tests that load pages as fast as possible trip this even with a legitimate browser User-Agent.
 

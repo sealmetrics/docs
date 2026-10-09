@@ -3,8 +3,8 @@ title: "Introducing Seal AI Private: AI-Powered Analytics That Never Leaves the 
 description: "Seal AI Private is Sealmetrics' EU-hosted, platform-managed AI for LENS: chat and insights processed in Paris, no prompt retention, no API key required."
 canonical_url: "https://docs.sealmetrics.com/blog/seal-ai-private-launch"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "6f8d4e074187e4be681b92948bfc8c5e050ea8c72fbe3b50f7cf37d24336a845"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "88bf41dee5be04dc797ad70350eda81fbf7b3abb59b08411bd8c65afa62b8205"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -115,4 +115,4 @@ There's no wrong answer here. If your compliance requirements (or your patience 
 
 For the full details — quota mechanics, pack purchasing, roles and permissions, and the API endpoints for developers — see the [Seal AI Private documentation](/billing/seal-ai-private). To see what the AI can actually do with your analytics data, start with the [LENS AI overview](/lens).
 
-Analytics without cookies, without consent banners — and now AI without data leaving the EU.
+Analytics without cookies, without a consent banner for its own analytics (our self-assessment) — and now AI without data leaving the EU.

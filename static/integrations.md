@@ -3,8 +3,8 @@ title: "Integrations Overview"
 description: "Connect Sealmetrics with your favorite platforms, frameworks, and tools"
 canonical_url: "https://docs.sealmetrics.com/integrations"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "f6af4dd15ab25f2d8279dcaaa54740663b8a2e2eb2a9ca641dfa20243db7bc07"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "ccdf14a02396c41d183072081ac5501325ffea187e797dc146d51cd4d73cee70"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -60,7 +60,7 @@ If your platform isn't listed, you can:
 
 1. Use the [GTM Container Template](/integrations/tag-management/gtm-template) for tag manager-based installation
 2. Use the [JavaScript Tracker](/implementation/tracker/installation) directly
-3. Use the [API](/api) for server-side tracking
+3. Use the [API](/api) to read your reports from your own systems (collection goes through the JavaScript tracker, or the Shopify webhook on Shopify)
 
 ---
 

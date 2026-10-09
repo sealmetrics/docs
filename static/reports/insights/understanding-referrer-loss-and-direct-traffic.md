@@ -3,8 +3,8 @@ title: "Understanding Referrer Loss and Direct Traffic in Sealmetrics"
 description: "Learn why referrers are lost on modern websites and why Direct traffic may appear unusually high in Sealmetrics."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/understanding-referrer-loss-and-direct-traffic"
 lang: "en"
-date_generated: "2026-08-12T08:27:36.924Z"
-source_hash: "e260fae8111da86ebbaf198c5720a07403f1d36ccc2dbb31cf591d30622a1082"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "d13109b68011e8335fb002843f3a9630df650c9a0454d4adbb9c996615d4a040"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -308,12 +308,9 @@ Referrer loss can artificially inflate Direct numbers.
 - Referrer blocking
 - Recent marketing changes
 
-### Typical Direct Traffic Ranges
+### Direct Traffic Benchmarks
 
-- E-commerce: **15–30%**
-- B2B SaaS: **20–35%**
-- Media/Content: **10–25%**
-- Local business: **25–40%**
+There is no reliable benchmark: the share of direct traffic depends on your sector, brand strength and how much of your traffic arrives from apps, email and links that strip the referrer. Compare your own direct share over time rather than against an industry figure.
 
 ### Low Referrer Traffic — Common Causes
 
@@ -340,7 +337,7 @@ It allows you to:
 - Measure brand awareness
 - Understand platform contributions
 - Optimize marketing investments
-- Stay fully privacy compliant
+- Stay privacy-first
 
 By combining UTMs, domain analysis, and referrer intelligence, Sealmetrics provides accurate attribution without tracking individuals.
 

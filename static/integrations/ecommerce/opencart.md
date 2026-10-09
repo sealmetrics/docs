@@ -3,8 +3,8 @@ title: "OpenCart"
 description: "Install the Sealmetrics OpenCart extension (3.x/4.x OCMOD package) for cookieless store analytics with product view, cart, checkout, and purchase events."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/opencart"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "c8ee19c1a7684dd5bf06ed6c6f56735b0f83481f0e113525c38eca4fbf000e6f"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "00aa956f8d515a3c2cf3cd6c6234e9a47901d4fbe3c90ecb6820d1719a669f8c"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -160,10 +160,10 @@ For multi-store OpenCart installations:
 ## Privacy
 
 - No cookies used
-- No personal data collected
+- No data that identifies anyone stored; reports are aggregated
 - No order IDs stored externally
 - Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
-- No consent banner needed
+- No consent banner for Sealmetrics' own analytics (self-assessed; Germany: open question — see [Germany](/compliance/germany-ttdsg-self-assessment))
 
 ## Troubleshooting
 

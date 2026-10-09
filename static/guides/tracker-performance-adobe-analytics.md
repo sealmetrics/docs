@@ -3,8 +3,8 @@ title: "Tracker Performance Report: Sealmetrics vs Adobe Analytics"
 description: "A technical comparison of tracking pixel weight, delivery chain, and time-to-first-hit: the Sealmetrics tracker vs the Adobe Analytics stack (Launch + AppMeasurement) — with field measurements from a real site running both, methodology included."
 canonical_url: "https://docs.sealmetrics.com/guides/tracker-performance-adobe-analytics"
 lang: "en"
-date_generated: "2026-08-27T14:00:32.362Z"
-source_hash: "a6704c422c91a12a0ac9a01a328abda11b6ea5adbb109a00888c3ac3bc178f3d"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "35697e48b174d06ccb1a1c62b984db300de3f25975f0d39a2f96abe0d96fc67e"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -105,13 +105,13 @@ Every visit shorter than the vulnerability window is invisible traffic. With Ado
 
 The mechanisms above give the loss structure (ranges are estimates, clearly labeled as such — the field validation below puts a real number on them):
 
-| Loss mechanism for Adobe | Typical range | Applies when |
-|---|---|---|
-| Visits shorter than the hit window (~3 s on the reference site) | ~3–8% | Always; highest on mobile/campaign-heavy traffic |
-| Collection endpoints blocked (filter lists, CNAME uncloaking) | ~10–15% | Always; overlaps partially with the above |
-| Consent banner rejection/ignoring | ~20–35% | Only where the install is CMP-gated (common in the EU) |
+| Loss mechanism for Adobe | Applies when |
+|---|---|
+| Visits shorter than the hit window (~3 s on the reference site) | Always; highest on mobile/campaign-heavy traffic |
+| Collection endpoints blocked (filter lists, CNAME uncloaking) | Always; overlaps partially with the above |
+| Consent banner rejection/ignoring | Only where the install is CMP-gated (common in the EU) |
 
-Combined, a Sealmetrics tracker running in parallel typically measures **~15–25% more traffic than a non-consent-gated Adobe install, and ~25–45% more where Adobe sits behind a CMP** (estimates; ranges overlap and do not add linearly).
+On the reference site, with Adobe firing without a consent gate, Sealmetrics measured about 25% more pageviews over 30 days of dual tagging (see the [three-way comparison](/guides/tracker-performance-three-way)). Where Adobe sits behind a CMP, expect a larger gap; how large is specific to each site.
 
 ### Field validation: a month of dual-tag data
 
@@ -132,7 +132,7 @@ Three conclusions from that month of data:
 ## Recommendations for Adobe Analytics sites evaluating Sealmetrics
 
 - **Install the Sealmetrics snippet directly in the `<head>`, not through your tag manager.** The reference site loads it through the tag chain and still beats Adobe's hit by over a second — but a `<head>` install secures the hit at ~0.1–0.3 s and removes the container dependency entirely.
-- **Do not gate Sealmetrics behind your CMP.** It measures without consent by design; gating it recreates Adobe's biggest loss for no benefit.
+- **Do not gate Sealmetrics behind your CMP.** It is designed to measure without consent (our self-assessment); gating it recreates Adobe's biggest loss for no benefit.
 - **Run both in parallel for a validation period.** Keep Adobe untouched, add Sealmetrics, and compare 30 days of data segmented by device and traffic source. Expect the gap to concentrate in mobile and short visits.
 - **Map metric definitions before comparing.** Adobe *visits* use a 30-minute inactivity timeout; Sealmetrics *entrances* are click-based with a 2-hour re-entry window. Compare page views with page views first — it is the cleanest apples-to-apples metric.
 

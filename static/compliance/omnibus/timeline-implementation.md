@@ -3,8 +3,8 @@ title: "Implementation Timeline"
 description: "Key dates and milestones for the EU Digital Omnibus: proposal publication, committee assignments, feedback periods, and the expected GDPR change timeline."
 canonical_url: "https://docs.sealmetrics.com/compliance/omnibus/timeline-implementation"
 lang: "en"
-date_generated: "2026-08-09T18:18:16.203Z"
-source_hash: "b3578abc9535dd89e9f8bf7492bd221c335f52e6271672a11578391e3e066903"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "84bfd056b2b39c15df9239d07ef3005134ee10ac0b3cf5785ab9cf1f71cba94b"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -138,7 +138,7 @@ All timelines below are calculated **from entry into force** (estimated Q3 2027)
 - Third-party tracking still requires consent
 
 **Note:**
-While the Commission projects 60% of cookies will no longer need consent, legal analysts note that:
+While the proposal would remove the consent requirement for some uses, legal analysts note that:
 - Information obligations may still require some form of notification
 - Hybrid banner solutions are expected for sites with mixed tracking tools
 - Full cookie banner elimination applies mainly to sites using **only** first-party, aggregated analytics

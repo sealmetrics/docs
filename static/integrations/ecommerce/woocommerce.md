@@ -3,8 +3,8 @@ title: "WooCommerce"
 description: "Install the Sealmetrics WooCommerce plugin for cookieless tracking of the full e-commerce funnel — product views, cart, checkout, and purchase revenue."
 canonical_url: "https://docs.sealmetrics.com/integrations/ecommerce/woocommerce"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "8c2a108f6705604c7ee6ac74e8bcb3e41b5dc362a48aae1e8de8c865f2530857"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "f22eaebffeba5625e7d73406e75365576ac6b87f4b77dd415dd855c1f71af6f9"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -143,7 +143,7 @@ The plugin prevents duplicate purchase tracking:
 - No order IDs stored externally
 - No customer data collected
 - Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
-- No consent banner needed
+- No consent banner for Sealmetrics' own analytics (self-assessed; Germany: open question — see [Germany](/compliance/germany-ttdsg-self-assessment))
 
 ## Troubleshooting
 

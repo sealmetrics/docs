@@ -3,8 +3,8 @@ title: "Sealmetrics vs Google Analytics: Complete Comparison 2026"
 description: "Sealmetrics vs Google Analytics 4 compared in 2026: consent-driven data loss, GDPR and Schrems II, features, AI, pricing and migration."
 canonical_url: "https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetrics"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "0893dea9bbaa4ecbdbff0c83451170df50aba8f49031db37346ff6e3dfed7259"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "7cedb39b2ee0c33602e95397620eb322f02ae9e660d2248ffe78062d602b5f0b"
 content_type: "blog"
 owner: "content"
 llm_priority: "useful"
@@ -22,13 +22,13 @@ Canonical page: https://docs.sealmetrics.com/blog/google-analytics-vs-sealmetric
 
 Google Analytics has dominated web analytics for two decades, but in EU markets it now measures a shrinking and biased fraction of the traffic that actually reaches your site. Every visitor who rejects a cookie banner — or simply ignores it — leaves no trace in GA4.
 
-Sealmetrics takes a different approach: [cookieless analytics that requires no consent banner](/intro), storing no personal data at all — which puts the dataset [outside the GDPR's material scope](/compliance) rather than inside it needing a legal basis.
+Sealmetrics takes a different approach: [cookieless analytics that requires no consent banner for its own analytics](/intro) on our own assessment (in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment)), storing nothing on the device and no data that identifies anyone. The session identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it; reports are always aggregated ([compliance](/compliance)).
 
 This comparison is updated for **July 2026** and covers data capture, GDPR and Schrems II, the full feature set including AI, pricing, and what a migration actually involves — including an honest account of what you give up.
 
 **Key takeaways**:
-- **GA4 typically captures 40–85% of EU traffic** — losing 15-60% depending on sector, brand strength and traffic sources; Sealmetrics captures all of it because no consent gate stands in front of measurement
-- **GA4 requires a consent banner** in the EU; Sealmetrics operates consentless, storing no personal data and nothing on the device
+- **GA4 typically captures only the EU visitors who consent** — how much it loses depends on sector, brand strength and traffic sources; Sealmetrics measures all the traffic GA4 loses today to the cookie banner, because no consent gate stands in front of measurement
+- **GA4 requires a consent banner** in the EU; Sealmetrics operates consentless on our own assessment, storing nothing on the device and no data that identifies anyone
 - **GA4 processes IP addresses**; Sealmetrics never stores one and doesn't even use it for geolocation
 - **Sealmetrics ships an AI layer** — natural-language chat, anomaly detection, and an MCP server your AI assistant can query directly
 - **GA4 keeps Google Ads integration, predictive metrics and user-level analysis** — real advantages Sealmetrics does not match
@@ -40,10 +40,10 @@ This comparison is updated for **July 2026** and covers data capture, GDPR and S
 | Aspect | Google Analytics 4 | Sealmetrics |
 |--------|-------------------|-------------|
 | **Tracking method** | Cookies + client ID | Cookieless session + isolated hits |
-| **Data capture (EU)** | 40–85% of traffic | All traffic |
+| **Data capture (EU)** | Only visitors who consent | No consent-driven loss |
 | **Consent required** | Yes (GDPR) | No |
 | **IP address** | Processed | Never stored, never used for geo |
-| **Data location** | US (Google Cloud) | EU only (Dublin, Ireland) |
+| **Data location** | US (Google Cloud) | Analytics data EU only (Dublin, Ireland) |
 | **Retention without consent** | 14 months | 24 months |
 | **Script size (gzipped)** | ~129.6 KB (gtag.js) | 1.1 KB |
 | **Setup** | Property, streams, consent mode, TIA | One script tag |
@@ -63,17 +63,7 @@ Google Analytics 4 relies on cookies to identify users and stitch sessions:
 
 These fall under ePrivacy Directive Article 5(3), which requires explicit consent before any non-essential information is stored on or read from a user's device. CNIL's guidance treats analytics cookies as requiring consent unless they meet a narrow first-party, no-cross-site-tracking exemption — which GA4 does not.
 
-**Estimated cookie rejection rates**:
-
-| Country | Estimated rejection rate |
-|---------|--------------------------|
-| Germany | 70–87% |
-| France | 60–73% |
-| Netherlands | 55–65% |
-| Spain | 40–55% |
-| United Kingdom | 35–50% |
-
-Rates vary considerably by industry, banner design and implementation. Sources: CNIL annual reports, Eurostat digital economy surveys, and CMP vendor benchmarks. Treat these as ranges, not as a figure to plug into a spreadsheet — your own rate is the only one that matters, and you can measure it.
+Rejection rates vary considerably by country, industry, banner design and implementation. There is no figure to plug into a spreadsheet — your own rate is the only one that matters, and you can measure it.
 
 ### How Sealmetrics tracks
 
@@ -84,7 +74,7 @@ Sealmetrics uses no cookies, no `localStorage` and no `sessionStorage`. The sess
 - No returning-visitor recognition: visits cannot be linked across days — not even by Sealmetrics — or to a person
 - Enables no cross-site tracking (the account ID is part of the hash)
 
-Nothing is stored on the device. The tracker does read standard browser properties to compute the session identifier, which engages ePrivacy Article 5(3); Sealmetrics relies on the audience-measurement exemption for that read (the first-party, no-cross-site-tracking criteria above) rather than on consent, so no consent banner is required for analytics. See [what we track](/security-privacy/what-we-track#6-session-identifier) and [how consentless works](/security-privacy/how-consentless-works).
+Nothing is stored on the device. The tracker does read standard browser properties to compute the session identifier, which engages ePrivacy Article 5(3); Sealmetrics relies on the audience-measurement exemption for that read (the first-party, no-cross-site-tracking criteria above) rather than on consent, so, on our own assessment, no consent banner is required for its analytics. See [what we track](/security-privacy/what-we-track#6-session-identifier) and [how consentless works](/security-privacy/how-consentless-works).
 
 ---
 
@@ -112,17 +102,14 @@ No consent gate means no consent-driven loss, and first-party delivery means ad 
 
 ### What this looks like in practice
 
-Two published customer results, both from hotel groups running Sealmetrics alongside their existing stack.
+Published customer results from companies running Sealmetrics alongside their existing stack.
 
-**[Dreamplace Hotels](https://sealmetrics.com/case-studies/dreamplace-hotels/)** — around two years on Sealmetrics, focused on channel attribution across Meta and Google, where pixel-reported numbers diverged most:
-
-- **+30% more traffic recorded than Google Analytics**, once the consent gap was closed
-- **15–20% more sales attributed** than their previous tool, narrowing the gap to their CRM
+**[Dreamplace Hotels](https://sealmetrics.com/case-studies/dreamplace-hotels/)** — around two years on Sealmetrics, focused on channel attribution across Meta and Google, where pixel-reported numbers diverged most.
 
 > "What it gives us is what we've always needed: data as real as possible, as close to reality as possible."
 > — Eduardo Martin, Analytics & Campaigns, Dreamplace Hotels
 
-**[Palladium Hotel Group](https://sealmetrics.com/case-studies/palladium-hotel-group/)** — the problem here was attribution quality rather than raw volume. Before Sealmetrics, **40% of inbound traffic arrived with no attribution** and **35% of bookings couldn't be connected** to the campaign, channel or placement that produced them, with Meta Pixel, the Google Ads tag, GA4, the booking engine and agency platforms all reporting different numbers.
+**[Palladium Hotel Group](https://sealmetrics.com/case-studies/palladium-hotel-group/)** — the problem here was attribution quality rather than raw volume. Before Sealmetrics, **40% of inbound traffic arrived with no attribution** and **35% of GA4 booking events weren't tied to a campaign or channel**, with Meta Pixel, the Google Ads tag, GA4, the booking engine and agency platforms all reporting different numbers.
 
 Measuring DV360 display on cost-per-availability-search and rebalancing the mix on that basis produced a **165% improvement in cost-per-search** — same budget, different measurement, different decisions.
 
@@ -131,13 +118,13 @@ Measuring DV360 display on cost-per-availability-search and rebalancing the mix 
 
 ### Note the size of that gap
 
-**+30% is not 5x**, and it's worth being clear about why, because inflated claims are easy to find in this category — including in earlier versions of this article.
+In the [Incapto case](https://sealmetrics.com/case-studies/incapto/) — one Shopify store using Consent Mode, same site and same days — GA4 did not record 29% of real visits. That is a meaningful gap and not a multiplier, and it's worth being clear about why, because inflated claims are easy to find in this category — including in earlier versions of this article.
 
 Cookie rejection rates don't translate one-to-one into missing traffic. Consent Mode v2 models part of the gap, some rejected visitors are returning users GA4 has already counted, and rejection varies enormously by market, industry and banner design. A 50% rejection rate does not mean GA4 shows you half your traffic; the real shortfall is usually smaller, and always specific to your site.
 
-So treat every multiplier you read — ours included — as a prompt to measure, not as a forecast. Run both tools in parallel for 30 days, compare Sealmetrics entrances against GA4 sessions, and sanity-check both against a source neither vendor controls: Search Console clicks for organic, or your ad platform's own click counts for paid. **Your gap is the only number worth acting on**, and it may well look more like Dreamplace's 30% than like the headline figures elsewhere in this market.
+So treat every multiplier you read — ours included — as a prompt to measure, not as a forecast. Run both tools in parallel for 30 days, compare Sealmetrics entrances against GA4 sessions, and sanity-check both against a source neither vendor controls: Search Console clicks for organic, or your ad platform's own click counts for paid. **Your gap is the only number worth acting on**, and it may well be smaller than the headline figures elsewhere in this market.
 
-The attribution finding often matters more than the volume one anyway. Palladium's 35% of unconnectable bookings wasn't traffic that went unrecorded — it was traffic that arrived, converted, and couldn't be credited to anything.
+The attribution finding often matters more than the volume one anyway. Palladium's 35% of GA4 booking events without a campaign or channel wasn't traffic that went unrecorded — it arrived and converted, but couldn't be credited to anything.
 
 ---
 
@@ -155,15 +142,15 @@ The attribution finding often matters more than the volume one anyway. Palladium
 
 ### Sealmetrics' compliance position
 
-**1. No Article 6 legal basis is required.** No cookies, no cross-site tracking, no personal data stored, and collection minimised to what analytics actually requires. Because nothing in the dataset relates to an identifiable person, GDPR Recital 26 puts it outside the Regulation's material scope — so there is no legal basis to pick, and specifically no legitimate interest claim to defend. (Naming Article 6(1)(f) would concede that personal data is being processed; the one place it genuinely applies is the transient in-memory handling of an IP for anti-abuse, per Recital 49.)
+**1. Minimal data under legitimate interest.** No cookies, no cross-site tracking, no IP stored, and collection minimised to what analytics actually requires. The session identifier is pseudonymised data that rotates daily and, once rotated, not even Sealmetrics can reconstruct; the per-hit log is purged after one day and reports are always aggregated. That short-lived operational data relies on legitimate interest, GDPR Article 6(1)(f). The IP is handled only transiently, in memory, for bot blocking (Recital 49).
 
 **2. No IP-derived anything.** IPs are handled in memory at the edge for bot-database matching and customer-configured exclusions, then discarded. They are never persisted, never hashed into an identifier, and — the part most people get wrong — **never used for geolocation**. Visitor country comes from the [browser timezone](/security-privacy/country-detection), read via `Intl.DateTimeFormat().resolvedOptions().timeZone`. This is why Sealmetrics reports country and not city: there is no IP lookup to derive a city from.
 
-**3. EU-only processing.** All customer analytics data — every hit, report and backup — is stored and processed in **Dublin, Ireland**. No international transfers, so Chapter V of the GDPR is not engaged and Schrems II is not a question you have to answer. See [data location](/security-privacy/data-location) and the [subprocessor list](/compliance/subprocessors).
+**3. EU-only processing.** Analytics data is hosted and processed only in the EU (Dublin) — every hit, report and backup — so analytics data is not transferred to third countries. Service emails go through Resend (US) under SCCs. See [data location](/security-privacy/data-location) and the [subprocessor list](/compliance/subprocessors).
 
 **4. 24-month retention with no consent** — at the AEPD's maximum for consent-exempt analytics and within the CNIL's 25-month window, so retention doesn't undermine the exemption the whole arrangement rests on.
 
-Published self-assessments against each regulator: [CNIL](/compliance/cnil-self-assessment) (France), [TTDSG](/compliance/germany-ttdsg-self-assessment) (Germany), [Garante](/compliance/italy-garante-self-assessment) (Italy), [UK PECR](/compliance/uk-pecr-self-assessment), [Swiss FADP](/compliance/switzerland-fadp-self-assessment), plus a full analysis of the [EU Digital Omnibus](/compliance/omnibus).
+Published self-assessments against each regulator: [CNIL](/compliance/cnil-self-assessment) (France), [TDDDG](/compliance/germany-ttdsg-self-assessment) (Germany), [Garante](/compliance/italy-garante-self-assessment) (Italy), [UK PECR](/compliance/uk-pecr-self-assessment), [Swiss FADP](/compliance/switzerland-fadp-self-assessment), plus a full analysis of the [EU Digital Omnibus](/compliance/omnibus).
 
 ---
 
@@ -174,10 +161,10 @@ Published self-assessments against each regulator: [CNIL](/compliance/cnil-self-
 | Feature | Google Analytics 4 | Sealmetrics |
 |---------|-------------------|-------------|
 | Requires cookies | Yes | No |
-| Requires consent banner | Yes (EU) | No |
+| Requires consent banner | Yes (EU) | No (self-assessed; Germany: open question) |
 | Stores IP addresses | Yes (processed) | **Never** |
 | IP used for geolocation | Yes | **No — browser timezone** |
-| GDPR legal basis | Consent 6(1)(a) | **None required — no personal data (Recital 26)** |
+| GDPR legal basis | Consent 6(1)(a) | **Legitimate interest 6(1)(f) — minimal pseudonymised data, unrecoverable after daily rotation** |
 | Data location | US (Google Cloud) | **EU only (Dublin)** |
 | Retention without consent | 14 months (2 for Large properties) | **24 months** |
 | Data shared with third parties | Yes (Google Ads and others) | No |
@@ -334,7 +321,7 @@ GA4 is genuinely the better tool in several situations, and pretending otherwise
 
 ## When to Choose Sealmetrics
 
-**Your traffic is substantially EU.** The gap between measuring a biased fifth of your audience and measuring all of it changes what your reports mean, not just how big the numbers are.
+**Your traffic is substantially EU.** The gap between measuring a biased fifth of your audience and also measuring the traffic the banner hides changes what your reports mean, not just how big the numbers are.
 
 **You want to drop the consent banner.** Not just for the data — for the conversion rate and the UX. That only works if analytics is the sole reason for the banner, so audit what else the CMP gates first.
 
@@ -385,7 +372,7 @@ Remove the GA4 tag, take GA4 out of the CMP configuration, and simplify or remov
 
 ### Is Sealmetrics really GDPR compliant without consent?
 
-Yes, and via a stronger route than most vendors claim. Two rules apply and both are cleared. ePrivacy Article 5(3) — the rule that actually mandates cookie banners — governs storing or accessing information on a device, and Sealmetrics does neither, so the consent trigger never fires. The GDPR governs personal data, and none is stored: no cookies, no cross-site tracking, no IP-derived identifier. Under Recital 26 the dataset is therefore outside the Regulation's material scope, which means no Article 6 legal basis is needed at all. We deliberately do *not* claim legitimate interest, because invoking any Article 6 basis would concede that personal data is being processed.
+Yes, on Sealmetrics' own assessment. Two rules apply. ePrivacy Article 5(3) — the rule that actually mandates cookie banners — governs storing or accessing information on a device: Sealmetrics stores nothing, and the browser properties it reads for the session identifier rely on the audience-measurement exemption. The GDPR governs personal data: no cookies, no cross-site tracking, no IP stored, and the session identifier is pseudonymised data that rotates daily and then cannot be reconstructed, not even by Sealmetrics. For that short-lived data Sealmetrics relies on legitimate interest, Article 6(1)(f); reports are always aggregated.
 
 That reasoning is documented against five regulators in the [compliance centre](/compliance). Your DPO should still review it — no vendor can grant you compliance — but it's a documented position rather than an assertion.
 
@@ -399,13 +386,13 @@ It is not immune — no analytics tool is, and blocking rates vary by audience. 
 
 Sealmetrics isn't *more accurate* — it's *seeing visitors GA4 never had the chance to record*, plus attributing visits GA4 files as Direct.
 
-For a real number rather than a claim: [Dreamplace Hotels](https://sealmetrics.com/case-studies/dreamplace-hotels/) measured **+30% more traffic than Google Analytics** and **15–20% more attributed sales** than their previous tool. That is a meaningful gap and a modest one — considerably smaller than the multipliers this category tends to advertise.
+For a real number rather than a claim: in the [Incapto case](https://sealmetrics.com/case-studies/incapto/) (one store, not a benchmark), GA4 did not record 29% of real visits, while Sealmetrics recorded 95.7% of real online orders. That is a meaningful gap and a modest one — considerably smaller than the multipliers this category tends to advertise.
 
 Don't take a figure from any article, ours included. Run both for 30 days, then check each against Search Console clicks or your ad platform's click counts. Your own gap is the only one that means anything.
 
 ### Can I run both at the same time?
 
-Yes, and during migration you should. Sealmetrics measures every visitor; GA4 measures those who consented and aren't blocking it. You keep Google Ads integration while gaining complete measurement.
+Yes, and during migration you should. Sealmetrics measures all the traffic you lose today to the cookie banner; GA4 measures those who consented and aren't blocking it. You keep Google Ads integration while gaining that measurement.
 
 The catch: you still need the consent banner for GA4, so the UX benefit doesn't arrive until GA4 comes out.
 
@@ -413,7 +400,7 @@ The catch: you still need the consent banner for GA4, so the UX benefit doesn't 
 
 Consent Mode v2 fills the gap left by rejections with **modelled estimates** — statistical reconstructions, not observations. Modelling is better than a blank, but it's inference from the consenting subset projected onto a population that behaves differently, and it needs traffic volume thresholds before Google will model at all.
 
-Sealmetrics measures every visitor directly, so there's nothing to model.
+Sealmetrics measures the traffic the banner loses directly, so there's nothing to model.
 
 ### Does Sealmetrics work with Google Tag Manager?
 
@@ -425,7 +412,7 @@ It isn't imported — the data models are too different. Keep the GA4 property a
 
 ### How does Sealmetrics handle bot traffic?
 
-Five layers: an IP blocklist checked in memory, User-Agent filtering, geographic validation, behavioural analysis and HMAC token validation. Sophisticated bots that fully mimic browsers still get through — true of every analytics tool including GA4 — but Sealmetrics reports what it filtered, so you can see the volume rather than assume it's gone. See [bot detection](/security-privacy/bot-detection).
+An IP blocklist checked in flight (the IP is not stored), User-Agent filtering, a burst detector, HMAC token validation and domain authorization. Sophisticated bots that fully mimic browsers still get through — true of every analytics tool including GA4 — but Sealmetrics reports what it filtered, so you can see the volume rather than assume it's gone. See [bot detection](/security-privacy/bot-detection).
 
 ### Can I track subdomains?
 
@@ -463,7 +450,7 @@ The choice is about **what your data represents**. In EU markets GA4 shows you a
 
 **Or run both** — GA4 for Google Ads optimisation on consented users, Sealmetrics as the source of truth for total traffic and conversions. Many teams settle there, and it's a legitimate answer rather than a fence-sit.
 
-→ [Start your free 14-day trial](https://my.sealmetrics.com/register)
+→ [Open your free account](https://my.sealmetrics.com/register) — your first 1M events are free, with no card
 → [Compare pricing](https://sealmetrics.com/pricing)
 
 ---

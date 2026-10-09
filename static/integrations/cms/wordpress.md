@@ -1,10 +1,10 @@
 ---
 title: "WordPress"
-description: "Install the Sealmetrics WordPress plugin for cookieless analytics with search, 404, and Contact Form 7 lead tracking — no consent banner required."
+description: "Install the Sealmetrics WordPress plugin for cookieless analytics with search, 404, and Contact Form 7 lead tracking — no consent banner for its own analytics (self-assessed)."
 canonical_url: "https://docs.sealmetrics.com/integrations/cms/wordpress"
 lang: "en"
-date_generated: "2026-09-14T16:17:59.677Z"
-source_hash: "fd170c8acf6ec4d57c1dafaef8ee5158a3915091334bfc3f582373f84bd219b6"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "5d8d537aeafe4e35a229c06006510eedddf74f6c596eb748b5db72c6371f73a0"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -149,9 +149,9 @@ Custom post types are automatically tracked with their own content group. For ex
 ## Privacy
 
 - No cookies used
-- No personal data collected
+- No data that identifies anyone stored; reports are aggregated
 - Designed for GDPR and ePrivacy (self-assessed, see [Compliance](/compliance))
-- No consent banner needed
+- No consent banner for Sealmetrics' own analytics (self-assessed; Germany: open question — see [Germany](/compliance/germany-ttdsg-self-assessment))
 
 ## Troubleshooting
 

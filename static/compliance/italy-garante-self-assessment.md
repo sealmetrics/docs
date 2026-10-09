@@ -3,8 +3,8 @@ title: "Italy Garante Self-Assessment: Sealmetrics Compliance"
 description: "Self-assessment of Sealmetrics against the Italian Garante's cookie guidelines and analytics decisions — consent-free audience measurement in Italy."
 canonical_url: "https://docs.sealmetrics.com/compliance/italy-garante-self-assessment"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "f872f46ebbaf838b4e0c78dad8caf9d01279f3cabc954795d9c33c2dc8676134"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "322ba15f667ea313eaf41c8d8a4e613ba51636ae3c1364de809d446142d79c83"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -127,7 +127,7 @@ The guidelines allow analytics cookies to be treated like technical cookies (con
 | Aspect | Compliance |
 |--------|------------|
 | Account isolation | ✅ Each customer's dataset is fully isolated |
-| Shared identifiers across sites | ✅ None — no identifiers exist at all |
+| Shared identifiers across sites | ✅ None — the site's account ID is part of the session hash, so the same browser yields a different identifier on each site |
 | Cross-account analysis | ✅ Not performed |
 
 ---
@@ -140,10 +140,10 @@ In June 2022 the Garante ruled (Caffeina Media decision, and subsequent cases) t
 
 | Aspect | Sealmetrics Compliance |
 |--------|----------------------|
-| Data processing location | ✅ Dublin, Ireland (EU) exclusively |
+| Analytics data processing location | ✅ Dublin, Ireland (EU) exclusively |
 | Transfers of analytics data outside the EU | ✅ None — no SCCs or adequacy mechanisms needed because no transfer occurs |
 | US-hosted subprocessing of analytics data | ✅ None — see [Subprocessors](/compliance/subprocessors) |
-| Data that could be transferred | ✅ Even hypothetically minimal — stored records contain no personal identifiers |
+| Data that could be transferred | ✅ Even hypothetically minimal — stored records contain no data that identifies anyone |
 
 **Assessment:** ✅ The transfer problem that ended Google Analytics' compliant use in Italy does not arise for Sealmetrics.
 
@@ -158,17 +158,19 @@ In June 2022 the Garante ruled (Caffeina Media decision, and subsequent cases) t
 | Aspect | Compliance |
 |--------|------------|
 | Privacy policy template provided | ✅ Yes (below) |
-| Cookie banner required for Sealmetrics | ✅ No — no cookies or trackers requiring consent are used |
+| Cookie banner required for Sealmetrics | ✅ No (self-assessed) — no cookies are used; the session identifier is assessed against the Garante's analytics conditions in Part 2 |
 | Cookie policy entry | ✅ Sealmetrics can be truthfully listed as "no cookies used" |
 
 **Recommended Privacy Policy Text (Italian):**
 ```
 Questo sito utilizza Sealmetrics per la misurazione del traffico.
-Sealmetrics non utilizza cookie né altri strumenti di tracciamento,
-non memorizza informazioni sul dispositivo dell'utente e non raccoglie
-dati personali: gli indirizzi IP non vengono conservati e non esistono
-identificatori individuali. I dati, in forma aggregata e anonima, sono
-trattati esclusivamente nell'Unione Europea (Dublino, Irlanda).
+Sealmetrics non utilizza cookie, non memorizza nulla sul dispositivo
+dell'utente né dati che identifichino qualcuno; gli indirizzi IP non
+vengono conservati. L'identificatore di sessione è effimero: cambia
+ogni giorno e, una volta cambiato, nemmeno Sealmetrics può
+ricostruirlo. I report sono sempre aggregati. Base giuridica: legittimo
+interesse (art. 6, par. 1, lett. f GDPR). I dati sono trattati
+esclusivamente nell'Unione Europea (Dublino, Irlanda).
 ```
 
 ---

@@ -3,8 +3,8 @@ title: "GTM Container Template"
 description: "Ready-to-import Google Tag Manager container template with pre-configured Sealmetrics tags, triggers, and variables for pageviews and conversions."
 canonical_url: "https://docs.sealmetrics.com/integrations/tag-management/gtm-template"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "8d3f49decd179048fb1b63887055a766e69031e04d8e4e05c36a905ce3cbb8fc"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "a7adb484cb93707ba5b2237d1dc0a929be939a31e16875e658de9f7550498edf"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -204,7 +204,7 @@ dataLayer.push({
 
 ## Privacy
 
-Sealmetrics does not use cookies or store personal data. No consent banner required.
+Sealmetrics does not use cookies, stores nothing on the device and stores no data that identifies anyone; reports are aggregated. On that basis no consent banner is needed for Sealmetrics' own analytics — our self-assessment; in Germany it is an open question (see [Germany](/compliance/germany-ttdsg-self-assessment)).
 
 ## Troubleshooting
 

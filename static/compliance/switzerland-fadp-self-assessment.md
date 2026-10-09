@@ -1,10 +1,10 @@
 ---
 title: "Switzerland FADP Self-Assessment: Sealmetrics Compliance"
-description: "Self-assessment of Sealmetrics against the revised Swiss FADP (nFADP) and Art. 45c TCA: no personal data stored, nothing on the device, EU-only processing in Dublin."
+description: "Self-assessment of Sealmetrics against the revised Swiss FADP (nFADP) and Art. 45c TCA: no data that identifies anyone, nothing on the device, a session identifier that rotates daily, EU-only processing in Dublin."
 canonical_url: "https://docs.sealmetrics.com/compliance/switzerland-fadp-self-assessment"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "13373aa1726f8073ae7ff92260ab0113f02c60bc4e86b5628e05a6331a7dd9c5"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "806147d057bbd4df92858bee4b2e5a8f3f4fddb4906f104b15d2cc093ebbf90b"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -17,7 +17,7 @@ publisher: "Sealmetrics"
 Canonical page: https://docs.sealmetrics.com/compliance/switzerland-fadp-self-assessment
 
 *Reviewed: 12 August 2026. This is a self-assessment; no supervisory authority certifies analytics tools.*\
-Sealmetrics stores no personal data of visitors under the revised **Swiss Federal Act on Data Protection** (**nFADP / revDSG**, in force since 1 September 2023), stores nothing on the device and meets the information-and-refusal duties of **Article 45c(b) of the Swiss Telecommunications Act (TCA/FMG)** for the browser properties its tracker reads, and processes data only in Dublin, Ireland — adequate territory under the Federal Council's country list. This self-assessment reviews each FADP duty and the Swiss terminal-equipment rule against that architecture.
+Sealmetrics stores no data that identifies a visitor — its only per-visitor value is a session identifier that rotates daily and, once rotated, cannot be reconstructed even by Sealmetrics — and treats that identifier conservatively as personal data under the revised **Swiss Federal Act on Data Protection** (**nFADP / revDSG**, in force since 1 September 2023). It stores nothing on the device and meets the information-and-refusal duties of **Article 45c(b) of the Swiss Telecommunications Act (TCA/FMG)** for the browser properties its tracker reads, and processes data only in Dublin, Ireland — adequate territory under the Federal Council's country list. This self-assessment reviews each FADP duty and the Swiss terminal-equipment rule against that architecture.
 
 **Info:**
 This self-assessment follows the published Swiss legal framework and guidance from the Federal Data Protection and Information Commissioner (FDPIC), but **does not constitute certification or approval by the FDPIC**. This document demonstrates how Sealmetrics meets the applicable requirements when properly configured.
@@ -28,7 +28,7 @@ This self-assessment follows the published Swiss legal framework and guidance fr
 
 | Category | Status |
 |----------|--------|
-| **Personal data of visitors under FADP** | ✅ None stored — no persistent identifiers by design |
+| **Personal data of visitors under FADP** | ✅ Minimal — no persistent identifiers; a session pseudonym kept 1 day, treated as personal data and unrecoverable after daily rotation |
 | **FADP processing principles (Art. 6)** | ✅ Compliant |
 | **Privacy by design & default (Art. 7)** | ✅ Compliant |
 | **Data security (Art. 8)** | ✅ Compliant |
@@ -60,12 +60,12 @@ This makes Switzerland structurally more permissive than the EU. Sealmetrics non
 |-------------------|---------------|
 | Timestamp | ✅ No — cannot single out a person |
 | Page URL / referrer | ✅ No (publishers must not put PII in URLs — see checklist) |
-| User agent (category signal) | ✅ No — never joined to any identity; no identifier exists to join on |
+| User agent (category signal) | ✅ No — never joined to any identity; the only identifier is the daily session pseudonym below, which identifies no one |
 | Country (from browser timezone) | ✅ No — country-level only |
-| Session identifier (daily pseudonym, purged after 1 day) | ✅ No — computed in the browser as a hash of device characteristics, never written to the device, re-keyed on the server with a daily salt destroyed on rotation; cannot recognize a returning visitor across days |
+| Session identifier (daily pseudonym, purged after 1 day) | ⚠️ Treated as personal data — a pseudonym Sealmetrics could recompute while the day's salt exists, though it identifies no person; computed in the browser as a hash of device characteristics, never written to the device, re-keyed on the server with a daily salt destroyed on rotation; cannot recognize a returning visitor across days |
 | IP address | ✅ **Not stored** — ephemeral in-memory use for anti-bot protection only |
 
-**Assessment:** ✅ Stored visitor analytics records are not personal data under the FADP's relative approach: neither Sealmetrics nor the publisher can identify a person from them with any means reasonably likely to be used. For visitor data, the FADP's material obligations therefore largely do not attach — a conclusion reached by design, not by exception.
+**Assessment:** ✅ No stored field identifies a person, and neither Sealmetrics nor the publisher can identify one with means reasonably likely to be used. Because the session pseudonym can be recomputed by Sealmetrics for one day, this assessment treats it conservatively as personal data, so the FADP processing principles apply to it — and are met by design: minimal data, 1-day retention, unrecoverable after rotation. Reports are always aggregated.
 
 **Honest nuance:** identifiability is always assessed in context. If a publisher injected identifying data (e.g., an email in a URL or custom property), the analysis would change. The configuration checklist below exists precisely to keep implementations on the right side of this line.
 
@@ -131,12 +131,12 @@ The nFADP made privacy by design and by default a statutory duty — one of the 
 
 | Aspect | Compliance |
 |--------|------------|
-| Processing location | ✅ Dublin, Ireland (EU) |
+| Processing location of analytics data | ✅ Dublin, Ireland (EU) |
 | Ireland / EU on the Federal Council's adequacy list | ✅ Yes — EU/EEA states are recognized as providing adequate protection |
-| Transfers to the US or other non-adequate countries | ✅ None |
-| Additional safeguards needed (SCCs, etc.) | ✅ Not required — disclosure is only to adequate territory, and stored visitor records contain no personal data in any case |
+| Transfers of analytics data to the US or other non-adequate countries | ✅ None |
+| Additional safeguards needed (SCCs, etc.) | ✅ Not required — disclosure is only to adequate territory |
 
-**Assessment:** ✅ For Swiss publishers, data leaving Switzerland for the EU is a disclosure to an adequate jurisdiction. There are no transfers outside EU/CH-adequate territory. See [Subprocessors](/compliance/subprocessors) for the (short) processing chain.
+**Assessment:** ✅ For Swiss publishers, data leaving Switzerland for the EU is a disclosure to an adequate jurisdiction. Analytics data is hosted and processed only in the EU (Dublin), so it is not transferred outside EU/CH-adequate territory. Service emails to account users go through Resend (US) under SCCs. See [Subprocessors](/compliance/subprocessors) for the (short) processing chain.
 
 ---
 
@@ -162,20 +162,22 @@ For completeness, the nFADP duties that a Swiss publisher might worry about, ass
 | Duty | Analysis |
 |------|----------|
 | Information duty (Art. 19) | Applies to personal data collection; for Sealmetrics, satisfied by a short privacy-policy mention (template below). Recommended regardless of strict necessity. |
-| Right of access (Art. 25) | For visitor analytics data, no record can be linked to a requester — no persistent identifier exists. See [Data Subject Rights](/compliance/data-subject-rights). Applies normally to dashboard account data. |
+| Right of access (Art. 25) | For visitor analytics data, in practice no record can be matched to a requester — the session identifier is unrecoverable after the daily rotation and no persistent identifier exists. See [Data Subject Rights](/compliance/data-subject-rights). Applies normally to dashboard account data. |
 | DPIA (Art. 22) | No high-risk processing: no profiling, no sensitive data, no systematic monitoring of individuals. A DPIA for the analytics function is not indicated; publishers can reference this document in their records. |
 | Records of processing (Art. 12) | Publishers should include their Sealmetrics use in their records where they maintain them; this page provides the needed facts. |
-| Profiling / high-risk profiling (Art. 5 lit. f–g) | Not performed — no individual-level data exists to profile. |
+| Profiling / high-risk profiling (Art. 5 lit. f–g) | Not performed — nothing is kept that could build a profile across days. |
 
 **Recommended Privacy Policy Text (German — adapt for FR/IT):**
 ```
 Diese Website verwendet Sealmetrics zur Reichweitenmessung. Sealmetrics
-setzt keine Cookies, speichert nichts auf Ihrem Gerät und erhebt keine
-Personendaten: IP-Adressen werden nicht gespeichert, und es bestehen
-keine dauerhaften Identifikatoren. Zur Sitzungserkennung liest das
-Skript Standard-Browsereigenschaften aus und bildet daraus einen
-Hashwert, der serverseitig täglich neu verschlüsselt wird; eine
-Wiedererkennung über Tage hinweg ist nicht möglich. Die aggregierten Daten werden
+setzt keine Cookies, speichert nichts auf Ihrem Gerät und speichert
+keine Daten, die jemanden identifizieren; IP-Adressen werden nicht
+gespeichert. Zur Sitzungserkennung liest das Skript Standard-
+Browsereigenschaften aus und bildet daraus einen Hashwert, der
+serverseitig täglich neu verschlüsselt wird. Diese Sitzungskennung ist
+flüchtig: Sie wechselt täglich und kann danach nicht einmal von
+Sealmetrics rekonstruiert werden. Die Berichte sind stets aggregiert.
+Die Daten werden
 ausschliesslich in der EU (Dublin, Irland) verarbeitet — einem Land mit
 angemessenem Datenschutzniveau gemäss Verordnung des Bundesrates.
 Sie können das Analyse-Skript jederzeit über Ihre Browser-Einstellungen
@@ -205,11 +207,11 @@ blockieren.
 
 Sealmetrics declares that:
 
-1. Stored visitor analytics data **contains no personal data** within the meaning of Art. 5 lit. a FADP — no persistent identifiers are kept; the only per-visitor value is a session pseudonym re-keyed daily and purged after 1 day
+1. Stored visitor analytics data **contains no data that identifies anyone** — no persistent identifiers are kept; the only per-visitor value is a session pseudonym re-keyed daily and purged after 1 day, treated as personal data and unrecoverable after rotation
 2. Its architecture satisfies the FADP's processing principles, **privacy by design and by default** (Art. 7), and data security (Art. 8) requirements
 3. Customer analytics data is processed **exclusively in Dublin, Ireland (EU)** — adequate territory under the Federal Council's country list — with **no transfers outside EU/CH-adequate jurisdictions**
 4. Nothing is stored on the visitor's device; the browser properties read to compute the session identifier are covered by the information/refusal duties of the Swiss terminal-equipment rule (Art. 45c(b) TCA), which imposes no consent or banner obligation
-5. Swiss publishers can use Sealmetrics **without a consent banner** when configured per this document
+5. On this self-assessment, Swiss publishers can use Sealmetrics for their own analytics **without a consent banner** when configured per this document
 
 Publishers **cannot** claim Sealmetrics is "certified" or "approved" by the FDPIC — no such certification exists.
 
@@ -238,7 +240,7 @@ Publishers **cannot** claim Sealmetrics is "certified" or "approved" by the FDPI
 - **DPO Contact:** dpo@sealmetrics.com
 
 **Note:**
-- Under the nFADP (in force 1 September 2023) stored visitor records are not personal data: no persistent identifiers, no stored IP, country-level geo from the browser timezone, and a session identifier re-keyed daily (live session ~2 hours).
+- Under the nFADP (in force 1 September 2023) stored visitor records identify no one: no persistent identifiers, no stored IP, country-level geo from the browser timezone, and a session identifier re-keyed daily (live session ~2 hours) that is treated as personal data and becomes unrecoverable after rotation.
 - Analytics data is retained 24 months; account data is deleted within 30 days of closure and backups purged within 90 days; encryption is TLS 1.3 in transit and AES-256 at rest.
 - Processing in Dublin, Ireland is a disclosure to adequate territory under the Federal Council's list, and Art. 45c(b) TCA imposes no consent obligation: nothing is stored on the device and its information/refusal duties are met; this is not an FDPIC certification.
 

@@ -1,10 +1,10 @@
 ---
 title: "Sealmetrics vs Simple Analytics: the closest architecture, different depth"
-description: "Both skip cookies, IPs and consent banners and derive country from the timezone. Simple Analytics keeps it minimal; Sealmetrics adds attribution, e-commerce and AI."
+description: "Both skip cookies and IPs, say no consent banner is needed and derive country from the timezone. Simple Analytics keeps it minimal; Sealmetrics adds attribution, e-commerce and AI."
 canonical_url: "https://docs.sealmetrics.com/compare/simple-analytics"
 lang: "en"
-date_generated: "2026-10-05T10:32:44.968Z"
-source_hash: "dcdfe4519327e748f9a728f646702c21136b8b35f25ebfe60b064f605731e030"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "474b146a09b29fcd1ba282e050d41f813a905ee67a6b2bb4892a5e516642f70d"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/compare/simple-analytics
 
-Sealmetrics and Simple Analytics are the two tools in this section with the most similar privacy architecture: neither sets cookies, neither collects IP addresses, and both derive the visitor's country from the browser timezone rather than from the IP. The main difference is scope — Simple Analytics is a deliberately minimal dashboard hosted in the Netherlands, while Sealmetrics is built around conversion attribution, e-commerce data and an AI layer, hosted in Dublin.
+Sealmetrics and Simple Analytics are the two tools in this section with the most similar privacy architecture: neither sets cookies, neither stores IP addresses, and both derive the visitor's country from the browser timezone rather than from the IP. The main difference is scope — Simple Analytics is a deliberately minimal dashboard hosted in the Netherlands, while Sealmetrics is built around conversion attribution, e-commerce data and an AI layer, hosted in Dublin.
 
 ## Side-by-side
 
@@ -27,10 +27,10 @@ Simple Analytics facts checked 2026-09-04 on simpleanalytics.com and docs.simple
 | Company / HQ | Sealmetrics, EU company | Headquartered in Amsterdam, the Netherlands ([source](https://www.simpleanalytics.com/about)) |
 | Hosting model | Managed cloud only | Managed cloud; servers in the Netherlands ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Licence | Proprietary | Not published |
-| Identifier between pageviews | In-memory session marker, ~2 h, not derived from IP ([details](/security-privacy/what-we-track)) | None; a visit is counted unique when the Referer hostname differs from the current domain ([source](https://docs.simpleanalytics.com/what-we-collect)) |
+| Identifier between pageviews | Hash of standard device characteristics computed in the browser, not derived from IP, never written to the device; re-keyed server-side with a daily salt destroyed on rotation; live session ~2 h ([details](/security-privacy/what-we-track)) | None; a visit is counted unique when the Referer hostname differs from the current domain ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Visitor IP address | Never stored; country from browser timezone ([details](/security-privacy/country-detection)) | "We do NOT collect or store IP addresses"; country from the visitor's timezone ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Data residency | Dublin, Ireland only ([details](/security-privacy/data-location)) | The Netherlands ([source](https://docs.simpleanalytics.com/compliance)) |
-| Vendor's position on consent | No banner needed for measurement | No consent needed, citing ICO guidance on techniques that do not store or access information on the device ([source](https://docs.simpleanalytics.com/compliance)) |
+| Vendor's position on consent | No banner needed for its own measurement (self-assessed; Germany: open question) | No consent needed, citing ICO guidance on techniques that do not store or access information on the device ([source](https://docs.simpleanalytics.com/compliance)) |
 | Cookies | None | "We do NOT set any cookies (or use similar technologies)" ([source](https://docs.simpleanalytics.com/what-we-collect)) |
 | Script size (gzipped) | 1.1 KB ([measured](/guides/tracker-performance-report)) | 3.7 KB standard, 1.9 KB light version ([source](https://docs.simpleanalytics.com/light)) |
 | Free tier | Free tier of 1M events total (lifetime, not monthly), no credit card; 14-day free trial of paid plans ([billing](/billing)) | Free plan with 30-day history plus a 14-day trial of paid plans — see [pricing](https://www.simpleanalytics.com/pricing) |
@@ -39,7 +39,7 @@ Simple Analytics facts checked 2026-09-04 on simpleanalytics.com and docs.simple
 
 Simple Analytics collects timestamps, a truncated user agent, timezone-derived country, language, URL without query string, partial referrer, UTM parameters, viewport size, time on page and scroll depth. It has no visitor identifier: a pageview is counted as a new unique visit when the browser's Referer hostname is not the site's own domain, and as a follow-on pageview when it is. That heuristic gives a unique-visit count without any hash, cookie or IP.
 
-Sealmetrics collects timestamp, user agent, URL and referrer per hit, and groups hits within a visit using a session marker that exists in memory for around two hours and is never written to the browser. Like Simple Analytics, it does not store the IP and reads country from the timezone. Unlike Simple Analytics, it reports entrances rather than unique visits, and it keeps conversions with revenue and item-level properties so that channel and campaign attribution is a first-class report rather than an event count.
+Sealmetrics collects URL, referrer, timestamp and browser timezone per hit (the user agent is read in flight for bot and device detection and not stored raw), and groups hits within a visit using a session identifier: a hash of device characteristics computed in the browser, never written to the device and re-keyed on the server with a daily salt that is destroyed on rotation. Like Simple Analytics, it does not store the IP and reads country from the timezone. Unlike Simple Analytics, it reports entrances rather than unique visits, and it keeps conversions with revenue and item-level properties so that channel and campaign attribution is a first-class report rather than an event count.
 
 ## When Simple Analytics is the better choice
 
@@ -57,11 +57,11 @@ Sealmetrics collects timestamp, user agent, URL and referrer per hit, and groups
 
 ### Do both tools really avoid IP addresses?
 
-Yes, per each vendor's documentation. Simple Analytics states it does not collect or store IP addresses and reads country from the timezone; Sealmetrics never persists the IP, uses it only in memory for anti-abuse checks, and also reads country from the timezone. This is the closest match in the comparison section.
+Yes, per each vendor's documentation. Simple Analytics states it does not collect or store IP addresses and reads country from the timezone; Sealmetrics doesn't store IPs — to filter bots it checks the IP in flight against a public list of automated-traffic IPs and doesn't keep it — and also reads country from the timezone. This is the closest match in the comparison section.
 
 ### How does Simple Analytics count unique visitors without an identifier?
 
-By the Referer header: if the previous page was on another domain, the pageview starts a new unique visit. Sealmetrics uses a different signal for the same purpose — a short-lived in-memory session marker — and reports the result as entrances.
+By the Referer header: if the previous page was on another domain, the pageview starts a new unique visit. Sealmetrics uses a different signal for the same purpose — a session identifier hashed from device characteristics and re-keyed daily — and reports the result as entrances.
 
 ### Which one needs a cookie banner?
 
@@ -73,7 +73,7 @@ Time on page, and a per-page unique-visit count. Sealmetrics reports bounce rate
 
 **Note:**
 - Both set no cookies, store no IP, derive country from the timezone and say no banner is needed.
-- Simple Analytics infers unique visits from the Referer; Sealmetrics groups a visit with a short-lived in-memory marker and reports entrances.
+- Simple Analytics infers unique visits from the Referer; Sealmetrics groups a visit with a device-characteristics hash re-keyed daily and reports entrances.
 - Simple Analytics is minimal with a free plan; Sealmetrics adds attribution, e-commerce depth, API on every plan and AI.
 
 ## Related documentation

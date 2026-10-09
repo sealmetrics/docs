@@ -3,8 +3,8 @@ title: "How Attribution Accuracy Works"
 description: "Understand the two levels of attribution accuracy in Sealmetrics — why total conversions are always exact, how channel-level attribution works, and what trade-offs make consentless measurement possible."
 canonical_url: "https://docs.sealmetrics.com/reports/insights/attribution-accuracy"
 lang: "en"
-date_generated: "2026-09-21T08:45:24.602Z"
-source_hash: "fd3c994af760e2973c9e26c454d674f39891937a3a04ce2db1e82e473d9197f8"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "77323b14a002102c59d865cd7725c7b484226b28a811956fac728fe861f5ab4e"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -24,7 +24,7 @@ Sealmetrics operates with two distinct levels of accuracy, and understanding bot
 | **By channel / source** | Split across SEO, Paid, Email, Social, etc. | **High** — with a small, bounded bias |
 | **Per individual conversion** | Row-by-row traceability | **Not guaranteed** — direct consequence of consentless measurement |
 
-This is not a limitation to work around. It is the result of a deliberate design — one that makes it possible to measure your traffic without a cookie banner.
+This is not a limitation to work around. It is the result of a deliberate design — one that makes it possible to measure your traffic without a cookie banner for Sealmetrics' own analytics (our self-assessment; in Germany an open question — see [Germany](/compliance/germany-ttdsg-self-assessment)).
 
 ---
 
@@ -77,9 +77,9 @@ The residual bias that remains after compensation depends on the spread between 
 
 The attribution bias at channel level exists for one reason: Sealmetrics does not use IP addresses — not in full, not truncated, not hashed — at any point in session identification.
 
-IP addresses are classified as personal data under GDPR (Court of Justice of the EU, *Breyer* ruling, C-582/14). Processing them — even in anonymized form — constitutes personal data processing and triggers consent requirements under ePrivacy. Any analytics tool that uses IP addresses in its session identification, regardless of how they are processed afterward, is operating in a gray area of privacy law.
+IP addresses are classified as personal data under GDPR (Court of Justice of the EU, *Breyer* ruling, C-582/14). Processing them — even in anonymized form — constitutes personal data processing. Any analytics tool that uses IP addresses in its session identification, regardless of how they are processed afterward, is operating in a gray area of privacy law.
 
-Sealmetrics made the opposite choice: build a measurement system that truly does not depend on the IP address. This means the session identifier has lower entropy — it groups visitors rather than pinpointing individuals — and that is precisely what makes it consentless.
+Sealmetrics made the opposite choice: build a measurement system that truly does not depend on the IP address. We don't store IPs. To filter bots we check the IP in flight against a public list of automated-traffic IPs, and don't keep it. This means the session identifier has lower entropy — it groups visitors rather than pinpointing individuals — and that is precisely what makes it consentless.
 
 **The bias is the price of genuine consentless operation.** It is small, bounded, and self-correcting at scale. And it comes with the benefit of measuring the visitors who would have rejected a consent banner.
 
@@ -143,7 +143,7 @@ Every conversion stored in Sealmetrics includes the following attribution fields
 - Cookie ID or device fingerprint
 - Any data that traces the conversion to a specific individual
 
-This means you can analyze conversions by channel, campaign, landing page, device, and geography — with full precision at the aggregate level — without any personal data being involved.
+This means you can analyze conversions by channel, campaign, landing page, device, and geography — with full precision at the aggregate level — with reports that are always aggregated and identify no one.
 
 ---
 

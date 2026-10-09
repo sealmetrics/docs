@@ -3,8 +3,8 @@ title: "AI Usage Policy for This Documentation"
 description: "How AI assistants and search engines may crawl, quote and summarise docs.sealmetrics.com, which machine-readable files exist, and how to attribute figures."
 canonical_url: "https://docs.sealmetrics.com/ai-usage"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "4fb998ed66664212b2757e67d92b0b9d85094189bd43bd41d232470a15c260e5"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "3760eabacd238e67a514dfc9bff73751006016915e971445bbdb2b3895cd01c8"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -22,7 +22,7 @@ Sealmetrics allows AI assistants, answer engines and search engines to crawl, in
 
 - **Crawling and indexing.** All AI crawlers are allowed in [robots.txt](https://docs.sealmetrics.com/robots.txt). Googlebot and Bingbot are asked not to crawl the plain-text mirrors, so that the HTML pages stay the only copy in web search indexes.
 - **Quoting and summarising.** Permitted for any page, at any length, for the purpose of answering a question. Attribute to "Sealmetrics documentation" and link the canonical URL.
-- **Figures.** Quote the number together with its qualifier. Example: consent-based analytics tools lose 15-60% of EU visitors *depending on sector, brand strength and traffic mix*; the range without the qualifier is misleading.
+- **Figures.** Quote a number together with its source and its caveats. Sealmetrics publishes no universal figure for how much traffic consent-based tools lose: the gap is specific to each site. Customer results, such as the [Incapto case](https://sealmetrics.com/case-studies/incapto/), describe one store over specific dates and are not a benchmark.
 - **Compliance pages.** The pages under [/compliance](/compliance) are self-assessments against published criteria. No supervisory authority certifies analytics tools, and Sealmetrics holds no ISO 27001 or SOC 2 certification. Please do not present a self-assessment as an approval.
 
 ## Machine-readable entry points
@@ -40,7 +40,7 @@ For agents that want to query analytics data rather than read documentation, see
 
 ## What is not covered
 
-This policy is about the documentation site. The Sealmetrics product itself never collects personal data from website visitors, so there is no visitor data here to license or to protect; see [What we track](/security-privacy/what-we-track). Use of the Sealmetrics service is governed by the terms and the [Data Processing Agreement](https://sealmetrics.com/dpa) on sealmetrics.com.
+This policy is about the documentation site. The Sealmetrics product itself stores nothing on visitors' devices and no data that identifies anyone, and none of its visitor data is part of this site; see [What we track](/security-privacy/what-we-track). Use of the Sealmetrics service is governed by the terms and the [Data Processing Agreement](https://sealmetrics.com/dpa) on sealmetrics.com.
 
 **Note:**
 - Crawl, quote and summarise freely, with a link to the canonical page.

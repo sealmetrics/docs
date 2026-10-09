@@ -3,8 +3,8 @@ title: "What Is omtrdc.net? Adobe's Collection Domain, Explained"
 description: "omtrdc.net is where Adobe Analytics sends every hit. What the requests are, when they fire, why an image GET loses data, and how to check your own site."
 canonical_url: "https://docs.sealmetrics.com/security-privacy/omtrdc-net-requests"
 lang: "en"
-date_generated: "2026-08-27T14:18:06.639Z"
-source_hash: "ac784f194c5e5d9db8c78510684f9f5a3019fc93e9a2a3035658492da11d9370"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "e56645c07d3b6262fbe518d2a0c4f50ef08aa511988e2450606f36eb24d62a33"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -121,7 +121,6 @@ Three independent causes, all of which reduce what Adobe records:
    Origin, Brave and Firefox Enhanced Tracking Protection. The request never leaves.
 2. **The transport.** An image GET cancelled on unload, as described in section 2.
 3. **Consent.** Where the hit is gated behind a banner, rejection means no request at all.
-   In European eCommerce, banner rejection runs 40–60%.
 
 These compound. A visitor can be lost to any one of them, and the three populations do not
 overlap neatly.
@@ -151,5 +150,5 @@ never see; step 5 tells you how many visitors you never see at all.
 - [demdex.net cookies](/security-privacy/demdex-net-cookies) — the identity side of the same stack
 - [Adobe Analytics tracker performance](/guides/tracker-performance-adobe-analytics) — full methodology behind the timings above
 - [Adblocker Bypass](/security-privacy/adblocker-bypass) — why filter lists block collection endpoints and what it costs
-- [Consentless Analytics](/security-privacy/consentless-analytics) — collecting without a banner, so rejection is not a data-loss path
+- [Consentless Analytics](/security-privacy/consentless-analytics) — collecting without a banner (our self-assessment), so rejection is not a data-loss path
 - [Bot Detection](/security-privacy/bot-detection) — separating real visitors from automated traffic

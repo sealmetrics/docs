@@ -1,10 +1,10 @@
 ---
 title: "Legal & Compliance"
-description: "Sealmetrics needs no consent banner because it stores no personal data. Self-assessments against CNIL, UK PECR, TDDDG, Garante and FADP criteria, plus the DPA."
+description: "Nothing stored on the device, no data that identifies anyone, a session identifier that rotates daily. Self-assessments against CNIL, UK PECR, TDDDG, Garante and FADP criteria, plus the DPA."
 canonical_url: "https://docs.sealmetrics.com/compliance"
 lang: "en"
-date_generated: "2026-09-04T00:07:24.876Z"
-source_hash: "10098d6aa9e95f11b3b81ad037ab99abf0fc0028910d74e9245c3b2aa3efa8f9"
+date_generated: "2026-10-09T12:37:21.365Z"
+source_hash: "6baa60df6c17e64a2afa1c417ca2627723e089700a3c945a094b0e00f157ec60"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -16,9 +16,9 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/compliance
 
-Sealmetrics needs no consent banner because its stored dataset holds no personal data, which places it outside the GDPR's material scope and leaves nothing on the visitor's device for ePrivacy to require consent for. This section collects the self-assessments against CNIL, UK PECR, German TDDDG, Italian Garante and Swiss FADP criteria, plus the DPA, subprocessor and data subject rights documentation used in vendor reviews.
+We store nothing on the device and no data that identifies anyone. The session identifier is ephemeral: it rotates daily and, once rotated, not even we can reconstruct it. Reports are always aggregated. On that basis Sealmetrics self-assesses against the ePrivacy audience-measurement exemption, and processes the pseudonymised session data under legitimate interest (GDPR Art. 6(1)(f)). This section collects the self-assessments against CNIL, UK PECR, German TDDDG, Italian Garante and Swiss FADP criteria, plus the DPA, subprocessor and data subject rights documentation used in vendor reviews.
 
-Understanding the legal framework behind consentless analytics is essential for making informed decisions about your analytics stack. We explain the regulatory foundations, why a dataset holding no personal data falls outside the GDPR's material scope ([Recital 26](https://eur-lex.europa.eu/eli/reg/2016/679/oj)), and how the architecture maps onto the audience-measurement criteria published by authorities such as the [CNIL](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications) — so you can measure without cookie banners or a consent management platform.
+Understanding the legal framework behind consentless analytics is essential for making informed decisions about your analytics stack. We explain the regulatory foundations, why a pseudonymous identifier that becomes unrecoverable every day keeps the GDPR footprint minimal ([Recital 26](https://eur-lex.europa.eu/eli/reg/2016/679/oj)), and how the architecture maps onto the audience-measurement criteria published by authorities such as the [CNIL](https://www.cnil.fr/en/sheet-ndeg16-use-analytics-your-websites-and-applications) — so you can assess whether your own analytics can run without a cookie banner or a consent management platform (our self-assessment says yes for Sealmetrics; in Germany it is an open question).
 
 ## Which compliance documents are available?
 
@@ -27,9 +27,9 @@ Understanding the legal framework behind consentless analytics is essential for 
 - [Compliance Overview](/compliance/compliance-overview) - How Sealmetrics meets privacy regulations and ensures legal compliance
 - [**CNIL Self-Assessment**](/compliance/cnil-self-assessment) - Official auto-evaluation against CNIL's 14 criteria for consent exemption
 - [**UK PECR Self-Assessment**](/compliance/uk-pecr-self-assessment) - Official auto-evaluation against UK PECR analytics exemption under DUAA 2025
-- [**Germany TDDDG Self-Assessment**](/compliance/germany-ttdsg-self-assessment) - Auto-evaluation against §25 TDDDG (formerly TTDSG): no cookies, no terminal storage access
+- [**Germany TDDDG Self-Assessment**](/compliance/germany-ttdsg-self-assessment) - Auto-evaluation against §25 TDDDG (formerly TTDSG): no cookies, nothing stored on the device; whether a banner is needed in Germany is our reading, an open question
 - [**Italy Garante Self-Assessment**](/compliance/italy-garante-self-assessment) - Auto-evaluation against the Garante's cookie guidelines and analytics decisions
-- [**Switzerland FADP Self-Assessment**](/compliance/switzerland-fadp-self-assessment) - Auto-evaluation against the revised Swiss FADP (nFADP): no personal data, no non-adequate transfers
+- [**Switzerland FADP Self-Assessment**](/compliance/switzerland-fadp-self-assessment) - Auto-evaluation against the revised Swiss FADP (nFADP): no data that identifies anyone, no non-adequate transfers
 - [GDPR and ePrivacy](/legal/gdpr-and-eprivacy) - Detailed analysis of EU privacy laws and session-based tracking requirements
 - [GDPR and Cookieless Analytics](/compliance/gdpr-cookieless-analytics) - The regulatory analysis behind cookieless measurement, and the legal-basis options open to site owners
 - [Analytics Cookies: Consent Exemption](/compliance/analytics-cookies-exemption) - AEPD and EU DPA requirements for analytics without consent
@@ -48,6 +48,6 @@ Understanding the legal framework behind consentless analytics is essential for 
 - [View All Omnibus Documentation →](/compliance/omnibus)
 
 **Note:**
-- A dataset holding no personal data falls outside the GDPR's material scope (Recital 26), so Sealmetrics measures without cookie banners or a consent management platform.
+- Nothing is stored on the device and no data that identifies anyone; the session identifier rotates daily and, once rotated, not even Sealmetrics can reconstruct it. Reports are always aggregated, and measurement runs without a cookie banner on Sealmetrics' self-assessment (in Germany, an open question).
 - Five self-assessments are published: CNIL (14 criteria), UK PECR under DUAA 2025, Germany §25 TDDDG, Italy Garante, and Switzerland nFADP — none is a supervisory-authority certification.
 - Vendor-review material includes the subprocessor list, data subject rights (DSAR) handling and the EU Digital Omnibus (COM(2025) 837) analysis.
