@@ -3,8 +3,8 @@ title: "MCP Server for AI Assistants"
 description: "Connect Claude, ChatGPT, Cursor, Codex, and other AI assistants to your Sealmetrics analytics using the Model Context Protocol (MCP) — either the hosted remote server (one URL, no install) or the local npx server."
 canonical_url: "https://docs.sealmetrics.com/integrations/mcp-server"
 lang: "en"
-date_generated: "2026-09-22T07:11:17.704Z"
-source_hash: "9594fd15342472ea4a67e78a58c166e2155f41da992d847324f5a656fbe8ab53"
+date_generated: "2026-10-13T15:28:32.163Z"
+source_hash: "fb8a8c305140e348c91f62513e8f5cf8ce91a8c0e709ccb48ebbc3f76e40b6e6"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -16,7 +16,7 @@ publisher: "Sealmetrics"
 
 Canonical page: https://docs.sealmetrics.com/integrations/mcp-server
 
-The **Sealmetrics MCP Server** lets AI assistants like Claude (Claude Code, Claude Desktop, Claude.ai), ChatGPT, Cursor, Codex, Windsurf, VS Code, and other MCP clients query your Sealmetrics analytics — traffic, conversions, campaigns, and more — in plain natural language.
+The **Sealmetrics MCP Server** lets AI assistants like Claude (Claude Code, Claude Desktop, Claude.ai), ChatGPT, Cursor, Codex, Windsurf, VS Code, Microsoft Copilot ([own guide](/integrations/microsoft-copilot)), and other MCP clients query your Sealmetrics analytics — traffic, conversions, campaigns, and more — in plain natural language.
 
 There are **two ways to connect**, and you only need one:
 
@@ -147,6 +147,9 @@ Any client that supports remote MCP uses the same URL. In VS Code, add a `.vscod
   }
 }
 ```
+
+**Tip:**
+Those need an agent rather than a config file. The step-by-step, including which OAuth option to pick, is in [Connect Sealmetrics to Microsoft Copilot](/integrations/microsoft-copilot).
 
 **Note:**
 A few older clients can't connect to a remote URL directly. Bridge to it with [`mcp-remote`](https://www.npmjs.com/package/mcp-remote):

@@ -1,0 +1,216 @@
+---
+title: "Connect Sealmetrics to Microsoft Copilot"
+description: "Add the hosted Sealmetrics MCP server (https://mcp.sealmetrics.com/mcp) to Microsoft Copilot — through a Copilot Studio agent, a declarative agent built with the Microsoft 365 Agents Toolkit, or GitHub Copilot in VS Code — and ask about your analytics from Microsoft 365 Copilot or Teams."
+canonical_url: "https://docs.sealmetrics.com/integrations/microsoft-copilot"
+lang: "en"
+date_generated: "2026-10-13T15:28:32.163Z"
+source_hash: "9c20788c928496e7ada1af58225e2a69b9f63e21faadb960453b02b55033b690"
+content_type: "implementation"
+owner: "engineering"
+llm_priority: "critical"
+source_file: "integrations/microsoft-copilot.mdx"
+publisher: "Sealmetrics"
+---
+
+# Connect Sealmetrics to Microsoft Copilot
+
+Canonical page: https://docs.sealmetrics.com/integrations/microsoft-copilot
+
+Microsoft Copilot can read your Sealmetrics analytics through the hosted **Sealmetrics MCP server**. You add one URL in Microsoft's tooling, approve the connection in your Sealmetrics dashboard, and then ask questions like *"what were my top campaigns last month?"* from Microsoft 365 Copilot, Teams, or Copilot Chat.
+
+**Endpoint:**
+
+```
+https://mcp.sealmetrics.com/mcp
+```
+
+"Microsoft Copilot" is a family of products, and only some of them let you add your own MCP server. Pick the route that matches what you have:
+
+| You have | Route | Where you'll use Sealmetrics |
+|---|---|---|
+| A work account with a **Copilot Studio** licence or trial | [Copilot Studio agent](#route-1-copilot-studio-agent) (recommended, no code) | The agent, published to Microsoft 365 Copilot, Teams, or a website |
+| A developer tenant and VS Code | [Declarative agent with the Microsoft 365 Agents Toolkit](#route-2-declarative-agent-microsoft-365-agents-toolkit) | Microsoft 365 Copilot (the Agents sidebar) |
+| **GitHub Copilot** in VS Code | [GitHub Copilot in VS Code](#route-3-github-copilot-in-vs-code) | Copilot Chat in agent mode |
+| The consumer Copilot app (copilot.microsoft.com, Windows, mobile) | No route today — see [What doesn't work](#what-doesnt-work-yet) | — |
+
+**Info:**
+The hosted server is **read-only** and scoped to **one site per connection**. It exposes 42 analytics tools (traffic, campaigns, pages, conversions, countries, devices, channels, funnels, custom properties) and no write tools at all, whatever account you connect with. The full list is in [MCP Server for AI Assistants → What each connection can do](/integrations/mcp-server#what-each-connection-can-do).
+
+## Before you start: how authentication works
+
+The Sealmetrics hosted server authenticates with **OAuth 2.1**, not with an API key. Microsoft's tooling offers several authentication options when you add an MCP server, and only the OAuth ones work with Sealmetrics:
+
+| Option in Microsoft's UI | Works with Sealmetrics? | Why |
+|---|---|---|
+| **OAuth 2.0 → Dynamic discovery** (Copilot Studio) / **OAuth (with dynamic registration)** (Agents Toolkit) | **Yes** — use this | Sealmetrics publishes OAuth discovery metadata and supports dynamic client registration, so Microsoft registers itself and sends the user to the Sealmetrics consent screen. |
+| **None** | No | The server answers `401 Unauthorized` to unauthenticated requests. |
+| **API key** (header or query) | No | The hosted server does not accept Sealmetrics API keys. API keys are for the [local `npx` server](/integrations/mcp-server#local-mcp-server-npx) and the [REST API](/api). |
+| **OAuth 2.0 → Manual** / **OAuth (with static registration)** | No | These require a **client secret**. Sealmetrics issues public clients only (PKCE, no secret), so there is nothing to paste. |
+
+During the OAuth flow, Sealmetrics shows a consent screen where you log in and choose **which site** the connection may read. Every connection you approve this way appears under **My Account → Connected Apps** in the dashboard, where you can revoke it at any time. See [Connected Apps](/platform/settings/account/connected-apps) and the [OAuth 2.1 reference](/api/oauth) for the details.
+
+**Tip:**
+The [MCP Server guide](/integrations/mcp-server#remote-mcp-server-recommended) mentions a `?discovery=progressive` variant of the endpoint that loads tool definitions on demand. Copilot Studio reads the tool list once when you add the server, so give it the plain `https://mcp.sealmetrics.com/mcp` URL to see every tool.
+
+---
+
+## Route 1: Copilot Studio agent
+
+This is the no-code route. You build an agent in [Copilot Studio](https://copilotstudio.microsoft.com/), attach the Sealmetrics MCP server as a tool, and publish the agent wherever your organisation uses Copilot.
+
+**Prerequisites**
+
+- A Microsoft work account with a **Copilot Studio** licence or trial.
+- An agent in Copilot Studio (create one first if you don't have it).
+- **Generative orchestration** turned on for the agent. Microsoft requires it for MCP tools: open the agent's **Settings** and check the orchestration option.
+- A Sealmetrics account with at least one site.
+
+**Add the Sealmetrics server**
+
+Copilot Studio currently has two authoring experiences, and the menu labels differ slightly. Both end in the same place.
+
+*Standard experience (MCP onboarding wizard):*
+
+1. Open your agent and go to the **Tools** page.
+2. Select **Add a tool**, then **New tool**, then **Model Context Protocol**. The MCP onboarding wizard opens.
+3. Fill in the required fields:
+   - **Server name**: `Sealmetrics`
+   - **Server description**: something the orchestrator can use to decide when to call it, for example `Web analytics for our sites: traffic, campaigns, landing pages, conversions, revenue, countries, devices and channels. Use it for any question about website visits or marketing performance.`
+   - **Server URL**: `https://mcp.sealmetrics.com/mcp`
+4. Under authentication, choose **OAuth 2.0**, then **Dynamic discovery**.
+5. Select **Create**. Copilot Studio reads the Sealmetrics discovery metadata and registers itself; you don't enter any client ID, secret or endpoint URLs.
+6. Select **Next**. On the **Add tool** dialog, select **Create a new connection**. A sign-in step sends you to the Sealmetrics consent screen: log in, pick the site to share, and approve.
+7. Select **Add to agent**.
+
+*New experience (agents powered by the GitHub Copilot harness, in preview):*
+
+1. Open your agent and select the **Build** tab.
+2. In the components panel, select **Tools**.
+3. In the **Add a tool** dialog, select **Add** next to the search bar, then **Model Context Protocol (MCP)**.
+4. On **Add MCP server**, enter the **Name**, **Description** and **Server URL** as above, and choose the OAuth option under **Authentication**.
+5. Select **Add**. Copilot Studio contacts the server and lists its tools. Review them, then select **Save**.
+
+Either way, the Sealmetrics tools (`list_sites`, `get_overview`, `get_campaigns`, `get_top_landing_pages`, and the rest) now appear in the agent's tool list. Copilot Studio refreshes that list automatically when the server's tools change.
+
+**Test it**
+
+1. Open the agent's test pane (**Test** in the standard experience, **Preview** in the new one).
+2. Ask: *"List my Sealmetrics sites"*. The first time, the test pane shows a **Connect** or sign-in card; complete it.
+3. Then ask something that needs data, for example *"Give me an overview of the last 30 days"* or *"Which campaigns brought the most entrances this month?"*.
+4. Open the activity trace to see which tool was called, with what arguments, and what it returned.
+
+If the agent answers without calling a Sealmetrics tool, sharpen the **Server description** or the agent's instructions. Tell the agent, in its instructions, that questions about traffic, campaigns, conversions or revenue must be answered with the Sealmetrics tools rather than from general knowledge.
+
+**Publish**
+
+Publish the agent to the channels your organisation uses: **Microsoft 365 Copilot** and **Teams** are the usual ones. Each user who talks to the agent completes the Sealmetrics sign-in once, and their connection is scoped to the site they approve. Those connections show up in that user's [Connected Apps](/platform/settings/account/connected-apps).
+
+**Note:**
+Copilot Studio reaches MCP servers through Power Platform connectors, so any data-loss-prevention policy your Power Platform admin applies to connectors also governs the Sealmetrics server. If the tool is missing or blocked after you add it, ask your admin whether a DLP policy applies to custom connectors in that environment.
+
+---
+
+## Route 2: Declarative agent (Microsoft 365 Agents Toolkit)
+
+If you build agents in code, the Microsoft 365 Agents Toolkit for VS Code can wrap the Sealmetrics MCP server as a plugin of a **declarative agent** for Microsoft 365 Copilot.
+
+**Prerequisites**
+
+- Visual Studio Code with the **Microsoft 365 Agents Toolkit** extension (version 6.12.0 or later).
+- A Microsoft 365 account with **custom app upload** and **Copilot access** enabled (the toolkit's Accounts pane shows both).
+
+**Steps**
+
+1. In VS Code, open the **Microsoft 365 Agents Toolkit** icon and select **Create a New Agent/App**.
+2. Select **Declarative Agent**.
+3. Select **Add an Action**, then **Start with an MCP Server**.
+4. Enter the server URL: `https://mcp.sealmetrics.com/mcp`
+5. When asked for the authentication type, select **OAuth (with dynamic registration)**. Do **not** pick the static-registration option: it asks for a client secret that Sealmetrics does not issue.
+6. Choose a folder and a name for the agent. The toolkit generates the project, including a plugin manifest configured for dynamic tool discovery, so the Sealmetrics tools are resolved at runtime and you don't list them by hand.
+7. In the **Lifecycle** pane, select **Provision** and confirm. Wait for the toolkit to finish.
+8. Go to [m365.cloud.microsoft/chat](https://m365.cloud.microsoft/chat), find your agent in the **Agents** section of the sidebar (its name has `dev` appended while in development) and select it.
+9. Ask *"List my Sealmetrics sites"*. When prompted, select **Sign in**, log in to Sealmetrics in the pop-up and approve the site.
+
+From here the agent behaves like any other declarative agent: add instructions, conversation starters, and publish it through your organisation's app catalogue when it's ready.
+
+---
+
+## Route 3: GitHub Copilot in VS Code
+
+GitHub Copilot's agent mode in VS Code is an MCP client, and it handles the OAuth sign-in by itself. Add a `.vscode/mcp.json` file to your project (or run **MCP: Add Server** from the Command Palette and choose **HTTP**):
+
+```json
+{
+  "servers": {
+    "sealmetrics": {
+      "type": "http",
+      "url": "https://mcp.sealmetrics.com/mcp"
+    }
+  }
+}
+```
+
+Start the server when VS Code asks, approve the Sealmetrics consent screen in the browser window that opens, then open Copilot Chat in **Agent** mode and check that the Sealmetrics tools appear in the tools picker. Ask *"List my Sealmetrics sites"* to confirm.
+
+This is the same setup as the [VS Code section of the MCP Server guide](/integrations/mcp-server#vs-code-copilot--other-mcp-clients). It's listed here because "Copilot" often means GitHub Copilot, and this route needs no Microsoft 365 licence.
+
+---
+
+## What doesn't work (yet)
+
+- **The consumer Copilot app** (copilot.microsoft.com, the Windows app, the mobile apps) has no option to add a custom MCP server. Use a work account with Copilot Studio instead.
+- **Custom federated connectors in the Microsoft 365 admin centre.** Microsoft lets tenant admins register an MCP server as a connector for Copilot Chat. Its OAuth setup goes through the Teams Developer Portal and requires a **client ID and client secret**. Sealmetrics issues public OAuth clients only (no secret), so we have not been able to validate this route. If your admin wants to try it, [contact support](mailto:support@sealmetrics.com) and we'll look at it together. Routes 1 and 2 above are the supported ways in.
+- **Writing anything.** The hosted server registers no write tools, so Copilot cannot create channel rules, change settings, or register sites. That is a property of the endpoint, not of your permissions.
+
+---
+
+## What you can ask
+
+Once connected, plain language is enough:
+
+- *"Give me an overview of my site for the last 7 days"*
+- *"What are the top traffic sources this month, compared with last month?"*
+- *"Which landing pages have the highest bounce rate?"*
+- *"Show conversions and revenue by country for the last quarter"*
+- *"Which channels bring the most entrances, and how do they convert?"*
+- *"List the UTM campaigns with the most entrances in Spain"* (the `country` filter takes ISO codes such as `ES`; the agent corrects itself if it sends a name)
+
+The [MCP Server guide](/integrations/mcp-server#available-tools) documents every tool and parameter.
+
+---
+
+## Troubleshooting
+
+### Copilot Studio reports an authentication error when adding the server
+
+You probably chose **None** or **API key**. The hosted server rejects both with `401 Unauthorized`. Edit the tool and switch to **OAuth 2.0 → Dynamic discovery**.
+
+### The server was added but no tools are listed
+
+Check the URL is exactly `https://mcp.sealmetrics.com/mcp` (with the `/mcp` path and without `?discovery=progressive`). Then edit the server entry in the **Tools** dialog to refresh the connection; Copilot Studio re-reads the tool list.
+
+### The agent asks me to sign in every time, or "connection not found"
+
+The connection belongs to the user who created it. Each person using the agent has to complete the Sealmetrics sign-in once. If a connection was revoked under [Connected Apps](/platform/settings/account/connected-apps), it has to be authorised again.
+
+### "Access denied" to a site, or the agent only sees one site
+
+Each OAuth connection is scoped to the **one site** you picked on the consent screen. To query a different site, connect again and choose that site; the dashboard lists each connection separately.
+
+### The agent answers from general knowledge instead of calling Sealmetrics
+
+Improve the **Server description** so the orchestrator knows the server covers website traffic, campaigns and conversions, and add an instruction to the agent saying those questions must be answered with the Sealmetrics tools.
+
+### The tool is blocked by policy
+
+In Copilot Studio, MCP servers are governed as Power Platform connectors. Ask your Power Platform admin whether a data policy blocks custom connectors in the agent's environment.
+
+---
+
+## Related documentation
+
+- [MCP Server for AI Assistants](/integrations/mcp-server) — all clients, every tool, and the local `npx` server
+- [Connected Apps](/platform/settings/account/connected-apps) — review and revoke OAuth connections
+- [OAuth 2.1](/api/oauth) — discovery, dynamic registration, PKCE
+- [Sealmetrics for AI agents](/api/for-agents) — API, batch, exports and the MCP endpoint in one place
+- Microsoft Learn: [Connect your agent to an existing MCP server (Copilot Studio)](https://learn.microsoft.com/en-us/microsoft-copilot-studio/mcp-add-existing-server-to-agent) · [Build a plugin for a declarative agent from an MCP server](https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/build-mcp-plugins)
