@@ -3,8 +3,8 @@ title: "BigQuery"
 description: "Connect Sealmetrics to Google BigQuery to export your analytics data for advanced SQL analysis, custom reporting, and data warehousing."
 canonical_url: "https://docs.sealmetrics.com/integrations/bigquery"
 lang: "en"
-date_generated: "2026-09-15T09:38:39.651Z"
-source_hash: "d1dd12dca80061b3819ae6c1d034975b8091c11aed92ddf648beaf36f9fea8f9"
+date_generated: "2026-10-27T18:20:37.827Z"
+source_hash: "2819a24a14544bc7a58abd6a212bc1ba5b235c9693debb5c4aae20c1047a9563"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -467,6 +467,27 @@ You should be aware of one BigQuery-native limitation and how Sealmetrics mitiga
 **What you'll see externally:** occasionally a sync ends in state `partial` (some tables OK, one skipped), and the next scheduled sync fills the gap. `v_sync_status` shows the current state per table.
 
 If you're operating a shared dataset and see systematic `partial` runs across multiple sites, split them into per-site datasets or contact support.
+
+## Moving the export to another GCP project or dataset
+
+The GCP project and dataset can't be edited on an existing integration. To move the export, delete the integration and create it again, once per site:
+
+1. Make sure the service account has **BigQuery Data Editor** and **BigQuery Job User** in the new project. If you use a different service account, download its JSON key.
+2. In **Settings → Integrations → BigQuery**, delete the integration. This only removes the configuration from Sealmetrics: the data already in the old project stays there.
+3. Create the integration again with the new project ID and dataset. Under the initial data options, choose **Custom date range**:
+   - **From**: a few days before the switch (see below), or the first date you want in the new project if you'd rather have Sealmetrics load the whole history.
+   - **To**: today. An earlier date leaves a gap between that date and the first scheduled sync.
+4. Click **Sync Now**, or wait for the next scheduled sync.
+
+### Why the start date must be a few days before the switch
+
+Each incremental sync doesn't export just the previous day. It rewrites every day from 2 days before the previous sync up to **today, including the current day's partial data**. A day is therefore written several times and only becomes complete on the syncs that follow it.
+
+So on the day you switch, the last few days in the old project may be incomplete. Starting the new integration 3 days before the switch rewrites those days in full in the new project. If you then copy the history across yourself, copy only the dates **before** the **From** date. Because each sync replaces its window (`DELETE + INSERT`), the overlapping days are never duplicated.
+
+Example: you switch on 23 October. Create the integration with the range 20 October → today, then copy everything up to 19 October from the old project.
+
+If several sites export to the same dataset, the first syncs after the move may end as `partial`. The next sync completes them (see [Multi-site datasets](#multi-site-datasets)).
 
 ## Sync API endpoints
 
