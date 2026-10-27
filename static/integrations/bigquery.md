@@ -3,8 +3,8 @@ title: "BigQuery"
 description: "Connect Sealmetrics to Google BigQuery to export your analytics data for advanced SQL analysis, custom reporting, and data warehousing."
 canonical_url: "https://docs.sealmetrics.com/integrations/bigquery"
 lang: "en"
-date_generated: "2026-10-27T18:20:37.827Z"
-source_hash: "2819a24a14544bc7a58abd6a212bc1ba5b235c9693debb5c4aae20c1047a9563"
+date_generated: "2026-10-27T18:24:53.429Z"
+source_hash: "37cbccdff7e9cfdafb5ca75e2124dcf4e687c514f00930b6175877409ab29a05"
 content_type: "implementation"
 owner: "engineering"
 llm_priority: "critical"
@@ -120,51 +120,52 @@ A `.json` file will download automatically. **Keep this file secure** — it gra
 
 1. Log in to your Sealmetrics account
 2. Go to **Settings → Integrations → BigQuery**
-3. Upload your JSON key file (or paste its contents)
+3. Upload your JSON key file
 4. Configure your dataset:
 
 ```
 Dataset Configuration
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-GCP Project:  your-project-id (detected from credentials)
+GCP Project ID:   [your-project-id               ]
+                  (pre-filled from the JSON key; editable)
 
-Dataset Name: [sealmetrics                    ]
-              (created automatically if it doesn't exist)
+Dataset Name:     [sealmetrics                   ]
+                  (created automatically if it doesn't exist)
 
-Location:     [EU (europe-west1)              ▼]
+Dataset Location: [EU (European Union)           ▼]
 ```
 
 The dataset uses a fixed star-schema layout: fact tables
 (fact_traffic_daily, fact_conversions, etc.) and dimension tables
 (dim_accounts, dim_countries). Table names are not configurable.
 
-5. Choose your sync schedule:
+5. Choose your sync schedule, the data to export and how much history to load on the first run:
 
 ```
 Sync Schedule
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Sync Frequency:
-  ○ Hourly
-  ● Daily
-  ○ Manual (sync on demand only)
+Sync Frequency:  [Daily ▼]   (Hourly / Daily / Manual only)
 
-Data to Export:
-  ☑ Traffic (daily)
-  ☐ Traffic (hourly)
+Data Types to Sync:
+  ☑ Daily Traffic
+  ☐ Hourly Traffic
   ☑ Conversions
   ☑ Microconversions
   ☑ Pages
-  ☑ Landing pages
-  ☐ Accounts (metadata)
+  ☑ Landing Pages
+  ☐ Account Metadata
 
-Historical Backfill:
-  ☑ Export historical data
-    Backfill: [30] days (max 365)
+Initial Data Export:
+  ● Last X days      [30] [60] [90]  Custom: [30] days (max 365)
+  ○ Custom date range
+      From: [yyyy-mm-dd]   To: [yyyy-mm-dd]
 ```
 
-6. Click **Activate Integration**
+**Initial Data Export** only sets the window of the first sync. After that, each sync covers from 2 days before the previous sync up to today, whichever option you chose. With **Custom date range**, set **To** to today: an earlier date leaves a gap between that date and the first scheduled sync.
+
+6. Click **Configure BigQuery Integration**
 
 ### 7. Verify the Connection
 
