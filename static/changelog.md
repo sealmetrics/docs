@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release Shopify Web Pixel tracking for custom-app stores and a fix for the Overview comparison line (October 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release: the back button and page reloads no longer count as a new campaign visit (October 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-10-08T07:55:18.470Z"
-source_hash: "b701bec6dd43d3d45d83b35163ad7b490ee23e77691dc6b185209a5f42338bbd"
+date_generated: "2026-10-29T09:43:01.477Z"
+source_hash: "7158af724e7892b7368a2ca5269a2b5760c2d2668f1a2b17876bebec663b8d93"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,27 @@ publisher: "Sealmetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## Back button and page reloads no longer count as a new campaign visit (October 28, 2026)
+
+When a visitor arrived from a campaign link and then used the browser's back button, or reloaded the page, the tracker could run again with the original referrer and the landing URL — UTM parameters and click IDs included. Sealmetrics then counted a second entrance from the same campaign.
+
+This happened whenever the browser rebuilt the page instead of restoring it from its back/forward cache: on sites that send `Cache-Control: no-store`, and on mobile browsers that reload a tab they had discarded. Channels people often return to — email and paid search in particular — were counted more than once.
+
+### What changed
+
+- On a back/forward navigation or a reload, the tracker now reports the page itself as the referrer, so Sealmetrics treats the hit as navigation inside the site: a page view of the visit that is still open, or a [Rejoined Traffic](/reports/insights/rejoined-traffic) entrance if that visit has expired (after 2 hours).
+- This matches how Sealmetrics v1 already handled the back button, and extends it to reloads.
+- Nothing to install or change: the tracker is served by Sealmetrics, so every installation picks it up.
+
+### What to expect
+
+- From October 28, 2026, fewer entrances on campaign channels — mostly email and search — and a lower count of entrances overall. Page views are unchanged: a reload still counts as a page view.
+- Conversions made after going back now stay in the original visit and keep its channel and campaign.
+- Historical data is not recalculated, so expect a step in the series on that date.
+- Not covered: Shopify stores connected through the Sealmetrics app, which track through Shopify's Web Pixel. Its sandbox doesn't expose the navigation type.
 
 ---
 
