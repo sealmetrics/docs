@@ -1,10 +1,10 @@
 ---
 title: "Release Notes"
-description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release: the back button and page reloads no longer count as a new campaign visit (October 2026)."
+description: "Sealmetrics product updates, new reports, API changes, and platform improvements — latest release: a Content Security Policy guide for the tracker (November 2026)."
 canonical_url: "https://docs.sealmetrics.com/changelog"
 lang: "en"
-date_generated: "2026-10-29T09:43:01.477Z"
-source_hash: "7158af724e7892b7368a2ca5269a2b5760c2d2668f1a2b17876bebec663b8d93"
+date_generated: "2026-11-19T16:34:05.627Z"
+source_hash: "af711b3893e6cf1cb797e64b948a23395f7da7fb658bd2a2b3af28a67aedb593"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -15,6 +15,22 @@ publisher: "Sealmetrics"
 # Release Notes
 
 Canonical page: https://docs.sealmetrics.com/changelog
+
+---
+
+## Content Security Policy guide for the tracker (November 19, 2026)
+
+Sites that send a `Content-Security-Policy` header now have one page that lists exactly what Sealmetrics needs: [Content Security Policy (CSP)](/security-privacy/content-security-policy).
+
+### What it covers
+
+- The minimum policy: `https://t.sealmetrics.com` in `script-src` and `connect-src`, and nothing else.
+- Which host to allow for each install: the standard snippet, the [first-party tracker](/implementation/tracker/first-party) on your own subdomain, and the first-party proxy of the CMS plugins.
+- Inline snippets, conversion calls and the CMS plugin loader need a nonce or hash when the policy does not allow `'unsafe-inline'`. The guide also covers GTM and Shopify.
+- Why `t.js` cannot carry a Subresource Integrity (SRI) hash, and how its integrity is protected instead.
+- What a CSP does and does not protect.
+
+The [CSP troubleshooting page](/troubleshooting/csp-errors-domains-to-allow) now also covers the CMS plugins. No action required unless your site sets a CSP.
 
 ---
 
