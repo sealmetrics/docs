@@ -3,8 +3,8 @@ title: "Security & Privacy"
 description: "How Sealmetrics measures without identifying anyone — a small set of non-identifying fields, nothing stored on the device, EU-only storage in Dublin — with the index of every privacy and security page."
 canonical_url: "https://docs.sealmetrics.com/security-privacy"
 lang: "en"
-date_generated: "2026-10-09T12:37:21.365Z"
-source_hash: "621b873cebd347e1b0c7a08ca3084ad9492f76d72c35e15c1d446247c6a328e2"
+date_generated: "2026-11-19T16:06:40.231Z"
+source_hash: "006df2bc8dc33391f88dfdda8881329841d2d4a96012094be0fcbe0af8797c6b"
 content_type: "trust-and-legal"
 owner: "legal"
 llm_priority: "critical"
@@ -43,6 +43,7 @@ Sealmetrics holds no third-party security certification (no ISO 27001, no SOC 2)
 - [Data Location & Retention](/security-privacy/data-location) — EU hosting, retention schedule, encryption, deletion and export
 - [Bot Detection & Traffic Quality](/security-privacy/bot-detection) — how automated traffic is filtered out of reports
 - [How Sealmetrics Reduces AdBlocker Data Loss](/security-privacy/adblocker-bypass) — first-party delivery and why filter lists do not match
+- [Content Security Policy (CSP)](/security-privacy/content-security-policy) — what to allow for the tracker, why there is no SRI hash, and what a CSP does and does not protect
 
 ## Account security
 
