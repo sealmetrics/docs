@@ -6,6 +6,22 @@ URL: https://docs.sealmetrics.com/changelog
 
 ---
 
+## Content Security Policy guide for the tracker (November 19, 2026)
+
+Sites that send a `Content-Security-Policy` header now have one page that lists exactly what Sealmetrics needs: [Content Security Policy (CSP)](/security-privacy/content-security-policy).
+
+### What it covers
+
+- The minimum policy: `https://t.sealmetrics.com` in `script-src` and `connect-src`, and nothing else.
+- Which host to allow for each install: the standard snippet, the [first-party tracker](/implementation/tracker/first-party) on your own subdomain, and the first-party proxy of the CMS plugins.
+- Inline snippets, conversion calls and the CMS plugin loader need a nonce or hash when the policy does not allow `'unsafe-inline'`. The guide also covers GTM and Shopify.
+- Why `t.js` cannot carry a Subresource Integrity (SRI) hash, and how its integrity is protected instead.
+- What a CSP does and does not protect.
+
+The [CSP troubleshooting page](/troubleshooting/csp-errors-domains-to-allow) now also covers the CMS plugins. No action required unless your site sets a CSP.
+
+---
+
 ## Back button and page reloads no longer count as a new campaign visit (October 28, 2026)
 
 When a visitor arrived from a campaign link and then used the browser's back button, or reloaded the page, the tracker could run again with the original referrer and the landing URL — UTM parameters and click IDs included. Sealmetrics then counted a second entrance from the same campaign.
