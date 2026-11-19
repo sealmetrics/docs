@@ -3,8 +3,8 @@ title: "Tracker Blocked by Content Security Policy (CSP)"
 description: "How to detect Content-Security-Policy blocks in the browser console and which directives (script-src, connect-src) must allow the Sealmetrics tracker domain."
 canonical_url: "https://docs.sealmetrics.com/troubleshooting/csp-errors-domains-to-allow"
 lang: "en"
-date_generated: "2026-09-14T13:48:10.438Z"
-source_hash: "90d858df1165ea692c389e5f559bfc1c6ca11547b21909a16fb704e49d87a6c0"
+date_generated: "2026-11-19T16:06:40.231Z"
+source_hash: "7acd0651c3e7258a7dbc967cba5b25b76156a9ee2af37e6f51f4aa57433996e7"
 content_type: "documentation"
 owner: "docs"
 llm_priority: "useful"
@@ -68,6 +68,13 @@ Content-Security-Policy:
 
 If your policy uses `'self'` and the tracker subdomain shares your registrable domain, you still need to list the subdomain explicitly — `'self'` only matches the exact origin of the page.
 
+### If you use a CMS plugin
+
+The WordPress, WooCommerce, PrestaShop, Magento 2, OpenCart, Joomla and Drupal plugins serve the tracker through a first-party proxy path on your own site, so `'self'` covers it. Two things still apply:
+
+- Keep `https://t.sealmetrics.com` in `script-src` and `connect-src`: if the proxy cannot be reached, the plugin falls back to loading the tracker directly from it.
+- The plugin prints its loader as an **inline** `<script>` without a `nonce`. If your policy does not allow `'unsafe-inline'`, the console shows "Refused to execute inline script" and the tracker never loads. Your CSP setup must add the nonce to that script or allow it by hash. See [inline snippets](/security-privacy/content-security-policy#inline-snippets).
+
 ### If your policy uses `default-src` only
 
 `script-src` and `connect-src` fall back to `default-src` when not declared. In that case adding the tracker host to `default-src` is enough — but explicit `script-src`/`connect-src` entries are clearer and safer to maintain.
@@ -93,6 +100,7 @@ If your policy uses `'self'` and the tracker subdomain shares your registrable d
 
 ## Related
 
+- [Content Security Policy (CSP)](/security-privacy/content-security-policy) — the full reference: nonces, GTM, Shopify, and why there is no SRI hash.
 - [Tracker installation](/implementation/tracker/installation) — the exact script URL for your site.
 - [First-Party Tracker](/implementation/tracker/first-party) — serving the tracker from your own subdomain.
 - [Troubleshooting overview](/troubleshooting) — quick installation diagnostics.
